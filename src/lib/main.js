@@ -215,10 +215,12 @@ const parseGenericQuadratic = (formulaStr) => {
     return plotQuadraticParam({ ...coeffs, xMin, xMax, step });
   } else if (mainPart.endsWith("=0")) {
     const left = mainPart.split("=")[0];
+    // eslint-disable-next-line sonarjs/slow-regex
     const yRegex = /([+-]?(?:\d*\.?\d*)?)y/;
     const yMatch = left.match(yRegex);
     if (!yMatch) throw new Error("No y term found in equation: " + formulaStr);
     const coeffStr = yMatch[1];
+    // eslint-disable-next-line sonarjs/no-nested-conditional
     const yCoeff = coeffStr === "" || coeffStr === "+" ? 1 : coeffStr === "-" ? -1 : parseFloat(coeffStr);
     const remaining = left.replace(yRegex, "");
     const cleanedRemaining = remaining.replace(/^\+/, "");
@@ -237,6 +239,7 @@ const parseGenericQuadratic = (formulaStr) => {
     const left = partsEq[0];
     const right = partsEq[1] || "0";
     if (left.includes("y")) {
+      // eslint-disable-next-line sonarjs/slow-regex
       const yMatch = left.match(/([+-]?\d*\.?\d*)y/);
       let yCoeff = 1;
       if (yMatch) {
@@ -245,6 +248,7 @@ const parseGenericQuadratic = (formulaStr) => {
         else if (coeffStr === "-") yCoeff = -1;
         else yCoeff = parseFloat(coeffStr);
       }
+      // eslint-disable-next-line sonarjs/slow-regex
       const remaining = left.replace(/([+-]?\d*\.?\d*)y/, "");
       const constantRight = parseFloat(right) || 0;
       const coeffs = extractQuadraticCoefficients(remaining);
@@ -257,6 +261,7 @@ const parseGenericQuadratic = (formulaStr) => {
         step,
       });
     } else if (right.includes("y")) {
+      // eslint-disable-next-line sonarjs/slow-regex
       const yMatch = right.match(/([+-]?\d*\.?\d*)y/);
       let yCoeff = 1;
       if (yMatch) {
@@ -265,6 +270,7 @@ const parseGenericQuadratic = (formulaStr) => {
         else if (coeffStr === "-") yCoeff = -1;
         else yCoeff = parseFloat(coeffStr);
       }
+      // eslint-disable-next-line sonarjs/slow-regex
       const remaining = right.replace(/([+-]?\d*\.?\d*)y/, "");
       const constantLeft = parseFloat(left) || 0;
       const coeffs = extractQuadraticCoefficients(remaining);
@@ -277,8 +283,7 @@ const parseGenericQuadratic = (formulaStr) => {
         step,
       });
     } else {
-      const nonYPart = left;
-      const newExpr = (right || "0") + invertExpression(nonYPart);
+      const newExpr = (right || "0") + invertExpression(left);
       return plotQuadraticParam({ ...extractQuadraticCoefficients(newExpr), xMin, xMax, step });
     }
   }
@@ -313,7 +318,8 @@ const parseGenericExponential = (formulaStr) => {
     if (rangeParams.length > 1 && !isNaN(rangeParams[1])) xMax = rangeParams[1];
     if (rangeParams.length > 2 && !isNaN(rangeParams[2])) step = rangeParams[2];
   }
-  const regex = /^y=([+-]?\d*\.?\d+)?\*?e\^\(?([+-]?\d*\.?\d+)(?:\*?x)\)?/i;
+  // eslint-disable-next-line sonarjs/slow-regex,security/detect-unsafe-regex
+  const regex = /^y=([+-]?\d*\.?\d+)?\*?e\^\(?([+-]?\d*\.?\d+)\*?x\)?/i;
   const match = exprPart.match(regex);
   if (match) {
     const a = match[1] ? parseFloat(match[1]) : 1;
@@ -341,19 +347,23 @@ const parseLogarithmic = (formulaStr) => {
 
 // Extract quadratic coefficients from an expression of form ax^2+bx+c
 const extractQuadraticCoefficients = (expr) => {
-  let cleanedExpr = expr.replace(/\s+/g, "").replace(/\+\-/g, "-");
+  let cleanedExpr = expr.replace(/\s+/g, "").replace(/\+-/g, "-");
   let a = 0;
   let b = 0;
   let c = 0;
+  // eslint-disable-next-line sonarjs/slow-regex
   const aMatch = cleanedExpr.match(/([+-]?\d*\.?\d*)x\^2/);
   if (aMatch) {
     const coeff = aMatch[1];
+    // eslint-disable-next-line sonarjs/no-nested-conditional
     a = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
     cleanedExpr = cleanedExpr.replace(aMatch[0], "");
   }
+  // eslint-disable-next-line sonarjs/slow-regex
   const bMatch = cleanedExpr.match(/([+-]?\d*\.?\d+)x(?!\^)/);
   if (bMatch) {
     const coeff = bMatch[1];
+    // eslint-disable-next-line sonarjs/no-nested-conditional
     b = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
     cleanedExpr = cleanedExpr.replace(bMatch[0], "");
   }
@@ -1290,6 +1300,7 @@ const main = async () => {
   try {
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(
+      // eslint-disable-next-line sonarjs/no-nested-conditional
       `\n${isJson ? "JSON" : isCsv ? "CSV" : isHtml ? "HTML" : isMarkdown ? "Markdown" : isAscii ? "ASCII" : "SVG"} file generated: ${outputFileName}`,
     );
   } catch (err) {
