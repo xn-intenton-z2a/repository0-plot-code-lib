@@ -15,7 +15,7 @@ The repository is intended as a template that includes:
 - **Custom Title Support:** Add a custom title to the SVG output using the `--title` flag.
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
 - **Summary Feature:** Use the `--summary` flag to print summary statistics (min, max, average) for the first plot of each type.
-- **Default Behavior:** When no arguments are provided, the tool outputs a usage message and a demo SVG file (`output.svg`) with default plots, and then terminates immediately without requiring any user input.
+- **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`), and terminates immediately without waiting for user input.
 - **Improved Error Handling & Consistency:** Enhanced input validation (especially for sine formulas) and consistent code formatting for better maintenance.
 
 ## What’s Inside
@@ -24,13 +24,13 @@ The repository is intended as a template that includes:
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality resides in `src/lib/main.js`. This file implements the plotting logic, various parsing functions, and the CLI with all the features described above. Recent improvements include a consistent code style, better formatting, and stricter error checking.
+  The main functionality resides in `src/lib/main.js`. This file implements the plotting logic, various parsing functions, and the CLI with all the features described above. Recent improvements ensure that the CLI defaults to printing a usage message and a demo output when no arguments are provided, then exits immediately.
 
 - **Dependencies:**
   The dependencies in `package.json` support the range of functionalities including CLI argument parsing, file generation, testing, and image conversion (via sharp).
 
 - **Tests:**
-  Unit tests located in `tests/unit/` validate core functionalities, ensure correct CLI behavior, and test new features like rotation, custom title, interactive mode, summary output, error handling, and the default SVG output behavior.
+  Unit tests located in `tests/unit/` validate core functionalities, ensure correct CLI behavior (including new features like rotation, custom title, summary output, interactive mode, and default demo output), and test error handling.
 
 - **Docs:**
   This `README.md` records the repository usage and tracks the evolution of the CLI behavior.
@@ -151,7 +151,7 @@ Other files taken into account by our workflows (but not changed by the workflow
 
 (An exploration of our repository's evolution through the Equation Plotter Library's development.)
 
-In its early hours, `repository0` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has been expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release introduces a rotation feature for SVG outputs, custom title support for enhanced user-friendliness, an interactive CLI mode, summary output for plot statistics, a default demo output when no arguments are provided, and improved error handling alongside consistent code formatting.
+In its early hours, `repository0` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has been expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release introduces a rotation feature for SVG outputs, custom title support for enhanced user-friendliness, an interactive CLI mode, summary output for plot statistics, and a default demo output (with usage instructions) that runs and terminates immediately when no arguments are provided, along with improved error handling and code consistency.
 
 **Version:** Equation Plotter Library version 0.2.0-14
 

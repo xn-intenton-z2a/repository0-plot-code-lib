@@ -142,9 +142,9 @@ describe('Error Handling', () => {
 });
 
 // New test for default behavior when no arguments are provided
-// Updated to expect SVG file generation message
+// Updated to expect usage message and SVG file generation
 describe('Default Demo Output', () => {
-  test('should output an SVG file and exit if no command-line arguments are provided', () => {
+  test('should output usage and an SVG file and exit if no command-line arguments are provided', () => {
     const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {});
     const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     const originalArgv = process.argv;
