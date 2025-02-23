@@ -2,7 +2,6 @@ import { describe, test, expect, vi } from 'vitest';
 import * as mainModule from '@src/lib/main.js';
 import fs from 'fs';
 import readline from 'readline';
-import sharp from 'sharp';
 
 // Basic import test
 describe('Main Module Import', () => {
@@ -66,50 +65,7 @@ describe('Exported API Functions', () => {
     process.argv = originalArgv;
   });
 
-  test('main generates PNG file when output file ends with .png', async () => {
-    const toFileSpy = vi.spyOn(sharp.prototype, 'toFile').mockResolvedValue({});
-    const originalArgv = process.argv;
-    process.argv = ['node', 'src/lib/main.js', 'output.png', 'y=2x+3:-10,10,1'];
-    await mainModule.main();
-    expect(toFileSpy).toHaveBeenCalled();
-    toFileSpy.mockRestore();
-    process.argv = originalArgv;
-  });
-});
-
-// New test for rotation feature
-describe('Rotation Feature', () => {
-  test('plotToSvg includes rotation transform when rotate parameter is provided', () => {
-    const svg = mainModule.plotToSvg({ formulas: ['y=2x+3:-10,10,1'], rotate: 45 });
-    expect(svg).toContain('transform="rotate(45.00, 400.00, 850.00)"');
-  });
-});
-
-// New test for custom title feature
-describe('Custom Title Feature', () => {
-  test('plotToSvg includes custom title in <title> element when customTitle parameter is provided', () => {
-    const svg = mainModule.plotToSvg({ formulas: ['y=2x+3:-10,10,1'], customTitle: 'Custom Plot Title' });
-    expect(svg).toContain('<title>Custom Plot Title</title>');
-  });
-});
-
-// New test for summary feature
-describe('Summary Feature', () => {
-  test('should output summary statistics when --summary flag is provided', () => {
-    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    const originalArgv = process.argv;
-    process.argv = ['node', 'src/lib/main.js', 'output.svg', 'y=2x+3:-10,10,1', '--summary'];
-    mainModule.main();
-    const summaryCall = consoleLogSpy.mock.calls.find(call => call[0].includes('Summary of Plots:'));
-    expect(summaryCall).toBeDefined();
-    consoleLogSpy.mockRestore();
-    process.argv = originalArgv;
-  });
-});
-
-// Interactive CLI Mode test
-describe('Interactive CLI Mode', () => {
-  test('should prompt for input when --interactive flag is provided', () => {
+  test('Interactive CLI Mode prompts for input', () => {
     const rlMock = {
       question: vi.fn((prompt, callback) => { callback('y=2x+3:-10,10,1'); }),
       close: vi.fn()
@@ -123,37 +79,36 @@ describe('Interactive CLI Mode', () => {
     exitSpy.mockRestore();
     process.argv = originalArgv;
   });
-});
 
-// Error Handling Tests
-describe('Error Handling', () => {
-  test('parseGenericQuadratic throws error for invalid input', () => {
-    expect(() => mainModule.parseGenericQuadratic('invalid formula')).toThrow();
+  // Error Handling Tests
+  describe('Error Handling', () => {
+    test('parseGenericQuadratic throws error for invalid input', () => {
+      expect(() => mainModule.parseGenericQuadratic('invalid formula')).toThrow();
+    });
+
+    test('plotFromString returns empty array for unrecognized formula', () => {
+      const result = mainModule.plotFromString('unknown:parameter');
+      expect(result).toEqual([]);
+    });
+
+    test('parseSine throws error for invalid sine formula string', () => {
+      expect(() => mainModule.parseSine('sine:invalid')).toThrow();
+    });
   });
 
-  test('plotFromString returns empty array for unrecognized formula', () => {
-    const result = mainModule.plotFromString('unknown:parameter');
-    expect(result).toEqual([]);
-  });
-
-  test('parseSine throws error for invalid sine formula string', () => {
-    expect(() => mainModule.parseSine('sine:invalid')).toThrow();
-  });
-});
-
-// New test for default behavior when no arguments are provided
-// Updated to expect usage message and SVG file generation
-describe('Default Demo Output', () => {
-  test('should output usage and an SVG file and exit if no command-line arguments are provided', () => {
-    const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {});
-    const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
-    const originalArgv = process.argv;
-    process.argv = ['node', 'src/lib/main.js'];
-    mainModule.main();
-    expect(consoleLogSpy).toHaveBeenCalledWith('SVG file generated: output.svg');
-    expect(exitSpy).toHaveBeenCalledWith(0);
-    exitSpy.mockRestore();
-    consoleLogSpy.mockRestore();
-    process.argv = originalArgv;
+  // Default Demo Output test
+  describe('Default Demo Output', () => {
+    test('should output usage and generate SVG and exit if no arguments are provided', () => {
+      const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => {});
+      const consoleLogSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+      const originalArgv = process.argv;
+      process.argv = ['node', 'src/lib/main.js'];
+      mainModule.main();
+      expect(consoleLogSpy).toHaveBeenCalledWith('SVG file generated: output.svg');
+      expect(exitSpy).toHaveBeenCalledWith(0);
+      exitSpy.mockRestore();
+      consoleLogSpy.mockRestore();
+      process.argv = originalArgv;
+    });
   });
 });

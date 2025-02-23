@@ -6,7 +6,6 @@
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import readline from 'readline';
-import sharp from 'sharp';
 
 // Custom range function to generate a sequence of numbers
 const range = (start, end, step = 1) => {
@@ -27,31 +26,6 @@ const range = (start, end, step = 1) => {
 const formatNumber = (n) => {
   const s = n.toFixed(2);
   return s === '-0.00' ? '0.00' : s;
-};
-
-// New function: getSummary calculates min, max, and average for plot points
-const getSummary = (points) => {
-  if (!points || points.length === 0) return {};
-  let minX = Infinity, maxX = -Infinity, sumX = 0;
-  let minY = Infinity, maxY = -Infinity, sumY = 0;
-  for (const p of points) {
-    if (p.x < minX) minX = p.x;
-    if (p.x > maxX) maxX = p.x;
-    if (p.y < minY) minY = p.y;
-    if (p.y > maxY) maxY = p.y;
-    sumX += p.x;
-    sumY += p.y;
-  }
-  const avgX = sumX / points.length;
-  const avgY = sumY / points.length;
-  return {
-    minX: formatNumber(minX),
-    maxX: formatNumber(maxX),
-    avgX: formatNumber(avgX),
-    minY: formatNumber(minY),
-    maxY: formatNumber(maxY),
-    avgY: formatNumber(avgY)
-  };
 };
 
 // Plotting Functions
@@ -129,7 +103,6 @@ const parseQuadratic = (formulaStr) => {
   });
 };
 
-// Updated parseSine to require exactly 6 valid numeric parameters
 const parseSine = (formulaStr) => {
   const parts = formulaStr.split(":");
   if (parts.length < 2 || !parts[1].trim()) {
@@ -509,7 +482,7 @@ const displayPlot = (plotName, points) => {
   console.log(points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(' '));
 };
 
-// SVG Generation Function with rotation support and custom title
+// SVG Generation Function
 const generateSvg = (
   quadraticPlots,
   linearPlots,
@@ -518,61 +491,24 @@ const generateSvg = (
   polarPlots,
   exponentialPlots,
   logarithmicPlots,
-  gridEnabled = false,
-  dealersChoice = false,
-  rotate = 0,
-  customTitle = ''
+  gridEnabled = false
 ) => {
   const width = 800;
   const height = 1700;
   let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   svg += `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n`;
   svg += `  <rect width="100%" height="100%" fill="white" />\n`;
-  if (customTitle) {
-    svg += `  <title>${customTitle}</title>\n`;
-  }
-  // If rotation is requested, wrap the content in a group with a rotate transform
-  if (rotate !== 0) {
-    svg += `  <g transform="rotate(${formatNumber(rotate)}, ${formatNumber(width / 2)}, ${formatNumber(height / 2)})">\n`;
-  }
 
-  const randomColor = () =>
-    '#' +
-    Math.floor(Math.random() * 16777216)
-      .toString(16)
-      .padStart(6, '0');
-  const generateUniqueColors = (n) => {
-    const colors = new Set();
-    while (colors.size < n) {
-      colors.add(randomColor());
-    }
-    return Array.from(colors);
+  const randomColor = () => '#' + Math.floor(Math.random() * 16777216).toString(16).padStart(6, '0');
+  const defaultColors = {
+    quadratic: ['blue', 'darkblue', 'purple', 'royalblue', 'deepskyblue'],
+    linear: ['orange', 'darkorange', 'gold', 'chocolate', 'peru'],
+    sine: ['red', 'darkred', 'crimson', 'firebrick', 'tomato'],
+    cosine: ['teal', 'darkcyan', 'cadetblue', 'lightseagreen', 'mediumturquoise'],
+    polar: ['green', 'darkgreen', 'limegreen', 'seagreen', 'forestgreen'],
+    exponential: ['magenta', 'darkmagenta', 'violet', 'indigo', 'purple'],
+    logarithmic: ['brown', 'saddlebrown', 'peru', 'chocolate', 'tan']
   };
-
-  let quadraticColors;
-  let linearColors;
-  let sineColors;
-  let cosineColors;
-  let polarColors;
-  let exponentialColors;
-  let logarithmicColors;
-  if (dealersChoice) {
-    quadraticColors = generateUniqueColors(quadraticPlots.length);
-    linearColors = generateUniqueColors(linearPlots.length);
-    sineColors = generateUniqueColors(sinePlots.length);
-    cosineColors = generateUniqueColors(cosinePlots.length);
-    polarColors = generateUniqueColors(polarPlots.length);
-    exponentialColors = generateUniqueColors(exponentialPlots.length);
-    logarithmicColors = generateUniqueColors(logarithmicPlots.length);
-  } else {
-    quadraticColors = ['blue', 'darkblue', 'purple', 'royalblue', 'deepskyblue'];
-    linearColors = ['orange', 'darkorange', 'gold', 'chocolate', 'peru'];
-    sineColors = ['red', 'darkred', 'crimson', 'firebrick', 'tomato'];
-    cosineColors = ['teal', 'darkcyan', 'cadetblue', 'lightseagreen', 'mediumturquoise'];
-    polarColors = ['green', 'darkgreen', 'limegreen', 'seagreen', 'forestgreen'];
-    exponentialColors = ['magenta', 'darkmagenta', 'violet', 'indigo', 'purple'];
-    logarithmicColors = ['brown', 'saddlebrown', 'peru', 'chocolate', 'tan'];
-  }
 
   const drawRectGrid = (x, y, w, h, vCount, hCount) => {
     let grid = '';
@@ -631,7 +567,7 @@ const generateSvg = (
     qMaxX += 10;
   }
   quadraticPlots.forEach((points, idx) => {
-    const color = quadraticColors[idx % quadraticColors.length];
+    const color = defaultColors.quadratic[idx % defaultColors.quadratic.length];
     const pts = points
       .map((p) => {
         const px = 50 + ((p.x - qMinX) / (qMaxX - qMinX)) * 700;
@@ -674,7 +610,7 @@ const generateSvg = (
     lMaxX += 10;
   }
   linearPlots.forEach((points, idx) => {
-    const color = linearColors[idx % linearColors.length];
+    const color = defaultColors.linear[idx % defaultColors.linear.length];
     const pts = points
       .map((p) => {
         const px = 50 + ((p.x - lMinX) / (lMaxX - lMinX)) * 700;
@@ -717,7 +653,7 @@ const generateSvg = (
     sMaxX += 10;
   }
   sinePlots.forEach((points, idx) => {
-    const color = sineColors[idx % sineColors.length];
+    const color = defaultColors.sine[idx % defaultColors.sine.length];
     const pts = points
       .map((p) => {
         const px = 50 + ((p.x - sMinX) / (sMaxX - sMinX)) * 700;
@@ -760,7 +696,7 @@ const generateSvg = (
     cMaxX += 10;
   }
   cosinePlots.forEach((points, idx) => {
-    const color = cosineColors[idx % cosineColors.length];
+    const color = defaultColors.cosine[idx % defaultColors.cosine.length];
     const pts = points
       .map((p) => {
         const px = 50 + ((p.x - cMinX) / (cMaxX - cMinX)) * 700;
@@ -784,7 +720,7 @@ const generateSvg = (
     svg += `  <line x1="${formatNumber(centerX)}" y1="${formatNumber(centerY - 150)}" x2="${formatNumber(centerX)}" y2="${formatNumber(centerY + 150)}" stroke="black" stroke-width="1" />\n`;
   }
   polarPlots.forEach((points, idx) => {
-    const color = polarColors[idx % polarColors.length];
+    const color = defaultColors.polar[idx % defaultColors.polar.length];
     const pts = points
       .map((p) => {
         const px = centerX + p.x;
@@ -827,7 +763,7 @@ const generateSvg = (
     expMaxX += 10;
   }
   exponentialPlots.forEach((points, idx) => {
-    const color = exponentialColors[idx % exponentialColors.length];
+    const color = defaultColors.exponential[idx % defaultColors.exponential.length];
     const pts = points
       .map((p) => {
         const px = 50 + ((p.x - expMinX) / (expMaxX - expMinX)) * 700;
@@ -870,7 +806,7 @@ const generateSvg = (
     logMaxX += 10;
   }
   logarithmicPlots.forEach((points, idx) => {
-    const color = logarithmicColors[idx % logarithmicColors.length];
+    const color = defaultColors.logarithmic[idx % defaultColors.logarithmic.length];
     const pts = points
       .map((p) => {
         const px = 50 + ((p.x - logMinX) / (logMaxX - logMinX)) * 700;
@@ -881,17 +817,13 @@ const generateSvg = (
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
   });
 
-  if (rotate !== 0) {
-    svg += '  </g>\n';
-  }
-
   svg += '</svg>';
   return svg;
 };
 
 // HTML Generation Function
-const plotToHtml = ({ formulas = [], grid = false, dealersChoice = false, rotate = 0, customTitle = '' } = {}) => {
-  const svgContent = plotToSvg({ formulas, grid, dealersChoice, rotate, customTitle });
+const plotToHtml = ({ formulas = [], grid = false } = {}) => {
+  const svgContent = plotToSvg({ formulas, grid });
   return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n${svgContent}\n</body>\n</html>`;
 };
 
@@ -930,9 +862,9 @@ const plotToMarkdown = ({ formulas = [] } = {}) => {
   return md;
 };
 
-const plotToSvg = ({ formulas = [], grid = false, dealersChoice = false, rotate = 0, customTitle = '' } = {}) => {
+const plotToSvg = ({ formulas = [], grid = false } = {}) => {
   const { quadratic, linear, sine, cosine, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
-  return generateSvg(quadratic, linear, sine, cosine, polar, exponential, logarithmic, grid, dealersChoice, rotate, customTitle);
+  return generateSvg(quadratic, linear, sine, cosine, polar, exponential, logarithmic, grid);
 };
 
 const plotToAscii = ({ formulas = [] } = {}) => {
@@ -1172,54 +1104,36 @@ const main = async () => {
     const outputFileName = 'output.svg';
     fs.writeFileSync(outputFileName, fileContent, 'utf8');
     console.log(`SVG file generated: ${outputFileName}`);
-    if (process.argv.includes('--summary')) {
-      const plotsInfo = getPlotsFromFormulas([]);
-      console.log('\nSummary of Plots:');
-      for (const key in plotsInfo) {
-        if (plotsInfo[key].length > 0) {
-          const summary = getSummary(plotsInfo[key][0]);
-          console.log(`${key}:`, summary);
-        }
-      }
-    }
     process.exit(0);
   }
 
-  // Parse rotation flag if provided
-  let rotation = 0;
-  const rotateIndex = args.findIndex(arg => arg.startsWith('--rotate'));
-  if (rotateIndex > -1) {
-    let angleStr = '';
-    const rotateArg = args[rotateIndex];
-    if (rotateArg.includes('=')) {
-      angleStr = rotateArg.split('=')[1];
-    } else if (args.length > rotateIndex + 1) {
-      angleStr = args[rotateIndex + 1];
-    }
-    rotation = parseFloat(angleStr) || 0;
-  }
+  let outputFileName = 'output.svg';
+  let isJson = args.includes('--json');
+  let isCsv = args.includes('--csv');
+  let isHtml = args.includes('--html');
+  let isAscii = args.includes('--ascii');
+  let isMarkdown = args.includes('--md');
+  const isDebug = args.includes('--debug');
+  const gridEnabled = args.includes('--grid');
 
-  // Parse custom title flag if provided
-  let customTitle = '';
-  const titleIndex = args.findIndex(arg => arg.startsWith('--title'));
-  if (titleIndex > -1) {
-    let titleStr = '';
-    const titleArg = args[titleIndex];
-    if (titleArg.includes('=')) {
-      titleStr = titleArg.split('=')[1];
-    } else if (args.length > titleIndex + 1) {
-      titleStr = args[titleIndex + 1];
-    }
-    customTitle = titleStr;
+  // Remove flags that are unsupported
+  const nonFormulaArgs = args.filter(
+    (arg) =>
+      !arg.includes(":") &&
+      !arg.includes('=') &&
+      !['--json', '--csv', '--html', '--ascii', '--md', '--debug', '--grid', '--interactive', '--help', '-h', '--version'].includes(arg)
+  );
+  if (nonFormulaArgs.length > 0) {
+    outputFileName = nonFormulaArgs[0];
   }
 
   if (args.includes('--version')) {
-    console.log('Equation Plotter Library version 0.2.0-14');
+    console.log('Equation Plotter Library version 0.2.0-15');
     process.exit(0);
   }
 
   if (args.includes('--help') || args.includes('-h')) {
-    console.log(`Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [--rotate <angle>] [--title <custom title>] [--summary]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --dealers-choice   Use randomized color palette for SVG plots\n  --rotate <angle>   Rotate SVG output by specified degrees\n  --title <title>    Add a custom title to the SVG output (appears as a <title> element)\n  --summary        Print summary statistics (min, max, avg) for the first plot of each type\n  --interactive      Enable interactive CLI mode for real-time user input\n  --demo             Run demo test output\n  --version          Show version information\n(output file extension .html will generate HTML output,\n .md for Markdown output, .txt or .ascii for ASCII output, .png for PNG output)\n\nFormula String Formats:\n  Quadratic: "quad:y=x^2+2*x+1" or "quadratic:y=x^2+2*x+1" or "x^2+y-1=0" (or with range e.g., "y=x^2+2*x+1:-10,10,1")\n  Linear:    "linear:m,b[,xMin,xMax,step]" or algebraic form like "y=2x+3" (or "y=2x+3:-10,10,1")\n  Sine:      "sine:amplitude,frequency,phase[,xMin,xMax,step]"\n  Cosine:    "cosine:amplitude,frequency,phase[,xMin,xMax,step]" or "cos:..."\n  Polar:     "polar:scale,multiplier,step[,degMin,degMax]"\n  Exponential: "exponential:a,b,xMin,xMax,step" or "exp:a,b,xMin,xMax,step" or in algebraic form like "y=2*e^(0.5x)" (optionally with range e.g., "y=2*e^(0.5x):-10,10,1")\n  Logarithmic: "log:a,base,xMin,xMax,step" or "ln:a,base,xMin,xMax,step"\n`);
+    console.log(`Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: "quad:y=x^2+2*x+1" or "quadratic:y=x^2+2*x+1" or "x^2+y-1=0" (or with range e.g., "y=x^2+2*x+1:-10,10,1")\n  Linear:    "linear:m,b[,xMin,xMax,step]" or algebraic form like "y=2x+3" (or "y=2x+3:-10,10,1")\n  Sine:      "sine:amplitude,frequency,phase[,xMin,xMax,step]"\n  Cosine:    "cosine:amplitude,frequency,phase[,xMin,xMax,step]" or "cos:..."\n  Polar:     "polar:scale,multiplier,step[,degMin,degMax]"\n  Exponential: "exponential:a,b,xMin,xMax,step" or "exp:a,b,xMin,xMax,step" or in algebraic form like "y=2*e^(0.5x)" (optionally with range e.g., "y=2*e^(0.5x):-10,10,1")\n  Logarithmic: "log:a,base,xMin,xMax,step" or "ln:a,base,xMin,xMax,step"\n`);
     process.exit(0);
   }
 
@@ -1233,23 +1147,20 @@ const main = async () => {
       let outputFileName = 'output.svg';
       let isJson = filteredArgs.includes('--json');
       let isCsv = filteredArgs.includes('--csv');
-      let isHtml = false;
+      let isHtml = filteredArgs.includes('--html');
       let isAscii = filteredArgs.includes('--ascii');
       let isMarkdown = filteredArgs.includes('--md');
       const isDebug = filteredArgs.includes('--debug');
       const gridEnabled = filteredArgs.includes('--grid');
-      const isDealersChoice = filteredArgs.includes('--dealers-choice');
       const nonFormulaArgs = filteredArgs.filter(
         (arg) =>
           !arg.includes(":") &&
           !arg.includes('=') &&
-          !['--json', '--csv', '--version', '--ascii', '--debug', '--grid', '--dealers-choice', '--interactive', '--md', '--html', '--rotate', '--title', '--summary'].includes(arg)
+          !['--json', '--csv', '--html', '--ascii', '--md', '--debug', '--grid', '--interactive', '--help', '-h', '--version'].includes(arg)
       );
       if (nonFormulaArgs.length > 0) {
         outputFileName = nonFormulaArgs[0];
       }
-      const lowerName = outputFileName.toLowerCase();
-      const isPng = lowerName.endsWith('.png');
 
       if (isDebug) {
         console.log('\nDebug: Internal parsed plot data:');
@@ -1262,25 +1173,18 @@ const main = async () => {
       } else if (isCsv) {
         fileContent = plotToCsv({ formulas: formulasList });
       } else if (isHtml) {
-        fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled, dealersChoice: isDealersChoice });
+        fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled });
       } else if (isMarkdown) {
         fileContent = plotToMarkdown({ formulas: formulasList });
       } else if (isAscii) {
         fileContent = plotToAscii({ formulas: formulasList });
       } else {
-        fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled, dealersChoice: isDealersChoice, rotate: rotation, customTitle });
+        fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled });
       }
 
       try {
-        if (isPng) {
-          // Always generate SVG and then convert to PNG using sharp
-          const svgContent = plotToSvg({ formulas: formulasList, grid: gridEnabled, dealersChoice: isDealersChoice, rotate: rotation, customTitle });
-          await sharp(Buffer.from(svgContent)).png().toFile(outputFileName);
-          console.log(`\nPNG file generated: ${outputFileName}`);
-        } else {
-          fs.writeFileSync(outputFileName, fileContent, 'utf8');
-          console.log(`\n${isJson ? 'JSON' : isCsv ? 'CSV' : isHtml ? 'HTML' : isMarkdown ? 'Markdown' : isAscii ? 'ASCII' : 'SVG'} file generated: ${outputFileName}`);
-        }
+        fs.writeFileSync(outputFileName, fileContent, 'utf8');
+        console.log(`\nFile generated: ${outputFileName}`);
       } catch (err) {
         console.error(`Error writing file:`, err.message);
         process.exit(1);
@@ -1289,62 +1193,16 @@ const main = async () => {
       console.log('\nText Representation of Plots:');
       console.log(plotToText({ formulas: formulasList }));
 
-      // New Feature: Summary Output
-      if (filteredArgs.includes('--summary')) {
-        const plotsInfo = getPlotsFromFormulas(formulasList);
-        console.log('\nSummary of Plots:');
-        for (const key in plotsInfo) {
-          if (plotsInfo[key].length > 0) {
-            const summary = getSummary(plotsInfo[key][0]);
-            console.log(`${key}:`, summary);
-          }
-        }
-      }
-
       rl.close();
       process.exit(0);
     });
     return;
   }
 
-  let outputFileName = 'output.svg';
-  let isJson = args.includes('--json');
-  let isCsv = args.includes('--csv');
-  let isHtml = false;
-  let isAscii = args.includes('--ascii');
-  let isMarkdown = args.includes('--md');
-  const isDebug = args.includes('--debug');
-  const gridEnabled = args.includes('--grid');
-  const isDealersChoice = args.includes('--dealers-choice');
-  const nonFormulaArgs = args.filter(
-    (arg) =>
-      !arg.includes(":") &&
-      !arg.includes('=') &&
-      !['--json', '--csv', '--version', '--ascii', '--debug', '--grid', '--dealers-choice', '--interactive', '--md', '--html', '--rotate', '--title', '--summary'].includes(arg)
-  );
-  if (nonFormulaArgs.length > 0) {
-    outputFileName = nonFormulaArgs[0];
-  }
-  const lowerName = outputFileName.toLowerCase();
-  const isPng = lowerName.endsWith('.png');
-  if (lowerName.endsWith('.json')) {
-    isJson = true;
-  } else if (lowerName.endsWith('.csv')) {
-    isCsv = true;
-  } else if (lowerName.endsWith('.html')) {
-    isHtml = true;
-  } else if (lowerName.endsWith('.md')) {
-    isMarkdown = true;
-  } else if (lowerName.endsWith('.txt') || lowerName.endsWith('.ascii')) {
-    isAscii = true;
-  }
-
   const formulasList = args.filter((arg) => arg.includes(":") || arg.includes('='));
 
   if (formulasList.length === 0) {
-    console.log(
-      'No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, polar, exponential, and logarithmic plots.'
-    );
+    console.log('No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, polar, exponential, and logarithmic plots.');
   }
 
   if (isDebug) {
@@ -1358,24 +1216,18 @@ const main = async () => {
   } else if (isCsv) {
     fileContent = plotToCsv({ formulas: formulasList });
   } else if (isHtml) {
-    fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled, dealersChoice: isDealersChoice });
+    fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled });
   } else if (isMarkdown) {
     fileContent = plotToMarkdown({ formulas: formulasList });
   } else if (isAscii) {
     fileContent = plotToAscii({ formulas: formulasList });
   } else {
-    fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled, dealersChoice: isDealersChoice, rotate: rotation, customTitle });
+    fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled });
   }
 
   try {
-    if (isPng) {
-      const svgContent = plotToSvg({ formulas: formulasList, grid: gridEnabled, dealersChoice: isDealersChoice, rotate: rotation, customTitle });
-      await sharp(Buffer.from(svgContent)).png().toFile(outputFileName);
-      console.log(`\nPNG file generated: ${outputFileName}`);
-    } else {
-      fs.writeFileSync(outputFileName, fileContent, 'utf8');
-      console.log(`\n${isJson ? 'JSON' : isCsv ? 'CSV' : isHtml ? 'HTML' : isMarkdown ? 'Markdown' : isAscii ? 'ASCII' : 'SVG'} file generated: ${outputFileName}`);
-    }
+    fs.writeFileSync(outputFileName, fileContent, 'utf8');
+    console.log(`\n${isJson ? 'JSON' : isCsv ? 'CSV' : isHtml ? 'HTML' : isMarkdown ? 'Markdown' : isAscii ? 'ASCII' : 'SVG'} file generated: ${outputFileName}`);
   } catch (err) {
     console.error(`Error writing file:`, err.message);
     process.exit(1);
@@ -1383,18 +1235,6 @@ const main = async () => {
 
   console.log('\nText Representation of Plots:');
   console.log(plotToText({ formulas: formulasList }));
-
-  // New Feature: Summary Output in non-interactive mode
-  if (args.includes('--summary')) {
-    const plotsInfo = getPlotsFromFormulas(formulasList);
-    console.log('\nSummary of Plots:');
-    for (const key in plotsInfo) {
-      if (plotsInfo[key].length > 0) {
-        const summary = getSummary(plotsInfo[key][0]);
-        console.log(`${key}:`, summary);
-      }
-    }
-  }
 };
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
@@ -1421,5 +1261,6 @@ export {
   parseGenericQuadratic,
   parseGenericExponential,
   parseCosine,
-  main
+  main,
+  demoTest
 };
