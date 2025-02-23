@@ -1,7 +1,7 @@
 # Contributing
 
-Contributing guidelines here related to the JavaScript library project which is coded by an agentic coding system
-build from GitHub Workflows. To use the workflows see  [TEMPLATE-README.md](TEMPLATE-README.md).
+Contributing guidelines here apply to human and chat completion developers.
+This repository uses the intentïon agentic‑lib for automated workflows. See: [intentïon agentic‑lib](https://github.com/xn-intenton-z2a/agentic-lib)
 
 # Mission Statement
 
@@ -24,7 +24,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
   Offers a command-line interface with options for default demo mode, interactive mode, and various flags (e.g., --grid, --json, --csv, --ascii, --md, --html) for customizing output.
 
 - **CLI demo:**
-  Keep a short reliable demo that will run from `node src/lib/main.js`.
+  Keep a short reliable demo that will run from `node run start`.
 
 ## The Automated Contribution Process
 
