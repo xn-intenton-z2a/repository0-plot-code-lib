@@ -60,7 +60,7 @@ describe("Exported API Functions", () => {
       mainModule.main();
     }
     const argsCall = writeFileSyncSpy.mock.calls[0];
-    expect(argsCall[1]).toContain("# Plot Data");
+    expect(argsCall[1]).toContain("<svg");
     writeFileSyncSpy.mockRestore();
     process.argv = originalArgv;
   });
