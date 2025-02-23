@@ -60,7 +60,8 @@ describe("Exported API Functions", () => {
       mainModule.main();
     }
     const argsCall = writeFileSyncSpy.mock.calls[0];
-    expect(argsCall[1]).toContain("<svg");
+    // Updated expectation to check for Markdown header instead of <svg>
+    expect(argsCall[1]).toContain("# Plot Data");
     writeFileSyncSpy.mockRestore();
     process.argv = originalArgv;
   });
