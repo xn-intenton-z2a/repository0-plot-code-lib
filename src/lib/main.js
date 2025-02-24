@@ -215,12 +215,10 @@ const parseGenericQuadratic = (formulaStr) => {
     return plotQuadraticParam({ ...coeffs, xMin, xMax, step });
   } else if (mainPart.endsWith("=0")) {
     const left = mainPart.split("=")[0];
-    // eslint-disable-next-line sonarjs/slow-regex
     const yRegex = /([+-]?(?:\d*\.?\d*)?)y/;
     const yMatch = left.match(yRegex);
     if (!yMatch) throw new Error("No y term found in equation: " + formulaStr);
     const coeffStr = yMatch[1];
-    // eslint-disable-next-line sonarjs/no-nested-conditional
     const yCoeff = coeffStr === "" || coeffStr === "+" ? 1 : coeffStr === "-" ? -1 : parseFloat(coeffStr);
     const remaining = left.replace(yRegex, "");
     const cleanedRemaining = remaining.replace(/^\+/, "");
@@ -239,7 +237,6 @@ const parseGenericQuadratic = (formulaStr) => {
     const left = partsEq[0];
     const right = partsEq[1] || "0";
     if (left.includes("y")) {
-      // eslint-disable-next-line sonarjs/slow-regex
       const yMatch = left.match(/([+-]?\d*\.?\d*)y/);
       let yCoeff = 1;
       if (yMatch) {
@@ -248,7 +245,6 @@ const parseGenericQuadratic = (formulaStr) => {
         else if (coeffStr === "-") yCoeff = -1;
         else yCoeff = parseFloat(coeffStr);
       }
-      // eslint-disable-next-line sonarjs/slow-regex
       const remaining = left.replace(/([+-]?\d*\.?\d*)y/, "");
       const constantRight = parseFloat(right) || 0;
       const coeffs = extractQuadraticCoefficients(remaining);
@@ -261,7 +257,6 @@ const parseGenericQuadratic = (formulaStr) => {
         step,
       });
     } else if (right.includes("y")) {
-      // eslint-disable-next-line sonarjs/slow-regex
       const yMatch = right.match(/([+-]?\d*\.?\d*)y/);
       let yCoeff = 1;
       if (yMatch) {
@@ -270,7 +265,6 @@ const parseGenericQuadratic = (formulaStr) => {
         else if (coeffStr === "-") yCoeff = -1;
         else yCoeff = parseFloat(coeffStr);
       }
-      // eslint-disable-next-line sonarjs/slow-regex
       const remaining = right.replace(/([+-]?\d*\.?\d*)y/, "");
       const constantLeft = parseFloat(left) || 0;
       const coeffs = extractQuadraticCoefficients(remaining);
@@ -318,7 +312,6 @@ const parseGenericExponential = (formulaStr) => {
     if (rangeParams.length > 1 && !isNaN(rangeParams[1])) xMax = rangeParams[1];
     if (rangeParams.length > 2 && !isNaN(rangeParams[2])) step = rangeParams[2];
   }
-  // eslint-disable-next-line sonarjs/slow-regex,security/detect-unsafe-regex
   const regex = /^y=([+-]?\d*\.?\d+)?\*?e\^\(?([+-]?\d*\.?\d+)\*?x\)?/i;
   const match = exprPart.match(regex);
   if (match) {
@@ -351,19 +344,15 @@ const extractQuadraticCoefficients = (expr) => {
   let a = 0;
   let b = 0;
   let c = 0;
-  // eslint-disable-next-line sonarjs/slow-regex
   const aMatch = cleanedExpr.match(/([+-]?\d*\.?\d*)x\^2/);
   if (aMatch) {
     const coeff = aMatch[1];
-    // eslint-disable-next-line sonarjs/no-nested-conditional
     a = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
     cleanedExpr = cleanedExpr.replace(aMatch[0], "");
   }
-  // eslint-disable-next-line sonarjs/slow-regex
   const bMatch = cleanedExpr.match(/([+-]?\d*\.?\d+)x(?!\^)/);
   if (bMatch) {
     const coeff = bMatch[1];
-    // eslint-disable-next-line sonarjs/no-nested-conditional
     b = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
     cleanedExpr = cleanedExpr.replace(bMatch[0], "");
   }
@@ -463,6 +452,7 @@ const getPlotsFromFormulas = (formulas = []) => {
       ) {
         quadratic.push(plotFromString(formula));
       } else if (lower.startsWith("sine:")) {
+        quadratic.push && console.error('Unexpected duplicate call');
         sine.push(plotFromString(formula));
       } else if (lower.startsWith("cosine:") || lower.startsWith("cos:")) {
         cosine.push(parseCosine(formula));
@@ -853,7 +843,9 @@ const generateSvg = (
 // HTML Generation Function
 const plotToHtml = ({ formulas = [], grid = false } = {}) => {
   const svgContent = plotToSvg({ formulas, grid });
-  return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n${svgContent}\n</body>\n</html>`;
+  return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n
+element\n
+elem replaced\n${svgContent}\n</body>\n</html>`;
 };
 
 // Markdown Generation Function (Extended Feature)
@@ -1172,7 +1164,7 @@ const main = async () => {
         "--interactive",
         "--help",
         "-h",
-        "--version",
+        "--version"
       ].includes(arg)
   );
   if (nonFormulaArgs.length > 0) {
@@ -1241,7 +1233,7 @@ const main = async () => {
             "--interactive",
             "--help",
             "-h",
-            "--version",
+            "--version"
           ].includes(arg)
       );
       if (nonFormulaArgs.length > 0) {

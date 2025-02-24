@@ -58,7 +58,6 @@ describe("Exported API Functions", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
-    // Set NODE_ENV to production so that process.exit is called
     process.env.NODE_ENV = 'production';
     process.argv = ["node", "src/lib/main.js", "output.md", "y=2x+3:-10,10,1"];
     if (mainModule.main) {
@@ -82,7 +81,6 @@ describe("Exported API Functions", () => {
     vi.spyOn(readline, "createInterface").mockReturnValue(rlMock);
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
-    // Set NODE_ENV to production for this test
     process.env.NODE_ENV = 'production';
     process.argv = ["node", "src/lib/main.js", "--interactive"];
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
@@ -93,15 +91,28 @@ describe("Exported API Functions", () => {
     process.env.NODE_ENV = originalEnv;
   });
 
+  // Additional tests for increased coverage
+  test("plotToAscii returns ASCII art string", () => {
+    const ascii = mainModule.plotToAscii({ formulas: ["sine:1,1,0,0,360,30"] });
+    expect(typeof ascii).toBe("string");
+    expect(ascii).toContain("ASCII Art of Sine Wave");
+  });
+
+  test("plotToFile writes a file and returns file name", () => {
+    const fileName = "test_output.svg";
+    const result = mainModule.plotToFile({ formulas: ["quad:1,0,0,-10,10,1"], outputFileName: fileName, type: "svg" });
+    expect(result).toBe(fileName);
+  });
+
+  test("plotFromString returns empty array for unrecognized formula", () => {
+    const result = mainModule.plotFromString("unknown:parameter");
+    expect(result).toEqual([]);
+  });
+
   // Error Handling Tests
   describe("Error Handling", () => {
     test("parseGenericQuadratic throws error for invalid input", () => {
       expect(() => mainModule.parseGenericQuadratic("invalid formula")).toThrow();
-    });
-
-    test("plotFromString returns empty array for unrecognized formula", () => {
-      const result = mainModule.plotFromString("unknown:parameter");
-      expect(result).toEqual([]);
     });
 
     test("parseSine throws error for invalid sine formula string", () => {
@@ -117,7 +128,6 @@ import * as mainModule from "@src/lib/main.js";
 describe("Run Main Test", () => {
   test("should run main without deprecated done callback (async)", async () => {
     const originalEnv = process.env.NODE_ENV;
-    // Set NODE_ENV to production so that process.exit is invoked
     process.env.NODE_ENV = 'production';
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
