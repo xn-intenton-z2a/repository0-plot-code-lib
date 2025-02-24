@@ -61,13 +61,12 @@ describe("Exported API Functions", () => {
       mainModule.main();
     }
     const argsCall = writeFileSyncSpy.mock.calls[0];
-    // Updated expectation to check for Markdown header instead of <svg>
     expect(argsCall[1]).toContain("# Plot Data");
     writeFileSyncSpy.mockRestore();
     process.argv = originalArgv;
   });
 
-  test("Interactive CLI Mode prompts for input", () => {
+  test("Interactive CLI Mode prompts for input", async () => {
     const rlMock = {
       question: vi.fn((prompt, callback) => {
         callback("y=2x+3:-10,10,1");
@@ -78,7 +77,7 @@ describe("Exported API Functions", () => {
     const originalArgv = process.argv;
     process.argv = ["node", "src/lib/main.js", "--interactive"];
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    mainModule.main();
+    await mainModule.main();
     expect(rlMock.question).toHaveBeenCalled();
     exitSpy.mockRestore();
     process.argv = originalArgv;
@@ -101,15 +100,16 @@ describe("Exported API Functions", () => {
   });
 });
 
-// Additional test file: tests/unit/run-main.test.js
-// Updated to use async/await instead of done callback
+// tests/unit/run-main.test.js
+import { describe, test, expect, vi } from "vitest";
+import * as mainModule from "@src/lib/main.js";
 
 describe("Run Main Test", () => {
   test("should run main without deprecated done callback (async)", async () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const originalArgv = process.argv;
-    process.argv = ["node", "src/lib/main.js"]; 
+    process.argv = ["node", "src/lib/main.js"];
     await mainModule.main();
     expect(consoleLogSpy).toHaveBeenCalledWith("SVG file generated: output.svg");
     expect(exitSpy).toHaveBeenCalledWith(0);
