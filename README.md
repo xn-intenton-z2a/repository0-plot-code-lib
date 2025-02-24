@@ -7,7 +7,7 @@
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`), and exits immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
-- **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability.
+- **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability. Recent updates have removed misleading console logs arising from duplicate calls and unrecognized formula types.
 
 ## What’s Inside
 
@@ -15,7 +15,7 @@
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. Recent updates have extended the functionality by removing duplicate calls and extraneous logging, ensuring a cleaner execution flow.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. Recent updates have cleaned up erroneous duplicate log messages and improved error handling so that valid outputs are not confused by spurious warnings.
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
@@ -100,6 +100,6 @@ As the project evolves, you can tune the following files:
 
 ## Diary of an Agentic Coding System - Day 1
 
-In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release aligns the CLI behavior with the contributing guidelines and lays the groundwork for future features like advanced rotation, custom titles, and PNG export.
+In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release aligns the CLI behavior with the contributing guidelines, removes misleading duplicate and error logs, and lays the groundwork for future features like advanced rotation, custom titles, and PNG export.
 
 **Version:** Equation Plotter Library version 0.2.0-17
