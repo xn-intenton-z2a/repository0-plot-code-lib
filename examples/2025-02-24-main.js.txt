@@ -521,7 +521,7 @@ const generateSvg = (
   polarPlots,
   exponentialPlots,
   logarithmicPlots,
-  gridEnabled = false
+  gridEnabled = false,
 ) => {
   const width = 800;
   const height = 1700;
@@ -529,6 +529,11 @@ const generateSvg = (
   svg += `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n`;
   svg += `  <rect width="100%" height="100%" fill="white" />\n`;
 
+  const randomColor = () =>
+    "#" +
+    Math.floor(Math.random() * 16777216)
+      .toString(16)
+      .padStart(6, "0");
   const defaultColors = {
     quadratic: ["blue", "darkblue", "purple", "royalblue", "deepskyblue"],
     linear: ["orange", "darkorange", "gold", "chocolate", "peru"],
@@ -543,11 +548,11 @@ const generateSvg = (
     let grid = "";
     range(0, vCount + 1, 1).forEach((i) => {
       const gx = x + i * (w / vCount);
-      grid += `  <line x1="${formatNumber(gx)}" y1="${formatNumber(y)}" x2="${formatNumber(x + w)}" y2="${formatNumber(y + h)}" stroke="#eee" stroke-width="1" />\n`;
+      grid += `  <line x1="${formatNumber(gx)}" y1="${formatNumber(y)}" x2="${formatNumber(gx)}" y2="${formatNumber(y + h)}" stroke="#eee" stroke-width="1" />\n`;
     });
     range(0, hCount + 1, 1).forEach((i) => {
       const gy = y + i * (h / hCount);
-      grid += `  <line x1="${formatNumber(x)}" y1="${formatNumber(gy)}" x2="${formatNumber(x + w)}" y2="${formatNumber(y + h)}" stroke="#eee" stroke-width="1" />\n`;
+      grid += `  <line x1="${formatNumber(x)}" y1="${formatNumber(gy)}" x2="${formatNumber(x + w)}" y2="${formatNumber(gy)}" stroke="#eee" stroke-width="1" />\n`;
     });
     return grid;
   };
@@ -577,7 +582,7 @@ const generateSvg = (
       Math.min(...quadraticPlots.flat().map((p) => p.x)),
       Math.max(...quadraticPlots.flat().map((p) => p.x)),
       Math.min(...quadraticPlots.flat().map((p) => p.y)),
-      Math.max(...quadraticPlots.flat().map((p) => p.y))
+      Math.max(...quadraticPlots.flat().map((p) => p.y)),
     );
   }
   const qAllPoints = quadraticPlots.flat();
@@ -620,7 +625,7 @@ const generateSvg = (
       Math.min(...linearPlots.flat().map((p) => p.x)),
       Math.max(...linearPlots.flat().map((p) => p.x)),
       Math.min(...linearPlots.flat().map((p) => p.y)),
-      Math.max(...linearPlots.flat().map((p) => p.y))
+      Math.max(...linearPlots.flat().map((p) => p.y)),
     );
   }
   const lAllPoints = linearPlots.flat();
@@ -663,7 +668,7 @@ const generateSvg = (
       Math.min(...sinePlots.flat().map((p) => p.x)),
       Math.max(...sinePlots.flat().map((p) => p.x)),
       Math.min(...sinePlots.flat().map((p) => p.y)),
-      Math.max(...sinePlots.flat().map((p) => p.y))
+      Math.max(...sinePlots.flat().map((p) => p.y)),
     );
   }
   const sAllPoints = sinePlots.flat();
@@ -706,7 +711,7 @@ const generateSvg = (
       Math.min(...cosinePlots.flat().map((p) => p.x)),
       Math.max(...cosinePlots.flat().map((p) => p.x)),
       Math.min(...cosinePlots.flat().map((p) => p.y)),
-      Math.max(...cosinePlots.flat().map((p) => p.y))
+      Math.max(...cosinePlots.flat().map((p) => p.y)),
     );
   }
   const cAllPoints = cosinePlots.flat();
@@ -773,7 +778,7 @@ const generateSvg = (
       Math.min(...exponentialPlots.flat().map((p) => p.x)),
       Math.max(...exponentialPlots.flat().map((p) => p.x)),
       Math.min(...exponentialPlots.flat().map((p) => p.y)),
-      Math.max(...exponentialPlots.flat().map((p) => p.y))
+      Math.max(...exponentialPlots.flat().map((p) => p.y)),
     );
   }
   const expAllPoints = exponentialPlots.flat();
@@ -816,7 +821,7 @@ const generateSvg = (
       Math.min(...logarithmicPlots.flat().map((p) => p.x)),
       Math.max(...logarithmicPlots.flat().map((p) => p.x)),
       Math.min(...logarithmicPlots.flat().map((p) => p.y)),
-      Math.max(...logarithmicPlots.flat().map((p) => p.y))
+      Math.max(...logarithmicPlots.flat().map((p) => p.y)),
     );
   }
   const logAllPoints = logarithmicPlots.flat();
@@ -935,7 +940,7 @@ const plotToText = ({ formulas = [] } = {}) => {
     quadratic
       .map(
         (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" "),
       )
       .join("\n") +
     "\n\n";
@@ -944,7 +949,7 @@ const plotToText = ({ formulas = [] } = {}) => {
     linear
       .map(
         (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" "),
       )
       .join("\n") +
     "\n\n";
@@ -953,7 +958,7 @@ const plotToText = ({ formulas = [] } = {}) => {
     sine
       .map(
         (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" "),
       )
       .join("\n") +
     "\n\n";
@@ -962,7 +967,7 @@ const plotToText = ({ formulas = [] } = {}) => {
     cosine
       .map(
         (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" "),
       )
       .join("\n") +
     "\n\n";
@@ -971,7 +976,7 @@ const plotToText = ({ formulas = [] } = {}) => {
     polar
       .map(
         (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" "),
       )
       .join("\n") +
     "\n\n";
@@ -980,7 +985,7 @@ const plotToText = ({ formulas = [] } = {}) => {
     exponential
       .map(
         (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" "),
       )
       .join("\n") +
     "\n\n";
@@ -989,7 +994,7 @@ const plotToText = ({ formulas = [] } = {}) => {
     logarithmic
       .map(
         (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" "),
       )
       .join("\n") +
     "\n";
@@ -1144,14 +1149,14 @@ const main = async () => {
   }
 
   let outputFileName = "output.svg";
-  let isJson = args.includes("--json");
-  let isCsv = args.includes("--csv");
-  let isHtml = args.includes("--html");
-  let isAscii = args.includes("--ascii");
-  let isMarkdown = args.includes("--md");
-  let isDebug = args.includes("--debug");
-  let gridEnabled = args.includes("--grid");
-  
+  const isJson = args.includes("--json");
+  const isCsv = args.includes("--csv");
+  const isHtml = args.includes("--html");
+  const isAscii = args.includes("--ascii");
+  const isMarkdown = args.includes("--md");
+  const isDebug = args.includes("--debug");
+  const gridEnabled = args.includes("--grid");
+
   // Remove flags that are unsupported
   const nonFormulaArgs = args.filter(
     (arg) =>
@@ -1169,19 +1174,10 @@ const main = async () => {
         "--help",
         "-h",
         "--version",
-      ].includes(arg)
+      ].includes(arg),
   );
   if (nonFormulaArgs.length > 0) {
     outputFileName = nonFormulaArgs[0];
-  }
-
-  // Extension based override if no flag is provided
-  if (!isJson && !isCsv && !isHtml && !isMarkdown && !isAscii) {
-    if (outputFileName.toLowerCase().endsWith(".md")) {
-      isMarkdown = true;
-    } else if (outputFileName.toLowerCase().endsWith(".txt")) {
-      isAscii = true;
-    }
   }
 
   if (args.includes("--version")) {
@@ -1191,7 +1187,7 @@ const main = async () => {
 
   if (args.includes("--help") || args.includes("-h")) {
     console.log(
-      `Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: "quad:y=x^2+2*x+1" or "quadratic:y=x^2+2*x+1" or "x^2+y-1=0" (or with range e.g., "y=x^2+2*x+1:-10,10,1")\n  Linear:    "linear:m,b[,xMin,xMax,step]" or algebraic form like "y=2x+3" (or "y=2x+3:-10,10,1")\n  Sine:      "sine:amplitude,frequency,phase[,xMin,xMax,step]"\n  Cosine:    "cosine:amplitude,frequency,phase[,xMin,xMax,step]" or "cos:..."\n  Polar:     "polar:scale,multiplier,step[,degMin,degMax]"\n  Exponential: "exponential:a,b,xMin,xMax,step" or "exp:a,b,xMin,xMax,step" or in algebraic form like "y=2*e^(0.5x)" (optionally with range e.g., "y=2*e^(0.5x):-10,10,1")\n  Logarithmic: "log:a,base,xMin,xMax,step" or "ln:a,base,xMin,xMax,step"\n`
+      `Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: "quad:y=x^2+2*x+1" or "quadratic:y=x^2+2*x+1" or "x^2+y-1=0" (or with range e.g., "y=x^2+2*x+1:-10,10,1")\n  Linear:    "linear:m,b[,xMin,xMax,step]" or algebraic form like "y=2x+3" (or "y=2x+3:-10,10,1")\n  Sine:      "sine:amplitude,frequency,phase[,xMin,xMax,step]"\n  Cosine:    "cosine:amplitude,frequency,phase[,xMin,xMax,step]" or "cos:..."\n  Polar:     "polar:scale,multiplier,step[,degMin,degMax]"\n  Exponential: "exponential:a,b,xMin,xMax,step" or "exp:a,b,xMin,xMax,step" or in algebraic form like "y=2*e^(0.5x)" (optionally with range e.g., "y=2*e^(0.5x):-10,10,1")\n  Logarithmic: "log:a,base,xMin,xMax,step" or "ln:a,base,xMin,xMax,step"\n`,
     );
     process.exit(0);
   }
@@ -1207,13 +1203,13 @@ const main = async () => {
       const filteredArgs = args.filter((arg) => arg !== "--interactive");
       const formulasList = interactiveFormulas.length ? interactiveFormulas : [];
       let outputFileName = "output.svg";
-      let isJson = filteredArgs.includes("--json");
-      let isCsv = filteredArgs.includes("--csv");
-      let isHtml = filteredArgs.includes("--html");
-      let isAscii = filteredArgs.includes("--ascii");
-      let isMarkdown = filteredArgs.includes("--md");
-      let isDebug = filteredArgs.includes("--debug");
-      let gridEnabled = filteredArgs.includes("--grid");
+      const isJson = filteredArgs.includes("--json");
+      const isCsv = filteredArgs.includes("--csv");
+      const isHtml = filteredArgs.includes("--html");
+      const isAscii = filteredArgs.includes("--ascii");
+      const isMarkdown = filteredArgs.includes("--md");
+      const isDebug = filteredArgs.includes("--debug");
+      const gridEnabled = filteredArgs.includes("--grid");
       const nonFormulaArgs = filteredArgs.filter(
         (arg) =>
           !arg.includes(":") &&
@@ -1230,7 +1226,7 @@ const main = async () => {
             "--help",
             "-h",
             "--version",
-          ].includes(arg)
+          ].includes(arg),
       );
       if (nonFormulaArgs.length > 0) {
         outputFileName = nonFormulaArgs[0];
@@ -1277,7 +1273,7 @@ const main = async () => {
 
   if (formulasList.length === 0) {
     console.log(
-      "No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, polar, exponential, and logarithmic plots."
+      "No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, polar, exponential, and logarithmic plots.",
     );
   }
 
@@ -1303,7 +1299,10 @@ const main = async () => {
 
   try {
     fs.writeFileSync(outputFileName, fileContent, "utf8");
-    console.log(`\n${isJson ? "JSON" : isCsv ? "CSV" : isHtml ? "HTML" : isMarkdown ? "Markdown" : isAscii ? "ASCII" : "SVG"} file generated: ${outputFileName}`);
+    console.log(
+      // eslint-disable-next-line sonarjs/no-nested-conditional
+      `\n${isJson ? "JSON" : isCsv ? "CSV" : isHtml ? "HTML" : isMarkdown ? "Markdown" : isAscii ? "ASCII" : "SVG"} file generated: ${outputFileName}`,
+    );
   } catch (err) {
     console.error(`Error writing file:`, err.message);
     process.exit(1);
