@@ -21,10 +21,10 @@
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), and error handling.
+  Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions to improve test coverage.
 
 - **Documentation:**
-  This `README.md` explains repository usage and evolution of the Equation Plotter CLI.
+  This `README.md` explains repository usage and the evolution of the Equation Plotter CLI.
 
 ## Running the CLI
 
@@ -85,7 +85,7 @@ ESLint and Prettier are used for code quality and formatting. The `no-console` r
 
 ## Test Coverage
 
-Unit tests ensure that core functionalities, CLI behavior, and error handling meet expectations. They are located in the `tests/unit/` directory.
+Unit tests have been expanded to cover additional CLI functions and exported methods to ensure robust error handling and correct output across all formats. They are located in the `tests/unit/` directory.
 
 ## Tuning the Agentic Coding System
 
