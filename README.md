@@ -15,7 +15,7 @@
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. The CLI provides default demo output if no arguments are supplied.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. Recent updates have extended the functionality by removing duplicate calls and extraneous logging, ensuring a cleaner execution flow.
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
