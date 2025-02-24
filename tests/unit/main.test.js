@@ -1,4 +1,4 @@
-// tests/unit/main.test.js
+// File: tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
@@ -53,17 +53,21 @@ describe("Exported API Functions", () => {
     expect(md).toContain("# Plot Data");
   });
 
-  test("main generates markdown file when output file ends with .md", () => {
+  test("main generates markdown file when output file ends with .md", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const originalArgv = process.argv;
+    const originalEnv = process.env.NODE_ENV;
+    // Set NODE_ENV to production so that process.exit is called
+    process.env.NODE_ENV = 'production';
     process.argv = ["node", "src/lib/main.js", "output.md", "y=2x+3:-10,10,1"];
     if (mainModule.main) {
-      mainModule.main();
+      await mainModule.main();
     }
     const argsCall = writeFileSyncSpy.mock.calls[0];
     expect(argsCall[1]).toContain("# Plot Data");
     writeFileSyncSpy.mockRestore();
     process.argv = originalArgv;
+    process.env.NODE_ENV = originalEnv;
   });
 
   test("Interactive CLI Mode prompts for input", async () => {
@@ -75,12 +79,16 @@ describe("Exported API Functions", () => {
     };
     vi.spyOn(readline, "createInterface").mockReturnValue(rlMock);
     const originalArgv = process.argv;
+    const originalEnv = process.env.NODE_ENV;
+    // Set NODE_ENV to production for this test
+    process.env.NODE_ENV = 'production';
     process.argv = ["node", "src/lib/main.js", "--interactive"];
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     await mainModule.main();
     expect(rlMock.question).toHaveBeenCalled();
     exitSpy.mockRestore();
     process.argv = originalArgv;
+    process.env.NODE_ENV = originalEnv;
   });
 
   // Error Handling Tests
@@ -100,12 +108,15 @@ describe("Exported API Functions", () => {
   });
 });
 
-// tests/unit/run-main.test.js
+// File: tests/unit/run-main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
 describe("Run Main Test", () => {
   test("should run main without deprecated done callback (async)", async () => {
+    const originalEnv = process.env.NODE_ENV;
+    // Set NODE_ENV to production so that process.exit is invoked
+    process.env.NODE_ENV = 'production';
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const originalArgv = process.argv;
@@ -116,5 +127,6 @@ describe("Run Main Test", () => {
     exitSpy.mockRestore();
     consoleLogSpy.mockRestore();
     process.argv = originalArgv;
+    process.env.NODE_ENV = originalEnv;
   });
 });

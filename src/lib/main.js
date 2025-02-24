@@ -347,7 +347,7 @@ const parseLogarithmic = (formulaStr) => {
 
 // Extract quadratic coefficients from an expression of form ax^2+bx+c
 const extractQuadraticCoefficients = (expr) => {
-  let cleanedExpr = expr.replace(/\s+/g, "").replace(/\+-/g, "-");
+  let cleanedExpr = expr.replace(/\s+/g, "").replace(/\+\-/g, "-");
   let a = 0;
   let b = 0;
   let c = 0;
@@ -1140,7 +1140,12 @@ const main = async () => {
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(`SVG file generated: ${outputFileName}`);
-    process.exit(0);
+    // Call process.exit if not in test environment
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(0);
+    } else {
+      return;
+    }
   }
 
   let outputFileName = "output.svg";
@@ -1186,14 +1191,22 @@ const main = async () => {
 
   if (args.includes("--version")) {
     console.log("Equation Plotter Library version 0.2.0-17");
-    process.exit(0);
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(0);
+    } else {
+      return;
+    }
   }
 
   if (args.includes("--help") || args.includes("-h")) {
     console.log(
       `Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: "quad:y=x^2+2*x+1" or "quadratic:y=x^2+2*x+1" or "x^2+y-1=0" (or with range e.g., "y=x^2+2*x+1:-10,10,1")\n  Linear:    "linear:m,b[,xMin,xMax,step]" or algebraic form like "y=2x+3" (or "y=2x+3:-10,10,1")\n  Sine:      "sine:amplitude,frequency,phase[,xMin,xMax,step]"\n  Cosine:    "cosine:amplitude,frequency,phase[,xMin,xMax,step]" or "cos:..."\n  Polar:     "polar:scale,multiplier,step[,degMin,degMax]"\n  Exponential: "exponential:a,b,xMin,xMax,step" or "exp:a,b,xMin,xMax,step" or in algebraic form like "y=2*e^(0.5x)" (optionally with range e.g., "y=2*e^(0.5x):-10,10,1")\n  Logarithmic: "log:a,base,xMin,xMax,step" or "ln:a,base,xMin,xMax,step"\n`
     );
-    process.exit(0);
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(0);
+    } else {
+      return;
+    }
   }
 
   // Interactive CLI mode support
@@ -1268,7 +1281,11 @@ const main = async () => {
       console.log(plotToText({ formulas: formulasList }));
 
       rl.close();
-      process.exit(0);
+      if (process.env.NODE_ENV !== 'test') {
+        process.exit(0);
+      } else {
+        return;
+      }
     });
     return;
   }
@@ -1311,6 +1328,12 @@ const main = async () => {
 
   console.log("\nText Representation of Plots:");
   console.log(plotToText({ formulas: formulasList }));
+
+  if (process.env.NODE_ENV !== 'test') {
+    process.exit(0);
+  } else {
+    return;
+  }
 };
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
