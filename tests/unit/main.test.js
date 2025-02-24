@@ -91,7 +91,6 @@ describe("Exported API Functions", () => {
     process.env.NODE_ENV = originalEnv;
   });
 
-  // Additional tests for increased coverage
   test("plotToAscii returns ASCII art string", () => {
     const ascii = mainModule.plotToAscii({ formulas: ["sine:1,1,0,0,360,30"] });
     expect(typeof ascii).toBe("string");
