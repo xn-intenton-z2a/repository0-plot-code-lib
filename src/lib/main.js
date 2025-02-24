@@ -452,7 +452,6 @@ const getPlotsFromFormulas = (formulas = []) => {
       ) {
         quadratic.push(plotFromString(formula));
       } else if (lower.startsWith("sine:")) {
-        quadratic.push && console.error('Unexpected duplicate call');
         sine.push(plotFromString(formula));
       } else if (lower.startsWith("cosine:") || lower.startsWith("cos:")) {
         cosine.push(parseCosine(formula));
