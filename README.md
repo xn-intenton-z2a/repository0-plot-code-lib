@@ -2,14 +2,11 @@
 
 ## Overview
 
-`plot-code-lib` is a demo repository that showcases the GitHub workflows imported from intentïon agentic‑lib. Its primary purpose is to demonstrate automated CI/CD workflows and serves as a seed for the Equation Plotter—a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, HTML, and PNG) and offers additional features:
+`plot-code-lib` is a demo repository that showcases the GitHub workflows imported from intentïon agentic‑lib. Its primary purpose is to demonstrate automated CI/CD workflows and serves as a seed for the Equation Plotter—a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML) and offers additional features:
 
-- **Rotation Feature:** Rotate SVG output around its center using the `--rotate` flag.
-- **Custom Title Support:** Add a custom title to the SVG output using the `--title` flag.
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
-- **Summary Feature:** Use the `--summary` flag to print summary statistics (min, max, average) for the first plot of each type.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`), and terminates immediately without waiting for user input.
-- **Improved Error Handling & Consistency:** Enhanced input validation (especially for sine formulas) and consistent code formatting for better maintenance.
+- **Improved Error Handling & Consistency:** Enhanced input validation and consistent code formatting for better maintenance.
 
 ## What’s Inside
 
@@ -55,7 +52,7 @@ When you run the CLI with no arguments, it prints a usage message, outputs an SV
   node src/lib/main.js output.csv "quad:1,0,0,-10,10,1"
   ```
 
-- Generate Markdown output:
+- Generate Markdown output (automatically detected when the output file extension is `.md` or using the `--md` flag):
   ```bash
   node src/lib/main.js output.md "y=2x+3:-10,10,1"
   ```
@@ -84,6 +81,7 @@ Other available flags:
 - `--grid`: Overlay grid lines on the generated SVG plots.
 - `--debug`: Output internal parsed plot data for troubleshooting.
 - `--interactive`: Enable interactive mode for real-time user input.
+- `--version`: Show version information.
 
 ## Linting
 
@@ -121,6 +119,6 @@ Other files taken into account by our workflows include:
 
 (An exploration of our repository's evolution through the Equation Plotter Library's development.)
 
-In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has been expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release introduces a rotation feature for SVG outputs, custom title support for enhanced user-friendliness, an interactive CLI mode, summary output for plot statistics, and a default demo output (with usage instructions) that runs and terminates immediately when no arguments are provided, along with improved error handling and code consistency.
+In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has been expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release aligns the CLI features with our contributing guidelines by removing unsupported features such as rotation, custom titles, summary statistics, and PNG conversion.
 
 **Version:** Equation Plotter Library version 0.2.0-15

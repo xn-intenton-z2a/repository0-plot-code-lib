@@ -529,11 +529,6 @@ const generateSvg = (
   svg += `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n`;
   svg += `  <rect width="100%" height="100%" fill="white" />\n`;
 
-  const randomColor = () =>
-    "#" +
-    Math.floor(Math.random() * 16777216)
-      .toString(16)
-      .padStart(6, "0");
   const defaultColors = {
     quadratic: ["blue", "darkblue", "purple", "royalblue", "deepskyblue"],
     linear: ["orange", "darkorange", "gold", "chocolate", "peru"],
@@ -1149,14 +1144,14 @@ const main = async () => {
   }
 
   let outputFileName = "output.svg";
-  const isJson = args.includes("--json");
-  const isCsv = args.includes("--csv");
-  const isHtml = args.includes("--html");
-  const isAscii = args.includes("--ascii");
-  const isMarkdown = args.includes("--md");
-  const isDebug = args.includes("--debug");
-  const gridEnabled = args.includes("--grid");
-
+  let isJson = args.includes("--json");
+  let isCsv = args.includes("--csv");
+  let isHtml = args.includes("--html");
+  let isAscii = args.includes("--ascii");
+  let isMarkdown = args.includes("--md");
+  let isDebug = args.includes("--debug");
+  let gridEnabled = args.includes("--grid");
+  
   // Remove flags that are unsupported
   const nonFormulaArgs = args.filter(
     (arg) =>
@@ -1178,6 +1173,15 @@ const main = async () => {
   );
   if (nonFormulaArgs.length > 0) {
     outputFileName = nonFormulaArgs[0];
+  }
+
+  // Extension based override if no flag is provided
+  if (!isJson && !isCsv && !isHtml && !isMarkdown && !isAscii) {
+    if (outputFileName.toLowerCase().endsWith(".md")) {
+      isMarkdown = true;
+    } else if (outputFileName.toLowerCase().endsWith(".txt")) {
+      isAscii = true;
+    }
   }
 
   if (args.includes("--version")) {
@@ -1203,13 +1207,13 @@ const main = async () => {
       const filteredArgs = args.filter((arg) => arg !== "--interactive");
       const formulasList = interactiveFormulas.length ? interactiveFormulas : [];
       let outputFileName = "output.svg";
-      const isJson = filteredArgs.includes("--json");
-      const isCsv = filteredArgs.includes("--csv");
-      const isHtml = filteredArgs.includes("--html");
-      const isAscii = filteredArgs.includes("--ascii");
-      const isMarkdown = filteredArgs.includes("--md");
-      const isDebug = filteredArgs.includes("--debug");
-      const gridEnabled = filteredArgs.includes("--grid");
+      let isJson = filteredArgs.includes("--json");
+      let isCsv = filteredArgs.includes("--csv");
+      let isHtml = filteredArgs.includes("--html");
+      let isAscii = filteredArgs.includes("--ascii");
+      let isMarkdown = filteredArgs.includes("--md");
+      let isDebug = filteredArgs.includes("--debug");
+      let gridEnabled = filteredArgs.includes("--grid");
       const nonFormulaArgs = filteredArgs.filter(
         (arg) =>
           !arg.includes(":") &&
@@ -1299,9 +1303,7 @@ const main = async () => {
 
   try {
     fs.writeFileSync(outputFileName, fileContent, "utf8");
-    console.log(
-      `\n${isJson ? "JSON" : isCsv ? "CSV" : isHtml ? "HTML" : isMarkdown ? "Markdown" : isAscii ? "ASCII" : "SVG"} file generated: ${outputFileName}`
-    );
+    console.log(`\n${isJson ? "JSON" : isCsv ? "CSV" : isHtml ? "HTML" : isMarkdown ? "Markdown" : isAscii ? "ASCII" : "SVG"} file generated: ${outputFileName}`);
   } catch (err) {
     console.error(`Error writing file:`, err.message);
     process.exit(1);
