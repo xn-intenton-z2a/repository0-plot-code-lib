@@ -52,7 +52,7 @@ When you run the CLI with no arguments, it prints a usage message, outputs an SV
   node src/lib/main.js output.csv "quad:1,0,0,-10,10,1"
   ```
 
-- Generate Markdown output:
+- Generate Markdown output (automatically detected when the output file extension is `.md` or using the `--md` flag):
   ```bash
   node src/lib/main.js output.md "y=2x+3:-10,10,1"
   ```
