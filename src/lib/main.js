@@ -1140,7 +1140,6 @@ const main = async () => {
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(`SVG file generated: ${outputFileName}`);
-    // Call process.exit if not in test environment
     if (process.env.NODE_ENV !== 'test') {
       process.exit(0);
     } else {

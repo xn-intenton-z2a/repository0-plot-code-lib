@@ -55,6 +55,7 @@ describe("Exported API Functions", () => {
 
   test("main generates markdown file when output file ends with .md", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
     // Set NODE_ENV to production so that process.exit is called
@@ -66,6 +67,7 @@ describe("Exported API Functions", () => {
     const argsCall = writeFileSyncSpy.mock.calls[0];
     expect(argsCall[1]).toContain("# Plot Data");
     writeFileSyncSpy.mockRestore();
+    exitSpy.mockRestore();
     process.argv = originalArgv;
     process.env.NODE_ENV = originalEnv;
   });
