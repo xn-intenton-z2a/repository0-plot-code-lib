@@ -1,3 +1,4 @@
+// tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
@@ -97,20 +98,22 @@ describe("Exported API Functions", () => {
       expect(() => mainModule.parseSine("sine:invalid")).toThrow();
     });
   });
+});
 
-  // Default Demo Output test
-  describe("Default Demo Output", () => {
-    test("should output usage and generate SVG and exit if no arguments are provided", () => {
-      const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-      const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-      const originalArgv = process.argv;
-      process.argv = ["node", "src/lib/main.js"];
-      mainModule.main();
-      expect(consoleLogSpy).toHaveBeenCalledWith("SVG file generated: output.svg");
-      expect(exitSpy).toHaveBeenCalledWith(0);
-      exitSpy.mockRestore();
-      consoleLogSpy.mockRestore();
-      process.argv = originalArgv;
-    });
+// Additional test file: tests/unit/run-main.test.js
+// Updated to use async/await instead of done callback
+
+describe("Run Main Test", () => {
+  test("should run main without deprecated done callback (async)", async () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const originalArgv = process.argv;
+    process.argv = ["node", "src/lib/main.js"]; 
+    await mainModule.main();
+    expect(consoleLogSpy).toHaveBeenCalledWith("SVG file generated: output.svg");
+    expect(exitSpy).toHaveBeenCalledWith(0);
+    exitSpy.mockRestore();
+    consoleLogSpy.mockRestore();
+    process.argv = originalArgv;
   });
 });
