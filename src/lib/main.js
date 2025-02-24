@@ -385,28 +385,24 @@ const plotFromString = (formulaStr) => {
       try {
         return parseGenericExponential(formulaStr);
       } catch (e) {
-        console.error("Error parsing exponential formula: " + e.message);
         return [];
       }
     } else if (formulaStr.toLowerCase().includes("log(")) {
       try {
         return parseLogarithmic(formulaStr);
       } catch (e) {
-        console.error("Error parsing logarithmic formula: " + e.message);
         return [];
       }
     } else if (!formulaStr.includes("x^2")) {
       try {
         return parseGenericLinear(formulaStr);
       } catch (e) {
-        console.error("Error parsing linear formula: " + e.message);
         return [];
       }
     } else {
       try {
         return parseGenericQuadratic(formulaStr);
       } catch (e) {
-        console.error("Error parsing generic quadratic formula: " + e.message);
         return [];
       }
     }
@@ -418,17 +414,14 @@ const plotFromString = (formulaStr) => {
     if (lowerStr.startsWith("polar:")) return parsePolar(formulaStr);
     if (lowerStr.startsWith("linear:")) return parseLinear(formulaStr);
     if (lowerStr.startsWith("exponential:") || lowerStr.startsWith("exp:")) return parseExponential(formulaStr);
-    console.error("Unknown prefixed formula type for formula: " + formulaStr);
     return [];
   } else if (formulaStr.includes("=")) {
     try {
       return parseGenericQuadratic(formulaStr);
     } catch (e) {
-      console.error("Error parsing generic quadratic formula: " + e.message);
       return [];
     }
   } else {
-    console.error("Formula string is not in a recognized format: " + formulaStr);
     return [];
   }
 };
@@ -478,10 +471,10 @@ const getPlotsFromFormulas = (formulas = []) => {
       ) {
         logarithmic.push(plotFromString(formula));
       } else {
-        console.error("Unrecognized formula: " + formula);
+        // For unrecognized formula, do nothing
       }
     } catch (e) {
-      console.error("Error parsing formula: " + formula + ". " + e.message);
+      // Swallow any errors during parsing
     }
   });
   // Use defaults if no formulas were provided
@@ -1077,7 +1070,6 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
   try {
     fs.writeFileSync(outputFileName, content, "utf8");
   } catch (e) {
-    console.error("Error writing file:", e);
     throw e;
   }
   return outputFileName;
