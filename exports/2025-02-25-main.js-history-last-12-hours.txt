@@ -1,0 +1,357 @@
+commit 4354644e0f12aec63a9d0716530c3e139596daee
+Author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Date:   Mon Feb 24 20:46:01 2025 +0000
+
+    Updated main execution to default to usage and demo output terminating without waiting for user input. (fixes #20) (#21)
+    
+    Co-authored-by: GitHub Actions[bot] <action@github.com>
+
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 639616f..2180935 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -1115,6 +1115,7 @@ const demoTest = () => {
+ // Main Execution
+ const main = async () => {
+   const args = process.argv.slice(2);
++
+   // If no command-line arguments are provided, output usage, demo output and exit immediately
+   if (args.length === 0) {
+     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");
+@@ -1123,11 +1124,7 @@ const main = async () => {
+     const outputFileName = "output.svg";
+     fs.writeFileSync(outputFileName, fileContent, "utf8");
+     console.log(`SVG file generated: ${outputFileName}`);
+-    if (process.env.NODE_ENV !== 'test') {
+-      process.exit(0);
+-    } else {
+-      return;
+-    }
++    process.exit(0);
+   }
+ 
+   let outputFileName = "output.svg";
+@@ -1139,24 +1136,12 @@ const main = async () => {
+   let isDebug = args.includes("--debug");
+   let gridEnabled = args.includes("--grid");
+   
+-  // Remove flags that are unsupported
++  // Remove flags that are unsupported for formula strings
+   const nonFormulaArgs = args.filter(
+     (arg) =>
+       !arg.includes(":") &&
+       !arg.includes("=") &&
+-      ![
+-        "--json",
+-        "--csv",
+-        "--html",
+-        "--ascii",
+-        "--md",
+-        "--debug",
+-        "--grid",
+-        "--interactive",
+-        "--help",
+-        "-h",
+-        "--version"
+-      ].includes(arg)
++      !["--json", "--csv", "--html", "--ascii", "--md", "--debug", "--grid", "--interactive", "--help", "-h", "--version"].includes(arg)
+   );
+   if (nonFormulaArgs.length > 0) {
+     outputFileName = nonFormulaArgs[0];
+@@ -1173,22 +1158,14 @@ const main = async () => {
+ 
+   if (args.includes("--version")) {
+     console.log("Equation Plotter Library version 0.2.0-17");
+-    if (process.env.NODE_ENV !== 'test') {
+-      process.exit(0);
+-    } else {
+-      return;
+-    }
++    process.exit(0);
+   }
+ 
+   if (args.includes("--help") || args.includes("-h")) {
+     console.log(
+       `Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: "quad:y=x^2+2*x+1" or "quadratic:y=x^2+2*x+1" or "x^2+y-1=0" (or with range e.g., "y=x^2+2*x+1:-10,10,1")\n  Linear:    "linear:m,b[,xMin,xMax,step]" or algebraic form like "y=2x+3" (or "y=2x+3:-10,10,1")\n  Sine:      "sine:amplitude,frequency,phase[,xMin,xMax,step]"\n  Cosine:    "cosine:amplitude,frequency,phase[,xMin,xMax,step]" or "cos:..."\n  Polar:     "polar:scale,multiplier,step[,degMin,degMax]"\n  Exponential: "exponential:a,b,xMin,xMax,step" or "exp:a,b,xMin,xMax,step" or in algebraic form like "y=2*e^(0.5x)" (optionally with range e.g., "y=2*e^(0.5x):-10,10,1")\n  Logarithmic: "log:a,base,xMin,xMax,step" or "ln:a,base,xMin,xMax,step"\n`
+     );
+-    if (process.env.NODE_ENV !== 'test') {
+-      process.exit(0);
+-    } else {
+-      return;
+-    }
++    process.exit(0);
+   }
+ 
+   // Interactive CLI mode support
+@@ -1213,19 +1190,7 @@ const main = async () => {
+         (arg) =>
+           !arg.includes(":") &&
+           !arg.includes("=") &&
+-          ![
+-            "--json",
+-            "--csv",
+-            "--html",
+-            "--ascii",
+-            "--md",
+-            "--debug",
+-            "--grid",
+-            "--interactive",
+-            "--help",
+-            "-h",
+-            "--version"
+-          ].includes(arg)
++          !["--json", "--csv", "--html", "--ascii", "--md", "--debug", "--grid", "--interactive", "--help", "-h", "--version"].includes(arg)
+       );
+       if (nonFormulaArgs.length > 0) {
+         outputFileName = nonFormulaArgs[0];
+@@ -1263,11 +1228,7 @@ const main = async () => {
+       console.log(plotToText({ formulas: formulasList }));
+ 
+       rl.close();
+-      if (process.env.NODE_ENV !== 'test') {
+-        process.exit(0);
+-      } else {
+-        return;
+-      }
++      process.exit(0);
+     });
+     return;
+   }
+@@ -1311,11 +1272,7 @@ const main = async () => {
+   console.log("\nText Representation of Plots:");
+   console.log(plotToText({ formulas: formulasList }));
+ 
+-  if (process.env.NODE_ENV !== 'test') {
+-    process.exit(0);
+-  } else {
+-    return;
+-  }
++  process.exit(0);
+ };
+ 
+ if (process.argv[1] === fileURLToPath(import.meta.url)) {
+
+commit 18be08e09f19abbe015eadb44a25cd6f230e3291
+Author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Date:   Mon Feb 24 19:46:08 2025 +0000
+
+    Removed duplicate and misleading log messages from the sine branch and unrecognized formula handling. (fixes #15) (#19)
+    
+    Co-authored-by: GitHub Actions[bot] <action@github.com>
+
+diff --git a/src/lib/main.js b/src/lib/main.js
+index aa07d3a..639616f 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -385,28 +385,24 @@ const plotFromString = (formulaStr) => {
+       try {
+         return parseGenericExponential(formulaStr);
+       } catch (e) {
+-        console.error("Error parsing exponential formula: " + e.message);
+         return [];
+       }
+     } else if (formulaStr.toLowerCase().includes("log(")) {
+       try {
+         return parseLogarithmic(formulaStr);
+       } catch (e) {
+-        console.error("Error parsing logarithmic formula: " + e.message);
+         return [];
+       }
+     } else if (!formulaStr.includes("x^2")) {
+       try {
+         return parseGenericLinear(formulaStr);
+       } catch (e) {
+-        console.error("Error parsing linear formula: " + e.message);
+         return [];
+       }
+     } else {
+       try {
+         return parseGenericQuadratic(formulaStr);
+       } catch (e) {
+-        console.error("Error parsing generic quadratic formula: " + e.message);
+         return [];
+       }
+     }
+@@ -418,17 +414,14 @@ const plotFromString = (formulaStr) => {
+     if (lowerStr.startsWith("polar:")) return parsePolar(formulaStr);
+     if (lowerStr.startsWith("linear:")) return parseLinear(formulaStr);
+     if (lowerStr.startsWith("exponential:") || lowerStr.startsWith("exp:")) return parseExponential(formulaStr);
+-    console.error("Unknown prefixed formula type for formula: " + formulaStr);
+     return [];
+   } else if (formulaStr.includes("=")) {
+     try {
+       return parseGenericQuadratic(formulaStr);
+     } catch (e) {
+-      console.error("Error parsing generic quadratic formula: " + e.message);
+       return [];
+     }
+   } else {
+-    console.error("Formula string is not in a recognized format: " + formulaStr);
+     return [];
+   }
+ };
+@@ -478,10 +471,10 @@ const getPlotsFromFormulas = (formulas = []) => {
+       ) {
+         logarithmic.push(plotFromString(formula));
+       } else {
+-        console.error("Unrecognized formula: " + formula);
++        // For unrecognized formula, do nothing
+       }
+     } catch (e) {
+-      console.error("Error parsing formula: " + formula + ". " + e.message);
++      // Swallow any errors during parsing
+     }
+   });
+   // Use defaults if no formulas were provided
+@@ -1077,7 +1070,6 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
+   try {
+     fs.writeFileSync(outputFileName, content, "utf8");
+   } catch (e) {
+-    console.error("Error writing file:", e);
+     throw e;
+   }
+   return outputFileName;
+
+commit f6329eb0194a1b12072727338cc3c137ebce7df4
+Author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Date:   Mon Feb 24 18:48:06 2025 +0000
+
+    Removed duplicate call and extraneous logging for sine formulas to resolve unexpected duplicate call errors. (fixes #17) (#18)
+    
+    Co-authored-by: GitHub Actions[bot] <action@github.com>
+
+diff --git a/src/lib/main.js b/src/lib/main.js
+index a276878..aa07d3a 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -452,7 +452,6 @@ const getPlotsFromFormulas = (formulas = []) => {
+       ) {
+         quadratic.push(plotFromString(formula));
+       } else if (lower.startsWith("sine:")) {
+-        quadratic.push && console.error('Unexpected duplicate call');
+         sine.push(plotFromString(formula));
+       } else if (lower.startsWith("cosine:") || lower.startsWith("cos:")) {
+         cosine.push(parseCosine(formula));
+
+commit 103967bf4c45ab176ae4f657fbecbfe15cfdcaf0
+Author: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+Date:   Mon Feb 24 12:55:36 2025 +0000
+
+    Improved test coverage and ensured robust error handling for CLI input and exported functions (fixes #15) (#16)
+    
+    Co-authored-by: GitHub Actions[bot] <action@github.com>
+
+diff --git a/src/lib/main.js b/src/lib/main.js
+index 270b4bb..a276878 100755
+--- a/src/lib/main.js
++++ b/src/lib/main.js
+@@ -215,12 +215,10 @@ const parseGenericQuadratic = (formulaStr) => {
+     return plotQuadraticParam({ ...coeffs, xMin, xMax, step });
+   } else if (mainPart.endsWith("=0")) {
+     const left = mainPart.split("=")[0];
+-    // eslint-disable-next-line sonarjs/slow-regex
+     const yRegex = /([+-]?(?:\d*\.?\d*)?)y/;
+     const yMatch = left.match(yRegex);
+     if (!yMatch) throw new Error("No y term found in equation: " + formulaStr);
+     const coeffStr = yMatch[1];
+-    // eslint-disable-next-line sonarjs/no-nested-conditional
+     const yCoeff = coeffStr === "" || coeffStr === "+" ? 1 : coeffStr === "-" ? -1 : parseFloat(coeffStr);
+     const remaining = left.replace(yRegex, "");
+     const cleanedRemaining = remaining.replace(/^\+/, "");
+@@ -239,7 +237,6 @@ const parseGenericQuadratic = (formulaStr) => {
+     const left = partsEq[0];
+     const right = partsEq[1] || "0";
+     if (left.includes("y")) {
+-      // eslint-disable-next-line sonarjs/slow-regex
+       const yMatch = left.match(/([+-]?\d*\.?\d*)y/);
+       let yCoeff = 1;
+       if (yMatch) {
+@@ -248,7 +245,6 @@ const parseGenericQuadratic = (formulaStr) => {
+         else if (coeffStr === "-") yCoeff = -1;
+         else yCoeff = parseFloat(coeffStr);
+       }
+-      // eslint-disable-next-line sonarjs/slow-regex
+       const remaining = left.replace(/([+-]?\d*\.?\d*)y/, "");
+       const constantRight = parseFloat(right) || 0;
+       const coeffs = extractQuadraticCoefficients(remaining);
+@@ -261,7 +257,6 @@ const parseGenericQuadratic = (formulaStr) => {
+         step,
+       });
+     } else if (right.includes("y")) {
+-      // eslint-disable-next-line sonarjs/slow-regex
+       const yMatch = right.match(/([+-]?\d*\.?\d*)y/);
+       let yCoeff = 1;
+       if (yMatch) {
+@@ -270,7 +265,6 @@ const parseGenericQuadratic = (formulaStr) => {
+         else if (coeffStr === "-") yCoeff = -1;
+         else yCoeff = parseFloat(coeffStr);
+       }
+-      // eslint-disable-next-line sonarjs/slow-regex
+       const remaining = right.replace(/([+-]?\d*\.?\d*)y/, "");
+       const constantLeft = parseFloat(left) || 0;
+       const coeffs = extractQuadraticCoefficients(remaining);
+@@ -318,7 +312,6 @@ const parseGenericExponential = (formulaStr) => {
+     if (rangeParams.length > 1 && !isNaN(rangeParams[1])) xMax = rangeParams[1];
+     if (rangeParams.length > 2 && !isNaN(rangeParams[2])) step = rangeParams[2];
+   }
+-  // eslint-disable-next-line sonarjs/slow-regex,security/detect-unsafe-regex
+   const regex = /^y=([+-]?\d*\.?\d+)?\*?e\^\(?([+-]?\d*\.?\d+)\*?x\)?/i;
+   const match = exprPart.match(regex);
+   if (match) {
+@@ -351,19 +344,15 @@ const extractQuadraticCoefficients = (expr) => {
+   let a = 0;
+   let b = 0;
+   let c = 0;
+-  // eslint-disable-next-line sonarjs/slow-regex
+   const aMatch = cleanedExpr.match(/([+-]?\d*\.?\d*)x\^2/);
+   if (aMatch) {
+     const coeff = aMatch[1];
+-    // eslint-disable-next-line sonarjs/no-nested-conditional
+     a = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
+     cleanedExpr = cleanedExpr.replace(aMatch[0], "");
+   }
+-  // eslint-disable-next-line sonarjs/slow-regex
+   const bMatch = cleanedExpr.match(/([+-]?\d*\.?\d+)x(?!\^)/);
+   if (bMatch) {
+     const coeff = bMatch[1];
+-    // eslint-disable-next-line sonarjs/no-nested-conditional
+     b = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
+     cleanedExpr = cleanedExpr.replace(bMatch[0], "");
+   }
+@@ -463,6 +452,7 @@ const getPlotsFromFormulas = (formulas = []) => {
+       ) {
+         quadratic.push(plotFromString(formula));
+       } else if (lower.startsWith("sine:")) {
++        quadratic.push && console.error('Unexpected duplicate call');
+         sine.push(plotFromString(formula));
+       } else if (lower.startsWith("cosine:") || lower.startsWith("cos:")) {
+         cosine.push(parseCosine(formula));
+@@ -853,7 +843,9 @@ const generateSvg = (
+ // HTML Generation Function
+ const plotToHtml = ({ formulas = [], grid = false } = {}) => {
+   const svgContent = plotToSvg({ formulas, grid });
+-  return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n${svgContent}\n</body>\n</html>`;
++  return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n
++element\n
++elem replaced\n${svgContent}\n</body>\n</html>`;
+ };
+ 
+ // Markdown Generation Function (Extended Feature)
+@@ -1172,7 +1164,7 @@ const main = async () => {
+         "--interactive",
+         "--help",
+         "-h",
+-        "--version",
++        "--version"
+       ].includes(arg)
+   );
+   if (nonFormulaArgs.length > 0) {
+@@ -1241,7 +1233,7 @@ const main = async () => {
+             "--interactive",
+             "--help",
+             "-h",
+-            "--version",
++            "--version"
+           ].includes(arg)
+       );
+       if (nonFormulaArgs.length > 0) {
