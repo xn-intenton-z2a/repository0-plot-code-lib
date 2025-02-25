@@ -3,7 +3,7 @@
   "version": "0.2.1-0",
   "description": "Be a go-to plot library with a CLI, be the jq of formulae visualisations.",
   "type": "module",
-  "main": "src/index.js",
+  "main": "src/lib/main.js",
   "scripts": {
     "build": "echo 'Nothing to build'",
     "formatting": "prettier --check .",

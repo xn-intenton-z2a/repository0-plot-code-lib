@@ -55,7 +55,6 @@ describe("Exported API Functions", () => {
 
   test("main generates markdown file when output file ends with .md", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
-    // Removed expectation for process.exit call as main no longer calls it
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'production';
@@ -131,7 +130,6 @@ describe("Run Main Test", () => {
     process.argv = ["node", "src/lib/main.js"];
     await mainModule.main();
     expect(consoleLogSpy).toHaveBeenCalledWith("SVG file generated: output.svg");
-    // Expect that process.exit is not called now
     expect(exitSpy).not.toHaveBeenCalled();
     exitSpy.mockRestore();
     consoleLogSpy.mockRestore();
