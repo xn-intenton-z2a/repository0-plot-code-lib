@@ -10,6 +10,12 @@
 - **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability. Recent updates ensure that the CLI defaults to usage and demo output, and returns gracefully without forcibly terminating the process.
 - **HTML Output Fix:** The HTML output generation has been corrected to properly wrap the SVG content without stray placeholders.
 
+Generated using:
+```
+npm run start output.png
+```
+[Example output](examples/output.png)
+
 ## What’s Inside
 
 - **GitHub Workflows:**
