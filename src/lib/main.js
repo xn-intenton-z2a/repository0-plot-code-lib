@@ -1276,7 +1276,7 @@ const main = async () => {
   return;
 };
 
-if (process.argv[1] === fileURLToPath(import.meta.url)) {
+if (process.argv[1] === fileURLToPath(import.meta.url) && process.env.NODE_ENV !== 'test') {
   main();
 }
 

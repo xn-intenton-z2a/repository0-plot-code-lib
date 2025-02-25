@@ -7,7 +7,7 @@
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`), and terminates immediately without waiting for user input.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
-- **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability. Recent updates ensure that the CLI defaults to usage and demo output, and returns gracefully without forcibly terminating the process.
+- **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability. Recent updates ensure that the CLI defaults to usage and demo output, and returns gracefully without forcibly terminating execution.
 
 Generated using:
 ```
