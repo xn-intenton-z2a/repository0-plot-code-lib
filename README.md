@@ -13,7 +13,7 @@ Generated using:
 ```
 npm run start output.png
 ```
-![Example output](examples/output.png)
+![Example output](https://github.com/xn-intenton-z2a/plot-code-lib/blob/main/examples/output.png)
 
 ## What’s Inside
 
