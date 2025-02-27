@@ -5,9 +5,9 @@
 `plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter—a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML) and includes the following features:
 
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
-- **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`), and terminates immediately without waiting for user input.
+- **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`), and terminates gracefully without forcibly exiting.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
-- **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability. Recent updates ensure that the CLI defaults to usage and demo output, and returns gracefully without forcibly terminating execution.
+- **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability.
 
 Generated using:
 ```
@@ -21,7 +21,7 @@ npm run start output.png
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. Recent updates ensure that running the CLI without input prints the usage and a demo output, then returns gracefully without calling `process.exit()`.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. The code now includes a comment at the top directing contributors to review the `CONTRIBUTING.md` file for guidelines.
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
@@ -29,13 +29,13 @@ npm run start output.png
 - **Tests:**
   Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions to improve test coverage.
 
-- **Documentation:**
-  This `README.md` explains repository usage and the evolution of the Equation Plotter CLI.
+- **Documentation & Contributions:**
+  Please review the `CONTRIBUTING.md` file for our automated workflow contribution process and guidelines. We encourage you to follow these guidelines when opening an issue or submitting a contribution.
 
 ## Running the CLI
 
 - **No Arguments (Default Demo Output):**
-  When run without arguments, the CLI prints a usage message, creates an `output.svg` file with demo plots, and terminates. For example:
+  When run without arguments, the CLI prints a usage message, creates an `output.svg` file with demo plots, and terminates gracefully. For example:
   ```bash
   node src/lib/main.js
   ```
@@ -103,6 +103,10 @@ As the project evolves, you can tune the following files:
 - `tests/unit/main.test.js`
 - `CONTRIBUTING.md`
 - `eslint.config.js`
+
+## Contributing
+
+Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution workflow using intentïon agentic‑lib, our mission statement, and project goals. Your contributions and improvements are welcome!
 
 ## Diary of an Agentic Coding System - Day 1
 
