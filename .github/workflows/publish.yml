@@ -59,7 +59,7 @@ jobs:
       - name: main
         id: main
         shell: bash
-        run: timeout 5m npm run start
+        run: timeout 5m ${{ vars.MAIN_SCRIPT || 'npm run start' }}
 
   publish:
     needs:
@@ -67,7 +67,7 @@ jobs:
     permissions:
       contents: write
       packages: write
-    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-publish.yml@1.9.2'
+    uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-publish.yml@2.0.0'
     with:
       versionIncrement: ${{ inputs.versionIncrement || 'prerelease' }}
       buildScript: 'npm run build'
