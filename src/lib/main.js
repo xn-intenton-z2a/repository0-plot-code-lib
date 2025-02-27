@@ -1278,7 +1278,7 @@ const main = async () => {
   return;
 };
 
-if (process.argv[1] === fileURLToPath(import.meta.url) && process.env.NODE_ENV !== 'test') {
+if (process.argv[1] === fileURLToPath(import.meta.url) && !process.env.VITEST_WORKER_ID) {
   // Wrap the main call in an async IIFE to catch errors and avoid deprecated done callbacks
   (async () => {
     try {
