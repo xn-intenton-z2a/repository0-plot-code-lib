@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// For contribution guidelines, please see CONTRIBUTING.md
+
 "use strict";
 
 import { fileURLToPath } from "url";
