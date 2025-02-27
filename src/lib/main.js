@@ -838,8 +838,19 @@ const generateSvg = (
 // HTML Generation Function
 const plotToHtml = ({ formulas = [], grid = false } = {}) => {
   const svgContent = plotToSvg({ formulas, grid });
-  return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n
-element\n\nelem replaced\n${svgContent}\n</body>\n</html>`;
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Equation Plot</title>
+  <style>
+    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }
+  </style>
+</head>
+<body>
+${svgContent}
+</body>
+</html>`;
 };
 
 // Markdown Generation Function (Extended Feature)
