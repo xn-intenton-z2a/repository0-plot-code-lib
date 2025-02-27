@@ -1277,7 +1277,15 @@ const main = async () => {
 };
 
 if (process.argv[1] === fileURLToPath(import.meta.url) && process.env.NODE_ENV !== 'test') {
-  main();
+  // Wrap the main call in an async IIFE to catch errors and avoid deprecated done callbacks
+  (async () => {
+    try {
+      await main();
+    } catch (err) {
+      console.error(err);
+      process.exit(1);
+    }
+  })();
 }
 
 export {
