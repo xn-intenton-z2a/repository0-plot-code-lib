@@ -1129,7 +1129,7 @@ const demoTest = () => {
 const main = async () => {
   const args = process.argv.slice(2);
 
-  // If no command-line arguments are provided, output usage, demo output and exit immediately
+  // If no command-line arguments are provided, output usage, demo output and exit gracefully
   if (args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");
     console.log("No arguments provided. Running default demo output.");
@@ -1137,6 +1137,7 @@ const main = async () => {
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(`SVG file generated: ${outputFileName}`);
+    // Gracefully end execution when run in default mode
     return;
   }
 
@@ -1286,6 +1287,7 @@ const main = async () => {
   console.log("\nText Representation of Plots:");
   console.log(plotToText({ formulas: formulasList }));
 
+  // Gracefully complete main execution
   return;
 };
 
