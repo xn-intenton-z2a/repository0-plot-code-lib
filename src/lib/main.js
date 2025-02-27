@@ -1296,6 +1296,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url) && !process.env.VITEST_WO
       await main();
     } catch (err) {
       console.error(err);
+      // In test environment, throw the error instead of calling process.exit
+      if (process.env.NODE_ENV === 'test') {
+        throw err;
+      }
       process.exit(1);
     }
   })();
