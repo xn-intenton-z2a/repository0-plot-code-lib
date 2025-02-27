@@ -21,7 +21,7 @@ npm run start output.png
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. The code includes directives for contributors to review the `CONTRIBUTING.md` file for guidelines. It clearly documents the default CLI behavior when no arguments are provided.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
@@ -30,7 +30,7 @@ npm run start output.png
   Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions to improve test coverage.
 
 - **Documentation & Contributions:**
-  Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process, mission statement, and project goals. Adhering to these guidelines ensures that contributions are seamlessly integrated into the project.
+  Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process and project guidelines. Following these guidelines ensures seamless integration of your contributions.
 
 ## Running the CLI
 
@@ -51,7 +51,7 @@ npm run start output.png
   ```
 
 - **Generate Markdown Output:**
-  Automatically detected if the output file ends with `.md` or using the `--md` flag:
+  (Automatically detected if the output file ends with `.md` or using the `--md` flag):
   ```bash
   node src/lib/main.js output.md "y=2x+3:-10,10,1"
   ```
@@ -76,12 +76,12 @@ Other available flags include `--help`/`-h` for help and `--version` to display 
 
 ## Future Enhancements
 
-While the Equation Plotter CLI is fully functional, the following features are planned for future implementation (currently not implemented):
+While the Equation Plotter CLI is fully functional, the following enhancements are planned for future implementation (currently not implemented):
 
-- **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom titles for plots.
-- **Summary Statistics:** Include summary statistics for each plot.
+- **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom plot titles.
+- **Summary Statistics:** Provide summary statistics for each plotted function.
 - **PNG Conversion:** Enable exporting plots as PNG images.
-- **Enhanced Interactive Mode:** Further improvements for a smoother real-time user experience.
+- **Enhanced Interactive Mode:** Further streamline real-time user interaction for a smoother experience.
 
 ## Linting
 
@@ -104,10 +104,10 @@ As the project evolves, you can tune the following files:
 
 ## Contributing
 
-Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution workflow using intentïon agentic‑lib. Our contribution process requires you to open an issue, label it as `automated`, and follow the guidelines detailed in the file. This ensures a consistent and seamless integration of your contributions.
+Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution workflow using intentïon agentic‑lib. Your contributions are welcome and will help the project evolve in a consistent manner.
 
 ## Diary of an Agentic Coding System - Day 1
 
-In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release aligns the CLI behavior with the contributing guidelines, ensuring that a default usage message and demo output are displayed when no input is provided, and that the program returns gracefully without forcibly terminating execution.
+In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release aligns the CLI behavior with the contributing guidelines, ensuring that a default usage message and demo output are displayed when no input is provided, and that the program returns gracefully without forcibly terminating execution.
 
 **Version:** Equation Plotter Library version 0.2.0-17

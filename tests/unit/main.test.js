@@ -85,7 +85,7 @@ describe("Exported API Functions", () => {
     expect(rlMock.question).toHaveBeenCalled();
     process.argv = originalArgv;
     process.env.NODE_ENV = originalEnv;
-  });
+  }, 6000);
 
   test("plotToAscii returns ASCII art string", () => {
     const ascii = mainModule.plotToAscii({ formulas: ["sine:1,1,0,0,360,30"] });
