@@ -21,7 +21,7 @@ npm run start output.png
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. The code now includes a comment at the top directing contributors to review the `CONTRIBUTING.md` file for guidelines.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. The code includes directives for contributors to review the `CONTRIBUTING.md` file for guidelines. It also clearly documents the default behavior of the CLI when no arguments are provided.
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
@@ -76,14 +76,12 @@ Other available flags include `--help`/`-h` for help and `--version` to display 
 
 ## Future Enhancements
 
-While the Equation Plotter CLI is fully functional, the following features are planned for future implementation:
+While the Equation Plotter CLI is fully functional, the following features are planned for future implementation (currently not implemented):
 
 - **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom titles for plots.
 - **Summary Statistics:** Include summary statistics for each plot.
 - **PNG Conversion:** Enable exporting plots as PNG images.
-- **Enhanced Interactive Mode:** Improve the CLI for a smoother real-time user experience.
-
-_Upcoming features will further extend the capabilities of the Equation Plotter._
+- **Enhanced Interactive Mode:** Further improvements for a smoother real-time user experience.
 
 ## Linting
 
