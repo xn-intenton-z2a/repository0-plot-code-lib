@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 // For contribution guidelines, please see CONTRIBUTING.md
+// Default behavior: when no CLI arguments are provided, the tool prints a usage message, generates a demo SVG file (output.svg), and exits gracefully without forcing termination.
 
 "use strict";
 
