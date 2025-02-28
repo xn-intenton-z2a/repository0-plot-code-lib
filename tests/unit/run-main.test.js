@@ -8,7 +8,6 @@ describe("Main Script Execution", () => {
     exec(`${process.execPath} ./src/lib/main.js`, (error, stdout, stderr) => {
       expect(error).toBeNull();
       expect(stderr).toBe("");
-      done();
     });
   });
 });
