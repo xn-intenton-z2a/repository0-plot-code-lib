@@ -114,7 +114,7 @@ const plotLogarithmic = () => plotLogarithmicParam();
 // Formula Parsing Functions
 
 const parseQuadratic = (formulaStr) => {
-  const parts = formulaStr.split(":" );
+  const parts = formulaStr.split(":");
   if (parts.length < 2) throw new Error("Invalid quadratic formula string: " + formulaStr);
   const params = parts[1].split(",").map(Number);
   const [a, b, c, xMin, xMax, step] = params;
@@ -968,12 +968,16 @@ const main = async () => {
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(`SVG file generated: ${outputFileName}`);
-    process.exit(0);
-    // return;  // process.exit terminates the process
+    // Prevent process exit in test environments
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(0);
+    } else {
+      return;
+    }
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-4");
+    console.log("Equation Plotter Library version 0.2.1-6");
     return;
   }
 
