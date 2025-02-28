@@ -209,11 +209,11 @@ const parseGenericLinear = (formulaStr) => {
   }
   let m = 1;
   let b = 0;
-  const mMatch = expr.match(/^([+-]?\d*\.?\d+)?\*?x/);
+  const mMatch = expr.match(/^([+-]?\d*(?:\.\d+)?)\*?x/);
   if (mMatch) {
     m = mMatch[1] === "" || mMatch[1] === undefined ? 1 : parseFloat(mMatch[1]);
   }
-  const bMatch = expr.match(/([+-]\d*\.?\d+)(?!\*?x)/);
+  const bMatch = expr.match(/([+-]\d*(?:\.\d+)?)(?!\*?x)/);
   if (bMatch) {
     b = parseFloat(bMatch[1]);
   }
@@ -250,7 +250,7 @@ const parseGenericQuadratic = (formulaStr) => {
     return plotQuadraticParam({ ...coeffs, xMin, xMax, step });
   } else if (mainPart.endsWith("=0")) {
     const left = mainPart.split("=")[0];
-    const yRegex = /([+-]?\d*\.?\d*)y/;
+    const yRegex = /([+-]?\d*(?:\.\d+)?)y/;
     const yMatch = left.match(yRegex);
     if (!yMatch) throw new Error("No y term found in equation: " + formulaStr);
     const coeffStr = yMatch[1];
@@ -272,7 +272,7 @@ const parseGenericQuadratic = (formulaStr) => {
     const left = partsEq[0];
     const right = partsEq[1] || "0";
     if (left.includes("y")) {
-      const yMatch = left.match(/([+-]?\d*\.?\d*)y/);
+      const yMatch = left.match(/([+-]?\d*(?:\.\d+)?)y/);
       let yCoeff = 1;
       if (yMatch) {
         const coeffStr = yMatch[1];
@@ -280,7 +280,7 @@ const parseGenericQuadratic = (formulaStr) => {
         else if (coeffStr === "-") yCoeff = -1;
         else yCoeff = parseFloat(coeffStr);
       }
-      const remaining = left.replace(/([+-]?\d*\.?\d*)y/, "");
+      const remaining = left.replace(/([+-]?\d*(?:\.\d+)?)y/, "");
       const constantRight = parseFloat(right) || 0;
       const coeffs = extractQuadraticCoefficients(remaining);
       return plotQuadraticParam({
@@ -292,7 +292,7 @@ const parseGenericQuadratic = (formulaStr) => {
         step
       });
     } else if (right.includes("y")) {
-      const yMatch = right.match(/([+-]?\d*\.?\d*)y/);
+      const yMatch = right.match(/([+-]?\d*(?:\.\d+)?)y/);
       let yCoeff = 1;
       if (yMatch) {
         const coeffStr = yMatch[1];
@@ -300,7 +300,7 @@ const parseGenericQuadratic = (formulaStr) => {
         else if (coeffStr === "-") yCoeff = -1;
         else yCoeff = parseFloat(coeffStr);
       }
-      const remaining = right.replace(/([+-]?\d*\.?\d*)y/, "");
+      const remaining = right.replace(/([+-]?\d*(?:\.\d+)?)y/, "");
       const constantLeft = parseFloat(left) || 0;
       const coeffs = extractQuadraticCoefficients(remaining);
       return plotQuadraticParam({
@@ -346,7 +346,8 @@ const parseGenericExponential = (formulaStr) => {
     if (rangeParams.length > 1 && !isNaN(rangeParams[1])) xMax = rangeParams[1];
     if (rangeParams.length > 2 && !isNaN(rangeParams[2])) step = rangeParams[2];
   }
-  const regex = /^y=([+-]?\d*\.?\d+)?\*?e\^\(?([+-]?\d*\.?\d+)\*?x\)?/i;
+  // Simplified regex pattern to avoid nested quantifiers and unsafe constructs
+  const regex = /^y=([+-]?\d*(?:\.\d+)?)\*?e\^\(?([+-]?\d+(?:\.\d+)?)\*?x\)?/i;
   const match = exprPart.match(regex);
   if (match) {
     const a = match[1] ? parseFloat(match[1]) : 1;
@@ -375,21 +376,21 @@ const parseLogarithmic = (formulaStr) => {
 const extractQuadraticCoefficients = (expr) => {
   let cleanedExpr = expr.replace(/\s+/g, "").replace(/\+\-/g, "-");
   let a = 0, b = 0, c = 0;
-  const aMatch = cleanedExpr.match(/([+-]?\d*\.?\d*)x\^2/);
+  const aMatch = cleanedExpr.match(/([+-]?\d*(?:\.\d+)?)x\^2/);
   if (aMatch) {
     const coeff = aMatch[1];
     a = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
     cleanedExpr = cleanedExpr.replace(aMatch[0], "");
   }
-  const bMatch = cleanedExpr.match(/([+-]?\d*\.?\d+)x(?!\^)/);
+  const bMatch = cleanedExpr.match(/([+-]?\d+(?:\.\d+)?)x(?!\^)/);
   if (bMatch) {
     const coeff = bMatch[1];
     b = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
     cleanedExpr = cleanedExpr.replace(bMatch[0], "");
   }
-  const constantMatches = cleanedExpr.match(/([+-]?\d*\.?\d+)/g);
+  const constantMatches = cleanedExpr.match(/([+-]?\d*(?:\.\d+)?)/g);
   if (constantMatches) {
-    c = constantMatches.reduce((sum, numStr) => sum + parseFloat(numStr), 0);
+    c = constantMatches.reduce((sum, numStr) => sum + parseFloat(numStr || 0), 0);
   }
   return { a, b, c };
 };
@@ -741,21 +742,7 @@ const generateSvg = (
 // HTML Generation Function
 const plotToHtml = ({ formulas = [], grid = false } = {}) => {
   const svgContent = plotToSvg({ formulas, grid });
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Equation Plot</title>
-  <style>
-    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }
-  </style>
-</head>
-<body>
-  <div>
-    ${svgContent}
-  </div>
-</body>
-</html>`;
+  return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n  <div>\n    ${svgContent}\n  </div>\n</body>\n</html>`;
 };
 
 // Markdown Generation Function
@@ -927,7 +914,7 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
   }
   try {
     fs.writeFileSync(outputFileName, content, "utf8");
-  } catch {
+  } catch (_) {
     throw new Error('Error writing file');
   }
   return outputFileName;
@@ -974,18 +961,37 @@ const demoTest = () => {
 const main = async () => {
   const args = process.argv.slice(2);
 
+  // Define a help message to avoid template literal syntax issues
+  const helpMessage = "\nUsage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\n" +
+    "Options:\n" +
+    "  --help, -h         Show this help message\n" +
+    "  --json             Generate output as JSON instead of SVG\n" +
+    "  --csv              Generate output as CSV instead of SVG\n" +
+    "  --ascii            Generate output as ASCII art instead of SVG\n" +
+    "  --md               Generate output as Markdown instead of SVG\n" +
+    "  --html             Generate output as HTML\n" +
+    "  --grid             Overlay grid lines on SVG plots\n" +
+    "  --debug            Output internal parsed plot data for debugging\n" +
+    "  --interactive      Enable interactive CLI mode for real-time user input\n" +
+    "  --version          Show version information\n\n" +
+    "Formula String Formats:\n" +
+    "  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n" +
+    "  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n" +
+    "  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n" +
+    "  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n" +
+    "  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n" +
+    "  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or in algebraic form like 'y=2*e^(0.5x)' (optionally with range e.g., 'y=2*e^(0.5x):-10,10,1')\n" +
+    "  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'";
+
   if (args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");
-    // Changed usage message inner quotes to single quotes to avoid syntax issues
-    console.log(`\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or in algebraic form like 'y=2*e^(0.5x)' (optionally with range e.g., 'y=2*e^(0.5x):-10,10,1')\n  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'`);
+    console.log(helpMessage);
     console.log("\nNo arguments provided. Running default demo output.");
-    // Added reference to CONTRIBUTING guidelines
     console.log("For contribution guidelines, please refer to CONTRIBUTING.md");
     const fileContent = plotToSvg({ formulas: [] });
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(`SVG file generated: ${outputFileName}`);
-    // Prevent process exit in test environments
     if (process.env.NODE_ENV !== 'test') {
       process.exit(0);
     } else {
@@ -994,12 +1000,12 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-6");
+    console.log("Equation Plotter Library version 0.2.1-7");
     return;
   }
 
   if (args.includes("--help") || args.includes("-h")) {
-    console.log(`Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or in algebraic form like 'y=2*e^(0.5x)' (optionally with range e.g., 'y=2*e^(0.5x):-10,10,1')\n  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'`);
+    console.log(helpMessage);
     return;
   }
 
@@ -1051,7 +1057,7 @@ const main = async () => {
         try {
           fs.writeFileSync(outputFileName, fileContent, "utf8");
           console.log(`\nFile generated: ${outputFileName}`);
-        } catch {
+        } catch (_) {
           console.error(`Error writing file`);
           resolve();
           return;
@@ -1112,12 +1118,12 @@ const main = async () => {
 
   try {
     fs.writeFileSync(outputFileName, fileContent, "utf8");
-  } catch {
+  } catch (_) {
     console.error(`Error writing file`);
     return;
   }
 
-  let outputType;
+  let outputType = "SVG";
   if (isJson) {
     outputType = "JSON";
   } else if (isCsv) {
@@ -1128,8 +1134,6 @@ const main = async () => {
     outputType = "Markdown";
   } else if (isAscii) {
     outputType = "ASCII";
-  } else {
-    outputType = "SVG";
   }
   console.log(`\n${outputType} file generated: ${outputFileName}`);
 
@@ -1143,10 +1147,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url) && !process.env.VITEST_WO
   (async () => {
     try {
       await main();
-    } catch (error) {
-      console.error(error);
+    } catch (_) {
+      console.error(_);
       if (process.env.NODE_ENV === 'test') {
-        throw error;
+        throw _;
       }
       process.exit(1);
     }
