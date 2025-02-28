@@ -116,29 +116,9 @@ describe("Exported API Functions", () => {
     test("parseSine throws error for invalid sine formula string", () => {
       expect(() => mainModule.parseSine("sine:invalid")).toThrow();
     });
+
+    test("plotToPng throws not implemented error", () => {
+      expect(() => mainModule.plotToPng({ formulas: ["quad:1,0,0,-10,10,1"] })).toThrow("PNG conversion is not implemented yet.");
+    });
   });
-});
-
-// New Test File: tests/unit/run-main.test.js
-// Updated to use async/await
-
-import { test, vi, expect } from "vitest";
-import { main } from "@src/lib/main.js";
-
-test("should run main without deprecated done callback (async)", async () => {
-  const originalWorkerId = process.env.VITEST_WORKER_ID;
-  process.env.VITEST_WORKER_ID = "true";
-  const originalEnv = process.env.NODE_ENV;
-  process.env.NODE_ENV = 'production';
-  const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-  const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-  const originalArgv = process.argv;
-  process.argv = ["node", "src/lib/main.js"];
-  await main();
-  expect(consoleLogSpy).toHaveBeenCalledWith("SVG file generated: output.svg");
-  exitSpy.mockRestore();
-  consoleLogSpy.mockRestore();
-  process.argv = originalArgv;
-  process.env.NODE_ENV = originalEnv;
-  process.env.VITEST_WORKER_ID = originalWorkerId;
 });

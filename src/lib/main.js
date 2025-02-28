@@ -9,6 +9,9 @@
  * Default behavior:
  *   - When no CLI arguments are provided, it prints a usage message, generates a demo SVG file (output.svg),
  *     and exits gracefully.
+ *
+ * Extended functionality:
+ *   - A stub for PNG conversion (plotToPng) has been added to indicate future enhancement for exporting plots as PNG images.
  */
 
 "use strict";
@@ -98,6 +101,12 @@ const plotLogarithmicParam = ({ a = 1, base = Math.E, xMin = 1, xMax = 10, step 
     return arr;
   }, []);
   return points;
+};
+
+// New Function: PNG Conversion Stub
+const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
+  // This is a stub function to indicate PNG conversion functionality to be implemented in the future
+  throw new Error("PNG conversion is not implemented yet.");
 };
 
 // Backward compatible wrappers
@@ -238,7 +247,7 @@ const parseGenericQuadratic = (formulaStr) => {
     return plotQuadraticParam({ ...coeffs, xMin, xMax, step });
   } else if (mainPart.endsWith("=0")) {
     const left = mainPart.split("=")[0];
-    const yRegex = /([+-]?(?:\d*\.?\d*)?)y/;
+    const yRegex = /([+-]?\d*\.?\d*)y/;
     const yMatch = left.match(yRegex);
     if (!yMatch) throw new Error("No y term found in equation: " + formulaStr);
     const coeffStr = yMatch[1];
@@ -907,6 +916,9 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
     content = plotToHtml({ formulas });
   } else if (type === "md") {
     content = plotToMarkdown({ formulas });
+  } else if (type === "png") {
+    // Extended functionality: PNG conversion stub
+    throw new Error("PNG conversion is not implemented yet.");
   } else {
     throw new Error("Unsupported type provided for plotToFile");
   }
@@ -961,7 +973,9 @@ const main = async () => {
 
   if (args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");
-    console.log("No arguments provided. Running default demo output.");
+    // Changed usage message inner quotes to single quotes to avoid syntax issues
+    console.log(`\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or in algebraic form like 'y=2*e^(0.5x)' (optionally with range e.g., 'y=2*e^(0.5x):-10,10,1')\n  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'`);
+    console.log("\nNo arguments provided. Running default demo output.");
     // Added reference to CONTRIBUTING guidelines
     console.log("For contribution guidelines, please refer to CONTRIBUTING.md");
     const fileContent = plotToSvg({ formulas: [] });
@@ -982,7 +996,7 @@ const main = async () => {
   }
 
   if (args.includes("--help") || args.includes("-h")) {
-    console.log(`Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: "quad:y=x^2+2*x+1" or "quadratic:y=x^2+2*x+1" or "x^2+y-1=0" (or with range e.g., "y=x^2+2*x+1:-10,10,1")\n  Linear:    "linear:m,b[,xMin,xMax,step]" or algebraic form like "y=2x+3" (or "y=2x+3:-10,10,1")\n  Sine:      "sine:amplitude,frequency,phase[,xMin,xMax,step]"\n  Cosine:    "cosine:amplitude,frequency,phase[,xMin,xMax,step]" or "cos:..."\n  Polar:     "polar:scale,multiplier,step[,degMin,degMax]"\n  Exponential: "exponential:a,b,xMin,xMax,step" or "exp:a,b,xMin,xMax,step" or in algebraic form like "y=2*e^(0.5x)" (optionally with range e.g., "y=2*e^(0.5x):-10,10,1")\n  Logarithmic: "log:a,base,xMin,xMax,step" or "ln:a,base,xMin,xMax,step"\n`);
+    console.log(`Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\nOptions:\n  --help, -h         Show this help message\n  --json             Generate output as JSON instead of SVG\n  --csv              Generate output as CSV instead of SVG\n  --ascii            Generate output as ASCII art instead of SVG\n  --md               Generate output as Markdown instead of SVG\n  --html             Generate output as HTML\n  --grid             Overlay grid lines on SVG plots\n  --debug            Output internal parsed plot data for debugging\n  --interactive      Enable interactive CLI mode for real-time user input\n  --version          Show version information\n\nFormula String Formats:\n  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or in algebraic form like 'y=2*e^(0.5x)' (optionally with range e.g., 'y=2*e^(0.5x):-10,10,1')\n  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'\n`);
     return;
   }
 
@@ -1145,6 +1159,7 @@ export {
   plotToHtml,
   plotToMarkdown,
   plotToFile,
+  plotToPng,
   plotFromString,
   plotQuadratic,
   plotSine,
