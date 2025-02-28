@@ -6,7 +6,7 @@
 
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately without waiting for user input.
-- **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
+- **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** Code has been refactored for better consistency in structure and formatting, in line with our contributing guidelines.
 - **Extended Functionality:** A stub for PNG conversion has been added (via the `plotToPng` function). This stub now explicitly throws a "PNG conversion is not implemented yet." error, paving the way for future enhancements in exporting plots as PNG images.
 
@@ -31,7 +31,7 @@ npm run start output.png
   Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. A new test ensures that the PNG conversion stub correctly throws a not implemented error.
 
 - **Documentation & Contributions:**
-  Interested in contributing? We welcome your contributions! Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process and project guidelines. Our contributing guidelines ensure that every contribution aligns with our mission to be a go-to plot library with a CLI—"the jq of formulae visualisations." 
+  Interested in contributing? We welcome your contributions! Please refer to our detailed [CONTRIBUTING.md](CONTRIBUTING.md) which outlines our fully automated contribution workflow using intentïon agentic‑lib. Following these guidelines ensures that your contributions meet our project standards and align with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Running the CLI
 
@@ -105,7 +105,7 @@ As the project evolves, you can tune the following files:
 
 ## Contributing
 
-Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution workflow using intentïon agentic‑lib. Your contributions are welcome and will help the project evolve in a consistent manner. Follow the guidelines outlined in CONTRIBUTING.md to ensure smooth integration of your contributions.
+Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process using intentïon agentic‑lib. Your contributions are welcome and important to help the project evolve consistently. Following the steps outlined in CONTRIBUTING.md ensures that every contribution aligns with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Diary of an Agentic Coding System - Day 1
 

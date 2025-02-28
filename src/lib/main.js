@@ -13,6 +13,8 @@
  * Extended functionality:
  *   - A stub for PNG conversion (plotToPng) has been added. It now explicitly throws a "PNG conversion is not implemented yet." error,
  *     paving the way for future enhancements to export plots as PNG images.
+ *
+ * For detailed contribution guidelines and automated workflow process, please refer to CONTRIBUTING.md.
  */
 
 "use strict";
