@@ -4,14 +4,12 @@ import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
 import readline from "readline";
 
-// Basic import test
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
   });
 });
 
-// Exported API tests
 describe("Exported API Functions", () => {
   test("plotToSvg returns string containing <svg>", () => {
     const svg = mainModule.plotToSvg({ formulas: ["quad:1,0,0,-10,10,1"] });
@@ -75,7 +73,7 @@ describe("Exported API Functions", () => {
       question: vi.fn((prompt, callback) => {
         callback("y=2x+3:-10,10,1");
       }),
-      close: vi.fn(),
+      close: vi.fn()
     };
     vi.spyOn(readline, "createInterface").mockReturnValue(rlMock);
     const originalArgv = process.argv;
@@ -117,9 +115,8 @@ describe("Exported API Functions", () => {
   });
 });
 
-// File: tests/unit/run-main.test.js
-import { describe, test, expect, vi } from "vitest";
-import * as mainModule from "@src/lib/main.js";
+// Separate file: tests/unit/run-main.test.js
+// We combine this with the above file to avoid redeclaration of identifiers
 
 describe("Run Main Test", () => {
   test("should run main without deprecated done callback (async)", async () => {
