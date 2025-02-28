@@ -8,7 +8,7 @@
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately without waiting for user input.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
 - **Improved Consistency:** Code has been refactored for better consistency in structure and formatting, in line with our contributing guidelines.
-- **Extended Functionality:** A stub for PNG conversion has been added (via the `plotToPng` function) to pave the way for future enhancements in exporting plots as PNG images.
+- **Extended Functionality:** A stub for PNG conversion has been added (via the `plotToPng` function). This stub now explicitly throws a "PNG conversion is not implemented yet." error, paving the way for future enhancements in exporting plots as PNG images.
 
 Generated using:
 ```
@@ -81,7 +81,7 @@ While the Equation Plotter CLI is fully functional, the following enhancements a
 
 - **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom plot titles.
 - **Summary Statistics:** Provide summary statistics for each plotted function.
-- **PNG Conversion:** Enable exporting plots as PNG images. A stub for this functionality (`plotToPng`) is already in place.
+- **PNG Conversion:** The PNG conversion function is currently a stub that throws a "not implemented" error. Future enhancements will provide full PNG export functionality.
 - **Enhanced Interactive Mode:** Further streamline real-time user interaction for a smoother experience.
 
 ## Linting
