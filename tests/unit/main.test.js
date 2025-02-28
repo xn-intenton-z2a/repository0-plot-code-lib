@@ -1,6 +1,5 @@
 /* global describe, test, expect, vi */
 // File: tests/unit/main.test.js
-/* eslint-disable no-shadow */
 
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
