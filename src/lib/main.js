@@ -968,7 +968,8 @@ const main = async () => {
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(`SVG file generated: ${outputFileName}`);
-    return;
+    process.exit(0);
+    // return;  // process.exit terminates the process
   }
 
   if (args.includes("--version")) {
