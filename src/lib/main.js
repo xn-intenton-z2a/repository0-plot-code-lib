@@ -83,7 +83,6 @@ const plotLogarithmicParam = ({ a = 1, base = Math.E, xMin = 1, xMax = 10, step 
 const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
-const plotPolar = () => plotPolarParam();
 // Changed default linear plot to use y = 2x + 3 for better demonstration
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
@@ -848,7 +847,9 @@ const plotToHtml = ({ formulas = [], grid = false } = {}) => {
   </style>
 </head>
 <body>
-  <div>${svgContent}</div>
+  <div>
+    ${svgContent}
+  </div>
 </body>
 </html>`;
 };
