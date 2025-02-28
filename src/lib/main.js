@@ -942,9 +942,20 @@ const demoTest = () => {
   console.log("=== End Demo Test Output ===");
 };
 
+// Helper function to determine output type to avoid nested ternaries
+const determineOutputType = (isJson, isCsv, isHtml, isMarkdown, isAscii) => {
+  if (isJson) return "JSON";
+  if (isCsv) return "CSV";
+  if (isHtml) return "HTML";
+  if (isMarkdown) return "Markdown";
+  if (isAscii) return "ASCII";
+  return "SVG";
+};
+
 // Main Execution
 const main = async () => {
   const args = process.argv.slice(2);
+
   const helpMessage = "\nUsage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\n" +
     "Options:\n" +
     "  --help, -h         Show this help message\n" +
@@ -1112,6 +1123,7 @@ const main = async () => {
   else if (isHtml) outputType = "HTML";
   else if (isMarkdown) outputType = "Markdown";
   else if (isAscii) outputType = "ASCII";
+  //const outputType = determineOutputType(isJson, isCsv, isHtml, isMarkdown, isAscii);
   console.log(`\n${outputType} file generated: ${outputFileName}`);
 
   console.log("\nText Representation of Plots:");
