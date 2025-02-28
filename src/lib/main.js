@@ -5,16 +5,16 @@
  * 
  * This file contains all the functions required for parsing and generating plots from
  * mathematical formulas. It follows the contributing guidelines outlined in CONTRIBUTING.md.
- * 
+ *
  * Default behavior:
  *   - When no CLI arguments are provided, it prints a usage message, generates a demo SVG file (output.svg),
  *     and exits gracefully.
  *
  * Extended functionality:
- *   - A stub for PNG conversion (plotToPng) has been added. It now explicitly throws a "PNG conversion is not implemented yet." error,
- *     paving the way for future enhancements to export plots as PNG images.
+ *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error,
+ *     paving the way for future enhancements.
  *
- * For detailed contribution guidelines and automated workflow process, please refer to CONTRIBUTING.md.
+ * For detailed contribution guidelines and the automated workflow process, please refer to CONTRIBUTING.md.
  */
 
 "use strict";
@@ -47,7 +47,7 @@ const range = (start, end, step = 1) => {
 };
 
 /**
- * Formats a number to 2 decimals and avoids -0.00 representation.
+ * Formats a number to 2 decimal places and avoids a -0.00 representation.
  * @param {number} n
  * @returns {string}
  */
@@ -112,7 +112,6 @@ const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
 };
 
 // Backward compatible wrappers
-
 const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
@@ -204,7 +203,7 @@ const parseGenericLinear = (formulaStr) => {
   }
   const expr = exprPart.substring(2);
   if (expr.includes("x^2")) {
-    throw new Error("Detected quadratic term in what should be a linear formula: " + formulaStr);
+    throw new Error("Detected quadratic term in a linear formula: " + formulaStr);
   }
   let m = 1;
   let b = 0;
@@ -267,7 +266,7 @@ const parseGenericQuadratic = (formulaStr) => {
     });
   } else {
     const partsEq = mainPart.split("=");
-    if (partsEq.length !== 2) throw new Error("Unsupported formula format for quadratic parsing: " + formulaStr);
+    if (partsEq.length !== 2) throw new Error("Unsupported quadratic formula format: " + formulaStr);
     const left = partsEq[0];
     const right = partsEq[1] || "0";
     if (left.includes("y")) {
@@ -275,9 +274,7 @@ const parseGenericQuadratic = (formulaStr) => {
       let yCoeff = 1;
       if (yMatch) {
         const coeffStr = yMatch[1];
-        if (coeffStr === "" || coeffStr === "+") yCoeff = 1;
-        else if (coeffStr === "-") yCoeff = -1;
-        else yCoeff = parseFloat(coeffStr);
+        yCoeff = coeffStr === "" || coeffStr === "+" ? 1 : coeffStr === "-" ? -1 : parseFloat(coeffStr);
       }
       const remaining = left.replace(/([+-]?\d*(?:\.\d+)?)y/, "");
       const constantRight = parseFloat(right) || 0;
@@ -295,9 +292,7 @@ const parseGenericQuadratic = (formulaStr) => {
       let yCoeff = 1;
       if (yMatch) {
         const coeffStr = yMatch[1];
-        if (coeffStr === "" || coeffStr === "+") yCoeff = 1;
-        else if (coeffStr === "-") yCoeff = -1;
-        else yCoeff = parseFloat(coeffStr);
+        yCoeff = coeffStr === "" || coeffStr === "+" ? 1 : coeffStr === "-" ? -1 : parseFloat(coeffStr);
       }
       const remaining = right.replace(/([+-]?\d*(?:\.\d+)?)y/, "");
       const constantLeft = parseFloat(left) || 0;
@@ -920,33 +915,26 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
 // Demo Test Function
 const demoTest = () => {
   console.log("=== Demo Test Output ===");
-
-  // Demo: JSON output for sine formula
   const demoPlotJson = plotToJson({ formulas: ["sine:1,1,0,0,360,30"] });
   console.log("Plot JSON output for formula 'sine:1,1,0,0,360,30':");
   console.log(JSON.stringify(demoPlotJson, null, 2));
 
-  // Demo: Markdown output for a linear formula
   const demoMarkdown = plotToMarkdown({ formulas: ["y=2x+3:-10,10,1"] });
   console.log("\nPlot Markdown output for formula 'y=2x+3:-10,10,1':");
   console.log(demoMarkdown);
 
-  // Demo: Text output for a quadratic formula
   const demoText = plotToText({ formulas: ["quad:1,0,0,-10,10,1"] });
   console.log("\nPlot Text output for formula 'quad:1,0,0,-10,10,1':");
   console.log(demoText);
 
-  // Demo: ASCII art output for sine formula
   const demoAscii = plotToAscii({ formulas: ["sine:1,1,0,0,360,30"] });
   console.log("\nPlot ASCII art output for formula 'sine:1,1,0,0,360,30':");
   console.log(demoAscii);
 
-  // Demo: CSV output for quadratic formula
   const demoCsv = plotToCsv({ formulas: ["quad:1,0,0,-10,10,1"] });
   console.log("\nPlot CSV output for formula 'quad:1,0,0,-10,10,1':");
   console.log(demoCsv);
 
-  // Demo: HTML output for linear formula with grid
   const demoHtml = plotToHtml({ formulas: ["y=2x+3:-10,10,1"], grid: true });
   console.log("\nPlot HTML output for formula 'y=2x+3:-10,10,1':");
   console.log(demoHtml);
@@ -1129,7 +1117,13 @@ const main = async () => {
     return;
   }
 
-  const outputType = determineOutputType(isJson, isCsv, isHtml, isMarkdown, isAscii);
+  let outputType = "SVG";
+  if (isJson) outputType = "JSON";
+  else if (isCsv) outputType = "CSV";
+  else if (isHtml) outputType = "HTML";
+  else if (isMarkdown) outputType = "Markdown";
+  else if (isAscii) outputType = "ASCII";
+  //const outputType = determineOutputType(isJson, isCsv, isHtml, isMarkdown, isAscii);
   console.log(`\n${outputType} file generated: ${outputFileName}`);
 
   console.log("\nText Representation of Plots:");
@@ -1142,10 +1136,10 @@ if (process.argv[1] === fileURLToPath(import.meta.url) && !process.env.VITEST_WO
   (async () => {
     try {
       await main();
-    } catch (_) {
-      console.error(_);
+    } catch (err) {
+      console.error(err);
       if (process.env.NODE_ENV === 'test') {
-        throw _;
+        throw err;
       }
       process.exit(1);
     }
