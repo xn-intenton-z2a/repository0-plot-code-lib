@@ -108,7 +108,6 @@ const plotLogarithmicParam = ({ a = 1, base = Math.E, xMin = 1, xMax = 10, step 
 
 // Extended Function: PNG Conversion Stub
 const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
-  // This function is a stub for future PNG conversion functionality.
   throw new Error("PNG conversion is not implemented yet.");
 };
 
@@ -117,7 +116,7 @@ const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
 const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
-const plotPolar = () => plotPolarParam(); // Added missing wrapper for plotPolar
+const plotPolar = () => plotPolarParam();
 // Changed default linear plot to use y = 2x + 3 for better demonstration
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
@@ -346,7 +345,6 @@ const parseGenericExponential = (formulaStr) => {
     if (rangeParams.length > 1 && !isNaN(rangeParams[1])) xMax = rangeParams[1];
     if (rangeParams.length > 2 && !isNaN(rangeParams[2])) step = rangeParams[2];
   }
-  // Simplified regex pattern to avoid nested quantifiers and unsafe constructs
   const regex = /^y=([+-]?\d*(?:\.\d+)?)\*?e\^\(?([+-]?\d+(?:\.\d+)?)\*?x\)?/i;
   const match = exprPart.match(regex);
   if (match) {
@@ -907,7 +905,6 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
   } else if (type === "md") {
     content = plotToMarkdown({ formulas });
   } else if (type === "png") {
-    // Extended functionality: PNG conversion stub
     throw new Error("PNG conversion is not implemented yet.");
   } else {
     throw new Error("Unsupported type provided for plotToFile");
@@ -957,11 +954,20 @@ const demoTest = () => {
   console.log("=== End Demo Test Output ===");
 };
 
+// Helper function to determine output type to avoid nested ternaries
+const determineOutputType = (isJson, isCsv, isHtml, isMarkdown, isAscii) => {
+  if (isJson) return "JSON";
+  if (isCsv) return "CSV";
+  if (isHtml) return "HTML";
+  if (isMarkdown) return "Markdown";
+  if (isAscii) return "ASCII";
+  return "SVG";
+};
+
 // Main Execution
 const main = async () => {
   const args = process.argv.slice(2);
 
-  // Define a help message to avoid template literal syntax issues
   const helpMessage = "\nUsage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]\n\n" +
     "Options:\n" +
     "  --help, -h         Show this help message\n" +
@@ -1123,18 +1129,7 @@ const main = async () => {
     return;
   }
 
-  let outputType = "SVG";
-  if (isJson) {
-    outputType = "JSON";
-  } else if (isCsv) {
-    outputType = "CSV";
-  } else if (isHtml) {
-    outputType = "HTML";
-  } else if (isMarkdown) {
-    outputType = "Markdown";
-  } else if (isAscii) {
-    outputType = "ASCII";
-  }
+  const outputType = determineOutputType(isJson, isCsv, isHtml, isMarkdown, isAscii);
   console.log(`\n${outputType} file generated: ${outputFileName}`);
 
   console.log("\nText Representation of Plots:");
