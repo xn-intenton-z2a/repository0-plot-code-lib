@@ -122,6 +122,8 @@ import * as mainModule from "@src/lib/main.js";
 
 describe("Run Main Test", () => {
   test("should run main without deprecated done callback (async)", async () => {
+    const originalWorkerId = process.env.VITEST_WORKER_ID;
+    process.env.VITEST_WORKER_ID = "true";
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = 'production';
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
@@ -135,5 +137,6 @@ describe("Run Main Test", () => {
     consoleLogSpy.mockRestore();
     process.argv = originalArgv;
     process.env.NODE_ENV = originalEnv;
+    process.env.VITEST_WORKER_ID = originalWorkerId;
   });
 });
