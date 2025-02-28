@@ -1,3 +1,4 @@
+/* global describe, test, expect, vi */
 // File: tests/unit/main.test.js
 /* eslint-disable no-shadow */
 
@@ -6,13 +7,11 @@ import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
 import readline from "readline";
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
   });
 });
-
 
 describe("Exported API Functions", () => {
   test("plotToSvg returns string containing <svg>", () => {
