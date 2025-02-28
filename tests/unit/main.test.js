@@ -46,6 +46,7 @@ describe("Exported API Functions", () => {
     const html = mainModule.plotToHtml({ formulas: ["y=2x+3:-10,10,1"], grid: true });
     expect(html).toContain("<!DOCTYPE html>");
     expect(html).toContain("<html");
+    expect(html).toContain("<div>");
   });
 
   test("plotToMarkdown returns markdown formatted string", () => {

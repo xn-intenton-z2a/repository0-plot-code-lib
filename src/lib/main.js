@@ -848,8 +848,7 @@ const plotToHtml = ({ formulas = [], grid = false } = {}) => {
   </style>
 </head>
 <body>
-
-div>${svgContent}</div>
+  <div>${svgContent}</div>
 </body>
 </html>`;
 };
@@ -1138,12 +1137,11 @@ const main = async () => {
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");
     console.log(`SVG file generated: ${outputFileName}`);
-    // Gracefully end execution when run in default mode
     return;
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.0-17");
+    console.log("Equation Plotter Library version 0.2.1-4");
     return;
   }
 
