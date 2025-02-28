@@ -962,6 +962,8 @@ const main = async () => {
   if (args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");
     console.log("No arguments provided. Running default demo output.");
+    // Added reference to CONTRIBUTING guidelines
+    console.log("For contribution guidelines, please refer to CONTRIBUTING.md");
     const fileContent = plotToSvg({ formulas: [] });
     const outputFileName = "output.svg";
     fs.writeFileSync(outputFileName, fileContent, "utf8");

@@ -5,7 +5,7 @@
 `plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter—a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML) and includes the following features:
 
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
-- **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates gracefully without forcing termination.
+- **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates gracefully.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
 - **Improved Consistency:** Code has been refactored for better consistency in structure and formatting, in line with our contributing guidelines.
 
@@ -30,7 +30,7 @@ npm run start output.png
   Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions to improve test coverage.
 
 - **Documentation & Contributions:**
-  Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process and project guidelines. Following these guidelines ensures seamless integration of your contributions.
+  Interested in contributing? We welcome your contributions! Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process and project guidelines. Our contributing guidelines ensure that every contribution aligns with our mission to be a go-to plot library with a CLI—"the jq of formulae visualisations." 
 
 ## Running the CLI
 
@@ -104,7 +104,7 @@ As the project evolves, you can tune the following files:
 
 ## Contributing
 
-Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution workflow using intentïon agentic‑lib. Your contributions are welcome and will help the project evolve in a consistent manner.
+Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution workflow using intentïon agentic‑lib. Your contributions are welcome and will help the project evolve in a consistent manner. Follow the guidelines outlined in CONTRIBUTING.md to ensure smooth integration of your contributions.
 
 ## Diary of an Agentic Coding System - Day 1
 
