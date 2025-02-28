@@ -8,6 +8,7 @@
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately without waiting for user input.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
 - **Improved Consistency:** Code has been refactored for better consistency in structure and formatting, in line with our contributing guidelines.
+- **Extended Functionality:** A stub for PNG conversion has been added (via the `plotToPng` function) to pave the way for future enhancements in exporting plots as PNG images.
 
 Generated using:
 ```
@@ -21,13 +22,13 @@ npm run start output.png
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and now features improved consistency throughout the codebase.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and now features improved consistency and an extended functionality stub for PNG conversion.
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions to improve test coverage.
+  Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. A new test ensures that the PNG conversion stub correctly throws a not implemented error.
 
 - **Documentation & Contributions:**
   Interested in contributing? We welcome your contributions! Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process and project guidelines. Our contributing guidelines ensure that every contribution aligns with our mission to be a go-to plot library with a CLI—"the jq of formulae visualisations." 
@@ -80,7 +81,7 @@ While the Equation Plotter CLI is fully functional, the following enhancements a
 
 - **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom plot titles.
 - **Summary Statistics:** Provide summary statistics for each plotted function.
-- **PNG Conversion:** Enable exporting plots as PNG images.
+- **PNG Conversion:** Enable exporting plots as PNG images. A stub for this functionality (`plotToPng`) is already in place.
 - **Enhanced Interactive Mode:** Further streamline real-time user interaction for a smoother experience.
 
 ## Linting
