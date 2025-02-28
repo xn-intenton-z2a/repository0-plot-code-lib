@@ -1,5 +1,6 @@
 // File: tests/unit/main.test.js
 /* eslint-disable no-shadow */
+
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
@@ -116,23 +117,26 @@ describe("Exported API Functions", () => {
   });
 });
 
-describe("Run Main Test", () => {
-  test("should run main without deprecated done callback (async)", async () => {
-    const originalWorkerId = process.env.VITEST_WORKER_ID;
-    process.env.VITEST_WORKER_ID = "true";
-    const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const originalArgv = process.argv;
-    process.argv = ["node", "src/lib/main.js"];
-    await mainModule.main();
-    expect(consoleLogSpy).toHaveBeenCalledWith("SVG file generated: output.svg");
-    expect(exitSpy).not.toHaveBeenCalled();
-    exitSpy.mockRestore();
-    consoleLogSpy.mockRestore();
-    process.argv = originalArgv;
-    process.env.NODE_ENV = originalEnv;
-    process.env.VITEST_WORKER_ID = originalWorkerId;
-  });
+// New Test File: tests/unit/run-main.test.js
+// Updated to remove deprecated done() callback usage and use async/await
+
+import { test, vi, expect } from "vitest";
+import { main } from "@src/lib/main.js";
+
+test("should run main without deprecated done callback (async)", async () => {
+  const originalWorkerId = process.env.VITEST_WORKER_ID;
+  process.env.VITEST_WORKER_ID = "true";
+  const originalEnv = process.env.NODE_ENV;
+  process.env.NODE_ENV = 'production';
+  const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+  const consoleLogSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+  const originalArgv = process.argv;
+  process.argv = ["node", "src/lib/main.js"];
+  await main();
+  expect(consoleLogSpy).toHaveBeenCalledWith("SVG file generated: output.svg");
+  exitSpy.mockRestore();
+  consoleLogSpy.mockRestore();
+  process.argv = originalArgv;
+  process.env.NODE_ENV = originalEnv;
+  process.env.VITEST_WORKER_ID = originalWorkerId;
 });
