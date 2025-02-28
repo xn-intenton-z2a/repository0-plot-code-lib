@@ -110,4 +110,4 @@ Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md)
 
 In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release aligns the CLI behavior with the contributing guidelines, ensuring that a default usage message and demo output are displayed when no input is provided and that the program terminates immediately without waiting for further input.
 
-**Version:** Equation Plotter Library version 0.2.1-4
+**Version:** Equation Plotter Library version 0.2.1-6

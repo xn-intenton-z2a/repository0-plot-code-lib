@@ -125,7 +125,7 @@ describe("Exported API Functions", () => {
 import { test, vi, expect } from "vitest";
 import { main } from "@src/lib/main.js";
 
- test("should run main without deprecated done callback (async)", async () => {
+test("should run main without deprecated done callback (async)", async () => {
   const originalWorkerId = process.env.VITEST_WORKER_ID;
   process.env.VITEST_WORKER_ID = "true";
   const originalEnv = process.env.NODE_ENV;
