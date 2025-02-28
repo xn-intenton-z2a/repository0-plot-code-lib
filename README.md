@@ -7,7 +7,7 @@
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates gracefully without forcing termination.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown, `.txt` for ASCII).
-- **Improved Error Handling & Consistency:** Robust input validation and consistent code formatting ensure maintainability.
+- **Improved Consistency:** Code has been refactored for better consistency in structure and formatting, in line with our contributing guidelines.
 
 Generated using:
 ```
@@ -21,7 +21,7 @@ npm run start output.png
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md).
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and now features improved consistency throughout the codebase.
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
