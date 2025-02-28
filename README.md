@@ -22,7 +22,7 @@ npm run start output.png
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and now features improved consistency and an extended functionality stub for PNG conversion.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and now features improved consistency as well as an extended PNG conversion stub.
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
@@ -31,7 +31,7 @@ npm run start output.png
   Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. A new test ensures that the PNG conversion stub correctly throws a not implemented error.
 
 - **Documentation & Contributions:**
-  Interested in contributing? We welcome your contributions! Please refer to our detailed [CONTRIBUTING.md](CONTRIBUTING.md) which outlines our fully automated contribution workflow using intentïon agentic‑lib. Following these guidelines ensures that your contributions meet our project standards and align with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+  We welcome contributions! Please ensure your changes adhere to our [CONTRIBUTING.md](CONTRIBUTING.md) guidelines, which outline our fully automated contribution workflow using intentïon agentic‑lib. This alignment ensures every contribution meets our project standards and our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Running the CLI
 
@@ -105,7 +105,7 @@ As the project evolves, you can tune the following files:
 
 ## Contributing
 
-Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process using intentïon agentic‑lib. Your contributions are welcome and important to help the project evolve consistently. Following the steps outlined in CONTRIBUTING.md ensures that every contribution aligns with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process using intentïon agentic‑lib. Your contributions are welcome and vital to our project’s evolution. Following these guidelines ensures that every contribution aligns with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Diary of an Agentic Coding System - Day 1
 
