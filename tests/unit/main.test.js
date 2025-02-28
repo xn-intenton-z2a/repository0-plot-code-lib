@@ -6,11 +6,13 @@ import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
 import readline from "readline";
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
   });
 });
+
 
 describe("Exported API Functions", () => {
   test("plotToSvg returns string containing <svg>", () => {
@@ -118,7 +120,7 @@ describe("Exported API Functions", () => {
 });
 
 // New Test File: tests/unit/run-main.test.js
-// Updated to remove deprecated done() callback usage and use async/await
+// Updated to use async/await
 
 import { test, vi, expect } from "vitest";
 import { main } from "@src/lib/main.js";
