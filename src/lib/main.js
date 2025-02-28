@@ -1168,10 +1168,18 @@ const main = async () => {
         const isJson = filteredArgs.includes("--json");
         const isCsv = filteredArgs.includes("--csv");
         const isHtml = filteredArgs.includes("--html");
-        const isAscii = filteredArgs.includes("--ascii");
-        const isMarkdown = filteredArgs.includes("--md");
+        let isAscii = filteredArgs.includes("--ascii");
+        let isMarkdown = filteredArgs.includes("--md");
         const isDebug = filteredArgs.includes("--debug");
         const gridEnabled = filteredArgs.includes("--grid");
+
+        if (!isJson && !isCsv && !isHtml && !isMarkdown && !isAscii) {
+          if (outputFileName.toLowerCase().endsWith(".md")) {
+            isMarkdown = true;
+          } else if (outputFileName.toLowerCase().endsWith(".txt")) {
+            isAscii = true;
+          }
+        }
 
         if (isDebug) {
           console.log("\nDebug: Internal parsed plot data:");
@@ -1216,8 +1224,8 @@ const main = async () => {
   const isJson = args.includes("--json");
   const isCsv = args.includes("--csv");
   const isHtml = args.includes("--html");
-  const isAscii = args.includes("--ascii");
-  const isMarkdown = args.includes("--md");
+  let isAscii = args.includes("--ascii");
+  let isMarkdown = args.includes("--md");
   const isDebug = args.includes("--debug");
   const gridEnabled = args.includes("--grid");
 

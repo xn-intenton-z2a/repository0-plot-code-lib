@@ -115,9 +115,6 @@ describe("Exported API Functions", () => {
   });
 });
 
-// Separate file: tests/unit/run-main.test.js
-// We combine this with the above file to avoid redeclaration of identifiers
-
 describe("Run Main Test", () => {
   test("should run main without deprecated done callback (async)", async () => {
     const originalWorkerId = process.env.VITEST_WORKER_ID;
