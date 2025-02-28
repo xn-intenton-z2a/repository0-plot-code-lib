@@ -848,7 +848,9 @@ const plotToHtml = ({ formulas = [], grid = false } = {}) => {
   </style>
 </head>
 <body>
-  <div>${svgContent}</div>
+  <div>
+    ${svgContent}
+  </div>
 </body>
 </html>`;
 };
