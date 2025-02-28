@@ -106,7 +106,6 @@ describe("Exported API Functions", () => {
     expect(result).toEqual([]);
   });
 
-  // Error Handling Tests
   describe("Error Handling", () => {
     test("parseGenericQuadratic throws error for invalid input", () => {
       expect(() => mainModule.parseGenericQuadratic("invalid formula")).toThrow();
