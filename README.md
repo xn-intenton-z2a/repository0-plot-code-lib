@@ -4,7 +4,7 @@
 
 `plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter — a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML) and includes the following features:
 
-- **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
+- **Interactive Mode:** Allows real-time user input via the `--interactive` flag. (Interactive mode now includes improved error handling and resource cleanup.)
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** Code has been refactored for better consistency in structure and formatting in line with our contributing guidelines.
@@ -84,7 +84,7 @@ Future plans include:
 - **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom plot titles.
 - **Summary Statistics:** Provide summary statistics for each plotted function.
 - **PNG Conversion:** Currently a stub; future releases will enable full PNG export functionality.
-- **Enhanced Interactive Mode:** Streamline real-time user interactions.
+- **Enhanced Interactive Mode:** Streamline real-time user interactions and improve error handling.
 
 ## Linting
 
@@ -107,7 +107,8 @@ As the project evolves, tune the following files:
 
 ## Contributing
 
-Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process using intentïon agentic‑lib. Your contributions are vital to our project’s evolution, and adherence to these guidelines ensures every contribution aligns with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process using intentïon agentic‑lib. 
+Your contributions are vital to our project’s evolution, and adherence to these guidelines ensures every contribution aligns with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Diary of an Agentic Coding System - Day 1
 
