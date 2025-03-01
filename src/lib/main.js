@@ -4,17 +4,17 @@
  * Equation Plotter Library
  * 
  * This file contains all the functions required for parsing and generating plots from
- * mathematical formulas. It follows the contributing guidelines outlined in CONTRIBUTING.md.
- *
+ * mathematical formulas. It adheres to the contributing guidelines in CONTRIBUTING.md.
+ * 
  * Default behavior:
  *   - When no CLI arguments are provided, it prints a usage message, generates a demo SVG file (output.svg),
  *     and exits gracefully.
- *
+ * 
  * Extended functionality:
  *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
- *     This stub serves as a placeholder for future enhancements where full PNG support will be implemented.
+ *     This serves as a placeholder for future PNG support.
  *
- * For detailed contribution guidelines and the automated workflow process, please refer to CONTRIBUTING.md.
+ * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
 
 "use strict";
@@ -26,7 +26,7 @@ import readline from "readline";
 // Utility Functions
 
 /**
- * Generates an array of numbers from start to end with a given step.
+ * Generates an array of numbers from start up to end with a given step.
  * @param {number} start
  * @param {number} end
  * @param {number} [step=1]
@@ -47,11 +47,11 @@ const range = (start, end, step = 1) => {
 };
 
 /**
- * Formats a number to 2 decimal places and avoids a -0.00 representation.
+ * Formats a number to 2 decimal places, ensuring no -0.00 output.
  * @param {number} n
  * @returns {string}
  */
-const formatNumber = (n) => {
+const formatNumber = n => {
   const s = n.toFixed(2);
   return s === "-0.00" ? "0.00" : s;
 };
@@ -111,19 +111,19 @@ const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
   throw new Error("PNG conversion is not implemented yet.");
 };
 
-// Backward compatible wrappers
+// Backward-compatible wrappers
 const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
 const plotPolar = () => plotPolarParam();
-// Changed default linear plot to use y = 2x + 3 for better demonstration
+// For demonstration, linear plot now uses y = 2x + 3
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
 const plotLogarithmic = () => plotLogarithmicParam();
 
 // Formula Parsing Functions
 
-const parseQuadratic = (formulaStr) => {
+const parseQuadratic = formulaStr => {
   const parts = formulaStr.split(":");
   if (parts.length < 2) throw new Error("Invalid quadratic formula string: " + formulaStr);
   const params = parts[1].split(",").map(Number);
@@ -138,7 +138,7 @@ const parseQuadratic = (formulaStr) => {
   });
 };
 
-const parseSine = (formulaStr) => {
+const parseSine = formulaStr => {
   const parts = formulaStr.split(":");
   if (parts.length < 2 || !parts[1].trim()) {
     throw new Error("Invalid sine formula string: " + formulaStr);
@@ -152,7 +152,7 @@ const parseSine = (formulaStr) => {
   return plotSineParam({ amplitude, frequency, phase, xMin, xMax, step });
 };
 
-const parseCosine = (formulaStr) => {
+const parseCosine = formulaStr => {
   const parts = formulaStr.split(":");
   if (parts.length < 2) throw new Error("Invalid cosine formula string: " + formulaStr);
   const params = parts[1].split(",").map(Number);
@@ -167,7 +167,7 @@ const parseCosine = (formulaStr) => {
   });
 };
 
-const parsePolar = (formulaStr) => {
+const parsePolar = formulaStr => {
   const parts = formulaStr.split(":");
   if (parts.length < 2) throw new Error("Invalid polar formula string: " + formulaStr);
   const params = parts[1].split(",").map(Number);
@@ -179,7 +179,7 @@ const parsePolar = (formulaStr) => {
   return plotPolarParam({ scale, multiplier, step, degMin, degMax });
 };
 
-const parseLinear = (formulaStr) => {
+const parseLinear = formulaStr => {
   const parts = formulaStr.split(":");
   if (parts.length < 2) throw new Error("Invalid linear formula string: " + formulaStr);
   const params = parts[1].split(",").map(Number);
@@ -193,8 +193,7 @@ const parseLinear = (formulaStr) => {
   });
 };
 
-// Parse a generic linear formula in algebraic form, e.g., "y=2x+3" with optional range parameters
-const parseGenericLinear = (formulaStr) => {
+const parseGenericLinear = formulaStr => {
   const parts = formulaStr.split(":");
   const exprPart = parts[0].replace(/\s+/g, "");
   const rangePart = parts.length > 1 ? parts[1].trim() : "";
@@ -227,9 +226,7 @@ const parseGenericLinear = (formulaStr) => {
   return plotLinearParam({ m, b, xMin, xMax, step });
 };
 
-// Parse a generic quadratic formula in standard algebraic form with optional range
-const parseGenericQuadratic = (formulaStr) => {
-  // Improved error handling in parseGenericQuadratic to catch misformatted formulas
+const parseGenericQuadratic = formulaStr => {
   const parts = formulaStr.split(":");
   const mainPart = parts[0].replace(/\s+/g, "").toLowerCase();
   const rangePart = parts.length > 1 ? parts[1].trim() : "";
@@ -313,8 +310,7 @@ const parseGenericQuadratic = (formulaStr) => {
   }
 };
 
-// Parse exponential formulas
-const parseExponential = (formulaStr) => {
+const parseExponential = formulaStr => {
   const parts = formulaStr.split(":");
   if (parts.length < 2) throw new Error("Invalid exponential formula string: " + formulaStr);
   const params = parts[1].split(",").map(Number);
@@ -328,7 +324,7 @@ const parseExponential = (formulaStr) => {
   });
 };
 
-const parseGenericExponential = (formulaStr) => {
+const parseGenericExponential = formulaStr => {
   const parts = formulaStr.split(":");
   const exprPart = parts[0].replace(/\s+/g, "");
   const rangePart = parts.length > 1 ? parts[1].trim() : "";
@@ -352,7 +348,7 @@ const parseGenericExponential = (formulaStr) => {
   }
 };
 
-const parseLogarithmic = (formulaStr) => {
+const parseLogarithmic = formulaStr => {
   const parts = formulaStr.split(":");
   if (parts.length < 2) throw new Error("Invalid logarithmic formula string: " + formulaStr);
   const params = parts[1].split(",").map(Number);
@@ -367,7 +363,7 @@ const parseLogarithmic = (formulaStr) => {
 };
 
 // Helper functions for quadratic parsing
-const extractQuadraticCoefficients = (expr) => {
+const extractQuadraticCoefficients = expr => {
   let cleanedExpr = expr.replace(/\s+/g, "").replace(/\+\-/g, "-");
   let a = 0, b = 0, c = 0;
   const aMatch = cleanedExpr.match(/([+-]?\d*(?:\.\d+)?)x\^2/);
@@ -389,7 +385,7 @@ const extractQuadraticCoefficients = (expr) => {
   return { a, b, c };
 };
 
-const invertExpression = (expr) => {
+const invertExpression = expr => {
   const tokens = expr.match(/[+-]?[^+-]+/g) || [];
   const inverted = tokens.map(token => {
     token = token.trim();
@@ -403,7 +399,7 @@ const invertExpression = (expr) => {
 };
 
 // Delegate plotting based on formula string
-const plotFromString = (formulaStr) => {
+const plotFromString = formulaStr => {
   formulaStr = formulaStr.trim();
   const lowerStr = formulaStr.toLowerCase();
   if (lowerStr.startsWith("y=")) {
@@ -559,9 +555,8 @@ const generateSvg = (
     svg += drawRectAxes(50, 50, 700, 180, Math.min(...quadraticPlots.flat().map(p => p.x)), Math.max(...quadraticPlots.flat().map(p => p.x)), Math.min(...quadraticPlots.flat().map(p => p.y)), Math.max(...quadraticPlots.flat().map(p => p.y)));
   }
   const qAllPoints = quadraticPlots.flat();
-  const qValues = qAllPoints.map(p => p.y);
-  let qMinY = Math.min(...qValues);
-  let qMaxY = Math.max(...qValues);
+  let qMinY = Math.min(...qAllPoints.map(p => p.y));
+  let qMaxY = Math.max(...qAllPoints.map(p => p.y));
   if (qMinY === qMaxY) { qMinY -= 10; qMaxY += 10; }
   const qAllX = qAllPoints.map(p => p.x);
   let qMinX = Math.min(...qAllX);
@@ -585,9 +580,8 @@ const generateSvg = (
     svg += drawRectAxes(50, 270, 700, 180, Math.min(...linearPlots.flat().map(p => p.x)), Math.max(...linearPlots.flat().map(p => p.x)), Math.min(...linearPlots.flat().map(p => p.y)), Math.max(...linearPlots.flat().map(p => p.y)));
   }
   const lAllPoints = linearPlots.flat();
-  const lValues = lAllPoints.map(p => p.y);
-  let lMinY = Math.min(...lValues);
-  let lMaxY = Math.max(...lValues);
+  let lMinY = Math.min(...lAllPoints.map(p => p.y));
+  let lMaxY = Math.max(...lAllPoints.map(p => p.y));
   if (lMinY === lMaxY) { lMinY -= 10; lMaxY += 10; }
   const lAllX = lAllPoints.map(p => p.x);
   let lMinX = Math.min(...lAllX);
@@ -611,9 +605,8 @@ const generateSvg = (
     svg += drawRectAxes(50, 490, 700, 180, Math.min(...sinePlots.flat().map(p => p.x)), Math.max(...sinePlots.flat().map(p => p.x)), Math.min(...sinePlots.flat().map(p => p.y)), Math.max(...sinePlots.flat().map(p => p.y)));
   }
   const sAllPoints = sinePlots.flat();
-  const sValues = sAllPoints.map(p => p.y);
-  let sMinY = Math.min(...sValues);
-  let sMaxY = Math.max(...sValues);
+  let sMinY = Math.min(...sAllPoints.map(p => p.y));
+  let sMaxY = Math.max(...sAllPoints.map(p => p.y));
   if (sMinY === sMaxY) { sMinY -= 1; sMaxY += 1; }
   const sAllX = sAllPoints.map(p => p.x);
   let sMinX = Math.min(...sAllX);
@@ -637,11 +630,10 @@ const generateSvg = (
     svg += drawRectAxes(50, 710, 700, 180, Math.min(...cosinePlots.flat().map(p => p.x)), Math.max(...cosinePlots.flat().map(p => p.x)), Math.min(...cosinePlots.flat().map(p => p.y)), Math.max(...cosinePlots.flat().map(p => p.y)));
   }
   const cAllPoints = cosinePlots.flat();
-  const cValues = cAllPoints.map(p => p.y);
-  let cMinY = Math.min(...cValues);
-  let cMaxY = Math.max(...cValues);
+  let cMinY = Math.min(...cAllPoints.map(p => p.y));
+  let cMaxY = Math.max(...cAllPoints.map(p => p.y));
   if (cMinY === cMaxY) { cMinY -= 1; cMaxY += 1; }
-  const cAllX = cosinePlots.flat().map(p => p.x);
+  const cAllX = cAllPoints.map(p => p.x);
   let cMinX = Math.min(...cAllX);
   let cMaxX = Math.max(...cAllX);
   if (cMinX === cMaxX) { cMinX -= 10; cMaxX += 10; }
@@ -685,9 +677,8 @@ const generateSvg = (
     svg += drawRectAxes(50, 1170, 700, 180, Math.min(...exponentialPlots.flat().map(p => p.x)), Math.max(...exponentialPlots.flat().map(p => p.x)), Math.min(...exponentialPlots.flat().map(p => p.y)), Math.max(...exponentialPlots.flat().map(p => p.y)));
   }
   const expAllPoints = exponentialPlots.flat();
-  const expValues = expAllPoints.map(p => p.y);
-  let expMinY = Math.min(...expValues);
-  let expMaxY = Math.max(...expValues);
+  let expMinY = Math.min(...expAllPoints.map(p => p.y));
+  let expMaxY = Math.max(...expAllPoints.map(p => p.y));
   if (expMinY === expMaxY) { expMinY -= 10; expMaxY += 10; }
   const expAllX = exponentialPlots.flat().map(p => p.x);
   let expMinX = Math.min(...expAllX);
@@ -711,9 +702,8 @@ const generateSvg = (
     svg += drawRectAxes(50, 1390, 700, 180, Math.min(...logarithmicPlots.flat().map(p => p.x)), Math.max(...logarithmicPlots.flat().map(p => p.x)), Math.min(...logarithmicPlots.flat().map(p => p.y)), Math.max(...logarithmicPlots.flat().map(p => p.y)));
   }
   const logAllPoints = logarithmicPlots.flat();
-  const logValues = logAllPoints.map(p => p.y);
-  let logMinY = Math.min(...logValues);
-  let logMaxY = Math.max(...logValues);
+  let logMinY = Math.min(...logAllPoints.map(p => p.y));
+  let logMaxY = Math.max(...logAllPoints.map(p => p.y));
   if (logMinY === logMaxY) { logMinY -= 10; logMaxY += 10; }
   const logAllX = logarithmicPlots.flat().map(p => p.x);
   let logMinX = Math.min(...logAllX);
@@ -943,7 +933,7 @@ const demoTest = () => {
   console.log("=== End Demo Test Output ===");
 };
 
-// Helper function to determine output type to avoid nested ternaries
+// Helper to determine output type
 const determineOutputType = (isJson, isCsv, isHtml, isMarkdown, isAscii) => {
   if (isJson) return "JSON";
   if (isCsv) return "CSV";
@@ -975,7 +965,7 @@ const main = async () => {
     "  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n" +
     "  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n" +
     "  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n" +
-    "  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or in algebraic form like 'y=2*e^(0.5x)' (optionally with range e.g., 'y=2*e^(0.5x):-10,10,1')\n" +
+    "  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or 'y=2*e^(0.5x)' (optionally with range)\n" +
     "  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'";
 
   if (args.length === 0) {
@@ -1007,11 +997,10 @@ const main = async () => {
   if (args.includes("--interactive")) {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     await new Promise(resolve => {
-      rl.question("Enter formula strings (semicolon-separated): ", async (answer) => {
+      rl.question("Enter formula strings (semicolon-separated): ", async answer => {
         try {
           const interactiveFormulas = answer.split(";").map(s => s.trim()).filter(Boolean);
           const filteredArgs = args.filter(arg => arg !== "--interactive");
-          const formulasList = interactiveFormulas.length ? interactiveFormulas : [];
           const nonOptionArgs = filteredArgs.filter(arg => !arg.includes(":") && !arg.includes("=") && !["--json", "--csv", "--html", "--ascii", "--md", "--debug", "--grid", "--interactive", "--help", "-h", "--version"].includes(arg));
           const outputFileName = nonOptionArgs.length > 0 ? nonOptionArgs[0] : "output.svg";
           const isJson = filteredArgs.includes("--json");
@@ -1030,21 +1019,21 @@ const main = async () => {
           }
           if (isDebug) {
             console.log("\nDebug: Internal parsed plot data:");
-            console.log(JSON.stringify(getPlotsFromFormulas(formulasList), null, 2));
+            console.log(JSON.stringify(getPlotsFromFormulas(interactiveFormulas), null, 2));
           }
           let fileContent = "";
           if (isJson) {
-            fileContent = JSON.stringify(plotToJson({ formulas: formulasList }), null, 2);
+            fileContent = JSON.stringify(plotToJson({ formulas: interactiveFormulas }), null, 2);
           } else if (isCsv) {
-            fileContent = plotToCsv({ formulas: formulasList });
+            fileContent = plotToCsv({ formulas: interactiveFormulas });
           } else if (isHtml) {
-            fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled });
+            fileContent = plotToHtml({ formulas: interactiveFormulas, grid: gridEnabled });
           } else if (isMarkdown) {
-            fileContent = plotToMarkdown({ formulas: formulasList });
+            fileContent = plotToMarkdown({ formulas: interactiveFormulas });
           } else if (isAscii) {
-            fileContent = plotToAscii({ formulas: formulasList });
+            fileContent = plotToAscii({ formulas: interactiveFormulas });
           } else {
-            fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled });
+            fileContent = plotToSvg({ formulas: interactiveFormulas, grid: gridEnabled });
           }
           try {
             fs.writeFileSync(outputFileName, fileContent, "utf8");
@@ -1055,7 +1044,7 @@ const main = async () => {
             return;
           }
           console.log("\nText Representation of Plots:");
-          console.log(plotToText({ formulas: formulasList }));
+          console.log(plotToText({ formulas: interactiveFormulas }));
         } catch (err) {
           console.error("Error during interactive mode:", err);
         } finally {
