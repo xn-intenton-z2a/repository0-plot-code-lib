@@ -8,7 +8,7 @@
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** Code has been refactored for better consistency and formatting in line with our contributing guidelines.
-- **Extended Functionality:** A stub for PNG conversion has been added (via the `plotToPng` function), explicitly throwing a "PNG conversion is not implemented yet." error, paving the way for future enhancements.
+- **Extended Functionality:** In addition to various plot types, a stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error. This is a deliberate placeholder for future enhancements.
 
 **Version:** Equation Plotter Library version 0.2.1-9
 
@@ -90,7 +90,7 @@ Future plans include:
 
 - **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom plot titles.
 - **Summary Statistics:** Provide summary statistics for each plotted function.
-- **PNG Conversion:** Expand the PNG export functionality beyond the current stub.
+- **PNG Conversion:** Expand the PNG export functionality beyond the current stub. Note that PNG conversion is currently not implemented and will be addressed in future releases.
 - **Enhanced Interactive Mode:** Streamline real-time user interactions and improve error handling.
 
 ## Linting
