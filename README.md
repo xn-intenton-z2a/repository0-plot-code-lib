@@ -8,7 +8,7 @@
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines.
-- **Extended Functionality:** In addition to various plot types, a stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error. A new tangent plot feature has been added, enabling visualization of tangent functions.
+- **Extended Functionality:** In addition to various plot types, a fully implemented tangent plotting feature has been added, enabling the visualization of tangent functions. A stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error.
 
 **Version:** Equation Plotter Library version 0.2.1-9
 
@@ -30,7 +30,7 @@ npm run start output.svg
   Refer to `package.json` for dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. The tests ensure the PNG conversion stub behaves as expected.
+  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. The tests ensure the tangent plotting functionality is correctly handled along with the rest of the plot types.
 
 ## Running the CLI
 
@@ -90,7 +90,7 @@ Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on our autom
 - **Summary Statistics:** Provide summary statistics for each plotted function.
 - **PNG Conversion:** Expand the PNG export functionality beyond the current stub.
 - **Enhanced Interactive Mode:** Streamline real-time user interactions and improve error handling.
-- **Additional Plot Types:** Explore adding support for more mathematical functions, such as tangent curves, which is partially implemented in this release.
+- **Additional Plot Types:** Explore adding support for more mathematical functions.
 
 ## Linting
 
