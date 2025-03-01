@@ -2,19 +2,19 @@
 
 ## Overview
 
-`plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter — a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML) and includes the following features:
+`plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter — a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML).
 
-- **Interactive Mode:** Allows real-time user input via the `--interactive` flag. (Interactive mode now includes improved error handling and resource cleanup.)
+- **Interactive Mode:** Allows real-time user input via the `--interactive` flag. Interactive mode now includes improved error handling and resource cleanup.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
-- **Improved Consistency:** Code has been refactored for better consistency in structure and formatting in line with our contributing guidelines.
+- **Improved Consistency:** Code has been refactored for better consistency and formatting in line with our contributing guidelines.
 - **Extended Functionality:** A stub for PNG conversion has been added (via the `plotToPng` function), explicitly throwing a "PNG conversion is not implemented yet." error, paving the way for future enhancements.
 
 **Version:** Equation Plotter Library version 0.2.1-9
 
 Generated using:
 ```
-npm run start output.png
+npm run start output.svg
 ```
 [Example output](examples/output.png)
 
@@ -27,13 +27,10 @@ npm run start output.png
   The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 - **Dependencies:**
-  The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
+  Refer to `package.json` for dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure the PNG conversion stub correctly throws a not implemented error.
-
-- **Documentation & Contributions:**
-  We welcome contributions! Please ensure your changes adhere to our [CONTRIBUTING.md](CONTRIBUTING.md) guidelines. Our automated contribution workflow using intentïon agentic‑lib ensures every contribution aligns with our project standards and mission.
+  Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. Tests ensure the PNG conversion stub correctly throws a not implemented error.
 
 ## Running the CLI
 
@@ -77,26 +74,36 @@ npm run start output.png
 
 Other available flags include `--help`/`-h` for help and `--version` to display version information.
 
+## Contributing
+
+We welcome contributions to improve `plot-code-lib`. Please follow these steps:
+
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
+2. **Label It as `automated`:** Add the `automated` label to your issue. This triggers our automated contribution workflow, which is guided by the [CONTRIBUTING.md](CONTRIBUTING.md) guidelines.
+3. **Submit Your Changes:** Ensure your changes adhere to our code standards, including proper formatting and linting. Contributions are reviewed based on our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+
+Refer to our [CONTRIBUTING.md](CONTRIBUTING.md) for more detailed guidelines on our automated workflow and contribution process.
+
 ## Future Enhancements
 
 Future plans include:
 
 - **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom plot titles.
 - **Summary Statistics:** Provide summary statistics for each plotted function.
-- **PNG Conversion:** Currently a stub; future releases will enable full PNG export functionality.
+- **PNG Conversion:** Expand the PNG export functionality beyond the current stub.
 - **Enhanced Interactive Mode:** Streamline real-time user interactions and improve error handling.
 
 ## Linting
 
-ESLint and Prettier are used for code quality and formatting. The `no-console` rule is disabled in `src/lib/main.js` to permit necessary CLI output.
+ESLint and Prettier are used to maintain code quality and formatting. The `no-console` rule is disabled in `src/lib/main.js` to accommodate necessary CLI output.
 
 ## Test Coverage
 
-Unit tests cover core CLI functions, exported methods, and error handling. They are located in the `tests/unit/` directory.
+Unit tests covering core CLI functions, exported methods, and error handling are located in the `tests/unit/` directory.
 
 ## Tuning the Agentic Coding System
 
-As the project evolves, tune the following files:
+As the project evolves, please review the following files as needed:
 
 - `README.md`
 - `package.json`
@@ -104,11 +111,6 @@ As the project evolves, tune the following files:
 - `tests/unit/main.test.js`
 - `CONTRIBUTING.md`
 - `eslint.config.js`
-
-## Contributing
-
-Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md) for details on our automated contribution process using intentïon agentic‑lib. 
-Your contributions are vital to our project’s evolution, and adherence to these guidelines ensures every contribution aligns with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Diary of an Agentic Coding System - Day 1
 
