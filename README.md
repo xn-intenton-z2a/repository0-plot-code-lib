@@ -7,7 +7,7 @@
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag. The interactive mode now includes improved error handling and resource cleanup.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
-- **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines. Linting issues were resolved by disabling overly strict ESLint and SonarJS rules in the main source file.
+- **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines. Linting issues were resolved by addressing regex warnings and ensuring proper trailing commas per Prettier guidelines.
 - **Extended Functionality:** In addition to various plot types, a fully implemented tangent plotting feature has been added, enabling the visualization of tangent functions. A stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error.
 
 **Version:** Equation Plotter Library version 0.2.1-9
@@ -94,7 +94,7 @@ Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on our autom
 
 ## Linting
 
-ESLint and Prettier are used to maintain code quality and formatting. In this release, some strict rules have been disabled in `src/lib/main.js` to resolve linting issues while maintaining functionality.
+ESLint and Prettier are used to maintain code quality and formatting. In this release, regex warnings have been addressed and missing trailing commas added per Prettier guidelines.
 
 ## Test Coverage
 
