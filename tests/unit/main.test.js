@@ -59,7 +59,7 @@ describe("Exported API Functions", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = "production";
     process.argv = ["node", "src/lib/main.js", "output.md", "y=2x+3:-10,10,1"];
     if (mainModule.main) {
       await mainModule.main();
@@ -76,12 +76,12 @@ describe("Exported API Functions", () => {
       question: vi.fn((prompt, callback) => {
         callback("y=2x+3:-10,10,1");
       }),
-      close: vi.fn()
+      close: vi.fn(),
     };
     vi.spyOn(readline, "createInterface").mockReturnValue(rlMock);
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = 'production';
+    process.env.NODE_ENV = "production";
     process.argv = ["node", "src/lib/main.js", "--interactive"];
     await mainModule.main();
     expect(rlMock.question).toHaveBeenCalled();
@@ -113,7 +113,7 @@ describe("Exported API Functions", () => {
     // Check that there is at least one point
     expect(tangentPoints.length).toBeGreaterThan(0);
     // Check that the x values are within the default range -45 to 45
-    tangentPoints.forEach(point => {
+    tangentPoints.forEach((point) => {
       expect(point.x).toBeGreaterThanOrEqual(-45);
       expect(point.x).toBeLessThanOrEqual(45);
     });
@@ -129,7 +129,9 @@ describe("Exported API Functions", () => {
     });
 
     test("plotToPng throws not implemented error", () => {
-      expect(() => mainModule.plotToPng({ formulas: ["quad:1,0,0,-10,10,1"] })).toThrow("PNG conversion is not implemented yet.");
+      expect(() => mainModule.plotToPng({ formulas: ["quad:1,0,0,-10,10,1"] })).toThrow(
+        "PNG conversion is not implemented yet.",
+      );
     });
   });
 });
