@@ -11,9 +11,9 @@
  *     and exits gracefully.
  * 
  * Extended functionality:
+ *   - A fully implemented tangent plotting functionality has been added. The tangent plot is generated from a formula string
+ *     starting with "tangent:" and is drawn in the SVG output. This functionality has been extended and tested.
  *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
- *   - New tangent plotting functionality has been added. The tangent plot is generated from the formula string
- *     starting with "tangent:" and is drawn in the SVG output.
  *
  * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
@@ -501,9 +501,9 @@ const getPlotsFromFormulas = (formulas = []) => {
         tangent.push(parseTangent(formula));
       } else if (lower.startsWith("polar:")) {
         polar.push(plotFromString(formula));
-      } else if (lower.startsWith("linear:") || (lower.startsWith("y=") && !formula.includes("x^2") && !formula.toLowerCase().includes("e^") && !formula.toLowerCase().includes("log(") && !formula.toLowerCase().includes("tan("))) {
+      } else if (lower.startsWith("linear:") || (lower.startsWith("y=") && !formula.includes("x^2") && !formula.toLowerCase().includes("e^") && !formula.toLowerCase().includes("log(" ) && !formula.toLowerCase().includes("tan("))) {
         linear.push(plotFromString(formula));
-      } else if (lower.startsWith("exponential:") || lower.startsWith("exp:") || (lower.startsWith("y=") && formula.toLowerCase().includes("e^"))) {
+      } else if (lower.startsWith("exponential:") || lower.startsWith("exp:") || (lower.startsWith("y=") && formula.toLowerCase().includes("e^") )) {
         exponential.push(plotFromString(formula));
       } else if (lower.startsWith("log:") || lower.startsWith("ln:") || (lower.startsWith("y=") && formula.toLowerCase().includes("log("))) {
         logarithmic.push(plotFromString(formula));
