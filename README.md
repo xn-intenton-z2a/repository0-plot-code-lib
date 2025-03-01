@@ -2,13 +2,13 @@
 
 ## Overview
 
-`plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter — a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML).
+`plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter — a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML).
 
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag. The interactive mode now includes improved error handling and resource cleanup.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines.
-- **Extended Functionality:** In addition to various plot types, a stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error. This is a placeholder for future enhancements.
+- **Extended Functionality:** In addition to various plot types, a stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error. A new tangent plot feature has been added, enabling visualization of tangent functions.
 
 **Version:** Equation Plotter Library version 0.2.1-9
 
@@ -90,6 +90,7 @@ Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on our autom
 - **Summary Statistics:** Provide summary statistics for each plotted function.
 - **PNG Conversion:** Expand the PNG export functionality beyond the current stub.
 - **Enhanced Interactive Mode:** Streamline real-time user interactions and improve error handling.
+- **Additional Plot Types:** Explore adding support for more mathematical functions, such as tangent curves, which is partially implemented in this release.
 
 ## Linting
 
@@ -112,6 +113,6 @@ As the project evolves, please review the following files as needed:
 
 ## Diary of an Agentic Coding System - Day 1
 
-In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulas into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release improves consistency in code structure and documentation, aligning CLI behavior with our contribution guidelines.
+In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulas into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, tangent, polar, exponential, and logarithmic plots. This release improves consistency in code structure and documentation, aligning CLI behavior with our contribution guidelines.
 
 **Version:** Equation Plotter Library version 0.2.1-9
