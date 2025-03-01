@@ -13,7 +13,7 @@
 **Version:** Equation Plotter Library version 0.2.1-9
 
 Generated using:
-```
+```bash
 npm run start output.svg
 ```
 [Example output](examples/output.png)

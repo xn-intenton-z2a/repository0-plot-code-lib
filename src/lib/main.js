@@ -21,7 +21,7 @@
  * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
 
-'use strict';
+"use strict";
 
 import { fileURLToPath } from "url";
 import fs from "fs";
@@ -579,31 +579,13 @@ const generateSvg = (
   svg += `  <rect width="100%" height="100%" fill="white" />\n`;
 
   const defaultColors = {
-    quadratic: [
-      "blue",
-      "darkblue",
-      "purple",
-      "royalblue",
-      "deepskyblue",
-    ],
+    quadratic: ["blue", "darkblue", "purple", "royalblue", "deepskyblue"],
     linear: ["orange", "darkorange", "gold", "chocolate", "peru"],
     sine: ["red", "darkred", "crimson", "firebrick", "tomato"],
-    cosine: [
-      "teal",
-      "darkcyan",
-      "cadetblue",
-      "lightseagreen",
-      "mediumturquoise",
-    ],
+    cosine: ["teal", "darkcyan", "cadetblue", "lightseagreen", "mediumturquoise"],
     tangent: ["black", "gray"],
     polar: ["green", "darkgreen", "limegreen", "seagreen", "forestgreen"],
-    exponential: [
-      "magenta",
-      "darkmagenta",
-      "violet",
-      "indigo",
-      "purple",
-    ],
+    exponential: ["magenta", "darkmagenta", "violet", "indigo", "purple"],
     logarithmic: ["brown", "saddlebrown", "peru", "chocolate", "tan"],
   };
 
