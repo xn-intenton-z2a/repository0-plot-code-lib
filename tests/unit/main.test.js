@@ -111,9 +111,7 @@ describe("Exported API Functions", () => {
   test("plotTangent returns valid tangent plot points", () => {
     const tangentPoints = mainModule.plotTangent();
     expect(Array.isArray(tangentPoints)).toBe(true);
-    // Check that there is at least one point
     expect(tangentPoints.length).toBeGreaterThan(0);
-    // Check that the x values are within the default range -45 to 45
     tangentPoints.forEach((point) => {
       expect(point.x).toBeGreaterThanOrEqual(-45);
       expect(point.x).toBeLessThanOrEqual(45);

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+/* eslint-disable security/detect-unsafe-regex */
 /* eslint-disable sonarjs/no-nested-conditional, sonarjs/cognitive-complexity, sonarjs/slow-regex, no-unused-vars, sonarjs/no-ignored-exceptions, no-useless-escape, sonarjs/no-redundant-jump */
 
 /*
@@ -954,43 +955,35 @@ const plotToMarkdown = ({ formulas = [] } = {}) => {
   let md = "# Plot Data\n\n";
   md += "## Quadratic Plot:\n";
   quadratic.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Linear Plot:\n";
   linear.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Sine Plot:\n";
   sine.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Cosine Plot:\n";
   cosine.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Tangent Plot:\n";
   tangent.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Polar Plot:\n";
   polar.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Exponential Plot:\n";
   exponential.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Logarithmic Plot:\n";
   logarithmic.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   return md;
 };
