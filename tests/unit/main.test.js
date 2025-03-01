@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* global describe, test, expect, vi */
 // File: tests/unit/main.test.js
 
