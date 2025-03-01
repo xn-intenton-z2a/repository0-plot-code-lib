@@ -1085,7 +1085,7 @@ const main = async () => {
     }
   }
 
-  const formulasList = args.filter(arg => arg.includes(":") || arg.includes("=") );
+  const formulasList = args.filter(arg => arg.includes(":") || arg.includes("="));
 
   if (formulasList.length === 0) {
     console.log("No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, polar, exponential, and logarithmic plots.");
