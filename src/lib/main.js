@@ -229,6 +229,7 @@ const parseGenericLinear = (formulaStr) => {
 
 // Parse a generic quadratic formula in standard algebraic form with optional range
 const parseGenericQuadratic = (formulaStr) => {
+  // Improved error handling in parseGenericQuadratic to catch misformatted formulas
   const parts = formulaStr.split(":");
   const mainPart = parts[0].replace(/\s+/g, "").toLowerCase();
   const rangePart = parts.length > 1 ? parts[1].trim() : "";
@@ -1007,60 +1008,60 @@ const main = async () => {
     const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
     await new Promise(resolve => {
       rl.question("Enter formula strings (semicolon-separated): ", async (answer) => {
-        const interactiveFormulas = answer.split(";").map(s => s.trim()).filter(Boolean);
-        const filteredArgs = args.filter(arg => arg !== "--interactive");
-        const formulasList = interactiveFormulas.length ? interactiveFormulas : [];
-        const nonOptionArgs = filteredArgs.filter(arg => !arg.includes(":") && !arg.includes("=") && !["--json", "--csv", "--html", "--ascii", "--md", "--debug", "--grid", "--interactive", "--help", "-h", "--version"].includes(arg));
-        const outputFileName = nonOptionArgs.length > 0 ? nonOptionArgs[0] : "output.svg";
-        const isJson = filteredArgs.includes("--json");
-        const isCsv = filteredArgs.includes("--csv");
-        const isHtml = filteredArgs.includes("--html");
-        let isAscii = filteredArgs.includes("--ascii");
-        let isMarkdown = filteredArgs.includes("--md");
-        const isDebug = filteredArgs.includes("--debug");
-        const gridEnabled = filteredArgs.includes("--grid");
-
-        if (!isJson && !isCsv && !isHtml && !isMarkdown && !isAscii) {
-          if (outputFileName.toLowerCase().endsWith(".md")) {
-            isMarkdown = true;
-          } else if (outputFileName.toLowerCase().endsWith(".txt")) {
-            isAscii = true;
-          }
-        }
-
-        if (isDebug) {
-          console.log("\nDebug: Internal parsed plot data:");
-          console.log(JSON.stringify(getPlotsFromFormulas(formulasList), null, 2));
-        }
-
-        let fileContent = "";
-        if (isJson) {
-          fileContent = JSON.stringify(plotToJson({ formulas: formulasList }), null, 2);
-        } else if (isCsv) {
-          fileContent = plotToCsv({ formulas: formulasList });
-        } else if (isHtml) {
-          fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled });
-        } else if (isMarkdown) {
-          fileContent = plotToMarkdown({ formulas: formulasList });
-        } else if (isAscii) {
-          fileContent = plotToAscii({ formulas: formulasList });
-        } else {
-          fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled });
-        }
-
         try {
-          fs.writeFileSync(outputFileName, fileContent, "utf8");
-          console.log(`\nFile generated: ${outputFileName}`);
-        } catch (_) {
-          console.error(`Error writing file`);
+          const interactiveFormulas = answer.split(";").map(s => s.trim()).filter(Boolean);
+          const filteredArgs = args.filter(arg => arg !== "--interactive");
+          const formulasList = interactiveFormulas.length ? interactiveFormulas : [];
+          const nonOptionArgs = filteredArgs.filter(arg => !arg.includes(":") && !arg.includes("=") && !["--json", "--csv", "--html", "--ascii", "--md", "--debug", "--grid", "--interactive", "--help", "-h", "--version"].includes(arg));
+          const outputFileName = nonOptionArgs.length > 0 ? nonOptionArgs[0] : "output.svg";
+          const isJson = filteredArgs.includes("--json");
+          const isCsv = filteredArgs.includes("--csv");
+          const isHtml = filteredArgs.includes("--html");
+          let isAscii = filteredArgs.includes("--ascii");
+          let isMarkdown = filteredArgs.includes("--md");
+          const isDebug = filteredArgs.includes("--debug");
+          const gridEnabled = filteredArgs.includes("--grid");
+          if (!isJson && !isCsv && !isHtml && !isMarkdown && !isAscii) {
+            if (outputFileName.toLowerCase().endsWith(".md")) {
+              isMarkdown = true;
+            } else if (outputFileName.toLowerCase().endsWith(".txt")) {
+              isAscii = true;
+            }
+          }
+          if (isDebug) {
+            console.log("\nDebug: Internal parsed plot data:");
+            console.log(JSON.stringify(getPlotsFromFormulas(formulasList), null, 2));
+          }
+          let fileContent = "";
+          if (isJson) {
+            fileContent = JSON.stringify(plotToJson({ formulas: formulasList }), null, 2);
+          } else if (isCsv) {
+            fileContent = plotToCsv({ formulas: formulasList });
+          } else if (isHtml) {
+            fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled });
+          } else if (isMarkdown) {
+            fileContent = plotToMarkdown({ formulas: formulasList });
+          } else if (isAscii) {
+            fileContent = plotToAscii({ formulas: formulasList });
+          } else {
+            fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled });
+          }
+          try {
+            fs.writeFileSync(outputFileName, fileContent, "utf8");
+            console.log(`\nFile generated: ${outputFileName}`);
+          } catch (_) {
+            console.error(`Error writing file`);
+            resolve();
+            return;
+          }
+          console.log("\nText Representation of Plots:");
+          console.log(plotToText({ formulas: formulasList }));
+        } catch (err) {
+          console.error("Error during interactive mode:", err);
+        } finally {
+          rl.close();
           resolve();
-          return;
         }
-
-        console.log("\nText Representation of Plots:");
-        console.log(plotToText({ formulas: formulasList }));
-        rl.close();
-        resolve();
       });
     });
     return;
@@ -1084,7 +1085,7 @@ const main = async () => {
     }
   }
 
-  const formulasList = args.filter(arg => arg.includes(":") || arg.includes("="));
+  const formulasList = args.filter(arg => arg.includes(":") || arg.includes("=") );
 
   if (formulasList.length === 0) {
     console.log("No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, polar, exponential, and logarithmic plots.");
@@ -1123,7 +1124,6 @@ const main = async () => {
   else if (isHtml) outputType = "HTML";
   else if (isMarkdown) outputType = "Markdown";
   else if (isAscii) outputType = "ASCII";
-  //const outputType = determineOutputType(isJson, isCsv, isHtml, isMarkdown, isAscii);
   console.log(`\n${outputType} file generated: ${outputFileName}`);
 
   console.log("\nText Representation of Plots:");
