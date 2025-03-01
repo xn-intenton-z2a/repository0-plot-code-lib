@@ -12,7 +12,8 @@
  * 
  * Extended functionality:
  *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
- *     This serves as a placeholder for future PNG support.
+ *   - New tangent plotting functionality has been added. The tangent plot is generated from the formula string
+ *     starting with "tangent:" and is drawn in the SVG output.
  *
  * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
@@ -79,6 +80,18 @@ const plotCosineParam = ({ amplitude = 1, frequency = 1, phase = 0, xMin = 0, xM
   return points;
 };
 
+const plotTangentParam = ({ amplitude = 1, frequency = 1, phase = 0, xMin = -45, xMax = 45, step = 1 } = {}) => {
+  const points = [];
+  for (let x = xMin; x <= xMax; x += step) {
+    const rad = (x * Math.PI) / 180;
+    let y = amplitude * Math.tan(frequency * rad + phase);
+    // Skip points with extreme values due to discontinuities
+    if (Math.abs(y) > 1000) continue;
+    points.push({ x, y });
+  }
+  return points;
+};
+
 const plotPolarParam = ({ scale = 200, multiplier = 2, step = 5, degMin = 0, degMax = 360 } = {}) => {
   const points = range(degMin, degMax + step, step).map(deg => {
     const rad = (deg * Math.PI) / 180;
@@ -115,6 +128,7 @@ const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
 const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
+const plotTangent = () => plotTangentParam();
 const plotPolar = () => plotPolarParam();
 // For demonstration, linear plot now uses y = 2x + 3
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
@@ -164,6 +178,21 @@ const parseCosine = formulaStr => {
     xMin: isNaN(xMin) ? 0 : xMin,
     xMax: isNaN(xMax) ? 360 : xMax,
     step: isNaN(step) ? 10 : step
+  });
+};
+
+const parseTangent = formulaStr => {
+  const parts = formulaStr.split(":");
+  if (parts.length < 2) throw new Error("Invalid tangent formula string: " + formulaStr);
+  const params = parts[1].split(",").map(Number);
+  const [amplitude, frequency, phase, xMin, xMax, step] = params;
+  return plotTangentParam({
+    amplitude: isNaN(amplitude) ? 1 : amplitude,
+    frequency: isNaN(frequency) ? 1 : frequency,
+    phase: isNaN(phase) ? 0 : phase,
+    xMin: isNaN(xMin) ? -45 : xMin,
+    xMax: isNaN(xMax) ? 45 : xMax,
+    step: isNaN(step) ? 1 : step
   });
 };
 
@@ -415,7 +444,7 @@ const plotFromString = formulaStr => {
       } catch (error) {
         return [];
       }
-    } else if (!formulaStr.includes("x^2")) {
+    } else if (!formulaStr.includes("x^2") && !formulaStr.toLowerCase().includes("tan(")) {
       try {
         return parseGenericLinear(formulaStr);
       } catch (error) {
@@ -433,6 +462,7 @@ const plotFromString = formulaStr => {
     if (lowerStr.startsWith("quadratic:") || lowerStr.startsWith("quad:")) return parseQuadratic(formulaStr);
     if (lowerStr.startsWith("sine:")) return parseSine(formulaStr);
     if (lowerStr.startsWith("cosine:") || lowerStr.startsWith("cos:")) return parseCosine(formulaStr);
+    if (lowerStr.startsWith("tangent:")) return parseTangent(formulaStr);
     if (lowerStr.startsWith("polar:")) return parsePolar(formulaStr);
     if (lowerStr.startsWith("linear:")) return parseLinear(formulaStr);
     if (lowerStr.startsWith("exponential:") || lowerStr.startsWith("exp:")) return parseExponential(formulaStr);
@@ -453,6 +483,7 @@ const getPlotsFromFormulas = (formulas = []) => {
   const quadratic = [];
   const sine = [];
   const cosine = [];
+  const tangent = [];
   const polar = [];
   const linear = [];
   const exponential = [];
@@ -466,9 +497,11 @@ const getPlotsFromFormulas = (formulas = []) => {
         sine.push(plotFromString(formula));
       } else if (lower.startsWith("cosine:") || lower.startsWith("cos:")) {
         cosine.push(parseCosine(formula));
+      } else if (lower.startsWith("tangent:")) {
+        tangent.push(parseTangent(formula));
       } else if (lower.startsWith("polar:")) {
         polar.push(plotFromString(formula));
-      } else if (lower.startsWith("linear:") || (lower.startsWith("y=") && !formula.includes("x^2") && !formula.toLowerCase().includes("e^") && !formula.toLowerCase().includes("log("))) {
+      } else if (lower.startsWith("linear:") || (lower.startsWith("y=") && !formula.includes("x^2") && !formula.toLowerCase().includes("e^") && !formula.toLowerCase().includes("log(") && !formula.toLowerCase().includes("tan("))) {
         linear.push(plotFromString(formula));
       } else if (lower.startsWith("exponential:") || lower.startsWith("exp:") || (lower.startsWith("y=") && formula.toLowerCase().includes("e^"))) {
         exponential.push(plotFromString(formula));
@@ -483,10 +516,11 @@ const getPlotsFromFormulas = (formulas = []) => {
   if (linear.length === 0) linear.push(plotLinear());
   if (sine.length === 0) sine.push(plotSine());
   if (cosine.length === 0) cosine.push(plotCosine());
+  if (tangent.length === 0) tangent.push(plotTangent());
   if (polar.length === 0) polar.push(plotPolar());
   if (exponential.length === 0) exponential.push(plotExponential());
   if (logarithmic.length === 0) logarithmic.push(plotLogarithmic());
-  return { quadratic, linear, sine, cosine, polar, exponential, logarithmic };
+  return { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic };
 };
 
 // Display function
@@ -501,15 +535,24 @@ const generateSvg = (
   linearPlots,
   sinePlots,
   cosinePlots,
+  tangentPlots,
   polarPlots,
   exponentialPlots,
   logarithmicPlots,
   gridEnabled = false
 ) => {
   const width = 800;
-  const height = 1700;
+  // Updated layout positions
+  // Quadratic: 50 to 230
+  // Linear: 270 to 450
+  // Sine: 490 to 670
+  // Cosine: 710 to 890
+  // Tangent: 930 to 1110
+  // Polar: 1150 to 1330 (special drawing)
+  // Exponential: 1370 to 1550
+  // Logarithmic: 1570 to 1750
   let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
-  svg += `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n`;
+  svg += `<svg width="${width}" height="1800" viewBox="0 0 ${width} 1800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n`;
   svg += `  <rect width="100%" height="100%" fill="white" />\n`;
 
   const defaultColors = {
@@ -517,6 +560,7 @@ const generateSvg = (
     linear: ["orange", "darkorange", "gold", "chocolate", "peru"],
     sine: ["red", "darkred", "crimson", "firebrick", "tomato"],
     cosine: ["teal", "darkcyan", "cadetblue", "lightseagreen", "mediumturquoise"],
+    tangent: ["black", "gray"],
     polar: ["green", "darkgreen", "limegreen", "seagreen", "forestgreen"],
     exponential: ["magenta", "darkmagenta", "violet", "indigo", "purple"],
     logarithmic: ["brown", "saddlebrown", "peru", "chocolate", "tan"]
@@ -552,7 +596,8 @@ const generateSvg = (
   svg += `  <text x="${width / 2}" y="30" font-size="16" text-anchor="middle">Quadratic Plot: y = ax² + bx + c</text>\n`;
   if (gridEnabled) {
     svg += drawRectGrid(50, 50, 700, 180, 10, 5);
-    svg += drawRectAxes(50, 50, 700, 180, Math.min(...quadraticPlots.flat().map(p => p.x)), Math.max(...quadraticPlots.flat().map(p => p.x)), Math.min(...quadraticPlots.flat().map(p => p.y)), Math.max(...quadraticPlots.flat().map(p => p.y)));
+    const qAll = quadraticPlots.flat();
+    svg += drawRectAxes(50, 50, 700, 180, Math.min(...qAll.map(p => p.x)), Math.max(...qAll.map(p => p.x)), Math.min(...qAll.map(p => p.y)), Math.max(...qAll.map(p => p.y)));
   }
   const qAllPoints = quadraticPlots.flat();
   let qMinY = Math.min(...qAllPoints.map(p => p.y));
@@ -577,7 +622,8 @@ const generateSvg = (
   svg += `  <text x="${width / 2}" y="250" font-size="16" text-anchor="middle">Linear Plot: y = m*x + b</text>\n`;
   if (gridEnabled) {
     svg += drawRectGrid(50, 270, 700, 180, 10, 5);
-    svg += drawRectAxes(50, 270, 700, 180, Math.min(...linearPlots.flat().map(p => p.x)), Math.max(...linearPlots.flat().map(p => p.x)), Math.min(...linearPlots.flat().map(p => p.y)), Math.max(...linearPlots.flat().map(p => p.y)));
+    const lAll = linearPlots.flat();
+    svg += drawRectAxes(50, 270, 700, 180, Math.min(...lAll.map(p => p.x)), Math.max(...lAll.map(p => p.x)), Math.min(...lAll.map(p => p.y)), Math.max(...lAll.map(p => p.y)));
   }
   const lAllPoints = linearPlots.flat();
   let lMinY = Math.min(...lAllPoints.map(p => p.y));
@@ -599,10 +645,11 @@ const generateSvg = (
   svg += "\n";
 
   // Sine Plot
-  svg += `  <text x="${width / 2}" y="470" font-size="16" text-anchor="middle">Sine Plot: y = A*sin(B*x + C)</text>\n`;
+  svg += `  <text x="${width / 2}" y="490" font-size="16" text-anchor="middle">Sine Plot: y = A*sin(B*x + C)</text>\n`;
   if (gridEnabled) {
-    svg += drawRectGrid(50, 490, 700, 180, 10, 5);
-    svg += drawRectAxes(50, 490, 700, 180, Math.min(...sinePlots.flat().map(p => p.x)), Math.max(...sinePlots.flat().map(p => p.x)), Math.min(...sinePlots.flat().map(p => p.y)), Math.max(...sinePlots.flat().map(p => p.y)));
+    svg += drawRectGrid(50, 510, 700, 160, 10, 5);
+    const sAll = sinePlots.flat();
+    svg += drawRectAxes(50, 510, 700, 160, Math.min(...sAll.map(p => p.x)), Math.max(...sAll.map(p => p.x)), Math.min(...sAll.map(p => p.y)), Math.max(...sAll.map(p => p.y)));
   }
   const sAllPoints = sinePlots.flat();
   let sMinY = Math.min(...sAllPoints.map(p => p.y));
@@ -616,7 +663,7 @@ const generateSvg = (
     const color = defaultColors.sine[idx % defaultColors.sine.length];
     const pts = points.map(p => {
       const px = 50 + ((p.x - sMinX) / (sMaxX - sMinX)) * 700;
-      const py = 670 - ((p.y - sMinY) / (sMaxY - sMinY)) * 180;
+      const py = 670 - ((p.y - sMinY) / (sMaxY - sMinY)) * 160;
       return `${formatNumber(px)},${formatNumber(py)}`;
     }).join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -624,10 +671,11 @@ const generateSvg = (
   svg += "\n";
 
   // Cosine Plot
-  svg += `  <text x="${width / 2}" y="690" font-size="16" text-anchor="middle">Cosine Plot: y = A*cos(B*x + C)</text>\n`;
+  svg += `  <text x="${width / 2}" y="710" font-size="16" text-anchor="middle">Cosine Plot: y = A*cos(B*x + C)</text>\n`;
   if (gridEnabled) {
-    svg += drawRectGrid(50, 710, 700, 180, 10, 5);
-    svg += drawRectAxes(50, 710, 700, 180, Math.min(...cosinePlots.flat().map(p => p.x)), Math.max(...cosinePlots.flat().map(p => p.x)), Math.min(...cosinePlots.flat().map(p => p.y)), Math.max(...cosinePlots.flat().map(p => p.y)));
+    svg += drawRectGrid(50, 730, 700, 160, 10, 5);
+    const cAll = cosinePlots.flat();
+    svg += drawRectAxes(50, 730, 700, 160, Math.min(...cAll.map(p => p.x)), Math.max(...cAll.map(p => p.x)), Math.min(...cAll.map(p => p.y)), Math.max(...cAll.map(p => p.y)));
   }
   const cAllPoints = cosinePlots.flat();
   let cMinY = Math.min(...cAllPoints.map(p => p.y));
@@ -641,17 +689,43 @@ const generateSvg = (
     const color = defaultColors.cosine[idx % defaultColors.cosine.length];
     const pts = points.map(p => {
       const px = 50 + ((p.x - cMinX) / (cMaxX - cMinX)) * 700;
-      const py = 890 - ((p.y - cMinY) / (cMaxY - cMinY)) * 180;
+      const py = 890 - ((p.y - cMinY) / (cMaxY - cMinY)) * 160;
       return `${formatNumber(px)},${formatNumber(py)}`;
     }).join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
   });
   svg += "\n";
 
-  // Polar Plot
-  svg += `  <text x="${width / 2}" y="910" font-size="16" text-anchor="middle">Polar Plot: r = scale * |sin(multiplier * θ)|</text>\n`;
+  // Tangent Plot
+  svg += `  <text x="${width / 2}" y="930" font-size="16" text-anchor="middle">Tangent Plot: y = A*tan(B*x + C)</text>\n`;
+  if (gridEnabled) {
+    svg += drawRectGrid(50, 950, 700, 160, 10, 5);
+    const tAll = tangentPlots.flat();
+    svg += drawRectAxes(50, 950, 700, 160, Math.min(...tAll.map(p => p.x)), Math.max(...tAll.map(p => p.x)), Math.min(...tAll.map(p => p.y)), Math.max(...tAll.map(p => p.y)));
+  }
+  const tAllPoints = tangentPlots.flat();
+  let tMinY = Math.min(...tAllPoints.map(p => p.y));
+  let tMaxY = Math.max(...tAllPoints.map(p => p.y));
+  if (tMinY === tMaxY) { tMinY -= 10; tMaxY += 10; }
+  const tAllX = tAllPoints.map(p => p.x);
+  let tMinX = Math.min(...tAllX);
+  let tMaxX = Math.max(...tAllX);
+  if (tMinX === tMaxX) { tMinX -= 10; tMaxX += 10; }
+  tangentPlots.forEach((points, idx) => {
+    const color = defaultColors.tangent[idx % defaultColors.tangent.length];
+    const pts = points.map(p => {
+      const px = 50 + ((p.x - tMinX) / (tMaxX - tMinX)) * 700;
+      const py = 1110 - ((p.y - tMinY) / (tMaxY - tMinY)) * 160;
+      return `${formatNumber(px)},${formatNumber(py)}`;
+    }).join(" ");
+    svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
+  });
+  svg += "\n";
+
+  // Polar Plot (special rendering with circles and axes)
+  svg += `  <text x="${width / 2}" y="1150" font-size="16" text-anchor="middle">Polar Plot: r = scale * |sin(multiplier * θ)|</text>\n`;
   const centerX = width / 2;
-  const centerY = 970;
+  const centerY = 1190;
   if (gridEnabled) {
     [50, 100, 150].forEach(r => {
       svg += `  <circle cx="${formatNumber(centerX)}" cy="${formatNumber(centerY)}" r="${r}" stroke="#eee" stroke-width="1" fill="none" />\n`;
@@ -671,10 +745,11 @@ const generateSvg = (
   svg += "\n";
 
   // Exponential Plot
-  svg += `  <text x="${width / 2}" y="1150" font-size="16" text-anchor="middle">Exponential Plot: y = a * e^(b*x)</text>\n`;
+  svg += `  <text x="${width / 2}" y="1370" font-size="16" text-anchor="middle">Exponential Plot: y = a * e^(b*x)</text>\n`;
   if (gridEnabled) {
-    svg += drawRectGrid(50, 1170, 700, 180, 10, 5);
-    svg += drawRectAxes(50, 1170, 700, 180, Math.min(...exponentialPlots.flat().map(p => p.x)), Math.max(...exponentialPlots.flat().map(p => p.x)), Math.min(...exponentialPlots.flat().map(p => p.y)), Math.max(...exponentialPlots.flat().map(p => p.y)));
+    svg += drawRectGrid(50, 1390, 700, 160, 10, 5);
+    const expAll = exponentialPlots.flat();
+    svg += drawRectAxes(50, 1390, 700, 160, Math.min(...expAll.map(p => p.x)), Math.max(...expAll.map(p => p.x)), Math.min(...expAll.map(p => p.y)), Math.max(...expAll.map(p => p.y)));
   }
   const expAllPoints = exponentialPlots.flat();
   let expMinY = Math.min(...expAllPoints.map(p => p.y));
@@ -688,7 +763,7 @@ const generateSvg = (
     const color = defaultColors.exponential[idx % defaultColors.exponential.length];
     const pts = points.map(p => {
       const px = 50 + ((p.x - expMinX) / (expMaxX - expMinX)) * 700;
-      const py = 1350 - ((p.y - expMinY) / (expMaxY - expMinY)) * 180;
+      const py = 1550 - ((p.y - expMinY) / (expMaxY - expMinY)) * 160;
       return `${formatNumber(px)},${formatNumber(py)}`;
     }).join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -696,10 +771,11 @@ const generateSvg = (
   svg += "\n";
 
   // Logarithmic Plot
-  svg += `  <text x="${width / 2}" y="1370" font-size="16" text-anchor="middle">Logarithmic Plot: y = a * log_b(x)</text>\n`;
+  svg += `  <text x="${width / 2}" y="1570" font-size="16" text-anchor="middle">Logarithmic Plot: y = a * log_b(x)</text>\n`;
   if (gridEnabled) {
-    svg += drawRectGrid(50, 1390, 700, 180, 10, 5);
-    svg += drawRectAxes(50, 1390, 700, 180, Math.min(...logarithmicPlots.flat().map(p => p.x)), Math.max(...logarithmicPlots.flat().map(p => p.x)), Math.min(...logarithmicPlots.flat().map(p => p.y)), Math.max(...logarithmicPlots.flat().map(p => p.y)));
+    svg += drawRectGrid(50, 1590, 700, 160, 10, 5);
+    const logAll = logarithmicPlots.flat();
+    svg += drawRectAxes(50, 1590, 700, 160, Math.min(...logAll.map(p => p.x)), Math.max(...logAll.map(p => p.x)), Math.min(...logAll.map(p => p.y)), Math.max(...logAll.map(p => p.y)));
   }
   const logAllPoints = logarithmicPlots.flat();
   let logMinY = Math.min(...logAllPoints.map(p => p.y));
@@ -713,7 +789,7 @@ const generateSvg = (
     const color = defaultColors.logarithmic[idx % defaultColors.logarithmic.length];
     const pts = points.map(p => {
       const px = 50 + ((p.x - logMinX) / (logMaxX - logMinX)) * 700;
-      const py = 1570 - ((p.y - logMinY) / (logMaxY - logMinY)) * 180;
+      const py = 1750 - ((p.y - logMinY) / (logMaxY - logMinY)) * 160;
       return `${formatNumber(px)},${formatNumber(py)}`;
     }).join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -731,7 +807,7 @@ const plotToHtml = ({ formulas = [], grid = false } = {}) => {
 
 // Markdown Generation Function
 const plotToMarkdown = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
   let md = "# Plot Data\n\n";
   md += "## Quadratic Plot:\n";
   quadratic.forEach((points, i) => {
@@ -747,6 +823,10 @@ const plotToMarkdown = ({ formulas = [] } = {}) => {
   });
   md += "## Cosine Plot:\n";
   cosine.forEach((points, i) => {
+    md += `**Formula ${i + 1}:** ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+  });
+  md += "## Tangent Plot:\n";
+  tangent.forEach((points, i) => {
     md += `**Formula ${i + 1}:** ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Polar Plot:\n";
@@ -765,8 +845,8 @@ const plotToMarkdown = ({ formulas = [] } = {}) => {
 };
 
 const plotToSvg = ({ formulas = [], grid = false } = {}) => {
-  const { quadratic, linear, sine, cosine, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
-  return generateSvg(quadratic, linear, sine, cosine, polar, exponential, logarithmic, grid);
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+  return generateSvg(quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic, grid);
 };
 
 const plotToAscii = ({ formulas = [] } = {}) => {
@@ -794,12 +874,13 @@ const plotToAscii = ({ formulas = [] } = {}) => {
 };
 
 const plotToText = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
   let output = "";
   output += "Quadratic Plot:\n" + quadratic.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n\n";
   output += "Linear Plot:\n" + linear.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n\n";
   output += "Sine Plot:\n" + sine.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n\n";
   output += "Cosine Plot:\n" + cosine.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n\n";
+  output += "Tangent Plot:\n" + tangent.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n\n";
   output += "Polar Plot:\n" + polar.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n\n";
   output += "Exponential Plot:\n" + exponential.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n\n";
   output += "Logarithmic Plot:\n" + logarithmic.map((points, i) => `Formula ${i + 1}: ` + points.map(p => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")).join("\n") + "\n";
@@ -807,12 +888,13 @@ const plotToText = ({ formulas = [] } = {}) => {
 };
 
 const plotToJson = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
   return {
     quadratic,
     linear,
     sine,
     cosine,
+    tangent,
     polar,
     exponential,
     logarithmic
@@ -820,7 +902,7 @@ const plotToJson = ({ formulas = [] } = {}) => {
 };
 
 const plotToCsv = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
   const lines = [];
   lines.push("Plot, Formula, x, y");
   lines.push("--Quadratic Plot--");
@@ -848,6 +930,13 @@ const plotToCsv = ({ formulas = [] } = {}) => {
   cosine.forEach((points, i) => {
     points.forEach(p => {
       lines.push(`Cosine,Formula ${i + 1},${formatNumber(p.x)},${formatNumber(p.y)}`);
+    });
+  });
+  lines.push("");
+  lines.push("--Tangent Plot--");
+  tangent.forEach((points, i) => {
+    points.forEach(p => {
+      lines.push(`Tangent,Formula ${i + 1},${formatNumber(p.x)},${formatNumber(p.y)}`);
     });
   });
   lines.push("");
@@ -964,6 +1053,7 @@ const main = async () => {
     "  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n" +
     "  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n" +
     "  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n" +
+    "  Tangent:   'tangent:amplitude,frequency,phase[,xMin,xMax,step]'\n" +
     "  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n" +
     "  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or 'y=2*e^(0.5x)' (optionally with range)\n" +
     "  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'";
@@ -1077,7 +1167,7 @@ const main = async () => {
   const formulasList = args.filter(arg => arg.includes(":") || arg.includes("="));
 
   if (formulasList.length === 0) {
-    console.log("No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, polar, exponential, and logarithmic plots.");
+    console.log("No formulas provided. Using default plot functions for quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic plots.");
   }
 
   if (isDebug) {
@@ -1149,6 +1239,7 @@ export {
   plotQuadratic,
   plotSine,
   plotCosine,
+  plotTangent,
   plotPolar,
   plotLinear,
   plotExponential,

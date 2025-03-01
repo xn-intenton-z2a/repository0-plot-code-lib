@@ -25,6 +25,7 @@ describe("Exported API Functions", () => {
     expect(json).toHaveProperty("linear");
     expect(json).toHaveProperty("sine");
     expect(json).toHaveProperty("cosine");
+    expect(json).toHaveProperty("tangent");
     expect(json).toHaveProperty("polar");
     expect(json).toHaveProperty("exponential");
     expect(json).toHaveProperty("logarithmic");
