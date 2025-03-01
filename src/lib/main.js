@@ -11,8 +11,8 @@
  *     and exits gracefully.
  *
  * Extended functionality:
- *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error,
- *     paving the way for future enhancements.
+ *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
+ *     This stub serves as a placeholder for future enhancements where full PNG support will be implemented.
  *
  * For detailed contribution guidelines and the automated workflow process, please refer to CONTRIBUTING.md.
  */
