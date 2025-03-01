@@ -994,7 +994,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-7");
+    console.log("Equation Plotter Library version 0.2.1-9");
     return;
   }
 

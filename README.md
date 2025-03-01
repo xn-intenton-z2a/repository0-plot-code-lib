@@ -2,13 +2,15 @@
 
 ## Overview
 
-`plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter—a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML) and includes the following features:
+`plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter — a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML) and includes the following features:
 
 - **Interactive Mode:** Allows real-time user input via the `--interactive` flag.
 - **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** Code has been refactored for better consistency in structure and formatting in line with our contributing guidelines.
 - **Extended Functionality:** A stub for PNG conversion has been added (via the `plotToPng` function), explicitly throwing a "PNG conversion is not implemented yet." error, paving the way for future enhancements.
+
+**Version:** Equation Plotter Library version 0.2.1-9
 
 Generated using:
 ```
@@ -22,7 +24,7 @@ npm run start output.png
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the contributing guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and now features improved consistency as well as an extended PNG conversion stub.
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It adheres to the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 - **Dependencies:**
   The `package.json` file lists dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
@@ -31,7 +33,7 @@ npm run start output.png
   Unit tests in `tests/unit/` validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure the PNG conversion stub correctly throws a not implemented error.
 
 - **Documentation & Contributions:**
-  We welcome contributions! Please ensure your changes adhere to our [CONTRIBUTING.md](CONTRIBUTING.md) guidelines, which outline our fully automated contribution workflow using intentïon agentic‑lib. This alignment ensures every contribution meets our project standards and our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+  We welcome contributions! Please ensure your changes adhere to our [CONTRIBUTING.md](CONTRIBUTING.md) guidelines. Our automated contribution workflow using intentïon agentic‑lib ensures every contribution aligns with our project standards and mission.
 
 ## Running the CLI
 
@@ -111,4 +113,4 @@ Interested in contributing? Please review our [CONTRIBUTING.md](CONTRIBUTING.md)
 
 In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulae into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, polar, exponential, and logarithmic plots. This release improves consistency in code structure and documentation, aligning CLI behavior with our contribution guidelines.
 
-**Version:** Equation Plotter Library version 0.2.1-7
+**Version:** Equation Plotter Library version 0.2.1-9
