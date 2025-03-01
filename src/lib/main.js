@@ -115,6 +115,7 @@ const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
 const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
+const plotPolar = () => plotPolarParam();
 // For demonstration, linear plot now uses y = 2x + 3
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
