@@ -9,13 +9,13 @@
  * This file contains all the functions required for parsing and generating plots from
  * mathematical formulas. It adheres to the contributing guidelines in CONTRIBUTING.md.
  *
- * Mission: To be the go-to formula visualization tool with a robust CLI and API,
- * offering flexible, jq-like functionality for analyzing and filtering mathematical plots.
+ * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
  *
  * Change Log:
+ *  - Pruned drift from the mission statement to align with our core vision.
  *  - Added support for advanced query filtering via advancedQueryPlotData function.
  *  - Extended rotation feature and summary statistics for enhanced data insights.
- *  - Updated mission statement to reflect our commitment to being the jq of formulae visualisations.
+ *  - Maintained tangent plotting functionality and PNG conversion stub.
  *
  * Default behavior:
  *   - When no CLI arguments are provided, it prints a usage message, generates a demo SVG file (output.svg),
@@ -29,8 +29,6 @@
  *   - New Feature: Support for rotating plot outputs using the --rotate flag.
  *   - New Feature: Query Plot Data (queryPlotData) enabling flexible, jq-like filtering of plot points.
  *   - New Feature: Advanced Query Filtering (advancedQueryPlotData) to allow simultaneous filtering on both x and y values.
- *
- * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
 
 'use strict';
