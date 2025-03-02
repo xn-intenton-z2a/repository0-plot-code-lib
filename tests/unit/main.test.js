@@ -77,7 +77,7 @@ describe("Exported API Functions", () => {
       question: vi.fn((prompt, callback) => {
         callback("y=2x+3:-10,10,1");
       }),
-      close: vi.fn(),
+      close: vi.fn()
     };
     vi.spyOn(readline, "createInterface").mockReturnValue(rlMock);
     const originalArgv = process.argv;
@@ -116,6 +116,17 @@ describe("Exported API Functions", () => {
       expect(point.x).toBeGreaterThanOrEqual(-45);
       expect(point.x).toBeLessThanOrEqual(45);
     });
+  });
+
+  // New Test for Summary Statistics feature
+  test("getPlotStats returns valid summary object", () => {
+    const plots = mainModule.getPlotsFromFormulas(["quad:1,0,0,-10,10,1", "sine:1,1,0,0,360,30"]);
+    const stats = mainModule.getPlotStats(plots);
+    expect(stats).toHaveProperty('quadratic');
+    expect(stats.quadratic).toHaveProperty('count');
+    expect(typeof stats.quadratic.count).toBe('number');
+    expect(stats).toHaveProperty('sine');
+    expect(stats.sine).toHaveProperty('minX');
   });
 
   describe("Error Handling", () => {

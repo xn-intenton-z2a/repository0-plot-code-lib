@@ -4,13 +4,14 @@
 
 `plot-code-lib` is a demo repository that showcases GitHub workflows imported from intentïon agentic‑lib. It serves as a seed for the Equation Plotter — a CLI tool that generates plots for mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. The tool supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, and HTML).
 
-- **Interactive Mode:** Allows real-time user input via the `--interactive` flag. The interactive mode now includes improved error handling and resource cleanup.
-- **Default Behavior:** When no arguments are provided, the tool prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
+- **Interactive Mode:** Allows real-time user input via the `--interactive` flag. The interactive mode now includes improved error handling, resource cleanup, and an option (`--stats`) to display summary statistics for the plotted data.
+- **Default Behavior:** When no arguments are provided, the CLI prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines. Linting issues were resolved by addressing regex warnings and ensuring proper trailing commas per Prettier guidelines.
 - **Extended Functionality:** In addition to various plot types, a fully implemented tangent plotting feature has been added, enabling the visualization of tangent functions. A stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error.
+- **New Feature:** Summary statistics for each plot type (such as count, min/max for x and y values) are now available and can be displayed using the `--stats` flag.
 
-**Version:** Equation Plotter Library version 0.2.1-9
+**Version:** Equation Plotter Library version 0.2.1-10
 
 Generated using:
 ```bash
@@ -24,13 +25,13 @@ npm run start output.svg
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, and CLI management. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, CLI management, and the new summary statistics feature. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 - **Dependencies:**
   Refer to `package.json` for dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. The tests ensure the tangent plotting functionality is correctly handled along with the rest of the plot types.
+  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that the summary statistics feature and the tangent plotting functionality are correctly handled.
 
 ## Running the CLI
 
@@ -66,6 +67,12 @@ npm run start output.svg
   node src/lib/main.js output.html --grid "y=2x+3:-10,10,1"
   ```
 
+- **Display Summary Statistics:**
+  Use the `--stats` flag to output summary statistics alongside the file generation.
+  ```bash
+  node src/lib/main.js output.svg --stats "quad:1,0,0,-10,10,1"
+  ```
+
 - **Interactive Mode:**
   ```bash
   node src/lib/main.js --interactive
@@ -87,7 +94,7 @@ Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on our autom
 ## Future Enhancements
 
 - **Advanced Rotation and Custom Titles:** Allow users to specify rotation angles and custom plot titles.
-- **Summary Statistics:** Provide summary statistics for each plotted function.
+- **Summary Statistics:** Now implemented, summary statistics provide quick insights (min, max, count) for each plot type.
 - **PNG Conversion:** Expand the PNG export functionality beyond the current stub.
 - **Enhanced Interactive Mode:** Streamline real-time user interactions and improve error handling.
 - **Additional Plot Types:** Explore adding support for more mathematical functions.
@@ -98,7 +105,7 @@ ESLint and Prettier are used to maintain code quality and formatting. In this re
 
 ## Test Coverage
 
-Unit tests covering core CLI functions, exported methods, and error handling are located in the `tests/unit/` directory.
+Unit tests covering core CLI functions, exported methods, error handling, and the new summary statistics feature are located in the `tests/unit/` directory.
 
 ## Tuning the Agentic Coding System
 
@@ -113,6 +120,6 @@ As the project evolves, please review the following files as needed:
 
 ## Diary of an Agentic Coding System - Day 1
 
-In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulas into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, tangent, polar, exponential, and logarithmic plots. This release improves consistency in code structure and documentation, aligning CLI behavior with our contribution guidelines.
+In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulas into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, tangent, polar, exponential, and logarithmic plots. This release not only improves consistency in code structure and documentation, but also introduces a new summary statistics feature in accordance with our mission.
 
-**Version:** Equation Plotter Library version 0.2.1-9
+**Version:** Equation Plotter Library version 0.2.1-10
