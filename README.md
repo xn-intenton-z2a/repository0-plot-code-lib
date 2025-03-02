@@ -8,13 +8,7 @@
 - **Default Behavior:** When no arguments are provided, the CLI prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines. Linting issues were resolved by addressing regex warnings and ensuring proper trailing commas per Prettier guidelines.
-- **Extended Functionality:** In addition to various plot types, a fully implemented tangent plotting feature has been added, enabling the visualization of tangent functions. A stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error.
-
-- **New Features:**
-  - **Summary Statistics:** Summary statistics for each plot type (such as count, and min/max for x and y values) are now available and can be displayed using the `--stats` flag.
-  - **Rotation Support:** Plots can now be rotated by a specified angle using the `--rotate [angle]` flag, allowing further customization of the visual output.
-  - **Query Plot Data:** The `queryPlotData` function provides jq-like filtering of plot data, enabling users to flexibly query and manipulate formula visualizations.
-  - **Advanced Query Filtering:** A new function `advancedQueryPlotData` allows simultaneous filtering on both x and y values, enhancing data analysis capabilities.
+- **Extended Functionality:** In addition to various plot types, the tool now supports tangent plotting, advanced query filtering, summary statistics, and plot rotation.
 
 **Version:** Equation Plotter Library version 0.2.1-12
 
@@ -30,13 +24,13 @@ npm run start output.svg
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, CLI management, summary statistics, rotation, and advanced query data features. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "To be the go-to formula visualization tool with a robust CLI and API, offering flexible, jq-like functionality for analyzing and filtering mathematical plots." 
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, CLI management, summary statistics, rotation, and advanced query data features. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 - **Dependencies:**
   Refer to `package.json` for dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that the summary statistics, tangent plotting, rotation, advanced query filtering, and query data features are correctly handled.
+  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that summary statistics, tangent plotting, rotation, advanced query filtering, and query data features are correctly handled.
 
 ## Running the CLI
 
@@ -98,7 +92,7 @@ We welcome contributions to improve `plot-code-lib`. Please follow these steps:
 
 1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 2. **Label It as `automated`:** This triggers our automated contribution workflow, guided by our [CONTRIBUTING.md](CONTRIBUTING.md) guidelines.
-3. **Submit Your Changes:** Ensure your changes adhere to our code standards, including proper formatting and linting. Contributions are reviewed based on our mission: "To be the go-to formula visualization tool with a robust CLI and API, offering flexible, jq-like functionality for analyzing and filtering mathematical plots." 
+3. **Submit Your Changes:** Ensure your changes adhere to our code standards, including proper formatting and linting. Contributions are reviewed based on our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on our automated workflow and contribution process.
 
@@ -117,7 +111,7 @@ ESLint and Prettier are used to maintain code quality and formatting. In this re
 
 ## Test Coverage
 
-Unit tests covering core CLI functions, exported methods, error handling, and the new summary statistics, rotation, advanced query filtering, and query data features are located in the `tests/unit/` directory.
+Unit tests covering core CLI functions, exported methods, error handling, and new features such as summary statistics, rotation, advanced query filtering, and query data are located in the `tests/unit/` directory.
 
 ## Tuning the Agentic Coding System
 
@@ -132,7 +126,6 @@ As the project evolves, please review the following files as needed:
 
 ## Change Log
 
-- Updated mission statement in source file header to emphasize our goal of being a robust CLI and API for formula visualisation.
-- Extended functionality with support for plot rotation via the `--rotate` flag.
-- Added `queryPlotData` and new `advancedQueryPlotData` functions for flexible, jq-like filtering of plot data.
-- Improved error handling and consistent formatting across code and documentation.
+- Updated mission statement to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." and pruned outdated feature references.
+- Added support for advanced query filtering, summary statistics, and plot rotation.
+- Retained PNG conversion stub as a placeholder for future implementation.
