@@ -141,6 +141,18 @@ describe('Exported API Functions', () => {
     expect(rotatedPoint.y).toBeCloseTo(originalPoint.x, 1);
   });
 
+  // New Test for Query Plot Data Feature
+  test('queryPlotData filters plot data correctly', () => {
+    const plots = mainModule.getPlotsFromFormulas(['quad:1,0,0,-10,10,1']);
+    const filtered = mainModule.queryPlotData(plots, point => point.x >= 0);
+    // Check that all points in the filtered quadratic plot have x >= 0
+    filtered.quadratic.forEach(points => {
+      points.forEach(pt => {
+        expect(pt.x).toBeGreaterThanOrEqual(0);
+      });
+    });
+  });
+
   describe('Error Handling', () => {
     test('parseGenericQuadratic throws error for invalid input', () => {
       expect(() => mainModule.parseGenericQuadratic('invalid formula')).toThrow();
