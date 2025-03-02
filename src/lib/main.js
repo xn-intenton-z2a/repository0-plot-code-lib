@@ -17,6 +17,7 @@
  *   - A fully implemented tangent plotting functionality has been added. The tangent plot is generated from a formula string
  *     starting with "tangent:" and is drawn in the SVG output. This functionality has been extended and tested.
  *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
+ *   - New Feature: Summary Statistics for each plot type are now computed and can be output via the --stats flag.
  *
  * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
@@ -151,7 +152,7 @@ const parseQuadratic = (formulaStr) => {
     c: isNaN(c) ? 0 : c,
     xMin: isNaN(xMin) ? -10 : xMin,
     xMax: isNaN(xMax) ? 10 : xMax,
-    step: isNaN(step) ? 1 : step,
+    step: isNaN(step) ? 1 : step
   });
 };
 
@@ -183,7 +184,7 @@ const parseCosine = (formulaStr) => {
     phase: isNaN(phase) ? 0 : phase,
     xMin: isNaN(xMin) ? 0 : xMin,
     xMax: isNaN(xMax) ? 360 : xMax,
-    step: isNaN(step) ? 10 : step,
+    step: isNaN(step) ? 10 : step
   });
 };
 
@@ -198,7 +199,7 @@ const parseTangent = (formulaStr) => {
     phase: isNaN(phase) ? 0 : phase,
     xMin: isNaN(xMin) ? -45 : xMin,
     xMax: isNaN(xMax) ? 45 : xMax,
-    step: isNaN(step) ? 1 : step,
+    step: isNaN(step) ? 1 : step
   });
 };
 
@@ -224,7 +225,7 @@ const parseLinear = (formulaStr) => {
     b: isNaN(b) ? 0 : b,
     xMin: isNaN(xMin) ? -10 : xMin,
     xMax: isNaN(xMax) ? 10 : xMax,
-    step: isNaN(step) ? 1 : step,
+    step: isNaN(step) ? 1 : step
   });
 };
 
@@ -295,7 +296,7 @@ const parseGenericQuadratic = (formulaStr) => {
       c: -coeffs.c / yCoeff,
       xMin,
       xMax,
-      step,
+      step
     });
   } else {
     const partsEq = mainPart.split("=");
@@ -318,7 +319,7 @@ const parseGenericQuadratic = (formulaStr) => {
         c: (constantRight - coeffs.c) / yCoeff,
         xMin,
         xMax,
-        step,
+        step
       });
     } else if (right.includes("y")) {
       const yMatch = right.match(/([+-]?\d*(?:\.\d+)?)y/);
@@ -336,7 +337,7 @@ const parseGenericQuadratic = (formulaStr) => {
         c: (constantLeft - coeffs.c) / yCoeff,
         xMin,
         xMax,
-        step,
+        step
       });
     } else {
       const newExpr = (right || "0") + invertExpression(left);
@@ -355,7 +356,7 @@ const parseExponential = (formulaStr) => {
     b: isNaN(b) ? 1 : b,
     xMin: isNaN(xMin) ? -10 : xMin,
     xMax: isNaN(xMax) ? 10 : xMax,
-    step: isNaN(step) ? 1 : step,
+    step: isNaN(step) ? 1 : step
   });
 };
 
@@ -393,7 +394,7 @@ const parseLogarithmic = (formulaStr) => {
     base: isNaN(base) ? Math.E : base,
     xMin: isNaN(xMin) ? 1 : xMin,
     xMax: isNaN(xMax) ? 10 : xMax,
-    step: isNaN(step) ? 1 : step,
+    step: isNaN(step) ? 1 : step
   });
 };
 
@@ -552,6 +553,26 @@ const getPlotsFromFormulas = (formulas = []) => {
   return { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic };
 };
 
+// New Feature: Compute Summary Statistics for each plot type
+const getPlotStats = (plotsObj) => {
+  const stats = {};
+  Object.entries(plotsObj).forEach(([type, plotsArray]) => {
+    const allPoints = plotsArray.flat();
+    if (allPoints.length > 0) {
+      stats[type] = {
+        count: allPoints.length,
+        minX: Math.min(...allPoints.map(p => p.x)),
+        maxX: Math.max(...allPoints.map(p => p.x)),
+        minY: Math.min(...allPoints.map(p => p.y)),
+        maxY: Math.max(...allPoints.map(p => p.y))
+      };
+    } else {
+      stats[type] = null;
+    }
+  });
+  return stats;
+};
+
 // SVG Generation Function
 const generateSvg = (
   quadraticPlots,
@@ -586,7 +607,7 @@ const generateSvg = (
     tangent: ["black", "gray"],
     polar: ["green", "darkgreen", "limegreen", "seagreen", "forestgreen"],
     exponential: ["magenta", "darkmagenta", "violet", "indigo", "purple"],
-    logarithmic: ["brown", "saddlebrown", "peru", "chocolate", "tan"],
+    logarithmic: ["brown", "saddlebrown", "peru", "chocolate", "tan"]
   };
 
   const drawRectGrid = (x, y, w, h, vCount, hCount) => {
@@ -1113,7 +1134,7 @@ const plotToJson = ({ formulas = [] } = {}) => {
     tangent,
     polar,
     exponential,
-    logarithmic,
+    logarithmic
   };
 };
 
@@ -1208,6 +1229,14 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
   return outputFileName;
 };
 
+// New: If --stats flag is used, display summary statistics of plotted data.
+const printSummaryStats = (formulas) => {
+  const plots = getPlotsFromFormulas(formulas);
+  const stats = getPlotStats(plots);
+  console.log("\nSummary Statistics:");
+  console.log(JSON.stringify(stats, null, 2));
+};
+
 // Demo Test Function
 const demoTest = () => {
   console.log("=== Demo Test Output ===");
@@ -1253,6 +1282,7 @@ const main = async () => {
     "  --html             Generate output as HTML\n" +
     "  --grid             Overlay grid lines on SVG plots\n" +
     "  --debug            Output internal parsed plot data for debugging\n" +
+    "  --stats            Output summary statistics for plotted data\n" +
     "  --interactive      Enable interactive CLI mode for real-time user input\n" +
     "  --version          Show version information\n\n" +
     "Formula String Formats:\n" +
@@ -1282,7 +1312,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-9");
+    console.log("Equation Plotter Library version 0.2.1-10");
     return;
   }
 
@@ -1301,23 +1331,23 @@ const main = async () => {
             .map((s) => s.trim())
             .filter(Boolean);
           const filteredArgs = args.filter((arg) => arg !== "--interactive");
-          const nonOptionArgs = filteredArgs.filter(
-            (arg) =>
-              !arg.includes(":") &&
-              !arg.includes("=") &&
-              ![
-                "--json",
-                "--csv",
-                "--html",
-                "--ascii",
-                "--md",
-                "--debug",
-                "--grid",
-                "--interactive",
-                "--help",
-                "-h",
-                "--version"
-              ].includes(arg),
+          const nonOptionArgs = filteredArgs.filter((arg) =>
+            !arg.includes(":") &&
+            !arg.includes("=") &&
+            ![
+              "--json",
+              "--csv",
+              "--html",
+              "--ascii",
+              "--md",
+              "--debug",
+              "--grid",
+              "--stats",
+              "--interactive",
+              "--help",
+              "-h",
+              "--version"
+            ].includes(arg),
           );
           const outputFileName = nonOptionArgs.length > 0 ? nonOptionArgs[0] : "output.svg";
           const isJson = filteredArgs.includes("--json");
@@ -1327,6 +1357,7 @@ const main = async () => {
           let isMarkdown = filteredArgs.includes("--md");
           const isDebug = filteredArgs.includes("--debug");
           const gridEnabled = filteredArgs.includes("--grid");
+          const showStats = filteredArgs.includes("--stats");
           if (!isJson && !isCsv && !isHtml && !isMarkdown && !isAscii) {
             if (outputFileName.toLowerCase().endsWith(".md")) {
               isMarkdown = true;
@@ -1360,6 +1391,9 @@ const main = async () => {
             resolve();
             return;
           }
+          if (showStats) {
+            printSummaryStats(interactiveFormulas);
+          }
           console.log("\nText Representation of Plots:");
           console.log(plotToText({ formulas: interactiveFormulas }));
         } catch (err) {
@@ -1373,23 +1407,23 @@ const main = async () => {
     return;
   }
 
-  const nonOptionArgs = args.filter(
-    (arg) =>
-      !arg.includes(":") &&
-      !arg.includes("=") &&
-      ![
-        "--json",
-        "--csv",
-        "--html",
-        "--ascii",
-        "--md",
-        "--debug",
-        "--grid",
-        "--interactive",
-        "--help",
-        "-h",
-        "--version"
-      ].includes(arg),
+  const nonOptionArgs = args.filter((arg) =>
+    !arg.includes(":") &&
+    !arg.includes("=") &&
+    ![
+      "--json",
+      "--csv",
+      "--html",
+      "--ascii",
+      "--md",
+      "--debug",
+      "--grid",
+      "--stats",
+      "--interactive",
+      "--help",
+      "-h",
+      "--version"
+    ].includes(arg),
   );
   const outputFileName = nonOptionArgs.length > 0 ? nonOptionArgs[0] : "output.svg";
   const isJson = args.includes("--json");
@@ -1399,6 +1433,7 @@ const main = async () => {
   let isMarkdown = args.includes("--md");
   const isDebug = args.includes("--debug");
   const gridEnabled = args.includes("--grid");
+  const showStats = args.includes("--stats");
 
   if (!isJson && !isCsv && !isHtml && !isMarkdown && !isAscii) {
     if (outputFileName.toLowerCase().endsWith(".md")) {
@@ -1451,6 +1486,10 @@ const main = async () => {
   else if (isAscii) outputType = "ASCII";
   console.log(`\n${outputType} file generated: ${outputFileName}`);
 
+  if (showStats) {
+    printSummaryStats(formulasList);
+  }
+
   console.log("\nText Representation of Plots:");
   console.log(plotToText({ formulas: formulasList }));
 
@@ -1495,4 +1534,5 @@ export {
   parseCosine,
   main,
   demoTest,
+  getPlotStats
 };
