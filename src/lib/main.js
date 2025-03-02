@@ -1534,5 +1534,6 @@ export {
   parseCosine,
   main,
   demoTest,
-  getPlotStats
+  getPlotStats,
+  getPlotsFromFormulas
 };
