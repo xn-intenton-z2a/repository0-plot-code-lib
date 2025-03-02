@@ -129,7 +129,7 @@ describe("Exported API Functions", () => {
 
     test("plotToPng throws not implemented error", () => {
       expect(() => mainModule.plotToPng({ formulas: ["quad:1,0,0,-10,10,1"] })).toThrow(
-        "PNG conversion is not implemented yet.",
+        "PNG conversion is not implemented yet."
       );
     });
   });
