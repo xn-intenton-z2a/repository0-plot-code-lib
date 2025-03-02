@@ -133,22 +133,20 @@ describe('Exported API Functions', () => {
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });
-    // For 90 degree rotation, point (x,y) becomes (-y, x). Check one sample point.
     const originalPoint = originalJson.quadratic[0][0];
     const rotatedPoint = rotatedJson.quadratic[0][0];
-    // Allow some floating point tolerance
     expect(rotatedPoint.x).toBeCloseTo(-originalPoint.y, 1);
     expect(rotatedPoint.y).toBeCloseTo(originalPoint.x, 1);
   });
 
-  // New Test for Query Plot Data Feature
-  test('queryPlotData filters plot data correctly', () => {
+  // New Test for Advanced Query Plot Data Feature
+  test('advancedQueryPlotData filters plot data based on x and y predicates', () => {
     const plots = mainModule.getPlotsFromFormulas(['quad:1,0,0,-10,10,1']);
-    const filtered = mainModule.queryPlotData(plots, point => point.x >= 0);
-    // Check that all points in the filtered quadratic plot have x >= 0
+    const filtered = mainModule.advancedQueryPlotData(plots, { x: (val) => val >= 0, y: (val) => val <= 50 });
     filtered.quadratic.forEach(points => {
-      points.forEach(pt => {
-        expect(pt.x).toBeGreaterThanOrEqual(0);
+      points.forEach(point => {
+        expect(point.x).toBeGreaterThanOrEqual(0);
+        expect(point.y).toBeLessThanOrEqual(50);
       });
     });
   });
