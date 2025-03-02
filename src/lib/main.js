@@ -9,16 +9,19 @@
  * This file contains all the functions required for parsing and generating plots from
  * mathematical formulas. It adheres to the contributing guidelines in CONTRIBUTING.md.
  *
+ * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
+ *
  * Default behavior:
  *   - When no CLI arguments are provided, it prints a usage message, generates a demo SVG file (output.svg),
  *     and exits gracefully.
  *
  * Extended functionality:
  *   - A fully implemented tangent plotting functionality has been added. The tangent plot is generated from a formula string
- *     starting with "tangent:" and is drawn in the SVG output. This functionality has been extended and tested.
+ *     starting with "tangent:" and is drawn in the SVG output.
  *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
- *   - New Feature: Summary Statistics for each plot type are now computed and can be output via the --stats flag.
- *   - New Feature: Support for rotating plot outputs using the --rotate flag has been added to further customize the visualization.
+ *   - New Feature: Summary Statistics for each plot type are computed and can be output via the --stats flag.
+ *   - New Feature: Support for rotating plot outputs using the --rotate flag.
+ *   - New Feature: Query Plot Data (queryPlotData) enabling flexible, jq-like filtering of plot points.
  *
  * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
@@ -602,6 +605,21 @@ const getPlotStats = (plotsObj) => {
     }
   });
   return stats;
+};
+
+// New Feature: Query Plot Data
+/**
+ * Filters plot data based on a predicate, similar to jq filtering functionality.
+ * @param {Object} plots - An object containing arrays of plot points keyed by plot type.
+ * @param {function} predicate - A callback function that accepts a point and returns a boolean.
+ * @returns {Object} - A new plots object with filtered points.
+ */
+const queryPlotData = (plots, predicate) => {
+  const filteredPlots = {};
+  for (const type in plots) {
+    filteredPlots[type] = plots[type].map(points => points.filter(predicate));
+  }
+  return filteredPlots;
 };
 
 // SVG Generation Function
@@ -1541,5 +1559,6 @@ export {
   main,
   demoTest,
   getPlotStats,
-  getPlotsFromFormulas
+  getPlotsFromFormulas,
+  queryPlotData
 };
