@@ -2,113 +2,113 @@
 /* global describe, test, expect, vi */
 // File: tests/unit/main.test.js
 
-import { describe, test, expect, vi } from "vitest";
-import * as mainModule from "@src/lib/main.js";
-import fs from "fs";
-import readline from "readline";
+import { describe, test, expect, vi } from 'vitest';
+import * as mainModule from '@src/lib/main.js';
+import fs from 'fs';
+import readline from 'readline';
 
-describe("Main Module Import", () => {
-  test("should be non-null", () => {
+describe('Main Module Import', () => {
+  test('should be non-null', () => {
     expect(mainModule).not.toBeNull();
   });
 });
 
-describe("Exported API Functions", () => {
-  test("plotToSvg returns string containing <svg>", () => {
-    const svg = mainModule.plotToSvg({ formulas: ["quad:1,0,0,-10,10,1"] });
-    expect(typeof svg).toBe("string");
-    expect(svg).toContain("<svg");
+describe('Exported API Functions', () => {
+  test('plotToSvg returns string containing <svg>', () => {
+    const svg = mainModule.plotToSvg({ formulas: ['quad:1,0,0,-10,10,1'] });
+    expect(typeof svg).toBe('string');
+    expect(svg).toContain('<svg');
   });
 
-  test("plotToJson returns object with required keys", () => {
-    const json = mainModule.plotToJson({ formulas: ["sine:1,1,0,0,360,30"] });
-    expect(json).toHaveProperty("quadratic");
-    expect(json).toHaveProperty("linear");
-    expect(json).toHaveProperty("sine");
-    expect(json).toHaveProperty("cosine");
-    expect(json).toHaveProperty("tangent");
-    expect(json).toHaveProperty("polar");
-    expect(json).toHaveProperty("exponential");
-    expect(json).toHaveProperty("logarithmic");
+  test('plotToJson returns object with required keys', () => {
+    const json = mainModule.plotToJson({ formulas: ['sine:1,1,0,0,360,30'] });
+    expect(json).toHaveProperty('quadratic');
+    expect(json).toHaveProperty('linear');
+    expect(json).toHaveProperty('sine');
+    expect(json).toHaveProperty('cosine');
+    expect(json).toHaveProperty('tangent');
+    expect(json).toHaveProperty('polar');
+    expect(json).toHaveProperty('exponential');
+    expect(json).toHaveProperty('logarithmic');
   });
 
-  test("plotToText returns non-empty string", () => {
-    const text = mainModule.plotToText({ formulas: ["y=2x+3:-10,10,1"] });
-    expect(typeof text).toBe("string");
+  test('plotToText returns non-empty string', () => {
+    const text = mainModule.plotToText({ formulas: ['y=2x+3:-10,10,1'] });
+    expect(typeof text).toBe('string');
     expect(text.length).toBeGreaterThan(0);
   });
 
-  test("plotToCsv returns CSV formatted string", () => {
-    const csv = mainModule.plotToCsv({ formulas: ["quad:1,0,0,-10,10,1"] });
-    expect(csv).toContain(",");
-    expect(csv).toContain("Quadratic");
+  test('plotToCsv returns CSV formatted string', () => {
+    const csv = mainModule.plotToCsv({ formulas: ['quad:1,0,0,-10,10,1'] });
+    expect(csv).toContain(',');
+    expect(csv).toContain('Quadratic');
   });
 
-  test("plotToHtml returns HTML string", () => {
-    const html = mainModule.plotToHtml({ formulas: ["y=2x+3:-10,10,1"], grid: true });
-    expect(html).toContain("<!DOCTYPE html>");
-    expect(html).toContain("<html");
-    expect(html).toContain("<div>");
+  test('plotToHtml returns HTML string', () => {
+    const html = mainModule.plotToHtml({ formulas: ['y=2x+3:-10,10,1'], grid: true });
+    expect(html).toContain('<!DOCTYPE html>');
+    expect(html).toContain('<html');
+    expect(html).toContain('<div>');
   });
 
-  test("plotToMarkdown returns markdown formatted string", () => {
-    const md = mainModule.plotToMarkdown({ formulas: ["sine:1,1,0,0,360,30"] });
-    expect(md).toContain("# Plot Data");
+  test('plotToMarkdown returns markdown formatted string', () => {
+    const md = mainModule.plotToMarkdown({ formulas: ['sine:1,1,0,0,360,30'] });
+    expect(md).toContain('# Plot Data');
   });
 
-  test("main generates markdown file when output file ends with .md", async () => {
-    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+  test('main generates markdown file when output file ends with .md', async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = "production";
-    process.argv = ["node", "src/lib/main.js", "output.md", "y=2x+3:-10,10,1"];
+    process.env.NODE_ENV = 'production';
+    process.argv = ['node', 'src/lib/main.js', 'output.md', 'y=2x+3:-10,10,1'];
     if (mainModule.main) {
       await mainModule.main();
     }
     const argsCall = writeFileSyncSpy.mock.calls[0];
-    expect(argsCall[1]).toContain("# Plot Data");
+    expect(argsCall[1]).toContain('# Plot Data');
     writeFileSyncSpy.mockRestore();
     process.argv = originalArgv;
     process.env.NODE_ENV = originalEnv;
   });
 
-  test("Interactive CLI Mode prompts for input", async () => {
+  test('Interactive CLI Mode prompts for input', async () => {
     const rlMock = {
       question: vi.fn((prompt, callback) => {
-        callback("y=2x+3:-10,10,1");
+        callback('y=2x+3:-10,10,1');
       }),
       close: vi.fn()
     };
-    vi.spyOn(readline, "createInterface").mockReturnValue(rlMock);
+    vi.spyOn(readline, 'createInterface').mockReturnValue(rlMock);
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
-    process.env.NODE_ENV = "production";
-    process.argv = ["node", "src/lib/main.js", "--interactive"];
+    process.env.NODE_ENV = 'production';
+    process.argv = ['node', 'src/lib/main.js', '--interactive'];
     await mainModule.main();
     expect(rlMock.question).toHaveBeenCalled();
     process.argv = originalArgv;
     process.env.NODE_ENV = originalEnv;
   }, 6000);
 
-  test("plotToAscii returns ASCII art string", () => {
-    const ascii = mainModule.plotToAscii({ formulas: ["sine:1,1,0,0,360,30"] });
-    expect(typeof ascii).toBe("string");
-    expect(ascii).toContain("ASCII Art of Sine Wave");
+  test('plotToAscii returns ASCII art string', () => {
+    const ascii = mainModule.plotToAscii({ formulas: ['sine:1,1,0,0,360,30'] });
+    expect(typeof ascii).toBe('string');
+    expect(ascii).toContain('ASCII Art of Sine Wave');
   });
 
-  test("plotToFile writes a file and returns file name", () => {
-    const fileName = "test_output.svg";
-    const result = mainModule.plotToFile({ formulas: ["quad:1,0,0,-10,10,1"], outputFileName: fileName, type: "svg" });
+  test('plotToFile writes a file and returns file name', () => {
+    const fileName = 'test_output.svg';
+    const result = mainModule.plotToFile({ formulas: ['quad:1,0,0,-10,10,1'], outputFileName: fileName, type: 'svg' });
     expect(result).toBe(fileName);
   });
 
-  test("plotFromString returns empty array for unrecognized formula", () => {
-    const result = mainModule.plotFromString("unknown:parameter");
+  test('plotFromString returns empty array for unrecognized formula', () => {
+    const result = mainModule.plotFromString('unknown:parameter');
     expect(result).toEqual([]);
   });
 
   // New Test for Tangent Plot functionality
-  test("plotTangent returns valid tangent plot points", () => {
+  test('plotTangent returns valid tangent plot points', () => {
     const tangentPoints = mainModule.plotTangent();
     expect(Array.isArray(tangentPoints)).toBe(true);
     expect(tangentPoints.length).toBeGreaterThan(0);
@@ -119,8 +119,8 @@ describe("Exported API Functions", () => {
   });
 
   // New Test for Summary Statistics feature
-  test("getPlotStats returns valid summary object", () => {
-    const plots = mainModule.getPlotsFromFormulas(["quad:1,0,0,-10,10,1", "sine:1,1,0,0,360,30"]);
+  test('getPlotStats returns valid summary object', () => {
+    const plots = mainModule.getPlotsFromFormulas(['quad:1,0,0,-10,10,1', 'sine:1,1,0,0,360,30']);
     const stats = mainModule.getPlotStats(plots);
     expect(stats).toHaveProperty('quadratic');
     expect(stats.quadratic).toHaveProperty('count');
@@ -129,18 +129,30 @@ describe("Exported API Functions", () => {
     expect(stats.sine).toHaveProperty('minX');
   });
 
-  describe("Error Handling", () => {
-    test("parseGenericQuadratic throws error for invalid input", () => {
-      expect(() => mainModule.parseGenericQuadratic("invalid formula")).toThrow();
+  // New Test for Rotation Feature
+  test('Rotation flag rotates plot points', () => {
+    const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
+    const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });
+    // For 90 degree rotation, point (x,y) becomes (-y, x). Check one sample point.
+    const originalPoint = originalJson.quadratic[0][0];
+    const rotatedPoint = rotatedJson.quadratic[0][0];
+    // Allow some floating point tolerance
+    expect(rotatedPoint.x).toBeCloseTo(-originalPoint.y, 1);
+    expect(rotatedPoint.y).toBeCloseTo(originalPoint.x, 1);
+  });
+
+  describe('Error Handling', () => {
+    test('parseGenericQuadratic throws error for invalid input', () => {
+      expect(() => mainModule.parseGenericQuadratic('invalid formula')).toThrow();
     });
 
-    test("parseSine throws error for invalid sine formula string", () => {
-      expect(() => mainModule.parseSine("sine:invalid")).toThrow();
+    test('parseSine throws error for invalid sine formula string', () => {
+      expect(() => mainModule.parseSine('sine:invalid')).toThrow();
     });
 
-    test("plotToPng throws not implemented error", () => {
-      expect(() => mainModule.plotToPng({ formulas: ["quad:1,0,0,-10,10,1"] })).toThrow(
-        "PNG conversion is not implemented yet."
+    test('plotToPng throws not implemented error', () => {
+      expect(() => mainModule.plotToPng({ formulas: ['quad:1,0,0,-10,10,1'] })).toThrow(
+        'PNG conversion is not implemented yet.'
       );
     });
   });
