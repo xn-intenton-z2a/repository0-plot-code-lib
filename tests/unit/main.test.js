@@ -15,13 +15,13 @@ describe("Main Module Import", () => {
 
 describe("Exported API Functions", () => {
   test("plotToSvg returns string containing <svg>", () => {
-    const svg = mainModule.plotToSvg({ formulas: ["quad:1,0,0,-10,10,1"], });
+    const svg = mainModule.plotToSvg({ formulas: ["quad:1,0,0,-10,10,1"] });
     expect(typeof svg).toBe("string");
     expect(svg).toContain("<svg");
   });
 
   test("plotToJson returns object with required keys", () => {
-    const json = mainModule.plotToJson({ formulas: ["sine:1,1,0,0,360,30"], });
+    const json = mainModule.plotToJson({ formulas: ["sine:1,1,0,0,360,30"] });
     expect(json).toHaveProperty("quadratic");
     expect(json).toHaveProperty("linear");
     expect(json).toHaveProperty("sine");
@@ -33,26 +33,26 @@ describe("Exported API Functions", () => {
   });
 
   test("plotToText returns non-empty string", () => {
-    const text = mainModule.plotToText({ formulas: ["y=2x+3:-10,10,1"], });
+    const text = mainModule.plotToText({ formulas: ["y=2x+3:-10,10,1"] });
     expect(typeof text).toBe("string");
     expect(text.length).toBeGreaterThan(0);
   });
 
   test("plotToCsv returns CSV formatted string", () => {
-    const csv = mainModule.plotToCsv({ formulas: ["quad:1,0,0,-10,10,1"], });
+    const csv = mainModule.plotToCsv({ formulas: ["quad:1,0,0,-10,10,1"] });
     expect(csv).toContain(",");
     expect(csv).toContain("Quadratic");
   });
 
   test("plotToHtml returns HTML string", () => {
-    const html = mainModule.plotToHtml({ formulas: ["y=2x+3:-10,10,1"], grid: true, });
+    const html = mainModule.plotToHtml({ formulas: ["y=2x+3:-10,10,1"], grid: true });
     expect(html).toContain("<!DOCTYPE html>");
     expect(html).toContain("<html");
     expect(html).toContain("<div>");
   });
 
   test("plotToMarkdown returns markdown formatted string", () => {
-    const md = mainModule.plotToMarkdown({ formulas: ["sine:1,1,0,0,360,30"], });
+    const md = mainModule.plotToMarkdown({ formulas: ["sine:1,1,0,0,360,30"] });
     expect(md).toContain("# Plot Data");
   });
 
@@ -61,7 +61,7 @@ describe("Exported API Functions", () => {
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = "production";
-    process.argv = ["node", "src/lib/main.js", "output.md", "y=2x+3:-10,10,1", ];
+    process.argv = ["node", "src/lib/main.js", "output.md", "y=2x+3:-10,10,1"];
     if (mainModule.main) {
       await mainModule.main();
     }
@@ -83,7 +83,7 @@ describe("Exported API Functions", () => {
     const originalArgv = process.argv;
     const originalEnv = process.env.NODE_ENV;
     process.env.NODE_ENV = "production";
-    process.argv = ["node", "src/lib/main.js", "--interactive", ];
+    process.argv = ["node", "src/lib/main.js", "--interactive"];
     await mainModule.main();
     expect(rlMock.question).toHaveBeenCalled();
     process.argv = originalArgv;
@@ -91,14 +91,14 @@ describe("Exported API Functions", () => {
   }, 6000);
 
   test("plotToAscii returns ASCII art string", () => {
-    const ascii = mainModule.plotToAscii({ formulas: ["sine:1,1,0,0,360,30"], });
+    const ascii = mainModule.plotToAscii({ formulas: ["sine:1,1,0,0,360,30"] });
     expect(typeof ascii).toBe("string");
     expect(ascii).toContain("ASCII Art of Sine Wave");
   });
 
   test("plotToFile writes a file and returns file name", () => {
     const fileName = "test_output.svg";
-    const result = mainModule.plotToFile({ formulas: ["quad:1,0,0,-10,10,1"], outputFileName: fileName, type: "svg", });
+    const result = mainModule.plotToFile({ formulas: ["quad:1,0,0,-10,10,1"], outputFileName: fileName, type: "svg" });
     expect(result).toBe(fileName);
   });
 
@@ -128,8 +128,8 @@ describe("Exported API Functions", () => {
     });
 
     test("plotToPng throws not implemented error", () => {
-      expect(() => mainModule.plotToPng({ formulas: ["quad:1,0,0,-10,10,1"], })).toThrow(
-        "PNG conversion is not implemented yet."
+      expect(() => mainModule.plotToPng({ formulas: ["quad:1,0,0,-10,10,1"] })).toThrow(
+        "PNG conversion is not implemented yet.",
       );
     });
   });
