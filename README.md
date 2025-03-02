@@ -9,9 +9,11 @@
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines. Linting issues were resolved by addressing regex warnings and ensuring proper trailing commas per Prettier guidelines.
 - **Extended Functionality:** In addition to various plot types, a fully implemented tangent plotting feature has been added, enabling the visualization of tangent functions. A stub for PNG conversion is provided (via the `plotToPng` function), which currently throws a "PNG conversion is not implemented yet." error.
-- **New Feature:** Summary statistics for each plot type (such as count, min/max for x and y values) are now available and can be displayed using the `--stats` flag.
+- **New Features:**
+  - **Summary Statistics:** Summary statistics for each plot type (such as count, and min/max for x and y values) are now available and can be displayed using the `--stats` flag.
+  - **Rotation Support:** Plots can now be rotated by a specified angle using the `--rotate [angle]` flag, allowing further customization of the visual output inline with our mission.
 
-**Version:** Equation Plotter Library version 0.2.1-10
+**Version:** Equation Plotter Library version 0.2.1-11
 
 Generated using:
 ```bash
@@ -25,13 +27,13 @@ npm run start output.svg
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, CLI management, and the new summary statistics feature. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, CLI management, and the new summary statistics and rotation features. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 - **Dependencies:**
   Refer to `package.json` for dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that the summary statistics feature and the tangent plotting functionality are correctly handled.
+  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that the summary statistics, tangent plotting, and rotation features are correctly handled.
 
 ## Running the CLI
 
@@ -73,6 +75,12 @@ npm run start output.svg
   node src/lib/main.js output.svg --stats "quad:1,0,0,-10,10,1"
   ```
 
+- **Rotate Plots:**
+  Use the `--rotate [angle]` flag to rotate the plot outputs by the specified angle in degrees. For example:
+  ```bash
+  node src/lib/main.js output.svg --rotate 90 "quad:1,0,0,-10,10,1"
+  ```
+
 - **Interactive Mode:**
   ```bash
   node src/lib/main.js --interactive
@@ -105,7 +113,7 @@ ESLint and Prettier are used to maintain code quality and formatting. In this re
 
 ## Test Coverage
 
-Unit tests covering core CLI functions, exported methods, error handling, and the new summary statistics feature are located in the `tests/unit/` directory.
+Unit tests covering core CLI functions, exported methods, error handling, and the new summary statistics and rotation features are located in the `tests/unit/` directory.
 
 ## Tuning the Agentic Coding System
 
@@ -118,8 +126,10 @@ As the project evolves, please review the following files as needed:
 - `CONTRIBUTING.md`
 - `eslint.config.js`
 
-## Diary of an Agentic Coding System - Day 1
+## Change Log
 
-In its early hours, `plot-code-lib` emerged with the revolutionary idea of transforming mathematical formulas into visual plots. Initially featuring quadratic curves and sine waves, the functionality has now expanded to include linear, cosine, tangent, polar, exponential, and logarithmic plots. This release not only improves consistency in code structure and documentation, but also introduces a new summary statistics feature in accordance with our mission.
+- Updated Mission Statement to reflect our goal of becoming the jq of formulae visualisations.
+- Extended functionality with support for plot rotation via the `--rotate` flag.
+- Improved error handling and consistent formatting across code and documentation.
+- Added new tests for rotation and summary statistics functionality.
 
-**Version:** Equation Plotter Library version 0.2.1-10

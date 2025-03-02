@@ -18,15 +18,16 @@
  *     starting with "tangent:" and is drawn in the SVG output. This functionality has been extended and tested.
  *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
  *   - New Feature: Summary Statistics for each plot type are now computed and can be output via the --stats flag.
+ *   - New Feature: Support for rotating plot outputs using the --rotate flag has been added to further customize the visualization.
  *
  * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
 
-"use strict";
+'use strict';
 
-import { fileURLToPath } from "url";
-import fs from "fs";
-import readline from "readline";
+import { fileURLToPath } from 'url';
+import fs from 'fs';
+import readline from 'readline';
 
 // Utility Functions
 
@@ -58,7 +59,37 @@ const range = (start, end, step = 1) => {
  */
 const formatNumber = (n) => {
   const s = n.toFixed(2);
-  return s === "-0.00" ? "0.00" : s;
+  return s === '-0.00' ? '0.00' : s;
+};
+
+// New Helper Functions for Rotation Feature
+
+/**
+ * Rotates an array of points by a given angle in degrees.
+ * @param {Array<{x: number, y: number}>} points
+ * @param {number} angleDeg
+ * @returns {Array<{x: number, y: number}>}
+ */
+const rotatePoints = (points, angleDeg) => {
+  const angle = (angleDeg * Math.PI) / 180;
+  return points.map(({ x, y }) => ({
+    x: x * Math.cos(angle) - y * Math.sin(angle),
+    y: x * Math.sin(angle) + y * Math.cos(angle)
+  }));
+};
+
+/**
+ * Applies rotation to all plot arrays in the plots object.
+ * @param {Object} plots
+ * @param {number} angleDeg
+ * @returns {Object}
+ */
+const applyRotationToPlots = (plots, angleDeg) => {
+  const rotatedPlots = {};
+  for (const key in plots) {
+    rotatedPlots[key] = plots[key].map(points => rotatePoints(points, angleDeg));
+  }
+  return rotatedPlots;
 };
 
 // Plotting Functions
@@ -965,14 +996,14 @@ const generateSvg = (
 };
 
 // HTML Generation Function
-const plotToHtml = ({ formulas = [], grid = false } = {}) => {
-  const svgContent = plotToSvg({ formulas, grid });
+const plotToHtml = ({ formulas = [], grid = false, rotationAngle = 0 } = {}) => {
+  const svgContent = plotToSvg({ formulas, grid, rotationAngle });
   return `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plot</title>\n  <style>\n    body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; height: 100vh; background-color: #f8f8f8; }\n  </style>\n</head>\n<body>\n  <div>\n    ${svgContent}\n  </div>\n</body>\n</html>`;
 };
 
 // Markdown Generation Function
-const plotToMarkdown = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+const plotToMarkdown = ({ formulas = [], rotationAngle = 0 } = {}) => {
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = (rotationAngle && rotationAngle !== 0) ? applyRotationToPlots(getPlotsFromFormulas(formulas), rotationAngle) : getPlotsFromFormulas(formulas);
   let md = "# Plot Data\n\n";
   md += "## Quadratic Plot:\n";
   quadratic.forEach((points, i) => {
@@ -1017,37 +1048,40 @@ const plotToMarkdown = ({ formulas = [] } = {}) => {
   return md;
 };
 
-const plotToSvg = ({ formulas = [], grid = false } = {}) => {
-  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
-  return generateSvg(quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic, grid);
+const plotToSvg = ({ formulas = [], grid = false, rotationAngle = 0 } = {}) => {
+  let plots = getPlotsFromFormulas(formulas);
+  if (rotationAngle && rotationAngle !== 0) {
+    plots = applyRotationToPlots(plots, rotationAngle);
+  }
+  return generateSvg(plots.quadratic, plots.linear, plots.sine, plots.cosine, plots.tangent, plots.polar, plots.exponential, plots.logarithmic, grid);
 };
 
-const plotToAscii = ({ formulas = [] } = {}) => {
-  const { sine } = getPlotsFromFormulas(formulas);
+const plotToAscii = ({ formulas = [], rotationAngle = 0 } = {}) => {
+  const { sine } = (rotationAngle && rotationAngle !== 0) ? applyRotationToPlots(getPlotsFromFormulas(formulas), rotationAngle) : getPlotsFromFormulas(formulas);
   let result = "";
   sine.forEach((points, idx) => {
     const header = `ASCII Art of Sine Wave - Formula ${idx + 1}:\n`;
     const rows = 21;
     const cols = points.length;
-    const grid = Array.from({ length: rows }, () => new Array(cols).fill(" "));
+    const gridArr = Array.from({ length: rows }, () => new Array(cols).fill(" "));
 
     for (let col = 0; col < cols; col++) {
       const { y } = points[col];
       const row = Math.round((1 - (y + 1) / 2) * (rows - 1));
-      grid[row][col] = "*";
+      gridArr[row][col] = "*";
     }
 
     const xAxisRow = Math.round(0.5 * (rows - 1));
     for (let col = 0; col < cols; col++) {
-      if (grid[xAxisRow][col] === " ") grid[xAxisRow][col] = "-";
+      if (gridArr[xAxisRow][col] === " ") gridArr[xAxisRow][col] = "-";
     }
-    result += header + grid.map((row) => row.join(" ")).join("\n") + "\n\n";
+    result += header + gridArr.map((row) => row.join(" ")).join("\n") + "\n\n";
   });
   return result;
 };
 
-const plotToText = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+const plotToText = ({ formulas = [], rotationAngle = 0 } = {}) => {
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = (rotationAngle && rotationAngle !== 0) ? applyRotationToPlots(getPlotsFromFormulas(formulas), rotationAngle) : getPlotsFromFormulas(formulas);
   let output = "";
   output +=
     "Quadratic Plot:\n" +
@@ -1124,22 +1158,13 @@ const plotToText = ({ formulas = [] } = {}) => {
   return output;
 };
 
-const plotToJson = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
-  return {
-    quadratic,
-    linear,
-    sine,
-    cosine,
-    tangent,
-    polar,
-    exponential,
-    logarithmic
-  };
+const plotToJson = ({ formulas = [], rotationAngle = 0 } = {}) => {
+  const plots = (rotationAngle && rotationAngle !== 0) ? applyRotationToPlots(getPlotsFromFormulas(formulas), rotationAngle) : getPlotsFromFormulas(formulas);
+  return plots;
 };
 
-const plotToCsv = ({ formulas = [] } = {}) => {
-  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = getPlotsFromFormulas(formulas);
+const plotToCsv = ({ formulas = [], rotationAngle = 0 } = {}) => {
+  const { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic } = (rotationAngle && rotationAngle !== 0) ? applyRotationToPlots(getPlotsFromFormulas(formulas), rotationAngle) : getPlotsFromFormulas(formulas);
   const lines = [];
   lines.push("Plot, Formula, x, y");
   lines.push("--Quadratic Plot--");
@@ -1200,22 +1225,22 @@ const plotToCsv = ({ formulas = [] } = {}) => {
   return lines.join("");
 };
 
-const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg" } = {}) => {
+const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg", rotationAngle = 0 } = {}) => {
   let content = "";
   if (type === "svg") {
-    content = plotToSvg({ formulas });
+    content = plotToSvg({ formulas, rotationAngle });
   } else if (type === "ascii") {
-    content = plotToAscii({ formulas });
+    content = plotToAscii({ formulas, rotationAngle });
   } else if (type === "text") {
-    content = plotToText({ formulas });
+    content = plotToText({ formulas, rotationAngle });
   } else if (type === "json") {
-    content = JSON.stringify(plotToJson({ formulas }), null, 2);
+    content = JSON.stringify(plotToJson({ formulas, rotationAngle }), null, 2);
   } else if (type === "csv") {
-    content = plotToCsv({ formulas });
+    content = plotToCsv({ formulas, rotationAngle });
   } else if (type === "html") {
-    content = plotToHtml({ formulas });
+    content = plotToHtml({ formulas, grid: false, rotationAngle });
   } else if (type === "md") {
-    content = plotToMarkdown({ formulas });
+    content = plotToMarkdown({ formulas, rotationAngle });
   } else if (type === "png") {
     throw new Error("PNG conversion is not implemented yet.");
   } else {
@@ -1284,6 +1309,7 @@ const main = async () => {
     "  --debug            Output internal parsed plot data for debugging\n" +
     "  --stats            Output summary statistics for plotted data\n" +
     "  --interactive      Enable interactive CLI mode for real-time user input\n" +
+    "  --rotate [angle]   Rotate plot output by specified angle in degrees\n" +
     "  --version          Show version information\n\n" +
     "Formula String Formats:\n" +
     "  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n" +
@@ -1312,13 +1338,19 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-10");
+    console.log("Equation Plotter Library version 0.2.1-11");
     return;
   }
 
   if (args.includes("--help") || args.includes("-h")) {
     console.log(helpMessage);
     return;
+  }
+
+  let rotationAngle = 0;
+  const rotateIndex = args.indexOf("--rotate");
+  if (rotateIndex !== -1 && args.length > rotateIndex + 1) {
+    rotationAngle = parseFloat(args[rotateIndex + 1]) || 0;
   }
 
   if (args.includes("--interactive")) {
@@ -1330,24 +1362,11 @@ const main = async () => {
             .split(";")
             .map((s) => s.trim())
             .filter(Boolean);
-          const filteredArgs = args.filter((arg) => arg !== "--interactive");
+          const filteredArgs = args.filter((arg) => arg !== "--interactive" && arg !== "--rotate" && arg !== rotationAngle.toString());
           const nonOptionArgs = filteredArgs.filter((arg) =>
             !arg.includes(":") &&
             !arg.includes("=") &&
-            ![
-              "--json",
-              "--csv",
-              "--html",
-              "--ascii",
-              "--md",
-              "--debug",
-              "--grid",
-              "--stats",
-              "--interactive",
-              "--help",
-              "-h",
-              "--version"
-            ].includes(arg),
+            !["--json", "--csv", "--html", "--ascii", "--md", "--debug", "--grid", "--stats", "--interactive", "--help", "-h", "--version", "--rotate"].includes(arg)
           );
           const outputFileName = nonOptionArgs.length > 0 ? nonOptionArgs[0] : "output.svg";
           const isJson = filteredArgs.includes("--json");
@@ -1371,17 +1390,17 @@ const main = async () => {
           }
           let fileContent = "";
           if (isJson) {
-            fileContent = JSON.stringify(plotToJson({ formulas: interactiveFormulas }), null, 2);
+            fileContent = JSON.stringify(plotToJson({ formulas: interactiveFormulas, rotationAngle }), null, 2);
           } else if (isCsv) {
-            fileContent = plotToCsv({ formulas: interactiveFormulas });
+            fileContent = plotToCsv({ formulas: interactiveFormulas, rotationAngle });
           } else if (isHtml) {
-            fileContent = plotToHtml({ formulas: interactiveFormulas, grid: gridEnabled });
+            fileContent = plotToHtml({ formulas: interactiveFormulas, grid: gridEnabled, rotationAngle });
           } else if (isMarkdown) {
-            fileContent = plotToMarkdown({ formulas: interactiveFormulas });
+            fileContent = plotToMarkdown({ formulas: interactiveFormulas, rotationAngle });
           } else if (isAscii) {
-            fileContent = plotToAscii({ formulas: interactiveFormulas });
+            fileContent = plotToAscii({ formulas: interactiveFormulas, rotationAngle });
           } else {
-            fileContent = plotToSvg({ formulas: interactiveFormulas, grid: gridEnabled });
+            fileContent = plotToSvg({ formulas: interactiveFormulas, grid: gridEnabled, rotationAngle });
           }
           try {
             fs.writeFileSync(outputFileName, fileContent, "utf8");
@@ -1395,7 +1414,7 @@ const main = async () => {
             printSummaryStats(interactiveFormulas);
           }
           console.log("\nText Representation of Plots:");
-          console.log(plotToText({ formulas: interactiveFormulas }));
+          console.log(plotToText({ formulas: interactiveFormulas, rotationAngle }));
         } catch (err) {
           console.error("Error during interactive mode:", err);
         } finally {
@@ -1410,20 +1429,7 @@ const main = async () => {
   const nonOptionArgs = args.filter((arg) =>
     !arg.includes(":") &&
     !arg.includes("=") &&
-    ![
-      "--json",
-      "--csv",
-      "--html",
-      "--ascii",
-      "--md",
-      "--debug",
-      "--grid",
-      "--stats",
-      "--interactive",
-      "--help",
-      "-h",
-      "--version"
-    ].includes(arg),
+    !["--json", "--csv", "--html", "--ascii", "--md", "--debug", "--grid", "--stats", "--interactive", "--help", "-h", "--version", "--rotate"].includes(arg)
   );
   const outputFileName = nonOptionArgs.length > 0 ? nonOptionArgs[0] : "output.svg";
   const isJson = args.includes("--json");
@@ -1458,17 +1464,17 @@ const main = async () => {
 
   let fileContent = "";
   if (isJson) {
-    fileContent = JSON.stringify(plotToJson({ formulas: formulasList }), null, 2);
+    fileContent = JSON.stringify(plotToJson({ formulas: formulasList, rotationAngle }), null, 2);
   } else if (isCsv) {
-    fileContent = plotToCsv({ formulas: formulasList });
+    fileContent = plotToCsv({ formulas: formulasList, rotationAngle });
   } else if (isHtml) {
-    fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled });
+    fileContent = plotToHtml({ formulas: formulasList, grid: gridEnabled, rotationAngle });
   } else if (isMarkdown) {
-    fileContent = plotToMarkdown({ formulas: formulasList });
+    fileContent = plotToMarkdown({ formulas: formulasList, rotationAngle });
   } else if (isAscii) {
-    fileContent = plotToAscii({ formulas: formulasList });
+    fileContent = plotToAscii({ formulas: formulasList, rotationAngle });
   } else {
-    fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled });
+    fileContent = plotToSvg({ formulas: formulasList, grid: gridEnabled, rotationAngle });
   }
 
   try {
@@ -1491,7 +1497,7 @@ const main = async () => {
   }
 
   console.log("\nText Representation of Plots:");
-  console.log(plotToText({ formulas: formulasList }));
+  console.log(plotToText({ formulas: formulasList, rotationAngle }));
 
   return;
 };
