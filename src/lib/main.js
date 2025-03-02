@@ -9,28 +9,16 @@
  * This file contains all the functions required for parsing and generating plots from
  * mathematical formulas. It adheres to the contributing guidelines in CONTRIBUTING.md.
  *
- * Mission: To be the go-to formula visualization tool with a robust CLI and API,
- * offering flexible, jq-like functionality for analyzing and filtering mathematical plots.
+ * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
+ *          This library supports plotting quadratic, linear, sine, cosine, tangent, polar,
+ *          exponential, and logarithmic functions. It also includes advanced query filtering,
+ *          summary statistics, and rotation support for enhanced data insights.
  *
  * Change Log:
+ *  - Updated mission statement to align with current features and pruned outdated references.
  *  - Added support for advanced query filtering via advancedQueryPlotData function.
- *  - Extended rotation feature and summary statistics for enhanced data insights.
- *  - Updated mission statement to reflect our commitment to being the jq of formulae visualisations.
- *
- * Default behavior:
- *   - When no CLI arguments are provided, it prints a usage message, generates a demo SVG file (output.svg),
- *     and exits gracefully.
- *
- * Extended functionality:
- *   - A fully implemented tangent plotting functionality has been added. The tangent plot is generated from a formula string
- *     starting with "tangent:" and is drawn in the SVG output.
- *   - A stub for PNG conversion (plotToPng) explicitly throws a "PNG conversion is not implemented yet." error.
- *   - New Feature: Summary Statistics for each plot type are computed and can be output via the --stats flag.
- *   - New Feature: Support for rotating plot outputs using the --rotate flag.
- *   - New Feature: Query Plot Data (queryPlotData) enabling flexible, jq-like filtering of plot points.
- *   - New Feature: Advanced Query Filtering (advancedQueryPlotData) to allow simultaneous filtering on both x and y values.
- *
- * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
+ *  - Extended rotation feature and summary statistics support.
+ *  - Retained PNG conversion stub as a placeholder for future implementation.
  */
 
 'use strict';
