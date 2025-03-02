@@ -9,7 +9,13 @@
  * This file contains all the functions required for parsing and generating plots from
  * mathematical formulas. It adheres to the contributing guidelines in CONTRIBUTING.md.
  *
- * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
+ * Mission: To be the go-to formula visualization tool with a robust CLI and API,
+ * offering flexible, jq-like functionality for analyzing and filtering mathematical plots.
+ *
+ * Change Log:
+ *  - Added support for advanced query filtering via advancedQueryPlotData function.
+ *  - Extended rotation feature and summary statistics for enhanced data insights.
+ *  - Updated mission statement to reflect our commitment to being the jq of formulae visualisations.
  *
  * Default behavior:
  *   - When no CLI arguments are provided, it prints a usage message, generates a demo SVG file (output.svg),
@@ -22,6 +28,7 @@
  *   - New Feature: Summary Statistics for each plot type are computed and can be output via the --stats flag.
  *   - New Feature: Support for rotating plot outputs using the --rotate flag.
  *   - New Feature: Query Plot Data (queryPlotData) enabling flexible, jq-like filtering of plot points.
+ *   - New Feature: Advanced Query Filtering (advancedQueryPlotData) to allow simultaneous filtering on both x and y values.
  *
  * For detailed contribution guidelines and our workflow, please refer to CONTRIBUTING.md.
  */
@@ -618,6 +625,21 @@ const queryPlotData = (plots, predicate) => {
   const filteredPlots = {};
   for (const type in plots) {
     filteredPlots[type] = plots[type].map(points => points.filter(predicate));
+  }
+  return filteredPlots;
+};
+
+// New Feature: Advanced Query Filtering
+/**
+ * Filters plot data based on separate predicates for x and y values.
+ * @param {Object} plots - An object containing arrays of plot points keyed by plot type.
+ * @param {Object} filters - An object with predicates for x and y. Example: { x: (val) => val > 0, y: (val) => val < 10 }
+ * @returns {Object} - A new plots object with filtered points.
+ */
+const advancedQueryPlotData = (plots, { x, y }) => {
+  const filteredPlots = {};
+  for (const type in plots) {
+    filteredPlots[type] = plots[type].map(points => points.filter(point => x(point.x) && y(point.y)));
   }
   return filteredPlots;
 };
@@ -1356,7 +1378,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-11");
+    console.log("Equation Plotter Library version 0.2.1-12");
     return;
   }
 
@@ -1560,5 +1582,6 @@ export {
   demoTest,
   getPlotStats,
   getPlotsFromFormulas,
-  queryPlotData
+  queryPlotData,
+  advancedQueryPlotData
 };
