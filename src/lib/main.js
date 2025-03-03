@@ -19,6 +19,7 @@
  *  - Added support for advanced query filtering via advancedQueryPlotData function.
  *  - Extended rotation feature and summary statistics support.
  *  - Added new geometric computation functions: computeCentroid and computeBoundingBox.
+ *  - Enhanced error reporting in file writing (plotToFile) for better testability.
  *  - Retained PNG conversion stub as a placeholder for future implementation.
  */
 
@@ -1302,8 +1303,8 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
   }
   try {
     fs.writeFileSync(outputFileName, content, "utf8");
-  } catch (_) {
-    throw new Error("Error writing file");
+  } catch (e) {
+    throw new Error("Error writing file: " + e.message);
   }
   return outputFileName;
 };
