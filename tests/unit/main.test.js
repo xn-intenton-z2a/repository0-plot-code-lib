@@ -151,6 +151,23 @@ describe('Exported API Functions', () => {
     });
   });
 
+  // New Tests for Geometric Computation Functions
+  test('computeCentroid calculates correct centroid', () => {
+    const points = [{ x: 0, y: 0 }, { x: 2, y: 2 }, { x: 4, y: 0 }];
+    const centroid = mainModule.computeCentroid(points);
+    expect(centroid.x).toBeCloseTo(2);
+    expect(centroid.y).toBeCloseTo(0.67, 1);
+  });
+
+  test('computeBoundingBox calculates correct bounding box', () => {
+    const points = [{ x: 0, y: 0 }, { x: 2, y: 2 }, { x: 4, y: 0 }];
+    const bbox = mainModule.computeBoundingBox(points);
+    expect(bbox.minX).toBe(0);
+    expect(bbox.maxX).toBe(4);
+    expect(bbox.minY).toBe(0);
+    expect(bbox.maxY).toBe(2);
+  });
+
   describe('Error Handling', () => {
     test('parseGenericQuadratic throws error for invalid input', () => {
       expect(() => mainModule.parseGenericQuadratic('invalid formula')).toThrow();
