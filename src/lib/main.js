@@ -12,12 +12,13 @@
  * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
  *          This library supports plotting quadratic, linear, sine, cosine, tangent, polar,
  *          exponential, and logarithmic functions. It also includes advanced query filtering,
- *          summary statistics, and rotation support for enhanced data insights.
+ *          summary statistics, rotation support and geometric computations for enhanced data insights.
  *
  * Change Log:
  *  - Updated mission statement to align with current features and pruned outdated references.
  *  - Added support for advanced query filtering via advancedQueryPlotData function.
  *  - Extended rotation feature and summary statistics support.
+ *  - Added new geometric computation functions: computeCentroid and computeBoundingBox.
  *  - Retained PNG conversion stub as a placeholder for future implementation.
  */
 
@@ -88,6 +89,31 @@ const applyRotationToPlots = (plots, angleDeg) => {
     rotatedPlots[key] = plots[key].map(points => rotatePoints(points, angleDeg));
   }
   return rotatedPlots;
+};
+
+// Geometric Computation Functions
+
+/**
+ * Computes the centroid of an array of points.
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {{x: number, y: number}}
+ */
+const computeCentroid = (points) => {
+  if (points.length === 0) return { x: 0, y: 0 };
+  const sum = points.reduce((acc, p) => ({ x: acc.x + p.x, y: acc.y + p.y }), { x: 0, y: 0 });
+  return { x: sum.x / points.length, y: sum.y / points.length };
+};
+
+/**
+ * Computes the bounding box for an array of points.
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {{minX: number, maxX: number, minY: number, maxY: number}}
+ */
+const computeBoundingBox = (points) => {
+  if (points.length === 0) return { minX: 0, maxX: 0, minY: 0, maxY: 0 };
+  const xs = points.map(p => p.x);
+  const ys = points.map(p => p.y);
+  return { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) };
 };
 
 // Plotting Functions
@@ -1571,5 +1597,7 @@ export {
   getPlotStats,
   getPlotsFromFormulas,
   queryPlotData,
-  advancedQueryPlotData
+  advancedQueryPlotData,
+  computeCentroid,
+  computeBoundingBox
 };

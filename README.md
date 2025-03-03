@@ -8,7 +8,7 @@
 - **Default Behavior:** When no arguments are provided, the CLI prints a usage message, outputs a demo SVG file (`output.svg`) with example plots, and terminates immediately.
 - **Automatic Format Selection:** The output format is inferred from flags or the extension of the output file name (e.g., `.md` for Markdown).
 - **Improved Consistency:** The code has been refactored for better consistency and formatting in line with our contributing guidelines. Linting issues were resolved by addressing regex warnings and ensuring proper trailing commas per Prettier guidelines.
-- **Extended Functionality:** In addition to various plot types, the tool now supports tangent plotting, advanced query filtering, summary statistics, and plot rotation.
+- **Extended Functionality:** In addition to various plot types, the tool now supports tangent plotting, advanced query filtering, summary statistics, plot rotation, and new geometric computations (centroid and bounding box calculations).
 
 **Version:** Equation Plotter Library version 0.2.1-12
 
@@ -24,13 +24,13 @@ npm run start output.svg
   Workflows in the `.github/workflows/` directory consume reusable workflows from intentïon agentic‑lib.
 
 - **Source Code:**
-  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, CLI management, summary statistics, rotation, and advanced query data features. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+  The main functionality is implemented in `src/lib/main.js`, including plotting logic, formula parsing, CLI management, summary statistics, rotation, advanced query filtering, and new geometric computations. It follows the guidelines outlined in [CONTRIBUTING.md](CONTRIBUTING.md) and reflects our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 - **Dependencies:**
   Refer to `package.json` for dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that summary statistics, tangent plotting, rotation, advanced query filtering, and query data features are correctly handled.
+  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that summary statistics, tangent plotting, rotation, advanced query filtering, and geometric computation functions (centroid and bounding box) are correctly handled.
 
 ## Running the CLI
 
@@ -104,6 +104,7 @@ Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines on our autom
 - **Enhanced Interactive Mode:** Streamline real-time user interactions and improve error handling.
 - **Additional Plot Types:** Explore adding support for more mathematical functions.
 - **Advanced Query Filtering:** Utilize the new `advancedQueryPlotData` function to allow complex filtering scenarios, reinforcing our commitment to flexible data analysis.
+- **Geometric Computations:** Added functions to calculate the centroid and bounding box of plot data.
 
 ## Linting
 
@@ -111,7 +112,7 @@ ESLint and Prettier are used to maintain code quality and formatting. In this re
 
 ## Test Coverage
 
-Unit tests covering core CLI functions, exported methods, error handling, and new features such as summary statistics, rotation, advanced query filtering, and query data are located in the `tests/unit/` directory.
+Unit tests covering core CLI functions, exported methods, error handling, and new features such as summary statistics, rotation, advanced query filtering, and geometric computations are located in the `tests/unit/` directory.
 
 ## Tuning the Agentic Coding System
 
@@ -128,4 +129,5 @@ As the project evolves, please review the following files as needed:
 
 - Updated mission statement to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." and pruned outdated feature references.
 - Added support for advanced query filtering, summary statistics, and plot rotation.
+- Added new geometric computation functions: computeCentroid and computeBoundingBox.
 - Retained PNG conversion stub as a placeholder for future implementation.
