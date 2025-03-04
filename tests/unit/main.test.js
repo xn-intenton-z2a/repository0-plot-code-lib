@@ -182,5 +182,14 @@ describe('Exported API Functions', () => {
         'PNG conversion is not implemented yet.'
       );
     });
+
+    // New Test: plotToFile error handling when fs.writeFileSync fails
+    test('plotToFile throws error when file writing fails', () => {
+      const fsSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => { throw new Error('Mock write error'); });
+      expect(() => {
+        mainModule.plotToFile({ formulas: ['quad:1,0,0,-10,10,1'], outputFileName: 'fail.svg', type: 'svg' });
+      }).toThrow('Error writing file: Mock write error');
+      fsSpy.mockRestore();
+    });
   });
 });

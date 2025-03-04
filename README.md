@@ -30,7 +30,7 @@ npm run start output.svg
   Refer to `package.json` for dependencies required for CLI argument parsing, file generation, testing, and various output conversions.
 
 - **Tests:**
-  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that summary statistics, tangent plotting, rotation, advanced query filtering, and geometric computation functions (centroid and bounding box) are correctly handled.
+  Unit tests in the `tests/unit/` directory validate core functions, CLI behavior (including interactive mode and default demo output), error handling, and additional exported functions. New tests ensure that summary statistics, tangent plotting, rotation, advanced query filtering, and geometric computation functions (centroid and bounding box) are correctly handled. External resources such as the file system are mocked to improve test reliability and coverage.
 
 ## Running the CLI
 
@@ -112,7 +112,7 @@ ESLint and Prettier are used to maintain code quality and formatting. In this re
 
 ## Test Coverage
 
-Unit tests covering core CLI functions, exported methods, error handling, and new features such as summary statistics, rotation, advanced query filtering, and geometric computations are located in the `tests/unit/` directory.
+Unit tests covering core CLI functions, exported methods, error handling, and new features such as summary statistics, rotation, advanced query filtering, and geometric computations are located in the `tests/unit/` directory. Extensive use of mocks ensures external resources (like file system operations) do not interfere with test outcomes.
 
 ## Tuning the Agentic Coding System
 
@@ -130,4 +130,5 @@ As the project evolves, please review the following files as needed:
 - Updated mission statement to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." and pruned outdated feature references.
 - Added support for advanced query filtering, summary statistics, and plot rotation.
 - Added new geometric computation functions: computeCentroid and computeBoundingBox.
+- Enhanced error reporting in file writing (plotToFile) to aid in testing and debugging.
 - Retained PNG conversion stub as a placeholder for future implementation.
