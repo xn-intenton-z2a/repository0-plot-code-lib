@@ -181,16 +181,12 @@ const plotLogarithmicParam = ({ a = 1, base = Math.E, xMin = 1, xMax = 10, step 
   return points;
 };
 
-// Extended Function: PNG Conversion Stub
-const plotToPng = ({ formulas = [], outputFileName = "output.png" } = {}) => {
-  throw new Error("PNG conversion is not implemented yet.");
-};
-
 // Backward-compatible wrappers
 const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
 const plotTangent = () => plotTangentParam();
+const plotPolar = () => plotPolarParam();
 // For demonstration, linear plot now uses y = 2x + 3
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();

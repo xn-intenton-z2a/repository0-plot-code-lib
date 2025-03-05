@@ -72,7 +72,7 @@ For detailed contribution guidelines and project standards, please refer to [CON
 ## Change Log
 
 - **Documentation Refresh:** Updated README and code comments to align with CONTRIBUTING.md guidelines, streamlining content and removing outdated references.
-- **Enhanced Features:** Added advanced query filtering, refined rotation handling, extended summary statistics support, and improved geometric computations.
+- **Enhanced Features:** Added advanced query filtering, refined rotation handling, extended summary statistics support, improved geometric computations, and fixed missing polar plot wrapper.
 - **CLI Improvements:** Enhanced interactive mode and error reporting along with robust test coverage.
 
 ## License
