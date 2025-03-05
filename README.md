@@ -2,7 +2,7 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool for generating plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. With a focus on advanced analysis, the tool supports multiple output formats such as SVG, JSON, CSV, Markdown, ASCII, and HTML while providing features like plot rotation, advanced query filtering, summary statistics, and geometric computations.
+Equation Plotter CLI is a versatile command-line tool for generating plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. With a focus on advanced analysis, the tool supports multiple output formats such as SVG, JSON, CSV, Markdown, ASCII, and HTML while providing features like plot rotation, advanced query filtering, summary statistics, geometric computations, and a web interface for real-time formula input and viewing.
 
 **Mission:**
 
@@ -14,6 +14,7 @@ _Be a go-to plot library with a CLI, be the jq of formulae visualisations._
 - **Flexible Output Formats:** Generate plots as SVG, JSON, CSV, Markdown, ASCII, and HTML.
 - **Interactive Mode:** Engage in real-time input to generate plots interactively.
 - **Advanced Analysis:** Get summary statistics, apply rotation to plots, filter data with advanced query predicates, and compute geometric properties (centroid and bounding box).
+- **Web Interface:** Spin up an Express server to serve a web interface for entering and viewing formulas. Access the interface via the `--serve` flag. The web interface provides an easy-to-use form to input formula strings and view the generated plots in real-time.
 - **Robust Testing:** Comprehensive unit tests with filesystem mocks and extensive coverage to ensure reliability.
 
 ## Getting Started
@@ -39,6 +40,14 @@ For interactive mode:
 ```bash
 node src/lib/main.js --interactive
 ```
+
+To start the web interface:
+
+```bash
+node src/lib/main.js --serve
+```
+
+The web interface will be available at [http://localhost:3000](http://localhost:3000).
 
 Additional flags include:
 
@@ -72,7 +81,7 @@ For detailed contribution guidelines and project standards, please refer to [CON
 ## Change Log
 
 - **Documentation Refresh:** Updated README and code comments to align with CONTRIBUTING.md guidelines, streamlining content and removing outdated references.
-- **Enhanced Features:** Added advanced query filtering, refined rotation handling, extended summary statistics support, improved geometric computations, and fixed missing polar plot wrapper.
+- **Enhanced Features:** Added advanced query filtering, refined rotation handling, extended summary statistics support, improved geometric computations, and integrated a web interface powered by Express for real-time formula input and viewing.
 - **CLI Improvements:** Enhanced interactive mode and error reporting along with robust test coverage.
 
 ## License

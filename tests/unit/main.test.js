@@ -7,6 +7,8 @@ import * as mainModule from '@src/lib/main.js';
 import fs from 'fs';
 import readline from 'readline';
 
+// Since node 18+ has global fetch
+
 describe('Main Module Import', () => {
   test('should be non-null', () => {
     expect(mainModule).not.toBeNull();
@@ -185,5 +187,17 @@ describe('Exported API Functions', () => {
     expect(result).toBe(fileName);
     expect(fsSpy).toHaveBeenCalled();
     fsSpy.mockRestore();
+  });
+
+  // New Test for Express Server
+  test('startExpressServer starts server and returns 200 response on /', async () => {
+    const server = mainModule.startExpressServer();
+    // wait for server to start
+    await new Promise(resolve => setTimeout(resolve, 500));
+    const response = await fetch('http://localhost:3000/');
+    expect(response.status).toBe(200);
+    const text = await response.text();
+    expect(text).toContain('<form');
+    server.close();
   });
 });
