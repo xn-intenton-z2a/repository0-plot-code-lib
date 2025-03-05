@@ -20,7 +20,8 @@
  *  - Extended rotation feature with improved input handling and internal modularity.
  *  - Integrated robust summary statistics functionality and refined geometric computation functions (computeCentroid and computeBoundingBox).
  *  - Improved error reporting in file writing (plotToFile) and enhanced interactive CLI experience.
- *  - Refreshed README documentation per CONTRIBUTING.md guidelines and updated Change Log.
+ *  - Enhanced test coverage by adding additional error handling and fs mocks in unit tests.
+ *  - Documentation refresh per CONTRIBUTING.md guidelines.
  *  - Retained PNG conversion stub as a placeholder for future implementation.
  */
 

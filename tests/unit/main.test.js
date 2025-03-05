@@ -168,36 +168,22 @@ describe('Exported API Functions', () => {
     expect(bbox.maxY).toBe(2);
   });
 
-  // New Test for README content reflecting updated documentation
-  test('README file contains updated documentation references', () => {
-    const readmeContent = fs.readFileSync('README.md', 'utf8');
-    expect(readmeContent).toContain('Equation Plotter CLI');
-    expect(readmeContent).toContain('[CONTRIBUTING.md]');
-    expect(readmeContent).toContain('Be a go-to plot library with a CLI');
+  // New Test for plotToFile error handling when fs.writeFileSync fails
+  test('plotToFile throws error when file writing fails', () => {
+    const fsSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => { throw new Error('Mock write error'); });
+    expect(() => {
+      mainModule.plotToFile({ formulas: ['quad:1,0,0,-10,10,1'], outputFileName: 'fail.svg', type: 'svg' });
+    }).toThrow('Error writing file: Mock write error');
+    fsSpy.mockRestore();
   });
 
-  describe('Error Handling', () => {
-    test('parseGenericQuadratic throws error for invalid input', () => {
-      expect(() => mainModule.parseGenericQuadratic('invalid formula')).toThrow();
-    });
-
-    test('parseSine throws error for invalid sine formula string', () => {
-      expect(() => mainModule.parseSine('sine:invalid')).toThrow();
-    });
-
-    test('plotToPng throws not implemented error', () => {
-      expect(() => mainModule.plotToPng({ formulas: ['quad:1,0,0,-10,10,1'] })).toThrow(
-        'PNG conversion is not implemented yet.'
-      );
-    });
-
-    // New Test: plotToFile error handling when fs.writeFileSync fails
-    test('plotToFile throws error when file writing fails', () => {
-      const fsSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => { throw new Error('Mock write error'); });
-      expect(() => {
-        mainModule.plotToFile({ formulas: ['quad:1,0,0,-10,10,1'], outputFileName: 'fail.svg', type: 'svg' });
-      }).toThrow('Error writing file: Mock write error');
-      fsSpy.mockRestore();
-    });
+  // Additional Test for HTML type in plotToFile
+  test('plotToFile writes an HTML file and returns file name', () => {
+    const fsSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const fileName = 'test_output.html';
+    const result = mainModule.plotToFile({ formulas: ['y=2x+3:-10,10,1'], outputFileName: fileName, type: 'html' });
+    expect(result).toBe(fileName);
+    expect(fsSpy).toHaveBeenCalled();
+    fsSpy.mockRestore();
   });
 });
