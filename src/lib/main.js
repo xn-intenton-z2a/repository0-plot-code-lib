@@ -9,19 +9,20 @@
  * This file contains all the functions required for parsing and generating plots from
  * mathematical formulas. In line with the CONTRIBUTING.md guidelines, outdated references
  * have been pruned and new features (such as advanced query filtering, rotation handling,
- * summary statistics and geometric computations) are documented.
+ * summary statistics, geometric computations, and a web interface) are documented.
  *
  * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
  *          This library supports plotting quadratic, linear, sine, cosine, tangent, polar,
  *          exponential, and logarithmic functions along with enhanced features like advanced
- *          query filtering, rotation of plots, summary statistics and geometric insights.
+ *          query filtering, rotation of plots, summary statistics, geometric insights and now a
+ *          web interface for real-time formula input and viewing.
  *
  * Change Log:
  *  - Refreshed documentation and header to align with CONTRIBUTING.md guidelines.
  *  - Updated mission statement and removed outdated references.
  *  - Enhanced rotation feature and query filtering functionality.
  *  - Improved summary statistics support and refined geometric computation functions (computeCentroid and computeBoundingBox).
- *  - Updated error reporting for file writing and enhanced interactive CLI experience.
+ *  - Added Express server support for a web interface to input and view plots.
  *  - Expanded test coverage and documentation refresh per CONTRIBUTING.md.
  */
 
@@ -30,6 +31,7 @@
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import readline from 'readline';
+import express from 'express';
 
 // Utility Functions
 
@@ -186,7 +188,6 @@ const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
 const plotTangent = () => plotTangentParam();
-const plotPolar = () => plotPolarParam();
 // For demonstration, linear plot now uses y = 2x + 3
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
@@ -1314,6 +1315,26 @@ const printSummaryStats = (formulas) => {
   console.log(JSON.stringify(stats, null, 2));
 };
 
+// New: Express Server for Web Interface
+const startExpressServer = () => {
+  const app = express();
+  app.use(express.urlencoded({ extended: true }));
+  app.get('/', (req, res) => {
+    res.send(`<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plotter Web Interface</title>\n</head>\n<body>\n  <h1>Equation Plotter</h1>\n  <form method="POST" action="/plot">\n    <label for="formula">Enter formula(s) (separated by semicolon):</label><br>\n    <input type="text" id="formula" name="formula" size="80" /><br><br>\n    <button type="submit">Plot</button>\n  </form>\n</body>\n</html>`);
+  });
+
+  app.post('/plot', (req, res) => {
+    const formulas = req.body.formula.split(';').map(s => s.trim()).filter(Boolean);
+    const html = plotToHtml({ formulas, grid: true });
+    res.send(html);
+  });
+
+  const server = app.listen(3000, () => {
+    console.log("Express server running on http://localhost:3000");
+  });
+  return server;
+};
+
 // Demo Test Function
 const demoTest = () => {
   console.log("=== Demo Test Output ===");
@@ -1362,7 +1383,8 @@ const main = async () => {
     "  --stats            Output summary statistics for plotted data\n" +
     "  --interactive      Enable interactive CLI mode for real-time user input\n" +
     "  --rotate [angle]   Rotate plot output by specified angle in degrees\n" +
-    "  --version          Show version information\n\n" +
+    "  --version          Show version information\n" +
+    "  --serve            Start Express server with web interface\n\n" +
     "Formula String Formats:\n" +
     "  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n" +
     "  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n" +
@@ -1396,6 +1418,12 @@ const main = async () => {
 
   if (args.includes("--help") || args.includes("-h")) {
     console.log(helpMessage);
+    return;
+  }
+
+  // Check for web server flag
+  if (args.includes("--serve")) {
+    startExpressServer();
     return;
   }
 
@@ -1596,5 +1624,6 @@ export {
   queryPlotData,
   advancedQueryPlotData,
   computeCentroid,
-  computeBoundingBox
+  computeBoundingBox,
+  startExpressServer
 };
