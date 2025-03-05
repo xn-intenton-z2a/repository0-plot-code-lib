@@ -7,22 +7,22 @@
  * Equation Plotter Library
  *
  * This file contains all the functions required for parsing and generating plots from
- * mathematical formulas. It adheres to the contributing guidelines in CONTRIBUTING.md.
+ * mathematical formulas. In line with the CONTRIBUTING.md guidelines, outdated references
+ * have been pruned and new features (such as advanced query filtering, rotation handling,
+ * summary statistics and geometric computations) are documented.
  *
  * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
  *          This library supports plotting quadratic, linear, sine, cosine, tangent, polar,
- *          exponential, and logarithmic functions. It also includes advanced query filtering,
- *          summary statistics, rotation support and geometric computations for enhanced data insights.
+ *          exponential, and logarithmic functions along with enhanced features like advanced
+ *          query filtering, rotation of plots, summary statistics and geometric insights.
  *
  * Change Log:
- *  - Updated mission statement and pruned outdated references.
- *  - Added support for advanced query filtering via advancedQueryPlotData function.
- *  - Extended rotation feature with improved input handling and internal modularity.
- *  - Integrated robust summary statistics functionality and refined geometric computation functions (computeCentroid and computeBoundingBox).
- *  - Improved error reporting in file writing (plotToFile) and enhanced interactive CLI experience.
- *  - Enhanced test coverage by adding additional error handling and fs mocks in unit tests.
- *  - Documentation refresh per CONTRIBUTING.md guidelines.
- *  - Retained PNG conversion stub as a placeholder for future implementation.
+ *  - Refreshed documentation and header to align with CONTRIBUTING.md guidelines.
+ *  - Updated mission statement and removed outdated references.
+ *  - Enhanced rotation feature and query filtering functionality.
+ *  - Improved summary statistics support and refined geometric computation functions (computeCentroid and computeBoundingBox).
+ *  - Updated error reporting for file writing and enhanced interactive CLI experience.
+ *  - Expanded test coverage and documentation refresh per CONTRIBUTING.md.
  */
 
 'use strict';
@@ -191,7 +191,6 @@ const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
 const plotTangent = () => plotTangentParam();
-const plotPolar = () => plotPolarParam();
 // For demonstration, linear plot now uses y = 2x + 3
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
@@ -1395,7 +1394,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-13");
+    console.log("Equation Plotter Library version 0.2.1-14");
     return;
   }
 

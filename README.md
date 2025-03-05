@@ -2,19 +2,19 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool for generating plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. It supports multiple output formats such as SVG, JSON, CSV, Markdown, ASCII, and HTML.
+Equation Plotter CLI is a versatile command-line tool for generating plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. With a focus on advanced analysis, the tool supports multiple output formats such as SVG, JSON, CSV, Markdown, ASCII, and HTML while providing features like plot rotation, advanced query filtering, summary statistics, and geometric computations.
 
 **Mission:**
 
-Be a go-to plot library with a CLI, be the jq of formulae visualisations.
+_Be a go-to plot library with a CLI, be the jq of formulae visualisations._
 
 ## Features
 
 - **Multiple Plot Types:** Supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions.
 - **Flexible Output Formats:** Generate plots as SVG, JSON, CSV, Markdown, ASCII, and HTML.
-- **Interactive Mode:** Real-time input for generating plots in an interactive session.
-- **Advanced Analysis:** Includes summary statistics, plot rotation, advanced query filtering, and geometric computations (centroid and bounding box calculations).
-- **Enhanced Test Coverage:** Robust unit tests with filesystem mocks and comprehensive coverage to ensure reliability.
+- **Interactive Mode:** Engage in real-time input to generate plots interactively.
+- **Advanced Analysis:** Get summary statistics, apply rotation to plots, filter data with advanced query predicates, and compute geometric properties (centroid and bounding box).
+- **Robust Testing:** Comprehensive unit tests with filesystem mocks and extensive coverage to ensure reliability.
 
 ## Getting Started
 
@@ -40,7 +40,16 @@ For interactive mode:
 node src/lib/main.js --interactive
 ```
 
-Use additional flags such as `--json`, `--csv`, `--md`, `--html`, `--ascii`, `--grid`, `--stats`, and `--rotate [angle]` to customize output.
+Additional flags include:
+
+- `--json`: Output in JSON format
+- `--csv`: Output in CSV format
+- `--md`: Output in Markdown format
+- `--html`: Output as an HTML file
+- `--ascii`: Output as ASCII art
+- `--grid`: Enable grid overlay on plots
+- `--stats`: Display summary statistics
+- `--rotate [angle]`: Rotate the plot by the specified angle (in degrees)
 
 ### Testing
 
@@ -58,16 +67,13 @@ npm run test:unit
 
 ## Documentation
 
-Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines and project standards.
+For detailed contribution guidelines and project standards, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Change Log
 
-- **Mission Alignment:** Updated mission statement and pruned outdated references.
-- **Enhanced Features:** Added advanced query filtering, extended rotation handling, and robust summary statistics support.
-- **Geometric Computations:** Improved functions for computing centroids and bounding boxes.
-- **CLI Improvements:** Refined interactive mode and error reporting for file writing.
-- **Testing Enhancements:** Improved test coverage with additional unit tests and filesystem error mocks.
-- **Documentation Refresh:** Updated README to accurately reflect all new features and contribution guidelines.
+- **Documentation Refresh:** Updated README and code comments to align with CONTRIBUTING.md guidelines, streamlining content and removing outdated references.
+- **Enhanced Features:** Added advanced query filtering, refined rotation handling, extended summary statistics support, and improved geometric computations.
+- **CLI Improvements:** Enhanced interactive mode and error reporting along with robust test coverage.
 
 ## License
 
