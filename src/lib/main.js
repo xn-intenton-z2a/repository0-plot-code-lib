@@ -17,10 +17,10 @@
  * Change Log:
  *  - Updated mission statement and pruned outdated references.
  *  - Added support for advanced query filtering via advancedQueryPlotData function.
- *  - Extended rotation feature and summary statistics support.
- *  - Added new geometric computation functions: computeCentroid and computeBoundingBox.
- *  - Enhanced error reporting in file writing (plotToFile) for better testability.
- *  - Refreshed README documentation per CONTRIBUTING.md guidelines.
+ *  - Extended rotation feature with improved input handling and internal modularity.
+ *  - Integrated robust summary statistics functionality and refined geometric computation functions (computeCentroid and computeBoundingBox).
+ *  - Improved error reporting in file writing (plotToFile) and enhanced interactive CLI experience.
+ *  - Refreshed README documentation per CONTRIBUTING.md guidelines and updated Change Log.
  *  - Retained PNG conversion stub as a placeholder for future implementation.
  */
 
@@ -1394,7 +1394,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-12");
+    console.log("Equation Plotter Library version 0.2.1-13");
     return;
   }
 
