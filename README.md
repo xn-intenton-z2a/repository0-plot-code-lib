@@ -47,10 +47,11 @@ Refer to [CONTRIBUTING.md](CONTRIBUTING.md) for detailed contribution guidelines
 
 ## Change Log
 
-- Refreshed README to align with updated contributing guidelines.
-- Enhanced documentation to clearly reflect features and usage.
-- Added tests for verifying updated documentation content.
-- Extended functionality for summary statistics, rotation, advanced query filtering, and geometric computations.
+- **Mission Alignment:** Updated mission statement and pruned outdated references.
+- **Enhanced Features:** Added advanced query filtering, extended rotation handling, and robust summary statistics support.
+- **Geometric Computations:** Improved and included functions for computing centroids and bounding boxes.
+- **CLI Improvements:** Refined interactive mode and error reporting for file writing.
+- **Documentation Refresh:** Updated README to accurately reflect all new features and contribution guidelines.
 
 ## License
 
