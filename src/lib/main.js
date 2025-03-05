@@ -192,6 +192,7 @@ const plotTangent = () => plotTangentParam();
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
 const plotLogarithmic = () => plotLogarithmicParam();
+const plotPolar = () => plotPolarParam();
 
 // Formula Parsing Functions
 
