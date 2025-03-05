@@ -1577,7 +1577,6 @@ export {
   plotToHtml,
   plotToMarkdown,
   plotToFile,
-  plotToPng,
   plotFromString,
   plotQuadratic,
   plotSine,
