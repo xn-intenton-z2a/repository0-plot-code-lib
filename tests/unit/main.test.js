@@ -189,10 +189,35 @@ describe('Exported API Functions', () => {
     fsSpy.mockRestore();
   });
 
+  // New Test for 3D Plotting Functions
+  test('plotHelix3D returns array of 3D points with z property', () => {
+    const helix = mainModule.plotHelix3D();
+    expect(Array.isArray(helix)).toBe(true);
+    expect(helix.length).toBeGreaterThan(0);
+    helix.forEach(point => {
+      expect(point).toHaveProperty('x');
+      expect(point).toHaveProperty('y');
+      expect(point).toHaveProperty('z');
+    });
+  });
+
+  test('rotatePoint3D rotates point correctly around z-axis', () => {
+    const point = { x: 1, y: 0, z: 0 };
+    const rotated = mainModule.rotatePoint3D(point, 90, 'z');
+    expect(rotated.x).toBeCloseTo(0, 1);
+    expect(rotated.y).toBeCloseTo(1, 1);
+    expect(rotated.z).toBe(0);
+  });
+
+  test('plotToSvg3D returns SVG string containing <svg>', () => {
+    const svg3D = mainModule.plotToSvg3D({ rotationAngle: 45, rotationAxis: 'y', grid: true });
+    expect(typeof svg3D).toBe('string');
+    expect(svg3D).toContain('<svg');
+  });
+
   // New Test for Express Server
   test('startExpressServer starts server and returns 200 response on /', async () => {
     const server = mainModule.startExpressServer();
-    // wait for server to start
     await new Promise(resolve => setTimeout(resolve, 500));
     const response = await fetch('http://localhost:3000/');
     expect(response.status).toBe(200);
