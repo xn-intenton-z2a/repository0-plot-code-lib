@@ -7,23 +7,16 @@
  * Equation Plotter Library
  *
  * This file contains all the functions required for parsing and generating plots from
- * mathematical formulas. In line with the CONTRIBUTING.md guidelines, outdated references
- * have been pruned and new features (such as advanced query filtering, rotation handling,
- * summary statistics, geometric computations, and a web interface) are documented.
- *
- * Mission: Be a go-to plot library with a CLI, be the jq of formulae visualisations.
- *          This library supports plotting quadratic, linear, sine, cosine, tangent, polar,
- *          exponential, and logarithmic functions along with enhanced features like advanced
- *          query filtering, rotation of plots, summary statistics, geometric insights and now a
- *          web interface for real-time formula input and viewing.
+ * mathematical formulas. In alignment with the CONTRIBUTING.md guidelines, outdated references
+ * have been pruned and the code has been updated to reflect our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
  *
  * Change Log:
- *  - Refreshed documentation and header to align with CONTRIBUTING.md guidelines.
- *  - Updated mission statement and removed outdated references.
- *  - Enhanced rotation feature and query filtering functionality.
- *  - Improved summary statistics support and refined geometric computation functions (computeCentroid and computeBoundingBox).
- *  - Added Express server support for a web interface to input and view plots.
- *  - Expanded test coverage and documentation refresh per CONTRIBUTING.md.
+ *  - Refreshed documentation header and mission statement to align with CONTRIBUTING.md guidelines.
+ *  - Removed outdated references and pruned legacy notes to eliminate drift.
+ *  - Enhanced rotation feature, advanced query filtering functionality, and summary statistics support.
+ *  - Refined geometric computation functions (computeCentroid and computeBoundingBox).
+ *  - Added Express server support for a web interface, enabling real-time formula input.
+ *  - Extended test coverage and updated CLI usage documentation.
  */
 
 'use strict';

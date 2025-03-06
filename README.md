@@ -60,20 +60,6 @@ Additional flags include:
 - `--stats`: Display summary statistics
 - `--rotate [angle]`: Rotate the plot by the specified angle (in degrees)
 
-### Testing
-
-Run unit tests using:
-
-```bash
-npm test
-```
-
-For test coverage:
-
-```bash
-npm run test:unit
-```
-
 ## Documentation
 
 For detailed contribution guidelines and project standards, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
@@ -83,6 +69,7 @@ For detailed contribution guidelines and project standards, please refer to [CON
 - **Documentation Refresh:** Updated README and code comments to align with CONTRIBUTING.md guidelines, streamlining content and removing outdated references.
 - **Enhanced Features:** Added advanced query filtering, refined rotation handling, extended summary statistics support, improved geometric computations, and integrated a web interface powered by Express for real-time formula input and viewing.
 - **CLI Improvements:** Enhanced interactive mode and error reporting along with robust test coverage.
+- **Source File Update:** Updated the header and changelog in the source file to prune drift and remove outdated references per CONTRIBUTING.md guidelines.
 
 ## License
 
