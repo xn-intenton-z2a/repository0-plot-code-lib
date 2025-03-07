@@ -9,6 +9,7 @@ Equation Plotter CLI is a versatile command-line tool that generates accurate pl
 - **Variety of Plots:** Supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions.
 - **Multiple Output Formats:** Export plots as SVG, JSON, CSV, Markdown, ASCII, and HTML.
 - **Advanced Analysis:** Compute summary statistics, average plot values, area under the curve (trapezoidal rule), derivative (finite differences), and horizontal reflection.
+- **Extended Transformations:** New helper functions `scalePlot` and `invertPlot` allow for additional plot manipulations.
 - **3D Rotating Plots:** Generate and rotate 3D plots (e.g., helix) to visualize in a two-dimensional format.
 - **Interactive CLI and Web Interface:** Use an interactive mode or start an Express-based web interface for quick plotting.
 
@@ -61,6 +62,13 @@ Additional flags include:
 - `--help` or `-h`: Show the help message
 - `--version`: Display version information
 
+## Extended Transformations
+
+New helper functions have been added:
+
+- **scalePlot:** Scales the coordinates of plot points by specified factors.
+- **invertPlot:** Vertically inverts the plot points, useful for creating mirror effects.
+
 ## 3D Rotating Plots
 
 Generate a 3D helix plot using the prefix `3d:helix` (rotation can be applied via the `--rotate` flag). See the `plotToSvg3D` function for details.
@@ -75,8 +83,8 @@ npm test
 
 ## Change Log
 
-- **Documentation Updated:** README refreshed to align with the new CONTRIBUTING guidelines.
-- **Feature Enhancements:** Added helper functions for derivative computation and horizontal reflection.
+- **Documentation Updated:** README refreshed to include new helper function details.
+- **Feature Enhancements:** Added helper functions for derivative computation, horizontal reflection, and extended with `scalePlot` and `invertPlot` for additional plot transformations.
 - **Interface Improvements:** Streamlined CLI and web interface with improved error handling and interactive features.
 
 ## Contributing

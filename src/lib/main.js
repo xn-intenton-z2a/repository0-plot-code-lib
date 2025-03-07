@@ -17,6 +17,7 @@
  *  - Added helper functions getPlotAverage, computeArea, computeDerivative, and plotReflection to extend analysis capabilities.
  *  - Extended web interface using Express and improved CLI interactive mode.
  *  - Introduced support for text-based expressions using prefix "expr:" for custom formula expressions.
+ *  - Added new helper functions: scalePlot and invertPlot for additional plot transformation operations.
  *  - Updated inline documentation and README to align with CONTRIBUTING guidelines.
  */
 
@@ -174,6 +175,27 @@ const computeDerivative = (points) => {
  */
 const plotReflection = (points) => {
   return points.map(p => ({ x: -p.x, y: p.y }));
+};
+
+// NEW Helper Functions: Scale and Invert Plots
+/**
+ * Scales an array of points by given scale factors in x and y directions.
+ * @param {Array<{x: number, y: number}>} points
+ * @param {number} scaleX
+ * @param {number} scaleY
+ * @returns {Array<{x: number, y: number}>}
+ */
+const scalePlot = (points, scaleX, scaleY) => {
+  return points.map(p => ({ x: p.x * scaleX, y: p.y * scaleY }));
+};
+
+/**
+ * Inverts an array of points vertically (flips the y-values).
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {Array<{x: number, y: number}>}
+ */
+const invertPlot = (points) => {
+  return points.map(p => ({ x: p.x, y: -p.y }));
 };
 
 // Plotting Functions
@@ -682,7 +704,7 @@ const getPlotsFromFormulas = (formulas = []) => {
   return { quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic };
 };
 
-// New Feature: Compute Summary Statistics for each plot type
+// New Helper: Compute Summary Statistics for each plot type
 const getPlotStats = (plotsObj) => {
   const stats = {};
   Object.entries(plotsObj).forEach(([type, plotsArray]) => {
@@ -702,7 +724,7 @@ const getPlotStats = (plotsObj) => {
   return stats;
 };
 
-// New Feature: Query Plot Data
+// New Helper: Query Plot Data
 /**
  * Filters plot data based on a predicate.
  * @param {Object} plots - Object containing arrays of plot points keyed by type.
@@ -717,7 +739,7 @@ const queryPlotData = (plots, predicate) => {
   return filteredPlots;
 };
 
-// New Feature: Advanced Query Filtering
+// New Helper: Advanced Query Filtering
 /**
  * Filters plot data based on separate predicates for x and y values.
  * @param {Object} plots - Object with plot points keyed by type.
@@ -1509,6 +1531,12 @@ const demoTest = () => {
   const reflectedPoints = plotReflection(quadPoints);
   console.log("\nFirst 5 reflected points of quadratic plot:", reflectedPoints.slice(0,5));
 
+  // Demo new scalePlot and invertPlot functions
+  const scaledPoints = scalePlot(quadPoints, 2, 0.5);
+  console.log("\nFirst 5 scaled points (x*2, y*0.5) of quadratic plot:", scaledPoints.slice(0,5));
+  const invertedPoints = invertPlot(quadPoints);
+  console.log("\nFirst 5 vertically inverted points of quadratic plot:", invertedPoints.slice(0,5));
+
   console.log("=== End Demo Test Output ===");
 };
 
@@ -1561,7 +1589,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-17");
+    console.log("Equation Plotter Library version 0.2.1-18");
     return;
   }
 
@@ -1777,6 +1805,8 @@ export {
   computeArea,
   computeDerivative,
   plotReflection,
+  scalePlot,
+  invertPlot,
   startExpressServer,
   rotatePoint3D,
   rotatePoints3D,
