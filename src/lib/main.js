@@ -12,15 +12,12 @@
  * "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
  *
  * Change Log:
- *  - Updated inline documentation and change log to align with CONTRIBUTING.md guidelines.
- *  - Removed outdated references and consolidated duplicate implementations.
- *  - Enhanced rotation support, query filtering, summary statistics, and 3D rotating plots with helix rotation support.
- *  - Added helper function getPlotAverage for computing average plot points.
- *  - Integrated computeArea function using the trapezoidal rule for area approximation under curves.
+ *  - Refactored inline documentation and consolidated duplicate implementations.
+ *  - Enhanced rotation, query filtering, summary statistics, and 3D rotating plots with helix rotation support.
+ *  - Added helper functions getPlotAverage, computeArea, computeDerivative, and plotReflection to enhance analysis and transformation features in line with our mission.
  *  - Extended web interface using Express and improved CLI interactive mode.
  *  - Introduced support for text-based expressions using prefix "expr:" for custom formula expressions.
- *  - Refactored code to reduce duplication and improve maintainability in line with the project mission.
- *  - Updated README documentation reference and pruned irrelevant content as per CONTRIBUTING.md.
+ *  - Updated Change Log and README to reflect expanded feature set as per CONTRIBUTING.md.
  *
  * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
@@ -31,6 +28,7 @@ import { fileURLToPath } from 'url';
 import fs from 'fs';
 import readline from 'readline';
 import express from 'express';
+import { derivative } from 'mathjs';
 
 // Utility Functions
 
@@ -151,6 +149,33 @@ const computeArea = (points) => {
     area += ((points[i].y + points[i - 1].y) / 2) * dx;
   }
   return area;
+};
+
+// New Feature: Compute derivative of plot points using finite difference method
+/**
+ * Computes the derivative for an array of points (finite differences).
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {Array<{x: number, dy: number}>}
+ */
+const computeDerivative = (points) => {
+  if (points.length < 2) return [];
+  const derivatives = [];
+  for (let i = 1; i < points.length; i++) {
+    const dx = points[i].x - points[i - 1].x;
+    const dy = points[i].y - points[i - 1].y;
+    derivatives.push({ x: (points[i].x + points[i - 1].x) / 2, dy: dx !== 0 ? dy / dx : 0 });
+  }
+  return derivatives;
+};
+
+// New Feature: Reflect plot points horizontally
+/**
+ * Reflects an array of points horizontally (mirror on y-axis).
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {Array<{x: number, y: number}>}
+ */
+const plotReflection = (points) => {
+  return points.map(p => ({ x: -p.x, y: p.y }));
 };
 
 // Plotting Functions
@@ -1479,6 +1504,13 @@ const demoTest = () => {
   const area = computeArea(linearPoints);
   console.log("\nComputed area under the linear plot curve:", area);
 
+  // Demo computeDerivative and plotReflection
+  const quadPoints = plotQuadratic();
+  const derivativePoints = computeDerivative(quadPoints);
+  console.log("\nComputed derivative of quadratic plot:", derivativePoints.slice(0,5));
+  const reflectedPoints = plotReflection(quadPoints);
+  console.log("\nFirst 5 reflected points of quadratic plot:", reflectedPoints.slice(0,5));
+
   console.log("=== End Demo Test Output ===");
 };
 
@@ -1745,6 +1777,8 @@ export {
   computeCentroid,
   computeBoundingBox,
   computeArea,
+  computeDerivative,
+  plotReflection,
   startExpressServer,
   rotatePoint3D,
   rotatePoints3D,

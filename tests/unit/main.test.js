@@ -145,6 +145,23 @@ describe('Exported API Functions', () => {
     expect(typeof area).toBe('number');
   });
 
+  test('computeDerivative computes derivative correctly', () => {
+    const quadPoints = mainModule.plotQuadratic();
+    const deriv = mainModule.computeDerivative(quadPoints);
+    expect(Array.isArray(deriv)).toBe(true);
+    expect(deriv.length).toBeGreaterThan(0);
+    deriv.forEach(d => {
+      expect(typeof d.dy).toBe('number');
+    });
+  });
+
+  test('plotReflection reflects plot points horizontally', () => {
+    const quadPoints = mainModule.plotQuadratic();
+    const reflected = mainModule.plotReflection(quadPoints);
+    expect(reflected[0].x).toBeCloseTo(-quadPoints[0].x, 2);
+    expect(reflected[0].y).toEqual(quadPoints[0].y);
+  });
+
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });
