@@ -276,4 +276,21 @@ describe('Exported API Functions', () => {
     expect(text).toContain('<form');
     server.close();
   });
+
+  // New tests for helper functions
+  test('extractQuadraticCoefficients returns correct coefficients', () => {
+    const coeffs = mainModule.extractQuadraticCoefficients('x^2+2x+1');
+    expect(coeffs.a).toBeCloseTo(1);
+    expect(coeffs.b).toBeCloseTo(2);
+    expect(coeffs.c).toBeCloseTo(1);
+  });
+
+  test('invertExpression returns correctly inverted expression', () => {
+    const inverted1 = mainModule.invertExpression('+2x-3');
+    const inverted2 = mainModule.invertExpression('-2x+3');
+    const inverted3 = mainModule.invertExpression('2x+3');
+    expect(inverted1).toBe('-2x-3');
+    expect(inverted2).toBe('+2x-3');
+    expect(inverted3).toBe('-2x+3');
+  });
 });

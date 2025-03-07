@@ -18,6 +18,8 @@
  *  - Extended web interface using Express and improved CLI interactive mode.
  *  - Introduced support for text-based expressions using prefix "expr:" for custom formula expressions.
  *  - Added new helper functions: scalePlot and invertPlot for additional plot transformation operations.
+ *  - Added implementations for extractQuadraticCoefficients and invertExpression to improve quadratic parsing.
+ *  - Improved testability by isolating external side-effects via proper error handling and modular functions.
  *  - Updated inline documentation and README to align with CONTRIBUTING guidelines.
  */
 
@@ -196,6 +198,49 @@ const scalePlot = (points, scaleX, scaleY) => {
  */
 const invertPlot = (points) => {
   return points.map(p => ({ x: p.x, y: -p.y }));
+};
+
+// Helper Functions for Quadratic Parsing
+
+/**
+ * Extracts quadratic coefficients (a, b, c) from a given expression string.
+ * Supports expressions containing terms in x^2, x, and constant.
+ * @param {string} expr
+ * @returns {{a: number, b: number, c: number}}
+ */
+const extractQuadraticCoefficients = (expr) => {
+  const s = expr.replace(/\s+/g, '');
+  let a = 0, b = 0, c = 0;
+  const quadMatch = s.match(/([+-]?[\d\.]*?)x\^2/);
+  if (quadMatch) {
+    a = quadMatch[1] === '' || quadMatch[1] === '+' ? 1 : (quadMatch[1] === '-' ? -1 : parseFloat(quadMatch[1]));
+  }
+  let remaining = s.replace(/([+-]?[\d\.]*?)x\^2/, '');
+  const linearMatch = remaining.match(/([+-]?[\d\.]*?)x/);
+  if (linearMatch) {
+    b = linearMatch[1] === '' || linearMatch[1] === '+' ? 1 : (linearMatch[1] === '-' ? -1 : parseFloat(linearMatch[1]));
+    remaining = remaining.replace(/([+-]?[\d\.]*?)x/, '');
+  }
+  if (remaining) {
+    c = parseFloat(remaining) || 0;
+  }
+  return { a, b, c };
+};
+
+/**
+ * Inverts an expression by changing its sign.
+ * @param {string} expr
+ * @returns {string}
+ */
+const invertExpression = (expr) => {
+  expr = expr.trim();
+  if (expr.startsWith('+')) {
+    return '-' + expr.substring(1);
+  } else if (expr.startsWith('-')) {
+    return '+' + expr.substring(1);
+  } else {
+    return '-' + expr;
+  }
 };
 
 // Plotting Functions
@@ -458,7 +503,7 @@ const parseGenericQuadratic = (formulaStr) => {
     return plotQuadraticParam({ ...coeffs, xMin, xMax, step });
   } else if (mainPart.endsWith("=0")) {
     const left = mainPart.split("=")[0];
-    const yRegex = /([+-]?\d*(?:\.\d+)?)y/;
+    const yRegex = /([+-]?\d*(?:\.\d+)?)[y]/;
     const yMatch = left.match(yRegex);
     if (!yMatch) throw new Error("No y term found in equation: " + formulaStr);
     const coeffStr = yMatch[1];
@@ -1812,5 +1857,7 @@ export {
   rotatePoints3D,
   project3DTo2D,
   plotHelix3D,
-  plotToSvg3D
+  plotToSvg3D,
+  extractQuadraticCoefficients,
+  invertExpression
 };
