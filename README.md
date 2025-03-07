@@ -71,6 +71,7 @@ Use the prefix `3d:helix` to generate a 3D helix plot with rotation capabilities
 - **Documentation Update:** Refreshed the README to align with the CONTRIBUTING guidelines and pruned outdated references.
 - **Enhanced Features:** Introduced advanced query filtering, refined rotation handling, comprehensive summary statistics, integrated 3D rotating plots, and added support for expression-based formulas using the `expr:` prefix.
 - **CLI & Web Interface Improvements:** Upgraded interactive mode and error reporting; added an Express-based web interface for real-time plotting.
+- **Bug Fixes:** Added missing wrapper functions (plotQuadratic, plotSine, plotCosine, plotTangent, plotPolar, plotLinear, plotExponential, plotLogarithmic) to ensure proper exports and functionality.
 
 ## Contributing
 

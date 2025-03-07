@@ -19,6 +19,7 @@
  *  - Introduced new helper function getPlotAverage for computing average plot points.
  *  - Extended web interface support using Express for real-time plotting.
  *  - Added support for text-based expressions using the prefix "expr:" to parse custom formula expressions.
+ *  - Added missing wrapper functions for plotQuadratic, plotSine, plotCosine, plotTangent, plotPolar, plotLinear, plotExponential, and plotLogarithmic.
  *
  * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
@@ -194,6 +195,39 @@ const plotLogarithmicParam = ({ a = 1, base = Math.E, xMin = 1, xMax = 10, step 
     return arr;
   }, []);
   return points;
+};
+
+// Added wrapper functions to expose plot functions with default parameters
+const plotQuadratic = (options = {}) => {
+  return plotQuadraticParam(options);
+};
+
+const plotSine = (options = {}) => {
+  return plotSineParam(options);
+};
+
+const plotCosine = (options = {}) => {
+  return plotCosineParam(options);
+};
+
+const plotTangent = (options = {}) => {
+  return plotTangentParam(options);
+};
+
+const plotPolar = (options = {}) => {
+  return plotPolarParam(options);
+};
+
+const plotLinear = (options = {}) => {
+  return plotLinearParam(options);
+};
+
+const plotExponential = (options = {}) => {
+  return plotExponentialParam(options);
+};
+
+const plotLogarithmic = (options = {}) => {
+  return plotLogarithmicParam(options);
 };
 
 // New Helper: Parse text-based expression formulas
