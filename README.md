@@ -2,7 +2,7 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool designed to generate accurate plots of mathematical functions. It supports multiple plot types—including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic—and offers various output formats such as SVG, JSON, CSV, Markdown, ASCII, and HTML. Advanced analysis features like area computation, derivative analysis, scaling, inversion, smoothing, and statistical analysis further empower users to interpret and transform plot data.
+Equation Plotter CLI is a versatile command-line tool designed to generate accurate plots of mathematical functions. It supports multiple plot types—including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic—and offers various output formats such as SVG, JSON, CSV, Markdown, ASCII, and HTML. Advanced analysis features like area computation, derivative analysis, scaling, inversion, smoothing, and statistical analysis (including median and mode computations) further empower users to interpret and transform plot data.
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
@@ -10,7 +10,7 @@ Equation Plotter CLI is a versatile command-line tool designed to generate accur
 
 - **Diverse Plots:** Supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions.
 - **Multiple Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, or HTML formats.
-- **Advanced Analysis:** Compute summary statistics, averages, area (via trapezoidal rule), derivatives (finite differences), reflection, scaling, inversion, smoothing (moving average), and standard deviation.
+- **Advanced Analysis:** Compute summary statistics, averages, area (via trapezoidal rule), derivatives (finite differences), reflection, scaling, inversion, smoothing (moving average), standard deviation, median, and mode.
 - **Enhanced Quadratic Parsing:** Robust quadratic formula parsing with improved helper functions.
 - **3D Rotating Plots:** Generate and rotate 3D helix plots with 2D projection capabilities.
 - **Interactive CLI and Web Interface:** Use the interactive command-line mode or launch an Express-based web interface.
@@ -67,12 +67,11 @@ Additional flags include:
 
 ## Extended Transformations and Analysis
 
-New helper functions:
+New helper functions have been added to extend analytical capabilities:
 
 - **smoothPlot:** Applies moving average smoothing to plot data.
 - **computeStandardDeviation:** Calculates the standard deviation of y-values in the plot points.
-
-These functions extend the analysis capabilities and provide additional insights into the plotted data.
+- **computeMedian and computeMode:** New statistical functions to compute the median and mode of the plot's y-values.
 
 ## Enhanced Quadratic Parsing
 
@@ -94,7 +93,7 @@ npm test
 
 - **Documentation Updated:** README refreshed in accordance with CONTRIBUTING.md guidelines.
 - **Enhanced Parsing:** Improved quadratic parsing and inversion functions.
-- **New Features:** Added `scalePlot`, `invertPlot`, `smoothPlot`, and `computeStandardDeviation` for advanced plot analysis.
+- **New Features:** Added `scalePlot`, `invertPlot`, `smoothPlot`, `computeStandardDeviation`, and new statistical functions `computeMedian` and `computeMode` for advanced plot analysis.
 - **Interface Improvements:** Enhanced CLI and web interface with updated interactive functionality.
 
 ## Contributing
