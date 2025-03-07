@@ -228,19 +228,34 @@ const extractQuadraticCoefficients = (expr) => {
 };
 
 /**
- * Inverts an expression by changing its sign.
+ * Inverts an expression by changing its sign for the variable part and conditionally for the constant.
  * @param {string} expr
  * @returns {string}
  */
 const invertExpression = (expr) => {
   expr = expr.trim();
-  if (expr.startsWith('+')) {
-    return '-' + expr.substring(1);
-  } else if (expr.startsWith('-')) {
-    return '+' + expr.substring(1);
-  } else {
-    return '-' + expr;
+  const hasLeadingNegative = expr.startsWith('-');
+  const match = expr.match(/^([+-]?)(\d*\.?\d*)x(.*)$/);
+  if (!match) return expr;
+  const sign = match[1];
+  const coeff = match[2];
+  const remainder = match[3] || '';
+  const invertedCoeff = (sign === '-' ? '+' : '-') + coeff + 'x';
+  let invertedConst = '';
+  if (remainder) {
+    if (hasLeadingNegative) {
+      if (remainder.startsWith('+')) {
+        invertedConst = '-' + remainder.substring(1);
+      } else if (remainder.startsWith('-')) {
+        invertedConst = '+' + remainder.substring(1);
+      } else {
+        invertedConst = '-' + remainder;
+      }
+    } else {
+      invertedConst = remainder;
+    }
   }
+  return invertedCoeff + invertedConst;
 };
 
 // Plotting Functions
