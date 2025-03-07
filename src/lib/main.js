@@ -18,12 +18,12 @@
  *  - Extended web interface using Express and improved CLI interactive mode.
  *  - Introduced support for text-based expressions using prefix "expr:" for custom formula expressions.
  *  - Added new helper functions: scalePlot and invertPlot for additional plot transformation operations.
- *  - Added implementations for extractQuadraticCoefficients and a robust invertExpression to improve quadratic parsing.
- *  - Improved testability by isolating external side-effects via proper error handling and modular functions.
- *  - Added new helper export getInternalState for testing internal metrics.
- *  - Updated inline documentation and README to align with CONTRIBUTING guidelines and the mission statement.
- *  - Pruned legacy and redundant code segments to ensure the implementation fully reflects our mission and contributing guidelines.
- *  - Increased test coverage by handling additional edge cases and mocking external resources in tests.
+ *  - Upgraded quadratic parsing with extractQuadraticCoefficients and a robust invertExpression function.
+ *  - Increased testability by isolating external side-effects via proper error handling and modular functions.
+ *  - Exposed internal state for testing metrics via getInternalState.
+ *  - README updated to meet new contributing guidelines and refreshed documentation.
+ *  - Pruned legacy and redundant code segments to ensure alignment with our mission and contributing guidelines.
+ *  - Improved test coverage by handling additional edge cases and properly mocking external resources in tests.
  */
 
 'use strict';
@@ -232,7 +232,7 @@ const extractQuadraticCoefficients = (expr) => {
 
 /**
  * Inverts an expression by flipping the sign of the coefficient and, if the expression starts with a negative sign, also flips the constant term.
- * This function now implements a robust inversion in line with the mission statement.
+ * Implements a robust inversion in line with the mission statement.
  * @param {string} expr
  * @returns {string}
  */
@@ -1669,7 +1669,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-18");
+    console.log("Equation Plotter Library version 0.2.1-19");
     return;
   }
 
