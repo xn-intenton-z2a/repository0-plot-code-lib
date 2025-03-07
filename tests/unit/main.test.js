@@ -337,4 +337,13 @@ describe('Exported API Functions', () => {
     expect(state).toHaveProperty('defaultColorSchemes');
     expect(state.defaultColorSchemes.quadratic).toContain('blue');
   });
+
+  test('plotGradient returns SVG snippet with gradient definition', () => {
+    const points = [{ x: 0, y: 0 }, { x: 100, y: 100 }];
+    const svgSnippet = mainModule.plotGradient(points, 'red', 'blue');
+    expect(svgSnippet).toContain('linearGradient');
+    expect(svgSnippet).toContain('stop-color:red');
+    expect(svgSnippet).toContain('stop-color:blue');
+    expect(svgSnippet).toContain('polyline');
+  });
 });

@@ -25,6 +25,7 @@
  *  - **New Features:**
  *      - Added smoothPlot for moving average smoothing and computeStandardDeviation for statistical analysis of plot data.
  *      - Added new statistical functions computeMedian and computeMode for additional plot analysis.
+ *      - Added a new gradient plotting feature (plotGradient) to render plots with a color gradient.
  *  - Documentation updated per CONTRIBUTING.md guidelines.
  */
 
@@ -1246,11 +1247,38 @@ const generateSvg = (
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
   });
 
+  // New Feature: Gradient Plot Demo (for demonstration, using quadratic plot points with gradient coloring)
+  if(quadraticPlots.length > 0 && quadraticPlots[0].length > 0) {
+    const gradElement = plotGradient(quadraticPlots[0].map(p => {
+      // Re-project points in same coordinate system as quadratic plot
+      const px = 50 + ((p.x - qMinX) / (qMaxX - qMinX)) * 700;
+      const py = 230 - ((p.y - qMinY) / (qMaxY - qMinY)) * 180;
+      return { x: px, y: py };
+    }), 'red', 'blue');
+    svg += gradElement + "\n";
+  }
+
   svg += "</svg>";
   return svg;
 };
 
-// New 3D Rotating Plots Feature
+// New Feature: Gradient Plot Helper
+/**
+ * Generates a polyline with a gradient stroke given plot points and start/end colors.
+ * @param {Array<{x: number, y: number}>} points - Array of 2D points.
+ * @param {string} startColor - Color at the start of the gradient.
+ * @param {string} endColor - Color at the end of the gradient.
+ * @returns {string} SVG snippet containing gradient definition and polyline.
+ */
+const plotGradient = (points, startColor, endColor) => {
+  const gradientId = 'grad' + Math.random().toString(36).substring(7);
+  let svgGradient = `<defs>\n  <linearGradient id="${gradientId}" x1="0%" y1="0%" x2="100%" y2="0%">\n    <stop offset="0%" style="stop-color:${startColor};stop-opacity:1" />\n    <stop offset="100%" style="stop-color:${endColor};stop-opacity:1" />\n  </linearGradient>\n</defs>\n`;
+  const pts = points.map(p => `${formatNumber(p.x)},${formatNumber(p.y)}`).join(' ');
+  svgGradient += `<polyline points="${pts}" fill="none" stroke="url(#${gradientId})" stroke-width="2" />`;
+  return svgGradient;
+};
+
+// 3D Rotating Plots Feature
 
 /**
  * Rotates a 3D point around a given axis by a specified angle in degrees.
@@ -1731,7 +1759,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-21");
+    console.log("Equation Plotter Library version 0.2.1-22");
     return;
   }
 
@@ -1958,5 +1986,6 @@ export {
   plotToSvg3D,
   extractQuadraticCoefficients,
   invertExpression,
-  getInternalState
+  getInternalState,
+  plotGradient
 };
