@@ -1504,7 +1504,7 @@ const main = async () => {
     "  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n" +
     "  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or 'y=2*e^(0.5x)' (optionally with range)\n" +
     "  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'\n" +
-    "  3D Plot:   '3d:helix' to generate a 3D helix plot (supports rotation via --rotate)
+    "  3D Plot:   '3d:helix' to generate a 3D helix plot (supports rotation via --rotate)\n";
 
   if (args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");
