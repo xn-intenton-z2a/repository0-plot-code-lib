@@ -29,6 +29,7 @@
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">Multiple Plot Types:</strong> Supports a wide range of functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic.</li>
 <li class="md-github"><strong class="md-github">3D Rotating Plots:</strong> Generate interactive 3D plots (e.g., a helix) with rotation support and projection to 2D.</li>
+<li class="md-github"><strong class="md-github">Expression-Based Formulas:</strong> Now supports text-based expression formulas using the prefix <code class="md-github">expr:</code>. For example: <code class="md-github">expr:2*x+3:-10,10,1</code> to plot y = 2*x+3 over the range -10 to 10.</li>
 <li class="md-github"><strong class="md-github">Diverse Output Formats:</strong> Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.</li>
 <li class="md-github"><strong class="md-github">Interactive &amp; Web Interfaces:</strong> Real-time plotting with an interactive CLI mode and an Express-based web interface.</li>
 <li class="md-github"><strong class="md-github">Advanced Analysis:</strong> Access summary statistics, average point computations, and flexible query filtering options.</li>
@@ -41,6 +42,9 @@
 <h3 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h3>
 <p class="md-github">Generate an output file by specifying the output filename and formula strings:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;quad:1,0,0,-10,10,1&quot;
+</code></pre>
+<p class="md-github">For expression-based plotting:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;expr:2*x+3:-10,10,1&quot;
 </code></pre>
 <p class="md-github">For interactive mode:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
@@ -66,8 +70,9 @@
 <h2 class="md-github"><a class="md-github__anchor" name="change-log" href="#change-log"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Change Log</h2>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">Documentation Update:</strong> Refreshed the README to align with the CONTRIBUTING guidelines and pruned outdated references.</li>
-<li class="md-github"><strong class="md-github">Enhanced Features:</strong> Introduced advanced query filtering, refined rotation handling, comprehensive summary statistics, and integrated 3D rotating plots.</li>
+<li class="md-github"><strong class="md-github">Enhanced Features:</strong> Introduced advanced query filtering, refined rotation handling, comprehensive summary statistics, integrated 3D rotating plots, and added support for expression-based formulas using the <code class="md-github">expr:</code> prefix.</li>
 <li class="md-github"><strong class="md-github">CLI &amp; Web Interface Improvements:</strong> Upgraded interactive mode and error reporting; added an Express-based web interface for real-time plotting.</li>
+<li class="md-github"><strong class="md-github">Bug Fixes:</strong> Added missing wrapper functions (plotQuadratic, plotSine, plotCosine, plotTangent, plotPolar, plotLinear, plotExponential, plotLogarithmic) to ensure proper exports and functionality.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">For detailed guidelines on how to contribute, please refer to <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</p>
@@ -76,7 +81,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-07T03:16:24.455Z</p>
+    <p>Generated on 2025-03-07T03:30:50.858Z</p>
   </footer>
 </body>
 </html>
