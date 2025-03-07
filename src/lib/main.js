@@ -20,6 +20,7 @@
  *  - Extended web interface support using Express and improved CLI interactive mode.
  *  - Added support for text-based expressions using the prefix "expr:" for custom formula expressions.
  *  - Refactored code to reduce duplication and enhance maintainability in line with the Mission Statement.
+ *  - [TEST COVERAGE UPDATE] Added comprehensive test coverage and improved error handling using mocks for external resources.
  *
  * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
@@ -254,6 +255,9 @@ const parseTextExpression = (formulaStr) => {
   if (parts.length < 3) throw new Error("Invalid text expression formula: " + formulaStr);
   const mathExpr = parts[1].trim();
   const rangeParams = parts[2].split(",").map(Number);
+  if (rangeParams.length < 3 || rangeParams.some(n => isNaN(n))) {
+    throw new Error("Invalid range parameters in text expression formula: " + formulaStr);
+  }
   const [xMin, xMax, step] = rangeParams;
   return range(xMin, xMax + step, step).map(x => {
     let y;

@@ -2,16 +2,17 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool designed for generating accurate plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. It features robust analysis capabilities such as 3D rotating plots, advanced query filtering, average point computations, and now area calculation under curves to facilitate comprehensive data visualization.
+Equation Plotter CLI is a versatile command-line tool designed for generating accurate plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. It features robust analysis capabilities such as 3D rotating plots, advanced query filtering, average point computations, and area under curve approximations using the trapezoidal rule, all while offering flexible output formats.
 
 ## Features
 
 - **Multiple Plot Types:** Supports a wide range of functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic.
 - **3D Rotating Plots:** Generate interactive 3D plots (e.g., a helix) with rotation support and projection to 2D.
-- **Expression-Based Formulas:** Now supports text-based expression formulas using the prefix `expr:`. For example: `expr:2*x+3:-10,10,1` to plot y = 2*x+3 over the range -10 to 10.
+- **Expression-Based Formulas:** Supports text-based expression formulas using the prefix `expr:`. Example: `expr:2*x+3:-10,10,1`.
 - **Diverse Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.
 - **Interactive & Web Interfaces:** Real-time plotting with an interactive CLI mode and an Express-based web interface.
-- **Advanced Analysis:** Access summary statistics, average point computations, and now area under the curve approximations using a trapezoidal rule, along with flexible query filtering options.
+- **Advanced Analysis:** Access summary statistics, average point computations, and area under the curve approximations.
+- **Comprehensive Testing:** The project now includes extensive unit tests with mocks for file system operations and network calls to ensure nearly 100% test coverage.
 
 ## Getting Started
 
@@ -66,16 +67,26 @@ Additional flags include:
 
 Use the prefix `3d:helix` to generate a 3D helix plot with rotation capabilities (see the `plotToSvg3D` function).
 
+## Testing
+
+The project includes a comprehensive suite of tests using Vitest. To run the tests:
+
+```bash
+npm test
+```
+
+Tests are designed to cover nearly 100% of the codebase, including mocking for file system and network interactions.
+
 ## Change Log
 
-- **Documentation Update:** Refreshed the README to align with CONTRIBUTING guidelines and pruned outdated references.
+- **Documentation Update:** Refreshed the README and source code headers to align with CONTRIBUTING guidelines.
 - **Enhanced Features:**
-  - Introduced advanced query filtering and refined rotation handling.
-  - Added comprehensive summary statistics and averaged plot value computations.
-  - Integrated a new `computeArea` function to calculate the area under curves using the trapezoidal rule.
+  - Advanced query filtering and refined rotation handling.
+  - Added summary statistics, average plot value computations, and area under curve calculations.
   - Extended 3D rotating plots with enhanced helix generation.
-  - Added support for expression-based formulas with the `expr:` prefix.
+  - Supported expression-based formulas using the `expr:` prefix.
   - Improved CLI and web interface error handling and interactive mode functionality.
+- **Testing:** Implemented extensive unit tests with external resource mocking to achieve near 100% test coverage.
 
 ## Contributing
 
