@@ -127,6 +127,16 @@ describe('Exported API Functions', () => {
     expect(stats.sine).toHaveProperty('minX');
   });
 
+  test('getPlotAverage returns valid averages for plots', () => {
+    const plots = mainModule.getPlotsFromFormulas(['quad:1,0,0,-10,10,1']);
+    const averages = mainModule.getPlotAverage(plots);
+    expect(averages).toHaveProperty('quadratic');
+    if(averages.quadratic) {
+      expect(typeof averages.quadratic.avgX).toBe('number');
+      expect(typeof averages.quadratic.avgY).toBe('number');
+    }
+  });
+
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });

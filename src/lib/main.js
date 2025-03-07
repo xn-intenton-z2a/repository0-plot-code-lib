@@ -7,7 +7,6 @@
  * Equation Plotter Library
  *
  * This file contains the functions required for parsing and generating plots from mathematical formulas.
- * The documentation and mission statement have been refreshed to align with CONTRIBUTING.md guidelines.
  *
  * Mission:
  * "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
@@ -19,6 +18,7 @@
  *  - Improved geometric computations (computeCentroid and computeBoundingBox).
  *  - Added Express server support for a web interface with real-time plotting input.
  *  - Introduced new 3D rotating plots including helix plotting with proper 3D rotation and projection.
+ *  - Added new helper function getPlotAverage to compute average x/y values of plot points for enhanced analysis.
  */
 
 'use strict';
@@ -114,6 +114,23 @@ const computeBoundingBox = (points) => {
   const xs = points.map(p => p.x);
   const ys = points.map(p => p.y);
   return { minX: Math.min(...xs), maxX: Math.max(...xs), minY: Math.min(...ys), maxY: Math.max(...ys) };
+};
+
+// New Helper: Compute average of plot points for further analysis
+const getPlotAverage = (plotsObj) => {
+  const averages = {};
+  Object.entries(plotsObj).forEach(([type, plotsArray]) => {
+    const allPoints = plotsArray.flat();
+    if (allPoints.length > 0) {
+      averages[type] = {
+        avgX: allPoints.reduce((acc, p) => acc + p.x, 0) / allPoints.length,
+        avgY: allPoints.reduce((acc, p) => acc + p.y, 0) / allPoints.length
+      };
+    } else {
+      averages[type] = null;
+    }
+  });
+  return averages;
 };
 
 // Plotting Functions
@@ -1369,6 +1386,8 @@ const printSummaryStats = (formulas) => {
   const stats = getPlotStats(plots);
   console.log("\nSummary Statistics:");
   console.log(JSON.stringify(stats, null, 2));
+  console.log("\nAverage Plot Values:");
+  console.log(JSON.stringify(getPlotAverage(plots), null, 2));
 };
 
 // New: Express Server for Web Interface
@@ -1474,7 +1493,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-14");
+    console.log("Equation Plotter Library version 0.2.1-15");
     return;
   }
 
@@ -1681,6 +1700,7 @@ export {
   main,
   demoTest,
   getPlotStats,
+  getPlotAverage,
   getPlotsFromFormulas,
   queryPlotData,
   advancedQueryPlotData,
