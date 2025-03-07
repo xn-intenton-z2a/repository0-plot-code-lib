@@ -2,7 +2,7 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool for generating plots of mathematical functions such as quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. The tool now includes enhanced analysis features like 3D rotating plots and advanced query filtering, aligning with our mission:
+Equation Plotter CLI is a versatile command-line tool for generating plots of mathematical functions such as quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. The tool now includes enhanced analysis features like 3D rotating plots, advanced query filtering, and new average computations for plot data, aligning with our mission:
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
@@ -12,7 +12,7 @@ Equation Plotter CLI is a versatile command-line tool for generating plots of ma
 - **3D Rotating Plots:** Generate 3D plots (e.g., a helix) that can be rotated around the x, y, or z axes and projected onto a 2D plane for visualization.
 - **Flexible Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.
 - **Interactive Mode:** Real-time plotting through the command-line interface.
-- **Advanced Analysis:** Summary statistics, rotation support, and advanced query filtering to analyze plot data.
+- **Advanced Analysis:** Summary statistics, average point calculations, rotation support, and advanced query filtering to analyze plot data.
 - **Web Interface:** An Express-based web interface for entering formulas and viewing plots in real-time.
 
 ## Getting Started
@@ -55,7 +55,7 @@ Additional flags include:
 - `--html`: Output as an HTML file
 - `--ascii`: Output as ASCII art
 - `--grid`: Enable grid overlay on plots
-- `--stats`: Display summary statistics
+- `--stats`: Display summary statistics and average values
 - `--rotate [angle]`: Rotate the plot by the specified angle (in degrees)
 
 ## 3D Rotating Plots
@@ -69,7 +69,7 @@ For detailed contribution guidelines, please refer to [CONTRIBUTING.md](CONTRIBU
 ## Change Log
 
 - **Documentation Refresh:** Updated README to align with CONTRIBUTING.md guidelines and pruned outdated references.
-- **Enhanced Features:** Added advanced query filtering, improved rotation handling, enriched summary statistics, and integrated 3D rotating plots.
+- **Enhanced Features:** Added advanced query filtering, improved rotation handling, enriched summary statistics, integrated 3D rotating plots, and introduced a new helper function `getPlotAverage` for computing average plot values.
 - **CLI Improvements:** Enhanced interactive mode and refined error reporting.
 - **Test Coverage:** Expanded unit tests for robust reliability.
 
