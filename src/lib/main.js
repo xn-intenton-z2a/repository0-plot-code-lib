@@ -18,6 +18,8 @@
  *  - Improved geometric computations and added 3D rotating plots with helix rotation support.
  *  - Introduced new helper function getPlotAverage for computing average plot points.
  *  - Extended web interface support using Express for real-time plotting.
+ *  - Added support for text-based expressions using the prefix "expr:" to parse custom formula expressions.
+ *  - Added missing wrapper functions for plotQuadratic, plotSine, plotCosine, plotTangent, plotPolar, plotLinear, plotExponential, and plotLogarithmic.
  *
  * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
@@ -195,15 +197,58 @@ const plotLogarithmicParam = ({ a = 1, base = Math.E, xMin = 1, xMax = 10, step 
   return points;
 };
 
-// Backward-compatible wrappers
-const plotQuadratic = () => plotQuadraticParam();
-const plotSine = () => plotSineParam();
-const plotCosine = () => plotCosineParam();
-const plotTangent = () => plotTangentParam();
-const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
-const plotExponential = () => plotExponentialParam();
-const plotLogarithmic = () => plotLogarithmicParam();
-const plotPolar = () => plotPolarParam();
+// Added wrapper functions to expose plot functions with default parameters
+const plotQuadratic = (options = {}) => {
+  return plotQuadraticParam(options);
+};
+
+const plotSine = (options = {}) => {
+  return plotSineParam(options);
+};
+
+const plotCosine = (options = {}) => {
+  return plotCosineParam(options);
+};
+
+const plotTangent = (options = {}) => {
+  return plotTangentParam(options);
+};
+
+const plotPolar = (options = {}) => {
+  return plotPolarParam(options);
+};
+
+const plotLinear = (options = {}) => {
+  return plotLinearParam(options);
+};
+
+const plotExponential = (options = {}) => {
+  return plotExponentialParam(options);
+};
+
+const plotLogarithmic = (options = {}) => {
+  return plotLogarithmicParam(options);
+};
+
+// New Helper: Parse text-based expression formulas
+// Format: "expr:<mathematical expression>:[xMin,xMax,step]"
+// Example: "expr:2*x+3:-10,10,1"
+const parseTextExpression = (formulaStr) => {
+  const parts = formulaStr.split(':');
+  if (parts.length < 3) throw new Error("Invalid text expression formula: " + formulaStr);
+  const mathExpr = parts[1].trim();
+  const rangeParams = parts[2].split(",").map(Number);
+  const [xMin, xMax, step] = rangeParams;
+  return range(xMin, xMax + step, step).map(x => {
+    let y;
+    try {
+      y = Function("x", "return " + mathExpr)(x);
+    } catch(e) {
+      throw new Error("Error evaluating expression: " + mathExpr);
+    }
+    return { x, y };
+  });
+};
 
 // Formula Parsing Functions
 
@@ -464,51 +509,17 @@ const parseLogarithmic = (formulaStr) => {
   });
 };
 
-// Helper functions for quadratic parsing
-const extractQuadraticCoefficients = (expr) => {
-  let cleanedExpr = expr.replace(/\s+/g, "").replace(/\+\-/g, "-");
-  let a = 0;
-  let b = 0;
-  let c = 0;
-  const aMatch = cleanedExpr.match(/([+-]?\d*(?:\.\d+)?)x\^2/);
-  if (aMatch) {
-    const coeff = aMatch[1];
-    a = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
-    cleanedExpr = cleanedExpr.replace(aMatch[0], "");
-  }
-  const bMatch = cleanedExpr.match(/([+-]?\d+(?:\.\d+)?)x(?!\^)/);
-  if (bMatch) {
-    const coeff = bMatch[1];
-    b = coeff === "" || coeff === "+" ? 1 : coeff === "-" ? -1 : parseFloat(coeff);
-    cleanedExpr = cleanedExpr.replace(bMatch[0], "");
-  }
-  const constantMatches = cleanedExpr.match(/([+-]?\d*(?:\.\d+)?)/g);
-  if (constantMatches) {
-    c = constantMatches.reduce((sum, numStr) => sum + parseFloat(numStr || 0), 0);
-  }
-  return { a, b, c };
-};
-
-const invertExpression = (expr) => {
-  const tokens = expr.match(/[+-]?[^+-]+/g) || [];
-  const inverted = tokens
-    .map((token) => {
-      token = token.trim();
-      if (token.startsWith("-")) {
-        return "+" + token.slice(1);
-      } else {
-        return "-" + token;
-      }
-    })
-    .join("");
-  return inverted.startsWith("+") ? inverted.slice(1) : inverted;
-};
-
 // Delegate plotting based on formula string
 const plotFromString = (formulaStr) => {
   formulaStr = formulaStr.trim();
   const lowerStr = formulaStr.toLowerCase();
-  if (lowerStr.startsWith("y=")) {
+  if (lowerStr.startsWith("expr:")) {
+    try {
+      return parseTextExpression(formulaStr);
+    } catch (error) {
+      return [];
+    }
+  } else if (lowerStr.startsWith("y=")) {
     if (formulaStr.toLowerCase().includes("e^")) {
       try {
         return parseGenericExponential(formulaStr);
@@ -1475,7 +1486,8 @@ const main = async () => {
     "  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n" +
     "  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or 'y=2*e^(0.5x)' (optionally with range)\n" +
     "  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'\n" +
-    "  3D Plot:   '3d:helix' to generate a 3D helix plot (supports rotation via --rotate)\n";
+    "  3D Plot:   '3d:helix' to generate a 3D helix plot (supports rotation via --rotate)\n" +
+    "  Text Expression: 'expr:<expression>:[xMin,xMax,step]' e.g., 'expr:2*x+3:-10,10,1'\n";
 
   if (args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");

@@ -215,6 +215,15 @@ describe('Exported API Functions', () => {
     expect(svg3D).toContain('<svg');
   });
 
+  test('parseTextExpression via plotFromString supports expr: formulas', () => {
+    const points = mainModule.plotFromString('expr:2*x+3:-10,10,1');
+    expect(Array.isArray(points)).toBe(true);
+    if(points.length > 0) {
+      expect(points[0].x).toBe(-10);
+      expect(points[0].y).toBeCloseTo(2 * (-10) + 3, 1);
+    }
+  });
+
   test('startExpressServer starts server and returns 200 response on /', async () => {
     const server = mainModule.startExpressServer();
     await new Promise(resolve => setTimeout(resolve, 500));
