@@ -8,17 +8,18 @@
  *
  * This file contains the functions required for parsing and generating plots from mathematical formulas.
  *
- * Mission:
+ * Mission Statement:
  * "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
  *
  * Change Log:
- *  - Refreshed documentation header and mission statement as per CONTRIBUTING.md guidelines.
- *  - Removed outdated references and legacy notes to eliminate drift.
- *  - Enhanced rotation, query filtering, and enriched summary statistics support.
- *  - Improved geometric computations (computeCentroid and computeBoundingBox).
- *  - Added Express server support for a web interface with real-time plotting input.
- *  - Introduced new 3D rotating plots including helix plotting with proper 3D rotation and projection.
- *  - Added new helper function getPlotAverage to compute average x/y values of plot points for enhanced analysis.
+ *  - Refreshed documentation header to align with CONTRIBUTING.md guidelines.
+ *  - Removed outdated references and legacy notes.
+ *  - Enhanced rotation, query filtering, and summary statistics support.
+ *  - Improved geometric computations and added 3D rotating plots with helix rotation support.
+ *  - Introduced new helper function getPlotAverage for computing average plot points.
+ *  - Extended web interface support using Express for real-time plotting.
+ *
+ * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
 
 'use strict';
