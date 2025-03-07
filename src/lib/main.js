@@ -29,7 +29,7 @@
 
 'use strict';
 
-im port { fileURLToPath } from 'url';
+import { fileURLToPath } from 'url';
 import fs from 'fs';
 import readline from 'readline';
 import express from 'express';
