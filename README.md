@@ -2,16 +2,16 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool for generating accurate plots of various mathematical functions. It supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic plots along with advanced features such as 3D rotating plots, query filtering, average point computation, and area under the curve approximation using the trapezoidal rule. Multiple output formats are available including SVG, JSON, CSV, Markdown, ASCII, and HTML.
+Equation Plotter CLI is a versatile command-line tool for generating accurate plots of various mathematical functions. It supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic plots along with advanced features such as 3D rotating plots, query filtering, average point computation, area under the curve approximation using the trapezoidal rule, derivative calculation, and point reflection.
 
 ## Features
 
 - **Variety of Plots:** Quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic.
 - **3D Rotating Plots:** Generate interactive 3D plots (e.g., a helix) with rotation support.
 - **Expression-Based Formulas:** Use text-based formula expressions with prefix `expr:` (e.g., `expr:2*x+3:-10,10,1`).
+- **Advanced Analysis:** Provides summary statistics, average plot values, area under curve calculations, derivative computation using finite differences, and plot reflection.
 - **Multiple Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML.
 - **Interactive & Web Interfaces:** Offers an interactive CLI mode and an Express-based web interface.
-- **Advanced Analysis:** Provides summary statistics, average plot values, and area under curve calculations.
 
 ## Getting Started
 
@@ -57,10 +57,15 @@ Additional flags include:
 - `--html`: Output as an HTML file
 - `--ascii`: Output as ASCII art
 - `--grid`: Overlay grid lines on SVG plots
-- `--stats`: Display summary statistics and area computations
+- `--stats`: Display summary statistics, average calculations, area, and derivative computations
 - `--rotate [angle]`: Rotate plots by specified angle (in degrees)
 - `--help` or `-h`: Show the help message
 - `--version`: Display version information
+
+## New Features
+
+- **computeDerivative:** Calculates the derivative of plot points using a finite difference method.
+- **plotReflection:** Reflects plot points horizontally to facilitate mirror-image analysis.
 
 ## 3D Rotating Plots
 
@@ -77,9 +82,9 @@ npm test
 ## Change Log
 
 - **Documentation Updated:** README and inline documentation refreshed to align with CONTRIBUTING.md and project mission.
-- **Feature Enhancements:** Improved query filtering, rotation handling, summary statistics, and 3D plotting capabilities.
+- **Feature Enhancements:** Added new helper functions `computeDerivative` and `plotReflection` to extend analytical capabilities.
 - **CLI/Web Interface Improvements:** Enhanced error handling and interactive mode functionality.
-- **Testing:** Extensive unit tests ensure robust functionality.
+- **Testing:** Extensive unit tests now cover new features and ensure robust functionality.
 
 ## Contributing
 
