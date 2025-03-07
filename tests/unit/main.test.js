@@ -7,7 +7,7 @@ import * as mainModule from '@src/lib/main.js';
 import fs from 'fs';
 import readline from 'readline';
 
-// Since node 18+ has global fetch
+// Basic Import Test
 
 describe('Main Module Import', () => {
   test('should be non-null', () => {
@@ -76,9 +76,7 @@ describe('Exported API Functions', () => {
 
   test('Interactive CLI Mode prompts for input', async () => {
     const rlMock = {
-      question: vi.fn((prompt, callback) => {
-        callback('y=2x+3:-10,10,1');
-      }),
+      question: vi.fn((prompt, callback) => { callback('y=2x+3:-10,10,1'); }),
       close: vi.fn()
     };
     vi.spyOn(readline, 'createInterface').mockReturnValue(rlMock);
@@ -109,7 +107,6 @@ describe('Exported API Functions', () => {
     expect(result).toEqual([]);
   });
 
-  // New Test for Tangent Plot functionality
   test('plotTangent returns valid tangent plot points', () => {
     const tangentPoints = mainModule.plotTangent();
     expect(Array.isArray(tangentPoints)).toBe(true);
@@ -120,7 +117,6 @@ describe('Exported API Functions', () => {
     });
   });
 
-  // New Test for Summary Statistics feature
   test('getPlotStats returns valid summary object', () => {
     const plots = mainModule.getPlotsFromFormulas(['quad:1,0,0,-10,10,1', 'sine:1,1,0,0,360,30']);
     const stats = mainModule.getPlotStats(plots);
@@ -131,7 +127,6 @@ describe('Exported API Functions', () => {
     expect(stats.sine).toHaveProperty('minX');
   });
 
-  // New Test for Rotation Feature
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });
@@ -141,7 +136,6 @@ describe('Exported API Functions', () => {
     expect(rotatedPoint.y).toBeCloseTo(originalPoint.x, 1);
   });
 
-  // New Test for Advanced Query Plot Data Feature
   test('advancedQueryPlotData filters plot data based on x and y predicates', () => {
     const plots = mainModule.getPlotsFromFormulas(['quad:1,0,0,-10,10,1']);
     const filtered = mainModule.advancedQueryPlotData(plots, { x: (val) => val >= 0, y: (val) => val <= 50 });
@@ -153,7 +147,6 @@ describe('Exported API Functions', () => {
     });
   });
 
-  // New Tests for Geometric Computation Functions
   test('computeCentroid calculates correct centroid', () => {
     const points = [{ x: 0, y: 0 }, { x: 2, y: 2 }, { x: 4, y: 0 }];
     const centroid = mainModule.computeCentroid(points);
@@ -170,7 +163,6 @@ describe('Exported API Functions', () => {
     expect(bbox.maxY).toBe(2);
   });
 
-  // New Test for plotToFile error handling when fs.writeFileSync fails
   test('plotToFile throws error when file writing fails', () => {
     const fsSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => { throw new Error('Mock write error'); });
     expect(() => {
@@ -179,7 +171,6 @@ describe('Exported API Functions', () => {
     fsSpy.mockRestore();
   });
 
-  // Additional Test for HTML type in plotToFile
   test('plotToFile writes an HTML file and returns file name', () => {
     const fsSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const fileName = 'test_output.html';
@@ -189,7 +180,6 @@ describe('Exported API Functions', () => {
     fsSpy.mockRestore();
   });
 
-  // New Test for 3D Plotting Functions
   test('plotHelix3D returns array of 3D points with z property', () => {
     const helix = mainModule.plotHelix3D();
     expect(Array.isArray(helix)).toBe(true);
@@ -215,7 +205,6 @@ describe('Exported API Functions', () => {
     expect(svg3D).toContain('<svg');
   });
 
-  // New Test for Express Server
   test('startExpressServer starts server and returns 200 response on /', async () => {
     const server = mainModule.startExpressServer();
     await new Promise(resolve => setTimeout(resolve, 500));
