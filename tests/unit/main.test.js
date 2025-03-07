@@ -176,6 +176,20 @@ describe('Exported API Functions', () => {
     expect(inverted[0].y).toBeCloseTo(-quadPoints[0].y, 2);
   });
 
+  test('smoothPlot returns smoothed output', () => {
+    const points = [{x:0, y:1}, {x:1, y:2}, {x:2, y:3}, {x:3, y:4}];
+    const smoothed = mainModule.smoothPlot(points, 3);
+    expect(smoothed).toHaveLength(points.length);
+    // Check that smoothing does not deviate too far
+    expect(smoothed[1].y).toBeCloseTo(2, 1);
+  });
+
+  test('computeStandardDeviation returns correct value', () => {
+    const points = [{x:0, y:1}, {x:1, y:2}, {x:2, y:3}, {x:3, y:4}];
+    const std = mainModule.computeStandardDeviation(points);
+    expect(std).toBeCloseTo(1.118, 2);
+  });
+
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });
