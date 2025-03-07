@@ -25,6 +25,7 @@
  *  - Added new statistical functions computeMedian and computeMode for additional plot analysis.
  *  - Added a new gradient plotting feature (plotGradient) to render plots with a color gradient.
  *  - Pruned legacy and redundant code segments and aligned the implementation with the Mission Statement to remove any drift.
+ *  - Added helper function mapToSvgCoordinates to reduce duplicate coordinate mapping logic in SVG generation.
  */
 
 'use strict';
@@ -66,6 +67,26 @@ const range = (start, end, step = 1) => {
 const formatNumber = (n) => {
   const s = n.toFixed(2);
   return s === '-0.00' ? '0.00' : s;
+};
+
+/**
+ * Helper function to map a point's coordinates to SVG coordinate system.
+ * Applies scaling and offsets so that the point fits within a defined rectangle.
+ * @param {{x:number, y:number}} p
+ * @param {number} xMin
+ * @param {number} xMax
+ * @param {number} yMin
+ * @param {number} yMax
+ * @param {number} offsetX
+ * @param {number} offsetY
+ * @param {number} width
+ * @param {number} height
+ * @returns {{x:string, y:string}}
+ */
+const mapToSvgCoordinates = (p, xMin, xMax, yMin, yMax, offsetX, offsetY, width, height) => {
+  const x = offsetX + ((p.x - xMin) / (xMax - xMin)) * width;
+  const y = offsetY + height - ((p.y - yMin) / (yMax - yMin)) * height;
+  return { x: formatNumber(x), y: formatNumber(y) };
 };
 
 // New Helper Functions for Rotation Feature
@@ -955,9 +976,8 @@ const generateSvg = (
     const color = defaultColors.quadratic[idx % defaultColors.quadratic.length];
     const pts = points
       .map((p) => {
-        const px = 50 + ((p.x - qMinX) / (qMaxX - qMinX)) * 700;
-        const py = 230 - ((p.y - qMinY) / (qMaxY - qMinY)) * 180;
-        return `${formatNumber(px)},${formatNumber(py)}`;
+        const pt = mapToSvgCoordinates(p, qMinX, qMaxX, qMinY, qMaxY, 50, 50, 700, 180);
+        return `${pt.x},${pt.y}`;
       })
       .join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -998,9 +1018,8 @@ const generateSvg = (
     const color = defaultColors.linear[idx % defaultColors.linear.length];
     const pts = points
       .map((p) => {
-        const px = 50 + ((p.x - lMinX) / (lMaxX - lMinX)) * 700;
-        const py = 450 - ((p.y - lMinY) / (lMaxY - lMinY)) * 180;
-        return `${formatNumber(px)},${formatNumber(py)}`;
+        const pt = mapToSvgCoordinates(p, lMinX, lMaxX, lMinY, lMaxY, 50, 270, 700, 180);
+        return `${pt.x},${pt.y}`;
       })
       .join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -1041,9 +1060,8 @@ const generateSvg = (
     const color = defaultColors.sine[idx % defaultColors.sine.length];
     const pts = points
       .map((p) => {
-        const px = 50 + ((p.x - sMinX) / (sMaxX - sMinX)) * 700;
-        const py = 670 - ((p.y - sMinY) / (sMaxY - sMinY)) * 160;
-        return `${formatNumber(px)},${formatNumber(py)}`;
+        const pt = mapToSvgCoordinates(p, sMinX, sMaxX, sMinY, sMaxY, 50, 510, 700, 160);
+        return `${pt.x},${pt.y}`;
       })
       .join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -1084,9 +1102,8 @@ const generateSvg = (
     const color = defaultColors.cosine[idx % defaultColors.cosine.length];
     const pts = points
       .map((p) => {
-        const px = 50 + ((p.x - cMinX) / (cMaxX - cMinX)) * 700;
-        const py = 890 - ((p.y - cMinY) / (cMaxY - cMinY)) * 160;
-        return `${formatNumber(px)},${formatNumber(py)}`;
+        const pt = mapToSvgCoordinates(p, cMinX, cMaxX, cMinY, cMaxY, 50, 730, 700, 160);
+        return `${pt.x},${pt.y}`;
       })
       .join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -1127,9 +1144,8 @@ const generateSvg = (
     const color = defaultColors.tangent[idx % defaultColors.tangent.length];
     const pts = points
       .map((p) => {
-        const px = 50 + ((p.x - tMinX) / (tMaxX - tMinX)) * 700;
-        const py = 1110 - ((p.y - tMinY) / (tMaxY - tMinY)) * 160;
-        return `${formatNumber(px)},${formatNumber(py)}`;
+        const pt = mapToSvgCoordinates(p, tMinX, tMaxX, tMinY, tMaxY, 50, 950, 700, 160);
+        return `${pt.x},${pt.y}`;
       })
       .join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -1194,9 +1210,8 @@ const generateSvg = (
     const color = defaultColors.exponential[idx % defaultColors.exponential.length];
     const pts = points
       .map((p) => {
-        const px = 50 + ((p.x - expMinX) / (expMaxX - expMinX)) * 700;
-        const py = 1550 - ((p.y - expMinY) / (expMaxY - expMinY)) * 160;
-        return `${formatNumber(px)},${formatNumber(py)}`;
+        const pt = mapToSvgCoordinates(p, expMinX, expMaxX, expMinY, expMaxY, 50, 1390, 700, 160);
+        return `${pt.x},${pt.y}`;
       })
       .join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -1237,9 +1252,8 @@ const generateSvg = (
     const color = defaultColors.logarithmic[idx % defaultColors.logarithmic.length];
     const pts = points
       .map((p) => {
-        const px = 50 + ((p.x - logMinX) / (logMaxX - logMinX)) * 700;
-        const py = 1750 - ((p.y - logMinY) / (logMaxY - logMinY)) * 160;
-        return `${formatNumber(px)},${formatNumber(py)}`;
+        const pt = mapToSvgCoordinates(p, logMinX, logMaxX, logMinY, logMaxY, 50, 1590, 700, 160);
+        return `${pt.x},${pt.y}`;
       })
       .join(" ");
     svg += `  <polyline points="${pts}" fill="none" stroke="${color}" stroke-width="2" />\n`;
@@ -1248,10 +1262,8 @@ const generateSvg = (
   // New Feature: Gradient Plot Demo (for demonstration, using quadratic plot points with gradient coloring)
   if(quadraticPlots.length > 0 && quadraticPlots[0].length > 0) {
     const gradElement = plotGradient(quadraticPlots[0].map(p => {
-      // Re-project points in same coordinate system as quadratic plot
-      const px = 50 + ((p.x - qMinX) / (qMaxX - qMinX)) * 700;
-      const py = 230 - ((p.y - qMinY) / (qMaxY - qMinY)) * 180;
-      return { x: px, y: py };
+      const pt = mapToSvgCoordinates(p, qMinX, qMaxX, qMinY, qMaxY, 50, 50, 700, 180);
+      return { x: parseFloat(pt.x), y: parseFloat(pt.y) };
     }), 'red', 'blue');
     svg += gradElement + "\n";
   }
@@ -1358,9 +1370,8 @@ const plotToSvg3D = ({ rotationAngle = 0, rotationAxis = 'x', grid = false } = {
   if (minX === maxX) { minX -= 10; maxX += 10; }
   if (minY === maxY) { minY -= 10; maxY += 10; }
   const polylinePoints = projectedPoints.map(p => {
-    const px = 50 + ((p.x - minX) / (maxX - minX)) * (width - 100);
-    const py = 50 + ((p.y - minY) / (maxY - minY)) * (height - 100);
-    return `${formatNumber(px)},${formatNumber(py)}`;
+    const pt = mapToSvgCoordinates(p, minX, maxX, minY, maxY, 50, 50, width - 100, height - 100);
+    return `${pt.x},${pt.y}`;
   }).join(" ");
   let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   svg += `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">\n`;
@@ -1985,5 +1996,6 @@ export {
   extractQuadraticCoefficients,
   invertExpression,
   getInternalState,
-  plotGradient
+  plotGradient,
+  mapToSvgCoordinates
 };

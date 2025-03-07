@@ -346,4 +346,12 @@ describe('Exported API Functions', () => {
     expect(svgSnippet).toContain('stop-color:blue');
     expect(svgSnippet).toContain('polyline');
   });
+
+  test('mapToSvgCoordinates returns correct SVG coordinates', () => {
+    const p = { x: 5, y: 5 };
+    // Map point in range 0 to 10 to an SVG box with offset (50,50) and width=700, height=180
+    const mapped = mainModule.mapToSvgCoordinates(p, 0, 10, 0, 10, 50, 50, 700, 180);
+    expect(parseFloat(mapped.x)).toBeCloseTo(50 + 0.5 * 700, 2);
+    expect(parseFloat(mapped.y)).toBeCloseTo(50 + 180 - 0.5 * 180, 2);
+  });
 });
