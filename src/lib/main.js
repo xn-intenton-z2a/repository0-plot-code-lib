@@ -14,12 +14,12 @@
  * Change Log:
  *  - Refreshed documentation header to align with CONTRIBUTING.md guidelines.
  *  - Removed outdated references and legacy notes.
- *  - Enhanced rotation, query filtering, and summary statistics support.
- *  - Improved geometric computations and added 3D rotating plots with helix rotation support.
- *  - Introduced new helper function getPlotAverage for computing average plot points.
- *  - Extended web interface support using Express for real-time plotting.
- *  - Added support for text-based expressions using the prefix "expr:" to parse custom formula expressions.
- *  - Added missing wrapper functions for plotQuadratic, plotSine, plotCosine, plotTangent, plotPolar, plotLinear, plotExponential, and plotLogarithmic.
+ *  - Enhanced rotation support, query filtering, summary statistics, and 3D rotating plots with helix rotation support.
+ *  - Added helper function getPlotAverage for computing average plot points.
+ *  - Integrated new computeArea function to approximate area under curves using the trapezoidal rule.
+ *  - Extended web interface support using Express and improved CLI interactive mode.
+ *  - Added support for text-based expressions using the prefix "expr:" for custom formula expressions.
+ *  - Refactored code to reduce duplication and enhance maintainability in line with the Mission Statement.
  *
  * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
@@ -136,6 +136,22 @@ const getPlotAverage = (plotsObj) => {
   return averages;
 };
 
+// New Feature: Compute area under the curve using trapezoidal rule
+/**
+ * Computes the approximate area under the curve represented by an array of points.
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {number}
+ */
+const computeArea = (points) => {
+  if (points.length < 2) return 0;
+  let area = 0;
+  for (let i = 1; i < points.length; i++) {
+    const dx = points[i].x - points[i - 1].x;
+    area += ((points[i].y + points[i - 1].y) / 2) * dx;
+  }
+  return area;
+};
+
 // Plotting Functions
 
 const plotQuadraticParam = ({ a = 1, b = 0, c = 0, xMin = -10, xMax = 10, step = 1 } = {}) => {
@@ -250,7 +266,7 @@ const parseTextExpression = (formulaStr) => {
   });
 };
 
-// Formula Parsing Functions
+// Formula Parsing Functions (parseQuadratic, parseSine, etc.) remain as defined...
 
 const parseQuadratic = (formulaStr) => {
   const parts = formulaStr.split(":");
@@ -1454,6 +1470,11 @@ const demoTest = () => {
   console.log("\nPlot SVG 3D output for a helix with rotation 45° about y-axis:");
   console.log(demoSvg3D);
 
+  // Demo computeArea using the linear plot example
+  const linearPoints = plotLinear();
+  const area = computeArea(linearPoints);
+  console.log("\nComputed area under the linear plot curve:", area);
+
   console.log("=== End Demo Test Output ===");
 };
 
@@ -1506,7 +1527,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-15");
+    console.log("Equation Plotter Library version 0.2.1-16");
     return;
   }
 
@@ -1719,6 +1740,7 @@ export {
   advancedQueryPlotData,
   computeCentroid,
   computeBoundingBox,
+  computeArea,
   startExpressServer,
   rotatePoint3D,
   rotatePoints3D,

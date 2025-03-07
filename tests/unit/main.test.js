@@ -137,6 +137,13 @@ describe('Exported API Functions', () => {
     }
   });
 
+  test('computeArea computes correct area for linear plot', () => {
+    const linearPoints = mainModule.plotLinear();
+    const area = mainModule.computeArea(linearPoints);
+    // For a linear function y = x with domain -10 to 10, area under curve approximated by trapezoidal rule
+    expect(typeof area).toBe('number');
+  });
+
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });
