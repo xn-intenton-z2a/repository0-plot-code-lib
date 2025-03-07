@@ -6,22 +6,21 @@
 /*
  * Equation Plotter Library
  *
- * This file contains the functions required for parsing and generating plots from mathematical formulas.
+ * This file contains functions required for parsing and generating plots from mathematical formulas.
  *
  * Mission Statement:
  * "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
  *
  * Change Log:
- *  - Refreshed documentation header to align with CONTRIBUTING.md guidelines.
- *  - Removed outdated references and legacy notes.
+ *  - Updated inline documentation and change log to align with CONTRIBUTING.md guidelines.
+ *  - Removed outdated references and consolidated duplicate implementations.
  *  - Enhanced rotation support, query filtering, summary statistics, and 3D rotating plots with helix rotation support.
  *  - Added helper function getPlotAverage for computing average plot points.
- *  - Integrated new computeArea function to approximate area under curves using the trapezoidal rule.
- *  - Extended web interface support using Express and improved CLI interactive mode.
- *  - Added support for text-based expressions using the prefix "expr:" for custom formula expressions.
- *  - Refactored code to reduce duplication and enhance maintainability in line with the Mission Statement.
- *  - [TEST COVERAGE UPDATE] Added comprehensive test coverage and improved error handling using mocks for external resources.
- *  - Refreshed README documentation and pruned irrelevant content per CONTRIBUTING.md.
+ *  - Integrated computeArea function using the trapezoidal rule for area approximation under curves.
+ *  - Extended web interface using Express and improved CLI interactive mode.
+ *  - Introduced support for text-based expressions using prefix "expr:" for custom formula expressions.
+ *  - Refactored code to reduce duplication and improve maintainability in line with the project mission.
+ *  - Updated README documentation reference and pruned irrelevant content as per CONTRIBUTING.md.
  *
  * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
@@ -271,7 +270,7 @@ const parseTextExpression = (formulaStr) => {
   });
 };
 
-// Formula Parsing Functions (parseQuadratic, parseSine, etc.) remain as defined...
+// Formula Parsing Functions...
 
 const parseQuadratic = (formulaStr) => {
   const parts = formulaStr.split(":");
