@@ -11,7 +11,7 @@ Equation Plotter CLI is a versatile command-line tool designed for generating ac
 - **Expression-Based Formulas:** Supports text-based expression formulas using the prefix `expr:`. Example: `expr:2*x+3:-10,10,1`.
 - **Diverse Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.
 - **Interactive & Web Interfaces:** Real-time plotting with an interactive CLI mode and an Express-based web interface.
-- **Advanced Analysis:** Access summary statistics, average point computations, and area under the curve approximations.
+- **Advanced Analysis:** Access summary statistics, average plot value computations, and area under the curve approximations.
 - **Comprehensive Testing:** The project now includes extensive unit tests with mocks for file system operations and network calls to ensure nearly 100% test coverage.
 
 ## Getting Started

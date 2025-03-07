@@ -233,7 +233,8 @@ describe('Exported API Functions', () => {
   });
 
   test('parseTextExpression throws error for invalid format', () => {
-    expect(() => mainModule.plotFromString('expr:2*x+3')).toEqual([]);
+    // Directly call plotFromString to get the result (which should be an empty array)
+    expect(mainModule.plotFromString('expr:2*x+3')).toEqual([]);
   });
 
   test('startExpressServer starts server and returns 200 response on /', async () => {
