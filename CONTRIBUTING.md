@@ -40,6 +40,8 @@ Our contribution workflow is fully automated—your role is simple:
 
 ## Agentic contribution house choice options (programmatically parsed): START
 
+Workflow schedule: schedule-3
+
 ## Issue House Choice Options
 
 repository specific activities:
