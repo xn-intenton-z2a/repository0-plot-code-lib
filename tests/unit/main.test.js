@@ -189,6 +189,18 @@ describe('Exported API Functions', () => {
     expect(std).toBeCloseTo(1.118, 2);
   });
 
+  test('computeMedian computes correct median', () => {
+    const points = [{x:0, y:1}, {x:1, y:3}, {x:2, y:2}];
+    const median = mainModule.computeMedian(points);
+    expect(median).toBe(2);
+  });
+
+  test('computeMode computes correct mode', () => {
+    const points = [{x:0, y:1}, {x:1, y:2}, {x:2, y:2}, {x:3, y:3}];
+    const mode = mainModule.computeMode(points);
+    expect(mode).toBeCloseTo(2);
+  });
+
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });

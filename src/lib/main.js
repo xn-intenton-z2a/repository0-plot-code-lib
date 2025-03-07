@@ -22,7 +22,9 @@
  *  - Increased testability by isolating external side-effects via proper error handling and modular functions.
  *  - Exposed internal state for testing metrics via getInternalState.
  *  - Pruned legacy and redundant code segments and abstracted common functionalities.
- *  - **New Features:** Added smoothPlot for moving average smoothing and computeStandardDeviation for statistical analysis of plot data.
+ *  - **New Features:**
+ *      - Added smoothPlot for moving average smoothing and computeStandardDeviation for statistical analysis of plot data.
+ *      - Added new statistical functions computeMedian and computeMode for additional plot analysis.
  *  - Documentation updated per CONTRIBUTING.md guidelines.
  */
 
@@ -237,6 +239,41 @@ const computeStandardDeviation = (points) => {
   const mean = points.reduce((acc, p) => acc + p.y, 0) / points.length;
   const variance = points.reduce((acc, p) => acc + Math.pow(p.y - mean, 2), 0) / points.length;
   return Math.sqrt(variance);
+};
+
+// New Statistical Functions
+/**
+ * Computes the median of y-values of the plot points.
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {number}
+ */
+const computeMedian = (points) => {
+  if (points.length === 0) return 0;
+  const ys = points.map(p => p.y).sort((a, b) => a - b);
+  const mid = Math.floor(ys.length / 2);
+  return (ys.length % 2 === 0) ? (ys[mid - 1] + ys[mid]) / 2 : ys[mid];
+};
+
+/**
+ * Computes the mode of y-values of the plot points.
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {number|null}
+ */
+const computeMode = (points) => {
+  if (points.length === 0) return null;
+  const frequency = {};
+  points.forEach(p => {
+    const key = p.y.toFixed(2);
+    frequency[key] = (frequency[key] || 0) + 1;
+  });
+  let mode = null, maxCount = 0;
+  Object.entries(frequency).forEach(([key, count]) => {
+    if (count > maxCount) {
+      maxCount = count;
+      mode = parseFloat(key);
+    }
+  });
+  return mode;
 };
 
 // Helper Functions for Quadratic Parsing
@@ -1620,6 +1657,12 @@ const demoTest = () => {
   const stdDev = computeStandardDeviation(quadPoints);
   console.log("\nStandard deviation of quadratic plot y-values:", stdDev);
 
+  // Demo new statistical functions: computeMedian and computeMode
+  const median = computeMedian(quadPoints);
+  const mode = computeMode(quadPoints);
+  console.log("\nMedian of quadratic plot y-values:", median);
+  console.log("Mode of quadratic plot y-values:", mode);
+
   console.log("=== End Demo Test Output ===");
 };
 
@@ -1688,7 +1731,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-20");
+    console.log("Equation Plotter Library version 0.2.1-21");
     return;
   }
 
@@ -1905,6 +1948,8 @@ export {
   invertPlot,
   smoothPlot,
   computeStandardDeviation,
+  computeMedian,
+  computeMode,
   startExpressServer,
   rotatePoint3D,
   rotatePoints3D,
