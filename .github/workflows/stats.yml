@@ -3,9 +3,9 @@ name: ∞ Stats
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 0/4 * * *' # schedule-1
+    #- cron: '0 0/4 * * *' # schedule-1
     #- cron: '0,30 * * * *' # schedule-2
-    #- cron: '0,10 * * * *' # schedule-3
+    - cron: '0,10 * * * *' # schedule-3
 
 jobs:
   generate-site:
@@ -176,6 +176,9 @@ jobs:
                 </section>
                 <section>
                   <p><span class="label">Test status on main:</span> ${testStatus} (last passed ${testsLastPassedMinutes} minutes ago)</p>
+                </section>
+                <section>
+                  <p><span class="label">Engine:</span> ${{ steps.engine.outputs.engine }}</p>
                 </section>
                 <section>
                   <p><span class="label">Open Issues:</span> ${openIssues}</p>
