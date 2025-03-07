@@ -6,18 +6,19 @@
 /*
  * Equation Plotter Library
  *
- * This file contains all the functions required for parsing and generating plots from
- * mathematical formulas. In alignment with the CONTRIBUTING.md guidelines, outdated references
- * have been pruned and the code has been updated to reflect our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+ * This file contains the functions required for parsing and generating plots from mathematical formulas.
+ * The documentation and mission statement have been refreshed to align with CONTRIBUTING.md guidelines.
+ *
+ * Mission:
+ * "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
  *
  * Change Log:
- *  - Refreshed documentation header and mission statement to align with CONTRIBUTING.md guidelines.
- *  - Removed outdated references and pruned legacy notes to eliminate drift.
- *  - Enhanced rotation feature, advanced query filtering functionality, and summary statistics support.
- *  - Refined geometric computation functions (computeCentroid and computeBoundingBox).
- *  - Added Express server support for a web interface, enabling real-time formula input.
- *  - Extended test coverage and updated CLI usage documentation.
- *  - Added new 3D rotating plots functionality including helix plotting, 3D rotation, and projection to planar views.
+ *  - Refreshed documentation header and mission statement as per CONTRIBUTING.md guidelines.
+ *  - Removed outdated references and legacy notes to eliminate drift.
+ *  - Enhanced rotation, query filtering, and enriched summary statistics support.
+ *  - Improved geometric computations (computeCentroid and computeBoundingBox).
+ *  - Added Express server support for a web interface with real-time plotting input.
+ *  - Introduced new 3D rotating plots including helix plotting with proper 3D rotation and projection.
  */
 
 'use strict';
@@ -143,8 +144,7 @@ const plotTangentParam = ({ amplitude = 1, frequency = 1, phase = 0, xMin = -45,
   for (let x = xMin; x <= xMax; x += step) {
     const rad = (x * Math.PI) / 180;
     const y = amplitude * Math.tan(frequency * rad + phase);
-    // Skip points with extreme values due to discontinuities
-    if (Math.abs(y) > 1000) continue;
+    if (Math.abs(y) > 1000) continue; // Skip extreme values due to discontinuities
     points.push({ x, y });
   }
   return points;
@@ -182,7 +182,6 @@ const plotQuadratic = () => plotQuadraticParam();
 const plotSine = () => plotSineParam();
 const plotCosine = () => plotCosineParam();
 const plotTangent = () => plotTangentParam();
-// For demonstration, linear plot now uses y = 2x + 3
 const plotLinear = () => plotLinearParam({ m: 2, b: 3 });
 const plotExponential = () => plotExponentialParam();
 const plotLogarithmic = () => plotLogarithmicParam();
@@ -526,9 +525,7 @@ const plotFromString = (formulaStr) => {
     if (lowerStr.startsWith("polar:")) return parsePolar(formulaStr);
     if (lowerStr.startsWith("linear:")) return parseLinear(formulaStr);
     if (lowerStr.startsWith("exponential:") || lowerStr.startsWith("exp:")) return parseExponential(formulaStr);
-    // New: support for 3D plots with prefix "3d:" - for example "3d:helix" will generate a 3D helix plot
     if (lowerStr.startsWith("3d:")) {
-      // For now, if the formula contains "helix", return the 3D helix plot points
       if (lowerStr.includes("helix")) {
         return plotHelix3D();
       } else {
@@ -595,10 +592,7 @@ const getPlotsFromFormulas = (formulas = []) => {
         (lower.startsWith("y=") && formula.toLowerCase().includes("log("))
       ) {
         logarithmic.push(plotFromString(formula));
-      } else if (lower.startsWith("3d:")) { // New branch for 3D plot
-        // For simplicity, we treat it as a separate category '3d'
-        // Here we only support helix plots for demonstration
-        // Wrap the 3D points in an array to be consistent with others
+      } else if (lower.startsWith("3d:")) {
         quadratic.push(plotFromString(formula));
       }
     } catch (error) {
@@ -638,10 +632,10 @@ const getPlotStats = (plotsObj) => {
 
 // New Feature: Query Plot Data
 /**
- * Filters plot data based on a predicate, similar to jq filtering functionality.
- * @param {Object} plots - An object containing arrays of plot points keyed by plot type.
- * @param {function} predicate - A callback function that accepts a point and returns a boolean.
- * @returns {Object} - A new plots object with filtered points.
+ * Filters plot data based on a predicate.
+ * @param {Object} plots - Object containing arrays of plot points keyed by type.
+ * @param {function} predicate - Callback accepting a point and returning a boolean.
+ * @returns {Object}
  */
 const queryPlotData = (plots, predicate) => {
   const filteredPlots = {};
@@ -654,9 +648,9 @@ const queryPlotData = (plots, predicate) => {
 // New Feature: Advanced Query Filtering
 /**
  * Filters plot data based on separate predicates for x and y values.
- * @param {Object} plots - An object containing arrays of plot points keyed by plot type.
- * @param {Object} filters - An object with predicates for x and y. Example: { x: (val) => val > 0, y: (val) => val < 10 }
- * @returns {Object} - A new plots object with filtered points.
+ * @param {Object} plots - Object with plot points keyed by type.
+ * @param {Object} filters - Object with x and y predicates.
+ * @returns {Object}
  */
 const advancedQueryPlotData = (plots, { x, y }) => {
   const filteredPlots = {};
@@ -679,15 +673,6 @@ const generateSvg = (
   gridEnabled = false
 ) => {
   const width = 800;
-  // Updated layout positions
-  // Quadratic: 50 to 230
-  // Linear: 270 to 450
-  // Sine: 490 to 670
-  // Cosine: 710 to 890
-  // Tangent: 930 to 1110
-  // Polar: 1150 to 1330 (special drawing)
-  // Exponential: 1370 to 1550
-  // Logarithmic: 1570 to 1750
   let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
   svg += `<svg width="${width}" height="1800" viewBox="0 0 ${width} 1800" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">\n`;
   svg += `  <rect width="100%" height="100%" fill="white" />\n`;
@@ -944,7 +929,7 @@ const generateSvg = (
   });
   svg += "\n";
 
-  // Polar Plot (special rendering with circles and axes)
+  // Polar Plot
   svg += `  <text x="${width / 2}" y="1150" font-size="16" text-anchor="middle">Polar Plot: r = scale * |sin(multiplier * θ)|</text>\n`;
   const centerX = width / 2;
   const centerY = 1190;
@@ -1073,7 +1058,7 @@ const rotatePoint3D = (point, angleDeg, axis) => {
     return { x, y: y * Math.cos(angle) - z * Math.sin(angle), z: y * Math.sin(angle) + z * Math.cos(angle) };
   } else if (axis === 'y') {
     return { x: x * Math.cos(angle) + z * Math.sin(angle), y, z: -x * Math.sin(angle) + z * Math.cos(angle) };
-  } else { // 'z' axis
+  } else {
     return { x: x * Math.cos(angle) - y * Math.sin(angle), y: x * Math.sin(angle) + y * Math.cos(angle), z };
   }
 };
@@ -1088,7 +1073,7 @@ const rotatePoint3D = (point, angleDeg, axis) => {
 const rotatePoints3D = (points, angleDeg, axis) => points.map(p => rotatePoint3D(p, angleDeg, axis));
 
 /**
- * Projects a 3D point to 2D using a simple orthographic projection.
+ * Projects a 3D point to 2D using orthographic projection.
  * @param {{x: number, y: number, z: number}} point
  * @returns {{x: number, y: number}}
  */
@@ -1119,10 +1104,10 @@ const plotHelix3D = ({ radius = 100, height = 200, turns = 3, step = 5 } = {}) =
 /**
  * Generates an SVG from a 3D helix plot after applying rotation and projection to 2D.
  * @param {Object} options
- * @param {number} [options.rotationAngle=0] - Rotation angle in degrees
- * @param {'x'|'y'|'z'} [options.rotationAxis='x'] - Axis around which to rotate
- * @param {boolean} [options.grid=false] - Whether to overlay grid lines
- * @returns {string} - SVG content
+ * @param {number} [options.rotationAngle=0]
+ * @param {'x'|'y'|'z'} [options.rotationAxis='x']
+ * @param {boolean} [options.grid=false]
+ * @returns {string}
  */
 const plotToSvg3D = ({ rotationAngle = 0, rotationAxis = 'x', grid = false } = {}) => {
   let points3D = plotHelix3D();
@@ -1165,43 +1150,35 @@ const plotToMarkdown = ({ formulas = [], rotationAngle = 0 } = {}) => {
   let md = "# Plot Data\n\n";
   md += "## Quadratic Plot:\n";
   quadratic.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Linear Plot:\n";
   linear.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Sine Plot:\n";
   sine.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Cosine Plot:\n";
   cosine.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Tangent Plot:\n";
   tangent.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Polar Plot:\n";
   polar.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Exponential Plot:\n";
   exponential.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   md += "## Logarithmic Plot:\n";
   logarithmic.forEach((points, i) => {
-    md +=
-      `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
+    md += `**Formula ${i + 1}:** ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ") + "\n\n";
   });
   return md;
 };
@@ -1222,13 +1199,11 @@ const plotToAscii = ({ formulas = [], rotationAngle = 0 } = {}) => {
     const rows = 21;
     const cols = points.length;
     const gridArr = Array.from({ length: rows }, () => new Array(cols).fill(" "));
-
     for (let col = 0; col < cols; col++) {
       const { y } = points[col];
       const row = Math.round((1 - (y + 1) / 2) * (rows - 1));
       gridArr[row][col] = "*";
     }
-
     const xAxisRow = Math.round(0.5 * (rows - 1));
     for (let col = 0; col < cols; col++) {
       if (gridArr[xAxisRow][col] === " ") gridArr[xAxisRow][col] = "-";
@@ -1243,75 +1218,51 @@ const plotToText = ({ formulas = [], rotationAngle = 0 } = {}) => {
   let output = "";
   output +=
     "Quadratic Plot:\n" +
-    quadratic
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    quadratic.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n\n";
   output +=
     "Linear Plot:\n" +
-    linear
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    linear.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n\n";
   output +=
     "Sine Plot:\n" +
-    sine
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    sine.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n\n";
   output +=
     "Cosine Plot:\n" +
-    cosine
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    cosine.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n\n";
   output +=
     "Tangent Plot:\n" +
-    tangent
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    tangent.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n\n";
   output +=
     "Polar Plot:\n" +
-    polar
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    polar.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n\n";
   output +=
     "Exponential Plot:\n" +
-    exponential
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    exponential.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n\n";
   output +=
     "Logarithmic Plot:\n" +
-    logarithmic
-      .map(
-        (points, i) =>
-          `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
-      )
-      .join("\n") +
+    logarithmic.map((points, i) =>
+      `Formula ${i + 1}: ` + points.map((p) => `(${formatNumber(p.x)}, ${formatNumber(p.y)})`).join(" ")
+    ).join("\n") +
     "\n";
   return output;
 };
@@ -1412,7 +1363,7 @@ const plotToFile = ({ formulas = [], outputFileName = "output.svg", type = "svg"
   return outputFileName;
 };
 
-// New: If --stats flag is used, display summary statistics of plotted data.
+// New: Print summary statistics
 const printSummaryStats = (formulas) => {
   const plots = getPlotsFromFormulas(formulas);
   const stats = getPlotStats(plots);
@@ -1496,7 +1447,7 @@ const main = async () => {
     "  --version          Show version information\n" +
     "  --serve            Start Express server with web interface\n\n" +
     "Formula String Formats:\n" +
-    "  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (or with range e.g., 'y=x^2+2*x+1:-10,10,1')\n" +
+    "  Quadratic: 'quad:y=x^2+2*x+1' or 'quadratic:y=x^2+2*x+1' or 'x^2+y-1=0' (optionally with range e.g., 'y=x^2+2*x+1:-10,10,1')\n" +
     "  Linear:    'linear:m,b[,xMin,xMax,step]' or algebraic form like 'y=2x+3' (or 'y=2x+3:-10,10,1')\n" +
     "  Sine:      'sine:amplitude,frequency,phase[,xMin,xMax,step]'\n" +
     "  Cosine:    'cosine:amplitude,frequency,phase[,xMin,xMax,step]' or 'cos:...'\n" +
@@ -1532,7 +1483,6 @@ const main = async () => {
     return;
   }
 
-  // Check for web server flag
   if (args.includes("--serve")) {
     startExpressServer();
     return;
@@ -1737,7 +1687,6 @@ export {
   computeCentroid,
   computeBoundingBox,
   startExpressServer,
-  // New 3D Functions
   rotatePoint3D,
   rotatePoints3D,
   project3DTo2D,
