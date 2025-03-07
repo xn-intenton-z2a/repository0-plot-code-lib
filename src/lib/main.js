@@ -20,8 +20,10 @@
  *  - Added new helper functions: scalePlot and invertPlot for additional plot transformation operations.
  *  - Added implementations for extractQuadraticCoefficients and a robust invertExpression to improve quadratic parsing.
  *  - Improved testability by isolating external side-effects via proper error handling and modular functions.
+ *  - Added new helper export getInternalState for testing internal metrics.
  *  - Updated inline documentation and README to align with CONTRIBUTING guidelines and the mission statement.
  *  - Pruned legacy and redundant code segments to ensure the implementation fully reflects our mission and contributing guidelines.
+ *  - Increased test coverage by handling additional edge cases and mocking external resources in tests.
  */
 
 'use strict';
@@ -1602,6 +1604,22 @@ const demoTest = () => {
   console.log("=== End Demo Test Output ===");
 };
 
+// New: Expose internal state for testing purposes
+const getInternalState = () => {
+  return {
+    defaultColorSchemes: {
+      quadratic: ["blue", "darkblue", "purple", "royalblue", "deepskyblue"],
+      linear: ["orange", "darkorange", "gold", "chocolate", "peru"],
+      sine: ["red", "darkred", "crimson", "firebrick", "tomato"],
+      cosine: ["teal", "darkcyan", "cadetblue", "lightseagreen", "mediumturquoise"],
+      tangent: ["black", "gray"],
+      polar: ["green", "darkgreen", "limegreen", "seagreen", "forestgreen"],
+      exponential: ["magenta", "darkmagenta", "violet", "indigo", "purple"],
+      logarithmic: ["brown", "saddlebrown", "peru", "chocolate", "tan"]
+    }
+  };
+};
+
 // Main Execution
 const main = async () => {
   const args = process.argv.slice(2);
@@ -1873,5 +1891,6 @@ export {
   plotHelix3D,
   plotToSvg3D,
   extractQuadraticCoefficients,
-  invertExpression
+  invertExpression,
+  getInternalState
 };
