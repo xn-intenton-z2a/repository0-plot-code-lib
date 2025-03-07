@@ -10,7 +10,7 @@ Equation Plotter CLI is a versatile command-line tool that generates accurate pl
 - **Multiple Output Formats:** Export plots as SVG, JSON, CSV, Markdown, ASCII, and HTML.
 - **Advanced Analysis:** Compute summary statistics, average plot values, area under the curve (trapezoidal rule), derivative (finite differences), and horizontal reflection.
 - **Extended Transformations:** New helper functions `scalePlot` and `invertPlot` allow for additional plot manipulations.
-- **Enhanced Quadratic Parsing:** Added helper functions `extractQuadraticCoefficients` and `invertExpression` to improve formula parsing and eliminate simulated implementations.
+- **Enhanced Quadratic Parsing:** Improved helper functions `extractQuadraticCoefficients` and `invertExpression` provide robust parsing and inversion of quadratic expressions.
 - **3D Rotating Plots:** Generate and rotate 3D plots (e.g., helix) to visualize in a two-dimensional format.
 - **Interactive CLI and Web Interface:** Use an interactive mode or start an Express-based web interface for quick plotting.
 
@@ -72,7 +72,7 @@ New helper functions have been added:
 
 ## Enhanced Quadratic Parsing
 
-To improve the parsing of quadratic formulas, the helper functions `extractQuadraticCoefficients` and `invertExpression` have been implemented. They replace simulated or demo implementations with real parsing logic, ensuring more robust handling of formula strings.
+To improve the parsing of quadratic formulas, the helper functions `extractQuadraticCoefficients` and `invertExpression` have been upgraded. These functions now provide robust parsing and correct inversion of expressions in line with the mission statement.
 
 ## 3D Rotating Plots
 
@@ -88,11 +88,11 @@ npm test
 
 ## Change Log
 
-- **Documentation Updated:** README refreshed to include new helper function details.
-- **Feature Enhancements:** Added helper functions for derivative computation, horizontal reflection, and extended with `scalePlot` and `invertPlot` for additional plot transformations.
-- **Quadratic Parsing Improvement:** Implemented `extractQuadraticCoefficients` and `invertExpression` to replace simulated implementations with real logic.
-- **Test Coverage:** Expanded test suite with additional tests for helper functions and external resource mocking to achieve near 100% coverage.
-- **Interface Improvements:** Streamlined CLI and web interface with improved error handling and interactive features.
+- **Documentation Updated:** README refreshed to detail new helper functions and parsing improvements.
+- **Feature Enhancements:** Extended features for area computation, derivative analysis, horizontal reflection, additional scaling, and vertical inversion.
+- **Quadratic Parsing Improvement:** Upgraded `extractQuadraticCoefficients` and implemented a robust `invertExpression` to correctly invert expressions.
+- **Test Coverage:** Expanded test suite to cover new and existing functions with near 100% coverage.
+- **Interface Improvements:** Improved CLI and web interface with enhanced error handling and interactive capabilities.
 
 ## Contributing
 
