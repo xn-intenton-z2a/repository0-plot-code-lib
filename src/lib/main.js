@@ -21,6 +21,7 @@
  *  - Added implementations for extractQuadraticCoefficients and a robust invertExpression to improve quadratic parsing.
  *  - Improved testability by isolating external side-effects via proper error handling and modular functions.
  *  - Updated inline documentation and README to align with CONTRIBUTING guidelines and the mission statement.
+ *  - Pruned legacy and redundant code segments to ensure the implementation fully reflects our mission and contributing guidelines.
  */
 
 'use strict';

@@ -72,11 +72,21 @@ New helper functions have been added:
 
 ## Enhanced Quadratic Parsing
 
-To improve the parsing of quadratic formulas, the helper functions `extractQuadraticCoefficients` and `invertExpression` have been upgraded. These functions now provide robust parsing and correct inversion of expressions in line with the mission statement.
+To improve the parsing of quadratic formulas, the helper functions `extractQuadraticCoefficients` and `invertExpression` have been upgraded. These functions now provide robust parsing and correct inversion of expressions, neatly aligning the implementation with the project mission:
+
+"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## 3D Rotating Plots
 
 Generate a 3D helix plot using the prefix `3d:helix` (rotation can be applied via the `--rotate` flag). See the `plotToSvg3D` function for details.
+
+## Change Log
+
+- **Documentation Updated:** README refreshed to detail new helper functions, improved quadratic parsing, and extended output options.
+- **Feature Enhancements:** Added area computation, derivative analysis, horizontal reflection, scaling, and vertical inversion in plots.
+- **Source Drift Pruned:** Removed deprecated code and redundant segments; ensured the code aligns with our mission statement and contributing guidelines.
+- **Test Coverage:** Expanded test suite to cover new and existing functions with near 100% coverage.
+- **Interface Improvements:** Enhanced CLI and web interface with improved error handling and interactive capabilities.
 
 ## Testing
 
@@ -85,14 +95,6 @@ Run the comprehensive suite of tests using Vitest:
 ```bash
 npm test
 ```
-
-## Change Log
-
-- **Documentation Updated:** README refreshed to detail new helper functions and parsing improvements.
-- **Feature Enhancements:** Extended features for area computation, derivative analysis, horizontal reflection, additional scaling, and vertical inversion.
-- **Quadratic Parsing Improvement:** Upgraded `extractQuadraticCoefficients` and implemented a robust `invertExpression` to correctly invert expressions.
-- **Test Coverage:** Expanded test suite to cover new and existing functions with near 100% coverage.
-- **Interface Improvements:** Improved CLI and web interface with enhanced error handling and interactive capabilities.
 
 ## Contributing
 
