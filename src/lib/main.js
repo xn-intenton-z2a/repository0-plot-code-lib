@@ -18,9 +18,9 @@
  *  - Extended web interface using Express and improved CLI interactive mode.
  *  - Introduced support for text-based expressions using prefix "expr:" for custom formula expressions.
  *  - Added new helper functions: scalePlot and invertPlot for additional plot transformation operations.
- *  - Added implementations for extractQuadraticCoefficients and invertExpression to improve quadratic parsing.
+ *  - Added implementations for extractQuadraticCoefficients and a robust invertExpression to improve quadratic parsing.
  *  - Improved testability by isolating external side-effects via proper error handling and modular functions.
- *  - Updated inline documentation and README to align with CONTRIBUTING guidelines.
+ *  - Updated inline documentation and README to align with CONTRIBUTING guidelines and the mission statement.
  */
 
 'use strict';
@@ -228,34 +228,35 @@ const extractQuadraticCoefficients = (expr) => {
 };
 
 /**
- * Inverts an expression by changing its sign for the variable part and conditionally for the constant.
+ * Inverts an expression by flipping the sign of the coefficient and, if the expression starts with a negative sign, also flips the constant term.
+ * This function now implements a robust inversion in line with the mission statement.
  * @param {string} expr
  * @returns {string}
  */
 const invertExpression = (expr) => {
   expr = expr.trim();
-  const hasLeadingNegative = expr.startsWith('-');
   const match = expr.match(/^([+-]?)(\d*\.?\d*)x(.*)$/);
   if (!match) return expr;
-  const sign = match[1];
-  const coeff = match[2];
-  const remainder = match[3] || '';
-  const invertedCoeff = (sign === '-' ? '+' : '-') + coeff + 'x';
-  let invertedConst = '';
+  let [, sign, coeff, remainder] = match;
+  let numericCoeff = coeff === '' ? 1 : parseFloat(coeff);
+  const originalIsNegative = (sign === '-');
+  const newCoeffValue = originalIsNegative ? numericCoeff : -numericCoeff;
+  let newCoeffStr = (newCoeffValue >= 0 ? '+' : '-') + (Math.abs(newCoeffValue) === 1 ? '' : Math.abs(newCoeffValue)) + 'x';
+  let newRemainder = '';
   if (remainder) {
-    if (hasLeadingNegative) {
+    if (originalIsNegative) {
       if (remainder.startsWith('+')) {
-        invertedConst = '-' + remainder.substring(1);
+        newRemainder = '-' + remainder.substring(1);
       } else if (remainder.startsWith('-')) {
-        invertedConst = '+' + remainder.substring(1);
+        newRemainder = '+' + remainder.substring(1);
       } else {
-        invertedConst = '-' + remainder;
+        newRemainder = '-' + remainder;
       }
     } else {
-      invertedConst = remainder;
+      newRemainder = remainder;
     }
   }
-  return invertedCoeff + invertedConst;
+  return newCoeffStr + newRemainder;
 };
 
 // Plotting Functions
@@ -1674,10 +1675,7 @@ const main = async () => {
     await new Promise((resolve) => {
       rl.question("Enter formula strings (semicolon-separated): ", async (answer) => {
         try {
-          const interactiveFormulas = answer
-            .split(";")
-            .map((s) => s.trim())
-            .filter(Boolean);
+          const interactiveFormulas = answer.split(";").map((s) => s.trim()).filter(Boolean);
           const filteredArgs = args.filter((arg) => arg !== "--interactive" && arg !== "--rotate" && arg !== rotationAngle.toString());
           const nonOptionArgs = filteredArgs.filter((arg) =>
             !arg.includes(":") &&
