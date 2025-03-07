@@ -13,6 +13,7 @@ Equation Plotter CLI is a versatile command-line tool designed to generate accur
 - **Advanced Analysis:** Compute summary statistics, averages, area (via trapezoidal rule), derivatives (finite differences), reflection, scaling, inversion, smoothing (moving average), standard deviation, median, and mode.
 - **Enhanced Quadratic Parsing:** Robust quadratic formula parsing with improved helper functions.
 - **3D Rotating Plots:** Generate and rotate 3D helix plots with 2D projection capabilities.
+- **Gradient Plot Feature:** New helper function to create plots with gradient colored strokes for enhanced visual effect.
 - **Interactive CLI and Web Interface:** Use the interactive command-line mode or launch an Express-based web interface.
 - **Clean Code and Testing:** Refined code structure with comprehensive test coverage.
 
@@ -72,6 +73,7 @@ New helper functions have been added to extend analytical capabilities:
 - **smoothPlot:** Applies moving average smoothing to plot data.
 - **computeStandardDeviation:** Calculates the standard deviation of y-values in the plot points.
 - **computeMedian and computeMode:** New statistical functions to compute the median and mode of the plot's y-values.
+- **plotGradient:** Generates a gradient-colored polyline for enhanced visual presentation of plots.
 
 ## Enhanced Quadratic Parsing
 
@@ -93,7 +95,9 @@ npm test
 
 - **Documentation Updated:** README refreshed in accordance with CONTRIBUTING.md guidelines.
 - **Enhanced Parsing:** Improved quadratic parsing and inversion functions.
-- **New Features:** Added `scalePlot`, `invertPlot`, `smoothPlot`, `computeStandardDeviation`, and new statistical functions `computeMedian` and `computeMode` for advanced plot analysis.
+- **New Features:**
+  - Added `scalePlot`, `invertPlot`, `smoothPlot`, `computeStandardDeviation`, `computeMedian`, and `computeMode` for advanced plot analysis.
+  - **Added `plotGradient` to render gradient colored plots.**
 - **Interface Improvements:** Enhanced CLI and web interface with updated interactive functionality.
 
 ## Contributing
