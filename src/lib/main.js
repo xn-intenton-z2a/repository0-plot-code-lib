@@ -17,6 +17,7 @@
  *  - Refined geometric computation functions (computeCentroid and computeBoundingBox).
  *  - Added Express server support for a web interface, enabling real-time formula input.
  *  - Extended test coverage and updated CLI usage documentation.
+ *  - Added new 3D rotating plots functionality including helix plotting, 3D rotation, and projection to planar views.
  */
 
 'use strict';
@@ -525,6 +526,15 @@ const plotFromString = (formulaStr) => {
     if (lowerStr.startsWith("polar:")) return parsePolar(formulaStr);
     if (lowerStr.startsWith("linear:")) return parseLinear(formulaStr);
     if (lowerStr.startsWith("exponential:") || lowerStr.startsWith("exp:")) return parseExponential(formulaStr);
+    // New: support for 3D plots with prefix "3d:" - for example "3d:helix" will generate a 3D helix plot
+    if (lowerStr.startsWith("3d:")) {
+      // For now, if the formula contains "helix", return the 3D helix plot points
+      if (lowerStr.includes("helix")) {
+        return plotHelix3D();
+      } else {
+        return [];
+      }
+    }
     return [];
   } else if (formulaStr.includes("=")) {
     try {
@@ -585,6 +595,11 @@ const getPlotsFromFormulas = (formulas = []) => {
         (lower.startsWith("y=") && formula.toLowerCase().includes("log("))
       ) {
         logarithmic.push(plotFromString(formula));
+      } else if (lower.startsWith("3d:")) { // New branch for 3D plot
+        // For simplicity, we treat it as a separate category '3d'
+        // Here we only support helix plots for demonstration
+        // Wrap the 3D points in an array to be consistent with others
+        quadratic.push(plotFromString(formula));
       }
     } catch (error) {
       // Ignore parsing errors
@@ -1042,6 +1057,102 @@ const generateSvg = (
   return svg;
 };
 
+// New 3D Rotating Plots Feature
+
+/**
+ * Rotates a 3D point around a given axis by a specified angle in degrees.
+ * @param {{x: number, y: number, z: number}} point
+ * @param {number} angleDeg
+ * @param {'x'|'y'|'z'} axis
+ * @returns {{x: number, y: number, z: number}}
+ */
+const rotatePoint3D = (point, angleDeg, axis) => {
+  const angle = (angleDeg * Math.PI) / 180;
+  const { x, y, z } = point;
+  if (axis === 'x') {
+    return { x, y: y * Math.cos(angle) - z * Math.sin(angle), z: y * Math.sin(angle) + z * Math.cos(angle) };
+  } else if (axis === 'y') {
+    return { x: x * Math.cos(angle) + z * Math.sin(angle), y, z: -x * Math.sin(angle) + z * Math.cos(angle) };
+  } else { // 'z' axis
+    return { x: x * Math.cos(angle) - y * Math.sin(angle), y: x * Math.sin(angle) + y * Math.cos(angle), z };
+  }
+};
+
+/**
+ * Rotates an array of 3D points by a given angle around a specified axis.
+ * @param {Array<{x: number, y: number, z: number}>} points
+ * @param {number} angleDeg
+ * @param {'x'|'y'|'z'} axis
+ * @returns {Array<{x: number, y: number, z: number}>}
+ */
+const rotatePoints3D = (points, angleDeg, axis) => points.map(p => rotatePoint3D(p, angleDeg, axis));
+
+/**
+ * Projects a 3D point to 2D using a simple orthographic projection.
+ * @param {{x: number, y: number, z: number}} point
+ * @returns {{x: number, y: number}}
+ */
+const project3DTo2D = (point) => ({ x: point.x, y: point.y });
+
+/**
+ * Generates a 3D helix plot as an array of 3D points.
+ * @param {Object} options
+ * @param {number} [options.radius=100]
+ * @param {number} [options.height=200]
+ * @param {number} [options.turns=3]
+ * @param {number} [options.step=5]
+ * @returns {Array<{x: number, y: number, z: number}>}
+ */
+const plotHelix3D = ({ radius = 100, height = 200, turns = 3, step = 5 } = {}) => {
+  const points = [];
+  const totalAngle = 360 * turns;
+  for (let angle = 0; angle <= totalAngle; angle += step) {
+    const rad = (angle * Math.PI) / 180;
+    const x = radius * Math.cos(rad);
+    const y = radius * Math.sin(rad);
+    const z = height * (angle / totalAngle) - height / 2;
+    points.push({ x, y, z });
+  }
+  return points;
+};
+
+/**
+ * Generates an SVG from a 3D helix plot after applying rotation and projection to 2D.
+ * @param {Object} options
+ * @param {number} [options.rotationAngle=0] - Rotation angle in degrees
+ * @param {'x'|'y'|'z'} [options.rotationAxis='x'] - Axis around which to rotate
+ * @param {boolean} [options.grid=false] - Whether to overlay grid lines
+ * @returns {string} - SVG content
+ */
+const plotToSvg3D = ({ rotationAngle = 0, rotationAxis = 'x', grid = false } = {}) => {
+  let points3D = plotHelix3D();
+  if (rotationAngle !== 0) {
+    points3D = rotatePoints3D(points3D, rotationAngle, rotationAxis);
+  }
+  const projectedPoints = points3D.map(project3DTo2D);
+  const width = 800;
+  const height = 400;
+  const xs = projectedPoints.map(p => p.x);
+  const ys = projectedPoints.map(p => p.y);
+  let minX = Math.min(...xs), maxX = Math.max(...xs);
+  let minY = Math.min(...ys), maxY = Math.max(...ys);
+  if (minX === maxX) { minX -= 10; maxX += 10; }
+  if (minY === maxY) { minY -= 10; maxY += 10; }
+  const polylinePoints = projectedPoints.map(p => {
+    const px = 50 + ((p.x - minX) / (maxX - minX)) * (width - 100);
+    const py = 50 + ((p.y - minY) / (maxY - minY)) * (height - 100);
+    return `${formatNumber(px)},${formatNumber(py)}`;
+  }).join(" ");
+  let svg = `<?xml version="1.0" encoding="UTF-8"?>\n`;
+  svg += `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">\n`;
+  if (grid) {
+    svg += `<rect width="100%" height="100%" fill="white" />\n`;
+  }
+  svg += `  <polyline points="${polylinePoints}" fill="none" stroke="purple" stroke-width="2" />\n`;
+  svg += `</svg>`;
+  return svg;
+};
+
 // HTML Generation Function
 const plotToHtml = ({ formulas = [], grid = false, rotationAngle = 0 } = {}) => {
   const svgContent = plotToSvg({ formulas, grid, rotationAngle });
@@ -1356,6 +1467,11 @@ const demoTest = () => {
   console.log("\nPlot HTML output for formula 'y=2x+3:-10,10,1':");
   console.log(demoHtml);
 
+  // Demonstrate 3D plotting by generating an SVG for a rotated 3D helix
+  const demoSvg3D = plotToSvg3D({ rotationAngle: 45, rotationAxis: 'y', grid: true });
+  console.log("\nPlot SVG 3D output for a helix with rotation 45° about y-axis:");
+  console.log(demoSvg3D);
+
   console.log("=== End Demo Test Output ===");
 };
 
@@ -1387,7 +1503,8 @@ const main = async () => {
     "  Tangent:   'tangent:amplitude,frequency,phase[,xMin,xMax,step]'\n" +
     "  Polar:     'polar:scale,multiplier,step[,degMin,degMax]'\n" +
     "  Exponential: 'exponential:a,b,xMin,xMax,step' or 'exp:a,b,xMin,xMax,step' or 'y=2*e^(0.5x)' (optionally with range)\n" +
-    "  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'";
+    "  Logarithmic: 'log:a,base,xMin,xMax,step' or 'ln:a,base,xMin,xMax,step'\n" +
+    "  3D Plot:   '3d:helix' to generate a 3D helix plot (supports rotation via --rotate)\n";
 
   if (args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFileName] [formulaStrings...] [options]");
@@ -1619,5 +1736,11 @@ export {
   advancedQueryPlotData,
   computeCentroid,
   computeBoundingBox,
-  startExpressServer
+  startExpressServer,
+  // New 3D Functions
+  rotatePoint3D,
+  rotatePoints3D,
+  project3DTo2D,
+  plotHelix3D,
+  plotToSvg3D
 };
