@@ -13,7 +13,8 @@ Equation Plotter CLI is a versatile command-line tool designed to generate accur
 - **Advanced Analysis:** Compute summary statistics, averages, area (via trapezoidal rule), derivatives (finite differences), reflection, scaling, inversion, smoothing (moving average), standard deviation, median, and mode.
 - **Enhanced Quadratic Parsing:** Robust quadratic formula parsing with improved helper functions.
 - **3D Rotating Plots:** Generate and rotate 3D helix plots with 2D projection capabilities.
-- **Gradient Plot Feature:** New helper function to create plots with gradient colored strokes for enhanced visual effect.
+- **Gradient Plot Feature:** Create plots with gradient colored strokes for enhanced visual effect using the new `plotGradient` function.
+- **New Helper Function:** Added `mapToSvgCoordinates` to simplify SVG coordinate mapping and reduce code duplication.
 - **Interactive CLI and Web Interface:** Use the interactive command-line mode or launch an Express-based web interface.
 - **Clean Code and Testing:** Refined code structure with comprehensive test coverage.
 
@@ -74,6 +75,7 @@ New helper functions have been added to extend analytical capabilities:
 - **computeStandardDeviation:** Calculates the standard deviation of y-values in the plot points.
 - **computeMedian and computeMode:** New statistical functions to compute the median and mode of the plot's y-values.
 - **plotGradient:** Generates a gradient-colored polyline for enhanced visual presentation of plots.
+- **mapToSvgCoordinates:** Simplifies the mapping of data points to SVG coordinates and reduces code duplication.
 
 ## Enhanced Quadratic Parsing
 
@@ -89,7 +91,8 @@ Use the prefix `3d:helix` (optionally with the `--rotate` flag) to generate a 3D
 - **Enhanced Parsing:** Improved quadratic parsing and inversion functions.
 - **New Features:**
   - Added `scalePlot`, `invertPlot`, `smoothPlot`, `computeStandardDeviation`, `computeMedian`, and `computeMode` for advanced plot analysis.
-  - **Added `plotGradient` to render gradient colored plots.**
+  - Added `plotGradient` to render gradient colored plots.
+  - **Added `mapToSvgCoordinates` helper function to reduce duplicate code in SVG coordinate mapping.**
 - **Interface Improvements:** Enhanced CLI and web interface with updated interactive functionality.
 - **Code Drift Pruned:** Redundant and legacy code segments have been removed to align with the Mission Statement.
 
