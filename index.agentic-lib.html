@@ -31,7 +31,7 @@
 <li class="md-github"><strong class="md-github">Multiple Output Formats:</strong> Export plots as SVG, JSON, CSV, Markdown, ASCII, and HTML.</li>
 <li class="md-github"><strong class="md-github">Advanced Analysis:</strong> Compute summary statistics, average plot values, area under the curve (trapezoidal rule), derivative (finite differences), and horizontal reflection.</li>
 <li class="md-github"><strong class="md-github">Extended Transformations:</strong> New helper functions <code class="md-github">scalePlot</code> and <code class="md-github">invertPlot</code> allow for additional plot manipulations.</li>
-<li class="md-github"><strong class="md-github">Enhanced Quadratic Parsing:</strong> Added helper functions <code class="md-github">extractQuadraticCoefficients</code> and <code class="md-github">invertExpression</code> to improve formula parsing and eliminate simulated implementations.</li>
+<li class="md-github"><strong class="md-github">Enhanced Quadratic Parsing:</strong> Improved helper functions <code class="md-github">extractQuadraticCoefficients</code> and <code class="md-github">invertExpression</code> provide robust parsing and inversion of quadratic expressions.</li>
 <li class="md-github"><strong class="md-github">3D Rotating Plots:</strong> Generate and rotate 3D plots (e.g., helix) to visualize in a two-dimensional format.</li>
 <li class="md-github"><strong class="md-github">Interactive CLI and Web Interface:</strong> Use an interactive mode or start an Express-based web interface for quick plotting.</li>
 </ul>
@@ -73,7 +73,7 @@
 <li class="md-github"><strong class="md-github">invertPlot:</strong> Vertically inverts the plot points, useful for creating mirror effects.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="enhanced-quadratic-parsing" href="#enhanced-quadratic-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Quadratic Parsing</h2>
-<p class="md-github">To improve the parsing of quadratic formulas, the helper functions <code class="md-github">extractQuadraticCoefficients</code> and <code class="md-github">invertExpression</code> have been implemented. They replace simulated or demo implementations with real parsing logic, ensuring more robust handling of formula strings.</p>
+<p class="md-github">To improve the parsing of quadratic formulas, the helper functions <code class="md-github">extractQuadraticCoefficients</code> and <code class="md-github">invertExpression</code> have been upgraded. These functions now provide robust parsing and correct inversion of expressions in line with the mission statement.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="3d-rotating-plots" href="#3d-rotating-plots"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3D Rotating Plots</h2>
 <p class="md-github">Generate a 3D helix plot using the prefix <code class="md-github">3d:helix</code> (rotation can be applied via the <code class="md-github">--rotate</code> flag). See the <code class="md-github">plotToSvg3D</code> function for details.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="testing" href="#testing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
@@ -82,11 +82,11 @@
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="change-log" href="#change-log"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Change Log</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Documentation Updated:</strong> README refreshed to include new helper function details.</li>
-<li class="md-github"><strong class="md-github">Feature Enhancements:</strong> Added helper functions for derivative computation, horizontal reflection, and extended with <code class="md-github">scalePlot</code> and <code class="md-github">invertPlot</code> for additional plot transformations.</li>
-<li class="md-github"><strong class="md-github">Quadratic Parsing Improvement:</strong> Implemented <code class="md-github">extractQuadraticCoefficients</code> and <code class="md-github">invertExpression</code> to replace simulated implementations with real logic.</li>
-<li class="md-github"><strong class="md-github">Test Coverage:</strong> Expanded test suite with additional tests for helper functions and external resource mocking to achieve near 100% coverage.</li>
-<li class="md-github"><strong class="md-github">Interface Improvements:</strong> Streamlined CLI and web interface with improved error handling and interactive features.</li>
+<li class="md-github"><strong class="md-github">Documentation Updated:</strong> README refreshed to detail new helper functions and parsing improvements.</li>
+<li class="md-github"><strong class="md-github">Feature Enhancements:</strong> Extended features for area computation, derivative analysis, horizontal reflection, additional scaling, and vertical inversion.</li>
+<li class="md-github"><strong class="md-github">Quadratic Parsing Improvement:</strong> Upgraded <code class="md-github">extractQuadraticCoefficients</code> and implemented a robust <code class="md-github">invertExpression</code> to correctly invert expressions.</li>
+<li class="md-github"><strong class="md-github">Test Coverage:</strong> Expanded test suite to cover new and existing functions with near 100% coverage.</li>
+<li class="md-github"><strong class="md-github">Interface Improvements:</strong> Improved CLI and web interface with enhanced error handling and interactive capabilities.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">Please refer to <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for detailed guidelines on how to contribute. Your contributions help improve the tool and ensure its alignment with our mission:</p>
@@ -96,7 +96,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-07T07:10:09.299Z</p>
+    <p>Generated on 2025-03-07T07:21:47.199Z</p>
   </footer>
 </body>
 </html>
