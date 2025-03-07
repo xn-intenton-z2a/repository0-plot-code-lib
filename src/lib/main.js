@@ -21,8 +21,8 @@
  *  - Upgraded quadratic parsing with extractQuadraticCoefficients and a robust invertExpression function.
  *  - Increased testability by isolating external side-effects via proper error handling and modular functions.
  *  - Exposed internal state for testing metrics via getInternalState.
- *  - Pruned legacy and redundant code segments and abstracted common functionalities to stay aligned with our mission and contributing guidelines.
- *  - Updated change log to reflect clean-ups and enhancements per latest contributing guidelines.
+ *  - Pruned legacy and redundant code segments and abstracted common functionalities.
+ *  - **New Features:** Added smoothPlot for moving average smoothing and computeStandardDeviation for statistical analysis of plot data.
  */
 
 'use strict';
@@ -200,6 +200,42 @@ const scalePlot = (points, scaleX, scaleY) => {
  */
 const invertPlot = (points) => {
   return points.map(p => ({ x: p.x, y: -p.y }));
+};
+
+// New Feature: Smooth Plot - Moving average smoothing
+/**
+ * Smooths plot points using a moving average with the specified window size.
+ * @param {Array<{x: number, y: number}>} points
+ * @param {number} [windowSize=3]
+ * @returns {Array<{x: number, y: number}>}
+ */
+const smoothPlot = (points, windowSize = 3) => {
+  if (points.length === 0 || windowSize < 2) return points;
+  const smoothed = [];
+  for (let i = 0; i < points.length; i++) {
+    const start = Math.max(0, i - Math.floor(windowSize / 2));
+    const end = Math.min(points.length, i + Math.ceil(windowSize / 2));
+    let sum = 0;
+    for (let j = start; j < end; j++) {
+      sum += points[j].y;
+    }
+    const avg = sum / (end - start);
+    smoothed.push({ x: points[i].x, y: avg });
+  }
+  return smoothed;
+};
+
+// New Feature: Compute standard deviation of y-values in plot points
+/**
+ * Computes the standard deviation of y-values of the plot points.
+ * @param {Array<{x: number, y: number}>} points
+ * @returns {number}
+ */
+const computeStandardDeviation = (points) => {
+  if (points.length === 0) return 0;
+  const mean = points.reduce((acc, p) => acc + p.y, 0) / points.length;
+  const variance = points.reduce((acc, p) => acc + Math.pow(p.y - mean, 2), 0) / points.length;
+  return Math.sqrt(variance);
 };
 
 // Helper Functions for Quadratic Parsing
@@ -1577,6 +1613,12 @@ const demoTest = () => {
   const invertedPoints = invertPlot(quadPoints);
   console.log("\nFirst 5 vertically inverted points of quadratic plot:", invertedPoints.slice(0,5));
 
+  // Demo new smoothPlot and computeStandardDeviation functions
+  const smoothedPoints = smoothPlot(quadPoints, 5);
+  console.log("\nFirst 5 smoothed points of quadratic plot (window size 5):", smoothedPoints.slice(0,5));
+  const stdDev = computeStandardDeviation(quadPoints);
+  console.log("\nStandard deviation of quadratic plot y-values:", stdDev);
+
   console.log("=== End Demo Test Output ===");
 };
 
@@ -1860,6 +1902,8 @@ export {
   plotReflection,
   scalePlot,
   invertPlot,
+  smoothPlot,
+  computeStandardDeviation,
   startExpressServer,
   rotatePoint3D,
   rotatePoints3D,
