@@ -540,7 +540,7 @@ const plotFromString = (formulaStr) => {
     if (lowerStr.startsWith("sine:")) return parseSine(formulaStr);
     if (lowerStr.startsWith("cosine:") || lowerStr.startsWith("cos:")) return parseCosine(formulaStr);
     if (lowerStr.startsWith("tangent:")) return parseTangent(formulaStr);
-    if (lowerStr.startsWith("polar:")) return parsePolar(formulaStr);
+    if (lowerStr.startsWith("polar:")) return plotFromString(formulaStr);
     if (lowerStr.startsWith("linear:")) return parseLinear(formulaStr);
     if (lowerStr.startsWith("exponential:") || lowerStr.startsWith("exp:")) return parseExponential(formulaStr);
     if (lowerStr.startsWith("3d:")) {
