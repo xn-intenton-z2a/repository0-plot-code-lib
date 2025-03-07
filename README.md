@@ -14,7 +14,7 @@ Equation Plotter CLI is a versatile command-line tool to generate accurate plots
 - **Enhanced Quadratic Parsing:** Robust parsing of quadratic formulas using updated helper functions.
 - **3D Rotating Plots:** Generate and rotate 3D helix plots, projected onto 2D.
 - **Interactive CLI and Web Interface:** Run in interactive mode or launch an Express-based web interface.
-- **High Test Coverage:** Extensive tests ensure reliability and robustness.
+- **Clean Code and Test Coverage:** Pruned legacy code and abstracted redundant functionalities to align with the mission and contribution guidelines.
 
 ## Getting Started
 
@@ -88,8 +88,9 @@ npm test
 ## Change Log
 
 - **Documentation Updated:** README refreshed per CONTRIBUTING guidelines.
-- **Enhanced Parsing:** Improved quadratic parsing and inversion functions.
+- **Enhanced Parsing:** Improved quadratic parsing, inversion functions, and robustness across plot types.
 - **New Features:** Added scaling and inversion helpers, area computation, derivative analysis, and 3D helix plots.
+- **Code Cleanup:** Pruned redundant and legacy code to align closely with the mission statement and contributing guidelines.
 - **Interface Improvements:** Enhanced CLI and web interface with improved interactive functionality.
 
 ## Contributing
