@@ -83,14 +83,6 @@ The functions `extractQuadraticCoefficients` and `invertExpression` have been up
 
 Use the prefix `3d:helix` (optionally with the `--rotate` flag) to generate a 3D helix plot that is rotated and projected onto a 2D plane.
 
-## Testing
-
-A comprehensive suite of tests is available using Vitest. Run the tests with:
-
-```bash
-npm test
-```
-
 ## Change Log
 
 - **Documentation Updated:** README refreshed in accordance with CONTRIBUTING.md guidelines.
@@ -99,6 +91,7 @@ npm test
   - Added `scalePlot`, `invertPlot`, `smoothPlot`, `computeStandardDeviation`, `computeMedian`, and `computeMode` for advanced plot analysis.
   - **Added `plotGradient` to render gradient colored plots.**
 - **Interface Improvements:** Enhanced CLI and web interface with updated interactive functionality.
+- **Code Drift Pruned:** Redundant and legacy code segments have been removed to align with the Mission Statement.
 
 ## Contributing
 

@@ -21,12 +21,10 @@
  *  - Upgraded quadratic parsing with extractQuadraticCoefficients and a robust invertExpression function.
  *  - Increased testability by isolating external side-effects via proper error handling and modular functions.
  *  - Exposed internal state for testing metrics via getInternalState.
- *  - Pruned legacy and redundant code segments and abstracted common functionalities.
- *  - **New Features:**
- *      - Added smoothPlot for moving average smoothing and computeStandardDeviation for statistical analysis of plot data.
- *      - Added new statistical functions computeMedian and computeMode for additional plot analysis.
- *      - Added a new gradient plotting feature (plotGradient) to render plots with a color gradient.
- *  - Documentation updated per CONTRIBUTING.md guidelines.
+ *  - Added smoothPlot for moving average smoothing and computeStandardDeviation for statistical analysis of plot data.
+ *  - Added new statistical functions computeMedian and computeMode for additional plot analysis.
+ *  - Added a new gradient plotting feature (plotGradient) to render plots with a color gradient.
+ *  - Pruned legacy and redundant code segments and aligned the implementation with the Mission Statement to remove any drift.
  */
 
 'use strict';
