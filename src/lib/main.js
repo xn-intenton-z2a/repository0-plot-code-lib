@@ -14,12 +14,10 @@
  * Change Log:
  *  - Refactored inline documentation and consolidated duplicate implementations.
  *  - Enhanced rotation, query filtering, summary statistics, and 3D rotating plots with helix rotation support.
- *  - Added helper functions getPlotAverage, computeArea, computeDerivative, and plotReflection to enhance analysis and transformation features in line with our mission.
+ *  - Added helper functions getPlotAverage, computeArea, computeDerivative, and plotReflection to extend analysis capabilities.
  *  - Extended web interface using Express and improved CLI interactive mode.
  *  - Introduced support for text-based expressions using prefix "expr:" for custom formula expressions.
- *  - Updated Change Log and README to reflect expanded feature set as per CONTRIBUTING.md.
- *
- * For contribution guidelines, please refer to CONTRIBUTING.md.
+ *  - Updated inline documentation and README to align with CONTRIBUTING guidelines.
  */
 
 'use strict';
