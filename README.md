@@ -2,16 +2,15 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool for generating plots of mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. The tool features enhanced analysis such as 3D rotating plots, advanced query filtering, and average point computations to provide in-depth visualizations.
+Equation Plotter CLI is a versatile command-line tool designed for generating accurate plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. It features robust analysis capabilities such as 3D rotating plots, advanced query filtering, and average point computations to facilitate comprehensive data visualization.
 
 ## Features
 
-- **Multiple Plot Types:** Supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions.
-- **3D Rotating Plots:** Generate 3D plots (e.g., a helix) that can be rotated around the x, y, or z axes and projected onto a 2D plane.
-- **Flexible Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.
-- **Interactive Mode:** Real-time plotting via the command-line.
-- **Advanced Analysis:** Summary statistics, average point calculations, rotation support, and advanced query filtering.
-- **Web Interface:** An Express-based web interface for real-time plotting and visualization.
+- **Multiple Plot Types:** Supports a wide range of functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic.
+- **3D Rotating Plots:** Generate interactive 3D plots (e.g., a helix) with rotation support and projection to 2D.
+- **Diverse Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.
+- **Interactive & Web Interfaces:** Real-time plotting with an interactive CLI mode and an Express-based web interface.
+- **Advanced Analysis:** Access summary statistics, average point computations, and flexible query filtering options.
 
 ## Getting Started
 
@@ -43,8 +42,6 @@ To start the web interface:
 node src/lib/main.js --serve
 ```
 
-The web interface will be available at [http://localhost:3000](http://localhost:3000).
-
 Additional flags include:
 
 - `--json`: Output in JSON format
@@ -52,24 +49,25 @@ Additional flags include:
 - `--md`: Output in Markdown format
 - `--html`: Output as an HTML file
 - `--ascii`: Output as ASCII art
-- `--grid`: Enable grid overlay on plots
+- `--grid`: Overlay grid lines on SVG plots
 - `--stats`: Display summary statistics and average values
 - `--rotate [angle]`: Rotate plots by the specified angle (in degrees)
+- `--help` or `-h`: Show the help message
+- `--version`: Display version information
 
 ## 3D Rotating Plots
 
-Use the prefix `3d:helix` to generate a 3D helix plot with rotation support. The `plotToSvg3D` function demonstrates rotating the 3D model before projecting it to 2D.
+Use the prefix `3d:helix` to generate a 3D helix plot with rotation capabilities (see the `plotToSvg3D` function).
 
 ## Change Log
 
-- **Documentation Refresh:** Updated README and source documentation to align with CONTRIBUTING.md guidelines and pruned outdated references.
-- **Enhanced Features:** Added advanced query filtering, improved rotation handling, enriched summary statistics, integrated 3D rotating plots, and introduced the `getPlotAverage` helper.
-- **CLI & Web Interface Improvements:** Enhanced interactive mode and refined error reporting, with an Express-based web interface for visualization.
-- **Test Coverage and Reliability:** Expanded unit tests and robust error handling for improved reliability.
+- **Documentation Update:** Refreshed the README to align with the CONTRIBUTING guidelines and pruned outdated references.
+- **Enhanced Features:** Introduced advanced query filtering, refined rotation handling, comprehensive summary statistics, and integrated 3D rotating plots.
+- **CLI & Web Interface Improvements:** Upgraded interactive mode and error reporting; added an Express-based web interface for real-time plotting.
 
-## Documentation & Contributing
+## Contributing
 
-For detailed contribution guidelines, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
+For detailed guidelines on how to contribute, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
