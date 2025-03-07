@@ -9,7 +9,7 @@
  * This file contains functions required for parsing and generating plots from mathematical formulas.
  *
  * Mission Statement:
- * "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+ *   "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
  *
  * Change Log:
  *  - Refactored inline documentation and consolidated duplicate implementations.
@@ -21,9 +21,8 @@
  *  - Upgraded quadratic parsing with extractQuadraticCoefficients and a robust invertExpression function.
  *  - Increased testability by isolating external side-effects via proper error handling and modular functions.
  *  - Exposed internal state for testing metrics via getInternalState.
- *  - README updated to meet new contributing guidelines and refreshed documentation.
- *  - Pruned legacy and redundant code segments to ensure alignment with our mission and contributing guidelines.
- *  - Improved test coverage by handling additional edge cases and properly mocking external resources in tests.
+ *  - Pruned legacy and redundant code segments and abstracted common functionalities to stay aligned with our mission and contributing guidelines.
+ *  - Updated change log to reflect clean-ups and enhancements per latest contributing guidelines.
  */
 
 'use strict';
@@ -324,37 +323,14 @@ const plotLogarithmicParam = ({ a = 1, base = Math.E, xMin = 1, xMax = 10, step 
 };
 
 // Added wrapper functions to expose plot functions with default parameters
-const plotQuadratic = (options = {}) => {
-  return plotQuadraticParam(options);
-};
-
-const plotSine = (options = {}) => {
-  return plotSineParam(options);
-};
-
-const plotCosine = (options = {}) => {
-  return plotCosineParam(options);
-};
-
-const plotTangent = (options = {}) => {
-  return plotTangentParam(options);
-};
-
-const plotPolar = (options = {}) => {
-  return plotPolarParam(options);
-};
-
-const plotLinear = (options = {}) => {
-  return plotLinearParam(options);
-};
-
-const plotExponential = (options = {}) => {
-  return plotExponentialParam(options);
-};
-
-const plotLogarithmic = (options = {}) => {
-  return plotLogarithmicParam(options);
-};
+const plotQuadratic = (options = {}) => plotQuadraticParam(options);
+const plotSine = (options = {}) => plotSineParam(options);
+const plotCosine = (options = {}) => plotCosineParam(options);
+const plotTangent = (options = {}) => plotTangentParam(options);
+const plotPolar = (options = {}) => plotPolarParam(options);
+const plotLinear = (options = {}) => plotLinearParam(options);
+const plotExponential = (options = {}) => plotExponentialParam(options);
+const plotLogarithmic = (options = {}) => plotLogarithmicParam(options);
 
 // New Helper: Parse text-based expression formulas
 // Format: "expr:<mathematical expression>:[xMin,xMax,step]"
@@ -1669,7 +1645,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-19");
+    console.log("Equation Plotter Library version 0.2.1-20");
     return;
   }
 
