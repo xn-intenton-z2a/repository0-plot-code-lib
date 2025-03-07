@@ -2,18 +2,16 @@
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool for generating plots of mathematical functions such as quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. The tool now includes enhanced analysis features like 3D rotating plots, advanced query filtering, and new average computations for plot data, aligning with our mission:
-
-"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+Equation Plotter CLI is a versatile command-line tool for generating plots of mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. The tool features enhanced analysis such as 3D rotating plots, advanced query filtering, and average point computations to provide in-depth visualizations.
 
 ## Features
 
 - **Multiple Plot Types:** Supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions.
-- **3D Rotating Plots:** Generate 3D plots (e.g., a helix) that can be rotated around the x, y, or z axes and projected onto a 2D plane for visualization.
+- **3D Rotating Plots:** Generate 3D plots (e.g., a helix) that can be rotated around the x, y, or z axes and projected onto a 2D plane.
 - **Flexible Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.
-- **Interactive Mode:** Real-time plotting through the command-line interface.
-- **Advanced Analysis:** Summary statistics, average point calculations, rotation support, and advanced query filtering to analyze plot data.
-- **Web Interface:** An Express-based web interface for entering formulas and viewing plots in real-time.
+- **Interactive Mode:** Real-time plotting via the command-line.
+- **Advanced Analysis:** Summary statistics, average point calculations, rotation support, and advanced query filtering.
+- **Web Interface:** An Express-based web interface for real-time plotting and visualization.
 
 ## Getting Started
 
@@ -56,22 +54,22 @@ Additional flags include:
 - `--ascii`: Output as ASCII art
 - `--grid`: Enable grid overlay on plots
 - `--stats`: Display summary statistics and average values
-- `--rotate [angle]`: Rotate the plot by the specified angle (in degrees)
+- `--rotate [angle]`: Rotate plots by the specified angle (in degrees)
 
 ## 3D Rotating Plots
 
-Use the formula prefix `3d:helix` to generate a 3D helix plot. The function `plotToSvg3D` demonstrates rotating the 3D model around a specified axis before projection onto 2D.
-
-## Documentation & Contributing
-
-For detailed contribution guidelines, please refer to [CONTRIBUTING.md](CONTRIBUTING.md). Contributions that enhance documentation, clean up legacy code, or increase feature robustness are highly appreciated.
+Use the prefix `3d:helix` to generate a 3D helix plot with rotation support. The `plotToSvg3D` function demonstrates rotating the 3D model before projecting it to 2D.
 
 ## Change Log
 
-- **Documentation Refresh:** Updated README to align with CONTRIBUTING.md guidelines and pruned outdated references.
-- **Enhanced Features:** Added advanced query filtering, improved rotation handling, enriched summary statistics, integrated 3D rotating plots, and introduced a new helper function `getPlotAverage` for computing average plot values.
-- **CLI Improvements:** Enhanced interactive mode and refined error reporting.
-- **Test Coverage:** Expanded unit tests for robust reliability.
+- **Documentation Refresh:** Updated README and source documentation to align with CONTRIBUTING.md guidelines and pruned outdated references.
+- **Enhanced Features:** Added advanced query filtering, improved rotation handling, enriched summary statistics, integrated 3D rotating plots, and introduced the `getPlotAverage` helper.
+- **CLI & Web Interface Improvements:** Enhanced interactive mode and refined error reporting, with an Express-based web interface for visualization.
+- **Test Coverage and Reliability:** Expanded unit tests and robust error handling for improved reliability.
+
+## Documentation & Contributing
+
+For detailed contribution guidelines, please refer to [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
