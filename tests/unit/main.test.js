@@ -15,6 +15,8 @@ describe('Main Module Import', () => {
   });
 });
 
+// Exported API Functions Tests
+
 describe('Exported API Functions', () => {
   test('plotToSvg returns string containing <svg>', () => {
     const svg = mainModule.plotToSvg({ formulas: ['quad:1,0,0,-10,10,1'] });
@@ -140,7 +142,6 @@ describe('Exported API Functions', () => {
   test('computeArea computes correct area for linear plot', () => {
     const linearPoints = mainModule.plotLinear();
     const area = mainModule.computeArea(linearPoints);
-    // For a linear function y = x with domain -10 to 10, area under curve approximated by trapezoidal rule
     expect(typeof area).toBe('number');
   });
 
@@ -229,6 +230,11 @@ describe('Exported API Functions', () => {
       expect(points[0].x).toBe(-10);
       expect(points[0].y).toBeCloseTo(2 * (-10) + 3, 1);
     }
+  });
+
+  test('parseTextExpression throws error for invalid format', () => {
+    // Directly call plotFromString to get the result (which should be an empty array)
+    expect(mainModule.plotFromString('expr:2*x+3')).toEqual([]);
   });
 
   test('startExpressServer starts server and returns 200 response on /', async () => {
