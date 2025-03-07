@@ -23,6 +23,7 @@
  *  - Exposed internal state for testing metrics via getInternalState.
  *  - Pruned legacy and redundant code segments and abstracted common functionalities.
  *  - **New Features:** Added smoothPlot for moving average smoothing and computeStandardDeviation for statistical analysis of plot data.
+ *  - Documentation updated per CONTRIBUTING.md guidelines.
  */
 
 'use strict';

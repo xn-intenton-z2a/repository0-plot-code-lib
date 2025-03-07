@@ -180,7 +180,6 @@ describe('Exported API Functions', () => {
     const points = [{x:0, y:1}, {x:1, y:2}, {x:2, y:3}, {x:3, y:4}];
     const smoothed = mainModule.smoothPlot(points, 3);
     expect(smoothed).toHaveLength(points.length);
-    // Check that smoothing does not deviate too far
     expect(smoothed[1].y).toBeCloseTo(2, 1);
   });
 
