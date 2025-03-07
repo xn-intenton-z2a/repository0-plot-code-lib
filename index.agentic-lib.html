@@ -24,7 +24,7 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="equation-plotter-cli" href="#equation-plotter-cli"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Equation Plotter CLI</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">Equation Plotter CLI is a versatile command-line tool designed for generating accurate plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. It features robust analysis capabilities such as 3D rotating plots, advanced query filtering, and average point computations to facilitate comprehensive data visualization.</p>
+<p class="md-github">Equation Plotter CLI is a versatile command-line tool designed for generating accurate plots of various mathematical functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions. It features robust analysis capabilities such as 3D rotating plots, advanced query filtering, average point computations, and now area calculation under curves to facilitate comprehensive data visualization.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">Multiple Plot Types:</strong> Supports a wide range of functions including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic.</li>
@@ -32,7 +32,7 @@
 <li class="md-github"><strong class="md-github">Expression-Based Formulas:</strong> Now supports text-based expression formulas using the prefix <code class="md-github">expr:</code>. For example: <code class="md-github">expr:2*x+3:-10,10,1</code> to plot y = 2*x+3 over the range -10 to 10.</li>
 <li class="md-github"><strong class="md-github">Diverse Output Formats:</strong> Export plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.</li>
 <li class="md-github"><strong class="md-github">Interactive &amp; Web Interfaces:</strong> Real-time plotting with an interactive CLI mode and an Express-based web interface.</li>
-<li class="md-github"><strong class="md-github">Advanced Analysis:</strong> Access summary statistics, average point computations, and flexible query filtering options.</li>
+<li class="md-github"><strong class="md-github">Advanced Analysis:</strong> Access summary statistics, average point computations, and now area under the curve approximations using a trapezoidal rule, along with flexible query filtering options.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="getting-started" href="#getting-started"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Getting Started</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h3>
@@ -60,7 +60,7 @@
 <li class="md-github"><code class="md-github">--html</code>: Output as an HTML file</li>
 <li class="md-github"><code class="md-github">--ascii</code>: Output as ASCII art</li>
 <li class="md-github"><code class="md-github">--grid</code>: Overlay grid lines on SVG plots</li>
-<li class="md-github"><code class="md-github">--stats</code>: Display summary statistics and average values</li>
+<li class="md-github"><code class="md-github">--stats</code>: Display summary statistics, average values, and area under curves</li>
 <li class="md-github"><code class="md-github">--rotate [angle]</code>: Rotate plots by the specified angle (in degrees)</li>
 <li class="md-github"><code class="md-github">--help</code> or <code class="md-github">-h</code>: Show the help message</li>
 <li class="md-github"><code class="md-github">--version</code>: Display version information</li>
@@ -69,10 +69,17 @@
 <p class="md-github">Use the prefix <code class="md-github">3d:helix</code> to generate a 3D helix plot with rotation capabilities (see the <code class="md-github">plotToSvg3D</code> function).</p>
 <h2 class="md-github"><a class="md-github__anchor" name="change-log" href="#change-log"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Change Log</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Documentation Update:</strong> Refreshed the README to align with the CONTRIBUTING guidelines and pruned outdated references.</li>
-<li class="md-github"><strong class="md-github">Enhanced Features:</strong> Introduced advanced query filtering, refined rotation handling, comprehensive summary statistics, integrated 3D rotating plots, and added support for expression-based formulas using the <code class="md-github">expr:</code> prefix.</li>
-<li class="md-github"><strong class="md-github">CLI &amp; Web Interface Improvements:</strong> Upgraded interactive mode and error reporting; added an Express-based web interface for real-time plotting.</li>
-<li class="md-github"><strong class="md-github">Bug Fixes:</strong> Added missing wrapper functions (plotQuadratic, plotSine, plotCosine, plotTangent, plotPolar, plotLinear, plotExponential, plotLogarithmic) to ensure proper exports and functionality.</li>
+<li class="md-github"><strong class="md-github">Documentation Update:</strong> Refreshed the README to align with CONTRIBUTING guidelines and pruned outdated references.</li>
+<li class="md-github"><strong class="md-github">Enhanced Features:</strong>
+<ul class="md-github">
+<li class="md-github">Introduced advanced query filtering and refined rotation handling.</li>
+<li class="md-github">Added comprehensive summary statistics and averaged plot value computations.</li>
+<li class="md-github">Integrated a new <code class="md-github">computeArea</code> function to calculate the area under curves using the trapezoidal rule.</li>
+<li class="md-github">Extended 3D rotating plots with enhanced helix generation.</li>
+<li class="md-github">Added support for expression-based formulas with the <code class="md-github">expr:</code> prefix.</li>
+<li class="md-github">Improved CLI and web interface error handling and interactive mode functionality.</li>
+</ul>
+</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">For detailed guidelines on how to contribute, please refer to <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</p>
@@ -81,7 +88,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-07T03:30:50.858Z</p>
+    <p>Generated on 2025-03-07T03:42:21.062Z</p>
   </footer>
 </body>
 </html>
