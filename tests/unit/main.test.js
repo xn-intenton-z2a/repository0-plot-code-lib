@@ -203,6 +203,12 @@ describe('Exported API Functions', () => {
     expect(centroid.y).toBeCloseTo(0.67, 1);
   });
 
+  test('computeCentroid returns zero for empty array', () => {
+    const centroid = mainModule.computeCentroid([]);
+    expect(centroid.x).toBe(0);
+    expect(centroid.y).toBe(0);
+  });
+
   test('computeBoundingBox calculates correct bounding box', () => {
     const points = [{ x: 0, y: 0 }, { x: 2, y: 2 }, { x: 4, y: 0 }];
     const bbox = mainModule.computeBoundingBox(points);
@@ -210,6 +216,14 @@ describe('Exported API Functions', () => {
     expect(bbox.maxX).toBe(4);
     expect(bbox.minY).toBe(0);
     expect(bbox.maxY).toBe(2);
+  });
+
+  test('computeBoundingBox returns zeros for empty array', () => {
+    const bbox = mainModule.computeBoundingBox([]);
+    expect(bbox.minX).toBe(0);
+    expect(bbox.maxX).toBe(0);
+    expect(bbox.minY).toBe(0);
+    expect(bbox.maxY).toBe(0);
   });
 
   test('plotToFile throws error when file writing fails', () => {
@@ -277,7 +291,6 @@ describe('Exported API Functions', () => {
     server.close();
   });
 
-  // New tests for helper functions
   test('extractQuadraticCoefficients returns correct coefficients', () => {
     const coeffs = mainModule.extractQuadraticCoefficients('x^2+2x+1');
     expect(coeffs.a).toBeCloseTo(1);
@@ -292,5 +305,11 @@ describe('Exported API Functions', () => {
     expect(inverted1).toBe('-2x-3');
     expect(inverted2).toBe('+2x-3');
     expect(inverted3).toBe('-2x+3');
+  });
+
+  test('getInternalState returns internal color schemes', () => {
+    const state = mainModule.getInternalState();
+    expect(state).toHaveProperty('defaultColorSchemes');
+    expect(state.defaultColorSchemes.quadratic).toContain('blue');
   });
 });
