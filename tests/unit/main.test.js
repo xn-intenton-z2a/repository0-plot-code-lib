@@ -162,6 +162,20 @@ describe('Exported API Functions', () => {
     expect(reflected[0].y).toEqual(quadPoints[0].y);
   });
 
+  test('scalePlot scales plot points correctly', () => {
+    const quadPoints = mainModule.plotQuadratic();
+    const scaled = mainModule.scalePlot(quadPoints, 2, 0.5);
+    expect(scaled[0].x).toBeCloseTo(quadPoints[0].x * 2, 2);
+    expect(scaled[0].y).toBeCloseTo(quadPoints[0].y * 0.5, 2);
+  });
+
+  test('invertPlot inverts plot points vertically', () => {
+    const quadPoints = mainModule.plotQuadratic();
+    const inverted = mainModule.invertPlot(quadPoints);
+    expect(inverted[0].x).toEqual(quadPoints[0].x);
+    expect(inverted[0].y).toBeCloseTo(-quadPoints[0].y, 2);
+  });
+
   test('Rotation flag rotates plot points', () => {
     const originalJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'] });
     const rotatedJson = mainModule.plotToJson({ formulas: ['quad:1,0,0,-10,10,1'], rotationAngle: 90 });

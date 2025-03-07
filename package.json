@@ -1,6 +1,6 @@
 {
   "name": "@xn-intenton-z2a/plot-code-lib",
-  "version": "0.2.1-17",
+  "version": "0.2.1-18",
   "description": "A versatile CLI tool to plot mathematical functions accurately with flexible output formats and advanced analysis features, now including area computations, derivative analysis, and plot reflection.",
   "type": "module",
   "main": "src/lib/main.js",
