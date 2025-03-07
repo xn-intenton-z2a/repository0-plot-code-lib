@@ -21,6 +21,7 @@
  *  - Added support for text-based expressions using the prefix "expr:" for custom formula expressions.
  *  - Refactored code to reduce duplication and enhance maintainability in line with the Mission Statement.
  *  - [TEST COVERAGE UPDATE] Added comprehensive test coverage and improved error handling using mocks for external resources.
+ *  - Refreshed README documentation and pruned irrelevant content per CONTRIBUTING.md.
  *
  * For contribution guidelines, please refer to CONTRIBUTING.md.
  */
@@ -1427,7 +1428,7 @@ const startExpressServer = () => {
   const app = express();
   app.use(express.urlencoded({ extended: true }));
   app.get('/', (req, res) => {
-    res.send(`<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plotter Web Interface</title>\n</head>\n<body>\n  <h1>Equation Plotter</h1>\n  <form method="POST" action="/plot">\n    <label for="formula">Enter formula(s) (separated by semicolon):</label><br>\n    <input type="text" id="formula" name="formula" size="80" /><br><br>\n    <button type="submit">Plot</button>\n  </form>\n</body>\n</html>`);
+    res.send(`<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Equation Plotter Web Interface</title>\n</head>\n<body>\n  <h1>Equation Plotter</h1>\n  <form method="POST" action="/plot">\n    <label for="formula">Enter formula(s) (separated by semicolon):</label><br>\n    <input type="text" id="formula" name="formula" size="80" /><br><br>\n    <button type="submit">Plot</button><br>\n  </form>\n</body>\n</html>`);
   });
 
   app.post('/plot', (req, res) => {
@@ -1531,7 +1532,7 @@ const main = async () => {
   }
 
   if (args.includes("--version")) {
-    console.log("Equation Plotter Library version 0.2.1-16");
+    console.log("Equation Plotter Library version 0.2.1-17");
     return;
   }
 
