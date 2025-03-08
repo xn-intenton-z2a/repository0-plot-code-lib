@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
-const { main, plotQuadratic, calculateDerivative, calculateArea } = mainModule;
+const { main, plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints } = mainModule;
 
 describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
@@ -52,7 +52,10 @@ describe("Main Function Behaviour", () => {
     const fakeExpress = () => {
       return {
         get: (path, cb) => {},
-        listen: (port, cb) => { cb(); return { close: () => {} }; }
+        listen: (port, cb) => {
+          cb(); 
+          return { close: () => {} };
+        }
       };
     };
     const fakeExpressModule = { default: fakeExpress };
@@ -91,5 +94,26 @@ describe("Additional helper functions", () => {
     const fn = x => x;
     const area = calculateArea(fn, 0, 10, 1000);
     expect(area).toBeCloseTo(50, 1);
+  });
+  
+  test("plotLinear returns correct points and values", () => {
+    const points = plotLinear(2, 1, 0, 10, 10);
+    expect(points.length).toBe(11);
+    expect(points[0]).toEqual({ x: 0, y: 1 });
+    expect(points[10]).toEqual({ x: 10, y: 21 });
+  });
+  
+  test("plotSine returns sinusoidal values", () => {
+    const points = plotSine(1, 1, 0, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    // First point should be sine(0) = 0
+    expect(points[0]).toEqual({ x: 0, y: 0 });
+  });
+  
+  test("rotatePoints rotates points correctly", () => {
+    const points = [{ x: 1, y: 0 }];
+    const rotated = rotatePoints(points, Math.PI / 2);
+    expect(rotated[0].x).toBeCloseTo(0, 5);
+    expect(rotated[0].y).toBeCloseTo(1, 5);
   });
 });

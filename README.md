@@ -24,6 +24,9 @@ This library provides a command-line interface (CLI) and an integrated web inter
   - plotQuadratic: Generates an array of points for a quadratic function.
   - calculateDerivative: Approximates the derivative of a function at a given point.
   - calculateArea: Approximates the area under a function curve using the trapezoidal rule.
+  - plotLinear: Generates points for a linear function.
+  - plotSine: Generates points for a sine wave based on amplitude, frequency, and phase.
+  - rotatePoints: Rotates a set of points by a specified angle (in radians).
 
 ## Installation
 
@@ -76,11 +79,10 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-9:**
-  - Fixed server initialization error in --serve mode by changing the server variable declaration to avoid premature reference issues.
-  - Updated dynamic import patterns for loadExpress and loadReadline to support asynchronous operations and testing mocks.
-  - Reinforced adherence to the mission statement by ensuring accurate demo outputs and extending helper functions.
-  - Reflected all changes in tests and documentation per contributing guidelines.
+- Fixed Express server initialization error by removing dynamic self-import in favor of direct use of loadExpress and loadReadline.
+- Extended library functions by adding plotLinear, plotSine, and rotatePoints to enhance plotting capabilities in line with our mission statement.
+- Updated dynamic import patterns for proper mocking in tests.
+- Reflected all changes in tests and documentation per contributing guidelines.
 
 ## Contributing
 

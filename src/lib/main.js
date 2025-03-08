@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting as per our mission statement.
-// Updated to add new library functions, fix server init issue and ensure async handling per contributing guidelines.
+// Extended library functions, fixed Express server init issue and ensured async handling per contributing guidelines.
 
 import { fileURLToPath } from "url";
 
@@ -30,8 +30,7 @@ export async function main(args) {
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
     try {
-      // Use dynamic self-import to allow proper mocking of loadExpress
-      const { loadExpress } = await import(import.meta.url);
+      // Use local loadExpress to allow proper mocking of loadExpress
       const expressModule = await loadExpress();
       const express = expressModule.default;
       const app = express();
@@ -41,8 +40,7 @@ export async function main(args) {
       });
       // Ensure the server callback is awaited so that logging occurs before main returns
       await new Promise(resolve => {
-        let server;
-        server = app.listen(port, () => {
+        const server = app.listen(port, () => {
           console.log(`Express server running at http://localhost:${port}`);
           // Immediately close server in test environments to avoid port conflicts
           if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
@@ -59,8 +57,7 @@ export async function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    // Use dynamic self-import to allow proper mocking of loadReadline
-    const { loadReadline } = await import(import.meta.url);
+    // Use local loadReadline to allow proper mocking of loadReadline
     const rlModule = await loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
@@ -130,6 +127,37 @@ export function calculateArea(fn, xMin, xMax, steps = 100) {
     area += 0.5 * (fn(x1) + fn(x2)) * dx;
   }
   return area;
+}
+
+// Extended library functions as per contributing guidelines
+export function plotLinear(m, b, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: m * x + b });
+  }
+  return result;
+}
+
+export function plotSine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: amplitude * Math.sin(frequency * x + phase) });
+  }
+  return result;
+}
+
+export function rotatePoints(points, angle) {
+  // Rotate an array of {x, y} by a given angle (in radians)
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  return points.map(({ x, y }) => ({
+    x: x * cos - y * sin,
+    y: x * sin + y * cos
+  }));
 }
 
 // Entry point
