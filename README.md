@@ -79,10 +79,10 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Fixed Express server initialization error by hoisting the server variable in --serve mode to avoid reference errors.
+- Fixed Express server initialization error by ensuring the returned server instance is checked before calling close. Improved dynamic import usage for loadExpress and loadReadline to better support test mocks.
 - Fixed error handling in --serve mode to correctly log errors when Express fails to start.
 - Extended library functions by adding plotLinear, plotSine, and rotatePoints to enhance plotting capabilities in line with our mission statement.
-- Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are dynamically fetched for better testability.
+- Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are directly called to pick up any test modifications.
 - Reflected all changes in tests and documentation per contributing guidelines.
 
 ## Contributing

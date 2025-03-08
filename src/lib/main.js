@@ -31,9 +31,8 @@ export async function main(args) {
   if (args.includes("--serve")) {
     let expressModule;
     try {
-      // Dynamically import the module to ensure the latest exported loadExpress is used (for proper test mocking)
-      const module = await import(import.meta.url);
-      expressModule = await module.loadExpress();
+      // Use the exported loadExpress directly to support test mocking
+      expressModule = await loadExpress();
     } catch (err) {
       console.error("Error starting server:", err);
       return;
@@ -52,7 +51,9 @@ export async function main(args) {
         console.log(`Express server running at http://localhost:${port}`);
         // Immediately close server in test environments to avoid port conflicts
         if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
-          server.close();
+          if (server && typeof server.close === 'function') {
+            server.close();
+          }
         }
         resolve();
       });
@@ -62,9 +63,8 @@ export async function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    // Dynamically import the module to pick up any test mocks on loadReadline
-    const module = await import(import.meta.url);
-    const rlModule = await module.loadReadline();
+    // Use the exported loadReadline directly to pick up any test mocks
+    const rlModule = await loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
       output: process.stdout
