@@ -57,7 +57,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --interactive
   ```
-  Prompts the user for a plot command. (Note: In non-interactive environments, a fallback timeout of 100ms is applied to prevent hanging.)
+  Prompts the user for a plot command. (Note: In non-interactive environments, a fallback timeout is applied to prevent hanging. In test environments, this timeout is extended to ensure proper callback execution.)
 
 - **Web Interface Mode:**
 
@@ -104,9 +104,9 @@ The core logic resides in `src/lib/main.js`. Recent improvements include:
 - **Multiple Execution Paths:**
   - **Demo Output:** Shows a placeholder demo message when no arguments are passed.
   - **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
-  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands using async/await with a fallback timeout for non-interactive scenarios.
+  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands using async/await with a fallback timeout for non-interactive scenarios. (Timeout duration is increased in test environments.)
   - **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
-  - **Plot Request Processing:** Simulates processing plot parameters.
+  - **Plot Request Processing:** Simulates processing of plot parameters.
 
 ---
 
@@ -139,7 +139,7 @@ npm run linting
 ## Changelog Highlights
 
 - **0.5.0-1:**
-  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options using async/await with a fallback timeout for smoother operation and testability.
+  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options using async/await. The interactive mode now uses an extended timeout in test environments to ensure callback execution, as well as helper functions for dynamic imports to improve testability and coverage.
   - Introduced helper functions for dynamic imports to improve testability and coverage.
 
 - **0.5.0-0:**

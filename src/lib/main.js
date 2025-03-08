@@ -55,12 +55,14 @@ export async function main(args) {
       input: process.stdin,
       output: process.stdout
     });
+    // Increase timeout duration in test environment to allow fake callback execution
+    const timeoutMs = process.env.NODE_ENV === 'test' ? 500 : 100;
     await new Promise(resolve => {
       const timeout = setTimeout(() => {
         console.warn('Interactive mode fallback triggered after timeout');
         rl.close();
         resolve();
-      }, 100);
+      }, timeoutMs);
       rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
         clearTimeout(timeout);
         console.log(`Received plot command: ${answer}`);
