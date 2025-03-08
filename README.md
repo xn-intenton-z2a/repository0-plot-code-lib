@@ -64,7 +64,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks to ensure reliable logging.
+  Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks and safely handles server closure, ensuring reliable logging and test execution.
 
 ### Default Demo
 
@@ -76,11 +76,11 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-8:**
-  - Updated main.js to use dynamic self-imports for loadExpress and loadReadline to allow proper mocking in tests.
-  - Refactored Express server initialization to properly await the server callback, avoiding asynchronous issues in tests.
-  - Added new helper functions: plotQuadratic, calculateDerivative, and calculateArea for enhanced plotting features.
-  - Updated tests and documentation to reflect these changes.
+- **0.5.0-9:**
+  - Fixed server initialization error in --serve mode by changing the server variable declaration to avoid premature reference issues.
+  - Updated dynamic import patterns for loadExpress and loadReadline to support asynchronous operations and testing mocks.
+  - Reinforced adherence to the mission statement by ensuring accurate demo outputs and extending helper functions.
+  - Reflected all changes in tests and documentation per contributing guidelines.
 
 ## Contributing
 
