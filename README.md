@@ -67,7 +67,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks, logs errors correctly, and safely handles server closure to ensure reliable logging and test execution.
+  Starts an Express-based interactive plotting web interface. The server initialization now uses dynamic self-import to allow proper error handling and mocking, logs errors correctly, and safely handles server closure to ensure reliable logging and test execution.
 
 ### Default Demo
 
@@ -79,11 +79,10 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Fixed Express server initialization error by ensuring the returned server instance is checked before calling close. Improved dynamic import usage for loadExpress and loadReadline to better support test mocks.
-- Fixed error handling in --serve mode to correctly log errors when Express fails to start.
+- Refactored main.js to use dynamic self-import for loadExpress and loadReadline, ensuring proper error handling and that test mocks work as expected.
+- Fixed Express server initialization error by ensuring the returned server instance is checked before calling close.
 - Extended library functions by adding plotLinear, plotSine, and rotatePoints to enhance plotting capabilities in line with our mission statement.
-- Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are directly called to pick up any test modifications.
-- Reflected all changes in tests and documentation per contributing guidelines.
+- Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are invoked via live module bindings.
 
 ## Contributing
 

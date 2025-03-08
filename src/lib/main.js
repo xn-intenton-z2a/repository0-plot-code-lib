@@ -14,6 +14,11 @@ export function loadReadline() {
   return import("readline");
 }
 
+// Helper to get live module bindings for proper mocking in tests
+async function getSelf() {
+  return await import(import.meta.url);
+}
+
 export async function main(args) {
   // No arguments: show demo output.
   if (args.length === 0) {
@@ -31,8 +36,8 @@ export async function main(args) {
   if (args.includes("--serve")) {
     let expressModule;
     try {
-      // Use the exported loadExpress directly to support test mocking
-      expressModule = await loadExpress();
+      const selfModule = await getSelf();
+      expressModule = await selfModule.loadExpress();
     } catch (err) {
       console.error("Error starting server:", err);
       return;
@@ -63,8 +68,9 @@ export async function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
+    const selfModule = await getSelf();
     // Use the exported loadReadline directly to pick up any test mocks
-    const rlModule = await loadReadline();
+    const rlModule = await selfModule.loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
       output: process.stdout
