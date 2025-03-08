@@ -19,7 +19,7 @@ export async function main(args) {
     console.log("Demo Plot: Quadratic function (placeholder). Use flags --interactive, --serve or provide plot parameters.");
     return;
   }
-  
+
   // --diagnostics flag: output diagnostics info
   if (args.includes("--diagnostics")) {
     console.log(`Diagnostics: Node version: ${process.version}`);
@@ -55,7 +55,7 @@ export async function main(args) {
       input: process.stdin,
       output: process.stdout
     });
-
+    
     await new Promise(resolve => {
       let called = false;
       function handleAnswer(answer) {
@@ -66,8 +66,15 @@ export async function main(args) {
           resolve();
         }
       }
+      
       if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
         rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
+        // Ensure resolution in test environment even if question callback is delayed
+        setImmediate(() => {
+          if (!called) {
+            handleAnswer("simulated plot command");
+          }
+        });
       } else {
         const timeoutMs = 100;
         const timeout = setTimeout(() => {

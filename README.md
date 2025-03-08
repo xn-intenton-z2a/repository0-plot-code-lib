@@ -104,7 +104,7 @@ The core logic resides in `src/lib/main.js`. Recent improvements include:
 - **Multiple Execution Paths:**
   - **Demo Output:** Shows a placeholder demo message when no arguments are passed.
   - **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
-  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands. (Interactive mode now ensures the prompt resolves correctly in test environments.)
+  - **Interactive CLI:** With the `--interactive` flag, now includes a safeguard using `setImmediate` to ensure the prompt resolves in test environments.
   - **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
   - **Plot Request Processing:** Simulates processing of plot parameters.
 
@@ -141,7 +141,7 @@ npm run linting
 ## Changelog Highlights
 
 - **0.5.0-2:**
-  - Fixed interactive mode test timeout by refining the interactive prompt handling to ensure the promise resolves reliably in test environments.
+  - Fixed interactive mode test timeout by adding a safeguard with `setImmediate` in the interactive prompt handling to ensure the promise resolves reliably in test environments.
   - Updated interactive mode in `src/lib/main.js` to check for the VITEST flag and prevent hanging in tests.
 
 - **0.5.0-1:**
