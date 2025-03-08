@@ -44,9 +44,11 @@ export async function main(args) {
     app.get("/", (req, res) => {
       res.send("Welcome to the interactive plotting web interface.");
     });
-    // Ensure the server callback is awaited so that logging occurs before main returns
+    
+    // Declare server variable in outer scope to avoid hoisting issues
+    let server;
     await new Promise(resolve => {
-      const server = app.listen(port, () => {
+      server = app.listen(port, () => {
         console.log(`Express server running at http://localhost:${port}`);
         // Immediately close server in test environments to avoid port conflicts
         if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {

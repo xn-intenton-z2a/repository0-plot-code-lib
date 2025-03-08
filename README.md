@@ -79,7 +79,7 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Fixed Express server initialization error by switching to a try/catch block in --serve mode for accurate error logging.
+- Fixed Express server initialization error by hoisting the server variable in --serve mode to avoid reference errors.
 - Fixed error handling in --serve mode to correctly log errors when Express fails to start.
 - Extended library functions by adding plotLinear, plotSine, and rotatePoints to enhance plotting capabilities in line with our mission statement.
 - Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are dynamically fetched for better testability.
