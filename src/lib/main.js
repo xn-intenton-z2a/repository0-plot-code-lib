@@ -53,10 +53,16 @@ export async function main(args) {
     const rlModule = await loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
-      output: process.stdout,
+      output: process.stdout
     });
     await new Promise(resolve => {
+      const timeout = setTimeout(() => {
+        console.warn('Interactive mode fallback triggered after timeout');
+        rl.close();
+        resolve();
+      }, 100);
       rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
+        clearTimeout(timeout);
         console.log(`Received plot command: ${answer}`);
         rl.close();
         resolve();
