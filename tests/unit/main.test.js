@@ -1,7 +1,7 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
-const { main } = mainModule;
+const { main, plotQuadratic, calculateDerivative, calculateArea } = mainModule;
 
 describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
@@ -70,5 +70,26 @@ describe("Main Function Behaviour", () => {
     await main(["--serve"]);
     expect(spy).toHaveBeenCalledWith("Error starting server:", expect.any(Error));
     spy.mockRestore();
+  });
+});
+
+describe("Additional helper functions", () => {
+  test("plotQuadratic returns correct number of points and values", () => {
+    const points = plotQuadratic(1, 0, 0, 0, 10, 10);
+    expect(points.length).toBe(11);
+    expect(points[0]).toEqual({ x: 0, y: 0 });
+    expect(points[10]).toEqual({ x: 10, y: 100 });
+  });
+  
+  test("calculateDerivative approximates derivative", () => {
+    const fn = x => x * x;
+    const derivative = calculateDerivative(fn, 5);
+    expect(derivative).toBeCloseTo(10, 1);
+  });
+  
+  test("calculateArea approximates area under curve", () => {
+    const fn = x => x;
+    const area = calculateArea(fn, 0, 10, 1000);
+    expect(area).toBeCloseTo(50, 1);
   });
 });

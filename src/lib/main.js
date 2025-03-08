@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting as per our mission statement.
-// Updated to adhere to the mission statement and align with updated contributing guidelines.
+// Updated to add new library functions and fix server init issue per contributing guidelines.
 
 import { fileURLToPath } from "url";
 
@@ -30,23 +30,20 @@ export async function main(args) {
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
     try {
-      // Dynamically import the module exports to allow proper mocking in tests
-      const moduleExports = await import(import.meta.url);
-      const expressModule = await moduleExports.loadExpress();
+      const expressModule = await loadExpress();
       const express = expressModule.default;
       const app = express();
       const port = 3000;
       app.get("/", (req, res) => {
         res.send("Welcome to the interactive plotting web interface.");
       });
-      const server = await new Promise(resolve => {
-        const instance = app.listen(port, () => {
-          console.log(`Express server running at http://localhost:${port}`);
-          resolve(instance);
-        });
+      const server = app.listen(port, () => {
+        console.log(`Express server running at http://localhost:${port}`);
+        // Immediately close server in test environments to avoid port conflicts
+        if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
+          server.close();
+        }
       });
-      // Close the server immediately after starting to avoid port conflicts during tests
-      server.close();
     } catch (err) {
       console.error("Error starting server:", err);
     }
@@ -55,8 +52,7 @@ export async function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    const moduleExports = await import(import.meta.url);
-    const rlModule = await moduleExports.loadReadline();
+    const rlModule = await loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
       output: process.stdout
@@ -99,6 +95,32 @@ export async function main(args) {
   
   // Otherwise, simulate processing of plot parameters
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
+}
+
+// Additional helper functions aligned with our mission and contributing guidelines
+export function plotQuadratic(a, b, c, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: a * x * x + b * x + c });
+  }
+  return result;
+}
+
+export function calculateDerivative(fn, x, h = 1e-5) {
+  return (fn(x + h) - fn(x - h)) / (2 * h);
+}
+
+export function calculateArea(fn, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  let area = 0;
+  for (let i = 0; i < steps; i++) {
+    const x1 = xMin + i * dx;
+    const x2 = xMin + (i + 1) * dx;
+    area += 0.5 * (fn(x1) + fn(x2)) * dx;
+  }
+  return area;
 }
 
 // Entry point
