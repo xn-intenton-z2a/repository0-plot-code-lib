@@ -67,7 +67,7 @@
 <p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
 </code></pre>
-<p class="md-github">Prompts the user for a plot command.</p>
+<p class="md-github">Prompts the user for a plot command. (In non-interactive environments, a fallback timeout is applied to prevent hanging. In test environments, ensure that the environment variable VITEST is set to &quot;true&quot; to bypass the timeout.)</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Web Interface Mode:</strong></p>
@@ -92,13 +92,18 @@
 </code></pre>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="detailed-source-code-overview" href="#detailed-source-code-overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Source Code Overview</h2>
-<p class="md-github">The core logic resides in <code class="md-github">src/lib/main.js</code>, and now includes multiple execution paths:</p>
+<p class="md-github">The core logic resides in <code class="md-github">src/lib/main.js</code>. Recent improvements include:</p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Helper Functions for Dynamic Imports:</strong> The functions <code class="md-github">loadExpress</code> and <code class="md-github">loadReadline</code> are now exported to facilitate easier testing and mocking of external modules.</li>
+<li class="md-github"><strong class="md-github">Multiple Execution Paths:</strong>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">Demo Output:</strong> Shows a placeholder demo message when no arguments are passed.</li>
 <li class="md-github"><strong class="md-github">Diagnostics:</strong> With the <code class="md-github">--diagnostics</code> flag, outputs diagnostic info.</li>
-<li class="md-github"><strong class="md-github">Interactive CLI:</strong> With the <code class="md-github">--interactive</code> flag, prompts the user for plot commands.</li>
+<li class="md-github"><strong class="md-github">Interactive CLI:</strong> With the <code class="md-github">--interactive</code> flag, now includes a safeguard using <code class="md-github">setImmediate</code> to ensure the prompt resolves in test environments.</li>
 <li class="md-github"><strong class="md-github">Express Server:</strong> With the <code class="md-github">--serve</code> flag, starts a simple Express-based web interface.</li>
-<li class="md-github"><strong class="md-github">Plot Request Processing:</strong> Processes plot parameters in a simulated manner.</li>
+<li class="md-github"><strong class="md-github">Plot Request Processing:</strong> Simulates processing of plot parameters.</li>
+</ul>
+</li>
 </ul>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="developer-guide" href="#developer-guide"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Developer Guide</h2>
@@ -108,6 +113,7 @@
 <p class="md-github">Execute tests with coverage reporting:</p>
 <pre class="md-github"><code class="md-github language-bash">npm run test:unit
 </code></pre>
+<p class="md-github">Note: For the interactive mode tests, ensure that the environment variable VITEST is set to &quot;true&quot; within the test context to bypass the interactive timeout.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="linting-and-formatting" href="#linting-and-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Linting and Formatting</h3>
 <p class="md-github">Check and fix code formatting and linting:</p>
 <pre class="md-github"><code class="md-github language-bash">npm run formatting
@@ -118,9 +124,17 @@ npm run linting
 <h2 class="md-github"><a class="md-github__anchor" name="changelog-highlights" href="#changelog-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog Highlights</h2>
 <ul class="md-github">
 <li class="md-github">
+<p class="md-github"><strong class="md-github">0.5.0-2:</strong></p>
+<ul class="md-github">
+<li class="md-github">Fixed interactive mode test timeout by adding a safeguard with <code class="md-github">setImmediate</code> in the interactive prompt handling to ensure the promise resolves reliably in test environments.</li>
+<li class="md-github">Updated interactive mode in <code class="md-github">src/lib/main.js</code> to check for the VITEST flag and prevent hanging in tests.</li>
+</ul>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">0.5.0-1:</strong></p>
 <ul class="md-github">
-<li class="md-github">Updated CLI implementation in <code class="md-github">src/lib/main.js</code> to support <code class="md-github">--diagnostics</code>, <code class="md-github">--serve</code>, and <code class="md-github">--interactive</code> options in line with the mission statement.</li>
+<li class="md-github">Updated CLI implementation in <code class="md-github">src/lib/main.js</code> to support <code class="md-github">--diagnostics</code>, <code class="md-github">--serve</code>, and <code class="md-github">--interactive</code> options using async/await.</li>
+<li class="md-github">Introduced helper functions for dynamic imports to improve testability and coverage.</li>
 </ul>
 </li>
 <li class="md-github">
@@ -136,7 +150,7 @@ npm run linting
 
   </section>
   <footer>
-    <p>Generated on 2025-03-08T19:19:42.725Z</p>
+    <p>Generated on 2025-03-08T19:27:47.006Z</p>
   </footer>
 </body>
 </html>
