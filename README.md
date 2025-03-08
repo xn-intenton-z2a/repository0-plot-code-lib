@@ -72,12 +72,10 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-4:**
-  - Fixed Express server port conflict by closing the server after starting in --serve mode.
-  - Refined interactive mode with prompt resolution safeguards using `setImmediate`.
-  - Enhanced error handling in server mode to gracefully catch and log express errors.
-  - Expanded test coverage to include error simulation for the Express server branch.
-  - README refreshed and pruned to retain relevant content and remove outdated examples.
+- **0.5.0-5:**
+  - Refactored the main function to dynamically import exported helper functions (loadExpress and loadReadline) to allow proper mocking in tests.
+  - Ensured improved error handling in the Express server mode to correctly catch and log errors.
+  - Updated test coverage and documentation to reflect these changes.
 
 ## Contributing
 

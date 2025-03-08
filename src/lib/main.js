@@ -30,7 +30,9 @@ export async function main(args) {
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
     try {
-      const expressModule = await loadExpress();
+      // Dynamically import the module exports to allow proper mocking in tests
+      const moduleExports = await import(import.meta.url);
+      const expressModule = await moduleExports.loadExpress();
       const express = expressModule.default;
       const app = express();
       const port = 3000;
@@ -53,7 +55,8 @@ export async function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    const rlModule = await loadReadline();
+    const moduleExports = await import(import.meta.url);
+    const rlModule = await moduleExports.loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
       output: process.stdout
