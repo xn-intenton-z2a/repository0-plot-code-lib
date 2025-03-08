@@ -141,6 +141,7 @@ npm run linting
 - **0.5.0-1:**
   - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options using async/await. The interactive mode now uses an extended timeout in test environments to ensure callback execution, as well as helper functions for dynamic imports to improve testability and coverage.
   - Introduced helper functions for dynamic imports to improve testability and coverage.
+  - Updated test for interactive mode to use process.nextTick for accurate simulation.
 
 - **0.5.0-0:**
   - Previous version with basic CLI demo output and plotting simulation.

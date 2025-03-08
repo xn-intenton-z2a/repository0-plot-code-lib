@@ -30,7 +30,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     // Create a fake readline module
     const fakeInterface = {
-      question: (prompt, callback) => { callback("simulated plot command"); },
+      question: (prompt, callback) => { process.nextTick(() => callback("simulated plot command")); },
       close: vi.fn()
     };
     const fakeReadlineModule = {
