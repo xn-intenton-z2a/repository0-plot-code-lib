@@ -76,7 +76,8 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-7:**
+- **0.5.0-8:**
+  - Updated main.js to use dynamic self-imports for loadExpress and loadReadline to allow proper mocking in tests.
   - Refactored Express server initialization to properly await the server callback, avoiding asynchronous issues in tests.
   - Added new helper functions: plotQuadratic, calculateDerivative, and calculateArea for enhanced plotting features.
   - Updated tests and documentation to reflect these changes.

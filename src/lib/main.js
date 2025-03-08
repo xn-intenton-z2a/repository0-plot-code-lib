@@ -30,6 +30,8 @@ export async function main(args) {
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
     try {
+      // Use dynamic self-import to allow proper mocking of loadExpress
+      const { loadExpress } = await import(import.meta.url);
       const expressModule = await loadExpress();
       const express = expressModule.default;
       const app = express();
@@ -56,6 +58,8 @@ export async function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
+    // Use dynamic self-import to allow proper mocking of loadReadline
+    const { loadReadline } = await import(import.meta.url);
     const rlModule = await loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
