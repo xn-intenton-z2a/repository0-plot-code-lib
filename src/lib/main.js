@@ -31,7 +31,9 @@ export async function main(args) {
   if (args.includes("--serve")) {
     let expressModule;
     try {
-      expressModule = await loadExpress();
+      // Dynamically import the module to ensure the latest exported loadExpress is used (for proper test mocking)
+      const module = await import(import.meta.url);
+      expressModule = await module.loadExpress();
     } catch (err) {
       console.error("Error starting server:", err);
       return;
@@ -58,8 +60,9 @@ export async function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    // Use local loadReadline to allow proper mocking of loadReadline
-    const rlModule = await loadReadline();
+    // Dynamically import the module to pick up any test mocks on loadReadline
+    const module = await import(import.meta.url);
+    const rlModule = await module.loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
       output: process.stdout
