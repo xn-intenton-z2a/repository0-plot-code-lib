@@ -28,6 +28,10 @@ describe("Main Function Behaviour", () => {
 
   test("should prompt for user input when --interactive flag is provided", async () => {
     const spy = vi.spyOn(console, "log");
+    // Save current VITEST environment variable
+    const originalVitest = process.env.VITEST;
+    process.env.VITEST = "true";
+
     // Create a fake readline module
     const fakeInterface = {
       question: (prompt, callback) => { process.nextTick(() => callback("simulated plot command")); },
@@ -43,6 +47,8 @@ describe("Main Function Behaviour", () => {
     await main(["--interactive"]);
     expect(spy).toHaveBeenCalledWith("Received plot command: simulated plot command");
     spy.mockRestore();
+    // Restore original VITEST value
+    process.env.VITEST = originalVitest;
   });
 
   test("should start Express server when --serve flag is provided", async () => {

@@ -57,7 +57,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --interactive
   ```
-  Prompts the user for a plot command. (In non-interactive environments, a fallback timeout is applied to prevent hanging. In test environments, the fallback is bypassed by checking the environment flag.)
+  Prompts the user for a plot command. (In non-interactive environments, a fallback timeout is applied to prevent hanging. In test environments, ensure that the environment variable VITEST is set to "true" to bypass the timeout.)
 
 - **Web Interface Mode:**
 
@@ -104,7 +104,7 @@ The core logic resides in `src/lib/main.js`. Recent improvements include:
 - **Multiple Execution Paths:**
   - **Demo Output:** Shows a placeholder demo message when no arguments are passed.
   - **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
-  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands. (The interactive mode now checks for the VITEST flag to bypass timeout in testing environments.)
+  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands. (Remember to set the environment variable VITEST to "true" during automated testing to bypass the interactive timeout.)
   - **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
   - **Plot Request Processing:** Simulates processing of plot parameters.
 
@@ -124,6 +124,8 @@ Execute tests with coverage reporting:
 npm run test:unit
 ```
 
+Note: For the interactive mode tests, ensure that the environment variable VITEST is set to "true" within the test context to bypass the interactive timeout.
+
 ### Linting and Formatting
 
 Check and fix code formatting and linting:
@@ -139,7 +141,8 @@ npm run linting
 ## Changelog Highlights
 
 - **0.5.0-2:**
-  - Updated interactive mode in `src/lib/main.js` to check for the `VITEST` flag, ensuring reliable test execution without timeouts.
+  - Fixed interactive mode test timeout by ensuring the test environment variable VITEST is set during tests.
+  - Updated interactive mode in `src/lib/main.js` to check for the VITEST flag, ensuring reliable test execution without timeouts.
 
 - **0.5.0-1:**
   - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options using async/await.

@@ -56,6 +56,7 @@ export async function main(args) {
       output: process.stdout
     });
     await new Promise(resolve => {
+      // In test environments, bypass the timeout by setting VITEST=true
       if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
         rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
           console.log(`Received plot command: ${answer}`);
