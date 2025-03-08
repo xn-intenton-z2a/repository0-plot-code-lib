@@ -70,16 +70,16 @@ If no arguments are provided, the CLI displays a demo message:
 node src/lib/main.js
 ```
 
+## Changelog Highlights
+
+- **0.5.0-5:**
+  - Refactored the main function to dynamically import exported helper functions (loadExpress and loadReadline) to allow proper mocking in tests.
+  - Ensured improved error handling in the Express server mode to correctly catch and log errors.
+  - Updated test coverage and documentation to reflect these changes.
+
 ## Contributing
 
 Contributions are automated. Please open an issue and label it as `automated` to trigger our workflows. For additional details, see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Changelog Highlights
-
-- **0.5.0-2:**
-  - Refined interactive mode: Added safeguards using `setImmediate` to ensure prompt resolution in test environments.
-  - Updated CLI to align with our mission statement and contributing guidelines.
-  - README refreshed and pruned to retain relevant content and remove outdated examples.
 
 ## License
 
