@@ -29,11 +29,13 @@ export async function main(args) {
 
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
-    const expressModule = await loadExpress().catch(err => {
+    let expressModule;
+    try {
+      expressModule = await loadExpress();
+    } catch (err) {
       console.error("Error starting server:", err);
-      return null;
-    });
-    if (!expressModule) return;
+      return;
+    }
     const express = expressModule.default;
     const app = express();
     const port = 3000;
