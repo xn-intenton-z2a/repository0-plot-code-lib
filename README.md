@@ -43,25 +43,38 @@ Generate a simple quadratic plot as SVG:
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
-### Interactive CLI
+### Enhanced CLI Features
 
-Interactive mode prompts the user to input formulas directly:
+- **Diagnostics Mode:**
+
+  ```bash
+  node src/lib/main.js --diagnostics
+  ```
+  Outputs Node.js diagnostics information.
+
+- **Interactive Mode:**
+
+  ```bash
+  node src/lib/main.js --interactive
+  ```
+  Prompts the user for a plot command.
+
+- **Web Interface Mode:**
+
+  ```bash
+  node src/lib/main.js --serve
+  ```
+  Starts an Express-based interactive plotting web interface.
+
+### Default Demo
+
+If no arguments are provided, the CLI displays a demo message:
 
 ```bash
-node src/lib/main.js --interactive
+node src/lib/main.js
 ```
 
-### Web Interface
-
-Start the Express-based interactive plotting web interface:
-
-```bash
-node src/lib/main.js --serve
-```
-
----
-
-## Examples
+### Examples
 
 **Linear Plot (SVG):**
 
@@ -83,31 +96,22 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 
 ---
 
-## Key Features and Implementation Details
+## Detailed Source Code Overview
 
-### Functionalities Implemented:
-- Full plot generation with range and step customization.
-- Advanced transformations: rotation, reflection, scaling, inversion.
-- Statistical analysis: mean, median, mode, standard deviation.
-- Derivative and area computations.
-- Moving average smoothing.
-- Interactive CLI and Express-based Web server.
-- Comprehensive JSON-based data export.
-- Enhanced robust formula parsing and expression evaluation.
+The core logic resides in `src/lib/main.js`, and now includes multiple execution paths:
 
-### Functionalities Demonstrated or Stubbed:
-- 3D plotting features (e.g., Helix rotation) are limited demonstrations.
-- Gradient-based coloring for plots (`plotGradient`) is experimental and might require refinement for large datasets.
-
-### Testing
-- Comprehensive tests available for all key functionalities (`vitest`).
-- Unit tests cover mathematical accuracy and output validation across all plot types and formats.
+- **Demo Output:** Shows a placeholder demo message when no arguments are passed.
+- **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
+- **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands.
+- **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
+- **Plot Request Processing:** Processes plot parameters in a simulated manner.
 
 ---
 
 ## Developer Guide
 
 ### Contributing
+
 Contributions are fully automated. Open an issue with the label `automated` to trigger workflows. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
 
 ### Running Tests
@@ -130,51 +134,16 @@ npm run linting
 
 ---
 
-## Detailed Source Code Overview
-
-The core logic resides in `src/lib/main.js`, structured into:
-
-- **Plot generation functions**: Modular functions per plot type (`plotQuadratic`, `plotSine`, `plotCosine`, etc.).
-- **Formula parsing functions**: Robust parsing functions for quadratic, linear, exponential, and other expressions.
-- **Utility and helper functions**: Number formatting (`formatNumber`), range generation, coordinate mapping (`mapToSvgCoordinates`), statistical helpers (area, derivative, average, median, mode).
-- **CLI handling**: Interactive input via `readline`, output selection based on file extension or flags.
-
-### Project Structure
-
-- `/src/lib/main.js`: Core logic, parsing, plotting, and transformations.
-- `/tests`: Contains unit and integration tests for ensuring correctness and reliability.
-
----
-
-## Contribution Process
-
-Please contribute by:
-
-1. Opening an issue detailing your enhancement or bug.
-2. Labeling the issue as `automated` to trigger our fully automated workflow.
-
-Refer to [`CONTRIBUTING.md`](CONTRIBUTING.md) for detailed guidelines.
-
----
-
-## Technical Limitations and Areas for Improvement
-
-- Currently, expression evaluation (`expr:`) leverages JavaScript's native `Function` constructor, which should be replaced by a safer parser.
-- 3D plotting and advanced gradient visualization are areas targeted for future improvements and currently are primarily illustrative.
-
----
-
 ## Changelog Highlights
 
-- **0.3.1-0:**
-  - Improved quadratic parsing, statistical analysis, and new smoothing functionality.
-  - Consolidated code to reduce duplication and simplify testing.
+- **0.5.0-1:**
+  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options in line with the mission statement.
+
+- **0.5.0-0:**
+  - Previous version with basic CLI demo output and plotting simulation.
 
 ---
 
 ## License
 
 MIT
-
----
-
