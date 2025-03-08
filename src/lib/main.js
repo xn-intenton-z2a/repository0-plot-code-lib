@@ -55,16 +55,20 @@ export async function main(args) {
       input: process.stdin,
       output: process.stdout
     });
+
     await new Promise(resolve => {
-      // In test environments, bypass the timeout by setting VITEST=true
-      if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
-        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
+      let called = false;
+      function handleAnswer(answer) {
+        if (!called) {
+          called = true;
           console.log(`Received plot command: ${answer}`);
           rl.close();
           resolve();
-        });
+        }
+      }
+      if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
+        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
       } else {
-        // Use timeout fallback for non-test environments
         const timeoutMs = 100;
         const timeout = setTimeout(() => {
           console.warn('Interactive mode fallback triggered after timeout');
@@ -73,9 +77,7 @@ export async function main(args) {
         }, timeoutMs);
         rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
           clearTimeout(timeout);
-          console.log(`Received plot command: ${answer}`);
-          rl.close();
-          resolve();
+          handleAnswer(answer);
         });
       }
     });
