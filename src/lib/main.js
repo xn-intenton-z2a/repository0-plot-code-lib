@@ -13,7 +13,7 @@ export function loadReadline() {
   return import("readline");
 }
 
-export function main(args) {
+export async function main(args) {
   // No arguments: show demo output.
   if (args.length === 0) {
     console.log("Demo Plot: Quadratic function (placeholder). Use flags --interactive, --serve or provide plot parameters.");
@@ -28,34 +28,38 @@ export function main(args) {
 
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
-    loadExpress()
-      .then(expressModule => {
-        const express = expressModule.default;
-        const app = express();
-        const port = 3000;
-        app.get("/", (req, res) => {
-          res.send("Welcome to the interactive plotting web interface.");
-        });
+    try {
+      const expressModule = await loadExpress();
+      const express = expressModule.default;
+      const app = express();
+      const port = 3000;
+      app.get("/", (req, res) => {
+        res.send("Welcome to the interactive plotting web interface.");
+      });
+      await new Promise(resolve => {
         app.listen(port, () => {
           console.log(`Express server running at http://localhost:${port}`);
+          resolve();
         });
-      })
-      .catch(err => {
-        console.error("Error starting server:", err);
       });
+    } catch (err) {
+      console.error("Error starting server:", err);
+    }
     return;
   }
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    loadReadline().then(rlModule => {
-      const rl = rlModule.createInterface({
-        input: process.stdin,
-        output: process.stdout,
-      });
+    const rlModule = await loadReadline();
+    const rl = rlModule.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+    });
+    await new Promise(resolve => {
       rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
         console.log(`Received plot command: ${answer}`);
         rl.close();
+        resolve();
       });
     });
     return;

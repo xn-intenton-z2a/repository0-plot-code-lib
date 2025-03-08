@@ -51,7 +51,7 @@ describe("Main Function Behaviour", () => {
     const fakeExpress = () => {
       return {
         get: (path, cb) => {},
-        listen: (port, cb) => { cb(); },
+        listen: (port, cb) => { cb(); }
       };
     };
     const fakeExpressModule = { default: fakeExpress };

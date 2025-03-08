@@ -104,7 +104,7 @@ The core logic resides in `src/lib/main.js`. Recent improvements include:
 - **Multiple Execution Paths:**
   - **Demo Output:** Shows a placeholder demo message when no arguments are passed.
   - **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
-  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands.
+  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands (now using async/await for proper sequencing).
   - **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
   - **Plot Request Processing:** Simulates processing plot parameters.
 
@@ -139,7 +139,7 @@ npm run linting
 ## Changelog Highlights
 
 - **0.5.0-1:**
-  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options.
+  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options using async/await for smoother operation and testability.
   - Introduced helper functions for dynamic imports to improve testability and coverage.
 
 - **0.5.0-0:**
