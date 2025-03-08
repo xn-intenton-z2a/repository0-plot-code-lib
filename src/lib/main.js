@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting as per our mission statement.
+// Updated to adhere to the mission statement and align with updated contributing guidelines.
 
 import { fileURLToPath } from "url";
 

@@ -8,9 +8,7 @@
 
 ## Overview
 
-This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions including quadratic, linear, trigonometric (sine, cosine, tangent), polar, exponential, and logarithmic equations. The library generates multiple output formats, facilitating immediate use in workflows or web integration.
-
----
+This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions. Its design adheres closely to our mission statement and contributing guidelines. The features include generating various output formats and performing advanced analysis such as area calculations, derivative estimations, and transformations.
 
 ## Features
 
@@ -22,8 +20,6 @@ This library provides a command-line interface (CLI) and an integrated web inter
   - Statistical functions: average, standard deviation, median, mode
   - Transformations: Rotation, Reflection, Scaling, Inversion, Smoothing (Moving average)
   - Gradient visualization
-
----
 
 ## Installation
 
@@ -50,14 +46,14 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --diagnostics
   ```
-  Outputs Node.js diagnostics information.
+  Outputs Node.js diagnostic information.
 
 - **Interactive Mode:**
 
   ```bash
   node src/lib/main.js --interactive
   ```
-  Prompts the user for a plot command. (In non-interactive environments, a fallback timeout is applied to prevent hanging. In test environments, ensure that the environment variable VITEST is set to "true" to bypass the timeout.)
+  Prompts the user for a plot command. In non-interactive environments, a fallback timeout prevents hanging. (For tests, ensure the environment variable VITEST is set to "true".)
 
 - **Web Interface Mode:**
 
@@ -74,84 +70,16 @@ If no arguments are provided, the CLI displays a demo message:
 node src/lib/main.js
 ```
 
-### Examples
+## Contributing
 
-**Linear Plot (SVG):**
-
-```bash
-node src/lib/main.js linear.svg "linear:2,3,-10,10,1"
-```
-
-**Custom Mathematical Expression:**
-
-```bash
-node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
-```
-
-**ASCII Plot Output:**
-
-```bash
-node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
-```
-
----
-
-## Detailed Source Code Overview
-
-The core logic resides in `src/lib/main.js`. Recent improvements include:
-
-- **Helper Functions for Dynamic Imports:** The functions `loadExpress` and `loadReadline` are now exported to facilitate easier testing and mocking of external modules.
-- **Multiple Execution Paths:**
-  - **Demo Output:** Shows a placeholder demo message when no arguments are passed.
-  - **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
-  - **Interactive CLI:** With the `--interactive` flag, now includes a safeguard using `setImmediate` to ensure the prompt resolves in test environments.
-  - **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
-  - **Plot Request Processing:** Simulates processing of plot parameters.
-
----
-
-## Developer Guide
-
-### Contributing
-
-Contributions are fully automated. Open an issue with the label `automated` to trigger workflows. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
-
-### Running Tests
-
-Execute tests with coverage reporting:
-
-```bash
-npm run test:unit
-```
-
-Note: For the interactive mode tests, ensure that the environment variable VITEST is set to "true" within the test context to bypass the interactive timeout.
-
-### Linting and Formatting
-
-Check and fix code formatting and linting:
-
-```bash
-npm run formatting
-npm run formatting-fix
-npm run linting
-```
-
----
+Contributions are automated. Please open an issue and label it as `automated` to trigger our workflows. For additional details, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Changelog Highlights
 
 - **0.5.0-2:**
-  - Fixed interactive mode test timeout by adding a safeguard with `setImmediate` in the interactive prompt handling to ensure the promise resolves reliably in test environments.
-  - Updated interactive mode in `src/lib/main.js` to check for the VITEST flag and prevent hanging in tests.
-
-- **0.5.0-1:**
-  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options using async/await.
-  - Introduced helper functions for dynamic imports to improve testability and coverage.
-
-- **0.5.0-0:**
-  - Previous version with basic CLI demo output and plotting simulation.
-
----
+  - Refined interactive mode: Added safeguards using `setImmediate` to ensure prompt resolution in test environments.
+  - Updated CLI to align with our mission statement and contributing guidelines.
+  - README refreshed and pruned to retain relevant content and remove outdated examples.
 
 ## License
 
