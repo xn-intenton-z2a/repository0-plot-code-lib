@@ -29,8 +29,7 @@
 </blockquote>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions including quadratic, linear, trigonometric (sine, cosine, tangent), polar, exponential, and logarithmic equations. The library generates multiple output formats, facilitating immediate use in workflows or web integration.</p>
-<hr class="md-github">
+<p class="md-github">This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions. Its design adheres closely to our mission statement and contributing guidelines. The features include generating various output formats and performing advanced analysis such as area calculations, derivative estimations, and transformations.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">Plot Types:</strong> Quadratic, Linear, Sine, Cosine, Tangent, Polar, Exponential, Logarithmic</li>
@@ -45,7 +44,6 @@
 </ul>
 </li>
 </ul>
-<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p class="md-github">Requires Node.js (v20 or higher):</p>
 <pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
@@ -61,13 +59,13 @@
 <p class="md-github"><strong class="md-github">Diagnostics Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --diagnostics
 </code></pre>
-<p class="md-github">Outputs Node.js diagnostics information.</p>
+<p class="md-github">Outputs Node.js diagnostic information.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
 </code></pre>
-<p class="md-github">Prompts the user for a plot command. (In non-interactive environments, a fallback timeout is applied to prevent hanging. In test environments, ensure that the environment variable VITEST is set to &quot;true&quot; to bypass the timeout.)</p>
+<p class="md-github">Prompts the user for a plot command. In non-interactive environments, a fallback timeout prevents hanging. (For tests, ensure the environment variable VITEST is set to &quot;true&quot;.)</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Web Interface Mode:</strong></p>
@@ -80,77 +78,24 @@
 <p class="md-github">If no arguments are provided, the CLI displays a demo message:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h3>
-<p class="md-github"><strong class="md-github">Linear Plot (SVG):</strong></p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js linear.svg &quot;linear:2,3,-10,10,1&quot;
-</code></pre>
-<p class="md-github"><strong class="md-github">Custom Mathematical Expression:</strong></p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js expression.svg &quot;expr:Math.sin(x)*x:-10,10,0.5&quot;
-</code></pre>
-<p class="md-github"><strong class="md-github">ASCII Plot Output:</strong></p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --ascii &quot;sine:1,1,0,0,360,30&quot;
-</code></pre>
-<hr class="md-github">
-<h2 class="md-github"><a class="md-github__anchor" name="detailed-source-code-overview" href="#detailed-source-code-overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Source Code Overview</h2>
-<p class="md-github">The core logic resides in <code class="md-github">src/lib/main.js</code>. Recent improvements include:</p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Helper Functions for Dynamic Imports:</strong> The functions <code class="md-github">loadExpress</code> and <code class="md-github">loadReadline</code> are now exported to facilitate easier testing and mocking of external modules.</li>
-<li class="md-github"><strong class="md-github">Multiple Execution Paths:</strong>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Demo Output:</strong> Shows a placeholder demo message when no arguments are passed.</li>
-<li class="md-github"><strong class="md-github">Diagnostics:</strong> With the <code class="md-github">--diagnostics</code> flag, outputs diagnostic info.</li>
-<li class="md-github"><strong class="md-github">Interactive CLI:</strong> With the <code class="md-github">--interactive</code> flag, now includes a safeguard using <code class="md-github">setImmediate</code> to ensure the prompt resolves in test environments.</li>
-<li class="md-github"><strong class="md-github">Express Server:</strong> With the <code class="md-github">--serve</code> flag, starts a simple Express-based web interface.</li>
-<li class="md-github"><strong class="md-github">Plot Request Processing:</strong> Simulates processing of plot parameters.</li>
-</ul>
-</li>
-</ul>
-<hr class="md-github">
-<h2 class="md-github"><a class="md-github__anchor" name="developer-guide" href="#developer-guide"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Developer Guide</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h3>
-<p class="md-github">Contributions are fully automated. Open an issue with the label <code class="md-github">automated</code> to trigger workflows. See <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for detailed instructions.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="running-tests" href="#running-tests"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Running Tests</h3>
-<p class="md-github">Execute tests with coverage reporting:</p>
-<pre class="md-github"><code class="md-github language-bash">npm run test:unit
-</code></pre>
-<p class="md-github">Note: For the interactive mode tests, ensure that the environment variable VITEST is set to &quot;true&quot; within the test context to bypass the interactive timeout.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="linting-and-formatting" href="#linting-and-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Linting and Formatting</h3>
-<p class="md-github">Check and fix code formatting and linting:</p>
-<pre class="md-github"><code class="md-github language-bash">npm run formatting
-npm run formatting-fix
-npm run linting
-</code></pre>
-<hr class="md-github">
+<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
+<p class="md-github">Contributions are automated. Please open an issue and label it as <code class="md-github">automated</code> to trigger our workflows. For additional details, see <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog-highlights" href="#changelog-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog Highlights</h2>
 <ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">0.5.0-2:</strong></p>
+<li class="md-github"><strong class="md-github">0.5.0-2:</strong>
 <ul class="md-github">
-<li class="md-github">Fixed interactive mode test timeout by adding a safeguard with <code class="md-github">setImmediate</code> in the interactive prompt handling to ensure the promise resolves reliably in test environments.</li>
-<li class="md-github">Updated interactive mode in <code class="md-github">src/lib/main.js</code> to check for the VITEST flag and prevent hanging in tests.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">0.5.0-1:</strong></p>
-<ul class="md-github">
-<li class="md-github">Updated CLI implementation in <code class="md-github">src/lib/main.js</code> to support <code class="md-github">--diagnostics</code>, <code class="md-github">--serve</code>, and <code class="md-github">--interactive</code> options using async/await.</li>
-<li class="md-github">Introduced helper functions for dynamic imports to improve testability and coverage.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">0.5.0-0:</strong></p>
-<ul class="md-github">
-<li class="md-github">Previous version with basic CLI demo output and plotting simulation.</li>
+<li class="md-github">Refined interactive mode: Added safeguards using <code class="md-github">setImmediate</code> to ensure prompt resolution in test environments.</li>
+<li class="md-github">Updated CLI to align with our mission statement and contributing guidelines.</li>
+<li class="md-github">README refreshed and pruned to retain relevant content and remove outdated examples.</li>
 </ul>
 </li>
 </ul>
-<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-08T19:27:47.006Z</p>
+    <p>Generated on 2025-03-08T19:36:16.219Z</p>
   </footer>
 </body>
 </html>
