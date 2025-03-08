@@ -98,13 +98,15 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 
 ## Detailed Source Code Overview
 
-The core logic resides in `src/lib/main.js`, and now includes multiple execution paths:
+The core logic resides in `src/lib/main.js`. Recent improvements include:
 
-- **Demo Output:** Shows a placeholder demo message when no arguments are passed.
-- **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
-- **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands.
-- **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
-- **Plot Request Processing:** Processes plot parameters in a simulated manner.
+- **Helper Functions for Dynamic Imports:** The functions `loadExpress` and `loadReadline` are now exported to facilitate easier testing and mocking of external modules.
+- **Multiple Execution Paths:**
+  - **Demo Output:** Shows a placeholder demo message when no arguments are passed.
+  - **Diagnostics:** With the `--diagnostics` flag, outputs diagnostic info.
+  - **Interactive CLI:** With the `--interactive` flag, prompts the user for plot commands.
+  - **Express Server:** With the `--serve` flag, starts a simple Express-based web interface.
+  - **Plot Request Processing:** Simulates processing plot parameters.
 
 ---
 
@@ -137,7 +139,8 @@ npm run linting
 ## Changelog Highlights
 
 - **0.5.0-1:**
-  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options in line with the mission statement.
+  - Updated CLI implementation in `src/lib/main.js` to support `--diagnostics`, `--serve`, and `--interactive` options.
+  - Introduced helper functions for dynamic imports to improve testability and coverage.
 
 - **0.5.0-0:**
   - Previous version with basic CLI demo output and plotting simulation.

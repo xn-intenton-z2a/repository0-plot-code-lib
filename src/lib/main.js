@@ -4,6 +4,15 @@
 
 import { fileURLToPath } from "url";
 
+// Helper functions exported for dynamic import; allows easier mocking during tests
+export function loadExpress() {
+  return import("express");
+}
+
+export function loadReadline() {
+  return import("readline");
+}
+
 export function main(args) {
   // No arguments: show demo output.
   if (args.length === 0) {
@@ -19,7 +28,7 @@ export function main(args) {
 
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
-    import("express")
+    loadExpress()
       .then(expressModule => {
         const express = expressModule.default;
         const app = express();
@@ -39,7 +48,7 @@ export function main(args) {
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    import("readline").then(rlModule => {
+    loadReadline().then(rlModule => {
       const rl = rlModule.createInterface({
         input: process.stdin,
         output: process.stdout,
