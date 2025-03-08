@@ -73,7 +73,7 @@ node src/lib/main.js
 ## Changelog Highlights
 
 - **0.5.0-6:**
-  - Fixed variable scoping issue in Express server initialization to avoid reference errors.
+  - Fixed Express server initialization bug by renaming the server instance variable to avoid a temporal dead zone error.
   - Refactored the main function to dynamically import helper functions (loadExpress and loadReadline) to allow proper mocking in tests.
   - Updated test coverage and documentation to reflect these changes.
 
