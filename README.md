@@ -1,105 +1,180 @@
-# Equation Plotter CLI
+# repository0-plot-code-lib
+
+**A versatile plotting tool for mathematical formula visualizations**
+
+> _Be a go-to plot library with a CLI, be the jq of formulae visualisations._
+
+---
 
 ## Overview
 
-Equation Plotter CLI is a versatile command-line tool designed to generate accurate plots of mathematical functions. It supports multiple plot types—including quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic—and offers various output formats such as SVG, JSON, CSV, Markdown, ASCII, and HTML. Advanced analysis features like area computation, derivative analysis, scaling, inversion, smoothing, and statistical analysis (including median and mode computations) further empower users to interpret and transform plot data.
+This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions including quadratic, linear, trigonometric (sine, cosine, tangent), polar, exponential, and logarithmic equations. The library generates multiple output formats, facilitating immediate use in workflows or web integration.
 
-"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+---
 
 ## Features
 
-- **Diverse Plots:** Supports quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic functions.
-- **Multiple Output Formats:** Export plots in SVG, JSON, CSV, Markdown, ASCII, or HTML formats.
-- **Advanced Analysis:** Compute summary statistics, averages, area (via trapezoidal rule), derivatives (finite differences), reflection, scaling, inversion, smoothing (moving average), standard deviation, median, and mode.
-- **Enhanced Quadratic Parsing:** Robust quadratic formula parsing with improved helper functions.
-- **3D Rotating Plots:** Generate and rotate 3D helix plots with 2D projection capabilities.
-- **Gradient Plot Feature:** Create plots with gradient colored strokes for enhanced visual effect using the new `plotGradient` function.
-- **New Helper Function:** Added `mapToSvgCoordinates` to simplify SVG coordinate mapping and reduce code duplication.
-- **Interactive CLI and Web Interface:** Use the interactive command-line mode or launch an Express-based web interface.
-- **Clean Code and Testing:** Refined code structure with comprehensive test coverage.
+- **Plot Types:** Quadratic, Linear, Sine, Cosine, Tangent, Polar, Exponential, Logarithmic
+- **Output Formats:** SVG, JSON, CSV, Markdown, ASCII, HTML
+- **Advanced Analysis:**
+  - Area under curve (Trapezoidal Rule)
+  - Derivative calculation (Finite differences)
+  - Statistical functions: average, standard deviation, median, mode
+  - Transformations: Rotation, Reflection, Scaling, Inversion, Smoothing (Moving average)
+  - Gradient visualization
 
-## Getting Started
+---
 
-### Installation
+## Installation
 
-Ensure you have Node.js (>=20) installed. Clone the repository and install dependencies:
+Requires Node.js (v20 or higher):
 
 ```bash
-npm install
+npm install @xn-intenton-z2a/repository0-plot-code-lib
 ```
 
-### Usage
+## Usage
 
-Generate a plot by specifying the output filename and formula string:
+### CLI Quickstart
+
+Generate a simple quadratic plot as SVG:
 
 ```bash
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
-For expression-based plotting:
+### Interactive CLI
 
-```bash
-node src/lib/main.js output.svg "expr:2*x+3:-10,10,1"
-```
-
-For interactive mode:
+Interactive mode prompts the user to input formulas directly:
 
 ```bash
 node src/lib/main.js --interactive
 ```
 
-To start the web interface:
+### Web Interface
+
+Start the Express-based interactive plotting web interface:
 
 ```bash
 node src/lib/main.js --serve
 ```
 
-Additional flags include:
+---
 
-- `--json` for JSON output
-- `--csv` for CSV output
-- `--md` for Markdown output
-- `--html` for HTML output
-- `--ascii` for ASCII art
-- `--grid` to overlay grid lines on SVG plots
-- `--stats` to display summary statistics
-- `--rotate [angle]` to rotate the plot by a given angle (in degrees)
-- `--help` or `-h` for help
-- `--version` for version information
+## Examples
 
-## Extended Transformations and Analysis
+**Linear Plot (SVG):**
 
-New helper functions have been added to extend analytical capabilities:
+```bash
+node src/lib/main.js linear.svg "linear:2,3,-10,10,1"
+```
 
-- **smoothPlot:** Applies moving average smoothing to plot data.
-- **computeStandardDeviation:** Calculates the standard deviation of y-values in the plot points.
-- **computeMedian and computeMode:** New statistical functions to compute the median and mode of the plot's y-values.
-- **plotGradient:** Generates a gradient-colored polyline for enhanced visual presentation of plots.
-- **mapToSvgCoordinates:** Simplifies the mapping of data points to SVG coordinates and reduces code duplication.
+**Custom Mathematical Expression:**
 
-## Enhanced Quadratic Parsing
+```bash
+node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
+```
 
-The functions `extractQuadraticCoefficients` and `invertExpression` have been updated for robust parsing and inversion of quadratic expressions.
+**ASCII Plot Output:**
 
-## 3D Rotating Plots
+```bash
+node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
+```
 
-Use the prefix `3d:helix` (optionally with the `--rotate` flag) to generate a 3D helix plot that is rotated and projected onto a 2D plane.
+---
 
-## Change Log
+## Key Features and Implementation Details
 
-- **Documentation Updated:** README refreshed in accordance with CONTRIBUTING.md guidelines.
-- **Enhanced Parsing:** Improved quadratic parsing and inversion functions.
-- **New Features:**
-  - Added `scalePlot`, `invertPlot`, `smoothPlot`, `computeStandardDeviation`, `computeMedian`, and `computeMode` for advanced plot analysis.
-  - Added `plotGradient` to render gradient colored plots.
-  - **Added `mapToSvgCoordinates` helper function to reduce duplicate code in SVG coordinate mapping.**
-- **Interface Improvements:** Enhanced CLI and web interface with updated interactive functionality.
-- **Code Drift Pruned:** Redundant and legacy code segments have been removed to align with the Mission Statement.
+### Functionalities Implemented:
+- Full plot generation with range and step customization.
+- Advanced transformations: rotation, reflection, scaling, inversion.
+- Statistical analysis: mean, median, mode, standard deviation.
+- Derivative and area computations.
+- Moving average smoothing.
+- Interactive CLI and Express-based Web server.
+- Comprehensive JSON-based data export.
+- Enhanced robust formula parsing and expression evaluation.
 
-## Contributing
+### Functionalities Demonstrated or Stubbed:
+- 3D plotting features (e.g., Helix rotation) are limited demonstrations.
+- Gradient-based coloring for plots (`plotGradient`) is experimental and might require refinement for large datasets.
 
-Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on how to contribute. Your input is valuable to keeping this project aligned with its mission.
+### Testing
+- Comprehensive tests available for all key functionalities (`vitest`).
+- Unit tests cover mathematical accuracy and output validation across all plot types and formats.
+
+---
+
+## Developer Guide
+
+### Contributing
+Contributions are fully automated. Open an issue with the label `automated` to trigger workflows. See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed instructions.
+
+### Running Tests
+
+Execute tests with coverage reporting:
+
+```bash
+npm run test:unit
+```
+
+### Linting and Formatting
+
+Check and fix code formatting and linting:
+
+```bash
+npm run formatting
+npm run formatting-fix
+npm run linting
+```
+
+---
+
+## Detailed Source Code Overview
+
+The core logic resides in `src/lib/main.js`, structured into:
+
+- **Plot generation functions**: Modular functions per plot type (`plotQuadratic`, `plotSine`, `plotCosine`, etc.).
+- **Formula parsing functions**: Robust parsing functions for quadratic, linear, exponential, and other expressions.
+- **Utility and helper functions**: Number formatting (`formatNumber`), range generation, coordinate mapping (`mapToSvgCoordinates`), statistical helpers (area, derivative, average, median, mode).
+- **CLI handling**: Interactive input via `readline`, output selection based on file extension or flags.
+
+### Project Structure
+
+- `/src/lib/main.js`: Core logic, parsing, plotting, and transformations.
+- `/tests`: Contains unit and integration tests for ensuring correctness and reliability.
+
+---
+
+## Contribution Process
+
+Please contribute by:
+
+1. Opening an issue detailing your enhancement or bug.
+2. Labeling the issue as `automated` to trigger our fully automated workflow.
+
+Refer to [`CONTRIBUTING.md`](CONTRIBUTING.md) for detailed guidelines.
+
+---
+
+## Technical Limitations and Areas for Improvement
+
+- Currently, expression evaluation (`expr:`) leverages JavaScript's native `Function` constructor, which should be replaced by a safer parser.
+- 3D plotting and advanced gradient visualization are areas targeted for future improvements and currently are primarily illustrative.
+
+---
+
+## Changelog Highlights
+
+- **0.3.1-0:**
+  - Improved quadratic parsing, statistical analysis, and new smoothing functionality.
+  - Consolidated code to reduce duplication and simplify testing.
+
+---
 
 ## License
 
 MIT
+
+---
+
