@@ -63,5 +63,6 @@ unused generic activities:
 - Look for code that could be simplified using a library and introduce that library. Update the Change Log in README.md (or say what was checked).
 
 unused undocumented chores:
+- Look for any duplicated code that could be usefully abstracted out to become shared code and implement that abstraction.
 - Dry-run any examples in comments or the README against the current code and if they are not accurate or if they could cover more features, update the docs or code to be accurate.
 - Ensure the main function so that it generates some demo output without an over the wire call, and hint a CLI switch that will do the real call.
