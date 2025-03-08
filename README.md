@@ -72,7 +72,8 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-3:**
+- **0.5.0-4:**
+  - Fixed Express server port conflict by closing the server after starting in --serve mode.
   - Refined interactive mode with prompt resolution safeguards using `setImmediate`.
   - Enhanced error handling in server mode to gracefully catch and log express errors.
   - Expanded test coverage to include error simulation for the Express server branch.

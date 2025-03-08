@@ -52,7 +52,7 @@ describe("Main Function Behaviour", () => {
     const fakeExpress = () => {
       return {
         get: (path, cb) => {},
-        listen: (port, cb) => { cb(); }
+        listen: (port, cb) => { cb(); return { close: () => {} }; }
       };
     };
     const fakeExpressModule = { default: fakeExpress };
