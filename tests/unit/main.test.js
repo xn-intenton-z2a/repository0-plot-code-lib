@@ -28,11 +28,9 @@ describe("Main Function Behaviour", () => {
 
   test("should prompt for user input when --interactive flag is provided", async () => {
     const spy = vi.spyOn(console, "log");
-    // Save current VITEST environment variable
     const originalVitest = process.env.VITEST;
     process.env.VITEST = "true";
 
-    // Create a fake readline module
     const fakeInterface = {
       question: (prompt, callback) => { process.nextTick(() => callback("simulated plot command")); },
       close: vi.fn()
@@ -41,19 +39,16 @@ describe("Main Function Behaviour", () => {
       createInterface: () => fakeInterface
     };
     
-    // Override loadReadline to return our fake module
     vi.spyOn(mainModule, "loadReadline").mockImplementation(() => Promise.resolve(fakeReadlineModule));
 
     await main(["--interactive"]);
     expect(spy).toHaveBeenCalledWith("Received plot command: simulated plot command");
     spy.mockRestore();
-    // Restore original VITEST value
     process.env.VITEST = originalVitest;
   });
 
   test("should start Express server when --serve flag is provided", async () => {
     const spy = vi.spyOn(console, "log");
-    // Create a fake Express module
     const fakeExpress = () => {
       return {
         get: (path, cb) => {},
@@ -62,11 +57,18 @@ describe("Main Function Behaviour", () => {
     };
     const fakeExpressModule = { default: fakeExpress };
     
-    // Override loadExpress to return our fake module
     vi.spyOn(mainModule, "loadExpress").mockImplementation(() => Promise.resolve(fakeExpressModule));
 
     await main(["--serve"]);
     expect(spy).toHaveBeenCalledWith("Express server running at http://localhost:3000");
+    spy.mockRestore();
+  });
+
+  test("should catch error and print error message when express fails in --serve mode", async () => {
+    const spy = vi.spyOn(console, "error");
+    vi.spyOn(mainModule, "loadExpress").mockImplementation(() => Promise.reject(new Error("express failure")));
+    await main(["--serve"]);
+    expect(spy).toHaveBeenCalledWith("Error starting server:", expect.any(Error));
     spy.mockRestore();
   });
 });

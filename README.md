@@ -70,16 +70,17 @@ If no arguments are provided, the CLI displays a demo message:
 node src/lib/main.js
 ```
 
+## Changelog Highlights
+
+- **0.5.0-3:**
+  - Refined interactive mode with prompt resolution safeguards using `setImmediate`.
+  - Enhanced error handling in server mode to gracefully catch and log express errors.
+  - Expanded test coverage to include error simulation for the Express server branch.
+  - README refreshed and pruned to retain relevant content and remove outdated examples.
+
 ## Contributing
 
 Contributions are automated. Please open an issue and label it as `automated` to trigger our workflows. For additional details, see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Changelog Highlights
-
-- **0.5.0-2:**
-  - Refined interactive mode: Added safeguards using `setImmediate` to ensure prompt resolution in test environments.
-  - Updated CLI to align with our mission statement and contributing guidelines.
-  - README refreshed and pruned to retain relevant content and remove outdated examples.
 
 ## License
 
