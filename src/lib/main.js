@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting as per our mission statement.
-// Updated to add new library functions, fix server init issue and ensure async handling per contributing guidelines.
+// Extended library functions, fixed Express server init issue and ensured async handling per contributing guidelines.
 
 import { fileURLToPath } from "url";
 
@@ -12,6 +12,11 @@ export function loadExpress() {
 
 export function loadReadline() {
   return import("readline");
+}
+
+// Helper to get live module bindings for proper mocking in tests
+async function getSelf() {
+  return await import(import.meta.url);
 }
 
 export async function main(args) {
@@ -29,39 +34,43 @@ export async function main(args) {
 
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
+    let expressModule;
     try {
-      // Use dynamic self-import to allow proper mocking of loadExpress
-      const { loadExpress } = await import(import.meta.url);
-      const expressModule = await loadExpress();
-      const express = expressModule.default;
-      const app = express();
-      const port = 3000;
-      app.get("/", (req, res) => {
-        res.send("Welcome to the interactive plotting web interface.");
-      });
-      // Ensure the server callback is awaited so that logging occurs before main returns
-      await new Promise(resolve => {
-        let server;
-        server = app.listen(port, () => {
-          console.log(`Express server running at http://localhost:${port}`);
-          // Immediately close server in test environments to avoid port conflicts
-          if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
-            server.close();
-          }
-          resolve();
-        });
-      });
+      const selfModule = await getSelf();
+      expressModule = await selfModule.loadExpress();
     } catch (err) {
       console.error("Error starting server:", err);
+      return;
     }
+    const express = expressModule.default;
+    const app = express();
+    const port = 3000;
+    app.get("/", (req, res) => {
+      res.send("Welcome to the interactive plotting web interface.");
+    });
+    
+    // Declare server variable in outer scope to avoid hoisting issues
+    let server;
+    await new Promise(resolve => {
+      server = app.listen(port, () => {
+        console.log(`Express server running at http://localhost:${port}`);
+        // Immediately close server in test environments to avoid port conflicts
+        if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
+          if (server && typeof server.close === 'function') {
+            server.close();
+          }
+        }
+        resolve();
+      });
+    });
     return;
   }
 
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
-    // Use dynamic self-import to allow proper mocking of loadReadline
-    const { loadReadline } = await import(import.meta.url);
-    const rlModule = await loadReadline();
+    const selfModule = await getSelf();
+    // Use the exported loadReadline directly to pick up any test mocks
+    const rlModule = await selfModule.loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
       output: process.stdout
@@ -130,6 +139,37 @@ export function calculateArea(fn, xMin, xMax, steps = 100) {
     area += 0.5 * (fn(x1) + fn(x2)) * dx;
   }
   return area;
+}
+
+// Extended library functions as per contributing guidelines
+export function plotLinear(m, b, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: m * x + b });
+  }
+  return result;
+}
+
+export function plotSine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: amplitude * Math.sin(frequency * x + phase) });
+  }
+  return result;
+}
+
+export function rotatePoints(points, angle) {
+  // Rotate an array of {x, y} by a given angle (in radians)
+  const cos = Math.cos(angle);
+  const sin = Math.sin(angle);
+  return points.map(({ x, y }) => ({
+    x: x * cos - y * sin,
+    y: x * sin + y * cos
+  }));
 }
 
 // Entry point

@@ -24,6 +24,9 @@ This library provides a command-line interface (CLI) and an integrated web inter
   - plotQuadratic: Generates an array of points for a quadratic function.
   - calculateDerivative: Approximates the derivative of a function at a given point.
   - calculateArea: Approximates the area under a function curve using the trapezoidal rule.
+  - plotLinear: Generates points for a linear function.
+  - plotSine: Generates points for a sine wave based on amplitude, frequency, and phase.
+  - rotatePoints: Rotates a set of points by a specified angle (in radians).
 
 ## Installation
 
@@ -64,7 +67,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks and safely handles server closure, ensuring reliable logging and test execution.
+  Starts an Express-based interactive plotting web interface. The server initialization now uses dynamic self-import to allow proper error handling and mocking, logs errors correctly, and safely handles server closure to ensure reliable logging and test execution.
 
 ### Default Demo
 
@@ -76,11 +79,10 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-9:**
-  - Fixed server initialization error in --serve mode by changing the server variable declaration to avoid premature reference issues.
-  - Updated dynamic import patterns for loadExpress and loadReadline to support asynchronous operations and testing mocks.
-  - Reinforced adherence to the mission statement by ensuring accurate demo outputs and extending helper functions.
-  - Reflected all changes in tests and documentation per contributing guidelines.
+- Refactored main.js to use dynamic self-import for loadExpress and loadReadline, ensuring proper error handling and that test mocks work as expected.
+- Fixed Express server initialization error by ensuring the returned server instance is checked before calling close.
+- Extended library functions by adding plotLinear, plotSine, and rotatePoints to enhance plotting capabilities in line with our mission statement.
+- Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are invoked via live module bindings.
 
 ## Contributing
 
