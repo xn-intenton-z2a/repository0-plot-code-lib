@@ -64,7 +64,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting web interface.
+  Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks to ensure reliable logging.
 
 ### Default Demo
 
@@ -77,7 +77,7 @@ node src/lib/main.js
 ## Changelog Highlights
 
 - **0.5.0-7:**
-  - Refactored Express server initialization to avoid circular import issues.
+  - Refactored Express server initialization to properly await the server callback, avoiding asynchronous issues in tests.
   - Added new helper functions: plotQuadratic, calculateDerivative, and calculateArea for enhanced plotting features.
   - Updated tests and documentation to reflect these changes.
 

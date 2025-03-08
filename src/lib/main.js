@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting as per our mission statement.
-// Updated to add new library functions and fix server init issue per contributing guidelines.
+// Updated to add new library functions, fix server init issue and ensure async handling per contributing guidelines.
 
 import { fileURLToPath } from "url";
 
@@ -37,12 +37,16 @@ export async function main(args) {
       app.get("/", (req, res) => {
         res.send("Welcome to the interactive plotting web interface.");
       });
-      const server = app.listen(port, () => {
-        console.log(`Express server running at http://localhost:${port}`);
-        // Immediately close server in test environments to avoid port conflicts
-        if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
-          server.close();
-        }
+      // Ensure the server callback is awaited so that logging occurs before main returns
+      await new Promise(resolve => {
+        const server = app.listen(port, () => {
+          console.log(`Express server running at http://localhost:${port}`);
+          // Immediately close server in test environments to avoid port conflicts
+          if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
+            server.close();
+          }
+          resolve();
+        });
       });
     } catch (err) {
       console.error("Error starting server:", err);
