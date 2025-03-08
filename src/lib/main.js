@@ -29,29 +29,28 @@ export async function main(args) {
 
   // --serve flag: start Express-based web server
   if (args.includes("--serve")) {
-    try {
-      // Use local loadExpress to allow proper mocking of loadExpress
-      const expressModule = await loadExpress();
-      const express = expressModule.default;
-      const app = express();
-      const port = 3000;
-      app.get("/", (req, res) => {
-        res.send("Welcome to the interactive plotting web interface.");
-      });
-      // Ensure the server callback is awaited so that logging occurs before main returns
-      await new Promise(resolve => {
-        const server = app.listen(port, () => {
-          console.log(`Express server running at http://localhost:${port}`);
-          // Immediately close server in test environments to avoid port conflicts
-          if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
-            server.close();
-          }
-          resolve();
-        });
-      });
-    } catch (err) {
+    const expressModule = await loadExpress().catch(err => {
       console.error("Error starting server:", err);
-    }
+      return null;
+    });
+    if (!expressModule) return;
+    const express = expressModule.default;
+    const app = express();
+    const port = 3000;
+    app.get("/", (req, res) => {
+      res.send("Welcome to the interactive plotting web interface.");
+    });
+    // Ensure the server callback is awaited so that logging occurs before main returns
+    await new Promise(resolve => {
+      const server = app.listen(port, () => {
+        console.log(`Express server running at http://localhost:${port}`);
+        // Immediately close server in test environments to avoid port conflicts
+        if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
+          server.close();
+        }
+        resolve();
+      });
+    });
     return;
   }
 
