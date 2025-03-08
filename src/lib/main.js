@@ -40,9 +40,9 @@ export async function main(args) {
         res.send("Welcome to the interactive plotting web interface.");
       });
       const server = await new Promise(resolve => {
-        const s = app.listen(port, () => {
+        const serverInstance = app.listen(port, () => {
           console.log(`Express server running at http://localhost:${port}`);
-          resolve(s);
+          resolve(serverInstance);
         });
       });
       // Close the server immediately after starting to avoid port conflicts during tests

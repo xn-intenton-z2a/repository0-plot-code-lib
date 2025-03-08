@@ -72,9 +72,9 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-5:**
-  - Refactored the main function to dynamically import exported helper functions (loadExpress and loadReadline) to allow proper mocking in tests.
-  - Ensured improved error handling in the Express server mode to correctly catch and log errors.
+- **0.5.0-6:**
+  - Fixed variable scoping issue in Express server initialization to avoid reference errors.
+  - Refactored the main function to dynamically import helper functions (loadExpress and loadReadline) to allow proper mocking in tests.
   - Updated test coverage and documentation to reflect these changes.
 
 ## Contributing
