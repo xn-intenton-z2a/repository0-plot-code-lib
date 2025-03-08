@@ -78,7 +78,7 @@
 <p class="md-github"><strong class="md-github">Web Interface Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
 </code></pre>
-<p class="md-github">Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks to ensure reliable logging.</p>
+<p class="md-github">Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks and safely handles server closure, ensuring reliable logging and test execution.</p>
 </li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="default-demo" href="#default-demo"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default Demo</h3>
@@ -87,12 +87,12 @@
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog-highlights" href="#changelog-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog Highlights</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.5.0-8:</strong>
+<li class="md-github"><strong class="md-github">0.5.0-9:</strong>
 <ul class="md-github">
-<li class="md-github">Updated main.js to use dynamic self-imports for loadExpress and loadReadline to allow proper mocking in tests.</li>
-<li class="md-github">Refactored Express server initialization to properly await the server callback, avoiding asynchronous issues in tests.</li>
-<li class="md-github">Added new helper functions: plotQuadratic, calculateDerivative, and calculateArea for enhanced plotting features.</li>
-<li class="md-github">Updated tests and documentation to reflect these changes.</li>
+<li class="md-github">Fixed server initialization error in --serve mode by changing the server variable declaration to avoid premature reference issues.</li>
+<li class="md-github">Updated dynamic import patterns for loadExpress and loadReadline to support asynchronous operations and testing mocks.</li>
+<li class="md-github">Reinforced adherence to the mission statement by ensuring accurate demo outputs and extending helper functions.</li>
+<li class="md-github">Reflected all changes in tests and documentation per contributing guidelines.</li>
 </ul>
 </li>
 </ul>
@@ -103,7 +103,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-08T21:12:30.747Z</p>
+    <p>Generated on 2025-03-08T21:22:00.132Z</p>
   </footer>
 </body>
 </html>
