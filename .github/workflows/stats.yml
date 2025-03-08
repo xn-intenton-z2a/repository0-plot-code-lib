@@ -1,3 +1,8 @@
+# .github/workflows/stats.yml
+#
+# This file is part of the example suite for `agentic-lib` see: https://github.com/xn-intenton-z2a/agentic-lib
+# This file is licensed under the MIT License. For details, see LICENSE-MIT
+
 name: ∞ Stats
 
 on:
@@ -190,6 +195,9 @@ jobs:
                   <p><span class="label">Issues closed in last 24 hours:</span> ${issuesClosedLastDay}</p>
                 </section>
                 <section>
+                  <p><span class="label">Engine:</span> ${{ steps.engine.outputs.engine }}</p>
+                </section>
+                <section>
                   <p><span class="label">Minutes since push anywhere:</span> ${diffMinutes}</p>
                   <p><span class="label">Minutes since push to main:</span> ${diffMinutesMain}</p>
                 </section>
@@ -255,4 +263,27 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: 'public'
           publish_branch: github-pages
+          keep_files: true
+          enable_jekyll: 'true'
 
+      - name: Output published URLs
+        run: |
+          echo "[INFO] Determining GitHub Pages URL..."
+          # GitHub Pages URL typically: https://<owner>.github.io/<repo>/
+          repoName=${{ github.event.repository.name }}
+          owner=${{ github.repository_owner }}
+          baseUrl="https://${owner}.github.io/${repoName}"
+          latestUrl="${baseUrl}/latest.html"
+          uniqueFile=$(echo "${{ steps.uniqueFile.outputs.uniqueFile }}" | tr -d '\n')
+          uniqueUrl="${baseUrl}/${uniqueFile}"
+          pwd
+          echo "public:"
+          ls -larth "public"
+          echo "public/latest.html:"
+          ls -larth "public/latest.html"
+          echo "public/${uniqueFile}:"
+          ls -larth "public/${uniqueFile}"
+          echo "::notice:: latestUrl: ${latestUrl}"
+          echo "::notice:: uniqueUrl: ${uniqueUrl}"
+          echo "latestUrl=${latestUrl}" >> $GITHUB_OUTPUT
+          echo "uniqueUrl=${uniqueUrl}" >> $GITHUB_OUTPUT
