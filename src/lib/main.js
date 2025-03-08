@@ -55,20 +55,28 @@ export async function main(args) {
       input: process.stdin,
       output: process.stdout
     });
-    // Increase timeout duration in test environment to allow fake callback execution
-    const timeoutMs = process.env.NODE_ENV === 'test' ? 500 : 100;
     await new Promise(resolve => {
-      const timeout = setTimeout(() => {
-        console.warn('Interactive mode fallback triggered after timeout');
-        rl.close();
-        resolve();
-      }, timeoutMs);
-      rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
-        clearTimeout(timeout);
-        console.log(`Received plot command: ${answer}`);
-        rl.close();
-        resolve();
-      });
+      if (process.env.NODE_ENV === 'test') {
+        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
+          console.log(`Received plot command: ${answer}`);
+          rl.close();
+          resolve();
+        });
+      } else {
+        // Use timeout fallback for non-test environments
+        const timeoutMs = 100;
+        const timeout = setTimeout(() => {
+          console.warn('Interactive mode fallback triggered after timeout');
+          rl.close();
+          resolve();
+        }, timeoutMs);
+        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
+          clearTimeout(timeout);
+          console.log(`Received plot command: ${answer}`);
+          rl.close();
+          resolve();
+        });
+      }
     });
     return;
   }
