@@ -8,7 +8,7 @@
 
 ## Overview
 
-This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions. Its design adheres closely to our mission statement and contributing guidelines. The features include generating various output formats and performing advanced analysis such as area calculations, derivative estimations, and transformations.
+This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions. Its design adheres closely to our mission statement and contributing guidelines. The features include generating various output formats and performing advanced analyses such as area calculations, derivative estimations, and transformations.
 
 ## Features
 
@@ -20,6 +20,10 @@ This library provides a command-line interface (CLI) and an integrated web inter
   - Statistical functions: average, standard deviation, median, mode
   - Transformations: Rotation, Reflection, Scaling, Inversion, Smoothing (Moving average)
   - Gradient visualization
+- **Additional Library Functions:**
+  - plotQuadratic: Generates an array of points for a quadratic function.
+  - calculateDerivative: Approximates the derivative of a function at a given point.
+  - calculateArea: Approximates the area under a function curve using the trapezoidal rule.
 
 ## Installation
 
@@ -60,7 +64,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting web interface.
+  Starts an Express-based interactive plotting web interface. The server initialization now properly awaits asynchronous callbacks to ensure reliable logging.
 
 ### Default Demo
 
@@ -72,10 +76,11 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- **0.5.0-6:**
-  - Fixed Express server initialization bug by renaming the server instance variable to avoid a temporal dead zone error.
-  - Refactored the main function to dynamically import helper functions (loadExpress and loadReadline) to allow proper mocking in tests.
-  - Updated test coverage and documentation to reflect these changes.
+- **0.5.0-8:**
+  - Updated main.js to use dynamic self-imports for loadExpress and loadReadline to allow proper mocking in tests.
+  - Refactored Express server initialization to properly await the server callback, avoiding asynchronous issues in tests.
+  - Added new helper functions: plotQuadratic, calculateDerivative, and calculateArea for enhanced plotting features.
+  - Updated tests and documentation to reflect these changes.
 
 ## Contributing
 
