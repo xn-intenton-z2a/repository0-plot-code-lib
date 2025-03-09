@@ -17,9 +17,11 @@ This library provides a command-line interface (CLI) tool for plotting a range o
   - Absolute plotting (new)
   - Derivative plotting (new)
   - Logistic plotting (new): Uses a logistic function to model growth curves.
+  - Cubic plotting (new): Plot cubic polynomial functions.
   - Moving Average for data smoothing
   - Point transformations: Rotation, Reflection, Scaling, Offset (new)
   - Custom Range Generation (new helper)
+  - Statistical helper: Standard deviation calculation (new)
 
 - **CLI Modes:**
   - Default demo mode
@@ -86,7 +88,7 @@ node src/lib/main.js
 
 - Realigned CLI messages and functionalities with our mission statement.
 - Pruned redundant code to eliminate drift as per CONTRIBUTING.md guidelines.
-- Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, and plotLogistic.
+- Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Enhanced error handling in interactive mode with additional try/catch blocks.
 - Updated test coverage and documentation to reflect refined implementation.
 
