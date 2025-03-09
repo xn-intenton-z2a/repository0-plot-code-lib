@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
-// This version has been updated to improve test coverage by refining mocks and error handling for external dependencies.
+// This version has been updated to improve test coverage, refine CLI messaging and ensure clear error handling for external dependencies.
 // Changelog:
 // - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
 // - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
 // - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
-// - 2023-10: Added plotLissajous function and corresponding CLI flag --lissajous to generate Lissajous curve plots.
-// - 2023-10: Added plotBessel function for Bessel function plotting using mathjs. (Fixed: now includes a fallback to a simple series implementation for order 0 if mathjs does not provide besselJ.)
+// - 2023-10: Added plotLissajous function with CLI flag --lissajous and enhanced plotBessel to use mathjs with a fallback for order 0.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -95,7 +94,7 @@ export async function main(args) {
     return;
   }
 
-  // --interactive flag: prompt for user input via readline
+  // --interactive flag: prompt user input via readline
   if (args.includes("--interactive")) {
     const selfModule = await getSelf();
     const rlModule = await selfModule.loadReadline();
@@ -105,10 +104,10 @@ export async function main(args) {
     });
 
     await new Promise((resolve) => {
-      let called = false;
+      let answered = false;
       function handleAnswer(answer) {
-        if (!called) {
-          called = true;
+        if (!answered) {
+          answered = true;
           console.log(`Received plot command: ${answer}`);
           rl.close();
           resolve();
@@ -118,7 +117,7 @@ export async function main(args) {
       if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
         rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
         setImmediate(() => {
-          if (!called) {
+          if (!answered) {
             handleAnswer("simulated plot command");
           }
         });
@@ -145,7 +144,7 @@ export async function main(args) {
   }
 
   // Export and plot demo modes using various flags
-  // --export-csv flag: export a plot as CSV format demo (using plotSine as example)
+  // --export-csv flag: demo export as CSV format (using plotSine as example)
   if (args.includes("--export-csv")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const csv = exportPlotAsCSV(points);
@@ -153,14 +152,14 @@ export async function main(args) {
     return;
   }
 
-  // --plot-abs flag: demo of plotting the absolute value of a function (using Math.sin as example)
+  // --plot-abs flag: export demo of plotting the absolute of a function (using Math.sin)
   if (args.includes("--plot-abs")) {
     const points = plotAbsolute(Math.sin, 0, Math.PI, 10);
     console.log("Plot Absolute of sin(x):", points);
     return;
   }
 
-  // --export-md flag: export a plot as Markdown table format demo (using plotSine as example)
+  // --export-md flag: export demo as Markdown table (using plotSine)
   if (args.includes("--export-md")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const markdown = exportPlotAsMarkdown(points);
@@ -168,7 +167,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-json flag: export a plot as JSON format demo (using plotSine as example)
+  // --export-json flag: export demo as JSON (using plotSine)
   if (args.includes("--export-json")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const json = exportPlotAsJSON(points);
@@ -176,7 +175,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-html flag: export a plot as HTML table format demo (using plotSine as example)
+  // --export-html flag: export demo as HTML table (using plotSine)
   if (args.includes("--export-html")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const html = exportPlotAsHTML(points);
@@ -184,7 +183,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-ascii flag: export a plot as ASCII table format demo (using plotSine as example)
+  // --export-ascii flag: export demo as ASCII table (using plotSine)
   if (args.includes("--export-ascii")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const ascii = exportPlotAsASCII(points);
@@ -192,7 +191,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-svg flag: export a plot as SVG format demo (using plotSine as example)
+  // --export-svg flag: export demo as SVG (using plotSine)
   if (args.includes("--export-svg")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const svg = exportPlotAsSVG(points);
@@ -200,7 +199,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-xml flag: export plot as XML format demo
+  // --export-xml flag: export demo as XML (using plotSine)
   if (args.includes("--export-xml")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const xml = exportPlotAsXML(points);
@@ -208,7 +207,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-latex flag: export plot as LaTeX table format demo
+  // --export-latex flag: export demo as LaTeX table (using plotSine)
   if (args.includes("--export-latex")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const latex = exportPlotAsLaTeX(points);
@@ -216,7 +215,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-txt flag: export a plot as plain text format demo (new feature aligned with mission)
+  // --export-txt flag: export demo as plain text (using plotSine)
   if (args.includes("--export-txt")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const txt = exportPlotAsTXT(points);
@@ -224,7 +223,7 @@ export async function main(args) {
     return;
   }
 
-  // --export-r flag: export a plot in R-friendly format demo (new feature inline with mission)
+  // --export-r flag: export demo in R-friendly format (using plotSine)
   if (args.includes("--export-r")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const rOutput = exportPlotAsR(points);
@@ -232,14 +231,14 @@ export async function main(args) {
     return;
   }
 
-  // --scatter flag: demo of generating a scatter plot with random points
+  // --scatter flag: demo scatter plot
   if (args.includes("--scatter")) {
     const points = plotScatter(10);
     console.log("Scatter Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
-  // --bar-chart flag: demo of generating a bar chart visualization of a plot
+  // --bar-chart flag: demo bar chart visualization using plotSine
   if (args.includes("--bar-chart")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const barChart = plotBarChart(points);
@@ -247,28 +246,28 @@ export async function main(args) {
     return;
   }
 
-  // --plot-parametric flag: demo of plotting a parametric equation (default: circle)
+  // --plot-parametric flag: demo parametric plot (default: circle)
   if (args.includes("--plot-parametric")) {
     const points = plotParametric(t => Math.cos(t), t => Math.sin(t), 0, 2 * Math.PI, 100);
     console.log("Parametric Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
-  // --plot-poly flag: demo of plotting a polynomial function (default coefficients: [1,2,3] for a quadratic curve)
+  // --plot-poly flag: demo polynomial plot (default coefficients: [1,2,3])
   if (args.includes("--plot-poly")) {
     const points = plotPolynomial([1, 2, 3], 0, 2, 10);
     console.log("Polynomial Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
-  // --lissajous flag: demo of plotting a Lissajous curve
+  // --lissajous flag: demo Lissajous curve plot
   if (args.includes("--lissajous")) {
     const points = plotLissajous(1, 1, 3, 2, Math.PI / 2, 0, 2 * Math.PI, 100);
     console.log("Lissajous Curve Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
-  // Otherwise, simulate processing of plot parameters
+  // Otherwise, process plot parameters
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
 
@@ -318,7 +317,7 @@ export function plotSine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Added plotCosine to fully support cosine wave plotting
+// Added plotCosine to support cosine wave plotting
 export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -414,7 +413,6 @@ export function scalePoints(points, factor) {
   }));
 }
 
-// New feature: plotSqrt to plot the square root function. For x < 0, returns null as sqrt is not real.
 export function plotSqrt(xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -425,7 +423,6 @@ export function plotSqrt(xMin, xMax, steps = 100) {
   return result;
 }
 
-// New feature: plotPolar to plot functions in polar coordinates. Pass a radius function that takes theta as input.
 export function plotPolar(radiusFn, thetaMin, thetaMax, steps = 100) {
   const dTheta = (thetaMax - thetaMin) / steps;
   const result = [];
@@ -437,7 +434,6 @@ export function plotPolar(radiusFn, thetaMin, thetaMax, steps = 100) {
   return result;
 }
 
-// New feature: plotAbsolute to plot the absolute value of a provided function over a range
 export function plotAbsolute(fn, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -448,7 +444,6 @@ export function plotAbsolute(fn, xMin, xMax, steps = 100) {
   return result;
 }
 
-// New helper: generateRange to produce an array of numbers between xMin and xMax.
 export function generateRange(xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const range = [];
@@ -458,7 +453,6 @@ export function generateRange(xMin, xMax, steps = 100) {
   return range;
 }
 
-// Extended Feature: plotDerivative calculates the derivative of a function along a range
 export function plotDerivative(fn, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -469,13 +463,10 @@ export function plotDerivative(fn, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Extended Feature: offsetPoints shifts each point by given x and y offsets
 export function offsetPoints(points, offsetX, offsetY) {
   return points.map(({ x, y }) => ({ x: x + offsetX, y: y + offsetY }));
 }
 
-// Extended Feature: plotLogistic to plot a logistic function curve.
-// Logistic function formula: L / (1 + exp(-k*(x - x0)))
 export function plotLogistic(L, k, x0, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -486,7 +477,6 @@ export function plotLogistic(L, k, x0, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Extended Feature: plotCubic for plotting cubic polynomial functions.
 export function plotCubic(a, b, c, d, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -497,7 +487,6 @@ export function plotCubic(a, b, c, d, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Extended Feature: calculateStandardDeviation returns the standard deviation of an array of numbers.
 export function calculateStandardDeviation(data) {
   if (data.length === 0) return 0;
   const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
@@ -505,7 +494,6 @@ export function calculateStandardDeviation(data) {
   return Math.sqrt(variance);
 }
 
-// New helper: calculateCorrelation returns the Pearson correlation coefficient between two arrays.
 export function calculateCorrelation(dataX, dataY) {
   if (dataX.length !== dataY.length || dataX.length === 0) {
     throw new Error("Arrays must be of the same non-zero length");
@@ -516,12 +504,11 @@ export function calculateCorrelation(dataX, dataY) {
   const numerator = dataX.reduce((acc, x, i) => acc + ((x - meanX) * (dataY[i] - meanY)), 0);
   const denominator = Math.sqrt(
     dataX.reduce((acc, x) => acc + Math.pow(x - meanX, 2), 0) *
-      dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
+    dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
   );
   return denominator === 0 ? 0 : numerator / denominator;
 }
 
-// New feature: plotHyperbolic plots the hyperbolic function y = c / x, handling x near zero.
 export function plotHyperbolic(c, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -532,7 +519,6 @@ export function plotHyperbolic(c, xMin, xMax, steps = 100) {
   return result;
 }
 
-// New helper: calculateExponentialMovingAverage computes the EMA for an array of numbers.
 export function calculateExponentialMovingAverage(data, alpha = 0.5) {
   if (data.length === 0) return [];
   const result = [data[0]];
@@ -542,7 +528,6 @@ export function calculateExponentialMovingAverage(data, alpha = 0.5) {
   return result;
 }
 
-// New feature: plotGaussian for plotting a Gaussian (normal distribution) curve.
 export function plotGaussian(amplitude, mean, sigma, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -554,7 +539,6 @@ export function plotGaussian(amplitude, mean, sigma, xMin, xMax, steps = 100) {
   return result;
 }
 
-// New helper: exportPlotAsCSV converts an array of point objects to CSV format
 export function exportPlotAsCSV(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
@@ -563,7 +547,6 @@ export function exportPlotAsCSV(points) {
   return csv;
 }
 
-// New helper: exportPlotAsMarkdown converts an array of point objects to a Markdown table format
 export function exportPlotAsMarkdown(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
@@ -575,12 +558,10 @@ export function exportPlotAsMarkdown(points) {
   return md.trim();
 }
 
-// New helper: exportPlotAsJSON converts an array of point objects to a JSON string
 export function exportPlotAsJSON(points) {
   return JSON.stringify(points, null, 2);
 }
 
-// New helper: exportPlotAsHTML converts an array of point objects to an HTML table format
 export function exportPlotAsHTML(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
@@ -592,7 +573,6 @@ export function exportPlotAsHTML(points) {
   return html;
 }
 
-// New helper: exportPlotAsASCII converts an array of point objects to an ASCII table format
 export function exportPlotAsASCII(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
@@ -602,7 +582,6 @@ export function exportPlotAsASCII(points) {
   return [header, separator, ...rows].join('\n');
 }
 
-// New helper: exportPlotAsSVG converts an array of point objects to a simple SVG representation
 export function exportPlotAsSVG(points) {
   let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">';
   points.forEach((pt, index) => {
@@ -612,7 +591,6 @@ export function exportPlotAsSVG(points) {
   return svg;
 }
 
-// New helper: exportPlotAsXML converts an array of point objects to an XML string
 export function exportPlotAsXML(points) {
   let xml = '<points>';
   points.forEach(pt => {
@@ -626,7 +604,6 @@ export function exportPlotAsXML(points) {
   return xml;
 }
 
-// New helper: exportPlotAsLaTeX converts an array of point objects to a LaTeX tabular format
 export function exportPlotAsLaTeX(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
@@ -639,13 +616,11 @@ export function exportPlotAsLaTeX(points) {
   return latex;
 }
 
-// New helper: exportPlotAsTXT converts an array of point objects to a plain text format
 export function exportPlotAsTXT(points) {
   if (!points.length) return '';
   return points.map(pt => `x: ${pt.x}, y: ${pt.y}`).join('\n');
 }
 
-// New helper: exportPlotAsR converts an array of point objects to a format friendly for R
 export function exportPlotAsR(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
@@ -654,7 +629,6 @@ export function exportPlotAsR(points) {
   return rOutput;
 }
 
-// New function: plotPolynomial plots a polynomial function given a array of coefficients.
 export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -669,7 +643,6 @@ export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
   return result;
 }
 
-// New function: plotEllipse generates points of an ellipse given a center and radii.
 export function plotEllipse(centerX, centerY, radiusX, radiusY, steps = 100) {
   const dt = (2 * Math.PI) / steps;
   const result = [];
@@ -680,7 +653,6 @@ export function plotEllipse(centerX, centerY, radiusX, radiusY, steps = 100) {
   return result;
 }
 
-// New function: plotModulatedSine for plotting a modulated sine wave.
 export function plotModulatedSine(amplitude, frequency, modulation, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -691,7 +663,6 @@ export function plotModulatedSine(amplitude, frequency, modulation, phase, xMin,
   return result;
 }
 
-// New function: plotSpiral generates points for an Archimedean spiral given a center, an initial radius, and number of rotations.
 export function plotSpiral(centerX, centerY, initialRadius, rotations, steps = 100) {
   const totalAngle = rotations * 2 * Math.PI;
   const dTheta = totalAngle / steps;
@@ -704,7 +675,6 @@ export function plotSpiral(centerX, centerY, initialRadius, rotations, steps = 1
   return result;
 }
 
-// New function: calculateDefiniteIntegral approximates the integral of a function using the trapezoidal rule
 export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   let total = 0;
@@ -716,7 +686,6 @@ export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
   return total * dx;
 }
 
-// New helper: plotCustom for flexible plotting of any given mathematical function
 export function plotCustom(fn, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -727,7 +696,6 @@ export function plotCustom(fn, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Added missing functions to support CLI flags
 export function plotScatter(count) {
   const points = [];
   for (let i = 0; i < count; i++) {
@@ -737,7 +705,6 @@ export function plotScatter(count) {
 }
 
 export function plotBarChart(points) {
-  // Simple bar chart representation using '*' characters based on y value
   return points.map(p => `x: ${p.x.toFixed(2)} | ${'*'.repeat(Math.max(1, Math.round(Math.abs(p.y))) )}`).join('\n');
 }
 
@@ -751,7 +718,6 @@ export function plotParametric(xFn, yFn, tMin, tMax, steps = 100) {
   return points;
 }
 
-// New function: solveQuadraticEquation returns real roots of a quadratic equation
 export function solveQuadraticEquation(a, b, c) {
   const discriminant = b * b - 4 * a * c;
   if (discriminant < 0) {
@@ -763,7 +729,6 @@ export function solveQuadraticEquation(a, b, c) {
   return [root1, root2];
 }
 
-// New function: plotSinCosCombined returns points with both sine and cosine values
 export function plotSinCosCombined(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -778,7 +743,6 @@ export function plotSinCosCombined(amplitude, frequency, phase, xMin, xMax, step
   return result;
 }
 
-// New function: interpolateData performs linear interpolation for given data arrays
 export function interpolateData(xData, yData, x) {
   if (xData.length !== yData.length || xData.length === 0) {
     throw new Error("Data arrays must be of the same non-zero length");
@@ -795,7 +759,6 @@ export function interpolateData(xData, yData, x) {
   return null;
 }
 
-// New function: plotBezier generates points along a Bezier curve using De Casteljau's algorithm
 export function plotBezier(controlPoints, steps = 100) {
   if (!Array.isArray(controlPoints) || controlPoints.length === 0) return [];
   const bezierPoint = (points, t) => {
@@ -818,7 +781,6 @@ export function plotBezier(controlPoints, steps = 100) {
   return result;
 }
 
-// New function: plotLissajous generates points for a Lissajous curve given amplitude, frequencies, phase and range for t
 export function plotLissajous(amplX, amplY, freqX, freqY, phase, tMin, tMax, steps = 100) {
   const dt = (tMax - tMin) / steps;
   const result = [];
@@ -833,13 +795,11 @@ export function plotLissajous(amplX, amplY, freqX, freqY, phase, tMin, tMax, ste
   return result;
 }
 
-// New function: plotBessel for plotting the Bessel function of the first kind using mathjs
 export function plotBessel(order, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
   let besselFn = math.besselJ || math.besselj;
   if (typeof besselFn !== 'function') {
-    // Fallback implementation for order 0 using series expansion
     if (order === 0) {
       besselFn = function(x, order) {
         let sum = 0;
@@ -863,7 +823,6 @@ export function plotBessel(order, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Entry point
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   main(args);

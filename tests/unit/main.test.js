@@ -599,7 +599,6 @@ describe("Additional helper functions", () => {
     expect(rStr).toContain(expectedStart);
   });
 
-  // New function tests
   test("solveQuadraticEquation returns correct roots for quadratic equation", () => {
     const roots = solveQuadraticEquation(1, -3, 2);
     expect(roots.length).toBe(2);
@@ -638,7 +637,6 @@ describe("Additional helper functions", () => {
   test("plotBessel returns correct Bessel function values", () => {
     const points = plotBessel(0, 0, 10, 10);
     expect(points.length).toBe(11);
-    // besselJ(0,0) should equal 1, using fallback implementation
     expect(points[0].y).toBeCloseTo(1, 5);
   });
 });
