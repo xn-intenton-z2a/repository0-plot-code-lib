@@ -28,7 +28,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
     );
     spy.mockRestore();
   });
