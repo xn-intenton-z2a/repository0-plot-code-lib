@@ -100,6 +100,7 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, and exportPlotAsMarkdown.
 - Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), and Debug mode (`--debug`).
+- **Improved test coverage and enhanced error handling**, including support for single-layer mocks and deep external resource mocks.
 
 ## Contributing
 
