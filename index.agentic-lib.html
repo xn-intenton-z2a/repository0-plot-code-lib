@@ -55,7 +55,8 @@
 <li class="md-github">Interactive mode (<code class="md-github">--interactive</code>) with input prompt and fallback timeout</li>
 <li class="md-github">Web server mode (<code class="md-github">--serve</code>) with enhanced security configurations</li>
 <li class="md-github">CSV Export mode (<code class="md-github">--export-csv</code>) for sample data export</li>
-<li class="md-github">Debug mode (<code class="md-github">--debug</code>) to list available plotting functions for troubleshooting</li>
+<li class="md-github">Markdown Export mode (<code class="md-github">--export-md</code>) for exporting plot data as a Markdown table</li>
+<li class="md-github">Debug mode (<code class="md-github">--debug</code>) to list available plotting functions for troubleshooting purposes.</li>
 </ul>
 </li>
 </ul>
@@ -99,6 +100,12 @@
 <p class="md-github">Outputs sample plot data in CSV format.</p>
 </li>
 <li class="md-github">
+<p class="md-github"><strong class="md-github">Markdown Export Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --export-md
+</code></pre>
+<p class="md-github">Exports sample plot data as a Markdown table.</p>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">Debug Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --debug
 </code></pre>
@@ -114,7 +121,7 @@
 <li class="md-github">Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.</li>
 <li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.</li>
 <li class="md-github">Introduced the CSV export mode (--export-csv) and Debug mode (--debug) for enhanced user feedback and troubleshooting.</li>
-<li class="md-github"><strong class="md-github">Enhanced Test Coverage:</strong> Updated tests and mocks to ensure robust and reliable functionality in both interactive and external module scenarios.</li>
+<li class="md-github"><strong class="md-github">New:</strong> Added Markdown export mode (--export-md) and the exportPlotAsMarkdown function for exporting plot data as a Markdown table.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">Contributions are automated. To contribute:</p>
@@ -129,7 +136,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T08:31:32.856Z</p>
+    <p>Generated on 2025-03-09T08:39:42.531Z</p>
   </footer>
 </body>
 </html>
