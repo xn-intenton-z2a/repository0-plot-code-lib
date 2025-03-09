@@ -45,7 +45,7 @@ For integrating plotting into your own projects, simply import the required func
 
 - **2023-10:** Refined CLI messaging and extended plotting functionalities.
 - **2023-10:** Added new features: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotLemniscate, plotHyperbola.
-- **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, plotEllipse, and now plotPower with the new CLI flag `--power-plot`. README and documentation have been refreshed to align with updated CONTRIBUTING guidelines.
+- **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, plotEllipse, and now plotPower with the new CLI flag `--power-plot`. Additional internal API refinements and improved debug output formatting have been implemented to better align with our mission and contributing guidelines.
 
 ## Contributing
 
