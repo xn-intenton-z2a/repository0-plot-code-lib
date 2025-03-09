@@ -2,9 +2,7 @@
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission:
 // "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines,
-// with extended library functions including new plotPower, plotSigmoid, plotSinc, plotReLU, movingMedian, plotInverse, cumulativeSum,
-// and newly added functions: plotLogLog and boxPlot.
+// This version has been updated to further extend library functions to support additional plotting capabilities and to fully align messaging with our mission statement and contributing guidelines.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -64,9 +62,11 @@ export async function main(args) {
       "movingAverage", "plotTangent", "reflectPoints", "scalePoints", "plotSqrt", "plotPolar", "plotAbsolute", "generateRange", "plotDerivative", "offsetPoints",
       "plotLogistic", "plotCubic", "calculateStandardDeviation", "calculateCorrelation", "plotHyperbolic", "calculateExponentialMovingAverage", "plotGaussian",
       "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX", "exportPlotAsTXT", "exportPlotAsR",
-      "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral", "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower", "plotReLU", "movingMedian", "plotInverse", "cumulativeSum",
+      "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral", "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom",
+      "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower", "plotReLU", "movingMedian", "plotInverse", "cumulativeSum",
       // Newly added functions
-      "plotLogLog", "boxPlot"
+      "plotLogLog", "boxPlot",
+      "plotDampedOscillation", "plotRational", "plotStep"
     ];
     console.log("Aligned with our mission, available plotting functions: " + funcs.join(", "));
     return;
@@ -643,12 +643,12 @@ export function exportPlotAsXML(points) {
 export function exportPlotAsLaTeX(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
-  let latex = "\begin{tabular}{|" + "c|".repeat(keys.length) + "}\n\hline\n";
-  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\ \n\hline\n";
+  let latex = "\\begin{tabular}{|" + "c|".repeat(keys.length) + "}\n\\hline\n";
+  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\ \n\\hline\n";
   points.forEach(point => {
-    latex += keys.map(k => point[k]).join(" & ") + " \\ \n\hline\n";
+    latex += keys.map(k => point[k]).join(" & ") + " \\ \n\\hline\n";
   });
-  latex += "\end{tabular}";
+  latex += "\\end{tabular}";
   return latex;
 }
 
@@ -1011,6 +1011,42 @@ export function boxPlot(data) {
       (upper[upper.length / 2 - 1] + upper[upper.length / 2]) / 2;
   })();
   return { min, Q1, median, Q3, max };
+}
+
+// Newly added functions to further extend plotting capabilities
+export function plotDampedOscillation(amplitude, decay, frequency, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const y = amplitude * Math.exp(-decay * x) * Math.sin(frequency * x + phase);
+    result.push({ x, y });
+  }
+  return result;
+}
+
+export function plotRational(numer, denom, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    let y = null;
+    if (denom(x) !== 0) {
+      y = numer(x) / denom(x);
+    }
+    result.push({ x, y });
+  }
+  return result;
+}
+
+export function plotStep(xMin, xMax, steps = 10) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: x >= 0 ? 1 : 0 });
+  }
+  return result;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

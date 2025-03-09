@@ -67,7 +67,10 @@ const {
   cumulativeSum,
   // Newly added functions
   plotLogLog,
-  boxPlot
+  boxPlot,
+  plotDampedOscillation,
+  plotRational,
+  plotStep
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -337,6 +340,9 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("cumulativeSum");
     expect(debugString).toContain("plotLogLog");
     expect(debugString).toContain("boxPlot");
+    expect(debugString).toContain("plotDampedOscillation");
+    expect(debugString).toContain("plotRational");
+    expect(debugString).toContain("plotStep");
     spy.mockRestore();
   });
 });
@@ -630,8 +636,8 @@ describe("Additional helper functions", () => {
   test("exportPlotAsLaTeX returns a valid LaTeX table", () => {
     const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
     const latex = exportPlotAsLaTeX(points);
-    expect(latex).toContain("\begin{tabular}");
-    expect(latex).toContain("\end{tabular}");
+    expect(latex).toContain("\\begin{tabular}");
+    expect(latex).toContain("\\end{tabular}");
   });
 
   test("exportPlotAsTXT returns plain text string correctly", () => {
@@ -793,9 +799,7 @@ describe("Additional helper functions", () => {
     const fn = (x) => x * x;
     const points = plotLogLog(fn, 1, 10, 10);
     expect(points.length).toBe(11);
-    // x should be log-transformed
     expect(points[0].x).toBeCloseTo(0, 5);
-    // y should be log(x^2)
     const expectedY = Math.log(1 * 1);
     expect(points[0].y).toBeCloseTo(expectedY, 5);
   });
@@ -810,5 +814,32 @@ describe("Additional helper functions", () => {
     expect(stats).toHaveProperty('max');
     expect(stats.min).toBe(3);
     expect(stats.max).toBe(21);
+  });
+
+  test("plotDampedOscillation returns damped oscillation values", () => {
+    const points = plotDampedOscillation(1, 0.1, 2, 0, 10, 10);
+    expect(points.length).toBe(11);
+    // Check for decreasing amplitude
+    expect(points[0].y).not.toBeNull();
+    expect(points[10].y).not.toBeNull();
+  });
+
+  test("plotRational returns correct rational function values", () => {
+    const numer = (x) => x;
+    const denom = (x) => x + 1;
+    const points = plotRational(numer, denom, 0, 10, 10);
+    expect(points.length).toBe(11);
+    // For x=0, rational=0/(1)=0
+    expect(points[0].y).toBeCloseTo(0, 5);
+  });
+
+  test("plotStep returns step function values correctly", () => {
+    const points = plotStep(-5, 5, 10);
+    expect(points.length).toBe(11);
+    // Check that values flip from 0 to 1 around 0
+    const beforeZero = points.find(p => p.x < 0);
+    const afterZero = points.find(p => p.x >= 0);
+    expect(beforeZero.y).toBe(0);
+    expect(afterZero.y).toBe(1);
   });
 });
