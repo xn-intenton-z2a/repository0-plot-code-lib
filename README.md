@@ -8,7 +8,7 @@
 
 ## Overview
 
-This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. It supports core plotting functions as well as advanced analysis methods including derivative calculations and numerical area computation. The implementation is realigned with our mission statement and pruned of redundant drift following our contributing guidelines.
+This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. It supports core plotting functions as well as advanced analysis methods including derivative calculations and numerical area computation. The implementation is strictly aligned with our mission statement and pruned of redundant drift as outlined in our CONTRIBUTING guidelines.
 
 ## Features
 
@@ -86,11 +86,11 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Realigned CLI messages and functionalities with our mission statement.
-- Pruned redundant code to eliminate drift as per CONTRIBUTING.md guidelines.
+- Refined CLI messages and functionalities to strictly adhere to the mission statement.
+- Pruned redundant code to eliminate drift as per CONTRIBUTING guidelines.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- Enhanced error handling in interactive mode with additional try/catch blocks.
-- Updated test coverage and documentation to reflect refined implementation.
+- Enhanced error handling in interactive mode with improved try/catch blocks.
+- Updated test coverage and documentation to reflect these refinements.
 
 ## Contributing
 
