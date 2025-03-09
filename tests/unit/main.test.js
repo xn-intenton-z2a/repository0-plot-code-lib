@@ -120,14 +120,14 @@ describe('Main Function Behaviour', () => {
   test('should output CSV plot when --export-csv flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-csv']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('CSV Output:'), undefined);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('CSV Output:'), expect.any(String));
     spy.mockRestore();
   });
 
   test('should output Markdown plot when --export-md flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-md']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Markdown Output:'), undefined);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Markdown Output:'), expect.any(String));
     spy.mockRestore();
   });
 

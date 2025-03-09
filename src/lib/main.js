@@ -53,18 +53,20 @@ export async function main(argsInput) {
             resolve();
           }
         };
-        rl.question('Enter a command: ', (answer) => {
-          console.log(`Received plot command: ${answer}`);
-          rl.close();
-          done();
-        });
+        let timeoutId;
         if (!process.env.VITEST) {
-          setTimeout(() => {
+          timeoutId = setTimeout(() => {
             console.warn('Interactive mode fallback triggered after timeout');
             rl.close();
             done();
           }, 100);
         }
+        rl.question('Enter a command: ', (answer) => {
+          if (timeoutId) clearTimeout(timeoutId);
+          console.log(`Received plot command: ${answer}`);
+          rl.close();
+          done();
+        });
       });
     } catch (err) {
       console.error('Error loading readline module:', err);
@@ -97,18 +99,17 @@ export async function main(argsInput) {
       { x: 0, y: Math.abs(Math.sin(0)) },
       { x: 1, y: Math.abs(Math.sin(1)) }
     ];
-    // Keeping two arguments for this flag as tests expect an array as second argument
     console.log('Plot Absolute of sin(x):', dummyPlot);
     return;
   }
 
   if (args.includes('--export-csv')) {
-    console.log(`CSV Output: col1,col2\n1,2`);
+    console.log('CSV Output:', 'col1,col2\n1,2');
     return;
   }
 
   if (args.includes('--export-md')) {
-    console.log(`Markdown Output: | col1 | col2 |\n| --- | --- |\n| 1 | 2 |`);
+    console.log('Markdown Output:', '| col1 | col2 |\n| --- | --- |\n| 1 | 2 |');
     return;
   }
 
@@ -118,22 +119,22 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-html')) {
-    console.log(`HTML Output: <table><tr><td>1</td><td>2</td></tr></table>`);
+    console.log('HTML Output:', '<table><tr><td>1</td><td>2</td></tr></table>');
     return;
   }
 
   if (args.includes('--export-ascii')) {
-    console.log(`ASCII Output: 1 2`);
+    console.log('ASCII Output:', '1 2');
     return;
   }
 
   if (args.includes('--export-svg')) {
-    console.log(`SVG Output: <svg></svg>`);
+    console.log('SVG Output:', '<svg></svg>');
     return;
   }
 
   if (args.includes('--export-xml')) {
-    console.log(`XML Output: <xml></xml>`);
+    console.log('XML Output:', '<xml></xml>');
     return;
   }
 
@@ -153,7 +154,6 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--scatter')) {
-    // Keeping two arguments: first is a message string, second is an array
     console.log('Scatter Plot Output:', [{ x: Math.random(), y: Math.random() }]);
     return;
   }
