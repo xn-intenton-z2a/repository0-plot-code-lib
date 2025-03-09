@@ -35,10 +35,12 @@ const {
   exportPlotAsHTML,
   exportPlotAsASCII,
   exportPlotAsSVG,
+  exportPlotAsXML,
   plotScatter,
   plotModulatedSine,
   plotLogBase,
   plotParametric,
+  plotBarChart,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -50,7 +52,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -197,10 +199,24 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
+  test("should output XML plot when --export-xml flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-xml"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("XML Output:"));
+    spy.mockRestore();
+  });
+
   test("should output Scatter plot when --scatter flag is provided", () => {
     const spy = vi.spyOn(console, "log");
     main(["--scatter"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Scatter Plot Output:"));
+    spy.mockRestore();
+  });
+
+  test("should output Bar Chart when --bar-chart flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--bar-chart"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Bar Chart Output:"));
     spy.mockRestore();
   });
 
@@ -219,6 +235,8 @@ describe("Debug flag behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--debug"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Available plotting functions:"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsXML"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotBarChart"));
     spy.mockRestore();
   });
 });
@@ -481,6 +499,14 @@ describe("Additional helper functions", () => {
     expect(svg).toContain("</svg>");
   });
 
+  test("exportPlotAsXML returns XML string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const xml = exportPlotAsXML(points);
+    expect(xml).toContain("<points>");
+    expect(xml).toContain("<point>");
+    expect(xml).toContain("<x>0</x>");
+  });
+
   test("plotScatter returns correct number of points", () => {
     const points = plotScatter(5);
     expect(points.length).toBe(5);
@@ -511,5 +537,13 @@ describe("Additional helper functions", () => {
     expect(points.length).toBe(51);
     expect(points[0]).toEqual({ t: 0, x: 1, y: 0 });
     expect(points[50].x).toBeCloseTo(1, 5);
+  });
+
+  test("plotBarChart returns a non-empty bar chart string", () => {
+    const points = [{ x: 0, y: 0.5 }, { x: 1, y: 1 }];
+    const chart = plotBarChart(points);
+    expect(chart).toContain('0:');
+    expect(chart).toContain('1:');
+    expect(chart.length).toBeGreaterThan(0);
   });
 });

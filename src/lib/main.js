@@ -13,6 +13,7 @@
 // - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export mode.
 // - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
 // - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
+// - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
 
 import { fileURLToPath } from "url";
 
@@ -43,7 +44,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     return;
   }
@@ -57,7 +58,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, plotScatter, plotModulatedSine, plotLogBase, plotParametric"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart"
     );
     return;
   }
@@ -201,10 +202,26 @@ export async function main(args) {
     return;
   }
 
+  // --export-xml flag: export plot as XML format demo
+  if (args.includes("--export-xml")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const xml = exportPlotAsXML(points);
+    console.log("XML Output:\n" + xml);
+    return;
+  }
+
   // --scatter flag: demo of generating a scatter plot with random points
   if (args.includes("--scatter")) {
     const points = plotScatter(10);
     console.log("Scatter Plot Output:\n" + JSON.stringify(points, null, 2));
+    return;
+  }
+
+  // --bar-chart flag: demo of generating a bar chart visualization of a plot
+  if (args.includes("--bar-chart")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const barChart = plotBarChart(points);
+    console.log("Bar Chart Output:\n" + barChart);
     return;
   }
 
@@ -559,6 +576,20 @@ export function exportPlotAsSVG(points) {
   return svg;
 }
 
+// New helper: exportPlotAsXML converts an array of point objects to an XML string
+export function exportPlotAsXML(points) {
+  let xml = '<points>';
+  points.forEach(pt => {
+    xml += '<point>';
+    for (const key in pt) {
+      xml += `<${key}>${pt[key]}</${key}>`;
+    }
+    xml += '</point>';
+  });
+  xml += '</points>';
+  return xml;
+}
+
 // New helper: plotScatter generates a scatter plot with random points
 export function plotScatter(numPoints = 10) {
   const result = [];
@@ -596,6 +627,20 @@ export function plotParametric(fnX, fnY, tMin, tMax, steps = 100) {
     result.push({ t, x: fnX(t), y: fnY(t) });
   }
   return result;
+}
+
+// New function: plotBarChart creates a simple bar chart visualization from point data
+export function plotBarChart(points) {
+  let chart = '';
+  points.forEach(pt => {
+    const barCount = Math.round((pt.y || 0) * 10);
+    let bars = '';
+    for (let i = 0; i < barCount; i++) {
+      bars += '*';
+    }
+    chart += `${pt.x}: ${bars}\n`;
+  });
+  return chart.trim();
 }
 
 // Entry point

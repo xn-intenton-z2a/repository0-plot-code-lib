@@ -15,7 +15,7 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - Absolute value plotting, derivative plotting, logistic and cubic plots
   - Custom range generation using an in-house range generator
   - **New Feature:** Parametric plotting with the `plotParametric` function for visualizing parametric equations
-  - New additions: Modulated Sine plotting and Logarithm with arbitrary base calculations
+  - New additions: Modulated Sine plotting, Logarithm with arbitrary base calculations, XML export, and Bar Chart visualization
 
 - **Statistical and Transformation Tools:**
   - Standard deviation and Pearson correlation calculations
@@ -33,7 +33,9 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - HTML Export mode (`--export-html`) for exporting plot data as an HTML table
   - ASCII Export mode (`--export-ascii`) for exporting plot data as an ASCII table
   - SVG Export mode (`--export-svg`) for exporting plot data as an SVG graphic
+  - XML Export mode (`--export-xml`) for exporting plot data as XML
   - Scatter Plot mode (`--scatter`) for generating a random scatter plot
+  - Bar Chart mode (`--bar-chart`) for simple bar chart visualization
   - Parametric Plot mode (`--plot-parametric`) for plotting parametric equations
   - Debug mode (`--debug`) for listing available plotting functions
 
@@ -115,11 +117,23 @@ Other modes include:
   ```
   Exports sample plot data as an SVG graphic.
 
+- **XML Export Mode:**
+  ```bash
+  node src/lib/main.js --export-xml
+  ```
+  Exports sample plot data as an XML document.
+
 - **Scatter Plot Mode:**
   ```bash
   node src/lib/main.js --scatter
   ```
   Generates a random scatter plot and outputs the data in JSON format.
+
+- **Bar Chart Mode:**
+  ```bash
+  node src/lib/main.js --bar-chart
+  ```
+  Generates a simple bar chart visualization from plot data.
 
 - **Parametric Plot Mode:**
   ```bash
@@ -142,11 +156,11 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Refined CLI messages and functionalities to maintain strict alignment with our mission statement.
 - Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, and exportPlotAsSVG.
-- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), SVG export mode (`--export-svg`), Scatter plot mode (`--scatter`), and Debug mode (`--debug`).
+- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG.
+- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), SVG export mode (`--export-svg`), XML export mode (`--export-xml`), Scatter plot mode (`--scatter`), Bar Chart mode (`--bar-chart`), and Debug mode (`--debug`).
 - **New Features:**
   - Added Parametric Plot mode (`--plot-parametric`) with the `plotParametric` function for visualizing parametric equations.
-  - Added new functions: `plotModulatedSine` for modulated sine wave plotting and `plotLogBase` for logarithm with arbitrary base calculations.
+  - Added new functions: `plotModulatedSine` for modulated sine wave plotting, `plotLogBase` for logarithm with arbitrary base calculations, `exportPlotAsXML` for XML export, and `plotBarChart` for bar chart visualization.
 
 ## Contributing
 
