@@ -18,6 +18,8 @@ const {
   scalePoints,
   plotSqrt,
   plotPolar,
+  plotAbsolute,
+  generateRange,
   loadReadline,
   loadExpress
 } = mainModule;
@@ -28,7 +30,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -72,7 +74,6 @@ describe("Main Function Behaviour", () => {
   });
 
   test("should trigger fallback timeout in interactive mode when no answer is provided (non-test environment)", async () => {
-    // Simulate non-test environment
     process.env.NODE_ENV = "non-test";
     process.env.VITEST = undefined;
     const spyWarn = vi.spyOn(console, "warn");
@@ -96,7 +97,6 @@ describe("Main Function Behaviour", () => {
     expect(spyWarn).toHaveBeenCalledWith("Interactive mode fallback triggered after timeout");
     spyWarn.mockRestore();
     vi.useRealTimers();
-    // Restore environment variables
     process.env.NODE_ENV = "test";
     process.env.VITEST = "true";
   });
@@ -128,7 +128,15 @@ describe("Main Function Behaviour", () => {
     expect(spy).toHaveBeenCalledWith("Error starting server:", expect.any(Error));
     spy.mockRestore();
   });
+
+  test("should output absolute plot when --plot-abs flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--plot-abs"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Plot Absolute of sin(x):"), expect.any(Array));
+    spy.mockRestore();
+  });
 });
+
 
 describe("Additional helper functions", () => {
   test("plotQuadratic returns correct number of points and values", () => {
@@ -178,7 +186,6 @@ describe("Additional helper functions", () => {
   });
 
   test("plotLogarithmic returns correct logarithmic values", () => {
-    // Using base multiplier of 1, from 1 to e
     const points = plotLogarithmic(1, 1, Math.E, 1);
     expect(points.length).toBe(2);
     expect(points[0]).toEqual({ x: 1, y: 0 });
@@ -241,5 +248,18 @@ describe("Additional helper functions", () => {
     expect(points[0]).toEqual({ theta: 0, r: 1 });
     const midTheta = points[2].theta;
     expect(points[2].r).toBeCloseTo(Math.cos(midTheta), 5);
+  });
+
+  test("plotAbsolute returns correct absolute values", () => {
+    const points = plotAbsolute(Math.sin, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    // sin(x) on [0, PI] is non-negative, so absolute should equal sin(x)
+    expect(points[0].y).toBeCloseTo(Math.abs(Math.sin(0)), 5);
+    expect(points[10].y).toBeCloseTo(Math.abs(Math.sin(Math.PI)), 5);
+  });
+
+  test("generateRange returns a correct sequence", () => {
+    const range = generateRange(0, 10, 5);
+    expect(range).toEqual([0, 2, 4, 6, 8, 10]);
   });
 });

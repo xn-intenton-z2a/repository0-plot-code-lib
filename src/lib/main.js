@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-// Enhanced test coverage and robust error handling for external dependencies. See CONTRIBUTING.md for details.
+// Extended functionality: Added plotAbsolute and generateRange. See CONTRIBUTING.md for details.
 
 import { fileURLToPath } from "url";
 
@@ -32,7 +32,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
     );
     return;
   }
@@ -119,6 +119,13 @@ export async function main(args) {
         });
       }
     });
+    return;
+  }
+
+  // --plot-abs flag: demo of plotting the absolute value of a function (using Math.sin as example)
+  if (args.includes("--plot-abs")) {
+    const points = plotAbsolute(Math.sin, 0, Math.PI, 10);
+    console.log("Plot Absolute of sin(x):", points);
     return;
   }
 
@@ -288,6 +295,27 @@ export function plotPolar(radiusFn, thetaMin, thetaMax, steps = 100) {
     result.push({ theta, r });
   }
   return result;
+}
+
+// New feature: plotAbsolute to plot the absolute value of a provided function over a range
+export function plotAbsolute(fn, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: Math.abs(fn(x)) });
+  }
+  return result;
+}
+
+// New helper: generateRange to produce an array of numbers between xMin and xMax.
+export function generateRange(xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const range = [];
+  for (let i = 0; i <= steps; i++) {
+    range.push(xMin + i * dx);
+  }
+  return range;
 }
 
 // Entry point

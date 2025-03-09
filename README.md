@@ -21,15 +21,18 @@ This library provides a command-line interface (CLI) tool for plotting a range o
   - Exponential
   - Logarithmic
   - Square Root
-  - Polar (new)
+  - Polar
+  - Absolute (new)
   - Moving Average for smoothing data
   - Point Transformations: Rotation, Reflection, Scaling
+  - Custom Range Generation (new helper)
 
 - **CLI Modes:**
   - Default demo mode
   - Diagnostics mode (using --diagnostics)
   - Interactive mode (using --interactive)
   - Web server mode (using --serve)
+  - Absolute Plot demo mode (using --plot-abs)
 
 - **Advanced Analysis:**
   - Area under the curve (Trapezoidal Rule)
@@ -76,6 +79,13 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```
   Starts an Express-based interactive plotting web interface with proper error handling and graceful shutdown in test environments.
 
+- **Absolute Plot Demo Mode:**
+
+  ```bash
+  node src/lib/main.js --plot-abs
+  ```
+  Demonstrates plotting the absolute value of a function (using Math.sin as an example).
+
 ### Default Demo
 
 If no arguments are provided, the CLI displays a demo message:
@@ -87,8 +97,9 @@ node src/lib/main.js
 ## Changelog Highlights
 
 - Refreshed README to align with the contributing guidelines.
-- Extended library functions with new features including plotSqrt and plotPolar.
-- Enhanced test coverage with added interactive fallback tests and robust error handling for external dependencies.
+- Extended library functions with new features including plotSqrt, plotPolar, plotAbsolute, and generateRange.
+- Added CLI flag --plot-abs to demonstrate absolute function plotting.
+- Enhanced test coverage with additional tests for new functionality and robust error handling for external dependencies.
 
 ## Contributing
 
