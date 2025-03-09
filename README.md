@@ -1,42 +1,39 @@
 # repository0-plot-code-lib
 
-**A versatile plotting tool for mathematical formula visualizations**
+**A versatile plotting tool for mathematical visualizations**
 
-> _Be a go-to plot library with a CLI, be the jq of formulae visualisations._
-
----
+> "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. It supports core plotting functions as well as advanced analysis methods including derivative calculations and numerical area computation. The implementation is strictly aligned with our mission statement and pruned of redundant drift as outlined in our CONTRIBUTING guidelines.
+repository0-plot-code-lib is a command-line interface (CLI) tool designed for high precision plotting of a wide range of mathematical functions. The library offers diverse plotting functions, analytical tools such as derivative and area computation, and supports multiple output formats—all built in alignment with our mission statement and CONTRIBUTING guidelines.
 
 ## Features
 
-- **Plot Types:**
+- **Plotting Functions:**
   - Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, Polar
-  - Absolute plotting (new)
-  - Derivative plotting (new)
-  - Logistic plotting (new): Uses a logistic function to model growth curves.
-  - Cubic plotting (new): Plot cubic polynomial functions.
-  - Moving Average for data smoothing
-  - Point transformations: Rotation, Reflection, Scaling, Offset (new)
-  - Custom Range Generation (new helper)
-  - Statistical helper: Standard deviation calculation (new)
+  - Absolute plotting
+  - Derivative plotting
+  - Logistic and Cubic plotting
+  - Custom range generation
+  - Statistical analysis (e.g., standard deviation)
+  - Data smoothing with moving average
+  - Point transformations: rotation, reflection, scaling, and offset
 
 - **CLI Modes:**
   - Default demo mode
-  - Diagnostics mode (`--diagnostics`): Outputs Node.js diagnostic information.
-  - Interactive mode (`--interactive`): Prompts for user input with a timeout fallback.
-  - Web server mode (`--serve`): Starts an Express-based interactive plotting web interface.
-  - Absolute Plot demo mode (`--plot-abs`): Demos absolute value plotting.
+  - Diagnostics mode (`--diagnostics`)
+  - Interactive mode (`--interactive`) with a timeout fallback
+  - Web server mode (`--serve`) with enhanced security headers
+  - Absolute Plot demo (`--plot-abs`)
 
 - **Advanced Analysis:**
-  - Numerical area under the curve (Trapezoidal Rule)
+  - Numerical integration (trapezoidal rule)
   - Finite differences derivative calculation
 
 ## Installation
 
-Ensure you have Node.js (v20 or higher) installed.
+Ensure you have Node.js (v20 or higher) installed. Then install the package via npm:
 
 ```bash
 npm install @xn-intenton-z2a/repository0-plot-code-lib
@@ -52,7 +49,7 @@ Run the CLI demo:
 npm run start
 ```
 
-For specific functions, use the following flags:
+Other modes:
 
 - **Diagnostics Mode:**
   ```bash
@@ -63,42 +60,37 @@ For specific functions, use the following flags:
   ```bash
   node src/lib/main.js --interactive
   ```
-  The CLI will prompt for a plot command. In non-interactive environments, a fallback timeout is triggered.
+  The CLI will prompt for a plot command and use a fallback timeout if no input is received.
 
-- **Web Interface Mode:**
+- **Web Server Mode:**
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting interface with security headers disabled.
+  Starts an Express-based interactive plotting interface.
 
-- **Absolute Plot Demo Mode:**
+- **Absolute Plot Demo:**
   ```bash
   node src/lib/main.js --plot-abs
   ```
 
 ### Default Demo
 
-Running with no arguments displays a demo message:
-
-```bash
-node src/lib/main.js
-```
+Running the CLI with no arguments displays a demo message.
 
 ## Changelog Highlights
 
-- Refined CLI messages and functionalities to strictly adhere to the mission statement.
-- Pruned redundant code to eliminate drift as per CONTRIBUTING guidelines.
+- Refined CLI messages and functionalities.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- Enhanced error handling in interactive mode with improved try/catch blocks.
-- Updated test coverage and documentation to reflect these refinements.
+- Improved error handling in interactive mode.
+- README refreshed and documentation updated to adhere to CONTRIBUTING guidelines.
 
 ## Contributing
 
-Contributions are automated. Please follow these steps:
+Contributions are automated. To contribute:
 
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
-2. **Label It as `automated`:** This triggers our automated workflows.
-3. **Review CONTRIBUTING.md:** Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
+1. Open an issue describing your idea, bug, or improvement.
+2. Label it as `automated` to trigger the contribution workflow.
+3. Follow the guidelines outlined in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
