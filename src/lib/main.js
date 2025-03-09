@@ -12,8 +12,7 @@
 // - 2023-10: Added --export-ascii flag and exportPlotAsASCII demo for ASCII table export in alignment with our mission statement.
 // - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export mode.
 // - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
-// - 2023-10: Minor enhancements in error logging and code comments to facilitate deeper test mocking of external resources.
-// - 2023-10: Added new functions: plotModulatedSine for modulated sine wave plotting and plotLogBase for computing logarithm with an arbitrary base.
+// - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 
 import { fileURLToPath } from "url";
 
@@ -44,7 +43,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --scatter, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --scatter, --plot-parametric, or provide plot parameters."
     );
     return;
   }
@@ -58,7 +57,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, plotScatter, plotModulatedSine, plotLogBase"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, plotScatter, plotModulatedSine, plotLogBase, plotParametric"
     );
     return;
   }
@@ -206,6 +205,13 @@ export async function main(args) {
   if (args.includes("--scatter")) {
     const points = plotScatter(10);
     console.log("Scatter Plot Output:\n" + JSON.stringify(points, null, 2));
+    return;
+  }
+
+  // --plot-parametric flag: demo of plotting a parametric equation (default: circle)
+  if (args.includes("--plot-parametric")) {
+    const points = plotParametric(t => Math.cos(t), t => Math.sin(t), 0, 2 * Math.PI, 100);
+    console.log("Parametric Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
@@ -579,6 +585,17 @@ export function plotLogBase(value, base) {
     throw new Error("Invalid input for logarithm");
   }
   return Math.log(value) / Math.log(base);
+}
+
+// New function: plotParametric for plotting parametric equations. It takes two functions for x and y endpoints and a range for the parameter t.
+export function plotParametric(fnX, fnY, tMin, tMax, steps = 100) {
+  const dt = (tMax - tMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = tMin + i * dt;
+    result.push({ t, x: fnX(t), y: fnY(t) });
+  }
+  return result;
 }
 
 // Entry point
