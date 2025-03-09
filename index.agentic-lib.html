@@ -28,23 +28,23 @@
 <p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
 </blockquote>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">repository0-plot-code-lib is a CLI tool engineered for high precision plotting and analysis of mathematical functions. Built to strictly adhere to our mission statement and CONTRIBUTING guidelines, it provides a comprehensive suite of plotting functions, statistical analysis tools, and versatile output formats. The library is optimized for both demo usage and interactive real-world application.</p>
+<p class="md-github">repository0-plot-code-lib is a CLI tool engineered for high precision plotting and analysis of mathematical functions. Built to strictly adhere to our mission statement and the guidelines outlined in CONTRIBUTING.md, it provides a comprehensive suite of plotting functions, statistical analysis tools, and versatile output formats. The library is optimized for both demo usage and interactive real-world applications.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Plotting Functions:</strong></p>
 <ul class="md-github">
-<li class="md-github">Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots</li>
+<li class="md-github">Supports Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots</li>
 <li class="md-github">Absolute value plotting, derivative plotting, logistic and cubic plots</li>
-<li class="md-github">Custom range generation</li>
+<li class="md-github">Custom range generation using an in-house range generator</li>
 </ul>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Statistical and Transformation Tools:</strong></p>
 <ul class="md-github">
-<li class="md-github">Standard deviation and Pearson correlation calculation</li>
+<li class="md-github">Standard deviation and Pearson correlation calculations</li>
 <li class="md-github">Data smoothing (moving average and exponential moving average)</li>
-<li class="md-github">Point transformations including rotation, reflection, scaling, and offset adjustments</li>
+<li class="md-github">Point transformations such as rotation, reflection, scaling, and offset adjustments</li>
 </ul>
 </li>
 <li class="md-github">
@@ -52,11 +52,11 @@
 <ul class="md-github">
 <li class="md-github">Default demo mode presenting a brief introduction</li>
 <li class="md-github">Diagnostics mode (<code class="md-github">--diagnostics</code>)</li>
-<li class="md-github">Interactive mode (<code class="md-github">--interactive</code>) with input prompt and fallback timeout</li>
+<li class="md-github">Interactive mode (<code class="md-github">--interactive</code>) with input prompt and built-in fallback timeout</li>
 <li class="md-github">Web server mode (<code class="md-github">--serve</code>) with enhanced security configurations</li>
 <li class="md-github">CSV Export mode (<code class="md-github">--export-csv</code>) for sample data export</li>
 <li class="md-github">Markdown Export mode (<code class="md-github">--export-md</code>) for exporting plot data as a Markdown table</li>
-<li class="md-github">Debug mode (<code class="md-github">--debug</code>) to list available plotting functions for troubleshooting purposes.</li>
+<li class="md-github">Debug mode (<code class="md-github">--debug</code>) for listing available plotting functions</li>
 </ul>
 </li>
 </ul>
@@ -109,7 +109,7 @@
 <p class="md-github"><strong class="md-github">Debug Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --debug
 </code></pre>
-<p class="md-github">Displays a list of available plotting functions for troubleshooting purposes.</p>
+<p class="md-github">Displays a list of available plotting functions.</p>
 </li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="default-demo" href="#default-demo"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default Demo</h2>
@@ -117,11 +117,11 @@
 <h2 class="md-github"><a class="md-github__anchor" name="changelog-highlights" href="#changelog-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog Highlights</h2>
 <ul class="md-github">
 <li class="md-github">Refined CLI messages and functionalities to maintain strict alignment with our mission statement.</li>
-<li class="md-github">Pruned legacy and extraneous code drift to focus on core plotting functionalities per CONTRIBUTING guidelines.</li>
+<li class="md-github">Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.</li>
 <li class="md-github">Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.</li>
-<li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.</li>
-<li class="md-github">Introduced the CSV export mode (--export-csv) and Debug mode (--debug) for enhanced user feedback and troubleshooting.</li>
-<li class="md-github"><strong class="md-github">New:</strong> Added Markdown export mode (--export-md) and the exportPlotAsMarkdown function for exporting plot data as a Markdown table.</li>
+<li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, and exportPlotAsMarkdown.</li>
+<li class="md-github">Introduced CSV export mode (<code class="md-github">--export-csv</code>), Markdown export mode (<code class="md-github">--export-md</code>), and Debug mode (<code class="md-github">--debug</code>).</li>
+<li class="md-github"><strong class="md-github">Updated:</strong> README has been refreshed to align with the latest CONTRIBUTING guidelines and automated workflow processes.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">Contributions are automated. To contribute:</p>
@@ -130,13 +130,13 @@
 <li class="md-github">Label the issue as <code class="md-github">automated</code> to trigger our workflow.</li>
 <li class="md-github">Follow the guidelines detailed in <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</li>
 </ol>
-<p class="md-github">We welcome enhancements that align with our mission: to be the leading CLI plotting tool that seamlessly integrates mathematical precision and flexible output formats.</p>
+<p class="md-github">We welcome enhancements that align with our mission: to be the leading CLI plotting tool that seamlessly integrates mathematical precision with flexible output formats.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T08:39:42.531Z</p>
+    <p>Generated on 2025-03-09T08:47:38.342Z</p>
   </footer>
 </body>
 </html>
