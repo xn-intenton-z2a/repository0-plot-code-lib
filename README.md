@@ -92,9 +92,8 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Pruned legacy and extraneous code drift to focus on core plotting functionalities per CONTRIBUTING guidelines.
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
-- Introduced the CSV export mode (--export-csv) for sample data output.
-- Added Debug mode (--debug) to list available plotting functions for troubleshooting.
-- **Enhanced Test Coverage:** Improved mocking of external modules and expanded unit tests to ensure robust and reliable functionality.
+- Introduced the CSV export mode (--export-csv) and Debug mode (--debug) for enhanced user feedback and troubleshooting.
+- **Enhanced Test Coverage:** Updated tests and mocks to ensure robust and reliable functionality in both interactive and external module scenarios.
 
 ## Contributing
 

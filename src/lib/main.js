@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-// Refined code to fully align with updated CONTRIBUTING guidelines and enhanced test coverage.
+// Refined code to fully align with updated CONTRIBUTING guidelines, prune legacy drift, and extend test coverage.
 // 
 // Changelog:
 // - 2023-10: Pruned extraneous code drift and legacy implementations per mission statement.
 // - Refined CLI messaging, error handling, and interactive fallback per updated guidelines.
 // - Extended library with new plotting and helper functions as per CONTRIBUTING guidelines.
 // - 2023-10-Enhanced: Added --debug flag for detailed function listing for debugging purposes.
-// - 2023-10-Extended: Improved error handling and external module mocking to enhance test coverage.
+// - 2023-10-Extended: Improved error handling, ensured robust interactive fallback and external module mocking for enhanced test coverage.
 
 import { fileURLToPath } from "url";
 
