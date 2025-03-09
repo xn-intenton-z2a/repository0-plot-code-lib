@@ -8,9 +8,9 @@ repository0-plot-code-lib is a command-line tool designed for high-precision mat
 
 ## Features
 
-- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, and polynomial plots.
+- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial plots, and spiral plots.
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, and plain text (TXT) formats.
-- **Data Analysis & Transformations:** Includes derivative calculation, area approximation, data smoothing (moving average, exponential moving average), and statistical analysis (standard deviation, Pearson correlation).
+- **Data Analysis & Transformations:** Includes derivative calculation, area approximation, data smoothing (moving average, exponential moving average), numerical integration (trapezoidal rule), and statistical analysis (standard deviation, Pearson correlation).
 - **CLI Modes:** Offers demo, diagnostics, interactive, web server, and debug modes.
 - **New Enhancements:**
   - Modulated sine plotting
@@ -22,6 +22,8 @@ repository0-plot-code-lib is a command-line tool designed for high-precision mat
   - **Added exportPlotAsLaTeX:** Exports plot data in a LaTeX tabular format.
   - **Added exportPlotAsTXT:** Exports plot data in a plain text format for quick visualization.
   - **Added plotPolynomial:** Supports customizable polynomial plotting with user-defined coefficients. Use the CLI flag `--plot-poly` to demo this feature.
+  - **Added plotSpiral:** Generates points for an Archimedean spiral.
+  - **Added calculateDefiniteIntegral:** Approximates the integral of a function using the trapezoidal rule.
 
 ## Installation
 
@@ -132,6 +134,7 @@ Your contributions help us maintain the tool's high precision and alignment with
 - **2023-10:** **Added plotEllipse for generating ellipse coordinates and exportPlotAsLaTeX for LaTeX table export.**
 - **2023-10:** **Added exportPlotAsTXT for plain text table export.**
 - **2023-10:** **Added plotPolynomial function and the --plot-poly flag for customizable polynomial plotting.**
+- **2023-10:** **Added plotSpiral and calculateDefiniteIntegral for extended spiral plotting and numerical integration support.**
 - **2023-10:** Pruned code drift to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 - Streamlined code and enhanced test coverage to adhere to our high-quality standards.
 

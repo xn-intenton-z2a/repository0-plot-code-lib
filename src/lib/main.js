@@ -17,6 +17,7 @@
 // - 2023-10: Added new functions plotEllipse and exportPlotAsLaTeX to further extend plotting capabilities in line with our mission.
 // - 2023-10: Added new function exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
 // - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
+// - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend plotting and numerical integration capabilities.
 
 import { fileURLToPath } from "url";
 
@@ -61,7 +62,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse, plotPolynomial"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotSpiral, calculateDefiniteIntegral"
     );
     return;
   }
@@ -718,6 +719,31 @@ export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
     result.push({ x, y });
   }
   return result;
+}
+
+// New function: plotSpiral generates points for an Archimedean spiral given a center, an initial radius, and number of rotations.
+export function plotSpiral(centerX, centerY, initialRadius, rotations, steps = 100) {
+  const totalAngle = rotations * 2 * Math.PI;
+  const dTheta = totalAngle / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const theta = i * dTheta;
+    const r = initialRadius * (theta / totalAngle);
+    result.push({ theta, x: centerX + r * Math.cos(theta), y: centerY + r * Math.sin(theta) });
+  }
+  return result;
+}
+
+// New function: calculateDefiniteIntegral approximates the integral of a function using the trapezoidal rule
+export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  let total = 0;
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const weight = (i === 0 || i === steps) ? 0.5 : 1;
+    total += weight * fn(x);
+  }
+  return total * dx;
 }
 
 // Entry point
