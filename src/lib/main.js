@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This version has been updated to prune any drift and ensure that all messaging strictly reflects our mission statement and contributing guidelines.
+// This version has been updated to prune any drift, ensure all messaging reflects our mission statement and contributing guidelines, and indirectly support improved testability through clear module loading and error handling.
 // Changelog:
 // - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
 // - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
 // - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
-// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
+// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
 // - 2023-10: Added plotLissajous function with CLI flag --lissajous and enhanced plotBessel to use mathjs with a fallback for order 0.
-// - 2023-10: Pruned code drift to ensure all CLI messaging and functionalities strictly embody our mission.
+// - 2023-10: Test coverage improvements: ensured external module loaders provide clear error messaging for failed dynamic imports.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -98,49 +98,53 @@ export async function main(args) {
   // --interactive flag: prompt user input via readline
   if (args.includes("--interactive")) {
     const selfModule = await getSelf();
-    const rlModule = await selfModule.loadReadline();
-    const rl = rlModule.createInterface({
-      input: process.stdin,
-      output: process.stdout
-    });
+    try {
+      const rlModule = await selfModule.loadReadline();
+      const rl = rlModule.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
 
-    await new Promise((resolve) => {
-      let answered = false;
-      function handleAnswer(answer) {
-        if (!answered) {
-          answered = true;
-          console.log(`Received plot command: ${answer}`);
-          rl.close();
-          resolve();
-        }
-      }
-
-      if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
-        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
-        setImmediate(() => {
+      await new Promise((resolve) => {
+        let answered = false;
+        function handleAnswer(answer) {
           if (!answered) {
-            handleAnswer("simulated plot command");
-          }
-        });
-      } else {
-        const timeoutMs = 100;
-        const timeout = setTimeout(() => {
-          console.warn("Interactive mode fallback triggered after timeout");
-          rl.close();
-          resolve();
-        }, timeoutMs);
-        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", (answer) => {
-          clearTimeout(timeout);
-          try {
-            handleAnswer(answer);
-          } catch (err) {
-            console.error("Error processing input:", err);
+            answered = true;
+            console.log(`Received plot command: ${answer}`);
             rl.close();
             resolve();
           }
-        });
-      }
-    });
+        }
+
+        if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
+          rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
+          setImmediate(() => {
+            if (!answered) {
+              handleAnswer("simulated plot command");
+            }
+          });
+        } else {
+          const timeoutMs = 100;
+          const timeout = setTimeout(() => {
+            console.warn("Interactive mode fallback triggered after timeout");
+            rl.close();
+            resolve();
+          }, timeoutMs);
+          rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", (answer) => {
+            clearTimeout(timeout);
+            try {
+              handleAnswer(answer);
+            } catch (err) {
+              console.error("Error processing input:", err);
+              rl.close();
+              resolve();
+            }
+          });
+        }
+      });
+    } catch (err) {
+      console.error("Error loading readline module:", err);
+    }
     return;
   }
 
