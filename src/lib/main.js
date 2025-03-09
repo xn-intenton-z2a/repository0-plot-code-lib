@@ -3,11 +3,10 @@
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
 //
 // Changelog:
-// - Refined implementation to strictly adhere to our mission statement.
-// - Updated CLI messages, error handling, and formatting as per contributing guidelines.
-// - Extended functionality: Added plotAbsolute, generateRange, and disabled x-powered-by header in Express.
-// - Enhanced interactive fallback mechanism and improved error handling for external module loading.
-// - Updated documentation and changelog to reflect accurate contributions per CONTRIBUTING.md.
+// - Realigned CLI messages and functionalities with our mission statement.
+// - Pruned redundant code to eliminate drift per CONTRIBUTING guidelines.
+// - Introduced new helper functions and enhanced error management in interactive mode.
+// - Updated documentation and changelog to reflect contributions per CONTRIBUTING.md.
 
 import { fileURLToPath } from "url";
 
@@ -38,7 +37,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
     );
     return;
   }

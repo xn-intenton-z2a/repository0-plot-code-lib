@@ -2,13 +2,13 @@
 
 **A versatile plotting tool for mathematical formula visualizations**
 
-> _Be a go-to plot library with a CLI, be the jq of formula visualizations._
+> _Be a go-to plot library with a CLI, be the jq of formulae visualisations._
 
 ---
 
 ## Overview
 
-This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. It supports core plotting functions as well as advanced analysis methods including derivative calculations and numerical area computation. The implementation is aligned with our mission statement and adheres to our contributing guidelines.
+This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. It supports core plotting functions as well as advanced analysis methods including derivative calculations and numerical area computation. The implementation is realigned with our mission statement and pruned of redundant drift following our contributing guidelines.
 
 ## Features
 
@@ -82,10 +82,11 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Updated documentation and README to align with the latest CONTRIBUTING guidelines.
-- Extended library functions with new features: plotSqrt, plotPolar, plotAbsolute, and generateRange.
-- Enhanced CLI functionality with additional flags, improved timeout fallback in interactive mode, and better error handling.
-- Improved test coverage and refined contribution process per CONTRIBUTING.md (Version 0.7.10).
+- Realigned CLI messages and functionalities with our mission statement.
+- Pruned redundant code to eliminate drift as per CONTRIBUTING.md guidelines.
+- Extended library with new features: plotSqrt, plotPolar, plotAbsolute, and generateRange.
+- Enhanced error handling and interactive mode fallback.
+- Updated test coverage and documentation to reflect refined implementation.
 
 ## Contributing
 
