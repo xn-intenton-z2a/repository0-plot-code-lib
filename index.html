@@ -29,22 +29,14 @@
 </blockquote>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. It supports both core plotting functions and advanced analysis methods such as derivative calculations and numerical area computation. The implementation is aligned with our mission statement and adheres to our contributing guidelines.</p>
+<p class="md-github">This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. It supports core plotting functions as well as advanced analysis methods including derivative calculations and numerical area computation. The implementation is aligned with our mission statement and adheres to our contributing guidelines.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Plot Types:</strong></p>
 <ul class="md-github">
-<li class="md-github">Quadratic</li>
-<li class="md-github">Linear</li>
-<li class="md-github">Sine</li>
-<li class="md-github">Cosine</li>
-<li class="md-github">Tangent</li>
-<li class="md-github">Exponential</li>
-<li class="md-github">Logarithmic</li>
-<li class="md-github">Square Root</li>
-<li class="md-github">Polar</li>
-<li class="md-github">Absolute (new)</li>
+<li class="md-github">Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, Polar</li>
+<li class="md-github">Absolute plotting (new)</li>
 <li class="md-github">Moving Average for data smoothing</li>
 <li class="md-github">Point transformations: Rotation, Reflection, Scaling</li>
 <li class="md-github">Custom Range Generation (new helper)</li>
@@ -57,83 +49,75 @@
 <li class="md-github">Diagnostics mode (<code class="md-github">--diagnostics</code>): Outputs Node.js diagnostic information.</li>
 <li class="md-github">Interactive mode (<code class="md-github">--interactive</code>): Prompts for user input with a timeout fallback.</li>
 <li class="md-github">Web server mode (<code class="md-github">--serve</code>): Starts an Express-based interactive plotting web interface.</li>
-<li class="md-github">Absolute Plot demo mode (<code class="md-github">--plot-abs</code>): Demonstrates absolute function plotting (using Math.sin).</li>
+<li class="md-github">Absolute Plot demo mode (<code class="md-github">--plot-abs</code>): Demos absolute value plotting.</li>
 </ul>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Advanced Analysis:</strong></p>
 <ul class="md-github">
-<li class="md-github">Numerical area under curve (Trapezoidal Rule)</li>
-<li class="md-github">Derivative calculation (Finite Differences)</li>
+<li class="md-github">Numerical area under the curve (Trapezoidal Rule)</li>
+<li class="md-github">Finite differences derivative calculation</li>
 </ul>
 </li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p class="md-github">Requires Node.js (v20 or higher):</p>
+<p class="md-github">Ensure you have Node.js (v20 or higher) installed.</p>
 <pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-quickstart" href="#cli-quickstart"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Quickstart</h3>
-<p class="md-github">Generate a simple quadratic plot as SVG:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;quad:1,0,0,-10,10,1&quot;
+<p class="md-github">Run the CLI demo:</p>
+<pre class="md-github"><code class="md-github language-bash">npm run start
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="enhanced-cli-features" href="#enhanced-cli-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced CLI Features</h3>
+<p class="md-github">For specific functions, use the following flags:</p>
 <ul class="md-github">
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Diagnostics Mode:</strong></p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --diagnostics
+<pre class="md-github"><code class="md-github language-bash">npm run diagnostics
 </code></pre>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
 </code></pre>
-<p class="md-github">The CLI will prompt for a plot command. In non-interactive environments, a timeout fallback is triggered.</p>
+<p class="md-github">The CLI will prompt for a plot command. In non-interactive environments, a fallback timeout is triggered.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Web Interface Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
 </code></pre>
-<p class="md-github">Starts an Express-based web interface. The server disables the x-powered-by header for security.</p>
+<p class="md-github">Starts an Express-based interactive plotting interface with security headers disabled.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Absolute Plot Demo Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --plot-abs
 </code></pre>
-<p class="md-github">Demonstrates plotting the absolute value of a function.</p>
 </li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="default-demo" href="#default-demo"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default Demo</h3>
-<p class="md-github">If no arguments are provided, the CLI displays a demo message:</p>
+<p class="md-github">Running with no arguments displays a demo message:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog-highlights" href="#changelog-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog Highlights</h2>
 <ul class="md-github">
-<li class="md-github">Refreshed README and changelog to align with the latest contributing guidelines.</li>
-<li class="md-github">Pruned drift from previous implementations in favor of a focused, mission-aligned approach.</li>
+<li class="md-github">Updated documentation and README to align with the latest CONTRIBUTING guidelines.</li>
 <li class="md-github">Extended library functions with new features: plotSqrt, plotPolar, plotAbsolute, and generateRange.</li>
-<li class="md-github">Enhanced CLI functionality with additional flags, improved interactive fallback mechanism, and better error handling.</li>
-<li class="md-github">Improved test coverage and contribution process as per CONTRIBUTING.md. (Version bumped to 0.7.10)</li>
+<li class="md-github">Enhanced CLI functionality with additional flags, improved timeout fallback in interactive mode, and better error handling.</li>
+<li class="md-github">Improved test coverage and refined contribution process per CONTRIBUTING.md (Version 0.7.10).</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p class="md-github">Contributions are automated. To contribute:</p>
+<p class="md-github">Contributions are automated. Please follow these steps:</p>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Open an Issue:</strong> Describe your idea, report a bug, or suggest an improvement.</p>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Label It as <code class="md-github">automated</code>:</strong> This label will trigger our automated workflows.</p>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Review CONTRIBUTING.md:</strong> Our <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> contains detailed guidelines.</p>
-</li>
+<li class="md-github"><strong class="md-github">Open an Issue:</strong> Describe your idea, report a bug, or suggest an improvement.</li>
+<li class="md-github"><strong class="md-github">Label It as <code class="md-github">automated</code>:</strong> This triggers our automated workflows.</li>
+<li class="md-github"><strong class="md-github">Review CONTRIBUTING.md:</strong> Refer to <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for detailed guidelines.</li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T04:49:19.079Z</p>
+    <p>Generated on 2025-03-09T04:57:27.472Z</p>
   </footer>
 </body>
 </html>
