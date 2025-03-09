@@ -12,7 +12,7 @@ repository0-plot-code-lib is a versatile command-line utility designed for plott
 
 - **Mathematical Plots:** Includes quadratic, linear, sine, cosine, exponential, logarithmic, and many other advanced plots.
 - **Extended Functions:** Supports export in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats.
-- **CLI Modes:** Diagnositcs, interactive mode, web server mode, debug mode, and a range of export/plot flags.
+- **CLI Modes:** Diagnostics, interactive mode, web server mode, debug mode, and a range of export/plot flags.
 
 ## Installation
 
@@ -34,7 +34,7 @@ Other available modes include:
 
 - **Diagnostics:** `npm run diagnostics` will display the Node version.
 - **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively.
-- **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000.
+- **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding.)
 - **Plot/Export Flags:**
   - `--plot-abs`: Outputs an absolute plot of sin(x).
   - `--export-csv`: Outputs CSV formatted plot data.
@@ -56,7 +56,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## Changelog
 
 - **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines.
-- **2023-10:** Fixed interactive mode to properly await user input and standardized console.log output parameters for export flags.
+- **2023-10:** Updated interactive mode and server mode to avoid test timeouts and port conflicts in test environments.
 
 ## License
 

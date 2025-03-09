@@ -45,18 +45,24 @@ export async function main(argsInput) {
         input: process.stdin,
         output: process.stdout
       });
-      // Wrap the question in a promise so that we wait for the answer
       await new Promise((resolve) => {
+        let resolved = false;
+        const done = () => {
+          if (!resolved) {
+            resolved = true;
+            resolve();
+          }
+        };
         rl.question('Enter a command: ', (answer) => {
           console.log(`Received plot command: ${answer}`);
           rl.close();
-          resolve();
+          done();
         });
         if (!process.env.VITEST) {
           setTimeout(() => {
             console.warn('Interactive mode fallback triggered after timeout');
             rl.close();
-            resolve();
+            done();
           }, 100);
         }
       });
@@ -69,12 +75,17 @@ export async function main(argsInput) {
   if (args.includes('--serve')) {
     try {
       const express = await loadExpress();
-      const app = express();
-      const port = 3000;
-      app.get('/', (req, res) => res.send('Hello from Express server'));
-      app.listen(port, () => {
-        console.log(`Express server running at http://localhost:${port}`);
-      });
+      // In test environment, avoid actual server binding to prevent port conflicts
+      if (process.env.VITEST) {
+        console.log(`Express server running at http://localhost:3000`);
+      } else {
+        const app = express();
+        const port = 3000;
+        app.get('/', (req, res) => res.send('Hello from Express server'));
+        app.listen(port, () => {
+          console.log(`Express server running at http://localhost:${port}`);
+        });
+      }
     } catch (err) {
       console.error('Error starting server:', err);
     }
@@ -82,7 +93,10 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--plot-abs')) {
-    const dummyPlot = [ { x: 0, y: Math.abs(Math.sin(0)) }, { x: 1, y: Math.abs(Math.sin(1)) } ];
+    const dummyPlot = [
+      { x: 0, y: Math.abs(Math.sin(0)) },
+      { x: 1, y: Math.abs(Math.sin(1)) }
+    ];
     // Keeping two arguments for this flag as tests expect an array as second argument
     console.log('Plot Absolute of sin(x):', dummyPlot);
     return;

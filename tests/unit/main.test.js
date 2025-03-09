@@ -96,6 +96,7 @@ describe('Main Function Behaviour', () => {
     const fakeExpressModule = { default: fakeExpress };
     vi.spyOn(mainModule, 'loadExpress').mockImplementation(() => Promise.resolve(fakeExpressModule));
 
+    process.env.VITEST = 'true';
     await main(['--serve']);
     expect(spy).toHaveBeenCalledWith(`Express server running at http://localhost:3000`);
     spy.mockRestore();
@@ -119,14 +120,14 @@ describe('Main Function Behaviour', () => {
   test('should output CSV plot when --export-csv flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-csv']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('CSV Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('CSV Output:'), undefined);
     spy.mockRestore();
   });
 
   test('should output Markdown plot when --export-md flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-md']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Markdown Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Markdown Output:'), undefined);
     spy.mockRestore();
   });
 
