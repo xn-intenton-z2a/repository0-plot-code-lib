@@ -17,6 +17,7 @@ repository0-plot-code-lib is a command-line tool designed for high-precision mat
   - Logarithm with arbitrary base calculation
   - Bar chart visualization
   - Parametric plotting for visualizing complex equations
+  - **Added plotCosine**: Real implementation for cosine plotting now available.
 
 ## Installation
 
@@ -111,6 +112,7 @@ Your contributions help us maintain the tool's high precision and alignment with
 - **2023-10:** Refined CLI messaging and error handling per mission statement and updated CONTRIBUTING guidelines.
 - **2023-10:** Added new export modes (Markdown, JSON, HTML, ASCII, SVG, XML), scatter plot, bar chart, and parametric plotting.
 - **2023-10:** Introduced functions for modulated sine and logarithm with arbitrary base calculations.
+- **2023-10:** **Added plotCosine implementation for cosine plotting.**
 - Streamlined code and enhanced test coverage to adhere to our high-quality standards.
 
 ## License
