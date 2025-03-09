@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines, with extended library functions.
 
 import { fileURLToPath } from "url";
@@ -30,10 +30,12 @@ async function getSelf() {
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
-  // No arguments: show demo output aligned with our mission statement.
+  // No arguments: show demo output aligned with our mission statement and contributing guidelines.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
+      "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola or provide plot parameters.\n" +
+      "For contribution guidelines, please refer to CONTRIBUTING.md."
     );
     return;
   }
@@ -426,10 +428,7 @@ export function reflectPoints(points, axis = "y") {
 }
 
 export function scalePoints(points, factor) {
-  return points.map(({ x, y }) => ({
-    x: x * factor,
-    y: y * factor
-  }));
+  return points.map(({ x, y }) => ({ x: x * factor, y: y * factor }));
 }
 
 export function plotSqrt(xMin, xMax, steps = 100) {
