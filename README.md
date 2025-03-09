@@ -8,7 +8,7 @@
 
 ## Overview
 
-This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with advanced analytical features. It supports multiple output formats including SVG, JSON, CSV, Markdown, ASCII, and HTML. The design and implementations strictly adhere to our mission statement and the contributing guidelines.
+This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with advanced analytical features. It supports multiple output formats including SVG, JSON, CSV, Markdown, ASCII, and HTML. The design and implementation strictly adhere to our mission statement and the contributing guidelines.
 
 ## Features
 
@@ -20,7 +20,8 @@ This library provides a command-line interface (CLI) tool for plotting a range o
   - Tangent
   - Exponential
   - Logarithmic
-  - Square Root (new)
+  - Square Root
+  - Polar (new)
   - Moving Average for smoothing data
   - Point Transformations: Rotation, Reflection, Scaling
 
@@ -83,8 +84,8 @@ node src/lib/main.js
 ## Changelog Highlights
 
 - Refreshed documentation to align with the CONTRIBUTING guidelines and mission statement.
-- Updated the CLI demo and error handling descriptions for clarity.
-- Extended library functions with additional plotting and transformation capabilities, including a new plotSqrt function for square root plots.
+- Extended library functions with additional plotting and transformation capabilities including a new plotSqrt and plotPolar function for square root and polar plots respectively.
+- Updated CLI demo and error handling for clarity.
 
 ## Contributing
 

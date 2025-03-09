@@ -16,7 +16,8 @@ const {
   plotTangent,
   reflectPoints,
   scalePoints,
-  plotSqrt
+  plotSqrt,
+  plotPolar
 } = mainModule;
 
 describe("Main Function Behaviour", () => {
@@ -172,7 +173,6 @@ describe("Additional helper functions", () => {
   test("plotTangent returns values with discontinuities handled", () => {
     const points = plotTangent(1, 1, 0, -Math.PI/4, Math.PI/4, 5);
     expect(points.length).toBe(6);
-    // At zero angle, tangent should be 0
     const mid = points[Math.floor(points.length/2)];
     expect(mid.y).toBeCloseTo(0, 5);
   });
@@ -193,8 +193,17 @@ describe("Additional helper functions", () => {
     const points = plotSqrt(0, 16, 4);
     expect(points.length).toBe(5);
     expect(points[0]).toEqual({ x: 0, y: 0 });
-    // Check midpoint approximate value for x=8
     expect(points[2].y).toBeCloseTo(Math.sqrt(8), 5);
     expect(points[4]).toEqual({ x: 16, y: 4 });
+  });
+  
+  test("plotPolar returns correct polar coordinate values", () => {
+    const radiusFn = theta => Math.cos(theta);
+    const points = plotPolar(radiusFn, 0, Math.PI, 4);
+    expect(points.length).toBe(5);
+    expect(points[0]).toEqual({ theta: 0, r: 1 });
+    // Test mid value manually
+    const midTheta = points[2].theta;
+    expect(points[2].r).toBeCloseTo(Math.cos(midTheta), 5);
   });
 });

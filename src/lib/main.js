@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// repository0-plot-code-lib: CLI for mathematical plotting as per our mission statement.
-// Extended library functions, fixed Express server init issue and ensured async handling per contributing guidelines.
+// repository0-plot-code-lib: CLI for mathematical plotting in line with our mission statement.
+// Extended library functions including polar plotting, fixed Express server init issue and ensured async handling per contributing guidelines.
 
 import { fileURLToPath } from "url";
 
@@ -170,8 +170,6 @@ export function rotatePoints(points, angle) {
   }));
 }
 
-// New library functions added in line with our mission statement and contributing guidelines
-
 export function plotExponential(a, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -214,7 +212,6 @@ export function movingAverage(data, windowSize) {
   return result;
 }
 
-// Extended functions in the spirit of our mission statement
 export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -266,6 +263,18 @@ export function plotSqrt(xMin, xMax, steps = 100) {
   for (let i = 0; i <= steps; i++) {
     const x = xMin + i * dx;
     result.push({ x, y: x < 0 ? null : Math.sqrt(x) });
+  }
+  return result;
+}
+
+// New feature: plotPolar to plot functions in polar coordinates. Pass a radius function that takes theta as input.
+export function plotPolar(radiusFn, thetaMin, thetaMax, steps = 100) {
+  const dTheta = (thetaMax - thetaMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const theta = thetaMin + i * dTheta;
+    const r = radiusFn(theta);
+    result.push({ theta, r });
   }
   return result;
 }
