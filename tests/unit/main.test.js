@@ -32,6 +32,8 @@ const {
   exportPlotAsCSV
 } = mainModule;
 
+// Main Function Behaviour Tests
+
 describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
     const spy = vi.spyOn(console, "log");
@@ -152,6 +154,8 @@ describe("Main Function Behaviour", () => {
   });
 });
 
+// Debug flag behaviour
+
 describe("Debug flag behaviour", () => {
   test("should output debug message when --debug flag is provided", () => {
     const spy = vi.spyOn(console, "log");
@@ -160,6 +164,8 @@ describe("Debug flag behaviour", () => {
     spy.mockRestore();
   });
 });
+
+// Additional helper functions tests
 
 describe("Additional helper functions", () => {
   test("plotQuadratic returns correct number of points and values", () => {
@@ -340,6 +346,11 @@ describe("Additional helper functions", () => {
     const ema = calculateExponentialMovingAverage(data, 0.5);
     expect(ema.length).toBe(5);
     expect(ema[0]).toEqual(1);
+  });
+
+  test("calculateExponentialMovingAverage returns empty array for empty data", () => {
+    const ema = calculateExponentialMovingAverage([]);
+    expect(ema).toEqual([]);
   });
 
   test("plotGaussian returns correct gaussian curve values", () => {

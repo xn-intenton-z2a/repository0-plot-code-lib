@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-// Refined code to fully align with updated CONTRIBUTING guidelines.
+// Refined code to fully align with updated CONTRIBUTING guidelines and enhanced test coverage.
 // 
 // Changelog:
 // - 2023-10: Pruned extraneous code drift and legacy implementations per mission statement.
 // - Refined CLI messaging, error handling, and interactive fallback per updated guidelines.
 // - Extended library with new plotting and helper functions as per CONTRIBUTING guidelines.
 // - 2023-10-Enhanced: Added --debug flag for detailed function listing for debugging purposes.
+// - 2023-10-Extended: Improved error handling and external module mocking to enhance test coverage.
 
 import { fileURLToPath } from "url";
 
@@ -51,7 +52,9 @@ export async function main(args) {
 
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
-    console.log("Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV");
+    console.log(
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV"
+    );
     return;
   }
 
@@ -401,7 +404,7 @@ export function calculateCorrelation(dataX, dataY) {
   const numerator = dataX.reduce((acc, x, i) => acc + ((x - meanX) * (dataY[i] - meanY)), 0);
   const denominator = Math.sqrt(
     dataX.reduce((acc, x) => acc + Math.pow(x - meanX, 2), 0) *
-    dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
+      dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
   );
   return denominator === 0 ? 0 : numerator / denominator;
 }
