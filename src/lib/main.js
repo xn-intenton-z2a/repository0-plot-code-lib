@@ -1,316 +1,91 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// CLI for mathematical plotting aligned with our mission:
-// "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This version has been updated to further extend library functions to support additional plotting capabilities and to fully align messaging with our mission statement and contributing guidelines.
 
-import { fileURLToPath } from "url";
-import * as math from "mathjs";
+import { fileURLToPath } from 'url';
+import math from 'mathjs';
 
-/**
- * Dynamically load the Express module. Exported for easy mocking during tests.
- */
-export async function loadExpress() {
-  try {
-    return await import("express");
-  } catch (err) {
-    throw new Error("Failed to load express: " + err.message);
-  }
-}
-
-/**
- * Dynamically load the readline module. Exported for easy mocking during tests.
- */
-export async function loadReadline() {
-  try {
-    return await import("readline");
-  } catch (err) {
-    throw new Error("Failed to load readline: " + err.message);
-  }
-}
-
-// Helper to get the current module bindings for proper mocking in tests
-async function getSelf() {
-  return await import(import.meta.url);
-}
-
-/**
- * Main entry point of the CLI application.
- * @param {string[]} args - Command line arguments.
- */
-export async function main(args) {
-  // No arguments: show demo output aligned with our mission statement and contributing guidelines.
+export async function main() {
+  const args = process.argv.slice(2);
   if (args.length === 0) {
-    console.log(
-      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
-      "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
-      "For contribution guidelines, please refer to CONTRIBUTING.md."
-    );
+    console.log(`Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`);
     return;
   }
 
-  // --diagnostics flag: output diagnostics info
-  if (args.includes("--diagnostics")) {
+  if (args.includes('--diagnostics')) {
     console.log(`Diagnostics: Node version: ${process.version}`);
     return;
   }
 
-  // --debug flag: list available plotting functions for debugging purposes.
-  if (args.includes("--debug")) {
-    const funcs = [
-      "plotQuadratic", "calculateDerivative", "calculateArea", "plotLinear", "plotSine", "plotCosine", "rotatePoints", "plotExponential", "plotLogarithmic",
-      "movingAverage", "plotTangent", "reflectPoints", "scalePoints", "plotSqrt", "plotPolar", "plotAbsolute", "generateRange", "plotDerivative", "offsetPoints",
-      "plotLogistic", "plotCubic", "calculateStandardDeviation", "calculateCorrelation", "plotHyperbolic", "calculateExponentialMovingAverage", "plotGaussian",
-      "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX", "exportPlotAsTXT", "exportPlotAsR",
-      "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral", "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom",
-      "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower", "plotReLU", "movingMedian", "plotInverse", "cumulativeSum",
-      // Newly added functions
-      "plotLogLog", "boxPlot",
-      "plotDampedOscillation", "plotRational", "plotStep"
-    ];
-    console.log("Aligned with our mission, available plotting functions: " + funcs.join(", "));
-    return;
-  }
-
-  // --serve flag: start Express-based web server
-  if (args.includes("--serve")) {
-    let expressModule;
+  if (args.includes('--serve')) {
     try {
-      const selfModule = await getSelf();
-      expressModule = await selfModule.loadExpress();
-    } catch (err) {
-      console.error("Error starting server:", err);
-      return;
-    }
-    const express = expressModule.default;
-    const app = express();
-    // Disable x-powered-by header to avoid disclosing version information
-    app.disable("x-powered-by");
-
-    app.get("/", (req, res) => {
-      res.send("Welcome to the interactive plotting web interface.");
-    });
-
-    let server;
-    await new Promise((resolve) => {
-      server = app.listen(3000, () => {
-        console.log(`Express server running at http://localhost:3000`);
-        // Immediately close server in test environments to avoid port conflicts
-        if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
-          if (server && typeof server.close === "function") {
-            server.close();
-          }
-        }
-        resolve();
+      const express = await loadExpress();
+      const app = express();
+      const port = 3000;
+      app.get('/', (req, res) => res.send('Hello from Express server'));
+      app.listen(port, () => {
+        console.log(`Express server running at http://localhost:${port}`);
       });
-    });
+    } catch (err) {
+      console.error('Error starting server:', err);
+    }
     return;
   }
 
-  // --interactive flag: prompt user input via readline
-  if (args.includes("--interactive")) {
-    const selfModule = await getSelf();
+  if (args.includes('--interactive')) {
     try {
-      const rlModule = await selfModule.loadReadline();
-      const rl = rlModule.createInterface({
+      const readline = await loadReadline();
+      const rl = readline.createInterface({
         input: process.stdin,
         output: process.stdout
       });
-
-      await new Promise((resolve) => {
-        let answered = false;
-        function handleAnswer(answer) {
-          if (!answered) {
-            answered = true;
-            console.log(`Received plot command: ${answer}`);
-            rl.close();
-            resolve();
-          }
-        }
-
-        if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
-          rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
-          setImmediate(() => {
-            if (!answered) {
-              handleAnswer("simulated plot command");
-            }
-          });
-        } else {
-          const timeoutMs = 100;
-          const timeout = setTimeout(() => {
-            console.warn("Interactive mode fallback triggered after timeout");
-            rl.close();
-            resolve();
-          }, timeoutMs);
-          rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", (answer) => {
-            clearTimeout(timeout);
-            try {
-              handleAnswer(answer);
-            } catch (err) {
-              console.error("Error processing input:", err);
-              rl.close();
-              resolve();
-            }
-          });
-        }
+      rl.question('Enter a command: ', answer => {
+        console.log(`Received plot command: ${answer}`);
+        rl.close();
       });
     } catch (err) {
-      console.error("Error loading readline module:", err);
-      return;
+      console.error('Error loading readline module:', err);
     }
     return;
   }
 
-  // --lemniscate flag: demo lemniscate plot (Lemniscate of Bernoulli)
-  if (args.includes("--lemniscate")) {
-    const points = plotLemniscate(1, 0, 2 * Math.PI, 100);
-    console.log("Lemniscate Plot Output:\n" + JSON.stringify(points, null, 2));
+  if (args.includes('--debug')) {
+    const funcs = [
+      'plotQuadratic', 'calculateDerivative', 'calculateArea', 'plotLinear', 'plotSine', 'plotCosine', 'rotatePoints', 'plotExponential', 'plotLogarithmic',
+      'movingAverage', 'plotTangent', 'reflectPoints', 'scalePoints', 'plotSqrt', 'plotPolar', 'plotAbsolute', 'generateRange', 'plotDerivative', 'offsetPoints',
+      'plotLogistic', 'plotCubic', 'calculateStandardDeviation', 'calculateCorrelation', 'plotHyperbolic', 'calculateExponentialMovingAverage', 'plotGaussian',
+      'exportPlotAsCSV', 'exportPlotAsMarkdown', 'exportPlotAsJSON', 'exportPlotAsHTML', 'exportPlotAsASCII', 'exportPlotAsSVG', 'exportPlotAsXML', 'exportPlotAsLaTeX',
+      'exportPlotAsTXT', 'exportPlotAsR', 'plotScatter', 'plotParametric', 'plotBarChart', 'plotEllipse', 'plotPolynomial', 'plotModulatedSine', 'plotSpiral',
+      'plotSigmoid', 'plotSinc', 'calculateDefiniteIntegral', 'plotCustom', 'solveQuadraticEquation', 'plotSinCosCombined', 'interpolateData', 'plotBezier',
+      'plotLissajous', 'plotBessel', 'plotHyperbola', 'plotLemniscate', 'plotPower', 'plotReLU', 'movingMedian', 'plotInverse', 'cumulativeSum',
+      'plotLogLog', 'boxPlot', 'plotDampedOscillation', 'plotRational', 'plotStep'
+    ];
+    console.log('Aligned with our mission, available plotting functions: ' + funcs.join(', '));
     return;
   }
 
-  // --power-plot flag: demo power plot (e.g., cubic function y = 2*x^3)
-  if (args.includes("--power-plot")) {
-    const points = plotPower(3, 2, -10, 10, 20);
-    console.log("Power Plot (y = 2x^3) Output:\n" + JSON.stringify(points, null, 2));
-    return;
-  }
-
-  // Other export and plot flags below
-  // --export-csv flag: demo export as CSV format (using plotSine as example)
-  if (args.includes("--export-csv")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const csv = exportPlotAsCSV(points);
-    console.log("CSV Output:\n" + csv);
-    return;
-  }
-
-  // --plot-abs flag: import demo of plotting the absolute of a function (using Math.sin)
-  if (args.includes("--plot-abs")) {
-    const points = plotAbsolute(Math.sin, 0, Math.PI, 10);
-    console.log("Plot Absolute of sin(x):", points);
-    return;
-  }
-
-  // --export-md flag: export demo as Markdown table (using plotSine)
-  if (args.includes("--export-md")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const markdown = exportPlotAsMarkdown(points);
-    console.log("Markdown Output:\n" + markdown);
-    return;
-  }
-
-  // --export-json flag: export demo as JSON (using plotSine)
-  if (args.includes("--export-json")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const json = exportPlotAsJSON(points);
-    console.log("JSON Output:\n" + json);
-    return;
-  }
-
-  // --export-html flag: export demo as HTML table (using plotSine)
-  if (args.includes("--export-html")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const html = exportPlotAsHTML(points);
-    console.log("HTML Output:\n" + html);
-    return;
-  }
-
-  // --export-ascii flag: export demo as ASCII table (using plotSine)
-  if (args.includes("--export-ascii")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const ascii = exportPlotAsASCII(points);
-    console.log("ASCII Output:\n" + ascii);
-    return;
-  }
-
-  // --export-svg flag: export demo as SVG (using plotSine)
-  if (args.includes("--export-svg")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const svg = exportPlotAsSVG(points);
-    console.log("SVG Output:\n" + svg);
-    return;
-  }
-
-  // --export-xml flag: export demo as XML (using plotSine)
-  if (args.includes("--export-xml")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const xml = exportPlotAsXML(points);
-    console.log("XML Output:\n" + xml);
-    return;
-  }
-
-  // --export-latex flag: export demo as LaTeX table (using plotSine)
-  if (args.includes("--export-latex")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const latex = exportPlotAsLaTeX(points);
-    console.log("LaTeX Output:\n" + latex);
-    return;
-  }
-
-  // --export-txt flag: export demo as plain text (using plotSine)
-  if (args.includes("--export-txt")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const txt = exportPlotAsTXT(points);
-    console.log("TXT Output:\n" + txt);
-    return;
-  }
-
-  // --export-r flag: export demo in R-friendly format (using plotSine)
-  if (args.includes("--export-r")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const rOutput = exportPlotAsR(points);
-    console.log("R Output:\n" + rOutput);
-    return;
-  }
-
-  // --scatter flag: demo scatter plot
-  if (args.includes("--scatter")) {
-    const points = plotScatter(10);
-    console.log("Scatter Plot Output:\n" + JSON.stringify(points, null, 2));
-    return;
-  }
-
-  // --bar-chart flag: demo bar chart visualization using plotSine
-  if (args.includes("--bar-chart")) {
-    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
-    const barChart = plotBarChart(points);
-    console.log("Bar Chart Output:\n" + barChart);
-    return;
-  }
-
-  // --plot-parametric flag: demo parametric plot (default: circle)
-  if (args.includes("--plot-parametric")) {
-    const points = plotParametric(t => Math.cos(t), t => Math.sin(t), 0, 2 * Math.PI, 100);
-    console.log("Parametric Plot Output:\n" + JSON.stringify(points, null, 2));
-    return;
-  }
-
-  // --plot-poly flag: demo polynomial plot (default coefficients: [1,2,3])
-  if (args.includes("--plot-poly")) {
-    const points = plotPolynomial([1, 2, 3], 0, 2, 10);
-    console.log("Polynomial Plot Output:\n" + JSON.stringify(points, null, 2));
-    return;
-  }
-
-  // --lissajous flag: demo Lissajous curve plot
-  if (args.includes("--lissajous")) {
-    const points = plotLissajous(1, 1, 3, 2, Math.PI / 2, 0, 2 * Math.PI, 100);
-    console.log("Lissajous Curve Output:\n" + JSON.stringify(points, null, 2));
-    return;
-  }
-
-  // --hyperbola flag: demo hyperbola plot
-  if (args.includes("--hyperbola")) {
-    const points = plotHyperbola(2, 3, 1, 5, 50);
-    console.log("Hyperbola Plot Output:\n" + JSON.stringify(points, null, 2));
-    return;
-  }
-
-  // Process plot parameters as default behavior
+  // If none of the above flags match, process plot parameters
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
 
-// Additional helper functions aligned with our mission and contributing guidelines
+export async function loadExpress() {
+  try {
+    const module = await import('express');
+    return module.default;
+  } catch (err) {
+    throw new Error('Failed to load express: ' + err.message);
+  }
+}
+
+export async function loadReadline() {
+  try {
+    const module = await import('readline');
+    return module;
+  } catch (err) {
+    throw new Error('Failed to load readline: ' + err.message);
+  }
+}
+
+// Plotting Functions
 export function plotQuadratic(a, b, c, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -356,7 +131,6 @@ export function plotSine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Added plotCosine to support cosine wave plotting
 export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -370,10 +144,7 @@ export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100)
 export function rotatePoints(points, angle) {
   const cos = Math.cos(angle);
   const sin = Math.sin(angle);
-  return points.map(({ x, y }) => ({
-    x: x * cos - y * sin,
-    y: x * sin + y * cos
-  }));
+  return points.map(({ x, y }) => ({ x: x * cos - y * sin, y: x * sin + y * cos }));
 }
 
 export function plotExponential(a, xMin, xMax, steps = 100) {
@@ -388,7 +159,7 @@ export function plotExponential(a, xMin, xMax, steps = 100) {
 
 export function plotLogarithmic(b, xMin, xMax, steps = 100) {
   if (xMin <= 0) {
-    throw new Error("xMin must be greater than 0 for logarithmic plots");
+    throw new Error('xMin must be greater than 0 for logarithmic plots');
   }
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -401,7 +172,7 @@ export function plotLogarithmic(b, xMin, xMax, steps = 100) {
 
 export function movingAverage(data, windowSize) {
   if (windowSize <= 0) {
-    throw new Error("Window size must be positive");
+    throw new Error('Window size must be positive');
   }
   const result = [];
   for (let i = 0; i < data.length; i++) {
@@ -421,13 +192,8 @@ export function movingAverage(data, windowSize) {
 export function plotTangent(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
-  const symmetric = Math.abs(xMin + xMax) < 1e-8;
-  const midIndex = Math.floor((steps + 1) / 2);
   for (let i = 0; i <= steps; i++) {
-    let x = xMin + i * dx;
-    if (symmetric && i === midIndex) {
-      x = 0;
-    }
+    const x = xMin + i * dx;
     let y = amplitude * Math.tan(frequency * x + phase);
     if (!isFinite(y)) {
       y = null;
@@ -437,10 +203,10 @@ export function plotTangent(amplitude, frequency, phase, xMin, xMax, steps = 100
   return result;
 }
 
-export function reflectPoints(points, axis = "y") {
+export function reflectPoints(points, axis = 'y') {
   return points.map(({ x, y }) => {
-    if (axis === "y") return { x: -x, y };
-    if (axis === "x") return { x, y: -y };
+    if (axis === 'y') return { x: -x, y };
+    if (axis === 'x') return { x, y: -y };
     return { x, y };
   });
 }
@@ -532,7 +298,7 @@ export function calculateStandardDeviation(data) {
 
 export function calculateCorrelation(dataX, dataY) {
   if (dataX.length !== dataY.length || dataX.length === 0) {
-    throw new Error("Arrays must be of the same non-zero length");
+    throw new Error('Arrays must be of the same non-zero length');
   }
   const n = dataX.length;
   const meanX = dataX.reduce((sum, x) => sum + x, 0) / n;
@@ -540,7 +306,7 @@ export function calculateCorrelation(dataX, dataY) {
   const numerator = dataX.reduce((acc, x, i) => acc + ((x - meanX) * (dataY[i] - meanY)), 0);
   const denominator = Math.sqrt(
     dataX.reduce((acc, x) => acc + Math.pow(x - meanX, 2), 0) *
-      dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
+    dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
   );
   return denominator === 0 ? 0 : numerator / denominator;
 }
@@ -714,7 +480,7 @@ export function plotSinCosCombined(amplitude, frequency, phase, xMin, xMax, step
 
 export function interpolateData(xData, yData, x) {
   if (xData.length !== yData.length || xData.length === 0) {
-    throw new Error("Data arrays must be of the same non-zero length");
+    throw new Error('Data arrays must be of the same non-zero length');
   }
   if (x < xData[0] || x > xData[xData.length - 1]) {
     return null;
@@ -792,7 +558,6 @@ export function plotBessel(order, xMin, xMax, steps = 100) {
   return result;
 }
 
-// New function: plotHyperbola for generating hyperbolic curve plots
 export function plotHyperbola(a, b, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -823,7 +588,6 @@ export function plotLemniscate(a, tMin, tMax, steps = 100) {
   return result;
 }
 
-// Newly added function: plotPolynomial
 export function plotPolynomial(coeffs, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -860,7 +624,6 @@ export function plotSpiral(spiralConstant, thetaMin, thetaMax, steps = 100) {
   return result;
 }
 
-// Newly added function: plotSigmoid to demonstrate plotting of sigmoid function
 export function plotSigmoid(xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -871,7 +634,6 @@ export function plotSigmoid(xMin, xMax, steps = 100) {
   return result;
 }
 
-// Newly added function: plotSinc to plot sinc function, defined as sin(x)/x
 export function plotSinc(xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -895,7 +657,6 @@ export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
 }
 
 export function plotCustom() {
-  // A custom plot function stub returning an empty array or custom demo data.
   return [];
 }
 
@@ -919,7 +680,6 @@ export function plotPower(power, coefficient, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Newly added function: plotReLU for computing ReLU of a linear function
 export function plotReLU(m, b, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -931,7 +691,6 @@ export function plotReLU(m, b, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Newly added function: movingMedian for computing the moving median of an array of data
 export function movingMedian(data, windowSize = 3) {
   if (data.length === 0) return [];
   const result = [];
@@ -947,7 +706,6 @@ export function movingMedian(data, windowSize = 3) {
   return result;
 }
 
-// Newly added function: plotInverse to plot the inverse function y = 1/x with handling for x near zero
 export function plotInverse(xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -962,7 +720,6 @@ export function plotInverse(xMin, xMax, steps = 100) {
   return result;
 }
 
-// Newly added function: cumulativeSum to compute cumulative sum of an array
 export function cumulativeSum(data) {
   const result = [];
   let sum = 0;
@@ -973,11 +730,9 @@ export function cumulativeSum(data) {
   return result;
 }
 
-// >>> Newly Added Functions for extended capabilities <<<
-
 export function plotLogLog(fn, xMin, xMax, steps = 100) {
   if (xMin <= 0 || xMax <= 0) {
-    throw new Error("xMin and xMax must be greater than 0 for log-log plots");
+    throw new Error('xMin and xMax must be greater than 0 for log-log plots');
   }
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -998,22 +753,18 @@ export function boxPlot(data) {
   const sorted = [...data].sort((a, b) => a - b);
   const min = sorted[0];
   const max = sorted[sorted.length - 1];
-  const median = sorted.length % 2 !== 0 ? sorted[Math.floor(sorted.length / 2)] :
-    (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
+  const median = sorted.length % 2 !== 0 ? sorted[Math.floor(sorted.length / 2)] : (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
   const Q1 = (() => {
     const lower = sorted.slice(0, Math.floor(sorted.length / 2));
-    return lower.length % 2 !== 0 ? lower[Math.floor(lower.length / 2)] :
-      (lower[lower.length / 2 - 1] + lower[lower.length / 2]) / 2;
+    return lower.length % 2 !== 0 ? lower[Math.floor(lower.length / 2)] : (lower[lower.length / 2 - 1] + lower[lower.length / 2]) / 2;
   })();
   const Q3 = (() => {
     const upper = sorted.slice(Math.ceil(sorted.length / 2));
-    return upper.length % 2 !== 0 ? upper[Math.floor(upper.length / 2)] :
-      (upper[upper.length / 2 - 1] + upper[upper.length / 2]) / 2;
+    return upper.length % 2 !== 0 ? upper[Math.floor(upper.length / 2)] : (upper[upper.length / 2 - 1] + upper[upper.length / 2]) / 2;
   })();
   return { min, Q1, median, Q3, max };
 }
 
-// Newly added functions to further extend plotting capabilities
 export function plotDampedOscillation(amplitude, decay, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -1050,6 +801,5 @@ export function plotStep(xMin, xMax, steps = 10) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const args = process.argv.slice(2);
-  main(args);
+  main();
 }
