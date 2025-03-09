@@ -19,9 +19,7 @@ const {
   plotSqrt,
   plotPolar,
   plotAbsolute,
-  generateRange,
-  loadReadline,
-  loadExpress
+  generateRange
 } = mainModule;
 
 
@@ -56,7 +54,7 @@ describe("Main Function Behaviour", () => {
     process.env.VITEST = "true";
 
     const fakeInterface = {
-      question: (prompt, callback) => {
+      question: (_prompt, callback) => {
         process.nextTick(() => callback("simulated plot command"));
       },
       close: vi.fn()
@@ -79,7 +77,7 @@ describe("Main Function Behaviour", () => {
     const spyWarn = vi.spyOn(console, "warn");
 
     const fakeInterface = {
-      question: (prompt, callback) => {
+      question: (_prompt, _callback) => {
         // Do not call callback to trigger timeout
       },
       close: vi.fn()
