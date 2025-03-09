@@ -91,7 +91,7 @@ describe("Main Function Behaviour", () => {
 
     vi.useFakeTimers();
     const promise = main(["--interactive"]);
-    vi.advanceTimersByTime(120);
+    await vi.advanceTimersByTimeAsync(120);
     await promise;
     expect(spyWarn).toHaveBeenCalledWith("Interactive mode fallback triggered after timeout");
     spyWarn.mockRestore();
