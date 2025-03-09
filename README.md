@@ -1,12 +1,12 @@
 # repository0-plot-code-lib
 
-**A versatile plotting tool for mathematical visualizations**
+**A versatile plotting tool for mathematical visualizations aligned with our mission.**
 
 > "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-repository0-plot-code-lib is a command-line interface (CLI) tool designed for high precision plotting of a wide range of mathematical functions. The library offers diverse plotting functions, analytical tools such as derivative and area computation, and supports multiple output formats—all built in alignment with our mission statement and CONTRIBUTING guidelines.
+repository0-plot-code-lib is a CLI tool designed for high precision plotting of a wide range of mathematical functions. Built in alignment with our mission and CONTRIBUTING guidelines, the library offers diverse plotting functions and analytical tools, supporting multiple output formats with consistent error handling and interactive features.
 
 ## Features
 
@@ -18,18 +18,14 @@ repository0-plot-code-lib is a command-line interface (CLI) tool designed for hi
   - Custom range generation
   - Statistical analysis (e.g., standard deviation)
   - Data smoothing with moving average
-  - Point transformations: rotation, reflection, scaling, and offset
+  - Point transformations: rotation, reflection, scaling, and offset adjustments
 
 - **CLI Modes:**
-  - Default demo mode
+  - Default demo mode that introduces the tool
   - Diagnostics mode (`--diagnostics`)
-  - Interactive mode (`--interactive`) with a timeout fallback
-  - Web server mode (`--serve`) with enhanced security headers
-  - Absolute Plot demo (`--plot-abs`)
-
-- **Advanced Analysis:**
-  - Numerical integration (trapezoidal rule)
-  - Finite differences derivative calculation
+  - Interactive mode (`--interactive`) with input prompt and timeout fallback
+  - Web server mode (`--serve`) with enhanced security configurations
+  - Absolute plot demo mode (`--plot-abs`)
 
 ## Installation
 
@@ -75,21 +71,21 @@ Other modes:
 
 ### Default Demo
 
-Running the CLI with no arguments displays a demo message.
+Running the CLI with no arguments displays a demo message that introduces users to the tool.
 
 ## Changelog Highlights
 
-- Refined CLI messages and functionalities.
+- Refined CLI messages and functionalities in line with the mission statement.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Improved error handling in interactive mode.
-- README refreshed and documentation updated to adhere to CONTRIBUTING guidelines.
+- README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 ## Contributing
 
 Contributions are automated. To contribute:
 
 1. Open an issue describing your idea, bug, or improvement.
-2. Label it as `automated` to trigger the contribution workflow.
+2. Label the issue as `automated` to trigger the workflow.
 3. Follow the guidelines outlined in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License

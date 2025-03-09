@@ -27,7 +27,6 @@ const {
   calculateStandardDeviation
 } = mainModule;
 
-
 describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
     const spy = vi.spyOn(console, "log");
@@ -140,7 +139,6 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 });
-
 
 describe("Additional helper functions", () => {
   test("plotQuadratic returns correct number of points and values", () => {
@@ -270,7 +268,6 @@ describe("Additional helper functions", () => {
     const fn = (x) => x * x;
     const points = plotDerivative(fn, 0, 10, 10);
     expect(points.length).toBe(11);
-    // derivative of x^2 is 2x, check a few points
     expect(points[0].derivative).toBeCloseTo(0, 2);
     expect(points[5].derivative).toBeCloseTo(10, 1);
     expect(points[10].derivative).toBeCloseTo(20, 1);
@@ -285,9 +282,7 @@ describe("Additional helper functions", () => {
   test("plotLogistic returns correct logistic curve values", () => {
     const points = plotLogistic(1, 1, 0, 0, 10, 10);
     expect(points.length).toBe(11);
-    // At x=0, logistic value should be 1/(1+e^(0)) = 0.5
     expect(points[0].y).toBeCloseTo(0.5, 4);
-    // At x=10, logistic value should approach 1
     expect(points[10].y).toBeCloseTo(1, 4);
   });
 

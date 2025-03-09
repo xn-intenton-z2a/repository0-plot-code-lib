@@ -3,11 +3,11 @@
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
 //
 // Changelog:
-// - Refined CLI messaging and functionalities to strictly adhere to the mission statement.
+// - Refined CLI messaging and functionalities to strictly adhere to our mission statement.
 // - Pruned redundant code to eliminate drift in accordance with CONTRIBUTING guidelines.
 // - Extended library with additional helper functions and improved error handling in interactive mode.
 // - Added new plotting functions: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-// - Refreshed documentation and aligned the codebase with CONTRIBUTING guidelines.
+// - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";
 
