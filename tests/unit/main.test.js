@@ -1,7 +1,18 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
-const { main, plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints } = mainModule;
+const {
+  main,
+  plotQuadratic,
+  calculateDerivative,
+  calculateArea,
+  plotLinear,
+  plotSine,
+  rotatePoints,
+  plotExponential,
+  plotLogarithmic,
+  movingAverage
+} = mainModule;
 
 describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
@@ -106,7 +117,6 @@ describe("Additional helper functions", () => {
   test("plotSine returns sinusoidal values", () => {
     const points = plotSine(1, 1, 0, 0, Math.PI, 10);
     expect(points.length).toBe(11);
-    // First point should be sine(0) = 0
     expect(points[0]).toEqual({ x: 0, y: 0 });
   });
   
@@ -115,5 +125,35 @@ describe("Additional helper functions", () => {
     const rotated = rotatePoints(points, Math.PI / 2);
     expect(rotated[0].x).toBeCloseTo(0, 5);
     expect(rotated[0].y).toBeCloseTo(1, 5);
+  });
+
+  test("plotExponential returns correct exponential values", () => {
+    const points = plotExponential(2, 0, 2, 2);
+    expect(points.length).toBe(3);
+    expect(points[0]).toEqual({ x: 0, y: 1 });
+    expect(points[2]).toEqual({ x: 2, y: 4 });
+  });
+
+  test("plotLogarithmic returns correct logarithmic values", () => {
+    // Using base multiplier of 1, from 1 to e
+    const points = plotLogarithmic(1, 1, Math.E, 1);
+    expect(points.length).toBe(2);
+    expect(points[0]).toEqual({ x: 1, y: 0 });
+    expect(points[1].y).toBeCloseTo(1, 5);
+  });
+
+  test("plotLogarithmic throws error when xMin is not > 0", () => {
+    expect(() => plotLogarithmic(1, 0, 10)).toThrow("xMin must be greater than 0 for logarithmic plots");
+  });
+
+  test("movingAverage returns correct averaged values", () => {
+    const data = [1, 2, 3, 4, 5];
+    const avg = movingAverage(data, 3);
+    expect(avg.length).toBe(5);
+    expect(avg[0]).toBeCloseTo(1.5, 5);
+    expect(avg[1]).toBeCloseTo(2, 5);
+    expect(avg[2]).toBeCloseTo(3, 5);
+    expect(avg[3]).toBeCloseTo(4, 5);
+    expect(avg[4]).toBeCloseTo(4.5, 5);
   });
 });
