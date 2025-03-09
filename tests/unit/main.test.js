@@ -57,7 +57,8 @@ const {
   plotLissajous,
   plotBessel,
   plotHyperbola,
-  plotLemniscate
+  plotLemniscate,
+  plotPower
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -68,7 +69,7 @@ describe("Main Function Behaviour", () => {
     main([]);
     expect(spy).toHaveBeenCalledWith(
       "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
-      "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola or provide plot parameters.\n" +
+      "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
       "For contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
@@ -286,6 +287,13 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
+  test("should output Power Plot when --power-plot flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--power-plot"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Power Plot (y = 2x^3) Output:"));
+    spy.mockRestore();
+  });
+
   test("should handle unrecognized flag gracefully", () => {
     const spy = vi.spyOn(console, "log");
     main(["--unknown"]);
@@ -301,7 +309,7 @@ describe("Debug flag behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--debug"]);
     const debugString = spy.mock.calls.map(call => call[0]).join(' ');
-    expect(debugString).toContain("exportPlotAsR");
+    expect(debugString).toContain("plotPower");
     expect(debugString).toContain("plotCustom");
     expect(debugString).toContain("exportPlotAsXML");
     expect(debugString).toContain("exportPlotAsLaTeX");
@@ -717,5 +725,12 @@ describe("Additional helper functions", () => {
     expect(points.length).toBe(11);
     expect(points[0]).toHaveProperty('x');
     expect(points[0]).toHaveProperty('y');
+  });
+
+  test("plotPower returns a valid power function plot", () => {
+    const points = plotPower(3, 2, -10, 10, 20);
+    expect(points.length).toBe(21);
+    // For x = 10, y should be 2 * 10^3 = 2000
+    expect(points[20].y).toBeCloseTo(2000, 1);
   });
 });
