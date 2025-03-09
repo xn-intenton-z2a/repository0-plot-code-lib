@@ -45,21 +45,18 @@ export async function main(argsInput) {
         input: process.stdin,
         output: process.stdout
       });
-      // Always set a fallback timeout. Use a shorter timeout in test environments.
-      const fallbackTime = process.env.VITEST === 'true' ? 20 : 100;
-      await new Promise((resolve) => {
-        const timeoutId = setTimeout(() => {
-          console.warn('Interactive mode fallback triggered after timeout');
-          rl.close();
-          resolve();
-        }, fallbackTime);
-        rl.question('Enter a command: ', (answer) => {
-          clearTimeout(timeoutId);
-          console.log(`Received plot command: ${answer}`);
-          rl.close();
-          resolve();
-        });
-      });
+      // Use a Promise.race to handle user input vs fallback timeout
+      const fallbackTime = process.env.VITEST === 'true' ? 1000 : 100;
+      const answer = await Promise.race([
+        new Promise((resolve) => rl.question('Enter a command: ', resolve)),
+        new Promise((resolve) => setTimeout(() => resolve(null), fallbackTime))
+      ]);
+      if (answer === null) {
+        console.warn('Interactive mode fallback triggered after timeout');
+      } else {
+        console.log(`Received plot command: ${answer}`);
+      }
+      rl.close();
     } catch (err) {
       console.error('Error loading readline module:', err);
     }
@@ -67,21 +64,21 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--serve')) {
-    try {
-      const express = await loadExpress();
-      // In test environment, avoid actual server binding to prevent port conflicts
+    const expressModule = await loadExpress().catch(err => {
+      console.error('Error starting server:', err);
+      return null;
+    });
+    if (expressModule) {
       if (process.env.VITEST) {
         console.log(`Express server running at http://localhost:3000`);
       } else {
-        const app = express();
+        const app = expressModule();
         const port = 3000;
         app.get('/', (req, res) => res.send('Hello from Express server'));
         app.listen(port, () => {
           console.log(`Express server running at http://localhost:${port}`);
         });
       }
-    } catch (err) {
-      console.error('Error starting server:', err);
     }
     return;
   }

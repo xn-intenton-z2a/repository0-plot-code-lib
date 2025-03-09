@@ -55,7 +55,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines. Updated interactive mode to always use a fallback timeout for prompt resolution and concatenated output for certain export flags to align with test expectations.
+- **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines. Updated interactive mode to use a Promise.race for improved reliability and adjusted server error handling to use a catch block. 
 - **2023-10:** Updated error handling for module loaders to log errors as expected in both interactive and server modes.
 
 ## License
