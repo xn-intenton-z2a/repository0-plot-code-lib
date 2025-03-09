@@ -8,7 +8,7 @@
 
 ## Overview
 
-This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with advanced analytical features. It supports multiple output formats including SVG, JSON, CSV, Markdown, ASCII, and HTML. The design and implementation strictly adhere to our mission statement and the contributing guidelines.
+This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with analytical features. In addition to core plotting functions, the library supports advanced analysis methods like derivative calculation and area computation using numerical methods. The design and implementation strictly adhere to our mission statement and the contributing guidelines.
 
 ## Features
 
@@ -25,12 +25,15 @@ This library provides a command-line interface (CLI) tool for plotting a range o
   - Moving Average for smoothing data
   - Point Transformations: Rotation, Reflection, Scaling
 
-- **Output Formats:** SVG, JSON, CSV, Markdown, ASCII, HTML
+- **CLI Modes:**
+  - Default demo mode
+  - Diagnostics mode (using --diagnostics)
+  - Interactive mode (using --interactive)
+  - Web server mode (using --serve)
 
 - **Advanced Analysis:**
   - Area under the curve (Trapezoidal Rule)
   - Derivative calculation (Finite differences)
-  - Statistical functions: average, standard deviation, median, mode
 
 ## Installation
 
@@ -83,9 +86,9 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Refined demo message and pruned drift from the source file to align with our mission statement.
-- Extended library functions with additional plotting and transformation capabilities including new plotSqrt and plotPolar functions.
-- Updated documentation to reflect changes and ensure clarity in CLI modes and error handling.
+- Refreshed README to align with the contributing guidelines.
+- Pruned irrelevant content and updated documentation to clearly detail CLI modes and usage.
+- Extended library functions with new features including plotSqrt and plotPolar, consistent with our mission statement.
 
 ## Contributing
 

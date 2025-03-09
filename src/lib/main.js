@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-// Extended library functions including polar plotting, fixed Express server init issue and ensured async handling per contributing guidelines.
+// Updated per contributing guidelines. See CONTRIBUTING.md for details.
 
 import { fileURLToPath } from "url";
 
