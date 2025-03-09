@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 // This version has been updated to prune drift, ensuring that all messaging and error handling fully reflect our mission statement and contributing guidelines.
 // Changelog:
 // - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
