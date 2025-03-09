@@ -28,7 +28,8 @@ const {
   calculateCorrelation,
   plotHyperbolic,
   calculateExponentialMovingAverage,
-  plotGaussian
+  plotGaussian,
+  exportPlotAsCSV
 } = mainModule;
 
 describe("Main Function Behaviour", () => {
@@ -36,7 +37,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -140,6 +141,13 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--plot-abs"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Plot Absolute of sin(x):"), expect.any(Array));
+    spy.mockRestore();
+  });
+
+  test("should output CSV plot when --export-csv flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-csv"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("CSV Output:"));
     spy.mockRestore();
   });
 });
@@ -328,5 +336,11 @@ describe("Additional helper functions", () => {
   test("plotGaussian returns correct gaussian curve values", () => {
     const points = plotGaussian(1, 0, 1, -3, 3, 6);
     expect(points.length).toBe(7);
+  });
+
+  test("exportPlotAsCSV returns CSV string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const csv = exportPlotAsCSV(points);
+    expect(csv).toBe("x,y\n0,0\n1,1");
   });
 });

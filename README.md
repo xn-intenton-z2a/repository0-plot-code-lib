@@ -19,7 +19,7 @@ repository0-plot-code-lib is a CLI tool designed for high precision plotting of 
   - Statistical analysis (e.g., standard deviation, correlation)
   - Data smoothing with moving average and exponential moving average
   - Point transformations: rotation, reflection, scaling, and offset adjustments
-  - **New Functions:** Gaussian plotting and Hyperbolic plotting
+  - **New Functions:** Gaussian plotting, Hyperbolic plotting, and CSV export via exportPlotAsCSV
 
 - **CLI Modes:**
   - Default demo mode that introduces the tool
@@ -27,6 +27,7 @@ repository0-plot-code-lib is a CLI tool designed for high precision plotting of 
   - Interactive mode (`--interactive`) with input prompt and timeout fallback
   - Web server mode (`--serve`) with enhanced security configurations
   - Absolute plot demo mode (`--plot-abs`)
+  - **CSV Export Mode:** (`--export-csv`) Outputs plot data in CSV format
 
 ## Installation
 
@@ -70,6 +71,12 @@ Other modes:
   node src/lib/main.js --plot-abs
   ```
 
+- **CSV Export Mode:**
+  ```bash
+  node src/lib/main.js --export-csv
+  ```
+  Outputs sample plot data in CSV format (demo using a sine function).
+
 ### Default Demo
 
 Running the CLI with no arguments displays a demo message that introduces users to the tool.
@@ -78,7 +85,8 @@ Running the CLI with no arguments displays a demo message that introduces users 
 
 - Refined CLI messages and functionalities in line with the mission statement.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- **New helper functions added:** calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, and plotGaussian.
+- **New helper functions added:** calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
+- Extended CLI with new CSV export mode (--export-csv) for outputting plots in CSV format.
 - Improved error handling in interactive mode.
 - **Improved test coverage** to nearly 100% with enhanced unit tests and mocks for external resources.
 - README refreshed and documentation updated per CONTRIBUTING guidelines.

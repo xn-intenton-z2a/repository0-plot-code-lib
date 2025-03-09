@@ -7,7 +7,8 @@
 // - Pruned redundant code to eliminate drift in accordance with CONTRIBUTING guidelines.
 // - Extended library with additional helper functions and improved error handling in interactive mode.
 // - Added new plotting functions: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-// - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, and plotGaussian.
+// - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
+// - Extended CLI with new export mode (--export-csv) for CSV output of plots.
 // - Improved test coverage with enhanced unit tests and deeper mocks for external dependencies.
 // - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
@@ -40,7 +41,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv or provide plot parameters."
     );
     return;
   }
@@ -133,6 +134,14 @@ export async function main(args) {
         });
       }
     });
+    return;
+  }
+
+  // --export-csv flag: export a plot as CSV format demo (using plotSine as example)
+  if (args.includes("--export-csv")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const csv = exportPlotAsCSV(points);
+    console.log("CSV Output:\n" + csv);
     return;
   }
 
@@ -426,6 +435,15 @@ export function plotGaussian(amplitude, mean, sigma, xMin, xMax, steps = 100) {
     result.push({ x, y: amplitude * Math.exp(exponent) });
   }
   return result;
+}
+
+// New helper: exportPlotAsCSV converts an array of point objects to CSV format
+export function exportPlotAsCSV(points) {
+  if (!points.length) return '';
+  const keys = Object.keys(points[0]);
+  let csv = keys.join(",") + "\n";
+  csv += points.map(point => keys.map(k => point[k]).join(",")).join("\n");
+  return csv;
 }
 
 // Entry point
