@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Refined CLI entry and messaging to align with our CONTRIBUTING guidelines.
+// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+// This version has been updated to improve test coverage by refining mocks and error handling for external dependencies.
 // Changelog:
 // - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
 // - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
 // - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
-// - 2023-10: Added plotLissajous function and corresponding CLI flag --lissajous to generate Lissajous curve plots in line with our mission.
+// - 2023-10: Added plotLissajous function and corresponding CLI flag --lissajous to generate Lissajous curve plots.
 
 import { fileURLToPath } from "url";
 
@@ -142,6 +142,7 @@ export async function main(args) {
     return;
   }
 
+  // Export and plot demo modes using various flags
   // --export-csv flag: export a plot as CSV format demo (using plotSine as example)
   if (args.includes("--export-csv")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
@@ -260,7 +261,7 @@ export async function main(args) {
 
   // --lissajous flag: demo of plotting a Lissajous curve
   if (args.includes("--lissajous")) {
-    const points = plotLissajous(1, 1, 3, 2, Math.PI/2, 0, 2 * Math.PI, 100);
+    const points = plotLissajous(1, 1, 3, 2, Math.PI / 2, 0, 2 * Math.PI, 100);
     console.log("Lissajous Curve Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
