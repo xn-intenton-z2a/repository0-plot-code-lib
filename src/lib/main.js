@@ -45,16 +45,21 @@ export async function main(argsInput) {
         input: process.stdin,
         output: process.stdout
       });
-      rl.question('Enter a command: ', answer => {
-        console.log(`Received plot command: ${answer}`);
-        rl.close();
-      });
-      if (!process.env.VITEST) {
-        setTimeout(() => {
-          console.warn('Interactive mode fallback triggered after timeout');
+      // Wrap the question in a promise so that we wait for the answer
+      await new Promise((resolve) => {
+        rl.question('Enter a command: ', (answer) => {
+          console.log(`Received plot command: ${answer}`);
           rl.close();
-        }, 100);
-      }
+          resolve();
+        });
+        if (!process.env.VITEST) {
+          setTimeout(() => {
+            console.warn('Interactive mode fallback triggered after timeout');
+            rl.close();
+            resolve();
+          }, 100);
+        }
+      });
     } catch (err) {
       console.error('Error loading readline module:', err);
     }
@@ -94,7 +99,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-json')) {
-    console.log(`JSON Output: ${JSON.stringify({ col1: 1, col2: 2 })}`);
+    console.log('JSON Output:', JSON.stringify({ col1: 1, col2: 2 }));
     return;
   }
 
@@ -119,17 +124,17 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log(`LaTeX Output: \begin{tabular} 1 & 2\end{tabular}`);
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 
   if (args.includes('--export-txt')) {
-    console.log(`TXT Output: x: 1, y: 2`);
+    console.log('TXT Output:', "x: 1, y: 2");
     return;
   }
 
   if (args.includes('--export-r')) {
-    console.log(`R Output: col1, col2\n1,2`);
+    console.log('R Output:', "col1, col2\n1,2");
     return;
   }
 
@@ -140,7 +145,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--bar-chart')) {
-    console.log(`Bar Chart Output: Bar Chart: ***`);
+    console.log('Bar Chart Output:', 'Bar Chart: ***');
     return;
   }
 

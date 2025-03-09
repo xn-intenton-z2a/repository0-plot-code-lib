@@ -39,14 +39,14 @@ Other available modes include:
   - `--plot-abs`: Outputs an absolute plot of sin(x).
   - `--export-csv`: Outputs CSV formatted plot data.
   - `--export-md`: Outputs Markdown table format.
-  - `--export-json`: Outputs JSON data.
+  - `--export-json`: Outputs JSON data (with separate log parameters).
   - `--export-html`: Outputs HTML table.
   - `--export-ascii`: Outputs ASCII formatted table.
   - `--export-svg`: Outputs SVG content.
   - `--export-xml`: Outputs XML data.
-  - `--export-latex`: Outputs LaTeX table.
-  - `--export-txt`: Outputs plain text.
-  - `--export-r`: Outputs R-friendly format.
+  - `--export-latex`: Outputs LaTeX table (with separate log parameters).
+  - `--export-txt`: Outputs plain text (with separate log parameters).
+  - `--export-r`: Outputs R-friendly format (with separate log parameters).
   - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--power-plot`: Output various plot types as demo data.
 - **Debug Mode:** `node src/lib/main.js --debug` lists all available plotting functions.
 - **Unrecognized flags:** Any unrecognized flag will be treated as plot parameters.
@@ -56,7 +56,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## Changelog
 
 - **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines.
-- **2023-10:** Updated export flag implementations in main.js to consolidate console output arguments, ensuring test compatibility.
+- **2023-10:** Fixed interactive mode to properly await user input and standardized console.log output parameters for export flags.
 
 ## License
 

@@ -133,7 +133,7 @@ describe('Main Function Behaviour', () => {
   test('should output JSON plot when --export-json flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-json']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('JSON Output:'), undefined);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('JSON Output:'), expect.any(String));
     spy.mockRestore();
   });
 
@@ -168,21 +168,21 @@ describe('Main Function Behaviour', () => {
   test('should output LaTeX plot when --export-latex flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-latex']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('LaTeX Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('LaTeX Output:'), expect.any(String));
     spy.mockRestore();
   });
 
   test('should output TXT plot when --export-txt flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-txt']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('TXT Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('TXT Output:'), expect.any(String));
     spy.mockRestore();
   });
 
   test('should output R plot when --export-r flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-r']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('R Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('R Output:'), expect.any(String));
     spy.mockRestore();
   });
 
@@ -309,6 +309,3 @@ describe('Error Handling for module loaders', () => {
     spyError.mockRestore();
   });
 });
-
-// Additional helper functions tests
-// (Tests for helper functions would be here, omitted for brevity since they don't affect CLI output)
