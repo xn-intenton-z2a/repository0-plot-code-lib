@@ -8,11 +8,11 @@ const {
   calculateArea,
   plotLinear,
   plotSine,
+  plotCosine,
   rotatePoints,
   plotExponential,
   plotLogarithmic,
   movingAverage,
-  plotCosine,
   plotTangent,
   reflectPoints,
   scalePoints,
@@ -290,6 +290,13 @@ describe("Additional helper functions", () => {
     expect(points[0]).toEqual({ x: 0, y: 0 });
   });
 
+  test("plotCosine returns correct cosine wave values", () => {
+    const points = plotCosine(1, 1, 0, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    expect(points[0]).toEqual({ x: 0, y: 1 });
+    expect(points[10].y).toBeCloseTo(-1, 5);
+  });
+
   test("rotatePoints rotates points correctly", () => {
     const points = [{ x: 1, y: 0 }];
     const rotated = rotatePoints(points, Math.PI / 2);
@@ -324,13 +331,6 @@ describe("Additional helper functions", () => {
     expect(avg[2]).toBeCloseTo(3, 5);
     expect(avg[3]).toBeCloseTo(4, 5);
     expect(avg[4]).toBeCloseTo(4.5, 5);
-  });
-
-  test("plotCosine returns correct cosine wave values", () => {
-    const points = plotCosine(1, 1, 0, 0, Math.PI, 10);
-    expect(points.length).toBe(11);
-    expect(points[0]).toEqual({ x: 0, y: 1 });
-    expect(points[10].y).toBeCloseTo(-1, 5);
   });
 
   test("plotTangent returns values with discontinuities handled", () => {

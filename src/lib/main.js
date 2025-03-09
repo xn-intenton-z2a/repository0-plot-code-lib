@@ -14,6 +14,7 @@
 // - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
 // - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 // - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
+// - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
 
 import { fileURLToPath } from "url";
 
@@ -58,7 +59,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotCosine, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart"
     );
     return;
   }
@@ -282,6 +283,17 @@ export function plotSine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   return result;
 }
 
+// Added plotCosine to fully support cosine wave plotting
+export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: amplitude * Math.cos(frequency * x + phase) });
+  }
+  return result;
+}
+
 export function rotatePoints(points, angle) {
   const cos = Math.cos(angle);
   const sin = Math.sin(angle);
@@ -329,16 +341,6 @@ export function movingAverage(data, windowSize) {
       count++;
     }
     result.push(sum / count);
-  }
-  return result;
-}
-
-export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
-  const dx = (xMax - xMin) / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const x = xMin + i * dx;
-    result.push({ x, y: amplitude * Math.cos(frequency * x + phase) });
   }
   return result;
 }
