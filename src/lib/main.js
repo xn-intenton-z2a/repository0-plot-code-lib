@@ -51,6 +51,10 @@ export async function main(argsInput) {
         new Promise((resolve) => rl.question('Enter a command: ', resolve)),
         new Promise((resolve) => setTimeout(() => resolve(null), fallbackTime))
       ]);
+
+      // Flush microtasks to ensure any pending callbacks are processed
+      await Promise.resolve();
+
       if (answer === null) {
         console.warn('Interactive mode fallback triggered after timeout');
       } else {
@@ -64,11 +68,8 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--serve')) {
-    const expressModule = await loadExpress().catch(err => {
-      console.error('Error starting server:', err);
-      return null;
-    });
-    if (expressModule) {
+    try {
+      const expressModule = await loadExpress();
       if (process.env.VITEST) {
         console.log(`Express server running at http://localhost:3000`);
       } else {
@@ -79,6 +80,8 @@ export async function main(argsInput) {
           console.log(`Express server running at http://localhost:${port}`);
         });
       }
+    } catch (err) {
+      console.error('Error starting server:', err);
     }
     return;
   }

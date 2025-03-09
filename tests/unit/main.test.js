@@ -40,7 +40,8 @@ describe('Main Function Behaviour', () => {
 
     const fakeInterface = {
       question: (_prompt, callback) => {
-        process.nextTick(() => callback('simulated plot command'));
+        // Call callback immediately without process.nextTick to simulate immediate input
+        callback('simulated plot command');
       },
       close: vi.fn()
     };
