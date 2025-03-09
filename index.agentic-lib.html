@@ -38,7 +38,7 @@
 <li class="md-github">Absolute value plotting, derivative plotting, logistic and cubic plots</li>
 <li class="md-github">Custom range generation using an in-house range generator</li>
 <li class="md-github"><strong class="md-github">New Feature:</strong> Parametric plotting with the <code class="md-github">plotParametric</code> function for visualizing parametric equations</li>
-<li class="md-github">New additions: Modulated Sine plotting and Logarithm with arbitrary base calculations</li>
+<li class="md-github">New additions: Modulated Sine plotting, Logarithm with arbitrary base calculations, XML export, and Bar Chart visualization</li>
 </ul>
 </li>
 <li class="md-github">
@@ -62,7 +62,9 @@
 <li class="md-github">HTML Export mode (<code class="md-github">--export-html</code>) for exporting plot data as an HTML table</li>
 <li class="md-github">ASCII Export mode (<code class="md-github">--export-ascii</code>) for exporting plot data as an ASCII table</li>
 <li class="md-github">SVG Export mode (<code class="md-github">--export-svg</code>) for exporting plot data as an SVG graphic</li>
+<li class="md-github">XML Export mode (<code class="md-github">--export-xml</code>) for exporting plot data as XML</li>
 <li class="md-github">Scatter Plot mode (<code class="md-github">--scatter</code>) for generating a random scatter plot</li>
+<li class="md-github">Bar Chart mode (<code class="md-github">--bar-chart</code>) for simple bar chart visualization</li>
 <li class="md-github">Parametric Plot mode (<code class="md-github">--plot-parametric</code>) for plotting parametric equations</li>
 <li class="md-github">Debug mode (<code class="md-github">--debug</code>) for listing available plotting functions</li>
 </ul>
@@ -138,10 +140,22 @@
 <p class="md-github">Exports sample plot data as an SVG graphic.</p>
 </li>
 <li class="md-github">
+<p class="md-github"><strong class="md-github">XML Export Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --export-xml
+</code></pre>
+<p class="md-github">Exports sample plot data as an XML document.</p>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">Scatter Plot Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --scatter
 </code></pre>
 <p class="md-github">Generates a random scatter plot and outputs the data in JSON format.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Bar Chart Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --bar-chart
+</code></pre>
+<p class="md-github">Generates a simple bar chart visualization from plot data.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Parametric Plot Mode:</strong></p>
@@ -163,12 +177,12 @@
 <li class="md-github">Refined CLI messages and functionalities to maintain strict alignment with our mission statement.</li>
 <li class="md-github">Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.</li>
 <li class="md-github">Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.</li>
-<li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, and exportPlotAsSVG.</li>
-<li class="md-github">Introduced CSV export mode (<code class="md-github">--export-csv</code>), Markdown export mode (<code class="md-github">--export-md</code>), JSON export mode (<code class="md-github">--export-json</code>), HTML export mode (<code class="md-github">--export-html</code>), ASCII export mode (<code class="md-github">--export-ascii</code>), SVG export mode (<code class="md-github">--export-svg</code>), Scatter plot mode (<code class="md-github">--scatter</code>), and Debug mode (<code class="md-github">--debug</code>).</li>
+<li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG.</li>
+<li class="md-github">Introduced CSV export mode (<code class="md-github">--export-csv</code>), Markdown export mode (<code class="md-github">--export-md</code>), JSON export mode (<code class="md-github">--export-json</code>), HTML export mode (<code class="md-github">--export-html</code>), ASCII export mode (<code class="md-github">--export-ascii</code>), SVG export mode (<code class="md-github">--export-svg</code>), XML export mode (<code class="md-github">--export-xml</code>), Scatter plot mode (<code class="md-github">--scatter</code>), Bar Chart mode (<code class="md-github">--bar-chart</code>), and Debug mode (<code class="md-github">--debug</code>).</li>
 <li class="md-github"><strong class="md-github">New Features:</strong>
 <ul class="md-github">
 <li class="md-github">Added Parametric Plot mode (<code class="md-github">--plot-parametric</code>) with the <code class="md-github">plotParametric</code> function for visualizing parametric equations.</li>
-<li class="md-github">Added new functions: <code class="md-github">plotModulatedSine</code> for modulated sine wave plotting and <code class="md-github">plotLogBase</code> for logarithm with arbitrary base calculations.</li>
+<li class="md-github">Added new functions: <code class="md-github">plotModulatedSine</code> for modulated sine wave plotting, <code class="md-github">plotLogBase</code> for logarithm with arbitrary base calculations, <code class="md-github">exportPlotAsXML</code> for XML export, and <code class="md-github">plotBarChart</code> for bar chart visualization.</li>
 </ul>
 </li>
 </ul>
@@ -185,7 +199,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T10:48:47.524Z</p>
+    <p>Generated on 2025-03-09T10:56:38.990Z</p>
   </footer>
 </body>
 </html>
