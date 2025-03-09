@@ -1,13 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
-// This version has been updated to prune drift, ensuring that all messaging and error handling fully reflect our mission statement and contributing guidelines.
-// Changelog:
-// - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
-// - 2023-10: Added multiple export modes and extended plotting capabilities including functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
-// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel.
-// - 2023-10: **New:** Added plotLemniscate function and corresponding CLI flag --lemniscate for generating lemniscate (figure-eight) plots.
-// - 2023-10: **Improved:** Pruned drift from the source code and updated external module error handling to fully align with our mission and contributing guidelines.
+// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -617,12 +611,12 @@ export function exportPlotAsXML(points) {
 export function exportPlotAsLaTeX(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
-  let latex = "\\begin{tabular}{|" + "c|".repeat(keys.length) + "}\\n\\hline\\n";
-  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\ \n\\hline\\n";
+  let latex = "\begin{tabular}{|" + "c|".repeat(keys.length) + "}\n\hline\n";
+  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\ \n\hline\n";
   points.forEach(point => {
-    latex += keys.map(k => point[k]).join(" & ") + " \\ \n\\hline\\n";
+    latex += keys.map(k => point[k]).join(" & ") + " \\ \n\hline\n";
   });
-  latex += "\\end{tabular}";
+  latex += "\end{tabular}";
   return latex;
 }
 

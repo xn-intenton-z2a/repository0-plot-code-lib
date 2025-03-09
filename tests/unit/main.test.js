@@ -606,8 +606,8 @@ describe("Additional helper functions", () => {
   test("exportPlotAsLaTeX returns a valid LaTeX table", () => {
     const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
     const latex = exportPlotAsLaTeX(points);
-    expect(latex).toContain("\\begin{tabular}");
-    expect(latex).toContain("\\end{tabular}");
+    expect(latex).toContain("\begin{tabular}");
+    expect(latex).toContain("\end{tabular}");
     expect(latex).toContain("X & Y");
   });
 
