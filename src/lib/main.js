@@ -6,7 +6,8 @@
 // - Refined implementation to strictly adhere to our mission statement.
 // - Updated CLI messages, error handling, and formatting as per contributing guidelines.
 // - Extended functionality: Added plotAbsolute, generateRange, and disabled x-powered-by header in Express.
-// - Refreshed changelog comments to reflect updates from CONTRIBUTING.md.
+// - Enhanced interactive fallback mechanism and improved error handling for external module loading.
+// - Updated changelog to reflect improved test coverage and contribution process as per CONTRIBUTING.md.
 
 import { fileURLToPath } from "url";
 

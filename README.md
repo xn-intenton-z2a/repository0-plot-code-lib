@@ -98,7 +98,8 @@ node src/lib/main.js
 - Refreshed README and changelog to align with the latest contributing guidelines.
 - Pruned drift from previous implementations in favor of a focused, mission-aligned approach.
 - Extended library functions with new features: plotSqrt, plotPolar, plotAbsolute, and generateRange.
-- Enhanced CLI functionality with additional flags and improved error handling.
+- Enhanced CLI functionality with additional flags, improved interactive fallback mechanism, and better error handling.
+- Improved test coverage and contribution process as per CONTRIBUTING.md. (Version bumped to 0.7.10)
 
 ## Contributing
 
