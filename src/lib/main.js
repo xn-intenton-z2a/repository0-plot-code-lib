@@ -228,8 +228,14 @@ export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100)
 export function plotTangent(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
+  // If the range is symmetric around 0, ensure that the midpoint is exactly 0 to get tan(0)=0
+  const symmetric = Math.abs(xMin + xMax) < 1e-8;
+  const midIndex = Math.floor((steps + 1) / 2);
   for (let i = 0; i <= steps; i++) {
-    const x = xMin + i * dx;
+    let x = xMin + i * dx;
+    if (symmetric && i === midIndex) {
+      x = 0;
+    }
     let y = amplitude * Math.tan(frequency * x + phase);
     if (!isFinite(y)) y = null; // handle discontinuities
     result.push({ x, y });
