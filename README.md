@@ -1,33 +1,23 @@
 # repository0-plot-code-lib
 
-**A versatile mathematical plotting CLI tool aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."**
+A CLI tool for precise mathematical plotting, aligned with our mission:
+
+"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-repository0-plot-code-lib is a command-line tool designed for high-precision mathematical plotting and analysis. Built in strict adherence to our mission and contribution guidelines, it offers a comprehensive suite of plotting functions, statistical analysis tools, and diverse output formats for both demo and interactive use cases.
+repository0-plot-code-lib is a command-line utility designed for high-precision plotting and analysis of mathematical functions. Every aspect of the tool adheres to our mission and contribution guidelines, ensuring both functionality and clarity.
 
 ## Features
 
-- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial plots, and spiral plots.
-- **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, and plain text (TXT) formats.
-- **Data Analysis & Transformations:** Includes derivative calculation, area approximation, data smoothing (moving average, exponential moving average), numerical integration (trapezoidal rule), and statistical analysis (standard deviation, Pearson correlation).
-- **CLI Modes:** Offers demo, diagnostics, interactive, web server, and debug modes.
-- **New Enhancements:**
-  - Modulated sine plotting
-  - Logarithm with arbitrary base calculation
-  - Bar chart visualization
-  - Parametric plotting for visualizing complex equations
-  - **Added plotCosine:** Real implementation for cosine plotting now available.
-  - **Added plotEllipse:** Generates ellipse coordinates based on center and radii.
-  - **Added exportPlotAsLaTeX:** Exports plot data in a LaTeX tabular format.
-  - **Added exportPlotAsTXT:** Exports plot data in a plain text format for quick visualization.
-  - **Added plotPolynomial:** Supports customizable polynomial plotting with user-defined coefficients. Use the CLI flag `--plot-poly` to demo this feature.
-  - **Added plotSpiral:** Generates points for an Archimedean spiral.
-  - **Added calculateDefiniteIntegral:** Approximates the integral of a function using the trapezoidal rule.
+- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, and spiral plots.
+- **Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, and plain text (TXT).
+- **Data Analytics:** Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
+- **CLI Modes:** Demo, diagnostics, interactive, web server, and debug modes for versatile usage.
 
 ## Installation
 
-Ensure you have Node.js (v20 or higher) installed. Then install the package via npm:
+Ensure you have Node.js (v20 or higher) installed. Then install via npm:
 
 ```bash
 npm install @xn-intenton-z2a/repository0-plot-code-lib
@@ -35,108 +25,36 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ## Usage
 
-### CLI Quickstart
-
 Run the default demo:
 
 ```bash
 npm run start
 ```
 
-Other modes include:
+Additional modes include:
 
-- **Diagnostics Mode:**
-  ```bash
-  npm run diagnostics
-  ```
-- **Interactive Mode:**
-  ```bash
-  node src/lib/main.js --interactive
-  ```
-  You will be prompted for a plot command; a fallback timeout is triggered if no input is given.
-- **Web Server Mode:**
-  ```bash
-  node src/lib/main.js --serve
-  ```
-- **CSV Export Mode:**
-  ```bash
-  node src/lib/main.js --export-csv
-  ```
-- **Markdown Export Mode:**
-  ```bash
-  node src/lib/main.js --export-md
-  ```
-- **JSON Export Mode:**
-  ```bash
-  node src/lib/main.js --export-json
-  ```
-- **HTML Export Mode:**
-  ```bash
-  node src/lib/main.js --export-html
-  ```
-- **ASCII Export Mode:**
-  ```bash
-  node src/lib/main.js --export-ascii
-  ```
-- **SVG Export Mode:**
-  ```bash
-  node src/lib/main.js --export-svg
-  ```
-- **XML Export Mode:**
-  ```bash
-  node src/lib/main.js --export-xml
-  ```
-- **LaTeX Export Mode:**
-  ```bash
-  node src/lib/main.js --export-latex
-  ```
-- **TXT Export Mode:**
-  ```bash
-  node src/lib/main.js --export-txt
-  ```
-- **Scatter Plot Mode:**
-  ```bash
-  node src/lib/main.js --scatter
-  ```
-- **Bar Chart Mode:**
-  ```bash
-  node src/lib/main.js --bar-chart
-  ```
-- **Parametric Plot Mode:**
-  ```bash
-  node src/lib/main.js --plot-parametric
-  ```
-- **Polynomial Plot Mode:**
-  ```bash
-  node src/lib/main.js --plot-poly
-  ```
-- **Debug Mode (list available functions):**
-  ```bash
-  node src/lib/main.js --debug
-  ```
+- **Diagnostics:** `npm run diagnostics`
+- **Interactive:** `node src/lib/main.js --interactive`
+- **Web Server:** `node src/lib/main.js --serve`
+- **Export Modes:** Use flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`
+- **Plot Modes:** Use flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`
+- **Debug Mode:** `node src/lib/main.js --debug` to list available functions.
 
 ## Contributing
 
-Contributions are automated. To contribute:
+Contributions are encouraged! To contribute:
 
-1. Open an issue describing your idea, bug, or improvement.
-2. Label it as `automated` to trigger our workflow.
-3. Follow the guidelines detailed in [CONTRIBUTING.md](./CONTRIBUTING.md).
+1. **Open an Issue:** Describe your idea, bug, or improvement.
+2. **Label it as `automated`:** This triggers our workflow.
+3. **Follow the Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
 
-Your contributions help us maintain the tool's high precision and alignment with our mission.
+Your contributions help us maintain precision and mission alignment.
 
 ## Changelog
 
-- **2023-10:** Refined CLI messaging and error handling per mission statement and updated CONTRIBUTING guidelines.
-- **2023-10:** Added new export modes (Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT), scatter plot, bar chart, and parametric plotting.
-- **2023-10:** Introduced functions for modulated sine and logarithm with arbitrary base calculations.
-- **2023-10:** **Added plotCosine implementation for cosine plotting.**
-- **2023-10:** **Added plotEllipse for generating ellipse coordinates and exportPlotAsLaTeX for LaTeX table export.**
-- **2023-10:** **Added exportPlotAsTXT for plain text table export.**
-- **2023-10:** **Added plotPolynomial function and the --plot-poly flag for customizable polynomial plotting.**
-- **2023-10:** **Added plotSpiral and calculateDefiniteIntegral for extended spiral plotting and numerical integration support.**
-- **2023-10:** Pruned code drift to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
-- Streamlined code and enhanced test coverage to adhere to our high-quality standards.
+- **2023-10:** Refined CLI messaging and error handling.
+- **2023-10:** Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration.
+- **2023-10:** Refreshed README to align with CONTRIBUTING guidelines and pruned irrelevant drift.
 
 ## License
 
