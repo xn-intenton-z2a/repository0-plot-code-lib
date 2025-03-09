@@ -50,7 +50,7 @@ For integrating plotting into your own scripts, import the library functions dir
 - **2023-10:** Introduced plotLissajous and the corresponding `--lissajous` flag for Lissajous curve plots.
 - **2023-10:** Enhanced plotBessel functionality to correctly interface with mathjs or use a fallback for order 0.
 - **2023-10:** **New:** Added plotLemniscate function and CLI flag `--lemniscate` for generating lemniscate (figure-eight) plots.
-- **2023-10:** **Improved:** Enhanced error handling for external module loading and increased test coverage to ensure robust behavior.
+- **2023-10:** **Improved:** Pruned drift from the source code and updated external module error handling to fully align with our mission and contributing guidelines.
 
 ## Contributing
 
