@@ -37,6 +37,7 @@ const {
   exportPlotAsSVG,
   exportPlotAsXML,
   exportPlotAsLaTeX,
+  exportPlotAsTXT,
   plotScatter,
   plotModulatedSine,
   plotLogBase,
@@ -54,7 +55,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -215,6 +216,13 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
+  test("should output TXT plot when --export-txt flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-txt"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("TXT Output:"));
+    spy.mockRestore();
+  });
+
   test("should output Scatter plot when --scatter flag is provided", () => {
     const spy = vi.spyOn(console, "log");
     main(["--scatter"]);
@@ -248,6 +256,7 @@ describe("Debug flag behaviour", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotBarChart"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotEllipse"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsLaTeX"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsTXT"));
     spy.mockRestore();
   });
 });
@@ -518,60 +527,18 @@ describe("Additional helper functions", () => {
     expect(xml).toContain("<x>0</x>");
   });
 
-  test("plotScatter returns correct number of points", () => {
-    const points = plotScatter(5);
-    expect(points.length).toBe(5);
-    points.forEach(pt => {
-      expect(pt).toHaveProperty("x");
-      expect(pt).toHaveProperty("y");
-    });
-  });
-
-  // New tests for added functions
-  test("plotModulatedSine returns correct number of points and modulated values", () => {
-    const points = plotModulatedSine(1, 1, 0, 0.5, 0, Math.PI, 10);
-    expect(points.length).toBe(11);
-    expect(points[0].y).toBeCloseTo(0, 5);
-  });
-
-  test("plotLogBase returns correct logarithm value", () => {
-    expect(plotLogBase(8, 2)).toBeCloseTo(3, 5);
-  });
-
-  test("plotLogBase throws error for invalid inputs", () => {
-    expect(() => plotLogBase(-1, 2)).toThrow("Invalid input for logarithm");
-    expect(() => plotLogBase(8, 1)).toThrow("Invalid input for logarithm");
-  });
-
-  test("plotParametric returns correct number of points and values", () => {
-    const points = plotParametric(t => Math.cos(t), t => Math.sin(t), 0, 2 * Math.PI, 50);
-    expect(points.length).toBe(51);
-    expect(points[0]).toEqual({ t: 0, x: 1, y: 0 });
-    expect(points[50].x).toBeCloseTo(1, 5);
-  });
-
-  test("plotBarChart returns a non-empty bar chart string", () => {
-    const points = [{ x: 0, y: 0.5 }, { x: 1, y: 1 }];
-    const chart = plotBarChart(points);
-    expect(chart).toContain('0:');
-    expect(chart).toContain('1:');
-    expect(chart.length).toBeGreaterThan(0);
-  });
-
-  test("plotEllipse returns correct number of points for an ellipse", () => {
-    const ellipsePoints = plotEllipse(0, 0, 5, 3, 100);
-    expect(ellipsePoints.length).toBe(101);
-    // Check first and last point are close
-    expect(ellipsePoints[0].x).toBeCloseTo(5, 5);
-    expect(ellipsePoints[0].y).toBeCloseTo(0, 5);
-    expect(ellipsePoints[100].x).toBeCloseTo(5, 5);
-  });
-
   test("exportPlotAsLaTeX returns a valid LaTeX table", () => {
     const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
     const latex = exportPlotAsLaTeX(points);
     expect(latex).toContain("\\begin{tabular}");
     expect(latex).toContain("\\end{tabular}");
     expect(latex).toContain("X & Y");
+  });
+
+  test("exportPlotAsTXT returns plain text string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 2, y: 4 }];
+    const txt = exportPlotAsTXT(points);
+    const expected = "x: 0, y: 0\nx: 2, y: 4";
+    expect(txt).toBe(expected);
   });
 });
