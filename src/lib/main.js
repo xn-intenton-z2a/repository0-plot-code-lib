@@ -4,8 +4,9 @@
 //
 // Changelog:
 // - Pruned drift from implementation and reinforced alignment with our mission statement.
-// - Updated CLI messages and error handling inline with contributing guidelines.
-// - Extended functionality: Added plotAbsolute and generateRange. See CONTRIBUTING.md for details.
+// - Updated CLI messages, error handling, and formatting to resolve lint issues.
+// - Extended functionality: Added plotAbsolute, generateRange, and disabled x-powered-by header in Express.
+//   See CONTRIBUTING.md for details.
 
 import { fileURLToPath } from "url";
 
@@ -59,16 +60,17 @@ export async function main(args) {
     }
     const express = expressModule.default;
     const app = express();
-    const port = 3000;
+    // Disable x-powered-by header to avoid disclosing version information
+    app.disable("x-powered-by");
+
     app.get("/", (req, res) => {
       res.send("Welcome to the interactive plotting web interface.");
     });
 
-    // Declare server variable in outer scope to avoid hoisting issues
     let server;
     await new Promise((resolve) => {
-      server = app.listen(port, () => {
-        console.log(`Express server running at http://localhost:${port}`);
+      server = app.listen(3000, () => {
+        console.log(`Express server running at http://localhost:3000`);
         // Immediately close server in test environments to avoid port conflicts
         if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
           if (server && typeof server.close === "function") {
@@ -104,7 +106,6 @@ export async function main(args) {
 
       if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
         rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
-        // Ensure resolution in test environment even if question callback is delayed
         setImmediate(() => {
           if (!called) {
             handleAnswer("simulated plot command");
@@ -247,7 +248,6 @@ export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100)
 export function plotTangent(amplitude, frequency, phase, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
-  // If the range is symmetric around 0, ensure that the midpoint is exactly 0 to get tan(0)=0
   const symmetric = Math.abs(xMin + xMax) < 1e-8;
   const midIndex = Math.floor((steps + 1) / 2);
   for (let i = 0; i <= steps; i++) {
@@ -256,14 +256,15 @@ export function plotTangent(amplitude, frequency, phase, xMin, xMax, steps = 100
       x = 0;
     }
     let y = amplitude * Math.tan(frequency * x + phase);
-    if (!isFinite(y)) y = null; // handle discontinuities
+    if (!isFinite(y)) {
+      y = null;
+    }
     result.push({ x, y });
   }
   return result;
 }
 
 export function reflectPoints(points, axis = "y") {
-  // Reflects points across either the x-axis or y-axis
   return points.map(({ x, y }) => {
     if (axis === "y") return { x: -x, y };
     if (axis === "x") return { x, y: -y };

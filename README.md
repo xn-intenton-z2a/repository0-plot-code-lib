@@ -77,7 +77,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting web interface with proper error handling and graceful shutdown in test environments.
+  Starts an Express-based interactive plotting web interface with proper error handling and graceful shutdown in test environments. (The Express server disables the x-powered-by header to avoid disclosing version information.)
 
 - **Absolute Plot Demo Mode:**
 
@@ -100,7 +100,7 @@ node src/lib/main.js
 - Pruned drift from the source file and reinforced the mission statement in the implementation.
 - Extended library functions with new features including plotSqrt, plotPolar, plotAbsolute, and generateRange.
 - Added CLI flag --plot-abs to demonstrate absolute function plotting.
-- **Enhanced test coverage**: Added and extended tests for interactive mode, external dependency mocks, and all helper functions.
+- **Enhanced test coverage and resolved linting/formatting issues.**
 
 ## Contributing
 
