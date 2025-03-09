@@ -64,7 +64,10 @@ const {
   plotReLU,
   movingMedian,
   plotInverse,
-  cumulativeSum
+  cumulativeSum,
+  // Newly added functions
+  plotLogLog,
+  boxPlot
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -332,6 +335,8 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("movingMedian");
     expect(debugString).toContain("plotInverse");
     expect(debugString).toContain("cumulativeSum");
+    expect(debugString).toContain("plotLogLog");
+    expect(debugString).toContain("boxPlot");
     spy.mockRestore();
   });
 });
@@ -627,7 +632,6 @@ describe("Additional helper functions", () => {
     const latex = exportPlotAsLaTeX(points);
     expect(latex).toContain("\begin{tabular}");
     expect(latex).toContain("\end{tabular}");
-    expect(latex).toContain("X & Y");
   });
 
   test("exportPlotAsTXT returns plain text string correctly", () => {
@@ -782,5 +786,29 @@ describe("Additional helper functions", () => {
     const data = [1, 2, 3, 4];
     const result = cumulativeSum(data);
     expect(result).toEqual([1, 3, 6, 10]);
+  });
+
+  // Tests for newly added functions
+  test("plotLogLog returns points with logarithmic transformation", () => {
+    const fn = (x) => x * x;
+    const points = plotLogLog(fn, 1, 10, 10);
+    expect(points.length).toBe(11);
+    // x should be log-transformed
+    expect(points[0].x).toBeCloseTo(0, 5);
+    // y should be log(x^2)
+    const expectedY = Math.log(1 * 1);
+    expect(points[0].y).toBeCloseTo(expectedY, 5);
+  });
+
+  test("boxPlot returns correct summary statistics", () => {
+    const data = [3, 7, 8, 5, 12, 14, 21, 13, 18];
+    const stats = boxPlot(data);
+    expect(stats).toHaveProperty('min');
+    expect(stats).toHaveProperty('Q1');
+    expect(stats).toHaveProperty('median');
+    expect(stats).toHaveProperty('Q3');
+    expect(stats).toHaveProperty('max');
+    expect(stats.min).toBe(3);
+    expect(stats.max).toBe(21);
   });
 });

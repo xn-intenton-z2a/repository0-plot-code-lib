@@ -10,11 +10,11 @@ repository0-plot-code-lib is a versatile command-line utility designed for plott
 
 ## Features
 
-- **Mathematical Plots:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate plots, Hyperbola plots, Power function plots, and new functions including Sigmoid, Sinc, ReLU, moving median, inverse function (plotInverse) and cumulative sum (cumulativeSum).
+- **Mathematical Plots:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate plots, Hyperbola plots, Power function plots, and new functions including Sigmoid, Sinc, ReLU, moving median, inverse function (plotInverse), cumulative sum (cumulativeSum), log-log plotting (plotLogLog) and statistical box plot data (boxPlot).
 - **Numerical Tools:** Derivative approximation, area calculation, moving average, numerical integration, definite integration, and statistical analysis.
 - **Output Formats:** CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly formats.
 - **CLI Modes:** Demo, diagnostics, interactive, debug, web server modes, plus various export options including the new --power-plot mode.
-- **Extended Library:** Extended with additional functions: plotReLU, movingMedian, plotInverse, and cumulativeSum to further extend capabilities.
+- **Extended Library:** Extensively extended functionalities with additional features such as plotReLU, movingMedian, plotInverse, cumulativeSum, plotLogLog, and boxPlot to provide enhanced plotting and data analysis capabilities.
 
 For integrating plotting into your own projects, simply import the required functions from the library.
 
@@ -49,6 +49,7 @@ Other available modes include:
 - **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, plotEllipse, plotPower, and new plotting functions: plotSigmoid, plotSinc.
 - **2023-10 (Extended):** Added additional library functions: plotReLU, movingMedian.
 - **2023-10 (Extended Extra):** Added new functions: plotInverse and cumulativeSum.
+- **2023-10 (New Extension):** Added additional plotting and analysis functions: plotLogLog and boxPlot.
 - **2023-10 (Tests & Coverage):** Improved test coverage to near 100% and enhanced error handling for module loaders, ensuring robust behavior even when external resources fail.
 
 ## Contributing
