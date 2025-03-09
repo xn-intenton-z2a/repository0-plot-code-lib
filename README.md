@@ -12,7 +12,7 @@ This library provides a command-line interface (CLI) and an integrated web inter
 
 ## Features
 
-- **Plot Types:** Quadratic, Linear, Sine, Exponential, Logarithmic, Cosine, Tangent, Polar, Exponential, Logarithmic
+- **Plot Types:** Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Polar
 - **Output Formats:** SVG, JSON, CSV, Markdown, ASCII, HTML
 - **Advanced Analysis:**
   - Area under curve (Trapezoidal Rule)
@@ -30,6 +30,10 @@ This library provides a command-line interface (CLI) and an integrated web inter
   - plotExponential: Generates points for an exponential function.
   - plotLogarithmic: Generates points for a logarithmic function (requires xMin > 0).
   - movingAverage: Computes the moving average over a dataset for smoothing.
+  - plotCosine: Generates points for a cosine wave.
+  - plotTangent: Generates points for a tangent function with discontinuities handled gracefully (with improved handling for symmetric ranges).
+  - reflectPoints: Reflects a set of points across a specified axis (x or y).
+  - scalePoints: Scales a set of points by a given factor.
 
 ## Installation
 
@@ -84,7 +88,8 @@ node src/lib/main.js
 
 - Refactored main.js to use dynamic self-import for loadExpress and loadReadline, ensuring proper error handling and that test mocks work as expected.
 - Fixed Express server initialization error by ensuring the returned server instance is checked before calling close.
-- Extended library functions by adding plotLinear, plotSine, rotatePoints, and new functions: plotExponential, plotLogarithmic, and movingAverage to enhance plotting capabilities in line with our mission statement.
+- Extended library functions by adding **plotCosine**, **plotTangent**, **reflectPoints**, and **scalePoints** to enhance plotting capabilities in line with our mission statement.
+- Improved the implementation of **plotTangent** to handle symmetric ranges properly so that a midpoint corresponding to zero returns an accurate value of 0.
 
 ## Contributing
 
