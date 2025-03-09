@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-// Extended functionality: Added plotAbsolute and generateRange. See CONTRIBUTING.md for details.
+//
+// Changelog:
+// - Pruned drift from implementation and reinforced alignment with our mission statement.
+// - Updated CLI messages and error handling inline with contributing guidelines.
+// - Extended functionality: Added plotAbsolute and generateRange. See CONTRIBUTING.md for details.
 
 import { fileURLToPath } from "url";
 

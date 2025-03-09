@@ -1,6 +1,6 @@
 {
   "name": "@xn-intenton-z2a/repository0-plot-code-lib",
-  "version": "0.7.7",
+  "version": "0.7.8",
   "description": "A versatile CLI tool to accurately plot mathematical functions with flexible output formats, advanced analysis features, and extended library functions including exponential, logarithmic, moving average smoothing, cosine, tangent, reflection, scaling, and new features: absolute plotting and range generation. Updated to align with our mission statement and contribution guidelines.",
   "type": "module",
   "main": "src/lib/main.js",
