@@ -46,6 +46,8 @@ const {
   plotPolynomial,
   plotModulatedSine,
   plotSpiral,
+  plotSigmoid,
+  plotSinc,
   calculateDefiniteIntegral,
   plotCustom,
   loadExpress,
@@ -319,6 +321,9 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("plotSpiral");
     expect(debugString).toContain("calculateDefiniteIntegral");
     expect(debugString).toContain("plotEllipse");
+    // New functions
+    expect(debugString).toContain("plotSigmoid");
+    expect(debugString).toContain("plotSinc");
     spy.mockRestore();
   });
 });
@@ -708,6 +713,22 @@ describe("Additional helper functions", () => {
     expect(points.length).toBe(11);
     expect(points[0]).toHaveProperty('x');
     expect(points[0]).toHaveProperty('y');
+  });
+
+  test("plotSigmoid returns a valid sigmoid curve", () => {
+    const points = plotSigmoid(-6, 6, 12);
+    expect(points.length).toBe(13);
+    // Check that midpoint is approximately 0.5
+    const mid = points[Math.floor(points.length/2)];
+    expect(mid.y).toBeCloseTo(0.5, 2);
+  });
+
+  test("plotSinc returns correct sinc values", () => {
+    const points = plotSinc(-Math.PI, Math.PI, 10);
+    expect(points.length).toBe(11);
+    // Check that at x=0, sinc is 1
+    const zeroPoint = points.find(p => Math.abs(p.x) < 1e-6);
+    expect(zeroPoint.y).toBe(1);
   });
 
   test("calculateDefiniteIntegral returns a correct area", () => {
