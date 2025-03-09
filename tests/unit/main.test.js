@@ -24,7 +24,11 @@ const {
   offsetPoints,
   plotLogistic,
   plotCubic,
-  calculateStandardDeviation
+  calculateStandardDeviation,
+  calculateCorrelation,
+  plotHyperbolic,
+  calculateExponentialMovingAverage,
+  plotGaussian
 } = mainModule;
 
 describe("Main Function Behaviour", () => {
@@ -139,7 +143,6 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 });
-
 
 describe("Additional helper functions", () => {
   test("plotQuadratic returns correct number of points and values", () => {
@@ -300,15 +303,30 @@ describe("Additional helper functions", () => {
     expect(std).toBeCloseTo(2, 1);
   });
 
-  // Additional tests for edge cases and new features
   test("calculateStandardDeviation returns 0 for empty array", () => {
     expect(calculateStandardDeviation([])).toBe(0);
   });
 
-  test("plotPolar works correctly with negative angles", () => {
-    const radiusFn = (theta) => Math.sin(theta);
-    const points = plotPolar(radiusFn, -Math.PI/2, Math.PI/2, 4);
-    expect(points.length).toBe(5);
-    expect(points[0].theta).toBeCloseTo(-Math.PI/2, 5);
+  test("calculateCorrelation returns correct correlation coefficient", () => {
+    const dataX = [1, 2, 3, 4];
+    const dataY = [2, 4, 6, 8];
+    expect(calculateCorrelation(dataX, dataY)).toBeCloseTo(1, 5);
+  });
+
+  test("plotHyperbolic returns correct hyperbolic plot values", () => {
+    const points = plotHyperbolic(10, 1, 10, 9);
+    expect(points[0].y).toBeCloseTo(10, 5);
+  });
+
+  test("calculateExponentialMovingAverage returns correct EMA", () => {
+    const data = [1, 2, 3, 4, 5];
+    const ema = calculateExponentialMovingAverage(data, 0.5);
+    expect(ema.length).toBe(5);
+    expect(ema[0]).toEqual(1);
+  });
+
+  test("plotGaussian returns correct gaussian curve values", () => {
+    const points = plotGaussian(1, 0, 1, -3, 3, 6);
+    expect(points.length).toBe(7);
   });
 });

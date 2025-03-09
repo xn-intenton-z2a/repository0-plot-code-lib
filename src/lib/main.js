@@ -7,6 +7,7 @@
 // - Pruned redundant code to eliminate drift in accordance with CONTRIBUTING guidelines.
 // - Extended library with additional helper functions and improved error handling in interactive mode.
 // - Added new plotting functions: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
+// - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, and plotGaussian.
 // - Improved test coverage with enhanced unit tests and deeper mocks for external dependencies.
 // - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
@@ -376,6 +377,55 @@ export function calculateStandardDeviation(data) {
   const mean = data.reduce((acc, val) => acc + val, 0) / data.length;
   const variance = data.reduce((acc, val) => acc + Math.pow(val - mean, 2), 0) / data.length;
   return Math.sqrt(variance);
+}
+
+// New helper: calculateCorrelation returns the Pearson correlation coefficient between two arrays.
+export function calculateCorrelation(dataX, dataY) {
+  if (dataX.length !== dataY.length || dataX.length === 0) {
+    throw new Error("Arrays must be of the same non-zero length");
+  }
+  const n = dataX.length;
+  const meanX = dataX.reduce((sum, x) => sum + x, 0) / n;
+  const meanY = dataY.reduce((sum, y) => sum + y, 0) / n;
+  const numerator = dataX.reduce((acc, x, i) => acc + ((x - meanX) * (dataY[i] - meanY)), 0);
+  const denominator = Math.sqrt(
+    dataX.reduce((acc, x) => acc + Math.pow(x - meanX, 2), 0) *
+    dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
+  );
+  return denominator === 0 ? 0 : numerator / denominator;
+}
+
+// New feature: plotHyperbolic plots the hyperbolic function y = c / x, handling x near zero.
+export function plotHyperbolic(c, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: Math.abs(x) < 1e-10 ? null : c / x });
+  }
+  return result;
+}
+
+// New helper: calculateExponentialMovingAverage computes the EMA for an array of numbers.
+export function calculateExponentialMovingAverage(data, alpha = 0.5) {
+  if (data.length === 0) return [];
+  const result = [data[0]];
+  for (let i = 1; i < data.length; i++) {
+    result.push(alpha * data[i] + (1 - alpha) * result[i - 1]);
+  }
+  return result;
+}
+
+// New feature: plotGaussian for plotting a Gaussian (normal distribution) curve.
+export function plotGaussian(amplitude, mean, sigma, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const exponent = -Math.pow(x - mean, 2) / (2 * sigma * sigma);
+    result.push({ x, y: amplitude * Math.exp(exponent) });
+  }
+  return result;
 }
 
 // Entry point

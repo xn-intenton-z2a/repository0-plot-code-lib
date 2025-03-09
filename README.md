@@ -16,9 +16,10 @@ repository0-plot-code-lib is a CLI tool designed for high precision plotting of 
   - Derivative plotting
   - Logistic and Cubic plotting
   - Custom range generation
-  - Statistical analysis (e.g., standard deviation)
-  - Data smoothing with moving average
+  - Statistical analysis (e.g., standard deviation, correlation)
+  - Data smoothing with moving average and exponential moving average
   - Point transformations: rotation, reflection, scaling, and offset adjustments
+  - **New Functions:** Gaussian plotting and Hyperbolic plotting
 
 - **CLI Modes:**
   - Default demo mode that introduces the tool
@@ -77,8 +78,9 @@ Running the CLI with no arguments displays a demo message that introduces users 
 
 - Refined CLI messages and functionalities in line with the mission statement.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
+- **New helper functions added:** calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, and plotGaussian.
 - Improved error handling in interactive mode.
-- **Improved test coverage to nearly 100% with enhanced unit tests and mocks for external resources.**
+- **Improved test coverage** to nearly 100% with enhanced unit tests and mocks for external resources.
 - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 ## Contributing
