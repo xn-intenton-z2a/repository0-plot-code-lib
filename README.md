@@ -133,12 +133,12 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Refined CLI messages and functionalities to maintain strict alignment with our mission statement.
 - Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, and exportPlotAsASCII.
-- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), and Debug mode (`--debug`).
+- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, and exportPlotAsSVG.
+- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), SVG export mode (`--export-svg`), and Debug mode (`--debug`).
 - **New Features:**
-  - Added SVG export mode (`--export-svg`) with exportPlotAsSVG demo.
   - Added Scatter plot mode (`--scatter`) with plotScatter demo.
-- Pruned drift from the source file to further align with the Mission Statement and CONTRIBUTING guidelines.
+- **Testing Enhancements:**
+  - Improved test coverage with both single-layer mocks and deep mocks for external dependencies such as module loading for Express and Readline.
 
 ## Contributing
 
