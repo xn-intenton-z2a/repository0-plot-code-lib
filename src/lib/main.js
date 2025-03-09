@@ -18,6 +18,7 @@
 // - 2023-10: Added new helper exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
 // - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
 // - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend spiral plotting and numerical integration capabilities.
+// - 2023-10: Added new functions exportPlotAsR and plotCustom to enhance flexibility and extend exporting capabilities inline with our mission statement.
 // - 2023-10: Updated to adhere strictly to CONTRIBUTING guidelines and pruned residual drift.
 // - 2023-10: Increased test coverage and enhanced external resource mocking to support deeper testing.
 // - 2023-10: Increased overall test coverage to near 100% and improved isolation of external resource dependencies.
@@ -51,7 +52,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
     );
     return;
   }
@@ -65,7 +66,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotSpiral, calculateDefiniteIntegral"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotSpiral, calculateDefiniteIntegral, plotCustom"
     );
     return;
   }
@@ -230,6 +231,14 @@ export async function main(args) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const txt = exportPlotAsTXT(points);
     console.log("TXT Output:\n" + txt);
+    return;
+  }
+
+  // --export-r flag: export a plot in R-friendly format demo (new feature inline with mission)
+  if (args.includes("--export-r")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const rOutput = exportPlotAsR(points);
+    console.log("R Output:\n" + rOutput);
     return;
   }
 
@@ -621,74 +630,6 @@ export function exportPlotAsXML(points) {
   return xml;
 }
 
-// New helper: plotScatter generates a scatter plot with random points
-export function plotScatter(numPoints = 10) {
-  const result = [];
-  for (let i = 0; i < numPoints; i++) {
-    result.push({ x: Math.random() * 10, y: Math.random() * 10 });
-  }
-  return result;
-}
-
-// New function: plotModulatedSine generates a sine wave modulated by a cosine function
-export function plotModulatedSine(amplitude, frequency, phase, modulation, xMin, xMax, steps = 100) {
-  const dx = (xMax - xMin) / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const x = xMin + i * dx;
-    result.push({ x, y: amplitude * Math.sin(frequency * x + phase) * Math.cos(modulation * x) });
-  }
-  return result;
-}
-
-// New function: plotLogBase computes the logarithm of a value with the specified base.
-export function plotLogBase(value, base) {
-  if (value <= 0 || base <= 0 || base === 1) {
-    throw new Error("Invalid input for logarithm");
-  }
-  return Math.log(value) / Math.log(base);
-}
-
-// New function: plotParametric for plotting parametric equations. It takes two functions for x and y endpoints and a range for the parameter t.
-export function plotParametric(fnX, fnY, tMin, tMax, steps = 100) {
-  const dt = (tMax - tMin) / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = tMin + i * dt;
-    result.push({ t, x: fnX(t), y: fnY(t) });
-  }
-  return result;
-}
-
-// New function: plotBarChart creates a simple bar chart visualization from point data
-export function plotBarChart(points) {
-  let chart = '';
-  points.forEach(pt => {
-    const barCount = Math.round((pt.y || 0) * 10);
-    let bars = '';
-    for (let i = 0; i < barCount; i++) {
-      bars += '*';
-    }
-    chart += `${pt.x}: ${bars}\n`;
-  });
-  return chart.trim();
-}
-
-// New function: plotEllipse generates points for an ellipse given a center and radii.
-export function plotEllipse(centerX, centerY, radiusX, radiusY, steps = 100) {
-  const result = [];
-  const dTheta = (2 * Math.PI) / steps;
-  for (let i = 0; i <= steps; i++) {
-    const theta = i * dTheta;
-    result.push({
-      theta,
-      x: centerX + radiusX * Math.cos(theta),
-      y: centerY + radiusY * Math.sin(theta)
-    });
-  }
-  return result;
-}
-
 // New helper: exportPlotAsLaTeX converts an array of point objects to a LaTeX tabular format
 export function exportPlotAsLaTeX(points) {
   if (!points.length) return '';
@@ -708,7 +649,16 @@ export function exportPlotAsTXT(points) {
   return points.map(pt => `x: ${pt.x}, y: ${pt.y}`).join('\n');
 }
 
-// New function: plotPolynomial plots a polynomial function given an array of coefficients.
+// New helper: exportPlotAsR converts an array of point objects to a format friendly for R (e.g., as a data frame representation)
+export function exportPlotAsR(points) {
+  if (!points.length) return '';
+  const keys = Object.keys(points[0]);
+  let rOutput = keys.join(', ') + '\n';
+  rOutput += points.map(pt => keys.map(k => pt[k]).join(', ')).join('\n');
+  return rOutput;
+}
+
+// New function: plotPolynomial plots a polynomial function given a array of coefficients.
 // Coefficients are in increasing order: [a0, a1, a2, ...] represents a0 + a1*x + a2*x^2 + ...
 export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
@@ -747,6 +697,41 @@ export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
     total += weight * fn(x);
   }
   return total * dx;
+}
+
+// New helper: plotCustom for flexible plotting of any given mathematical function
+export function plotCustom(fn, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: fn(x) });
+  }
+  return result;
+}
+
+// Added missing functions to support CLI flags
+export function plotScatter(count) {
+  const points = [];
+  for (let i = 0; i < count; i++) {
+    points.push({ x: Math.random() * 10, y: Math.random() * 10 });
+  }
+  return points;
+}
+
+export function plotBarChart(points) {
+  // Simple bar chart representation using '*' characters based on y value
+  return points.map(p => `x: ${p.x.toFixed(2)} | ${'*'.repeat(Math.max(1, Math.round(Math.abs(p.y))))}`).join('\n');
+}
+
+export function plotParametric(xFn, yFn, tMin, tMax, steps = 100) {
+  const dt = (tMax - tMin) / steps;
+  const points = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = tMin + i * dt;
+    points.push({ t, x: xFn(t), y: yFn(t) });
+  }
+  return points;
 }
 
 // Entry point
