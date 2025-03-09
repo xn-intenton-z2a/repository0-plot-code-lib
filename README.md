@@ -29,6 +29,7 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - Markdown Export mode (`--export-md`) for exporting plot data as a Markdown table
   - JSON Export mode (`--export-json`) for exporting plot data in JSON format
   - HTML Export mode (`--export-html`) for exporting plot data as an HTML table
+  - ASCII Export mode (`--export-ascii`) for exporting plot data in ASCII table format
   - Debug mode (`--debug`) for listing available plotting functions
 
 ## Installation
@@ -97,6 +98,12 @@ Other modes include:
   ```
   Exports sample plot data as an HTML table.
 
+- **ASCII Export Mode:**
+  ```bash
+  node src/lib/main.js --export-ascii
+  ```
+  Exports sample plot data as an ASCII table.
+
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -112,9 +119,9 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Refined CLI messages and functionalities to maintain strict alignment with our mission statement.
 - Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, and exportPlotAsHTML.
-- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), and Debug mode (`--debug`).
-- **Pruned drift from the source file to further align with the Mission Statement and CONTRIBUTING guidelines.**
+- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, and exportPlotAsASCII.
+- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), and Debug mode (`--debug`).
+- Pruned drift from the source file to further align with the Mission Statement and CONTRIBUTING guidelines.
 
 ## Contributing
 
