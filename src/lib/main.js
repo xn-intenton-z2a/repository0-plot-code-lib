@@ -7,6 +7,7 @@
 // - Pruned redundant code to eliminate drift in accordance with CONTRIBUTING guidelines.
 // - Extended library with additional helper functions and improved error handling in interactive mode.
 // - Added new plotting functions: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
+// - Improved test coverage with enhanced unit tests and deeper mocks for external dependencies.
 // - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";

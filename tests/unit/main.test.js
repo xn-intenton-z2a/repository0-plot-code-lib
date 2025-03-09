@@ -140,6 +140,7 @@ describe("Main Function Behaviour", () => {
   });
 });
 
+
 describe("Additional helper functions", () => {
   test("plotQuadratic returns correct number of points and values", () => {
     const points = plotQuadratic(1, 0, 0, 0, 10, 10);
@@ -297,5 +298,17 @@ describe("Additional helper functions", () => {
     const data = [2, 4, 4, 4, 5, 5, 7, 9];
     const std = calculateStandardDeviation(data);
     expect(std).toBeCloseTo(2, 1);
+  });
+
+  // Additional tests for edge cases and new features
+  test("calculateStandardDeviation returns 0 for empty array", () => {
+    expect(calculateStandardDeviation([])).toBe(0);
+  });
+
+  test("plotPolar works correctly with negative angles", () => {
+    const radiusFn = (theta) => Math.sin(theta);
+    const points = plotPolar(radiusFn, -Math.PI/2, Math.PI/2, 4);
+    expect(points.length).toBe(5);
+    expect(points[0].theta).toBeCloseTo(-Math.PI/2, 5);
   });
 });

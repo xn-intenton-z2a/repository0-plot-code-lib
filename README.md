@@ -78,6 +78,7 @@ Running the CLI with no arguments displays a demo message that introduces users 
 - Refined CLI messages and functionalities in line with the mission statement.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Improved error handling in interactive mode.
+- **Improved test coverage to nearly 100% with enhanced unit tests and mocks for external resources.**
 - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 ## Contributing
