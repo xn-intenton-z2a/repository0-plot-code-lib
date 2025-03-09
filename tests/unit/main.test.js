@@ -29,7 +29,8 @@ const {
   plotHyperbolic,
   calculateExponentialMovingAverage,
   plotGaussian,
-  exportPlotAsCSV
+  exportPlotAsCSV,
+  exportPlotAsMarkdown
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -39,7 +40,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -150,6 +151,13 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--export-csv"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("CSV Output:"));
+    spy.mockRestore();
+  });
+
+  test("should output Markdown plot when --export-md flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-md"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Markdown Output:"));
     spy.mockRestore();
   });
 });
@@ -362,5 +370,12 @@ describe("Additional helper functions", () => {
     const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
     const csv = exportPlotAsCSV(points);
     expect(csv).toBe("x,y\n0,0\n1,1");
+  });
+
+  test("exportPlotAsMarkdown returns Markdown table string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const md = exportPlotAsMarkdown(points);
+    const expected = "| x | y |\n| --- | --- |\n| 0 | 0 |\n| 1 | 1 |";
+    expect(md).toBe(expected);
   });
 });

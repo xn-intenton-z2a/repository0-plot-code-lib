@@ -1,7 +1,7 @@
 {
   "name": "@xn-intenton-z2a/repository0-plot-code-lib",
-  "version": "0.7.22",
-  "description": "A versatile CLI tool to accurately plot mathematical functions with flexible output formats. Refined per CONTRIBUTING guidelines to fully align with our mission statement.",
+  "version": "0.7.23",
+  "description": "A versatile CLI tool to accurately plot mathematical functions with flexible output formats. Refined per CONTRIBUTING guidelines to fully align with our mission statement. New feature: Markdown export mode added.",
   "type": "module",
   "main": "src/lib/main.js",
   "scripts": {

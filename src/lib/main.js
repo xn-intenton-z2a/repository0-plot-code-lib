@@ -9,6 +9,7 @@
 // - Extended library with new plotting and helper functions as per CONTRIBUTING guidelines.
 // - 2023-10-Enhanced: Added --debug flag for detailed function listing for debugging purposes.
 // - 2023-10-Extended: Improved error handling, ensured robust interactive fallback and external module mocking for enhanced test coverage.
+// - 2023-10-Extended2: Added --export-md flag and exportPlotAsMarkdown function for Markdown table export demo.
 
 import { fileURLToPath } from "url";
 
@@ -39,7 +40,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, or provide plot parameters."
     );
     return;
   }
@@ -53,7 +54,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown"
     );
     return;
   }
@@ -154,6 +155,14 @@ export async function main(args) {
   if (args.includes("--plot-abs")) {
     const points = plotAbsolute(Math.sin, 0, Math.PI, 10);
     console.log("Plot Absolute of sin(x):", points);
+    return;
+  }
+
+  // --export-md flag: export a plot as Markdown table format demo (using plotSine as example)
+  if (args.includes("--export-md")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const markdown = exportPlotAsMarkdown(points);
+    console.log("Markdown Output:\n" + markdown);
     return;
   }
 
@@ -449,6 +458,18 @@ export function exportPlotAsCSV(points) {
   let csv = keys.join(",") + "\n";
   csv += points.map(point => keys.map(k => point[k]).join(",")).join("\n");
   return csv;
+}
+
+// New helper: exportPlotAsMarkdown converts an array of point objects to a Markdown table format
+export function exportPlotAsMarkdown(points) {
+  if (!points.length) return '';
+  const keys = Object.keys(points[0]);
+  let md = "| " + keys.join(" | ") + " |\n";
+  md += "| " + keys.map(() => '---').join(" | ") + " |\n";
+  points.forEach(point => {
+    md += "| " + keys.map(k => point[k]).join(" | ") + " |\n";
+  });
+  return md.trim();
 }
 
 // Entry point
