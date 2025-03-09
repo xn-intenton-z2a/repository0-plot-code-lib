@@ -8,32 +8,27 @@
 
 ## Overview
 
-This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions. Its design adheres closely to our mission statement and contributing guidelines. The features include generating various output formats and performing advanced analyses such as area calculations, derivative estimations, and transformations.
+This library provides a command-line interface (CLI) tool for plotting a range of mathematical functions along with advanced analytical features. It supports multiple output formats including SVG, JSON, CSV, Markdown, ASCII, and HTML. The design and implementations strictly adhere to our mission statement and the contributing guidelines.
 
 ## Features
 
-- **Plot Types:** Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Polar
+- **Plot Types:**
+  - Quadratic
+  - Linear
+  - Sine
+  - Cosine
+  - Tangent
+  - Exponential
+  - Logarithmic
+  - Moving Average for smoothing data
+  - Point Transformations: Rotation, Reflection, Scaling
+
 - **Output Formats:** SVG, JSON, CSV, Markdown, ASCII, HTML
+
 - **Advanced Analysis:**
-  - Area under curve (Trapezoidal Rule)
+  - Area under the curve (Trapezoidal Rule)
   - Derivative calculation (Finite differences)
   - Statistical functions: average, standard deviation, median, mode
-  - Transformations: Rotation, Reflection, Scaling, Inversion, Smoothing (Moving average)
-  - Gradient visualization
-- **Additional Library Functions:**
-  - plotQuadratic: Generates an array of points for a quadratic function.
-  - calculateDerivative: Approximates the derivative of a function at a given point.
-  - calculateArea: Approximates the area under a function curve using the trapezoidal rule.
-  - plotLinear: Generates points for a linear function.
-  - plotSine: Generates points for a sine wave based on amplitude, frequency, and phase.
-  - rotatePoints: Rotates a set of points by a specified angle (in radians).
-  - plotExponential: Generates points for an exponential function.
-  - plotLogarithmic: Generates points for a logarithmic function (requires xMin > 0).
-  - movingAverage: Computes the moving average over a dataset for smoothing.
-  - plotCosine: Generates points for a cosine wave.
-  - plotTangent: Generates points for a tangent function with discontinuities handled gracefully (with improved handling for symmetric ranges).
-  - reflectPoints: Reflects a set of points across a specified axis (x or y).
-  - scalePoints: Scales a set of points by a given factor.
 
 ## Installation
 
@@ -74,7 +69,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting web interface. The server initialization now uses dynamic self-import to allow proper error handling and mocking, logs errors correctly, and safely handles server closure to ensure reliable logging and test execution.
+  Starts an Express-based interactive plotting web interface with proper error handling and graceful shutdown in test environments.
 
 ### Default Demo
 
@@ -86,14 +81,13 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Refactored main.js to use dynamic self-import for loadExpress and loadReadline, ensuring proper error handling and that test mocks work as expected.
-- Fixed Express server initialization error by ensuring the returned server instance is checked before calling close.
-- Extended library functions by adding **plotCosine**, **plotTangent**, **reflectPoints**, and **scalePoints** to enhance plotting capabilities in line with our mission statement.
-- Improved the implementation of **plotTangent** to handle symmetric ranges properly so that a midpoint corresponding to zero returns an accurate value of 0.
+- Refreshed documentation to align with the CONTRIBUTING guidelines and mission statement.
+- Updated the CLI demo and error handling descriptions for clarity.
+- Extended library functions with additional plotting and transformation capabilities.
 
 ## Contributing
 
-Contributions are automated. Please open an issue and label it as `automated` to trigger our workflows. For additional details, see [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions are automated. Please open an issue and label it as `automated` to trigger our workflows. For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 
