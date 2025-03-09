@@ -325,6 +325,26 @@ describe("Module Loading Helpers", () => {
   });
 });
 
+// Error Handling for Module Loaders
+
+describe("Error Handling for module loaders", () => {
+  test("loadReadline should handle failure gracefully", async () => {
+    vi.spyOn(mainModule, "loadReadline").mockImplementation(() => Promise.reject(new Error("readline failure")));
+    const spyError = vi.spyOn(console, "error");
+    await main(["--interactive"]);
+    expect(spyError).toHaveBeenCalledWith("Error loading readline module:", expect.any(Error));
+    spyError.mockRestore();
+  });
+
+  test("loadExpress should handle failure gracefully", async () => {
+    vi.spyOn(mainModule, "loadExpress").mockImplementation(() => Promise.reject(new Error("express failure")));
+    const spyError = vi.spyOn(console, "error");
+    await main(["--serve"]);
+    expect(spyError).toHaveBeenCalledWith("Error starting server:", expect.any(Error));
+    spyError.mockRestore();
+  });
+});
+
 // Additional helper functions tests
 
 describe("Additional helper functions", () => {
