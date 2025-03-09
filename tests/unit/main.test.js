@@ -44,6 +44,7 @@ const {
   plotParametric,
   plotBarChart,
   plotEllipse,
+  plotPolynomial,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -55,7 +56,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -243,6 +244,13 @@ describe("Main Function Behaviour", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Parametric Plot Output:"));
     spy.mockRestore();
   });
+
+  test("should output Polynomial plot when --plot-poly flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--plot-poly"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Polynomial Plot Output:"));
+    spy.mockRestore();
+  });
 });
 
 // Debug flag behaviour
@@ -257,6 +265,7 @@ describe("Debug flag behaviour", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotEllipse"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsLaTeX"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsTXT"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotPolynomial"));
     spy.mockRestore();
   });
 });
@@ -540,5 +549,13 @@ describe("Additional helper functions", () => {
     const txt = exportPlotAsTXT(points);
     const expected = "x: 0, y: 0\nx: 2, y: 4";
     expect(txt).toBe(expected);
+  });
+
+  test("plotPolynomial returns correct polynomial values", () => {
+    const points = plotPolynomial([1, 2, 3], 0, 2, 2);
+    expect(points.length).toBe(3);
+    expect(points[0]).toEqual({ x: 0, y: 1 });
+    expect(points[1]).toEqual({ x: 1, y: 6 });
+    expect(points[2]).toEqual({ x: 2, y: 17 });
   });
 });

@@ -6,7 +6,7 @@
 // - 2023-10: Added --debug flag for detailed function listing for debugging purposes.
 // - 2023-10: Added --export-md flag and exportPlotAsMarkdown demo for Markdown table export.
 // - 2023-10: Improved fallback in interactive mode and robust error handling.
-// - 2023-10: Pruned drift from the code to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// - 2023-10: Pruned drift from the code to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 // - 2023-10: Added --export-json and --export-html modes with corresponding helper functions.
 // - 2023-10: Added --export-ascii flag and exportPlotAsASCII demo for ASCII table export.
 // - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export.
@@ -16,6 +16,7 @@
 // - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
 // - 2023-10: Added new functions plotEllipse and exportPlotAsLaTeX to further extend plotting capabilities in line with our mission.
 // - 2023-10: Added new function exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
+// - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
 
 import { fileURLToPath } from "url";
 
@@ -46,7 +47,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
     );
     return;
   }
@@ -60,7 +61,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse, plotPolynomial"
     );
     return;
   }
@@ -247,6 +248,13 @@ export async function main(args) {
   if (args.includes("--plot-parametric")) {
     const points = plotParametric(t => Math.cos(t), t => Math.sin(t), 0, 2 * Math.PI, 100);
     console.log("Parametric Plot Output:\n" + JSON.stringify(points, null, 2));
+    return;
+  }
+
+  // --plot-poly flag: demo of plotting a polynomial function (default coefficients: [1,2,3] for a quadratic curve)
+  if (args.includes("--plot-poly")) {
+    const points = plotPolynomial([1, 2, 3], 0, 2, 10);
+    console.log("Polynomial Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
@@ -694,6 +702,22 @@ export function exportPlotAsLaTeX(points) {
 export function exportPlotAsTXT(points) {
   if (!points.length) return '';
   return points.map(pt => `x: ${pt.x}, y: ${pt.y}`).join('\n');
+}
+
+// New function: plotPolynomial plots a polynomial function given an array of coefficients.
+// Coefficients are in increasing order: [a0, a1, a2, ...] represents a0 + a1*x + a2*x^2 + ...
+export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    let y = 0;
+    for (let j = 0; j < coefficients.length; j++) {
+      y += coefficients[j] * Math.pow(x, j);
+    }
+    result.push({ x, y });
+  }
+  return result;
 }
 
 // Entry point

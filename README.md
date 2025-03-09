@@ -8,7 +8,7 @@ repository0-plot-code-lib is a command-line tool designed for high-precision mat
 
 ## Features
 
-- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, and ellipse plots.
+- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, and polynomial plots.
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, and plain text (TXT) formats.
 - **Data Analysis & Transformations:** Includes derivative calculation, area approximation, data smoothing (moving average, exponential moving average), and statistical analysis (standard deviation, Pearson correlation).
 - **CLI Modes:** Offers demo, diagnostics, interactive, web server, and debug modes.
@@ -21,6 +21,7 @@ repository0-plot-code-lib is a command-line tool designed for high-precision mat
   - **Added plotEllipse:** Generates ellipse coordinates based on center and radii.
   - **Added exportPlotAsLaTeX:** Exports plot data in a LaTeX tabular format.
   - **Added exportPlotAsTXT:** Exports plot data in a plain text format for quick visualization.
+  - **Added plotPolynomial:** Supports customizable polynomial plotting with user-defined coefficients. Use the CLI flag `--plot-poly` to demo this feature.
 
 ## Installation
 
@@ -103,6 +104,10 @@ Other modes include:
   ```bash
   node src/lib/main.js --plot-parametric
   ```
+- **Polynomial Plot Mode:**
+  ```bash
+  node src/lib/main.js --plot-poly
+  ```
 - **Debug Mode (list available functions):**
   ```bash
   node src/lib/main.js --debug
@@ -126,6 +131,7 @@ Your contributions help us maintain the tool's high precision and alignment with
 - **2023-10:** **Added plotCosine implementation for cosine plotting.**
 - **2023-10:** **Added plotEllipse for generating ellipse coordinates and exportPlotAsLaTeX for LaTeX table export.**
 - **2023-10:** **Added exportPlotAsTXT for plain text table export.**
+- **2023-10:** **Added plotPolynomial function and the --plot-poly flag for customizable polynomial plotting.**
 - **2023-10:** Pruned code drift to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 - Streamlined code and enhanced test coverage to adhere to our high-quality standards.
 
