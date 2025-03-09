@@ -8,6 +8,7 @@
 // - 2023-10: Improved fallback in interactive mode and robust error handling.
 // - 2023-10: Improved test coverage and enhanced error handling in interactive mode to facilitate single-layer and deep mocks as per CONTRIBUTING guidelines.
 // - 2023-10: Added new export features: --export-json and --export-html modes with corresponding helper functions.
+// - 2023-10: Pruned drift from the code to fully align with the Mission Statement and updated CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";
 
