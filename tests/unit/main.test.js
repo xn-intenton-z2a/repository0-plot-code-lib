@@ -213,6 +213,20 @@ describe("Debug flag behaviour", () => {
   });
 });
 
+// Additional tests for module loading (deeper external resource mocks)
+
+describe("Module Loading Helpers", () => {
+  test("loadExpress should return a promise that resolves to a module", async () => {
+    const mod = await loadExpress();
+    expect(mod).toBeDefined();
+  });
+
+  test("loadReadline should return a promise that resolves to a module", async () => {
+    const mod = await loadReadline();
+    expect(mod).toBeDefined();
+  });
+});
+
 // Additional helper functions tests
 
 describe("Additional helper functions", () => {
