@@ -86,14 +86,14 @@ node src/lib/main.js
 - Realigned CLI messages and functionalities with our mission statement.
 - Pruned redundant code to eliminate drift as per CONTRIBUTING.md guidelines.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, and offsetPoints.
-- Enhanced error handling and interactive mode fallback.
+- Enhanced error handling in interactive mode with additional try/catch blocks.
 - Updated test coverage and documentation to reflect refined implementation.
 
 ## Contributing
 
 Contributions are automated. Please follow these steps:
 
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 2. **Label It as `automated`:** This triggers our automated workflows.
 3. **Review CONTRIBUTING.md:** Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed guidelines.
 

@@ -7,6 +7,7 @@
 // - Pruned redundant code to eliminate drift per CONTRIBUTING guidelines.
 // - Introduced new helper functions and enhanced error management in interactive mode.
 // - Extended library with new functions: plotDerivative and offsetPoints for enhanced analysis and point transformations.
+// - Enhanced interactive mode error handling with try/catch for improved robustness.
 // - Updated documentation and changelog to reflect contributions per CONTRIBUTING.md.
 
 import { fileURLToPath } from "url";
@@ -121,7 +122,13 @@ export async function main(args) {
         }, timeoutMs);
         rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", (answer) => {
           clearTimeout(timeout);
-          handleAnswer(answer);
+          try {
+            handleAnswer(answer);
+          } catch (err) {
+            console.error("Error processing input:", err);
+            rl.close();
+            resolve();
+          }
         });
       }
     });
