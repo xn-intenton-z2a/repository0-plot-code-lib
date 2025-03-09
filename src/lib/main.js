@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines, with extended library functions.
+// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines, with extended library functions including a new plotPower feature.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -34,7 +34,7 @@ export async function main(args) {
   if (args.length === 0) {
     console.log(
       "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
-      "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola or provide plot parameters.\n" +
+      "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
       "For contribution guidelines, please refer to CONTRIBUTING.md."
     );
     return;
@@ -58,7 +58,7 @@ export async function main(args) {
         "exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, " +
         "plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, " +
         "calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, " +
-        "plotBezier, plotLissajous, plotBessel, plotHyperbola, plotLemniscate"
+        "plotBezier, plotLissajous, plotBessel, plotHyperbola, plotLemniscate, plotPower"
     );
     return;
   }
@@ -158,6 +158,14 @@ export async function main(args) {
     return;
   }
 
+  // --power-plot flag: demo power plot (e.g., cubic function y = 2*x^3)
+  if (args.includes("--power-plot")) {
+    const points = plotPower(3, 2, -10, 10, 20);
+    console.log("Power Plot (y = 2x^3) Output:\n" + JSON.stringify(points, null, 2));
+    return;
+  }
+
+  // Other export and plot flags below
   // --export-csv flag: demo export as CSV format (using plotSine as example)
   if (args.includes("--export-csv")) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
@@ -805,7 +813,7 @@ export function plotLemniscate(a, tMin, tMax, steps = 100) {
   return result;
 }
 
-// Newly added functions to support additional features as per contributing guidelines
+// Newly added function: plotPolynomial
 export function plotPolynomial(coeffs, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -864,6 +872,17 @@ export function plotEllipse(a, b, xMin, xMax, steps = 100) {
   for (let i = 0; i <= steps; i++) {
     const t = xMin + i * dx;
     result.push({ t, x: a * Math.cos(t), y: b * Math.sin(t) });
+  }
+  return result;
+}
+
+// Newly added function: plotPower to demonstrate plotting of power functions
+export function plotPower(power, coefficient, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: coefficient * Math.pow(x, power) });
   }
   return result;
 }
