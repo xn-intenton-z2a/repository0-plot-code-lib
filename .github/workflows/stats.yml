@@ -61,7 +61,7 @@ jobs:
               state: "open",
               per_page: 256
             });
-            const openIssues = issuesResp.data.length;
+            const openIssues = issuesResp.data.filter(issue => !issue.pull_request).length;
             core.info(`Open issues: ${openIssues}`);
 
             // Issues closed in last hour and last 24 hours.
@@ -73,7 +73,7 @@ jobs:
               since: sinceOneHour,
               per_page: 256
             });
-            const issuesClosedLastHour = closedHourResp.data.length;
+            const issuesClosedLastHour = closedHourResp.data.filter(issue => !issue.pull_request).length;
             const sinceOneDay = new Date(now.getTime() - (24 * 60 * 60 * 1000)).toISOString();
             const closedDayResp = await github.rest.issues.listForRepo({
               owner,
@@ -82,7 +82,7 @@ jobs:
               since: sinceOneDay,
               per_page: 256
             });
-            const issuesClosedLastDay = closedDayResp.data.length;
+            const issuesClosedLastDay = closedDayResp.data.filter(issue => !issue.pull_request).length;
 
             // Open pull requests with age annotation (in minutes).
             const pullsResp = await github.rest.pulls.list({
