@@ -10,9 +10,9 @@ repository0-plot-code-lib is a versatile command-line utility for plotting and a
 
 ## Features
 
-- **Mathematical Plots:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate (figure-eight) plots, and now Hyperbola plots.
+- **Mathematical Plots:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate (figure-eight) plots, and Hyperbola plots.
+- **Additional Mathematical Tools:** Offers derivative calculation, area approximation, moving averages, numerical integration, definite integration, and statistical analysis.
 - **Output Formats:** CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly formats.
-- **Mathematical Tools:** Offers derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
 - **CLI Modes:** Demo, diagnostics, interactive, debug, and web server modes using various flags.
 
 ## Installation
@@ -36,7 +36,7 @@ Other available modes include:
 - **Diagnostics:** `npm run diagnostics`
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Web Server:** `node src/lib/main.js --serve`
-- **Export/Plot Modes:** Use flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`, `--plot-abs`, `--scatter`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, and the new `--hyperbola` mode.
+- **Export/Plot Modes:** Use flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`, `--plot-abs`, `--scatter`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`.
 - **Debug Mode:** `node src/lib/main.js --debug` to list available plotting functions.
 
 For integrating plotting into your own scripts, simply import the library functions directly.
@@ -44,8 +44,8 @@ For integrating plotting into your own scripts, simply import the library functi
 ## Changelog
 
 - **2023-10:** Refined CLI messaging and extended plotting functionalities.
-- **2023-10:** Added features: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotLemniscate.
-- **2023-10 (Update):** Added new function: plotHyperbola. Updated README to align with the latest CONTRIBUTING guidelines and refreshed content.
+- **2023-10:** Added features: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotLemniscate, plotHyperbola.
+- **2023-10 (Update):** Added new plotting functions: plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, and plotEllipse. Updated README to align with the latest CONTRIBUTING guidelines and refreshed content.
 
 ## Contributing
 

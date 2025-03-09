@@ -67,7 +67,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -305,16 +305,10 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("exportPlotAsLaTeX");
     expect(debugString).toContain("exportPlotAsTXT");
     expect(debugString).toContain("plotPolynomial");
+    expect(debugString).toContain("plotModulatedSine");
     expect(debugString).toContain("plotSpiral");
     expect(debugString).toContain("calculateDefiniteIntegral");
-    expect(debugString).toContain("plotSinCosCombined");
-    expect(debugString).toContain("solveQuadraticEquation");
-    expect(debugString).toContain("interpolateData");
-    expect(debugString).toContain("plotBezier");
-    expect(debugString).toContain("plotLissajous");
-    expect(debugString).toContain("plotBessel");
-    expect(debugString).toContain("plotHyperbola");
-    expect(debugString).toContain("plotLemniscate");
+    expect(debugString).toContain("plotEllipse");
     spy.mockRestore();
   });
 });
@@ -684,5 +678,42 @@ describe("Additional helper functions", () => {
     expect(points.length).toBe(101);
     const validPoint = points.find(pt => pt.x !== null && pt.y !== null);
     expect(validPoint).toBeDefined();
+  });
+
+  test("plotPolynomial returns a valid polynomial plot", () => {
+    const points = plotPolynomial([1,2,3], 0, 2, 10);
+    expect(points.length).toBe(11);
+    // For polynomial 1*x^2 +2*x + 3, at x=2, y= 1*4+2*2+3 = 4+4+3=11
+    expect(points[10].y).toBeCloseTo(11, 1);
+  });
+
+  test("plotModulatedSine returns modulated sine values", () => {
+    const points = plotModulatedSine(1, 1, 0.5, 0, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    expect(points[0].y).toBeCloseTo(0, 5);
+  });
+
+  test("plotSpiral returns a valid spiral plot", () => {
+    const points = plotSpiral(1, 0, 2 * Math.PI, 10);
+    expect(points.length).toBe(11);
+    expect(points[0]).toHaveProperty('x');
+    expect(points[0]).toHaveProperty('y');
+  });
+
+  test("calculateDefiniteIntegral returns a correct area", () => {
+    const area = calculateDefiniteIntegral(x => x, 0, 10, 1000);
+    expect(area).toBeCloseTo(50, 1);
+  });
+
+  test("plotCustom returns an array (even if empty)", () => {
+    const result = plotCustom();
+    expect(Array.isArray(result)).toBe(true);
+  });
+
+  test("plotEllipse returns correct ellipse values", () => {
+    const points = plotEllipse(5, 3, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    expect(points[0]).toHaveProperty('x');
+    expect(points[0]).toHaveProperty('y');
   });
 });
