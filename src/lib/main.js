@@ -6,6 +6,7 @@
 // - Realigned CLI messages and functionalities with our mission statement.
 // - Pruned redundant code to eliminate drift per CONTRIBUTING guidelines.
 // - Introduced new helper functions and enhanced error management in interactive mode.
+// - Extended library with new functions: plotDerivative and offsetPoints for enhanced analysis and point transformations.
 // - Updated documentation and changelog to reflect contributions per CONTRIBUTING.md.
 
 import { fileURLToPath } from "url";
@@ -321,6 +322,22 @@ export function generateRange(xMin, xMax, steps = 100) {
     range.push(xMin + i * dx);
   }
   return range;
+}
+
+// Extended Feature: plotDerivative calculates the derivative of a function along a range
+export function plotDerivative(fn, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, derivative: calculateDerivative(fn, x) });
+  }
+  return result;
+}
+
+// Extended Feature: offsetPoints shifts each point by given x and y offsets
+export function offsetPoints(points, offsetX, offsetY) {
+  return points.map(({ x, y }) => ({ x: x + offsetX, y: y + offsetY }));
 }
 
 // Entry point
