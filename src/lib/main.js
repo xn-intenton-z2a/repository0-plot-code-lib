@@ -141,7 +141,6 @@ export function calculateArea(fn, xMin, xMax, steps = 100) {
   return area;
 }
 
-// Extended library functions as per contributing guidelines
 export function plotLinear(m, b, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -163,13 +162,56 @@ export function plotSine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
 }
 
 export function rotatePoints(points, angle) {
-  // Rotate an array of {x, y} by a given angle (in radians)
   const cos = Math.cos(angle);
   const sin = Math.sin(angle);
   return points.map(({ x, y }) => ({
     x: x * cos - y * sin,
     y: x * sin + y * cos
   }));
+}
+
+// New library functions added in line with the mission statement and contributing guidelines
+
+export function plotExponential(a, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: a ** x });
+  }
+  return result;
+}
+
+export function plotLogarithmic(b, xMin, xMax, steps = 100) {
+  if (xMin <= 0) {
+    throw new Error("xMin must be greater than 0 for logarithmic plots");
+  }
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: b * Math.log(x) });
+  }
+  return result;
+}
+
+export function movingAverage(data, windowSize) {
+  if (windowSize <= 0) {
+    throw new Error("Window size must be positive");
+  }
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    let start = Math.max(0, i - Math.floor(windowSize / 2));
+    let end = Math.min(data.length, i + Math.ceil(windowSize / 2));
+    let sum = 0;
+    let count = 0;
+    for (let j = start; j < end; j++) {
+      sum += data[j];
+      count++;
+    }
+    result.push(sum / count);
+  }
+  return result;
 }
 
 // Entry point

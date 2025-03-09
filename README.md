@@ -12,7 +12,7 @@ This library provides a command-line interface (CLI) and an integrated web inter
 
 ## Features
 
-- **Plot Types:** Quadratic, Linear, Sine, Cosine, Tangent, Polar, Exponential, Logarithmic
+- **Plot Types:** Quadratic, Linear, Sine, Exponential, Logarithmic, Cosine, Tangent, Polar, Exponential, Logarithmic
 - **Output Formats:** SVG, JSON, CSV, Markdown, ASCII, HTML
 - **Advanced Analysis:**
   - Area under curve (Trapezoidal Rule)
@@ -27,6 +27,9 @@ This library provides a command-line interface (CLI) and an integrated web inter
   - plotLinear: Generates points for a linear function.
   - plotSine: Generates points for a sine wave based on amplitude, frequency, and phase.
   - rotatePoints: Rotates a set of points by a specified angle (in radians).
+  - plotExponential: Generates points for an exponential function.
+  - plotLogarithmic: Generates points for a logarithmic function (requires xMin > 0).
+  - movingAverage: Computes the moving average over a dataset for smoothing.
 
 ## Installation
 
@@ -81,8 +84,7 @@ node src/lib/main.js
 
 - Refactored main.js to use dynamic self-import for loadExpress and loadReadline, ensuring proper error handling and that test mocks work as expected.
 - Fixed Express server initialization error by ensuring the returned server instance is checked before calling close.
-- Extended library functions by adding plotLinear, plotSine, and rotatePoints to enhance plotting capabilities in line with our mission statement.
-- Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are invoked via live module bindings.
+- Extended library functions by adding plotLinear, plotSine, rotatePoints, and new functions: plotExponential, plotLogarithmic, and movingAverage to enhance plotting capabilities in line with our mission statement.
 
 ## Contributing
 
