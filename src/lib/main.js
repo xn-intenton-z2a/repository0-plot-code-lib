@@ -1,26 +1,13 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
+// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Changelog:
-// - 2023-10: Removed legacy implementations and refined CLI messaging and error handling per mission statement.
-// - 2023-10: Added --debug flag for detailed function listing for debugging purposes.
-// - 2023-10: Added --export-md flag and exportPlotAsMarkdown demo for Markdown table export.
-// - 2023-10: Improved fallback in interactive mode and robust error handling.
-// - 2023-10: Pruned drift from the code to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
-// - 2023-10: Added --export-json and --export-html modes with corresponding helper functions.
-// - 2023-10: Added --export-ascii flag and exportPlotAsASCII demo for ASCII table export.
-// - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export.
-// - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
-// - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
-// - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
-// - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
-// - 2023-10: Added new function plotEllipse and exportPlotAsLaTeX to extend plotting capabilities.
-// - 2023-10: Added new helper exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
-// - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
-// - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend spiral plotting and numerical integration capabilities.
-// - 2023-10: Added new functions exportPlotAsR and plotCustom to enhance flexibility and extend exporting capabilities.
-// - 2023-10: Extended plotting functionalities with new function plotModulatedSine for modulated sine wave plotting.
-// - 2023-10: [New Extension] Added functions solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier to further extend mathematical capabilities aligned with our mission.
+// - 2023-10: Refined CLI messaging and error handling to align with our mission statement.
+// - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
+// - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
+// - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
+// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
+// (Legacy drift has been pruned to ensure full alignment with our mission.)
 
 import { fileURLToPath } from "url";
 
@@ -633,10 +620,10 @@ export function exportPlotAsXML(points) {
 export function exportPlotAsLaTeX(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
-  let latex = "\\begin{tabular}{|" + "c|".repeat(keys.length) + "}\n\\hline\n";
-  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\ \n\\hline\n";
+  let latex = "\\begin{tabular}{|" + "c|".repeat(keys.length) + "}\\n\\hline\\n";
+  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\ \n\\hline\\n";
   points.forEach(point => {
-    latex += keys.map(k => point[k]).join(" & ") + " \\ \n\\hline\n";
+    latex += keys.map(k => point[k]).join(" & ") + " \\ \n\\hline\\n";
   });
   latex += "\\end{tabular}";
   return latex;

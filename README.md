@@ -44,9 +44,9 @@ For custom usage, import the library functions into your scripts and leverage th
 
 ## Changelog
 
-- **2023-10:** Refined CLI messaging and enhanced error handling. Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration functionalities.
-- **2023-10:** **New Extension:** Added helper functions `solveQuadraticEquation`, `plotSinCosCombined`, `interpolateData`, and `plotBezier` to extend mathematical capabilities.
-- **2023-10:** README refreshed to better align with our mission and updated contributing guidelines.
+- **2023-10:** Refined CLI messaging, pruned legacy drift, and updated error handling to align with our mission.
+- **2023-10:** Added multiple export modes and plotting functionalities including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration support.
+- **2023-10:** Extended features with helper functions: solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
 
 ## Contributing
 
@@ -56,7 +56,7 @@ Contributions are welcome! To contribute:
 2. **Label as `automated`:** This triggers our automated workflow.
 3. **Follow the Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed contribution guidelines.
 
-Your contributions help us maintain precision and mission alignment.
+Your contributions help us maintain precision and keep our code aligned with our mission.
 
 ## License
 
