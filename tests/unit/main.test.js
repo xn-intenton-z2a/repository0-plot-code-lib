@@ -19,7 +19,9 @@ const {
   plotSqrt,
   plotPolar,
   plotAbsolute,
-  generateRange
+  generateRange,
+  plotDerivative,
+  offsetPoints
 } = mainModule;
 
 
@@ -259,5 +261,22 @@ describe("Additional helper functions", () => {
   test("generateRange returns a correct sequence", () => {
     const range = generateRange(0, 10, 5);
     expect(range).toEqual([0, 2, 4, 6, 8, 10]);
+  });
+
+  // New tests for extended functions
+  test("plotDerivative returns derivative values correctly", () => {
+    const fn = (x) => x * x;
+    const points = plotDerivative(fn, 0, 10, 10);
+    expect(points.length).toBe(11);
+    // derivative of x^2 is 2x, check a few points
+    expect(points[0].derivative).toBeCloseTo(0, 2);
+    expect(points[5].derivative).toBeCloseTo(10, 1);
+    expect(points[10].derivative).toBeCloseTo(20, 1);
+  });
+
+  test("offsetPoints returns points shifted by given offsets", () => {
+    const original = [{ x: 1, y: 2 }, { x: 3, y: 4 }];
+    const shifted = offsetPoints(original, 10, -5);
+    expect(shifted).toEqual([{ x: 11, y: -3 }, { x: 13, y: -1 }]);
   });
 });
