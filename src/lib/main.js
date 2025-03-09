@@ -6,11 +6,10 @@
 // - 2023-10: Added --debug flag for detailed function listing for debugging purposes.
 // - 2023-10: Added --export-md flag and exportPlotAsMarkdown demo for Markdown table export.
 // - 2023-10: Improved fallback in interactive mode and robust error handling.
-// - 2023-10: Improved test coverage and enhanced error handling in interactive mode to facilitate single-layer and deep mocks as per CONTRIBUTING guidelines.
-// - 2023-10: Added new export features: --export-json and --export-html modes with corresponding helper functions.
-// - 2023-10: Pruned drift from the code to fully align with the Mission Statement and updated CONTRIBUTING guidelines.
-// - 2023-10: Added --export-ascii flag and exportPlotAsASCII demo for ASCII table export in alignment with our mission statement.
-// - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export mode.
+// - 2023-10: Pruned drift from the code to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// - 2023-10: Added --export-json and --export-html modes with corresponding helper functions.
+// - 2023-10: Added --export-ascii flag and exportPlotAsASCII demo for ASCII table export.
+// - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export.
 // - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
 // - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 // - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
@@ -45,7 +44,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     return;
   }
