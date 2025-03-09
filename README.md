@@ -10,10 +10,10 @@ repository0-plot-code-lib is a command-line utility designed for high-precision 
 
 ## Features
 
-- **Plotting Functions:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, and more.
+- **Plotting Functions:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, Lissajous curves, and more.
 - **Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly format.
 - **Mathematical Helpers:** Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
-- **CLI Modes:** Demo, diagnostics, interactive, web server, and debug modes with comprehensive flag options.
+- **CLI Modes:** Demo, diagnostics, interactive, web server, debug modes with comprehensive flag options. New flag: `--lissajous` generates Lissajous curve plots.
 - **Testability:** The application isolates external dependencies (Express, readline) to facilitate thorough testing and reliable mocking.
 
 ## Installation
@@ -38,15 +38,16 @@ Other available modes include:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Web Server:** `node src/lib/main.js --serve`
 - **Export Modes:** Flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`
-- **Plot Modes:** Flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`
+- **Plot Modes:** Flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, and the new `--lissajous` for Lissajous curves
 - **Debug Mode:** `node src/lib/main.js --debug` to list all available plotting functions.
 
 For integrating plotting into your scripts, import the library functions directly.
 
 ## Changelog
 
-- **2023-10:** Refined CLI messaging and error handling; added multiple export modes and extended plotting functionalities. 
+- **2023-10:** Refined CLI messaging and error handling; added multiple export modes and extended plotting functionalities.
 - **2023-10:** Extended helper functions including solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
+- **2023-10:** **Added plotLissajous function and `--lissajous` CLI flag for generating Lissajous curve plots.**
 - **2023-10:** Updated README to align with our CONTRIBUTING guidelines and pruned irrelevant content.
 
 ## Contributing

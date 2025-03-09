@@ -7,8 +7,8 @@
 // - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
 // - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
-// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
-// - 2023-10: Enhanced testability by isolating external dependencies and deepening mocks for Express and readline.
+// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
+// - 2023-10: Added plotLissajous function and corresponding CLI flag --lissajous to generate Lissajous curve plots in line with our mission.
 
 import { fileURLToPath } from "url";
 
@@ -39,7 +39,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous or provide plot parameters."
     );
     return;
   }
@@ -53,7 +53,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous"
     );
     return;
   }
@@ -255,6 +255,13 @@ export async function main(args) {
   if (args.includes("--plot-poly")) {
     const points = plotPolynomial([1, 2, 3], 0, 2, 10);
     console.log("Polynomial Plot Output:\n" + JSON.stringify(points, null, 2));
+    return;
+  }
+
+  // --lissajous flag: demo of plotting a Lissajous curve
+  if (args.includes("--lissajous")) {
+    const points = plotLissajous(1, 1, 3, 2, Math.PI/2, 0, 2 * Math.PI, 100);
+    console.log("Lissajous Curve Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
@@ -804,6 +811,21 @@ export function plotBezier(controlPoints, steps = 100) {
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     result.push(bezierPoint([...controlPoints], t));
+  }
+  return result;
+}
+
+// New function: plotLissajous generates points for a Lissajous curve given amplitude, frequencies, phase and range for t
+export function plotLissajous(amplX, amplY, freqX, freqY, phase, tMin, tMax, steps = 100) {
+  const dt = (tMax - tMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = tMin + i * dt;
+    result.push({
+      t,
+      x: amplX * Math.sin(freqX * t + phase),
+      y: amplY * Math.sin(freqY * t)
+    });
   }
   return result;
 }
