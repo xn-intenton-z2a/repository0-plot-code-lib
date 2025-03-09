@@ -638,7 +638,7 @@ describe("Additional helper functions", () => {
   test("plotBessel returns correct Bessel function values", () => {
     const points = plotBessel(0, 0, 10, 10);
     expect(points.length).toBe(11);
-    // besselJ(0,0) should equal 1
+    // besselJ(0,0) should equal 1, using fallback implementation
     expect(points[0].y).toBeCloseTo(1, 5);
   });
 });

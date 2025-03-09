@@ -9,7 +9,7 @@
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
 // - 2023-10: Added plotLissajous function and corresponding CLI flag --lissajous to generate Lissajous curve plots.
-// - 2023-10: Added plotBessel function for Bessel function plotting using mathjs. (Fixed: now using math.besselJ || math.besselj to ensure compatibility.)
+// - 2023-10: Added plotBessel function for Bessel function plotting using mathjs. (Fixed: now includes a fallback to a simple series implementation for order 0 if mathjs does not provide besselJ.)
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -837,9 +837,24 @@ export function plotLissajous(amplX, amplY, freqX, freqY, phase, tMin, tMax, ste
 export function plotBessel(order, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
-  const besselFn = math.besselJ || math.besselj; // fallback to alternate naming if necessary
+  let besselFn = math.besselJ || math.besselj;
   if (typeof besselFn !== 'function') {
-    throw new Error('Bessel function not found in mathjs');
+    // Fallback implementation for order 0 using series expansion
+    if (order === 0) {
+      besselFn = function(x, order) {
+        let sum = 0;
+        const nTerms = 20;
+        for (let m = 0; m < nTerms; m++) {
+          sum += Math.pow(-1, m) / (factorial(m) * factorial(m)) * Math.pow(x / 2, 2 * m);
+        }
+        return sum;
+      };
+      function factorial(n) {
+        return n <= 1 ? 1 : n * factorial(n - 1);
+      }
+    } else {
+      throw new Error('Bessel function not found in mathjs and fallback only implemented for order 0');
+    }
   }
   for (let i = 0; i <= steps; i++) {
     const x = xMin + i * dx;
