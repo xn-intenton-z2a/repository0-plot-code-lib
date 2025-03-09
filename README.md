@@ -31,7 +31,7 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - Markdown Export mode (`--export-md`) for exporting plot data as a Markdown table
   - JSON Export mode (`--export-json`) for exporting plot data in JSON format
   - HTML Export mode (`--export-html`) for exporting plot data as an HTML table
-  - ASCII Export mode (`--export-ascii`) for exporting plot data in ASCII table format
+  - ASCII Export mode (`--export-ascii`) for exporting plot data as an ASCII table
   - SVG Export mode (`--export-svg`) for exporting plot data as an SVG graphic
   - Scatter Plot mode (`--scatter`) for generating a random scatter plot
   - Parametric Plot mode (`--plot-parametric`) for plotting parametric equations

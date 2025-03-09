@@ -12,9 +12,7 @@
 // - 2023-10: Added --export-ascii flag and exportPlotAsASCII demo for ASCII table export in alignment with our mission statement.
 // - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export mode.
 // - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
-// - 2023-10: Minor enhancements in error logging and code comments to facilitate deeper test mocking of external resources.
-// - 2023-10: Added new functions: plotModulatedSine for modulated sine wave plotting and plotLogBase for computing logarithm with an arbitrary base.
-// - 2023-10: Added new CLI flag --plot-parametric and corresponding function plotParametric for plotting parametric equations.
+// - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 
 import { fileURLToPath } from "url";
 
@@ -601,7 +599,6 @@ export function plotParametric(fnX, fnY, tMin, tMax, steps = 100) {
 }
 
 // Entry point
-import { fileURLToPath } from "url";
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   main(args);
