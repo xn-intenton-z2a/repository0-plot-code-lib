@@ -29,10 +29,10 @@
 <p class="md-github">repository0-plot-code-lib is a command-line utility designed for high-precision plotting and analysis of mathematical functions. Built with versatility in mind, it supports multiple output formats and diverse plotting modes. Its design emphasizes clarity, ease of extension, and adherence to our strict contributing guidelines.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Plotting Functions:</strong> Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, and more.</li>
+<li class="md-github"><strong class="md-github">Plotting Functions:</strong> Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, Lissajous curves, and more.</li>
 <li class="md-github"><strong class="md-github">Output Formats:</strong> Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly format.</li>
 <li class="md-github"><strong class="md-github">Mathematical Helpers:</strong> Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.</li>
-<li class="md-github"><strong class="md-github">CLI Modes:</strong> Demo, diagnostics, interactive, web server, and debug modes with comprehensive flag options.</li>
+<li class="md-github"><strong class="md-github">CLI Modes:</strong> Demo, diagnostics, interactive, web server, debug modes with comprehensive flag options. New flag: <code class="md-github">--lissajous</code> generates Lissajous curve plots.</li>
 <li class="md-github"><strong class="md-github">Testability:</strong> The application isolates external dependencies (Express, readline) to facilitate thorough testing and reliable mocking.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
@@ -49,7 +49,7 @@
 <li class="md-github"><strong class="md-github">Interactive Mode:</strong> <code class="md-github">node src/lib/main.js --interactive</code></li>
 <li class="md-github"><strong class="md-github">Web Server:</strong> <code class="md-github">node src/lib/main.js --serve</code></li>
 <li class="md-github"><strong class="md-github">Export Modes:</strong> Flags such as <code class="md-github">--export-csv</code>, <code class="md-github">--export-md</code>, <code class="md-github">--export-json</code>, <code class="md-github">--export-html</code>, <code class="md-github">--export-ascii</code>, <code class="md-github">--export-svg</code>, <code class="md-github">--export-xml</code>, <code class="md-github">--export-latex</code>, <code class="md-github">--export-txt</code>, <code class="md-github">--export-r</code></li>
-<li class="md-github"><strong class="md-github">Plot Modes:</strong> Flags like <code class="md-github">--plot-abs</code>, <code class="md-github">--scatter</code>, <code class="md-github">--bar-chart</code>, <code class="md-github">--plot-parametric</code>, <code class="md-github">--plot-poly</code></li>
+<li class="md-github"><strong class="md-github">Plot Modes:</strong> Flags like <code class="md-github">--plot-abs</code>, <code class="md-github">--scatter</code>, <code class="md-github">--bar-chart</code>, <code class="md-github">--plot-parametric</code>, <code class="md-github">--plot-poly</code>, and the new <code class="md-github">--lissajous</code> for Lissajous curves</li>
 <li class="md-github"><strong class="md-github">Debug Mode:</strong> <code class="md-github">node src/lib/main.js --debug</code> to list all available plotting functions.</li>
 </ul>
 <p class="md-github">For integrating plotting into your scripts, import the library functions directly.</p>
@@ -57,6 +57,7 @@
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">2023-10:</strong> Refined CLI messaging and error handling; added multiple export modes and extended plotting functionalities.</li>
 <li class="md-github"><strong class="md-github">2023-10:</strong> Extended helper functions including solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.</li>
+<li class="md-github"><strong class="md-github">2023-10:</strong> <strong class="md-github">Added plotLissajous function and <code class="md-github">--lissajous</code> CLI flag for generating Lissajous curve plots.</strong></li>
 <li class="md-github"><strong class="md-github">2023-10:</strong> Updated README to align with our CONTRIBUTING guidelines and pruned irrelevant content.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
@@ -72,7 +73,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T15:38:41.385Z</p>
+    <p>Generated on 2025-03-09T15:46:39.018Z</p>
   </footer>
 </body>
 </html>
