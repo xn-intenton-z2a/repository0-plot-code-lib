@@ -37,6 +37,7 @@
 <li class="md-github">Supports Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots</li>
 <li class="md-github">Absolute value plotting, derivative plotting, logistic and cubic plots</li>
 <li class="md-github">Custom range generation using an in-house range generator</li>
+<li class="md-github"><strong class="md-github">New Feature:</strong> Parametric plotting with the <code class="md-github">plotParametric</code> function for visualizing parametric equations</li>
 <li class="md-github">New additions: Modulated Sine plotting and Logarithm with arbitrary base calculations</li>
 </ul>
 </li>
@@ -59,9 +60,10 @@
 <li class="md-github">Markdown Export mode (<code class="md-github">--export-md</code>) for exporting plot data as a Markdown table</li>
 <li class="md-github">JSON Export mode (<code class="md-github">--export-json</code>) for exporting plot data in JSON format</li>
 <li class="md-github">HTML Export mode (<code class="md-github">--export-html</code>) for exporting plot data as an HTML table</li>
-<li class="md-github">ASCII Export mode (<code class="md-github">--export-ascii</code>) for exporting plot data in ASCII table format</li>
+<li class="md-github">ASCII Export mode (<code class="md-github">--export-ascii</code>) for exporting plot data as an ASCII table</li>
 <li class="md-github">SVG Export mode (<code class="md-github">--export-svg</code>) for exporting plot data as an SVG graphic</li>
 <li class="md-github">Scatter Plot mode (<code class="md-github">--scatter</code>) for generating a random scatter plot</li>
+<li class="md-github">Parametric Plot mode (<code class="md-github">--plot-parametric</code>) for plotting parametric equations</li>
 <li class="md-github">Debug mode (<code class="md-github">--debug</code>) for listing available plotting functions</li>
 </ul>
 </li>
@@ -142,6 +144,12 @@
 <p class="md-github">Generates a random scatter plot and outputs the data in JSON format.</p>
 </li>
 <li class="md-github">
+<p class="md-github"><strong class="md-github">Parametric Plot Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --plot-parametric
+</code></pre>
+<p class="md-github">Demonstrates plotting a parametric curve (default: a circle).</p>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">Debug Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --debug
 </code></pre>
@@ -156,21 +164,11 @@
 <li class="md-github">Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.</li>
 <li class="md-github">Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.</li>
 <li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, and exportPlotAsSVG.</li>
-<li class="md-github">Introduced CSV export mode (<code class="md-github">--export-csv</code>), Markdown export mode (<code class="md-github">--export-md</code>), JSON export mode (<code class="md-github">--export-json</code>), HTML export mode (<code class="md-github">--export-html</code>), ASCII export mode (<code class="md-github">--export-ascii</code>), SVG export mode (<code class="md-github">--export-svg</code>), and Debug mode (<code class="md-github">--debug</code>).</li>
+<li class="md-github">Introduced CSV export mode (<code class="md-github">--export-csv</code>), Markdown export mode (<code class="md-github">--export-md</code>), JSON export mode (<code class="md-github">--export-json</code>), HTML export mode (<code class="md-github">--export-html</code>), ASCII export mode (<code class="md-github">--export-ascii</code>), SVG export mode (<code class="md-github">--export-svg</code>), Scatter plot mode (<code class="md-github">--scatter</code>), and Debug mode (<code class="md-github">--debug</code>).</li>
 <li class="md-github"><strong class="md-github">New Features:</strong>
 <ul class="md-github">
-<li class="md-github">Added Scatter plot mode (<code class="md-github">--scatter</code>) with plotScatter demo.</li>
-<li class="md-github"><strong class="md-github">Added new functions:</strong>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">plotModulatedSine</code>: Generates a modulated sine wave using a cosine modulation factor.</li>
-<li class="md-github"><code class="md-github">plotLogBase</code>: Computes the logarithm of a value with an arbitrary base.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Testing Enhancements:</strong>
-<ul class="md-github">
-<li class="md-github">Improved test coverage with both single-layer mocks and deep mocks for external dependencies such as module loading for Express and Readline.</li>
+<li class="md-github">Added Parametric Plot mode (<code class="md-github">--plot-parametric</code>) with the <code class="md-github">plotParametric</code> function for visualizing parametric equations.</li>
+<li class="md-github">Added new functions: <code class="md-github">plotModulatedSine</code> for modulated sine wave plotting and <code class="md-github">plotLogBase</code> for logarithm with arbitrary base calculations.</li>
 </ul>
 </li>
 </ul>
@@ -187,7 +185,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T10:40:33.953Z</p>
+    <p>Generated on 2025-03-09T10:48:47.524Z</p>
   </footer>
 </body>
 </html>
