@@ -3,7 +3,8 @@
 // CLI for mathematical plotting aligned with our mission:
 // "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines,
-// with extended library functions including new plotPower, plotSigmoid, plotSinc, plotReLU, movingMedian, and additional functions: plotInverse and cumulativeSum.
+// with extended library functions including new plotPower, plotSigmoid, plotSinc, plotReLU, movingMedian, plotInverse, cumulativeSum,
+// and newly added functions: plotLogLog and boxPlot.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -63,9 +64,9 @@ export async function main(args) {
       "movingAverage", "plotTangent", "reflectPoints", "scalePoints", "plotSqrt", "plotPolar", "plotAbsolute", "generateRange", "plotDerivative", "offsetPoints",
       "plotLogistic", "plotCubic", "calculateStandardDeviation", "calculateCorrelation", "plotHyperbolic", "calculateExponentialMovingAverage", "plotGaussian",
       "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX", "exportPlotAsTXT", "exportPlotAsR",
-      "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral", "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower", "plotReLU", "movingMedian",
+      "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral", "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower", "plotReLU", "movingMedian", "plotInverse", "cumulativeSum",
       // Newly added functions
-      "plotInverse", "cumulativeSum"
+      "plotLogLog", "boxPlot"
     ];
     console.log("Aligned with our mission, available plotting functions: " + funcs.join(", "));
     return;
@@ -970,6 +971,46 @@ export function cumulativeSum(data) {
     result.push(sum);
   }
   return result;
+}
+
+// >>> Newly Added Functions for extended capabilities <<<
+
+export function plotLogLog(fn, xMin, xMax, steps = 100) {
+  if (xMin <= 0 || xMax <= 0) {
+    throw new Error("xMin and xMax must be greater than 0 for log-log plots");
+  }
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const fx = fn(x);
+    if (fx <= 0) {
+      result.push({ x: Math.log(x), y: null });
+    } else {
+      result.push({ x: Math.log(x), y: Math.log(fx) });
+    }
+  }
+  return result;
+}
+
+export function boxPlot(data) {
+  if (!data.length) return null;
+  const sorted = [...data].sort((a, b) => a - b);
+  const min = sorted[0];
+  const max = sorted[sorted.length - 1];
+  const median = sorted.length % 2 !== 0 ? sorted[Math.floor(sorted.length / 2)] :
+    (sorted[sorted.length / 2 - 1] + sorted[sorted.length / 2]) / 2;
+  const Q1 = (() => {
+    const lower = sorted.slice(0, Math.floor(sorted.length / 2));
+    return lower.length % 2 !== 0 ? lower[Math.floor(lower.length / 2)] :
+      (lower[lower.length / 2 - 1] + lower[lower.length / 2]) / 2;
+  })();
+  const Q3 = (() => {
+    const upper = sorted.slice(Math.ceil(sorted.length / 2));
+    return upper.length % 2 !== 0 ? upper[Math.floor(upper.length / 2)] :
+      (upper[upper.length / 2 - 1] + upper[upper.length / 2]) / 2;
+  })();
+  return { min, Q1, median, Q3, max };
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
