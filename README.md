@@ -14,6 +14,7 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - Supports Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots
   - Absolute value plotting, derivative plotting, logistic and cubic plots
   - Custom range generation using an in-house range generator
+  - New additions: Modulated Sine plotting and Logarithm with arbitrary base calculations
 
 - **Statistical and Transformation Tools:**
   - Standard deviation and Pearson correlation calculations
@@ -137,6 +138,9 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), SVG export mode (`--export-svg`), and Debug mode (`--debug`).
 - **New Features:**
   - Added Scatter plot mode (`--scatter`) with plotScatter demo.
+  - **Added new functions:**
+    - `plotModulatedSine`: Generates a modulated sine wave using a cosine modulation factor.
+    - `plotLogBase`: Computes the logarithm of a value with an arbitrary base.
 - **Testing Enhancements:**
   - Improved test coverage with both single-layer mocks and deep mocks for external dependencies such as module loading for Express and Readline.
 

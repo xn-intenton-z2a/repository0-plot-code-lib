@@ -13,6 +13,7 @@
 // - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export mode.
 // - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
 // - 2023-10: Minor enhancements in error logging and code comments to facilitate deeper test mocking of external resources.
+// - 2023-10: Added new functions: plotModulatedSine for modulated sine wave plotting and plotLogBase for computing logarithm with an arbitrary base.
 
 import { fileURLToPath } from "url";
 
@@ -57,7 +58,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, plotScatter"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, plotScatter, plotModulatedSine, plotLogBase"
     );
     return;
   }
@@ -559,6 +560,25 @@ export function plotScatter(numPoints = 10) {
     result.push({ x: Math.random() * 10, y: Math.random() * 10 });
   }
   return result;
+}
+
+// New function: plotModulatedSine generates a sine wave modulated by a cosine function
+export function plotModulatedSine(amplitude, frequency, phase, modulation, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: amplitude * Math.sin(frequency * x + phase) * Math.cos(modulation * x) });
+  }
+  return result;
+}
+
+// New function: plotLogBase computes the logarithm of a value with the specified base.
+export function plotLogBase(value, base) {
+  if (value <= 0 || base <= 0 || base === 1) {
+    throw new Error("Invalid input for logarithm");
+  }
+  return Math.log(value) / Math.log(base);
 }
 
 // Entry point
