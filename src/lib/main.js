@@ -4,14 +4,12 @@
 //
 // Changelog:
 // - Refined CLI messaging and functionalities to strictly adhere to our mission statement.
-// - Pruned redundant code to eliminate drift in accordance with CONTRIBUTING guidelines.
+// - Pruned code drift to maintain focus on core plotting features as per CONTRIBUTING guidelines.
 // - Extended library with additional helper functions and improved error handling in interactive mode.
 // - Added new plotting functions: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 // - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
 // - Extended CLI with new export mode (--export-csv) for CSV output of plots.
 // - Improved test coverage with enhanced unit tests and deeper mocks for external dependencies.
-// - Improved test coverage by adding additional mocks and ensuring near 100% coverage as per CONTRIBUTING guidelines.
-// - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";
 
@@ -91,7 +89,6 @@ export async function main(args) {
   // --interactive flag: prompt for user input via readline
   if (args.includes("--interactive")) {
     const selfModule = await getSelf();
-    // Use the exported loadReadline directly to pick up any test mocks
     const rlModule = await selfModule.loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
