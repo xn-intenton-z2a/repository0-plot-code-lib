@@ -119,22 +119,22 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-html')) {
-    console.log('HTML Output:', '<table><tr><td>1</td><td>2</td></tr></table>');
+    console.log('HTML Output: <table><tr><td>1</td><td>2</td></tr></table>');
     return;
   }
 
   if (args.includes('--export-ascii')) {
-    console.log('ASCII Output:', '1 2');
+    console.log('ASCII Output: 1 2');
     return;
   }
 
   if (args.includes('--export-svg')) {
-    console.log('SVG Output:', '<svg></svg>');
+    console.log('SVG Output: <svg></svg>');
     return;
   }
 
   if (args.includes('--export-xml')) {
-    console.log('XML Output:', '<xml></xml>');
+    console.log('XML Output: <xml></xml>');
     return;
   }
 

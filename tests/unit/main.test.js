@@ -62,7 +62,7 @@ describe('Main Function Behaviour', () => {
     const spyWarn = vi.spyOn(console, 'warn');
 
     const fakeInterface = {
-      question: (_prompt, _callback) => {},
+      question: (_prompt, _callback) => { /* no callback invocation */ },
       close: vi.fn()
     };
     const fakeReadlineModule = {

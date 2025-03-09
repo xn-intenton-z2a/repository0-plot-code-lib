@@ -56,7 +56,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## Changelog
 
 - **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines.
-- **2023-10:** Updated interactive mode to properly clear timeout and adjusted CSV/Markdown output to pass two arguments to console.log. 
+- **2023-10:** Updated interactive mode to properly clear timeout and adjusted export outputs (HTML, ASCII, SVG, XML) to a single-string format to satisfy test expectations.
 
 ## License
 
