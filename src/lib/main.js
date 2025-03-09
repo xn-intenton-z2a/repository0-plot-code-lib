@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines, with extended library functions including a new plotPower feature.
+// CLI for mathematical plotting aligned with our mission:
+// "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines,
+// with extended library functions including a new plotPower feature and improved debug output formatting.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -48,18 +50,16 @@ export async function main(args) {
 
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
-    console.log(
-      "Aligned with our mission, available plotting functions: " +
-        "plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, " +
-        "plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, " +
-        "plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, " +
-        "calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, " +
-        "plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, " +
-        "exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, " +
-        "plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, " +
-        "calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, " +
-        "plotBezier, plotLissajous, plotBessel, plotHyperbola, plotLemniscate, plotPower"
-    );
+    const funcs = [
+      "plotQuadratic", "calculateDerivative", "calculateArea", "plotLinear", "plotSine", "plotCosine", "rotatePoints", "plotExponential", "plotLogarithmic",
+      "movingAverage", "plotTangent", "reflectPoints", "scalePoints", "plotSqrt", "plotPolar", "plotAbsolute", "generateRange", "plotDerivative", "offsetPoints",
+      "plotLogistic", "plotCubic", "calculateStandardDeviation", "calculateCorrelation", "plotHyperbolic", "calculateExponentialMovingAverage", "plotGaussian",
+      "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX",
+      "exportPlotAsTXT", "exportPlotAsR", "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral",
+      "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous",
+      "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower"
+    ];
+    console.log("Aligned with our mission, available plotting functions: " + funcs.join(", "));
     return;
   }
 
