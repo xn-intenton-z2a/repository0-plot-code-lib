@@ -62,7 +62,9 @@ const {
   plotLemniscate,
   plotPower,
   plotReLU,
-  movingMedian
+  movingMedian,
+  plotInverse,
+  cumulativeSum
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -328,6 +330,8 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("plotSinc");
     expect(debugString).toContain("plotReLU");
     expect(debugString).toContain("movingMedian");
+    expect(debugString).toContain("plotInverse");
+    expect(debugString).toContain("cumulativeSum");
     spy.mockRestore();
   });
 });
@@ -749,10 +753,8 @@ describe("Additional helper functions", () => {
     expect(points[20].y).toBeCloseTo(2000, 1);
   });
 
-  // New functions tests
   test("plotReLU returns correct ReLU values", () => {
     const points = plotReLU(2, -3, -5, 5, 10);
-    // For a linear function y = 2*x - 3. Check that for x values where y<0, y is 0.
     points.forEach(pt => {
       const expected = 2 * pt.x - 3;
       expect(pt.y).toBe(expected > 0 ? expected : 0);
@@ -762,16 +764,23 @@ describe("Additional helper functions", () => {
   test("movingMedian returns correct medians", () => {
     const data = [5, 2, 8, 10, 3];
     const medians = movingMedian(data, 3);
-    // Manually computed moving median for a 3-element window:
-    // index 0: median of [5,2] -> 3.5
-    // index 1: median of [5,2,8] -> 5
-    // index 2: median of [2,8,10] -> 8
-    // index 3: median of [8,10,3] -> 8
-    // index 4: median of [10,3] -> 6.5
     expect(medians[0]).toBeCloseTo(3.5, 1);
     expect(medians[1]).toBeCloseTo(5, 1);
     expect(medians[2]).toBeCloseTo(8, 1);
     expect(medians[3]).toBeCloseTo(8, 1);
     expect(medians[4]).toBeCloseTo(6.5, 1);
+  });
+
+  test("plotInverse returns valid inverse values and handles zero correctly", () => {
+    const points = plotInverse(-1, 1, 10);
+    expect(points.length).toBe(11);
+    const zeroPoint = points.find(p => Math.abs(p.x) < 1e-10);
+    expect(zeroPoint.y).toBeNull();
+  });
+
+  test("cumulativeSum returns correct cumulative sums", () => {
+    const data = [1, 2, 3, 4];
+    const result = cumulativeSum(data);
+    expect(result).toEqual([1, 3, 6, 10]);
   });
 });
