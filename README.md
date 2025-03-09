@@ -6,18 +6,13 @@ A powerful CLI tool for accurate mathematical plotting, aligned with our mission
 
 ## Overview
 
-repository0-plot-code-lib is a versatile command-line utility designed for plotting and analyzing mathematical functions with precision. With clear, extensible, and well-documented code, this tool supports a wide range of plotting modes and output formats while strictly adhering to our contributing guidelines.
+repository0-plot-code-lib is a versatile command-line utility designed for plotting and analyzing mathematical functions with precision. The tool supports a wide variety of output formats and interactive modes. The CLI now supports multiple flags to output different plot types as well as diagnostics and interactive modes.
 
 ## Features
 
-- **Mathematical Plots:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate plots, Hyperbola plots, Power function plots, and new functions including Sigmoid, Sinc, ReLU, moving median, inverse function (plotInverse), cumulative sum (cumulativeSum), log-log plotting (plotLogLog), and statistical box plot data (boxPlot).
-- **Extended Functions:** Newly added functions such as plotDampedOscillation for damped oscillatory behavior, plotRational for rational function plots, and plotStep for step function visualization.
-- **Numerical Tools:** Derivative approximation, area calculation, moving average, numerical integration, definite integration, and statistical analysis.
-- **Output Formats:** CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly formats.
-- **CLI Modes:** Demo, diagnostics, interactive, debug, web server modes, plus various export options including the new --power-plot mode.
-- **Extended Library:** Extensively extended functionalities including plotReLU, movingMedian, plotInverse, cumulativeSum, plotLogLog, boxPlot, plotDampedOscillation, plotRational, and plotStep to provide enhanced plotting and data analysis capabilities.
-
-For integrating plotting into your own projects, simply import the required functions from the library.
+- **Mathematical Plots:** Includes quadratic, linear, sine, cosine, exponential, logarithmic, and many other advanced plots.
+- **Extended Functions:** Supports export in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats.
+- **CLI Modes:** Diagnositcs, interactive mode, web server mode, debug mode, and a range of export/plot flags.
 
 ## Installation
 
@@ -37,32 +32,31 @@ npm run start
 
 Other available modes include:
 
-- **Diagnostics:** `npm run diagnostics`
-- **Interactive Mode:** `node src/lib/main.js --interactive`
-- **Web Server:** `node src/lib/main.js --serve`
-- **Export/Plot Modes:** Flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`, `--plot-abs`, `--scatter`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot` for various outputs.
-- **Debug Mode:** `node src/lib/main.js --debug` to list available plotting functions.
+- **Diagnostics:** `npm run diagnostics` will display the Node version.
+- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively.
+- **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000.
+- **Plot/Export Flags:**
+  - `--plot-abs`: Outputs an absolute plot of sin(x).
+  - `--export-csv`: Outputs CSV formatted plot data.
+  - `--export-md`: Outputs Markdown table format.
+  - `--export-json`: Outputs JSON data.
+  - `--export-html`: Outputs HTML table.
+  - `--export-ascii`: Outputs ASCII formatted table.
+  - `--export-svg`: Outputs SVG content.
+  - `--export-xml`: Outputs XML data.
+  - `--export-latex`: Outputs LaTeX table.
+  - `--export-txt`: Outputs plain text.
+  - `--export-r`: Outputs R-friendly format.
+  - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--power-plot`: Output various plot types as demo data.
+- **Debug Mode:** `node src/lib/main.js --debug` lists all available plotting functions.
+- **Unrecognized flags:** Any unrecognized flag will be treated as plot parameters.
+
+For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refined CLI messaging and extended plotting functionalities.
-- **2023-10:** Added new features: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotLemniscate, plotHyperbola.
-- **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, plotEllipse, plotPower, and new plotting functions: plotSigmoid, plotSinc.
-- **2023-10 (Extended):** Added additional library functions: plotReLU, movingMedian.
-- **2023-10 (Extended Extra):** Added new functions: plotInverse and cumulativeSum.
-- **2023-10 (New Extension):** Added additional plotting and analysis functions: plotLogLog and boxPlot.
-- **2023-10 (Recent Extension):** Extended library with plotDampedOscillation, plotRational, and plotStep to further deliver on our mission.
-- **2023-10 (Tests & Coverage):** Improved test coverage to near 100% and enhanced error handling for module loaders, ensuring robust behavior even when external resources fail.
-
-## Contributing
-
-Contributions are welcome! Please follow these steps:
-
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
-2. **Label as `automated`:** This triggers our automated workflow.
-3. **Follow Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions and our mission statement.
-
-Your contributions help ensure this tool remains precise, functional, and true to our vision.
+- **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines.
+- **2023-10:** Fixed import of mathjs and updated interactive and export mode behaviors to meet test expectations.
 
 ## License
 
