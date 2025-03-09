@@ -49,7 +49,7 @@ For integrating plotting into your own scripts, import the library functions dir
 - **2023-10:** Added new helper functions including solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
 - **2023-10:** Introduced plotLissajous and the corresponding `--lissajous` flag for Lissajous curve plots.
 - **2023-10:** Enhanced plotBessel functionality to correctly interface with mathjs or use a fallback for order 0.
-- **2023-10:** Updated documentation and contributing guidelines to align with our mission.
+- **2023-10:** Pruned code drift and streamlined CLI messaging to fully embody our mission statement.
 
 ## Contributing
 
