@@ -97,7 +97,7 @@ describe('Main Function Behaviour', () => {
     vi.spyOn(mainModule, 'loadExpress').mockImplementation(() => Promise.resolve(fakeExpressModule));
 
     await main(['--serve']);
-    expect(spy).toHaveBeenCalledWith('Express server running at http://localhost:3000');
+    expect(spy).toHaveBeenCalledWith(`Express server running at http://localhost:3000`);
     spy.mockRestore();
   });
 
@@ -133,7 +133,7 @@ describe('Main Function Behaviour', () => {
   test('should output JSON plot when --export-json flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-json']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('JSON Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('JSON Output:'), undefined);
     spy.mockRestore();
   });
 
@@ -189,49 +189,49 @@ describe('Main Function Behaviour', () => {
   test('should output Scatter plot when --scatter flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--scatter']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Scatter Plot Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Scatter Plot Output:'), expect.any(Array));
     spy.mockRestore();
   });
 
   test('should output Bar Chart when --bar-chart flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--bar-chart']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Bar Chart Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Bar Chart Output:'), expect.any(String));
     spy.mockRestore();
   });
 
   test('should output Parametric plot when --plot-parametric flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--plot-parametric']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Parametric Plot Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Parametric Plot Output:'), expect.any(Array));
     spy.mockRestore();
   });
 
   test('should output Polynomial plot when --plot-poly flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--plot-poly']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Polynomial Plot Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Polynomial Plot Output:'), expect.any(Array));
     spy.mockRestore();
   });
 
   test('should output Lissajous plot when --lissajous flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--lissajous']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Lissajous Curve Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Lissajous Curve Output:'), expect.any(Array));
     spy.mockRestore();
   });
 
   test('should output Lemniscate plot when --lemniscate flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--lemniscate']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Lemniscate Plot Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Lemniscate Plot Output:'), expect.any(Array));
     spy.mockRestore();
   });
 
   test('should output Power Plot when --power-plot flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--power-plot']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (y = 2x^3) Output:'));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (y = 2x^3) Output:'), expect.any(Array));
     spy.mockRestore();
   });
 

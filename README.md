@@ -56,7 +56,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 ## Changelog
 
 - **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines.
-- **2023-10:** Fixed import of mathjs and updated interactive and export mode behaviors to meet test expectations.
+- **2023-10:** Updated export flag implementations in main.js to consolidate console output arguments, ensuring test compatibility.
 
 ## License
 
