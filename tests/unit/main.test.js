@@ -30,7 +30,9 @@ const {
   calculateExponentialMovingAverage,
   plotGaussian,
   exportPlotAsCSV,
-  exportPlotAsMarkdown
+  exportPlotAsMarkdown,
+  loadExpress,
+  loadReadline
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -372,10 +374,34 @@ describe("Additional helper functions", () => {
     expect(csv).toBe("x,y\n0,0\n1,1");
   });
 
+  test("exportPlotAsCSV returns empty string for empty points array", () => {
+    const csv = exportPlotAsCSV([]);
+    expect(csv).toBe("");
+  });
+
   test("exportPlotAsMarkdown returns Markdown table string correctly", () => {
     const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
     const md = exportPlotAsMarkdown(points);
     const expected = "| x | y |\n| --- | --- |\n| 0 | 0 |\n| 1 | 1 |";
     expect(md).toBe(expected);
+  });
+
+  test("exportPlotAsMarkdown returns empty string for empty points array", () => {
+    const md = exportPlotAsMarkdown([]);
+    expect(md).toBe("");
+  });
+});
+
+// Additional tests for dynamic imports
+
+describe("Dynamic Imports", () => {
+  test("loadExpress should be a function that returns a promise", async () => {
+    const mod = loadExpress();
+    await expect(mod).resolves.toBeDefined();
+  });
+
+  test("loadReadline should be a function that returns a promise", async () => {
+    const mod = loadReadline();
+    await expect(mod).resolves.toBeDefined();
   });
 });
