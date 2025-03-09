@@ -83,9 +83,9 @@ node src/lib/main.js
 
 ## Changelog Highlights
 
-- Refreshed documentation to align with the CONTRIBUTING guidelines and mission statement.
-- Extended library functions with additional plotting and transformation capabilities including a new plotSqrt and plotPolar function for square root and polar plots respectively.
-- Updated CLI demo and error handling for clarity.
+- Refined demo message and pruned drift from the source file to align with our mission statement.
+- Extended library functions with additional plotting and transformation capabilities including new plotSqrt and plotPolar functions.
+- Updated documentation to reflect changes and ensure clarity in CLI modes and error handling.
 
 ## Contributing
 
