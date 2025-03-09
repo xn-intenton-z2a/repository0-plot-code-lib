@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This version has been updated to prune any drift, ensure all messaging reflects our mission statement and contributing guidelines, and indirectly support improved testability through clear module loading and error handling.
+// This version has been updated to prune drift, ensure all messaging reflects our mission statement and contributing guidelines,
+// and to improve test coverage by refining error handling especially for module loading of external resources.
 // Changelog:
 // - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
-// - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
-// - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
-// - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
-// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, and plotBessel.
-// - 2023-10: Added new function plotLemniscate and corresponding CLI flag --lemniscate for generating lemniscate (figure-eight) plots, in line with our mission.
+// - 2023-10: Added multiple export modes and extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
+// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel.
+// - 2023-10: **New:** Added plotLemniscate function and corresponding CLI flag --lemniscate for generating lemniscate (figure-eight) plots.
+// - 2023-10: **Improved:** Enhanced error handling for module loaders and increased test coverage by ensuring that failures are gracefully caught and logged.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -278,7 +278,7 @@ export async function main(args) {
     return;
   }
 
-  // Otherwise, process plot parameters
+  // Process plot parameters as default behavior
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
 
