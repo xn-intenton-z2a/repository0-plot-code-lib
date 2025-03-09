@@ -49,6 +49,7 @@ Other available modes include:
 - **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, plotEllipse, plotPower, and new plotting functions: plotSigmoid, plotSinc.
 - **2023-10 (Extended):** Added additional library functions: plotReLU, movingMedian.
 - **2023-10 (Extended Extra):** Added new functions: plotInverse and cumulativeSum.
+- **2023-10 (Tests & Coverage):** Improved test coverage to near 100% and enhanced error handling for module loaders, ensuring robust behavior even when external resources fail.
 
 ## Contributing
 
