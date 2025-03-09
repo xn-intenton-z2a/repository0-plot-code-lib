@@ -14,7 +14,7 @@ repository0-plot-code-lib is a command-line utility designed for high-precision 
 - **Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly format.
 - **Mathematical Helpers:** Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
 - **CLI Modes:** Demo, diagnostics, interactive, web server, debug modes with comprehensive flag options. New flag: `--lissajous` generates Lissajous curve plots.
-- **Extended Features:** Additional functionalities such as plotting Bessel functions are included to extend the range of mathematical visualisations.
+- **Extended Features:** Additional functionalities such as plotting Bessel functions are included to extend the range of mathematical visualisations. (Fixed: plotBessel now correctly interfaces with mathjs.)
 - **Testability:** Enhanced test coverage through isolated dependency mocks and comprehensive edge-case testing.
 
 ## Installation
@@ -49,7 +49,7 @@ For integrating plotting into your scripts, import the library functions directl
 - **2023-10:** Refined CLI messaging and error handling; added multiple export modes and extended plotting functionalities.
 - **2023-10:** Extended helper functions including solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
 - **2023-10:** Added plotLissajous function and `--lissajous` CLI flag for generating Lissajous curve plots.
-- **2023-10:** **Added plotBessel function for Bessel function plotting to extend our mathematical visualization capabilities.**
+- **2023-10:** **Added plotBessel function for Bessel function plotting to extend our mathematical visualization capabilities. Fixed integration with mathjs.**
 - **2023-10:** Improved test coverage with enhanced mocks and edge-case handling.
 
 ## Contributing

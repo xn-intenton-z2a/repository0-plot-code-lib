@@ -9,7 +9,7 @@
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
 // - 2023-10: Added plotLissajous function and corresponding CLI flag --lissajous to generate Lissajous curve plots.
-// - 2023-10: Added plotBessel function for Bessel function plotting using mathjs.
+// - 2023-10: Added plotBessel function for Bessel function plotting using mathjs. (Fixed: now using math.besselJ || math.besselj to ensure compatibility.)
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -837,9 +837,13 @@ export function plotLissajous(amplX, amplY, freqX, freqY, phase, tMin, tMax, ste
 export function plotBessel(order, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
+  const besselFn = math.besselJ || math.besselj; // fallback to alternate naming if necessary
+  if (typeof besselFn !== 'function') {
+    throw new Error('Bessel function not found in mathjs');
+  }
   for (let i = 0; i <= steps; i++) {
     const x = xMin + i * dx;
-    result.push({ x, y: math.besselJ(x, order) });
+    result.push({ x, y: besselFn(x, order) });
   }
   return result;
 }
