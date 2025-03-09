@@ -1,15 +1,11 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-//
+// 
 // Changelog:
-// - Refined CLI messaging and functionalities to strictly adhere to our mission statement.
-// - Pruned code drift to maintain focus on core plotting features as per CONTRIBUTING guidelines.
-// - Extended library with additional helper functions and improved error handling in interactive mode.
-// - Added new plotting functions: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-// - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
-// - Extended CLI with new export mode (--export-csv) for CSV output of plots.
-// - Improved test coverage with enhanced unit tests and deeper mocks for external dependencies.
+// - 2023-10: Pruned extraneous code drift and legacy implementations to strictly follow our mission statement.
+// - Refined CLI messaging and simplified interactive fallback handling.
+// - Extended library with new plotting and helper functions as per CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";
 
