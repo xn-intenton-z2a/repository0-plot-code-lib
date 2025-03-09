@@ -21,7 +21,8 @@ const {
   plotAbsolute,
   generateRange,
   plotDerivative,
-  offsetPoints
+  offsetPoints,
+  plotLogistic
 } = mainModule;
 
 
@@ -263,7 +264,6 @@ describe("Additional helper functions", () => {
     expect(range).toEqual([0, 2, 4, 6, 8, 10]);
   });
 
-  // New tests for extended functions
   test("plotDerivative returns derivative values correctly", () => {
     const fn = (x) => x * x;
     const points = plotDerivative(fn, 0, 10, 10);
@@ -278,5 +278,14 @@ describe("Additional helper functions", () => {
     const original = [{ x: 1, y: 2 }, { x: 3, y: 4 }];
     const shifted = offsetPoints(original, 10, -5);
     expect(shifted).toEqual([{ x: 11, y: -3 }, { x: 13, y: -1 }]);
+  });
+
+  test("plotLogistic returns correct logistic curve values", () => {
+    const points = plotLogistic(1, 1, 0, 0, 10, 10);
+    expect(points.length).toBe(11);
+    // At x=0, logistic value should be 1/(1+e^(0)) = 0.5
+    expect(points[0].y).toBeCloseTo(0.5, 4);
+    // At x=10, logistic value should approach 1
+    expect(points[10].y).toBeCloseTo(1, 4);
   });
 });

@@ -6,7 +6,7 @@
 // - Realigned CLI messages and functionalities with our mission statement.
 // - Pruned redundant code to eliminate drift per CONTRIBUTING guidelines.
 // - Introduced new helper functions and enhanced error management in interactive mode.
-// - Extended library with new functions: plotDerivative and offsetPoints for enhanced analysis and point transformations.
+// - Extended library with new functions: plotDerivative, offsetPoints, and plotLogistic for logistic curve plotting.
 // - Enhanced interactive mode error handling with try/catch for improved robustness.
 // - Updated documentation and changelog to reflect contributions per CONTRIBUTING.md.
 
@@ -345,6 +345,18 @@ export function plotDerivative(fn, xMin, xMax, steps = 100) {
 // Extended Feature: offsetPoints shifts each point by given x and y offsets
 export function offsetPoints(points, offsetX, offsetY) {
   return points.map(({ x, y }) => ({ x: x + offsetX, y: y + offsetY }));
+}
+
+// New feature: plotLogistic to plot a logistic function curve.
+// Logistic function formula: L / (1 + exp(-k*(x - x0)))
+export function plotLogistic(L, k, x0, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: L / (1 + Math.exp(-k * (x - x0))) });
+  }
+  return result;
 }
 
 // Entry point
