@@ -56,6 +56,7 @@ const {
   plotBezier,
   plotLissajous,
   plotBessel,
+  plotHyperbola,
   plotLemniscate
 } = mainModule;
 
@@ -312,6 +313,7 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("plotBezier");
     expect(debugString).toContain("plotLissajous");
     expect(debugString).toContain("plotBessel");
+    expect(debugString).toContain("plotHyperbola");
     expect(debugString).toContain("plotLemniscate");
     spy.mockRestore();
   });
@@ -664,6 +666,17 @@ describe("Additional helper functions", () => {
     const points = plotBessel(0, 0, 10, 10);
     expect(points.length).toBe(11);
     expect(points[0].y).toBeCloseTo(1, 5);
+  });
+
+  test("plotHyperbola returns correct hyperbola branches", () => {
+    const points = plotHyperbola(2, 3, 1, 5, 4);
+    expect(points[0]).toEqual({ x: 1, yPositive: null, yNegative: null });
+    expect(points[1].x).toBeCloseTo(2);
+    expect(points[1].yPositive).toBeCloseTo(0);
+    expect(points[1].yNegative).toBeCloseTo(0);
+    const expected = 3 * Math.sqrt(21) / 2;
+    expect(points[4].yPositive).toBeCloseTo(expected, 5);
+    expect(points[4].yNegative).toBeCloseTo(-expected, 5);
   });
 
   test("plotLemniscate returns a valid lemniscate curve", () => {

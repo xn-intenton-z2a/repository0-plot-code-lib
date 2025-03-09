@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
-// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines.
+// This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines, with extended library functions.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -47,7 +47,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Aligned with our mission, available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel, plotLemniscate"
+      "Aligned with our mission, available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel, plotHyperbola, plotLemniscate"
     );
     return;
   }
@@ -268,6 +268,13 @@ export async function main(args) {
   if (args.includes("--lissajous")) {
     const points = plotLissajous(1, 1, 3, 2, Math.PI / 2, 0, 2 * Math.PI, 100);
     console.log("Lissajous Curve Output:\n" + JSON.stringify(points, null, 2));
+    return;
+  }
+
+  // New extended function demo: --hyperbola flag to demo hyperbola plot
+  if (args.includes("--hyperbola")) {
+    const points = plotHyperbola(2, 3, 1, 5, 50);
+    console.log("Hyperbola Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
@@ -633,73 +640,6 @@ export function exportPlotAsR(points) {
   return rOutput;
 }
 
-export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
-  const dx = (xMax - xMin) / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const x = xMin + i * dx;
-    let y = 0;
-    for (let j = 0; j < coefficients.length; j++) {
-      y += coefficients[j] * Math.pow(x, j);
-    }
-    result.push({ x, y });
-  }
-  return result;
-}
-
-export function plotEllipse(centerX, centerY, radiusX, radiusY, steps = 100) {
-  const dt = (2 * Math.PI) / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const t = i * dt;
-    result.push({ t, x: centerX + radiusX * Math.cos(t), y: centerY + radiusY * Math.sin(t) });
-  }
-  return result;
-}
-
-export function plotModulatedSine(amplitude, frequency, modulation, phase, xMin, xMax, steps = 100) {
-  const dx = (xMax - xMin) / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const x = xMin + i * dx;
-    result.push({ x, y: amplitude * Math.sin(frequency * x + phase) * (1 + modulation * Math.sin(x)) });
-  }
-  return result;
-}
-
-export function plotSpiral(centerX, centerY, initialRadius, rotations, steps = 100) {
-  const totalAngle = rotations * 2 * Math.PI;
-  const dTheta = totalAngle / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const theta = i * dTheta;
-    const r = initialRadius * (theta / totalAngle);
-    result.push({ theta, x: centerX + r * Math.cos(theta), y: centerY + r * Math.sin(theta) });
-  }
-  return result;
-}
-
-export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
-  const dx = (xMax - xMin) / steps;
-  let total = 0;
-  for (let i = 0; i <= steps; i++) {
-    const x = xMin + i * dx;
-    const weight = (i === 0 || i === steps) ? 0.5 : 1;
-    total += weight * fn(x);
-  }
-  return total * dx;
-}
-
-export function plotCustom(fn, xMin, xMax, steps = 100) {
-  const dx = (xMax - xMin) / steps;
-  const result = [];
-  for (let i = 0; i <= steps; i++) {
-    const x = xMin + i * dx;
-    result.push({ x, y: fn(x) });
-  }
-  return result;
-}
-
 export function plotScatter(count) {
   const points = [];
   for (let i = 0; i < count; i++) {
@@ -827,7 +767,22 @@ export function plotBessel(order, xMin, xMax, steps = 100) {
   return result;
 }
 
-// New function: plotLemniscate for generating a figure-eight (Lemniscate of Bernoulli) plot
+// New function: plotHyperbola for generating hyperbolic curve plots
+export function plotHyperbola(a, b, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    if (Math.abs(x) < a) {
+      result.push({ x, yPositive: null, yNegative: null });
+    } else {
+      const yVal = b * Math.sqrt((x * x) / (a * a) - 1);
+      result.push({ x, yPositive: yVal, yNegative: -yVal });
+    }
+  }
+  return result;
+}
+
 export function plotLemniscate(a, tMin, tMax, steps = 100) {
   const dt = (tMax - tMin) / steps;
   const result = [];
