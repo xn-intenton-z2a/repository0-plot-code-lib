@@ -10,6 +10,7 @@
 // - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
 // - Extended CLI with new export mode (--export-csv) for CSV output of plots.
 // - Improved test coverage with enhanced unit tests and deeper mocks for external dependencies.
+// - Improved test coverage by adding additional mocks and ensuring near 100% coverage as per CONTRIBUTING guidelines.
 // - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";

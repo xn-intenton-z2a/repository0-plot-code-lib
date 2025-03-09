@@ -88,7 +88,7 @@ Running the CLI with no arguments displays a demo message that introduces users 
 - **New helper functions added:** calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
 - Extended CLI with new CSV export mode (--export-csv) for outputting plots in CSV format.
 - Improved error handling in interactive mode.
-- **Improved test coverage** to nearly 100% with enhanced unit tests and mocks for external resources.
+- **Improved test coverage with additional mocks and deeper tests simulating external resources, achieving near 100% coverage.**
 - README refreshed and documentation updated per CONTRIBUTING guidelines.
 
 ## Contributing
