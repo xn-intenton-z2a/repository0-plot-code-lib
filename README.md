@@ -20,6 +20,7 @@ This library provides a command-line interface (CLI) tool for plotting a range o
   - Tangent
   - Exponential
   - Logarithmic
+  - Square Root (new)
   - Moving Average for smoothing data
   - Point Transformations: Rotation, Reflection, Scaling
 
@@ -83,7 +84,7 @@ node src/lib/main.js
 
 - Refreshed documentation to align with the CONTRIBUTING guidelines and mission statement.
 - Updated the CLI demo and error handling descriptions for clarity.
-- Extended library functions with additional plotting and transformation capabilities.
+- Extended library functions with additional plotting and transformation capabilities, including a new plotSqrt function for square root plots.
 
 ## Contributing
 

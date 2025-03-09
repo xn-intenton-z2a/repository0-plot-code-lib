@@ -15,7 +15,8 @@ const {
   plotCosine,
   plotTangent,
   reflectPoints,
-  scalePoints
+  scalePoints,
+  plotSqrt
 } = mainModule;
 
 describe("Main Function Behaviour", () => {
@@ -161,7 +162,6 @@ describe("Additional helper functions", () => {
     expect(avg[4]).toBeCloseTo(4.5, 5);
   });
 
-  // Tests for extended functions
   test("plotCosine returns correct cosine wave values", () => {
     const points = plotCosine(1, 1, 0, 0, Math.PI, 10);
     expect(points.length).toBe(11);
@@ -187,5 +187,14 @@ describe("Additional helper functions", () => {
     const original = [{ x: 2, y: 3 }];
     const scaled = scalePoints(original, 2);
     expect(scaled[0]).toEqual({ x: 4, y: 6 });
+  });
+
+  test("plotSqrt returns correct square root values and handles negatives", () => {
+    const points = plotSqrt(0, 16, 4);
+    expect(points.length).toBe(5);
+    expect(points[0]).toEqual({ x: 0, y: 0 });
+    // Check midpoint approximate value for x=8
+    expect(points[2].y).toBeCloseTo(Math.sqrt(8), 5);
+    expect(points[4]).toEqual({ x: 16, y: 4 });
   });
 });
