@@ -14,10 +14,11 @@
 // - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 // - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
 // - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
-// - 2023-10: Added new functions plotEllipse and exportPlotAsLaTeX to further extend plotting capabilities in line with our mission.
-// - 2023-10: Added new function exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
+// - 2023-10: Added new function plotEllipse and exportPlotAsLaTeX to extend plotting capabilities in line with our mission.
+// - 2023-10: Added new helper exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
 // - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
-// - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend plotting and numerical integration capabilities.
+// - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend spiral plotting and numerical integration capabilities.
+// - 2023-10: Updated to adhere strictly to CONTRIBUTING guidelines and pruned residual drift.
 
 import { fileURLToPath } from "url";
 
