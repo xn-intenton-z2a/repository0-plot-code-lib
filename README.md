@@ -1,19 +1,19 @@
 # repository0-plot-code-lib
 
-A CLI tool for precise mathematical plotting, aligned with our mission:
+A CLI tool for precise mathematical plotting that adheres to our mission statement:
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-repository0-plot-code-lib is a command-line utility designed for high-precision plotting and analysis of mathematical functions. Every aspect of the tool adheres to our mission and the contributing guidelines, ensuring both functionality and clarity.
+repository0-plot-code-lib is a command-line utility designed for high-precision plotting and analysis of mathematical functions. It provides robust support for multiple output formats and a variety of plotting modes that align with our mission and contributing guidelines.
 
 ## Features
 
-- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, and new mathematical helpers such as solving quadratic equations and Bezier curve plotting.
+- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, and custom function plots, along with extended mathematical helpers such as solving quadratic equations and Bezier curve plotting.
 - **Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R format.
 - **Data Analytics:** Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
-- **CLI Modes:** Demo, diagnostics, interactive, web server, and debug modes for versatile usage.
+- **CLI Modes:** Demo mode, diagnostics, interactive, web server, and debug modes with a wide variety of flags for versatile usage.
 
 ## Installation
 
@@ -38,23 +38,23 @@ Additional modes include:
 - **Web Server:** `node src/lib/main.js --serve`
 - **Export Modes:** Use flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`
 - **Plot Modes:** Use flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`
-- **Custom Plot:** Use the provided `plotCustom` function in your scripts for flexible function plotting.
 - **Debug Mode:** `node src/lib/main.js --debug` to list available functions.
+
+For custom usage, import the library functions into your scripts and leverage the provided helpers.
 
 ## Changelog
 
-- **2023-10:** Refined CLI messaging and enhanced error handling.
-- **2023-10:** Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration.
-- **2023-10:** Introduced functions `exportPlotAsR`, `plotCustom`, `plotScatter`, `plotBarChart`, `plotParametric`, `plotEllipse`, `plotModulatedSine` to extend plotting capabilities.
-- **2023-10:** **New Extension:** Added new mathematical helper functions: `solveQuadraticEquation`, `plotSinCosCombined`, `interpolateData`, and `plotBezier` to further empower analysis and visualization.
+- **2023-10:** Refined CLI messaging and enhanced error handling. Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration functionalities.
+- **2023-10:** **New Extension:** Added helper functions `solveQuadraticEquation`, `plotSinCosCombined`, `interpolateData`, and `plotBezier` to extend mathematical capabilities.
+- **2023-10:** README refreshed to better align with our mission and updated contributing guidelines.
 
 ## Contributing
 
-Contributions are encouraged! To contribute:
+Contributions are welcome! To contribute:
 
 1. **Open an Issue:** Describe your bug, idea, or improvement by opening an issue in our repository.
-2. **Label it as `automated`:** This triggers our workflow.
-3. **Follow the Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
+2. **Label as `automated`:** This triggers our automated workflow.
+3. **Follow the Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed contribution guidelines.
 
 Your contributions help us maintain precision and mission alignment.
 
