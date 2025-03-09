@@ -24,7 +24,7 @@ describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
-    expect(spy).toHaveBeenCalledWith("Demo Plot: Quadratic function (placeholder). Use flags --interactive, --serve or provide plot parameters.");
+    expect(spy).toHaveBeenCalledWith("Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.");
     spy.mockRestore();
   });
 

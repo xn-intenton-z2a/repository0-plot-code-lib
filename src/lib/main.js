@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// repository0-plot-code-lib: CLI for mathematical plotting in line with our mission statement.
+// repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
 // Extended library functions including polar plotting, fixed Express server init issue and ensured async handling per contributing guidelines.
 
 import { fileURLToPath } from "url";
@@ -20,9 +20,9 @@ async function getSelf() {
 }
 
 export async function main(args) {
-  // No arguments: show demo output.
+  // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
-    console.log("Demo Plot: Quadratic function (placeholder). Use flags --interactive, --serve or provide plot parameters.");
+    console.log("Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.");
     return;
   }
 
