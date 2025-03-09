@@ -9,8 +9,10 @@
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
 // - 2023-10: Added plotLissajous function and corresponding CLI flag --lissajous to generate Lissajous curve plots.
+// - 2023-10: Added plotBessel function for Bessel function plotting using mathjs.
 
 import { fileURLToPath } from "url";
+import * as math from "mathjs";
 
 /**
  * Dynamically load the Express module. Exported for easy mocking during tests.
@@ -53,7 +55,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel"
     );
     return;
   }
@@ -827,6 +829,17 @@ export function plotLissajous(amplX, amplY, freqX, freqY, phase, tMin, tMax, ste
       x: amplX * Math.sin(freqX * t + phase),
       y: amplY * Math.sin(freqY * t)
     });
+  }
+  return result;
+}
+
+// New function: plotBessel for plotting the Bessel function of the first kind using mathjs
+export function plotBessel(order, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: math.besselJ(x, order) });
   }
   return result;
 }

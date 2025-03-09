@@ -54,7 +54,8 @@ const {
   plotSinCosCombined,
   interpolateData,
   plotBezier,
-  plotLissajous
+  plotLissajous,
+  plotBessel
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -305,6 +306,7 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("interpolateData");
     expect(debugString).toContain("plotBezier");
     expect(debugString).toContain("plotLissajous");
+    expect(debugString).toContain("plotBessel");
     spy.mockRestore();
   });
 });
@@ -631,5 +633,12 @@ describe("Additional helper functions", () => {
     const points = plotLissajous(1, 1, 3, 2, Math.PI/2, 0, 2 * Math.PI, 100);
     expect(points.length).toBe(101);
     expect(points[0]).toEqual({ t: 0, x: 1, y: 0 });
+  });
+
+  test("plotBessel returns correct Bessel function values", () => {
+    const points = plotBessel(0, 0, 10, 10);
+    expect(points.length).toBe(11);
+    // besselJ(0,0) should equal 1
+    expect(points[0].y).toBeCloseTo(1, 5);
   });
 });
