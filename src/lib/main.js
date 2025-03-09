@@ -14,6 +14,7 @@
 // - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 // - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
 // - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
+// - 2023-10: Added new functions plotEllipse and exportPlotAsLaTeX to further extend plotting capabilities in line with our mission.
 
 import { fileURLToPath } from "url";
 
@@ -44,7 +45,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     return;
   }
@@ -58,7 +59,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotCosine, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse"
     );
     return;
   }
@@ -207,6 +208,14 @@ export async function main(args) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const xml = exportPlotAsXML(points);
     console.log("XML Output:\n" + xml);
+    return;
+  }
+
+  // --export-latex flag: export plot as LaTeX table format demo
+  if (args.includes("--export-latex")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const latex = exportPlotAsLaTeX(points);
+    console.log("LaTeX Output:\n" + latex);
     return;
   }
 
@@ -642,6 +651,34 @@ export function plotBarChart(points) {
     chart += `${pt.x}: ${bars}\n`;
   });
   return chart.trim();
+}
+
+// New function: plotEllipse generates points for an ellipse given a center and radii.
+export function plotEllipse(centerX, centerY, radiusX, radiusY, steps = 100) {
+  const result = [];
+  const dTheta = (2 * Math.PI) / steps;
+  for (let i = 0; i <= steps; i++) {
+    const theta = i * dTheta;
+    result.push({
+      theta,
+      x: centerX + radiusX * Math.cos(theta),
+      y: centerY + radiusY * Math.sin(theta)
+    });
+  }
+  return result;
+}
+
+// New helper: exportPlotAsLaTeX converts an array of point objects to a LaTeX tabular format
+export function exportPlotAsLaTeX(points) {
+  if (!points.length) return '';
+  const keys = Object.keys(points[0]);
+  let latex = "\\begin{tabular}{|" + "c|".repeat(keys.length) + "}\n\\hline\n";
+  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\ \n\\hline\n";
+  points.forEach(point => {
+    latex += keys.map(k => point[k]).join(" & ") + " \\ \n\\hline\n";
+  });
+  latex += "\\end{tabular}";
+  return latex;
 }
 
 // Entry point

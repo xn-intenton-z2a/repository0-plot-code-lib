@@ -36,11 +36,13 @@ const {
   exportPlotAsASCII,
   exportPlotAsSVG,
   exportPlotAsXML,
+  exportPlotAsLaTeX,
   plotScatter,
   plotModulatedSine,
   plotLogBase,
   plotParametric,
   plotBarChart,
+  plotEllipse,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -52,7 +54,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -206,6 +208,13 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
+  test("should output LaTeX plot when --export-latex flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-latex"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("LaTeX Output:"));
+    spy.mockRestore();
+  });
+
   test("should output Scatter plot when --scatter flag is provided", () => {
     const spy = vi.spyOn(console, "log");
     main(["--scatter"]);
@@ -237,6 +246,8 @@ describe("Debug flag behaviour", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Available plotting functions:"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsXML"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotBarChart"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotEllipse"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsLaTeX"));
     spy.mockRestore();
   });
 });
@@ -545,5 +556,22 @@ describe("Additional helper functions", () => {
     expect(chart).toContain('0:');
     expect(chart).toContain('1:');
     expect(chart.length).toBeGreaterThan(0);
+  });
+
+  test("plotEllipse returns correct number of points for an ellipse", () => {
+    const ellipsePoints = plotEllipse(0, 0, 5, 3, 100);
+    expect(ellipsePoints.length).toBe(101);
+    // Check first and last point are close
+    expect(ellipsePoints[0].x).toBeCloseTo(5, 5);
+    expect(ellipsePoints[0].y).toBeCloseTo(0, 5);
+    expect(ellipsePoints[100].x).toBeCloseTo(5, 5);
+  });
+
+  test("exportPlotAsLaTeX returns a valid LaTeX table", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const latex = exportPlotAsLaTeX(points);
+    expect(latex).toContain("\\begin{tabular}");
+    expect(latex).toContain("\\end{tabular}");
+    expect(latex).toContain("X & Y");
   });
 });
