@@ -10,10 +10,11 @@ repository0-plot-code-lib is a versatile command-line utility designed for plott
 
 ## Features
 
-- **Mathematical Plots:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate plots, Hyperbola plots, Power function plots, and new functions including Sigmoid and Sinc plots.
+- **Mathematical Plots:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate plots, Hyperbola plots, Power function plots, and new functions including Sigmoid, Sinc, ReLU, and moving median plots.
 - **Numerical Tools:** Derivative approximation, area calculation, moving average, numerical integration, definite integration, and statistical analysis.
 - **Output Formats:** CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly formats.
 - **CLI Modes:** Demo, diagnostics, interactive, debug, web server modes, plus various export options including the new --power-plot mode.
+- **Extended Library:** Now includes additional functions like plotReLU and movingMedian to further extend capabilities.
 
 For integrating plotting into your own projects, simply import the required functions from the library.
 
@@ -45,7 +46,8 @@ Other available modes include:
 
 - **2023-10:** Refined CLI messaging and extended plotting functionalities.
 - **2023-10:** Added new features: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotLemniscate, plotHyperbola.
-- **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, plotEllipse, plotPower, and now new plotting functions: plotSigmoid and plotSinc. Internal API refinements and improved debug output formatting have been implemented to better align with our mission and contributing guidelines.
+- **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, plotEllipse, plotPower, and new plotting functions: plotSigmoid, plotSinc.
+- **2023-10 (Extended):** Added additional library functions: plotReLU and movingMedian.
 
 ## Contributing
 

@@ -3,7 +3,7 @@
 // CLI for mathematical plotting aligned with our mission:
 // "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines,
-// with extended library functions including new plotPower, plotSigmoid, and plotSinc features and improved debug output formatting.
+// with extended library functions including new plotPower, plotSigmoid, plotSinc, plotReLU, and movingMedian features and improved debug output formatting.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -56,7 +56,8 @@ export async function main(args) {
       "plotLogistic", "plotCubic", "calculateStandardDeviation", "calculateCorrelation", "plotHyperbolic", "calculateExponentialMovingAverage", "plotGaussian",
       "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX",
       "exportPlotAsTXT", "exportPlotAsR", "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral",
-      "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower"
+      "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower",
+      "plotReLU", "movingMedian"
     ];
     console.log("Aligned with our mission, available plotting functions: " + funcs.join(", "));
     return;
@@ -904,6 +905,34 @@ export function plotPower(power, coefficient, xMin, xMax, steps = 100) {
   for (let i = 0; i <= steps; i++) {
     const x = xMin + i * dx;
     result.push({ x, y: coefficient * Math.pow(x, power) });
+  }
+  return result;
+}
+
+// Newly added function: plotReLU for computing ReLU of a linear function
+export function plotReLU(m, b, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const y = m * x + b;
+    result.push({ x, y: y > 0 ? y : 0 });
+  }
+  return result;
+}
+
+// Newly added function: movingMedian for computing the moving median of an array of data
+export function movingMedian(data, windowSize = 3) {
+  if (data.length === 0) return [];
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    const start = Math.max(0, i - Math.floor(windowSize / 2));
+    const end = Math.min(data.length, i + Math.ceil(windowSize / 2));
+    const window = data.slice(start, end);
+    const sorted = [...window].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    const median = sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+    result.push(median);
   }
   return result;
 }
