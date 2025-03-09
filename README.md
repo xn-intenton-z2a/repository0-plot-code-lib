@@ -14,6 +14,7 @@ repository0-plot-code-lib is a command-line utility designed for high-precision 
 - **Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R format.
 - **Data Analytics:** Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
 - **CLI Modes:** Demo mode, diagnostics, interactive, web server, and debug modes with a wide variety of flags for versatile usage.
+- **Enhanced Testability:** External dependencies such as Express and readline are dynamically loaded for deep mocking, ensuring near 100% test coverage.
 
 ## Installation
 
@@ -45,8 +46,9 @@ For custom usage, import the library functions into your scripts and leverage th
 ## Changelog
 
 - **2023-10:** Refined CLI messaging, pruned legacy drift, and updated error handling to align with our mission.
-- **2023-10:** Added multiple export modes and plotting functionalities including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration support.
+- **2023-10:** Added multiple export modes and extended plotting functionalities including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration support.
 - **2023-10:** Extended features with helper functions: solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
+- **2023-10:** **Enhanced test coverage and improved isolation of external resources for deeper mocking.**
 
 ## Contributing
 

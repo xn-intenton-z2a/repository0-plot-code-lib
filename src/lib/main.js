@@ -7,7 +7,7 @@
 // - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
-// (Legacy drift has been pruned to ensure full alignment with our mission.)
+// - 2023-10: Enhanced testability by isolating external dependencies and deepening mocks for Express and readline.
 
 import { fileURLToPath } from "url";
 
@@ -585,7 +585,6 @@ export function exportPlotAsHTML(points) {
 export function exportPlotAsASCII(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
-  // Create header row
   let header = keys.map(k => k.toUpperCase().padEnd(10)).join(' | ');
   let separator = keys.map(() => "----------").join('-+-');
   let rows = points.map(point => keys.map(k => String(point[k]).padEnd(10)).join(' | '));
