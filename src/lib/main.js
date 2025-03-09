@@ -10,6 +10,7 @@
 // - 2023-10-Enhanced: Added --debug flag for detailed function listing for debugging purposes.
 // - 2023-10-Extended: Improved error handling, ensured robust interactive fallback and external module mocking for enhanced test coverage.
 // - 2023-10-Extended2: Added --export-md flag and exportPlotAsMarkdown function for Markdown table export demo.
+// - 2023-10-Refresh: Updated inline documentation and changelog to reflect the refreshed README and CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";
 

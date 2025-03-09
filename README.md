@@ -6,28 +6,28 @@
 
 ## Overview
 
-repository0-plot-code-lib is a CLI tool engineered for high precision plotting and analysis of mathematical functions. Built to strictly adhere to our mission statement and CONTRIBUTING guidelines, it provides a comprehensive suite of plotting functions, statistical analysis tools, and versatile output formats. The library is optimized for both demo usage and interactive real-world application.
+repository0-plot-code-lib is a CLI tool engineered for high precision plotting and analysis of mathematical functions. Built to strictly adhere to our mission statement and the guidelines outlined in CONTRIBUTING.md, it provides a comprehensive suite of plotting functions, statistical analysis tools, and versatile output formats. The library is optimized for both demo usage and interactive real-world applications.
 
 ## Features
 
 - **Plotting Functions:**
-  - Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots
+  - Supports Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots
   - Absolute value plotting, derivative plotting, logistic and cubic plots
-  - Custom range generation
+  - Custom range generation using an in-house range generator
 
 - **Statistical and Transformation Tools:**
-  - Standard deviation and Pearson correlation calculation
+  - Standard deviation and Pearson correlation calculations
   - Data smoothing (moving average and exponential moving average)
-  - Point transformations including rotation, reflection, scaling, and offset adjustments
+  - Point transformations such as rotation, reflection, scaling, and offset adjustments
 
 - **CLI Modes:**
   - Default demo mode presenting a brief introduction
   - Diagnostics mode (`--diagnostics`)
-  - Interactive mode (`--interactive`) with input prompt and fallback timeout
+  - Interactive mode (`--interactive`) with input prompt and built-in fallback timeout
   - Web server mode (`--serve`) with enhanced security configurations
   - CSV Export mode (`--export-csv`) for sample data export
   - Markdown Export mode (`--export-md`) for exporting plot data as a Markdown table
-  - Debug mode (`--debug`) to list available plotting functions for troubleshooting purposes.
+  - Debug mode (`--debug`) for listing available plotting functions
 
 ## Installation
 
@@ -87,7 +87,7 @@ Other modes include:
   ```bash
   node src/lib/main.js --debug
   ```
-  Displays a list of available plotting functions for troubleshooting purposes.
+  Displays a list of available plotting functions.
 
 ## Default Demo
 
@@ -96,11 +96,11 @@ Running the CLI with no arguments displays a demo message that introduces the to
 ## Changelog Highlights
 
 - Refined CLI messages and functionalities to maintain strict alignment with our mission statement.
-- Pruned legacy and extraneous code drift to focus on core plotting functionalities per CONTRIBUTING guidelines.
+- Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
-- Introduced the CSV export mode (--export-csv) and Debug mode (--debug) for enhanced user feedback and troubleshooting.
-- **New:** Added Markdown export mode (--export-md) and the exportPlotAsMarkdown function for exporting plot data as a Markdown table.
+- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, and exportPlotAsMarkdown.
+- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), and Debug mode (`--debug`).
+- **Updated:** README has been refreshed to align with the latest CONTRIBUTING guidelines and automated workflow processes.
 
 ## Contributing
 
@@ -110,7 +110,7 @@ Contributions are automated. To contribute:
 2. Label the issue as `automated` to trigger our workflow.
 3. Follow the guidelines detailed in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-We welcome enhancements that align with our mission: to be the leading CLI plotting tool that seamlessly integrates mathematical precision and flexible output formats.
+We welcome enhancements that align with our mission: to be the leading CLI plotting tool that seamlessly integrates mathematical precision with flexible output formats.
 
 ## License
 
