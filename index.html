@@ -28,32 +28,33 @@
 <p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
 </blockquote>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">repository0-plot-code-lib is a CLI tool designed for high precision plotting of a wide range of mathematical functions. Built in alignment with our mission and CONTRIBUTING guidelines, the library offers diverse plotting functions and analytical tools, supporting multiple output formats with consistent error handling and interactive features.</p>
+<p class="md-github">repository0-plot-code-lib is a CLI tool engineered for high precision plotting and analysis of mathematical functions. Built to strictly adhere to our mission statement and CONTRIBUTING guidelines, it provides a comprehensive suite of plotting functions, statistical analysis tools, and versatile output formats. The library is optimized for both demo usage and interactive real-world application.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Plotting Functions:</strong></p>
 <ul class="md-github">
-<li class="md-github">Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, Polar</li>
-<li class="md-github">Absolute plotting</li>
-<li class="md-github">Derivative plotting</li>
-<li class="md-github">Logistic and Cubic plotting</li>
+<li class="md-github">Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots</li>
+<li class="md-github">Absolute value plotting, derivative plotting, logistic and cubic plots</li>
 <li class="md-github">Custom range generation</li>
-<li class="md-github">Statistical analysis (e.g., standard deviation, correlation)</li>
-<li class="md-github">Data smoothing with moving average and exponential moving average</li>
-<li class="md-github">Point transformations: rotation, reflection, scaling, and offset adjustments</li>
-<li class="md-github"><strong class="md-github">New Functions:</strong> Gaussian plotting, Hyperbolic plotting, and CSV export via exportPlotAsCSV</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Statistical and Transformation Tools:</strong></p>
+<ul class="md-github">
+<li class="md-github">Standard deviation and Pearson correlation calculation</li>
+<li class="md-github">Data smoothing (moving average and exponential moving average)</li>
+<li class="md-github">Point transformations including rotation, reflection, scaling, and offset adjustments</li>
 </ul>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">CLI Modes:</strong></p>
 <ul class="md-github">
-<li class="md-github">Default demo mode that introduces the tool</li>
+<li class="md-github">Default demo mode presenting a brief introduction</li>
 <li class="md-github">Diagnostics mode (<code class="md-github">--diagnostics</code>)</li>
-<li class="md-github">Interactive mode (<code class="md-github">--interactive</code>) with input prompt and timeout fallback</li>
+<li class="md-github">Interactive mode (<code class="md-github">--interactive</code>) with input prompt and fallback timeout</li>
 <li class="md-github">Web server mode (<code class="md-github">--serve</code>) with enhanced security configurations</li>
-<li class="md-github">Absolute plot demo mode (<code class="md-github">--plot-abs</code>)</li>
-<li class="md-github"><strong class="md-github">CSV Export Mode:</strong> (<code class="md-github">--export-csv</code>) Outputs plot data in CSV format</li>
+<li class="md-github">CSV Export mode (<code class="md-github">--export-csv</code>) demonstrating sample data export</li>
 </ul>
 </li>
 </ul>
@@ -63,10 +64,10 @@
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-quickstart" href="#cli-quickstart"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Quickstart</h3>
-<p class="md-github">Run the CLI demo:</p>
+<p class="md-github">Run the default demo:</p>
 <pre class="md-github"><code class="md-github language-bash">npm run start
 </code></pre>
-<p class="md-github">Other modes:</p>
+<p class="md-github">Other modes include:</p>
 <ul class="md-github">
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Diagnostics Mode:</strong></p>
@@ -77,16 +78,16 @@
 <p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
 </code></pre>
-<p class="md-github">The CLI will prompt for a plot command and use a fallback timeout if no input is received.</p>
+<p class="md-github">You will be prompted for a plot command; a fallback timeout is triggered if no input is given.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Web Server Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
 </code></pre>
-<p class="md-github">Starts an Express-based interactive plotting interface.</p>
+<p class="md-github">This starts an Express-based interactive plotting interface.</p>
 </li>
 <li class="md-github">
-<p class="md-github"><strong class="md-github">Absolute Plot Demo:</strong></p>
+<p class="md-github"><strong class="md-github">Absolute Plot Demo Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --plot-abs
 </code></pre>
 </li>
@@ -94,33 +95,33 @@
 <p class="md-github"><strong class="md-github">CSV Export Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --export-csv
 </code></pre>
-<p class="md-github">Outputs sample plot data in CSV format (demo using a sine function).</p>
+<p class="md-github">Outputs sample plot data in CSV format.</p>
 </li>
 </ul>
-<h3 class="md-github"><a class="md-github__anchor" name="default-demo" href="#default-demo"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default Demo</h3>
-<p class="md-github">Running the CLI with no arguments displays a demo message that introduces users to the tool.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="default-demo" href="#default-demo"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Default Demo</h2>
+<p class="md-github">Running the CLI with no arguments displays a demo message that introduces the tool and its capabilities.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog-highlights" href="#changelog-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog Highlights</h2>
 <ul class="md-github">
 <li class="md-github">Refined CLI messages and functionalities to maintain strict alignment with our mission statement.</li>
 <li class="md-github">Pruned legacy and extraneous code drift to focus on core plotting functionalities per CONTRIBUTING guidelines.</li>
-<li class="md-github">Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.</li>
-<li class="md-github"><strong class="md-github">New helper functions added:</strong> calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.</li>
-<li class="md-github">Extended CLI with new CSV export mode (--export-csv) for outputting plots in CSV format.</li>
-<li class="md-github">Improved error handling in interactive mode and streamlined implementation.</li>
+<li class="md-github">Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.</li>
+<li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.</li>
+<li class="md-github">Introduced the CSV export mode (--export-csv) for sample data output.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">Contributions are automated. To contribute:</p>
 <ol class="md-github">
 <li class="md-github">Open an issue describing your idea, bug, or improvement.</li>
-<li class="md-github">Label the issue as <code class="md-github">automated</code> to trigger the workflow.</li>
-<li class="md-github">Follow the guidelines outlined in <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</li>
+<li class="md-github">Label the issue as <code class="md-github">automated</code> to trigger our workflow.</li>
+<li class="md-github">Follow the guidelines detailed in <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</li>
 </ol>
+<p class="md-github">We welcome enhancements that align with our mission: to be the leading CLI plotting tool that seamlessly integrates mathematical precision and flexible output formats.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T07:35:24.290Z</p>
+    <p>Generated on 2025-03-09T07:43:26.301Z</p>
   </footer>
 </body>
 </html>
