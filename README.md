@@ -1,19 +1,19 @@
 # repository0-plot-code-lib
 
-A CLI tool for precise mathematical plotting that embodies our mission:
+A powerful CLI tool for accurate mathematical plotting, aligned with our mission:
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-repository0-plot-code-lib is a versatile command-line utility for plotting and analyzing mathematical functions. Designed with clarity, extensibility, and strict adherence to our contributing guidelines, it supports a wide range of plotting modes and output formats.
+repository0-plot-code-lib is a versatile command-line utility designed for plotting and analyzing mathematical functions with precision. With clear, extensible, and well-documented code, this tool supports a wide range of plotting modes and output formats while strictly adhering to our contributing guidelines.
 
 ## Features
 
-- **Mathematical Plots:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate (figure-eight) plots, and Hyperbola plots.
-- **Additional Mathematical Tools:** Offers derivative calculation, area approximation, moving averages, numerical integration, definite integration, and statistical analysis.
+- **Mathematical Plots:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, elliptical, polynomial, spiral, modulated sine, custom plots, Lissajous curves, Bessel functions, Lemniscate plots, and Hyperbola plots.
+- **Numerical Tools:** Derivative approximation, area calculation, moving average, numerical integration, definite integration, and statistical analysis.
 - **Output Formats:** CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly formats.
-- **CLI Modes:** Demo, diagnostics, interactive, debug, and web server modes using various flags.
+- **CLI Modes:** Demo, diagnostics, interactive, debug, and web server modes, offering extensive options at the command line.
 
 ## Installation
 
@@ -36,26 +36,26 @@ Other available modes include:
 - **Diagnostics:** `npm run diagnostics`
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Web Server:** `node src/lib/main.js --serve`
-- **Export/Plot Modes:** Use flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`, `--plot-abs`, `--scatter`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`.
+- **Export/Plot Modes:** Flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`, `--plot-abs`, `--scatter`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola` for various outputs.
 - **Debug Mode:** `node src/lib/main.js --debug` to list available plotting functions.
 
-For integrating plotting into your own scripts, simply import the library functions directly.
+For integrating plotting into your own projects, simply import the required functions from the library.
 
 ## Changelog
 
 - **2023-10:** Refined CLI messaging and extended plotting functionalities.
-- **2023-10:** Added features: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotLemniscate, plotHyperbola.
-- **2023-10 (Update):** Added new plotting functions: plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, and plotEllipse. Updated README to align with the latest CONTRIBUTING guidelines and refreshed content.
+- **2023-10:** Added new features: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotLemniscate, plotHyperbola.
+- **2023-10 (Update):** Introduced plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, and plotEllipse. README and documentation have been refreshed to align with updated CONTRIBUTING guidelines.
 
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
 
-1. **Open an Issue:** Provide a detailed description of your bug, idea, or enhancement in our GitHub issues.
-2. **Label as `automated`:** This triggers our automated workflow to guide your contribution.
-3. **Follow the Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for full instructions and our mission statement.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement on GitHub.
+2. **Label as `automated`:** This triggers our automated workflow.
+3. **Follow Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions and our mission statement.
 
-Your contributions help maintain the precision and vision of this project.
+Your contributions help ensure this tool remains precise, functional, and true to our vision.
 
 ## License
 

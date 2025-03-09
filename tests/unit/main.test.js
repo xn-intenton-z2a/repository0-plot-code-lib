@@ -67,7 +67,9 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
+      "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola or provide plot parameters.\n" +
+      "For contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -683,7 +685,7 @@ describe("Additional helper functions", () => {
   test("plotPolynomial returns a valid polynomial plot", () => {
     const points = plotPolynomial([1,2,3], 0, 2, 10);
     expect(points.length).toBe(11);
-    // For polynomial 1*x^2 +2*x + 3, at x=2, y= 1*4+2*2+3 = 4+4+3=11
+    // For polynomial 1*x^2 +2*x + 3, at x=2, y= 1*4+2*2+3 = 11
     expect(points[10].y).toBeCloseTo(11, 1);
   });
 
