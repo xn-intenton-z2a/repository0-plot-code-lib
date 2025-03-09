@@ -1,16 +1,11 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-// Refined code to fully align with updated CONTRIBUTING guidelines, prune legacy drift, and extend test coverage.
-// 
 // Changelog:
-// - 2023-10: Pruned extraneous code drift and legacy implementations per mission statement.
-// - Refined CLI messaging, error handling, and interactive fallback per updated guidelines.
-// - Extended library with new plotting and helper functions as per CONTRIBUTING guidelines.
-// - 2023-10-Enhanced: Added --debug flag for detailed function listing for debugging purposes.
-// - 2023-10-Extended: Improved error handling, ensured robust interactive fallback and external module mocking for enhanced test coverage.
-// - 2023-10-Extended2: Added --export-md flag and exportPlotAsMarkdown function for Markdown table export demo.
-// - 2023-10-Refresh: Updated inline documentation and changelog to reflect the refreshed README and CONTRIBUTING guidelines.
+// - 2023-10: Removed legacy implementations and refined CLI messaging and error handling per mission statement.
+// - 2023-10: Added --debug flag for detailed function listing for debugging purposes.
+// - 2023-10: Added --export-md flag and exportPlotAsMarkdown demo for Markdown table export.
+// - 2023-10: Improved fallback in interactive mode and robust error handling.
 
 import { fileURLToPath } from "url";
 
@@ -41,7 +36,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, or provide plot parameters."
     );
     return;
   }
