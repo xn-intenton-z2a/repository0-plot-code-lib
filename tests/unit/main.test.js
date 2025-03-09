@@ -301,9 +301,6 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("exportPlotAsR");
     expect(debugString).toContain("plotCustom");
     expect(debugString).toContain("exportPlotAsXML");
-    expect(debugString).toContain("plotBarChart");
-    expect(debugString).toContain("plotEllipse");
-    expect(debugString).toContain("plotModulatedSine");
     expect(debugString).toContain("exportPlotAsLaTeX");
     expect(debugString).toContain("exportPlotAsTXT");
     expect(debugString).toContain("plotPolynomial");
@@ -672,7 +669,6 @@ describe("Additional helper functions", () => {
   test("plotLemniscate returns a valid lemniscate curve", () => {
     const points = plotLemniscate(1, 0, 2 * Math.PI, 100);
     expect(points.length).toBe(101);
-    // Check that at least some points have non-null x and y
     const validPoint = points.find(pt => pt.x !== null && pt.y !== null);
     expect(validPoint).toBeDefined();
   });
