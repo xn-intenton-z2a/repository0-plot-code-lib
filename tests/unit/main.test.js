@@ -22,7 +22,9 @@ const {
   generateRange,
   plotDerivative,
   offsetPoints,
-  plotLogistic
+  plotLogistic,
+  plotCubic,
+  calculateStandardDeviation
 } = mainModule;
 
 
@@ -287,5 +289,18 @@ describe("Additional helper functions", () => {
     expect(points[0].y).toBeCloseTo(0.5, 4);
     // At x=10, logistic value should approach 1
     expect(points[10].y).toBeCloseTo(1, 4);
+  });
+
+  test("plotCubic returns correct cubic polynomial values", () => {
+    const points = plotCubic(1, 0, 0, 0, 0, 10, 10);
+    expect(points.length).toBe(11);
+    expect(points[0]).toEqual({ x: 0, y: 0 });
+    expect(points[10]).toEqual({ x: 10, y: 1000 });
+  });
+
+  test("calculateStandardDeviation returns correct value", () => {
+    const data = [2, 4, 4, 4, 5, 5, 7, 9];
+    const std = calculateStandardDeviation(data);
+    expect(std).toBeCloseTo(2, 1);
   });
 });
