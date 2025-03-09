@@ -11,15 +11,23 @@ import * as math from "mathjs";
 /**
  * Dynamically load the Express module. Exported for easy mocking during tests.
  */
-export function loadExpress() {
-  return import("express");
+export async function loadExpress() {
+  try {
+    return await import("express");
+  } catch (err) {
+    throw new Error("Failed to load express: " + err.message);
+  }
 }
 
 /**
  * Dynamically load the readline module. Exported for easy mocking during tests.
  */
-export function loadReadline() {
-  return import("readline");
+export async function loadReadline() {
+  try {
+    return await import("readline");
+  } catch (err) {
+    throw new Error("Failed to load readline: " + err.message);
+  }
 }
 
 // Helper to get the current module bindings for proper mocking in tests
@@ -147,6 +155,7 @@ export async function main(args) {
       });
     } catch (err) {
       console.error("Error loading readline module:", err);
+      return;
     }
     return;
   }
