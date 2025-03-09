@@ -45,6 +45,8 @@ const {
   plotBarChart,
   plotEllipse,
   plotPolynomial,
+  plotSpiral,
+  calculateDefiniteIntegral,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -266,6 +268,8 @@ describe("Debug flag behaviour", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsLaTeX"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsTXT"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotPolynomial"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotSpiral"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("calculateDefiniteIntegral"));
     spy.mockRestore();
   });
 });
@@ -557,5 +561,19 @@ describe("Additional helper functions", () => {
     expect(points[0]).toEqual({ x: 0, y: 1 });
     expect(points[1]).toEqual({ x: 1, y: 6 });
     expect(points[2]).toEqual({ x: 2, y: 17 });
+  });
+
+  test("plotSpiral returns correct number of points and structure", () => {
+    const points = plotSpiral(0, 0, 5, 2, 50);
+    expect(points.length).toBe(51);
+    expect(points[0]).toHaveProperty('x');
+    expect(points[0]).toHaveProperty('y');
+    expect(points[0]).toHaveProperty('theta');
+  });
+
+  test("calculateDefiniteIntegral approximates area under curve using trapezoidal rule", () => {
+    const fn = (x) => x;
+    const integral = calculateDefiniteIntegral(fn, 0, 10, 1000);
+    expect(integral).toBeCloseTo(50, 1);
   });
 });
