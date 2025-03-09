@@ -58,6 +58,7 @@
 <li class="md-github">Markdown Export mode (<code class="md-github">--export-md</code>) for exporting plot data as a Markdown table</li>
 <li class="md-github">JSON Export mode (<code class="md-github">--export-json</code>) for exporting plot data in JSON format</li>
 <li class="md-github">HTML Export mode (<code class="md-github">--export-html</code>) for exporting plot data as an HTML table</li>
+<li class="md-github">ASCII Export mode (<code class="md-github">--export-ascii</code>) for exporting plot data in ASCII table format</li>
 <li class="md-github">Debug mode (<code class="md-github">--debug</code>) for listing available plotting functions</li>
 </ul>
 </li>
@@ -120,6 +121,12 @@
 <p class="md-github">Exports sample plot data as an HTML table.</p>
 </li>
 <li class="md-github">
+<p class="md-github"><strong class="md-github">ASCII Export Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --export-ascii
+</code></pre>
+<p class="md-github">Exports sample plot data as an ASCII table.</p>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">Debug Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --debug
 </code></pre>
@@ -133,9 +140,9 @@
 <li class="md-github">Refined CLI messages and functionalities to maintain strict alignment with our mission statement.</li>
 <li class="md-github">Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.</li>
 <li class="md-github">Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.</li>
-<li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, and exportPlotAsHTML.</li>
-<li class="md-github">Introduced CSV export mode (<code class="md-github">--export-csv</code>), Markdown export mode (<code class="md-github">--export-md</code>), JSON export mode (<code class="md-github">--export-json</code>), HTML export mode (<code class="md-github">--export-html</code>), and Debug mode (<code class="md-github">--debug</code>).</li>
-<li class="md-github"><strong class="md-github">Pruned drift from the source file to further align with the Mission Statement and CONTRIBUTING guidelines.</strong></li>
+<li class="md-github">Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, and exportPlotAsASCII.</li>
+<li class="md-github">Introduced CSV export mode (<code class="md-github">--export-csv</code>), Markdown export mode (<code class="md-github">--export-md</code>), JSON export mode (<code class="md-github">--export-json</code>), HTML export mode (<code class="md-github">--export-html</code>), ASCII export mode (<code class="md-github">--export-ascii</code>), and Debug mode (<code class="md-github">--debug</code>).</li>
+<li class="md-github">Pruned drift from the source file to further align with the Mission Statement and CONTRIBUTING guidelines.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">Contributions are automated. To contribute:</p>
@@ -150,7 +157,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T09:42:18.388Z</p>
+    <p>Generated on 2025-03-09T09:50:01.055Z</p>
   </footer>
 </body>
 </html>
