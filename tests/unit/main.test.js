@@ -53,7 +53,8 @@ const {
   solveQuadraticEquation,
   plotSinCosCombined,
   interpolateData,
-  plotBezier
+  plotBezier,
+  plotLissajous
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -63,7 +64,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -266,6 +267,13 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
+  test("should output Lissajous plot when --lissajous flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--lissajous"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Lissajous Curve Output:"));
+    spy.mockRestore();
+  });
+
   test("should handle unrecognized flag gracefully", () => {
     const spy = vi.spyOn(console, "log");
     main(["--unknown"]);
@@ -296,6 +304,7 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("solveQuadraticEquation");
     expect(debugString).toContain("interpolateData");
     expect(debugString).toContain("plotBezier");
+    expect(debugString).toContain("plotLissajous");
     spy.mockRestore();
   });
 });
@@ -616,5 +625,11 @@ describe("Additional helper functions", () => {
     expect(curve.length).toBe(51);
     expect(curve[0]).toEqual({ x: 0, y: 0 });
     expect(curve[50]).toEqual({ x: 10, y: 0 });
+  });
+
+  test("plotLissajous returns correct Lissajous curve points", () => {
+    const points = plotLissajous(1, 1, 3, 2, Math.PI/2, 0, 2 * Math.PI, 100);
+    expect(points.length).toBe(101);
+    expect(points[0]).toEqual({ t: 0, x: 1, y: 0 });
   });
 });
