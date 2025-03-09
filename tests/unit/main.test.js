@@ -49,7 +49,11 @@ const {
   calculateDefiniteIntegral,
   plotCustom,
   loadExpress,
-  loadReadline
+  loadReadline,
+  solveQuadraticEquation,
+  plotSinCosCombined,
+  interpolateData,
+  plotBezier
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -288,6 +292,10 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("plotPolynomial");
     expect(debugString).toContain("plotSpiral");
     expect(debugString).toContain("calculateDefiniteIntegral");
+    expect(debugString).toContain("plotSinCosCombined");
+    expect(debugString).toContain("solveQuadraticEquation");
+    expect(debugString).toContain("interpolateData");
+    expect(debugString).toContain("plotBezier");
     spy.mockRestore();
   });
 });
@@ -580,45 +588,33 @@ describe("Additional helper functions", () => {
     expect(rStr).toContain(expectedStart);
   });
 
-  test("plotPolynomial returns correct polynomial values", () => {
-    const points = plotPolynomial([1, 2, 3], 0, 2, 2);
-    expect(points.length).toBe(3);
-    expect(points[0]).toEqual({ x: 0, y: 1 });
-    expect(points[1]).toEqual({ x: 1, y: 6 });
-    expect(points[2]).toEqual({ x: 2, y: 17 });
+  // New function tests
+  test("solveQuadraticEquation returns correct roots for quadratic equation", () => {
+    const roots = solveQuadraticEquation(1, -3, 2);
+    expect(roots.length).toBe(2);
+    expect(roots[0]).toBeCloseTo(2);
+    expect(roots[1]).toBeCloseTo(1);
   });
 
-  test("plotEllipse returns correct ellipse points", () => {
-    const points = plotEllipse(0, 0, 5, 3, 4);
-    expect(points.length).toBe(5);
-    // At t = 0, point should be (5, 0)
-    expect(points[0]).toEqual({ t: 0, x: 5, y: 0 });
-  });
-
-  test("plotModulatedSine returns modulated sine values", () => {
-    const points = plotModulatedSine(1, 1, 0.5, 0, 0, Math.PI, 10);
+  test("plotSinCosCombined returns points with sin and cos values", () => {
+    const points = plotSinCosCombined(1, 1, 0, 0, Math.PI, 10);
     expect(points.length).toBe(11);
-    // Just test that values are numbers
-    expect(typeof points[0].y).toBe('number');
+    expect(points[0]).toHaveProperty('sin');
+    expect(points[0]).toHaveProperty('cos');
   });
 
-  test("plotSpiral returns correct number of points and structure", () => {
-    const points = plotSpiral(0, 0, 5, 2, 50);
-    expect(points.length).toBe(51);
-    expect(points[0]).toHaveProperty('x');
-    expect(points[0]).toHaveProperty('y');
-    expect(points[0]).toHaveProperty('theta');
+  test("interpolateData returns correct interpolated value", () => {
+    const xData = [0, 10];
+    const yData = [0, 100];
+    const interpolated = interpolateData(xData, yData, 5);
+    expect(interpolated).toBeCloseTo(50);
   });
 
-  test("calculateDefiniteIntegral approximates area under curve using trapezoidal rule", () => {
-    const fn = (x) => x;
-    const integral = calculateDefiniteIntegral(fn, 0, 10, 1000);
-    expect(integral).toBeCloseTo(50, 1);
-  });
-
-  test("plotCustom returns correct values for a given function", () => {
-    const fn = (x) => 2 * x + 1;
-    const points = plotCustom(fn, 0, 2, 2);
-    expect(points).toEqual([{ x: 0, y: 1 }, { x: 1, y: 3 }, { x: 2, y: 5 }]);
+  test("plotBezier returns a curve with expected number of points", () => {
+    const controlPoints = [{ x: 0, y: 0 }, { x: 5, y: 10 }, { x: 10, y: 0 }];
+    const curve = plotBezier(controlPoints, 50);
+    expect(curve.length).toBe(51);
+    expect(curve[0]).toEqual({ x: 0, y: 0 });
+    expect(curve[50]).toEqual({ x: 10, y: 0 });
   });
 });

@@ -10,7 +10,7 @@ repository0-plot-code-lib is a command-line utility designed for high-precision 
 
 ## Features
 
-- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, and custom function plots.
+- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, and new mathematical helpers such as solving quadratic equations and Bezier curve plotting.
 - **Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R format.
 - **Data Analytics:** Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
 - **CLI Modes:** Demo, diagnostics, interactive, web server, and debug modes for versatile usage.
@@ -43,17 +43,16 @@ Additional modes include:
 
 ## Changelog
 
-- **2023-10:** Refined CLI messaging and error handling.
+- **2023-10:** Refined CLI messaging and enhanced error handling.
 - **2023-10:** Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration.
-- **2023-10:** Added new functions `exportPlotAsR`, `plotCustom`, `plotScatter`, `plotBarChart`, `plotParametric`, `plotEllipse`, `plotModulatedSine` inline with our mission to enhance flexibility and extend plotting capabilities.
-- **2023-10:** Refreshed README to align with CONTRIBUTING guidelines and pruned irrelevant content.
-- **2023-10:** Increased test coverage and enhanced module mocks for external resources.
+- **2023-10:** Introduced functions `exportPlotAsR`, `plotCustom`, `plotScatter`, `plotBarChart`, `plotParametric`, `plotEllipse`, `plotModulatedSine` to extend plotting capabilities.
+- **2023-10:** **New Extension:** Added new mathematical helper functions: `solveQuadraticEquation`, `plotSinCosCombined`, `interpolateData`, and `plotBezier` to further empower analysis and visualization.
 
 ## Contributing
 
 Contributions are encouraged! To contribute:
 
-1. **Open an Issue:** Describe your idea, bug, or improvement by opening an issue in our repository.
+1. **Open an Issue:** Describe your bug, idea, or improvement by opening an issue in our repository.
 2. **Label it as `automated`:** This triggers our workflow.
 3. **Follow the Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
 
