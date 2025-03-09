@@ -31,6 +31,8 @@ const {
   plotGaussian,
   exportPlotAsCSV,
   exportPlotAsMarkdown,
+  exportPlotAsJSON,
+  exportPlotAsHTML,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -42,7 +44,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -160,6 +162,20 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--export-md"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Markdown Output:"));
+    spy.mockRestore();
+  });
+
+  test("should output JSON plot when --export-json flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-json"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("JSON Output:"));
+    spy.mockRestore();
+  });
+
+  test("should output HTML plot when --export-html flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-html"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("HTML Output:"));
     spy.mockRestore();
   });
 });
@@ -389,6 +405,19 @@ describe("Additional helper functions", () => {
   test("exportPlotAsMarkdown returns empty string for empty points array", () => {
     const md = exportPlotAsMarkdown([]);
     expect(md).toBe("");
+  });
+
+  test("exportPlotAsJSON returns JSON string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const json = exportPlotAsJSON(points);
+    expect(json).toBe(JSON.stringify(points, null, 2));
+  });
+
+  test("exportPlotAsHTML returns HTML table string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const html = exportPlotAsHTML(points);
+    const expected = "<table><thead><tr><th>x</th><th>y</th></tr></thead><tbody><tr><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td></tr></tbody></table>";
+    expect(html).toBe(expected);
   });
 });
 
