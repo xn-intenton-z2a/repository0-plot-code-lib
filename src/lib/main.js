@@ -3,7 +3,7 @@
 // CLI for mathematical plotting aligned with our mission:
 // "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines,
-// with extended library functions including new plotPower, plotSigmoid, plotSinc, plotReLU, and movingMedian features and improved debug output formatting.
+// with extended library functions including new plotPower, plotSigmoid, plotSinc, plotReLU, movingMedian, and additional functions: plotInverse and cumulativeSum.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -54,10 +54,10 @@ export async function main(args) {
       "plotQuadratic", "calculateDerivative", "calculateArea", "plotLinear", "plotSine", "plotCosine", "rotatePoints", "plotExponential", "plotLogarithmic",
       "movingAverage", "plotTangent", "reflectPoints", "scalePoints", "plotSqrt", "plotPolar", "plotAbsolute", "generateRange", "plotDerivative", "offsetPoints",
       "plotLogistic", "plotCubic", "calculateStandardDeviation", "calculateCorrelation", "plotHyperbolic", "calculateExponentialMovingAverage", "plotGaussian",
-      "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX",
-      "exportPlotAsTXT", "exportPlotAsR", "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral",
-      "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower",
-      "plotReLU", "movingMedian"
+      "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX", "exportPlotAsTXT", "exportPlotAsR",
+      "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral", "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower", "plotReLU", "movingMedian",
+      // Newly added functions
+      "plotInverse", "cumulativeSum"
     ];
     console.log("Aligned with our mission, available plotting functions: " + funcs.join(", "));
     return;
@@ -933,6 +933,32 @@ export function movingMedian(data, windowSize = 3) {
     const mid = Math.floor(sorted.length / 2);
     const median = sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
     result.push(median);
+  }
+  return result;
+}
+
+// Newly added function: plotInverse to plot the inverse function y = 1/x with handling for x near zero
+export function plotInverse(xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    let y = null;
+    if (Math.abs(x) > 1e-10) {
+      y = 1 / x;
+    }
+    result.push({ x, y });
+  }
+  return result;
+}
+
+// Newly added function: cumulativeSum to compute cumulative sum of an array
+export function cumulativeSum(data) {
+  const result = [];
+  let sum = 0;
+  for (const num of data) {
+    sum += num;
+    result.push(sum);
   }
   return result;
 }
