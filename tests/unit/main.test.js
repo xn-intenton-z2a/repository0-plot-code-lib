@@ -253,6 +253,13 @@ describe("Main Function Behaviour", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Polynomial Plot Output:"));
     spy.mockRestore();
   });
+
+  test("should handle unrecognized flag gracefully", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--unknown"]);
+    expect(spy).toHaveBeenCalledWith(`Processing plot request with parameters: ${JSON.stringify(["--unknown"])}`);
+    spy.mockRestore();
+  });
 });
 
 // Debug flag behaviour

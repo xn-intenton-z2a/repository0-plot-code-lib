@@ -19,6 +19,7 @@
 // - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
 // - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend spiral plotting and numerical integration capabilities.
 // - 2023-10: Updated to adhere strictly to CONTRIBUTING guidelines and pruned residual drift.
+// - 2023-10: Increased test coverage and enhanced external resource mocking to support deeper testing.
 
 import { fileURLToPath } from "url";
 
