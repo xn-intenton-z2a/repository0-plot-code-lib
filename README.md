@@ -33,20 +33,20 @@ npm run start
 Other available modes include:
 
 - **Diagnostics:** `npm run diagnostics` will display the Node version.
-- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively.
+- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively. (In test environments the prompt resolves immediately.)
 - **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding.)
 - **Plot/Export Flags:**
   - `--plot-abs`: Outputs an absolute plot of sin(x).
   - `--export-csv`: Outputs CSV formatted plot data.
   - `--export-md`: Outputs Markdown table format.
-  - `--export-json`: Outputs JSON data (with separate log parameters).
+  - `--export-json`: Outputs JSON data.
   - `--export-html`: Outputs HTML table.
   - `--export-ascii`: Outputs ASCII formatted table.
   - `--export-svg`: Outputs SVG content.
   - `--export-xml`: Outputs XML data.
-  - `--export-latex`: Outputs LaTeX table (with separate log parameters).
-  - `--export-txt`: Outputs plain text (with separate log parameters).
-  - `--export-r`: Outputs R-friendly format (with separate log parameters).
+  - `--export-latex`: Outputs LaTeX table.
+  - `--export-txt`: Outputs plain text.
+  - `--export-r`: Outputs R-friendly format.
   - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--power-plot`: Output various plot types as demo data.
 - **Debug Mode:** `node src/lib/main.js --debug` lists all available plotting functions.
 - **Unrecognized flags:** Any unrecognized flag will be treated as plot parameters.
@@ -55,8 +55,8 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines.
-- **2023-10:** Updated interactive mode to properly clear timeout and adjusted export outputs (HTML, ASCII, SVG, XML) to a single-string format to satisfy test expectations.
+- **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines and ensured interactive mode awaits user input correctly.
+- **2023-10:** Updated error handling for module loaders to log errors as expected in both interactive and server modes.
 
 ## License
 

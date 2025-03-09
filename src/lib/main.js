@@ -46,27 +46,20 @@ export async function main(argsInput) {
         output: process.stdout
       });
       await new Promise((resolve) => {
-        let resolved = false;
-        const done = () => {
-          if (!resolved) {
-            resolved = true;
-            resolve();
-          }
-        };
         let timeoutId;
-        if (!process.env.VITEST) {
-          timeoutId = setTimeout(() => {
-            console.warn('Interactive mode fallback triggered after timeout');
-            rl.close();
-            done();
-          }, 100);
-        }
         rl.question('Enter a command: ', (answer) => {
           if (timeoutId) clearTimeout(timeoutId);
           console.log(`Received plot command: ${answer}`);
           rl.close();
-          done();
+          resolve();
         });
+        if (!process.env.VITEST) {
+          timeoutId = setTimeout(() => {
+            console.warn('Interactive mode fallback triggered after timeout');
+            rl.close();
+            resolve();
+          }, 100);
+        }
       });
     } catch (err) {
       console.error('Error loading readline module:', err);
@@ -119,22 +112,22 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-html')) {
-    console.log('HTML Output: <table><tr><td>1</td><td>2</td></tr></table>');
+    console.log('HTML Output:', '<table><tr><td>1</td><td>2</td></tr></table>');
     return;
   }
 
   if (args.includes('--export-ascii')) {
-    console.log('ASCII Output: 1 2');
+    console.log('ASCII Output:', '1 2');
     return;
   }
 
   if (args.includes('--export-svg')) {
-    console.log('SVG Output: <svg></svg>');
+    console.log('SVG Output:', '<svg></svg>');
     return;
   }
 
   if (args.includes('--export-xml')) {
-    console.log('XML Output: <xml></xml>');
+    console.log('XML Output:', '<xml></xml>');
     return;
   }
 
