@@ -14,14 +14,13 @@
 // - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 // - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
 // - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
-// - 2023-10: Added new function plotEllipse and exportPlotAsLaTeX to extend plotting capabilities in line with our mission.
+// - 2023-10: Added new function plotEllipse and exportPlotAsLaTeX to extend plotting capabilities.
 // - 2023-10: Added new helper exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
 // - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
 // - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend spiral plotting and numerical integration capabilities.
-// - 2023-10: Added new functions exportPlotAsR and plotCustom to enhance flexibility and extend exporting capabilities inline with our mission statement.
+// - 2023-10: Added new functions exportPlotAsR and plotCustom to enhance flexibility and extend exporting capabilities.
 // - 2023-10: Extended plotting functionalities with new function plotModulatedSine for modulated sine wave plotting.
-//
-// Additional inline with our mission improvements and contributing guidelines.
+// - 2023-10: [New Extension] Added functions solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier to further extend mathematical capabilities aligned with our mission.
 
 import { fileURLToPath } from "url";
 
@@ -66,7 +65,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier"
     );
     return;
   }
@@ -649,7 +648,7 @@ export function exportPlotAsTXT(points) {
   return points.map(pt => `x: ${pt.x}, y: ${pt.y}`).join('\n');
 }
 
-// New helper: exportPlotAsR converts an array of point objects to a format friendly for R (e.g., as a data frame representation)
+// New helper: exportPlotAsR converts an array of point objects to a format friendly for R
 export function exportPlotAsR(points) {
   if (!points.length) return '';
   const keys = Object.keys(points[0]);
@@ -659,7 +658,6 @@ export function exportPlotAsR(points) {
 }
 
 // New function: plotPolynomial plots a polynomial function given a array of coefficients.
-// Coefficients are in increasing order: [a0, a1, a2, ...] represents a0 + a1*x + a2*x^2 + ...
 export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -754,6 +752,73 @@ export function plotParametric(xFn, yFn, tMin, tMax, steps = 100) {
     points.push({ t, x: xFn(t), y: yFn(t) });
   }
   return points;
+}
+
+// New function: solveQuadraticEquation returns real roots of a quadratic equation
+export function solveQuadraticEquation(a, b, c) {
+  const discriminant = b * b - 4 * a * c;
+  if (discriminant < 0) {
+    return [];
+  }
+  const sqrtDisc = Math.sqrt(discriminant);
+  const root1 = (-b + sqrtDisc) / (2 * a);
+  const root2 = (-b - sqrtDisc) / (2 * a);
+  return [root1, root2];
+}
+
+// New function: plotSinCosCombined returns points with both sine and cosine values
+export function plotSinCosCombined(amplitude, frequency, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({
+      x,
+      sin: amplitude * Math.sin(frequency * x + phase),
+      cos: amplitude * Math.cos(frequency * x + phase)
+    });
+  }
+  return result;
+}
+
+// New function: interpolateData performs linear interpolation for given data arrays
+export function interpolateData(xData, yData, x) {
+  if (xData.length !== yData.length || xData.length === 0) {
+    throw new Error("Data arrays must be of the same non-zero length");
+  }
+  if (x < xData[0] || x > xData[xData.length - 1]) {
+    return null;
+  }
+  for (let i = 0; i < xData.length - 1; i++) {
+    if (xData[i] <= x && x <= xData[i + 1]) {
+      const t = (x - xData[i]) / (xData[i + 1] - xData[i]);
+      return yData[i] * (1 - t) + yData[i + 1] * t;
+    }
+  }
+  return null;
+}
+
+// New function: plotBezier generates points along a Bezier curve using De Casteljau's algorithm
+export function plotBezier(controlPoints, steps = 100) {
+  if (!Array.isArray(controlPoints) || controlPoints.length === 0) return [];
+  const bezierPoint = (points, t) => {
+    while (points.length > 1) {
+      const newPoints = [];
+      for (let i = 0; i < points.length - 1; i++) {
+        const x = points[i].x * (1 - t) + points[i + 1].x * t;
+        const y = points[i].y * (1 - t) + points[i + 1].y * t;
+        newPoints.push({ x, y });
+      }
+      points = newPoints;
+    }
+    return points[0];
+  };
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    result.push(bezierPoint([...controlPoints], t));
+  }
+  return result;
 }
 
 // Entry point
