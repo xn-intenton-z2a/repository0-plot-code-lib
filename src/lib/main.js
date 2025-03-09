@@ -3,10 +3,10 @@
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
 //
 // Changelog:
-// - Pruned drift from implementation and reinforced alignment with our mission statement.
-// - Updated CLI messages, error handling, and formatting to resolve lint issues.
+// - Refined implementation to strictly adhere to our mission statement.
+// - Updated CLI messages, error handling, and formatting as per contributing guidelines.
 // - Extended functionality: Added plotAbsolute, generateRange, and disabled x-powered-by header in Express.
-//   See CONTRIBUTING.md for details.
+// - Refreshed changelog comments to reflect updates from CONTRIBUTING.md.
 
 import { fileURLToPath } from "url";
 
