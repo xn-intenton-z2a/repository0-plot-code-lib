@@ -1,6 +1,6 @@
 {
   "name": "@xn-intenton-z2a/repository0-plot-code-lib",
-  "version": "0.7.43",
+  "version": "0.7.44",
   "description": "A versatile CLI tool to accurately plot mathematical functions with flexible output formats. Refined per CONTRIBUTING guidelines to fully align with our mission statement. Features include multiple export modes, extended mathematical functions including Lissajous curves, Bessel functions, Lemniscate plots, Hyperbola plots, and enhanced CLI interactivity.",
   "type": "module",
   "main": "src/lib/main.js",
