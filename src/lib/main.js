@@ -10,6 +10,8 @@
 // - 2023-10: Added new export features: --export-json and --export-html modes with corresponding helper functions.
 // - 2023-10: Pruned drift from the code to fully align with the Mission Statement and updated CONTRIBUTING guidelines.
 // - 2023-10: Added --export-ascii flag and exportPlotAsASCII demo for ASCII table export in alignment with our mission statement.
+// - 2023-10: Added --export-svg flag and exportPlotAsSVG demo for SVG export mode.
+// - 2023-10: Added --scatter flag and plotScatter demo for generating scatter plots.
 
 import { fileURLToPath } from "url";
 
@@ -40,7 +42,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --scatter, or provide plot parameters."
     );
     return;
   }
@@ -54,7 +56,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, plotScatter"
     );
     return;
   }
@@ -187,6 +189,21 @@ export async function main(args) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const ascii = exportPlotAsASCII(points);
     console.log("ASCII Output:\n" + ascii);
+    return;
+  }
+
+  // --export-svg flag: export a plot as SVG format demo (using plotSine as example)
+  if (args.includes("--export-svg")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const svg = exportPlotAsSVG(points);
+    console.log("SVG Output:\n" + svg);
+    return;
+  }
+
+  // --scatter flag: demo of generating a scatter plot with random points
+  if (args.includes("--scatter")) {
+    const points = plotScatter(10);
+    console.log("Scatter Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
@@ -522,6 +539,25 @@ export function exportPlotAsASCII(points) {
   let separator = keys.map(() => "----------").join('-+-');
   let rows = points.map(point => keys.map(k => String(point[k]).padEnd(10)).join(' | '));
   return [header, separator, ...rows].join('\n');
+}
+
+// New helper: exportPlotAsSVG converts an array of point objects to a simple SVG representation
+export function exportPlotAsSVG(points) {
+  let svg = '<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">';
+  points.forEach((pt, index) => {
+    svg += `<text x="10" y="${20 * (index + 1)}">${JSON.stringify(pt)}</text>`;
+  });
+  svg += '</svg>';
+  return svg;
+}
+
+// New helper: plotScatter generates a scatter plot with random points
+export function plotScatter(numPoints = 10) {
+  const result = [];
+  for (let i = 0; i < numPoints; i++) {
+    result.push({ x: Math.random() * 10, y: Math.random() * 10 });
+  }
+  return result;
 }
 
 // Entry point
