@@ -3,7 +3,7 @@
 // CLI for mathematical plotting aligned with our mission:
 // "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // This version has been updated to prune drift and fully align messaging with our mission statement and contributing guidelines,
-// with extended library functions including a new plotPower feature and improved debug output formatting.
+// with extended library functions including new plotPower, plotSigmoid, and plotSinc features and improved debug output formatting.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -56,8 +56,7 @@ export async function main(args) {
       "plotLogistic", "plotCubic", "calculateStandardDeviation", "calculateCorrelation", "plotHyperbolic", "calculateExponentialMovingAverage", "plotGaussian",
       "exportPlotAsCSV", "exportPlotAsMarkdown", "exportPlotAsJSON", "exportPlotAsHTML", "exportPlotAsASCII", "exportPlotAsSVG", "exportPlotAsXML", "exportPlotAsLaTeX",
       "exportPlotAsTXT", "exportPlotAsR", "plotScatter", "plotParametric", "plotBarChart", "plotEllipse", "plotPolynomial", "plotModulatedSine", "plotSpiral",
-      "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous",
-      "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower"
+      "plotSigmoid", "plotSinc", "calculateDefiniteIntegral", "plotCustom", "solveQuadraticEquation", "plotSinCosCombined", "interpolateData", "plotBezier", "plotLissajous", "plotBessel", "plotHyperbola", "plotLemniscate", "plotPower"
     ];
     console.log("Aligned with our mission, available plotting functions: " + funcs.join(", "));
     return;
@@ -174,7 +173,7 @@ export async function main(args) {
     return;
   }
 
-  // --plot-abs flag: export demo of plotting the absolute of a function (using Math.sin)
+  // --plot-abs flag: import demo of plotting the absolute of a function (using Math.sin)
   if (args.includes("--plot-abs")) {
     const points = plotAbsolute(Math.sin, 0, Math.PI, 10);
     console.log("Plot Absolute of sin(x):", points);
@@ -850,6 +849,29 @@ export function plotSpiral(spiralConstant, thetaMin, thetaMax, steps = 100) {
   return result;
 }
 
+// Newly added function: plotSigmoid to demonstrate plotting of sigmoid function
+export function plotSigmoid(xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: 1 / (1 + Math.exp(-x)) });
+  }
+  return result;
+}
+
+// Newly added function: plotSinc to plot sinc function, defined as sin(x)/x
+export function plotSinc(xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    const y = x === 0 ? 1 : Math.sin(x) / x;
+    result.push({ x, y });
+  }
+  return result;
+}
+
 export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   let area = 0;
@@ -876,7 +898,6 @@ export function plotEllipse(a, b, xMin, xMax, steps = 100) {
   return result;
 }
 
-// Newly added function: plotPower to demonstrate plotting of power functions
 export function plotPower(power, coefficient, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
