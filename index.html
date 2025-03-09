@@ -29,8 +29,8 @@
 <p class="md-github">repository0-plot-code-lib is a command-line utility designed for high-precision plotting and analysis of mathematical functions. Every aspect of the tool adheres to our mission and contribution guidelines, ensuring both functionality and clarity.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Plotting Functions:</strong> Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, and spiral plots.</li>
-<li class="md-github"><strong class="md-github">Output Formats:</strong> Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, and plain text (TXT).</li>
+<li class="md-github"><strong class="md-github">Plotting Functions:</strong> Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, and custom function plots.</li>
+<li class="md-github"><strong class="md-github">Output Formats:</strong> Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R format.</li>
 <li class="md-github"><strong class="md-github">Data Analytics:</strong> Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.</li>
 <li class="md-github"><strong class="md-github">CLI Modes:</strong> Demo, diagnostics, interactive, web server, and debug modes for versatile usage.</li>
 </ul>
@@ -47,8 +47,9 @@
 <li class="md-github"><strong class="md-github">Diagnostics:</strong> <code class="md-github">npm run diagnostics</code></li>
 <li class="md-github"><strong class="md-github">Interactive:</strong> <code class="md-github">node src/lib/main.js --interactive</code></li>
 <li class="md-github"><strong class="md-github">Web Server:</strong> <code class="md-github">node src/lib/main.js --serve</code></li>
-<li class="md-github"><strong class="md-github">Export Modes:</strong> Use flags such as <code class="md-github">--export-csv</code>, <code class="md-github">--export-md</code>, <code class="md-github">--export-json</code>, <code class="md-github">--export-html</code>, <code class="md-github">--export-ascii</code>, <code class="md-github">--export-svg</code>, <code class="md-github">--export-xml</code>, <code class="md-github">--export-latex</code>, <code class="md-github">--export-txt</code></li>
+<li class="md-github"><strong class="md-github">Export Modes:</strong> Use flags such as <code class="md-github">--export-csv</code>, <code class="md-github">--export-md</code>, <code class="md-github">--export-json</code>, <code class="md-github">--export-html</code>, <code class="md-github">--export-ascii</code>, <code class="md-github">--export-svg</code>, <code class="md-github">--export-xml</code>, <code class="md-github">--export-latex</code>, <code class="md-github">--export-txt</code>, <code class="md-github">--export-r</code></li>
 <li class="md-github"><strong class="md-github">Plot Modes:</strong> Use flags like <code class="md-github">--plot-abs</code>, <code class="md-github">--scatter</code>, <code class="md-github">--bar-chart</code>, <code class="md-github">--plot-parametric</code>, <code class="md-github">--plot-poly</code></li>
+<li class="md-github"><strong class="md-github">Custom Plot:</strong> Use the provided plotCustom function in your scripts for flexible function plotting.</li>
 <li class="md-github"><strong class="md-github">Debug Mode:</strong> <code class="md-github">node src/lib/main.js --debug</code> to list available functions.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
@@ -62,7 +63,8 @@
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">2023-10:</strong> Refined CLI messaging and error handling.</li>
-<li class="md-github"><strong class="md-github">2023-10:</strong> Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration.</li>
+<li class="md-github"><strong class="md-github">2023-10:</strong> Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration.</li>
+<li class="md-github"><strong class="md-github">2023-10:</strong> Added new functions exportPlotAsR, plotCustom, plotScatter, plotBarChart, and plotParametric inline with our mission to enhance flexibility.</li>
 <li class="md-github"><strong class="md-github">2023-10:</strong> Refreshed README to align with CONTRIBUTING guidelines and pruned irrelevant drift.</li>
 <li class="md-github"><strong class="md-github">2023-10:</strong> Increased test coverage and enhanced module mocks for external resources.</li>
 <li class="md-github"><strong class="md-github">2023-10:</strong> Increased overall test coverage to near 100% and improved isolation of external resource dependencies.</li>
@@ -72,7 +74,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T13:59:47.632Z</p>
+    <p>Generated on 2025-03-09T14:10:02.253Z</p>
   </footer>
 </body>
 </html>
