@@ -1,25 +1,24 @@
 # repository0-plot-code-lib
 
-A CLI tool for precise mathematical plotting that follows our mission statement:
+A CLI tool for precise mathematical plotting that lives by its mission:
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-repository0-plot-code-lib is a command-line utility designed for high-precision plotting and analysis of mathematical functions. Built with versatility in mind, it supports multiple output formats and diverse plotting modes. Its design emphasizes clarity, ease of extension, and adherence to our strict contributing guidelines.
+repository0-plot-code-lib is a flexible command-line utility for plotting and analyzing mathematical functions. It supports a wide range of output formats and diverse plotting modes. Our design emphasizes clarity, extensibility, and strict adherence to our contributing guidelines.
 
 ## Features
 
-- **Plotting Functions:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, Lissajous curves, Bessel function plots, and more.
-- **Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT), and R-friendly format.
-- **Mathematical Helpers:** Includes derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
-- **CLI Modes:** Demo, diagnostics, interactive, web server, debug modes with comprehensive flag options. New flag: `--lissajous` generates Lissajous curve plots.
-- **Extended Features:** Additional functionalities such as plotting Bessel functions are included to extend the range of mathematical visualisations. (Fixed: plotBessel now correctly interfaces with mathjs or uses a fallback for order 0.)
-- **Testability:** Enhanced test coverage through isolated dependency mocks and comprehensive edge-case testing.
+- **Plotting Functions:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, Lissajous curves, and Bessel function plots.
+- **Output Formats:** CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT) and R-friendly formats.
+- **Mathematical Tools:** Derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
+- **CLI Modes:** Demo, diagnostics, interactive, web server, and debug modes with various flags for tailored outputs.
+- **Extended Helpers:** Functions such as solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier extend the library's capabilities.
 
 ## Installation
 
-Ensure you have Node.js (v20 or higher) installed. Then install via npm:
+Ensure Node.js (v20 or higher) is installed. Then install via npm:
 
 ```bash
 npm install @xn-intenton-z2a/repository0-plot-code-lib
@@ -38,29 +37,29 @@ Other available modes include:
 - **Diagnostics:** `npm run diagnostics`
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Web Server:** `node src/lib/main.js --serve`
-- **Export Modes:** Flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, `--export-r`
-- **Plot Modes:** Flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, and the new `--lissajous` for Lissajous curves
-- **Debug Mode:** `node src/lib/main.js --debug` to list all available plotting functions.
+- **Export Modes:** Use flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, and `--export-r`
+- **Plot Modes:** Use flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, and the new `--lissajous` for generating Lissajous curve plots
+- **Debug Mode:** `node src/lib/main.js --debug` to list all available plotting functions
 
-For integrating plotting into your scripts, import the library functions directly.
+For integrating plotting into your own scripts, import the library functions directly.
 
 ## Changelog
 
-- **2023-10:** Refined CLI messaging and error handling; added multiple export modes and extended plotting functionalities.
-- **2023-10:** Extended helper functions including solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
-- **2023-10:** Added plotLissajous function and `--lissajous` CLI flag for generating Lissajous curve plots.
-- **2023-10:** Added plotBessel function for Bessel function plotting to extend our mathematical visualization capabilities. Fixed integration with mathjs and implemented a fallback for order 0.
-- **2023-10:** Improved test coverage with enhanced mocks and edge-case handling.
+- **2023-10:** Refined CLI messaging and error handling; extended plotting functionalities across multiple formats.
+- **2023-10:** Added new helper functions including solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
+- **2023-10:** Introduced plotLissajous and the corresponding `--lissajous` flag for Lissajous curve plots.
+- **2023-10:** Enhanced plotBessel functionality to correctly interface with mathjs or use a fallback for order 0.
+- **2023-10:** Updated documentation and contributing guidelines to align with our mission.
 
 ## Contributing
 
 Contributions are welcome! Please follow these steps:
 
-1. **Open an Issue:** Describe your bug, idea, or enhancement.
-2. **Label as `automated`:** This triggers our automated contribution workflow.
-3. **Follow the Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions and our mission statement.
+1. **Open an Issue:** Provide a detailed description of your bug, idea, or enhancement.
+2. **Label as `automated`:** This initiates our automated workflow.
+3. **Follow the Guidelines:** Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed instructions and our project mission.
 
-Your contributions help us uphold precision and maintain the spirit of our project.
+Your contributions help us maintain precision and uphold the spirit of our project.
 
 ## License
 
