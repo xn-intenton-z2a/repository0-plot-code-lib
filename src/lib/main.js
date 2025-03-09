@@ -4,9 +4,10 @@
 // Refined code to fully align with updated CONTRIBUTING guidelines.
 // 
 // Changelog:
-// - 2023-10: Pruned extraneous code drift and legacy implementations to strictly follow our mission statement.
+// - 2023-10: Pruned extraneous code drift and legacy implementations per mission statement.
 // - Refined CLI messaging, error handling, and interactive fallback per updated guidelines.
 // - Extended library with new plotting and helper functions as per CONTRIBUTING guidelines.
+// - 2023-10-Enhanced: Added --debug flag for detailed function listing for debugging purposes.
 
 import { fileURLToPath } from "url";
 
@@ -37,7 +38,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, or provide plot parameters."
     );
     return;
   }
@@ -45,6 +46,12 @@ export async function main(args) {
   // --diagnostics flag: output diagnostics info
   if (args.includes("--diagnostics")) {
     console.log(`Diagnostics: Node version: ${process.version}`);
+    return;
+  }
+
+  // --debug flag: list available plotting functions for debugging purposes.
+  if (args.includes("--debug")) {
+    console.log("Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotCosine, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV");
     return;
   }
 

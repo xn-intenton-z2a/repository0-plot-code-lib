@@ -37,7 +37,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: High precision plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -148,6 +148,15 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--export-csv"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("CSV Output:"));
+    spy.mockRestore();
+  });
+});
+
+describe("Debug flag behaviour", () => {
+  test("should output debug message when --debug flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--debug"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Available plotting functions:"));
     spy.mockRestore();
   });
 });
