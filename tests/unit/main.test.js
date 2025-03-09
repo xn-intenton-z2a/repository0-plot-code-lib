@@ -18,14 +18,17 @@ const {
   scalePoints,
   plotSqrt,
   plotPolar,
+  loadReadline,
+  loadExpress
 } = mainModule;
+
 
 describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.",
+      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -45,7 +48,7 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
-  test("should prompt for user input when --interactive flag is provided", async () => {
+  test("should prompt for user input when --interactive flag is provided (test environment)", async () => {
     const spy = vi.spyOn(console, "log");
     const originalVitest = process.env.VITEST;
     process.env.VITEST = "true";
@@ -66,6 +69,36 @@ describe("Main Function Behaviour", () => {
     expect(spy).toHaveBeenCalledWith("Received plot command: simulated plot command");
     spy.mockRestore();
     process.env.VITEST = originalVitest;
+  });
+
+  test("should trigger fallback timeout in interactive mode when no answer is provided (non-test environment)", async () => {
+    // Simulate non-test environment
+    process.env.NODE_ENV = "non-test";
+    process.env.VITEST = undefined;
+    const spyWarn = vi.spyOn(console, "warn");
+
+    const fakeInterface = {
+      question: (prompt, callback) => {
+        // Do not call callback to trigger timeout
+      },
+      close: vi.fn(),
+    };
+    const fakeReadlineModule = {
+      createInterface: () => fakeInterface,
+    };
+
+    vi.spyOn(mainModule, "loadReadline").mockImplementation(() => Promise.resolve(fakeReadlineModule));
+
+    vi.useFakeTimers();
+    const promise = main(["--interactive"]);
+    vi.advanceTimersByTime(120);
+    await promise;
+    expect(spyWarn).toHaveBeenCalledWith("Interactive mode fallback triggered after timeout");
+    spyWarn.mockRestore();
+    vi.useRealTimers();
+    // Restore environment variables
+    process.env.NODE_ENV = "test";
+    process.env.VITEST = "true";
   });
 
   test("should start Express server when --serve flag is provided", async () => {
@@ -206,7 +239,6 @@ describe("Additional helper functions", () => {
     const points = plotPolar(radiusFn, 0, Math.PI, 4);
     expect(points.length).toBe(5);
     expect(points[0]).toEqual({ theta: 0, r: 1 });
-    // Test mid value manually
     const midTheta = points[2].theta;
     expect(points[2].r).toBeCloseTo(Math.cos(midTheta), 5);
   });

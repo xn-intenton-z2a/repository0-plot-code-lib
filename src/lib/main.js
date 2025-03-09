@@ -1,15 +1,20 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
-// Updated per contributing guidelines. See CONTRIBUTING.md for details.
+// Enhanced test coverage and robust error handling for external dependencies. See CONTRIBUTING.md for details.
 
 import { fileURLToPath } from "url";
 
-// Helper functions exported for dynamic import; allows easier mocking during tests
+/**
+ * Dynamically load the Express module. Exported for easy mocking during tests.
+ */
 export function loadExpress() {
   return import("express");
 }
 
+/**
+ * Dynamically load the readline module. Exported for easy mocking during tests.
+ */
 export function loadReadline() {
   return import("readline");
 }
@@ -19,11 +24,15 @@ async function getSelf() {
   return await import(import.meta.url);
 }
 
+/**
+ * Main entry point of the CLI application.
+ * @param {string[]} args - Command line arguments.
+ */
 export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.",
+      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters."
     );
     return;
   }

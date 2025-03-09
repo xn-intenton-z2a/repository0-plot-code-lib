@@ -87,8 +87,8 @@ node src/lib/main.js
 ## Changelog Highlights
 
 - Refreshed README to align with the contributing guidelines.
-- Pruned irrelevant content and updated documentation to clearly detail CLI modes and usage.
-- Extended library functions with new features including plotSqrt and plotPolar, consistent with our mission statement.
+- Extended library functions with new features including plotSqrt and plotPolar.
+- Enhanced test coverage with added interactive fallback tests and robust error handling for external dependencies.
 
 ## Contributing
 
