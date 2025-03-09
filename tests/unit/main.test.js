@@ -38,6 +38,7 @@ const {
   exportPlotAsXML,
   exportPlotAsLaTeX,
   exportPlotAsTXT,
+  exportPlotAsR,
   plotScatter,
   plotModulatedSine,
   plotLogBase,
@@ -47,6 +48,7 @@ const {
   plotPolynomial,
   plotSpiral,
   calculateDefiniteIntegral,
+  plotCustom,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -58,7 +60,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -226,6 +228,13 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
+  test("should output R plot when --export-r flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-r"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("R Output:"));
+    spy.mockRestore();
+  });
+
   test("should output Scatter plot when --scatter flag is provided", () => {
     const spy = vi.spyOn(console, "log");
     main(["--scatter"]);
@@ -268,15 +277,17 @@ describe("Debug flag behaviour", () => {
   test("should output debug message when --debug flag is provided", () => {
     const spy = vi.spyOn(console, "log");
     main(["--debug"]);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Available plotting functions:"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsXML"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotBarChart"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotEllipse"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsLaTeX"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsTXT"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotPolynomial"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotSpiral"));
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining("calculateDefiniteIntegral"));
+    const debugString = spy.mock.calls.map(call => call[0]).join(' ');
+    expect(debugString).toContain("exportPlotAsR");
+    expect(debugString).toContain("plotCustom");
+    expect(debugString).toContain("exportPlotAsXML");
+    expect(debugString).toContain("plotBarChart");
+    expect(debugString).toContain("plotEllipse");
+    expect(debugString).toContain("exportPlotAsLaTeX");
+    expect(debugString).toContain("exportPlotAsTXT");
+    expect(debugString).toContain("plotPolynomial");
+    expect(debugString).toContain("plotSpiral");
+    expect(debugString).toContain("calculateDefiniteIntegral");
     spy.mockRestore();
   });
 });
@@ -562,6 +573,13 @@ describe("Additional helper functions", () => {
     expect(txt).toBe(expected);
   });
 
+  test("exportPlotAsR returns R formatted string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const rStr = exportPlotAsR(points);
+    const expectedStart = "x, y";
+    expect(rStr).toContain(expectedStart);
+  });
+
   test("plotPolynomial returns correct polynomial values", () => {
     const points = plotPolynomial([1, 2, 3], 0, 2, 2);
     expect(points.length).toBe(3);
@@ -582,5 +600,11 @@ describe("Additional helper functions", () => {
     const fn = (x) => x;
     const integral = calculateDefiniteIntegral(fn, 0, 10, 1000);
     expect(integral).toBeCloseTo(50, 1);
+  });
+
+  test("plotCustom returns correct values for a given function", () => {
+    const fn = (x) => 2 * x + 1;
+    const points = plotCustom(fn, 0, 2, 2);
+    expect(points).toEqual([{ x: 0, y: 1 }, { x: 1, y: 3 }, { x: 2, y: 5 }]);
   });
 });
