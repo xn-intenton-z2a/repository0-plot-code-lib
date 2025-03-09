@@ -14,6 +14,7 @@
 // - 2023-10: Added --plot-parametric flag and corresponding function plotParametric for plotting parametric equations.
 // - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
 // - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
+// - 2023-10: Added new functions plotEllipse and exportPlotAsLaTeX to further extend plotting capabilities in line with our mission.
 
 import { fileURLToPath } from "url";
 
@@ -58,7 +59,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotCosine, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, rotatePoints, plotCosine, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse, exportPlotAsLaTeX"
     );
     return;
   }
@@ -642,6 +643,36 @@ export function plotBarChart(points) {
     chart += `${pt.x}: ${bars}\n`;
   });
   return chart.trim();
+}
+
+// New function: plotEllipse generates points for an ellipse given a center and radii.
+export function plotEllipse(centerX, centerY, radiusX, radiusY, steps = 100) {
+  const result = [];
+  const dTheta = (2 * Math.PI) / steps;
+  for (let i = 0; i <= steps; i++) {
+    const theta = i * dTheta;
+    result.push({
+      theta,
+      x: centerX + radiusX * Math.cos(theta),
+      y: centerY + radiusY * Math.sin(theta)
+    });
+  }
+  return result;
+}
+
+// New helper: exportPlotAsLaTeX converts an array of point objects to a LaTeX tabular format
+export function exportPlotAsLaTeX(points) {
+  if (!points.length) return '';
+  const keys = Object.keys(points[0]);
+  let latex = "\\begin{tabular}{|" + "c|".repeat(keys.length) + "}\n\\hline\n";
+  latex += keys.map(k => k.toUpperCase()).join(" & ") + " \\
+\\hline\n";
+  points.forEach(point => {
+    latex += keys.map(k => point[k]).join(" & ") + " \\
+\\hline\n";
+  });
+  latex += "\\end{tabular}";
+  return latex;
 }
 
 // Entry point

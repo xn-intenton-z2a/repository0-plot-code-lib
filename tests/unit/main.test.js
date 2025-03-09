@@ -41,6 +41,8 @@ const {
   plotLogBase,
   plotParametric,
   plotBarChart,
+  plotEllipse,
+  exportPlotAsLaTeX,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -237,6 +239,8 @@ describe("Debug flag behaviour", () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("Available plotting functions:"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsXML"));
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotBarChart"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("plotEllipse"));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("exportPlotAsLaTeX"));
     spy.mockRestore();
   });
 });
@@ -545,5 +549,22 @@ describe("Additional helper functions", () => {
     expect(chart).toContain('0:');
     expect(chart).toContain('1:');
     expect(chart.length).toBeGreaterThan(0);
+  });
+
+  test("plotEllipse returns correct number of points for an ellipse", () => {
+    const ellipsePoints = plotEllipse(0, 0, 5, 3, 100);
+    expect(ellipsePoints.length).toBe(101);
+    // Check first and last point are close
+    expect(ellipsePoints[0].x).toBeCloseTo(5, 5);
+    expect(ellipsePoints[0].y).toBeCloseTo(0, 5);
+    expect(ellipsePoints[100].x).toBeCloseTo(5, 5);
+  });
+
+  test("exportPlotAsLaTeX returns a valid LaTeX table", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const latex = exportPlotAsLaTeX(points);
+    expect(latex).toContain("\\begin{tabular}");
+    expect(latex).toContain("\\end{tabular}");
+    expect(latex).toContain("X & Y");
   });
 });

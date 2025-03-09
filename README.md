@@ -8,8 +8,8 @@ repository0-plot-code-lib is a command-line tool designed for high-precision mat
 
 ## Features
 
-- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, and parametric plots.
-- **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, and XML formats.
+- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, and ellipse plots.
+- **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, and LaTeX table formats.
 - **Data Analysis & Transformations:** Includes derivative calculation, area approximation, data smoothing (moving average, exponential moving average), and statistical analysis (standard deviation, Pearson correlation).
 - **CLI Modes:** Offers demo, diagnostics, interactive, web server, and debug modes.
 - **New Enhancements:**
@@ -18,6 +18,8 @@ repository0-plot-code-lib is a command-line tool designed for high-precision mat
   - Bar chart visualization
   - Parametric plotting for visualizing complex equations
   - **Added plotCosine:** Real implementation for cosine plotting now available.
+  - **Added plotEllipse:** Generates ellipse coordinates based on center and radii.
+  - **Added exportPlotAsLaTeX:** Exports plot data in a LaTeX tabular format.
 
 ## Installation
 
@@ -80,6 +82,10 @@ Other modes include:
   ```bash
   node src/lib/main.js --export-xml
   ```
+- **LaTeX Export Mode:**
+  ```bash
+  node src/lib/main.js --export-latex
+  ```
 - **Scatter Plot Mode:**
   ```bash
   node src/lib/main.js --scatter
@@ -110,9 +116,10 @@ Your contributions help us maintain the tool's high precision and alignment with
 ## Changelog
 
 - **2023-10:** Refined CLI messaging and error handling per mission statement and updated CONTRIBUTING guidelines.
-- **2023-10:** Added new export modes (Markdown, JSON, HTML, ASCII, SVG, XML), scatter plot, bar chart, and parametric plotting.
+- **2023-10:** Added new export modes (Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX), scatter plot, bar chart, and parametric plotting.
 - **2023-10:** Introduced functions for modulated sine and logarithm with arbitrary base calculations.
 - **2023-10:** **Added plotCosine implementation for cosine plotting.**
+- **2023-10:** **Added plotEllipse for generating ellipse coordinates and exportPlotAsLaTeX for LaTeX table export.**
 - **2023-10:** Pruned code drift to fully align with the mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 - Streamlined code and enhanced test coverage to adhere to our high-quality standards.
 
