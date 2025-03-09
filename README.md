@@ -30,6 +30,8 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - JSON Export mode (`--export-json`) for exporting plot data in JSON format
   - HTML Export mode (`--export-html`) for exporting plot data as an HTML table
   - ASCII Export mode (`--export-ascii`) for exporting plot data in ASCII table format
+  - SVG Export mode (`--export-svg`) for exporting plot data as an SVG graphic
+  - Scatter Plot mode (`--scatter`) for generating a random scatter plot
   - Debug mode (`--debug`) for listing available plotting functions
 
 ## Installation
@@ -104,6 +106,18 @@ Other modes include:
   ```
   Exports sample plot data as an ASCII table.
 
+- **SVG Export Mode:**
+  ```bash
+  node src/lib/main.js --export-svg
+  ```
+  Exports sample plot data as an SVG graphic.
+
+- **Scatter Plot Mode:**
+  ```bash
+  node src/lib/main.js --scatter
+  ```
+  Generates a random scatter plot and outputs the data in JSON format.
+
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -121,6 +135,9 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, and exportPlotAsASCII.
 - Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), and Debug mode (`--debug`).
+- **New Features:**
+  - Added SVG export mode (`--export-svg`) with exportPlotAsSVG demo.
+  - Added Scatter plot mode (`--scatter`) with plotScatter demo.
 - Pruned drift from the source file to further align with the Mission Statement and CONTRIBUTING guidelines.
 
 ## Contributing

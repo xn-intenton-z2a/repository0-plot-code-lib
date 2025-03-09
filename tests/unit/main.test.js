@@ -34,6 +34,8 @@ const {
   exportPlotAsJSON,
   exportPlotAsHTML,
   exportPlotAsASCII,
+  exportPlotAsSVG,
+  plotScatter,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -45,7 +47,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission statement. Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --scatter, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -94,9 +96,7 @@ describe("Main Function Behaviour", () => {
     const spyWarn = vi.spyOn(console, "warn");
 
     const fakeInterface = {
-      question: (_prompt, _callback) => {
-        // Do not call callback to trigger timeout
-      },
+      question: (_prompt, _callback) => {},
       close: vi.fn()
     };
     const fakeReadlineModule = {
@@ -184,6 +184,20 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--export-ascii"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("ASCII Output:"));
+    spy.mockRestore();
+  });
+
+  test("should output SVG plot when --export-svg flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-svg"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("SVG Output:"));
+    spy.mockRestore();
+  });
+
+  test("should output Scatter plot when --scatter flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--scatter"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Scatter Plot Output:"));
     spy.mockRestore();
   });
 });
@@ -431,11 +445,24 @@ describe("Additional helper functions", () => {
   test("exportPlotAsASCII returns ASCII table string correctly", () => {
     const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
     const ascii = exportPlotAsASCII(points);
-    const header = "X         | Y         ";
-    const separator = "----------+----------";
-    // Because padding may vary depending on implementation, we check for presence of header and content
-    expect(ascii).toContain("X".toUpperCase());
+    expect(ascii).toContain("X");
     expect(ascii).toContain("0");
     expect(ascii).toContain("1");
+  });
+
+  test("exportPlotAsSVG returns SVG string correctly", () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    const svg = exportPlotAsSVG(points);
+    expect(svg).toContain("<svg");
+    expect(svg).toContain("</svg>");
+  });
+
+  test("plotScatter returns correct number of points", () => {
+    const points = plotScatter(5);
+    expect(points.length).toBe(5);
+    points.forEach(pt => {
+      expect(pt).toHaveProperty("x");
+      expect(pt).toHaveProperty("y");
+    });
   });
 });
