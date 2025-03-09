@@ -26,7 +26,8 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - Interactive mode (`--interactive`) with input prompt and fallback timeout
   - Web server mode (`--serve`) with enhanced security configurations
   - CSV Export mode (`--export-csv`) for sample data export
-  - Debug mode (`--debug`) to list available plotting functions for troubleshooting
+  - Markdown Export mode (`--export-md`) for exporting plot data as a Markdown table
+  - Debug mode (`--debug`) to list available plotting functions for troubleshooting purposes.
 
 ## Installation
 
@@ -76,6 +77,12 @@ Other modes include:
   ```
   Outputs sample plot data in CSV format.
 
+- **Markdown Export Mode:**
+  ```bash
+  node src/lib/main.js --export-md
+  ```
+  Exports sample plot data as a Markdown table.
+
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -93,7 +100,7 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
 - Introduced the CSV export mode (--export-csv) and Debug mode (--debug) for enhanced user feedback and troubleshooting.
-- **Enhanced Test Coverage:** Updated tests and mocks to ensure robust and reliable functionality in both interactive and external module scenarios.
+- **New:** Added Markdown export mode (--export-md) and the exportPlotAsMarkdown function for exporting plot data as a Markdown table.
 
 ## Contributing
 
