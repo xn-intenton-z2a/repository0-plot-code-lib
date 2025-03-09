@@ -1,10 +1,11 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // repository0-plot-code-lib: CLI for mathematical plotting aligned with our mission statement.
+// Refined code to fully align with updated CONTRIBUTING guidelines.
 // 
 // Changelog:
 // - 2023-10: Pruned extraneous code drift and legacy implementations to strictly follow our mission statement.
-// - Refined CLI messaging and simplified interactive fallback handling.
+// - Refined CLI messaging, error handling, and interactive fallback per updated guidelines.
 // - Extended library with new plotting and helper functions as per CONTRIBUTING guidelines.
 
 import { fileURLToPath } from "url";

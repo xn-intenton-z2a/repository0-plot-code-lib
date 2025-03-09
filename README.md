@@ -6,28 +6,26 @@
 
 ## Overview
 
-repository0-plot-code-lib is a CLI tool designed for high precision plotting of a wide range of mathematical functions. Built in alignment with our mission and CONTRIBUTING guidelines, the library offers diverse plotting functions and analytical tools, supporting multiple output formats with consistent error handling and interactive features.
+repository0-plot-code-lib is a CLI tool engineered for high precision plotting and analysis of mathematical functions. Built to strictly adhere to our mission statement and CONTRIBUTING guidelines, it provides a comprehensive suite of plotting functions, statistical analysis tools, and versatile output formats. The library is optimized for both demo usage and interactive real-world application.
 
 ## Features
 
 - **Plotting Functions:**
-  - Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, Polar
-  - Absolute plotting
-  - Derivative plotting
-  - Logistic and Cubic plotting
+  - Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots
+  - Absolute value plotting, derivative plotting, logistic and cubic plots
   - Custom range generation
-  - Statistical analysis (e.g., standard deviation, correlation)
-  - Data smoothing with moving average and exponential moving average
-  - Point transformations: rotation, reflection, scaling, and offset adjustments
-  - **New Functions:** Gaussian plotting, Hyperbolic plotting, and CSV export via exportPlotAsCSV
+
+- **Statistical and Transformation Tools:**
+  - Standard deviation and Pearson correlation calculation
+  - Data smoothing (moving average and exponential moving average)
+  - Point transformations including rotation, reflection, scaling, and offset adjustments
 
 - **CLI Modes:**
-  - Default demo mode that introduces the tool
+  - Default demo mode presenting a brief introduction
   - Diagnostics mode (`--diagnostics`)
-  - Interactive mode (`--interactive`) with input prompt and timeout fallback
+  - Interactive mode (`--interactive`) with input prompt and fallback timeout
   - Web server mode (`--serve`) with enhanced security configurations
-  - Absolute plot demo mode (`--plot-abs`)
-  - **CSV Export Mode:** (`--export-csv`) Outputs plot data in CSV format
+  - CSV Export mode (`--export-csv`) demonstrating sample data export
 
 ## Installation
 
@@ -41,13 +39,13 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ### CLI Quickstart
 
-Run the CLI demo:
+Run the default demo:
 
 ```bash
 npm run start
 ```
 
-Other modes:
+Other modes include:
 
 - **Diagnostics Mode:**
   ```bash
@@ -58,15 +56,15 @@ Other modes:
   ```bash
   node src/lib/main.js --interactive
   ```
-  The CLI will prompt for a plot command and use a fallback timeout if no input is received.
+  You will be prompted for a plot command; a fallback timeout is triggered if no input is given.
 
 - **Web Server Mode:**
   ```bash
   node src/lib/main.js --serve
   ```
-  Starts an Express-based interactive plotting interface.
+  This starts an Express-based interactive plotting interface.
 
-- **Absolute Plot Demo:**
+- **Absolute Plot Demo Mode:**
   ```bash
   node src/lib/main.js --plot-abs
   ```
@@ -75,28 +73,29 @@ Other modes:
   ```bash
   node src/lib/main.js --export-csv
   ```
-  Outputs sample plot data in CSV format (demo using a sine function).
+  Outputs sample plot data in CSV format.
 
-### Default Demo
+## Default Demo
 
-Running the CLI with no arguments displays a demo message that introduces users to the tool.
+Running the CLI with no arguments displays a demo message that introduces the tool and its capabilities.
 
 ## Changelog Highlights
 
 - Refined CLI messages and functionalities to maintain strict alignment with our mission statement.
 - Pruned legacy and extraneous code drift to focus on core plotting functionalities per CONTRIBUTING guidelines.
-- Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- **New helper functions added:** calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
-- Extended CLI with new CSV export mode (--export-csv) for outputting plots in CSV format.
-- Improved error handling in interactive mode and streamlined implementation.
+- Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
+- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
+- Introduced the CSV export mode (--export-csv) for sample data output.
 
 ## Contributing
 
 Contributions are automated. To contribute:
 
 1. Open an issue describing your idea, bug, or improvement.
-2. Label the issue as `automated` to trigger the workflow.
-3. Follow the guidelines outlined in [CONTRIBUTING.md](./CONTRIBUTING.md).
+2. Label the issue as `automated` to trigger our workflow.
+3. Follow the guidelines detailed in [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+We welcome enhancements that align with our mission: to be the leading CLI plotting tool that seamlessly integrates mathematical precision and flexible output formats.
 
 ## License
 
