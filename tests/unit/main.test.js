@@ -40,8 +40,6 @@ const {
   exportPlotAsTXT,
   exportPlotAsR,
   plotScatter,
-  plotModulatedSine,
-  plotLogBase,
   plotParametric,
   plotBarChart,
   plotEllipse,
@@ -292,7 +290,7 @@ describe("Debug flag behaviour", () => {
   });
 });
 
-// Additional tests for module loading (deeper external resource mocks)
+// Module Loading Helpers
 
 describe("Module Loading Helpers", () => {
   test("loadExpress should return a promise that resolves to a module", async () => {

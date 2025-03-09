@@ -66,7 +66,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotSpiral, calculateDefiniteIntegral, plotCustom"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotSpiral, calculateDefiniteIntegral, plotCustom"
     );
     return;
   }
@@ -649,6 +649,15 @@ export function exportPlotAsTXT(points) {
   return points.map(pt => `x: ${pt.x}, y: ${pt.y}`).join('\n');
 }
 
+// New helper: exportPlotAsR converts an array of point objects to a format friendly for R (e.g., as a data frame representation)
+export function exportPlotAsR(points) {
+  if (!points.length) return '';
+  const keys = Object.keys(points[0]);
+  let rOutput = keys.join(', ') + '\n';
+  rOutput += points.map(pt => keys.map(k => pt[k]).join(', ')).join('\n');
+  return rOutput;
+}
+
 // New function: plotPolynomial plots a polynomial function given a array of coefficients.
 // Coefficients are in increasing order: [a0, a1, a2, ...] represents a0 + a1*x + a2*x^2 + ...
 export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
@@ -690,16 +699,7 @@ export function calculateDefiniteIntegral(fn, xMin, xMax, steps = 100) {
   return total * dx;
 }
 
-// New helper: exportPlotAsR converts an array of point objects to a format friendly for R (e.g., as a data frame representation)
-export function exportPlotAsR(points) {
-  if (!points.length) return '';
-  const keys = Object.keys(points[0]);
-  let rOutput = keys.join(', ') + '\n';
-  rOutput += points.map(pt => keys.map(k => pt[k]).join(', ')).join('\n');
-  return rOutput;
-}
-
-// New function: plotCustom for flexible plotting of any given mathematical function
+// New helper: plotCustom for flexible plotting of any given mathematical function
 export function plotCustom(fn, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
   const result = [];
@@ -708,6 +708,30 @@ export function plotCustom(fn, xMin, xMax, steps = 100) {
     result.push({ x, y: fn(x) });
   }
   return result;
+}
+
+// Added missing functions to support CLI flags
+export function plotScatter(count) {
+  const points = [];
+  for (let i = 0; i < count; i++) {
+    points.push({ x: Math.random() * 10, y: Math.random() * 10 });
+  }
+  return points;
+}
+
+export function plotBarChart(points) {
+  // Simple bar chart representation using '*' characters based on y value
+  return points.map(p => `x: ${p.x.toFixed(2)} | ${'*'.repeat(Math.max(1, Math.round(Math.abs(p.y))))}`).join('\n');
+}
+
+export function plotParametric(xFn, yFn, tMin, tMax, steps = 100) {
+  const dt = (tMax - tMin) / steps;
+  const points = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = tMin + i * dt;
+    points.push({ t, x: xFn(t), y: yFn(t) });
+  }
+  return points;
 }
 
 // Entry point

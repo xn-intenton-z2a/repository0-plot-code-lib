@@ -55,7 +55,7 @@ Your contributions help us maintain precision and mission alignment.
 
 - **2023-10:** Refined CLI messaging and error handling.
 - **2023-10:** Added new export modes and plotting functions including Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, Scatter, Bar Chart, Parametric, Polynomial, Spiral, and numerical integration.
-- **2023-10:** Added new functions exportPlotAsR and plotCustom inline with our mission to enhance flexibility.
+- **2023-10:** Added new functions exportPlotAsR, plotCustom, plotScatter, plotBarChart, and plotParametric inline with our mission to enhance flexibility.
 - **2023-10:** Refreshed README to align with CONTRIBUTING guidelines and pruned irrelevant drift.
 - **2023-10:** Increased test coverage and enhanced module mocks for external resources.
 - **2023-10:** Increased overall test coverage to near 100% and improved isolation of external resource dependencies.
