@@ -14,6 +14,7 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - Supports Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots
   - Absolute value plotting, derivative plotting, logistic and cubic plots
   - Custom range generation using an in-house range generator
+  - **New Feature:** Parametric plotting with the `plotParametric` function for visualizing parametric equations
   - New additions: Modulated Sine plotting and Logarithm with arbitrary base calculations
 
 - **Statistical and Transformation Tools:**
@@ -33,6 +34,7 @@ repository0-plot-code-lib is a CLI tool engineered for high precision plotting a
   - ASCII Export mode (`--export-ascii`) for exporting plot data in ASCII table format
   - SVG Export mode (`--export-svg`) for exporting plot data as an SVG graphic
   - Scatter Plot mode (`--scatter`) for generating a random scatter plot
+  - Parametric Plot mode (`--plot-parametric`) for plotting parametric equations
   - Debug mode (`--debug`) for listing available plotting functions
 
 ## Installation
@@ -119,6 +121,12 @@ Other modes include:
   ```
   Generates a random scatter plot and outputs the data in JSON format.
 
+- **Parametric Plot Mode:**
+  ```bash
+  node src/lib/main.js --plot-parametric
+  ```
+  Demonstrates plotting a parametric curve (default: a circle).
+
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -135,14 +143,10 @@ Running the CLI with no arguments displays a demo message that introduces the to
 - Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.
 - Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, and exportPlotAsSVG.
-- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), SVG export mode (`--export-svg`), and Debug mode (`--debug`).
+- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), SVG export mode (`--export-svg`), Scatter plot mode (`--scatter`), and Debug mode (`--debug`).
 - **New Features:**
-  - Added Scatter plot mode (`--scatter`) with plotScatter demo.
-  - **Added new functions:**
-    - `plotModulatedSine`: Generates a modulated sine wave using a cosine modulation factor.
-    - `plotLogBase`: Computes the logarithm of a value with an arbitrary base.
-- **Testing Enhancements:**
-  - Improved test coverage with both single-layer mocks and deep mocks for external dependencies such as module loading for Express and Readline.
+  - Added Parametric Plot mode (`--plot-parametric`) with the `plotParametric` function for visualizing parametric equations.
+  - Added new functions: `plotModulatedSine` for modulated sine wave plotting and `plotLogBase` for logarithm with arbitrary base calculations.
 
 ## Contributing
 
