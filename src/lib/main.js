@@ -22,7 +22,9 @@ async function getSelf() {
 export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
-    console.log("Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.");
+    console.log(
+      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.",
+    );
     return;
   }
 
@@ -48,15 +50,15 @@ export async function main(args) {
     app.get("/", (req, res) => {
       res.send("Welcome to the interactive plotting web interface.");
     });
-    
+
     // Declare server variable in outer scope to avoid hoisting issues
     let server;
-    await new Promise(resolve => {
+    await new Promise((resolve) => {
       server = app.listen(port, () => {
         console.log(`Express server running at http://localhost:${port}`);
         // Immediately close server in test environments to avoid port conflicts
-        if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
-          if (server && typeof server.close === 'function') {
+        if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
+          if (server && typeof server.close === "function") {
             server.close();
           }
         }
@@ -73,10 +75,10 @@ export async function main(args) {
     const rlModule = await selfModule.loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
-      output: process.stdout
+      output: process.stdout,
     });
-    
-    await new Promise(resolve => {
+
+    await new Promise((resolve) => {
       let called = false;
       function handleAnswer(answer) {
         if (!called) {
@@ -86,8 +88,8 @@ export async function main(args) {
           resolve();
         }
       }
-      
-      if (process.env.NODE_ENV === 'test' || process.env.VITEST === 'true') {
+
+      if (process.env.NODE_ENV === "test" || process.env.VITEST === "true") {
         rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", handleAnswer);
         // Ensure resolution in test environment even if question callback is delayed
         setImmediate(() => {
@@ -98,11 +100,11 @@ export async function main(args) {
       } else {
         const timeoutMs = 100;
         const timeout = setTimeout(() => {
-          console.warn('Interactive mode fallback triggered after timeout');
+          console.warn("Interactive mode fallback triggered after timeout");
           rl.close();
           resolve();
         }, timeoutMs);
-        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", answer => {
+        rl.question("Enter plot command (e.g., 'quad:1,0,0,-10,10,1'): ", (answer) => {
           clearTimeout(timeout);
           handleAnswer(answer);
         });
@@ -110,7 +112,7 @@ export async function main(args) {
     });
     return;
   }
-  
+
   // Otherwise, simulate processing of plot parameters
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
@@ -166,7 +168,7 @@ export function rotatePoints(points, angle) {
   const sin = Math.sin(angle);
   return points.map(({ x, y }) => ({
     x: x * cos - y * sin,
-    y: x * sin + y * cos
+    y: x * sin + y * cos,
   }));
 }
 
@@ -199,8 +201,8 @@ export function movingAverage(data, windowSize) {
   }
   const result = [];
   for (let i = 0; i < data.length; i++) {
-    let start = Math.max(0, i - Math.floor(windowSize / 2));
-    let end = Math.min(data.length, i + Math.ceil(windowSize / 2));
+    const start = Math.max(0, i - Math.floor(windowSize / 2));
+    const end = Math.min(data.length, i + Math.ceil(windowSize / 2));
     let sum = 0;
     let count = 0;
     for (let j = start; j < end; j++) {
@@ -240,11 +242,11 @@ export function plotTangent(amplitude, frequency, phase, xMin, xMax, steps = 100
   return result;
 }
 
-export function reflectPoints(points, axis = 'y') {
+export function reflectPoints(points, axis = "y") {
   // Reflects points across either the x-axis or y-axis
   return points.map(({ x, y }) => {
-    if (axis === 'y') return { x: -x, y };
-    if (axis === 'x') return { x, y: -y };
+    if (axis === "y") return { x: -x, y };
+    if (axis === "x") return { x, y: -y };
     return { x, y };
   });
 }
@@ -252,7 +254,7 @@ export function reflectPoints(points, axis = 'y') {
 export function scalePoints(points, factor) {
   return points.map(({ x, y }) => ({
     x: x * factor,
-    y: y * factor
+    y: y * factor,
   }));
 }
 
