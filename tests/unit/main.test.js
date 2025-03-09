@@ -103,6 +103,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     const fakeExpress = () => {
       return {
+        disable: (header) => {},
         get: (path, cb) => {},
         listen: (port, cb) => {
           cb();
