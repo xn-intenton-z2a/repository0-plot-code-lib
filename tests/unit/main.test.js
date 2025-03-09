@@ -17,14 +17,16 @@ const {
   reflectPoints,
   scalePoints,
   plotSqrt,
-  plotPolar
+  plotPolar,
 } = mainModule;
 
 describe("Main Function Behaviour", () => {
   test("should output demo message when no arguments are provided", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
-    expect(spy).toHaveBeenCalledWith("Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.");
+    expect(spy).toHaveBeenCalledWith(
+      "Welcome to repository0-plot-code-lib CLI: Advanced plotting for mathematical formulas. Use flags --interactive, --serve, --diagnostics or provide plot parameters.",
+    );
     spy.mockRestore();
   });
 
@@ -49,13 +51,15 @@ describe("Main Function Behaviour", () => {
     process.env.VITEST = "true";
 
     const fakeInterface = {
-      question: (prompt, callback) => { process.nextTick(() => callback("simulated plot command")); },
-      close: vi.fn()
+      question: (prompt, callback) => {
+        process.nextTick(() => callback("simulated plot command"));
+      },
+      close: vi.fn(),
     };
     const fakeReadlineModule = {
-      createInterface: () => fakeInterface
+      createInterface: () => fakeInterface,
     };
-    
+
     vi.spyOn(mainModule, "loadReadline").mockImplementation(() => Promise.resolve(fakeReadlineModule));
 
     await main(["--interactive"]);
@@ -70,13 +74,13 @@ describe("Main Function Behaviour", () => {
       return {
         get: (path, cb) => {},
         listen: (port, cb) => {
-          cb(); 
+          cb();
           return { close: () => {} };
-        }
+        },
       };
     };
     const fakeExpressModule = { default: fakeExpress };
-    
+
     vi.spyOn(mainModule, "loadExpress").mockImplementation(() => Promise.resolve(fakeExpressModule));
 
     await main(["--serve"]);
@@ -100,32 +104,32 @@ describe("Additional helper functions", () => {
     expect(points[0]).toEqual({ x: 0, y: 0 });
     expect(points[10]).toEqual({ x: 10, y: 100 });
   });
-  
+
   test("calculateDerivative approximates derivative", () => {
-    const fn = x => x * x;
+    const fn = (x) => x * x;
     const derivative = calculateDerivative(fn, 5);
     expect(derivative).toBeCloseTo(10, 1);
   });
-  
+
   test("calculateArea approximates area under curve", () => {
-    const fn = x => x;
+    const fn = (x) => x;
     const area = calculateArea(fn, 0, 10, 1000);
     expect(area).toBeCloseTo(50, 1);
   });
-  
+
   test("plotLinear returns correct points and values", () => {
     const points = plotLinear(2, 1, 0, 10, 10);
     expect(points.length).toBe(11);
     expect(points[0]).toEqual({ x: 0, y: 1 });
     expect(points[10]).toEqual({ x: 10, y: 21 });
   });
-  
+
   test("plotSine returns sinusoidal values", () => {
     const points = plotSine(1, 1, 0, 0, Math.PI, 10);
     expect(points.length).toBe(11);
     expect(points[0]).toEqual({ x: 0, y: 0 });
   });
-  
+
   test("rotatePoints rotates points correctly", () => {
     const points = [{ x: 1, y: 0 }];
     const rotated = rotatePoints(points, Math.PI / 2);
@@ -171,15 +175,15 @@ describe("Additional helper functions", () => {
   });
 
   test("plotTangent returns values with discontinuities handled", () => {
-    const points = plotTangent(1, 1, 0, -Math.PI/4, Math.PI/4, 5);
+    const points = plotTangent(1, 1, 0, -Math.PI / 4, Math.PI / 4, 5);
     expect(points.length).toBe(6);
-    const mid = points[Math.floor(points.length/2)];
+    const mid = points[Math.floor(points.length / 2)];
     expect(mid.y).toBeCloseTo(0, 5);
   });
 
   test("reflectPoints correctly reflects points across y-axis", () => {
     const original = [{ x: 2, y: 3 }];
-    const reflected = reflectPoints(original, 'y');
+    const reflected = reflectPoints(original, "y");
     expect(reflected[0]).toEqual({ x: -2, y: 3 });
   });
 
@@ -196,9 +200,9 @@ describe("Additional helper functions", () => {
     expect(points[2].y).toBeCloseTo(Math.sqrt(8), 5);
     expect(points[4]).toEqual({ x: 16, y: 4 });
   });
-  
+
   test("plotPolar returns correct polar coordinate values", () => {
-    const radiusFn = theta => Math.cos(theta);
+    const radiusFn = (theta) => Math.cos(theta);
     const points = plotPolar(radiusFn, 0, Math.PI, 4);
     expect(points.length).toBe(5);
     expect(points[0]).toEqual({ theta: 0, r: 1 });
