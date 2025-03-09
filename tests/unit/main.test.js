@@ -44,6 +44,7 @@ const {
   plotBarChart,
   plotEllipse,
   plotPolynomial,
+  plotModulatedSine,
   plotSpiral,
   calculateDefiniteIntegral,
   plotCustom,
@@ -281,6 +282,7 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("exportPlotAsXML");
     expect(debugString).toContain("plotBarChart");
     expect(debugString).toContain("plotEllipse");
+    expect(debugString).toContain("plotModulatedSine");
     expect(debugString).toContain("exportPlotAsLaTeX");
     expect(debugString).toContain("exportPlotAsTXT");
     expect(debugString).toContain("plotPolynomial");
@@ -584,6 +586,20 @@ describe("Additional helper functions", () => {
     expect(points[0]).toEqual({ x: 0, y: 1 });
     expect(points[1]).toEqual({ x: 1, y: 6 });
     expect(points[2]).toEqual({ x: 2, y: 17 });
+  });
+
+  test("plotEllipse returns correct ellipse points", () => {
+    const points = plotEllipse(0, 0, 5, 3, 4);
+    expect(points.length).toBe(5);
+    // At t = 0, point should be (5, 0)
+    expect(points[0]).toEqual({ t: 0, x: 5, y: 0 });
+  });
+
+  test("plotModulatedSine returns modulated sine values", () => {
+    const points = plotModulatedSine(1, 1, 0.5, 0, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    // Just test that values are numbers
+    expect(typeof points[0].y).toBe('number');
   });
 
   test("plotSpiral returns correct number of points and structure", () => {

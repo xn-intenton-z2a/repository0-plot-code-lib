@@ -19,9 +19,9 @@
 // - 2023-10: Added new function plotPolynomial and CLI flag --plot-poly for customizable polynomial plotting.
 // - 2023-10: Added new functions plotSpiral and calculateDefiniteIntegral to extend spiral plotting and numerical integration capabilities.
 // - 2023-10: Added new functions exportPlotAsR and plotCustom to enhance flexibility and extend exporting capabilities inline with our mission statement.
-// - 2023-10: Updated to adhere strictly to CONTRIBUTING guidelines and pruned residual drift.
-// - 2023-10: Increased test coverage and enhanced external resource mocking to support deeper testing.
-// - 2023-10: Increased overall test coverage to near 100% and improved isolation of external resource dependencies.
+// - 2023-10: Extended plotting functionalities with new function plotModulatedSine for modulated sine wave plotting.
+//
+// Additional inline with our mission improvements and contributing guidelines.
 
 import { fileURLToPath } from "url";
 
@@ -66,7 +66,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotSpiral, calculateDefiniteIntegral, plotCustom"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom"
     );
     return;
   }
@@ -674,6 +674,28 @@ export function plotPolynomial(coefficients, xMin, xMax, steps = 100) {
   return result;
 }
 
+// New function: plotEllipse generates points of an ellipse given a center and radii.
+export function plotEllipse(centerX, centerY, radiusX, radiusY, steps = 100) {
+  const dt = (2 * Math.PI) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = i * dt;
+    result.push({ t, x: centerX + radiusX * Math.cos(t), y: centerY + radiusY * Math.sin(t) });
+  }
+  return result;
+}
+
+// New function: plotModulatedSine for plotting a modulated sine wave.
+export function plotModulatedSine(amplitude, frequency, modulation, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: amplitude * Math.sin(frequency * x + phase) * (1 + modulation * Math.sin(x)) });
+  }
+  return result;
+}
+
 // New function: plotSpiral generates points for an Archimedean spiral given a center, an initial radius, and number of rotations.
 export function plotSpiral(centerX, centerY, initialRadius, rotations, steps = 100) {
   const totalAngle = rotations * 2 * Math.PI;
@@ -721,7 +743,7 @@ export function plotScatter(count) {
 
 export function plotBarChart(points) {
   // Simple bar chart representation using '*' characters based on y value
-  return points.map(p => `x: ${p.x.toFixed(2)} | ${'*'.repeat(Math.max(1, Math.round(Math.abs(p.y))))}`).join('\n');
+  return points.map(p => `x: ${p.x.toFixed(2)} | ${'*'.repeat(Math.max(1, Math.round(Math.abs(p.y))) )}`).join('\n');
 }
 
 export function plotParametric(xFn, yFn, tMin, tMax, steps = 100) {
