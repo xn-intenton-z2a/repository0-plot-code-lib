@@ -59,10 +59,10 @@ describe("Main Function Behaviour", () => {
       question: (prompt, callback) => {
         process.nextTick(() => callback("simulated plot command"));
       },
-      close: vi.fn(),
+      close: vi.fn()
     };
     const fakeReadlineModule = {
-      createInterface: () => fakeInterface,
+      createInterface: () => fakeInterface
     };
 
     vi.spyOn(mainModule, "loadReadline").mockImplementation(() => Promise.resolve(fakeReadlineModule));
@@ -82,10 +82,10 @@ describe("Main Function Behaviour", () => {
       question: (prompt, callback) => {
         // Do not call callback to trigger timeout
       },
-      close: vi.fn(),
+      close: vi.fn()
     };
     const fakeReadlineModule = {
-      createInterface: () => fakeInterface,
+      createInterface: () => fakeInterface
     };
 
     vi.spyOn(mainModule, "loadReadline").mockImplementation(() => Promise.resolve(fakeReadlineModule));
@@ -109,7 +109,7 @@ describe("Main Function Behaviour", () => {
         listen: (port, cb) => {
           cb();
           return { close: () => {} };
-        },
+        }
       };
     };
     const fakeExpressModule = { default: fakeExpress };
@@ -253,7 +253,6 @@ describe("Additional helper functions", () => {
   test("plotAbsolute returns correct absolute values", () => {
     const points = plotAbsolute(Math.sin, 0, Math.PI, 10);
     expect(points.length).toBe(11);
-    // sin(x) on [0, PI] is non-negative, so absolute should equal sin(x)
     expect(points[0].y).toBeCloseTo(Math.abs(Math.sin(0)), 5);
     expect(points[10].y).toBeCloseTo(Math.abs(Math.sin(Math.PI)), 5);
   });

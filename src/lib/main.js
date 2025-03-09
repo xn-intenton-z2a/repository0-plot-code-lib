@@ -84,7 +84,7 @@ export async function main(args) {
     const rlModule = await selfModule.loadReadline();
     const rl = rlModule.createInterface({
       input: process.stdin,
-      output: process.stdout,
+      output: process.stdout
     });
 
     await new Promise((resolve) => {
@@ -184,7 +184,7 @@ export function rotatePoints(points, angle) {
   const sin = Math.sin(angle);
   return points.map(({ x, y }) => ({
     x: x * cos - y * sin,
-    y: x * sin + y * cos,
+    y: x * sin + y * cos
   }));
 }
 
@@ -270,7 +270,7 @@ export function reflectPoints(points, axis = "y") {
 export function scalePoints(points, factor) {
   return points.map(({ x, y }) => ({
     x: x * factor,
-    y: y * factor,
+    y: y * factor
   }));
 }
 
