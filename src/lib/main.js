@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This version has been updated to prune drift, ensure all messaging reflects our mission statement and contributing guidelines,
-// and to improve test coverage by refining error handling especially for module loading of external resources.
+// This version has been updated to prune drift, ensuring that all messaging and error handling fully reflect our mission statement and contributing guidelines.
 // Changelog:
 // - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
-// - 2023-10: Added multiple export modes and extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
+// - 2023-10: Added multiple export modes and extended plotting capabilities including functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel.
 // - 2023-10: **New:** Added plotLemniscate function and corresponding CLI flag --lemniscate for generating lemniscate (figure-eight) plots.
-// - 2023-10: **Improved:** Enhanced error handling for module loaders and increased test coverage by ensuring that failures are gracefully caught and logged.
+// - 2023-10: **Improved:** Pruned drift from the source code and updated external module error handling to fully align with our mission and contributing guidelines.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -27,7 +26,7 @@ export function loadReadline() {
   return import("readline");
 }
 
-// Helper to get live module bindings for proper mocking in tests
+// Helper to get the current module bindings for proper mocking in tests
 async function getSelf() {
   return await import(import.meta.url);
 }
