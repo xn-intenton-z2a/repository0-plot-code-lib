@@ -1,43 +1,22 @@
 # repository0-plot-code-lib
 
-**A versatile plotting tool for mathematical visualizations aligned with our mission.**
-
-> "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+**A versatile mathematical plotting CLI tool aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."**
 
 ## Overview
 
-repository0-plot-code-lib is a CLI tool engineered for high precision plotting and analysis of mathematical functions. Built to strictly adhere to our mission statement and the guidelines outlined in CONTRIBUTING.md, it provides a comprehensive suite of plotting functions, statistical analysis tools, and versatile output formats. The library is optimized for both demo usage and interactive real-world applications.
+repository0-plot-code-lib is a command-line tool designed for high-precision mathematical plotting and analysis. Built in strict adherence to our mission and contribution guidelines, it offers a comprehensive suite of plotting functions, statistical analysis tools, and diverse output formats for both demo and interactive use cases.
 
 ## Features
 
-- **Plotting Functions:**
-  - Supports Quadratic, Linear, Sine, Cosine, Tangent, Exponential, Logarithmic, Square Root, and Polar plots
-  - Absolute value plotting, derivative plotting, logistic and cubic plots
-  - Custom range generation using an in-house range generator
-  - **New Feature:** Parametric plotting with the `plotParametric` function for visualizing parametric equations
-  - New additions: Modulated Sine plotting, Logarithm with arbitrary base calculations, XML export, and Bar Chart visualization
-
-- **Statistical and Transformation Tools:**
-  - Standard deviation and Pearson correlation calculations
-  - Data smoothing (moving average and exponential moving average)
-  - Point transformations such as rotation, reflection, scaling, and offset adjustments
-
-- **CLI Modes:**
-  - Default demo mode presenting a brief introduction
-  - Diagnostics mode (`--diagnostics`)
-  - Interactive mode (`--interactive`) with input prompt and built-in fallback timeout
-  - Web server mode (`--serve`) with enhanced security configurations
-  - CSV Export mode (`--export-csv`) for sample data export
-  - Markdown Export mode (`--export-md`) for exporting plot data as a Markdown table
-  - JSON Export mode (`--export-json`) for exporting plot data in JSON format
-  - HTML Export mode (`--export-html`) for exporting plot data as an HTML table
-  - ASCII Export mode (`--export-ascii`) for exporting plot data as an ASCII table
-  - SVG Export mode (`--export-svg`) for exporting plot data as an SVG graphic
-  - XML Export mode (`--export-xml`) for exporting plot data as XML
-  - Scatter Plot mode (`--scatter`) for generating a random scatter plot
-  - Bar Chart mode (`--bar-chart`) for simple bar chart visualization
-  - Parametric Plot mode (`--plot-parametric`) for plotting parametric equations
-  - Debug mode (`--debug`) for listing available plotting functions
+- **Plotting Functions:** Supports quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, and parametric plots.
+- **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, and XML formats.
+- **Data Analysis & Transformations:** Includes derivative calculation, area approximation, data smoothing (moving average, exponential moving average), and statistical analysis (standard deviation, Pearson correlation).
+- **CLI Modes:** Offers demo, diagnostics, interactive, web server, and debug modes.
+- **New Enhancements:**
+  - Modulated sine plotting
+  - Logarithm with arbitrary base calculation
+  - Bar chart visualization
+  - Parametric plotting for visualizing complex equations
 
 ## Installation
 
@@ -63,114 +42,76 @@ Other modes include:
   ```bash
   npm run diagnostics
   ```
-
 - **Interactive Mode:**
   ```bash
   node src/lib/main.js --interactive
   ```
   You will be prompted for a plot command; a fallback timeout is triggered if no input is given.
-
 - **Web Server Mode:**
   ```bash
   node src/lib/main.js --serve
   ```
-  This starts an Express-based interactive plotting interface.
-
-- **Absolute Plot Demo Mode:**
-  ```bash
-  node src/lib/main.js --plot-abs
-  ```
-
 - **CSV Export Mode:**
   ```bash
   node src/lib/main.js --export-csv
   ```
-  Outputs sample plot data in CSV format.
-
 - **Markdown Export Mode:**
   ```bash
   node src/lib/main.js --export-md
   ```
-  Exports sample plot data as a Markdown table.
-
 - **JSON Export Mode:**
   ```bash
   node src/lib/main.js --export-json
   ```
-  Exports sample plot data in JSON format.
-
 - **HTML Export Mode:**
   ```bash
   node src/lib/main.js --export-html
   ```
-  Exports sample plot data as an HTML table.
-
 - **ASCII Export Mode:**
   ```bash
   node src/lib/main.js --export-ascii
   ```
-  Exports sample plot data as an ASCII table.
-
 - **SVG Export Mode:**
   ```bash
   node src/lib/main.js --export-svg
   ```
-  Exports sample plot data as an SVG graphic.
-
 - **XML Export Mode:**
   ```bash
   node src/lib/main.js --export-xml
   ```
-  Exports sample plot data as an XML document.
-
 - **Scatter Plot Mode:**
   ```bash
   node src/lib/main.js --scatter
   ```
-  Generates a random scatter plot and outputs the data in JSON format.
-
 - **Bar Chart Mode:**
   ```bash
   node src/lib/main.js --bar-chart
   ```
-  Generates a simple bar chart visualization from plot data.
-
 - **Parametric Plot Mode:**
   ```bash
   node src/lib/main.js --plot-parametric
   ```
-  Demonstrates plotting a parametric curve (default: a circle).
-
-- **Debug Mode:**
+- **Debug Mode (list available functions):**
   ```bash
   node src/lib/main.js --debug
   ```
-  Displays a list of available plotting functions.
-
-## Default Demo
-
-Running the CLI with no arguments displays a demo message that introduces the tool and its capabilities.
-
-## Changelog Highlights
-
-- Refined CLI messages and functionalities to maintain strict alignment with our mission statement.
-- Removed legacy and extraneous code to focus on core plotting functionalities per updated CONTRIBUTING guidelines.
-- Extended the library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
-- Added new helper functions: calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG.
-- Introduced CSV export mode (`--export-csv`), Markdown export mode (`--export-md`), JSON export mode (`--export-json`), HTML export mode (`--export-html`), ASCII export mode (`--export-ascii`), SVG export mode (`--export-svg`), XML export mode (`--export-xml`), Scatter plot mode (`--scatter`), Bar Chart mode (`--bar-chart`), and Debug mode (`--debug`).
-- **New Features:**
-  - Added Parametric Plot mode (`--plot-parametric`) with the `plotParametric` function for visualizing parametric equations.
-  - Added new functions: `plotModulatedSine` for modulated sine wave plotting, `plotLogBase` for logarithm with arbitrary base calculations, `exportPlotAsXML` for XML export, and `plotBarChart` for bar chart visualization.
 
 ## Contributing
 
 Contributions are automated. To contribute:
 
 1. Open an issue describing your idea, bug, or improvement.
-2. Label the issue as `automated` to trigger our workflow.
+2. Label it as `automated` to trigger our workflow.
 3. Follow the guidelines detailed in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-We welcome enhancements that align with our mission: to be the leading CLI plotting tool that seamlessly integrates mathematical precision with flexible output formats.
+Your contributions help us maintain the tool's high precision and alignment with our mission.
+
+## Changelog
+
+- **2023-10:** Refined CLI messaging and error handling per mission statement and updated CONTRIBUTING guidelines.
+- **2023-10:** Added new export modes (Markdown, JSON, HTML, ASCII, SVG, XML), scatter plot, bar chart, and parametric plotting.
+- **2023-10:** Introduced functions for modulated sine and logarithm with arbitrary base calculations.
+- Streamlined code and enhanced test coverage to adhere to our high-quality standards.
 
 ## License
 
