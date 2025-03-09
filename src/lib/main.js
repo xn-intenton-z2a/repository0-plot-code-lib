@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// Refined CLI entry and messaging to align with our CONTRIBUTING guidelines.
 // Changelog:
-// - 2023-10: Refined CLI messaging and error handling to align with our mission statement.
+// - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
 // - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
 // - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
