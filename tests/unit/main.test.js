@@ -11,7 +11,11 @@ const {
   rotatePoints,
   plotExponential,
   plotLogarithmic,
-  movingAverage
+  movingAverage,
+  plotCosine,
+  plotTangent,
+  reflectPoints,
+  scalePoints
 } = mainModule;
 
 describe("Main Function Behaviour", () => {
@@ -155,5 +159,33 @@ describe("Additional helper functions", () => {
     expect(avg[2]).toBeCloseTo(3, 5);
     expect(avg[3]).toBeCloseTo(4, 5);
     expect(avg[4]).toBeCloseTo(4.5, 5);
+  });
+
+  // Tests for extended functions
+  test("plotCosine returns correct cosine wave values", () => {
+    const points = plotCosine(1, 1, 0, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    expect(points[0]).toEqual({ x: 0, y: 1 });
+    expect(points[10].y).toBeCloseTo(-1, 5);
+  });
+
+  test("plotTangent returns values with discontinuities handled", () => {
+    const points = plotTangent(1, 1, 0, -Math.PI/4, Math.PI/4, 5);
+    expect(points.length).toBe(6);
+    // At zero angle, tangent should be 0
+    const mid = points[Math.floor(points.length/2)];
+    expect(mid.y).toBeCloseTo(0, 5);
+  });
+
+  test("reflectPoints correctly reflects points across y-axis", () => {
+    const original = [{ x: 2, y: 3 }];
+    const reflected = reflectPoints(original, 'y');
+    expect(reflected[0]).toEqual({ x: -2, y: 3 });
+  });
+
+  test("scalePoints scales points correctly", () => {
+    const original = [{ x: 2, y: 3 }];
+    const scaled = scalePoints(original, 2);
+    expect(scaled[0]).toEqual({ x: 4, y: 6 });
   });
 });

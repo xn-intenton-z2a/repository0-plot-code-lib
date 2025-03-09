@@ -170,7 +170,7 @@ export function rotatePoints(points, angle) {
   }));
 }
 
-// New library functions added in line with the mission statement and contributing guidelines
+// New library functions added in line with our mission statement and contributing guidelines
 
 export function plotExponential(a, xMin, xMax, steps = 100) {
   const dx = (xMax - xMin) / steps;
@@ -212,6 +212,45 @@ export function movingAverage(data, windowSize) {
     result.push(sum / count);
   }
   return result;
+}
+
+// Extended functions in the spirit of our mission statement
+export function plotCosine(amplitude, frequency, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: amplitude * Math.cos(frequency * x + phase) });
+  }
+  return result;
+}
+
+export function plotTangent(amplitude, frequency, phase, xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    let y = amplitude * Math.tan(frequency * x + phase);
+    if (!isFinite(y)) y = null; // handle discontinuities
+    result.push({ x, y });
+  }
+  return result;
+}
+
+export function reflectPoints(points, axis = 'y') {
+  // Reflects points across either the x-axis or y-axis
+  return points.map(({ x, y }) => {
+    if (axis === 'y') return { x: -x, y };
+    if (axis === 'x') return { x, y: -y };
+    return { x, y };
+  });
+}
+
+export function scalePoints(points, factor) {
+  return points.map(({ x, y }) => ({
+    x: x * factor,
+    y: y * factor
+  }));
 }
 
 // Entry point
