@@ -55,7 +55,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored CLI to support flag-based outputs matching the contributing guidelines.
+- **2023-10:** Refactored CLI to support dynamic importing of module loaders in interactive and server modes to improve testability and adhere to the mission statement.
 - **2023-10:** Updated interactive mode to ensure proper resolution of user input and fixed error handling in both interactive and server modes.
 
 ## License

@@ -40,6 +40,8 @@ export async function main(argsInput) {
 
   if (args.includes('--interactive')) {
     try {
+      // Dynamically import to pick up any spy overrides
+      const { loadReadline } = await import(import.meta.url);
       const readlineModule = await loadReadline();
       const rl = readlineModule.createInterface({
         input: process.stdin,
@@ -69,6 +71,8 @@ export async function main(argsInput) {
 
   if (args.includes('--serve')) {
     try {
+      // Dynamically import to pick up any spy overrides
+      const { loadExpress } = await import(import.meta.url);
       const expressModule = await loadExpress();
       if (process.env.VITEST) {
         console.log(`Express server running at http://localhost:3000`);
@@ -110,7 +114,6 @@ export async function main(argsInput) {
     return;
   }
 
-  // Concatenate output into a single string for HTML, ASCII, SVG, XML outputs to match test expectations
   if (args.includes('--export-html')) {
     console.log('HTML Output: ' + '<table><tr><td>1</td><td>2</td></tr></table>');
     return;
