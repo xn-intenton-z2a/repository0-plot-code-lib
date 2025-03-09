@@ -36,13 +36,13 @@ const {
   exportPlotAsASCII,
   exportPlotAsSVG,
   exportPlotAsXML,
+  exportPlotAsLaTeX,
   plotScatter,
   plotModulatedSine,
   plotLogBase,
   plotParametric,
   plotBarChart,
   plotEllipse,
-  exportPlotAsLaTeX,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -54,7 +54,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -205,6 +205,13 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main(["--export-xml"]);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining("XML Output:"));
+    spy.mockRestore();
+  });
+
+  test("should output LaTeX plot when --export-latex flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--export-latex"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("LaTeX Output:"));
     spy.mockRestore();
   });
 
