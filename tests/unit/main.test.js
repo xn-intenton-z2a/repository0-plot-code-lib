@@ -36,6 +36,8 @@ const {
   exportPlotAsASCII,
   exportPlotAsSVG,
   plotScatter,
+  plotModulatedSine,
+  plotLogBase,
   loadExpress,
   loadReadline
 } = mainModule;
@@ -478,5 +480,23 @@ describe("Additional helper functions", () => {
       expect(pt).toHaveProperty("x");
       expect(pt).toHaveProperty("y");
     });
+  });
+
+  // New tests for added functions
+  test("plotModulatedSine returns correct number of points and modulated values", () => {
+    const points = plotModulatedSine(1, 1, 0, 0.5, 0, Math.PI, 10);
+    expect(points.length).toBe(11);
+    // Check first value roughly equals sine(0) * cos(0) = 0
+    expect(points[0].y).toBeCloseTo(0, 5);
+  });
+
+  test("plotLogBase returns correct logarithm value", () => {
+    // log base 2 of 8 should be 3
+    expect(plotLogBase(8, 2)).toBeCloseTo(3, 5);
+  });
+
+  test("plotLogBase throws error for invalid inputs", () => {
+    expect(() => plotLogBase(-1, 2)).toThrow("Invalid input for logarithm");
+    expect(() => plotLogBase(8, 1)).toThrow("Invalid input for logarithm");
   });
 });
