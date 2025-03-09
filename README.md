@@ -10,11 +10,11 @@ repository0-plot-code-lib is a flexible command-line utility for plotting and an
 
 ## Features
 
-- **Plotting Functions:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, Lissajous curves, and Bessel function plots.
+- **Plotting Functions:** Quadratic, linear, sine, cosine, tangent, exponential, logarithmic, square root, polar, parametric, ellipse, polynomial, spiral, modulated sine, custom function plots, Lissajous curves, Bessel function plots, and the new Lemniscate plots (figure-eight curves).
 - **Output Formats:** CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, plain text (TXT) and R-friendly formats.
 - **Mathematical Tools:** Derivative calculation, area approximation, moving averages, numerical integration, and statistical analysis.
-- **CLI Modes:** Demo, diagnostics, interactive, web server, and debug modes with various flags for tailored outputs.
-- **Extended Helpers:** Functions such as solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier extend the library's capabilities.
+- **CLI Modes:** Demo, diagnostics, interactive, web server, and debug modes with various flags for tailored outputs, including a new --lemniscate flag for Lemniscate plots.
+- **Extended Helpers:** Functions such as solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, and now plotLemniscate extend the library's capabilities.
 
 ## Installation
 
@@ -38,7 +38,7 @@ Other available modes include:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Web Server:** `node src/lib/main.js --serve`
 - **Export Modes:** Use flags such as `--export-csv`, `--export-md`, `--export-json`, `--export-html`, `--export-ascii`, `--export-svg`, `--export-xml`, `--export-latex`, `--export-txt`, and `--export-r`
-- **Plot Modes:** Use flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, and the new `--lissajous` for generating Lissajous curve plots
+- **Plot Modes:** Use flags like `--plot-abs`, `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, and the new `--lemniscate` for generating Lemniscate (figure-eight) plots
 - **Debug Mode:** `node src/lib/main.js --debug` to list all available plotting functions
 
 For integrating plotting into your own scripts, import the library functions directly.
@@ -49,7 +49,8 @@ For integrating plotting into your own scripts, import the library functions dir
 - **2023-10:** Added new helper functions including solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
 - **2023-10:** Introduced plotLissajous and the corresponding `--lissajous` flag for Lissajous curve plots.
 - **2023-10:** Enhanced plotBessel functionality to correctly interface with mathjs or use a fallback for order 0.
-- **2023-10:** Improved test coverage by adding tests for external module load failures and ensuring single layer mocking for file system/network related dependencies.
+- **2023-10:** **New:** Added plotLemniscate function and CLI flag `--lemniscate` for generating lemniscate (figure-eight) plots.
+- **2023-10:** Improved test coverage by adding tests for new functionalities and ensuring robust module loading error handling.
 
 ## Contributing
 
