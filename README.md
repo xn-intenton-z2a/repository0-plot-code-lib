@@ -84,12 +84,11 @@ Running the CLI with no arguments displays a demo message that introduces users 
 ## Changelog Highlights
 
 - Refined CLI messages and functionalities to maintain strict alignment with our mission statement.
-- Pruned code drift to focus on core plotting functionalities.
+- Pruned legacy and extraneous code drift to focus on core plotting functionalities per CONTRIBUTING guidelines.
 - Extended library with new features: plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, and calculateStandardDeviation.
 - **New helper functions added:** calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, and exportPlotAsCSV.
 - Extended CLI with new CSV export mode (--export-csv) for outputting plots in CSV format.
-- Improved error handling in interactive mode.
-- Enhanced unit tests and mocks achieving near 100% test coverage.
+- Improved error handling in interactive mode and streamlined implementation.
 
 ## Contributing
 
