@@ -32,7 +32,7 @@
 <p class="md-github">This library provides a command-line interface (CLI) and an integrated web interface for plotting a wide variety of mathematical functions. Its design adheres closely to our mission statement and contributing guidelines. The features include generating various output formats and performing advanced analyses such as area calculations, derivative estimations, and transformations.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Plot Types:</strong> Quadratic, Linear, Sine, Cosine, Tangent, Polar, Exponential, Logarithmic</li>
+<li class="md-github"><strong class="md-github">Plot Types:</strong> Quadratic, Linear, Sine, Exponential, Logarithmic, Cosine, Tangent, Polar, Exponential, Logarithmic</li>
 <li class="md-github"><strong class="md-github">Output Formats:</strong> SVG, JSON, CSV, Markdown, ASCII, HTML</li>
 <li class="md-github"><strong class="md-github">Advanced Analysis:</strong>
 <ul class="md-github">
@@ -51,6 +51,9 @@
 <li class="md-github">plotLinear: Generates points for a linear function.</li>
 <li class="md-github">plotSine: Generates points for a sine wave based on amplitude, frequency, and phase.</li>
 <li class="md-github">rotatePoints: Rotates a set of points by a specified angle (in radians).</li>
+<li class="md-github">plotExponential: Generates points for an exponential function.</li>
+<li class="md-github">plotLogarithmic: Generates points for a logarithmic function (requires xMin &gt; 0).</li>
+<li class="md-github">movingAverage: Computes the moving average over a dataset for smoothing.</li>
 </ul>
 </li>
 </ul>
@@ -92,8 +95,7 @@
 <ul class="md-github">
 <li class="md-github">Refactored main.js to use dynamic self-import for loadExpress and loadReadline, ensuring proper error handling and that test mocks work as expected.</li>
 <li class="md-github">Fixed Express server initialization error by ensuring the returned server instance is checked before calling close.</li>
-<li class="md-github">Extended library functions by adding plotLinear, plotSine, and rotatePoints to enhance plotting capabilities in line with our mission statement.</li>
-<li class="md-github">Updated dynamic import patterns for proper mocking in tests, ensuring that loadExpress and loadReadline are invoked via live module bindings.</li>
+<li class="md-github">Extended library functions by adding plotLinear, plotSine, rotatePoints, and new functions: plotExponential, plotLogarithmic, and movingAverage to enhance plotting capabilities in line with our mission statement.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">Contributions are automated. Please open an issue and label it as <code class="md-github">automated</code> to trigger our workflows. For additional details, see <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</p>
@@ -102,7 +104,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-09T01:29:44.850Z</p>
+    <p>Generated on 2025-03-09T01:56:07.703Z</p>
   </footer>
 </body>
 </html>
