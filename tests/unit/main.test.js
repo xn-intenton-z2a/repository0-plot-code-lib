@@ -55,7 +55,8 @@ const {
   interpolateData,
   plotBezier,
   plotLissajous,
-  plotBessel
+  plotBessel,
+  plotLemniscate
 } = mainModule;
 
 // Main Function Behaviour Tests
@@ -65,7 +66,7 @@ describe("Main Function Behaviour", () => {
     const spy = vi.spyOn(console, "log");
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate or provide plot parameters."
     );
     spy.mockRestore();
   });
@@ -275,6 +276,13 @@ describe("Main Function Behaviour", () => {
     spy.mockRestore();
   });
 
+  test("should output Lemniscate plot when --lemniscate flag is provided", () => {
+    const spy = vi.spyOn(console, "log");
+    main(["--lemniscate"]);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Lemniscate Plot Output:"));
+    spy.mockRestore();
+  });
+
   test("should handle unrecognized flag gracefully", () => {
     const spy = vi.spyOn(console, "log");
     main(["--unknown"]);
@@ -307,6 +315,7 @@ describe("Debug flag behaviour", () => {
     expect(debugString).toContain("plotBezier");
     expect(debugString).toContain("plotLissajous");
     expect(debugString).toContain("plotBessel");
+    expect(debugString).toContain("plotLemniscate");
     spy.mockRestore();
   });
 });
@@ -658,5 +667,13 @@ describe("Additional helper functions", () => {
     const points = plotBessel(0, 0, 10, 10);
     expect(points.length).toBe(11);
     expect(points[0].y).toBeCloseTo(1, 5);
+  });
+
+  test("plotLemniscate returns a valid lemniscate curve", () => {
+    const points = plotLemniscate(1, 0, 2 * Math.PI, 100);
+    expect(points.length).toBe(101);
+    // Check that at least some points have non-null x and y
+    const validPoint = points.find(pt => pt.x !== null && pt.y !== null);
+    expect(validPoint).toBeDefined();
   });
 });

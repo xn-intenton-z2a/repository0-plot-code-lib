@@ -7,9 +7,8 @@
 // - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
 // - 2023-10: Introduced interactive, web server, debug, scatter, parametric, and polynomial plotting modes.
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
-// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, and plotBezier.
-// - 2023-10: Added plotLissajous function with CLI flag --lissajous and enhanced plotBessel to use mathjs with a fallback for order 0.
-// - 2023-10: Test coverage improvements: ensured external module loaders provide clear error messaging for failed dynamic imports.
+// - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, and plotBessel.
+// - 2023-10: Added new function plotLemniscate and corresponding CLI flag --lemniscate for generating lemniscate (figure-eight) plots, in line with our mission.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -41,7 +40,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate or provide plot parameters."
     );
     return;
   }
@@ -55,7 +54,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Aligned with our mission, available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel"
+      "Aligned with our mission, available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel, plotLemniscate"
     );
     return;
   }
@@ -145,6 +144,13 @@ export async function main(args) {
     } catch (err) {
       console.error("Error loading readline module:", err);
     }
+    return;
+  }
+
+  // --lemniscate flag: demo lemniscate plot (Lemniscate of Bernoulli)
+  if (args.includes("--lemniscate")) {
+    const points = plotLemniscate(1, 0, 2 * Math.PI, 100);
+    console.log("Lemniscate Plot Output:\n" + JSON.stringify(points, null, 2));
     return;
   }
 
@@ -347,7 +353,7 @@ export function plotExponential(a, xMin, xMax, steps = 100) {
   const result = [];
   for (let i = 0; i <= steps; i++) {
     const x = xMin + i * dx;
-    result.push({ x, y: a ** x });
+    result.push({ x, y: Math.pow(a, x) });
   }
   return result;
 }
@@ -824,6 +830,22 @@ export function plotBessel(order, xMin, xMax, steps = 100) {
   for (let i = 0; i <= steps; i++) {
     const x = xMin + i * dx;
     result.push({ x, y: besselFn(x, order) });
+  }
+  return result;
+}
+
+// New function: plotLemniscate for generating a figure-eight (Lemniscate of Bernoulli) plot
+export function plotLemniscate(a, tMin, tMax, steps = 100) {
+  const dt = (tMax - tMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const t = tMin + i * dt;
+    const cos2t = Math.cos(2 * t);
+    let r = null;
+    if (cos2t >= 0) {
+      r = Math.sqrt(2 * a * a * cos2t);
+    }
+    result.push({ t, x: r !== null ? r * Math.cos(t) : null, y: r !== null ? r * Math.sin(t) : null });
   }
   return result;
 }
