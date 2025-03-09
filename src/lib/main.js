@@ -15,6 +15,7 @@
 // - 2023-10: Extended features with new functions exportPlotAsXML and plotBarChart, with corresponding CLI flags --export-xml and --bar-chart for XML export and bar chart visualization.
 // - 2023-10: Added real implementation for plotCosine to support cosine wave plotting as expected by tests.
 // - 2023-10: Added new functions plotEllipse and exportPlotAsLaTeX to further extend plotting capabilities in line with our mission.
+// - 2023-10: Added new function exportPlotAsTXT for plain text export (--export-txt) and updated debug listing accordingly.
 
 import { fileURLToPath } from "url";
 
@@ -45,7 +46,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --bar-chart, --scatter, --plot-parametric, or provide plot parameters."
     );
     return;
   }
@@ -59,7 +60,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse"
+      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, plotScatter, plotModulatedSine, plotLogBase, plotParametric, plotBarChart, plotEllipse"
     );
     return;
   }
@@ -216,6 +217,14 @@ export async function main(args) {
     const points = plotSine(1, 2, 0, 0, Math.PI, 10);
     const latex = exportPlotAsLaTeX(points);
     console.log("LaTeX Output:\n" + latex);
+    return;
+  }
+
+  // --export-txt flag: export a plot as plain text format demo (new feature aligned with mission)
+  if (args.includes("--export-txt")) {
+    const points = plotSine(1, 2, 0, 0, Math.PI, 10);
+    const txt = exportPlotAsTXT(points);
+    console.log("TXT Output:\n" + txt);
     return;
   }
 
@@ -679,6 +688,12 @@ export function exportPlotAsLaTeX(points) {
   });
   latex += "\\end{tabular}";
   return latex;
+}
+
+// New helper: exportPlotAsTXT converts an array of point objects to a plain text format
+export function exportPlotAsTXT(points) {
+  if (!points.length) return '';
+  return points.map(pt => `x: ${pt.x}, y: ${pt.y}`).join('\n');
 }
 
 // Entry point
