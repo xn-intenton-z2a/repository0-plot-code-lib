@@ -259,6 +259,17 @@ export function scalePoints(points, factor) {
   }));
 }
 
+// New feature: plotSqrt to plot the square root function. For x < 0, returns null as sqrt is not real.
+export function plotSqrt(xMin, xMax, steps = 100) {
+  const dx = (xMax - xMin) / steps;
+  const result = [];
+  for (let i = 0; i <= steps; i++) {
+    const x = xMin + i * dx;
+    result.push({ x, y: x < 0 ? null : Math.sqrt(x) });
+  }
+  return result;
+}
+
 // Entry point
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
