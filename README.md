@@ -97,9 +97,10 @@ node src/lib/main.js
 ## Changelog Highlights
 
 - Refreshed README to align with the contributing guidelines.
+- Pruned drift from the source file and reinforced the mission statement in the implementation.
 - Extended library functions with new features including plotSqrt, plotPolar, plotAbsolute, and generateRange.
 - Added CLI flag --plot-abs to demonstrate absolute function plotting.
-- **Enhanced test coverage**: Added and extended tests for interactive mode, external dependency mocks, and all helper functions to bring the test coverage close to 100%.
+- **Enhanced test coverage**: Added and extended tests for interactive mode, external dependency mocks, and all helper functions.
 
 ## Contributing
 
