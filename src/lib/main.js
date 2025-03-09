@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
-// This version has been updated to improve test coverage, refine CLI messaging and ensure clear error handling for external dependencies.
+// CLI for mathematical plotting aligned with our mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// This version has been updated to prune any drift and ensure that all messaging strictly reflects our mission statement and contributing guidelines.
 // Changelog:
 // - 2023-10: Refined CLI messaging and error handling to align with our mission statement and contributor guidelines.
 // - 2023-10: Added multiple export modes (--export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r).
@@ -9,6 +9,7 @@
 // - 2023-10: Extended plotting capabilities with functions like plotCosine, plotEllipse, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, and plotCustom.
 // - 2023-10: New extensions: solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier.
 // - 2023-10: Added plotLissajous function with CLI flag --lissajous and enhanced plotBessel to use mathjs with a fallback for order 0.
+// - 2023-10: Pruned code drift to ensure all CLI messaging and functionalities strictly embody our mission.
 
 import { fileURLToPath } from "url";
 import * as math from "mathjs";
@@ -40,7 +41,7 @@ export async function main(args) {
   // No arguments: show demo output aligned with our mission statement.
   if (args.length === 0) {
     console.log(
-      "Welcome to repository0-plot-code-lib CLI: Your precise plotting tool aligned with our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.' Use flags --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous or provide plot parameters."
+      "Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous or provide plot parameters."
     );
     return;
   }
@@ -54,7 +55,7 @@ export async function main(args) {
   // --debug flag: list available plotting functions for debugging purposes.
   if (args.includes("--debug")) {
     console.log(
-      "Available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel"
+      "Aligned with our mission, available plotting functions: plotQuadratic, calculateDerivative, calculateArea, plotLinear, plotSine, plotCosine, rotatePoints, plotExponential, plotLogarithmic, movingAverage, plotTangent, reflectPoints, scalePoints, plotSqrt, plotPolar, plotAbsolute, generateRange, plotDerivative, offsetPoints, plotLogistic, plotCubic, calculateStandardDeviation, calculateCorrelation, plotHyperbolic, calculateExponentialMovingAverage, plotGaussian, exportPlotAsCSV, exportPlotAsMarkdown, exportPlotAsJSON, exportPlotAsHTML, exportPlotAsASCII, exportPlotAsSVG, exportPlotAsXML, exportPlotAsLaTeX, exportPlotAsTXT, exportPlotAsR, plotScatter, plotParametric, plotBarChart, plotEllipse, plotPolynomial, plotModulatedSine, plotSpiral, calculateDefiniteIntegral, plotCustom, solveQuadraticEquation, plotSinCosCombined, interpolateData, plotBezier, plotLissajous, plotBessel"
     );
     return;
   }
@@ -504,7 +505,7 @@ export function calculateCorrelation(dataX, dataY) {
   const numerator = dataX.reduce((acc, x, i) => acc + ((x - meanX) * (dataY[i] - meanY)), 0);
   const denominator = Math.sqrt(
     dataX.reduce((acc, x) => acc + Math.pow(x - meanX, 2), 0) *
-    dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
+      dataY.reduce((acc, y) => acc + Math.pow(y - meanY, 2), 0)
   );
   return denominator === 0 ? 0 : numerator / denominator;
 }
