@@ -12,7 +12,11 @@ const {
   plotSineReal,
   plotCosineReal,
   plotExponentialReal,
-  plotLogarithmicReal
+  plotLogarithmicReal,
+  plotQuadraticReal,
+  plotLinearReal,
+  plotTangentReal,
+  rotatePointsReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -370,10 +374,7 @@ describe('Stub Function Tests', () => {
       const derivativeValue = calculateDerivative('x^2', 'x', 3);
       expect(derivativeValue).toBeCloseTo(6);
     });
-  });
 
-  // New real function tests
-  describe('New Real Implementations', () => {
     test('plotSineReal computes sine plot correctly', () => {
       const plot = plotSineReal(0, Math.PI, Math.PI/2);
       expect(plot).toEqual([
@@ -408,6 +409,44 @@ describe('Stub Function Tests', () => {
         { x: 2, y: Math.log(2) },
         { x: 3, y: Math.log(3) }
       ]);
+    });
+
+    test('plotQuadraticReal computes quadratic plot correctly', () => {
+      const plot = plotQuadraticReal(0, 2, 1, 1, 0, 0);
+      expect(plot).toEqual([
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+        { x: 2, y: 4 }
+      ]);
+    });
+
+    test('plotLinearReal computes linear plot correctly', () => {
+      const plot = plotLinearReal(0, 2, 1, 2, 1);
+      expect(plot).toEqual([
+        { x: 0, y: 1 },
+        { x: 1, y: 3 },
+        { x: 2, y: 5 }
+      ]);
+    });
+
+    test('plotTangentReal computes tangent plot correctly', () => {
+      const plot = plotTangentReal(0, Math.PI/4, Math.PI/8);
+      const expected = [
+        { x: 0, y: 0 },
+        { x: Math.PI/8, y: Math.tan(Math.PI/8) },
+        { x: Math.PI/4, y: Math.tan(Math.PI/4) }
+      ];
+      expect(plot).toEqual(expected);
+    });
+
+    test('rotatePointsReal rotates points correctly', () => {
+      const points = [{ x: 1, y: 0 }, { x: 0, y: 1 }];
+      const angle = Math.PI/2; // 90 degrees
+      const rotated = rotatePointsReal(points, angle);
+      expect(rotated[0].x).toBeCloseTo(0);
+      expect(rotated[0].y).toBeCloseTo(1);
+      expect(rotated[1].x).toBeCloseTo(-1);
+      expect(rotated[1].y).toBeCloseTo(0);
     });
   });
 });

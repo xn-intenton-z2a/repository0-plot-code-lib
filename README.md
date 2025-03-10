@@ -10,7 +10,7 @@ This CLI utility provides:
 - Plotting of various mathematical functions with both stub and real implementations.
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub).
 - Modes for diagnostics, interactive input, web service, and debug output.
-- Extended functionalities such as calculating derivatives and generating numeric ranges.
+- Extended functionalities such as calculating derivatives, generating numeric ranges, and new real implementations for quadratic, linear, tangent plots and point rotations.
 
 ## Installation
 
@@ -85,13 +85,17 @@ This release includes real implementations for some core functions:
   - **plotCosineReal:** Generates a cosine plot for a specified range.
   - **plotExponentialReal:** Generates an exponential plot for a specified range.
   - **plotLogarithmicReal:** Generates a logarithmic plot (for positive values) for a specified range.
+  - **plotQuadraticReal:** Generates a quadratic plot given coefficients and range.
+  - **plotLinearReal:** Generates a linear plot given slope and intercept over a range.
+  - **plotTangentReal:** Generates a tangent plot for a specified range with safe handling of asymptotes.
+  - **rotatePointsReal:** Rotates an array of points by a given angle.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
 1. **Open an Issue:**
-   Describe your idea, report a bug, or suggest an improvement by opening an issue.
+   Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 
 2. **Review CONTRIBUTING Guidelines:**
    Please see [CONTRIBUTING.md](./CONTRIBUTING.md) to ensure your changes align with our mission and automated workflows.
@@ -104,6 +108,7 @@ We welcome contributions! Please follow these steps:
 - **2024-01:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
 - **2024-04:** Updated the source file to remove drift and align with the mission statement.
 - **2024-05:** Extended library functions by adding real implementations for plotSineReal, plotCosineReal, plotExponentialReal, and plotLogarithmicReal.
+- **2024-07:** Extended library functions with additional real implementations for plotQuadraticReal, plotLinearReal, plotTangentReal, and rotatePointsReal.
 
 ## License
 
