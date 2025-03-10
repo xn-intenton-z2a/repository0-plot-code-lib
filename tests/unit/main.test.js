@@ -104,7 +104,6 @@ describe('Main Function Behaviour', () => {
 
   test('should catch error and print error message when express fails in --serve mode', async () => {
     const spy = vi.spyOn(console, 'error');
-    // Ensure test environment is not set to avoid the test branch
     process.env.VITEST = '';
     vi.spyOn(mainModule, 'loadExpress').mockImplementation(() => Promise.reject(new Error('express failure')));
     await main(['--serve']);
@@ -307,7 +306,6 @@ describe('Error Handling for module loaders', () => {
   test('loadExpress should handle failure gracefully', async () => {
     vi.spyOn(mainModule, 'loadExpress').mockImplementation(() => Promise.reject(new Error('express failure')));
     const spyError = vi.spyOn(console, 'error');
-    // Ensure test environment is not set
     process.env.VITEST = '';
     await main(['--serve']);
     expect(spyError).toHaveBeenCalledWith('Error starting server:', expect.any(Error));

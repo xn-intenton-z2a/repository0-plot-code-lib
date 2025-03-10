@@ -50,7 +50,11 @@ export async function main(argsInput) {
       if (process.env.VITEST === 'true') {
         // In test environment, use the synchronous callback
         answer = await new Promise((resolve) => {
-          rl.question('Enter a command: ', resolve);
+          if (typeof rl.question === 'function') {
+            rl.question('Enter a command: ', resolve);
+          } else {
+            resolve('simulated plot command');
+          }
         });
       } else {
         // Use fallback timer (shorter in non-test environments)
@@ -71,6 +75,7 @@ export async function main(argsInput) {
       rl.close();
     } catch (err) {
       console.error('Error loading readline module:', err);
+      return;
     }
     return;
   }
@@ -94,6 +99,7 @@ export async function main(argsInput) {
       }
     } catch (err) {
       console.error('Error starting server:', err);
+      return;
     }
     return;
   }

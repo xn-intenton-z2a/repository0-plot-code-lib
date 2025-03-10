@@ -33,7 +33,7 @@ npm run start
 Other available modes include:
 
 - **Diagnostics:** `npm run diagnostics` will display the Node version.
-- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively. (In test environments the prompt resolves immediately.)
+- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively. (In test environments, the prompt resolves immediately.)
 - **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding by immediately closing the server.)
 - **Plot/Export Flags:**
   - `--plot-abs`: Outputs an absolute plot of sin(x).
@@ -55,7 +55,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored interactive mode to use a synchronous prompt in test environments, added immediate server closure in non-test mode to prevent port conflicts, and enhanced error handling in module loaders. Updated test coverage accordingly.
+- **2023-10:** Refactored interactive mode to ensure immediate resolution in test environments, added explicit error handling in module loaders, and enhanced server cleanup. Updated test coverage accordingly.
 
 ## License
 
