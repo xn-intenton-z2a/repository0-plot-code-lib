@@ -295,11 +295,35 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
 
-// Additional stub implementations for various plotting functions per mission statement
+// Additional implementations and stub functions for various plotting functions per mission statement
+
+// Real implementation for generateRange function
+export function generateRange(start, end, step = 1) {
+  const range = [];
+  for (let i = start; i <= end; i += step) {
+    range.push(i);
+  }
+  console.log("Generated range:", range);
+  return range;
+}
+
+// Real implementation for calculateDerivative using mathjs
+export function calculateDerivative(expr, variable, value) {
+  try {
+    const derivative = math.derivative(expr, variable);
+    const derivativeValue = derivative.evaluate({ [variable]: value });
+    console.log(`Derivative of ${expr} at ${variable}=${value}:`, derivativeValue);
+    return derivativeValue;
+  } catch (e) {
+    console.error("Error calculating derivative:", e);
+    return null;
+  }
+}
+
 const stubFunction = (name) => () => { console.log(name + " stub executed"); };
 
 export const plotQuadratic = stubFunction("plotQuadratic");
-export const calculateDerivative = stubFunction("calculateDerivative");
+// Removed stub for calculateDerivative and generateRange as they are now fully implemented
 export const calculateArea = stubFunction("calculateArea");
 export const plotLinear = stubFunction("plotLinear");
 export const plotSine = stubFunction("plotSine");
@@ -314,7 +338,7 @@ export const scalePoints = stubFunction("scalePoints");
 export const plotSqrt = stubFunction("plotSqrt");
 export const plotPolar = stubFunction("plotPolar");
 export const plotAbsolute = stubFunction("plotAbsolute");
-export const generateRange = stubFunction("generateRange");
+// generateRange is implemented above
 export const plotDerivative = stubFunction("plotDerivative");
 export const offsetPoints = stubFunction("offsetPoints");
 export const plotLogistic = stubFunction("plotLogistic");

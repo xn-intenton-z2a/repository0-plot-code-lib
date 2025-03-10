@@ -6,8 +6,9 @@ const {
   loadExpress,
   loadReadline,
   overrides,
-  plotQuadratic
-  // other functions can be imported if needed
+  plotQuadratic,
+  generateRange,
+  calculateDerivative
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -357,5 +358,20 @@ describe('Stub Function Tests', () => {
     plotQuadratic();
     expect(spy).toHaveBeenCalledWith('plotQuadratic stub executed');
     spy.mockRestore();
+  });
+});
+
+// Extended Function Implementations Tests
+
+describe('Extended Function Implementations', () => {
+  test('generateRange should return proper range', () => {
+    const range = generateRange(1, 5);
+    expect(range).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  test('calculateDerivative should compute derivative correctly', () => {
+    // For expr 'x^2', derivative is 2*x; at x=3, should be 6
+    const derivativeValue = calculateDerivative('x^2', 'x', 3);
+    expect(derivativeValue).toBeCloseTo(6);
   });
 });
