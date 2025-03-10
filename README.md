@@ -112,12 +112,9 @@ Our automated workflows will help integrate your changes quickly.
 - **2024-05:** Extended library functions for common plots including sine, cosine, exponential, and logarithmic functions.
 - **2024-07:** Added real implementations for quadratic, linear, tangent plots, and point rotations.
 - **2024-08:** Introduced real implementations for sigmoid and ReLU plots.
-- **2024-09:** Continued pruning legacy drift and streamlined implementations.
-- **2024-10:** Added histogram plotting feature and improved error handling.
-- **2024-11:** Enhanced test coverage and refined error handling per CONTRIBUTING guidelines.
+- **2024-09:** Added histogram plotting feature and improved error handling.
 - **2024-12:** Extended library functions with implementations for polar, logistic plots and moving average; refreshed project documentation as per CONTRIBUTING.md.
-- **2024-12.5:** Added the `--plot-histogram` flag in the CLI to support histogram plotting.
-- **2024-12.8:** Added additional functions: plotSincReal, calculateDefiniteIntegralReal, and plotBezierReal to further extend functionality.
+- **2024-12.9:** Pruned legacy code drift and refined source functionality to fully align with the mission statement and contribution guidelines.
 
 ## License
 

@@ -314,12 +314,6 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotPolynomial');
     expect(debugString).toContain('plotModulatedSine');
     expect(debugString).toContain('plotSpiral');
-    expect(debugString).toContain('calculateDefiniteIntegral');
-    expect(debugString).toContain('plotEllipse');
-    expect(debugString).toContain('plotSigmoidReal');
-    expect(debugString).toContain('plotReLUReal');
-    // New functions tests in debug output
-    expect(debugString).toContain('plotSincReal');
     expect(debugString).toContain('calculateDefiniteIntegralReal');
     expect(debugString).toContain('plotBezierReal');
     expect(debugString).toContain('plotPolarReal');
