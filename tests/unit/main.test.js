@@ -31,7 +31,10 @@ const {
   plotCubicReal,
   movingMedianReal,
   plotGaussianReal,
-  plotHeatMapReal
+  plotHeatMapReal,
+  plotScatterReal,
+  plotBarChartReal,
+  plotLissajousReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -251,7 +254,7 @@ describe('Main Function Behaviour', () => {
   test('should output Bar Chart when --bar-chart flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--bar-chart']);
-    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Bar Chart Output:'), expect.any(String));
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Bar Chart Output:'), expect.any(Array));
     spy.mockRestore();
   });
 
@@ -338,6 +341,9 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotCubicReal');
     expect(debugString).toContain('movingMedianReal');
     expect(debugString).toContain('plotGaussianReal');
+    expect(debugString).toContain('plotScatterReal');
+    expect(debugString).toContain('plotBarChartReal');
+    expect(debugString).toContain('plotLissajousReal');
     spy.mockRestore();
   });
 });
@@ -377,7 +383,6 @@ describe('Error Handling for module loaders', () => {
     spyError.mockRestore();
     resetOverrides();
   });
-});
 
 // Stub Function Tests
 
@@ -581,6 +586,22 @@ describe('Stub Function Tests', () => {
       const heatmap = plotHeatMapReal();
       expect(heatmap.length).toEqual(3);
       expect(heatmap[0].length).toEqual(3);
+    });
+
+    // New Extended Functions Tests
+    test('plotScatterReal returns array of points', () => {
+      const points = plotScatterReal(5);
+      expect(points).toHaveLength(5);
+    });
+
+    test('plotBarChartReal returns array of strings', () => {
+      const chart = plotBarChartReal([3,2]);
+      expect(chart).toEqual(["***", "**"]);
+    });
+
+    test('plotLissajousReal returns points with t property', () => {
+      const curve = plotLissajousReal(3,2,Math.PI/2,0.5, Math.PI);
+      expect(curve[0]).toHaveProperty("t");
     });
   });
 });

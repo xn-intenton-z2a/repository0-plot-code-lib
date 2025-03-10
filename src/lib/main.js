@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.11: Refactored per mission statement; pruned legacy drift and extended plotting functionalities (including the new heatmap feature), and enhanced error handling and testability.
+// Last Updated 2024-12.11: Refactored per mission statement; pruned legacy drift and extended plotting functionalities (including the new heatmap, scatter, bar chart and Lissajous real features), and enhanced error handling and testability.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -175,12 +175,16 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--scatter')) {
-    console.log('Scatter Plot Output:', [{ x: Math.random(), y: Math.random() }]);
+    // Real implementation for scatter plot added in extended functions
+    const scatter = plotScatterReal();
+    console.log('Scatter Plot Output:', scatter);
     return;
   }
 
   if (args.includes('--bar-chart')) {
-    console.log('Bar Chart Output:', 'Bar Chart: ***');
+    // Real implementation for bar chart plot added in extended functions
+    const barChart = plotBarChartReal();
+    console.log('Bar Chart Output:', barChart);
     return;
   }
 
@@ -195,7 +199,9 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--lissajous')) {
-    console.log('Lissajous Curve Output:', [{ t: 0, x: 0, y: 0 }, { t: 1, x: 1, y: 1 }]);
+    // Real implementation for Lissajous plot added in extended functions
+    const lCurve = plotLissajousReal();
+    console.log('Lissajous Curve Output:', lCurve);
     return;
   }
 
@@ -281,7 +287,10 @@ export async function main(argsInput) {
       'plotEllipseReal',
       'plotCubicReal',
       'movingMedianReal',
-      'plotGaussianReal'
+      'plotGaussianReal',
+      'plotScatterReal',
+      'plotBarChartReal',
+      'plotLissajousReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -540,6 +549,33 @@ export function plotHeatMapReal(matrix) {
   }
   console.log('Heatmap Plot (real):', matrix);
   return matrix;
+}
+
+// New extended real implementations as part of extended functionalities
+export function plotScatterReal(count = 10) {
+  const points = [];
+  for (let i = 0; i < count; i++) {
+    points.push({ x: Math.random(), y: Math.random() });
+  }
+  console.log('Scatter Plot (real):', points);
+  return points;
+}
+
+export function plotBarChartReal(data = [3, 5, 1, 6, 4]) {
+  const chart = data.map(value => '*'.repeat(value));
+  console.log('Bar Chart (real):', chart);
+  return chart;
+}
+
+export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1, rangeEnd = 2 * Math.PI) {
+  const points = [];
+  for (let t = 0; t <= rangeEnd; t += step) {
+    let x = Math.sin(a * t + delta);
+    let y = Math.sin(b * t);
+    points.push({ t, x, y });
+  }
+  console.log('Lissajous Curve (real):', points);
+  return points;
 }
 
 // Legacy stub functions retained for API compatibility (deprecated: please use the real implementations where available)
