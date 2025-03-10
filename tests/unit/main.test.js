@@ -5,7 +5,8 @@ const {
   main,
   loadExpress,
   loadReadline,
-  overrides
+  overrides,
+  plotQuadratic
   // other functions can be imported if needed
 } = mainModule;
 
@@ -328,5 +329,16 @@ describe('Error Handling for module loaders', () => {
     expect(spyError).toHaveBeenCalledWith('Error starting server:', expect.any(Error));
     spyError.mockRestore();
     resetOverrides();
+  });
+});
+
+// Stub Function Tests
+
+describe('Stub Function Tests', () => {
+  test('plotQuadratic stub should log its message', () => {
+    const spy = vi.spyOn(console, 'log');
+    plotQuadratic();
+    expect(spy).toHaveBeenCalledWith('plotQuadratic stub executed');
+    spy.mockRestore();
   });
 });
