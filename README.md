@@ -59,9 +59,10 @@ Other available commands:
 ## Changelog
 
 - **2024-12.12:**
-  - Refreshed README and documentation in line with CONTRIBUTING guidelines.
-  - Pruned outdated and irrelevant content.
-  - Updated descriptions to emphasize extended plotting features including spiral, custom, Fibonacci spiral plotting, and new combined sine-cosine plotting (--plot-sincos functionality).
+  - Extended functionalities with new spiral and custom plotting feature.
+  - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos functionality).
+  - Pruned outdated legacy drift and improved module loader error handling in accordance with CONTRIBUTING guidelines.
+  - Updated documentation and contribution guidelines integration.
 
 ## Contributing
 
