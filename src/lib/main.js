@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, and pruned legacy drift in alignment with our mission statement and CONTRIBUTING guidelines.
-// Updated: Streamlined module loader error management and refreshed inline documentation to reflect the updated mission, README, and contributing guidelines. New plotting functions include Polar Rose and Star Polygon.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, and pruned legacy drift.
+// Updated to align with our updated CONTRIBUTING guidelines and refreshed inline documentation.
+// New plotting functions include Polar Rose and Star Polygon. 
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -156,7 +157,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
+    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
     return;
   }
 
