@@ -77,7 +77,7 @@ describe('Main Function Behaviour', () => {
     const spyWarn = vi.spyOn(console, 'warn');
 
     const fakeInterface = {
-      question: (_prompt, _callback) => { /* no callback invocation */ },
+      question: (_prompt, _callback) => { /* no callback invocation to simulate timeout */ },
       close: vi.fn()
     };
     const fakeReadlineModule = {
@@ -279,7 +279,6 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotSpiral');
     expect(debugString).toContain('calculateDefiniteIntegral');
     expect(debugString).toContain('plotEllipse');
-    // New functions check
     expect(debugString).toContain('plotSigmoid');
     expect(debugString).toContain('plotSinc');
     expect(debugString).toContain('plotReLU');
