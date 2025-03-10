@@ -36,7 +36,7 @@ export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
 Mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
@@ -175,6 +175,12 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
   if (args.includes('--export-png')) {
     // Fixed to output a single concatenated string to match test expectations
     console.log('PNG Output: [stub output for PNG]');
+    return;
+  }
+
+  if (args.includes('--plot-fibonacci')) {
+    const fibSpiral = plotFibonacciSpiralReal();
+    console.log('Fibonacci Spiral Plot Output:', fibSpiral);
     return;
   }
 
