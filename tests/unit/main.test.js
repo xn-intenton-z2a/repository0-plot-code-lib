@@ -41,7 +41,9 @@ const {
   plotSinCosCombinedReal,
   fibonacciSequence,
   plotFibonacciSpiralReal,
-  plotCircularPlotReal
+  plotCircularPlotReal,
+  plotPolarRoseReal,
+  plotStarPolygonReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -346,6 +348,20 @@ describe('Main Function Behaviour', () => {
     spy.mockRestore();
   });
 
+  test('should output Polar Rose plot when --plot-polarrose flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--plot-polarrose']);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Polar Rose Plot Output:'), expect.any(Array));
+    spy.mockRestore();
+  });
+
+  test('should output Star Polygon plot when --plot-starpolygon flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--plot-starpolygon']);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Star Polygon Plot Output:'), expect.any(Array));
+    spy.mockRestore();
+  });
+
   test('should handle unrecognized flag gracefully', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--unknown']);
@@ -389,6 +405,23 @@ describe('Main Function Behaviour', () => {
         expect(point).toHaveProperty('y');
       });
     });
+
+    test('plotPolarRoseReal returns an array of points covering 2π range', () => {
+      const result = plotPolarRoseReal(4, 5, 0.2);
+      expect(result[0]).toHaveProperty('theta');
+      expect(result[result.length - 1].theta).toBeGreaterThanOrEqual(2 * Math.PI - 0.2);
+    });
+
+    test('plotStarPolygonReal returns correct number of points', () => {
+      const numPoints = 5;
+      const result = plotStarPolygonReal({ x: 0, y: 0 }, 5, 2.5, numPoints);
+      expect(result).toHaveLength(numPoints * 2);
+      result.forEach(point => {
+        expect(point).toHaveProperty('theta');
+        expect(point).toHaveProperty('x');
+        expect(point).toHaveProperty('y');
+      });
+    });
   });
 });
 
@@ -422,6 +455,8 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotCustomReal');
     expect(debugString).toContain('plotSinCosCombinedReal');
     expect(debugString).toContain('plotCircularPlotReal');
+    expect(debugString).toContain('plotPolarRoseReal');
+    expect(debugString).toContain('plotStarPolygonReal');
     spy.mockRestore();
   });
 });
