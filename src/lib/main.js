@@ -245,7 +245,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--plot-sincos')) {
-    const sincos = plotSinCosCombinedReal(0, Math.PI, Math.PI/4);
+    const sincos = plotSinCosCombinedReal(0, Math.PI, Math.PI/2);
     console.log('SinCos Combined Plot Output:', sincos);
     return;
   }
@@ -622,7 +622,11 @@ export function plotCustomReal() {
 // New function: combined sine-cosine plot, inline with mission to provide enhanced visualisation
 export function plotSinCosCombinedReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
-  const plot = range.map(x => ({ x, sin: Math.sin(x), cos: Math.cos(x) }));
+  const plot = range.map(x => {
+    const sinVal = Math.sin(x);
+    const cosVal = Math.cos(x);
+    return { x, sin: Math.abs(sinVal) < 1e-10 ? 0 : sinVal, cos: Math.abs(cosVal) < 1e-10 ? 0 : cosVal };
+  });
   console.log('SinCos Combined Plot (real):', plot);
   return plot;
 }
