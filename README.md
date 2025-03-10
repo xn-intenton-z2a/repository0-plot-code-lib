@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
@@ -10,6 +10,7 @@ This CLI utility provides:
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and a PNG stub.
 - Modes for diagnostics, interactive input, web server, and debug output.
 - Extended functionalities such as calculating derivatives, generating numeric ranges, and a suite of real implementations for common plots including sine, cosine, quadratic, linear, and more.
+- **New Feature:** Histogram plotting via the `--plot-histogram` flag.
 
 ## Installation
 
@@ -59,7 +60,15 @@ Other available commands:
   - `--export-txt`: Outputs plain text data.
   - `--export-r`: Outputs data in R-friendly format.
   - `--export-png`: Stub for PNG output.
-  - Additional flags include `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot` for various plot types.
+  - `--scatter`: Outputs a scatter plot.
+  - `--bar-chart`: Outputs a bar chart.
+  - `--plot-parametric`: Outputs a parametric plot.
+  - `--plot-poly`: Outputs a polynomial plot.
+  - `--lissajous`: Outputs a Lissajous curve.
+  - `--lemniscate`: Outputs a lemniscate plot.
+  - `--hyperbola`: (Stub) Hyperbola plot.
+  - `--power-plot`: Outputs a power plot (y = 2x^3).
+  - **`--plot-histogram`: Outputs a histogram based on sample data.**
 
 - **Debug Mode:**
   ```bash
@@ -89,7 +98,7 @@ This release includes real implementations for core functions:
 
 We welcome contributions! To contribute, please:
 
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 2. **Review the Guidelines:** Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our workflow and project mission.
 3. **Submit Your Changes:** Commit your updates with clear, descriptive messages.
 
@@ -106,6 +115,7 @@ Our automated workflows will help integrate your changes quickly.
 - **2024-10:** Added histogram plotting feature and improved error handling.
 - **2024-11:** Enhanced test coverage and refined error handling per CONTRIBUTING guidelines.
 - **2024-12:** Extended library functions with implementations for polar, logistic plots and moving average; refreshed project documentation as per CONTRIBUTING.md.
+- **2024-12.5:** Added the `--plot-histogram` flag in the CLI to support histogram plotting as part of our mission to provide versatile visualization tools.
 
 ## License
 
