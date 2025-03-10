@@ -10,6 +10,7 @@ This CLI utility provides:
 - Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub implementation).
 - Different modes: diagnostic, interactive, web server, and debug mode.
 - Extended debugging with a comprehensive list of plotting functions.
+- Extended library functions with real implementations for calculateDerivative and generateRange.
 
 ## Installation
 
@@ -73,9 +74,16 @@ Other available commands:
 
 For plot parameters, simply pass them as arguments and the CLI will process the request accordingly.
 
+## Extended Library Functions
+
+This release includes real implementations for some library functions:
+
+- **calculateDerivative:** Uses mathjs to compute the derivative of a given expression at a specific value.
+- **generateRange:** Generates a numeric range between two values with a given step.
+
 ## Additional Plotting Functions
 
-This library now includes a range of stub implementations for various plotting and mathematical functions, including a new stub for PNG export. These are intended to be extended in future updates to fully realize our mission statement.
+This library now includes a range of stub implementations for various plotting and mathematical functions, including a stub for PNG export. These are intended to be extended in future updates to fully realize our mission statement.
 
 ## Contributing
 
@@ -92,7 +100,7 @@ We welcome contributions! Please follow these steps:
 
 ## Changelog
 
-- **2023-10:** Extended stub functionality by adding PNG export and refined interactive and export modes in line with the mission statement.
+- **2023-10:** Extended library functions by implementing calculateDerivative and generateRange with real implementations. Refined interactive and export modes in line with the mission statement.
 - **2023-10 (previous):** Brought test coverage near 100% by adding stub implementations for numerous plotting and mathematical functions. Enhanced error handling and refined the CLI modes to fully align with our mission statement.
 
 ## License
