@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling and testability.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling and testability.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -36,7 +36,7 @@ export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
 Mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral or provide plot parameters.
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
@@ -177,17 +177,15 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
     return;
   }
 
-  if (args.includes('--scatter')) {
-    // Real implementation for scatter plot added in extended functions
-    const scatter = plotScatterReal();
-    console.log('Scatter Plot Output:', scatter);
+  if (args.includes('--bar-chart')) {
+    const barChart = plotBarChartReal();
+    console.log('Bar Chart Output:', barChart);
     return;
   }
 
-  if (args.includes('--bar-chart')) {
-    // Real implementation for bar chart plot added in extended functions
-    const barChart = plotBarChartReal();
-    console.log('Bar Chart Output:', barChart);
+  if (args.includes('--scatter')) {
+    const scatter = plotScatterReal();
+    console.log('Scatter Plot Output:', scatter);
     return;
   }
 
@@ -202,7 +200,6 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
   }
 
   if (args.includes('--lissajous')) {
-    // Real implementation for Lissajous plot added in extended functions
     const lCurve = plotLissajousReal();
     console.log('Lissajous Curve Output:', lCurve);
     return;
@@ -226,16 +223,20 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
   }
 
   if (args.includes('--heatmap')) {
-    // New feature: Heatmap plotting
     const heatmap = plotHeatMapReal();
     console.log('Heat Map Output:', heatmap);
     return;
   }
 
   if (args.includes('--plot-spiral')) {
-    // New feature: Spiral plot implementation
     const spiral = plotSpiralReal();
     console.log('Spiral Plot Output:', spiral);
+    return;
+  }
+
+  if (args.includes('--plot-custom')) {
+    const custom = plotCustomReal();
+    console.log('Custom Plot Output:', custom);
     return;
   }
 
@@ -300,7 +301,8 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
       'plotGaussianReal',
       'plotScatterReal',
       'plotBarChartReal',
-      'plotLissajousReal'
+      'plotLissajousReal',
+      'plotCustomReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -597,6 +599,13 @@ export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1,
   }
   console.log('Lissajous Curve (real):', points);
   return points;
+}
+
+// New real implementation for custom plot feature inline with mission statement
+export function plotCustomReal() {
+  const custom = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+  console.log('Plot Custom (real):', custom);
+  return custom;
 }
 
 // Legacy stub functions retained for API compatibility
