@@ -324,14 +324,20 @@ export function calculateDerivative(expr, variable, value) {
 // Extended real implementations aligned with project mission
 export function plotSineReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
-  const plot = range.map(x => ({ x, y: Math.sin(x) }));
+  const plot = range.map(x => {
+    const y = Math.sin(x);
+    return { x, y: Math.abs(y) < 1e-10 ? 0 : y };
+  });
   console.log('Plot Sine (real):', plot);
   return plot;
 }
 
 export function plotCosineReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
-  const plot = range.map(x => ({ x, y: Math.cos(x) }));
+  const plot = range.map(x => {
+    const y = Math.cos(x);
+    return { x, y: Math.abs(y) < 1e-10 ? 0 : y };
+  });
   console.log('Plot Cosine (real):', plot);
   return plot;
 }
