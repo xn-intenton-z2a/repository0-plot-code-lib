@@ -255,6 +255,7 @@ export async function main(argsInput) {
       'exportPlotAsTXT',
       'exportPlotAsR',
       'exportPlotAsPNG',
+      'plotCustom',
       'plotScatter',
       'plotParametric',
       'plotBarChart',
@@ -536,6 +537,7 @@ export const exportPlotAsLaTeX = stubFunction('exportPlotAsLaTeX');
 export const exportPlotAsTXT = stubFunction('exportPlotAsTXT');
 export const exportPlotAsR = stubFunction('exportPlotAsR');
 export const exportPlotAsPNG = stubFunction('exportPlotAsPNG');
+export const plotCustom = stubFunction('plotCustom');
 export const plotScatter = stubFunction('plotScatter');
 export const plotParametric = stubFunction('plotParametric');
 export const plotBarChart = stubFunction('plotBarChart');
@@ -546,7 +548,6 @@ export const plotSpiral = stubFunction('plotSpiral');
 export const plotSigmoid = stubFunction('plotSigmoid');
 export const plotSinc = stubFunction('plotSinc');
 export const calculateDefiniteIntegral = stubFunction('calculateDefiniteIntegral');
-export const plotCustom = stubFunction('plotCustom');
 export const solveQuadraticEquation = stubFunction('solveQuadraticEquation');
 export const plotSinCosCombined = stubFunction('plotSinCosCombined');
 export const interpolateData = stubFunction('interpolateData');
@@ -565,9 +566,16 @@ export const boxPlot = stubFunction('boxPlot');
 export const plotDampedOscillation = stubFunction('plotDampedOscillation');
 export const plotRational = stubFunction('plotRational');
 export const plotStep = stubFunction('plotStep');
+export const plotSigmoidReal = stubFunction('plotSigmoidReal');
+export const plotReLUReal = stubFunction('plotReLUReal');
+export const plotPolarReal = stubFunction('plotPolarReal');
+export const plotLogisticReal = stubFunction('plotLogisticReal');
+export const movingAverageReal = stubFunction('movingAverageReal');
+export const plotHistogramReal = stubFunction('plotHistogramReal');
 
 // CHANGELOG:
 // 2024-11: Enhanced test coverage and error handling in main.js, aligning code with CONTRIBUTING guidelines and extending logging for better debugging.
 // 2024-12: Extended library functions with new implementations: plotPolarReal, plotLogisticReal, movingAverageReal, and plotHistogramReal. Refreshed code comments to align with updated CONTRIBUTING guidelines.
 // 2024-12.5: Added new --plot-histogram flag to demonstrate histogram plotting and updated changelog accordingly.
 // 2024-12.8: Added additional functions: plotSincReal, calculateDefiniteIntegralReal, and plotBezierReal to further extend the library's versatility in line with our mission.
+
