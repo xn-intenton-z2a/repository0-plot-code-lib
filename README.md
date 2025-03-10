@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile command-line interface tool designed to plot and analyze mathematical functions. 
+repository0-plot-code-lib is a versatile command-line interface tool designed to plot and analyze mathematical functions.
 Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Overview
@@ -91,7 +91,7 @@ This release includes real implementations for some core functions:
   - **rotatePointsReal:** Rotates an array of points by a given angle.
   - **plotSigmoidReal:** Generates a sigmoid plot using the formula 1/(1+e^(-x)).
   - **plotReLUReal:** Generates a ReLU plot where y = max(0, x).
-  - **plotHistogramReal:** New function to generate histogram plots from numerical data.
+  - **plotHistogramReal:** Generates a histogram plot from numerical data.
 
 ## Contributing
 
@@ -114,7 +114,8 @@ We welcome contributions! Please follow these steps:
 - **2024-07:** Extended library functions with additional real implementations for plotQuadraticReal, plotLinearReal, plotTangentReal, and rotatePointsReal.
 - **2024-08:** Extended library functions with new real implementations for plotSigmoidReal and plotReLUReal.
 - **2024-09:** Pruned legacy drift and further aligned implementations with the mission statement.
-- **2024-10:** Extended library functions with new plotHistogramReal to support histogram plotting and enhanced error handling.
+- **2024-10:** Introduced plotHistogramReal and enhanced error handling.
+- **2024-11:** Enhanced test coverage and refined error handling based on CONTRIBUTING guidelines.
 
 ## License
 

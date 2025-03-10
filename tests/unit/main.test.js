@@ -364,7 +364,6 @@ describe('Stub Function Tests', () => {
     });
 
     test('calculateDerivative should compute derivative correctly', () => {
-      // For expr 'x^2', derivative is 2*x; at x=3, should be 6
       const derivativeValue = calculateDerivative('x^2', 'x', 3);
       expect(derivativeValue).toBeCloseTo(6);
     });
@@ -435,7 +434,7 @@ describe('Stub Function Tests', () => {
 
     test('rotatePointsReal rotates points correctly', () => {
       const points = [{ x: 1, y: 0 }, { x: 0, y: 1 }];
-      const angle = Math.PI / 2; // 90 degrees
+      const angle = Math.PI / 2;
       const rotated = rotatePointsReal(points, angle);
       expect(rotated[0].x).toBeCloseTo(0);
       expect(rotated[0].y).toBeCloseTo(1);
@@ -460,9 +459,6 @@ describe('Stub Function Tests', () => {
     });
 
     test('plotHistogramReal computes histogram plot correctly', () => {
-      // For data [1,2,2,3,4] and binCount = 3
-      // min = 1, max = 4, binSize = 1, bins: [1,2), [2,3), [3,4]
-      // values: 1 -> bin0, 2 and 2 -> bin1, 3 -> bin2, 4 (max) -> bin2
       const data = [1, 2, 2, 3, 4];
       const histogram = plotHistogramReal(data, 3);
       expect(histogram).toEqual([1, 2, 2]);
