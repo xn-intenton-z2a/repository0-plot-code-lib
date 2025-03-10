@@ -63,7 +63,7 @@ This release provides real implementations for:
 
 ## Changelog
 
-- **2024-12.11:** Enhanced test coverage and improved mocking of external dependencies, refined error handling, pruned legacy drift; extended plotting features including a new heatmap visualization option.
+- **2024-12.11:** Updated source file per mission statement: pruned legacy drift, extended plotting features (including the heatmap visualization), improved error handling, and enhanced test coverage.
 
 ## Contributing
 
