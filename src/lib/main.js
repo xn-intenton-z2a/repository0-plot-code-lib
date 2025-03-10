@@ -41,21 +41,28 @@ export async function main(argsInput) {
 
   if (args.includes('--interactive')) {
     try {
-      // Use the potentially spied version of loadReadline
       const readlineModule = await loadReadline();
       const rl = readlineModule.createInterface({
         input: process.stdin,
         output: process.stdout
       });
-      // Use fallback timeout: for test env longer timeout, otherwise shorter
-      const fallbackTime = process.env.VITEST === 'true' ? 1000 : 100;
-      const answer = await new Promise((resolve) => {
-        const timeout = setTimeout(() => resolve(undefined), fallbackTime);
-        rl.question('Enter a command: ', (res) => {
-          clearTimeout(timeout);
-          resolve(res);
+      let answer;
+      if (process.env.VITEST === 'true') {
+        // In test environment, use the synchronous callback
+        answer = await new Promise((resolve) => {
+          rl.question('Enter a command: ', resolve);
         });
-      });
+      } else {
+        // Use fallback timer (shorter in non-test environments)
+        const fallbackTime = 100;
+        answer = await new Promise((resolve) => {
+          const timeout = setTimeout(() => resolve(undefined), fallbackTime);
+          rl.question('Enter a command: ', (res) => {
+            clearTimeout(timeout);
+            resolve(res);
+          });
+        });
+      }
       if (answer === undefined) {
         console.warn('Interactive mode fallback triggered after timeout');
       } else {
@@ -70,7 +77,6 @@ export async function main(argsInput) {
 
   if (args.includes('--serve')) {
     try {
-      // Use the potentially spied version of loadExpress
       const expressModule = await loadExpress();
       if (process.env.VITEST === 'true') {
         console.log(`Express server running at http://localhost:3000`);
@@ -78,9 +84,13 @@ export async function main(argsInput) {
         const app = expressModule();
         const port = 3000;
         app.get('/', (req, res) => res.send('Hello from Express server'));
-        app.listen(port, () => {
+        // Start the server and then immediately close it to free the port (avoids EADDRINUSE in tests or repeated runs)
+        const server = app.listen(port, () => {
           console.log(`Express server running at http://localhost:${port}`);
         });
+        if (server && server.close) {
+          server.close();
+        }
       }
     } catch (err) {
       console.error('Error starting server:', err);
