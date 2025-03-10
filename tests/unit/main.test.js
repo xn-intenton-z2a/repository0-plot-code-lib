@@ -40,7 +40,8 @@ const {
   plotCustomReal,
   plotSinCosCombinedReal,
   fibonacciSequence,
-  plotFibonacciSpiralReal
+  plotFibonacciSpiralReal,
+  plotCircularPlotReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -54,7 +55,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -63,7 +64,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--help']);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -338,6 +339,13 @@ describe('Main Function Behaviour', () => {
     spy.mockRestore();
   });
 
+  test('should output Circular plot when --plot-circle flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--plot-circle']);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'), expect.any(Array));
+    spy.mockRestore();
+  });
+
   test('should handle unrecognized flag gracefully', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--unknown']);
@@ -369,6 +377,17 @@ describe('Main Function Behaviour', () => {
         { x: Math.PI/2, sin: 1, cos: 0 },
         { x: Math.PI, sin: 0, cos: -1 }
       ]);
+    });
+
+    test('plotCircularPlotReal returns correct number of circle points', () => {
+      const steps = 36;
+      const result = plotCircularPlotReal({ x: 0, y: 0 }, 5, steps);
+      expect(result).toHaveLength(steps);
+      result.forEach(point => {
+        expect(point).toHaveProperty('theta');
+        expect(point).toHaveProperty('x');
+        expect(point).toHaveProperty('y');
+      });
     });
   });
 });
@@ -402,6 +421,7 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotLissajousReal');
     expect(debugString).toContain('plotCustomReal');
     expect(debugString).toContain('plotSinCosCombinedReal');
+    expect(debugString).toContain('plotCircularPlotReal');
     spy.mockRestore();
   });
 });
