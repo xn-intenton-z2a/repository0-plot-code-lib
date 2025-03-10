@@ -23,17 +23,35 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to &quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot; This project is built following automated workflows and agentic contribution guidelines.</p>
+<p class="md-github">repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Built to be the &quot;jq of formulae visualisations,&quot; it offers a rich set of plotting options and output formats while aligning with our core mission and updated CONTRIBUTING guidelines.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">This CLI utility provides:</p>
 <ul class="md-github">
-<li class="md-github">Plotting of various mathematical functions including quadratic, linear, sine, cosine, exponential, logarithmic, Lissajous curves, and more (with many stub implementations to support future enhancements).</li>
-<li class="md-github">Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub implementation).</li>
-<li class="md-github">Different modes: diagnostic, interactive, web server, and debug mode.</li>
-<li class="md-github">Extended debugging with a comprehensive list of plotting functions.</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate plots for functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and many more. Advanced visualizations include scatter plots, bar charts, Lissajous curves, spiral, circular and custom plots.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Multiple Output Formats:</strong> Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Interactive and Server Modes:</strong> Enjoy interactive CLI input or run a lightweight Express server for a live demonstration of the plotting capabilities.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Extended Function Library:</strong> Includes real implementations for derivative calculation, range generation, and various plotting features, while retaining legacy stubs for backward compatibility.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">New Features:</strong></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Fibonacci Spiral, Combined Sin-Cos Plotting</strong></li>
+<li class="md-github"><strong class="md-github">Circular Plotting (--plot-circle)</strong></li>
+<li class="md-github"><strong class="md-github">Advanced Visualizations:</strong> Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate plots.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Improved Test Coverage:</strong> Enhanced mocks and test structure now bring test coverage near 100%.</p>
+</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js (v20 or higher)</p>
+<p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js v20 or higher</p>
 <p class="md-github">Install via npm:</p>
 <pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
 </code></pre>
@@ -59,22 +77,12 @@
 </code></pre>
 </li>
 <li class="md-github">
-<p class="md-github"><strong class="md-github">Plot/Export Flags:</strong></p>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">--plot-abs</code>: Outputs an absolute plot of sin(x).</li>
-<li class="md-github"><code class="md-github">--export-csv</code>: Outputs CSV formatted plot data.</li>
-<li class="md-github"><code class="md-github">--export-md</code>: Outputs a Markdown table.</li>
-<li class="md-github"><code class="md-github">--export-json</code>: Outputs JSON data.</li>
-<li class="md-github"><code class="md-github">--export-html</code>: Outputs an HTML table.</li>
-<li class="md-github"><code class="md-github">--export-ascii</code>: Outputs an ASCII formatted table.</li>
-<li class="md-github"><code class="md-github">--export-svg</code>: Outputs SVG content.</li>
-<li class="md-github"><code class="md-github">--export-xml</code>: Outputs XML data.</li>
-<li class="md-github"><code class="md-github">--export-latex</code>: Outputs a LaTeX formatted table.</li>
-<li class="md-github"><code class="md-github">--export-txt</code>: Outputs plain text.</li>
-<li class="md-github"><code class="md-github">--export-r</code>: Outputs data in R-friendly format.</li>
-<li class="md-github"><code class="md-github">--export-png</code>: Outputs a PNG formatted plot (stub implementation).</li>
-<li class="md-github"><code class="md-github">--scatter</code>, <code class="md-github">--bar-chart</code>, <code class="md-github">--plot-parametric</code>, <code class="md-github">--plot-poly</code>, <code class="md-github">--lissajous</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--hyperbola</code>, <code class="md-github">--power-plot</code>: Demonstrate various plot types.</li>
-</ul>
+<p class="md-github"><strong class="md-github">Plot/Export Flags:</strong>
+Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-github">--export-csv</code>, <code class="md-github">--export-md</code>, etc., to generate specific plot outputs.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Advanced Visualizations:</strong>
+Explore plots using flags like <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--heatmap</code>, <code class="md-github">--plot-spiral</code>, <code class="md-github">--plot-circle</code>, <code class="md-github">--plot-polarrose</code>, <code class="md-github">--plot-starpolygon</code>, and <code class="md-github">--lemniscate</code>.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Debug Mode:</strong></p>
@@ -82,41 +90,47 @@
 </code></pre>
 </li>
 <li class="md-github">
-<p class="md-github"><strong class="md-github">Help:</strong></p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --help
-</code></pre>
+<p class="md-github"><strong class="md-github">Custom Plot Parameters:</strong>
+Pass parameters directly as command-line arguments.</p>
 </li>
 </ul>
-<p class="md-github">For plot parameters, simply pass them as arguments and the CLI will process the request accordingly.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="additional-plotting-functions" href="#additional-plotting-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Plotting Functions</h2>
-<p class="md-github">This library now includes a range of stub implementations for various plotting and mathematical functions, including a new stub for PNG export. These are intended to be extended in future updates to fully realize our mission statement.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p class="md-github">We welcome contributions! Please follow these steps:</p>
-<ol class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Open an Issue:</strong><br>
-Describe your idea or report a bug by opening an issue. Label it as <code class="md-github">automated</code> if applicable.</p>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Review CONTRIBUTING Guidelines:</strong>
-Follow the instructions in <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> to adhere to our automated workflows.</p>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Submit Your Changes:</strong>
-Commit your changes with clear messages and ensure your code aligns with the project mission.</p>
-</li>
-</ol>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">2023-10:</strong> Extended stub functionality by adding PNG export and refined interactive and export modes in line with the mission statement.</li>
-<li class="md-github"><strong class="md-github">2023-10 (previous):</strong> Brought test coverage near 100% by adding stub implementations for numerous plotting and mathematical functions. Enhanced error handling and refined the CLI modes to fully align with our mission statement.</li>
+<li class="md-github"><strong class="md-github">0.7.79 (Latest):</strong>
+<ul class="md-github">
+<li class="md-github">Extended functionalities with new spiral, circular, and custom plotting features.</li>
+<li class="md-github">Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).</li>
+<li class="md-github">Introduced new circular plotting with flag --plot-circle.</li>
+<li class="md-github"><strong class="md-github">New:</strong> Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate (--lemniscate) plotting functions.</li>
+<li class="md-github">Pruned legacy drift to align with the mission statement.</li>
+<li class="md-github"><strong class="md-github">TEST:</strong> Improved test coverage by adding beforeEach hooks and exporting a resetOverrides utility.</li>
+<li class="md-github"><strong class="md-github">REFRESH:</strong> Updated README to reflect changes and the updated CONTRIBUTING guidelines.</li>
 </ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
+<p class="md-github">We welcome contributions! Follow these steps:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Open an Issue:</strong>
+Provide a description of your idea, bug report, or improvement by opening an issue in our repository.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Review Guidelines:</strong>
+See <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for details of our contribution process.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Submit a Pull Request:</strong>
+Ensure your changes include clear commit messages and sufficient test coverage. Adhere to our automated workflow standards.</p>
+</li>
+</ol>
+<p class="md-github">Your contributions help drive repository0-plot-code-lib towards being the definitive CLI plotting tool.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-10T04:19:54.727Z</p>
+    <p>Generated on 2025-03-10T22:50:11.290Z</p>
   </footer>
 </body>
 </html>
