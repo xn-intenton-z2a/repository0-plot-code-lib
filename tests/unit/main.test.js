@@ -369,19 +369,19 @@ describe('Stub Function Tests', () => {
     });
 
     test('plotSineReal computes sine plot correctly', () => {
-      const plot = plotSineReal(0, Math.PI, Math.PI/2);
+      const plot = plotSineReal(0, Math.PI, Math.PI / 2);
       expect(plot).toEqual([
         { x: 0, y: 0 },
-        { x: Math.PI/2, y: 1 },
+        { x: Math.PI / 2, y: 1 },
         { x: Math.PI, y: 0 }
       ]);
     });
 
     test('plotCosineReal computes cosine plot correctly', () => {
-      const plot = plotCosineReal(0, Math.PI, Math.PI/2);
+      const plot = plotCosineReal(0, Math.PI, Math.PI / 2);
       expect(plot).toEqual([
         { x: 0, y: 1 },
-        { x: Math.PI/2, y: 0 },
+        { x: Math.PI / 2, y: 0 },
         { x: Math.PI, y: -1 }
       ]);
     });
@@ -423,18 +423,18 @@ describe('Stub Function Tests', () => {
     });
 
     test('plotTangentReal computes tangent plot correctly', () => {
-      const plot = plotTangentReal(0, Math.PI/4, Math.PI/8);
+      const plot = plotTangentReal(0, Math.PI / 4, Math.PI / 8);
       const expected = [
         { x: 0, y: 0 },
-        { x: Math.PI/8, y: Math.tan(Math.PI/8) },
-        { x: Math.PI/4, y: Math.tan(Math.PI/4) }
+        { x: Math.PI / 8, y: Math.tan(Math.PI / 8) },
+        { x: Math.PI / 4, y: Math.tan(Math.PI / 4) }
       ];
       expect(plot).toEqual(expected);
     });
 
     test('rotatePointsReal rotates points correctly', () => {
       const points = [{ x: 1, y: 0 }, { x: 0, y: 1 }];
-      const angle = Math.PI/2; // 90 degrees
+      const angle = Math.PI / 2; // 90 degrees
       const rotated = rotatePointsReal(points, angle);
       expect(rotated[0].x).toBeCloseTo(0);
       expect(rotated[0].y).toBeCloseTo(1);
