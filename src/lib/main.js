@@ -156,7 +156,8 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
+    // Updated LaTeX output with proper escaping
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 

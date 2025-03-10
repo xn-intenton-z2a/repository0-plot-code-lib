@@ -77,7 +77,7 @@ describe('Main Function Behaviour', () => {
     const spyWarn = vi.spyOn(console, 'warn');
 
     const fakeInterface = {
-      question: (_prompt, _callback) => { /* no callback invocation to simulate timeout */ },
+      question: (_prompt, _callback) => { /* simulate no answer */ },
       close: vi.fn()
     };
     const fakeReadlineModule = {
