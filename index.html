@@ -23,17 +23,17 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">repository0-plot-code-lib is a CLI for plotting and analyzing mathematical functions. Our mission is to &quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot; This repository is built following automated workflows and agentic guidelines.</p>
+<p class="md-github">repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to &quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot; This project is built following automated workflows and agentic contribution guidelines.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">This utility offers:</p>
+<p class="md-github">This CLI utility provides:</p>
 <ul class="md-github">
-<li class="md-github">Robust mathematical function plotting for various mathematical functions including quadratic, linear, sinusoidal, exponential, and more.</li>
+<li class="md-github">Plotting of various mathematical functions including quadratic, linear, sine, cosine, exponential, logarithmic, Lissajous curves, and more.</li>
 <li class="md-github">Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R.</li>
-<li class="md-github">Multiple modes such as diagnostic, interactive, web server, and debug mode.</li>
-<li class="md-github">Extended debugging with a comprehensive list of available plotting functions.</li>
+<li class="md-github">Different modes: diagnostic, interactive, web server, and debug mode.</li>
+<li class="md-github">Extended debugging with a comprehensive list of plotting functions.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p class="md-github">Prerequisites: Node.js (v20 or higher).</p>
+<p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js (v20 or higher)</p>
 <p class="md-github">Install via npm:</p>
 <pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
 </code></pre>
@@ -43,56 +43,76 @@
 </code></pre>
 <p class="md-github">Other available commands:</p>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Diagnostics:</strong><pre class="md-github"><code class="md-github language-bash">npm run diagnostics
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Diagnostics:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">npm run diagnostics
 </code></pre>
 </li>
-<li class="md-github"><strong class="md-github">Interactive Mode:</strong><pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
 </code></pre>
 </li>
-<li class="md-github"><strong class="md-github">Web Server Mode:</strong><pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Web Server Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
 </code></pre>
 </li>
-<li class="md-github"><strong class="md-github">Plot/Export Flags:</strong>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Plot/Export Flags:</strong></p>
 <ul class="md-github">
 <li class="md-github"><code class="md-github">--plot-abs</code>: Outputs an absolute plot of sin(x).</li>
 <li class="md-github"><code class="md-github">--export-csv</code>: Outputs CSV formatted plot data.</li>
-<li class="md-github"><code class="md-github">--export-md</code>: Outputs Markdown table format.</li>
+<li class="md-github"><code class="md-github">--export-md</code>: Outputs a Markdown table.</li>
 <li class="md-github"><code class="md-github">--export-json</code>: Outputs JSON data.</li>
-<li class="md-github"><code class="md-github">--export-html</code>: Outputs HTML table.</li>
-<li class="md-github"><code class="md-github">--export-ascii</code>: Outputs ASCII formatted table.</li>
+<li class="md-github"><code class="md-github">--export-html</code>: Outputs an HTML table.</li>
+<li class="md-github"><code class="md-github">--export-ascii</code>: Outputs an ASCII formatted table.</li>
 <li class="md-github"><code class="md-github">--export-svg</code>: Outputs SVG content.</li>
 <li class="md-github"><code class="md-github">--export-xml</code>: Outputs XML data.</li>
-<li class="md-github"><code class="md-github">--export-latex</code>: Outputs LaTeX table.</li>
+<li class="md-github"><code class="md-github">--export-latex</code>: Outputs a LaTeX formatted table.</li>
 <li class="md-github"><code class="md-github">--export-txt</code>: Outputs plain text.</li>
-<li class="md-github"><code class="md-github">--export-r</code>: Outputs R-friendly format.</li>
-<li class="md-github"><code class="md-github">--scatter</code>, <code class="md-github">--bar-chart</code>, <code class="md-github">--plot-parametric</code>, <code class="md-github">--plot-poly</code>, <code class="md-github">--lissajous</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--hyperbola</code>, <code class="md-github">--power-plot</code>: Demos for various plot types.</li>
+<li class="md-github"><code class="md-github">--export-r</code>: Outputs data in R-friendly format.</li>
+<li class="md-github"><code class="md-github">--scatter</code>, <code class="md-github">--bar-chart</code>, <code class="md-github">--plot-parametric</code>, <code class="md-github">--plot-poly</code>, <code class="md-github">--lissajous</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--hyperbola</code>, <code class="md-github">--power-plot</code>: Demonstrate various plot types.</li>
 </ul>
 </li>
-<li class="md-github"><strong class="md-github">Debug Mode:</strong><pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --debug
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Debug Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --debug
 </code></pre>
 </li>
-<li class="md-github"><strong class="md-github">Help:</strong><pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --help
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Help:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --help
 </code></pre>
 </li>
 </ul>
-<p class="md-github">For plot parameters, simply pass the parameters as arguments and the CLI will process them.</p>
+<p class="md-github">For plot parameters, simply pass them as arguments and the CLI will process the request accordingly.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">We welcome contributions! Please follow these steps:</p>
 <ol class="md-github">
-<li class="md-github">Open an issue describing your suggestion or bug and label it as <code class="md-github">automated</code> if applicable.</li>
-<li class="md-github">Follow the instructions in <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> to adhere to our automated workflows.</li>
-<li class="md-github">Submit your changes following the guidelines.</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Open an Issue:</strong>
+Describe your idea or report a bug by opening an issue. Label it as <code class="md-github">automated</code> if applicable.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Review CONTRIBUTING Guidelines:</strong>
+Follow the instructions in <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> to adhere to our automated workflows.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Submit Your Changes:</strong>
+Commit your changes with clear messages and ensure your code aligns with the project mission.</p>
+</li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">2023-10:</strong> Refreshed README and contributing guidelines to align with the project's mission and automated contribution process.</li>
+<li class="md-github"><strong class="md-github">2023-10:</strong> Updated README to align with CONTRIBUTING guidelines and refreshed content to better reflect the project mission.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-10T03:32:11.262Z</p>
+    <p>Generated on 2025-03-10T03:40:14.153Z</p>
   </footer>
 </body>
 </html>
