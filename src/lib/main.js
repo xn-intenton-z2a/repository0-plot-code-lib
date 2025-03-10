@@ -1,7 +1,10 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling, testability, added Fibonacci spiral plotting, and added combined sine-cosine plotting.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities,
+// improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, and added combined sine-cosine plotting.
+// 
+// NOTE: Updated per CONTRIBUTING.md guidelines to ensure our source code remains inline with our mission and contribution process.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -13,7 +16,7 @@ export const overrides = {
   loadReadlineOverride: undefined
 };
 
-// Module loader for Express
+// Module loader for Express with enhanced error reporting
 export async function loadExpress() {
   try {
     const express = (await import('express')).default;
@@ -23,7 +26,7 @@ export async function loadExpress() {
   }
 }
 
-// Module loader for Readline
+// Module loader for Readline with enhanced error reporting
 export async function loadReadline() {
   try {
     return { createInterface };
@@ -612,14 +615,14 @@ export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1,
   return points;
 }
 
-// New real implementation for custom plot feature inline with mission statement
+// New real implementation for custom plot
 export function plotCustomReal() {
   const custom = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
   console.log('Plot Custom (real):', custom);
   return custom;
 }
 
-// New function: combined sine-cosine plot, inline with mission to provide enhanced visualisation
+// New function: combined sine-cosine plot
 export function plotSinCosCombinedReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
