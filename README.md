@@ -72,21 +72,21 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.77 (Latest):**
+- **0.7.78 (Latest):**
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
   - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate (--lemniscate) plotting functions.
-  - Pruned legacy drift to remove outdated code paths and align with our mission.
-  - Refined module loader error handling and updated test coverage as per CONTRIBUTING guidelines.
-  - README refreshed to align with the latest contributing guidelines.
+  - Pruned legacy drift in the source file to align with our mission statement and updated contributing guidelines.
+  - Refined module loader error handling and updated test coverage per CONTRIBUTING guidelines.
+  - README and documentation refreshed to match the latest guidelines.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
 1. **Open an Issue:**
-   Describe your idea, bug, or improvement by opening an issue in our repository.
+   Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 
 2. **Review Guidelines:**
    Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed information on our contribution process.
