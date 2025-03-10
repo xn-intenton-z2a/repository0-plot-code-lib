@@ -91,7 +91,8 @@ We welcome contributions! Please follow these steps:
 
 ## Changelog
 
-- **2023-10:** Brought test coverage near 100% by adding stub implementations for numerous plotting and mathematical functions. Enhanced error handling and refined the CLI modes to fully align with our mission statement.
+- **2023-10:** Updated source code to align with the mission statement and pruned code drift. Extended stub functions to embody the project goals.
+- **2023-10 (previous):** Brought test coverage near 100% by adding stub implementations for numerous plotting and mathematical functions. Enhanced error handling and refined the CLI modes to fully align with our mission statement.
 
 ## License
 
