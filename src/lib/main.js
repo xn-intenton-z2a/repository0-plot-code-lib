@@ -2,7 +2,7 @@
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last Updated 2024-12.12: Extended functionalities with new spiral, circular and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting and pruned legacy drift per CONTRIBUTING.md guidelines.
-// Updated: Refined error handling and logging for module loaders; refreshed inline documentation and header comments to reference the updated README and contributing guidelines.
+// Updated: Refined error handling and logging for module loaders; refreshed inline documentation and header comments to reference the updated README and contributing guidelines. New plotting functions added: Polar Rose and Star Polygon.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -35,7 +35,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -211,7 +211,9 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--lemniscate')) {
-    console.log('Lemniscate Plot Output:', [{ t: 0, x: 0, y: 0 }, { t: 1, x: 1, y: -1 }]);
+    // Extended real implementation for lemniscate plot
+    const lemniscate = plotLemniscateReal();
+    console.log('Lemniscate Plot Output:', lemniscate);
     return;
   }
 
@@ -254,6 +256,18 @@ export async function main(argsInput) {
   if (args.includes('--plot-circle')) {
     const circle = plotCircularPlotReal({ x: 0, y: 0 }, 5, 36);
     console.log('Circular Plot Output:', circle);
+    return;
+  }
+
+  if (args.includes('--plot-polarrose')) {
+    const rose = plotPolarRoseReal(4, 5, 0.1);
+    console.log('Polar Rose Plot Output:', rose);
+    return;
+  }
+
+  if (args.includes('--plot-starpolygon')) {
+    const star = plotStarPolygonReal({ x: 0, y: 0 }, 5, 2.5, 5);
+    console.log('Star Polygon Plot Output:', star);
     return;
   }
 
@@ -321,7 +335,9 @@ export async function main(argsInput) {
       'plotLissajousReal',
       'plotCustomReal',
       'plotSinCosCombinedReal',
-      'plotCircularPlotReal'
+      'plotCircularPlotReal',
+      'plotPolarRoseReal',
+      'plotStarPolygonReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -467,7 +483,7 @@ export function plotHistogramReal(data, binCount = 5) {
 export function plotPolarReal(thetaStart, thetaEnd, step = 0.1) {
   const points = [];
   for (let theta = thetaStart; theta <= thetaEnd; theta += step) {
-    points.push({ theta, r: theta });
+    points.push({ theta, r: theta, x: theta * Math.cos(theta), y: theta * Math.sin(theta) });
   }
   console.log('Polar Plot (real):', points);
   return points;
@@ -529,6 +545,23 @@ export function plotHyperbolaReal(rangeStart, rangeEnd, step = 1) {
   });
   console.log('Plot Hyperbola (real):', plot);
   return plot;
+}
+
+// New real implementation: Lemniscate plot
+export function plotLemniscateReal(steps = 100, a = 5) {
+  const points = [];
+  for (let i = 0; i <= steps; i++) {
+    const theta = (2 * Math.PI * i) / steps;
+    const cos2theta = Math.cos(2 * theta);
+    if (cos2theta >= 0) {
+      const r = a * Math.sqrt(cos2theta);
+      points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta) });
+    } else {
+      points.push({ theta, x: null, y: null });
+    }
+  }
+  console.log('Lemniscate Plot Output:', points);
+  return points;
 }
 
 export function plotEllipseReal(a = 1, b = 1, step = Math.PI / 6) {
@@ -672,6 +705,30 @@ export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps 
     points.push({ theta, x: center.x + radius * Math.cos(theta), y: center.y + radius * Math.sin(theta) });
   }
   console.log('Circular Plot (real):', points);
+  return points;
+}
+
+// New function: Polar Rose Plot - plots a rose curve
+export function plotPolarRoseReal(petals = 4, radius = 5, step = 0.1) {
+  const points = [];
+  for (let theta = 0; theta <= 2 * Math.PI; theta += step) {
+    const r = radius * Math.cos(petals * theta);
+    points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta) });
+  }
+  console.log('Polar Rose Plot (real):', points);
+  return points;
+}
+
+// New function: Star Polygon Plot - plots a star polygon
+export function plotStarPolygonReal(center = { x: 0, y: 0 }, outerRadius = 5, innerRadius = 2.5, numPoints = 5) {
+  const points = [];
+  const angleStep = Math.PI / numPoints;
+  for (let i = 0; i < 2 * numPoints; i++) {
+    const r = (i % 2 === 0) ? outerRadius : innerRadius;
+    const theta = i * angleStep;
+    points.push({ theta, x: center.x + r * Math.cos(theta), y: center.y + r * Math.sin(theta) });
+  }
+  console.log('Star Polygon Plot (real):', points);
   return points;
 }
 
