@@ -59,17 +59,17 @@ This release provides real implementations for:
 
 ## Changelog
 
-- **2024-12.10:** Refreshed documentation and header comments to align with CONTRIBUTING.md guidelines. Updated and pruned legacy details while extending core plotting functionalities.
+- **2024-12.10:** Documentation and header comments refreshed to align with CONTRIBUTING.md guidelines. Legacy details were pruned and core plotting functionalities extended to stay true to our mission.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Describe your idea or bug in the repository's issue tracker.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement in our issue tracker.
 2. **Review Guidelines:** Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our workflow and project mission.
-3. **Submit Your Changes:** Commit your improvements with clear, descriptive messages.
+3. **Submit Your Changes:** Commit your improvements with clear, descriptive messages. Automation processes help integrate your contributions smoothly.
 
-Contributions are automated through our intentïon agentic‑lib workflows. Thank you for helping improve repository0-plot-code-lib!
+Thank you for helping improve repository0-plot-code-lib!
 
 ## License
 

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.10: Refined implementation and documentation per CONTRIBUTING.md guidelines.
+// Updated 2024-12.10: Aligned implementation and documentation with CONTRIBUTING.md guidelines; pruned legacy drift.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -209,7 +209,6 @@ export async function main(argsInput) {
     return;
   }
 
-  // New feature: Histogram plotting flag inline with our mission for versatile visualization tools
   if (args.includes('--plot-histogram')) {
     const sampleData = [1, 2, 3, 2, 5, 4, 3, 2];
     const histogram = plotHistogramReal(sampleData, 4);
