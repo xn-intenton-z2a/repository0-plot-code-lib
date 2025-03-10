@@ -504,5 +504,4 @@ export const boxPlot = stubFunction("boxPlot");
 export const plotDampedOscillation = stubFunction("plotDampedOscillation");
 export const plotRational = stubFunction("plotRational");
 export const plotStep = stubFunction("plotStep");
-export const plotSigmoidReal = plotSigmoidReal; // already exported above
-export const plotReLUReal = plotReLUReal;
+// Duplicate export lines for plotSigmoidReal and plotReLUReal removed as they are already exported above
