@@ -41,20 +41,19 @@ export async function main(argsInput) {
 
   if (args.includes('--interactive')) {
     try {
+      // Use the potentially spied version of loadReadline
       const readlineModule = await loadReadline();
       const rl = readlineModule.createInterface({
         input: process.stdin,
         output: process.stdout
       });
-      // Use a fallback timeout depending on environment
+      // Use fallback timeout: for test env longer timeout, otherwise shorter
       const fallbackTime = process.env.VITEST === 'true' ? 1000 : 100;
-      const answer = await Promise.race([
-        new Promise((resolve) => rl.question('Enter a command: ', resolve)),
-        new Promise((resolve) => setTimeout(() => resolve(null), fallbackTime))
-      ]);
-      // Ensure pending microtasks are resolved
-      await Promise.resolve();
-      if (answer === null) {
+      const answer = await new Promise((resolve) => {
+        rl.question('Enter a command: ', resolve);
+        setTimeout(() => resolve(undefined), fallbackTime);
+      });
+      if (answer === undefined) {
         console.warn('Interactive mode fallback triggered after timeout');
       } else {
         console.log(`Received plot command: ${answer}`);
@@ -68,6 +67,7 @@ export async function main(argsInput) {
 
   if (args.includes('--serve')) {
     try {
+      // Use the potentially spied version of loadExpress
       const expressModule = await loadExpress();
       if (process.env.VITEST === 'true') {
         console.log(`Express server running at http://localhost:3000`);
