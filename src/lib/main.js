@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting and pruned legacy drift per CONTRIBUTING.md guidelines.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, circular and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting and pruned legacy drift per CONTRIBUTING.md guidelines.
 // Updated: Refined error handling and logging for module loaders; refreshed inline documentation and header comments to reference the updated README and contributing guidelines.
 
 import { fileURLToPath } from 'url';
@@ -35,7 +35,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -251,6 +251,12 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-circle')) {
+    const circle = plotCircularPlotReal({ x: 0, y: 0 }, 5, 36);
+    console.log('Circular Plot Output:', circle);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'plotQuadratic',
@@ -314,7 +320,8 @@ export async function main(argsInput) {
       'plotBarChartReal',
       'plotLissajousReal',
       'plotCustomReal',
-      'plotSinCosCombinedReal'
+      'plotSinCosCombinedReal',
+      'plotCircularPlotReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -632,7 +639,7 @@ export function plotSinCosCombinedReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New functions added to extend library in the spirit of our contribution guidelines
+// New function added to extend library in the spirit of our contribution guidelines
 
 export function fibonacciSequence(n) {
   if (n < 1) return [];
@@ -654,6 +661,17 @@ export function plotFibonacciSpiralReal(steps = 10, scale = 0.1) {
     return { theta, x: r * Math.cos(theta), y: r * Math.sin(theta) };
   });
   console.log('Fibonacci Spiral Plot (real):', points);
+  return points;
+}
+
+// New function: Circular plot - plots points on a circle given a center and radius
+export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps = 36) {
+  const points = [];
+  for (let i = 0; i < steps; i++) {
+    const theta = (2 * Math.PI * i) / steps;
+    points.push({ theta, x: center.x + radius * Math.cos(theta), y: center.y + radius * Math.sin(theta) });
+  }
+  console.log('Circular Plot (real):', points);
   return points;
 }
 
