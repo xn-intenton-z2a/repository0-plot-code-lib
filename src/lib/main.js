@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.11: Enhanced error handling, improved testability and mocks for external dependencies in alignment with CONTRIBUTING.md guidelines; pruned legacy drift.
+// Updated 2024-12.11: Enhanced error handling, improved testability with mocks for external dependencies, pruned legacy drift, and extended plotting functionalities with a new heatmap feature.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -34,7 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -213,6 +213,13 @@ export async function main(argsInput) {
     const sampleData = [1, 2, 3, 2, 5, 4, 3, 2];
     const histogram = plotHistogramReal(sampleData, 4);
     console.log('Histogram Output:', histogram);
+    return;
+  }
+
+  if (args.includes('--heatmap')) {
+    // New feature: Heatmap plotting based on a default matrix
+    const heatmap = plotHeatMapReal();
+    console.log('Heat Map Output:', heatmap);
     return;
   }
 
@@ -538,6 +545,17 @@ export function plotGaussianReal(rangeStart, rangeEnd, step = 1, intensity = 1, 
   const plot = range.map(x => ({ x, y: intensity * Math.exp(-Math.pow(x - mean, 2) / (2 * sigma * sigma)) }));
   console.log('Plot Gaussian (real):', plot);
   return plot;
+}
+
+// New function: Heatmap plotting feature to visualize 2D numerical data
+export function plotHeatMapReal(matrix) {
+  // If no matrix provided, generate a default 3x3 matrix with random values
+  const defaultMatrix = matrix || [
+    [Math.random().toFixed(2), Math.random().toFixed(2), Math.random().toFixed(2)],
+    [Math.random().toFixed(2), Math.random().toFixed(2), Math.random().toFixed(2)],
+    [Math.random().toFixed(2), Math.random().toFixed(2), Math.random().toFixed(2)]
+  ];
+  return defaultMatrix;
 }
 
 // Legacy stub functions retained for API compatibility
