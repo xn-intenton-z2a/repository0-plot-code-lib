@@ -27,7 +27,10 @@ const {
   calculateDefiniteIntegralReal,
   plotBezierReal,
   plotHyperbolaReal,
-  plotEllipseReal
+  plotEllipseReal,
+  plotCubicReal,
+  movingMedianReal,
+  plotGaussianReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -102,7 +105,7 @@ describe('Main Function Behaviour', () => {
     const spyWarn = vi.spyOn(console, 'warn');
 
     const fakeInterface = {
-      question: (_prompt, _callback) => { /* simulate no answer */ },
+      question: (_prompt, _callback) => {},
       close: vi.fn()
     };
     const fakeReadlineModule = {
@@ -324,6 +327,9 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotHistogramReal');
     expect(debugString).toContain('plotHyperbolaReal');
     expect(debugString).toContain('plotEllipseReal');
+    expect(debugString).toContain('plotCubicReal');
+    expect(debugString).toContain('movingMedianReal');
+    expect(debugString).toContain('plotGaussianReal');
     spy.mockRestore();
   });
 });
@@ -527,10 +533,6 @@ describe('Stub Function Tests', () => {
       expect(result).toEqual(points);
     });
 
-  });
-
-  // Additional Extended Function Implementations Tests
-  describe('Additional Extended Function Implementations', () => {
     test('plotHyperbolaReal computes hyperbola plot correctly', () => {
       const plot = plotHyperbolaReal(1, 3, 1);
       expect(plot).toEqual([
@@ -542,10 +544,32 @@ describe('Stub Function Tests', () => {
 
     test('plotEllipseReal computes ellipse coordinates correctly', () => {
       const plot = plotEllipseReal(1, 2, Math.PI/2);
-      // Check that the plot has at least three points and first point equals {x: 1, y: 0}
       expect(plot.length).toBeGreaterThanOrEqual(3);
       expect(plot[0]).toEqual({ x: 1, y: 0 });
     });
-  });
 
+    // Additional New Function Tests
+    test('plotCubicReal computes cubic plot correctly', () => {
+      const plot = plotCubicReal(0, 2, 1, 1, 0, 0, 0);
+      expect(plot).toEqual([
+        { x: 0, y: 0 },
+        { x: 1, y: 1 },
+        { x: 2, y: 8 }
+      ]);
+    });
+
+    test('movingMedianReal computes moving median correctly', () => {
+      const data = [5, 2, 8, 3, 7];
+      const result = movingMedianReal(data, 3);
+      // For window sizes: [5,2,8] median is 5, [2,8,3] median is 3, [8,3,7] median is 7
+      expect(result).toEqual([5, 3, 7]);
+    });
+
+    test('plotGaussianReal computes gaussian plot correctly', () => {
+      const plot = plotGaussianReal(-1, 1, 1, 1, 0, 1);
+      // Expect the center value (x=0) to be highest
+      expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === -1).y);
+      expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === 1).y);
+    });
+  });
 });
