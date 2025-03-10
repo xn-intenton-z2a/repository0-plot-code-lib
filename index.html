@@ -28,7 +28,7 @@
 <p class="md-github">This CLI utility provides:</p>
 <ul class="md-github">
 <li class="md-github">Plotting of various mathematical functions including quadratic, linear, sine, cosine, exponential, logarithmic, Lissajous curves, and more (with many stub implementations to support future enhancements).</li>
-<li class="md-github">Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R.</li>
+<li class="md-github">Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub implementation).</li>
 <li class="md-github">Different modes: diagnostic, interactive, web server, and debug mode.</li>
 <li class="md-github">Extended debugging with a comprehensive list of plotting functions.</li>
 </ul>
@@ -72,6 +72,7 @@
 <li class="md-github"><code class="md-github">--export-latex</code>: Outputs a LaTeX formatted table.</li>
 <li class="md-github"><code class="md-github">--export-txt</code>: Outputs plain text.</li>
 <li class="md-github"><code class="md-github">--export-r</code>: Outputs data in R-friendly format.</li>
+<li class="md-github"><code class="md-github">--export-png</code>: Outputs a PNG formatted plot (stub implementation).</li>
 <li class="md-github"><code class="md-github">--scatter</code>, <code class="md-github">--bar-chart</code>, <code class="md-github">--plot-parametric</code>, <code class="md-github">--plot-poly</code>, <code class="md-github">--lissajous</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--hyperbola</code>, <code class="md-github">--power-plot</code>: Demonstrate various plot types.</li>
 </ul>
 </li>
@@ -88,7 +89,7 @@
 </ul>
 <p class="md-github">For plot parameters, simply pass them as arguments and the CLI will process the request accordingly.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="additional-plotting-functions" href="#additional-plotting-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Plotting Functions</h2>
-<p class="md-github">This library now includes a range of stub implementations for various plotting and mathematical functions. These are intended to be extended in future updates to fully realize our mission statement.</p>
+<p class="md-github">This library now includes a range of stub implementations for various plotting and mathematical functions, including a new stub for PNG export. These are intended to be extended in future updates to fully realize our mission statement.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">We welcome contributions! Please follow these steps:</p>
 <ol class="md-github">
@@ -107,7 +108,7 @@ Commit your changes with clear messages and ensure your code aligns with the pro
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">2023-10:</strong> Updated source code to align with the mission statement and pruned code drift. Extended stub functions to embody the project goals.</li>
+<li class="md-github"><strong class="md-github">2023-10:</strong> Extended stub functionality by adding PNG export and refined interactive and export modes in line with the mission statement.</li>
 <li class="md-github"><strong class="md-github">2023-10 (previous):</strong> Brought test coverage near 100% by adding stub implementations for numerous plotting and mathematical functions. Enhanced error handling and refined the CLI modes to fully align with our mission statement.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
@@ -115,7 +116,7 @@ Commit your changes with clear messages and ensure your code aligns with the pro
 
   </section>
   <footer>
-    <p>Generated on 2025-03-10T04:07:35.849Z</p>
+    <p>Generated on 2025-03-10T04:19:54.727Z</p>
   </footer>
 </body>
 </html>
