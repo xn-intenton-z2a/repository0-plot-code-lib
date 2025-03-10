@@ -101,7 +101,7 @@ We welcome contributions! Please follow these steps:
 ## Changelog
 
 - **2023-10:** Extended library functions by implementing calculateDerivative and generateRange with real implementations. Refined interactive and export modes in line with the mission statement.
-- **2023-10 (previous):** Brought test coverage near 100% by adding stub implementations for numerous plotting and mathematical functions. Enhanced error handling and refined the CLI modes to fully align with our mission statement.
+- **2023-11:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
 
 ## License
 
