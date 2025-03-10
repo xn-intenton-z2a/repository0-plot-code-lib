@@ -95,7 +95,7 @@ export async function main(argsInput) {
         const app = expressModule();
         const port = 3000;
         app.get('/', (req, res) => res.send('Hello from Express server'));
-        // Start the server and then immediately close it to free the port (avoids EADDRINUSE in tests or repeated runs)
+        // Start the server and then immediately close it to free the port
         const server = app.listen(port, () => {
           console.log(`Express server running at http://localhost:${port}`);
         });

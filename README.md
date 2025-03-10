@@ -57,7 +57,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored interactive mode override hooks to a mutable object for improved testability; added --help flag and updated test coverage and error handling in module loaders.
+- **2023-10:** Refactored interactive mode override hooks to a mutable object for improved testability; added --help flag; increased test coverage; updated error handling in module loaders.
 
 ## License
 
