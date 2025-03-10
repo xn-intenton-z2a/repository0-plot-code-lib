@@ -40,7 +40,6 @@ describe('Main Function Behaviour', () => {
 
     const fakeInterface = {
       question: (_prompt, callback) => {
-        // Call callback immediately without process.nextTick to simulate immediate input
         callback('simulated plot command');
       },
       close: vi.fn()
@@ -262,7 +261,7 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotSpiral');
     expect(debugString).toContain('calculateDefiniteIntegral');
     expect(debugString).toContain('plotEllipse');
-    // New functions
+    // New functions check
     expect(debugString).toContain('plotSigmoid');
     expect(debugString).toContain('plotSinc');
     expect(debugString).toContain('plotReLU');

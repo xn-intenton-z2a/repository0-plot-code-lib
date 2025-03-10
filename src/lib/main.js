@@ -5,7 +5,7 @@ import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
 import { createInterface } from 'readline';
 
-// Helper functions to simulate module loading
+// Module loader for Express
 export async function loadExpress() {
   try {
     const express = (await import('express')).default;
@@ -15,9 +15,10 @@ export async function loadExpress() {
   }
 }
 
+// Module loader for Readline
 export async function loadReadline() {
   try {
-    // For simplicity, using the native readline
+    // Use native readline module
     return { createInterface };
   } catch (err) {
     throw new Error('Failed to load readline: ' + err.message);
@@ -40,23 +41,19 @@ export async function main(argsInput) {
 
   if (args.includes('--interactive')) {
     try {
-      // Dynamically import to pick up any spy overrides
-      const { loadReadline } = await import(import.meta.url);
       const readlineModule = await loadReadline();
       const rl = readlineModule.createInterface({
         input: process.stdin,
         output: process.stdout
       });
-      // Use a Promise.race to handle user input vs fallback timeout
+      // Use a fallback timeout depending on environment
       const fallbackTime = process.env.VITEST === 'true' ? 1000 : 100;
       const answer = await Promise.race([
         new Promise((resolve) => rl.question('Enter a command: ', resolve)),
         new Promise((resolve) => setTimeout(() => resolve(null), fallbackTime))
       ]);
-
-      // Flush microtasks to ensure any pending callbacks are processed
+      // Ensure pending microtasks are resolved
       await Promise.resolve();
-
       if (answer === null) {
         console.warn('Interactive mode fallback triggered after timeout');
       } else {
@@ -71,10 +68,8 @@ export async function main(argsInput) {
 
   if (args.includes('--serve')) {
     try {
-      // Dynamically import to pick up any spy overrides
-      const { loadExpress } = await import(import.meta.url);
       const expressModule = await loadExpress();
-      if (process.env.VITEST) {
+      if (process.env.VITEST === 'true') {
         console.log(`Express server running at http://localhost:3000`);
       } else {
         const app = expressModule();
@@ -186,24 +181,77 @@ export async function main(argsInput) {
 
   if (args.includes('--debug')) {
     const funcs = [
-      'plotQuadratic', 'calculateDerivative', 'calculateArea', 'plotLinear', 'plotSine', 'plotCosine',
-      'rotatePoints', 'plotExponential', 'plotLogarithmic', 'movingAverage', 'plotTangent', 'reflectPoints',
-      'scalePoints', 'plotSqrt', 'plotPolar', 'plotAbsolute', 'generateRange', 'plotDerivative', 'offsetPoints',
-      'plotLogistic', 'plotCubic', 'calculateStandardDeviation', 'calculateCorrelation', 'plotHyperbolic',
-      'calculateExponentialMovingAverage', 'plotGaussian', 'exportPlotAsCSV', 'exportPlotAsMarkdown',
-      'exportPlotAsJSON', 'exportPlotAsHTML', 'exportPlotAsASCII', 'exportPlotAsSVG', 'exportPlotAsXML',
-      'exportPlotAsLaTeX', 'exportPlotAsTXT', 'exportPlotAsR', 'plotScatter', 'plotParametric',
-      'plotBarChart', 'plotEllipse', 'plotPolynomial', 'plotModulatedSine', 'plotSpiral', 'plotSigmoid',
-      'plotSinc', 'calculateDefiniteIntegral', 'plotCustom', 'solveQuadraticEquation', 'plotSinCosCombined',
-      'interpolateData', 'plotBezier', 'plotLissajous', 'plotBessel', 'plotHyperbola', 'plotLemniscate',
-      'plotPower', 'plotReLU', 'movingMedian', 'plotInverse', 'cumulativeSum', 'plotLogLog', 'boxPlot',
-      'plotDampedOscillation', 'plotRational', 'plotStep'
+      'plotQuadratic',
+      'calculateDerivative',
+      'calculateArea',
+      'plotLinear',
+      'plotSine',
+      'plotCosine',
+      'rotatePoints',
+      'plotExponential',
+      'plotLogarithmic',
+      'movingAverage',
+      'plotTangent',
+      'reflectPoints',
+      'scalePoints',
+      'plotSqrt',
+      'plotPolar',
+      'plotAbsolute',
+      'generateRange',
+      'plotDerivative',
+      'offsetPoints',
+      'plotLogistic',
+      'plotCubic',
+      'calculateStandardDeviation',
+      'calculateCorrelation',
+      'plotHyperbolic',
+      'calculateExponentialMovingAverage',
+      'plotGaussian',
+      'exportPlotAsCSV',
+      'exportPlotAsMarkdown',
+      'exportPlotAsJSON',
+      'exportPlotAsHTML',
+      'exportPlotAsASCII',
+      'exportPlotAsSVG',
+      'exportPlotAsXML',
+      'exportPlotAsLaTeX',
+      'exportPlotAsTXT',
+      'exportPlotAsR',
+      'plotScatter',
+      'plotParametric',
+      'plotBarChart',
+      'plotEllipse',
+      'plotPolynomial',
+      'plotModulatedSine',
+      'plotSpiral',
+      'plotSigmoid',
+      'plotSinc',
+      'calculateDefiniteIntegral',
+      'plotCustom',
+      'solveQuadraticEquation',
+      'plotSinCosCombined',
+      'interpolateData',
+      'plotBezier',
+      'plotLissajous',
+      'plotBessel',
+      'plotHyperbola',
+      'plotLemniscate',
+      'plotPower',
+      'plotReLU',
+      'movingMedian',
+      'plotInverse',
+      'cumulativeSum',
+      'plotLogLog',
+      'boxPlot',
+      'plotDampedOscillation',
+      'plotRational',
+      'plotStep'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
   }
 
-  // If no known flag is matched, then process as plot parameters.
+  // Process as plot parameters if no flag matched
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
 

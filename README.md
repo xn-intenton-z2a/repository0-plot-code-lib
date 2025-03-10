@@ -40,7 +40,7 @@ Other available modes include:
   - `--export-csv`: Outputs CSV formatted plot data.
   - `--export-md`: Outputs Markdown table format.
   - `--export-json`: Outputs JSON data.
-  - `--export-html`: Outputs HTML table. *(Note: HTML, ASCII, SVG, and XML outputs are concatenated into a single string for consistency.)*
+  - `--export-html`: Outputs HTML table.
   - `--export-ascii`: Outputs ASCII formatted table.
   - `--export-svg`: Outputs SVG content.
   - `--export-xml`: Outputs XML data.
@@ -55,8 +55,8 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored CLI to support dynamic importing of module loaders in interactive and server modes to improve testability and adhere to the mission statement.
-- **2023-10:** Updated interactive mode to ensure proper resolution of user input and fixed error handling in both interactive and server modes.
+- **2023-10:** Refactored CLI to use direct module loader function calls in interactive and serve modes for better testability and clearer error handling.
+- **2023-10:** Enhanced test coverage and updated debug mode to include an extended list of plotting functions to align with the mission statement.
 
 ## License
 
