@@ -264,10 +264,11 @@ export async function main(argsInput) {
       'plotModulatedSine',
       'plotSpiral',
       'plotSigmoid',
-      'plotSincReal',
-      'calculateDefiniteIntegralReal',
-      'plotBezierReal',
+      'plotSinc',
+      'calculateDefiniteIntegral',
+      'plotBezier',
       'plotLissajous',
+      'plotBessel',
       'plotHyperbola',
       'plotLemniscate',
       'plotPower',
@@ -280,8 +281,10 @@ export async function main(argsInput) {
       'plotDampedOscillation',
       'plotRational',
       'plotStep',
-      'plotSigmoidReal',
-      'plotReLUReal',
+      // Real implementations debug functions
+      'plotSincReal',
+      'calculateDefiniteIntegralReal',
+      'plotBezierReal',
       'plotPolarReal',
       'plotLogisticReal',
       'movingAverageReal',
@@ -467,8 +470,6 @@ export function movingAverageReal(data, windowSize = 3) {
   return averages;
 }
 
-// New additional functions added per CONTRIBUTING.md spirit
-
 // New function: Plot Sinc using sinc function (sin(x)/x) with handling x=0
 export function plotSincReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
@@ -566,16 +567,4 @@ export const boxPlot = stubFunction('boxPlot');
 export const plotDampedOscillation = stubFunction('plotDampedOscillation');
 export const plotRational = stubFunction('plotRational');
 export const plotStep = stubFunction('plotStep');
-export const plotSigmoidReal = stubFunction('plotSigmoidReal');
-export const plotReLUReal = stubFunction('plotReLUReal');
-export const plotPolarReal = stubFunction('plotPolarReal');
-export const plotLogisticReal = stubFunction('plotLogisticReal');
-export const movingAverageReal = stubFunction('movingAverageReal');
-export const plotHistogramReal = stubFunction('plotHistogramReal');
-
-// CHANGELOG:
-// 2024-11: Enhanced test coverage and error handling in main.js, aligning code with CONTRIBUTING guidelines and extending logging for better debugging.
-// 2024-12: Extended library functions with new implementations: plotPolarReal, plotLogisticReal, movingAverageReal, and plotHistogramReal. Refreshed code comments to align with updated CONTRIBUTING guidelines.
-// 2024-12.5: Added new --plot-histogram flag to demonstrate histogram plotting and updated changelog accordingly.
-// 2024-12.8: Added additional functions: plotSincReal, calculateDefiniteIntegralReal, and plotBezierReal to further extend the library's versatility in line with our mission.
-
+// Removed duplicate stub definitions for functions with real implementations: plotSigmoidReal, plotReLUReal, plotPolarReal, plotLogisticReal, movingAverageReal, plotHistogramReal
