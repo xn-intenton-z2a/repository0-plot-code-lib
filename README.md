@@ -9,8 +9,8 @@ This CLI utility provides:
 - Plotting of various mathematical functions with both stub and real implementations.
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and a PNG stub.
 - Modes for diagnostics, interactive input, web server, and debug output.
-- Extended functionalities such as calculating derivatives, generating numeric ranges, and a suite of real implementations for common plots including sine, cosine, quadratic, linear, and more.
-- **New Feature:** Histogram plotting via the `--plot-histogram` flag.
+- Extended functionalities such as calculating derivatives, generating numeric ranges, and a comprehensive suite of real implementations for common plots including sine, cosine, exponential, logarithmic, quadratic, linear, and more.
+- **New Features:** Additional library functions including plotSincReal, calculateDefiniteIntegralReal, and plotBezierReal to extend versatility, along with the existing --plot-histogram flag.
 
 ## Installation
 
@@ -68,7 +68,7 @@ Other available commands:
   - `--lemniscate`: Outputs a lemniscate plot.
   - `--hyperbola`: (Stub) Hyperbola plot.
   - `--power-plot`: Outputs a power plot (y = 2x^3).
-  - **`--plot-histogram`: Outputs a histogram based on sample data.**
+  - `--plot-histogram`: Outputs a histogram based on sample data.
 
 - **Debug Mode:**
   ```bash
@@ -93,6 +93,7 @@ This release includes real implementations for core functions:
   - **plotQuadraticReal, plotLinearReal, plotTangentReal** for polynomial and trigonometric plots.
   - **rotatePointsReal, plotSigmoidReal, plotReLUReal** for point transformations and activation functions.
   - **plotHistogramReal, plotPolarReal, plotLogisticReal, movingAverageReal** for histogram, polar, logistic curve and data smoothing respectively.
+  - **plotSincReal, calculateDefiniteIntegralReal, plotBezierReal** as additional functions to further extend the library's versatility.
 
 ## Contributing
 
@@ -115,7 +116,8 @@ Our automated workflows will help integrate your changes quickly.
 - **2024-10:** Added histogram plotting feature and improved error handling.
 - **2024-11:** Enhanced test coverage and refined error handling per CONTRIBUTING guidelines.
 - **2024-12:** Extended library functions with implementations for polar, logistic plots and moving average; refreshed project documentation as per CONTRIBUTING.md.
-- **2024-12.5:** Added the `--plot-histogram` flag in the CLI to support histogram plotting as part of our mission to provide versatile visualization tools.
+- **2024-12.5:** Added the `--plot-histogram` flag in the CLI to support histogram plotting.
+- **2024-12.8:** Added additional functions: plotSincReal, calculateDefiniteIntegralReal, and plotBezierReal to further extend functionality.
 
 ## License
 

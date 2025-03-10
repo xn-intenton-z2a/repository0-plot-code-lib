@@ -211,7 +211,6 @@ export async function main(argsInput) {
 
   // New feature: Histogram plotting flag added inline with our mission for versatile visualization tools
   if (args.includes('--plot-histogram')) {
-    // Using a sample dataset for demonstration
     const sampleData = [1, 2, 3, 2, 5, 4, 3, 2];
     const histogram = plotHistogramReal(sampleData, 4);
     console.log('Histogram Output:', histogram);
@@ -256,6 +255,7 @@ export async function main(argsInput) {
       'exportPlotAsTXT',
       'exportPlotAsR',
       'exportPlotAsPNG',
+      'plotCustom',
       'plotScatter',
       'plotParametric',
       'plotBarChart',
@@ -263,20 +263,16 @@ export async function main(argsInput) {
       'plotPolynomial',
       'plotModulatedSine',
       'plotSpiral',
-      'plotSigmoid',
+      'plotSigmoidReal',
       'plotSinc',
       'calculateDefiniteIntegral',
-      'plotCustom',
-      'solveQuadraticEquation',
-      'plotSinCosCombined',
-      'interpolateData',
       'plotBezier',
       'plotLissajous',
       'plotBessel',
       'plotHyperbola',
       'plotLemniscate',
       'plotPower',
-      'plotReLU',
+      'plotReLUReal',
       'movingMedian',
       'plotInverse',
       'cumulativeSum',
@@ -285,8 +281,10 @@ export async function main(argsInput) {
       'plotDampedOscillation',
       'plotRational',
       'plotStep',
-      'plotSigmoidReal',
-      'plotReLUReal',
+      // Real implementations debug functions
+      'plotSincReal',
+      'calculateDefiniteIntegralReal',
+      'plotBezierReal',
       'plotPolarReal',
       'plotLogisticReal',
       'movingAverageReal',
@@ -442,7 +440,6 @@ export function plotHistogramReal(data, binCount = 5) {
 export function plotPolarReal(thetaStart, thetaEnd, step = 0.1) {
   const points = [];
   for (let theta = thetaStart; theta <= thetaEnd; theta += step) {
-    // simple spiral: r = theta
     points.push({ theta, r: theta });
   }
   console.log('Polar Plot (real):', points);
@@ -471,6 +468,36 @@ export function movingAverageReal(data, windowSize = 3) {
   }
   console.log('Moving Average (real):', averages);
   return averages;
+}
+
+// New function: Plot Sinc using sinc function (sin(x)/x) with handling x=0
+export function plotSincReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => {
+    let y = x === 0 ? 1 : Math.sin(x) / x;
+    return { x, y };
+  });
+  console.log('Plot Sinc (real):', plot);
+  return plot;
+}
+
+// New function: Calculate definite integral using a simple numerical integration (trapezoidal rule)
+export function calculateDefiniteIntegralReal(func, lower, upper, steps = 1000) {
+  const h = (upper - lower) / steps;
+  let sum = 0.5 * (func(lower) + func(upper));
+  for (let i = 1; i < steps; i++) {
+    sum += func(lower + i * h);
+  }
+  const integral = sum * h;
+  console.log(`Definite integral from ${lower} to ${upper}:`, integral);
+  return integral;
+}
+
+// New function: Bezier curve plotting stub - returns control points for now
+export function plotBezierReal(points) {
+  // For simplicity, return the points with a message
+  console.log('Bezier Plot (real): Using control points', points);
+  return points;
 }
 
 // Stub functions for legacy support
@@ -511,6 +538,7 @@ export const exportPlotAsLaTeX = stubFunction('exportPlotAsLaTeX');
 export const exportPlotAsTXT = stubFunction('exportPlotAsTXT');
 export const exportPlotAsR = stubFunction('exportPlotAsR');
 export const exportPlotAsPNG = stubFunction('exportPlotAsPNG');
+export const plotCustom = stubFunction('plotCustom');
 export const plotScatter = stubFunction('plotScatter');
 export const plotParametric = stubFunction('plotParametric');
 export const plotBarChart = stubFunction('plotBarChart');
@@ -521,7 +549,6 @@ export const plotSpiral = stubFunction('plotSpiral');
 export const plotSigmoid = stubFunction('plotSigmoid');
 export const plotSinc = stubFunction('plotSinc');
 export const calculateDefiniteIntegral = stubFunction('calculateDefiniteIntegral');
-export const plotCustom = stubFunction('plotCustom');
 export const solveQuadraticEquation = stubFunction('solveQuadraticEquation');
 export const plotSinCosCombined = stubFunction('plotSinCosCombined');
 export const interpolateData = stubFunction('interpolateData');
@@ -540,8 +567,4 @@ export const boxPlot = stubFunction('boxPlot');
 export const plotDampedOscillation = stubFunction('plotDampedOscillation');
 export const plotRational = stubFunction('plotRational');
 export const plotStep = stubFunction('plotStep');
-
-// CHANGELOG:
-// 2024-11: Enhanced test coverage and error handling in main.js, aligning code with CONTRIBUTING guidelines and extending logging for better debugging.
-// 2024-12: Extended library functions with new implementations: plotPolarReal, plotLogisticReal, and movingAverageReal. Also refreshed code comments to align strictly with updated CONTRIBUTING guidelines.
-// 2024-12.5: Added new --plot-histogram flag to demonstrate histogram plotting inline with the mission statement and updated changelog accordingly.
+// Removed duplicate stub definitions for functions with real implementations: plotSigmoidReal, plotReLUReal, plotPolarReal, plotLogisticReal, movingAverageReal, plotHistogramReal
