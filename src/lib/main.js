@@ -19,7 +19,7 @@ export async function loadExpress() {
     const express = (await import('express')).default;
     return express;
   } catch (err) {
-    throw new Error('Failed to load express: ' + err.message);
+    throw new Error('Failed to load express: ' + (err && err.message ? err.message : err));
   }
 }
 
@@ -29,16 +29,16 @@ export async function loadReadline() {
     // Use native readline module
     return { createInterface };
   } catch (err) {
-    throw new Error('Failed to load readline: ' + err.message);
+    throw new Error('Failed to load readline: ' + (err && err.message ? err.message : err));
   }
 }
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = "Welcome to repository0-plot-code-lib CLI!\n" +
-    "Our mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
-    "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
-    "For contribution guidelines, please refer to CONTRIBUTING.md.";
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!
+Our mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.
+For contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {

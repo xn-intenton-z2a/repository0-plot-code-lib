@@ -359,19 +359,18 @@ describe('Stub Function Tests', () => {
     expect(spy).toHaveBeenCalledWith('plotQuadratic stub executed');
     spy.mockRestore();
   });
-});
 
-// Extended Function Implementations Tests
+  // Extended Function Implementations Tests
+  describe('Extended Function Implementations', () => {
+    test('generateRange should return proper range', () => {
+      const range = generateRange(1, 5);
+      expect(range).toEqual([1, 2, 3, 4, 5]);
+    });
 
-describe('Extended Function Implementations', () => {
-  test('generateRange should return proper range', () => {
-    const range = generateRange(1, 5);
-    expect(range).toEqual([1, 2, 3, 4, 5]);
-  });
-
-  test('calculateDerivative should compute derivative correctly', () => {
-    // For expr 'x^2', derivative is 2*x; at x=3, should be 6
-    const derivativeValue = calculateDerivative('x^2', 'x', 3);
-    expect(derivativeValue).toBeCloseTo(6);
+    test('calculateDerivative should compute derivative correctly', () => {
+      // For expr 'x^2', derivative is 2*x; at x=3, should be 6
+      const derivativeValue = calculateDerivative('x^2', 'x', 3);
+      expect(derivativeValue).toBeCloseTo(6);
+    });
   });
 });

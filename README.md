@@ -102,6 +102,7 @@ We welcome contributions! Please follow these steps:
 
 - **2023-10:** Extended library functions by implementing calculateDerivative and generateRange with real implementations. Refined interactive and export modes in line with the mission statement.
 - **2023-11:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
+- **2023-12:** Improved test coverage to near 100% and enhanced error handling in module loaders, along with minor code refinements per contribution guidelines.
 
 ## License
 
