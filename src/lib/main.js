@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.9: Refined source functionality, pruned legacy drift, and extended plotting functions (hyperbola and ellipse) per CONTRIBUTING.md guidelines.
+// Updated 2024-12.10: Extended library functions with real implementations for hyperbola, ellipse, cubic, gaussian and moving median plot functions. Refined source functionality and pruned legacy drift per CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -238,12 +238,12 @@ export async function main(argsInput) {
       'plotDerivative',
       'offsetPoints',
       'plotLogistic',
-      'plotCubic',
+      'plotCubicReal',
       'calculateStandardDeviation',
       'calculateCorrelation',
       'plotHyperbolic',
       'calculateExponentialMovingAverage',
-      'plotGaussian',
+      'plotGaussianReal',
       'exportPlotAsCSV',
       'exportPlotAsMarkdown',
       'exportPlotAsJSON',
@@ -272,7 +272,10 @@ export async function main(argsInput) {
       'movingAverageReal',
       'plotHistogramReal',
       'plotHyperbolaReal',
-      'plotEllipseReal'
+      'plotEllipseReal',
+      'plotCubicReal',
+      'movingMedianReal',
+      'plotGaussianReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -502,6 +505,40 @@ export function plotEllipseReal(a = 1, b = 1, step = Math.PI / 6) {
   }
   console.log('Ellipse Plot (real):', points);
   return points;
+}
+
+// Additional new real implementations
+// New function: Plot Cubic using y = ax^3 + bx^2 + cx + d
+export function plotCubicReal(rangeStart, rangeEnd, step = 1, a = 1, b = 0, c = 0, d = 0) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d }));
+  console.log('Plot Cubic (real):', plot);
+  return plot;
+}
+
+// New function: Moving Median for data smoothing
+export function movingMedianReal(data, windowSize = 3) {
+  if (!Array.isArray(data) || data.length < windowSize) {
+    console.error('movingMedianReal: invalid data or window size');
+    return [];
+  }
+  const medians = [];
+  for (let i = 0; i <= data.length - windowSize; i++) {
+    const window = data.slice(i, i + windowSize);
+    const sorted = [...window].sort((a, b) => a - b);
+    const median = sorted[Math.floor(windowSize / 2)];
+    medians.push(median);
+  }
+  console.log('Moving Median (real):', medians);
+  return medians;
+}
+
+// New function: Plot Gaussian using the Gaussian function
+export function plotGaussianReal(rangeStart, rangeEnd, step = 1, intensity = 1, mean = 0, sigma = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: intensity * Math.exp(-Math.pow(x - mean, 2) / (2 * sigma * sigma)) }));
+  console.log('Plot Gaussian (real):', plot);
+  return plot;
 }
 
 // Legacy stub functions retained for API compatibility

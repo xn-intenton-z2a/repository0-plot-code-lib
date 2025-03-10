@@ -9,12 +9,13 @@ This CLI utility provides:
 - Plotting of various mathematical functions using both stub and real implementations.
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and a PNG stub.
 - Modes for diagnostics, interactive input, web server, and debug output.
-- Extended functionalities such as derivative calculations, numeric range generation, and real implementations for many mathematical plots including sine, cosine, exponential, logarithmic, quadratic, linear, and more.
+- Extended functionalities such as derivative calculations, numeric range generation, and real implementations for many mathematical plots including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, sigmoid, histogram, polar, logistic, cubic, gaussian, and moving median.
 
 **New Features:**
 
 - Histogram plotting using the `--plot-histogram` flag.
 - Real implementations for hyperbola and ellipse plotting (`plotHyperbolaReal` and `plotEllipseReal`).
+- New real implementations for cubic plotting (`plotCubicReal`), gaussian plotting (`plotGaussianReal`), and data smoothing using moving median (`movingMedianReal`).
 
 ## Installation
 
@@ -98,7 +99,19 @@ This release includes real implementations for core functions:
   - **rotatePointsReal, plotSigmoidReal, plotReLUReal** for point transformations and activation functions.
   - **plotHistogramReal, plotPolarReal, plotLogisticReal, movingAverageReal** for histogram, polar, logistic plots and data smoothing.
   - **plotSincReal, calculateDefiniteIntegralReal, plotBezierReal** for additional advanced plotting capabilities.
-  - **plotHyperbolaReal, plotEllipseReal:** New implementations for hyperbola and ellipse plotting.
+  - **plotHyperbolaReal, plotEllipseReal:** Real implementations for hyperbola and ellipse plotting.
+  - **plotCubicReal, plotGaussianReal, movingMedianReal:** New implementations for cubic and gaussian plots along with a moving median function for data smoothing.
+
+## Changelog
+
+- **2024-01:** Refreshed README to align with updated contribution guidelines and remove outdated content.
+- **2024-04:** Pruned legacy drift and reinforced the mission statement in the source code.
+- **2024-05:** Extended library functions for standard plots (sine, cosine, exponential, and logarithmic).
+- **2024-07:** Added real quadratic, linear, tangent plots, and point rotation implementations.
+- **2024-08:** Introduced real implementations for sigmoid and ReLU plots.
+- **2024-09:** Added histogram plotting feature and improved error handling.
+- **2024-12:** Extended functions with polar, logistic plots and moving average; refreshed documentation as per CONTRIBUTING.md.
+- **2024-12.10:** Added new real implementations for plotCubicReal, plotGaussianReal and movingMedianReal, further extending the library's capabilities.
 
 ## Contributing
 
@@ -111,17 +124,6 @@ We welcome contributions! Please follow these steps:
 3. **Submit Your Changes:** Commit your updates with clear, descriptive messages.
 
 Our automated workflows will help integrate your changes quickly.
-
-## Changelog
-
-- **2024-01:** Refreshed README to align with updated contribution guidelines and remove outdated content.
-- **2024-04:** Pruned legacy drift and reinforced the mission statement in the source code.
-- **2024-05:** Extended library functions for standard plots (sine, cosine, exponential, and logarithmic).
-- **2024-07:** Added real quadratic, linear, tangent plots, and point rotation implementations.
-- **2024-08:** Introduced real implementations for sigmoid and ReLU plots.
-- **2024-09:** Added histogram plotting feature and improved error handling.
-- **2024-12:** Extended functions with polar, logistic plots and moving average; refreshed documentation as per CONTRIBUTING.md.
-- **2024-12.9:** Extended functions with real hyperbola and ellipse plotting, updated debug information, and refreshed this README to fully align with CONTRIBUTING.md guidelines.
 
 ## License
 
