@@ -4,14 +4,15 @@ import * as mainModule from '@src/lib/main.js';
 const {
   main,
   loadExpress,
-  loadReadline
+  loadReadline,
+  overrides
   // other functions can be imported if needed
 } = mainModule;
 
 // Helper to reset overrides after tests
 function resetOverrides() {
-  mainModule.loadExpressOverride = undefined;
-  mainModule.loadReadlineOverride = undefined;
+  overrides.loadExpressOverride = undefined;
+  overrides.loadReadlineOverride = undefined;
 }
 
 // Main Function Behaviour Tests
@@ -54,7 +55,7 @@ describe('Main Function Behaviour', () => {
       createInterface: () => fakeInterface
     };
 
-    mainModule.loadReadlineOverride = () => Promise.resolve(fakeReadlineModule);
+    overrides.loadReadlineOverride = () => Promise.resolve(fakeReadlineModule);
 
     await main(['--interactive']);
     expect(spy).toHaveBeenCalledWith('Received plot command: simulated plot command');
@@ -76,7 +77,7 @@ describe('Main Function Behaviour', () => {
       createInterface: () => fakeInterface
     };
 
-    mainModule.loadReadlineOverride = () => Promise.resolve(fakeReadlineModule);
+    overrides.loadReadlineOverride = () => Promise.resolve(fakeReadlineModule);
 
     vi.useFakeTimers();
     const promise = main(['--interactive']);
@@ -101,7 +102,7 @@ describe('Main Function Behaviour', () => {
         }
       };
     };
-    mainModule.loadExpressOverride = () => Promise.resolve({ default: fakeExpress } ) || fakeExpress;
+    overrides.loadExpressOverride = () => Promise.resolve({ default: fakeExpress });
 
     process.env.VITEST = 'true';
     await main(['--serve']);
@@ -113,7 +114,7 @@ describe('Main Function Behaviour', () => {
   test('should catch error and print error message when express fails in --serve mode', async () => {
     const spy = vi.spyOn(console, 'error');
     process.env.VITEST = '';
-    mainModule.loadExpressOverride = () => Promise.reject(new Error('express failure'));
+    overrides.loadExpressOverride = () => Promise.reject(new Error('express failure'));
     await main(['--serve']);
     expect(spy).toHaveBeenCalledWith('Error starting server:', expect.any(Error));
     spy.mockRestore();
@@ -305,7 +306,7 @@ describe('Module Loading Helpers', () => {
 
 describe('Error Handling for module loaders', () => {
   test('loadReadline should handle failure gracefully', async () => {
-    mainModule.loadReadlineOverride = () => Promise.reject(new Error('readline failure'));
+    overrides.loadReadlineOverride = () => Promise.reject(new Error('readline failure'));
     const spyError = vi.spyOn(console, 'error');
     await main(['--interactive']);
     expect(spyError).toHaveBeenCalledWith('Error loading readline module:', expect.any(Error));
@@ -314,7 +315,7 @@ describe('Error Handling for module loaders', () => {
   });
 
   test('loadExpress should handle failure gracefully', async () => {
-    mainModule.loadExpressOverride = () => Promise.reject(new Error('express failure'));
+    overrides.loadExpressOverride = () => Promise.reject(new Error('express failure'));
     const spyError = vi.spyOn(console, 'error');
     process.env.VITEST = '';
     await main(['--serve']);

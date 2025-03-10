@@ -5,9 +5,11 @@ import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
 import { createInterface } from 'readline';
 
-// Export override hooks for testing purposes
-export let loadExpressOverride;
-export let loadReadlineOverride;
+// Export override hooks for testing purposes via a mutable object
+export const overrides = {
+  loadExpressOverride: undefined,
+  loadReadlineOverride: undefined
+};
 
 // Module loader for Express
 export async function loadExpress() {
@@ -45,7 +47,7 @@ export async function main(argsInput) {
 
   if (args.includes('--interactive')) {
     try {
-      const loader = loadReadlineOverride || loadReadline;
+      const loader = overrides.loadReadlineOverride || loadReadline;
       const readlineModule = await loader();
       const rl = readlineModule.createInterface({
         input: process.stdin,
@@ -84,7 +86,7 @@ export async function main(argsInput) {
 
   if (args.includes('--serve')) {
     try {
-      const loader = loadExpressOverride || loadExpress;
+      const loader = overrides.loadExpressOverride || loadExpress;
       const expressModule = await loader();
       if (process.env.VITEST === 'true') {
         console.log(`Express server running at http://localhost:3000`);
@@ -152,7 +154,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 
