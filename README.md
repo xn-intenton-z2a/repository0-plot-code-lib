@@ -48,7 +48,7 @@ Other available commands:
 - **Plot/Export Flags:**
   Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
 - **Advanced Visualizations:**
-  Use flags like `--heatmap`, `--scatter`, `--bar-chart`, `--lissajous`, `--plot-spiral`, `--plot-custom` for extended plotting features, and now `--plot-fibonacci` is supported via the new Fibonacci spiral functionality (invoke via custom plot parameters).
+  Use flags like `--heatmap`, `--scatter`, `--bar-chart`, `--lissajous`, `--plot-spiral`, `--plot-custom`, and now `--plot-fibonacci` for generating a Fibonacci spiral plot.
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -61,7 +61,7 @@ Other available commands:
 - **2024-12.12:**
   - Refreshed README and documentation in line with CONTRIBUTING guidelines.
   - Pruned outdated and irrelevant content.
-  - Updated descriptions to emphasize extended plotting features including spiral, custom, and new Fibonacci spiral plotting (--plot-fibonacci functionality via plotFibonacciSpiralReal).
+  - Updated descriptions to emphasize extended plotting features including spiral, custom, and new Fibonacci spiral plotting (--plot-fibonacci functionality).
 
 ## Contributing
 
