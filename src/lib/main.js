@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.10: Extended library functions with real implementations for hyperbola, ellipse, cubic, gaussian and moving median plot functions. Refined source functionality and pruned legacy drift per CONTRIBUTING.md guidelines.
+// Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// Updated 2024-12.10: Refined implementation and documentation per CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
