@@ -22,7 +22,10 @@ const {
   plotHistogramReal,
   plotPolarReal,
   plotLogisticReal,
-  movingAverageReal
+  movingAverageReal,
+  plotSincReal,
+  calculateDefiniteIntegralReal,
+  plotBezierReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -316,6 +319,9 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotSigmoidReal');
     expect(debugString).toContain('plotReLUReal');
     // New functions tests in debug output
+    expect(debugString).toContain('plotSincReal');
+    expect(debugString).toContain('calculateDefiniteIntegralReal');
+    expect(debugString).toContain('plotBezierReal');
     expect(debugString).toContain('plotPolarReal');
     expect(debugString).toContain('plotLogisticReal');
     expect(debugString).toContain('movingAverageReal');
@@ -501,6 +507,28 @@ describe('Stub Function Tests', () => {
       const data = [1, 2, 3, 4, 5];
       const result = movingAverageReal(data, 3);
       expect(result).toEqual([2, 3, 4]);
+    });
+
+    test('plotSincReal computes sinc plot correctly', () => {
+      const plot = plotSincReal(-1, 1, 1);
+      // When x = 0, sinc = 1, at x = -1 and 1, approximate values
+      expect(plot).toEqual([
+        { x: -1, y: Math.sin(-1)/-1 },
+        { x: 0, y: 1 },
+        { x: 1, y: Math.sin(1)/1 }
+      ]);
+    });
+
+    test('calculateDefiniteIntegralReal computes integral correctly', () => {
+      // Integrate f(x)=x over [0,1], expected 0.5
+      const integral = calculateDefiniteIntegralReal(x => x, 0, 1, 1000);
+      expect(integral).toBeCloseTo(0.5, 2);
+    });
+
+    test('plotBezierReal returns control points correctly', () => {
+      const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+      const result = plotBezierReal(points);
+      expect(result).toEqual(points);
     });
   });
 });
