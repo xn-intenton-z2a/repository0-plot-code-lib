@@ -35,7 +35,8 @@ const {
   plotScatterReal,
   plotBarChartReal,
   plotLissajousReal,
-  plotSpiralReal
+  plotSpiralReal,
+  plotCustomReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -49,7 +50,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -58,7 +59,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--help']);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -242,6 +243,13 @@ describe('Main Function Behaviour', () => {
     spy.mockRestore();
   });
 
+  test('should output Custom Plot when --plot-custom flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--plot-custom']);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Custom Plot Output:'), expect.any(Array));
+    spy.mockRestore();
+  });
+
   test('should output Scatter plot when --scatter flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--scatter']);
@@ -326,7 +334,7 @@ describe('Debug flag behaviour', () => {
     main(['--debug']);
     const debugString = spy.mock.calls.map(call => call[0]).join(' ');
     expect(debugString).toContain('plotQuadratic');
-    expect(debugString).toContain('plotCustom');
+    expect(debugString).toContain('plotCustomReal');
     expect(debugString).toContain('exportPlotAsXML');
     expect(debugString).toContain('exportPlotAsLaTeX');
     expect(debugString).toContain('exportPlotAsTXT');
