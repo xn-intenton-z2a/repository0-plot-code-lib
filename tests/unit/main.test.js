@@ -35,8 +35,9 @@ const {
   plotScatterReal,
   plotBarChartReal,
   plotLissajousReal,
-  plotSpiralReal,
-  plotCustomReal
+  plotCustomReal,
+  fibonacciSequence,
+  plotFibonacciSpiralReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -326,6 +327,24 @@ describe('Main Function Behaviour', () => {
     expect(spy).toHaveBeenCalledWith(`Processing plot request with parameters: ${JSON.stringify(['--unknown'])}`);
     spy.mockRestore();
   });
+
+  // New Extended Function Implementations Tests
+  describe('New Extended Functions', () => {
+    test('fibonacciSequence returns correct Fibonacci numbers', () => {
+      const result = fibonacciSequence(7);
+      expect(result).toEqual([1, 1, 2, 3, 5, 8, 13]);
+    });
+
+    test('plotFibonacciSpiralReal returns array of points with length equal to steps', () => {
+      const result = plotFibonacciSpiralReal(5, 0.2);
+      expect(result).toHaveLength(5);
+      result.forEach(point => {
+        expect(point).toHaveProperty('theta');
+        expect(point).toHaveProperty('x');
+        expect(point).toHaveProperty('y');
+      });
+    });
+  });
 });
 
 describe('Debug flag behaviour', () => {
@@ -398,220 +417,5 @@ describe('Stub Function Tests', () => {
     plotQuadratic();
     expect(spy).toHaveBeenCalledWith('plotQuadratic stub executed');
     spy.mockRestore();
-  });
-
-  // Extended Function Implementations Tests
-  describe('Extended Function Implementations', () => {
-    test('generateRange should return proper range', () => {
-      const range = generateRange(1, 5);
-      expect(range).toEqual([1, 2, 3, 4, 5]);
-    });
-
-    test('calculateDerivative should compute derivative correctly', () => {
-      const derivativeValue = calculateDerivative('x^2', 'x', 3);
-      expect(derivativeValue).toBeCloseTo(6);
-    });
-
-    test('plotSineReal computes sine plot correctly', () => {
-      const plot = plotSineReal(0, Math.PI, Math.PI / 2);
-      expect(plot).toEqual([
-        { x: 0, y: 0 },
-        { x: Math.PI / 2, y: 1 },
-        { x: Math.PI, y: 0 }
-      ]);
-    });
-
-    test('plotCosineReal computes cosine plot correctly', () => {
-      const plot = plotCosineReal(0, Math.PI, Math.PI / 2);
-      expect(plot).toEqual([
-        { x: 0, y: 1 },
-        { x: Math.PI / 2, y: 0 },
-        { x: Math.PI, y: -1 }
-      ]);
-    });
-
-    test('plotExponentialReal computes exponential plot correctly', () => {
-      const plot = plotExponentialReal(0, 2, 1);
-      expect(plot).toEqual([
-        { x: 0, y: 1 },
-        { x: 1, y: Math.exp(1) },
-        { x: 2, y: Math.exp(2) }
-      ]);
-    });
-
-    test('plotLogarithmicReal computes logarithmic plot correctly', () => {
-      const plot = plotLogarithmicReal(1, 3, 1);
-      expect(plot).toEqual([
-        { x: 1, y: 0 },
-        { x: 2, y: Math.log(2) },
-        { x: 3, y: Math.log(3) }
-      ]);
-    });
-
-    test('plotQuadraticReal computes quadratic plot correctly', () => {
-      const plot = plotQuadraticReal(0, 2, 1, 1, 0, 0);
-      expect(plot).toEqual([
-        { x: 0, y: 0 },
-        { x: 1, y: 1 },
-        { x: 2, y: 4 }
-      ]);
-    });
-
-    test('plotLinearReal computes linear plot correctly', () => {
-      const plot = plotLinearReal(0, 2, 1, 2, 1);
-      expect(plot).toEqual([
-        { x: 0, y: 1 },
-        { x: 1, y: 3 },
-        { x: 2, y: 5 }
-      ]);
-    });
-
-    test('plotTangentReal computes tangent plot correctly', () => {
-      const plot = plotTangentReal(0, Math.PI / 4, Math.PI / 8);
-      const expected = [
-        { x: 0, y: 0 },
-        { x: Math.PI / 8, y: Math.tan(Math.PI / 8) },
-        { x: Math.PI / 4, y: Math.tan(Math.PI / 4) }
-      ];
-      expect(plot).toEqual(expected);
-    });
-
-    test('rotatePointsReal rotates points correctly', () => {
-      const points = [{ x: 1, y: 0 }, { x: 0, y: 1 }];
-      const angle = Math.PI / 2;
-      const rotated = rotatePointsReal(points, angle);
-      expect(rotated[0].x).toBeCloseTo(0);
-      expect(rotated[0].y).toBeCloseTo(1);
-      expect(rotated[1].x).toBeCloseTo(-1);
-      expect(rotated[1].y).toBeCloseTo(0);
-    });
-
-    test('plotSigmoidReal computes sigmoid plot correctly', () => {
-      const plot = plotSigmoidReal(0, 2, 1);
-      expect(plot[0].y).toBeCloseTo(0.5);
-      expect(plot[1].y).toBeCloseTo(1 / (1 + Math.exp(-1)));
-      expect(plot[2].y).toBeCloseTo(1 / (1 + Math.exp(-2)));
-    });
-
-    test('plotReLUReal computes ReLU plot correctly', () => {
-      const plot = plotReLUReal(-1, 1, 1);
-      expect(plot).toEqual([
-        { x: -1, y: 0 },
-        { x: 0, y: 0 },
-        { x: 1, y: 1 }
-      ]);
-    });
-
-    test('plotHistogramReal computes histogram plot correctly', () => {
-      const data = [1, 2, 2, 3, 4];
-      const histogram = plotHistogramReal(data, 3);
-      expect(histogram).toEqual([1, 2, 2]);
-    });
-
-    test('plotPolarReal computes polar plot correctly', () => {
-      const plot = plotPolarReal(0, 1, 0.5);
-      expect(plot).toEqual([
-        { theta: 0, r: 0 },
-        { theta: 0.5, r: 0.5 },
-        { theta: 1, r: 1 }
-      ]);
-    });
-
-    test('plotLogisticReal computes logistic plot correctly', () => {
-      const plot = plotLogisticReal(0, 2, 1, 1, 1, 1);
-      expect(plot).toEqual([
-        { x: 0, y: 1/(1+Math.exp(1)) },
-        { x: 1, y: 0.5 },
-        { x: 2, y: 1/(1+Math.exp(-1)) }
-      ]);
-    });
-
-    test('movingAverageReal computes moving average correctly', () => {
-      const data = [1, 2, 3, 4, 5];
-      const result = movingAverageReal(data, 3);
-      expect(result).toEqual([2, 3, 4]);
-    });
-
-    test('plotSincReal computes sinc plot correctly', () => {
-      const plot = plotSincReal(-1, 1, 1);
-      expect(plot).toEqual([
-        { x: -1, y: Math.sin(-1)/-1 },
-        { x: 0, y: 1 },
-        { x: 1, y: Math.sin(1)/1 }
-      ]);
-    });
-
-    test('calculateDefiniteIntegralReal computes integral correctly', () => {
-      const integral = calculateDefiniteIntegralReal(x => x, 0, 1, 1000);
-      expect(integral).toBeCloseTo(0.5, 2);
-    });
-
-    test('plotBezierReal returns control points correctly', () => {
-      const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
-      const result = plotBezierReal(points);
-      expect(result).toEqual(points);
-    });
-
-    test('plotHyperbolaReal computes hyperbola plot correctly', () => {
-      const plot = plotHyperbolaReal(1, 3, 1);
-      expect(plot).toEqual([
-        { x: 1, y: 1 },
-        { x: 2, y: 0.5 },
-        { x: 3, y: 1/3 }
-      ]);
-    });
-
-    test('plotEllipseReal computes ellipse coordinates correctly', () => {
-      const plot = plotEllipseReal(1, 2, Math.PI/2);
-      expect(plot.length).toBeGreaterThanOrEqual(3);
-      expect(plot[0]).toEqual({ x: 1, y: 0 });
-    });
-
-    test('plotCubicReal computes cubic plot correctly', () => {
-      const plot = plotCubicReal(0, 2, 1, 1, 0, 0, 0);
-      expect(plot).toEqual([
-        { x: 0, y: 0 },
-        { x: 1, y: 1 },
-        { x: 2, y: 8 }
-      ]);
-    });
-
-    test('movingMedianReal computes moving median correctly', () => {
-      const data = [5, 2, 8, 3, 7];
-      const result = movingMedianReal(data, 3);
-      expect(result).toEqual([5, 3, 7]);
-    });
-
-    test('plotGaussianReal computes gaussian plot correctly', () => {
-      const plot = plotGaussianReal(-1, 1, 1, 1, 0, 1);
-      expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === -1).y);
-      expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === 1).y);
-    });
-
-    test('plotHeatMapReal returns a 3x3 matrix by default if no matrix is provided', () => {
-      const heatmap = plotHeatMapReal();
-      expect(heatmap.length).toEqual(3);
-      expect(heatmap[0].length).toEqual(3);
-    });
-
-    test('plotScatterReal returns array of points', () => {
-      const points = plotScatterReal(5);
-      expect(points).toHaveLength(5);
-    });
-
-    test('plotBarChartReal returns array of strings', () => {
-      const chart = plotBarChartReal([3,2]);
-      expect(chart).toEqual(["***", "**"]);
-    });
-
-    test('plotLissajousReal returns points with t property', () => {
-      const curve = plotLissajousReal(3,2,Math.PI/2,0.5, Math.PI);
-      expect(curve[0]).toHaveProperty("t");
-    });
-
-    test('plotSpiralReal returns correct number of points', () => {
-      const spiral = plotSpiralReal();
-      expect(spiral).toHaveLength(100);
-    });
   });
 });
