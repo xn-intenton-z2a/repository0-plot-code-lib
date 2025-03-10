@@ -269,7 +269,7 @@ describe('Debug flag behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--debug']);
     const debugString = spy.mock.calls.map(call => call[0]).join(' ');
-    expect(debugString).toContain('plotPower');
+    expect(debugString).toContain('plotQuadratic');
     expect(debugString).toContain('plotCustom');
     expect(debugString).toContain('exportPlotAsXML');
     expect(debugString).toContain('exportPlotAsLaTeX');

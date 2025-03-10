@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // src/lib/main.js
+// Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -155,7 +156,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
+    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
     return;
   }
 
