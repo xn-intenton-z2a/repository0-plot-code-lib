@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports multiple output formats and a broad range of plotting functionalities, from basic graphs to extended visualization methods.
 
 ## Overview
 
@@ -10,7 +10,7 @@ This CLI utility provides:
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and a PNG stub.
 - Modes for diagnostics, interactive input, web server, and debug output.
 - Extended functionalities such as calculating derivatives, generating numeric ranges, and a comprehensive suite of real implementations for common plots including sine, cosine, exponential, logarithmic, quadratic, linear, and more.
-- **New Features:** Additional library functions including plotSincReal, calculateDefiniteIntegralReal, and plotBezierReal to extend versatility, along with the existing --plot-histogram flag.
+- **New Feature:** Histogram plotting using the --plot-histogram flag.
 
 ## Installation
 
@@ -93,28 +93,33 @@ This release includes real implementations for core functions:
   - **plotQuadraticReal, plotLinearReal, plotTangentReal** for polynomial and trigonometric plots.
   - **rotatePointsReal, plotSigmoidReal, plotReLUReal** for point transformations and activation functions.
   - **plotHistogramReal, plotPolarReal, plotLogisticReal, movingAverageReal** for histogram, polar, logistic curve and data smoothing respectively.
-  - **plotSincReal, calculateDefiniteIntegralReal, plotBezierReal** as additional functions to further extend the library's versatility.
+  - **plotSincReal, calculateDefiniteIntegralReal, plotBezierReal** for additional advanced plotting capabilities.
 
 ## Contributing
 
-We welcome contributions! To contribute, please:
+We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
-2. **Review the Guidelines:** Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our workflow and project mission.
-3. **Submit Your Changes:** Commit your updates with clear, descriptive messages.
+1. **Open an Issue:**
+   Describe your idea, report a bug, or suggest an improvement.
+
+2. **Review Guidelines:**
+   Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for our workflow and project mission.
+
+3. **Submit Your Changes:**
+   Commit your updates with clear, descriptive messages.
 
 Our automated workflows will help integrate your changes quickly.
 
 ## Changelog
 
-- **2024-01:** Refreshed README to align with updated CONTRIBUTING guidelines and remove outdated content.
+- **2024-01:** Refreshed README to align with updated contribution guidelines and remove outdated content.
 - **2024-04:** Updated source file to prune legacy drift and reinforce the mission statement.
 - **2024-05:** Extended library functions for common plots including sine, cosine, exponential, and logarithmic functions.
 - **2024-07:** Added real implementations for quadratic, linear, tangent plots, and point rotations.
 - **2024-08:** Introduced real implementations for sigmoid and ReLU plots.
 - **2024-09:** Added histogram plotting feature and improved error handling.
 - **2024-12:** Extended library functions with implementations for polar, logistic plots and moving average; refreshed project documentation as per CONTRIBUTING.md.
-- **2024-12.9:** Pruned legacy code drift and refined source functionality to fully align with the mission statement and contribution guidelines.
+- **2024-12.9:** Refreshed README and documentation to align fully with CONTRIBUTING.md guidelines; pruned irrelevant legacy details.
 
 ## License
 
