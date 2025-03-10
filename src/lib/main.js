@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling and testability.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling, testability, and now added Fibonacci spiral plotting.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -173,7 +173,7 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
   }
 
   if (args.includes('--export-png')) {
-    console.log('PNG Output: [stub output for PNG]');
+    console.log('PNG Output:', '[stub output for PNG]');
     return;
   }
 
@@ -606,6 +606,31 @@ export function plotCustomReal() {
   const custom = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
   console.log('Plot Custom (real):', custom);
   return custom;
+}
+
+// New functions added to extend library in the spirit of our contribution guidelines
+
+export function fibonacciSequence(n) {
+  if (n < 1) return [];
+  const fib = [1];
+  if (n === 1) return fib;
+  fib.push(1);
+  for (let i = 2; i < n; i++) {
+    fib.push(fib[i - 1] + fib[i - 2]);
+  }
+  console.log('Fibonacci sequence:', fib);
+  return fib;
+}
+
+export function plotFibonacciSpiralReal(steps = 10, scale = 0.1) {
+  const fib = fibonacciSequence(steps);
+  const points = fib.map((f, i) => {
+    const theta = i * (Math.PI / 4);
+    const r = scale * f;
+    return { theta, x: r * Math.cos(theta), y: r * Math.sin(theta) };
+  });
+  console.log('Fibonacci Spiral Plot (real):', points);
+  return points;
 }
 
 // Legacy stub functions retained for API compatibility
