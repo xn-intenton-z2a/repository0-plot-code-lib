@@ -357,6 +357,46 @@ export function plotLogarithmicReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
+// New extended real implementations in line with project mission
+export function plotQuadraticReal(rangeStart, rangeEnd, step = 1, a = 1, b = 0, c = 0) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: a * x * x + b * x + c }));
+  console.log('Plot Quadratic (real):', plot);
+  return plot;
+}
+
+export function plotLinearReal(rangeStart, rangeEnd, step = 1, m = 1, intercept = 0) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: m * x + intercept }));
+  console.log('Plot Linear (real):', plot);
+  return plot;
+}
+
+export function plotTangentReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => {
+    const y = Math.tan(x);
+    // Avoid infinite or extremely large values
+    if (!isFinite(y) || Math.abs(y) > 1e6) {
+      return { x, y: null };
+    }
+    return { x, y };
+  });
+  console.log('Plot Tangent (real):', plot);
+  return plot;
+}
+
+export function rotatePointsReal(points, angle) {
+  const cosAngle = Math.cos(angle);
+  const sinAngle = Math.sin(angle);
+  const rotated = points.map(p => ({
+    x: p.x * cosAngle - p.y * sinAngle,
+    y: p.x * sinAngle + p.y * cosAngle
+  }));
+  console.log('Rotated Points (real):', rotated);
+  return rotated;
+}
+
 // Stub functions remain for legacy support
 const stubFunction = (name) => () => { console.log(name + " stub executed"); };
 
