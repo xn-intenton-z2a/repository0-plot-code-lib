@@ -1,16 +1,16 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This project follows automated workflows and updated contribution guidelines.
+repository0-plot-code-lib is a versatile command-line interface tool designed to plot and analyze mathematical functions. 
+Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Overview
 
 This CLI utility provides:
 
-- Plotting of various mathematical functions with support for stub and real implementations.
-- Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub).
-- Modes including diagnostic, interactive, web server, and debug mode.
-- Extended debugging with a comprehensive list of plotting functions.
-- Real implementations for key functions such as calculateDerivative, generateRange, and new real plotting functions (plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal).
+- Plotting of various mathematical functions with both stub and real implementations.
+- Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub).
+- Modes for diagnostics, interactive input, web service, and debug output.
+- Extended functionalities such as calculating derivatives and generating numeric ranges.
 
 ## Installation
 
@@ -72,37 +72,37 @@ Other available commands:
   node src/lib/main.js --help
   ```
 
-For plot parameters, simply pass them as arguments and the CLI will process the request accordingly.
+For custom plot parameters, simply pass them as arguments to the CLI.
 
 ## Extended Library Functions
 
-This release includes real implementations for some library functions:
+This release includes real implementations for some core functions:
 
 - **calculateDerivative:** Uses mathjs to compute the derivative of a given expression at a specific value.
 - **generateRange:** Generates a numeric sequence between two values with an optional step.
 - **New Real Plot Functions:**
-  - **plotSineReal:** Generates a sine plot for a given range.
-  - **plotCosineReal:** Generates a cosine plot for a given range.
-  - **plotExponentialReal:** Generates an exponential plot for a given range.
-  - **plotLogarithmicReal:** Generates a logarithmic plot (for positive values) for a given range.
+  - **plotSineReal:** Generates a sine plot for a specified range.
+  - **plotCosineReal:** Generates a cosine plot for a specified range.
+  - **plotExponentialReal:** Generates an exponential plot for a specified range.
+  - **plotLogarithmicReal:** Generates a logarithmic plot (for positive values) for a specified range.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
 1. **Open an Issue:**
-   Describe your idea or report a bug by opening an issue. Label it as `automated` if applicable.
+   Describe your idea, report a bug, or suggest an improvement by opening an issue.
 
 2. **Review CONTRIBUTING Guidelines:**
-   Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) to ensure your changes align with our automated workflows and mission.
+   Please see [CONTRIBUTING.md](./CONTRIBUTING.md) to ensure your changes align with our mission and automated workflows.
 
 3. **Submit Your Changes:**
-   Commit your changes with clear messages and ensure compliance with the project mission.
+   Commit your updates with clear messages.
 
 ## Changelog
 
 - **2024-01:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
-- **2024-04:** Updated the source file to prune drift and align fully with the mission statement per the latest CONTRIBUTING guidelines.
+- **2024-04:** Updated the source file to remove drift and align with the mission statement.
 - **2024-05:** Extended library functions by adding real implementations for plotSineReal, plotCosineReal, plotExponentialReal, and plotLogarithmicReal.
 
 ## License
