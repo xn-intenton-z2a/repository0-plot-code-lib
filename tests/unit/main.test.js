@@ -548,7 +548,6 @@ describe('Stub Function Tests', () => {
       expect(plot[0]).toEqual({ x: 1, y: 0 });
     });
 
-    // Additional New Function Tests
     test('plotCubicReal computes cubic plot correctly', () => {
       const plot = plotCubicReal(0, 2, 1, 1, 0, 0, 0);
       expect(plot).toEqual([
@@ -561,13 +560,11 @@ describe('Stub Function Tests', () => {
     test('movingMedianReal computes moving median correctly', () => {
       const data = [5, 2, 8, 3, 7];
       const result = movingMedianReal(data, 3);
-      // For window sizes: [5,2,8] median is 5, [2,8,3] median is 3, [8,3,7] median is 7
       expect(result).toEqual([5, 3, 7]);
     });
 
     test('plotGaussianReal computes gaussian plot correctly', () => {
       const plot = plotGaussianReal(-1, 1, 1, 1, 0, 1);
-      // Expect the center value (x=0) to be highest
       expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === -1).y);
       expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === 1).y);
     });
