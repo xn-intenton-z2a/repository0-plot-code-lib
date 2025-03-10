@@ -10,7 +10,7 @@ This CLI utility provides:
 - Plotting of various mathematical functions with both stub and real implementations.
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub).
 - Modes for diagnostics, interactive input, web service, and debug output.
-- Extended functionalities such as calculating derivatives, generating numeric ranges, and new real implementations for quadratic, linear, tangent plots, point rotations, sigmoid, ReLU, and histogram plotting.
+- Extended functionalities such as calculating derivatives, generating numeric ranges, and new real implementations for quadratic, linear, tangent plots, point rotations, sigmoid, ReLU, histogram plotting, and additional extensions.
 
 ## Installation
 
@@ -92,6 +92,9 @@ This release includes real implementations for some core functions:
   - **plotSigmoidReal:** Generates a sigmoid plot using the formula 1/(1+e^(-x)).
   - **plotReLUReal:** Generates a ReLU plot where y = max(0, x).
   - **plotHistogramReal:** Generates a histogram plot from numerical data.
+  - **plotPolarReal:** Generates a polar coordinate (spiral) plot using theta as the radial distance.
+  - **plotLogisticReal:** Generates a logistic function plot with parameters for L, k, and x0.
+  - **movingAverageReal:** Computes the moving average for a data array with a given window size.
 
 ## Contributing
 
@@ -116,6 +119,7 @@ We welcome contributions! Please follow these steps:
 - **2024-09:** Pruned legacy drift and further aligned implementations with the mission statement.
 - **2024-10:** Introduced plotHistogramReal and enhanced error handling.
 - **2024-11:** Enhanced test coverage and refined error handling based on CONTRIBUTING guidelines.
+- **2024-12:** Extended library functions with new implementations: plotPolarReal, plotLogisticReal, and movingAverageReal.
 
 ## License
 

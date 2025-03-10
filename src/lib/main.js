@@ -34,10 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!
-Mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.
-For contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -281,7 +278,10 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
       'plotRational',
       'plotStep',
       'plotSigmoidReal',
-      'plotReLUReal'
+      'plotReLUReal',
+      'plotPolarReal',
+      'plotLogisticReal',
+      'movingAverageReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -429,6 +429,41 @@ export function plotHistogramReal(data, binCount = 5) {
   return histogram;
 }
 
+// New function: Plot Polar using polar coordinates for a spiral pattern
+export function plotPolarReal(thetaStart, thetaEnd, step = 0.1) {
+  const points = [];
+  for (let theta = thetaStart; theta <= thetaEnd; theta += step) {
+    // simple spiral: r = theta
+    points.push({ theta, r: theta });
+  }
+  console.log('Polar Plot (real):', points);
+  return points;
+}
+
+// New function: Plot Logistic using standard logistic function
+export function plotLogisticReal(rangeStart, rangeEnd, step = 1, L = 1, k = 1, x0 = 0) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: L / (1 + Math.exp(-k * (x - x0))) }));
+  console.log('Logistic Plot (real):', plot);
+  return plot;
+}
+
+// New function: Moving Average for data smoothing
+export function movingAverageReal(data, windowSize = 3) {
+  if (!Array.isArray(data) || data.length < windowSize) {
+    console.error('movingAverageReal: invalid data or window size');
+    return [];
+  }
+  const averages = [];
+  for (let i = 0; i <= data.length - windowSize; i++) {
+    const window = data.slice(i, i + windowSize);
+    const avg = window.reduce((sum, val) => sum + val, 0) / windowSize;
+    averages.push(avg);
+  }
+  console.log('Moving Average (real):', averages);
+  return averages;
+}
+
 // Stub functions for legacy support
 const stubFunction = (name) => () => { console.log(name + ' stub executed'); };
 
@@ -499,3 +534,4 @@ export const plotStep = stubFunction('plotStep');
 
 // CHANGELOG:
 // 2024-11: Enhanced test coverage and error handling in main.js, aligning code with CONTRIBUTING guidelines and extending logging for better debugging.
+// 2024-12: Extended library functions with new implementations: plotPolarReal, plotLogisticReal, and movingAverageReal to further the mission.
