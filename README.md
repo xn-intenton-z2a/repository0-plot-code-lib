@@ -62,7 +62,7 @@ Other available commands:
   - Extended functionalities with new spiral and custom plotting feature.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos functionality).
   - Pruned outdated legacy drift and improved module loader error handling in accordance with CONTRIBUTING guidelines.
-  - **Improved test coverage and refined error handling in module loaders.**
+  - **Improved test coverage and enhanced mocking of external dependencies for more robust validations.**
   - Updated documentation and contribution guidelines integration.
 
 ## Contributing
