@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This file has been updated to align with the latest CONTRIBUTING.md guidelines, remove legacy drift, extend library functions, and improve error handling for better test coverage.
+// Updated 2024-12.9: Pruned legacy drift and refined source functionality to align with CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -209,7 +209,7 @@ export async function main(argsInput) {
     return;
   }
 
-  // New feature: Histogram plotting flag added inline with our mission for versatile visualization tools
+  // New feature: Histogram plotting flag inline with our mission for versatile visualization tools
   if (args.includes('--plot-histogram')) {
     const sampleData = [1, 2, 3, 2, 5, 4, 3, 2];
     const histogram = plotHistogramReal(sampleData, 4);
@@ -264,24 +264,6 @@ export async function main(argsInput) {
       'plotModulatedSine',
       'plotSpiral',
       'plotSigmoidReal',
-      'plotSinc',
-      'calculateDefiniteIntegral',
-      'plotBezier',
-      'plotLissajous',
-      'plotBessel',
-      'plotHyperbola',
-      'plotLemniscate',
-      'plotPower',
-      'plotReLUReal',
-      'movingMedian',
-      'plotInverse',
-      'cumulativeSum',
-      'plotLogLog',
-      'boxPlot',
-      'plotDampedOscillation',
-      'plotRational',
-      'plotStep',
-      // Real implementations debug functions
       'plotSincReal',
       'calculateDefiniteIntegralReal',
       'plotBezierReal',
@@ -495,12 +477,11 @@ export function calculateDefiniteIntegralReal(func, lower, upper, steps = 1000) 
 
 // New function: Bezier curve plotting stub - returns control points for now
 export function plotBezierReal(points) {
-  // For simplicity, return the points with a message
   console.log('Bezier Plot (real): Using control points', points);
   return points;
 }
 
-// Stub functions for legacy support
+// Legacy stub functions retained for API compatibility
 const stubFunction = (name) => () => { console.log(name + ' stub executed'); };
 
 export const plotQuadratic = stubFunction('plotQuadratic');
@@ -567,4 +548,4 @@ export const boxPlot = stubFunction('boxPlot');
 export const plotDampedOscillation = stubFunction('plotDampedOscillation');
 export const plotRational = stubFunction('plotRational');
 export const plotStep = stubFunction('plotStep');
-// Removed duplicate stub definitions for functions with real implementations: plotSigmoidReal, plotReLUReal, plotPolarReal, plotLogisticReal, movingAverageReal, plotHistogramReal
+// End of legacy stubs
