@@ -1,3 +1,5 @@
+// tests/unit/main.test.js
+// Updated tests with enhanced mocks for external dependencies and refined error handling for improved coverage.
 import { describe, test, expect, vi } from 'vitest';
 import * as mainModule from '@src/lib/main.js';
 
