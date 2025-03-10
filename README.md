@@ -6,13 +6,14 @@ A powerful CLI tool for accurate mathematical plotting, aligned with our mission
 
 ## Overview
 
-repository0-plot-code-lib is a versatile command-line utility designed for plotting and analyzing mathematical functions with precision. The tool supports a wide variety of output formats and interactive modes. The CLI now supports multiple flags to output different plot types as well as diagnostics and interactive modes.
+repository0-plot-code-lib is a versatile command-line utility designed for plotting and analyzing mathematical functions with precision. The tool supports a wide variety of output formats and interactive modes. The CLI now supports multiple flags to output different plot types as well as diagnostics, interactive mode, and debug mode.
 
 ## Features
 
 - **Mathematical Plots:** Includes quadratic, linear, sine, cosine, exponential, logarithmic, and many other advanced plots.
 - **Extended Functions:** Supports export in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats.
 - **CLI Modes:** Diagnostics, interactive mode, web server mode, debug mode, and a range of export/plot flags.
+- **Help Support:** Use the `--help` flag to display usage instructions.
 
 ## Installation
 
@@ -49,13 +50,14 @@ Other available modes include:
   - `--export-r`: Outputs R-friendly format.
   - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--power-plot`: Output various plot types as demo data.
 - **Debug Mode:** `node src/lib/main.js --debug` lists all available plotting functions.
+- **Help:** `node src/lib/main.js --help` displays this usage information.
 - **Unrecognized flags:** Any unrecognized flag will be treated as plot parameters.
 
 For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored interactive mode override hooks to a mutable object for improved testability; updated test coverage and error handling in module loaders.
+- **2023-10:** Refactored interactive mode override hooks to a mutable object for improved testability; added --help flag and updated test coverage and error handling in module loaders.
 
 ## License
 

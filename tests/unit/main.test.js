@@ -25,6 +25,13 @@ describe('Main Function Behaviour', () => {
     spy.mockRestore();
   });
 
+  test('should output help message when --help flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--help']);
+    expect(spy).toHaveBeenCalledWith(`Welcome to repository0-plot-code-lib CLI: Embracing our mission 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`);
+    spy.mockRestore();
+  });
+
   test('should output diagnostics when --diagnostics flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--diagnostics']);
