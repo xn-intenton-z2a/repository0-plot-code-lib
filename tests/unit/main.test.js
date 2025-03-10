@@ -18,7 +18,8 @@ const {
   plotTangentReal,
   rotatePointsReal,
   plotSigmoidReal,
-  plotReLUReal
+  plotReLUReal,
+  plotHistogramReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -456,6 +457,15 @@ describe('Stub Function Tests', () => {
         { x: 0, y: 0 },
         { x: 1, y: 1 }
       ]);
+    });
+
+    test('plotHistogramReal computes histogram plot correctly', () => {
+      // For data [1,2,2,3,4] and binCount = 3
+      // min = 1, max = 4, binSize = 1, bins: [1,2), [2,3), [3,4]
+      // values: 1 -> bin0, 2 and 2 -> bin1, 3 -> bin2, 4 (max) -> bin2
+      const data = [1, 2, 2, 3, 4];
+      const histogram = plotHistogramReal(data, 3);
+      expect(histogram).toEqual([1, 2, 2]);
     });
   });
 });
