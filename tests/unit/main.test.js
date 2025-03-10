@@ -36,6 +36,7 @@ const {
   plotBarChartReal,
   plotLissajousReal,
   plotCustomReal,
+  plotSinCosCombinedReal,
   fibonacciSequence,
   plotFibonacciSpiralReal
 } = mainModule;
@@ -51,7 +52,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -60,7 +61,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--help']);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -258,6 +259,13 @@ describe('Main Function Behaviour', () => {
     spy.mockRestore();
   });
 
+  test('should output SinCos Combined Plot when --plot-sincos flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--plot-sincos']);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('SinCos Combined Plot Output:'), expect.any(Array));
+    spy.mockRestore();
+  });
+
   test('should output Scatter plot when --scatter flag is provided', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--scatter']);
@@ -351,6 +359,15 @@ describe('Main Function Behaviour', () => {
         expect(point).toHaveProperty('y');
       });
     });
+
+    test('plotSinCosCombinedReal returns correct combined sine and cosine values', () => {
+      const result = plotSinCosCombinedReal(0, Math.PI, Math.PI/2);
+      expect(result).toEqual([
+        { x: 0, sin: 0, cos: 1 },
+        { x: Math.PI/2, sin: 1, cos: 0 },
+        { x: Math.PI, sin: 0, cos: -1 }
+      ]);
+    });
   });
 });
 
@@ -381,6 +398,8 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotScatterReal');
     expect(debugString).toContain('plotBarChartReal');
     expect(debugString).toContain('plotLissajousReal');
+    expect(debugString).toContain('plotCustomReal');
+    expect(debugString).toContain('plotSinCosCombinedReal');
     spy.mockRestore();
   });
 });

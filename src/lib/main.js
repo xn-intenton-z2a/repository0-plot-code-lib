@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling, testability, and now added Fibonacci spiral plotting.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling, testability, added Fibonacci spiral plotting, and added combined sine-cosine plotting.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -34,10 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!
-Mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom or provide plot parameters.
-For contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -247,6 +244,12 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
     return;
   }
 
+  if (args.includes('--plot-sincos')) {
+    const sincos = plotSinCosCombinedReal(0, Math.PI, Math.PI/4);
+    console.log('SinCos Combined Plot Output:', sincos);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'plotQuadratic',
@@ -309,7 +312,8 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
       'plotScatterReal',
       'plotBarChartReal',
       'plotLissajousReal',
-      'plotCustomReal'
+      'plotCustomReal',
+      'plotSinCosCombinedReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -613,6 +617,14 @@ export function plotCustomReal() {
   const custom = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
   console.log('Plot Custom (real):', custom);
   return custom;
+}
+
+// New function: combined sine-cosine plot, inline with mission to provide enhanced visualisation
+export function plotSinCosCombinedReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, sin: Math.sin(x), cos: Math.cos(x) }));
+  console.log('SinCos Combined Plot (real):', plot);
+  return plot;
 }
 
 // New functions added to extend library in the spirit of our contribution guidelines
