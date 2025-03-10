@@ -383,6 +383,7 @@ describe('Error Handling for module loaders', () => {
     spyError.mockRestore();
     resetOverrides();
   });
+});
 
 // Stub Function Tests
 
@@ -588,7 +589,6 @@ describe('Stub Function Tests', () => {
       expect(heatmap[0].length).toEqual(3);
     });
 
-    // New Extended Functions Tests
     test('plotScatterReal returns array of points', () => {
       const points = plotScatterReal(5);
       expect(points).toHaveLength(5);
