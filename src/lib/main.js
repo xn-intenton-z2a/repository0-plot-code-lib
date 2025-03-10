@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This file has been updated to align with the latest CONTRIBUTING.md guidelines and to remove any drift from the original mission.
+// This file has been updated to align with the latest CONTRIBUTING.md guidelines, prune drift, and extend library functions per project mission.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -296,7 +296,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
 
-// Additional implementations and stub functions for various plotting functions as per mission statement
+// Additional implementations and functions for various plotting functions as per mission statement
 
 // Real implementation for generateRange function
 export function generateRange(start, end, step = 1) {
@@ -321,6 +321,37 @@ export function calculateDerivative(expr, variable, value) {
   }
 }
 
+// Extended real implementations aligned with project mission
+export function plotSineReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: Math.sin(x) }));
+  console.log('Plot Sine (real):', plot);
+  return plot;
+}
+
+export function plotCosineReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: Math.cos(x) }));
+  console.log('Plot Cosine (real):', plot);
+  return plot;
+}
+
+export function plotExponentialReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: Math.exp(x) }));
+  console.log('Plot Exponential (real):', plot);
+  return plot;
+}
+
+export function plotLogarithmicReal(rangeStart, rangeEnd, step = 1) {
+  // Filter out non-positive values for logarithm
+  const range = generateRange(rangeStart, rangeEnd, step).filter(x => x > 0);
+  const plot = range.map(x => ({ x, y: Math.log(x) }));
+  console.log('Plot Logarithmic (real):', plot);
+  return plot;
+}
+
+// Stub functions remain for legacy support
 const stubFunction = (name) => () => { console.log(name + " stub executed"); };
 
 export const plotQuadratic = stubFunction("plotQuadratic");

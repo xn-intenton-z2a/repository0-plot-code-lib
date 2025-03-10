@@ -8,7 +8,11 @@ const {
   overrides,
   plotQuadratic,
   generateRange,
-  calculateDerivative
+  calculateDerivative,
+  plotSineReal,
+  plotCosineReal,
+  plotExponentialReal,
+  plotLogarithmicReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -365,6 +369,45 @@ describe('Stub Function Tests', () => {
       // For expr 'x^2', derivative is 2*x; at x=3, should be 6
       const derivativeValue = calculateDerivative('x^2', 'x', 3);
       expect(derivativeValue).toBeCloseTo(6);
+    });
+  });
+
+  // New real function tests
+  describe('New Real Implementations', () => {
+    test('plotSineReal computes sine plot correctly', () => {
+      const plot = plotSineReal(0, Math.PI, Math.PI/2);
+      expect(plot).toEqual([
+        { x: 0, y: 0 },
+        { x: Math.PI/2, y: 1 },
+        { x: Math.PI, y: 0 }
+      ]);
+    });
+
+    test('plotCosineReal computes cosine plot correctly', () => {
+      const plot = plotCosineReal(0, Math.PI, Math.PI/2);
+      expect(plot).toEqual([
+        { x: 0, y: 1 },
+        { x: Math.PI/2, y: 0 },
+        { x: Math.PI, y: -1 }
+      ]);
+    });
+
+    test('plotExponentialReal computes exponential plot correctly', () => {
+      const plot = plotExponentialReal(0, 2, 1);
+      expect(plot).toEqual([
+        { x: 0, y: 1 },
+        { x: 1, y: Math.exp(1) },
+        { x: 2, y: Math.exp(2) }
+      ]);
+    });
+
+    test('plotLogarithmicReal computes logarithmic plot correctly', () => {
+      const plot = plotLogarithmicReal(1, 3, 1);
+      expect(plot).toEqual([
+        { x: 1, y: 0 },
+        { x: 2, y: Math.log(2) },
+        { x: 3, y: Math.log(3) }
+      ]);
     });
   });
 });
