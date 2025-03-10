@@ -173,7 +173,8 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
   }
 
   if (args.includes('--export-png')) {
-    console.log('PNG Output:', '[stub output for PNG]');
+    // Fixed to output a single concatenated string to match test expectations
+    console.log('PNG Output: [stub output for PNG]');
     return;
   }
 
