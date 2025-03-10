@@ -1,17 +1,20 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." The tool supports a range of plotting functionalities including classic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) as well as advanced visualizations like heatmaps, scatter, bar charts, Lissajous, spiral plots, custom plots, Fibonacci spiral plots, and now combined sine-cosine plots.
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool offers a wide range of features from classic function plotting to advanced visualizations including heatmaps, scatter plots, bar charts, Lissajous curves, spiral and custom plots, Fibonacci spiral plots, and combined sine-cosine plots.
 
 ## Overview
 
 - **Mathematical Plotting:**
-  Supports plotting of many functions including sine, cosine, quadratic, linear, and others.
+  Generate plots for sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and more.
+
 - **Multiple Output Formats:**
-  Outputs plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats (PNG support remains a stub).
-- **Interactive CLI:**
-  Features interactive mode, diagnostics, a web server mode, and a debug flag for internal diagnostics.
+  Export plots in formats such as CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R. (PNG output remains a stub implementation.)
+
+- **Interactive CLI & Server Mode:**
+  Run in interactive mode or start a lightweight Express server for live demonstrations.
+
 - **Extended Function Library:**
-  Provides real implementations for derivative calculations, range generation, various plotting functions, and new custom plotting functionalities including a Fibonacci spiral plot and a combined sine-cosine plot, while retaining legacy stubs for backward compatibility.
+  Includes real implementations for derivative calculations, range generation, and a wide array of plotting functions while maintaining legacy stubs for backward compatibility.
 
 ## Installation
 
@@ -37,46 +40,54 @@ Other available commands:
   ```bash
   npm run diagnostics
   ```
+
 - **Interactive Mode:**
   ```bash
   node src/lib/main.js --interactive
   ```
+
 - **Web Server Mode:**
   ```bash
   node src/lib/main.js --serve
   ```
+
 - **Plot/Export Flags:**
   Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
+
 - **Advanced Visualizations:**
-  Use flags like `--heatmap`, `--scatter`, `--bar-chart`, `--lissajous`, `--plot-spiral`, `--plot-custom`, `--plot-fibonacci`, and now `--plot-sincos` for generating combined sine-cosine plots.
+  For example, use `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, and others to explore complex plots.
+
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
   ```
+
 - **Custom Plot Parameters:**
-  Simply pass your plot parameters as command-line arguments.
+  Pass plot parameters directly as command-line arguments.
 
 ## Changelog
 
 - **2024-12.12:**
   - Extended functionalities with new spiral and custom plotting features.
-  - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos functionality).
-  - Pruned legacy drift to remove outdated code paths and improve mission alignment.
-  - Improved module loader error handling and enhanced external dependency mocking per CONTRIBUTING.md guidelines.
-  - **Enhanced test coverage and refined error handling as per updated CONTRIBUTING guidelines.**
+  - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
+  - Pruned legacy drift to remove outdated code paths and align with our mission.
+  - Refined module loader error handling and updated test coverage as per CONTRIBUTING guidelines.
+  - README refreshed to align with the latest contributing guidelines.
 
 ## Contributing
 
-We welcome contributions! To contribute:
+We welcome contributions! Please follow these steps:
 
 1. **Open an Issue:**
    Describe your idea, bug, or improvement by opening an issue in our repository.
-2. **Review Guidelines:**
-   Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for our contribution process and workflow details.
-3. **Submit a Pull Request:**
-   Ensure your changes are accompanied by clear commit messages and adequate test coverage.
 
-Thank you for helping improve repository0-plot-code-lib!
+2. **Review Guidelines:**
+   Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for detailed information on our contribution process.
+
+3. **Submit a Pull Request:**
+   Ensure your changes include clear commit messages and adequate test coverage.
+
+Your contributions help us make repository0-plot-code-lib even better!
 
 ## License
 
