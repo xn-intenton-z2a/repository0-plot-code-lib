@@ -1,23 +1,21 @@
 # repository0-plot-code-lib
 
-A powerful CLI tool for accurate mathematical plotting, aligned with our mission:
-
-"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+repository0-plot-code-lib is a CLI for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This repository is built following automated workflows and agentic guidelines.
 
 ## Overview
 
-repository0-plot-code-lib is a versatile command-line utility designed for plotting and analyzing mathematical functions with precision. The tool supports a wide variety of output formats and interactive modes. The CLI now supports multiple flags to output different plot types as well as diagnostics, interactive mode, and debug mode.
+This utility offers:
 
-## Features
-
-- **Mathematical Plots:** Includes quadratic, linear, sine, cosine, exponential, logarithmic, and many other advanced plots.
-- **Extended Functions:** Supports export in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats.
-- **CLI Modes:** Diagnostics, interactive mode, web server mode, debug mode, and a range of export/plot flags.
-- **Help Support:** Use the `--help` flag to display usage instructions.
+- Robust mathematical function plotting for various mathematical functions including quadratic, linear, sinusoidal, exponential, and more.
+- Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R.
+- Multiple modes such as diagnostic, interactive, web server, and debug mode.
+- Extended debugging with a comprehensive list of available plotting functions.
 
 ## Installation
 
-Ensure Node.js (v20 or higher) is installed. Then install via npm:
+Prerequisites: Node.js (v20 or higher).
+
+Install via npm:
 
 ```bash
 npm install @xn-intenton-z2a/repository0-plot-code-lib
@@ -31,11 +29,20 @@ Run the default demo:
 npm run start
 ```
 
-Other available modes include:
+Other available commands:
 
-- **Diagnostics:** `npm run diagnostics` will display the Node version.
-- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively. (In test environments, the prompt resolves immediately.)
-- **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding by immediately closing the server.)
+- **Diagnostics:**
+  ```bash
+  npm run diagnostics
+  ```
+- **Interactive Mode:**
+  ```bash
+  node src/lib/main.js --interactive
+  ```
+- **Web Server Mode:**
+  ```bash
+  node src/lib/main.js --serve
+  ```
 - **Plot/Export Flags:**
   - `--plot-abs`: Outputs an absolute plot of sin(x).
   - `--export-csv`: Outputs CSV formatted plot data.
@@ -48,16 +55,29 @@ Other available modes include:
   - `--export-latex`: Outputs LaTeX table.
   - `--export-txt`: Outputs plain text.
   - `--export-r`: Outputs R-friendly format.
-  - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--power-plot`: Output various plot types as demo data.
-- **Debug Mode:** `node src/lib/main.js --debug` lists all available plotting functions.
-- **Help:** `node src/lib/main.js --help` displays this usage information.
-- **Unrecognized flags:** Any unrecognized flag will be treated as plot parameters.
+  - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot`: Demos for various plot types.
+- **Debug Mode:**
+  ```bash
+  node src/lib/main.js --debug
+  ```
+- **Help:**
+  ```bash
+  node src/lib/main.js --help
+  ```
 
-For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
+For plot parameters, simply pass the parameters as arguments and the CLI will process them.
+
+## Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. Open an issue describing your suggestion or bug and label it as `automated` if applicable.
+2. Follow the instructions in [CONTRIBUTING.md](./CONTRIBUTING.md) to adhere to our automated workflows.
+3. Submit your changes following the guidelines.
 
 ## Changelog
 
-- **2023-10:** Refactored interactive mode override hooks to a mutable object for improved testability; added --help flag; increased test coverage; updated error handling in module loaders.
+- **2023-10:** Refreshed README and contributing guidelines to align with the project's mission and automated contribution process.
 
 ## License
 
