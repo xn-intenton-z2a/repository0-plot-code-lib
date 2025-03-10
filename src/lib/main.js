@@ -413,6 +413,28 @@ export function plotReLUReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
+// New function: Extended histogram plotting feature inline with our mission to provide versatile visualization tools.
+export function plotHistogramReal(data, binCount = 5) {
+  if (!Array.isArray(data)) {
+    console.error('plotHistogramReal: data must be an array');
+    return [];
+  }
+  const min = Math.min(...data);
+  const max = Math.max(...data);
+  const binSize = (max - min) / binCount;
+  const histogram = Array(binCount).fill(0);
+  data.forEach(value => {
+    if (value === max) {
+      histogram[binCount - 1]++;
+    } else {
+      const index = Math.floor((value - min) / binSize);
+      histogram[index]++;
+    }
+  });
+  console.log('Histogram Plot (real):', histogram);
+  return histogram;
+}
+
 // Stub functions remain for legacy support
 const stubFunction = (name) => () => { console.log(name + " stub executed"); };
 
@@ -482,3 +504,4 @@ export const boxPlot = stubFunction("boxPlot");
 export const plotDampedOscillation = stubFunction("plotDampedOscillation");
 export const plotRational = stubFunction("plotRational");
 export const plotStep = stubFunction("plotStep");
+// Duplicate export lines for plotSigmoidReal and plotReLUReal removed as they are already exported above
