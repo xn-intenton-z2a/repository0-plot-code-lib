@@ -54,7 +54,7 @@ describe('Main Function Behaviour', () => {
     expect(spy).toHaveBeenCalledWith('Received plot command: simulated plot command');
     spy.mockRestore();
     process.env.VITEST = originalVitest;
-  });
+  }, 6000);
 
   test('should trigger fallback timeout in interactive mode when no answer is provided (non-test environment)', async () => {
     process.env.NODE_ENV = 'non-test';

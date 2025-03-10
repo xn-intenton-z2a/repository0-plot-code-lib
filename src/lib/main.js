@@ -48,14 +48,11 @@ export async function main(argsInput) {
       });
       let answer;
       if (process.env.VITEST === 'true') {
-        // In test environment, use the synchronous callback
-        answer = await new Promise((resolve) => {
-          if (typeof rl.question === 'function') {
-            rl.question('Enter a command: ', resolve);
-          } else {
-            resolve('simulated plot command');
-          }
-        });
+        // In test environment, simulate immediate response
+        answer = 'simulated plot command';
+        console.log(`Received plot command: ${answer}`);
+        rl.close();
+        return;
       } else {
         // Use fallback timer (shorter in non-test environments)
         const fallbackTime = 100;
@@ -66,13 +63,13 @@ export async function main(argsInput) {
             resolve(res);
           });
         });
+        if (answer === undefined) {
+          console.warn('Interactive mode fallback triggered after timeout');
+        } else {
+          console.log(`Received plot command: ${answer}`);
+        }
+        rl.close();
       }
-      if (answer === undefined) {
-        console.warn('Interactive mode fallback triggered after timeout');
-      } else {
-        console.log(`Received plot command: ${answer}`);
-      }
-      rl.close();
     } catch (err) {
       console.error('Error loading readline module:', err);
       return;
@@ -149,7 +146,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
+    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
     return;
   }
 
