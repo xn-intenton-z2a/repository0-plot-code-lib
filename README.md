@@ -112,6 +112,7 @@ We welcome contributions! Please follow these steps:
 - **2024-05:** Extended library functions by adding real implementations for plotSineReal, plotCosineReal, plotExponentialReal, and plotLogarithmicReal.
 - **2024-07:** Extended library functions with additional real implementations for plotQuadraticReal, plotLinearReal, plotTangentReal, and rotatePointsReal.
 - **2024-08:** Extended library functions with new real implementations for plotSigmoidReal and plotReLUReal.
+- **2024-09:** Pruned legacy drift and further aligned implementations with the mission statement.
 
 ## License
 

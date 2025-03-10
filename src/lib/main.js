@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
-// This file has been updated to align with the latest CONTRIBUTING.md guidelines, prune drift, and extend library functions per project mission.
+// Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// This file has been updated to align with the latest CONTRIBUTING.md guidelines, prune legacy drift, and extend library functions per project mission.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -359,7 +359,7 @@ export function plotLogarithmicReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New extended real implementations in line with project mission
+// New extended real implementations
 export function plotQuadraticReal(rangeStart, rangeEnd, step = 1, a = 1, b = 0, c = 0) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: a * x * x + b * x + c }));
@@ -399,7 +399,6 @@ export function rotatePointsReal(points, angle) {
   return rotated;
 }
 
-// New real implementations for extended functionality inline with mission statement
 export function plotSigmoidReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: 1 / (1 + Math.exp(-x)) }));
