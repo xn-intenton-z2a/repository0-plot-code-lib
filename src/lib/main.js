@@ -223,14 +223,14 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--heatmap')) {
-    // New feature: Heatmap plotting based on a default matrix or provided matrix
+    // New feature: Heatmap plotting
     const heatmap = plotHeatMapReal();
     console.log('Heat Map Output:', heatmap);
     return;
   }
 
   if (args.includes('--plot-spiral')) {
-    // New feature: Spiral plot implementation based on polar equation r = a + b * theta
+    // New feature: Spiral plot implementation
     const spiral = plotSpiralReal();
     console.log('Spiral Plot Output:', spiral);
     return;
@@ -303,7 +303,7 @@ export async function main(argsInput) {
     return;
   }
 
-  // Process as plot parameters if no flag matched
+  // Default: process as plot parameters
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
 
@@ -311,9 +311,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
 
-// Extended implementations in line with our mission to provide versatile plotting functionalities
-
-// Real implementation for generateRange function
+// Extended implementations
 export function generateRange(start, end, step = 1) {
   const range = [];
   for (let i = start; i <= end; i += step) {
@@ -323,7 +321,6 @@ export function generateRange(start, end, step = 1) {
   return range;
 }
 
-// Real implementation for calculateDerivative using mathjs
 export function calculateDerivative(expr, variable, value) {
   try {
     const derivative = math.derivative(expr, variable);
@@ -599,7 +596,7 @@ export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1,
   return points;
 }
 
-// Legacy stub functions retained for API compatibility (deprecated: please use the real implementations where available)
+// Legacy stub functions retained for API compatibility
 const stubFunction = (name) => () => { console.log(name + ' stub executed'); };
 
 export const plotQuadratic = stubFunction('plotQuadratic');
