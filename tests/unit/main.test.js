@@ -1,6 +1,6 @@
 // tests/unit/main.test.js
 // Updated tests with enhanced mocks for external dependencies and refined error handling for improved coverage.
-import { describe, test, expect, vi } from 'vitest';
+import { describe, test, expect, vi, beforeEach } from 'vitest';
 import * as mainModule from '@src/lib/main.js';
 
 const {
@@ -43,14 +43,15 @@ const {
   plotFibonacciSpiralReal,
   plotCircularPlotReal,
   plotPolarRoseReal,
-  plotStarPolygonReal
+  plotStarPolygonReal,
+  resetOverrides
 } = mainModule;
 
-// Helper to reset overrides after tests
-function resetOverrides() {
-  overrides.loadExpressOverride = undefined;
-  overrides.loadReadlineOverride = undefined;
-}
+beforeEach(() => {
+  resetOverrides();
+});
+
+// Removed local resetOverrides since resetOverrides is now exported from mainModule
 
 describe('Main Function Behaviour', () => {
   test('should output demo message when no arguments are provided', () => {
