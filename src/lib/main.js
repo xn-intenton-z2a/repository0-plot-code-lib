@@ -50,8 +50,11 @@ export async function main(argsInput) {
       // Use fallback timeout: for test env longer timeout, otherwise shorter
       const fallbackTime = process.env.VITEST === 'true' ? 1000 : 100;
       const answer = await new Promise((resolve) => {
-        rl.question('Enter a command: ', resolve);
-        setTimeout(() => resolve(undefined), fallbackTime);
+        const timeout = setTimeout(() => resolve(undefined), fallbackTime);
+        rl.question('Enter a command: ', (res) => {
+          clearTimeout(timeout);
+          resolve(res);
+        });
       });
       if (answer === undefined) {
         console.warn('Interactive mode fallback triggered after timeout');

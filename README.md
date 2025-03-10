@@ -55,8 +55,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored CLI to use direct module loader function calls in interactive and serve modes for better testability and clearer error handling.
-- **2023-10:** Enhanced test coverage and updated debug mode to include an extended list of plotting functions to align with the mission statement.
+- **2023-10:** Refactored CLI to improve interactive mode behavior by clearing fallback timers upon receiving user input. Enhanced error handling in server mode to ensure proper logging of module load failures. Updated test coverage to align with the mission statement.
 
 ## License
 
