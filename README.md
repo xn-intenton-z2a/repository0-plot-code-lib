@@ -97,6 +97,7 @@ We welcome contributions! Please follow these steps:
 ## Changelog
 
 - **2024-01:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
+- **2024-04:** Updated the source file to prune drift and align fully with the mission statement per the latest CONTRIBUTING guidelines.
 
 ## License
 
