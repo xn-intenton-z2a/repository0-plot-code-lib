@@ -1,16 +1,15 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile command-line interface tool designed to plot and analyze mathematical functions.
-Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 
 ## Overview
 
 This CLI utility provides:
 
 - Plotting of various mathematical functions with both stub and real implementations.
-- Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub).
-- Modes for diagnostics, interactive input, web service, and debug output.
-- Extended functionalities such as calculating derivatives, generating numeric ranges, and new real implementations for quadratic, linear, tangent plots, point rotations, sigmoid, ReLU, histogram plotting, and additional extensions.
+- Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and a PNG stub.
+- Modes for diagnostics, interactive input, web server, and debug output.
+- Extended functionalities such as calculating derivatives, generating numeric ranges, and a suite of real implementations for common plots including sine, cosine, quadratic, linear, and more.
 
 ## Installation
 
@@ -53,14 +52,14 @@ Other available commands:
   - `--export-md`: Outputs a Markdown table.
   - `--export-json`: Outputs JSON data.
   - `--export-html`: Outputs an HTML table.
-  - `--export-ascii`: Outputs ASCII formatted table.
+  - `--export-ascii`: Outputs an ASCII formatted table.
   - `--export-svg`: Outputs SVG content.
   - `--export-xml`: Outputs XML data.
   - `--export-latex`: Outputs a LaTeX formatted table.
   - `--export-txt`: Outputs plain text data.
   - `--export-r`: Outputs data in R-friendly format.
   - `--export-png`: Stub for PNG output.
-  - Additional flags: `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot` for various plots.
+  - Additional flags include `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot` for various plot types.
 
 - **Debug Mode:**
   ```bash
@@ -76,50 +75,37 @@ For custom plot parameters, simply pass them as arguments to the CLI.
 
 ## Extended Library Functions
 
-This release includes real implementations for some core functions:
+This release includes real implementations for core functions:
 
-- **calculateDerivative:** Uses mathjs to compute the derivative of a given expression at a specific value.
+- **calculateDerivative:** Uses mathjs to compute the derivative at a specific value.
 - **generateRange:** Generates a numeric sequence between two values with an optional step.
 - **New Real Plot Functions:**
-  - **plotSineReal:** Generates a sine plot for a specified range.
-  - **plotCosineReal:** Generates a cosine plot for a specified range.
-  - **plotExponentialReal:** Generates an exponential plot for a specified range.
-  - **plotLogarithmicReal:** Generates a logarithmic plot (for positive values) for a specified range.
-  - **plotQuadraticReal:** Generates a quadratic plot given coefficients and range.
-  - **plotLinearReal:** Generates a linear plot given slope and intercept over a range.
-  - **plotTangentReal:** Generates a tangent plot for a specified range with safe handling of asymptotes.
-  - **rotatePointsReal:** Rotates an array of points by a given angle.
-  - **plotSigmoidReal:** Generates a sigmoid plot using the formula 1/(1+e^(-x)).
-  - **plotReLUReal:** Generates a ReLU plot where y = max(0, x).
-  - **plotHistogramReal:** Generates a histogram plot from numerical data.
-  - **plotPolarReal:** Generates a polar coordinate (spiral) plot using theta as the radial distance.
-  - **plotLogisticReal:** Generates a logistic function plot with parameters for L, k, and x0.
-  - **movingAverageReal:** Computes the moving average for a data array with a given window size.
+  - **plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal** for standard function plots.
+  - **plotQuadraticReal, plotLinearReal, plotTangentReal** for polynomial and trigonometric plots.
+  - **rotatePointsReal, plotSigmoidReal, plotReLUReal** for point transformations and activation functions.
+  - **plotHistogramReal, plotPolarReal, plotLogisticReal, movingAverageReal** for histogram, polar, logistic curve and data smoothing respectively.
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
+We welcome contributions! To contribute, please:
 
-1. **Open an Issue:**
-   Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement.
+2. **Review the Guidelines:** Please see [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our workflow and project mission.
+3. **Submit Your Changes:** Commit your updates with clear, descriptive messages.
 
-2. **Review CONTRIBUTING Guidelines:**
-   Please see [CONTRIBUTING.md](./CONTRIBUTING.md) to ensure your changes align with our mission and automated workflows.
-
-3. **Submit Your Changes:**
-   Commit your updates with clear messages.
+Our automated workflows will help integrate your changes quickly.
 
 ## Changelog
 
-- **2024-01:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
-- **2024-04:** Updated the source file to remove drift and align with the mission statement.
-- **2024-05:** Extended library functions by adding real implementations for plotSineReal, plotCosineReal, plotExponentialReal, and plotLogarithmicReal.
-- **2024-07:** Extended library functions with additional real implementations for plotQuadraticReal, plotLinearReal, plotTangentReal, and rotatePointsReal.
-- **2024-08:** Extended library functions with new real implementations for plotSigmoidReal and plotReLUReal.
-- **2024-09:** Pruned legacy drift and further aligned implementations with the mission statement.
-- **2024-10:** Introduced plotHistogramReal and enhanced error handling.
-- **2024-11:** Enhanced test coverage and refined error handling based on CONTRIBUTING guidelines.
-- **2024-12:** Extended library functions with new implementations: plotPolarReal, plotLogisticReal, and movingAverageReal.
+- **2024-01:** Refreshed README to align with updated CONTRIBUTING guidelines and remove outdated content.
+- **2024-04:** Updated source file to prune legacy drift and reinforce the mission statement.
+- **2024-05:** Extended library functions for common plots including sine, cosine, exponential, and logarithmic functions.
+- **2024-07:** Added real implementations for quadratic, linear, tangent plots, and point rotations.
+- **2024-08:** Introduced real implementations for sigmoid and ReLU plots.
+- **2024-09:** Continued pruning legacy drift and streamlined implementations.
+- **2024-10:** Added histogram plotting feature and improved error handling.
+- **2024-11:** Enhanced test coverage and refined error handling per CONTRIBUTING guidelines.
+- **2024-12:** Extended library functions with implementations for polar, logistic plots and moving average; refreshed project documentation as per CONTRIBUTING.md.
 
 ## License
 
