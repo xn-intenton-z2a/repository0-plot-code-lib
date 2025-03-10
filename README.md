@@ -1,18 +1,20 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports multiple output formats and a broad range of plotting functionalities, from basic graphs to extended visualization methods.
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports multiple output formats and a broad range of plotting functionalities with both stub and real implementations.
 
 ## Overview
 
 This CLI utility provides:
 
-- Plotting of various mathematical functions with both stub and real implementations.
+- Plotting of various mathematical functions using both stub and real implementations.
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and a PNG stub.
 - Modes for diagnostics, interactive input, web server, and debug output.
-- Extended functionalities such as calculating derivatives, generating numeric ranges, and a comprehensive suite of real implementations for common plots including sine, cosine, exponential, logarithmic, quadratic, linear, and more.
-- **New Features:**
-  - Histogram plotting using the --plot-histogram flag.
-  - Real implementations for Hyperbola and Ellipse plotting (plotHyperbolaReal and plotEllipseReal).
+- Extended functionalities such as derivative calculations, numeric range generation, and real implementations for many mathematical plots including sine, cosine, exponential, logarithmic, quadratic, linear, and more.
+
+**New Features:**
+
+- Histogram plotting using the `--plot-histogram` flag.
+- Real implementations for hyperbola and ellipse plotting (`plotHyperbolaReal` and `plotEllipseReal`).
 
 ## Installation
 
@@ -61,7 +63,7 @@ Other available commands:
   - `--export-latex`: Outputs a LaTeX formatted table.
   - `--export-txt`: Outputs plain text data.
   - `--export-r`: Outputs data in R-friendly format.
-  - `--export-png`: Stub for PNG output.
+  - `--export-png`: PNG output (stub).
   - `--scatter`: Outputs a scatter plot.
   - `--bar-chart`: Outputs a bar chart.
   - `--plot-parametric`: Outputs a parametric plot.
@@ -88,41 +90,38 @@ For custom plot parameters, simply pass them as arguments to the CLI.
 
 This release includes real implementations for core functions:
 
-- **calculateDerivative:** Uses mathjs to compute the derivative at a specific value.
+- **calculateDerivative:** Uses mathjs to compute the derivative at a specified value.
 - **generateRange:** Generates a numeric sequence between two values with an optional step.
-- **New Real Plot Functions:**
+- **Real Plot Functions:**
   - **plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal** for standard function plots.
   - **plotQuadraticReal, plotLinearReal, plotTangentReal** for polynomial and trigonometric plots.
   - **rotatePointsReal, plotSigmoidReal, plotReLUReal** for point transformations and activation functions.
-  - **plotHistogramReal, plotPolarReal, plotLogisticReal, movingAverageReal** for histogram, polar, logistic curve and data smoothing respectively.
+  - **plotHistogramReal, plotPolarReal, plotLogisticReal, movingAverageReal** for histogram, polar, logistic plots and data smoothing.
   - **plotSincReal, calculateDefiniteIntegralReal, plotBezierReal** for additional advanced plotting capabilities.
-  - **plotHyperbolaReal, plotEllipseReal:** New functions providing real plotting implementations for hyperbolas and ellipses.
+  - **plotHyperbolaReal, plotEllipseReal:** New implementations for hyperbola and ellipse plotting.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:**
-   Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 
-2. **Review Guidelines:**
-   Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for our workflow and project mission.
+2. **Review Guidelines:** Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for our workflow and project mission.
 
-3. **Submit Your Changes:**
-   Commit your updates with clear, descriptive messages.
+3. **Submit Your Changes:** Commit your updates with clear, descriptive messages.
 
 Our automated workflows will help integrate your changes quickly.
 
 ## Changelog
 
 - **2024-01:** Refreshed README to align with updated contribution guidelines and remove outdated content.
-- **2024-04:** Updated source file to prune legacy drift and reinforce the mission statement.
-- **2024-05:** Extended library functions for common plots including sine, cosine, exponential, and logarithmic functions.
-- **2024-07:** Added real implementations for quadratic, linear, tangent plots, and point rotations.
+- **2024-04:** Pruned legacy drift and reinforced the mission statement in the source code.
+- **2024-05:** Extended library functions for standard plots (sine, cosine, exponential, and logarithmic).
+- **2024-07:** Added real quadratic, linear, tangent plots, and point rotation implementations.
 - **2024-08:** Introduced real implementations for sigmoid and ReLU plots.
 - **2024-09:** Added histogram plotting feature and improved error handling.
-- **2024-12:** Extended library functions with implementations for polar, logistic plots and moving average; refreshed project documentation as per CONTRIBUTING.md.
-- **2024-12.9:** Extended library functions to include real implementations for hyperbola and ellipse plotting (plotHyperbolaReal and plotEllipseReal) and updated debug information; refreshed README to fully align with CONTRIBUTING.md guidelines and pruned irrelevant legacy details.
+- **2024-12:** Extended functions with polar, logistic plots and moving average; refreshed documentation as per CONTRIBUTING.md.
+- **2024-12.9:** Extended functions with real hyperbola and ellipse plotting, updated debug information, and refreshed this README to fully align with CONTRIBUTING.md guidelines.
 
 ## License
 

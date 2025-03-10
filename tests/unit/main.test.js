@@ -542,7 +542,7 @@ describe('Stub Function Tests', () => {
 
     test('plotEllipseReal computes ellipse coordinates correctly', () => {
       const plot = plotEllipseReal(1, 2, Math.PI/2);
-      // Check that the plot has at least four points and first point equals {x: 1, y: 0}
+      // Check that the plot has at least three points and first point equals {x: 1, y: 0}
       expect(plot.length).toBeGreaterThanOrEqual(3);
       expect(plot[0]).toEqual({ x: 1, y: 0 });
     });
