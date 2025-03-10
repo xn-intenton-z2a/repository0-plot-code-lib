@@ -4,7 +4,7 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
 
 ## Overview
 
-- **Mathematical Plotting:** Supports plotting of functions such as sine, cosine, exponential, logarithmic, quadratic, linear, tangent, sigmoid, histogram, polar, logistic, cubic, gaussian, and now heatmap, scatter, bar chart and Lissajous visualizations.
+- **Mathematical Plotting:** Supports plotting of functions such as sine, cosine, exponential, logarithmic, quadratic, linear, tangent, sigmoid, histogram, polar, logistic, cubic, gaussian, and now heatmap, scatter, bar chart, Lissajous and spiral visualizations.
 - **Multiple Output Formats:** Provides outputs in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R; with PNG support as a stub.
 - **Interactive CLI:** Offers an interactive mode, diagnostic mode, server mode, and debug features.
 - **Extended Functions:** Includes real implementations for derivative calculations, numeric range generation, and various plotting functions, alongside legacy stubs for backward compatibility.
@@ -58,6 +58,10 @@ Other available commands:
   ```bash
   node src/lib/main.js --lissajous
   ```
+- **Spiral Plot Visualization:**
+  ```bash
+  node src/lib/main.js --plot-spiral
+  ```
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -71,12 +75,12 @@ This release provides real implementations for:
 
 - **calculateDerivative:** Compute the derivative of a function using mathjs.
 - **generateRange:** Create numeric sequences with custom steps.
-- **Real Plot Functions:** Including but not limited to plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal, plotQuadraticReal, plotLinearReal, plotTangentReal, plotHistogramReal, plotPolarReal, plotLogisticReal, plotCubicReal, plotGaussianReal, movingMedianReal, and now **plotHeatMapReal**, **plotScatterReal**, **plotBarChartReal**, and **plotLissajousReal** for extended and innovative visualizations.
+- **Real Plot Functions:** Including but not limited to plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal, plotQuadraticReal, plotLinearReal, plotTangentReal, plotHistogramReal, plotPolarReal, plotLogisticReal, plotCubicReal, plotGaussianReal, movingMedianReal, and now **plotHeatMapReal**, **plotScatterReal**, **plotBarChartReal**, **plotLissajousReal**, and **plotSpiralReal** for extended and innovative visualizations.
 
 ## Changelog
 
-- **2024-12.11:** Updated source file per mission statement: pruned legacy drift, extended plotting features (including the heatmap, scatter, bar chart, and Lissajous visualizations), improved error handling, and enhanced test coverage.
-- **0.7.71:** Added new real implementations for scatter, bar chart, and Lissajous plotting to further expand the library's versatility.
+- **2024-12.12:** Extended source file functionalities per mission statement: pruned legacy drift, extended plotting features (including the heatmap, scatter, bar chart, Lissajous, and spiral visualizations), improved error handling and enhanced test coverage.
+- **0.7.72:** Added new real implementation for spiral plotting to further expand the library's versatility.
 
 ## Contributing
 

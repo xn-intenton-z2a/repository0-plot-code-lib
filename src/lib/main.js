@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.11: Refactored per mission statement; pruned legacy drift and extended plotting functionalities (including the new heatmap, scatter, bar chart and Lissajous real features), and enhanced error handling and testability.
+// Last Updated 2024-12.12: Extended functionalities with new spiral plotting feature, pruned legacy drift, extended plotting functionalities, improved error handling and testability.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -34,7 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -229,6 +229,13 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-spiral')) {
+    // New feature: Spiral plot implementation based on polar equation r = a + b * theta
+    const spiral = plotSpiralReal();
+    console.log('Spiral Plot Output:', spiral);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'plotQuadratic',
@@ -274,7 +281,7 @@ export async function main(argsInput) {
       'plotEllipse',
       'plotPolynomial',
       'plotModulatedSine',
-      'plotSpiral',
+      'plotSpiralReal',
       'plotSigmoidReal',
       'plotSincReal',
       'calculateDefiniteIntegralReal',
@@ -551,7 +558,19 @@ export function plotHeatMapReal(matrix) {
   return matrix;
 }
 
-// New extended real implementations as part of extended functionalities
+// New extended real implementation for spiral plot
+export function plotSpiralReal(steps = 100, a = 0, b = 0.1) {
+  const points = [];
+  for (let i = 0; i < steps; i++) {
+    const theta = i * (Math.PI / 15);
+    const r = a + b * theta;
+    points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta) });
+  }
+  console.log('Spiral Plot (real):', points);
+  return points;
+}
+
+// Added real implementation for scatter plot
 export function plotScatterReal(count = 10) {
   const points = [];
   for (let i = 0; i < count; i++) {
@@ -561,12 +580,14 @@ export function plotScatterReal(count = 10) {
   return points;
 }
 
+// Added real implementation for bar chart plot
 export function plotBarChartReal(data = [3, 5, 1, 6, 4]) {
   const chart = data.map(value => '*'.repeat(value));
   console.log('Bar Chart (real):', chart);
   return chart;
 }
 
+// Added real implementation for Lissajous plot
 export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1, rangeEnd = 2 * Math.PI) {
   const points = [];
   for (let t = 0; t <= rangeEnd; t += step) {
