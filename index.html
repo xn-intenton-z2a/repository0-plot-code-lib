@@ -44,15 +44,15 @@
 <p class="md-github">Other available modes include:</p>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">Diagnostics:</strong> <code class="md-github">npm run diagnostics</code> will display the Node version.</li>
-<li class="md-github"><strong class="md-github">Interactive Mode:</strong> <code class="md-github">node src/lib/main.js --interactive</code> to input commands interactively. (In test environments the prompt resolves immediately.)</li>
-<li class="md-github"><strong class="md-github">Web Server Mode:</strong> <code class="md-github">node src/lib/main.js --serve</code> starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding.)</li>
+<li class="md-github"><strong class="md-github">Interactive Mode:</strong> <code class="md-github">node src/lib/main.js --interactive</code> to input commands interactively. (In test environments, the prompt resolves immediately.)</li>
+<li class="md-github"><strong class="md-github">Web Server Mode:</strong> <code class="md-github">node src/lib/main.js --serve</code> starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding by immediately closing the server.)</li>
 <li class="md-github"><strong class="md-github">Plot/Export Flags:</strong>
 <ul class="md-github">
 <li class="md-github"><code class="md-github">--plot-abs</code>: Outputs an absolute plot of sin(x).</li>
 <li class="md-github"><code class="md-github">--export-csv</code>: Outputs CSV formatted plot data.</li>
 <li class="md-github"><code class="md-github">--export-md</code>: Outputs Markdown table format.</li>
 <li class="md-github"><code class="md-github">--export-json</code>: Outputs JSON data.</li>
-<li class="md-github"><code class="md-github">--export-html</code>: Outputs HTML table. <em class="md-github">(Note: HTML, ASCII, SVG, and XML outputs are concatenated into a single string for consistency.)</em></li>
+<li class="md-github"><code class="md-github">--export-html</code>: Outputs HTML table.</li>
 <li class="md-github"><code class="md-github">--export-ascii</code>: Outputs ASCII formatted table.</li>
 <li class="md-github"><code class="md-github">--export-svg</code>: Outputs SVG content.</li>
 <li class="md-github"><code class="md-github">--export-xml</code>: Outputs XML data.</li>
@@ -68,15 +68,14 @@
 <p class="md-github">For detailed contribution guidelines, see <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a>.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">2023-10:</strong> Refactored CLI to support dynamic importing of module loaders in interactive and server modes to improve testability and adhere to the mission statement.</li>
-<li class="md-github"><strong class="md-github">2023-10:</strong> Updated interactive mode to ensure proper resolution of user input and fixed error handling in both interactive and server modes.</li>
+<li class="md-github"><strong class="md-github">2023-10:</strong> Refactored interactive mode override hooks to a mutable object for improved testability; updated test coverage and error handling in module loaders.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-10T02:51:22.591Z</p>
+    <p>Generated on 2025-03-10T02:59:17.946Z</p>
   </footer>
 </body>
 </html>
