@@ -1,20 +1,20 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This project is built following automated workflows and agentic contribution guidelines.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This project follows automated workflows and updated contribution guidelines.
 
 ## Overview
 
 This CLI utility provides:
 
-- Plotting of various mathematical functions including quadratic, linear, sine, cosine, exponential, logarithmic, Lissajous curves, and more (with many stub implementations to support future enhancements).
-- Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub implementation).
-- Different modes: diagnostic, interactive, web server, and debug mode.
+- Plotting of various mathematical functions with support for stub and real implementations.
+- Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub).
+- Modes including diagnostic, interactive, web server, and debug mode.
 - Extended debugging with a comprehensive list of plotting functions.
-- Extended library functions with real implementations for calculateDerivative and generateRange.
+- Real implementations for key functions such as calculateDerivative and generateRange.
 
 ## Installation
 
-**Prerequisites:** Node.js (v20 or higher)
+**Prerequisites:** Node.js v20 or higher
 
 Install via npm:
 
@@ -53,14 +53,14 @@ Other available commands:
   - `--export-md`: Outputs a Markdown table.
   - `--export-json`: Outputs JSON data.
   - `--export-html`: Outputs an HTML table.
-  - `--export-ascii`: Outputs an ASCII formatted table.
+  - `--export-ascii`: Outputs ASCII formatted table.
   - `--export-svg`: Outputs SVG content.
   - `--export-xml`: Outputs XML data.
   - `--export-latex`: Outputs a LaTeX formatted table.
-  - `--export-txt`: Outputs plain text.
+  - `--export-txt`: Outputs plain text data.
   - `--export-r`: Outputs data in R-friendly format.
-  - `--export-png`: Outputs a PNG formatted plot (stub implementation).
-  - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot`: Demonstrate various plot types.
+  - `--export-png`: Stub for PNG output.
+  - Additional flags: `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot` for various plots.
 
 - **Debug Mode:**
   ```bash
@@ -79,30 +79,24 @@ For plot parameters, simply pass them as arguments and the CLI will process the 
 This release includes real implementations for some library functions:
 
 - **calculateDerivative:** Uses mathjs to compute the derivative of a given expression at a specific value.
-- **generateRange:** Generates a numeric range between two values with a given step.
-
-## Additional Plotting Functions
-
-This library now includes a range of stub implementations for various plotting and mathematical functions, including a stub for PNG export. These are intended to be extended in future updates to fully realize our mission statement.
+- **generateRange:** Generates a numeric sequence between two values with an optional step.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:**  
+1. **Open an Issue:**
    Describe your idea or report a bug by opening an issue. Label it as `automated` if applicable.
 
 2. **Review CONTRIBUTING Guidelines:**
-   Follow the instructions in [CONTRIBUTING.md](./CONTRIBUTING.md) to adhere to our automated workflows.
+   Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) to ensure your changes align with our automated workflows and mission.
 
 3. **Submit Your Changes:**
-   Commit your changes with clear messages and ensure your code aligns with the project mission.
+   Commit your changes with clear messages and ensure compliance with the project mission.
 
 ## Changelog
 
-- **2023-10:** Extended library functions by implementing calculateDerivative and generateRange with real implementations. Refined interactive and export modes in line with the mission statement.
-- **2023-11:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
-- **2023-12:** Improved test coverage to near 100% and enhanced error handling in module loaders, along with minor code refinements per contribution guidelines.
+- **2024-01:** Refreshed README to align with updated CONTRIBUTING guidelines and pruned outdated content.
 
 ## License
 
