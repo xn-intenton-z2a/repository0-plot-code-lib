@@ -19,7 +19,10 @@ const {
   rotatePointsReal,
   plotSigmoidReal,
   plotReLUReal,
-  plotHistogramReal
+  plotHistogramReal,
+  plotPolarReal,
+  plotLogisticReal,
+  movingAverageReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -305,6 +308,10 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotEllipse');
     expect(debugString).toContain('plotSigmoidReal');
     expect(debugString).toContain('plotReLUReal');
+    // New functions tests in debug output
+    expect(debugString).toContain('plotPolarReal');
+    expect(debugString).toContain('plotLogisticReal');
+    expect(debugString).toContain('movingAverageReal');
     spy.mockRestore();
   });
 });
@@ -462,6 +469,31 @@ describe('Stub Function Tests', () => {
       const data = [1, 2, 2, 3, 4];
       const histogram = plotHistogramReal(data, 3);
       expect(histogram).toEqual([1, 2, 2]);
+    });
+
+    test('plotPolarReal computes polar plot correctly', () => {
+      const plot = plotPolarReal(0, 1, 0.5);
+      expect(plot).toEqual([
+        { theta: 0, r: 0 },
+        { theta: 0.5, r: 0.5 },
+        { theta: 1, r: 1 }
+      ]);
+    });
+
+    test('plotLogisticReal computes logistic plot correctly', () => {
+      const plot = plotLogisticReal(0, 2, 1, 1, 1, 1);
+      // logistic function: y = 1/(1+exp(-1*(x-1)))
+      expect(plot).toEqual([
+        { x: 0, y: 1/(1+Math.exp(1)) },
+        { x: 1, y: 0.5 },
+        { x: 2, y: 1/(1+Math.exp(-1)) }
+      ]);
+    });
+
+    test('movingAverageReal computes moving average correctly', () => {
+      const data = [1, 2, 3, 4, 5];
+      const result = movingAverageReal(data, 3);
+      expect(result).toEqual([2, 3, 4]);
     });
   });
 });
