@@ -1,13 +1,17 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports multiple output formats and a wide range of plotting functionalities with both legacy stubs (for API compatibility) and real implementations for mathematical visualisations.
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission remains: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports multiple output formats and a wide range of plotting functionalities. This release updates the documentation in line with our CONTRIBUTING guidelines, pruning outdated details while retaining essential information.
 
 ## Overview
 
-- **Mathematical Plotting:** Supports plotting of functions such as sine, cosine, exponential, logarithmic, quadratic, linear, tangent, sigmoid, histogram, polar, logistic, cubic, gaussian, and now heatmap, scatter, bar chart, Lissajous and spiral visualizations.
-- **Multiple Output Formats:** Provides outputs in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R; with PNG support as a stub.
-- **Interactive CLI:** Offers an interactive mode, diagnostic mode, server mode, and debug features.
-- **Extended Functions:** Includes real implementations for derivative calculations, numeric range generation, and various plotting functions, alongside legacy stubs for backward compatibility.
+- **Mathematical Plotting:**
+  Supports plotting of functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, sigmoid, histogram, polar, logistic, cubic, gaussian, and the new heatmap, scatter, bar chart, Lissajous, and spiral visualizations.
+- **Multiple Output Formats:**
+  Provides outputs in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R; with PNG support as a stub.
+- **Interactive CLI:**
+  Offers an interactive mode, diagnostic mode, server mode, and debug features.
+- **Extended Library Functions:**
+  Incorporates real implementations for derivative calculations, numeric range generation, and various plotting functions, alongside legacy stubs for backward compatibility.
 
 ## Installation
 
@@ -41,27 +45,10 @@ Other available commands:
   ```bash
   node src/lib/main.js --serve
   ```
-- **Plot/Export Flags:** Pass flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
-- **Heatmap Visualization:**
-  ```bash
-  node src/lib/main.js --heatmap
-  ```
-- **Scatter Plot Visualization:**
-  ```bash
-  node src/lib/main.js --scatter
-  ```
-- **Bar Chart Visualization:**
-  ```bash
-  node src/lib/main.js --bar-chart
-  ```
-- **Lissajous Curve Visualization:**
-  ```bash
-  node src/lib/main.js --lissajous
-  ```
-- **Spiral Plot Visualization:**
-  ```bash
-  node src/lib/main.js --plot-spiral
-  ```
+- **Plot/Export Flags:**
+  Pass flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
+- **New Visualizations:**
+  Use flags like `--heatmap`, `--scatter`, `--bar-chart`, `--lissajous`, and `--plot-spiral` for advanced visualizations.
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -69,26 +56,17 @@ Other available commands:
 
 For custom plot parameters, simply pass them as arguments to the CLI.
 
-## Extended Library Functions
-
-This release provides real implementations for:
-
-- **calculateDerivative:** Compute the derivative of a function using mathjs.
-- **generateRange:** Create numeric sequences with custom steps.
-- **Real Plot Functions:** Including but not limited to plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal, plotQuadraticReal, plotLinearReal, plotTangentReal, plotHistogramReal, plotPolarReal, plotLogisticReal, plotCubicReal, plotGaussianReal, movingMedianReal, and now **plotHeatMapReal**, **plotScatterReal**, **plotBarChartReal**, **plotLissajousReal**, and **plotSpiralReal** for extended and innovative visualizations.
-
 ## Changelog
 
-- **2024-12.12:** Extended source file functionalities per mission statement: pruned legacy drift, extended plotting features (including the heatmap, scatter, bar chart, Lissajous, and spiral visualizations), improved error handling and enhanced test coverage.
-- **0.7.72:** Added new real implementation for spiral plotting to further expand the library's versatility.
+- **2024-12.12:** Refreshed the README and documentation per CONTRIBUTING guidelines; pruned outdated content and updated descriptions of extended plotting features, including spiral plotting.
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
+We welcome contributions! Please follow our guidelines:
 
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement in our issue tracker.
-2. **Review Guidelines:** Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our workflow and project mission.
-3. **Submit Your Changes:** Commit your improvements with clear, descriptive messages. Automation processes help integrate your contributions smoothly.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement via an issue in our tracker.
+2. **Review Guidelines:** Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our workflow and mission.
+3. **Submit Your Changes:** Commit your improvements with clear and descriptive messages.
 
 Thank you for helping improve repository0-plot-code-lib!
 
