@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, and pruned legacy drift.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, pruned legacy drift, and newly added log-log and step function plotting.
 // Updated to align with our updated CONTRIBUTING guidelines and refreshed inline documentation.
-// New plotting functions include Polar Rose and Star Polygon.
+// New plotting functions include Polar Rose, Star Polygon, Log-Log Plot, and Step Function Plot.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -36,7 +36,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -272,6 +272,18 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-loglog')) {
+    const loglog = plotLogLogReal(1, 10, 1);
+    console.log('Log-Log Plot Output:', loglog);
+    return;
+  }
+
+  if (args.includes('--plot-step')) {
+    const stepPlot = plotStepFunctionReal(0, 10, 1, 2);
+    console.log('Step Function Plot Output:', stepPlot);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'plotQuadratic',
@@ -338,7 +350,9 @@ export async function main(argsInput) {
       'plotSinCosCombinedReal',
       'plotCircularPlotReal',
       'plotPolarRoseReal',
-      'plotStarPolygonReal'
+      'plotStarPolygonReal',
+      'plotLogLogReal',
+      'plotStepFunctionReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -735,6 +749,22 @@ export function plotStarPolygonReal(center = { x: 0, y: 0 }, outerRadius = 5, in
   }
   console.log('Star Polygon Plot (real):', points);
   return points;
+}
+
+// New function: Log-Log Plot - plots points on a log-log scale
+export function plotLogLogReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step).filter(x => x > 0);
+  const plot = range.map(x => ({ x: Math.log(x), y: Math.log(x * x) }));
+  console.log('Log-Log Plot (real):', plot);
+  return plot;
+}
+
+// New function: Step Function Plot - plots a discrete step function
+export function plotStepFunctionReal(rangeStart, rangeEnd, step = 1, stepSize = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: Math.floor(x / stepSize) }));
+  console.log('Step Function Plot (real):', plot);
+  return plot;
 }
 
 // Legacy stub functions retained for API compatibility
