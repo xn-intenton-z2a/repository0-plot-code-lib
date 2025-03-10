@@ -59,7 +59,7 @@ This release provides real implementations for:
 
 - **calculateDerivative:** Compute the derivative of a function using mathjs.
 - **generateRange:** Create numeric sequences with custom steps.
-- **Real Plot Functions:** Including but not limited to plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal, plotQuadraticReal, plotLinearReal, plotTangentReal, plotHistogramReal, plotPolarReal, plotLogisticReal, plotCubicReal, plotGaussianReal, movingMedianReal, and now plotHeatMapReal for two-dimensional data visualization.
+- **Real Plot Functions:** Including but not limited to plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal, plotQuadraticReal, plotLinearReal, plotTangentReal, plotHistogramReal, plotPolarReal, plotLogisticReal, plotCubicReal, plotGaussianReal, movingMedianReal, and now **plotHeatMapReal** for two-dimensional heatmap visualization.
 
 ## Changelog
 
