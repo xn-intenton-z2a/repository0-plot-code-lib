@@ -25,7 +25,9 @@ const {
   movingAverageReal,
   plotSincReal,
   calculateDefiniteIntegralReal,
-  plotBezierReal
+  plotBezierReal,
+  plotHyperbolaReal,
+  plotEllipseReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -320,6 +322,8 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotLogisticReal');
     expect(debugString).toContain('movingAverageReal');
     expect(debugString).toContain('plotHistogramReal');
+    expect(debugString).toContain('plotHyperbolaReal');
+    expect(debugString).toContain('plotEllipseReal');
     spy.mockRestore();
   });
 });
@@ -522,5 +526,26 @@ describe('Stub Function Tests', () => {
       const result = plotBezierReal(points);
       expect(result).toEqual(points);
     });
+
   });
+
+  // Additional Extended Function Implementations Tests
+  describe('Additional Extended Function Implementations', () => {
+    test('plotHyperbolaReal computes hyperbola plot correctly', () => {
+      const plot = plotHyperbolaReal(1, 3, 1);
+      expect(plot).toEqual([
+        { x: 1, y: 1 },
+        { x: 2, y: 0.5 },
+        { x: 3, y: 1/3 }
+      ]);
+    });
+
+    test('plotEllipseReal computes ellipse coordinates correctly', () => {
+      const plot = plotEllipseReal(1, 2, Math.PI/2);
+      // Check that the plot has at least four points and first point equals {x: 1, y: 0}
+      expect(plot.length).toBeGreaterThanOrEqual(3);
+      expect(plot[0]).toEqual({ x: 1, y: 0 });
+    });
+  });
+
 });

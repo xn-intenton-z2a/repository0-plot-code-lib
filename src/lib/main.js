@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.9: Refined source functionality and pruned legacy drift per CONTRIBUTING.md guidelines.
+// Updated 2024-12.9: Refined source functionality, pruned legacy drift, and extended plotting functions (hyperbola and ellipse) per CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -270,7 +270,9 @@ export async function main(argsInput) {
       'plotPolarReal',
       'plotLogisticReal',
       'movingAverageReal',
-      'plotHistogramReal'
+      'plotHistogramReal',
+      'plotHyperbolaReal',
+      'plotEllipseReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -478,6 +480,27 @@ export function calculateDefiniteIntegralReal(func, lower, upper, steps = 1000) 
 // New function: Bezier curve plotting stub - returns control points for now
 export function plotBezierReal(points) {
   console.log('Bezier Plot (real): Using control points', points);
+  return points;
+}
+
+// New function: Plot Hyperbola using y = 1/x (skipping x = 0)
+export function plotHyperbolaReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => {
+    if (x === 0) return { x, y: null };
+    return { x, y: 1 / x };
+  });
+  console.log('Plot Hyperbola (real):', plot);
+  return plot;
+}
+
+// New function: Plot Ellipse using parametric equations for an ellipse centered at origin
+export function plotEllipseReal(a = 1, b = 1, step = Math.PI / 6) {
+  const points = [];
+  for (let theta = 0; theta < 2 * Math.PI; theta += step) {
+    points.push({ x: a * Math.cos(theta), y: b * Math.sin(theta) });
+  }
+  console.log('Ellipse Plot (real):', points);
   return points;
 }
 
