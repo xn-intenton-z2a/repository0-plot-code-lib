@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// This file has been updated to align with the latest CONTRIBUTING.md guidelines, prune legacy drift, extend library functions, and improve error handling for better test coverage.
+// This file has been updated to align with the latest CONTRIBUTING.md guidelines, remove legacy drift, extend library functions, and improve error handling for better test coverage.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -227,7 +227,6 @@ export async function main(argsInput) {
       'plotSqrt',
       'plotPolar',
       'plotAbsolute',
-      'generateRange',
       'plotDerivative',
       'offsetPoints',
       'plotLogistic',
@@ -534,4 +533,4 @@ export const plotStep = stubFunction('plotStep');
 
 // CHANGELOG:
 // 2024-11: Enhanced test coverage and error handling in main.js, aligning code with CONTRIBUTING guidelines and extending logging for better debugging.
-// 2024-12: Extended library functions with new implementations: plotPolarReal, plotLogisticReal, and movingAverageReal to further the mission.
+// 2024-12: Extended library functions with new implementations: plotPolarReal, plotLogisticReal, and movingAverageReal. Also refreshed code comments to align strictly with updated CONTRIBUTING guidelines.

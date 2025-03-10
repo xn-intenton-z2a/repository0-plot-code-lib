@@ -482,7 +482,6 @@ describe('Stub Function Tests', () => {
 
     test('plotLogisticReal computes logistic plot correctly', () => {
       const plot = plotLogisticReal(0, 2, 1, 1, 1, 1);
-      // logistic function: y = 1/(1+exp(-1*(x-1)))
       expect(plot).toEqual([
         { x: 0, y: 1/(1+Math.exp(1)) },
         { x: 1, y: 0.5 },
