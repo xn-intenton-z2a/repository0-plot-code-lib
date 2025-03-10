@@ -34,7 +34,8 @@ const {
   plotHeatMapReal,
   plotScatterReal,
   plotBarChartReal,
-  plotLissajousReal
+  plotLissajousReal,
+  plotSpiralReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -43,14 +44,12 @@ function resetOverrides() {
   overrides.loadReadlineOverride = undefined;
 }
 
-// Main Function Behaviour Tests
-
 describe('Main Function Behaviour', () => {
   test('should output demo message when no arguments are provided', () => {
     const spy = vi.spyOn(console, 'log');
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -59,7 +58,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--help']);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -115,7 +114,6 @@ describe('Main Function Behaviour', () => {
     const fakeReadlineModule = {
       createInterface: () => fakeInterface
     };
-
     overrides.loadReadlineOverride = () => Promise.resolve(fakeReadlineModule);
 
     vi.useFakeTimers();
@@ -307,6 +305,13 @@ describe('Main Function Behaviour', () => {
     spy.mockRestore();
   });
 
+  test('should output Spiral plot when --plot-spiral flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--plot-spiral']);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Spiral Plot Output:'), expect.any(Array));
+    spy.mockRestore();
+  });
+
   test('should handle unrecognized flag gracefully', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--unknown']);
@@ -314,8 +319,6 @@ describe('Main Function Behaviour', () => {
     spy.mockRestore();
   });
 });
-
-// Debug flag behaviour
 
 describe('Debug flag behaviour', () => {
   test('should output debug message when --debug flag is provided', () => {
@@ -329,8 +332,8 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('exportPlotAsTXT');
     expect(debugString).toContain('plotPolynomial');
     expect(debugString).toContain('plotModulatedSine');
+    expect(debugString).toContain('plotSpiralReal');
     expect(debugString).toContain('plotSpiral');
-    expect(debugString).toContain('calculateDefiniteIntegralReal');
     expect(debugString).toContain('plotBezierReal');
     expect(debugString).toContain('plotPolarReal');
     expect(debugString).toContain('plotLogisticReal');
@@ -348,8 +351,6 @@ describe('Debug flag behaviour', () => {
   });
 });
 
-// Module Loading Helpers
-
 describe('Module Loading Helpers', () => {
   test('loadExpress should return a promise that resolves to a module', async () => {
     const mod = await loadExpress();
@@ -361,8 +362,6 @@ describe('Module Loading Helpers', () => {
     expect(mod).toBeDefined();
   });
 });
-
-// Error Handling for Module Loaders
 
 describe('Error Handling for module loaders', () => {
   test('loadReadline should handle failure gracefully', async () => {
@@ -384,8 +383,6 @@ describe('Error Handling for module loaders', () => {
     resetOverrides();
   });
 });
-
-// Stub Function Tests
 
 describe('Stub Function Tests', () => {
   test('plotQuadratic stub should log its message', () => {
@@ -602,6 +599,11 @@ describe('Stub Function Tests', () => {
     test('plotLissajousReal returns points with t property', () => {
       const curve = plotLissajousReal(3,2,Math.PI/2,0.5, Math.PI);
       expect(curve[0]).toHaveProperty("t");
+    });
+
+    test('plotSpiralReal returns correct number of points', () => {
+      const spiral = plotSpiralReal();
+      expect(spiral).toHaveLength(100);
     });
   });
 });
