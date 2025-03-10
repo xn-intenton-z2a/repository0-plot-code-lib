@@ -10,7 +10,9 @@ This CLI utility provides:
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and a PNG stub.
 - Modes for diagnostics, interactive input, web server, and debug output.
 - Extended functionalities such as calculating derivatives, generating numeric ranges, and a comprehensive suite of real implementations for common plots including sine, cosine, exponential, logarithmic, quadratic, linear, and more.
-- **New Feature:** Histogram plotting using the --plot-histogram flag.
+- **New Features:**
+  - Histogram plotting using the --plot-histogram flag.
+  - Real implementations for Hyperbola and Ellipse plotting (plotHyperbolaReal and plotEllipseReal).
 
 ## Installation
 
@@ -94,13 +96,14 @@ This release includes real implementations for core functions:
   - **rotatePointsReal, plotSigmoidReal, plotReLUReal** for point transformations and activation functions.
   - **plotHistogramReal, plotPolarReal, plotLogisticReal, movingAverageReal** for histogram, polar, logistic curve and data smoothing respectively.
   - **plotSincReal, calculateDefiniteIntegralReal, plotBezierReal** for additional advanced plotting capabilities.
+  - **plotHyperbolaReal, plotEllipseReal:** New functions providing real plotting implementations for hyperbolas and ellipses.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
 1. **Open an Issue:**
-   Describe your idea, report a bug, or suggest an improvement.
+   Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 
 2. **Review Guidelines:**
    Please refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for our workflow and project mission.
@@ -119,7 +122,7 @@ Our automated workflows will help integrate your changes quickly.
 - **2024-08:** Introduced real implementations for sigmoid and ReLU plots.
 - **2024-09:** Added histogram plotting feature and improved error handling.
 - **2024-12:** Extended library functions with implementations for polar, logistic plots and moving average; refreshed project documentation as per CONTRIBUTING.md.
-- **2024-12.9:** Refreshed README and documentation to align fully with CONTRIBUTING.md guidelines; pruned irrelevant legacy details.
+- **2024-12.9:** Extended library functions to include real implementations for hyperbola and ellipse plotting (plotHyperbolaReal and plotEllipseReal) and updated debug information; refreshed README to fully align with CONTRIBUTING.md guidelines and pruned irrelevant legacy details.
 
 ## License
 
