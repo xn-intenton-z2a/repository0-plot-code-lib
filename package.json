@@ -1,7 +1,7 @@
 {
   "name": "@xn-intenton-z2a/repository0-plot-code-lib",
-  "version": "0.7.69",
-  "description": "A versatile CLI tool to accurately plot mathematical functions with flexible output formats. Now with extended heatmap visualization, enhanced test coverage, improved mocking and refined module error handling per contribution guidelines.",
+  "version": "0.7.70",
+  "description": "A versatile CLI tool to accurately plot mathematical functions with flexible output formats. Now with pruned legacy drift, extended heatmap visualization, enhanced test coverage, and improved module error handling per contribution guidelines.",
   "type": "module",
   "main": "src/lib/main.js",
   "scripts": {

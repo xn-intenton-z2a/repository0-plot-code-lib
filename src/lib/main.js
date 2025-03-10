@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.11: Enhanced error handling, improved testability with mocks for external dependencies, pruned legacy drift, and extended plotting functionalities with a new heatmap feature.
+// Last Updated 2024-12.11: Refactored per mission statement; pruned legacy drift and extended plotting functionalities (including the new heatmap feature), and enhanced error handling and testability.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -217,7 +217,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--heatmap')) {
-    // New feature: Heatmap plotting based on a default matrix
+    // New feature: Heatmap plotting based on a default matrix or provided matrix
     const heatmap = plotHeatMapReal();
     console.log('Heat Map Output:', heatmap);
     return;
@@ -295,7 +295,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
 
-// Extended implementations per project mission
+// Extended implementations in line with our mission to provide versatile plotting functionalities
 
 // Real implementation for generateRange function
 export function generateRange(start, end, step = 1) {
@@ -320,7 +320,6 @@ export function calculateDerivative(expr, variable, value) {
   }
 }
 
-// Extended real implementations
 export function plotSineReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -407,7 +406,6 @@ export function plotReLUReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New function: Histogram plotting feature inline with our mission for versatile visualization tools
 export function plotHistogramReal(data, binCount = 5) {
   if (!Array.isArray(data)) {
     console.error('plotHistogramReal: data must be an array');
@@ -429,7 +427,6 @@ export function plotHistogramReal(data, binCount = 5) {
   return histogram;
 }
 
-// New function: Plot Polar using polar coordinates for a spiral pattern
 export function plotPolarReal(thetaStart, thetaEnd, step = 0.1) {
   const points = [];
   for (let theta = thetaStart; theta <= thetaEnd; theta += step) {
@@ -439,7 +436,6 @@ export function plotPolarReal(thetaStart, thetaEnd, step = 0.1) {
   return points;
 }
 
-// New function: Plot Logistic using standard logistic function
 export function plotLogisticReal(rangeStart, rangeEnd, step = 1, L = 1, k = 1, x0 = 0) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: L / (1 + Math.exp(-k * (x - x0))) }));
@@ -447,7 +443,6 @@ export function plotLogisticReal(rangeStart, rangeEnd, step = 1, L = 1, k = 1, x
   return plot;
 }
 
-// New function: Moving Average for data smoothing
 export function movingAverageReal(data, windowSize = 3) {
   if (!Array.isArray(data) || data.length < windowSize) {
     console.error('movingAverageReal: invalid data or window size');
@@ -463,7 +458,6 @@ export function movingAverageReal(data, windowSize = 3) {
   return averages;
 }
 
-// New function: Plot Sinc using sinc function (sin(x)/x) with handling x=0
 export function plotSincReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -474,7 +468,6 @@ export function plotSincReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New function: Calculate definite integral using a simple numerical integration (trapezoidal rule)
 export function calculateDefiniteIntegralReal(func, lower, upper, steps = 1000) {
   const h = (upper - lower) / steps;
   let sum = 0.5 * (func(lower) + func(upper));
@@ -486,13 +479,11 @@ export function calculateDefiniteIntegralReal(func, lower, upper, steps = 1000) 
   return integral;
 }
 
-// New function: Bezier curve plotting stub - returns control points for now
 export function plotBezierReal(points) {
   console.log('Bezier Plot (real): Using control points', points);
   return points;
 }
 
-// New function: Plot Hyperbola using y = 1/x (skipping x = 0)
 export function plotHyperbolaReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -503,7 +494,6 @@ export function plotHyperbolaReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New function: Plot Ellipse using parametric equations for an ellipse centered at origin
 export function plotEllipseReal(a = 1, b = 1, step = Math.PI / 6) {
   const points = [];
   for (let theta = 0; theta < 2 * Math.PI; theta += step) {
@@ -513,8 +503,6 @@ export function plotEllipseReal(a = 1, b = 1, step = Math.PI / 6) {
   return points;
 }
 
-// Additional new real implementations
-// New function: Plot Cubic using y = ax^3 + bx^2 + cx + d
 export function plotCubicReal(rangeStart, rangeEnd, step = 1, a = 1, b = 0, c = 0, d = 0) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: a * Math.pow(x, 3) + b * Math.pow(x, 2) + c * x + d }));
@@ -522,7 +510,6 @@ export function plotCubicReal(rangeStart, rangeEnd, step = 1, a = 1, b = 0, c = 
   return plot;
 }
 
-// New function: Moving Median for data smoothing
 export function movingMedianReal(data, windowSize = 3) {
   if (!Array.isArray(data) || data.length < windowSize) {
     console.error('movingMedianReal: invalid data or window size');
@@ -539,7 +526,6 @@ export function movingMedianReal(data, windowSize = 3) {
   return medians;
 }
 
-// New function: Plot Gaussian using the Gaussian function
 export function plotGaussianReal(rangeStart, rangeEnd, step = 1, intensity = 1, mean = 0, sigma = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: intensity * Math.exp(-Math.pow(x - mean, 2) / (2 * sigma * sigma)) }));
@@ -547,18 +533,16 @@ export function plotGaussianReal(rangeStart, rangeEnd, step = 1, intensity = 1, 
   return plot;
 }
 
-// New function: Heatmap plotting feature to visualize 2D numerical data
+// Added real implementation for heatmap plotting
 export function plotHeatMapReal(matrix) {
-  // If no matrix provided, generate a default 3x3 matrix with random values
-  const defaultMatrix = matrix || [
-    [Math.random().toFixed(2), Math.random().toFixed(2), Math.random().toFixed(2)],
-    [Math.random().toFixed(2), Math.random().toFixed(2), Math.random().toFixed(2)],
-    [Math.random().toFixed(2), Math.random().toFixed(2), Math.random().toFixed(2)]
-  ];
-  return defaultMatrix;
+  if (!matrix) {
+    matrix = Array.from({ length: 3 }, () => Array(3).fill(0));
+  }
+  console.log('Heatmap Plot (real):', matrix);
+  return matrix;
 }
 
-// Legacy stub functions retained for API compatibility
+// Legacy stub functions retained for API compatibility (deprecated: please use the real implementations where available)
 const stubFunction = (name) => () => { console.log(name + ' stub executed'); };
 
 export const plotQuadratic = stubFunction('plotQuadratic');
@@ -625,4 +609,3 @@ export const boxPlot = stubFunction('boxPlot');
 export const plotDampedOscillation = stubFunction('plotDampedOscillation');
 export const plotRational = stubFunction('plotRational');
 export const plotStep = stubFunction('plotStep');
-// End of legacy stubs
