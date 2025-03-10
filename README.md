@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." The tool supports a range of plotting functionalities including classic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) as well as advanced visualizations like heatmaps, scatter, bar charts, Lissajous, spiral plots, custom plots, and now Fibonacci spiral plots.
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." The tool supports a range of plotting functionalities including classic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) as well as advanced visualizations like heatmaps, scatter, bar charts, Lissajous, spiral plots, custom plots, Fibonacci spiral plots, and now combined sine-cosine plots.
 
 ## Overview
 
@@ -11,7 +11,7 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
 - **Interactive CLI:**
   Features interactive mode, diagnostics, a web server mode, and a debug flag for internal diagnostics.
 - **Extended Function Library:**
-  Provides real implementations for derivative calculations, range generation, various plotting functions, and new custom plotting functionalities including a Fibonacci spiral plot, while retaining legacy stubs for backward compatibility.
+  Provides real implementations for derivative calculations, range generation, various plotting functions, and new custom plotting functionalities including a Fibonacci spiral plot and a combined sine-cosine plot, while retaining legacy stubs for backward compatibility.
 
 ## Installation
 
@@ -48,7 +48,7 @@ Other available commands:
 - **Plot/Export Flags:**
   Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
 - **Advanced Visualizations:**
-  Use flags like `--heatmap`, `--scatter`, `--bar-chart`, `--lissajous`, `--plot-spiral`, `--plot-custom`, and now `--plot-fibonacci` for generating a Fibonacci spiral plot.
+  Use flags like `--heatmap`, `--scatter`, `--bar-chart`, `--lissajous`, `--plot-spiral`, `--plot-custom`, `--plot-fibonacci`, and now `--plot-sincos` for generating combined sine-cosine plots.
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -61,7 +61,7 @@ Other available commands:
 - **2024-12.12:**
   - Refreshed README and documentation in line with CONTRIBUTING guidelines.
   - Pruned outdated and irrelevant content.
-  - Updated descriptions to emphasize extended plotting features including spiral, custom, and new Fibonacci spiral plotting (--plot-fibonacci functionality).
+  - Updated descriptions to emphasize extended plotting features including spiral, custom, Fibonacci spiral plotting, and new combined sine-cosine plotting (--plot-sincos functionality).
 
 ## Contributing
 
