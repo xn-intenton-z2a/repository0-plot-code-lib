@@ -55,7 +55,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored interactive mode for immediate resolution in test environments, improved error handling in module loaders, and updated test coverage.
+- **2023-10:** Refactored interactive mode for immediate resolution in test environments, improved error handling in module loaders by introducing override hooks for testing, and updated test coverage.
 
 ## License
 

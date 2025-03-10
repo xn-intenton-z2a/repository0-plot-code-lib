@@ -5,6 +5,10 @@ import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
 import { createInterface } from 'readline';
 
+// Export override hooks for testing purposes
+export let loadExpressOverride;
+export let loadReadlineOverride;
+
 // Module loader for Express
 export async function loadExpress() {
   try {
@@ -41,7 +45,8 @@ export async function main(argsInput) {
 
   if (args.includes('--interactive')) {
     try {
-      const readlineModule = await loadReadline();
+      const loader = loadReadlineOverride || loadReadline;
+      const readlineModule = await loader();
       const rl = readlineModule.createInterface({
         input: process.stdin,
         output: process.stdout
@@ -79,7 +84,8 @@ export async function main(argsInput) {
 
   if (args.includes('--serve')) {
     try {
-      const expressModule = await loadExpress();
+      const loader = loadExpressOverride || loadExpress;
+      const expressModule = await loader();
       if (process.env.VITEST === 'true') {
         console.log(`Express server running at http://localhost:3000`);
       } else {
