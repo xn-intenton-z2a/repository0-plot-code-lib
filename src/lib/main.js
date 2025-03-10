@@ -3,7 +3,7 @@
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, and pruned legacy drift.
 // Updated to align with our updated CONTRIBUTING guidelines and refreshed inline documentation.
-// New plotting functions include Polar Rose and Star Polygon. 
+// New plotting functions include Polar Rose and Star Polygon.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -484,7 +484,12 @@ export function plotHistogramReal(data, binCount = 5) {
 export function plotPolarReal(thetaStart, thetaEnd, step = 0.1) {
   const points = [];
   for (let theta = thetaStart; theta <= thetaEnd; theta += step) {
-    points.push({ theta, r: theta, x: theta * Math.cos(theta), y: theta * Math.sin(theta) });
+    points.push({
+      theta,
+      r: theta,
+      x: theta * Math.cos(theta),
+      y: theta * Math.sin(theta)
+    });
   }
   console.log('Polar Plot (real):', points);
   return points;
@@ -674,7 +679,6 @@ export function plotSinCosCombinedReal(rangeStart, rangeEnd, step = 1) {
 }
 
 // New function added to extend library in the spirit of our contribution guidelines
-
 export function fibonacciSequence(n) {
   if (n < 1) return [];
   const fib = [1];
@@ -800,3 +804,9 @@ export const boxPlot = stubFunction('boxPlot');
 export const plotDampedOscillation = stubFunction('plotDampedOscillation');
 export const plotRational = stubFunction('plotRational');
 export const plotStep = stubFunction('plotStep');
+
+// Utility function for testing: reset overrides
+export function resetOverrides() {
+  overrides.loadExpressOverride = undefined;
+  overrides.loadReadlineOverride = undefined;
+}

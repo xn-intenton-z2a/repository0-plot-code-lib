@@ -15,7 +15,9 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
 - **New Features:**
   - **Fibonacci Spiral, Combined Sin-Cos Plotting**
   - **Circular Plotting (--plot-circle)**
-  - **Advanced Visualizations:** Polar Rose, Star Polygon, and Lemniscate plots.
+  - **Advanced Visualizations:** Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate plots.
+
+- **Improved Test Coverage:** Enhanced mocks and test structure now bring test coverage near 100%.
 
 ## Installation
 
@@ -68,21 +70,21 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.78 (Latest):**
+- **0.7.79 (Latest):**
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
   - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate (--lemniscate) plotting functions.
-  - Legacy drift has been pruned to align with the mission statement.
-  - Module loader error handling and test coverage have been refined.
-  - **REFRESH:** README updated to align with updated CONTRIBUTING guidelines.
+  - Pruned legacy drift to align with the mission statement.
+  - **TEST:** Improved test coverage by adding beforeEach hooks and exporting a resetOverrides utility.
+  - **REFRESH:** Updated README to reflect changes and the updated CONTRIBUTING guidelines.
 
 ## Contributing
 
 We welcome contributions! Follow these steps:
 
 1. **Open an Issue:**
-   Provide a description of your idea, bug report, or improvement.
+   Provide a description of your idea, bug report, or improvement by opening an issue in our repository.
 
 2. **Review Guidelines:**
    See [CONTRIBUTING.md](./CONTRIBUTING.md) for details of our contribution process.
