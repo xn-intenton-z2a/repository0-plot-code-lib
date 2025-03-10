@@ -2,6 +2,7 @@
 // src/lib/main.js
 // Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Note: Contributor guidelines have been updated; please refer to CONTRIBUTING.md for details.
+// Updated per latest CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
