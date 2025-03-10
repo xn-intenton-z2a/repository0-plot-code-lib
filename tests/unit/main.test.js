@@ -57,7 +57,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -66,7 +66,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--help']);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });

@@ -35,7 +35,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -545,6 +545,23 @@ export function plotHyperbolaReal(rangeStart, rangeEnd, step = 1) {
   });
   console.log('Plot Hyperbola (real):', plot);
   return plot;
+}
+
+// New real implementation: Lemniscate plot
+export function plotLemniscateReal(steps = 100, a = 5) {
+  const points = [];
+  for (let i = 0; i <= steps; i++) {
+    const theta = (2 * Math.PI * i) / steps;
+    const cos2theta = Math.cos(2 * theta);
+    if (cos2theta >= 0) {
+      const r = a * Math.sqrt(cos2theta);
+      points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta) });
+    } else {
+      points.push({ theta, x: null, y: null });
+    }
+  }
+  console.log('Lemniscate Plot Output:', points);
+  return points;
 }
 
 export function plotEllipseReal(a = 1, b = 1, step = Math.PI / 6) {
