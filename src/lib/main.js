@@ -34,7 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -209,6 +209,15 @@ export async function main(argsInput) {
     return;
   }
 
+  // New feature: Histogram plotting flag added inline with our mission for versatile visualization tools
+  if (args.includes('--plot-histogram')) {
+    // Using a sample dataset for demonstration
+    const sampleData = [1, 2, 3, 2, 5, 4, 3, 2];
+    const histogram = plotHistogramReal(sampleData, 4);
+    console.log('Histogram Output:', histogram);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'plotQuadratic',
@@ -280,7 +289,8 @@ export async function main(argsInput) {
       'plotReLUReal',
       'plotPolarReal',
       'plotLogisticReal',
-      'movingAverageReal'
+      'movingAverageReal',
+      'plotHistogramReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -534,3 +544,4 @@ export const plotStep = stubFunction('plotStep');
 // CHANGELOG:
 // 2024-11: Enhanced test coverage and error handling in main.js, aligning code with CONTRIBUTING guidelines and extending logging for better debugging.
 // 2024-12: Extended library functions with new implementations: plotPolarReal, plotLogisticReal, and movingAverageReal. Also refreshed code comments to align strictly with updated CONTRIBUTING guidelines.
+// 2024-12.5: Added new --plot-histogram flag to demonstrate histogram plotting inline with the mission statement and updated changelog accordingly.
