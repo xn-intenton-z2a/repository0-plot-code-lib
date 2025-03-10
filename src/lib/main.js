@@ -157,7 +157,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 
@@ -804,9 +804,3 @@ export const boxPlot = stubFunction('boxPlot');
 export const plotDampedOscillation = stubFunction('plotDampedOscillation');
 export const plotRational = stubFunction('plotRational');
 export const plotStep = stubFunction('plotStep');
-
-// Utility function for testing: reset overrides
-export function resetOverrides() {
-  overrides.loadExpressOverride = undefined;
-  overrides.loadReadlineOverride = undefined;
-}
