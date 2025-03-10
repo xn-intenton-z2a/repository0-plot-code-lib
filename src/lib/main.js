@@ -1,12 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, custom plotting feature, pruned legacy drift, extended plotting functionalities,
-// improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, added combined sine-cosine plotting, and improved test coverage.
-//
-// NOTE: Updated per CONTRIBUTING.md guidelines to ensure our source code remains inline with our mission and contribution process.
-//
-// Updated for improved test coverage and refined module loader error handling and external dependency mocking per CONTRIBUTING guidelines.
+// Last Updated 2024-12.12: Extended functionalities with new spiral and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting and pruned legacy drift per CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
