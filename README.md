@@ -4,7 +4,7 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
 
 ## Overview
 
-- **Mathematical Plotting:** Supports plotting various functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, sigmoid, histogram, polar, logistic, cubic, gaussian and more.
+- **Mathematical Plotting:** Supports plotting of functions such as sine, cosine, exponential, logarithmic, quadratic, linear, tangent, sigmoid, histogram, polar, logistic, cubic, gaussian, and now heatmap visualizations.
 - **Multiple Output Formats:** Provides outputs in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R; with PNG support as a stub.
 - **Interactive CLI:** Offers an interactive mode, diagnostic mode, server mode, and debug features.
 - **Extended Functions:** Includes real implementations for derivative calculations, numeric range generation, and various plotting functions, alongside legacy stubs for backward compatibility.
@@ -42,6 +42,10 @@ Other available commands:
   node src/lib/main.js --serve
   ```
 - **Plot/Export Flags:** Pass flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
+- **Heatmap Visualization:**
+  ```bash
+  node src/lib/main.js --heatmap
+  ```
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -55,11 +59,11 @@ This release provides real implementations for:
 
 - **calculateDerivative:** Compute the derivative of a function using mathjs.
 - **generateRange:** Create numeric sequences with custom steps.
-- **Real Plot Functions:** Including but not limited to plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal, plotQuadraticReal, plotLinearReal, plotTangentReal, plotHistogramReal, plotPolarReal, plotLogisticReal, plotCubicReal, plotGaussianReal, and movingMedianReal.
+- **Real Plot Functions:** Including but not limited to plotSineReal, plotCosineReal, plotExponentialReal, plotLogarithmicReal, plotQuadraticReal, plotLinearReal, plotTangentReal, plotHistogramReal, plotPolarReal, plotLogisticReal, plotCubicReal, plotGaussianReal, movingMedianReal, and now plotHeatMapReal for two-dimensional data visualization.
 
 ## Changelog
 
-- **2024-12.11:** Enhanced test coverage and improved mocking for external dependencies; refined error handling and aligned documentation with CONTRIBUTING.md guidelines. Legacy details pruned and core plotting functionalities extended.
+- **2024-12.11:** Enhanced test coverage and improved mocking of external dependencies, refined error handling, pruned legacy drift; extended plotting features including a new heatmap visualization option.
 
 ## Contributing
 

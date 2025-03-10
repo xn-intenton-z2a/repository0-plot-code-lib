@@ -30,7 +30,8 @@ const {
   plotEllipseReal,
   plotCubicReal,
   movingMedianReal,
-  plotGaussianReal
+  plotGaussianReal,
+  plotHeatMapReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -46,7 +47,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main([]);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -55,7 +56,7 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--help']);
     expect(spy).toHaveBeenCalledWith(
-      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
+      "Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
   });
@@ -293,6 +294,13 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--plot-histogram']);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Histogram Output:'), expect.any(Array));
+    spy.mockRestore();
+  });
+
+  test('should output Heat Map plot when --heatmap flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--heatmap']);
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Heat Map Output:'), expect.any(Array));
     spy.mockRestore();
   });
 
@@ -567,6 +575,12 @@ describe('Stub Function Tests', () => {
       const plot = plotGaussianReal(-1, 1, 1, 1, 0, 1);
       expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === -1).y);
       expect(plot.find(p => p.x === 0).y).toBeGreaterThan(plot.find(p => p.x === 1).y);
+    });
+
+    test('plotHeatMapReal returns a 3x3 matrix by default if no matrix is provided', () => {
+      const heatmap = plotHeatMapReal();
+      expect(heatmap.length).toEqual(3);
+      expect(heatmap[0].length).toEqual(3);
     });
   });
 });
