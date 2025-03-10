@@ -59,7 +59,7 @@ This release provides real implementations for:
 
 ## Changelog
 
-- **2024-12.10:** Documentation and header comments refreshed to align with CONTRIBUTING.md guidelines. Legacy details were pruned and core plotting functionalities extended to stay true to our mission.
+- **2024-12.11:** Enhanced test coverage and improved mocking for external dependencies; refined error handling and aligned documentation with CONTRIBUTING.md guidelines. Legacy details pruned and core plotting functionalities extended.
 
 ## Contributing
 
