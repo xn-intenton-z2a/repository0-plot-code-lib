@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+// Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." 
 // This file has been updated to align with the latest CONTRIBUTING.md guidelines, prune drift, and extend library functions per project mission.
 
 import { fileURLToPath } from 'url';
@@ -282,7 +282,9 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
       'boxPlot',
       'plotDampedOscillation',
       'plotRational',
-      'plotStep'
+      'plotStep',
+      'plotSigmoidReal',
+      'plotReLUReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -395,6 +397,21 @@ export function rotatePointsReal(points, angle) {
   }));
   console.log('Rotated Points (real):', rotated);
   return rotated;
+}
+
+// New real implementations for extended functionality inline with mission statement
+export function plotSigmoidReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: 1 / (1 + Math.exp(-x)) }));
+  console.log('Plot Sigmoid (real):', plot);
+  return plot;
+}
+
+export function plotReLUReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: Math.max(0, x) }));
+  console.log('Plot ReLU (real):', plot);
+  return plot;
 }
 
 // Stub functions remain for legacy support
