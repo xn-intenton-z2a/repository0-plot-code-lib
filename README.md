@@ -10,7 +10,7 @@ This CLI utility provides:
 - Plotting of various mathematical functions with both stub and real implementations.
 - Multiple output formats including CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub).
 - Modes for diagnostics, interactive input, web service, and debug output.
-- Extended functionalities such as calculating derivatives, generating numeric ranges, and new real implementations for quadratic, linear, tangent plots and point rotations.
+- Extended functionalities such as calculating derivatives, generating numeric ranges, and new real implementations for quadratic, linear, tangent plots, point rotations, sigmoid and ReLU functions.
 
 ## Installation
 
@@ -89,6 +89,8 @@ This release includes real implementations for some core functions:
   - **plotLinearReal:** Generates a linear plot given slope and intercept over a range.
   - **plotTangentReal:** Generates a tangent plot for a specified range with safe handling of asymptotes.
   - **rotatePointsReal:** Rotates an array of points by a given angle.
+  - **plotSigmoidReal:** Generates a sigmoid plot using the formula 1/(1+e^(-x)).
+  - **plotReLUReal:** Generates a ReLU plot where y = max(0, x).
 
 ## Contributing
 
@@ -109,6 +111,7 @@ We welcome contributions! Please follow these steps:
 - **2024-04:** Updated the source file to remove drift and align with the mission statement.
 - **2024-05:** Extended library functions by adding real implementations for plotSineReal, plotCosineReal, plotExponentialReal, and plotLogarithmicReal.
 - **2024-07:** Extended library functions with additional real implementations for plotQuadraticReal, plotLinearReal, plotTangentReal, and rotatePointsReal.
+- **2024-08:** Extended library functions with new real implementations for plotSigmoidReal and plotReLUReal.
 
 ## License
 

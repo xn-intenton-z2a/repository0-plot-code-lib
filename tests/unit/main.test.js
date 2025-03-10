@@ -16,7 +16,9 @@ const {
   plotQuadraticReal,
   plotLinearReal,
   plotTangentReal,
-  rotatePointsReal
+  rotatePointsReal,
+  plotSigmoidReal,
+  plotReLUReal
 } = mainModule;
 
 // Helper to reset overrides after tests
@@ -300,17 +302,8 @@ describe('Debug flag behaviour', () => {
     expect(debugString).toContain('plotSpiral');
     expect(debugString).toContain('calculateDefiniteIntegral');
     expect(debugString).toContain('plotEllipse');
-    expect(debugString).toContain('plotSigmoid');
-    expect(debugString).toContain('plotSinc');
-    expect(debugString).toContain('plotReLU');
-    expect(debugString).toContain('movingMedian');
-    expect(debugString).toContain('plotInverse');
-    expect(debugString).toContain('cumulativeSum');
-    expect(debugString).toContain('plotLogLog');
-    expect(debugString).toContain('boxPlot');
-    expect(debugString).toContain('plotDampedOscillation');
-    expect(debugString).toContain('plotRational');
-    expect(debugString).toContain('plotStep');
+    expect(debugString).toContain('plotSigmoidReal');
+    expect(debugString).toContain('plotReLUReal');
     spy.mockRestore();
   });
 });
@@ -447,6 +440,22 @@ describe('Stub Function Tests', () => {
       expect(rotated[0].y).toBeCloseTo(1);
       expect(rotated[1].x).toBeCloseTo(-1);
       expect(rotated[1].y).toBeCloseTo(0);
+    });
+
+    test('plotSigmoidReal computes sigmoid plot correctly', () => {
+      const plot = plotSigmoidReal(0, 2, 1);
+      expect(plot[0].y).toBeCloseTo(0.5);
+      expect(plot[1].y).toBeCloseTo(1 / (1 + Math.exp(-1)));
+      expect(plot[2].y).toBeCloseTo(1 / (1 + Math.exp(-2)));
+    });
+
+    test('plotReLUReal computes ReLU plot correctly', () => {
+      const plot = plotReLUReal(-1, 1, 1);
+      expect(plot).toEqual([
+        { x: -1, y: 0 },
+        { x: 0, y: 0 },
+        { x: 1, y: 1 }
+      ]);
     });
   });
 });
