@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission Statement: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Note: Contributor guidelines have been updated; please refer to CONTRIBUTING.md for details.
-// Updated per latest CONTRIBUTING guidelines.
+// This file has been updated to align with the latest CONTRIBUTING.md guidelines and to remove any drift from the original mission.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -37,7 +36,7 @@ export async function loadReadline() {
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
-Our mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
+Mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
 Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
 
@@ -297,7 +296,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
 
-// Additional implementations and stub functions for various plotting functions per mission statement
+// Additional implementations and stub functions for various plotting functions as per mission statement
 
 // Real implementation for generateRange function
 export function generateRange(start, end, step = 1) {
