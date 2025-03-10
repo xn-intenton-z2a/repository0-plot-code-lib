@@ -59,10 +59,10 @@ Other available commands:
 ## Changelog
 
 - **2024-12.12:**
-  - Extended functionalities with new spiral and custom plotting feature.
+  - Extended functionalities with new spiral and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos functionality).
-  - Pruned outdated legacy drift and improved module loader error handling in accordance with CONTRIBUTING guidelines.
-  - **Improved test coverage and enhanced mocking of external dependencies for more robust validations.**
+  - Pruned legacy drift to remove outdated code paths and improve mission alignment.
+  - Improved module loader error handling and enhanced external dependency mocking per CONTRIBUTING.md guidelines.
   - Updated documentation and contribution guidelines integration.
 
 ## Contributing
