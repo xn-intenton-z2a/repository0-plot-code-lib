@@ -25,7 +25,7 @@ describe('Main Function Behaviour', () => {
     expect(spy).toHaveBeenCalledWith(
       "Welcome to repository0-plot-code-lib CLI!\n" +
         "Our mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
-        "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
+        "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
         "For contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
@@ -37,7 +37,7 @@ describe('Main Function Behaviour', () => {
     expect(spy).toHaveBeenCalledWith(
       "Welcome to repository0-plot-code-lib CLI!\n" +
         "Our mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
-        "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
+        "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
         "For contribution guidelines, please refer to CONTRIBUTING.md."
     );
     spy.mockRestore();
@@ -213,6 +213,13 @@ describe('Main Function Behaviour', () => {
     const spy = vi.spyOn(console, 'log');
     main(['--export-r']);
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('R Output:'), expect.any(String));
+    spy.mockRestore();
+  });
+
+  test('should output PNG plot when --export-png flag is provided', () => {
+    const spy = vi.spyOn(console, 'log');
+    main(['--export-png']);
+    expect(spy).toHaveBeenCalledWith('PNG Output: [stub output for PNG]');
     spy.mockRestore();
   });
 

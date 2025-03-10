@@ -7,7 +7,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 This CLI utility provides:
 
 - Plotting of various mathematical functions including quadratic, linear, sine, cosine, exponential, logarithmic, Lissajous curves, and more (with many stub implementations to support future enhancements).
-- Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R.
+- Multiple output formats: CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, R, and PNG (stub implementation).
 - Different modes: diagnostic, interactive, web server, and debug mode.
 - Extended debugging with a comprehensive list of plotting functions.
 
@@ -58,6 +58,7 @@ Other available commands:
   - `--export-latex`: Outputs a LaTeX formatted table.
   - `--export-txt`: Outputs plain text.
   - `--export-r`: Outputs data in R-friendly format.
+  - `--export-png`: Outputs a PNG formatted plot (stub implementation).
   - `--scatter`, `--bar-chart`, `--plot-parametric`, `--plot-poly`, `--lissajous`, `--lemniscate`, `--hyperbola`, `--power-plot`: Demonstrate various plot types.
 
 - **Debug Mode:**
@@ -74,7 +75,7 @@ For plot parameters, simply pass them as arguments and the CLI will process the 
 
 ## Additional Plotting Functions
 
-This library now includes a range of stub implementations for various plotting and mathematical functions. These are intended to be extended in future updates to fully realize our mission statement.
+This library now includes a range of stub implementations for various plotting and mathematical functions, including a new stub for PNG export. These are intended to be extended in future updates to fully realize our mission statement.
 
 ## Contributing
 
@@ -91,7 +92,7 @@ We welcome contributions! Please follow these steps:
 
 ## Changelog
 
-- **2023-10:** Updated source code to align with the mission statement and pruned code drift. Extended stub functions to embody the project goals.
+- **2023-10:** Extended stub functionality by adding PNG export and refined interactive and export modes in line with the mission statement.
 - **2023-10 (previous):** Brought test coverage near 100% by adding stub implementations for numerous plotting and mathematical functions. Enhanced error handling and refined the CLI modes to fully align with our mission statement.
 
 ## License
