@@ -36,7 +36,7 @@ export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
   const demoMessage = "Welcome to repository0-plot-code-lib CLI!\n" +
     "Our mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\n" +
-    "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
+    "Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot or provide plot parameters.\n" +
     "For contribution guidelines, please refer to CONTRIBUTING.md.";
 
   // If no arguments are provided or help flag is specified, output demo/help message
@@ -174,6 +174,11 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--export-png')) {
+    console.log('PNG Output: [stub output for PNG]');
+    return;
+  }
+
   if (args.includes('--scatter')) {
     console.log('Scatter Plot Output:', [{ x: Math.random(), y: Math.random() }]);
     return;
@@ -247,6 +252,7 @@ export async function main(argsInput) {
       'exportPlotAsLaTeX',
       'exportPlotAsTXT',
       'exportPlotAsR',
+      'exportPlotAsPNG',
       'plotScatter',
       'plotParametric',
       'plotBarChart',
@@ -328,6 +334,7 @@ export const exportPlotAsXML = stubFunction("exportPlotAsXML");
 export const exportPlotAsLaTeX = stubFunction("exportPlotAsLaTeX");
 export const exportPlotAsTXT = stubFunction("exportPlotAsTXT");
 export const exportPlotAsR = stubFunction("exportPlotAsR");
+export const exportPlotAsPNG = stubFunction("exportPlotAsPNG");
 export const plotScatter = stubFunction("plotScatter");
 export const plotParametric = stubFunction("plotParametric");
 export const plotBarChart = stubFunction("plotBarChart");
