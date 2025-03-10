@@ -33,14 +33,14 @@ npm run start
 Other available modes include:
 
 - **Diagnostics:** `npm run diagnostics` will display the Node version.
-- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively. (In test environments the prompt resolves immediately.)
-- **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding.)
+- **Interactive Mode:** `node src/lib/main.js --interactive` to input commands interactively. (In test environments, the prompt resolves immediately.)
+- **Web Server Mode:** `node src/lib/main.js --serve` starts an Express server on port 3000. (In test environments, the server simulation avoids actual port binding by immediately closing the server.)
 - **Plot/Export Flags:**
   - `--plot-abs`: Outputs an absolute plot of sin(x).
   - `--export-csv`: Outputs CSV formatted plot data.
   - `--export-md`: Outputs Markdown table format.
   - `--export-json`: Outputs JSON data.
-  - `--export-html`: Outputs HTML table. *(Note: HTML, ASCII, SVG, and XML outputs are concatenated into a single string for consistency.)*
+  - `--export-html`: Outputs HTML table.
   - `--export-ascii`: Outputs ASCII formatted table.
   - `--export-svg`: Outputs SVG content.
   - `--export-xml`: Outputs XML data.
@@ -55,8 +55,7 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Changelog
 
-- **2023-10:** Refactored CLI to support dynamic importing of module loaders in interactive and server modes to improve testability and adhere to the mission statement.
-- **2023-10:** Updated interactive mode to ensure proper resolution of user input and fixed error handling in both interactive and server modes.
+- **2023-10:** Refactored interactive mode override hooks to a mutable object for improved testability; updated test coverage and error handling in module loaders.
 
 ## License
 
