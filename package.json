@@ -1,6 +1,6 @@
 {
   "name": "@xn-intenton-z2a/repository0-plot-code-lib",
-  "version": "0.7.102",
+  "version": "0.7.103",
   "description": "A versatile CLI tool for plotting mathematical functions in various formats, now with enhanced features including power plot functionality, improved error handling, refreshed documentation, custom enhanced plots, new piecewise and moving product functions, derivative plotting, advanced polynomial and nth root plotting, reset overrides function, moving standard deviation and cumulative difference functions, and comprehensive test coverage per CONTRIBUTING guidelines.",
   "type": "module",
   "main": "src/lib/main.js",

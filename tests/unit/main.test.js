@@ -76,12 +76,15 @@ import {
   plotDampedOscillationReal,
   plotSpiralColoredReal,
   // Extended new function
-  plotDualAxisReal
+  plotDualAxisReal,
+  // Newly added harmonics function
+  plotHarmonicsReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
+
 
 describe('Main Module Import', () => {
   test('should be non-null', () => {
@@ -232,7 +235,14 @@ describe('--plot-derivative flag functionality', () => {
   });
 });
 
-// Tests for new functions
+describe('--plot-harmonics flag functionality', () => {
+  test('should print Harmonics Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-harmonics'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Harmonics Plot Output:'));
+  });
+});
 
 describe('Additional Extended Functions', () => {
   test('movingProductReal calculates correct moving product', () => {
@@ -254,8 +264,6 @@ describe('Additional Extended Functions', () => {
     ]);
   });
 });
-
-// Newly Added Functions Tests
 
 describe('Newly Added Functions', () => {
   test('plotNthRootReal returns correct nth root values', () => {
@@ -321,7 +329,6 @@ describe('Newly Added Functions', () => {
     expect(result).toEqual([2, 3, 4]);
   });
 
-  // Tests for newly added functions
   test('plotDampedOscillationReal returns a valid damped oscillation plot', () => {
     const result = plotDampedOscillationReal(0, 3.14, 0.5, 1, 0.2, 2);
     expect(Array.isArray(result)).toBe(true);
@@ -333,6 +340,12 @@ describe('Newly Added Functions', () => {
     const result = plotSpiralColoredReal(10, 0, 0.1, ['red', 'blue']);
     expect(Array.isArray(result)).toBe(true);
     expect(result[0]).toHaveProperty('color');
+  });
+
+  test('plotHarmonicsReal returns a harmonics plot', () => {
+    const result = plotHarmonicsReal(0, Math.PI * 2, 0.5, [1, 2]);
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBeGreaterThan(0);
   });
 });
 
