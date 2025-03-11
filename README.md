@@ -20,6 +20,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Moving Product:** Efficiently calculate moving products over data sets.
 - **Advanced Polynomial & Nth Root Plots:** New functions `plotPolynomialFromCoeffsReal` and `plotNthRootReal` extend the library's capabilities.
 - **Additional Analytical Functions:** Newly added functions include `plotCumulativeSumReal`, `plotIntegralReal` (using Simpson's rule), `plotBarChartEnhancedReal`, **plotScaledSineReal**, **plotExponentialDecayReal**, and **plotCumulativeProductReal** for extended visualization and analysis.
+- **Reset Overrides:** New `resetOverrides` function is provided to reset module overrides.
 
 ## Installation
 
@@ -51,9 +52,9 @@ Custom plot parameters can also be provided directly through the command line.
 
 ## Changelog
 
-- **0.7.95 (Latest):**
+- **0.7.96 (Latest):**
   - Extended source functionalities per CONTRIBUTING guidelines.
-  - Added new functions: `plotCumulativeSumReal`, `plotIntegralReal`, `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, and `plotCumulativeProductReal`.
+  - Added new functions: `plotCumulativeSumReal`, `plotIntegralReal`, `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, and `resetOverrides`.
   - Improved inline documentation and error handling.
   - Increased test coverage and updated changelog.
 

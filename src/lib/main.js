@@ -13,6 +13,12 @@ export const overrides = {
   loadReadlineOverride: undefined
 };
 
+// New export: resetOverrides function as required by --reset flag
+export function resetOverrides() {
+  overrides.loadExpressOverride = undefined;
+  overrides.loadReadlineOverride = undefined;
+}
+
 // Module loader for Express with enhanced error reporting
 export async function loadExpress() {
   try {
@@ -66,7 +72,9 @@ export async function main(argsInput) {
         // In test environment, simulate immediate response
         answer = 'simulated plot command';
         console.log(`Received plot command: ${answer}`);
-        rl.close();
+        if (rl && typeof rl.close === 'function') {
+          rl.close();
+        }
         return;
       } else {
         const fallbackTime = 100;
@@ -82,7 +90,9 @@ export async function main(argsInput) {
         } else {
           console.log(`Received plot command: ${answer}`);
         }
-        rl.close();
+        if (rl && typeof rl.close === 'function') {
+          rl.close();
+        }
       }
     } catch (err) {
       console.error('Error loading readline module:', err);
@@ -342,7 +352,8 @@ export async function main(argsInput) {
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
       'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal', 'plotNthRootReal', 'plotPolynomialFromCoeffsReal',
-      'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal'
+      'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal',
+      'plotScaledSineReal', 'plotExponentialDecayReal', 'plotCumulativeProductReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -970,6 +981,6 @@ export function plotCumulativeProductReal(data) {
 
 /*
   Source file updated per CONTRIBUTING guidelines to fully adhere to the Mission Statement. 
-  Extended features added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal.
-  Changelog updated to include new functions: version bumped to 0.7.95.
+  Extended features added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, and resetOverrides function added.
+  Changelog updated to include new functions: version bumped to 0.7.96.
 */
