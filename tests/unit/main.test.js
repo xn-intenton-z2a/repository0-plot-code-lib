@@ -637,8 +637,23 @@ describe('Extended Functions Full Coverage', () => {
     test('calculates EMA correctly', () => {
       const data = [10, 20, 30, 40];
       const result = plotExponentialMovingAverageReal(data, 0.5);
-      // Basic check: length should equal input data length
       expect(result.length).toBe(data.length);
+    });
+  });
+
+  describe('External resource mocking', () => {
+    test('loadExpress returns fake module when overridden', async () => {
+      overrides.loadExpressOverride = async () => 'fakeExpress';
+      const result = await loadExpress();
+      expect(result).toBe('fakeExpress');
+      resetOverrides();
+    });
+
+    test('loadReadline returns fake module when overridden', async () => {
+      overrides.loadReadlineOverride = async () => ({ createInterface: () => ({ close: () => {} }) });
+      const res = await loadReadline();
+      expect(typeof res.createInterface).toBe('function');
+      resetOverrides();
     });
   });
 
