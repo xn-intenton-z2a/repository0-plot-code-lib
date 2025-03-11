@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, refreshed inline documentation, and new functions for piecewise plotting, moving product calculations, and derivative plotting in line with CONTRIBUTING guidelines.
+// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, refreshed inline documentation, new functions for piecewise plotting, moving product calculations, derivative plotting, and now advanced polynomial and nth root plotting functions in line with CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -876,6 +876,31 @@ export function movingProductReal(data, windowSize = 3) {
   return products;
 }
 
+// NEWLY ADDED FUNCTIONS
+
+// New function: Nth Root Plot - computes the nth root of x over a range
+export function plotNthRootReal(rangeStart, rangeEnd, root = 2, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: Math.pow(x, 1 / root) }));
+  console.log('Nth Root Plot (real):', plot);
+  return plot;
+}
+
+// New function: Polynomial Plot from Coefficients - evaluates a polynomial given coefficients
+// Coefficients are expected in descending order of power
+export function plotPolynomialFromCoeffsReal(rangeStart, rangeEnd, step = 1, coeffs = []) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => {
+    const y = coeffs.reduce((acc, coeff, index) => {
+      const power = coeffs.length - index - 1;
+      return acc + coeff * Math.pow(x, power);
+    }, 0);
+    return { x, y };
+  });
+  console.log('Polynomial Plot (real):', plot);
+  return plot;
+}
+
 // Utility function for testing: reset overrides
 export function resetOverrides() {
   overrides.loadExpressOverride = undefined;
@@ -885,6 +910,6 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and comprehensive test coverage.
-  Removed extra logging in calculateDerivative and adjusted log message in plotPiecewiseReal and derivative flag to meet test expectations.
-  Version updated to 0.7.91.
+  Extended library functions to include nth root and polynomial plotting from coefficients.
+  Version updated to 0.7.92.
 */

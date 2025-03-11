@@ -52,7 +52,10 @@ import {
   plotPowerPlotReal,
   plotCustomEnhancedReal,
   plotPiecewiseReal,
-  movingProductReal
+  movingProductReal,
+  // Newly added functions
+  plotNthRootReal,
+  plotPolynomialFromCoeffsReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -242,6 +245,28 @@ describe('Additional Extended Functions', () => {
       { x: 2, y: 4 },
       { x: 3, y: 6 }
     ]);
+  });
+});
+
+// Newly Added Functions Tests
+
+describe('Newly Added Functions', () => {
+  test('plotNthRootReal returns correct nth root values', () => {
+    const result = plotNthRootReal(0, 16, 2, 4);
+    // For x: 0,4,8,12,16; expected y: 0,2,~2.828,~3.464,4
+    expect(result[0].y).toBeCloseTo(0);
+    expect(result[1].y).toBeCloseTo(2);
+    expect(result[4].y).toBeCloseTo(4);
+  });
+
+  test('plotPolynomialFromCoeffsReal returns correct polynomial outputs', () => {
+    // Coeffs for polynomial 2x^2 + 3x + 4
+    const coeffs = [2, 3, 4];
+    const result = plotPolynomialFromCoeffsReal(0, 2, 1, coeffs);
+    // At x=0: 4, x=1: 2+3+4=9, x=2: 8+6+4=18
+    expect(result[0].y).toBeCloseTo(4);
+    expect(result[1].y).toBeCloseTo(9);
+    expect(result[2].y).toBeCloseTo(18);
   });
 });
 
