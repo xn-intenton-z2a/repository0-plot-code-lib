@@ -25,7 +25,7 @@ describe('New Extended Functions', () => {
     expect(Array.isArray(result)).toBe(true);
     expect(result.length).toBeGreaterThan(0);
   });
-  
+
   test('plotStepFunctionReal returns correct step values', () => {
     const result = mainModule.plotStepFunctionReal(0, 10, 1, 2);
     expect(result[0].y).toBe(0);
@@ -38,7 +38,7 @@ describe('--reset flag functionality', () => {
     // Set overrides to dummy values
     overrides.loadExpressOverride = async () => 'dummyExpress';
     overrides.loadReadlineOverride = async () => ({ createInterface: () => ({}) });
-    
+
     process.argv = ['node', 'src/lib/main.js', '--reset'];
     const spy = vi.spyOn(console, 'log');
     await main();
@@ -67,5 +67,14 @@ describe('Serve Mode in test environment', () => {
     await main();
     expect(spy).toHaveBeenCalledWith('Express server running at http://localhost:3000');
     delete process.env.VITEST;
+  });
+});
+
+describe('--plot-circle flag functionality', () => {
+  test('should print Circular Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-circle'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'));
   });
 });
