@@ -1028,3 +1028,25 @@ export function plotViolinPlotReal(data, steps = 10) {
   console.log('Violin Plot (real):', densities);
   return densities;
 }
+
+// -------------------- Newly Added Features --------------------
+
+// New function: Damped Oscillation Plot for enhanced visualization aligned with our mission
+export function plotDampedOscillationReal(rangeStart, rangeEnd, step = 0.1, amplitude = 1, damping = 0.1, frequency = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: amplitude * Math.exp(-damping * x) * Math.sin(frequency * x) }));
+  console.log('Damped Oscillation Plot (real):', plot);
+  return plot;
+}
+
+// New function: Spiral Colored Plot adds color information to spiral plot points
+export function plotSpiralColoredReal(steps = 100, a = 0, b = 0.1, colors = ['red', 'green', 'blue']) {
+  const points = [];
+  for (let i = 0; i < steps; i++) {
+    const theta = i * (Math.PI / 15);
+    const r = a + b * theta;
+    points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta), color: colors[i % colors.length] });
+  }
+  console.log('Spiral Colored Plot (real):', points);
+  return points;
+}

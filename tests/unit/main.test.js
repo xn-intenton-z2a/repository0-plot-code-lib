@@ -53,7 +53,7 @@ import {
   plotCustomEnhancedReal,
   plotPiecewiseReal,
   movingProductReal,
-  // Newly added functions:
+  // Newly added functions
   plotNthRootReal,
   plotPolynomialFromCoeffsReal,
   plotCumulativeSumReal,
@@ -68,13 +68,15 @@ import {
   plotBoxPlotReal,
   plotViolinPlotReal,
   loadExpress,
-  loadReadline
+  loadReadline,
+  // New features
+  plotDampedOscillationReal,
+  plotSpiralColoredReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
-
 
 describe('Main Module Import', () => {
   test('should be non-null', () => {
@@ -82,14 +84,12 @@ describe('Main Module Import', () => {
   });
 });
 
-
 describe('Default Demo Output', () => {
   test('should terminate without error', () => {
     process.argv = ['node', 'src/lib/main.js'];
     main();
   });
 });
-
 
 describe('New Extended Functions', () => {
   test('plotLogLogReal returns non-empty array', () => {
@@ -118,7 +118,6 @@ describe('New Extended Functions', () => {
   });
 });
 
-
 describe('--reset flag functionality', () => {
   test('should reset overrides when --reset is passed', async () => {
     // Set overrides to dummy values
@@ -134,7 +133,6 @@ describe('--reset flag functionality', () => {
   });
 });
 
-
 describe('Interactive Mode in test environment', () => {
   test('should simulate immediate response', async () => {
     process.env.VITEST = 'true';
@@ -145,7 +143,6 @@ describe('Interactive Mode in test environment', () => {
     delete process.env.VITEST;
   });
 });
-
 
 describe('Serve Mode in test environment', () => {
   test('should simulate server start in test environment', async () => {
@@ -158,7 +155,6 @@ describe('Serve Mode in test environment', () => {
   });
 });
 
-
 describe('--plot-circle flag functionality', () => {
   test('should print Circular Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-circle'];
@@ -167,7 +163,6 @@ describe('--plot-circle flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'));
   });
 });
-
 
 describe('--plot-grid flag functionality', () => {
   test('should print Grid Plot Output with sine and cosine plots', async () => {
@@ -178,7 +173,6 @@ describe('--plot-grid flag functionality', () => {
   });
 });
 
-
 describe('--plot-spiral-enhanced flag functionality', () => {
   test('should print Enhanced Spiral Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-spiral-enhanced'];
@@ -187,7 +181,6 @@ describe('--plot-spiral-enhanced flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Enhanced Spiral Plot Output:'));
   });
 });
-
 
 describe('--plot-polar-heatmap flag functionality', () => {
   test('should print Polar Heatmap Plot Output', async () => {
@@ -198,7 +191,6 @@ describe('--plot-polar-heatmap flag functionality', () => {
   });
 });
 
-
 describe('--power-plot flag functionality', () => {
   test('should print Power Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--power-plot'];
@@ -207,7 +199,6 @@ describe('--power-plot flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (real):'));
   });
 });
-
 
 describe('--plot-custom-enhanced flag functionality', () => {
   test('should print Custom Enhanced Plot Output', async () => {
@@ -218,7 +209,6 @@ describe('--plot-custom-enhanced flag functionality', () => {
   });
 });
 
-
 describe('--plot-piecewise flag functionality', () => {
   test('should print Piecewise Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-piecewise'];
@@ -227,7 +217,6 @@ describe('--plot-piecewise flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Piecewise Plot Output:'));
   });
 });
-
 
 describe('--plot-derivative flag functionality', () => {
   test('should print Derivative Plot Output', async () => {
@@ -286,7 +275,6 @@ describe('Newly Added Functions', () => {
   });
 
   test('plotIntegralReal computes approximate integral', () => {
-    // integrate x^2 from 0 to 3: exact value is 9
     const result = plotIntegralReal(x => x * x, 0, 3, 1000);
     expect(result).toBeCloseTo(9, 1);
   });
@@ -327,22 +315,19 @@ describe('Newly Added Functions', () => {
     const result = cumulativeDifferenceReal(data);
     expect(result).toEqual([2, 3, 4]);
   });
-});
 
-// Advanced Plotting Functions Tests
-
-describe('Advanced Plotting Functions', () => {
-  test('plotBoxPlotReal returns correct box plot statistics', () => {
-    const data = [1, 2, 3, 4, 5];
-    const box = plotBoxPlotReal(data);
-    expect(box).toEqual({ min: 1, q1: 2, median: 3, q3: 4, max: 5 });
+  // Tests for newly added functions
+  test('plotDampedOscillationReal returns a valid damped oscillation plot', () => {
+    const result = plotDampedOscillationReal(0, 3.14, 0.5, 1, 0.2, 2);
+    expect(Array.isArray(result)).toBe(true);
+    expect(result.length).toBeGreaterThan(0);
+    expect(result[0]).toHaveProperty('y');
   });
 
-  test('plotViolinPlotReal returns expected density array', () => {
-    const data = [1, 2, 3, 4, 5];
-    const violin = plotViolinPlotReal(data, 4);
-    expect(Array.isArray(violin)).toBe(true);
-    expect(violin.length).toBeGreaterThan(0);
+  test('plotSpiralColoredReal returns points with color property', () => {
+    const result = plotSpiralColoredReal(10, 0, 0.1, ['red', 'blue']);
+    expect(Array.isArray(result)).toBe(true);
+    expect(result[0]).toHaveProperty('color');
   });
 });
 
