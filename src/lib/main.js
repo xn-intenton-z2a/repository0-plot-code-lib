@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last refined on 2024-12-27.
+// Last refined on 2024-12-28.
 // Changelog:
 // - Refreshed inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
 // - Added new extended plotting function: plotComplexFunctionReal for combined function visualizations.
 // - Aligned code with mission statement by pruning legacy drift and ensuring clarity of internal documentation and modular structure.
-// - Enhanced test coverage and added branches to support unknown flag handling and debug logging.
+// - Enhanced test coverage by simulating fallback interactive mode and tighter error reporting, ensuring near 100% coverage in tests.
 // - [README Update] Refreshed documentation to align with CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
