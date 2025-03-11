@@ -15,8 +15,9 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
 - **New Features:**
   - **Fibonacci Spiral, Combined Sin-Cos Plotting**
   - **Circular Plotting (--plot-circle)**
-  - **Advanced Visualizations:** Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate (--lemniscate) plotting functions.
+  - **Advanced Visualizations:** Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate) plotting functions.
   - **New:** Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step).
+  - **Extended Functions:** Newly added functions for moving sum calculations and cubic Bezier curve plotting.
   - **Reset Functionality:** New --reset flag to restore override hooks to their default state.
   - **Enhanced Testability:** Improved test coverage with mocks for interactive and server modes.
 
@@ -61,6 +62,9 @@ Other available commands:
 - **Advanced Visualizations:**
   Explore plots using flags like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, and `--plot-step`.
 
+- **Extended Features:**
+  New functions include moving sum computation and cubic Bezier curve plotting. Use these via the debug mode or by direct invocation in your code.
+
 - **Reset Functionality:**
   ```bash
   node src/lib/main.js --reset
@@ -76,13 +80,14 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.82 (Latest):**
+- **0.7.83 (Latest):**
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
   - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), and Step Function Plot (--plot-step).
+  - **Extended:** Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.
   - Pruned legacy stub implementations to better align with our mission statement.
-  - **TEST:** Improved test coverage by adding tests for interactive, server, and reset functionalities.
+  - **TEST:** Improved test coverage by adding tests for interactive, server, reset, and new extended functions.
   - **REFRESH:** Updated documentation and changelog in accordance with updated CONTRIBUTING guidelines.
 
 ## Contributing

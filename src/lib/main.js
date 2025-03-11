@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, pruned legacy stub implementations, and newly added log-log and step function plotting.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, pruned legacy stub implementations, newly added log-log and step function plotting, and additional extended functions.
 // Updated to align with our updated CONTRIBUTING guidelines and refreshed inline documentation.
 
 import { fileURLToPath } from 'url';
@@ -302,7 +302,8 @@ export async function main(argsInput) {
       'plotEllipseReal', 'plotCubicReal', 'movingMedianReal', 'plotGaussianReal', 'plotHeatMapReal',
       'plotSpiralReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal', 'plotCustomReal',
       'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
-      'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal'
+      'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
+      'movingSumReal', 'plotCubicBezierReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -715,6 +716,38 @@ export function plotStepFunctionReal(rangeStart, rangeEnd, step = 1, stepSize = 
   const plot = range.map(x => ({ x, y: Math.floor(x / stepSize) }));
   console.log('Step Function Plot (real):', plot);
   return plot;
+}
+
+// New function: Moving Sum - calculates a moving sum for a given window size
+export function movingSumReal(data, windowSize = 3) {
+  if (!Array.isArray(data) || data.length < windowSize) {
+    console.error('movingSumReal: invalid data or window size');
+    return [];
+  }
+  const sums = [];
+  for (let i = 0; i <= data.length - windowSize; i++) {
+    const window = data.slice(i, i + windowSize);
+    const sum = window.reduce((acc, cur) => acc + cur, 0);
+    sums.push(sum);
+  }
+  console.log('Moving Sum (real):', sums);
+  return sums;
+}
+
+// New function: Cubic Bezier Plot - plots a cubic bezier curve given four control points
+export function plotCubicBezierReal(points, step = 0.05) {
+  if (!Array.isArray(points) || points.length !== 4) {
+    console.error('plotCubicBezierReal: requires an array of 4 control points');
+    return [];
+  }
+  const curve = [];
+  for (let t = 0; t <= 1; t += step) {
+    const x = Math.pow(1 - t, 3) * points[0].x + 3 * Math.pow(1 - t, 2) * t * points[1].x + 3 * (1 - t) * Math.pow(t, 2) * points[2].x + Math.pow(t, 3) * points[3].x;
+    const y = Math.pow(1 - t, 3) * points[0].y + 3 * Math.pow(1 - t, 2) * t * points[1].y + 3 * (1 - t) * Math.pow(t, 2) * points[2].y + Math.pow(t, 3) * points[3].y;
+    curve.push({ t, x, y });
+  }
+  console.log('Cubic Bezier Curve (real):', curve);
+  return curve;
 }
 
 // Utility function for testing: reset overrides

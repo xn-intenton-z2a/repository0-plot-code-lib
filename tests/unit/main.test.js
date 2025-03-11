@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from 'vitest';
 import * as mainModule from '@src/lib/main.js';
-import { main, resetOverrides, overrides } from '@src/lib/main.js';
+import { main, resetOverrides, overrides, movingSumReal, plotCubicBezierReal } from '@src/lib/main.js';
 
 // Mock console methods to suppress output during testing
 vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -30,6 +30,20 @@ describe('New Extended Functions', () => {
     const result = mainModule.plotStepFunctionReal(0, 10, 1, 2);
     expect(result[0].y).toBe(0);
     expect(result[2].y).toBe(1);
+  });
+
+  test('movingSumReal calculates correct moving sum', () => {
+    const data = [1, 2, 3, 4, 5];
+    const result = movingSumReal(data, 3);
+    expect(result).toEqual([6, 9, 12]);
+  });
+
+  test('plotCubicBezierReal returns a bezier curve for 4 points', () => {
+    const controlPoints = [{ x: 0, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 0 }];
+    const result = plotCubicBezierReal(controlPoints, 0.5);
+    expect(Array.isArray(result)).toBe(true);
+    // Expect at least 3 points (t=0, 0.5, 1)
+    expect(result.length).toBeGreaterThanOrEqual(3);
   });
 });
 
