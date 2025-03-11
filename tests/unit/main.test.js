@@ -103,6 +103,7 @@ import {
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
 
+
 describe('Main Module Import', () => {
   test('should be non-null', () => {
     expect(mainModule).not.toBeNull();

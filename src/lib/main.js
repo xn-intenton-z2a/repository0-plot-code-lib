@@ -7,9 +7,7 @@
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product visualization, exponential moving average plot (--plot-ema).
 // - New functions added: plotExponentialSineReal and plotCosineCumulativeSumReal, along with CLI flags --plot-exp-sine and --plot-cos-cumsum.
-// - Improved test coverage by adding mocks for external resource loading in unit tests.
-// - Legacy code drift pruned and improved modular structure implemented.
-// - Enhanced internal logging, error reporting, and test coverage strategies.
+// - Enhanced internal logging, error reporting, test coverage, and pruned legacy code drift in line with our contribution guidelines from CONTRIBUTING.md.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -1358,5 +1356,3 @@ export function plotCosineCumulativeSumReal(rangeStart, rangeEnd, step = 0.5) {
   console.log('Cosine Cumulative Sum Plot (real):', cumulative);
   return cumulative;
 }
-
-// SOURCE_FILE_END
