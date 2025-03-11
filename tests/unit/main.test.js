@@ -10,12 +10,14 @@ import {
   generateRange,
   calculateDerivative,
   plotSineReal,
-  plotCosineReal
+  plotCosineReal,
+  plotSpiralEnhancedReal
 } from '@src/lib/main.js';
 
 // Mock console methods to suppress output during testing
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
+
 
 describe('Main Module Import', () => {
   test('should be non-null', () => {
@@ -109,6 +111,16 @@ describe('--plot-grid flag functionality', () => {
     const spy = vi.spyOn(console, 'log');
     await main();
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Grid Plot Output:'));
+  });
+});
+
+// Additional test for new enhanced spiral plot feature
+describe('--plot-spiral-enhanced flag functionality', () => {
+  test('should print Enhanced Spiral Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-spiral-enhanced'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Enhanced Spiral Plot Output:'));
   });
 });
 
