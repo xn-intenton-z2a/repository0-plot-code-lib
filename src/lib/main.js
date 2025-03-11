@@ -9,6 +9,7 @@
 // - Added detailed error messages for module loader overrides.
 // - Added new function plotStatisticalSummaryReal and CLI flag --plot-stat-summary for generating statistical summaries.
 // - Added new functions: plotParametricReal and plotCumulativeAverageReal to extend plotting capabilities in line with our mission.
+// - Added new function: plotInverseFunctionReal to plot inverse values of a given function, with error handling for zero division.
 // - Refreshed comments to indicate that README has been updated to align with CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
@@ -64,7 +65,7 @@ export async function loadReadline() {
 // -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // Help/Default mode
   if (args.length === 0 || args.includes('--help')) {
@@ -387,6 +388,12 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-inverse')) {
+    const inverse = plotInverseFunctionReal(1, 5, 1, x => x + 1);
+    console.log('Inverse Function Plot Output: ' + JSON.stringify(inverse));
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'generateRange', 'calculateDerivative',
@@ -409,7 +416,8 @@ export async function main(argsInput) {
       'plotHarmonicsReal',
       'plotModulatedSineReal',
       'plotStatisticalSummaryReal',
-      'plotParametricReal', 'plotCumulativeAverageReal'
+      'plotParametricReal', 'plotCumulativeAverageReal',
+      'plotInverseFunctionReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -1166,4 +1174,19 @@ export function plotCumulativeAverageReal(data) {
   });
   console.log('Cumulative Average (real):', averages);
   return averages;
+}
+
+// -------------------- Newly Added Inverse Function Feature --------------------
+// New function: Plot Inverse Function for given function
+export function plotInverseFunctionReal(rangeStart, rangeEnd, step = 1, func = Math.sin) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => {
+    const value = func(x);
+    if (Math.abs(value) < 1e-10) {
+      return { x, y: null };
+    }
+    return { x, y: 1 / value };
+  });
+  console.log('Inverse Function Plot (real):', plot);
+  return plot;
 }
