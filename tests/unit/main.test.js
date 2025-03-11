@@ -58,7 +58,11 @@ import {
   plotPolynomialFromCoeffsReal,
   plotCumulativeSumReal,
   plotIntegralReal,
-  plotBarChartEnhancedReal
+  plotBarChartEnhancedReal,
+  // Newly Extended Functions
+  plotScaledSineReal,
+  plotExponentialDecayReal,
+  plotCumulativeProductReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -267,6 +271,44 @@ describe('Newly Added Functions', () => {
     expect(result[0].y).toBeCloseTo(4);
     expect(result[1].y).toBeCloseTo(9);
     expect(result[2].y).toBeCloseTo(18);
+  });
+
+  test('plotCumulativeSumReal computes cumulative sums', () => {
+    const data = [1, 2, 3, 4];
+    const result = plotCumulativeSumReal(data);
+    expect(result).toEqual([1, 3, 6, 10]);
+  });
+
+  test('plotIntegralReal computes approximate integral', () => {
+    // integrate x^2 from 0 to 3: exact value is 9
+    const result = plotIntegralReal(x => x * x, 0, 3, 1000);
+    expect(result).toBeCloseTo(9, 1);
+  });
+
+  test('plotBarChartEnhancedReal returns array of strings with Bar labels', () => {
+    const result = plotBarChartEnhancedReal([2, 4]);
+    expect(result[0]).toMatch(/Bar 1:/);
+    expect(result[1]).toMatch(/Bar 2:/);
+  });
+
+  // Tests for newly extended functions
+  test('plotScaledSineReal returns scaled sine values', () => {
+    const result = plotScaledSineReal(0, Math.PI, Math.PI/2, 2);
+    expect(result[0].y).toBeCloseTo(0);
+    expect(result[1].y).toBeCloseTo(Math.sin(Math.PI/2) * 2);
+  });
+
+  test('plotExponentialDecayReal returns exponential decay values', () => {
+    const decayRate = 0.5;
+    const result = plotExponentialDecayReal(0, 2, 1, decayRate);
+    expect(result[0].y).toBeCloseTo(Math.exp(-decayRate * 0));
+    expect(result[1].y).toBeCloseTo(Math.exp(-decayRate * 1));
+  });
+
+  test('plotCumulativeProductReal calculates cumulative product', () => {
+    const data = [2, 3, 4];
+    const result = plotCumulativeProductReal(data);
+    expect(result).toEqual([2, 6, 24]);
   });
 });
 
@@ -499,26 +541,5 @@ describe('Extended Functions Full Coverage', () => {
   test('plotPolarHeatmapReal returns an array of points', () => {
     const result = plotPolarHeatmapReal();
     expect(Array.isArray(result)).toBe(true);
-  });
-
-  // Tests for newly added functions
-  describe('New Extra Functions', () => {
-    test('plotCumulativeSumReal computes cumulative sums', () => {
-      const data = [1, 2, 3, 4];
-      const result = plotCumulativeSumReal(data);
-      expect(result).toEqual([1, 3, 6, 10]);
-    });
-
-    test('plotIntegralReal computes approximate integral', () => {
-      // integrate x^2 from 0 to 3: exact value is 9
-      const result = plotIntegralReal(x => x * x, 0, 3, 1000);
-      expect(result).toBeCloseTo(9, 1);
-    });
-
-    test('plotBarChartEnhancedReal returns array of strings with Bar labels', () => {
-      const result = plotBarChartEnhancedReal([2, 4]);
-      expect(result[0]).toMatch(/Bar 1:/);
-      expect(result[1]).toMatch(/Bar 2:/);
-    });
   });
 });

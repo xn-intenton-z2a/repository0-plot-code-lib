@@ -6,7 +6,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a wide range of plots including basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) and advanced visualizations (enhanced spiral plots with rotation, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, moving product, derivative, advanced polynomial and nth root plotting).
+- **Mathematical Plotting:** Generate a wide range of plots including basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) and advanced visualizations (enhanced spiral plots with rotation, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, moving product, derivative, advanced polynomial and nth root plotting, scaled sine plots, exponential decay plots, and cumulative product plots).
 - **Multiple Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. Note: PNG output is a stub implementation.
 - **Interactive & Server Modes:** Launch an interactive CLI or a live Express server for demonstrations.
 - **Analytical Tools:** Built-in functions for range generation, derivative calculation, moving sum/product, and more.
@@ -19,7 +19,8 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Custom Enhanced & Piecewise Plots:** Combine and enhance base plots, with new piecewise plotting support.
 - **Moving Product:** Efficiently calculate moving products over data sets.
 - **Advanced Polynomial & Nth Root Plots:** New functions `plotPolynomialFromCoeffsReal` and `plotNthRootReal` extend the library's capabilities.
-- **Additional Analytical Functions:** Newly added functions include `plotCumulativeSumReal`, `plotIntegralReal` (using Simpson's rule), and `plotBarChartEnhancedReal` for a labeled bar chart visualization.
+- **Additional Analytical Functions:** Newly added functions include `plotCumulativeSumReal`, `plotIntegralReal` (using Simpson's rule), `plotBarChartEnhancedReal`, **plotScaledSineReal**, **plotExponentialDecayReal**, and **plotCumulativeProductReal** for extended visualization and analysis.
+- **Reset Overrides:** New `resetOverrides` function is provided to reset module overrides.
 
 ## Installation
 
@@ -51,11 +52,11 @@ Custom plot parameters can also be provided directly through the command line.
 
 ## Changelog
 
-- **0.7.94 (Latest):**
+- **0.7.96 (Latest):**
   - Extended source functionalities per CONTRIBUTING guidelines.
-  - Added new functions: `plotCumulativeSumReal`, `plotIntegralReal`, and `plotBarChartEnhancedReal`.
+  - Added new functions: `plotCumulativeSumReal`, `plotIntegralReal`, `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, and `resetOverrides`.
   - Improved inline documentation and error handling.
-  - Pruned drift and ensured comprehensive test coverage.
+  - Increased test coverage and updated changelog.
 
 ## Contributing
 
