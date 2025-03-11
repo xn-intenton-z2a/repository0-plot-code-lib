@@ -11,9 +11,8 @@ This tool provides a robust CLI with multiple modes including interactive, serve
 - Initial implementation with basic and extended plotting functions.
 - Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), and complex combined plot (plotComplexFunctionReal).
-- Enhanced internal logging and error handling to improve testability.
-- Improved test coverage to nearly 100% with comprehensive unit tests and mocks for external resources.
-- Updated documentation to align with CONTRIBUTING.md guidelines and prune outdated content.
+- Extended functionalities to align with the mission statement by pruning legacy drift, refining error handling and logging, and improving modular structure.
+- New function: plotCumulativeProductReal added for additional analytical capabilities.
 
 ## Key Features
 
@@ -31,6 +30,7 @@ This tool provides a robust CLI with multiple modes including interactive, serve
   - Use flags like `--interactive`, `--serve`, `--diagnostics`, and various export and plotting options.
   - New flag `--plot-detailed` provides a detailed sine-cosine plot with additional statistics.
   - Easily reset overrides with `--reset` and use `--debug` for detailed function listings.
+  - New flag `--plot-cumprod` available for cumulative product visualization.
 
 ## Installation
 
@@ -56,9 +56,10 @@ Other common commands:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** Use flags like `--export-csv`, `--export-json`, etc.
-- **Plot Options:** Use flags like `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-complex` etc.
+- **Plot Options:** Use flags like `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-complex`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
+- **Cumulative Product Plot:** `node src/lib/main.js --plot-cumprod`
 
 ## Testing
 
