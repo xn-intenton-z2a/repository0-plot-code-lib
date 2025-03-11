@@ -76,6 +76,7 @@ Other commands include:
 - **0.7.88 (Latest):**
   - Refreshed README and inline documentation to align with CONTRIBUTING guidelines.
   - Extended functionalities with enhanced spiral plot (with rotation support), new polar heatmap feature, and new power plot functionality.
+  - Removed extra logging from generateRange to ensure expected output in tests.
   - Improved test coverage with comprehensive tests for all functions.
 
 ## Contributing

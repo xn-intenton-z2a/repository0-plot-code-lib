@@ -160,7 +160,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 
@@ -344,7 +344,6 @@ export function generateRange(start, end, step = 1) {
   for (let i = start; i <= end; i += step) {
     range.push(i);
   }
-  console.log('Generated range:', range);
   return range;
 }
 
@@ -826,5 +825,5 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and to facilitate comprehensive test coverage.
-  Added power plot functionality in line with the mission statement.
+  Removed logging from generateRange to avoid interfering with expected log outputs in power plot tests.
 */
