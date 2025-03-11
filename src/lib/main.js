@@ -11,8 +11,9 @@
 // - Added new functions: plotParametricReal and plotCumulativeAverageReal to extend plotting capabilities in line with our mission.
 // - Added new function: plotInverseFunctionReal to plot inverse values of a given function, with error handling for zero division.
 // - Added new visualization functions: plotBoxPlotReal, plotViolinPlotReal, plotDampedOscillationReal, plotSpiralColoredReal, and plotDualAxisReal.
-// - Extended testability by ensuring error conditions in module loaders are properly handled and covered via overrides.
 // - Updated changelog to reflect all new extended features per CONTRIBUTING.md guidelines.
+//
+// Updated per CONTRIBUTING.md guidelines to refresh documentation and remove irrelevant drift.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -202,7 +203,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
+    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
     return;
   }
 
