@@ -1,12 +1,13 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last refined on 2024-12-20.
+// Last refined on 2024-12-27.
 // Changelog:
 // - Refreshed inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot and interactive guide output.
 // - Updated output formatting for harmonics, modulated sine, and statistical summary modes using JSON.stringify for consistency.
+// - Aligned code with mission statement by pruning legacy drift and ensuring clarity of internal documentation and modular structure.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -60,10 +61,7 @@ export async function loadReadline() {
 
 // -------------------- Helper Functions --------------------
 function displayHelpMessage() {
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!
-Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --reset
-For contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --reset\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
 
