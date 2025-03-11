@@ -20,7 +20,7 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
   - **Extended:** Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.
   - **Grid Plotting:** New grid plotting feature (--plot-grid) to visualize multiple plots simultaneously.
   - **Reset Functionality:** New --reset flag to restore override hooks to their default state.
-  - **Enhanced Testability:** Improved test coverage with mocks for interactive, server, and new extended functions.
+  - **Enhanced Testability:** Improved test coverage with additional tests for all extended functions.
 
 ## Installation
 
@@ -81,14 +81,14 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.84 (Latest):**
+- **0.7.85 (Latest):**
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
   - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and Grid Plot (--plot-grid).
   - **Extended:** Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.
   - Pruned legacy stub implementations to better align with our mission statement.
-  - **TEST:** Improved test coverage by adding tests for interactive, server, reset, grid plotting, and new extended functions.
+  - **TEST:** Improved test coverage by adding additional tests for extended functions and external module simulations.
   - **REFRESH:** Updated documentation and changelog in accordance with updated CONTRIBUTING guidelines.
 
 ## Contributing

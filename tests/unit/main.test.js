@@ -1,10 +1,22 @@
 import { describe, test, expect, vi } from 'vitest';
 import * as mainModule from '@src/lib/main.js';
-import { main, resetOverrides, overrides, movingSumReal, plotCubicBezierReal, plotGridReal } from '@src/lib/main.js';
+import {
+  main,
+  resetOverrides,
+  overrides,
+  movingSumReal,
+  plotCubicBezierReal,
+  plotGridReal,
+  generateRange,
+  calculateDerivative,
+  plotSineReal,
+  plotCosineReal
+} from '@src/lib/main.js';
 
 // Mock console methods to suppress output during testing
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
+
 
 describe('Main Module Import', () => {
   test('should be non-null', () => {
@@ -12,12 +24,14 @@ describe('Main Module Import', () => {
   });
 });
 
+
 describe('Default Demo Output', () => {
   test('should terminate without error', () => {
     process.argv = ['node', 'src/lib/main.js'];
     main();
   });
 });
+
 
 describe('New Extended Functions', () => {
   test('plotLogLogReal returns non-empty array', () => {
@@ -46,6 +60,7 @@ describe('New Extended Functions', () => {
   });
 });
 
+
 describe('--reset flag functionality', () => {
   test('should reset overrides when --reset is passed', async () => {
     // Set overrides to dummy values
@@ -61,6 +76,7 @@ describe('--reset flag functionality', () => {
   });
 });
 
+
 describe('Interactive Mode in test environment', () => {
   test('should simulate immediate response', async () => {
     process.env.VITEST = 'true';
@@ -71,6 +87,7 @@ describe('Interactive Mode in test environment', () => {
     delete process.env.VITEST;
   });
 });
+
 
 describe('Serve Mode in test environment', () => {
   test('should simulate server start in test environment', async () => {
@@ -83,6 +100,7 @@ describe('Serve Mode in test environment', () => {
   });
 });
 
+
 describe('--plot-circle flag functionality', () => {
   test('should print Circular Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-circle'];
@@ -92,11 +110,45 @@ describe('--plot-circle flag functionality', () => {
   });
 });
 
+
 describe('--plot-grid flag functionality', () => {
   test('should print Grid Plot Output with sine and cosine plots', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-grid'];
     const spy = vi.spyOn(console, 'log');
     await main();
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Grid Plot Output:'));
+  });
+});
+
+// Additional tests for extended functions to increase coverage
+
+describe('Extended Functions Additional Coverage', () => {
+  test('generateRange returns correct sequence', () => {
+    const range = generateRange(1, 5, 1);
+    expect(range).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  test('calculateDerivative returns correct derivative value', () => {
+    // derivative of x^2 is 2x, at x=3 should be 6
+    const result = calculateDerivative('x^2', 'x', 3);
+    expect(result).toBeCloseTo(6);
+  });
+
+  test('plotSineReal returns a plot array with correct sine values', () => {
+    const plot = plotSineReal(0, Math.PI, Math.PI/2);
+    expect(plot).toEqual([
+      { x: 0, y: 0 },
+      { x: Math.PI/2, y: 1 },
+      { x: Math.PI, y: 0 }
+    ]);
+  });
+
+  test('plotCosineReal returns a plot array with correct cosine values', () => {
+    const plot = plotCosineReal(0, Math.PI, Math.PI/2);
+    expect(plot).toEqual([
+      { x: 0, y: 1 },
+      { x: Math.PI/2, y: 0 },
+      { x: Math.PI, y: -1 }
+    ]);
   });
 });
