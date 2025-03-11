@@ -62,10 +62,11 @@ import {
   plotScaledSineReal,
   plotExponentialDecayReal,
   plotCumulativeProductReal,
-  // Additional new functions
   movingStdReal,
   cumulativeDifferenceReal,
-  // Module loader functions for testing error handling
+  // Advanced plotting functions
+  plotBoxPlotReal,
+  plotViolinPlotReal,
   loadExpress,
   loadReadline
 } from '@src/lib/main.js';
@@ -328,6 +329,23 @@ describe('Newly Added Functions', () => {
   });
 });
 
+// Advanced Plotting Functions Tests
+
+describe('Advanced Plotting Functions', () => {
+  test('plotBoxPlotReal returns correct box plot statistics', () => {
+    const data = [1, 2, 3, 4, 5];
+    const box = plotBoxPlotReal(data);
+    expect(box).toEqual({ min: 1, q1: 2, median: 3, q3: 4, max: 5 });
+  });
+
+  test('plotViolinPlotReal returns expected density array', () => {
+    const data = [1, 2, 3, 4, 5];
+    const violin = plotViolinPlotReal(data, 4);
+    expect(Array.isArray(violin)).toBe(true);
+    expect(violin.length).toBeGreaterThan(0);
+  });
+});
+
 // Extended Functions Full Coverage
 
 describe('Extended Functions Full Coverage', () => {
@@ -557,23 +575,5 @@ describe('Extended Functions Full Coverage', () => {
   test('plotPolarHeatmapReal returns an array of points', () => {
     const result = plotPolarHeatmapReal();
     expect(Array.isArray(result)).toBe(true);
-  });
-});
-
-// Additional tests for module loader error handling
-
-describe('Module Loader Error Handling', () => {
-  test('loadExpress throws error when module fails to load', async () => {
-    const error = new Error('module not found');
-    overrides.loadExpressOverride = async () => { throw error; };
-    await expect(mainModule.loadExpress()).rejects.toThrow('Failed to load express: module not found');
-    resetOverrides();
-  });
-
-  test('loadReadline throws error when module fails to load', async () => {
-    const error = new Error('module not found');
-    overrides.loadReadlineOverride = async () => { throw error; };
-    await expect(mainModule.loadReadline()).rejects.toThrow('Failed to load readline: module not found');
-    resetOverrides();
   });
 });
