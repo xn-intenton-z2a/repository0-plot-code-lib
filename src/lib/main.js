@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. Added function grouping, pruned drift, and enhanced inline documentation.
+// Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. Added function grouping, pruned drift, enhanced inline documentation, and clarified error handling for module loaders.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -985,7 +985,7 @@ export function cumulativeDifferenceReal(data) {
 
 /*
   Source file updated per CONTRIBUTING guidelines to align fully with the mission statement. 
-  Refined function grouping, pruned any drift, and updated inline documentation.
+  Refined function grouping, pruned any drift, updated inline documentation, and clarified error handling in module loaders.
   New functions added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, movingStdReal, cumulativeDifferenceReal, and resetOverrides.
   Version updated per changelog.
 */

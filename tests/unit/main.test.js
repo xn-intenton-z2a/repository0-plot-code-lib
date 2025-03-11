@@ -64,7 +64,10 @@ import {
   plotCumulativeProductReal,
   // Additional new functions
   movingStdReal,
-  cumulativeDifferenceReal
+  cumulativeDifferenceReal,
+  // Module loader functions for testing error handling
+  loadExpress,
+  loadReadline
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -555,5 +558,23 @@ describe('Extended Functions Full Coverage', () => {
   test('plotPolarHeatmapReal returns an array of points', () => {
     const result = plotPolarHeatmapReal();
     expect(Array.isArray(result)).toBe(true);
+  });
+});
+
+// Additional tests for module loader error handling
+
+describe('Module Loader Error Handling', () => {
+  test('loadExpress throws error when module fails to load', async () => {
+    const error = new Error('module not found');
+    overrides.loadExpressOverride = async () => { throw error; };
+    await expect(mainModule.loadExpress()).rejects.toThrow('Failed to load express: module not found');
+    resetOverrides();
+  });
+
+  test('loadReadline throws error when module fails to load', async () => {
+    const error = new Error('module not found');
+    overrides.loadReadlineOverride = async () => { throw error; };
+    await expect(mainModule.loadReadline()).rejects.toThrow('Failed to load readline: module not found');
+    resetOverrides();
   });
 });
