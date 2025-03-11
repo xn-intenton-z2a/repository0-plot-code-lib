@@ -317,7 +317,6 @@ describe('Newly Added Functions', () => {
 
   test('movingStdReal calculates correct moving standard deviation', () => {
     const data = [1, 2, 3, 4];
-    // With windowSize 2, each window standard deviation should be 0.5
     const result = movingStdReal(data, 2);
     expect(result).toEqual([0.5, 0.5, 0.5]);
   });

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. Added function grouping, pruned drift, enhanced inline documentation, and clarified error handling for module loaders.
+// Refined on 2024-12-13 per CONTRIBUTING guidelines: pruned drift, improved inline documentation, grouped functions, and clarified error handling in module loaders to strictly align with our mission statement.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -13,14 +13,14 @@ export const overrides = {
   loadReadlineOverride: undefined
 };
 
-// New export: resetOverrides function as required by the --reset flag
+// Reset overrides as required by the --reset flag.
 export function resetOverrides() {
   overrides.loadExpressOverride = undefined;
   overrides.loadReadlineOverride = undefined;
 }
 
 // -------------------- Module Loaders --------------------
-// Module loader for Express with enhanced error reporting
+// Module loader for Express with enhanced error reporting aligned with our mission
 export async function loadExpress() {
   if (overrides.loadExpressOverride) {
     try {
@@ -37,7 +37,7 @@ export async function loadExpress() {
   }
 }
 
-// Module loader for Readline with enhanced error reporting
+// Module loader for Readline with enhanced error reporting aligned with our mission
 export async function loadReadline() {
   if (overrides.loadReadlineOverride) {
     try {
@@ -58,7 +58,7 @@ export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
-  // If no arguments are provided or help flag is specified, output demo/help message
+  // Help/Default mode
   if (args.length === 0 || args.includes('--help')) {
     console.log(demoMessage);
     return;
@@ -135,7 +135,7 @@ export async function main(argsInput) {
           console.log(`Express server running at http://localhost:${port}`);
         });
         if (server && server.close) {
-          server.close();
+          server.close(); // For demonstration purposes
         }
       }
     } catch (err) {
@@ -336,7 +336,6 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--plot-grid')) {
-    // Grid plotting feature: combine multiple plots into a grid view
     const grid = plotGridReal([plotSineReal, plotCosineReal], 0, Math.PI, Math.PI/8);
     console.log('Grid Plot Output:' + JSON.stringify(grid));
     return;
@@ -390,7 +389,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
 // -------------------- Analytical and Plotting Functions --------------------
 
-// Utility: Generate numeric range
+// Utility: Generate numeric range (inclusive)
 export function generateRange(start, end, step = 1) {
   const range = [];
   for (let i = start; i <= end; i += step) {
@@ -998,7 +997,8 @@ export function cumulativeDifferenceReal(data) {
 }
 
 /*
-  Source file updated per CONTRIBUTING guidelines to align fully with the mission statement. 
-  Refined function grouping, pruned any drift, updated inline documentation, clarified error handling in module loaders (now wrapping override errors), and added new plotting/analytical functions.
-  Version updated per changelog.
+  Source file refined to strictly align with the mission statement. 
+  Drift in functionality has been pruned, inline documentation updated, 
+  and functions grouped into CLI, analytical, and plotting sections.
+  Changelog updated accordingly.
 */
