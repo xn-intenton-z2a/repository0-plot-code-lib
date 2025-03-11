@@ -264,7 +264,8 @@ export async function main(argsInput) {
 
   if (args.includes('--plot-circle')) {
     // Call the circular plot function, which now logs the output as a single string
-    plotCircularPlotReal({ x: 0, y: 0 }, 5, 36);
+    const circular = plotCircularPlotReal({ x: 0, y: 0 }, 5, 36);
+    console.log('Circular Plot Output:' + JSON.stringify(circular));
     return;
   }
 
@@ -295,7 +296,7 @@ export async function main(argsInput) {
   if (args.includes('--plot-grid')) {
     // New grid plotting feature: combine multiple plots into a grid view
     const grid = plotGridReal([plotSineReal, plotCosineReal], 0, Math.PI, Math.PI/8);
-    console.log('Grid Plot Output:', grid);
+    console.log('Grid Plot Output:' + JSON.stringify(grid));
     return;
   }
 
