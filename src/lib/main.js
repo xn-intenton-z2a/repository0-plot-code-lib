@@ -7,8 +7,8 @@
 // - Enhanced error handling for module loaders and added a new unknown-option handler for better CLI robustness.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot and interactive guide output.
-// - Extended CLI help message and improved defaults to prompt for unknown options.
-// - Pruned outdated implementations to fully align with the mission as outlined in CONTRIBUTING.md.
+// - Improved CLI help message and integrated fallback for unrecognized options.
+// - Updated output formatting for harmonics, modulated sine, and statistical summary modes to produce output as a single string (JSON stringified) for consistent test matching.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -389,19 +389,19 @@ export async function main(argsInput) {
   // Newly Added Custom Features for missing flags
   if (args.includes('--plot-harmonics')) {
     const harmonics = plotHarmonicsReal(0, 2 * Math.PI, Math.PI / 16, [1, 2, 3]);
-    console.log('Harmonics Plot Output:', harmonics);
+    console.log('Harmonics Plot Output: ' + JSON.stringify(harmonics));
     return;
   }
 
   if (args.includes('--plot-modulated-sine')) {
     const modulated = plotModulatedSineReal(0, 2 * Math.PI, Math.PI / 16, 1, 0.5);
-    console.log('Modulated Sine Plot Output:', modulated);
+    console.log('Modulated Sine Plot Output: ' + JSON.stringify(modulated));
     return;
   }
 
   if (args.includes('--plot-stat-summary')) {
     const summary = plotStatisticalSummaryReal([1, 2, 3, 4, 5]);
-    console.log('Statistical Summary:', summary);
+    console.log('Statistical Summary: ' + JSON.stringify(summary));
     return;
   }
 
