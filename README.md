@@ -18,7 +18,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Circular & Power Plots:** Create customizable circular and power plots.
 - **Custom Enhanced & Piecewise Plots:** Combine and enhance plots with new piecewise plotting capabilities.
 - **Moving Product:** Efficient calculation of moving products.
-- **Advanced Polynomial & Nth Root Plots:** Including `plotPolynomialFromCoeffsReal` and `plotNthRootReal`.
+- **Advanced Polynomial & Nth Root Plots:** Functions like `plotPolynomialFromCoeffsReal` and `plotNthRootReal` are available.
 - **Additional Analytical Functions:** Such as `plotCumulativeSumReal`, `plotIntegralReal` (Simpson's rule), `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, `movingStdReal`, and `cumulativeDifferenceReal`.
 - **Statistical Visualizations:** New functions `plotBoxPlotReal` and `plotViolinPlotReal` for statistical plotting.
 - **New Visualization Functions:** `plotDampedOscillationReal` for damped oscillation plots, `plotSpiralColoredReal` for colored spiral plots, and **`plotDualAxisReal` for dual-axis comparisons**.
@@ -56,10 +56,10 @@ Custom plot parameters can also be provided directly via the command line.
 
 ## Changelog
 
-- **0.7.101 (Latest):**
-  - Refreshed README and inline documentation to remove drift and align more closely with the mission statement and CONTRIBUTING guidelines.
+- **0.7.102 (Latest):**
+  - Refreshed README and inline documentation to align with the mission statement and CONTRIBUTING guidelines.
   - Updated description for new visualization and analytical features.
-  - Improved clarity on contribution process. 
+  - Improved clarity on the contribution process.
 
 ## Contributing
 
