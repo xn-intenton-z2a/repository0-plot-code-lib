@@ -4,13 +4,14 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-This tool provides a robust CLI with multiple modes including interactive, server, diagnostics, and various export and plotting options. It offers a wide range of plotting functionalities from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations (enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plot, custom fancy plot, detailed sine-cosine plot, interactive guide, complex combined plot, cumulative product, and exponential moving average).
+This tool provides a robust CLI with multiple modes including interactive, server, diagnostics, and various export and plotting options. It offers a wide range of plotting functionalities from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations (enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plot, custom fancy plot, detailed sine-cosine plot, interactive guide, complex combined plot, cumulative product, exponential moving average).
 
 ## Changelog
 
 - Initial implementation with basic and extended plotting functions.
 - Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
-- Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product plot (--plot-cumprod), and exponential moving average plot (--plot-ema).
+- Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product plot (--plot-cumprod), exponential moving average plot (--plot-ema).
+- Improved test coverage by adding single layer mocks for external resource loading and deeper tests for network and file system interactions.
 - Extended functionality by pruning legacy code drift and improving modular structure in line with our mission statement.
 
 ## Key Features
@@ -60,7 +61,7 @@ Other common commands:
 
 ## Testing
 
-The project includes a comprehensive test suite using Vitest to ensure close to 100% code coverage. Tests cover CLI modes, plotting functions, and error handling for external resource loading. Run the tests with:
+The project includes a comprehensive test suite using Vitest to ensure close to 100% code coverage with single layer mocked tests for external resources. Run the tests with:
 
 ```bash
 npm test
