@@ -27,7 +27,7 @@
 <p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, and power plots.</li>
+<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, and custom enhanced plots.</li>
 <li class="md-github"><strong class="md-github">Multiple Output Formats:</strong> Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)</li>
 <li class="md-github"><strong class="md-github">Interactive and Server Modes:</strong> Utilize the CLI in interactive mode or launch an Express server for live demonstrations.</li>
 <li class="md-github"><strong class="md-github">Analytical Tools:</strong> Features include derivative calculations, range generation, moving sum, and cubic Bezier curve plotting.</li>
@@ -38,6 +38,7 @@
 <li class="md-github"><strong class="md-github">Polar Heatmap:</strong> Visualize polar heat intensity with the <code class="md-github">--plot-polar-heatmap</code> flag.</li>
 <li class="md-github"><strong class="md-github">Circular Plotting:</strong> Generate circular plots using the <code class="md-github">--plot-circle</code> flag.</li>
 <li class="md-github"><strong class="md-github">Power Plot:</strong> Create power plots with customizable parameters using the <code class="md-github">--power-plot</code> flag.</li>
+<li class="md-github"><strong class="md-github">Custom Enhanced Plot:</strong> Combine basic custom plots with additional enhancements using the <code class="md-github">--plot-custom-enhanced</code> flag.</li>
 <li class="md-github"><strong class="md-github">Additional Analytics:</strong> Extended function library including moving sum calculations and cubic Bezier curves.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
@@ -61,7 +62,7 @@
 </code></pre>
 </li>
 <li class="md-github"><strong class="md-github">Plot/Export Flags:</strong> Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-github">--export-csv</code>, <code class="md-github">--export-md</code>, etc., for specific outputs.</li>
-<li class="md-github"><strong class="md-github">Advanced Visualizations:</strong> Try flags such as <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--heatmap</code>, <code class="md-github">--plot-spiral</code>, <code class="md-github">--plot-spiral-enhanced</code>, <code class="md-github">--plot-circle</code>, <code class="md-github">--plot-polarrose</code>, <code class="md-github">--plot-starpolygon</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--plot-loglog</code>, <code class="md-github">--plot-step</code>, <code class="md-github">--plot-grid</code>, <code class="md-github">--plot-polar-heatmap</code>, and <code class="md-github">--power-plot</code>.</li>
+<li class="md-github"><strong class="md-github">Advanced Visualizations:</strong> Try flags such as <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--heatmap</code>, <code class="md-github">--plot-spiral</code>, <code class="md-github">--plot-spiral-enhanced</code>, <code class="md-github">--plot-circle</code>, <code class="md-github">--plot-polarrose</code>, <code class="md-github">--plot-starpolygon</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--plot-loglog</code>, <code class="md-github">--plot-step</code>, <code class="md-github">--plot-grid</code>, <code class="md-github">--plot-polar-heatmap</code>, <code class="md-github">--power-plot</code>, and <code class="md-github">--plot-custom-enhanced</code>.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong><pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --reset
 </code></pre>
 </li>
@@ -72,11 +73,11 @@
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.7.88 (Latest):</strong>
+<li class="md-github"><strong class="md-github">0.7.89 (Latest):</strong>
 <ul class="md-github">
-<li class="md-github">Refreshed README and inline documentation in line with CONTRIBUTING guidelines.</li>
-<li class="md-github">Extended functionalities with enhanced spiral plots (with rotation support), new polar heatmap feature, and new power plot functionality.</li>
-<li class="md-github">Improved error handling and comprehensive test coverage.</li>
+<li class="md-github">Extended functionalities with the addition of custom enhanced plots and additional debug capabilities.</li>
+<li class="md-github">Enhanced error handling and comprehensive inline documentation.</li>
+<li class="md-github">Updated changelog and README in line with CONTRIBUTING guidelines.</li>
 </ul>
 </li>
 </ul>
@@ -93,7 +94,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T10:37:43.923Z</p>
+    <p>Generated on 2025-03-11T10:46:48.036Z</p>
   </footer>
 </body>
 </html>
