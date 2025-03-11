@@ -1233,6 +1233,5 @@ export function plotSineCosineDetailedReal(rangeStart = 0, rangeEnd = Math.PI, s
     const cosine = Math.cos(x);
     return { x, sine, cosine, average: (sine + cosine) / 2, diff: sine - cosine };
   });
-  console.log('Sine Cosine Detailed Plot (real):', plot);
   return plot;
 }
