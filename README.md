@@ -55,17 +55,15 @@ Custom plot parameters can also be provided directly through the command line.
 ## Changelog
 
 - **0.7.97 (Latest):**
-  - Refined source file to strictly align with the mission statement.
-  - Grouped functions into CLI, analytical, and plotting sections for clarity.
-  - Pruned any drift and improved inline documentation.
+  - Refined source file to strictly align with the mission statement by pruning drift and enhancing inline documentation.
+  - Grouped functions into CLI, analytical, and plotting sections.
   - Added new functions: `plotCumulativeSumReal`, `plotIntegralReal`, `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, `movingStdReal`, `cumulativeDifferenceReal`, and `resetOverrides`.
-  - Improved error handling in module loaders to wrap override errors.
-  - Improved test coverage with additional tests for error handling in module loaders.
+  - Improved error handling in module loaders and updated test coverage for comprehensive functionality.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
-1. **Open an Issue:** Describe your idea, bug, or improvement.
+1. **Open an Issue:** Describe your idea, bug, or improvement by opening an issue in our repository.
 2. **Label as `automated`:** This triggers our automated workflow.
 3. **Submit a Pull Request:** Include clear commit messages and tests. Refer to [CONTRIBUTING.md](./CONTRIBUTING.md) for details.
 
