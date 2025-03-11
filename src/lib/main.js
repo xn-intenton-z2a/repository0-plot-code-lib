@@ -263,7 +263,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--plot-circle')) {
-    // Call the circular plot function, which now logs the output
+    // Call the circular plot function, which now logs the output as a single string
     plotCircularPlotReal({ x: 0, y: 0 }, 5, 36);
     return;
   }
@@ -673,7 +673,7 @@ export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps 
     const theta = (2 * Math.PI * i) / steps;
     points.push({ theta, x: center.x + radius * Math.cos(theta), y: center.y + radius * Math.sin(theta) });
   }
-  console.log('Circular Plot Output:', points);
+  console.log('Circular Plot Output:' + JSON.stringify(points));
   return points;
 }
 
