@@ -93,7 +93,10 @@ import {
   // Newly added complex combined function
   plotComplexFunctionReal,
   // New Exponential Moving Average function
-  plotExponentialMovingAverageReal
+  plotExponentialMovingAverageReal,
+  // Newly added new functions
+  plotExponentialSineReal,
+  plotCosineCumulativeSumReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -156,10 +159,8 @@ describe('New Extended Functions', () => {
 
 describe('--reset flag functionality', () => {
   test('should reset overrides when --reset is passed', async () => {
-    // Set overrides to dummy values
     overrides.loadExpressOverride = async () => 'dummyExpress';
     overrides.loadReadlineOverride = async () => ({ createInterface: () => ({}) });
-    
     process.argv = ['node', 'src/lib/main.js', '--reset'];
     const spy = vi.spyOn(console, 'log');
     await main();
@@ -638,6 +639,22 @@ describe('Extended Functions Full Coverage', () => {
       const data = [10, 20, 30, 40];
       const result = plotExponentialMovingAverageReal(data, 0.5);
       expect(result.length).toBe(data.length);
+    });
+  });
+
+  describe('New function: plotExponentialSineReal', () => {
+    test('calculates Exponential Sine Plot correctly', () => {
+      const result = plotExponentialSineReal(0, Math.PI, 0.5, 1, 0.2);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('New function: plotCosineCumulativeSumReal', () => {
+    test('calculates Cosine Cumulative Sum correctly', () => {
+      const result = plotCosineCumulativeSumReal(0, Math.PI, 0.5);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
     });
   });
 

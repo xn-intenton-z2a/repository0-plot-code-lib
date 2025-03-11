@@ -5,7 +5,8 @@
 // Changelog:
 // - Refreshed inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
-// - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product visualization, and exponential moving average plot (--plot-ema).
+// - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product visualization, exponential moving average plot (--plot-ema).
+// - New functions added: plotExponentialSineReal and plotCosineCumulativeSumReal, along with CLI flags --plot-exp-sine and --plot-cos-cumsum.
 // - Improved test coverage by adding mocks for external resource loading in unit tests.
 // - Legacy code drift pruned and improved modular structure implemented.
 // - Enhanced internal logging, error reporting, and test coverage strategies.
@@ -62,7 +63,7 @@ export async function loadReadline() {
 
 // -------------------- Helper Functions --------------------
 function displayHelpMessage() {
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --debug\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --debug\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
 
@@ -76,9 +77,9 @@ export async function main(argsInput) {
     return;
   }
 
-  // Handle unknown options: if none of the recognized flags match, show help
+  // Recognized flags including new ones
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--debug', '--reset'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--debug', '--reset'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -133,7 +134,9 @@ export async function main(argsInput) {
       // New: Cumulative Product Plot
       'plotCumulativeProductReal',
       // New: Exponential Moving Average Plot
-      'plotExponentialMovingAverageReal'
+      'plotExponentialMovingAverageReal',
+      // Newly Added New Functions
+      'plotExponentialSineReal', 'plotCosineCumulativeSumReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     // Continue execution after debug output
@@ -488,6 +491,19 @@ export async function main(argsInput) {
     const data = [1, 2, 3, 4, 5];
     const ema = plotExponentialMovingAverageReal(data, 0.5);
     console.log('Exponential Moving Average Plot Output:', ema);
+    return;
+  }
+
+  // -------------------- Newly Added New Functions --------------------
+  if (args.includes('--plot-exp-sine')) {
+    const plotExpSine = plotExponentialSineReal(0, 2 * Math.PI, 0.5, 1, 0.2);
+    console.log('Exponential Sine Plot Output:', plotExpSine);
+    return;
+  }
+
+  if (args.includes('--plot-cos-cumsum')) {
+    const plotCosCumsum = plotCosineCumulativeSumReal(0, Math.PI, 0.5);
+    console.log('Cosine Cumulative Sum Plot Output:', plotCosCumsum);
     return;
   }
 
@@ -1319,3 +1335,28 @@ export function plotExponentialMovingAverageReal(data, alpha = 0.5) {
   console.log('Exponential Moving Average (real):', result);
   return result;
 }
+
+// -------------------- Newly Added New Functions --------------------
+// New function: Exponential Sine Plot
+export function plotExponentialSineReal(rangeStart, rangeEnd, step = 0.5, amplitude = 1, growth = 0.2) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: amplitude * Math.exp(growth * x) * Math.sin(x) }));
+  console.log('Exponential Sine Plot (real):', plot);
+  return plot;
+}
+
+// New function: Cosine Cumulative Sum Plot
+export function plotCosineCumulativeSumReal(rangeStart, rangeEnd, step = 0.5) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const values = range.map(x => Math.cos(x));
+  const cumulative = [];
+  values.reduce((acc, cur) => {
+    const sum = acc + cur;
+    cumulative.push(sum);
+    return sum;
+  }, 0);
+  console.log('Cosine Cumulative Sum Plot (real):', cumulative);
+  return cumulative;
+}
+
+// SOURCE_FILE_END
