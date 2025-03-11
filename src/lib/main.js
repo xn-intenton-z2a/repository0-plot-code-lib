@@ -825,6 +825,6 @@ export function resetOverrides() {
 }
 
 /*
-  Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and to facilitate comprehensive test coverage.
-  Removed extraneous logging from generateRange to avoid interfering with expected log outputs in tests.
+  Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and comprehensive test coverage.
+  Inline documentation and changelog sections have been refreshed to reflect recent feature enhancements and code improvements.
 */
