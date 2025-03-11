@@ -2,7 +2,7 @@
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-15. Refactored code to remove drift and align fully with the mission statement as per CONTRIBUTING.md.
-// Changelog: Refreshed inline documentation, pruned legacy code paths, added enhanced error handling, improved CLI messaging, introduced new plotting function plotHarmonicsReal for trigonometric harmonics analysis, and added new function plotModulatedSineReal for modulated sine plots.
+// Changelog: Refreshed inline documentation, pruned legacy code paths, enhanced error handling, improved CLI messaging, introduced new plotting function plotHarmonicsReal for trigonometric harmonics analysis, added new function plotModulatedSineReal for modulated sine plots.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -1105,14 +1105,12 @@ export function plotHarmonicsReal(rangeStart, rangeEnd, step = 1, frequencies = 
     x,
     y: frequencies.reduce((sum, f) => sum + Math.sin(f * x), 0)
   }));
-  // Removed duplicate logging to match expected output in CLI
   return plot;
 }
 
 // -------------------- Newly Added Feature: Modulated Sine Plot --------------------
 export function plotModulatedSineReal(rangeStart, rangeEnd, step = 1, modulationFrequency = 1, modulationDepth = 0.5) {
   const range = generateRange(rangeStart, rangeEnd, step);
-  // y = sin(x) modulated by a secondary sine wave
   const plot = range.map(x => ({ x, y: Math.sin(x) * (1 + modulationDepth * Math.sin(modulationFrequency * x)) }));
   console.log('Modulated Sine Plot (real):', plot);
   return plot;
