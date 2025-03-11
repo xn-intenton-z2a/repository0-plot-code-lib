@@ -13,7 +13,7 @@ This tool enables you to generate a wide range of plots, from basic functions (s
 - **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse`, and now `--plot-custom-fancy` and `--interactive-guide` for advanced plotting.
 - **Analytical and Statistical Functions:** Perform derivative calculations, approximate integrals, compute statistical summaries, and more.
 - **Robust CLI Modes:** Enjoy interactive, server, diagnostics, and various export modes.
-- **Cleaned Legacy Drift:** Code has been refactored to remove legacy code paths and fully align with our mission statement as specified in CONTRIBUTING.md.
+- **Cleaned Legacy Drift:** Legacy code paths have been pruned to ensure the codebase fully aligns with our mission statement. 
 
 ## Changelog
 
@@ -22,6 +22,7 @@ This tool enables you to generate a wide range of plots, from basic functions (s
 - Extended plotting functions including new features: box plot, violin plot, damped oscillation, spiral colored plot, dual axis plot, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, and inverse function plot.
 - Added new features: custom fancy plot and interactive guide output.
 - Updated CLI help message and testing routines.
+- Pruned redundant legacy implementations to align strictly with the mission.
 
 ## Installation
 
@@ -55,7 +56,7 @@ Common commands:
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Report bugs, suggest enhancements, or propose new features.
+1. **Open an Issue:** Report bugs, suggest enhancements, or propose new features by opening an issue in our repository.
 2. **Label as `automated`:** This triggers our automated workflow.
 3. **Submit a Pull Request:** Include detailed commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
