@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last refined on 2024-12-15. Minor refresh applied to adhere strictly to our mission and contributing guidelines.
-// Changelog: Refreshed code and inline documentation to remove drift and increase clarity per CONTRIBUTING.md.
+// Last refined on 2024-12-15. Refactored code to remove drift and align fully with the mission statement as per CONTRIBUTING.md.
+// Changelog: Refreshed inline documentation and pruned legacy code paths. Added enhanced error handling and ensured all output aligns with the mission.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
