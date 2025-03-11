@@ -48,7 +48,8 @@ import {
   plotLogLogReal,
   plotStepFunctionReal,
   plotCubicBezierReal,
-  plotPolarHeatmapReal
+  plotPolarHeatmapReal,
+  plotPowerPlotReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -178,7 +179,17 @@ describe('--plot-polar-heatmap flag functionality', () => {
   });
 });
 
-// Extended Functions Additional Coverage
+
+describe('--power-plot flag functionality', () => {
+  test('should print Power Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--power-plot'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (real):'));
+  });
+});
+
+
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);
