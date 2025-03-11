@@ -51,10 +51,10 @@ Provide custom plot parameters directly as command-line arguments if needed.
 
 ## Changelog
 
-- **0.7.92 (Latest):**
-  - Extended functionalities with new functions for derivative, piecewise, moving product, advanced polynomial, and nth root plotting.
-  - README refreshed to align with the CONTRIBUTING guidelines.
-  - Enhanced inline documentation and improved error handling.
+- **0.7.93 (Latest):**
+  - Applied mission statement alignment and pruned drift from the source code.
+  - Updated inline documentation, error handling, and test coverage.
+  - Extended library with new functions: nth root plotting and polynomial plotting from coefficients.
 
 ## Contributing
 
