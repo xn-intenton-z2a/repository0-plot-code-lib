@@ -7,6 +7,7 @@
 // - Introduced new plotting functions including plotHarmonicsReal, plotModulatedSineReal.
 // - Added detailed error messages for module loader overrides.
 // - Added new function plotStatisticalSummaryReal and CLI flag --plot-stat-summary for generating statistical summaries.
+// - Added new functions: plotParametricReal and plotCumulativeAverageReal to extend plotting capabilities in line with our mission.
 // - Fixed console output for statistical summary to provide a single string log as expected by tests.
 
 import { fileURLToPath } from 'url';
@@ -235,7 +236,8 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--plot-parametric')) {
-    console.log('Parametric Plot Output:', [{ t: 0, x: 0, y: 0 }, { t: 1, x: 1, y: 1 }]);
+    const parametric = plotParametricReal(0, 2*Math.PI, Math.PI/4);
+    console.log('Parametric Plot Output:', parametric);
     return;
   }
 
@@ -397,22 +399,17 @@ export async function main(argsInput) {
       'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal', 'plotLogLogReal', 'plotStepFunctionReal',
       'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal',
-      // Newly added functions
       'plotNthRootReal', 'plotPolynomialFromCoeffsReal', 'plotCumulativeSumReal', 'plotIntegralReal',
       'plotBarChartEnhancedReal', 'plotScaledSineReal', 'plotExponentialDecayReal', 'plotCumulativeProductReal',
       'movingStdReal', 'cumulativeDifferenceReal',
-      // Advanced plotting functions
       'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
-      // New features
       'plotDampedOscillationReal', 'plotSpiralColoredReal',
-      // Extended new function
       'plotDualAxisReal',
-      // Newly added harmonics function
       'plotHarmonicsReal',
-      // Newly added modulated sine function
       'plotModulatedSineReal',
-      // Newly added statistical summary function
-      'plotStatisticalSummaryReal'
+      'plotStatisticalSummaryReal',
+      // Newly added functions
+      'plotParametricReal', 'plotCumulativeAverageReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -1080,7 +1077,7 @@ export function plotViolinPlotReal(data) {
 }
 
 // -------------------- Newly Added Features --------------------
-// New function: Damped Oscillation Plot for enhanced visualization aligned with our mission
+// New function: Damped Oscillation Plot
 export function plotDampedOscillationReal(rangeStart, rangeEnd, step = 0.1, amplitude = 1, damping = 0.1, frequency = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: amplitude * Math.exp(-damping * x) * Math.sin(frequency * x) }));
@@ -1088,7 +1085,7 @@ export function plotDampedOscillationReal(rangeStart, rangeEnd, step = 0.1, ampl
   return plot;
 }
 
-// New function: Spiral Colored Plot adds color information to spiral plot points
+// New function: Spiral Colored Plot
 export function plotSpiralColoredReal(steps = 100, a = 0, b = 0.1, colors = ['red', 'green', 'blue']) {
   const points = [];
   for (let i = 0; i < steps; i++) {
@@ -1101,7 +1098,7 @@ export function plotSpiralColoredReal(steps = 100, a = 0, b = 0.1, colors = ['re
 }
 
 // -------------------- Extended Plotting Functions --------------------
-// New function: Dual Axis Plot for comparing two functions on separate axes
+// New function: Dual Axis Plot
 export function plotDualAxisReal(rangeStart, rangeEnd, step = 1, fn1, fn2) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot1 = range.map(x => ({ x, y: fn1(x) }));
@@ -1111,7 +1108,7 @@ export function plotDualAxisReal(rangeStart, rangeEnd, step = 1, fn1, fn2) {
 }
 
 // -------------------- Newly Added Advanced Feature --------------------
-// New function: Plot Harmonics for visualizing sums of trigonometric functions
+// New function: Plot Harmonics
 export function plotHarmonicsReal(rangeStart, rangeEnd, step = 1, frequencies = [1, 2, 3]) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({
@@ -1130,7 +1127,6 @@ export function plotModulatedSineReal(rangeStart, rangeEnd, step = 1, modulation
 }
 
 // -------------------- Newly Added Feature: Statistical Summary --------------------
-// New function: Generates summary statistics (mean, median, min, max) for an array of numbers
 export function plotStatisticalSummaryReal(data) {
   if (!Array.isArray(data) || data.length === 0) {
     console.error('plotStatisticalSummaryReal: data must be a non-empty array');
@@ -1144,4 +1140,30 @@ export function plotStatisticalSummaryReal(data) {
   const median = n % 2 === 1 ? sorted[Math.floor(n / 2)] : ((sorted[n / 2 - 1] + sorted[n / 2]) / 2);
   const summary = { mean, median, min, max };
   return summary;
+}
+
+// -------------------- Newly Added Functions to Extend Functionality --------------------
+// New function: Parametric Plot for general parametric equations
+export function plotParametricReal(tStart, tEnd, step = 0.1, xFunc = Math.cos, yFunc = Math.sin) {
+  const result = [];
+  for (let t = tStart; t <= tEnd; t += step) {
+    result.push({ t, x: xFunc(t), y: yFunc(t) });
+  }
+  console.log('Parametric Plot (real):', result);
+  return result;
+}
+
+// New function: Cumulative Average Plot for data
+export function plotCumulativeAverageReal(data) {
+  if (!Array.isArray(data) || data.length === 0) {
+    console.error('plotCumulativeAverageReal: data must be a non-empty array');
+    return [];
+  }
+  let sum = 0;
+  const averages = data.map((value, index) => {
+    sum += value;
+    return sum / (index + 1);
+  });
+  console.log('Cumulative Average (real):', averages);
+  return averages;
 }

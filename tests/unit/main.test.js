@@ -82,7 +82,11 @@ import {
   // Newly added modulated sine function
   plotModulatedSineReal,
   // Newly added statistical summary function
-  plotStatisticalSummaryReal
+  plotStatisticalSummaryReal,
+
+  // Newly added extended functions
+  plotParametricReal,
+  plotCumulativeAverageReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -291,7 +295,6 @@ describe('plotStatisticalSummaryReal function', () => {
 });
 
 // Extended Functions Full Coverage Tests (existing tests retained below)
-
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);
@@ -523,6 +526,24 @@ describe('Extended Functions Full Coverage', () => {
       expect(result).toHaveProperty('plot2');
       expect(result.plot1.length).toEqual(3);
       expect(result.plot2.length).toEqual(3);
+    });
+  });
+
+  // New tests for newly added functions
+  describe('Newly added extended functions', () => {
+    test('plotParametricReal returns correct parametric plot values', () => {
+      const result = plotParametricReal(0, Math.PI, Math.PI/2, t => t, t => 2*t);
+      expect(result).toEqual([
+        { t: 0, x: 0, y: 0 },
+        { t: Math.PI/2, x: Math.PI/2, y: Math.PI },
+        { t: Math.PI, x: Math.PI, y: 2*Math.PI }
+      ]);
+    });
+
+    test('plotCumulativeAverageReal returns correct cumulative averages', () => {
+      const data = [2, 4, 6, 8];
+      const result = plotCumulativeAverageReal(data);
+      expect(result).toEqual([2, 3, 4, 5]);
     });
   });
 });
