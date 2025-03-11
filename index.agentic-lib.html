@@ -27,25 +27,24 @@
 <p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots, box plot, violin plot, damped oscillation, colored spiral plots, and dual axis comparisons).</li>
-<li class="md-github"><strong class="md-github">Multiple Output Formats:</strong> Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats (PNG output is a stub implementation).</li>
+<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots including box and violin plots, damped oscillation, colored spiral plots, and dual axis comparisons).</li>
+<li class="md-github"><strong class="md-github">Multiple Output Formats:</strong> Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT and R formats. (PNG output is provided as a stub implementation.)</li>
 <li class="md-github"><strong class="md-github">Interactive &amp; Server Modes:</strong> Run an interactive CLI or launch an Express server for live demonstrations.</li>
-<li class="md-github"><strong class="md-github">Analytical Tools:</strong> Built-in functions for tasks like range generation, derivative calculation, moving sums/products, and more.</li>
+<li class="md-github"><strong class="md-github">Analytical Tools:</strong> Includes utilities like range generation, derivative calculation, moving sums/products, and more for detailed analysis.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="new-features" href="#new-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Features</h2>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">Enhanced Spiral Plot:</strong> Use <code class="md-github">--plot-spiral-enhanced</code> for spiral plots with rotation support.</li>
 <li class="md-github"><strong class="md-github">Polar Heatmap:</strong> Visualize intensity variations with <code class="md-github">--plot-polar-heatmap</code>.</li>
 <li class="md-github"><strong class="md-github">Circular &amp; Power Plots:</strong> Create customizable circular and power plots.</li>
-<li class="md-github"><strong class="md-github">Custom Enhanced &amp; Piecewise Plots:</strong> Combine and enhance base plots with new piecewise plotting.</li>
-<li class="md-github"><strong class="md-github">Moving Product:</strong> Calculate moving products efficiently.</li>
-<li class="md-github"><strong class="md-github">Advanced Polynomial &amp; Nth Root Plots:</strong> New functions <code class="md-github">plotPolynomialFromCoeffsReal</code> and <code class="md-github">plotNthRootReal</code> extend the library's capabilities.</li>
-<li class="md-github"><strong class="md-github">Additional Analytical Features:</strong> New functions such as <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code> (using Simpson's rule), <code class="md-github">plotBarChartEnhancedReal</code>, <code class="md-github">plotScaledSineReal</code>, <code class="md-github">plotExponentialDecayReal</code>, <code class="md-github">plotCumulativeProductReal</code>, <code class="md-github">movingStdReal</code>, and <code class="md-github">cumulativeDifferenceReal</code>.</li>
-<li class="md-github"><strong class="md-github">Statistical Visualizations:</strong> Advanced plots like box plots (<code class="md-github">plotBoxPlotReal</code>) and violin plots (<code class="md-github">plotViolinPlotReal</code>).</li>
+<li class="md-github"><strong class="md-github">Custom Enhanced &amp; Piecewise Plots:</strong> Combine and enhance plots with new piecewise plotting capabilities.</li>
+<li class="md-github"><strong class="md-github">Moving Product:</strong> Efficient calculation of moving products.</li>
+<li class="md-github"><strong class="md-github">Advanced Polynomial &amp; Nth Root Plots:</strong> Including <code class="md-github">plotPolynomialFromCoeffsReal</code> and <code class="md-github">plotNthRootReal</code>.</li>
+<li class="md-github"><strong class="md-github">Additional Analytical Functions:</strong> Such as <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code> (Simpson's rule), <code class="md-github">plotBarChartEnhancedReal</code>, <code class="md-github">plotScaledSineReal</code>, <code class="md-github">plotExponentialDecayReal</code>, <code class="md-github">plotCumulativeProductReal</code>, <code class="md-github">movingStdReal</code>, and <code class="md-github">cumulativeDifferenceReal</code>.</li>
+<li class="md-github"><strong class="md-github">Statistical Visualizations:</strong> New functions <code class="md-github">plotBoxPlotReal</code> and <code class="md-github">plotViolinPlotReal</code> for statistical plotting.</li>
+<li class="md-github"><strong class="md-github">New Visualization Functions:</strong> <code class="md-github">plotDampedOscillationReal</code> for damped oscillation plots, <code class="md-github">plotSpiralColoredReal</code> for colored spiral plots, and <strong class="md-github"><code class="md-github">plotDualAxisReal</code> for dual-axis comparisons</strong>.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> Use the <code class="md-github">--reset</code> flag to clear custom module loader overrides.</li>
-<li class="md-github"><strong class="md-github">Improved Error Handling:</strong> Enhanced error messages in module loaders ensure clarity when overrides fail.</li>
-<li class="md-github"><strong class="md-github">New Visualization Functions:</strong> Added <code class="md-github">plotDampedOscillationReal</code> for damped oscillation plots, <code class="md-github">plotSpiralColoredReal</code> for colored spiral visualizations, and <strong class="md-github"><code class="md-github">plotDualAxisReal</code> for dual-axis comparisons of two functions.</strong></li>
-<li class="md-github"><strong class="md-github">Comprehensive Testing:</strong> Nearly 100% test coverage with unit tests covering all functionalities.</li>
+<li class="md-github"><strong class="md-github">Improved Error Handling:</strong> Enhanced error messages in module loaders for better clarity when overrides fail.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js v20 or higher</p>
@@ -65,32 +64,30 @@
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> <code class="md-github">node src/lib/main.js --reset</code></li>
 <li class="md-github"><strong class="md-github">Debug Mode:</strong> <code class="md-github">node src/lib/main.js --debug</code></li>
 </ul>
-<p class="md-github">You can also provide custom plot parameters directly via the command line.</p>
+<p class="md-github">Custom plot parameters can also be provided directly via the command line.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.7.100 (Latest):</strong>
+<li class="md-github"><strong class="md-github">0.7.101 (Latest):</strong>
 <ul class="md-github">
-<li class="md-github">Extended feature set to further align with our mission statement.</li>
-<li class="md-github">Added new functions: <code class="md-github">plotBoxPlotReal</code> and <code class="md-github">plotViolinPlotReal</code> for statistical visualizations.</li>
-<li class="md-github">Added new functions: <code class="md-github">plotDampedOscillationReal</code>, <code class="md-github">plotSpiralColoredReal</code>, and <code class="md-github">plotDualAxisReal</code> for enhanced visualizations.</li>
-<li class="md-github">Pruned and streamlined code sections to reduce drift from the mission.</li>
-<li class="md-github">Updated testing for near 100% coverage and improved documentation.</li>
+<li class="md-github">Refreshed README and inline documentation to remove drift and align more closely with the mission statement and CONTRIBUTING guidelines.</li>
+<li class="md-github">Updated description for new visualization and analytical features.</li>
+<li class="md-github">Improved clarity on contribution process.</li>
 </ul>
 </li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p class="md-github">We welcome contributions! Please follow these steps:</p>
+<p class="md-github">We welcome contributions! Follow these steps:</p>
 <ol class="md-github">
-<li class="md-github"><strong class="md-github">Open an Issue:</strong> Describe your idea, bug, or improvement by opening an issue in our repository.</li>
+<li class="md-github"><strong class="md-github">Open an Issue:</strong> Describe your idea, bug, or improvement in the repository's issues.</li>
 <li class="md-github"><strong class="md-github">Label as <code class="md-github">automated</code>:</strong> This triggers our automated workflow.</li>
-<li class="md-github"><strong class="md-github">Submit a Pull Request:</strong> Include clear commit messages and tests. See <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for complete guidelines.</li>
+<li class="md-github"><strong class="md-github">Submit a Pull Request:</strong> Ensure clear commit messages and include tests. See <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for full guidelines.</li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T15:03:38.116Z</p>
+    <p>Generated on 2025-03-11T15:15:33.169Z</p>
   </footer>
 </body>
 </html>
