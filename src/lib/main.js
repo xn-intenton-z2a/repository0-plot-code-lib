@@ -7,7 +7,6 @@
 // - Introduced new plotting functions including plotHarmonicsReal, plotModulatedSineReal.
 // - Added detailed error messages for module loader overrides.
 // - Added new function plotStatisticalSummaryReal and CLI flag --plot-stat-summary for generating statistical summaries.
-// 
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -1143,6 +1142,6 @@ export function plotStatisticalSummaryReal(data) {
   const max = sorted[n - 1];
   const median = n % 2 === 1 ? sorted[Math.floor(n / 2)] : ((sorted[n / 2 - 1] + sorted[n / 2]) / 2);
   const summary = { mean, median, min, max };
-  console.log('Statistical Summary (real):', summary);
+  console.log('Statistical Summary:', summary);
   return summary;
 }
