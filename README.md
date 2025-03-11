@@ -57,9 +57,8 @@ Custom plot parameters can also be provided directly via the command line.
 ## Changelog
 
 - **0.7.102 (Latest):**
-  - Refreshed README and inline documentation to align with the mission statement and CONTRIBUTING guidelines.
-  - Updated description for new visualization and analytical features.
-  - Improved clarity on the contribution process.
+  - Refactored code and updated inline documentation to remove drift and align with the mission statement.
+  - Enhanced error handling and ensured all CLI output supports our mission of clear visualisation.
 
 ## Contributing
 
