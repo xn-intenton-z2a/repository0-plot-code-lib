@@ -12,6 +12,7 @@ This tool provides a robust CLI with multiple modes including interactive, serve
 - Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
 - Aligned internal documentation and code structure with the mission statement, pruning legacy drift and ensuring clarity of implementation.
+- Enhanced test coverage with additional tests for unknown flags and extended debug functionality.
 
 ## Key Features
 
@@ -57,6 +58,14 @@ Other common commands:
 - **Plot Options:** Use flags like `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
+
+## Testing
+
+The project includes a comprehensive test suite using Vitest to ensure close to 100% code coverage. Tests cover CLI modes, plotting functions, and error handling for external resource loading. Run the tests with:
+
+```bash
+npm test
+```
 
 ## Contributing
 

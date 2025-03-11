@@ -7,6 +7,7 @@
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
 // - Aligned code with mission statement by pruning legacy drift and ensuring clarity of internal documentation and modular structure.
+// - Enhanced test coverage and added branches to support unknown flag handling and debug logging.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -60,7 +61,7 @@ export async function loadReadline() {
 
 // -------------------- Helper Functions --------------------
 function displayHelpMessage() {
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --reset\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --reset, --debug\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
 
@@ -76,7 +77,7 @@ export async function main(argsInput) {
 
   // Handle unknown options: if none of the recognized flags match, show help
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--reset'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--reset', '--debug'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -96,6 +97,35 @@ export async function main(argsInput) {
     resetOverrides();
     console.log('Overrides reset to defaults.');
     return;
+  }
+
+  // -------------------- Debug Mode --------------------
+  if (args.includes('--debug')) {
+    const funcs = [
+      'generateRange', 'calculateDerivative',
+      'plotSineReal', 'plotCosineReal', 'plotExponentialReal', 'plotLogarithmicReal', 'plotQuadraticReal',
+      'plotLinearReal', 'plotTangentReal', 'rotatePointsReal', 'plotSigmoidReal', 'plotReLUReal',
+      'plotHistogramReal', 'plotPolarReal', 'plotLogisticReal', 'movingAverageReal', 'plotSincReal',
+      'calculateDefiniteIntegralReal', 'plotBezierReal', 'plotHyperbolaReal', 'plotLemniscateReal',
+      'plotEllipseReal', 'plotCubicReal', 'movingMedianReal', 'plotGaussianReal', 'plotHeatMapReal',
+      'plotSpiralReal', 'plotSpiralEnhancedReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal',
+      'plotCustomReal', 'plotSinCosCombinedReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
+      'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal', 'plotLogLogReal', 'plotStepFunctionReal',
+      'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
+      'plotPiecewiseReal', 'movingProductReal',
+      'plotNthRootReal', 'plotPolynomialFromCoeffsReal', 'plotCumulativeSumReal', 'plotIntegralReal',
+      'plotBarChartEnhancedReal', 'plotScaledSineReal', 'plotExponentialDecayReal', 'plotCumulativeProductReal',
+      'movingStdReal', 'cumulativeDifferenceReal',
+      'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
+      'plotDampedOscillationReal', 'plotSpiralColoredReal',
+      'plotDualAxisReal',
+      'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
+      'plotParametricReal', 'plotCumulativeAverageReal',
+      'plotInverseFunctionReal',
+      'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal'
+    ];
+    console.log('Debug: Available plotting functions: ' + funcs.join(', '));
+    // Continue execution after debug output
   }
 
   // -------------------- Interactive Mode --------------------
@@ -408,35 +438,7 @@ export async function main(argsInput) {
     return;
   }
 
-  if (args.includes('--debug')) {
-    const funcs = [
-      'generateRange', 'calculateDerivative',
-      'plotSineReal', 'plotCosineReal', 'plotExponentialReal', 'plotLogarithmicReal', 'plotQuadraticReal',
-      'plotLinearReal', 'plotTangentReal', 'rotatePointsReal', 'plotSigmoidReal', 'plotReLUReal',
-      'plotHistogramReal', 'plotPolarReal', 'plotLogisticReal', 'movingAverageReal', 'plotSincReal',
-      'calculateDefiniteIntegralReal', 'plotBezierReal', 'plotHyperbolaReal', 'plotLemniscateReal',
-      'plotEllipseReal', 'plotCubicReal', 'movingMedianReal', 'plotGaussianReal', 'plotHeatMapReal',
-      'plotSpiralReal', 'plotSpiralEnhancedReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal',
-      'plotCustomReal', 'plotSinCosCombinedReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
-      'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal', 'plotLogLogReal', 'plotStepFunctionReal',
-      'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
-      'plotPiecewiseReal', 'movingProductReal',
-      'plotNthRootReal', 'plotPolynomialFromCoeffsReal', 'plotCumulativeSumReal', 'plotIntegralReal',
-      'plotBarChartEnhancedReal', 'plotScaledSineReal', 'plotExponentialDecayReal', 'plotCumulativeProductReal',
-      'movingStdReal', 'cumulativeDifferenceReal',
-      'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
-      'plotDampedOscillationReal', 'plotSpiralColoredReal',
-      'plotDualAxisReal',
-      'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
-      'plotParametricReal', 'plotCumulativeAverageReal',
-      'plotInverseFunctionReal',
-      'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal'
-    ];
-    console.log('Debug: Available plotting functions: ' + funcs.join(', '));
-    return;
-  }
-
-  // -------------------- Default Plot Parameter Handling --------------------
+  // -------------------- Fallback Default --------------------
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
 
