@@ -1,23 +1,23 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is clear:
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission remains:
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-- **Mathematical Plotting:** Generate plots for a wide range of functions including sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots with rotation support, polar heatmaps, circular plots, power plots, and other custom plots.
+- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, and power plots.
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
-- **Interactive and Server Modes:** Use the CLI for interactive sessions or launch an Express server for live demonstrations.
-- **Analytical Tools:** Benefit from extended functionalities including derivative calculations, range generation, moving sum computations, and cubic Bezier curve plotting.
+- **Interactive and Server Modes:** Utilize the CLI in interactive mode or launch an Express server for live demonstrations.
+- **Analytical Tools:** Features include derivative calculations, range generation, moving sum, and cubic Bezier curve plotting.
 
 ## New Features
 
 - **Enhanced Spiral Plot:** Use the `--plot-spiral-enhanced` flag for spiral plots with rotation support.
-- **Polar Heatmap:** Visualize heat intensity in polar coordinates with the `--plot-polar-heatmap` flag.
+- **Polar Heatmap:** Visualize polar heat intensity with the `--plot-polar-heatmap` flag.
 - **Circular Plotting:** Generate circular plots using the `--plot-circle` flag.
-- **Power Plot:** Create power plots (e.g., y = 2x^3) with customizable parameters via the `--power-plot` flag.
-- **Additional Analytics:** Extended function library supporting moving sum, cubic Bezier curves, and more.
+- **Power Plot:** Create power plots with customizable parameters using the `--power-plot` flag.
+- **Additional Analytics:** Extended function library including moving sum calculations and cubic Bezier curves.
 
 ## Installation
 
@@ -61,12 +61,12 @@ Other commands include:
   ```bash
   node src/lib/main.js --debug
   ```
-- **Custom Parameters:** Pass custom plot parameters directly as command-line arguments.
+- **Custom Parameters:** Provide custom plot parameters directly as command-line arguments.
 
 ## Changelog
 
 - **0.7.88 (Latest):**
-  - Refreshed README and inline documentation per CONTRIBUTING guidelines.
+  - Refreshed README and inline documentation in line with CONTRIBUTING guidelines.
   - Extended functionalities with enhanced spiral plots (with rotation support), new polar heatmap feature, and new power plot functionality.
   - Improved error handling and comprehensive test coverage.
 
@@ -76,7 +76,7 @@ We welcome your contributions! Please follow these steps:
 
 1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement.
 2. **Review Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for our contribution process.
-3. **Submit a Pull Request:** Ensure clear commit messages and include comprehensive tests.
+3. **Submit a Pull Request:** Include clear commit messages and comprehensive tests.
 
 Your involvement is key to building the definitive CLI plotting tool.
 
