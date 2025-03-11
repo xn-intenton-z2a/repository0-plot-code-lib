@@ -16,9 +16,9 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
   - **Fibonacci Spiral, Combined Sin-Cos Plotting**
   - **Circular Plotting (--plot-circle)**
   - **Advanced Visualizations:** Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate (--lemniscate) plotting functions.
-  - **Newly Added:** Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step).
-
-- **Improved Test Coverage:** Enhanced mocks and test structure now bring test coverage near 100%.
+  - **New:** Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step) plotting functions.
+  - **Reset Functionality:** New --reset flag to restore override hooks to their default state.
+  - **Enhanced Testability:** Improved test coverage with mocks for interactive and server modes.
 
 ## Installation
 
@@ -61,6 +61,11 @@ Other available commands:
 - **Advanced Visualizations:**
   Explore plots using flags like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, and `--plot-step`.
 
+- **Reset Functionality:**
+  ```bash
+  node src/lib/main.js --reset
+  ```
+
 - **Debug Mode:**
   ```bash
   node src/lib/main.js --debug
@@ -71,13 +76,13 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.80 (Latest):**
+- **0.7.81 (Latest):**
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
-  - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), and Step Function Plot (--plot-step) plotting functions.
+  - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and reset functionality (--reset).
   - Pruned legacy drift to align with the mission statement.
-  - **TEST:** Improved test coverage by adding beforeEach hooks and exporting a resetOverrides utility.
+  - **TEST:** Improved test coverage by adding tests for interactive, server, and reset functionalities.
   - **REFRESH:** Updated README to reflect changes and the updated CONTRIBUTING guidelines.
 
 ## Contributing
