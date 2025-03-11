@@ -36,7 +36,7 @@
 <p class="md-github"><strong class="md-github">Interactive and Server Modes:</strong> Enjoy interactive CLI input or run a lightweight Express server for a live demonstration of the plotting capabilities.</p>
 </li>
 <li class="md-github">
-<p class="md-github"><strong class="md-github">Extended Function Library:</strong> Includes real implementations for derivative calculation, range generation, and various plotting features, while retaining legacy stubs for backward compatibility.</p>
+<p class="md-github"><strong class="md-github">Extended Function Library:</strong> Includes real implementations for derivative calculation, range generation, and various plotting features. Legacy stub functions have been pruned to align with our mission statement.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">New Features:</strong></p>
@@ -44,11 +44,10 @@
 <li class="md-github"><strong class="md-github">Fibonacci Spiral, Combined Sin-Cos Plotting</strong></li>
 <li class="md-github"><strong class="md-github">Circular Plotting (--plot-circle)</strong></li>
 <li class="md-github"><strong class="md-github">Advanced Visualizations:</strong> Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate (--lemniscate) plotting functions.</li>
-<li class="md-github"><strong class="md-github">Newly Added:</strong> Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step).</li>
+<li class="md-github"><strong class="md-github">New:</strong> Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step) plotting functions.</li>
+<li class="md-github"><strong class="md-github">Reset Functionality:</strong> New --reset flag to restore override hooks to their default state.</li>
+<li class="md-github"><strong class="md-github">Enhanced Testability:</strong> Improved test coverage with mocks for interactive and server modes.</li>
 </ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Improved Test Coverage:</strong> Enhanced mocks and test structure now bring test coverage near 100%.</p>
 </li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
@@ -86,6 +85,11 @@ Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-git
 Explore plots using flags like <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--heatmap</code>, <code class="md-github">--plot-spiral</code>, <code class="md-github">--plot-circle</code>, <code class="md-github">--plot-polarrose</code>, <code class="md-github">--plot-starpolygon</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--plot-loglog</code>, and <code class="md-github">--plot-step</code>.</p>
 </li>
 <li class="md-github">
+<p class="md-github"><strong class="md-github">Reset Functionality:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --reset
+</code></pre>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">Debug Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --debug
 </code></pre>
@@ -97,14 +101,14 @@ Pass parameters directly as command-line arguments.</p>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.7.80 (Latest):</strong>
+<li class="md-github"><strong class="md-github">0.7.82 (Latest):</strong>
 <ul class="md-github">
 <li class="md-github">Extended functionalities with new spiral, circular, and custom plotting features.</li>
 <li class="md-github">Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).</li>
 <li class="md-github">Introduced new circular plotting with flag --plot-circle.</li>
-<li class="md-github"><strong class="md-github">New:</strong> Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), and Step Function Plot (--plot-step) plotting functions.</li>
-<li class="md-github">Pruned legacy drift to align with the mission statement.</li>
-<li class="md-github"><strong class="md-github">TEST:</strong> Improved test coverage by adding beforeEach hooks and exporting a resetOverrides utility.</li>
+<li class="md-github"><strong class="md-github">New:</strong> Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and reset functionality (--reset).</li>
+<li class="md-github">Pruned legacy drift by removing outdated stub functions.</li>
+<li class="md-github"><strong class="md-github">TEST:</strong> Improved test coverage by adding tests for interactive, server, and reset functionalities.</li>
 <li class="md-github"><strong class="md-github">REFRESH:</strong> Updated README to reflect changes and the updated CONTRIBUTING guidelines.</li>
 </ul>
 </li>
@@ -131,7 +135,7 @@ Ensure your changes include clear commit messages and sufficient test coverage. 
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T00:12:26.362Z</p>
+    <p>Generated on 2025-03-11T00:32:38.588Z</p>
   </footer>
 </body>
 </html>
