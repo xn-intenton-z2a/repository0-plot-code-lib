@@ -997,6 +997,50 @@ export function cumulativeDifferenceReal(data) {
   return differences;
 }
 
+// -------------------- Additional Newly Added Features --------------------
+
+// New function: Box Plot for statistical visualization
+export function plotBoxPlotReal(data) {
+  if (!Array.isArray(data) || data.length === 0) {
+    console.error('plotBoxPlotReal: data must be a non-empty array');
+    return null;
+  }
+  const sorted = [...data].sort((a, b) => a - b);
+  const min = sorted[0];
+  const max = sorted[sorted.length - 1];
+  const median = sorted[Math.floor(sorted.length / 2)];
+  const q1 = sorted[Math.floor(sorted.length / 4)];
+  const q3 = sorted[Math.floor(3 * sorted.length / 4)];
+  const boxPlot = { min, q1, median, q3, max };
+  console.log('Box Plot (real):', boxPlot);
+  return boxPlot;
+}
+
+// New function: Violin Plot for density estimation visualization
+export function plotViolinPlotReal(data) {
+  if (!Array.isArray(data) || data.length === 0) {
+    console.error('plotViolinPlotReal: data must be a non-empty array');
+    return null;
+  }
+  const sorted = [...data].sort((a, b) => a - b);
+  const min = sorted[0], max = sorted[sorted.length - 1];
+  const binCount = 10;
+  const binSize = (max - min) / binCount;
+  let bins = Array(binCount).fill(0);
+  data.forEach(x => {
+    let index = Math.floor((x - min) / binSize);
+    if (index === binCount) index = binCount - 1;
+    bins[index]++;
+  });
+  const density = bins.map((count, index) => ({
+    binStart: min + index * binSize,
+    binEnd: min + (index + 1) * binSize,
+    count
+  }));
+  console.log('Violin Plot (real):', density);
+  return density;
+}
+
 // -------------------- Newly Added Features --------------------
 
 // New function: Damped Oscillation Plot for enhanced visualization aligned with our mission
