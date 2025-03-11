@@ -53,6 +53,7 @@ import {
   plotCustomEnhancedReal,
   plotPiecewiseReal,
   movingProductReal,
+  
   // Newly added functions
   plotNthRootReal,
   plotPolynomialFromCoeffsReal,
@@ -64,11 +65,13 @@ import {
   plotCumulativeProductReal,
   movingStdReal,
   cumulativeDifferenceReal,
+  
   // Advanced plotting functions
   plotBoxPlotReal,
   plotViolinPlotReal,
   loadExpress,
   loadReadline,
+  
   // New features
   plotDampedOscillationReal,
   plotSpiralColoredReal,
@@ -333,8 +336,6 @@ describe('Newly Added Functions', () => {
   });
 });
 
-// Extended Functions Full Coverage
-
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);
@@ -563,7 +564,7 @@ describe('Extended Functions Full Coverage', () => {
     const result = plotPolarHeatmapReal();
     expect(Array.isArray(result)).toBe(true);
   });
-
+  
   // New test for plotDualAxisReal
   describe('plotDualAxisReal functionality', () => {
     test('should return dual axis plots for two functions', () => {
