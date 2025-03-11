@@ -78,7 +78,9 @@ import {
   // Extended new function
   plotDualAxisReal,
   // Newly added harmonics function
-  plotHarmonicsReal
+  plotHarmonicsReal,
+  // Newly added modulated sine function
+  plotModulatedSineReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -244,6 +246,15 @@ describe('--plot-harmonics flag functionality', () => {
   });
 });
 
+describe('--plot-modulated-sine flag functionality', () => {
+  test('should print Modulated Sine Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-modulated-sine'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Modulated Sine Plot Output:'));
+  });
+});
+
 describe('Additional Extended Functions', () => {
   test('movingProductReal calculates correct moving product', () => {
     const data = [2, 3, 4, 5];
@@ -346,6 +357,12 @@ describe('Newly Added Functions', () => {
     const result = plotHarmonicsReal(0, Math.PI * 2, 0.5, [1, 2]);
     expect(Array.isArray(result)).toBe(true);
     expect(result.length).toBeGreaterThan(0);
+  });
+
+  test('plotModulatedSineReal returns a modulated sine plot', () => {
+    const result = plotModulatedSineReal(0, Math.PI, 0.5, 2, 0.5);
+    expect(Array.isArray(result)).toBe(true);
+    expect(result[0]).toHaveProperty('y');
   });
 });
 

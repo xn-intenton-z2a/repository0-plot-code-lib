@@ -6,7 +6,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, and harmonics plots).
+- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, harmonics plots, and modulated sine plots).
 - **Multiple Output Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT and R formats. (PNG output is provided as a stub implementation.)
 - **Interactive & Server Modes:** Run an interactive CLI or launch an Express server for live demonstrations.
 - **Analytical Tools:** Includes utilities like range generation, derivative calculation, moving sums/products, and more for detailed analysis.
@@ -21,7 +21,12 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Advanced Polynomial & Nth Root Plots:** Functions like `plotPolynomialFromCoeffsReal` and `plotNthRootReal` are available.
 - **Additional Analytical Functions:** Such as `plotCumulativeSumReal`, `plotIntegralReal` (Simpson's rule), `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, `movingStdReal`, and `cumulativeDifferenceReal`.
 - **Statistical Visualizations:** New functions `plotBoxPlotReal` and `plotViolinPlotReal` for statistical plotting.
-- **New Visualization Functions:** `plotDampedOscillationReal` for damped oscillation plots, `plotSpiralColoredReal` for colored spiral plots, **`plotDualAxisReal` for dual-axis comparisons**, and **`plotHarmonicsReal` for visualizing trigonometric harmonics**.
+- **New Visualization Functions:** 
+  - `plotDampedOscillationReal` for damped oscillation plots
+  - `plotSpiralColoredReal` for colored spiral plots
+  - `plotDualAxisReal` for dual-axis comparisons
+  - `plotHarmonicsReal` for visualizing trigonometric harmonics
+  - **`plotModulatedSineReal` for modulated sine plots**
 - **Reset Overrides:** Use the `--reset` flag to clear custom module loader overrides.
 - **Improved Error Handling:** Enhanced error messages in module loaders for better clarity when overrides fail.
 
@@ -48,7 +53,7 @@ Other common commands:
 - **Diagnostics:** `npm run diagnostics`
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
-- **Plot & Export Options:** Use flags such as `--plot-abs`, `--export-csv`, `--plot-fibonacci`, `--plot-sincos`, `--power-plot`, `--plot-histogram`, `--plot-harmonics`, etc.
+- **Plot & Export Options:** Use flags such as `--plot-abs`, `--export-csv`, `--plot-fibonacci`, `--plot-sincos`, `--power-plot`, `--plot-histogram`, `--plot-harmonics`, `--plot-modulated-sine`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
@@ -59,7 +64,8 @@ Custom plot parameters can also be provided directly via the command line.
 - **0.7.103 (Latest):**
   - Refactored code to further align with the mission statement and pruned drift in legacy code.
   - Added new plotting function `plotHarmonicsReal` to visualize sums of trigonometric functions.
-  - Extended error handling and documentation updates.
+  - Added new plotting function `plotModulatedSineReal` for modulated sine visualizations.
+  - Extended error handling, documentation updates, and CLI enhancements.
 
 ## Contributing
 
