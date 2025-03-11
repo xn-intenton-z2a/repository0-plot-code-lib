@@ -169,7 +169,8 @@ export async function main(argsInput) {
   // -------------------- Detailed Sine & Cosine Plot Mode --------------------
   if (args.includes('--plot-detailed')) {
     const detailed = plotSineCosineDetailedReal();
-    console.log('Detailed Sine & Cosine Plot Output:', detailed);
+    // Concatenate the output into a single string for consistent logging format
+    console.log('Detailed Sine & Cosine Plot Output: ' + JSON.stringify(detailed));
     return;
   }
 
