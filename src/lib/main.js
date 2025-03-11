@@ -11,6 +11,7 @@
 // - Added new functions: plotParametricReal and plotCumulativeAverageReal to extend plotting capabilities in line with our mission.
 // - Added new function: plotInverseFunctionReal to plot inverse values of a given function, with error handling for zero division.
 // - Added new visualization functions: plotBoxPlotReal, plotViolinPlotReal, plotDampedOscillationReal, plotSpiralColoredReal, and plotDualAxisReal.
+// - Extended testability by ensuring error conditions in module loaders are properly handled and covered via overrides.
 // - Updated changelog to reflect all new extended features per CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
