@@ -622,7 +622,6 @@ export function plotGaussianReal(rangeStart, rangeEnd, step = 1, intensity = 1, 
   return plot;
 }
 
-// Added real implementation for heatmap plotting
 export function plotHeatMapReal(matrix) {
   if (!matrix) {
     matrix = Array.from({ length: 3 }, () => Array(3).fill(0));
@@ -886,7 +885,6 @@ export function movingProductReal(data, windowSize = 3) {
 }
 
 // NEWLY ADDED FUNCTIONS
-
 // New function: Nth Root Plot
 export function plotNthRootReal(rangeStart, rangeEnd, root = 2, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
@@ -979,8 +977,41 @@ export function plotCumulativeProductReal(data) {
   return cumulative;
 }
 
+// Additional New Functions
+
+// New function: Moving Standard Deviation Plot (real)
+export function movingStdReal(data, windowSize = 2) {
+  if (!Array.isArray(data) || data.length < windowSize) {
+    console.error('movingStdReal: invalid data or window size');
+    return [];
+  }
+  const stds = [];
+  for (let i = 0; i <= data.length - windowSize; i++) {
+    const window = data.slice(i, i + windowSize);
+    const avg = window.reduce((sum, val) => sum + val, 0) / window.length;
+    const variance = window.reduce((sum, val) => sum + Math.pow(val - avg, 2), 0) / window.length;
+    stds.push(Math.sqrt(variance));
+  }
+  console.log('Moving Std (real):', stds);
+  return stds;
+}
+
+// New function: Cumulative Difference Plot (real)
+export function cumulativeDifferenceReal(data) {
+  if (!Array.isArray(data) || data.length < 2) {
+    console.error('cumulativeDifferenceReal: invalid data for cumulative difference');
+    return [];
+  }
+  const differences = [];
+  for (let i = 0; i < data.length - 1; i++) {
+    differences.push(data[i + 1] - data[i]);
+  }
+  console.log('Cumulative Difference (real):', differences);
+  return differences;
+}
+
 /*
   Source file updated per CONTRIBUTING guidelines to fully adhere to the Mission Statement. 
-  Extended features added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, and resetOverrides function added.
-  Changelog updated to include new functions: version bumped to 0.7.96.
+  Extended features added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, movingStdReal, cumulativeDifferenceReal and resetOverrides function added.
+  New functions added: movingStdReal, cumulativeDifferenceReal. Version bumped and changelog updated.
 */

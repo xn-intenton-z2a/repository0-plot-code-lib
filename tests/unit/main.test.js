@@ -59,10 +59,12 @@ import {
   plotCumulativeSumReal,
   plotIntegralReal,
   plotBarChartEnhancedReal,
-  // Newly Extended Functions
   plotScaledSineReal,
   plotExponentialDecayReal,
-  plotCumulativeProductReal
+  plotCumulativeProductReal,
+  // Additional new functions
+  movingStdReal,
+  cumulativeDifferenceReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -309,6 +311,19 @@ describe('Newly Added Functions', () => {
     const data = [2, 3, 4];
     const result = plotCumulativeProductReal(data);
     expect(result).toEqual([2, 6, 24]);
+  });
+
+  test('movingStdReal calculates correct moving standard deviation', () => {
+    const data = [1, 2, 3, 4];
+    // With windowSize 2, each window standard deviation should be 0.5
+    const result = movingStdReal(data, 2);
+    expect(result).toEqual([0.5, 0.5, 0.5]);
+  });
+
+  test('cumulativeDifferenceReal computes successive differences', () => {
+    const data = [1, 3, 6, 10];
+    const result = cumulativeDifferenceReal(data);
+    expect(result).toEqual([2, 3, 4]);
   });
 });
 
