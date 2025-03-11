@@ -6,7 +6,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots, and now damped oscillation and colored spiral plots).
+- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots, and now damped oscillation, colored spiral plots, and dual axis comparisons).
 - **Multiple Output Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats (PNG output is a stub implementation).
 - **Interactive & Server Modes:** Run an interactive CLI or launch an Express server for live demonstrations.
 - **Analytical Tools:** Built-in functions for tasks like range generation, derivative calculation, moving sums/products, and more.
@@ -23,7 +23,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Statistical Visualizations:** Advanced plots like box and violin plots (`plotBoxPlotReal` and `plotViolinPlotReal`).
 - **Reset Overrides:** Use the `--reset` flag to clear custom module loader overrides.
 - **Improved Error Handling:** Enhanced error messages in module loaders ensure clarity when overrides fail.
-- **New Visualization Functions:** Added `plotDampedOscillationReal` for damped oscillation plots and `plotSpiralColoredReal` for colored spiral visualizations.
+- **New Visualization Functions:** Added `plotDampedOscillationReal` for damped oscillation plots, `plotSpiralColoredReal` for colored spiral visualizations, and **`plotDualAxisReal` for dual-axis comparisons of two functions.**
 - **Comprehensive Testing:** Nearly 100% test coverage with unit tests covering all functionalities.
 
 ## Installation
@@ -57,9 +57,9 @@ You can also provide custom plot parameters directly via the command line.
 
 ## Changelog
 
-- **0.7.98 (Latest):**
+- **0.7.99 (Latest):**
   - Extended feature set to further align with our mission statement.
-  - Added new functions: `plotDampedOscillationReal` and `plotSpiralColoredReal` for enhanced visualizations.
+  - Added new functions: `plotDampedOscillationReal`, `plotSpiralColoredReal`, and `plotDualAxisReal` for enhanced visualizations and dual-axis comparisons.
   - Pruned and streamlined code sections to reduce drift from the mission.
   - Updated testing for near 100% coverage and improved documentation.
 
