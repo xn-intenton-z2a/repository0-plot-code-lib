@@ -22,6 +22,13 @@ export function resetOverrides() {
 // -------------------- Module Loaders --------------------
 // Module loader for Express with enhanced error reporting
 export async function loadExpress() {
+  if (overrides.loadExpressOverride) {
+    try {
+      return await overrides.loadExpressOverride();
+    } catch (err) {
+      throw new Error('Failed to load express: ' + (err && err.message ? err.message : err));
+    }
+  }
   try {
     const express = (await import('express')).default;
     return express;
@@ -32,6 +39,13 @@ export async function loadExpress() {
 
 // Module loader for Readline with enhanced error reporting
 export async function loadReadline() {
+  if (overrides.loadReadlineOverride) {
+    try {
+      return await overrides.loadReadlineOverride();
+    } catch (err) {
+      throw new Error('Failed to load readline: ' + (err && err.message ? err.message : err));
+    }
+  }
   try {
     return { createInterface };
   } catch (err) {
@@ -985,7 +999,6 @@ export function cumulativeDifferenceReal(data) {
 
 /*
   Source file updated per CONTRIBUTING guidelines to align fully with the mission statement. 
-  Refined function grouping, pruned any drift, updated inline documentation, and clarified error handling in module loaders.
-  New functions added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, movingStdReal, cumulativeDifferenceReal, and resetOverrides.
+  Refined function grouping, pruned any drift, updated inline documentation, clarified error handling in module loaders (now wrapping override errors), and added new plotting/analytical functions.
   Version updated per changelog.
 */
