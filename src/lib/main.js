@@ -1,19 +1,12 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last refined on 2024-12-15. Refactored code to remove drift and align fully with the mission statement as per CONTRIBUTING.md.
+// Last refined on 2024-12-20. Refactored code to remove legacy drift and fully align with the mission statement as per CONTRIBUTING.md.
 // Changelog:
 // - Refreshed inline documentation and pruned legacy code paths.
-// - Enhanced error handling and improved CLI messaging.
-// - Introduced new plotting functions including plotHarmonicsReal, plotModulatedSineReal.
-// - Added detailed error messages for module loader overrides.
-// - Added new function plotStatisticalSummaryReal and CLI flag --plot-stat-summary for generating statistical summaries.
-// - Added new functions: plotParametricReal and plotCumulativeAverageReal to extend plotting capabilities in line with our mission.
-// - Added new function: plotInverseFunctionReal to plot inverse values of a given function, with error handling for zero division.
-// - Added new visualization functions: plotBoxPlotReal, plotViolinPlotReal, plotDampedOscillationReal, plotSpiralColoredReal, and plotDualAxisReal.
-// - Updated changelog to reflect all new extended features per CONTRIBUTING.md guidelines.
-//
-// Updated per CONTRIBUTING.md guidelines to refresh documentation and remove irrelevant drift.
+// - Enhanced error handling for module loaders.
+// - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, and inverse function plotting.
+// - Updated help message and CLI mode descriptions to reflect current functionality.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -203,7 +196,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 
@@ -1146,7 +1139,7 @@ export function plotStatisticalSummaryReal(data) {
   const mean = data.reduce((acc, cur) => acc + cur, 0) / n;
   const min = sorted[0];
   const max = sorted[n - 1];
-  const median = n % 2 === 1 ? sorted[Math.floor(n / 2)] : ((sorted[n / 2 - 1] + sorted[n / 2]) / 2);
+  const median = (n % 2 === 1) ? sorted[Math.floor(n / 2)] : ((sorted[n / 2 - 1] + sorted[n / 2]) / 2);
   const summary = { mean, median, min, max };
   return summary;
 }
