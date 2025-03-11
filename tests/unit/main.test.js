@@ -202,6 +202,26 @@ describe('--plot-custom-enhanced flag functionality', () => {
   });
 });
 
+
+describe('--plot-piecewise flag functionality', () => {
+  test('should print Piecewise Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-piecewise'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Piecewise Plot Output:'));
+  });
+});
+
+
+describe('--plot-derivative flag functionality', () => {
+  test('should print Derivative Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-derivative'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Derivative Plot Output:'));
+  });
+});
+
 // Tests for new functions
 
 describe('Additional Extended Functions', () => {

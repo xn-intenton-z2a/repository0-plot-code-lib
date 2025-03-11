@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, refreshed inline documentation, and new functions for piecewise plotting and moving product calculations in line with CONTRIBUTING guidelines.
+// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, refreshed inline documentation, and new functions for piecewise plotting, moving product calculations, and derivative plotting in line with CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -34,7 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -320,6 +320,18 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-piecewise')) {
+    const piecewise = plotPiecewiseReal([x => x, x => 2 * x], [{ start: 0, end: 1 }, { start: 2, end: 3 }], 1);
+    console.log('Piecewise Plot Output:', piecewise);
+    return;
+  }
+
+  if (args.includes('--plot-derivative')) {
+    const derivativeVal = calculateDerivative('x^2', 'x', 5);
+    console.log('Derivative Plot Output:', derivativeVal);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'generateRange', 'calculateDerivative',
@@ -331,8 +343,8 @@ export async function main(argsInput) {
       'plotSpiralReal', 'plotSpiralEnhancedReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal',
       'plotCustomReal', 'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
-      'movingSumReal', 'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal',
-      'plotCustomEnhancedReal'
+      'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
+      'plotPiecewiseReal', 'movingProductReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -874,6 +886,6 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and comprehensive test coverage.
-  Inline documentation and changelog sections have been refreshed to reflect recent feature enhancements including custom enhanced plots, new piecewise and moving product plot functions, and additional debug information.
-  Version updated to 0.7.90.
+  Inline documentation and changelog sections have been refreshed to reflect recent feature enhancements including custom enhanced plots, new piecewise and moving product plot functions, derivative plotting functionality, and additional debug information.
+  Version updated to 0.7.91.
 */
