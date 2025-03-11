@@ -254,7 +254,8 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   if (args.includes('--plot-spiral-enhanced')) {
     const enhanced = plotSpiralEnhancedReal();
-    console.log('Enhanced Spiral Plot Output:', enhanced);
+    // Updated to output as a single string to meet test expectations
+    console.log('Enhanced Spiral Plot Output: ' + JSON.stringify(enhanced));
     return;
   }
 

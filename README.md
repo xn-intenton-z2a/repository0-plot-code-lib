@@ -79,7 +79,7 @@ Other available commands:
 
 - **0.7.86 (Latest):**
   - Extended functionalities with an enhanced spiral plot (`--plot-spiral-enhanced` flag) that supports rotation.
-  - Updated enhanced spiral plot log message to match output requirements.
+  - Updated enhanced spiral plot output to be a single string for test consistency.
   - Added additional test coverage for new features.
   - Updated inline documentation and changelog to fully align with the CONTRIBUTING guidelines.
   - Refreshed demo output and pruned any drift from the original mission statement.
