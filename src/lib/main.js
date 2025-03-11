@@ -2,7 +2,7 @@
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, pruned legacy stub implementations, newly added log-log and step function plotting, additional extended functions, and new grid plotting functionality.
-// REFRESHED: Updated to align with the updated CONTRIBUTING guidelines. Legacy stubs have been pruned and inline documentation refreshed.
+// REFRESHED: Updated to align with the updated CONTRIBUTING guidelines and pruned any drift from the original mission statement.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -674,7 +674,7 @@ export function plotFibonacciSpiralReal(steps = 10, scale = 0.1) {
   return points;
 }
 
-// New function: Circular plot - plots points on a circle given a center and radius
+// New function: Circular plot
 export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps = 36) {
   const points = [];
   for (let i = 0; i < steps; i++) {
@@ -685,7 +685,7 @@ export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps 
   return points;
 }
 
-// New function: Polar Rose Plot - plots a rose curve
+// New function: Polar Rose Plot
 export function plotPolarRoseReal(petals = 4, radius = 5, step = 0.1) {
   const points = [];
   for (let theta = 0; theta <= 2 * Math.PI; theta += step) {
@@ -696,7 +696,7 @@ export function plotPolarRoseReal(petals = 4, radius = 5, step = 0.1) {
   return points;
 }
 
-// New function: Star Polygon Plot - plots a star polygon
+// New function: Star Polygon Plot
 export function plotStarPolygonReal(center = { x: 0, y: 0 }, outerRadius = 5, innerRadius = 2.5, numPoints = 5) {
   const points = [];
   const angleStep = Math.PI / numPoints;
@@ -709,7 +709,7 @@ export function plotStarPolygonReal(center = { x: 0, y: 0 }, outerRadius = 5, in
   return points;
 }
 
-// New function: Log-Log Plot - plots points on a log-log scale
+// New function: Log-Log Plot
 export function plotLogLogReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step).filter(x => x > 0);
   const plot = range.map(x => ({ x: Math.log(x), y: Math.log(x * x) }));
@@ -717,7 +717,7 @@ export function plotLogLogReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New function: Step Function Plot - plots a discrete step function
+// New function: Step Function Plot
 export function plotStepFunctionReal(rangeStart, rangeEnd, step = 1, stepSize = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: Math.floor(x / stepSize) }));
@@ -725,7 +725,7 @@ export function plotStepFunctionReal(rangeStart, rangeEnd, step = 1, stepSize = 
   return plot;
 }
 
-// New function: Moving Sum - calculates a moving sum for a given window size
+// New function: Moving Sum
 export function movingSumReal(data, windowSize = 3) {
   if (!Array.isArray(data) || data.length < windowSize) {
     console.error('movingSumReal: invalid data or window size');
@@ -741,7 +741,7 @@ export function movingSumReal(data, windowSize = 3) {
   return sums;
 }
 
-// New function: Cubic Bezier Plot - plots a cubic bezier curve given four control points
+// New function: Cubic Bezier Plot
 export function plotCubicBezierReal(points, step = 0.05) {
   if (!Array.isArray(points) || points.length !== 4) {
     console.error('plotCubicBezierReal: requires an array of 4 control points');
@@ -757,7 +757,7 @@ export function plotCubicBezierReal(points, step = 0.05) {
   return curve;
 }
 
-// New function: Grid Plot - combines multiple plot functions into a grid view for comparative visualization
+// New function: Grid Plot
 export function plotGridReal(plotCallbacks, rangeStart, rangeEnd, step = 1) {
   const originalLog = console.log;
   console.log = () => {};

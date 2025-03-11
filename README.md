@@ -82,7 +82,7 @@ Other available commands:
   - Introduced circular plotting with `--plot-circle` flag.
   - **New:** Added polar rose (`--plot-polarrose`), star polygon (`--plot-starpolygon`), lemniscate (`--lemniscate`), log-log (`--plot-loglog`), step function (`--plot-step`), and grid plotting (`--plot-grid`).
   - **Extended:** Added movingSumReal and plotCubicBezierReal for enhanced data analysis and visualization.
-  - Pruned legacy implementations to align with our mission.
+  - Pruned legacy implementations and any drift, updating inline documentation to align with the mission and CONTRIBUTING guidelines.
   - **TEST:** Improved test coverage including simulation of external module calls.
   - **REFRESH:** Updated documentation and changelog per revised CONTRIBUTING guidelines.
 
@@ -90,7 +90,7 @@ Other available commands:
 
 We welcome contributions! Follow these steps:
 
-1. **Open an Issue:** Describe your idea, bug report, or improvement by opening an issue.
+1. **Open an Issue:** Describe your idea, bug report, or improvement by opening an issue in our repository.
 2. **Review Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our contribution process.
 3. **Submit a Pull Request:** Provide clear commit messages and sufficient test coverage. Ensure your changes adhere to our automated workflow standards.
 
