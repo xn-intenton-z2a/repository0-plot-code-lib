@@ -386,6 +386,25 @@ export async function main(argsInput) {
     return;
   }
 
+  // Newly Added Custom Features for missing flags
+  if (args.includes('--plot-harmonics')) {
+    const harmonics = plotHarmonicsReal(0, 2 * Math.PI, Math.PI / 16, [1, 2, 3]);
+    console.log('Harmonics Plot Output:', harmonics);
+    return;
+  }
+
+  if (args.includes('--plot-modulated-sine')) {
+    const modulated = plotModulatedSineReal(0, 2 * Math.PI, Math.PI / 16, 1, 0.5);
+    console.log('Modulated Sine Plot Output:', modulated);
+    return;
+  }
+
+  if (args.includes('--plot-stat-summary')) {
+    const summary = plotStatisticalSummaryReal([1, 2, 3, 4, 5]);
+    console.log('Statistical Summary:', summary);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'generateRange', 'calculateDerivative',
@@ -411,19 +430,6 @@ export async function main(argsInput) {
       'plotCustomFancyReal', 'plotInteractiveGuideReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
-    return;
-  }
-
-  // -------------------- Newly Added Custom Features --------------------
-  if (args.includes('--plot-custom-fancy')) {
-    const fancy = plotCustomFancyReal(0, 10, 1);
-    console.log('Custom Fancy Plot Output:', fancy);
-    return;
-  }
-
-  if (args.includes('--interactive-guide')) {
-    const guide = plotInteractiveGuideReal();
-    console.log('Interactive Guide Output:', guide);
     return;
   }
 
