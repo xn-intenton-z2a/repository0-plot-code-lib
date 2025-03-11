@@ -2,7 +2,12 @@
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-15. Refactored code to remove drift and align fully with the mission statement as per CONTRIBUTING.md.
-// Changelog: Refreshed inline documentation, pruned legacy code paths, enhanced error handling, improved CLI messaging, introduced new plotting functions including plotHarmonicsReal and plotModulatedSineReal, and added detailed error messages for module loader overrides.
+// Changelog:
+// - Refreshed inline documentation, pruned legacy code paths, enhanced error handling, improved CLI messaging.
+// - Introduced new plotting functions including plotHarmonicsReal, plotModulatedSineReal.
+// - Added detailed error messages for module loader overrides.
+// - Added new function plotStatisticalSummaryReal and CLI flag --plot-stat-summary for generating statistical summaries.
+// - Fixed console output for statistical summary to provide a single string log as expected by tests.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -57,7 +62,7 @@ export async function loadReadline() {
 // -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // Help/Default mode
   if (args.length === 0 || args.includes('--help')) {
@@ -372,6 +377,13 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-stat-summary')) {
+    const sampleData = [5, 3, 9, 1, 7];
+    const summary = plotStatisticalSummaryReal(sampleData);
+    console.log('Statistical Summary: ' + JSON.stringify(summary));
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'generateRange', 'calculateDerivative',
@@ -398,7 +410,9 @@ export async function main(argsInput) {
       // Newly added harmonics function
       'plotHarmonicsReal',
       // Newly added modulated sine function
-      'plotModulatedSineReal'
+      'plotModulatedSineReal',
+      // Newly added statistical summary function
+      'plotStatisticalSummaryReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -1113,4 +1127,21 @@ export function plotModulatedSineReal(rangeStart, rangeEnd, step = 1, modulation
   const plot = range.map(x => ({ x, y: Math.sin(x) * (1 + modulationDepth * Math.sin(modulationFrequency * x)) }));
   console.log('Modulated Sine Plot (real):', plot);
   return plot;
+}
+
+// -------------------- Newly Added Feature: Statistical Summary --------------------
+// New function: Generates summary statistics (mean, median, min, max) for an array of numbers
+export function plotStatisticalSummaryReal(data) {
+  if (!Array.isArray(data) || data.length === 0) {
+    console.error('plotStatisticalSummaryReal: data must be a non-empty array');
+    return null;
+  }
+  const sorted = [...data].sort((a, b) => a - b);
+  const n = sorted.length;
+  const mean = data.reduce((acc, cur) => acc + cur, 0) / n;
+  const min = sorted[0];
+  const max = sorted[n - 1];
+  const median = n % 2 === 1 ? sorted[Math.floor(n / 2)] : ((sorted[n / 2 - 1] + sorted[n / 2]) / 2);
+  const summary = { mean, median, min, max };
+  return summary;
 }
