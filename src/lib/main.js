@@ -263,8 +263,8 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--plot-circle')) {
-    const circle = plotCircularPlotReal({ x: 0, y: 0 }, 5, 36);
-    console.log('Circular Plot Output:', circle);
+    // Call the circular plot function, which now logs the output
+    plotCircularPlotReal({ x: 0, y: 0 }, 5, 36);
     return;
   }
 
@@ -626,7 +626,7 @@ export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1,
 // New real implementation for custom plot
 export function plotCustomReal() {
   const custom = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
-  console.log('Plot Custom (real):', custom);
+  console.log('Custom Plot (real):', custom);
   return custom;
 }
 
@@ -673,7 +673,7 @@ export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps 
     const theta = (2 * Math.PI * i) / steps;
     points.push({ theta, x: center.x + radius * Math.cos(theta), y: center.y + radius * Math.sin(theta) });
   }
-  console.log('Circular Plot (real):', points);
+  console.log('Circular Plot Output:', points);
   return points;
 }
 
