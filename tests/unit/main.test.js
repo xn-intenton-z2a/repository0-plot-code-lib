@@ -95,7 +95,6 @@ import {
   plotInteractiveGuideReal
 } from '@src/lib/main.js';
 
-
 // Suppress console output during tests
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});

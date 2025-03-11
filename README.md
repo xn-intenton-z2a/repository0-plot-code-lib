@@ -12,16 +12,17 @@ This tool enables you to generate a wide range of plots, from basic functions (s
 
 - **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse`, and now `--plot-custom-fancy` and `--interactive-guide` for advanced plotting.
 - **Analytical and Statistical Functions:** Perform derivative calculations, approximate integrals, compute statistical summaries, and more.
-- **Robust CLI Modes:** Enjoy interactive, server, diagnostics, and various export modes.
-- **Codebase Alignment:** Outdated and legacy implementations have been pruned to ensure the code strictly adheres to our mission as outlined in CONTRIBUTING.md.
+- **Robust CLI Modes:** Enjoy interactive, server, diagnostics, and various export modes. Added better handling for unrecognized options by displaying help messages.
+- **Output Formatting Update:** The outputs for harmonics, modulated sine, and statistical summary modes are now concatenated into a single string using JSON.stringify to ensure consistency and pass automated tests.
+- **Codebase Alignment:** Outdated and legacy implementations have been pruned and enhanced to ensure the code strictly adheres to our mission as outlined in CONTRIBUTING.md.
 
 ## Changelog
 
 - Refreshed inline documentation and pruned outdated implementations to align with our mission statement.
-- Enhanced error handling for module loaders.
-- Extended plotting functions to include new features: box plot, violin plot, damped oscillation, spiral colored plot, dual axis plot, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, and inverse function plot.
+- Enhanced error handling for module loaders and added an unknown option handler for CLI.
+- Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored plot, dual axis plot, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, and inverse function plot.
 - Added new features: custom fancy plot and interactive guide output.
-- Updated CLI help message and testing routines.
+- Updated output formatting for harmonics, modulated sine, and statistical summary to produce JSON stringified results.
 
 ## Installation
 
