@@ -17,9 +17,10 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
   - **Circular Plotting (--plot-circle)**
   - **Advanced Visualizations:** Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate) plotting functions.
   - **New:** Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step).
-  - **Extended Functions:** Newly added functions for moving sum calculations and cubic Bezier curve plotting.
+  - **Extended:** Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.
+  - **Grid Plotting:** New grid plotting feature (--plot-grid) to visualize multiple plots simultaneously.
   - **Reset Functionality:** New --reset flag to restore override hooks to their default state.
-  - **Enhanced Testability:** Improved test coverage with mocks for interactive and server modes.
+  - **Enhanced Testability:** Improved test coverage with mocks for interactive, server, and new extended functions.
 
 ## Installation
 
@@ -60,7 +61,7 @@ Other available commands:
   Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
 
 - **Advanced Visualizations:**
-  Explore plots using flags like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, and `--plot-step`.
+  Explore plots using flags like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, and `--plot-grid`.
 
 - **Extended Features:**
   New functions include moving sum computation and cubic Bezier curve plotting. Use these via the debug mode or by direct invocation in your code.
@@ -80,14 +81,14 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.83 (Latest):**
+- **0.7.84 (Latest):**
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
-  - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), and Step Function Plot (--plot-step).
+  - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and Grid Plot (--plot-grid).
   - **Extended:** Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.
   - Pruned legacy stub implementations to better align with our mission statement.
-  - **TEST:** Improved test coverage by adding tests for interactive, server, reset, and new extended functions.
+  - **TEST:** Improved test coverage by adding tests for interactive, server, reset, grid plotting, and new extended functions.
   - **REFRESH:** Updated documentation and changelog in accordance with updated CONTRIBUTING guidelines.
 
 ## Contributing

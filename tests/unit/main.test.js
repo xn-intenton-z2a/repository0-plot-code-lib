@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from 'vitest';
 import * as mainModule from '@src/lib/main.js';
-import { main, resetOverrides, overrides, movingSumReal, plotCubicBezierReal } from '@src/lib/main.js';
+import { main, resetOverrides, overrides, movingSumReal, plotCubicBezierReal, plotGridReal } from '@src/lib/main.js';
 
 // Mock console methods to suppress output during testing
 vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -42,7 +42,6 @@ describe('New Extended Functions', () => {
     const controlPoints = [{ x: 0, y: 0 }, { x: 1, y: 2 }, { x: 2, y: 2 }, { x: 3, y: 0 }];
     const result = plotCubicBezierReal(controlPoints, 0.5);
     expect(Array.isArray(result)).toBe(true);
-    // Expect at least 3 points (t=0, 0.5, 1)
     expect(result.length).toBeGreaterThanOrEqual(3);
   });
 });
@@ -90,5 +89,14 @@ describe('--plot-circle flag functionality', () => {
     const spy = vi.spyOn(console, 'log');
     await main();
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'));
+  });
+});
+
+describe('--plot-grid flag functionality', () => {
+  test('should print Grid Plot Output with sine and cosine plots', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-grid'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Grid Plot Output:'));
   });
 });

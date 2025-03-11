@@ -1,6 +1,6 @@
 {
   "name": "@xn-intenton-z2a/repository0-plot-code-lib",
-  "version": "0.7.83",
+  "version": "0.7.84",
   "description": "A versatile CLI tool for plotting mathematical functions in various formats, now with extended features, improved test coverage, and refreshed documentation in line with CONTRIBUTING guidelines.",
   "type": "module",
   "main": "src/lib/main.js",
@@ -40,6 +40,8 @@
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-security": "^3.0.1",
     "eslint-plugin-sonarjs": "^3.0.2",
+    "eslint": "^9.22.0",
+    "express": "^4.21.2",
     "markdown-it-github": "^0.5.0",
     "markdown-it": "^14.1.0",
     "npm-check-updates": "^17.1.15",

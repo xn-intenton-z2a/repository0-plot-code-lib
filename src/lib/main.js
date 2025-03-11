@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, pruned legacy stub implementations, newly added log-log and step function plotting, and additional extended functions.
+// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, pruned legacy stub implementations, newly added log-log and step function plotting, additional extended functions, and new grid plotting functionality.
 // Updated to align with our updated CONTRIBUTING guidelines and refreshed inline documentation.
 
 import { fileURLToPath } from 'url';
@@ -35,7 +35,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -292,6 +292,13 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-grid')) {
+    // New grid plotting feature: combine multiple plots into a grid view
+    const grid = plotGridReal([plotSineReal, plotCosineReal], 0, Math.PI, Math.PI/8);
+    console.log('Grid Plot Output:', grid);
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'generateRange', 'calculateDerivative',
@@ -303,7 +310,7 @@ export async function main(argsInput) {
       'plotSpiralReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal', 'plotCustomReal',
       'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
-      'movingSumReal', 'plotCubicBezierReal'
+      'movingSumReal', 'plotCubicBezierReal', 'plotGridReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -748,6 +755,17 @@ export function plotCubicBezierReal(points, step = 0.05) {
   }
   console.log('Cubic Bezier Curve (real):', curve);
   return curve;
+}
+
+// New function: Grid Plot - combines multiple plot functions into a grid view for comparative visualization
+export function plotGridReal(plotCallbacks, rangeStart, rangeEnd, step = 1) {
+  const results = {};
+  plotCallbacks.forEach(callback => {
+    const plotName = callback.name;
+    results[plotName] = callback(rangeStart, rangeEnd, step);
+  });
+  console.log('Grid Plot (real):', results);
+  return results;
 }
 
 // Utility function for testing: reset overrides
