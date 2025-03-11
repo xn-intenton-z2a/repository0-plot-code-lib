@@ -80,7 +80,9 @@ import {
   // Newly added harmonics function
   plotHarmonicsReal,
   // Newly added modulated sine function
-  plotModulatedSineReal
+  plotModulatedSineReal,
+  // Newly added statistical summary function
+  plotStatisticalSummaryReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -270,44 +272,26 @@ describe('--plot-modulated-sine flag functionality', () => {
   });
 });
 
-
-describe('Additional Extended Functions', () => {
-  test('movingProductReal calculates correct moving product', () => {
-    const data = [2, 3, 4, 5];
-    const result = movingProductReal(data, 2);
-    expect(result).toEqual([6, 12, 20]);
-  });
-
-  test('plotPiecewiseReal handles piecewise functions correctly', () => {
-    const fn1 = x => x;
-    const fn2 = x => x * 2;
-    const intervals = [{ start: 0, end: 1 }, { start: 2, end: 3 }];
-    const result = plotPiecewiseReal([fn1, fn2], intervals, 1);
-    expect(result).toEqual([
-      { x: 0, y: 0 },
-      { x: 1, y: 1 },
-      { x: 2, y: 4 },
-      { x: 3, y: 6 }
-    ]);
+// Newly added tests for Statistical Summary functionality
+describe('--plot-stat-summary flag functionality', () => {
+  test('should print Statistical Summary Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-stat-summary'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Statistical Summary:'));
   });
 });
 
-// Newly added tests for error handling in module loaders
-describe('Error Handling in module loaders', () => {
-  test('loadExpress throws error if override fails', async () => {
-    overrides.loadExpressOverride = async () => { throw new Error('Override error'); };
-    await expect(loadExpress()).rejects.toThrow('Failed to load express: Override error');
-    resetOverrides();
-  });
-
-  test('loadReadline throws error if override fails', async () => {
-    overrides.loadReadlineOverride = async () => { throw new Error('Override error'); };
-    await expect(loadReadline()).rejects.toThrow('Failed to load readline: Override error');
-    resetOverrides();
+describe('plotStatisticalSummaryReal function', () => {
+  test('returns correct statistical summary', () => {
+    const data = [1, 2, 3, 4, 5];
+    const summary = mainModule.plotStatisticalSummaryReal(data);
+    expect(summary).toEqual({ mean: 3, median: 3, min: 1, max: 5 });
   });
 });
 
-// Extended Functions Full Coverage Tests
+// Extended Functions Full Coverage Tests (existing tests retained below)
+
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);

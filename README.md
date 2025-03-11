@@ -6,7 +6,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, harmonics plots, and modulated sine plots).
+- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, harmonics plots, modulated sine plots, and statistical summary plots).
 
 - **Multiple Output Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT and R formats. (PNG output is provided as a stub implementation.)
 
@@ -30,6 +30,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
   - `plotDualAxisReal` for dual-axis comparisons
   - `plotHarmonicsReal` for visualizing trigonometric harmonics
   - **`plotModulatedSineReal` for modulated sine plots**
+  - **`plotStatisticalSummaryReal` for generating summary statistics of data**
 - **Improved Error Handling:** Detailed error messages for module loader overrides.
 - **Enhanced Test Coverage:** Additional tests for error scenarios and deeper mocking of external modules bring coverage close to 100%.
 - **Reset Overrides:** Use the `--reset` flag to clear custom module loader overrides.
@@ -57,7 +58,7 @@ Other common commands:
 - **Diagnostics:** `npm run diagnostics`
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
-- **Plot & Export Options:** Use flags such as `--plot-abs`, `--export-csv`, `--plot-fibonacci`, `--plot-sincos`, `--power-plot`, `--plot-histogram`, `--plot-harmonics`, `--plot-modulated-sine`, etc.
+- **Plot & Export Options:** Use flags such as `--plot-abs`, `--export-csv`, `--plot-fibonacci`, `--plot-sincos`, `--power-plot`, `--plot-histogram`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
@@ -65,9 +66,9 @@ Custom plot parameters can also be provided directly via the command line.
 
 ## Changelog
 
-- **0.7.104 (Latest):**
+- **0.7.105 (Latest):**
   - Refactored code for better alignment with the mission statement and pruned legacy drift.
-  - Added new plotting functions: `plotHarmonicsReal` and `plotModulatedSineReal`.
+  - Added new plotting functions: `plotHarmonicsReal`, `plotModulatedSineReal`, and `plotStatisticalSummaryReal`.
   - Enhanced error handling with detailed messages in module loaders.
   - Expanded test coverage with additional mocks and error handling tests, bringing coverage close to 100%.
   - README refreshed to align with CONTRIBUTING guidelines and extraneous content pruned.
