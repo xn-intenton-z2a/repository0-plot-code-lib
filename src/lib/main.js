@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, refreshed inline documentation in line with CONTRIBUTING guidelines.
+// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, and refreshed inline documentation in line with CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -226,7 +226,8 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--power-plot')) {
-    console.log('Power Plot (y = 2x^3) Output:', [{ x: 0, y: 0 }, { x: 1, y: 2 }]);
+    const powerPlot = plotPowerPlotReal(0, 2, 3, 2);
+    console.log('Power Plot (real):', powerPlot);
     return;
   }
 
@@ -323,7 +324,7 @@ export async function main(argsInput) {
       'plotSpiralReal', 'plotSpiralEnhancedReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal',
       'plotCustomReal', 'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
-      'movingSumReal', 'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal'
+      'movingSumReal', 'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -808,6 +809,14 @@ export function plotPolarHeatmapReal(steps = 50, a = 1, b = 0.1) {
   return points;
 }
 
+// New function: Power Plot
+export function plotPowerPlotReal(rangeStart, rangeEnd, power = 3, factor = 2) {
+  const range = generateRange(rangeStart, rangeEnd, 1);
+  const plot = range.map(x => ({ x, y: factor * Math.pow(x, power) }));
+  console.log('Power Plot (real):', plot);
+  return plot;
+}
+
 // Utility function for testing: reset overrides
 export function resetOverrides() {
   overrides.loadExpressOverride = undefined;
@@ -817,4 +826,5 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and to facilitate comprehensive test coverage.
+  Added power plot functionality in line with the mission statement.
 */

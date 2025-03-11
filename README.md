@@ -4,7 +4,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate plots for sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and advanced visualizations including scatter, bar charts, Fibonacci spiral, combined sin-cos, polar rose, star polygon, enhanced spiral (with rotation), circular plots, and the new polar heatmap.
+- **Mathematical Plotting:** Generate plots for sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and advanced visualizations including scatter, bar charts, Fibonacci spiral, combined sin-cos, polar rose, star polygon, enhanced spiral (with rotation), circular plots, power plots, and the new polar heatmap.
 
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
 
@@ -17,6 +17,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Enhanced Spiral Plot:** Use `--plot-spiral-enhanced` for rotation-supported spiral plots.
 - **Polar Heatmap:** New `--plot-polar-heatmap` flag visualizes heat intensity in polar coordinates.
 - **Circular Plotting:** Generate circular plots with the `--plot-circle` flag.
+- **Power Plot:** New `--power-plot` flag provides power plot visualization (e.g., y = 2x^3) with customizable parameters.
 - **Additional Analytics:** Functions like moving sum and cubic Bezier curve support enriched data analysis.
 
 ## Installation
@@ -56,7 +57,7 @@ Other commands include:
 
 - **Plot/Export Flags:** Use flags like `--plot-abs`, `--export-csv`, `--export-md`, etc., for specific outputs.
 
-- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, and `--plot-polar-heatmap`.
+- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, `--plot-polar-heatmap`, and now `--power-plot`.
 
 - **Reset Functionality:**
   ```bash
@@ -74,14 +75,14 @@ Other commands include:
 
 - **0.7.88 (Latest):**
   - Refreshed README and inline documentation to align with CONTRIBUTING guidelines.
-  - Extended functionalities with enhanced spiral plot (with rotation support) and new polar heatmap feature.
+  - Extended functionalities with enhanced spiral plot (with rotation support), new polar heatmap feature, and new power plot functionality.
   - Improved test coverage with comprehensive tests for all functions.
 
 ## Contributing
 
 We welcome your contributions! Please follow these steps:
 
-1. **Open an Issue:** Describe your idea or bug by opening an issue.
+1. **Open an Issue:** Describe your idea or bug by opening an issue in our repository.
 2. **Review Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for our process.
 3. **Submit a Pull Request:** Ensure clear commit messages and comprehensive test coverage. Follow our automated workflows for a smooth review process.
 
