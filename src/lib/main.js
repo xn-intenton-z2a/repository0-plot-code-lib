@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Refined on 2024-12-13 per CONTRIBUTING guidelines: pruned drift, improved inline documentation, grouped functions, and clarified error handling in module loaders to strictly align with our mission statement.
+// Last refined on 2024-12-13. Additional inline documentation and error handling improvements have been maintained to strictly align with our mission statement.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -373,7 +373,8 @@ export async function main(argsInput) {
       'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal', 'plotNthRootReal', 'plotPolynomialFromCoeffsReal',
       'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal', 'plotScaledSineReal',
-      'plotExponentialDecayReal', 'plotCumulativeProductReal', 'movingStdReal', 'cumulativeDifferenceReal'
+      'plotExponentialDecayReal', 'plotCumulativeProductReal', 'movingStdReal', 'cumulativeDifferenceReal',
+      'plotBoxPlotReal', 'plotViolinPlotReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -1027,10 +1028,3 @@ export function plotViolinPlotReal(data, steps = 10) {
   console.log('Violin Plot (real):', densities);
   return densities;
 }
-
-/*
-  Source file refined to strictly align with the mission statement. 
-  Drift in functionality has been pruned, inline documentation updated, 
-  functions grouped into CLI, analytical, plotting, and now advanced plotting sections.
-  Changelog updated accordingly.
-*/
