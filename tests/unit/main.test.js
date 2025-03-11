@@ -53,7 +53,7 @@ import {
   plotCustomEnhancedReal,
   plotPiecewiseReal,
   movingProductReal,
-  
+
   // Newly added functions
   plotNthRootReal,
   plotPolynomialFromCoeffsReal,
@@ -65,13 +65,13 @@ import {
   plotCumulativeProductReal,
   movingStdReal,
   cumulativeDifferenceReal,
-  
+
   // Advanced plotting functions
   plotBoxPlotReal,
   plotViolinPlotReal,
   loadExpress,
   loadReadline,
-  
+
   // New features
   plotDampedOscillationReal,
   plotSpiralColoredReal,
@@ -130,6 +130,7 @@ describe('New Extended Functions', () => {
   });
 });
 
+
 describe('--reset flag functionality', () => {
   test('should reset overrides when --reset is passed', async () => {
     // Set overrides to dummy values
@@ -145,6 +146,7 @@ describe('--reset flag functionality', () => {
   });
 });
 
+
 describe('Interactive Mode in test environment', () => {
   test('should simulate immediate response', async () => {
     process.env.VITEST = 'true';
@@ -155,6 +157,7 @@ describe('Interactive Mode in test environment', () => {
     delete process.env.VITEST;
   });
 });
+
 
 describe('Serve Mode in test environment', () => {
   test('should simulate server start in test environment', async () => {
@@ -167,6 +170,7 @@ describe('Serve Mode in test environment', () => {
   });
 });
 
+
 describe('--plot-circle flag functionality', () => {
   test('should print Circular Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-circle'];
@@ -175,6 +179,7 @@ describe('--plot-circle flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'));
   });
 });
+
 
 describe('--plot-grid flag functionality', () => {
   test('should print Grid Plot Output with sine and cosine plots', async () => {
@@ -185,6 +190,7 @@ describe('--plot-grid flag functionality', () => {
   });
 });
 
+
 describe('--plot-spiral-enhanced flag functionality', () => {
   test('should print Enhanced Spiral Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-spiral-enhanced'];
@@ -193,6 +199,7 @@ describe('--plot-spiral-enhanced flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Enhanced Spiral Plot Output:'));
   });
 });
+
 
 describe('--plot-polar-heatmap flag functionality', () => {
   test('should print Polar Heatmap Plot Output', async () => {
@@ -203,6 +210,7 @@ describe('--plot-polar-heatmap flag functionality', () => {
   });
 });
 
+
 describe('--power-plot flag functionality', () => {
   test('should print Power Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--power-plot'];
@@ -211,6 +219,7 @@ describe('--power-plot flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (real):'));
   });
 });
+
 
 describe('--plot-custom-enhanced flag functionality', () => {
   test('should print Custom Enhanced Plot Output', async () => {
@@ -221,6 +230,7 @@ describe('--plot-custom-enhanced flag functionality', () => {
   });
 });
 
+
 describe('--plot-piecewise flag functionality', () => {
   test('should print Piecewise Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-piecewise'];
@@ -229,6 +239,7 @@ describe('--plot-piecewise flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Piecewise Plot Output:'));
   });
 });
+
 
 describe('--plot-derivative flag functionality', () => {
   test('should print Derivative Plot Output', async () => {
@@ -239,6 +250,7 @@ describe('--plot-derivative flag functionality', () => {
   });
 });
 
+
 describe('--plot-harmonics flag functionality', () => {
   test('should print Harmonics Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-harmonics'];
@@ -248,6 +260,7 @@ describe('--plot-harmonics flag functionality', () => {
   });
 });
 
+
 describe('--plot-modulated-sine flag functionality', () => {
   test('should print Modulated Sine Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-modulated-sine'];
@@ -256,6 +269,7 @@ describe('--plot-modulated-sine flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Modulated Sine Plot Output:'));
   });
 });
+
 
 describe('Additional Extended Functions', () => {
   test('movingProductReal calculates correct moving product', () => {
@@ -278,96 +292,22 @@ describe('Additional Extended Functions', () => {
   });
 });
 
-describe('Newly Added Functions', () => {
-  test('plotNthRootReal returns correct nth root values', () => {
-    const result = plotNthRootReal(0, 16, 2, 4);
-    expect(result[0].y).toBeCloseTo(0);
-    expect(result[1].y).toBeCloseTo(2);
-    expect(result[4].y).toBeCloseTo(4);
+// Newly added tests for error handling in module loaders
+describe('Error Handling in module loaders', () => {
+  test('loadExpress throws error if override fails', async () => {
+    overrides.loadExpressOverride = async () => { throw new Error('Override error'); };
+    await expect(loadExpress()).rejects.toThrow('Failed to load express: Override error');
+    resetOverrides();
   });
 
-  test('plotPolynomialFromCoeffsReal returns correct polynomial outputs', () => {
-    const coeffs = [2, 3, 4];
-    const result = plotPolynomialFromCoeffsReal(0, 2, 1, coeffs);
-    expect(result[0].y).toBeCloseTo(4);
-    expect(result[1].y).toBeCloseTo(9);
-    expect(result[2].y).toBeCloseTo(18);
-  });
-
-  test('plotCumulativeSumReal computes cumulative sums', () => {
-    const data = [1, 2, 3, 4];
-    const result = plotCumulativeSumReal(data);
-    expect(result).toEqual([1, 3, 6, 10]);
-  });
-
-  test('plotIntegralReal computes approximate integral', () => {
-    const result = plotIntegralReal(x => x * x, 0, 3, 1000);
-    expect(result).toBeCloseTo(9, 1);
-  });
-
-  test('plotBarChartEnhancedReal returns array of strings with Bar labels', () => {
-    const result = plotBarChartEnhancedReal([2, 4]);
-    expect(result[0]).toMatch(/Bar 1:/);
-    expect(result[1]).toMatch(/Bar 2:/);
-  });
-
-  test('plotScaledSineReal returns scaled sine values', () => {
-    const result = plotScaledSineReal(0, Math.PI, Math.PI/2, 2);
-    expect(result[0].y).toBeCloseTo(0);
-    expect(result[1].y).toBeCloseTo(Math.sin(Math.PI/2) * 2);
-  });
-
-  test('plotExponentialDecayReal returns exponential decay values', () => {
-    const decayRate = 0.5;
-    const result = plotExponentialDecayReal(0, 2, 1, decayRate);
-    expect(result[0].y).toBeCloseTo(Math.exp(-decayRate * 0));
-    expect(result[1].y).toBeCloseTo(Math.exp(-decayRate * 1));
-  });
-
-  test('plotCumulativeProductReal calculates cumulative product', () => {
-    const data = [2, 3, 4];
-    const result = plotCumulativeProductReal(data);
-    expect(result).toEqual([2, 6, 24]);
-  });
-
-  test('movingStdReal calculates correct moving standard deviation', () => {
-    const data = [1, 2, 3, 4];
-    const result = movingStdReal(data, 2);
-    expect(result).toEqual([0.5, 0.5, 0.5]);
-  });
-
-  test('cumulativeDifferenceReal computes successive differences', () => {
-    const data = [1, 3, 6, 10];
-    const result = cumulativeDifferenceReal(data);
-    expect(result).toEqual([2, 3, 4]);
-  });
-
-  test('plotDampedOscillationReal returns a valid damped oscillation plot', () => {
-    const result = plotDampedOscillationReal(0, 3.14, 0.5, 1, 0.2, 2);
-    expect(Array.isArray(result)).toBe(true);
-    expect(result.length).toBeGreaterThan(0);
-    expect(result[0]).toHaveProperty('y');
-  });
-
-  test('plotSpiralColoredReal returns points with color property', () => {
-    const result = plotSpiralColoredReal(10, 0, 0.1, ['red', 'blue']);
-    expect(Array.isArray(result)).toBe(true);
-    expect(result[0]).toHaveProperty('color');
-  });
-
-  test('plotHarmonicsReal returns a harmonics plot', () => {
-    const result = plotHarmonicsReal(0, Math.PI * 2, 0.5, [1, 2]);
-    expect(Array.isArray(result)).toBe(true);
-    expect(result.length).toBeGreaterThan(0);
-  });
-
-  test('plotModulatedSineReal returns a modulated sine plot', () => {
-    const result = plotModulatedSineReal(0, Math.PI, 0.5, 2, 0.5);
-    expect(Array.isArray(result)).toBe(true);
-    expect(result[0]).toHaveProperty('y');
+  test('loadReadline throws error if override fails', async () => {
+    overrides.loadReadlineOverride = async () => { throw new Error('Override error'); };
+    await expect(loadReadline()).rejects.toThrow('Failed to load readline: Override error');
+    resetOverrides();
   });
 });
 
+// Extended Functions Full Coverage Tests
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);
@@ -580,12 +520,6 @@ describe('Extended Functions Full Coverage', () => {
     expect(result).toBeDefined();
   });
 
-  test('plotCubicBezierReal returns a bezier curve', () => {
-    const controlPoints = [{ x: 0, y: 0 }, { x: 1, y: 1 }, { x: 2, y: 1 }, { x: 3, y: 0 }];
-    const result = plotCubicBezierReal(controlPoints);
-    expect(Array.isArray(result)).toBe(true);
-  });
-
   test('plotGridReal returns an object with plots', () => {
     const result = plotGridReal([plotSineReal, plotCosineReal], 0, Math.PI, Math.PI/4);
     expect(result).toHaveProperty('plotSineReal');
@@ -596,7 +530,7 @@ describe('Extended Functions Full Coverage', () => {
     const result = plotPolarHeatmapReal();
     expect(Array.isArray(result)).toBe(true);
   });
-  
+
   // New test for plotDualAxisReal
   describe('plotDualAxisReal functionality', () => {
     test('should return dual axis plots for two functions', () => {

@@ -2,7 +2,7 @@
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-15. Refactored code to remove drift and align fully with the mission statement as per CONTRIBUTING.md.
-// Changelog: Refreshed inline documentation, pruned legacy code paths, enhanced error handling, improved CLI messaging, introduced new plotting function plotHarmonicsReal for trigonometric harmonics analysis, added new function plotModulatedSineReal for modulated sine plots.
+// Changelog: Refreshed inline documentation, pruned legacy code paths, enhanced error handling, improved CLI messaging, introduced new plotting functions including plotHarmonicsReal and plotModulatedSineReal, and added detailed error messages for module loader overrides.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -1066,7 +1066,6 @@ export function plotViolinPlotReal(data) {
 }
 
 // -------------------- Newly Added Features --------------------
-
 // New function: Damped Oscillation Plot for enhanced visualization aligned with our mission
 export function plotDampedOscillationReal(rangeStart, rangeEnd, step = 0.1, amplitude = 1, damping = 0.1, frequency = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
