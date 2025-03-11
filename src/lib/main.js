@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Updated 2024-12.13: Source refined per CONTRIBUTING guidelines to strictly adhere to the mission statement and prune any drift. Additional inline documentation and function grouping added.
+// Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. Added function grouping, pruned drift, and enhanced inline documentation.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -19,6 +19,7 @@ export function resetOverrides() {
   overrides.loadReadlineOverride = undefined;
 }
 
+// -------------------- Module Loaders --------------------
 // Module loader for Express with enhanced error reporting
 export async function loadExpress() {
   try {
@@ -38,6 +39,7 @@ export async function loadReadline() {
   }
 }
 
+// -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
@@ -48,17 +50,20 @@ export async function main(argsInput) {
     return;
   }
 
+  // -------------------- Diagnostics Mode --------------------
   if (args.includes('--diagnostics')) {
     console.log(`Diagnostics: Node version: ${process.version}`);
     return;
   }
 
+  // -------------------- Reset Overrides --------------------
   if (args.includes('--reset')) {
     resetOverrides();
     console.log('Overrides reset to defaults.');
     return;
   }
 
+  // -------------------- Interactive Mode --------------------
   if (args.includes('--interactive')) {
     try {
       const loader = overrides.loadReadlineOverride || loadReadline;
@@ -101,6 +106,7 @@ export async function main(argsInput) {
     return;
   }
 
+  // -------------------- Server Mode --------------------
   if (args.includes('--serve')) {
     try {
       const loader = overrides.loadExpressOverride || loadExpress;
@@ -125,6 +131,7 @@ export async function main(argsInput) {
     return;
   }
 
+  // -------------------- Plotting & Export Modes --------------------
   if (args.includes('--plot-abs')) {
     const dummyPlot = [
       { x: 0, y: Math.abs(Math.sin(0)) },
@@ -352,14 +359,14 @@ export async function main(argsInput) {
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
       'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal', 'plotNthRootReal', 'plotPolynomialFromCoeffsReal',
-      'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal', 'plotScaledSineReal', 'plotExponentialDecayReal',
-      'plotCumulativeProductReal', 'movingStdReal', 'cumulativeDifferenceReal'
+      'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal', 'plotScaledSineReal',
+      'plotExponentialDecayReal', 'plotCumulativeProductReal', 'movingStdReal', 'cumulativeDifferenceReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
   }
 
-  // Default: process as plot parameters
+  // -------------------- Default Plot Parameter Handling --------------------
   console.log(`Processing plot request with parameters: ${JSON.stringify(args)}`);
 }
 
@@ -367,7 +374,9 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main();
 }
 
-// Extended implementations
+// -------------------- Analytical and Plotting Functions --------------------
+
+// Utility: Generate numeric range
 export function generateRange(start, end, step = 1) {
   const range = [];
   for (let i = start; i <= end; i += step) {
@@ -376,6 +385,7 @@ export function generateRange(start, end, step = 1) {
   return range;
 }
 
+// Calculate derivative of an expression using mathjs
 export function calculateDerivative(expr, variable, value) {
   try {
     const derivative = math.derivative(expr, variable);
@@ -387,6 +397,7 @@ export function calculateDerivative(expr, variable, value) {
   }
 }
 
+// -------------------- Plotting Functions --------------------
 export function plotSineReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -896,7 +907,7 @@ export function plotCumulativeSumReal(data) {
 }
 
 export function plotIntegralReal(func, lower, upper, n = 1000) {
-  if (n % 2 !== 0) n++; // Simpson's rule requires even number of subintervals
+  if (n % 2 !== 0) n++; // Simpson's rule requires an even number of subintervals
   const h = (upper - lower) / n;
   let sum = func(lower) + func(upper);
   for (let i = 1; i < n; i++) {
@@ -975,6 +986,6 @@ export function cumulativeDifferenceReal(data) {
 /*
   Source file updated per CONTRIBUTING guidelines to align fully with the mission statement. 
   Refined function grouping, pruned any drift, and updated inline documentation.
-  New functions added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, movingStdReal, cumulativeDifferenceReal; and the resetOverrides function added.
+  New functions added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, movingStdReal, cumulativeDifferenceReal, and resetOverrides.
   Version updated per changelog.
 */
