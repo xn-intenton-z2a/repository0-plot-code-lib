@@ -45,9 +45,10 @@
 <li class="md-github"><strong class="md-github">Circular Plotting (--plot-circle)</strong></li>
 <li class="md-github"><strong class="md-github">Advanced Visualizations:</strong> Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate) plotting functions.</li>
 <li class="md-github"><strong class="md-github">New:</strong> Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step).</li>
-<li class="md-github"><strong class="md-github">Extended Functions:</strong> Newly added functions for moving sum calculations and cubic Bezier curve plotting.</li>
+<li class="md-github"><strong class="md-github">Extended:</strong> Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.</li>
+<li class="md-github"><strong class="md-github">Grid Plotting:</strong> New grid plotting feature (--plot-grid) to visualize multiple plots simultaneously.</li>
 <li class="md-github"><strong class="md-github">Reset Functionality:</strong> New --reset flag to restore override hooks to their default state.</li>
-<li class="md-github"><strong class="md-github">Enhanced Testability:</strong> Improved test coverage with mocks for interactive and server modes.</li>
+<li class="md-github"><strong class="md-github">Enhanced Testability:</strong> Improved test coverage with additional tests for all extended functions.</li>
 </ul>
 </li>
 </ul>
@@ -83,7 +84,7 @@ Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-git
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Advanced Visualizations:</strong>
-Explore plots using flags like <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--heatmap</code>, <code class="md-github">--plot-spiral</code>, <code class="md-github">--plot-circle</code>, <code class="md-github">--plot-polarrose</code>, <code class="md-github">--plot-starpolygon</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--plot-loglog</code>, and <code class="md-github">--plot-step</code>.</p>
+Explore plots using flags like <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--heatmap</code>, <code class="md-github">--plot-spiral</code>, <code class="md-github">--plot-circle</code>, <code class="md-github">--plot-polarrose</code>, <code class="md-github">--plot-starpolygon</code>, <code class="md-github">--lemniscate</code>, <code class="md-github">--plot-loglog</code>, <code class="md-github">--plot-step</code>, and <code class="md-github">--plot-grid</code>.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Extended Features:</strong>
@@ -106,15 +107,15 @@ Pass parameters directly as command-line arguments.</p>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.7.83 (Latest):</strong>
+<li class="md-github"><strong class="md-github">0.7.85 (Latest):</strong>
 <ul class="md-github">
 <li class="md-github">Extended functionalities with new spiral, circular, and custom plotting features.</li>
 <li class="md-github">Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).</li>
 <li class="md-github">Introduced new circular plotting with flag --plot-circle.</li>
-<li class="md-github"><strong class="md-github">New:</strong> Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), and Step Function Plot (--plot-step).</li>
+<li class="md-github"><strong class="md-github">New:</strong> Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and Grid Plot (--plot-grid).</li>
 <li class="md-github"><strong class="md-github">Extended:</strong> Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.</li>
 <li class="md-github">Pruned legacy stub implementations to better align with our mission statement.</li>
-<li class="md-github"><strong class="md-github">TEST:</strong> Improved test coverage by adding tests for interactive, server, reset, and new extended functions.</li>
+<li class="md-github"><strong class="md-github">TEST:</strong> Improved test coverage by adding additional tests for extended functions and external module simulations.</li>
 <li class="md-github"><strong class="md-github">REFRESH:</strong> Updated documentation and changelog in accordance with updated CONTRIBUTING guidelines.</li>
 </ul>
 </li>
@@ -141,7 +142,7 @@ Ensure your changes include clear commit messages and sufficient test coverage. 
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T03:04:45.032Z</p>
+    <p>Generated on 2025-03-11T03:19:21.794Z</p>
   </footer>
 </body>
 </html>
