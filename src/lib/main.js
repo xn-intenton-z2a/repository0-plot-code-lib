@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, refreshed inline documentation, new functions for piecewise plotting, moving product calculations, derivative plotting, and now advanced polynomial and nth root plotting functions in line with CONTRIBUTING guidelines.
+// Last Updated 2024-12.13: Extended functionalities with enhanced spiral plot, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, refreshed inline documentation, new functions for piecewise plotting, moving product calculations, derivative plotting, and advanced polynomial and nth root plotting functions in line with CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -227,7 +227,6 @@ export async function main(argsInput) {
 
   if (args.includes('--power-plot')) {
     const powerPlot = plotPowerPlotReal(0, 2, 3, 2);
-    // Updated to output as a single string to meet test expectations
     console.log('Power Plot (real): ' + JSON.stringify(powerPlot));
     return;
   }
@@ -253,7 +252,6 @@ export async function main(argsInput) {
 
   if (args.includes('--plot-spiral-enhanced')) {
     const enhanced = plotSpiralEnhancedReal();
-    // Updated to output as a single string to meet test expectations
     console.log('Enhanced Spiral Plot Output: ' + JSON.stringify(enhanced));
     return;
   }
@@ -315,7 +313,6 @@ export async function main(argsInput) {
 
   if (args.includes('--plot-polar-heatmap')) {
     const polarHeatmap = plotPolarHeatmapReal();
-    // Updated to output as a single string to meet test expectations
     console.log('Polar Heatmap Plot Output: ' + JSON.stringify(polarHeatmap));
     return;
   }
@@ -909,7 +906,8 @@ export function resetOverrides() {
 }
 
 /*
-  Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and comprehensive test coverage.
+  Source file updated per CONTRIBUTING guidelines to ensure consistent error handling, comprehensive test coverage, and alignment with the mission statement.
   Extended library functions to include nth root and polynomial plotting from coefficients.
-  Version updated to 0.7.92.
+  Changelog updated: README refreshed and inline documentation reviewed.
+  Version remains 0.7.92.
 */
