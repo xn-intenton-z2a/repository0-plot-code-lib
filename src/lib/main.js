@@ -3,12 +3,10 @@
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-20.
 // Changelog:
-// - Updated inline documentation to ensure strict alignment with our mission statement.
-// - Enhanced error handling for module loaders and added a new unknown-option handler for better CLI robustness.
+// - Refreshed inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot and interactive guide output.
-// - Improved CLI help message and integrated fallback for unrecognized options.
-// - Updated output formatting for harmonics, modulated sine, and statistical summary modes to produce output as a single string (JSON stringified) for consistent test matching.
+// - Updated output formatting for harmonics, modulated sine, and statistical summary modes using JSON.stringify for consistency.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';

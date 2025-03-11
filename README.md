@@ -1,28 +1,26 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is:
-
-"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-This tool enables you to generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations such as enhanced spiral plots, polar heatmaps, dual axis comparisons, and specialized statistical plots (box, violin, damped oscillation, inverse function plots). Additional analytical utilities (e.g., derivative, integral, moving averages) support deeper mathematical analysis.
+This tool provides a robust CLI with multiple modes including interactive, server, diagnostics, and various export and plotting options. It offers a wide range of plotting functionalities from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations (enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, modulated sine, statistical summary, inverse function, custom fancy plot, interactive guide, and more).
 
-## New Features & Enhancements
+## Key Features
 
-- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse`, and now `--plot-custom-fancy` and `--interactive-guide` for advanced plotting.
-- **Analytical and Statistical Functions:** Perform derivative calculations, approximate integrals, compute statistical summaries, and more.
-- **Robust CLI Modes:** Enjoy interactive, server, diagnostics, and various export modes. Added better handling for unrecognized options by displaying help messages.
-- **Output Formatting Update:** The outputs for harmonics, modulated sine, and statistical summary modes are now concatenated into a single string using JSON.stringify to ensure consistency and pass automated tests.
-- **Codebase Alignment:** Outdated and legacy implementations have been pruned and enhanced to ensure the code strictly adheres to our mission as outlined in CONTRIBUTING.md.
+- **Wide Range of Plots:**
+  - Basic plots: Sine, Cosine, Exponential, Logarithmic, Quadratic, Linear.
+  - Advanced visualizations: Enhanced spiral, Polar heatmap, Dual axis, Box plot, Violin plot, Damped oscillation, Harmonics, Modulated sine, Statistical summary, Parametric plot, Cumulative average, Inverse function plot, Custom fancy plot, Interactive guide.
 
-## Changelog
+- **Multiple Output Formats:**
+  - Generate outputs in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
 
-- Refreshed inline documentation and pruned outdated implementations to align with our mission statement.
-- Enhanced error handling for module loaders and added an unknown option handler for CLI.
-- Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored plot, dual axis plot, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, and inverse function plot.
-- Added new features: custom fancy plot and interactive guide output.
-- Updated output formatting for harmonics, modulated sine, and statistical summary to produce JSON stringified results.
+- **Analytical Functions:**
+  - Calculate derivatives, approximate integrals, compute moving averages, and perform other statistical analyses.
+
+- **Flexible CLI:**
+  - Use flags like `--interactive`, `--serve`, `--diagnostics`, and various export and plotting options.
+  - Easily reset overrides with `--reset` and use `--debug` for detailed function listings.
 
 ## Installation
 
@@ -42,13 +40,13 @@ Run the default demo:
 npm run start
 ```
 
-Common commands:
+Other common commands:
 
 - **Diagnostics:** `npm run diagnostics`
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
-- **Export Options:** `--export-csv`, `--export-md`, `--export-json`, etc.
-- **Plot Options:** `--plot-abs`, `--plot-parametric`, `--plot-inverse`, `--plot-custom-fancy`, `--interactive-guide`, etc.
+- **Export Options:** Use flags like `--export-csv`, `--export-json`, etc.
+- **Plot Options:** Use flags like `--plot-custom-fancy`, `--interactive-guide`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
@@ -56,7 +54,7 @@ Common commands:
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Report bugs, suggest enhancements, or propose new features by opening an issue in our repository.
+1. **Open an Issue:** Report bugs, suggest improvements, or propose new features by opening an issue in the repository.
 2. **Label as `automated`:** This triggers our automated workflow.
 3. **Submit a Pull Request:** Include detailed commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
