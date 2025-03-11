@@ -71,7 +71,9 @@ import {
   loadReadline,
   // New features
   plotDampedOscillationReal,
-  plotSpiralColoredReal
+  plotSpiralColoredReal,
+  // Extended new function
+  plotDualAxisReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -560,5 +562,16 @@ describe('Extended Functions Full Coverage', () => {
   test('plotPolarHeatmapReal returns an array of points', () => {
     const result = plotPolarHeatmapReal();
     expect(Array.isArray(result)).toBe(true);
+  });
+
+  // New test for plotDualAxisReal
+  describe('plotDualAxisReal functionality', () => {
+    test('should return dual axis plots for two functions', () => {
+      const result = plotDualAxisReal(0, 2, 1, Math.sin, Math.cos);
+      expect(result).toHaveProperty('plot1');
+      expect(result).toHaveProperty('plot2');
+      expect(result.plot1.length).toEqual(3);
+      expect(result.plot2.length).toEqual(3);
+    });
   });
 });

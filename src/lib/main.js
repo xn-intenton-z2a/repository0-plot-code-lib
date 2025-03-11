@@ -997,38 +997,6 @@ export function cumulativeDifferenceReal(data) {
   return differences;
 }
 
-// -------------------- Advanced Plotting Functions --------------------
-
-export function plotBoxPlotReal(data) {
-  if (!Array.isArray(data) || data.length === 0) {
-    console.error('plotBoxPlotReal: data must be a non-empty array');
-    return {};
-  }
-  const sorted = [...data].sort((a, b) => a - b);
-  const median = sorted[Math.floor(sorted.length / 2)];
-  const q1 = sorted[Math.floor(sorted.length / 4)];
-  const q3 = sorted[Math.floor(3 * sorted.length / 4)];
-  const min = sorted[0];
-  const max = sorted[sorted.length - 1];
-  const boxPlot = { min, q1, median, q3, max };
-  console.log('Box Plot (real):', boxPlot);
-  return boxPlot;
-}
-
-export function plotViolinPlotReal(data, steps = 10) {
-  if (!Array.isArray(data) || data.length === 0) {
-    console.error('plotViolinPlotReal: data must be a non-empty array');
-    return [];
-  }
-  const min = Math.min(...data);
-  const max = Math.max(...data);
-  const stepSize = (max - min) / steps || 1;
-  const range = generateRange(min, max, stepSize);
-  const densities = range.map(x => ({ x, density: (Math.sin(x) + 1) / 2 }));
-  console.log('Violin Plot (real):', densities);
-  return densities;
-}
-
 // -------------------- Newly Added Features --------------------
 
 // New function: Damped Oscillation Plot for enhanced visualization aligned with our mission
@@ -1049,4 +1017,14 @@ export function plotSpiralColoredReal(steps = 100, a = 0, b = 0.1, colors = ['re
   }
   console.log('Spiral Colored Plot (real):', points);
   return points;
+}
+
+// -------------------- Extended Plotting Functions --------------------
+// New function: Dual Axis Plot for comparing two functions on separate axes
+export function plotDualAxisReal(rangeStart, rangeEnd, step = 1, fn1, fn2) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot1 = range.map(x => ({ x, y: fn1(x) }));
+  const plot2 = range.map(x => ({ x, y: fn2(x) }));
+  console.log('Dual Axis Plot (real):', { plot1, plot2 });
+  return { plot1, plot2 };
 }
