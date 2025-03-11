@@ -1093,10 +1093,10 @@ export function plotDualAxisReal(rangeStart, rangeEnd, step = 1, fn1, fn2) {
 // New function: Plot Harmonics for visualizing sums of trigonometric functions
 export function plotHarmonicsReal(rangeStart, rangeEnd, step = 1, frequencies = [1, 2, 3]) {
   const range = generateRange(rangeStart, rangeEnd, step);
-  const plot = range.map(x => {
-    let y = frequencies.reduce((sum, f) => sum + Math.sin(f * x), 0);
-    return { x, y };
-  });
-  console.log('Harmonics Plot (real):', plot);
+  const plot = range.map(x => ({
+    x,
+    y: frequencies.reduce((sum, f) => sum + Math.sin(f * x), 0)
+  }));
+  // Removed duplicate logging to match expected output in CLI
   return plot;
 }
