@@ -6,7 +6,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, harmonics plots, modulated sine plots, and statistical summary plots).
+- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, harmonics plots, modulated sine plots, parametric plots, cumulative average plots, and statistical summary plots).
 
 - **Multiple Output Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT and R formats. (PNG output is provided as a stub implementation.)
 
@@ -31,10 +31,13 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
   - `plotHarmonicsReal` for visualizing trigonometric harmonics
   - **`plotModulatedSineReal` for modulated sine plots**
   - **`plotStatisticalSummaryReal` for generating summary statistics of data**
+- **Extended New Functions:**
+  - **`plotParametricReal`** for creating parametric plots of custom equations.
+  - **`plotCumulativeAverageReal`** for computing cumulative averages of datasets.
 - **Improved Error Handling:** Detailed error messages for module loader overrides.
-- **Enhanced Test Coverage:** Additional tests for error scenarios and deeper mocking of external modules bring coverage close to 100%.
+- **Enhanced Test Coverage:** Additional tests and deeper mocking bring test coverage close to 100%.
 - **Reset Overrides:** Use the `--reset` flag to clear custom module loader overrides.
-- **Fixed Statistical Summary Output:** The console output for statistical summary now returns a single string as expected by tests.
+- **Fixed Statistical Summary Output:** Console output for statistical summary now conforms to test expectations.
 
 ## Installation
 
@@ -59,7 +62,7 @@ Other common commands:
 - **Diagnostics:** `npm run diagnostics`
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
-- **Plot & Export Options:** Use flags such as `--plot-abs`, `--export-csv`, `--plot-fibonacci`, `--plot-sincos`, `--power-plot`, `--plot-histogram`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, etc.
+- **Plot & Export Options:** Use flags such as `--plot-abs`, `--export-csv`, `--plot-fibonacci`, `--plot-sincos`, `--power-plot`, `--plot-histogram`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
@@ -67,13 +70,11 @@ Custom plot parameters can also be provided directly via the command line.
 
 ## Changelog
 
-- **0.7.105 (Latest):**
-  - Refactored code for better alignment with the mission statement and pruned legacy drift.
-  - Added new plotting functions: `plotHarmonicsReal`, `plotModulatedSineReal`, and `plotStatisticalSummaryReal` (logging updated).
-  - Enhanced error handling with detailed messages in module loaders.
-  - Expanded test coverage with additional mocks and error handling tests, bringing coverage close to 100%.
-  - Fixed console output for statistical summary to meet test expectations.
-  - README refreshed to align with CONTRIBUTING guidelines and extraneous content pruned.
+- **0.7.106 (Latest):**
+  - Extended library functionality with new functions: `plotParametricReal` and `plotCumulativeAverageReal`.
+  - Refactored code to remove drift and align fully with the mission statement.
+  - Added new plotting functions: `plotHarmonicsReal`, `plotModulatedSineReal`, and `plotStatisticalSummaryReal`.
+  - Enhanced error handling, improved CLI messaging, and expanded test coverage.
 
 ## Contributing
 
