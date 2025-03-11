@@ -6,19 +6,18 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-This tool enables you to generate an extensive range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, and linear) to advanced visualizations such as enhanced spiral plots, polar heatmaps, dual axis comparisons, and specialized statistical plots including box, violin, damped oscillation, and inverse function plots. Additional analytical utilities (e.g., derivative, integral, moving averages) support deeper mathematical analysis.
+This tool enables you to generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations such as enhanced spiral plots, polar heatmaps, dual axis comparisons, and specialized statistical plots (box, violin, damped oscillation, inverse function plots). Additional analytical utilities (e.g., derivative, integral, moving averages) support deeper mathematical analysis.
 
 ## New Features & Enhancements
 
-- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse` and new ones like dual axis, box/violin plots, damped oscillation & colored spiral plots.
-- **Analytical and Statistical Functions:** Calculate derivatives, integrals, statistical summaries, cumulative averages, and more.
-- **Extended Plot Functions:** New functions including parametric plotting, dual-axis comparisons, cumulative average calculations, and inverse function plotting to extend our core capabilities.
-- **Improved Error Handling & Reset Capabilities:** Use `--reset` to clear module loader overrides. Additional error conditions in module loaders are now covered by tests.
-- **Enhanced Test Coverage:** Tests now cover nearly 100% of the code, including error conditions and external module load simulations.
+- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse` and others for advanced plotting.
+- **Analytical and Statistical Functions:** Perform derivative calculations, approximate integrals, compute statistical summaries, and more.
+- **Robust CLI Modes:** Enjoy interactive, server, diagnostics, and various export modes.
+- **Automated Contribution Workflow:** Contributions follow our automated process outlined in [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Installation
 
-**Prerequisites:** Node.js v20 or higher
+**Prerequisites:** Node.js v20 or higher.
 
 Install via npm:
 
@@ -40,7 +39,7 @@ Common commands:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** `--export-csv`, `--export-md`, `--export-json`, etc.
-- **Plot Options:** `--plot-abs`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse`, etc.
+- **Plot Options:** `--plot-abs`, `--plot-parametric`, `--plot-inverse`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
@@ -48,7 +47,7 @@ Common commands:
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Report your bug, idea, or improvement.
+1. **Open an Issue:** Report bugs, suggest enhancements, or propose new features.
 2. **Label as `automated`:** This triggers our automated workflow.
 3. **Submit a Pull Request:** Include detailed commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
