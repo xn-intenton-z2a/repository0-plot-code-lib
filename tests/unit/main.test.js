@@ -86,7 +86,9 @@ import {
 
   // Newly added extended functions
   plotParametricReal,
-  plotCumulativeAverageReal
+  plotCumulativeAverageReal,
+  // Newly added Inverse Function Feature
+  plotInverseFunctionReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -518,7 +520,6 @@ describe('Extended Functions Full Coverage', () => {
     expect(Array.isArray(result)).toBe(true);
   });
 
-  // New test for plotDualAxisReal
   describe('plotDualAxisReal functionality', () => {
     test('should return dual axis plots for two functions', () => {
       const result = plotDualAxisReal(0, 2, 1, Math.sin, Math.cos);
@@ -529,7 +530,6 @@ describe('Extended Functions Full Coverage', () => {
     });
   });
 
-  // New tests for newly added functions
   describe('Newly added extended functions', () => {
     test('plotParametricReal returns correct parametric plot values', () => {
       const result = plotParametricReal(0, Math.PI, Math.PI/2, t => t, t => 2*t);
@@ -544,6 +544,27 @@ describe('Extended Functions Full Coverage', () => {
       const data = [2, 4, 6, 8];
       const result = plotCumulativeAverageReal(data);
       expect(result).toEqual([2, 3, 4, 5]);
+    });
+  });
+
+  describe('Newly added Inverse Function Feature', () => {
+    test('plotInverseFunctionReal returns correct inverse values', () => {
+      const result = plotInverseFunctionReal(1, 5, 1, x => x);
+      // For x from 1 to 5, inverse of x is 1/x
+      const expected = [
+        { x: 1, y: 1 },
+        { x: 2, y: 0.5 },
+        { x: 3, y: 1/3 },
+        { x: 4, y: 0.25 },
+        { x: 5, y: 0.2 }
+      ];
+      expected.forEach((exp, idx) => {
+        if(exp.y === null){
+          expect(result[idx].y).toBeNull();
+        } else {
+          expect(result[idx].y).toBeCloseTo(exp.y);
+        }
+      });
     });
   });
 });

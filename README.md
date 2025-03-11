@@ -10,9 +10,9 @@ This tool enables you to generate an extensive range of plots, from basic functi
 
 ## New Features & Enhancements
 
-- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, and `--plot-modulated-sine` for advanced plots.
+- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, and the new `--plot-inverse` for advanced plots.
 - **Analytical and Statistical Functions:** Calculate derivatives, integrals, statistical summaries (`--plot-stat-summary`), cumulative averages, and more.
-- **Extended Plot Functions:** New functions for parametric plotting (`plotParametricReal`), dual-axis comparisons (`plotDualAxisReal`), and cumulative average calculations.
+- **Extended Plot Functions:** New functions for parametric plotting (`plotParametricReal`), dual-axis comparisons (`plotDualAxisReal`), cumulative average calculations, and inverse function plotting (`plotInverseFunctionReal`).
 - **Improved Error Handling & Reset Capabilities:** Use `--reset` to clear module loader overrides.
 
 ## Installation
@@ -39,7 +39,7 @@ Common commands:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** `--export-csv`, `--export-md`, `--export-json`, etc.
-- **Plot Options:** `--plot-abs`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, etc.
+- **Plot Options:** `--plot-abs`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
