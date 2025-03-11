@@ -88,7 +88,11 @@ import {
   plotParametricReal,
   plotCumulativeAverageReal,
   // Newly added Inverse Function Feature
-  plotInverseFunctionReal
+  plotInverseFunctionReal,
+
+  // Newly added custom extensions
+  plotCustomFancyReal,
+  plotInteractiveGuideReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -312,7 +316,6 @@ describe('plotStatisticalSummaryReal function', () => {
 });
 
 // Extended Functions Full Coverage Tests (existing tests retained below)
-
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);
@@ -604,6 +607,20 @@ describe('Extended Functions Full Coverage', () => {
     test('plotSpiralColoredReal returns points with colors', () => {
       const result = plotSpiralColoredReal(10, 0, 0.1, ['red','blue']);
       expect(result.every(p => typeof p.color === 'string')).toBe(true);
+    });
+  });
+
+  describe('Newly added custom extensions', () => {
+    test('plotCustomFancyReal returns a fancy custom plot', () => {
+      const result = plotCustomFancyReal(0, 10, 1);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result[0]).toHaveProperty('style');
+    });
+
+    test('plotInteractiveGuideReal returns a guide string', () => {
+      const result = plotInteractiveGuideReal();
+      expect(typeof result).toBe('string');
+      expect(result).toMatch(/interactive guide/i);
     });
   });
 });

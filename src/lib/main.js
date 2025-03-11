@@ -5,7 +5,8 @@
 // Changelog:
 // - Refreshed inline documentation and pruned legacy code paths.
 // - Enhanced error handling for module loaders.
-// - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, and inverse function plotting.
+// - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
+// - Added new features: custom fancy plot and interactive guide output.
 // - Updated help message and CLI mode descriptions to reflect current functionality.
 
 import { fileURLToPath } from 'url';
@@ -414,6 +415,19 @@ export async function main(argsInput) {
       'plotInverseFunctionReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
+    return;
+  }
+
+  // -------------------- Newly Added Custom Features --------------------
+  if (args.includes('--plot-custom-fancy')) {
+    const fancy = plotCustomFancyReal(0, 10, 1);
+    console.log('Custom Fancy Plot Output:', fancy);
+    return;
+  }
+
+  if (args.includes('--interactive-guide')) {
+    const guide = plotInteractiveGuideReal();
+    console.log('Interactive Guide Output:', guide);
     return;
   }
 
@@ -1183,4 +1197,27 @@ export function plotInverseFunctionReal(rangeStart, rangeEnd, step = 1, func = M
   });
   console.log('Inverse Function Plot (real):', plot);
   return plot;
+}
+
+// -------------------- Newly Added Custom Extensions --------------------
+// New function: Custom Fancy Plot, applying a mix of sine and cosine with styling
+export function plotCustomFancyReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({
+    x,
+    y: Math.sin(x) * Math.cos(x),
+    style: {
+      color: x % 2 === 0 ? 'magenta' : 'cyan',
+      marker: 'o'
+    }
+  }));
+  console.log('Custom Fancy Plot (real):', plot);
+  return plot;
+}
+
+// New function: Interactive Guide Output for CLI instructions
+export function plotInteractiveGuideReal() {
+  const guide = "Welcome to the interactive guide. Use flags like --plot-fancy, --plot-custom-fancy, or --interactive-guide to explore advanced plotting options.";
+  console.log('Interactive Guide (real):', guide);
+  return guide;
 }
