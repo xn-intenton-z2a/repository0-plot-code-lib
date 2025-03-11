@@ -17,13 +17,11 @@ import {
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
 
-
 describe('Main Module Import', () => {
   test('should be non-null', () => {
     expect(mainModule).not.toBeNull();
   });
 });
-
 
 describe('Default Demo Output', () => {
   test('should terminate without error', () => {
@@ -31,7 +29,6 @@ describe('Default Demo Output', () => {
     main();
   });
 });
-
 
 describe('New Extended Functions', () => {
   test('plotLogLogReal returns non-empty array', () => {
@@ -60,7 +57,6 @@ describe('New Extended Functions', () => {
   });
 });
 
-
 describe('--reset flag functionality', () => {
   test('should reset overrides when --reset is passed', async () => {
     // Set overrides to dummy values
@@ -76,7 +72,6 @@ describe('--reset flag functionality', () => {
   });
 });
 
-
 describe('Interactive Mode in test environment', () => {
   test('should simulate immediate response', async () => {
     process.env.VITEST = 'true';
@@ -87,7 +82,6 @@ describe('Interactive Mode in test environment', () => {
     delete process.env.VITEST;
   });
 });
-
 
 describe('Serve Mode in test environment', () => {
   test('should simulate server start in test environment', async () => {
@@ -100,7 +94,6 @@ describe('Serve Mode in test environment', () => {
   });
 });
 
-
 describe('--plot-circle flag functionality', () => {
   test('should print Circular Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-circle'];
@@ -109,7 +102,6 @@ describe('--plot-circle flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'));
   });
 });
-
 
 describe('--plot-grid flag functionality', () => {
   test('should print Grid Plot Output with sine and cosine plots', async () => {
