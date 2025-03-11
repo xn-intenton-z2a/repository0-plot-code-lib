@@ -3,12 +3,13 @@
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-15. Refactored code to remove drift and align fully with the mission statement as per CONTRIBUTING.md.
 // Changelog:
-// - Refreshed inline documentation, pruned legacy code paths, enhanced error handling, improved CLI messaging.
+// - Refreshed inline documentation and pruned legacy code paths.
+// - Enhanced error handling and improved CLI messaging.
 // - Introduced new plotting functions including plotHarmonicsReal, plotModulatedSineReal.
 // - Added detailed error messages for module loader overrides.
 // - Added new function plotStatisticalSummaryReal and CLI flag --plot-stat-summary for generating statistical summaries.
 // - Added new functions: plotParametricReal and plotCumulativeAverageReal to extend plotting capabilities in line with our mission.
-// - Fixed console output for statistical summary to provide a single string log as expected by tests.
+// - Refreshed comments to indicate that README has been updated to align with CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -408,7 +409,6 @@ export async function main(argsInput) {
       'plotHarmonicsReal',
       'plotModulatedSineReal',
       'plotStatisticalSummaryReal',
-      // Newly added functions
       'plotParametricReal', 'plotCumulativeAverageReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
