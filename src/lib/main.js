@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, and refreshed inline documentation in line with CONTRIBUTING guidelines.
+// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, power plot functionality, custom enhanced plotting, refreshed inline documentation, and new functions for piecewise plotting and moving product calculations in line with CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -712,7 +712,8 @@ export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps 
   const points = [];
   for (let i = 0; i < steps; i++) {
     const theta = (2 * Math.PI * i) / steps;
-    points.push({ theta, x: center.x + radius * Math.cos(theta), y: center.y + radius * Math.sin(theta) });
+    points.push({ theta, x: center.x + radius * Math.cos(theta),
+      y: center.y + radius * Math.sin(theta) });
   }
   console.log('Circular Plot Output:' + JSON.stringify(points));
   return points;
@@ -832,6 +833,38 @@ export function plotCustomEnhancedReal() {
   return enhanced;
 }
 
+// NEW FUNCTIONS ADDED AS EXTENSIONS
+
+// New function: Piecewise Plot
+export function plotPiecewiseReal(functions, intervals, step = 1) {
+  const results = [];
+  for (let i = 0; i < functions.length; i++) {
+    const f = functions[i];
+    const interval = intervals[i];
+    for (let x = interval.start; x <= interval.end; x += step) {
+      results.push({ x, y: f(x) });
+    }
+  }
+  console.log('Piecewise Plot (real):', results);
+  return results;
+}
+
+// New function: Moving Product
+export function movingProductReal(data, windowSize = 3) {
+  if (!Array.isArray(data) || data.length < windowSize) {
+    console.error('movingProductReal: invalid data or window size');
+    return [];
+  }
+  const products = [];
+  for (let i = 0; i <= data.length - windowSize; i++) {
+    const window = data.slice(i, i + windowSize);
+    const product = window.reduce((acc, cur) => acc * cur, 1);
+    products.push(product);
+  }
+  console.log('Moving Product (real):', products);
+  return products;
+}
+
 // Utility function for testing: reset overrides
 export function resetOverrides() {
   overrides.loadExpressOverride = undefined;
@@ -841,5 +874,6 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and comprehensive test coverage.
-  Inline documentation and changelog sections have been refreshed to reflect recent feature enhancements including custom enhanced plots and additional debug information.
+  Inline documentation and changelog sections have been refreshed to reflect recent feature enhancements including custom enhanced plots, new piecewise and moving product plot functions, and additional debug information.
+  Version updated to 0.7.90.
 */

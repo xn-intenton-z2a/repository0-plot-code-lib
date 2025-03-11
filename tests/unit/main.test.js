@@ -50,7 +50,9 @@ import {
   plotCubicBezierReal,
   plotPolarHeatmapReal,
   plotPowerPlotReal,
-  plotCustomEnhancedReal
+  plotCustomEnhancedReal,
+  plotPiecewiseReal,
+  movingProductReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -200,6 +202,30 @@ describe('--plot-custom-enhanced flag functionality', () => {
   });
 });
 
+// Tests for new functions
+
+describe('Additional Extended Functions', () => {
+  test('movingProductReal calculates correct moving product', () => {
+    const data = [2, 3, 4, 5];
+    const result = movingProductReal(data, 2);
+    expect(result).toEqual([6, 12, 20]);
+  });
+
+  test('plotPiecewiseReal handles piecewise functions correctly', () => {
+    const fn1 = x => x;
+    const fn2 = x => x * 2;
+    const intervals = [{ start: 0, end: 1 }, { start: 2, end: 3 }];
+    const result = plotPiecewiseReal([fn1, fn2], intervals, 1);
+    expect(result).toEqual([
+      { x: 0, y: 0 },
+      { x: 1, y: 1 },
+      { x: 2, y: 4 },
+      { x: 3, y: 6 }
+    ]);
+  });
+});
+
+// Extended Functions Full Coverage
 
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
