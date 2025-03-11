@@ -8,6 +8,7 @@
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot and interactive guide output.
 // - Updated help message and CLI mode descriptions to reflect current functionality.
+// - Pruned redundant legacy implementations and ensured all code paths strictly adhere to the current mission.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -62,7 +63,7 @@ export async function loadReadline() {
 // -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --reset, --plot-custom-fancy, --interactive-guide or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // Help/Default mode
   if (args.length === 0 || args.includes('--help')) {
@@ -1092,7 +1093,7 @@ export function plotViolinPlotReal(data) {
   return density;
 }
 
-// -------------------- Newly Added Features --------------------
+// -------------------- Newly Added Advanced Feature --------------------
 // New function: Damped Oscillation Plot
 export function plotDampedOscillationReal(rangeStart, rangeEnd, step = 0.1, amplitude = 1, damping = 0.1, frequency = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
@@ -1123,7 +1124,7 @@ export function plotDualAxisReal(rangeStart, rangeEnd, step = 1, fn1, fn2) {
   return { plot1, plot2 };
 }
 
-// -------------------- Newly Added Advanced Feature --------------------
+// -------------------- Newly Added Extended Functions --------------------
 // New function: Plot Harmonics
 export function plotHarmonicsReal(rangeStart, rangeEnd, step = 1, frequencies = [1, 2, 3]) {
   const range = generateRange(rangeStart, rangeEnd, step);
