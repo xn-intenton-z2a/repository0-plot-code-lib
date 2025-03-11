@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last refined on 2024-12-13. Additional inline documentation and error handling improvements have been maintained to strictly align with our mission statement.
+// Last refined on 2024-12-14. Minor refresh applied to adhere strictly to our mission and contributing guidelines.
+// Changelog: Refreshed code and inline documentation to reduce drift and increase clarity per CONTRIBUTING.md.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -191,7 +192,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
+    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
     return;
   }
 
@@ -374,7 +375,8 @@ export async function main(argsInput) {
       'plotPiecewiseReal', 'movingProductReal', 'plotNthRootReal', 'plotPolynomialFromCoeffsReal',
       'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal', 'plotScaledSineReal',
       'plotExponentialDecayReal', 'plotCumulativeProductReal', 'movingStdReal', 'cumulativeDifferenceReal',
-      'plotBoxPlotReal', 'plotViolinPlotReal'
+      'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
+      'plotDampedOscillationReal', 'plotSpiralColoredReal', 'plotDualAxisReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
