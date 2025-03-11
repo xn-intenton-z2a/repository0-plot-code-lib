@@ -227,7 +227,8 @@ export async function main(argsInput) {
 
   if (args.includes('--power-plot')) {
     const powerPlot = plotPowerPlotReal(0, 2, 3, 2);
-    console.log('Power Plot (real):', powerPlot);
+    // Updated to output as a single string to meet test expectations
+    console.log('Power Plot (real): ' + JSON.stringify(powerPlot));
     return;
   }
 

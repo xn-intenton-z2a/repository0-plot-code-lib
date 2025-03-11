@@ -189,7 +189,7 @@ describe('--power-plot flag functionality', () => {
   });
 });
 
-// Extended Functions Additional Coverage
+
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);
