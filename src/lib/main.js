@@ -322,13 +322,13 @@ export async function main(argsInput) {
 
   if (args.includes('--plot-piecewise')) {
     const piecewise = plotPiecewiseReal([x => x, x => 2 * x], [{ start: 0, end: 1 }, { start: 2, end: 3 }], 1);
-    console.log('Piecewise Plot Output:', piecewise);
+    console.log('Piecewise Plot Output: ' + JSON.stringify(piecewise));
     return;
   }
 
   if (args.includes('--plot-derivative')) {
     const derivativeVal = calculateDerivative('x^2', 'x', 5);
-    console.log('Derivative Plot Output:', derivativeVal);
+    console.log('Derivative Plot Output: ' + derivativeVal);
     return;
   }
 
@@ -885,6 +885,6 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and comprehensive test coverage.
-  Removed extra logging in calculateDerivative and adjusted log message in plotPiecewiseReal to meet test expectations.
+  Removed extra logging in calculateDerivative and adjusted log message in plotPiecewiseReal and derivative flag to meet test expectations.
   Version updated to 0.7.91.
 */

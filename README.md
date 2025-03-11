@@ -72,7 +72,7 @@ Other commands include:
 - **0.7.91 (Latest):**
   - Extended functionalities with the addition of derivative plotting and piecewise plotting features.
   - Added new CLI flags: `--plot-piecewise` and `--plot-derivative`.
-  - Removed extra logging in calculateDerivative and updated log message in plotPiecewiseReal to match test expectations.
+  - Adjusted logging to output single concatenated string for piecewise and derivative plots to ensure test compatibility.
   - Introduced enhanced error handling and comprehensive inline documentation updates.
   - Updated test coverage and refreshed contribution guidelines in line with CONTRIBUTING.md.
 
