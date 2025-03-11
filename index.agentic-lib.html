@@ -27,7 +27,7 @@
 <p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots including box and violin plots, damped oscillation, colored spiral plots, and dual axis comparisons).</li>
+<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, and harmonics plots).</li>
 <li class="md-github"><strong class="md-github">Multiple Output Formats:</strong> Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT and R formats. (PNG output is provided as a stub implementation.)</li>
 <li class="md-github"><strong class="md-github">Interactive &amp; Server Modes:</strong> Run an interactive CLI or launch an Express server for live demonstrations.</li>
 <li class="md-github"><strong class="md-github">Analytical Tools:</strong> Includes utilities like range generation, derivative calculation, moving sums/products, and more for detailed analysis.</li>
@@ -42,7 +42,7 @@
 <li class="md-github"><strong class="md-github">Advanced Polynomial &amp; Nth Root Plots:</strong> Functions like <code class="md-github">plotPolynomialFromCoeffsReal</code> and <code class="md-github">plotNthRootReal</code> are available.</li>
 <li class="md-github"><strong class="md-github">Additional Analytical Functions:</strong> Such as <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code> (Simpson's rule), <code class="md-github">plotBarChartEnhancedReal</code>, <code class="md-github">plotScaledSineReal</code>, <code class="md-github">plotExponentialDecayReal</code>, <code class="md-github">plotCumulativeProductReal</code>, <code class="md-github">movingStdReal</code>, and <code class="md-github">cumulativeDifferenceReal</code>.</li>
 <li class="md-github"><strong class="md-github">Statistical Visualizations:</strong> New functions <code class="md-github">plotBoxPlotReal</code> and <code class="md-github">plotViolinPlotReal</code> for statistical plotting.</li>
-<li class="md-github"><strong class="md-github">New Visualization Functions:</strong> <code class="md-github">plotDampedOscillationReal</code> for damped oscillation plots, <code class="md-github">plotSpiralColoredReal</code> for colored spiral plots, and <strong class="md-github"><code class="md-github">plotDualAxisReal</code> for dual-axis comparisons</strong>.</li>
+<li class="md-github"><strong class="md-github">New Visualization Functions:</strong> <code class="md-github">plotDampedOscillationReal</code> for damped oscillation plots, <code class="md-github">plotSpiralColoredReal</code> for colored spiral plots, <strong class="md-github"><code class="md-github">plotDualAxisReal</code> for dual-axis comparisons</strong>, and <strong class="md-github"><code class="md-github">plotHarmonicsReal</code> for visualizing trigonometric harmonics</strong>.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> Use the <code class="md-github">--reset</code> flag to clear custom module loader overrides.</li>
 <li class="md-github"><strong class="md-github">Improved Error Handling:</strong> Enhanced error messages in module loaders for better clarity when overrides fail.</li>
 </ul>
@@ -60,17 +60,18 @@
 <li class="md-github"><strong class="md-github">Diagnostics:</strong> <code class="md-github">npm run diagnostics</code></li>
 <li class="md-github"><strong class="md-github">Interactive Mode:</strong> <code class="md-github">node src/lib/main.js --interactive</code></li>
 <li class="md-github"><strong class="md-github">Server Mode:</strong> <code class="md-github">node src/lib/main.js --serve</code></li>
-<li class="md-github"><strong class="md-github">Plot &amp; Export Options:</strong> Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-github">--export-csv</code>, <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--power-plot</code>, etc.</li>
+<li class="md-github"><strong class="md-github">Plot &amp; Export Options:</strong> Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-github">--export-csv</code>, <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--power-plot</code>, <code class="md-github">--plot-histogram</code>, <code class="md-github">--plot-harmonics</code>, etc.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> <code class="md-github">node src/lib/main.js --reset</code></li>
 <li class="md-github"><strong class="md-github">Debug Mode:</strong> <code class="md-github">node src/lib/main.js --debug</code></li>
 </ul>
 <p class="md-github">Custom plot parameters can also be provided directly via the command line.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.7.102 (Latest):</strong>
+<li class="md-github"><strong class="md-github">0.7.103 (Latest):</strong>
 <ul class="md-github">
-<li class="md-github">Refactored code and updated inline documentation to remove drift and align with the mission statement.</li>
-<li class="md-github">Enhanced error handling and ensured all CLI output supports our mission of clear visualisation.</li>
+<li class="md-github">Refactored code to further align with the mission statement and pruned drift in legacy code.</li>
+<li class="md-github">Added new plotting function <code class="md-github">plotHarmonicsReal</code> to visualize sums of trigonometric functions.</li>
+<li class="md-github">Extended error handling and documentation updates.</li>
 </ul>
 </li>
 </ul>
@@ -86,7 +87,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T15:55:41.765Z</p>
+    <p>Generated on 2025-03-11T16:07:15.706Z</p>
   </footer>
 </body>
 </html>
