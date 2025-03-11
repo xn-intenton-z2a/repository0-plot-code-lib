@@ -218,7 +218,6 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--lemniscate')) {
-    // Extended real implementation for lemniscate plot
     const lemniscate = plotLemniscateReal();
     console.log('Lemniscate Plot Output:', lemniscate);
     return;
@@ -292,73 +291,15 @@ export async function main(argsInput) {
 
   if (args.includes('--debug')) {
     const funcs = [
-      'plotQuadratic',
-      'calculateDerivative',
-      'calculateArea',
-      'plotLinear',
-      'plotSine',
-      'plotCosine',
-      'rotatePoints',
-      'plotExponential',
-      'plotLogarithmic',
-      'movingAverage',
-      'plotTangent',
-      'reflectPoints',
-      'scalePoints',
-      'plotSqrt',
-      'plotPolar',
-      'plotAbsolute',
-      'plotDerivative',
-      'offsetPoints',
-      'plotLogistic',
-      'plotCubicReal',
-      'calculateStandardDeviation',
-      'calculateCorrelation',
-      'plotHyperbolic',
-      'calculateExponentialMovingAverage',
-      'plotGaussianReal',
-      'exportPlotAsCSV',
-      'exportPlotAsMarkdown',
-      'exportPlotAsJSON',
-      'exportPlotAsHTML',
-      'exportPlotAsASCII',
-      'exportPlotAsSVG',
-      'exportPlotAsXML',
-      'exportPlotAsLaTeX',
-      'exportPlotAsTXT',
-      'exportPlotAsR',
-      'exportPlotAsPNG',
-      'plotCustom',
-      'plotScatter',
-      'plotParametric',
-      'plotBarChart',
-      'plotEllipse',
-      'plotPolynomial',
-      'plotModulatedSine',
-      'plotSpiralReal',
-      'plotSigmoidReal',
-      'plotSincReal',
-      'calculateDefiniteIntegralReal',
-      'plotBezierReal',
-      'plotPolarReal',
-      'plotLogisticReal',
-      'movingAverageReal',
-      'plotHistogramReal',
-      'plotHyperbolaReal',
-      'plotEllipseReal',
-      'plotCubicReal',
-      'movingMedianReal',
-      'plotGaussianReal',
-      'plotScatterReal',
-      'plotBarChartReal',
-      'plotLissajousReal',
-      'plotCustomReal',
-      'plotSinCosCombinedReal',
-      'plotCircularPlotReal',
-      'plotPolarRoseReal',
-      'plotStarPolygonReal',
-      'plotLogLogReal',
-      'plotStepFunctionReal'
+      'generateRange', 'calculateDerivative',
+      'plotSineReal', 'plotCosineReal', 'plotExponentialReal', 'plotLogarithmicReal', 'plotQuadraticReal',
+      'plotLinearReal', 'plotTangentReal', 'rotatePointsReal', 'plotSigmoidReal', 'plotReLUReal',
+      'plotHistogramReal', 'plotPolarReal', 'plotLogisticReal', 'movingAverageReal', 'plotSincReal',
+      'calculateDefiniteIntegralReal', 'plotBezierReal', 'plotHyperbolaReal', 'plotLemniscateReal',
+      'plotEllipseReal', 'plotCubicReal', 'movingMedianReal', 'plotGaussianReal', 'plotHeatMapReal',
+      'plotSpiralReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal', 'plotCustomReal',
+      'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
+      'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -772,74 +713,6 @@ export function plotStepFunctionReal(rangeStart, rangeEnd, step = 1, stepSize = 
   console.log('Step Function Plot (real):', plot);
   return plot;
 }
-
-// Legacy stub functions retained for API compatibility
-const stubFunction = (name) => () => { console.log(name + ' stub executed'); };
-
-export const plotQuadratic = stubFunction('plotQuadratic');
-export const calculateArea = stubFunction('calculateArea');
-export const plotLinear = stubFunction('plotLinear');
-export const plotSine = stubFunction('plotSine');
-export const plotCosine = stubFunction('plotCosine');
-export const rotatePoints = stubFunction('rotatePoints');
-export const plotExponential = stubFunction('plotExponential');
-export const plotLogarithmic = stubFunction('plotLogarithmic');
-export const movingAverage = stubFunction('movingAverage');
-export const plotTangent = stubFunction('plotTangent');
-export const reflectPoints = stubFunction('reflectPoints');
-export const scalePoints = stubFunction('scalePoints');
-export const plotSqrt = stubFunction('plotSqrt');
-export const plotPolar = stubFunction('plotPolar');
-export const plotAbsolute = stubFunction('plotAbsolute');
-export const plotDerivative = stubFunction('plotDerivative');
-export const offsetPoints = stubFunction('offsetPoints');
-export const plotLogistic = stubFunction('plotLogistic');
-export const plotCubic = stubFunction('plotCubic');
-export const calculateStandardDeviation = stubFunction('calculateStandardDeviation');
-export const calculateCorrelation = stubFunction('calculateCorrelation');
-export const plotHyperbolic = stubFunction('plotHyperbolic');
-export const calculateExponentialMovingAverage = stubFunction('calculateExponentialMovingAverage');
-export const plotGaussian = stubFunction('plotGaussian');
-export const exportPlotAsCSV = stubFunction('exportPlotAsCSV');
-export const exportPlotAsMarkdown = stubFunction('exportPlotAsMarkdown');
-export const exportPlotAsJSON = stubFunction('exportPlotAsJSON');
-export const exportPlotAsHTML = stubFunction('exportPlotAsHTML');
-export const exportPlotAsASCII = stubFunction('exportPlotAsASCII');
-export const exportPlotAsSVG = stubFunction('exportPlotAsSVG');
-export const exportPlotAsXML = stubFunction('exportPlotAsXML');
-export const exportPlotAsLaTeX = stubFunction('exportPlotAsLaTeX');
-export const exportPlotAsTXT = stubFunction('exportPlotAsTXT');
-export const exportPlotAsR = stubFunction('exportPlotAsR');
-export const exportPlotAsPNG = stubFunction('exportPlotAsPNG');
-export const plotCustom = stubFunction('plotCustom');
-export const plotScatter = stubFunction('plotScatter');
-export const plotParametric = stubFunction('plotParametric');
-export const plotBarChart = stubFunction('plotBarChart');
-export const plotEllipse = stubFunction('plotEllipse');
-export const plotPolynomial = stubFunction('plotPolynomial');
-export const plotModulatedSine = stubFunction('plotModulatedSine');
-export const plotSpiral = stubFunction('plotSpiral');
-export const plotSigmoid = stubFunction('plotSigmoid');
-export const plotSinc = stubFunction('plotSinc');
-export const calculateDefiniteIntegral = stubFunction('calculateDefiniteIntegral');
-export const solveQuadraticEquation = stubFunction('solveQuadraticEquation');
-export const plotSinCosCombined = stubFunction('plotSinCosCombined');
-export const interpolateData = stubFunction('interpolateData');
-export const plotBezier = stubFunction('plotBezier');
-export const plotLissajous = stubFunction('plotLissajous');
-export const plotBessel = stubFunction('plotBessel');
-export const plotHyperbola = stubFunction('plotHyperbola');
-export const plotLemniscate = stubFunction('plotLemniscate');
-export const plotPower = stubFunction('plotPower');
-export const plotReLU = stubFunction('plotReLU');
-export const movingMedian = stubFunction('movingMedian');
-export const plotInverse = stubFunction('plotInverse');
-export const cumulativeSum = stubFunction('cumulativeSum');
-export const plotLogLog = stubFunction('plotLogLog');
-export const boxPlot = stubFunction('boxPlot');
-export const plotDampedOscillation = stubFunction('plotDampedOscillation');
-export const plotRational = stubFunction('plotRational');
-export const plotStep = stubFunction('plotStep');
 
 // Utility function for testing: reset overrides
 export function resetOverrides() {

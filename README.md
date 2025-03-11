@@ -10,7 +10,7 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
 
 - **Interactive and Server Modes:** Enjoy interactive CLI input or run a lightweight Express server for a live demonstration of the plotting capabilities.
 
-- **Extended Function Library:** Includes real implementations for derivative calculation, range generation, and various plotting features, while retaining legacy stubs for backward compatibility.
+- **Extended Function Library:** Includes real implementations for derivative calculation, range generation, and various plotting features. Legacy stub functions have been pruned to align with our mission statement.
 
 - **New Features:**
   - **Fibonacci Spiral, Combined Sin-Cos Plotting**
@@ -76,12 +76,12 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.81 (Latest):**
+- **0.7.82 (Latest):**
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
   - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and reset functionality (--reset).
-  - Pruned legacy drift to align with the mission statement.
+  - Pruned legacy drift by removing outdated stub functions.
   - **TEST:** Improved test coverage by adding tests for interactive, server, and reset functionalities.
   - **REFRESH:** Updated README to reflect changes and the updated CONTRIBUTING guidelines.
 
