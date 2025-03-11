@@ -30,8 +30,9 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
   - `plotDualAxisReal` for dual-axis comparisons
   - `plotHarmonicsReal` for visualizing trigonometric harmonics
   - **`plotModulatedSineReal` for modulated sine plots**
+- **Improved Error Handling:** Detailed error messages for module loader overrides.
+- **Enhanced Test Coverage:** Additional tests for error scenarios and deeper mocking of external modules bring coverage close to 100%.
 - **Reset Overrides:** Use the `--reset` flag to clear custom module loader overrides.
-- **Improved Error Handling & Documentation:** Enhanced error messages and updated inline docs to align with our mission and contribution guidelines.
 
 ## Installation
 
@@ -64,17 +65,18 @@ Custom plot parameters can also be provided directly via the command line.
 
 ## Changelog
 
-- **0.7.103 (Latest):**
-  - Refactored code to further align with our mission statement and pruned legacy code drift.
+- **0.7.104 (Latest):**
+  - Refactored code for better alignment with the mission statement and pruned legacy drift.
   - Added new plotting functions: `plotHarmonicsReal` and `plotModulatedSineReal`.
-  - Enhanced error handling and documentation updates.
-  - *README refreshed to align with CONTRIBUTING guidelines and extraneous content pruned.*
+  - Enhanced error handling with detailed messages in module loaders.
+  - Expanded test coverage with additional mocks and error handling tests, bringing coverage close to 100%.
+  - README refreshed to align with CONTRIBUTING guidelines and extraneous content pruned.
 
 ## Contributing
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 2. **Label as `automated`:** This triggers our automated workflow.
 3. **Submit a Pull Request:** Include clear commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
