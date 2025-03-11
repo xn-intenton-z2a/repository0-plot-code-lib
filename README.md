@@ -1,26 +1,23 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Embracing our mission, "Be a go-to plot library with a CLI, be the jq of formulae visualisations," the tool offers an extensive set of plotting options, multiple output formats, and enhanced analysis functions.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is clear: "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool provides a broad range of plotting options, multiple output formats, and enhanced analytical functions.
 
 ## Overview
 
-- **Mathematical Plotting:** Generate plots for functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and more. Advanced visualizations include scatter plots, bar charts, Lissajous curves, spiral, circular, enhanced spiral, custom plots, and the new polar heatmap.
+- **Mathematical Plotting:** Generate plots for sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and advanced visualizations including scatter, bar charts, Fibonacci spiral, combined sin-cos, polar rose, star polygon, enhanced spiral (with rotation), circular plots, and the new polar heatmap.
 
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
 
-- **Interactive and Server Modes:** Enjoy interactive CLI input or run a lightweight Express server for live demonstrations of plotting capabilities.
+- **Interactive and Server Modes:** Run in interactive CLI mode or launch an Express server for live demonstrations.
 
-- **Extended Function Library:** Offers implementations for derivative calculation, range generation, and a wide array of plotting functions such as Fibonacci spiral, combined sine-cosine, polar rose, star polygon, log-log, step function, grid plotting, and now polar heatmap visualization.
+- **Extended Function Library:** Tools for derivative calculation, range generation, and various custom and advanced plotting functions. Use the `--reset` flag to restore default override hooks.
 
 ## New Features
 
-- **Enhanced Spiral Plot:** New flag `--plot-spiral-enhanced` to generate a spiral plot with rotation support.
-- **Fibonacci Spiral & Combined Sin-Cos Plotting**
+- **Enhanced Spiral Plot:** Use `--plot-spiral-enhanced` for rotation-supported spiral plots.
+- **Polar Heatmap:** New `--plot-polar-heatmap` flag visualizes heat intensity in polar coordinates.
 - **Circular Plotting:** Generate circular plots with the `--plot-circle` flag.
-- **Advanced Visualizations:** Polar Rose (`--plot-polarrose`), Star Polygon (`--plot-starpolygon`), Lemniscate (`--lemniscate`), Log-Log (`--plot-loglog`), Step Function (`--plot-step`), Grid Plot (`--plot-grid`), and the newly added Polar Heatmap (`--plot-polar-heatmap`).
-- **Data Analysis:** New functions movingSumReal and plotCubicBezierReal enhance data analytics and visualization.
-- **Reset Functionality:** Use the `--reset` flag to restore override hooks to default settings.
-- **Improved Testability:** Expanded test coverage, including tests for the new enhanced spiral plot and polar heatmap features.
+- **Additional Analytics:** Functions like moving sum and cubic Bezier curve support enriched data analysis.
 
 ## Installation
 
@@ -40,7 +37,7 @@ Run the default demo:
 npm run start
 ```
 
-Other available commands:
+Other commands include:
 
 - **Diagnostics:**
   ```bash
@@ -57,11 +54,9 @@ Other available commands:
   node src/lib/main.js --serve
   ```
 
-- **Plot/Export Flags:**
-  Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific outputs.
+- **Plot/Export Flags:** Use flags like `--plot-abs`, `--export-csv`, `--export-md`, etc., for specific outputs.
 
-- **Advanced Visualizations:**
-  Explore features like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, and the new `--plot-polar-heatmap`.
+- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, and `--plot-polar-heatmap`.
 
 - **Reset Functionality:**
   ```bash
@@ -73,27 +68,24 @@ Other available commands:
   node src/lib/main.js --debug
   ```
 
-- **Custom Plot Parameters:** Pass parameters directly as command-line arguments.
+- **Custom Parameters:** Pass custom plot parameters directly as command-line arguments.
 
 ## Changelog
 
-- **0.7.87 (Latest):**
-  - Extended functionalities with an enhanced spiral plot (`--plot-spiral-enhanced` flag) that supports rotation.
-  - Added new Polar Heatmap feature (`--plot-polar-heatmap` flag) for visualizing heat intensity in polar coordinates.
-  - Updated enhanced spiral plot output to be a single string for test consistency.
-  - Added additional test coverage for new features.
-  - Updated inline documentation and changelog to fully align with the CONTRIBUTING guidelines.
-  - Refreshed demo output and pruned any drift from the original mission statement.
+- **0.7.88 (Latest):**
+  - Refreshed README and inline documentation to align with CONTRIBUTING guidelines.
+  - Extended functionalities with enhanced spiral plot (with rotation support) and new polar heatmap feature.
+  - Updated tests and documentation for improved clarity and contribution process.
 
 ## Contributing
 
-We welcome contributions! Follow these steps:
+We welcome your contributions! Please follow these steps:
 
-1. **Open an Issue:** Describe your idea, bug report, or improvement by opening an issue in our repository.
-2. **Review Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our contribution process.
-3. **Submit a Pull Request:** Provide clear commit messages and sufficient test coverage. Ensure your changes adhere to our automated workflow standards.
+1. **Open an Issue:** Describe your idea or bug by opening an issue.
+2. **Review Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for our process.
+3. **Submit a Pull Request:** Ensure clear commit messages and comprehensive test coverage. Follow our automated workflows for a smooth review process.
 
-Your contributions help us build the definitive CLI plotting tool.
+Your contributions are essential for building the definitive CLI plotting tool.
 
 ## License
 
