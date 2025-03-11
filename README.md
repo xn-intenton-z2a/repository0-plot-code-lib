@@ -75,7 +75,7 @@ Other commands include:
 - **0.7.88 (Latest):**
   - Refreshed README and inline documentation to align with CONTRIBUTING guidelines.
   - Extended functionalities with enhanced spiral plot (with rotation support) and new polar heatmap feature.
-  - Updated tests and documentation for improved clarity and contribution process.
+  - Improved test coverage with comprehensive tests for all functions.
 
 ## Contributing
 

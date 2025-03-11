@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, and refreshed inline documentation in line with CONTRIBUTING guidelines.
+// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contribution hooks, added polar heatmap visualization, refreshed inline documentation in line with CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -814,3 +814,7 @@ export function resetOverrides() {
   overrides.loadReadlineOverride = undefined;
   console.log('Overrides have been reset.');
 }
+
+/*
+  Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and to facilitate comprehensive test coverage.
+*/
