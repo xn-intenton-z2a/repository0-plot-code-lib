@@ -25,12 +25,14 @@ describe('Main Module Import', () => {
   });
 });
 
+
 describe('Default Demo Output', () => {
   test('should terminate without error', () => {
     process.argv = ['node', 'src/lib/main.js'];
     main();
   });
 });
+
 
 describe('New Extended Functions', () => {
   test('plotLogLogReal returns non-empty array', () => {
@@ -121,6 +123,16 @@ describe('--plot-spiral-enhanced flag functionality', () => {
     const spy = vi.spyOn(console, 'log');
     await main();
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Enhanced Spiral Plot Output:'));
+  });
+});
+
+// Additional test for new polar heatmap feature
+describe('--plot-polar-heatmap flag functionality', () => {
+  test('should print Polar Heatmap Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-polar-heatmap'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Polar Heatmap Plot Output:'));
   });
 });
 

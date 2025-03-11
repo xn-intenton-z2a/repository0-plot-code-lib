@@ -34,10 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!
-Mission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --reset or provide plot parameters.
-For contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -308,6 +305,13 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
     return;
   }
 
+  if (args.includes('--plot-polar-heatmap')) {
+    const polarHeatmap = plotPolarHeatmapReal();
+    // Updated to output as a single string to meet test expectations
+    console.log('Polar Heatmap Plot Output: ' + JSON.stringify(polarHeatmap));
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'generateRange', 'calculateDerivative',
@@ -319,7 +323,7 @@ For contribution guidelines, please refer to CONTRIBUTING.md.`;
       'plotSpiralReal', 'plotSpiralEnhancedReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal',
       'plotCustomReal', 'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
-      'movingSumReal', 'plotCubicBezierReal', 'plotGridReal'
+      'movingSumReal', 'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -789,6 +793,19 @@ export function plotGridReal(plotCallbacks, rangeStart, rangeEnd, step = 1) {
   });
   console.log = originalLog;
   return results;
+}
+
+// New function: Polar Heatmap Plot - combines polar coordinates with a simulated heat intensity value
+export function plotPolarHeatmapReal(steps = 50, a = 1, b = 0.1) {
+  const points = [];
+  for (let i = 0; i < steps; i++) {
+    const theta = i * (2 * Math.PI / steps);
+    const r = a + b * theta;
+    const intensity = Math.random();
+    points.push({ theta, r, intensity, x: r * Math.cos(theta), y: r * Math.sin(theta) });
+  }
+  console.log('Polar Heatmap Plot Output:', points);
+  return points;
 }
 
 // Utility function for testing: reset overrides

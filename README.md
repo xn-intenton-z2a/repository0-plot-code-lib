@@ -4,23 +4,23 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
 
 ## Overview
 
-- **Mathematical Plotting:** Generate plots for functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and more. Advanced visualizations include scatter plots, bar charts, Lissajous curves, spiral, circular, enhanced spiral, and custom plots.
+- **Mathematical Plotting:** Generate plots for functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and more. Advanced visualizations include scatter plots, bar charts, Lissajous curves, spiral, circular, enhanced spiral, custom plots, and the new polar heatmap.
 
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
 
 - **Interactive and Server Modes:** Enjoy interactive CLI input or run a lightweight Express server for live demonstrations of plotting capabilities.
 
-- **Extended Function Library:** Offers implementations for derivative calculation, range generation, and a wide array of plotting functions such as Fibonacci spiral, combined sine-cosine, polar rose, star polygon, log-log, step function, grid plotting, and the newly added enhanced spiral plotting.
+- **Extended Function Library:** Offers implementations for derivative calculation, range generation, and a wide array of plotting functions such as Fibonacci spiral, combined sine-cosine, polar rose, star polygon, log-log, step function, grid plotting, and now polar heatmap visualization.
 
 ## New Features
 
 - **Enhanced Spiral Plot:** New flag `--plot-spiral-enhanced` to generate a spiral plot with rotation support.
 - **Fibonacci Spiral & Combined Sin-Cos Plotting**
 - **Circular Plotting:** Generate circular plots with the `--plot-circle` flag.
-- **Advanced Visualizations:** Polar Rose (`--plot-polarrose`), Star Polygon (`--plot-starpolygon`), Lemniscate (`--lemniscate`), Log-Log (`--plot-loglog`), Step Function (`--plot-step`), and Grid Plot (`--plot-grid`).
+- **Advanced Visualizations:** Polar Rose (`--plot-polarrose`), Star Polygon (`--plot-starpolygon`), Lemniscate (`--lemniscate`), Log-Log (`--plot-loglog`), Step Function (`--plot-step`), Grid Plot (`--plot-grid`), and the newly added Polar Heatmap (`--plot-polar-heatmap`).
 - **Data Analysis:** New functions movingSumReal and plotCubicBezierReal enhance data analytics and visualization.
 - **Reset Functionality:** Use the `--reset` flag to restore override hooks to default settings.
-- **Improved Testability:** Expanded test coverage, including the new enhanced spiral plot feature, and simulation of external modules for a robust development cycle.
+- **Improved Testability:** Expanded test coverage, including tests for the new enhanced spiral plot and polar heatmap features.
 
 ## Installation
 
@@ -61,7 +61,7 @@ Other available commands:
   Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific outputs.
 
 - **Advanced Visualizations:**
-  Explore features like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, and `--plot-grid`.
+  Explore features like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, and the new `--plot-polar-heatmap`.
 
 - **Reset Functionality:**
   ```bash
@@ -77,8 +77,9 @@ Other available commands:
 
 ## Changelog
 
-- **0.7.86 (Latest):**
+- **0.7.87 (Latest):**
   - Extended functionalities with an enhanced spiral plot (`--plot-spiral-enhanced` flag) that supports rotation.
+  - Added new Polar Heatmap feature (`--plot-polar-heatmap` flag) for visualizing heat intensity in polar coordinates.
   - Updated enhanced spiral plot output to be a single string for test consistency.
   - Added additional test coverage for new features.
   - Updated inline documentation and changelog to fully align with the CONTRIBUTING guidelines.
