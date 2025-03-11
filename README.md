@@ -6,7 +6,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, and power plots.
+- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, and custom enhanced plots.
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
 - **Interactive and Server Modes:** Utilize the CLI in interactive mode or launch an Express server for live demonstrations.
 - **Analytical Tools:** Features include derivative calculations, range generation, moving sum, and cubic Bezier curve plotting.
@@ -17,6 +17,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Polar Heatmap:** Visualize polar heat intensity with the `--plot-polar-heatmap` flag.
 - **Circular Plotting:** Generate circular plots using the `--plot-circle` flag.
 - **Power Plot:** Create power plots with customizable parameters using the `--power-plot` flag.
+- **Custom Enhanced Plot:** Combine basic custom plots with additional enhancements using the `--plot-custom-enhanced` flag.
 - **Additional Analytics:** Extended function library including moving sum calculations and cubic Bezier curves.
 
 ## Installation
@@ -52,7 +53,7 @@ Other commands include:
   node src/lib/main.js --serve
   ```
 - **Plot/Export Flags:** Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., for specific outputs.
-- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, `--plot-polar-heatmap`, and `--power-plot`.
+- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, `--plot-polar-heatmap`, `--power-plot`, and `--plot-custom-enhanced`.
 - **Reset Overrides:**
   ```bash
   node src/lib/main.js --reset
@@ -65,10 +66,10 @@ Other commands include:
 
 ## Changelog
 
-- **0.7.88 (Latest):**
-  - Refreshed README and inline documentation in line with CONTRIBUTING guidelines.
-  - Extended functionalities with enhanced spiral plots (with rotation support), new polar heatmap feature, and new power plot functionality.
-  - Improved error handling and comprehensive test coverage.
+- **0.7.89 (Latest):**
+  - Extended functionalities with the addition of custom enhanced plots and additional debug capabilities.
+  - Enhanced error handling and comprehensive inline documentation.
+  - Updated changelog and README in line with CONTRIBUTING guidelines.
 
 ## Contributing
 

@@ -49,7 +49,8 @@ import {
   plotStepFunctionReal,
   plotCubicBezierReal,
   plotPolarHeatmapReal,
-  plotPowerPlotReal
+  plotPowerPlotReal,
+  plotCustomEnhancedReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -186,6 +187,16 @@ describe('--power-plot flag functionality', () => {
     const spy = vi.spyOn(console, 'log');
     await main();
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (real):'));
+  });
+});
+
+
+describe('--plot-custom-enhanced flag functionality', () => {
+  test('should print Custom Enhanced Plot Output', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--plot-custom-enhanced'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Custom Enhanced Plot Output:'));
   });
 });
 
