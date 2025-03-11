@@ -5,11 +5,10 @@
 // Changelog:
 // - Refreshed inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
-// - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
-// - Added new extended plotting function: plotComplexFunctionReal for combined function visualizations.
-// - Aligned code with mission statement by pruning legacy drift and ensuring clarity of internal documentation and modular structure.
-// - Enhanced test coverage by simulating fallback interactive mode and tighter error reporting, ensuring near 100% coverage in tests.
-// - [README Update] Refreshed documentation to align with CONTRIBUTING.md guidelines.
+// - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), and complex combined plot (plotComplexFunctionReal).
+// - Extended functions updated to align with the mission statement. Legacy code drift pruned and improved modular structure implemented.
+// - Enhanced internal logging, error reporting, and test coverage strategies.
+// - New function: plotCumulativeProductReal added for cumulative product visualization.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -130,7 +129,9 @@ export async function main(argsInput) {
       // Newly Added Detailed Sine-Cosine Plot Function
       'plotSineCosineDetailedReal',
       // Newly Added Complex Combined Function
-      'plotComplexFunctionReal'
+      'plotComplexFunctionReal',
+      // Newly Added Cumulative Product Function
+      'plotCumulativeProductReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     // Continue execution after debug output
@@ -207,7 +208,6 @@ export async function main(argsInput) {
   // -------------------- Detailed Sine & Cosine Plot Mode --------------------
   if (args.includes('--plot-detailed')) {
     const detailed = plotSineCosineDetailedReal();
-    // Concatenate the output into a single string for consistent logging format
     console.log('Detailed Sine & Cosine Plot Output: ' + JSON.stringify(detailed));
     return;
   }
@@ -470,6 +470,14 @@ export async function main(argsInput) {
   if (args.includes('--plot-complex')) {
     const complexPlot = plotComplexFunctionReal(0, 10, 1);
     console.log('Complex Function Plot Output:', complexPlot);
+    return;
+  }
+
+  // -------------------- New: Cumulative Product Plot --------------------
+  if (args.includes('--plot-cumprod')) {
+    const data = [1, 2, 3, 4];
+    const cumprod = plotCumulativeProductReal(data);
+    console.log('Cumulative Product Plot Output:', cumprod);
     return;
   }
 

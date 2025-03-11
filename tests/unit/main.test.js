@@ -623,6 +623,14 @@ describe('Extended Functions Full Coverage', () => {
     });
   });
 
+  describe('New function: plotCumulativeProductReal', () => {
+    test('calculates cumulative product correctly', () => {
+      const data = [2, 3, 4];
+      const result = plotCumulativeProductReal(data);
+      expect(result).toEqual([2, 6, 24]);
+    });
+  });
+
   describe('Unknown Flag Handling', () => {
     test('should show help when an unknown flag is passed', async () => {
       process.argv = ['node', 'src/lib/main.js', '--unknown-flag'];
