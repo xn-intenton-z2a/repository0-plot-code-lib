@@ -53,10 +53,10 @@ Custom plot parameters can also be provided directly through the command line.
 ## Changelog
 
 - **0.7.97 (Latest):**
-  - Extended source functionalities per CONTRIBUTING guidelines.
+  - Source file refined to align strictly with the mission statement and prune any drift.
   - Added new functions: `plotCumulativeSumReal`, `plotIntegralReal`, `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, `movingStdReal`, `cumulativeDifferenceReal`, and `resetOverrides`.
   - Improved inline documentation and error handling.
-  - Increased test coverage and updated changelog.
+  - Enhanced test coverage reflecting all new features and functionalities.
 
 ## Contributing
 

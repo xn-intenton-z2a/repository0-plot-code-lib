@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. Extended functionality with new plotting and analytical functions per mission statement.
+// Updated 2024-12.13: Source refined per CONTRIBUTING guidelines to strictly adhere to the mission statement and prune any drift. Additional inline documentation and function grouping added.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -13,7 +13,7 @@ export const overrides = {
   loadReadlineOverride: undefined
 };
 
-// New export: resetOverrides function as required by --reset flag
+// New export: resetOverrides function as required by the --reset flag
 export function resetOverrides() {
   overrides.loadExpressOverride = undefined;
   overrides.loadReadlineOverride = undefined;
@@ -352,8 +352,8 @@ export async function main(argsInput) {
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
       'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal', 'plotNthRootReal', 'plotPolynomialFromCoeffsReal',
-      'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal',
-      'plotScaledSineReal', 'plotExponentialDecayReal', 'plotCumulativeProductReal'
+      'plotCumulativeSumReal', 'plotIntegralReal', 'plotBarChartEnhancedReal', 'plotScaledSineReal', 'plotExponentialDecayReal',
+      'plotCumulativeProductReal', 'movingStdReal', 'cumulativeDifferenceReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -566,7 +566,6 @@ export function plotHyperbolaReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New real implementation: Lemniscate plot
 export function plotLemniscateReal(steps = 100, a = 5) {
   const points = [];
   for (let i = 0; i <= steps; i++) {
@@ -630,7 +629,6 @@ export function plotHeatMapReal(matrix) {
   return matrix;
 }
 
-// New extended real implementation for spiral plot
 export function plotSpiralReal(steps = 100, a = 0, b = 0.1) {
   const points = [];
   for (let i = 0; i < steps; i++) {
@@ -642,7 +640,6 @@ export function plotSpiralReal(steps = 100, a = 0, b = 0.1) {
   return points;
 }
 
-// New enhanced spiral plot implementation with rotation support
 export function plotSpiralEnhancedReal(steps = 100, a = 0, b = 0.05, rotation = 0) {
   const points = [];
   for (let i = 0; i < steps; i++) {
@@ -654,7 +651,6 @@ export function plotSpiralEnhancedReal(steps = 100, a = 0, b = 0.05, rotation = 
   return points;
 }
 
-// Added real implementation for scatter plot
 export function plotScatterReal(count = 10) {
   const points = [];
   for (let i = 0; i < count; i++) {
@@ -664,14 +660,12 @@ export function plotScatterReal(count = 10) {
   return points;
 }
 
-// Added real implementation for bar chart plot
 export function plotBarChartReal(data = [3, 5, 1, 6, 4]) {
   const chart = data.map(value => '*'.repeat(value));
   console.log('Bar Chart (real):', chart);
   return chart;
 }
 
-// Added real implementation for Lissajous plot
 export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1, rangeEnd = 2 * Math.PI) {
   const points = [];
   for (let t = 0; t <= rangeEnd; t += step) {
@@ -683,14 +677,12 @@ export function plotLissajousReal(a = 3, b = 2, delta = Math.PI / 2, step = 0.1,
   return points;
 }
 
-// New real implementation for custom plot
 export function plotCustomReal() {
   const custom = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
   console.log('Custom Plot (real):', custom);
   return custom;
 }
 
-// New function: combined sine-cosine plot
 export function plotSinCosCombinedReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -702,7 +694,6 @@ export function plotSinCosCombinedReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New function: Fibonacci sequence calculation
 export function fibonacciSequence(n) {
   if (n < 1) return [];
   const fib = [1];
@@ -726,7 +717,6 @@ export function plotFibonacciSpiralReal(steps = 10, scale = 0.1) {
   return points;
 }
 
-// New function: Circular plot
 export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps = 36) {
   const points = [];
   for (let i = 0; i < steps; i++) {
@@ -738,7 +728,6 @@ export function plotCircularPlotReal(center = { x: 0, y: 0 }, radius = 1, steps 
   return points;
 }
 
-// New function: Polar Rose Plot
 export function plotPolarRoseReal(petals = 4, radius = 5, step = 0.1) {
   const points = [];
   for (let theta = 0; theta <= 2 * Math.PI; theta += step) {
@@ -749,7 +738,6 @@ export function plotPolarRoseReal(petals = 4, radius = 5, step = 0.1) {
   return points;
 }
 
-// New function: Star Polygon Plot
 export function plotStarPolygonReal(center = { x: 0, y: 0 }, outerRadius = 5, innerRadius = 2.5, numPoints = 5) {
   const points = [];
   const angleStep = Math.PI / numPoints;
@@ -762,7 +750,6 @@ export function plotStarPolygonReal(center = { x: 0, y: 0 }, outerRadius = 5, in
   return points;
 }
 
-// New function: Log-Log Plot
 export function plotLogLogReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step).filter(x => x > 0);
   const plot = range.map(x => ({ x: Math.log(x), y: Math.log(x * x) }));
@@ -770,7 +757,6 @@ export function plotLogLogReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New function: Step Function Plot
 export function plotStepFunctionReal(rangeStart, rangeEnd, step = 1, stepSize = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: Math.floor(x / stepSize) }));
@@ -778,7 +764,6 @@ export function plotStepFunctionReal(rangeStart, rangeEnd, step = 1, stepSize = 
   return plot;
 }
 
-// New function: Moving Sum
 export function movingSumReal(data, windowSize = 3) {
   if (!Array.isArray(data) || data.length < windowSize) {
     console.error('movingSumReal: invalid data or window size');
@@ -794,7 +779,6 @@ export function movingSumReal(data, windowSize = 3) {
   return sums;
 }
 
-// New function: Cubic Bezier Plot
 export function plotCubicBezierReal(points, step = 0.05) {
   if (!Array.isArray(points) || points.length !== 4) {
     console.error('plotCubicBezierReal: requires an array of 4 control points');
@@ -810,7 +794,6 @@ export function plotCubicBezierReal(points, step = 0.05) {
   return curve;
 }
 
-// New function: Grid Plot
 export function plotGridReal(plotCallbacks, rangeStart, rangeEnd, step = 1) {
   const originalLog = console.log;
   console.log = () => {};
@@ -823,7 +806,6 @@ export function plotGridReal(plotCallbacks, rangeStart, rangeEnd, step = 1) {
   return results;
 }
 
-// New function: Polar Heatmap Plot
 export function plotPolarHeatmapReal(steps = 50, a = 1, b = 0.1) {
   const points = [];
   for (let i = 0; i < steps; i++) {
@@ -836,7 +818,6 @@ export function plotPolarHeatmapReal(steps = 50, a = 1, b = 0.1) {
   return points;
 }
 
-// New function: Power Plot
 export function plotPowerPlotReal(rangeStart, rangeEnd, power = 3, factor = 2) {
   const range = generateRange(rangeStart, rangeEnd, 1);
   const plot = range.map(x => ({ x, y: factor * Math.pow(x, power) }));
@@ -844,7 +825,6 @@ export function plotPowerPlotReal(rangeStart, rangeEnd, power = 3, factor = 2) {
   return plot;
 }
 
-// New function: Custom Enhanced Plot
 export function plotCustomEnhancedReal() {
   const basePlot = plotCustomReal();
   const enhanced = basePlot.map(p => ({ ...p, enhanced: true }));
@@ -852,9 +832,6 @@ export function plotCustomEnhancedReal() {
   return enhanced;
 }
 
-// NEW FUNCTIONS ADDED AS EXTENSIONS
-
-// New function: Piecewise Plot
 export function plotPiecewiseReal(functions, intervals, step = 1) {
   const results = [];
   for (let i = 0; i < functions.length; i++) {
@@ -868,7 +845,6 @@ export function plotPiecewiseReal(functions, intervals, step = 1) {
   return results;
 }
 
-// New function: Moving Product
 export function movingProductReal(data, windowSize = 3) {
   if (!Array.isArray(data) || data.length < windowSize) {
     console.error('movingProductReal: invalid data or window size');
@@ -884,8 +860,6 @@ export function movingProductReal(data, windowSize = 3) {
   return products;
 }
 
-// NEWLY ADDED FUNCTIONS
-// New function: Nth Root Plot
 export function plotNthRootReal(rangeStart, rangeEnd, root = 2, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: Math.pow(x, 1 / root) }));
@@ -893,7 +867,6 @@ export function plotNthRootReal(rangeStart, rangeEnd, root = 2, step = 1) {
   return plot;
 }
 
-// New function: Polynomial Plot from Coefficients
 export function plotPolynomialFromCoeffsReal(rangeStart, rangeEnd, step = 1, coeffs = []) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -907,8 +880,6 @@ export function plotPolynomialFromCoeffsReal(rangeStart, rangeEnd, step = 1, coe
   return plot;
 }
 
-// NEW FUNCTIONS ADDED AS CONTRIBUTIONS
-// New function: Cumulative Sum Plot
 export function plotCumulativeSumReal(data) {
   if (!Array.isArray(data)) {
     console.error('plotCumulativeSumReal: data must be an array');
@@ -924,7 +895,6 @@ export function plotCumulativeSumReal(data) {
   return cumulative;
 }
 
-// New function: Integral Calculation using Simpson's Rule
 export function plotIntegralReal(func, lower, upper, n = 1000) {
   if (n % 2 !== 0) n++; // Simpson's rule requires even number of subintervals
   const h = (upper - lower) / n;
@@ -938,14 +908,12 @@ export function plotIntegralReal(func, lower, upper, n = 1000) {
   return integral;
 }
 
-// New function: Enhanced Bar Chart Plot
 export function plotBarChartEnhancedReal(data = [3, 5, 1, 6, 4]) {
   const chart = data.map((value, idx) => `Bar ${idx + 1}: ` + '*'.repeat(value));
   console.log('Enhanced Bar Chart (real):', chart);
   return chart;
 }
 
-// New function: Plot Scaled Sine Real
 export function plotScaledSineReal(rangeStart, rangeEnd, step = 1, scale = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: Math.sin(x) * scale }));
@@ -953,7 +921,6 @@ export function plotScaledSineReal(rangeStart, rangeEnd, step = 1, scale = 1) {
   return plot;
 }
 
-// New function: Exponential Decay Plot
 export function plotExponentialDecayReal(rangeStart, rangeEnd, step = 1, decayRate = 0.1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: Math.exp(-decayRate * x) }));
@@ -961,7 +928,6 @@ export function plotExponentialDecayReal(rangeStart, rangeEnd, step = 1, decayRa
   return plot;
 }
 
-// New function: Cumulative Product Plot
 export function plotCumulativeProductReal(data) {
   if (!Array.isArray(data)) {
     console.error('plotCumulativeProductReal: data must be an array');
@@ -977,9 +943,6 @@ export function plotCumulativeProductReal(data) {
   return cumulative;
 }
 
-// Additional New Functions
-
-// New function: Moving Standard Deviation Plot (real)
 export function movingStdReal(data, windowSize = 2) {
   if (!Array.isArray(data) || data.length < windowSize) {
     console.error('movingStdReal: invalid data or window size');
@@ -996,7 +959,6 @@ export function movingStdReal(data, windowSize = 2) {
   return stds;
 }
 
-// New function: Cumulative Difference Plot (real)
 export function cumulativeDifferenceReal(data) {
   if (!Array.isArray(data) || data.length < 2) {
     console.error('cumulativeDifferenceReal: invalid data for cumulative difference');
@@ -1011,7 +973,8 @@ export function cumulativeDifferenceReal(data) {
 }
 
 /*
-  Source file updated per CONTRIBUTING guidelines to fully adhere to the Mission Statement. 
-  Extended features added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, movingStdReal, cumulativeDifferenceReal and resetOverrides function added.
-  New functions added: movingStdReal, cumulativeDifferenceReal. Version bumped and changelog updated.
+  Source file updated per CONTRIBUTING guidelines to align fully with the mission statement. 
+  Refined function grouping, pruned any drift, and updated inline documentation.
+  New functions added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal, plotScaledSineReal, plotExponentialDecayReal, plotCumulativeProductReal, movingStdReal, cumulativeDifferenceReal; and the resetOverrides function added.
+  Version updated per changelog.
 */

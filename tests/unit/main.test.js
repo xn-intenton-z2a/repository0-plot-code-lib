@@ -293,7 +293,6 @@ describe('Newly Added Functions', () => {
     expect(result[1]).toMatch(/Bar 2:/);
   });
 
-  // Tests for newly extended functions
   test('plotScaledSineReal returns scaled sine values', () => {
     const result = plotScaledSineReal(0, Math.PI, Math.PI/2, 2);
     expect(result[0].y).toBeCloseTo(0);
