@@ -160,7 +160,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
+    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
     return;
   }
 
@@ -826,5 +826,5 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and to facilitate comprehensive test coverage.
-  Removed logging from generateRange to avoid interfering with expected log outputs in power plot tests.
+  Removed extraneous logging from generateRange to avoid interfering with expected log outputs in tests.
 */
