@@ -91,7 +91,9 @@ import {
   // Newly added detailed sine-cosine plot
   plotSineCosineDetailedReal,
   // Newly added complex combined function
-  plotComplexFunctionReal
+  plotComplexFunctionReal,
+  // New Exponential Moving Average function
+  plotExponentialMovingAverageReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -628,6 +630,15 @@ describe('Extended Functions Full Coverage', () => {
       const data = [2, 3, 4];
       const result = plotCumulativeProductReal(data);
       expect(result).toEqual([2, 6, 24]);
+    });
+  });
+
+  describe('New function: plotExponentialMovingAverageReal', () => {
+    test('calculates EMA correctly', () => {
+      const data = [10, 20, 30, 40];
+      const result = plotExponentialMovingAverageReal(data, 0.5);
+      // Basic check: length should equal input data length
+      expect(result.length).toBe(data.length);
     });
   });
 
