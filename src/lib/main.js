@@ -371,7 +371,6 @@ export function calculateDerivative(expr, variable, value) {
   try {
     const derivative = math.derivative(expr, variable);
     const derivativeValue = derivative.evaluate({ [variable]: value });
-    console.log(`Derivative of ${expr} at ${variable}=${value}:`, derivativeValue);
     return derivativeValue;
   } catch (e) {
     console.error('Error calculating derivative:', e);
@@ -857,7 +856,7 @@ export function plotPiecewiseReal(functions, intervals, step = 1) {
       results.push({ x, y: f(x) });
     }
   }
-  console.log('Piecewise Plot (real):', results);
+  console.log('Piecewise Plot Output:', results);
   return results;
 }
 
@@ -886,6 +885,6 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to ensure consistent error handling and comprehensive test coverage.
-  Inline documentation and changelog sections have been refreshed to reflect recent feature enhancements including custom enhanced plots, new piecewise and moving product plot functions, derivative plotting functionality, and additional debug information.
+  Removed extra logging in calculateDerivative and adjusted log message in plotPiecewiseReal to meet test expectations.
   Version updated to 0.7.91.
 */
