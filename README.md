@@ -6,7 +6,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, custom enhanced plots, and new functions for piecewise plotting, moving product calculations, and derivative plotting.
+- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, custom enhanced plots, and new functions for piecewise plotting, moving product calculations, derivative plotting, as well as advanced polynomial and nth root plotting.
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
 - **Interactive and Server Modes:** Utilize the CLI in interactive mode or launch an Express server for live demonstrations.
 - **Analytical Tools:** Features include derivative calculations, range generation, moving sum, cubic Bezier curves, and more.
@@ -21,6 +21,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Piecewise Plot:** Plot piecewise functions using the new `plotPiecewiseReal` function and `--plot-piecewise` flag.
 - **Moving Product:** Calculate the moving product of a data set with the `movingProductReal` function.
 - **Derivative Plot:** Calculate and display the derivative of a given function using the `--plot-derivative` flag.
+- **Advanced Polynomial and Nth Root Plots:** New functions `plotPolynomialFromCoeffsReal` and `plotNthRootReal` allow advanced polynomial evaluations and nth root plotting, extending the library's versatility.
 - **Additional Analytics:** Extended function library including moving sum calculations, cubic Bezier curves, and more.
 
 ## Installation
@@ -69,12 +70,10 @@ Other commands include:
 
 ## Changelog
 
-- **0.7.91 (Latest):**
-  - Extended functionalities with the addition of derivative plotting and piecewise plotting features.
-  - Added new CLI flags: `--plot-piecewise` and `--plot-derivative`.
-  - Adjusted logging to output single concatenated string for piecewise and derivative plots to ensure test compatibility.
-  - Introduced enhanced error handling and comprehensive inline documentation updates.
-  - Updated test coverage and refreshed contribution guidelines in line with CONTRIBUTING.md.
+- **0.7.92 (Latest):**
+  - Extended functionalities with the addition of derivative plotting, piecewise plotting, and new advanced functions: `plotNthRootReal` and `plotPolynomialFromCoeffsReal`.
+  - Added new CLI flags and updated inline documentation to adhere to the CONTRIBUTING guidelines.
+  - Improved error handling and extended test coverage.
 
 ## Contributing
 
