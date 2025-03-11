@@ -42,6 +42,8 @@
 <li class="md-github"><strong class="md-github">Advanced Polynomial &amp; Nth Root Plots:</strong> New functions <code class="md-github">plotPolynomialFromCoeffsReal</code> and <code class="md-github">plotNthRootReal</code> extend the library's capabilities.</li>
 <li class="md-github"><strong class="md-github">Additional Analytical Functions:</strong> Newly added functions include <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code> (using Simpson's rule), <code class="md-github">plotBarChartEnhancedReal</code>, <strong class="md-github">plotScaledSineReal</strong>, <strong class="md-github">plotExponentialDecayReal</strong>, <strong class="md-github">plotCumulativeProductReal</strong>, <strong class="md-github">movingStdReal</strong>, and <strong class="md-github">cumulativeDifferenceReal</strong> for extended visualization and analysis.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> New <code class="md-github">resetOverrides</code> function is provided to reset module overrides.</li>
+<li class="md-github"><strong class="md-github">Improved Error Handling:</strong> Module loader functions now wrap errors from overrides to provide clear feedback (e.g. 'Failed to load express: module not found').</li>
+<li class="md-github"><strong class="md-github">Improved Test Coverage:</strong> Additional tests now cover module loader error handling and ensure near 100% test coverage, in line with CONTRIBUTING guidelines.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js v20 or higher</p>
@@ -70,7 +72,8 @@
 <li class="md-github">Grouped functions into CLI, analytical, and plotting sections for clarity.</li>
 <li class="md-github">Pruned any drift and improved inline documentation.</li>
 <li class="md-github">Added new functions: <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code>, <code class="md-github">plotBarChartEnhancedReal</code>, <code class="md-github">plotScaledSineReal</code>, <code class="md-github">plotExponentialDecayReal</code>, <code class="md-github">plotCumulativeProductReal</code>, <code class="md-github">movingStdReal</code>, <code class="md-github">cumulativeDifferenceReal</code>, and <code class="md-github">resetOverrides</code>.</li>
-<li class="md-github">Enhanced test coverage reflecting all new features and functionalities.</li>
+<li class="md-github">Improved error handling in module loaders to wrap override errors.</li>
+<li class="md-github">Improved test coverage with additional tests for error handling in module loaders.</li>
 </ul>
 </li>
 </ul>
@@ -86,7 +89,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T13:51:46.260Z</p>
+    <p>Generated on 2025-03-11T13:59:55.107Z</p>
   </footer>
 </body>
 </html>
