@@ -6,6 +6,7 @@
 // - Refreshed inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
+// - Added new extended plotting function: plotComplexFunctionReal for combined function visualizations.
 // - Aligned code with mission statement by pruning legacy drift and ensuring clarity of internal documentation and modular structure.
 // - Enhanced test coverage and added branches to support unknown flag handling and debug logging.
 // - [README Update] Refreshed documentation to align with CONTRIBUTING.md guidelines.
@@ -127,7 +128,9 @@ export async function main(argsInput) {
       // Newly Added Custom Extensions
       'plotCustomFancyReal', 'plotInteractiveGuideReal',
       // Newly Added Detailed Sine-Cosine Plot Function
-      'plotSineCosineDetailedReal'
+      'plotSineCosineDetailedReal',
+      // Newly Added Complex Combined Function
+      'plotComplexFunctionReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     // Continue execution after debug output
@@ -440,6 +443,33 @@ export async function main(argsInput) {
   if (args.includes('--plot-stat-summary')) {
     const summary = plotStatisticalSummaryReal([1, 2, 3, 4, 5]);
     console.log('Statistical Summary: ' + JSON.stringify(summary));
+    return;
+  }
+
+  // Newly Added Inverse Function Feature
+  if (args.includes('--plot-inverse')) {
+    const inverse = plotInverseFunctionReal(1, 5, 1, x => x);
+    console.log('Inverse Function Plot Output: ' + JSON.stringify(inverse));
+    return;
+  }
+
+  // Newly Added Custom Extensions
+  if (args.includes('--plot-custom-fancy')) {
+    const customFancy = plotCustomFancyReal(0, 10, 1);
+    console.log('Custom Fancy Plot Output:', customFancy);
+    return;
+  }
+
+  if (args.includes('--interactive-guide')) {
+    const guide = plotInteractiveGuideReal();
+    console.log('Interactive Guide Output:', guide);
+    return;
+  }
+
+  // Newly Added Complex Combined Function Feature
+  if (args.includes('--plot-complex')) {
+    const complexPlot = plotComplexFunctionReal(0, 10, 1);
+    console.log('Complex Function Plot Output:', complexPlot);
     return;
   }
 
@@ -1241,5 +1271,17 @@ export function plotSineCosineDetailedReal(rangeStart = 0, rangeEnd = Math.PI, s
     const cosine = Math.cos(x);
     return { x, sine, cosine, average: (sine + cosine) / 2, diff: sine - cosine };
   });
+  return plot;
+}
+
+// -------------------- Newly Added Complex Combined Function --------------------
+// New function: Complex Combined Plot that blends multiple mathematical operations for advanced visualization
+export function plotComplexFunctionReal(rangeStart, rangeEnd, step = 1) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({
+    x,
+    y: (Math.sin(x) + Math.cos(x)) * Math.tanh(x)
+  }));
+  console.log('Complex Function Plot (real):', plot);
   return plot;
 }
