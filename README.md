@@ -16,7 +16,7 @@ repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze m
   - **Fibonacci Spiral, Combined Sin-Cos Plotting**
   - **Circular Plotting (--plot-circle)**
   - **Advanced Visualizations:** Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), and Lemniscate (--lemniscate) plotting functions.
-  - **New:** Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step) plotting functions.
+  - **New:** Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step).
   - **Reset Functionality:** New --reset flag to restore override hooks to their default state.
   - **Enhanced Testability:** Improved test coverage with mocks for interactive and server modes.
 
@@ -80,10 +80,10 @@ Other available commands:
   - Extended functionalities with new spiral, circular, and custom plotting features.
   - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
   - Introduced new circular plotting with flag --plot-circle.
-  - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and reset functionality (--reset).
-  - Pruned legacy drift by removing outdated stub functions.
+  - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), and Step Function Plot (--plot-step).
+  - Pruned legacy stub implementations to better align with our mission statement.
   - **TEST:** Improved test coverage by adding tests for interactive, server, and reset functionalities.
-  - **REFRESH:** Updated README to reflect changes and the updated CONTRIBUTING guidelines.
+  - **REFRESH:** Updated documentation and changelog in accordance with updated CONTRIBUTING guidelines.
 
 ## Contributing
 
