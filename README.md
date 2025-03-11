@@ -11,8 +11,7 @@ This tool provides a robust CLI with multiple modes including interactive, serve
 - Initial implementation with basic and extended plotting functions.
 - Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
-- Aligned internal documentation and code structure with the mission statement, pruning legacy drift and ensuring clarity of implementation.
-- Enhanced test coverage with additional tests for unknown flags and extended debug functionality.
+- **Updated README** to align with CONTRIBUTING.md guidelines and prune outdated content.
 
 ## Key Features
 
@@ -71,9 +70,12 @@ npm test
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Report bugs, suggest improvements, or propose new features by opening an issue in the repository.
-2. **Label as `automated`:** This triggers our automated workflow.
-3. **Submit a Pull Request:** Include detailed commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
+1. **Open an Issue:**
+   Describe bugs, suggest improvements, or propose new features by opening an issue in the repository.
+2. **Label as `automated`:**
+   This triggers our automated workflow.
+3. **Submit a Pull Request:**
+   Include detailed commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
 ## License
 
