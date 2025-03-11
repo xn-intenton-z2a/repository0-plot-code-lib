@@ -6,10 +6,10 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, custom enhanced plots, and new functions for piecewise plotting and moving product calculations.
+- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, custom enhanced plots, and new functions for piecewise plotting, moving product calculations, and derivative plotting.
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
 - **Interactive and Server Modes:** Utilize the CLI in interactive mode or launch an Express server for live demonstrations.
-- **Analytical Tools:** Features include derivative calculations, range generation, moving sum, and cubic Bezier curve plotting.
+- **Analytical Tools:** Features include derivative calculations, range generation, moving sum, cubic Bezier curves, and more.
 
 ## New Features
 
@@ -18,9 +18,10 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Circular Plotting:** Generate circular plots using the `--plot-circle` flag.
 - **Power Plot:** Create power plots with customizable parameters using the `--power-plot` flag.
 - **Custom Enhanced Plot:** Combine basic custom plots with additional enhancements using the `--plot-custom-enhanced` flag.
-- **Piecewise Plot:** Plot piecewise functions using the new `plotPiecewiseReal` function.
+- **Piecewise Plot:** Plot piecewise functions using the new `plotPiecewiseReal` function and `--plot-piecewise` flag.
 - **Moving Product:** Calculate the moving product of a data set with the `movingProductReal` function.
-- **Additional Analytics:** Extended function library including moving sum calculations and cubic Bezier curves.
+- **Derivative Plot:** Calculate and display the derivative of a given function using the `--plot-derivative` flag.
+- **Additional Analytics:** Extended function library including moving sum calculations, cubic Bezier curves, and more.
 
 ## Installation
 
@@ -55,7 +56,7 @@ Other commands include:
   node src/lib/main.js --serve
   ```
 - **Plot/Export Flags:** Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., for specific outputs.
-- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, `--plot-polar-heatmap`, `--power-plot`, and `--plot-custom-enhanced`.
+- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, `--plot-polar-heatmap`, `--power-plot`, `--plot-custom-enhanced`, `--plot-piecewise`, and `--plot-derivative`.
 - **Reset Overrides:**
   ```bash
   node src/lib/main.js --reset
@@ -68,10 +69,12 @@ Other commands include:
 
 ## Changelog
 
-- **0.7.90 (Latest):**
-  - Extended functionalities with the addition of custom enhanced plots, new piecewise plot and moving product functions, and additional debug capabilities.
-  - Enhanced error handling and comprehensive inline documentation.
-  - Updated changelog and README in line with CONTRIBUTING guidelines.
+- **0.7.91 (Latest):**
+  - Extended functionalities with the addition of derivative plotting and piecewise plotting features.
+  - Added new CLI flags: `--plot-piecewise` and `--plot-derivative`.
+  - Adjusted logging to output single concatenated string for piecewise and derivative plots to ensure test compatibility.
+  - Introduced enhanced error handling and comprehensive inline documentation updates.
+  - Updated test coverage and refreshed contribution guidelines in line with CONTRIBUTING.md.
 
 ## Contributing
 
