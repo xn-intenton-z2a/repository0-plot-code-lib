@@ -1,28 +1,24 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission remains:
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is:
 
 "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a variety of plots for functions such as sine, cosine, exponential, logarithmic, quadratic, linear, and tangent. Advanced visualizations include enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, custom enhanced plots, and new functions for piecewise plotting, moving product calculations, derivative plotting, as well as advanced polynomial and nth root plotting.
-- **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
-- **Interactive and Server Modes:** Utilize the CLI in interactive mode or launch an Express server for live demonstrations.
-- **Analytical Tools:** Features include derivative calculations, range generation, moving sum, cubic Bezier curves, and more.
+- **Mathematical Plotting:** Generate a variety of plots including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and advanced visualizations such as enhanced spiral plots (with rotation support), polar heatmaps, circular plots, power plots, custom enhanced plots, piecewise plotting, moving product calculations, derivative plotting, advanced polynomial plotting, and nth root plotting.
+- **Multiple Output Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R. (PNG output remains a stub implementation.)
+- **Interactive & Server Modes:** Use interactive mode or launch an Express server for live demos.
+- **Analytical Tools:** Built-in functions for derivative calculation, range generation, moving sum, cubic Bezier curves, among others.
 
 ## New Features
 
-- **Enhanced Spiral Plot:** Use the `--plot-spiral-enhanced` flag for spiral plots with rotation support.
-- **Polar Heatmap:** Visualize polar heat intensity with the `--plot-polar-heatmap` flag.
-- **Circular Plotting:** Generate circular plots using the `--plot-circle` flag.
-- **Power Plot:** Create power plots with customizable parameters using the `--power-plot` flag.
-- **Custom Enhanced Plot:** Combine basic custom plots with additional enhancements using the `--plot-custom-enhanced` flag.
-- **Piecewise Plot:** Plot piecewise functions using the new `plotPiecewiseReal` function and `--plot-piecewise` flag.
-- **Moving Product:** Calculate the moving product of a data set with the `movingProductReal` function.
-- **Derivative Plot:** Calculate and display the derivative of a given function using the `--plot-derivative` flag.
-- **Advanced Polynomial and Nth Root Plots:** New functions `plotPolynomialFromCoeffsReal` and `plotNthRootReal` allow advanced polynomial evaluations and nth root plotting, extending the library's versatility.
-- **Additional Analytics:** Extended function library including moving sum calculations, cubic Bezier curves, and more.
+- **Enhanced Spiral Plot:** Use the `--plot-spiral-enhanced` flag to generate spiral plots with optional rotation.
+- **Polar Heatmap:** Visualize heat intensities on polar coordinates using `--plot-polar-heatmap`.
+- **Circular Plotting & Power Plot:** Generate circular plots and power plots with customizable parameters.
+- **Custom Enhanced & Piecewise Plots:** Combine base plots with enhancements and plot piecewise functions.
+- **Moving Product:** Calculate moving product over datasets.
+- **Derivative, Advanced Polynomial & Nth Root Plots:** New functions `plotPolynomialFromCoeffsReal` and `plotNthRootReal` extend the library's versatility.
 
 ## Installation
 
@@ -44,46 +40,31 @@ npm run start
 
 Other commands include:
 
-- **Diagnostics:**
-  ```bash
-  npm run diagnostics
-  ```
-- **Interactive Mode:**
-  ```bash
-  node src/lib/main.js --interactive
-  ```
-- **Web Server Mode:**
-  ```bash
-  node src/lib/main.js --serve
-  ```
-- **Plot/Export Flags:** Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., for specific outputs.
-- **Advanced Visualizations:** Try flags such as `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-spiral-enhanced`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, `--plot-grid`, `--plot-polar-heatmap`, `--power-plot`, `--plot-custom-enhanced`, `--plot-piecewise`, and `--plot-derivative`.
-- **Reset Overrides:**
-  ```bash
-  node src/lib/main.js --reset
-  ```
-- **Debug Mode:**
-  ```bash
-  node src/lib/main.js --debug
-  ```
-- **Custom Parameters:** Provide custom plot parameters directly as command-line arguments.
+- **Diagnostics:** `npm run diagnostics`
+- **Interactive Mode:** `node src/lib/main.js --interactive`
+- **Web Server Mode:** `node src/lib/main.js --serve`
+- **Various Plot/Export Options:** Use flags such as `--plot-abs`, `--export-csv`, `--plot-fibonacci`, `--plot-sincos`, `--power-plot`, etc., for specific outputs.
+- **Reset Overrides:** `node src/lib/main.js --reset`
+- **Debug Mode:** `node src/lib/main.js --debug`
+
+Provide custom plot parameters directly as command-line arguments if needed.
 
 ## Changelog
 
 - **0.7.92 (Latest):**
-  - Extended functionalities with the addition of derivative plotting, piecewise plotting, and new advanced functions: `plotNthRootReal` and `plotPolynomialFromCoeffsReal`.
-  - Added new CLI flags and updated inline documentation to adhere to the CONTRIBUTING guidelines.
-  - Improved error handling and extended test coverage.
+  - Extended functionalities with new functions for derivative, piecewise, moving product, advanced polynomial, and nth root plotting.
+  - README refreshed to align with the CONTRIBUTING guidelines.
+  - Enhanced inline documentation and improved error handling.
 
 ## Contributing
 
-We welcome your contributions! Please follow these steps:
+We welcome contributions! Follow these steps:
 
-1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
-2. **Review Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for our contribution process.
-3. **Submit a Pull Request:** Include clear commit messages and comprehensive tests.
+1. **Open an Issue:** Describe your idea, bug, or improvement.
+2. **Label as `automated`:** This triggers our automated workflow.
+3. **Submit a Pull Request:** Include clear commit messages and tests.
 
-Your involvement is key to building the definitive CLI plotting tool.
+For detailed guidelines, see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
