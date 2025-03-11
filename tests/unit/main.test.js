@@ -629,4 +629,13 @@ describe('Extended Functions Full Coverage', () => {
       expect(spy).toHaveBeenCalledWith(expect.stringContaining('Detailed Sine & Cosine Plot Output:'));
     });
   });
+
+  describe('Unknown Flag Handling', () => {
+    test('should show help when an unknown flag is passed', async () => {
+      process.argv = ['node', 'src/lib/main.js', '--unknown-flag'];
+      const spyWarn = vi.spyOn(console, 'warn');
+      await main();
+      expect(spyWarn).toHaveBeenCalledWith(expect.stringContaining('Unknown option(s): --unknown-flag'));
+    });
+  });
 });
