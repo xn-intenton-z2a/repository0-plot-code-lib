@@ -53,7 +53,6 @@ import {
   plotCustomEnhancedReal,
   plotPiecewiseReal,
   movingProductReal,
-
   // Newly added functions
   plotNthRootReal,
   plotPolynomialFromCoeffsReal,
@@ -65,13 +64,11 @@ import {
   plotCumulativeProductReal,
   movingStdReal,
   cumulativeDifferenceReal,
-
   // Advanced plotting functions
   plotBoxPlotReal,
   plotViolinPlotReal,
   loadExpress,
   loadReadline,
-
   // New features
   plotDampedOscillationReal,
   plotSpiralColoredReal,
@@ -83,16 +80,16 @@ import {
   plotModulatedSineReal,
   // Newly added statistical summary function
   plotStatisticalSummaryReal,
-
   // Newly added extended functions
   plotParametricReal,
   plotCumulativeAverageReal,
   // Newly added Inverse Function Feature
   plotInverseFunctionReal,
-
   // Newly added custom extensions
   plotCustomFancyReal,
-  plotInteractiveGuideReal
+  plotInteractiveGuideReal,
+  // Newly added detailed sine-cosine plot
+  plotSineCosineDetailedReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -621,6 +618,15 @@ describe('Extended Functions Full Coverage', () => {
       const result = plotInteractiveGuideReal();
       expect(typeof result).toBe('string');
       expect(result).toMatch(/interactive guide/i);
+    });
+  });
+
+  describe('--plot-detailed flag functionality', () => {
+    test('should print Detailed Sine & Cosine Plot Output', async () => {
+      process.argv = ['node', 'src/lib/main.js', '--plot-detailed'];
+      const spy = vi.spyOn(console, 'log');
+      await main();
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining('Detailed Sine & Cosine Plot Output:'));
     });
   });
 });

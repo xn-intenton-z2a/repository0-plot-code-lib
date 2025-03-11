@@ -5,8 +5,7 @@
 // Changelog:
 // - Refreshed inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
-// - Added new features: custom fancy plot and interactive guide output.
-// - Updated output formatting for harmonics, modulated sine, and statistical summary modes using JSON.stringify for consistency.
+// - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
 // - Aligned code with mission statement by pruning legacy drift and ensuring clarity of internal documentation and modular structure.
 
 import { fileURLToPath } from 'url';
@@ -61,7 +60,7 @@ export async function loadReadline() {
 
 // -------------------- Helper Functions --------------------
 function displayHelpMessage() {
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --reset\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --reset\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
 
@@ -77,7 +76,7 @@ export async function main(argsInput) {
 
   // Handle unknown options: if none of the recognized flags match, show help
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--reset'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--reset'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -164,6 +163,14 @@ export async function main(argsInput) {
       console.error('Error starting server:', err);
       return;
     }
+    return;
+  }
+
+  // -------------------- Detailed Sine & Cosine Plot Mode --------------------
+  if (args.includes('--plot-detailed')) {
+    const detailed = plotSineCosineDetailedReal();
+    // Concatenate the output into a single string for consistent logging format
+    console.log('Detailed Sine & Cosine Plot Output: ' + JSON.stringify(detailed));
     return;
   }
 
@@ -423,7 +430,7 @@ export async function main(argsInput) {
       'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
       'plotParametricReal', 'plotCumulativeAverageReal',
       'plotInverseFunctionReal',
-      'plotCustomFancyReal', 'plotInteractiveGuideReal'
+      'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -1156,7 +1163,7 @@ export function plotStatisticalSummaryReal(data) {
 }
 
 // -------------------- Newly Added Functions to Extend Functionality --------------------
-// New function: Parametric Plot for general parametric equations
+// New function: Parametric Plot
 export function plotParametricReal(tStart, tEnd, step = 0.1, xFunc = Math.cos, yFunc = Math.sin) {
   const result = [];
   for (let t = tStart; t <= tEnd; t += step) {
@@ -1166,7 +1173,7 @@ export function plotParametricReal(tStart, tEnd, step = 0.1, xFunc = Math.cos, y
   return result;
 }
 
-// New function: Cumulative Average Plot for data
+// New function: Cumulative Average Plot
 export function plotCumulativeAverageReal(data) {
   if (!Array.isArray(data) || data.length === 0) {
     console.error('plotCumulativeAverageReal: data must be a non-empty array');
@@ -1182,7 +1189,7 @@ export function plotCumulativeAverageReal(data) {
 }
 
 // -------------------- Newly Added Inverse Function Feature --------------------
-// New function: Plot Inverse Function for given function
+// New function: Plot Inverse Function
 export function plotInverseFunctionReal(rangeStart, rangeEnd, step = 1, func = Math.sin) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -1197,7 +1204,7 @@ export function plotInverseFunctionReal(rangeStart, rangeEnd, step = 1, func = M
 }
 
 // -------------------- Newly Added Custom Extensions --------------------
-// New function: Custom Fancy Plot, applying a mix of sine and cosine with styling
+// New function: Custom Fancy Plot
 export function plotCustomFancyReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({
@@ -1212,9 +1219,20 @@ export function plotCustomFancyReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// New function: Interactive Guide Output for CLI instructions
+// New function: Interactive Guide Output
 export function plotInteractiveGuideReal() {
-  const guide = "Welcome to the interactive guide. Use flags like --plot-fancy, --plot-custom-fancy, or --interactive-guide to explore advanced plotting options.";
+  const guide = "Welcome to the interactive guide. Use flags like --plot-fancy, --plot-custom-fancy, --plot-detailed, or --interactive-guide to explore advanced plotting options.";
   console.log('Interactive Guide (real):', guide);
   return guide;
+}
+
+// -------------------- Newly Added Detailed Sine-Cosine Plot Function --------------------
+export function plotSineCosineDetailedReal(rangeStart = 0, rangeEnd = Math.PI, step = 0.5) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => {
+    const sine = Math.sin(x);
+    const cosine = Math.cos(x);
+    return { x, sine, cosine, average: (sine + cosine) / 2, diff: sine - cosine };
+  });
+  return plot;
 }
