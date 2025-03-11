@@ -1,8 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.12: Extended functionalities with new spiral, circular, and custom plotting features, improved error handling in module loaders, enhanced testability, added Fibonacci spiral plotting, combined sine-cosine plotting, pruned legacy stub implementations, newly added log-log and step function plotting, additional extended functions, and new grid plotting functionality.
-// REFRESHED: Updated to align with the updated CONTRIBUTING guidelines and pruned any drift from the original mission statement.
+// Last Updated 2024-12.13: Extended functionalities with an enhanced spiral plot feature, improved error handling, extended contributions and updated inline documentation to align with the CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -35,7 +34,7 @@ export async function loadReadline() {
 
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: 'Be a go-to plot library with a CLI, be the jq of formulae visualisations.'\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // If no arguments are provided or help flag is specified, output demo/help message
   if (args.length === 0 || args.includes('--help')) {
@@ -250,6 +249,12 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-spiral-enhanced')) {
+    const enhanced = plotSpiralEnhancedReal();
+    console.log('Enhanced Spiral Plot Output:', enhanced);
+    return;
+  }
+
   if (args.includes('--plot-custom')) {
     const custom = plotCustomReal();
     console.log('Custom Plot Output:', custom);
@@ -307,8 +312,8 @@ export async function main(argsInput) {
       'plotHistogramReal', 'plotPolarReal', 'plotLogisticReal', 'movingAverageReal', 'plotSincReal',
       'calculateDefiniteIntegralReal', 'plotBezierReal', 'plotHyperbolaReal', 'plotLemniscateReal',
       'plotEllipseReal', 'plotCubicReal', 'movingMedianReal', 'plotGaussianReal', 'plotHeatMapReal',
-      'plotSpiralReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal', 'plotCustomReal',
-      'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
+      'plotSpiralReal', 'plotSpiralEnhancedReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal',
+      'plotCustomReal', 'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
       'movingSumReal', 'plotCubicBezierReal', 'plotGridReal'
     ];
@@ -599,6 +604,18 @@ export function plotSpiralReal(steps = 100, a = 0, b = 0.1) {
     points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta) });
   }
   console.log('Spiral Plot (real):', points);
+  return points;
+}
+
+// New enhanced spiral plot implementation with rotation support
+export function plotSpiralEnhancedReal(steps = 100, a = 0, b = 0.05, rotation = 0) {
+  const points = [];
+  for (let i = 0; i < steps; i++) {
+    const theta = i * (Math.PI / 15) + rotation;
+    const r = a + b * theta;
+    points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta) });
+  }
+  console.log('Enhanced Spiral Plot (real):', points);
   return points;
 }
 
