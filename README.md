@@ -11,7 +11,9 @@ This tool provides a robust CLI with multiple modes including interactive, serve
 - Initial implementation with basic and extended plotting functions.
 - Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), and complex combined plot (plotComplexFunctionReal).
-- Updated README to align with CONTRIBUTING.md guidelines and prune outdated content.
+- Enhanced internal logging and error handling to improve testability.
+- Improved test coverage to nearly 100% with comprehensive unit tests and mocks for external resources.
+- Updated documentation to align with CONTRIBUTING.md guidelines and prune outdated content.
 
 ## Key Features
 
@@ -70,7 +72,7 @@ npm test
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:**
+1. **Open an Issue:**  
    Describe bugs, suggest improvements, or propose new features by opening an issue in the repository.
 2. **Label as `automated`:**
    This triggers our automated workflow.
