@@ -19,6 +19,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Custom Enhanced & Piecewise Plots:** Combine and enhance base plots, with new piecewise plotting support.
 - **Moving Product:** Efficiently calculate moving products over data sets.
 - **Advanced Polynomial & Nth Root Plots:** New functions `plotPolynomialFromCoeffsReal` and `plotNthRootReal` extend the library's capabilities.
+- **Additional Analytical Functions:** Newly added functions include `plotCumulativeSumReal`, `plotIntegralReal` (using Simpson's rule), and `plotBarChartEnhancedReal` for a labeled bar chart visualization.
 
 ## Installation
 
@@ -50,10 +51,11 @@ Custom plot parameters can also be provided directly through the command line.
 
 ## Changelog
 
-- **0.7.93 (Latest):**
-  - Refined source code per CONTRIBUTING guidelines.
-  - Pruned drift and improved inline documentation & error handling.
-  - Extended functionality with new plotting and analytical functions (nth root, advanced polynomial, moving product, etc.).
+- **0.7.94 (Latest):**
+  - Extended source functionalities per CONTRIBUTING guidelines.
+  - Added new functions: `plotCumulativeSumReal`, `plotIntegralReal`, and `plotBarChartEnhancedReal`.
+  - Improved inline documentation and error handling.
+  - Pruned drift and ensured comprehensive test coverage.
 
 ## Contributing
 

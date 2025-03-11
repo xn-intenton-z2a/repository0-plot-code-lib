@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. All functionalities aligned with our mission and improved inline documentation.
+// Last Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. Extended functionality with new plotting and analytical functions per mission statement.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -281,7 +281,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--plot-polarrose')) {
-    const rose = plotPolarRoseReal(4, 5, 0.1);
+    const rose = plotPolarRoseReal();
     console.log('Polar Rose Plot Output:', rose);
     return;
   }
@@ -341,8 +341,7 @@ export async function main(argsInput) {
       'plotCustomReal', 'plotSinCosCombinedReal', 'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal',
       'plotLogLogReal', 'plotStepFunctionReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
       'plotCubicBezierReal', 'plotGridReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
-      'plotPiecewiseReal', 'movingProductReal',
-      'plotNthRootReal', 'plotPolynomialFromCoeffsReal'
+      'plotPiecewiseReal', 'movingProductReal', 'plotNthRootReal', 'plotPolynomialFromCoeffsReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -898,6 +897,44 @@ export function plotPolynomialFromCoeffsReal(rangeStart, rangeEnd, step = 1, coe
   return plot;
 }
 
+// NEW FUNCTIONS ADDED AS CONTRIBUTIONS
+// New function: Cumulative Sum Plot
+export function plotCumulativeSumReal(data) {
+  if (!Array.isArray(data)) {
+    console.error('plotCumulativeSumReal: data must be an array');
+    return [];
+  }
+  const cumulative = [];
+  data.reduce((acc, cur) => {
+    const sum = acc + cur;
+    cumulative.push(sum);
+    return sum;
+  }, 0);
+  console.log('Cumulative Sum (real):', cumulative);
+  return cumulative;
+}
+
+// New function: Integral Calculation using Simpson\'s Rule
+export function plotIntegralReal(func, lower, upper, n = 1000) {
+  if (n % 2 !== 0) n++; // Simpson's rule requires even number of subintervals
+  const h = (upper - lower) / n;
+  let sum = func(lower) + func(upper);
+  for (let i = 1; i < n; i++) {
+    const x = lower + i * h;
+    sum += (i % 2 === 0 ? 2 : 4) * func(x);
+  }
+  const integral = sum * h / 3;
+  console.log(`Integral (real) computed using Simpson's rule:`, integral);
+  return integral;
+}
+
+// New function: Enhanced Bar Chart Plot
+export function plotBarChartEnhancedReal(data = [3, 5, 1, 6, 4]) {
+  const chart = data.map((value, idx) => `Bar ${idx + 1}: ` + '*'.repeat(value));
+  console.log('Enhanced Bar Chart (real):', chart);
+  return chart;
+}
+
 // Utility function for testing: reset overrides
 export function resetOverrides() {
   overrides.loadExpressOverride = undefined;
@@ -907,6 +944,6 @@ export function resetOverrides() {
 
 /*
   Source file updated per CONTRIBUTING guidelines to fully adhere to the Mission Statement. 
-  Drift has been pruned and inline documentation, error handling, and test coverage have been reviewed.
-  Changelog updated to version 0.7.93.
+  Extended features added: plotCumulativeSumReal, plotIntegralReal, plotBarChartEnhancedReal.
+  Changelog updated to include new functions.
 */

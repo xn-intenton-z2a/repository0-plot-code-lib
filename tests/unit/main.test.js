@@ -53,9 +53,12 @@ import {
   plotCustomEnhancedReal,
   plotPiecewiseReal,
   movingProductReal,
-  // Newly added functions
+  // Newly added functions:
   plotNthRootReal,
-  plotPolynomialFromCoeffsReal
+  plotPolynomialFromCoeffsReal,
+  plotCumulativeSumReal,
+  plotIntegralReal,
+  plotBarChartEnhancedReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -496,5 +499,26 @@ describe('Extended Functions Full Coverage', () => {
   test('plotPolarHeatmapReal returns an array of points', () => {
     const result = plotPolarHeatmapReal();
     expect(Array.isArray(result)).toBe(true);
+  });
+
+  // Tests for newly added functions
+  describe('New Extra Functions', () => {
+    test('plotCumulativeSumReal computes cumulative sums', () => {
+      const data = [1, 2, 3, 4];
+      const result = plotCumulativeSumReal(data);
+      expect(result).toEqual([1, 3, 6, 10]);
+    });
+
+    test('plotIntegralReal computes approximate integral', () => {
+      // integrate x^2 from 0 to 3: exact value is 9
+      const result = plotIntegralReal(x => x * x, 0, 3, 1000);
+      expect(result).toBeCloseTo(9, 1);
+    });
+
+    test('plotBarChartEnhancedReal returns array of strings with Bar labels', () => {
+      const result = plotBarChartEnhancedReal([2, 4]);
+      expect(result[0]).toMatch(/Bar 1:/);
+      expect(result[1]).toMatch(/Bar 2:/);
+    });
   });
 });
