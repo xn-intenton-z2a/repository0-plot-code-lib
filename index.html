@@ -28,7 +28,7 @@
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
 <ul class="md-github">
 <li class="md-github">
-<p class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, harmonics plots, modulated sine plots, and statistical summary plots).</p>
+<p class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, statistical plots including box and violin plots, damped oscillation, colored spiral plots, dual axis comparisons, harmonics plots, modulated sine plots, parametric plots, cumulative average plots, and statistical summary plots).</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Multiple Output Formats:</strong> Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT and R formats. (PNG output is provided as a stub implementation.)</p>
@@ -60,10 +60,16 @@
 <li class="md-github"><strong class="md-github"><code class="md-github">plotStatisticalSummaryReal</code> for generating summary statistics of data</strong></li>
 </ul>
 </li>
+<li class="md-github"><strong class="md-github">Extended New Functions:</strong>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github"><code class="md-github">plotParametricReal</code></strong> for creating parametric plots of custom equations.</li>
+<li class="md-github"><strong class="md-github"><code class="md-github">plotCumulativeAverageReal</code></strong> for computing cumulative averages of datasets.</li>
+</ul>
+</li>
 <li class="md-github"><strong class="md-github">Improved Error Handling:</strong> Detailed error messages for module loader overrides.</li>
-<li class="md-github"><strong class="md-github">Enhanced Test Coverage:</strong> Additional tests for error scenarios and deeper mocking of external modules bring coverage close to 100%.</li>
+<li class="md-github"><strong class="md-github">Enhanced Test Coverage:</strong> Additional tests and deeper mocking bring test coverage close to 100%.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> Use the <code class="md-github">--reset</code> flag to clear custom module loader overrides.</li>
-<li class="md-github"><strong class="md-github">Fixed Statistical Summary Output:</strong> The console output for statistical summary now returns a single string as expected by tests.</li>
+<li class="md-github"><strong class="md-github">Fixed Statistical Summary Output:</strong> Console output for statistical summary now conforms to test expectations.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js v20 or higher</p>
@@ -79,21 +85,19 @@
 <li class="md-github"><strong class="md-github">Diagnostics:</strong> <code class="md-github">npm run diagnostics</code></li>
 <li class="md-github"><strong class="md-github">Interactive Mode:</strong> <code class="md-github">node src/lib/main.js --interactive</code></li>
 <li class="md-github"><strong class="md-github">Server Mode:</strong> <code class="md-github">node src/lib/main.js --serve</code></li>
-<li class="md-github"><strong class="md-github">Plot &amp; Export Options:</strong> Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-github">--export-csv</code>, <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--power-plot</code>, <code class="md-github">--plot-histogram</code>, <code class="md-github">--plot-harmonics</code>, <code class="md-github">--plot-modulated-sine</code>, <code class="md-github">--plot-stat-summary</code>, etc.</li>
+<li class="md-github"><strong class="md-github">Plot &amp; Export Options:</strong> Use flags such as <code class="md-github">--plot-abs</code>, <code class="md-github">--export-csv</code>, <code class="md-github">--plot-fibonacci</code>, <code class="md-github">--plot-sincos</code>, <code class="md-github">--power-plot</code>, <code class="md-github">--plot-histogram</code>, <code class="md-github">--plot-harmonics</code>, <code class="md-github">--plot-modulated-sine</code>, <code class="md-github">--plot-stat-summary</code>, <code class="md-github">--plot-parametric</code>, etc.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> <code class="md-github">node src/lib/main.js --reset</code></li>
 <li class="md-github"><strong class="md-github">Debug Mode:</strong> <code class="md-github">node src/lib/main.js --debug</code></li>
 </ul>
 <p class="md-github">Custom plot parameters can also be provided directly via the command line.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.7.105 (Latest):</strong>
+<li class="md-github"><strong class="md-github">0.7.106 (Latest):</strong>
 <ul class="md-github">
-<li class="md-github">Refactored code for better alignment with the mission statement and pruned legacy drift.</li>
-<li class="md-github">Added new plotting functions: <code class="md-github">plotHarmonicsReal</code>, <code class="md-github">plotModulatedSineReal</code>, and <code class="md-github">plotStatisticalSummaryReal</code> (logging updated).</li>
-<li class="md-github">Enhanced error handling with detailed messages in module loaders.</li>
-<li class="md-github">Expanded test coverage with additional mocks and error handling tests, bringing coverage close to 100%.</li>
-<li class="md-github">Fixed console output for statistical summary to meet test expectations.</li>
-<li class="md-github">README refreshed to align with CONTRIBUTING guidelines and extraneous content pruned.</li>
+<li class="md-github">Extended library functionality with new functions: <code class="md-github">plotParametricReal</code> and <code class="md-github">plotCumulativeAverageReal</code>.</li>
+<li class="md-github">Refactored code to remove drift and align fully with the mission statement.</li>
+<li class="md-github">Added new plotting functions: <code class="md-github">plotHarmonicsReal</code>, <code class="md-github">plotModulatedSineReal</code>, and <code class="md-github">plotStatisticalSummaryReal</code>.</li>
+<li class="md-github">Enhanced error handling, improved CLI messaging, and expanded test coverage.</li>
 </ul>
 </li>
 </ul>
@@ -109,7 +113,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T17:05:21.139Z</p>
+    <p>Generated on 2025-03-11T17:17:31.099Z</p>
   </footer>
 </body>
 </html>
