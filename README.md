@@ -4,21 +4,21 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-This tool provides a robust CLI with multiple modes including interactive, server, diagnostics, and various export and plotting options. It offers a wide range of plotting functionalities from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations (enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plot, custom fancy plot, detailed sine-cosine plot, interactive guide, complex combined plot, cumulative product, exponential moving average).
+This tool provides a robust CLI with multiple modes including interactive, server, diagnostics, and various export and plotting options. It offers a wide range of plotting functionalities from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations (enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plot, custom fancy plot, detailed sine-cosine plot, interactive guide, complex combined plot, cumulative product, exponential moving average, exponential sine, cosine cumulative sum).
 
 ## Changelog
 
 - Initial implementation with basic and extended plotting functions.
 - Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
-- Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product plot (--plot-cumprod), exponential moving average plot (--plot-ema).
-- Improved test coverage by adding single layer mocks for external resource loading and deeper tests for network and file system interactions.
-- Extended functionality by pruning legacy code drift and improving modular structure in line with our mission statement.
+- Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product plot (--plot-cumprod), exponential moving average plot (--plot-ema), exponential sine plot (--plot-exp-sine), and cosine cumulative sum plot (--plot-cos-cumsum).
+- Improved test coverage with single layer mocks for external resources, deeper tests for network and file system interactions.
+- Code refactored to prune legacy drift and align with our mission statement.
 
 ## Key Features
 
 - **Wide Range of Plots:**
   - Basic plots: Sine, Cosine, Exponential, Logarithmic, Quadratic, Linear.
-  - Advanced visualizations: Enhanced spiral, Polar heatmap, Dual axis, Box plot, Violin plot, Damped oscillation, Harmonics, Modulated sine, Statistical summary, Parametric plot, Cumulative average, Inverse function plot, Custom fancy plot, Detailed sine-cosine plot, Interactive guide, Complex combined plot, Cumulative product, Exponential moving average.
+  - Advanced visualizations: Enhanced spiral, Polar heatmap, Dual axis, Box plot, Violin plot, Damped oscillation, Harmonics, Modulated sine, Statistical summary, Parametric plot, Cumulative average, Inverse function plot, Custom fancy plot, Detailed sine-cosine plot, Interactive guide, Complex combined plot, Cumulative product, Exponential moving average, Exponential sine, Cosine cumulative sum.
 
 - **Multiple Output Formats:**
   - Generate outputs in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
@@ -28,7 +28,7 @@ This tool provides a robust CLI with multiple modes including interactive, serve
 
 - **Flexible CLI:**
   - Use flags like `--interactive`, `--serve`, `--diagnostics`, and various export and plotting options.
-  - New flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema` enhance output options.
+  - New flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, and `--plot-cos-cumsum` enhance output options.
   - Easily reset overrides with `--reset` and use `--debug` for detailed function listings.
 
 ## Installation
@@ -55,7 +55,7 @@ Other common commands:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** Use flags like `--export-csv`, `--export-json`, etc.
-- **Plot Options:** Use flags like `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-complex`, `--plot-cumprod`, `--plot-ema`, etc.
+- **Plot Options:** Use flags like `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-complex`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
