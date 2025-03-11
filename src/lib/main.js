@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last Updated 2024-12.13: Refined functionalities to fully align with the Mission Statement; pruned drift and ensured comprehensive error handling and inline documentation per CONTRIBUTING guidelines.
+// Last Updated 2024-12.13: Source refined per CONTRIBUTING guidelines. All functionalities aligned with our mission and improved inline documentation.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -160,7 +160,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 
