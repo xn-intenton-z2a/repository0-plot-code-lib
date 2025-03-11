@@ -8,6 +8,7 @@
 // - Added new features: custom fancy plot, interactive guide output, and detailed sine-cosine plot (--plot-detailed flag).
 // - Aligned code with mission statement by pruning legacy drift and ensuring clarity of internal documentation and modular structure.
 // - Enhanced test coverage and added branches to support unknown flag handling and debug logging.
+// - [README Update] Refreshed documentation to align with CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -113,16 +114,20 @@ export async function main(argsInput) {
       'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal', 'plotLogLogReal', 'plotStepFunctionReal',
       'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal',
-      'plotNthRootReal', 'plotPolynomialFromCoeffsReal', 'plotCumulativeSumReal', 'plotIntegralReal',
-      'plotBarChartEnhancedReal', 'plotScaledSineReal', 'plotExponentialDecayReal', 'plotCumulativeProductReal',
-      'movingStdReal', 'cumulativeDifferenceReal',
+      // Newly Added Custom Features
       'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
       'plotDampedOscillationReal', 'plotSpiralColoredReal',
+      // Extended Plotting Functions
       'plotDualAxisReal',
+      // Newly Added Extended Functions
       'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
       'plotParametricReal', 'plotCumulativeAverageReal',
+      // Newly Added Inverse Function Feature
       'plotInverseFunctionReal',
-      'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal'
+      // Newly Added Custom Extensions
+      'plotCustomFancyReal', 'plotInteractiveGuideReal',
+      // Newly Added Detailed Sine-Cosine Plot Function
+      'plotSineCosineDetailedReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     // Continue execution after debug output
