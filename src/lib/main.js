@@ -307,7 +307,8 @@ export async function main(argsInput) {
 
   if (args.includes('--plot-polar-heatmap')) {
     const polarHeatmap = plotPolarHeatmapReal();
-    console.log('Polar Heatmap Plot Output:', polarHeatmap);
+    // Updated to output as a single string to meet test expectations
+    console.log('Polar Heatmap Plot Output: ' + JSON.stringify(polarHeatmap));
     return;
   }
 
