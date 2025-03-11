@@ -6,25 +6,24 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots, box plot, violin plot, damped oscillation, colored spiral plots, and dual axis comparisons).
-- **Multiple Output Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats (PNG output is a stub implementation).
+- **Mathematical Plotting:** Generate a wide range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) to advanced visualizations (enhanced spiral plots, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, advanced statistical plots including box and violin plots, damped oscillation, colored spiral plots, and dual axis comparisons).
+- **Multiple Output Formats:** Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT and R formats. (PNG output is provided as a stub implementation.)
 - **Interactive & Server Modes:** Run an interactive CLI or launch an Express server for live demonstrations.
-- **Analytical Tools:** Built-in functions for tasks like range generation, derivative calculation, moving sums/products, and more.
+- **Analytical Tools:** Includes utilities like range generation, derivative calculation, moving sums/products, and more for detailed analysis.
 
 ## New Features
 
 - **Enhanced Spiral Plot:** Use `--plot-spiral-enhanced` for spiral plots with rotation support.
 - **Polar Heatmap:** Visualize intensity variations with `--plot-polar-heatmap`.
 - **Circular & Power Plots:** Create customizable circular and power plots.
-- **Custom Enhanced & Piecewise Plots:** Combine and enhance base plots with new piecewise plotting.
-- **Moving Product:** Calculate moving products efficiently.
-- **Advanced Polynomial & Nth Root Plots:** New functions `plotPolynomialFromCoeffsReal` and `plotNthRootReal` extend the library's capabilities.
-- **Additional Analytical Features:** New functions such as `plotCumulativeSumReal`, `plotIntegralReal` (using Simpson's rule), `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, `movingStdReal`, and `cumulativeDifferenceReal`.
-- **Statistical Visualizations:** Advanced plots like box plots (`plotBoxPlotReal`) and violin plots (`plotViolinPlotReal`).
+- **Custom Enhanced & Piecewise Plots:** Combine and enhance plots with new piecewise plotting capabilities.
+- **Moving Product:** Efficient calculation of moving products.
+- **Advanced Polynomial & Nth Root Plots:** Including `plotPolynomialFromCoeffsReal` and `plotNthRootReal`.
+- **Additional Analytical Functions:** Such as `plotCumulativeSumReal`, `plotIntegralReal` (Simpson's rule), `plotBarChartEnhancedReal`, `plotScaledSineReal`, `plotExponentialDecayReal`, `plotCumulativeProductReal`, `movingStdReal`, and `cumulativeDifferenceReal`.
+- **Statistical Visualizations:** New functions `plotBoxPlotReal` and `plotViolinPlotReal` for statistical plotting.
+- **New Visualization Functions:** `plotDampedOscillationReal` for damped oscillation plots, `plotSpiralColoredReal` for colored spiral plots, and **`plotDualAxisReal` for dual-axis comparisons**.
 - **Reset Overrides:** Use the `--reset` flag to clear custom module loader overrides.
-- **Improved Error Handling:** Enhanced error messages in module loaders ensure clarity when overrides fail.
-- **New Visualization Functions:** Added `plotDampedOscillationReal` for damped oscillation plots, `plotSpiralColoredReal` for colored spiral visualizations, and **`plotDualAxisReal` for dual-axis comparisons of two functions.**
-- **Comprehensive Testing:** Nearly 100% test coverage with unit tests covering all functionalities.
+- **Improved Error Handling:** Enhanced error messages in module loaders for better clarity when overrides fail.
 
 ## Installation
 
@@ -53,24 +52,22 @@ Other common commands:
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
-You can also provide custom plot parameters directly via the command line.
+Custom plot parameters can also be provided directly via the command line.
 
 ## Changelog
 
-- **0.7.100 (Latest):**
-  - Extended feature set to further align with our mission statement.
-  - Added new functions: `plotBoxPlotReal` and `plotViolinPlotReal` for statistical visualizations.
-  - Added new functions: `plotDampedOscillationReal`, `plotSpiralColoredReal`, and `plotDualAxisReal` for enhanced visualizations.
-  - Pruned and streamlined code sections to reduce drift from the mission.
-  - Updated testing for near 100% coverage and improved documentation.
+- **0.7.101 (Latest):**
+  - Refreshed README and inline documentation to remove drift and align more closely with the mission statement and CONTRIBUTING guidelines.
+  - Updated description for new visualization and analytical features.
+  - Improved clarity on contribution process. 
 
 ## Contributing
 
-We welcome contributions! Please follow these steps:
+We welcome contributions! Follow these steps:
 
-1. **Open an Issue:** Describe your idea, bug, or improvement by opening an issue in our repository.
+1. **Open an Issue:** Describe your idea, bug, or improvement in the repository's issues.
 2. **Label as `automated`:** This triggers our automated workflow.
-3. **Submit a Pull Request:** Include clear commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for complete guidelines.
+3. **Submit a Pull Request:** Ensure clear commit messages and include tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
 ## License
 
