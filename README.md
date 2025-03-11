@@ -10,10 +10,11 @@ This tool enables you to generate an extensive range of plots, from basic functi
 
 ## New Features & Enhancements
 
-- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-inverse` and new ones like `--plot-parametric` for parametric plots, dual axis plots, box/violin plots, and damped oscillation & colored spiral plots.
+- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-parametric`, `--plot-inverse` and new ones like dual axis, box/violin plots, damped oscillation & colored spiral plots.
 - **Analytical and Statistical Functions:** Calculate derivatives, integrals, statistical summaries, cumulative averages, and more.
 - **Extended Plot Functions:** New functions including parametric plotting, dual-axis comparisons, cumulative average calculations, and inverse function plotting to extend our core capabilities.
-- **Improved Error Handling & Reset Capabilities:** Use `--reset` to clear module loader overrides.
+- **Improved Error Handling & Reset Capabilities:** Use `--reset` to clear module loader overrides. Additional error conditions in module loaders are now covered by tests.
+- **Enhanced Test Coverage:** Tests now cover nearly 100% of the code, including error conditions and external module load simulations.
 
 ## Installation
 

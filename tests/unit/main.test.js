@@ -111,6 +111,21 @@ describe('Default Demo Output', () => {
 });
 
 
+describe('Module Loader Error Handling', () => {
+  test('loadExpress throws error when override fails', async () => {
+    overrides.loadExpressOverride = async () => { throw new Error('Simulated Express load failure'); };
+    await expect(loadExpress()).rejects.toThrow('Failed to load express: Simulated Express load failure');
+    resetOverrides();
+  });
+
+  test('loadReadline throws error when override fails', async () => {
+    overrides.loadReadlineOverride = async () => { throw new Error('Simulated Readline load failure'); };
+    await expect(loadReadline()).rejects.toThrow('Failed to load readline: Simulated Readline load failure');
+    resetOverrides();
+  });
+});
+
+
 describe('New Extended Functions', () => {
   test('plotLogLogReal returns non-empty array', () => {
     const result = mainModule.plotLogLogReal(1, 10, 1);
@@ -144,7 +159,7 @@ describe('--reset flag functionality', () => {
     // Set overrides to dummy values
     overrides.loadExpressOverride = async () => 'dummyExpress';
     overrides.loadReadlineOverride = async () => ({ createInterface: () => ({}) });
-
+    
     process.argv = ['node', 'src/lib/main.js', '--reset'];
     const spy = vi.spyOn(console, 'log');
     await main();
