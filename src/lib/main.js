@@ -10,7 +10,8 @@
 // - Added new function plotStatisticalSummaryReal and CLI flag --plot-stat-summary for generating statistical summaries.
 // - Added new functions: plotParametricReal and plotCumulativeAverageReal to extend plotting capabilities in line with our mission.
 // - Added new function: plotInverseFunctionReal to plot inverse values of a given function, with error handling for zero division.
-// - Refreshed comments to indicate that README has been updated to align with CONTRIBUTING.md guidelines.
+// - Added new visualization functions: plotBoxPlotReal, plotViolinPlotReal, plotDampedOscillationReal, plotSpiralColoredReal, and plotDualAxisReal.
+// - Updated changelog to reflect all new extended features per CONTRIBUTING.md guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -413,9 +414,7 @@ export async function main(argsInput) {
       'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
       'plotDampedOscillationReal', 'plotSpiralColoredReal',
       'plotDualAxisReal',
-      'plotHarmonicsReal',
-      'plotModulatedSineReal',
-      'plotStatisticalSummaryReal',
+      'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
       'plotParametricReal', 'plotCumulativeAverageReal',
       'plotInverseFunctionReal'
     ];
