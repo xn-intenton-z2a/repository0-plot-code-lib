@@ -362,7 +362,7 @@ export async function main(argsInput) {
 
   if (args.includes('--plot-harmonics')) {
     const harmonics = plotHarmonicsReal(0, Math.PI * 2, 0.1, [1, 2, 3]);
-    console.log('Harmonics Plot Output:', harmonics);
+    console.log('Harmonics Plot Output: ' + JSON.stringify(harmonics));
     return;
   }
 
