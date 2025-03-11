@@ -6,13 +6,13 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 
 ## Overview
 
-This tool enables you to generate an extensive range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, and linear) to advanced visualizations such as enhanced spiral plots, polar heatmaps, dual axis comparisons, and specialized statistical plots including box and violin plots. Additional analytical utilities (e.g., derivative, integral, moving averages) support deeper mathematical analysis.
+This tool enables you to generate an extensive range of plots, from basic functions (sine, cosine, exponential, logarithmic, quadratic, and linear) to advanced visualizations such as enhanced spiral plots, polar heatmaps, dual axis comparisons, and specialized statistical plots including box, violin, damped oscillation, and inverse function plots. Additional analytical utilities (e.g., derivative, integral, moving averages) support deeper mathematical analysis.
 
 ## New Features & Enhancements
 
-- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, and the new `--plot-inverse` for advanced plots.
-- **Analytical and Statistical Functions:** Calculate derivatives, integrals, statistical summaries (`--plot-stat-summary`), cumulative averages, and more.
-- **Extended Plot Functions:** New functions for parametric plotting (`plotParametricReal`), dual-axis comparisons (`plotDualAxisReal`), cumulative average calculations, and inverse function plotting (`plotInverseFunctionReal`).
+- **Enhanced Visualizations:** Use flags like `--plot-spiral-enhanced`, `--plot-polar-heatmap`, `--plot-harmonics`, `--plot-modulated-sine`, `--plot-stat-summary`, `--plot-inverse` and new ones like `--plot-parametric` for parametric plots, dual axis plots, box/violin plots, and damped oscillation & colored spiral plots.
+- **Analytical and Statistical Functions:** Calculate derivatives, integrals, statistical summaries, cumulative averages, and more.
+- **Extended Plot Functions:** New functions including parametric plotting, dual-axis comparisons, cumulative average calculations, and inverse function plotting to extend our core capabilities.
 - **Improved Error Handling & Reset Capabilities:** Use `--reset` to clear module loader overrides.
 
 ## Installation

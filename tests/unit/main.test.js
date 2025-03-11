@@ -297,6 +297,7 @@ describe('plotStatisticalSummaryReal function', () => {
 });
 
 // Extended Functions Full Coverage Tests (existing tests retained below)
+
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
     const range = generateRange(1, 5, 1);
@@ -550,7 +551,6 @@ describe('Extended Functions Full Coverage', () => {
   describe('Newly added Inverse Function Feature', () => {
     test('plotInverseFunctionReal returns correct inverse values', () => {
       const result = plotInverseFunctionReal(1, 5, 1, x => x);
-      // For x from 1 to 5, inverse of x is 1/x
       const expected = [
         { x: 1, y: 1 },
         { x: 2, y: 0.5 },
@@ -565,6 +565,30 @@ describe('Extended Functions Full Coverage', () => {
           expect(result[idx].y).toBeCloseTo(exp.y);
         }
       });
+    });
+  });
+
+  describe('Newly added visualization functions', () => {
+    test('plotBoxPlotReal returns valid box plot summary for non-empty data', () => {
+      const result = plotBoxPlotReal([1,2,3,4,5]);
+      expect(result).toEqual({ min: 1, q1: 2, median: 3, q3: 4, max: 5 });
+    });
+
+    test('plotViolinPlotReal returns density array for non-empty data', () => {
+      const result = plotViolinPlotReal([1,2,3,4,5]);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    test('plotDampedOscillationReal returns proper oscillation values', () => {
+      const result = plotDampedOscillationReal(0, Math.PI, 0.5);
+      expect(Array.isArray(result)).toBe(true);
+      expect(result.length).toBeGreaterThan(0);
+    });
+
+    test('plotSpiralColoredReal returns points with colors', () => {
+      const result = plotSpiralColoredReal(10, 0, 0.1, ['red','blue']);
+      expect(result.every(p => typeof p.color === 'string')).toBe(true);
     });
   });
 });
