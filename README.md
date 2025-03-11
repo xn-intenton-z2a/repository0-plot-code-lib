@@ -34,8 +34,7 @@ repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mat
 - **Improved Error Handling:** Detailed error messages for module loader overrides.
 - **Enhanced Test Coverage:** Additional tests for error scenarios and deeper mocking of external modules bring coverage close to 100%.
 - **Reset Overrides:** Use the `--reset` flag to clear custom module loader overrides.
-
-*Note: The logging message in the Statistical Summary function was updated to align with expected output.*
+- **Fixed Statistical Summary Output:** The console output for statistical summary now returns a single string as expected by tests.
 
 ## Installation
 
@@ -73,6 +72,7 @@ Custom plot parameters can also be provided directly via the command line.
   - Added new plotting functions: `plotHarmonicsReal`, `plotModulatedSineReal`, and `plotStatisticalSummaryReal` (logging updated).
   - Enhanced error handling with detailed messages in module loaders.
   - Expanded test coverage with additional mocks and error handling tests, bringing coverage close to 100%.
+  - Fixed console output for statistical summary to meet test expectations.
   - README refreshed to align with CONTRIBUTING guidelines and extraneous content pruned.
 
 ## Contributing
