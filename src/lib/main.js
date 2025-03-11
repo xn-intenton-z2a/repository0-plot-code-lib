@@ -759,12 +759,14 @@ export function plotCubicBezierReal(points, step = 0.05) {
 
 // New function: Grid Plot - combines multiple plot functions into a grid view for comparative visualization
 export function plotGridReal(plotCallbacks, rangeStart, rangeEnd, step = 1) {
+  const originalLog = console.log;
+  console.log = () => {};
   const results = {};
   plotCallbacks.forEach(callback => {
     const plotName = callback.name;
     results[plotName] = callback(rangeStart, rangeEnd, step);
   });
-  console.log('Grid Plot (real):', results);
+  console.log = originalLog;
   return results;
 }
 
