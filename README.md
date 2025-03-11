@@ -1,26 +1,25 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Built to be the "jq of formulae visualisations," it offers a rich set of plotting options and output formats while aligning with our core mission and updated CONTRIBUTING guidelines.
+repository0-plot-code-lib is a versatile CLI tool designed to plot and analyze mathematical functions. Embracing our mission, "Be a go-to plot library with a CLI, be the jq of formulae visualisations," the tool offers an extensive set of plotting options, multiple output formats, and enhanced analysis functions.
 
 ## Overview
 
-- **Mathematical Plotting:** Generate plots for functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and many more. Advanced visualizations include scatter plots, bar charts, Lissajous curves, spiral, circular and custom plots.
+- **Mathematical Plotting:** Generate plots for functions including sine, cosine, exponential, logarithmic, quadratic, linear, tangent, and more. Advanced visualizations include scatter plots, bar charts, Lissajous curves, spiral, circular, and custom plots.
 
 - **Multiple Output Formats:** Export plots in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. (PNG output is provided as a stub.)
 
-- **Interactive and Server Modes:** Enjoy interactive CLI input or run a lightweight Express server for a live demonstration of the plotting capabilities.
+- **Interactive and Server Modes:** Enjoy interactive CLI input or run a lightweight Express server for live demonstrations of plotting capabilities.
 
-- **Extended Function Library:** Includes real implementations for derivative calculation, range generation, and various plotting features. Legacy stub functions have been pruned to align with our mission statement.
+- **Extended Function Library:** Offers implementations for derivative calculation, range generation, and a wide array of plotting functions such as Fibonacci spiral, combined sine-cosine, polar rose, star polygon, log-log, step function, and grid plotting.
 
-- **New Features:**
-  - **Fibonacci Spiral, Combined Sin-Cos Plotting**
-  - **Circular Plotting (--plot-circle)**
-  - **Advanced Visualizations:** Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate) plotting functions.
-  - **New:** Added Log-Log Plot (--plot-loglog) and Step Function Plot (--plot-step).
-  - **Extended:** Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.
-  - **Grid Plotting:** New grid plotting feature (--plot-grid) to visualize multiple plots simultaneously.
-  - **Reset Functionality:** New --reset flag to restore override hooks to their default state.
-  - **Enhanced Testability:** Improved test coverage with additional tests for all extended functions.
+## New Features
+
+- **Fibonacci Spiral & Combined Sin-Cos Plotting**
+- **Circular Plotting:** Generate circular plots with the `--plot-circle` flag.
+- **Advanced Visualizations:** Polar Rose (`--plot-polarrose`), Star Polygon (`--plot-starpolygon`), Lemniscate (`--lemniscate`), Log-Log (`--plot-loglog`), Step Function (`--plot-step`), and Grid Plot (`--plot-grid`).
+- **Data Analysis:** New functions movingSumReal and plotCubicBezierReal enhance data analytics and visualization.
+- **Reset Functionality:** Use the `--reset` flag to restore override hooks to default settings.
+- **Improved Testability:** Expanded test coverage and simulation of external modules for a more robust development cycle.
 
 ## Installation
 
@@ -58,13 +57,10 @@ Other available commands:
   ```
 
 - **Plot/Export Flags:**
-  Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific plot outputs.
+  Use flags such as `--plot-abs`, `--export-csv`, `--export-md`, etc., to generate specific outputs.
 
 - **Advanced Visualizations:**
-  Explore plots using flags like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, and `--plot-grid`.
-
-- **Extended Features:**
-  New functions include moving sum computation and cubic Bezier curve plotting. Use these via the debug mode or by direct invocation in your code.
+  Explore features like `--plot-fibonacci`, `--plot-sincos`, `--heatmap`, `--plot-spiral`, `--plot-circle`, `--plot-polarrose`, `--plot-starpolygon`, `--lemniscate`, `--plot-loglog`, `--plot-step`, and `--plot-grid`.
 
 - **Reset Functionality:**
   ```bash
@@ -76,35 +72,29 @@ Other available commands:
   node src/lib/main.js --debug
   ```
 
-- **Custom Plot Parameters:**
-  Pass parameters directly as command-line arguments.
+- **Custom Plot Parameters:** Pass parameters directly as command-line arguments.
 
 ## Changelog
 
 - **0.7.85 (Latest):**
-  - Extended functionalities with new spiral, circular, and custom plotting features.
-  - Added Fibonacci spiral plotting and combined sine-cosine plotting (--plot-sincos).
-  - Introduced new circular plotting with flag --plot-circle.
-  - **New:** Added Polar Rose (--plot-polarrose), Star Polygon (--plot-starpolygon), Lemniscate (--lemniscate), Log-Log Plot (--plot-loglog), Step Function Plot (--plot-step), and Grid Plot (--plot-grid).
-  - **Extended:** Added movingSumReal and plotCubicBezierReal functions for enhanced data analysis and visualization.
-  - Pruned legacy stub implementations to better align with our mission statement.
-  - **TEST:** Improved test coverage by adding additional tests for extended functions and external module simulations.
-  - **REFRESH:** Updated documentation and changelog in accordance with updated CONTRIBUTING guidelines.
+  - Extended functionalities with spiral, circular, and custom plotting features.
+  - Added Fibonacci spiral and combined sine-cosine plotting (`--plot-sincos`).
+  - Introduced circular plotting with `--plot-circle` flag.
+  - **New:** Added polar rose (`--plot-polarrose`), star polygon (`--plot-starpolygon`), lemniscate (`--lemniscate`), log-log (`--plot-loglog`), step function (`--plot-step`), and grid plotting (`--plot-grid`).
+  - **Extended:** Added movingSumReal and plotCubicBezierReal for enhanced data analysis and visualization.
+  - Pruned legacy implementations to align with our mission.
+  - **TEST:** Improved test coverage including simulation of external module calls.
+  - **REFRESH:** Updated documentation and changelog per revised CONTRIBUTING guidelines.
 
 ## Contributing
 
 We welcome contributions! Follow these steps:
 
-1. **Open an Issue:**
-   Provide a description of your idea, bug report, or improvement by opening an issue in our repository.
+1. **Open an Issue:** Describe your idea, bug report, or improvement by opening an issue.
+2. **Review Guidelines:** See [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our contribution process.
+3. **Submit a Pull Request:** Provide clear commit messages and sufficient test coverage. Ensure your changes adhere to our automated workflow standards.
 
-2. **Review Guidelines:**
-   See [CONTRIBUTING.md](./CONTRIBUTING.md) for details of our contribution process.
-
-3. **Submit a Pull Request:**
-   Ensure your changes include clear commit messages and sufficient test coverage. Adhere to our automated workflow standards.
-
-Your contributions help drive repository0-plot-code-lib towards being the definitive CLI plotting tool.
+Your contributions help us build the definitive CLI plotting tool.
 
 ## License
 
