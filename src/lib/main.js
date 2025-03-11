@@ -1,14 +1,13 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last refined on 2024-12-20. Refactored code to remove legacy drift and fully align with the mission statement as per CONTRIBUTING.md.
+// Last refined on 2024-12-20.
 // Changelog:
-// - Refreshed inline documentation and pruned legacy code paths.
+// - Updated inline documentation to ensure strict alignment with our mission statement.
 // - Enhanced error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 // - Added new features: custom fancy plot and interactive guide output.
-// - Updated help message and CLI mode descriptions to reflect current functionality.
-// - Pruned redundant legacy implementations and ensured all code paths strictly adhere to the current mission.
+// - Pruned outdated implementations to fully align with the mission as outlined in CONTRIBUTING.md.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -413,7 +412,8 @@ export async function main(argsInput) {
       'plotDualAxisReal',
       'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
       'plotParametricReal', 'plotCumulativeAverageReal',
-      'plotInverseFunctionReal'
+      'plotInverseFunctionReal',
+      'plotCustomFancyReal', 'plotInteractiveGuideReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
