@@ -2,7 +2,7 @@
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-15. Refactored code to remove drift and align fully with the mission statement as per CONTRIBUTING.md.
-// Changelog: Refreshed inline documentation, pruned legacy code paths, added enhanced error handling, improved CLI messaging, and introduced new plotting function plotHarmonicsReal for trigonometric harmonics analysis.
+// Changelog: Refreshed inline documentation, pruned legacy code paths, added enhanced error handling, improved CLI messaging, introduced new plotting function plotHarmonicsReal for trigonometric harmonics analysis, and added new function plotModulatedSineReal for modulated sine plots.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -57,7 +57,7 @@ export async function loadReadline() {
 // -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --reset or provide plot parameters.\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
 
   // Help/Default mode
   if (args.length === 0 || args.includes('--help')) {
@@ -366,6 +366,12 @@ export async function main(argsInput) {
     return;
   }
 
+  if (args.includes('--plot-modulated-sine')) {
+    const modulated = plotModulatedSineReal(0, Math.PI * 2, 0.2, 3, 0.5);
+    console.log('Modulated Sine Plot Output: ' + JSON.stringify(modulated));
+    return;
+  }
+
   if (args.includes('--debug')) {
     const funcs = [
       'generateRange', 'calculateDerivative',
@@ -390,7 +396,9 @@ export async function main(argsInput) {
       // Extended new function
       'plotDualAxisReal',
       // Newly added harmonics function
-      'plotHarmonicsReal'
+      'plotHarmonicsReal',
+      // Newly added modulated sine function
+      'plotModulatedSineReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
     return;
@@ -1098,5 +1106,14 @@ export function plotHarmonicsReal(rangeStart, rangeEnd, step = 1, frequencies = 
     y: frequencies.reduce((sum, f) => sum + Math.sin(f * x), 0)
   }));
   // Removed duplicate logging to match expected output in CLI
+  return plot;
+}
+
+// -------------------- Newly Added Feature: Modulated Sine Plot --------------------
+export function plotModulatedSineReal(rangeStart, rangeEnd, step = 1, modulationFrequency = 1, modulationDepth = 0.5) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  // y = sin(x) modulated by a secondary sine wave
+  const plot = range.map(x => ({ x, y: Math.sin(x) * (1 + modulationDepth * Math.sin(modulationFrequency * x)) }));
+  console.log('Modulated Sine Plot (real):', plot);
   return plot;
 }
