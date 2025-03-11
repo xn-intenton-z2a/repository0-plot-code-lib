@@ -27,7 +27,7 @@
 <p class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</p>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots including basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) and advanced visualizations (enhanced spiral plots with rotation, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, moving product, derivative, advanced polynomial and nth root plotting).</li>
+<li class="md-github"><strong class="md-github">Mathematical Plotting:</strong> Generate a wide range of plots including basic functions (sine, cosine, exponential, logarithmic, quadratic, linear, tangent) and advanced visualizations (enhanced spiral plots with rotation, polar heatmaps, circular and power plots, custom enhanced and piecewise plots, moving product, derivative, advanced polynomial and nth root plotting, scaled sine plots, exponential decay plots, and cumulative product plots).</li>
 <li class="md-github"><strong class="md-github">Multiple Formats:</strong> Supports CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and R formats. Note: PNG output is a stub implementation.</li>
 <li class="md-github"><strong class="md-github">Interactive &amp; Server Modes:</strong> Launch an interactive CLI or a live Express server for demonstrations.</li>
 <li class="md-github"><strong class="md-github">Analytical Tools:</strong> Built-in functions for range generation, derivative calculation, moving sum/product, and more.</li>
@@ -40,7 +40,8 @@
 <li class="md-github"><strong class="md-github">Custom Enhanced &amp; Piecewise Plots:</strong> Combine and enhance base plots, with new piecewise plotting support.</li>
 <li class="md-github"><strong class="md-github">Moving Product:</strong> Efficiently calculate moving products over data sets.</li>
 <li class="md-github"><strong class="md-github">Advanced Polynomial &amp; Nth Root Plots:</strong> New functions <code class="md-github">plotPolynomialFromCoeffsReal</code> and <code class="md-github">plotNthRootReal</code> extend the library's capabilities.</li>
-<li class="md-github"><strong class="md-github">Additional Analytical Functions:</strong> Newly added functions include <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code> (using Simpson's rule), and <code class="md-github">plotBarChartEnhancedReal</code> for a labeled bar chart visualization.</li>
+<li class="md-github"><strong class="md-github">Additional Analytical Functions:</strong> Newly added functions include <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code> (using Simpson's rule), <code class="md-github">plotBarChartEnhancedReal</code>, <strong class="md-github">plotScaledSineReal</strong>, <strong class="md-github">plotExponentialDecayReal</strong>, and <strong class="md-github">plotCumulativeProductReal</strong> for extended visualization and analysis.</li>
+<li class="md-github"><strong class="md-github">Reset Overrides:</strong> New <code class="md-github">resetOverrides</code> function is provided to reset module overrides.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js v20 or higher</p>
@@ -63,12 +64,12 @@
 <p class="md-github">Custom plot parameters can also be provided directly through the command line.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">0.7.94 (Latest):</strong>
+<li class="md-github"><strong class="md-github">0.7.96 (Latest):</strong>
 <ul class="md-github">
 <li class="md-github">Extended source functionalities per CONTRIBUTING guidelines.</li>
-<li class="md-github">Added new functions: <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code>, and <code class="md-github">plotBarChartEnhancedReal</code>.</li>
+<li class="md-github">Added new functions: <code class="md-github">plotCumulativeSumReal</code>, <code class="md-github">plotIntegralReal</code>, <code class="md-github">plotBarChartEnhancedReal</code>, <code class="md-github">plotScaledSineReal</code>, <code class="md-github">plotExponentialDecayReal</code>, <code class="md-github">plotCumulativeProductReal</code>, and <code class="md-github">resetOverrides</code>.</li>
 <li class="md-github">Improved inline documentation and error handling.</li>
-<li class="md-github">Pruned drift and ensured comprehensive test coverage.</li>
+<li class="md-github">Increased test coverage and updated changelog.</li>
 </ul>
 </li>
 </ul>
@@ -84,7 +85,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-11T12:29:35.057Z</p>
+    <p>Generated on 2025-03-11T12:50:54.088Z</p>
   </footer>
 </body>
 </html>
