@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This repository has been refreshed to align with our contributing guidelines, pruning legacy drift and updating documentation for clarity and accuracy.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This repository has been refreshed to align with our contributing guidelines, pruned legacy drift, and updated documentation for clarity and adherence to our mission statement.
 
 ## Overview
 
@@ -11,7 +11,7 @@ This tool provides a robust CLI with multiple modes including interactive, serve
 - Initial implementation with basic and extended plotting functions.
 - Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
 - Introduced new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot, cumulative product plot (--plot-cumprod), exponential moving average plot (--plot-ema), exponential sine plot (--plot-exp-sine), and cosine cumulative sum plot (--plot-cos-cumsum).
-- **Documentation Refresh:** Updated README and source code headers to reflect current contribution guidelines as per CONTRIBUTING.md, ensuring clarity and removing irrelevant legacy details.
+- Pruned legacy code drift and refined inline documentation and error handling in accordance with our CONTRIBUTING.md guidelines and mission statement.
 
 ## Key Features
 
