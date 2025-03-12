@@ -102,12 +102,14 @@ describe('Main Module Import', () => {
   });
 });
 
+
 describe('Default Demo Output', () => {
   test('should terminate without error', () => {
     process.argv = ['node', 'src/lib/main.js'];
     main();
   });
 });
+
 
 describe('Module Loader Error Handling', () => {
   test('loadExpress throws error when override fails', async () => {
@@ -310,19 +312,19 @@ describe('Extended Functions Full Coverage', () => {
   });
 
   test('plotSineReal returns a plot array with correct sine values', () => {
-    const plot = plotSineReal(0, Math.PI, Math.PI/2);
+    const plot = plotSineReal(0, Math.PI, Math.PI / 2);
     expect(plot).toEqual([
       { x: 0, y: 0 },
-      { x: Math.PI/2, y: 1 },
+      { x: Math.PI / 2, y: 1 },
       { x: Math.PI, y: 0 }
     ]);
   });
 
   test('plotCosineReal returns a plot array with correct cosine values', () => {
-    const plot = plotCosineReal(0, Math.PI, Math.PI/2);
+    const plot = plotCosineReal(0, Math.PI, Math.PI / 2);
     expect(plot).toEqual([
       { x: 0, y: 1 },
-      { x: Math.PI/2, y: 0 },
+      { x: Math.PI / 2, y: 0 },
       { x: Math.PI, y: -1 }
     ]);
   });
@@ -356,13 +358,13 @@ describe('Extended Functions Full Coverage', () => {
   });
 
   test('plotTangentReal handles discontinuities', () => {
-    const result = plotTangentReal(0, Math.PI, Math.PI/4);
+    const result = plotTangentReal(0, Math.PI, Math.PI / 4);
     expect(result.some(point => point.y === null)).toBe(true);
   });
 
   test('rotatePointsReal rotates points correctly', () => {
     const points = [{ x: 1, y: 0 }];
-    const rotated = rotatePointsReal(points, Math.PI/2);
+    const rotated = rotatePointsReal(points, Math.PI / 2);
     expect(rotated[0].x).toBeCloseTo(0);
     expect(rotated[0].y).toBeCloseTo(1);
   });
@@ -378,7 +380,7 @@ describe('Extended Functions Full Coverage', () => {
   });
 
   test('plotHistogramReal returns an array of counts', () => {
-    const result = plotHistogramReal([1,2,2,3], 3);
+    const result = plotHistogramReal([1, 2, 2, 3], 3);
     expect(Array.isArray(result)).toBe(true);
   });
 
@@ -393,7 +395,7 @@ describe('Extended Functions Full Coverage', () => {
   });
 
   test('movingAverageReal returns correct number of averages', () => {
-    const result = movingAverageReal([1,2,3,4,5], 3);
+    const result = movingAverageReal([1, 2, 3, 4, 5], 3);
     expect(result.length).toBe(3);
   });
 
@@ -434,8 +436,8 @@ describe('Extended Functions Full Coverage', () => {
   });
 
   test('movingMedianReal returns correct medians', () => {
-    const result = movingMedianReal([1,3,2,5,4], 3);
-    expect(result).toEqual([2,3,4]);
+    const result = movingMedianReal([1, 3, 2, 5, 4], 3);
+    expect(result).toEqual([2, 3, 4]);
   });
 
   test('plotGaussianReal returns a plot of gaussian values', () => {
@@ -511,7 +513,7 @@ describe('Extended Functions Full Coverage', () => {
   });
 
   test('plotGridReal returns an object with plots', () => {
-    const result = plotGridReal([plotSineReal, plotCosineReal], 0, Math.PI, Math.PI/4);
+    const result = plotGridReal([plotSineReal, plotCosineReal], 0, Math.PI, Math.PI / 4);
     expect(result).toHaveProperty('plotSineReal');
     expect(result).toHaveProperty('plotCosineReal');
   });
@@ -533,11 +535,11 @@ describe('Extended Functions Full Coverage', () => {
 
   describe('Newly added extended functions', () => {
     test('plotParametricReal returns correct parametric plot values', () => {
-      const result = plotParametricReal(0, Math.PI, Math.PI/2, t => t, t => 2*t);
+      const result = plotParametricReal(0, Math.PI, Math.PI / 2, t => t, t => 2 * t);
       expect(result).toEqual([
         { t: 0, x: 0, y: 0 },
-        { t: Math.PI/2, x: Math.PI/2, y: Math.PI },
-        { t: Math.PI, x: Math.PI, y: 2*Math.PI }
+        { t: Math.PI / 2, x: Math.PI / 2, y: Math.PI },
+        { t: Math.PI, x: Math.PI, y: 2 * Math.PI }
       ]);
     });
 
@@ -687,5 +689,14 @@ describe('Unknown Flag Handling', () => {
     const spyWarn = vi.spyOn(console, 'warn');
     await main();
     expect(spyWarn).toHaveBeenCalledWith(expect.stringContaining('Unknown option(s): --unknown-flag'));
+  });
+});
+
+describe('--test-coverage-hook flag functionality', () => {
+  test('should execute testCoverageHook and log its execution', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--test-coverage-hook'];
+    const spy = vi.spyOn(console, 'log');
+    await main();
+    expect(spy).toHaveBeenCalledWith('Test coverage hook executed');
   });
 });
