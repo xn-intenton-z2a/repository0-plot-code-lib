@@ -3,12 +3,10 @@
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-29.
 // Changelog:
-// - Updated inline documentation and error handling for module loaders.
-// - Extended plotting functions with new features and updated documentation per CONTRIBUTING guidelines.
-// - Added enhanced parametric plotting function (plotEnhancedParametricReal) triggered via --plot-enhanced-parametric.
-// - Improved testability by ensuring external dependencies (express, readline) are mockable and by increasing test coverage of code paths.
-// - Added testCoverageHook function to help achieve near 100% test coverage.
-// - Added new CLI flag --test-coverage-hook to execute testCoverageHook for enhanced coverage testing.
+// - Applied mission-driven refactoring to prune outdated demo implementations and code drift.
+// - Updated inline documentation and error messages to align with our mission statement.
+// - Refined CLI help messaging and consolidated references to CONTRIBUTING.md for developer guidelines.
+// - Enhanced test coverage hook integration and new plotting modes.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -62,7 +60,10 @@ export async function loadReadline() {
 
 // -------------------- Helper Functions --------------------
 function displayHelpMessage() {
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --debug, --reset, --plot-enhanced-parametric, --test-coverage-hook\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!
+Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --debug, --reset, --plot-enhanced-parametric, --test-coverage-hook
+For contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
 
