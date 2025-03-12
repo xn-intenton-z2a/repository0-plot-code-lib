@@ -5,6 +5,7 @@
 // Changelog:
 // - Updated inline documentation and error handling for module loaders.
 // - Extended plotting functions with new features and updated documentation per CONTRIBUTING guidelines.
+// - Added enhanced parametric plotting function (plotEnhancedParametricReal) triggered via --plot-enhanced-parametric flag.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -58,8 +59,28 @@ export async function loadReadline() {
 
 // -------------------- Helper Functions --------------------
 function displayHelpMessage() {
-  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --debug\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
+  const demoMessage = `Welcome to repository0-plot-code-lib CLI!\nMission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."\nSelect from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --debug, --reset, --plot-enhanced-parametric\nFor contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
+}
+
+// -------------------- Enhanced Plotting Functions --------------------
+/**
+ * Generates an enhanced parametric plot with style options.
+ * @param {number} tStart - Start of parameter range.
+ * @param {number} tEnd - End of parameter range.
+ * @param {number} step - Increment step.
+ * @param {function} xFunc - Function to generate x coordinate (default Math.cos).
+ * @param {function} yFunc - Function to generate y coordinate (default Math.sin).
+ * @param {object} styleOptions - Additional style options for each point.
+ * @returns {Array} - Array of plot points with style information.
+ */
+export function plotEnhancedParametricReal(tStart, tEnd, step = 0.1, xFunc = Math.cos, yFunc = Math.sin, styleOptions = { color: 'blue', marker: '*' }) {
+  const result = [];
+  for (let t = tStart; t <= tEnd; t += step) {
+    result.push({ t, x: xFunc(t), y: yFunc(t), style: styleOptions });
+  }
+  console.log('Enhanced Parametric Plot (real):', result);
+  return result;
 }
 
 // -------------------- CLI Core --------------------
@@ -74,7 +95,7 @@ export async function main(argsInput) {
 
   // Recognized flags including new ones
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--debug', '--reset'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--debug', '--reset', '--plot-enhanced-parametric'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -110,19 +131,14 @@ export async function main(argsInput) {
       'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal', 'plotLogLogReal', 'plotStepFunctionReal',
       'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal',
-      'plotBoxPlotReal', 'plotViolinPlotReal',
-      'loadExpress', 'loadReadline',
+      // Newly added functions
+      'plotEnhancedParametricReal',
+      'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
       'plotDampedOscillationReal', 'plotSpiralColoredReal',
-      'plotDualAxisReal',
-      'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
-      'plotParametricReal', 'plotCumulativeAverageReal',
-      'plotInverseFunctionReal',
-      'plotCustomFancyReal', 'plotInteractiveGuideReal',
-      'plotSineCosineDetailedReal',
-      'plotComplexFunctionReal',
-      'plotCumulativeProductReal',
-      'plotExponentialMovingAverageReal',
-      'plotExponentialSineReal', 'plotCosineCumulativeSumReal'
+      'plotDualAxisReal', 'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
+      'plotParametricReal', 'plotCumulativeAverageReal', 'plotInverseFunctionReal',
+      'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal',
+      'plotComplexFunctionReal', 'plotExponentialMovingAverageReal', 'plotExponentialSineReal', 'plotCosineCumulativeSumReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
   }
@@ -191,6 +207,13 @@ export async function main(argsInput) {
       console.error('Error starting server:', err);
       return;
     }
+    return;
+  }
+
+  // -------------------- Enhanced Parametric Plot Mode --------------------
+  if (args.includes('--plot-enhanced-parametric')) {
+    const enhancedParametric = plotEnhancedParametricReal(0, 2 * Math.PI, Math.PI / 8, Math.cos, Math.sin, { color: 'red', marker: 'o' });
+    console.log('Enhanced Parametric Plot Output:', enhancedParametric);
     return;
   }
 

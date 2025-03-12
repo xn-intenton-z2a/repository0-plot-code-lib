@@ -54,6 +54,8 @@ import {
   plotPiecewiseReal,
   movingProductReal,
   // Newly added functions
+  plotEnhancedParametricReal,
+  // Newly added extended functions
   plotNthRootReal,
   plotPolynomialFromCoeffsReal,
   plotCumulativeSumReal,
@@ -72,29 +74,18 @@ import {
   // New features
   plotDampedOscillationReal,
   plotSpiralColoredReal,
-  // Extended new function
   plotDualAxisReal,
-  // Newly added harmonics function
   plotHarmonicsReal,
-  // Newly added modulated sine function
   plotModulatedSineReal,
-  // Newly added statistical summary function
   plotStatisticalSummaryReal,
-  // Newly added extended functions
   plotParametricReal,
   plotCumulativeAverageReal,
-  // Newly added Inverse Function Feature
   plotInverseFunctionReal,
-  // Newly added custom extensions
   plotCustomFancyReal,
   plotInteractiveGuideReal,
-  // Newly added detailed sine-cosine plot
   plotSineCosineDetailedReal,
-  // Newly added complex combined function
   plotComplexFunctionReal,
-  // New Exponential Moving Average function
   plotExponentialMovingAverageReal,
-  // Newly added new functions
   plotExponentialSineReal,
   plotCosineCumulativeSumReal
 } from '@src/lib/main.js';
@@ -155,6 +146,12 @@ describe('New Extended Functions', () => {
     const result = plotCubicBezierReal(controlPoints, 0.5);
     expect(Array.isArray(result)).toBe(true);
     expect(result.length).toBeGreaterThanOrEqual(3);
+  });
+
+  test('plotEnhancedParametricReal returns enhanced parametric data', () => {
+    const result = plotEnhancedParametricReal(0, Math.PI, Math.PI/4, Math.cos, Math.sin, { color: 'red' });
+    expect(Array.isArray(result)).toBe(true);
+    expect(result[0]).toHaveProperty('style');
   });
 });
 
@@ -658,29 +655,29 @@ describe('Extended Functions Full Coverage', () => {
       expect(result.length).toBeGreaterThan(0);
     });
   });
+});
 
-  describe('External resource mocking', () => {
-    test('loadExpress returns fake module when overridden', async () => {
-      overrides.loadExpressOverride = async () => 'fakeExpress';
-      const result = await loadExpress();
-      expect(result).toBe('fakeExpress');
-      resetOverrides();
-    });
-
-    test('loadReadline returns fake module when overridden', async () => {
-      overrides.loadReadlineOverride = async () => ({ createInterface: () => ({ close: () => {} }) });
-      const res = await loadReadline();
-      expect(typeof res.createInterface).toBe('function');
-      resetOverrides();
-    });
+describe('External resource mocking', () => {
+  test('loadExpress returns fake module when overridden', async () => {
+    overrides.loadExpressOverride = async () => 'fakeExpress';
+    const result = await loadExpress();
+    expect(result).toBe('fakeExpress');
+    resetOverrides();
   });
 
-  describe('Unknown Flag Handling', () => {
-    test('should show help when an unknown flag is passed', async () => {
-      process.argv = ['node', 'src/lib/main.js', '--unknown-flag'];
-      const spyWarn = vi.spyOn(console, 'warn');
-      await main();
-      expect(spyWarn).toHaveBeenCalledWith(expect.stringContaining('Unknown option(s): --unknown-flag'));
-    });
+  test('loadReadline returns fake module when overridden', async () => {
+    overrides.loadReadlineOverride = async () => ({ createInterface: () => ({ close: () => {} }) });
+    const res = await loadReadline();
+    expect(typeof res.createInterface).toBe('function');
+    resetOverrides();
+  });
+});
+
+describe('Unknown Flag Handling', () => {
+  test('should show help when an unknown flag is passed', async () => {
+    process.argv = ['node', 'src/lib/main.js', '--unknown-flag'];
+    const spyWarn = vi.spyOn(console, 'warn');
+    await main();
+    expect(spyWarn).toHaveBeenCalledWith(expect.stringContaining('Unknown option(s): --unknown-flag'));
   });
 });

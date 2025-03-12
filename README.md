@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities - from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, and more.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities - from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, and more.
 
 ## Overview
 
@@ -11,12 +11,12 @@ This tool offers a robust command-line interface with multiple modes:
 - **Diagnostics Mode:** Check runtime diagnostics.
 - **Various Export/Plot Modes:** Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
 
-Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, and `--plot-cos-cumsum` provide extended capabilities.
+Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, and the newly added `--plot-enhanced-parametric` provide extended capabilities.
 
 ## Changelog
 
 - **Documentation and Code Refresh:** Updated inline documentation, error handling, and various plotting functions to align with our CONTRIBUTING guidelines and mission statement.
-- **Advanced Features:** Added new features including statistical visualizations, custom plots, interactive guide output, complex combined plots, cumulative product, and exponential moving average plots.
+- **Advanced Features:** Added new features including statistical visualizations, custom plots, interactive guide output, complex combined plots, cumulative product, exponential moving average plots, and an enhanced parametric plotting function (triggered by the new flag `--plot-enhanced-parametric`).
 
 ## Installation
 
@@ -42,7 +42,7 @@ Other common commands:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** e.g., `--export-csv`, `--export-json`, etc.
-- **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, etc.
+- **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-enhanced-parametric`, etc.
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
