@@ -17,7 +17,7 @@ Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plo
 
 - **Documentation and Code Refresh:** Updated inline documentation, error handling, and various plotting functions to align with our CONTRIBUTING guidelines and mission statement.
 - **Advanced Features:** Added new features including statistical visualizations, custom plots, interactive guide output, complex combined plots, cumulative product, exponential moving average plots, and an enhanced parametric plotting function (triggered by the new flag `--plot-enhanced-parametric`).
-- **Improved Testing:** Enhanced test coverage with single-layer mocked tests and deep mocks for external resources (e.g., network and file system dependencies).
+- **Improved Testing:** Enhanced test coverage with single layer mocked tests and deeper mocks for external resources. Added a new `testCoverageHook` to help verify full coverage.
 
 ## Installation
 

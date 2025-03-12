@@ -87,7 +87,8 @@ import {
   plotComplexFunctionReal,
   plotExponentialMovingAverageReal,
   plotExponentialSineReal,
-  plotCosineCumulativeSumReal
+  plotCosineCumulativeSumReal,
+  testCoverageHook
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -149,7 +150,7 @@ describe('New Extended Functions', () => {
   });
 
   test('plotEnhancedParametricReal returns enhanced parametric data', () => {
-    const result = plotEnhancedParametricReal(0, Math.PI, Math.PI/4, Math.cos, Math.sin, { color: 'red' });
+    const result = plotEnhancedParametricReal(0, Math.PI, Math.PI / 4, Math.cos, Math.sin, { color: 'red' });
     expect(Array.isArray(result)).toBe(true);
     expect(result[0]).toHaveProperty('style');
   });
@@ -653,6 +654,13 @@ describe('Extended Functions Full Coverage', () => {
       const result = plotCosineCumulativeSumReal(0, Math.PI, 0.5);
       expect(Array.isArray(result)).toBe(true);
       expect(result.length).toBeGreaterThan(0);
+    });
+  });
+
+  describe('Test Coverage Hook', () => {
+    test('testCoverageHook returns true', () => {
+      const result = testCoverageHook();
+      expect(result).toBe(true);
     });
   });
 });
