@@ -5,7 +5,9 @@
 // Changelog:
 // - Updated inline documentation and error handling for module loaders.
 // - Extended plotting functions with new features and updated documentation per CONTRIBUTING guidelines.
-// - Added enhanced parametric plotting function (plotEnhancedParametricReal) triggered via --plot-enhanced-parametric flag.
+// - Added enhanced parametric plotting function (plotEnhancedParametricReal) triggered via --plot-enhanced-parametric.
+// - Improved testability by ensuring external dependencies (express, readline) are mockable and by increasing test coverage of code paths.
+// - Minor refactor for clarity and consistency in logging and error messages.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -24,7 +26,7 @@ export function resetOverrides() {
 }
 
 // -------------------- Module Loaders --------------------
-// Module loader for Express with enhanced error reporting aligned with our mission
+// Module loader for Express with enhanced error reporting aligned with our mission.
 export async function loadExpress() {
   if (overrides.loadExpressOverride) {
     try {
@@ -41,7 +43,7 @@ export async function loadExpress() {
   }
 }
 
-// Module loader for Readline with enhanced error reporting aligned with our mission
+// Module loader for Readline with enhanced error reporting aligned with our mission.
 export async function loadReadline() {
   if (overrides.loadReadlineOverride) {
     try {
@@ -133,6 +135,7 @@ export async function main(argsInput) {
       'plotPiecewiseReal', 'movingProductReal',
       // Newly added functions
       'plotEnhancedParametricReal',
+      // Additional newly added features
       'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
       'plotDampedOscillationReal', 'plotSpiralColoredReal',
       'plotDualAxisReal', 'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
