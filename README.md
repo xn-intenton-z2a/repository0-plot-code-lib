@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities - from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, and more.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, and more.
 
 ## Overview
 
@@ -15,9 +15,9 @@ Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plo
 
 ## Changelog
 
-- **Documentation and Code Refresh:** Updated inline documentation, error handling, and various plotting functions to align with our CONTRIBUTING guidelines and mission statement.
-- **Advanced Features:** Added new features including statistical visualizations, custom plots, interactive guide output, complex combined plots, cumulative product, exponential moving average plots, enhanced parametric plotting function (triggered by the new flag `--plot-enhanced-parametric`), and a new CLI flag `--test-coverage-hook` to facilitate deeper test coverage.
-- **Improved Testing:** Enhanced test coverage with single layer mocked tests and deeper mocks for external resources. Added a new `testCoverageHook` to help verify full coverage.
+- **Mission-Driven Refactoring:** Applied refactoring to prune outdated demo code and align inline documentation and error messages with our mission statement.
+- **Enhanced CLI Messaging:** Updated help messages to clearly reference CONTRIBUTING.md and provide consistent user guidance.
+- **Improved Testing:** Extended test coverage and provided hooks for improved module mocking, ensuring robust functionality.
 
 ## Installation
 
