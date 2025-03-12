@@ -23,45 +23,20 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to &quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot; This repository has been refreshed to align with our contributing guidelines, pruned legacy drift, and updated documentation for clarity and adherence to our mission statement.</p>
+<p class="md-github">repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to &quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot; This tool supports a broad range of plotting functionalities - from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, and more.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">This tool provides a robust CLI with multiple modes including interactive, server, diagnostics, and various export and plotting options. It supports a wide range of plotting functionalities from basic functions (sine, cosine, exponential, logarithmic, quadratic, linear) to advanced visualizations (enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plot, custom fancy plot, detailed sine-cosine plot, interactive guide, complex combined plot, cumulative product, exponential moving average, exponential sine, cosine cumulative sum).</p>
+<p class="md-github">This tool offers a robust command-line interface with multiple modes:</p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Interactive Mode:</strong> Launch an interactive session to input commands.</li>
+<li class="md-github"><strong class="md-github">Server Mode:</strong> Run a basic Express server.</li>
+<li class="md-github"><strong class="md-github">Diagnostics Mode:</strong> Check runtime diagnostics.</li>
+<li class="md-github"><strong class="md-github">Various Export/Plot Modes:</strong> Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.</li>
+</ul>
+<p class="md-github">Advanced flags such as <code class="md-github">--plot-detailed</code>, <code class="md-github">--plot-cumprod</code>, <code class="md-github">--plot-ema</code>, <code class="md-github">--plot-exp-sine</code>, <code class="md-github">--plot-cos-cumsum</code>, and the newly added <code class="md-github">--plot-enhanced-parametric</code> provide extended capabilities.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="changelog" href="#changelog"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog</h2>
 <ul class="md-github">
-<li class="md-github">Initial implementation with basic and extended plotting functions.</li>
-<li class="md-github">Added advanced features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.</li>
-<li class="md-github">Introduced new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot, cumulative product plot (--plot-cumprod), exponential moving average plot (--plot-ema), exponential sine plot (--plot-exp-sine), and cosine cumulative sum plot (--plot-cos-cumsum).</li>
-<li class="md-github">Pruned legacy code drift and refined inline documentation and error handling in accordance with our CONTRIBUTING.md guidelines and mission statement.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="key-features" href="#key-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Key Features</h2>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Wide Range of Plots:</strong></p>
-<ul class="md-github">
-<li class="md-github">Basic plots: Sine, Cosine, Exponential, Logarithmic, Quadratic, Linear.</li>
-<li class="md-github">Advanced visualizations: Enhanced spiral, Polar heatmap, Dual axis, Box plot, Violin plot, Damped oscillation, Harmonics, Modulated sine, Statistical summary, Parametric plot, Cumulative average, Inverse function plot, Custom fancy plot, Detailed sine-cosine plot, Interactive guide, Complex combined plot, Cumulative product, Exponential moving average, Exponential sine, Cosine cumulative sum.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Multiple Output Formats:</strong></p>
-<ul class="md-github">
-<li class="md-github">Generate outputs in CSV, Markdown, JSON, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Analytical Functions:</strong></p>
-<ul class="md-github">
-<li class="md-github">Calculate derivatives, approximate integrals, compute moving averages, and perform other statistical analyses.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Flexible CLI:</strong></p>
-<ul class="md-github">
-<li class="md-github">Use flags like <code class="md-github">--interactive</code>, <code class="md-github">--serve</code>, <code class="md-github">--diagnostics</code>, and various export and plotting options.</li>
-<li class="md-github">New flags such as <code class="md-github">--plot-detailed</code>, <code class="md-github">--plot-cumprod</code>, <code class="md-github">--plot-ema</code>, <code class="md-github">--plot-exp-sine</code>, and <code class="md-github">--plot-cos-cumsum</code> enhance output options.</li>
-<li class="md-github">Easily reset overrides with <code class="md-github">--reset</code> and use <code class="md-github">--debug</code> for detailed function listings.</li>
-</ul>
-</li>
+<li class="md-github"><strong class="md-github">Documentation and Code Refresh:</strong> Updated inline documentation, error handling, and various plotting functions to align with our CONTRIBUTING guidelines and mission statement.</li>
+<li class="md-github"><strong class="md-github">Advanced Features:</strong> Added new features including statistical visualizations, custom plots, interactive guide output, complex combined plots, cumulative product, exponential moving average plots, and an enhanced parametric plotting function (triggered by the new flag <code class="md-github">--plot-enhanced-parametric</code>).</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
 <p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js v20 or higher.</p>
@@ -77,20 +52,20 @@
 <li class="md-github"><strong class="md-github">Diagnostics:</strong> <code class="md-github">npm run diagnostics</code></li>
 <li class="md-github"><strong class="md-github">Interactive Mode:</strong> <code class="md-github">node src/lib/main.js --interactive</code></li>
 <li class="md-github"><strong class="md-github">Server Mode:</strong> <code class="md-github">node src/lib/main.js --serve</code></li>
-<li class="md-github"><strong class="md-github">Export Options:</strong> Use flags like <code class="md-github">--export-csv</code>, <code class="md-github">--export-json</code>, etc.</li>
-<li class="md-github"><strong class="md-github">Plot Options:</strong> Use flags like <code class="md-github">--plot-custom-fancy</code>, <code class="md-github">--plot-detailed</code>, <code class="md-github">--interactive-guide</code>, <code class="md-github">--plot-complex</code>, <code class="md-github">--plot-cumprod</code>, <code class="md-github">--plot-ema</code>, <code class="md-github">--plot-exp-sine</code>, <code class="md-github">--plot-cos-cumsum</code>, etc.</li>
+<li class="md-github"><strong class="md-github">Export Options:</strong> e.g., <code class="md-github">--export-csv</code>, <code class="md-github">--export-json</code>, etc.</li>
+<li class="md-github"><strong class="md-github">Plot Options:</strong> e.g., <code class="md-github">--plot-custom-fancy</code>, <code class="md-github">--plot-detailed</code>, <code class="md-github">--interactive-guide</code>, <code class="md-github">--plot-enhanced-parametric</code>, etc.</li>
 <li class="md-github"><strong class="md-github">Reset Overrides:</strong> <code class="md-github">node src/lib/main.js --reset</code></li>
 <li class="md-github"><strong class="md-github">Debug Mode:</strong> <code class="md-github">node src/lib/main.js --debug</code></li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="testing" href="#testing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
-<p class="md-github">The project includes a comprehensive test suite using Vitest to ensure near 100% code coverage. Run the tests with:</p>
+<p class="md-github">The project includes a comprehensive test suite with Vitest. Run the tests with:</p>
 <pre class="md-github"><code class="md-github language-bash">npm test
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
 <p class="md-github">We welcome contributions! Please follow these steps:</p>
 <ol class="md-github">
-<li class="md-github"><strong class="md-github">Open an Issue:</strong> Describe bugs, suggest improvements, or propose new features by opening an issue in the repository.</li>
-<li class="md-github"><strong class="md-github">Label as <code class="md-github">automated</code>:</strong> This triggers our automated workflow.</li>
+<li class="md-github"><strong class="md-github">Open an Issue:</strong> Describe bugs, suggest improvements, or propose new features in our GitHub repository.</li>
+<li class="md-github"><strong class="md-github">Label as <code class="md-github">automated</code>:</strong> This triggers our automated contribution workflows.</li>
 <li class="md-github"><strong class="md-github">Submit a Pull Request:</strong> Include detailed commit messages and tests. See <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for full guidelines.</li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
@@ -98,7 +73,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-03-12T04:04:11.395Z</p>
+    <p>Generated on 2025-03-12T06:04:53.356Z</p>
   </footer>
 </body>
 </html>
