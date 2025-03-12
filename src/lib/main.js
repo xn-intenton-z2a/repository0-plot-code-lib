@@ -3,11 +3,8 @@
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-29.
 // Changelog:
-// - Refined inline documentation and updated error handling for module loaders.
-// - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
-// - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot, cumulative product visualization, exponential moving average plot (--plot-ema).
-// - New functions added: plotExponentialSineReal and plotCosineCumulativeSumReal, along with CLI flags --plot-exp-sine and --plot-cos-cumsum.
-// - Pruned legacy code drift and updated documentation to fully align with our CONTRIBUTING.md guidelines and mission statement.
+// - Updated inline documentation and error handling for module loaders.
+// - Extended plotting functions with new features and updated documentation per CONTRIBUTING guidelines.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -113,31 +110,21 @@ export async function main(argsInput) {
       'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal', 'plotLogLogReal', 'plotStepFunctionReal',
       'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal',
-      // Newly Added Custom Features
-      'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
+      'plotBoxPlotReal', 'plotViolinPlotReal',
+      'loadExpress', 'loadReadline',
       'plotDampedOscillationReal', 'plotSpiralColoredReal',
-      // Extended Plotting Functions
       'plotDualAxisReal',
-      // Newly Added Extended Functions
       'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
       'plotParametricReal', 'plotCumulativeAverageReal',
-      // Newly Added Inverse Function Feature
       'plotInverseFunctionReal',
-      // Newly Added Custom Extensions
       'plotCustomFancyReal', 'plotInteractiveGuideReal',
-      // Newly Added Detailed Sine-Cosine Plot Function
       'plotSineCosineDetailedReal',
-      // Newly Added Complex Combined Function Feature
       'plotComplexFunctionReal',
-      // New: Cumulative Product Plot
       'plotCumulativeProductReal',
-      // New: Exponential Moving Average Plot
       'plotExponentialMovingAverageReal',
-      // Newly Added New Functions
       'plotExponentialSineReal', 'plotCosineCumulativeSumReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
-    // Continue execution after debug output
   }
 
   // -------------------- Interactive Mode --------------------
@@ -151,7 +138,6 @@ export async function main(argsInput) {
       });
       let answer;
       if (process.env.VITEST === 'true') {
-        // In test environment, simulate immediate response
         answer = 'simulated plot command';
         console.log(`Received plot command: ${answer}`);
         if (rl && typeof rl.close === 'function') {
@@ -430,7 +416,6 @@ export async function main(argsInput) {
     return;
   }
 
-  // Newly Added Custom Features for missing flags
   if (args.includes('--plot-harmonics')) {
     const harmonics = plotHarmonicsReal(0, 2 * Math.PI, Math.PI / 16, [1, 2, 3]);
     console.log('Harmonics Plot Output: ' + JSON.stringify(harmonics));
@@ -449,14 +434,12 @@ export async function main(argsInput) {
     return;
   }
 
-  // Newly Added Inverse Function Feature
   if (args.includes('--plot-inverse')) {
     const inverse = plotInverseFunctionReal(1, 5, 1, x => x);
     console.log('Inverse Function Plot Output: ' + JSON.stringify(inverse));
     return;
   }
 
-  // Newly Added Custom Extensions
   if (args.includes('--plot-custom-fancy')) {
     const customFancy = plotCustomFancyReal(0, 10, 1);
     console.log('Custom Fancy Plot Output:', customFancy);
@@ -469,14 +452,12 @@ export async function main(argsInput) {
     return;
   }
 
-  // Newly Added Complex Combined Function Feature
   if (args.includes('--plot-complex')) {
     const complexPlot = plotComplexFunctionReal(0, 10, 1);
     console.log('Complex Function Plot Output:', complexPlot);
     return;
   }
 
-  // -------------------- New: Cumulative Product Plot --------------------
   if (args.includes('--plot-cumprod')) {
     const data = [1, 2, 3, 4];
     const cumprod = plotCumulativeProductReal(data);
@@ -484,7 +465,6 @@ export async function main(argsInput) {
     return;
   }
 
-  // -------------------- New: Exponential Moving Average Plot --------------------
   if (args.includes('--plot-ema')) {
     const data = [1, 2, 3, 4, 5];
     const ema = plotExponentialMovingAverageReal(data, 0.5);
@@ -492,7 +472,6 @@ export async function main(argsInput) {
     return;
   }
 
-  // -------------------- Newly Added New Functions --------------------
   if (args.includes('--plot-exp-sine')) {
     const plotExpSine = plotExponentialSineReal(0, 2 * Math.PI, 0.5, 1, 0.2);
     console.log('Exponential Sine Plot Output:', plotExpSine);
@@ -515,7 +494,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
 // -------------------- Analytical and Plotting Functions --------------------
 
-// Utility: Generate numeric range (inclusive)
 export function generateRange(start, end, step = 1) {
   const range = [];
   for (let i = start; i <= end; i += step) {
@@ -524,7 +502,6 @@ export function generateRange(start, end, step = 1) {
   return range;
 }
 
-// Calculate derivative of an expression using mathjs
 export function calculateDerivative(expr, variable, value) {
   try {
     const derivative = math.derivative(expr, variable);
@@ -536,7 +513,6 @@ export function calculateDerivative(expr, variable, value) {
   }
 }
 
-// -------------------- Plotting Functions --------------------
 export function plotSineReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -1123,7 +1099,6 @@ export function cumulativeDifferenceReal(data) {
 }
 
 // -------------------- Additional Newly Added Features --------------------
-// New function: Box Plot for statistical visualization
 export function plotBoxPlotReal(data) {
   if (!Array.isArray(data) || data.length === 0) {
     console.error('plotBoxPlotReal: data must be a non-empty array');
@@ -1140,7 +1115,6 @@ export function plotBoxPlotReal(data) {
   return boxPlot;
 }
 
-// New function: Violin Plot for density estimation visualization
 export function plotViolinPlotReal(data) {
   if (!Array.isArray(data) || data.length === 0) {
     console.error('plotViolinPlotReal: data must be a non-empty array');
@@ -1165,8 +1139,6 @@ export function plotViolinPlotReal(data) {
   return density;
 }
 
-// -------------------- Newly Added Advanced Feature --------------------
-// New function: Damped Oscillation Plot
 export function plotDampedOscillationReal(rangeStart, rangeEnd, step = 0.1, amplitude = 1, damping = 0.1, frequency = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: amplitude * Math.exp(-damping * x) * Math.sin(frequency * x) }));
@@ -1174,7 +1146,6 @@ export function plotDampedOscillationReal(rangeStart, rangeEnd, step = 0.1, ampl
   return plot;
 }
 
-// New function: Spiral Colored Plot
 export function plotSpiralColoredReal(steps = 100, a = 0, b = 0.1, colors = ['red', 'green', 'blue']) {
   const points = [];
   for (let i = 0; i < steps; i++) {
@@ -1186,8 +1157,6 @@ export function plotSpiralColoredReal(steps = 100, a = 0, b = 0.1, colors = ['re
   return points;
 }
 
-// -------------------- Extended Plotting Functions --------------------
-// New function: Dual Axis Plot
 export function plotDualAxisReal(rangeStart, rangeEnd, step = 1, fn1, fn2) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot1 = range.map(x => ({ x, y: fn1(x) }));
@@ -1196,8 +1165,6 @@ export function plotDualAxisReal(rangeStart, rangeEnd, step = 1, fn1, fn2) {
   return { plot1, plot2 };
 }
 
-// -------------------- Newly Added Extended Functions --------------------
-// New function: Plot Harmonics
 export function plotHarmonicsReal(rangeStart, rangeEnd, step = 1, frequencies = [1, 2, 3]) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({
@@ -1207,7 +1174,6 @@ export function plotHarmonicsReal(rangeStart, rangeEnd, step = 1, frequencies = 
   return plot;
 }
 
-// New function: Plot Modulated Sine
 export function plotModulatedSineReal(rangeStart, rangeEnd, step = 1, modulationFrequency = 1, modulationDepth = 0.5) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: Math.sin(x) * (1 + modulationDepth * Math.sin(modulationFrequency * x)) }));
@@ -1215,7 +1181,6 @@ export function plotModulatedSineReal(rangeStart, rangeEnd, step = 1, modulation
   return plot;
 }
 
-// New function: Statistical Summary
 export function plotStatisticalSummaryReal(data) {
   if (!Array.isArray(data) || data.length === 0) {
     console.error('plotStatisticalSummaryReal: data must be a non-empty array');
@@ -1231,8 +1196,6 @@ export function plotStatisticalSummaryReal(data) {
   return summary;
 }
 
-// -------------------- Newly Added Functions to Extend Functionality --------------------
-// New function: Parametric Plot
 export function plotParametricReal(tStart, tEnd, step = 0.1, xFunc = Math.cos, yFunc = Math.sin) {
   const result = [];
   for (let t = tStart; t <= tEnd; t += step) {
@@ -1242,7 +1205,6 @@ export function plotParametricReal(tStart, tEnd, step = 0.1, xFunc = Math.cos, y
   return result;
 }
 
-// New function: Cumulative Average Plot
 export function plotCumulativeAverageReal(data) {
   if (!Array.isArray(data) || data.length === 0) {
     console.error('plotCumulativeAverageReal: data must be a non-empty array');
@@ -1257,8 +1219,6 @@ export function plotCumulativeAverageReal(data) {
   return averages;
 }
 
-// -------------------- Newly Added Inverse Function Feature --------------------
-// New function: Plot Inverse Function
 export function plotInverseFunctionReal(rangeStart, rangeEnd, step = 1, func = Math.sin) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -1272,30 +1232,23 @@ export function plotInverseFunctionReal(rangeStart, rangeEnd, step = 1, func = M
   return plot;
 }
 
-// -------------------- Newly Added Custom Extensions --------------------
-// New function: Custom Fancy Plot
 export function plotCustomFancyReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({
     x,
     y: Math.sin(x) * Math.cos(x),
-    style: {
-      color: x % 2 === 0 ? 'magenta' : 'cyan',
-      marker: 'o'
-    }
+    style: { color: x % 2 === 0 ? 'magenta' : 'cyan', marker: 'o' }
   }));
   console.log('Custom Fancy Plot (real):', plot);
   return plot;
 }
 
-// New function: Interactive Guide Output
 export function plotInteractiveGuideReal() {
-  const guide = "Welcome to the interactive guide. Use flags like --plot-fancy, --plot-custom-fancy, --plot-detailed, or --interactive-guide to explore advanced plotting options.";
+  const guide = "Welcome to the interactive guide. Use flags such as --plot-custom-fancy, --plot-detailed, or --interactive-guide to explore advanced plotting options.";
   console.log('Interactive Guide (real):', guide);
   return guide;
 }
 
-// -------------------- Newly Added Detailed Sine-Cosine Plot Function --------------------
 export function plotSineCosineDetailedReal(rangeStart = 0, rangeEnd = Math.PI, step = 0.5) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => {
@@ -1306,8 +1259,6 @@ export function plotSineCosineDetailedReal(rangeStart = 0, rangeEnd = Math.PI, s
   return plot;
 }
 
-// -------------------- Newly Added Complex Combined Function --------------------
-// New function: Complex Combined Plot that blends multiple mathematical operations for advanced visualization
 export function plotComplexFunctionReal(rangeStart, rangeEnd, step = 1) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({
@@ -1318,7 +1269,6 @@ export function plotComplexFunctionReal(rangeStart, rangeEnd, step = 1) {
   return plot;
 }
 
-// -------------------- Newly Added Exponential Moving Average Function --------------------
 export function plotExponentialMovingAverageReal(data, alpha = 0.5) {
   if (!Array.isArray(data) || data.length === 0) {
     console.error('plotExponentialMovingAverageReal: data must be a non-empty array');
@@ -1334,8 +1284,6 @@ export function plotExponentialMovingAverageReal(data, alpha = 0.5) {
   return result;
 }
 
-// -------------------- Newly Added New Functions --------------------
-// New function: Exponential Sine Plot
 export function plotExponentialSineReal(rangeStart, rangeEnd, step = 0.5, amplitude = 1, growth = 0.2) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const plot = range.map(x => ({ x, y: amplitude * Math.exp(growth * x) * Math.sin(x) }));
@@ -1343,7 +1291,6 @@ export function plotExponentialSineReal(rangeStart, rangeEnd, step = 0.5, amplit
   return plot;
 }
 
-// New function: Cosine Cumulative Sum Plot
 export function plotCosineCumulativeSumReal(rangeStart, rangeEnd, step = 0.5) {
   const range = generateRange(rangeStart, rangeEnd, step);
   const values = range.map(x => Math.cos(x));
