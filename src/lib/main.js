@@ -3,11 +3,11 @@
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-29.
 // Changelog:
-// - Refreshed inline documentation and updated error handling for module loaders.
+// - Refined inline documentation and updated error handling for module loaders.
 // - Extended plotting functions with new features: box plot, violin plot, damped oscillation, spiral colored, dual axis, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting.
-// - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot (plotComplexFunctionReal), cumulative product visualization, exponential moving average plot (--plot-ema).
+// - Added new features: custom fancy plot, interactive guide output, detailed sine-cosine plot (--plot-detailed flag), complex combined plot, cumulative product visualization, exponential moving average plot (--plot-ema).
 // - New functions added: plotExponentialSineReal and plotCosineCumulativeSumReal, along with CLI flags --plot-exp-sine and --plot-cos-cumsum.
-// - Enhanced internal logging, error reporting, test coverage, and pruned legacy code drift in line with our contribution guidelines from CONTRIBUTING.md.
+// - Pruned legacy code drift and updated documentation to fully align with our CONTRIBUTING.md guidelines and mission statement.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
