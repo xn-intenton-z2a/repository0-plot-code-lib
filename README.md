@@ -11,12 +11,12 @@ This tool offers a robust command-line interface with multiple modes:
 - **Diagnostics Mode:** Check runtime diagnostics.
 - **Various Export/Plot Modes:** Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
 
-Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, and the newly added `--plot-enhanced-parametric` provide extended capabilities.
+Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, and the newly added `--plot-enhanced-parametric` and `--test-coverage-hook` provide extended capabilities.
 
 ## Changelog
 
 - **Documentation and Code Refresh:** Updated inline documentation, error handling, and various plotting functions to align with our CONTRIBUTING guidelines and mission statement.
-- **Advanced Features:** Added new features including statistical visualizations, custom plots, interactive guide output, complex combined plots, cumulative product, exponential moving average plots, and an enhanced parametric plotting function (triggered by the new flag `--plot-enhanced-parametric`).
+- **Advanced Features:** Added new features including statistical visualizations, custom plots, interactive guide output, complex combined plots, cumulative product, exponential moving average plots, enhanced parametric plotting function (triggered by the new flag `--plot-enhanced-parametric`), and a new CLI flag `--test-coverage-hook` to facilitate deeper test coverage.
 - **Improved Testing:** Enhanced test coverage with single layer mocked tests and deeper mocks for external resources. Added a new `testCoverageHook` to help verify full coverage.
 
 ## Installation
@@ -44,6 +44,7 @@ Other common commands:
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** e.g., `--export-csv`, `--export-json`, etc.
 - **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-enhanced-parametric`, etc.
+- **Test Coverage Hook:** `node src/lib/main.js --test-coverage-hook`
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
 
