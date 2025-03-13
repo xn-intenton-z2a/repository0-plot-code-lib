@@ -93,7 +93,9 @@ import {
   mockExternalResourceTest,
   // Newly added extended functions
   plotSpiral3DReal,
-  plotExponentialDecayEnhancedReal
+  plotExponentialDecayEnhancedReal,
+  // Added missing function
+  plotScatterReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
