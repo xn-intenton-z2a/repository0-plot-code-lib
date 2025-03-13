@@ -55,6 +55,8 @@ import {
   movingProductReal,
   // Newly added functions
   plotEnhancedParametricReal,
+  plotRandomWalkReal,
+  plotPhyllotaxisReal,
   // Newly added extended functions
   plotNthRootReal,
   plotPolynomialFromCoeffsReal,
@@ -125,6 +127,7 @@ describe('Module Loader Error Handling', () => {
   });
 });
 
+
 describe('New Extended Functions', () => {
   test('plotLogLogReal returns non-empty array', () => {
     const result = mainModule.plotLogLogReal(1, 10, 1);
@@ -156,7 +159,20 @@ describe('New Extended Functions', () => {
     expect(Array.isArray(result)).toBe(true);
     expect(result[0]).toHaveProperty('style');
   });
+
+  test('plotRandomWalkReal returns an array with specified number of steps', () => {
+    const walk = plotRandomWalkReal(100, 1);
+    expect(Array.isArray(walk)).toBe(true);
+    expect(walk.length).toBe(100);
+  });
+
+  test('plotPhyllotaxisReal returns an array with 1000 points by default', () => {
+    const phyllo = plotPhyllotaxisReal();
+    expect(Array.isArray(phyllo)).toBe(true);
+    expect(phyllo.length).toBe(1000);
+  });
 });
+
 
 describe('--reset flag functionality', () => {
   test('should reset overrides when --reset is passed', async () => {
@@ -171,6 +187,7 @@ describe('--reset flag functionality', () => {
   });
 });
 
+
 describe('Interactive Mode in test environment', () => {
   test('should simulate immediate response', async () => {
     process.env.VITEST = 'true';
@@ -181,6 +198,7 @@ describe('Interactive Mode in test environment', () => {
     delete process.env.VITEST;
   });
 });
+
 
 describe('Serve Mode in test environment', () => {
   test('should simulate server start in test environment', async () => {
@@ -193,6 +211,7 @@ describe('Serve Mode in test environment', () => {
   });
 });
 
+
 describe('--plot-circle flag functionality', () => {
   test('should print Circular Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-circle'];
@@ -201,6 +220,7 @@ describe('--plot-circle flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'));
   });
 });
+
 
 describe('--plot-grid flag functionality', () => {
   test('should print Grid Plot Output with sine and cosine plots', async () => {
@@ -211,6 +231,7 @@ describe('--plot-grid flag functionality', () => {
   });
 });
 
+
 describe('--plot-spiral-enhanced flag functionality', () => {
   test('should print Enhanced Spiral Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-spiral-enhanced'];
@@ -219,6 +240,7 @@ describe('--plot-spiral-enhanced flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Enhanced Spiral Plot Output:'));
   });
 });
+
 
 describe('--plot-polar-heatmap flag functionality', () => {
   test('should print Polar Heatmap Plot Output', async () => {
@@ -229,6 +251,7 @@ describe('--plot-polar-heatmap flag functionality', () => {
   });
 });
 
+
 describe('--power-plot flag functionality', () => {
   test('should print Power Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--power-plot'];
@@ -237,6 +260,7 @@ describe('--power-plot flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (real):'));
   });
 });
+
 
 describe('--plot-custom-enhanced flag functionality', () => {
   test('should print Custom Enhanced Plot Output', async () => {
@@ -247,6 +271,7 @@ describe('--plot-custom-enhanced flag functionality', () => {
   });
 });
 
+
 describe('--plot-piecewise flag functionality', () => {
   test('should print Piecewise Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-piecewise'];
@@ -255,6 +280,7 @@ describe('--plot-piecewise flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Piecewise Plot Output:'));
   });
 });
+
 
 describe('--plot-derivative flag functionality', () => {
   test('should print Derivative Plot Output', async () => {
@@ -265,6 +291,7 @@ describe('--plot-derivative flag functionality', () => {
   });
 });
 
+
 describe('--plot-harmonics flag functionality', () => {
   test('should print Harmonics Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-harmonics'];
@@ -274,6 +301,7 @@ describe('--plot-harmonics flag functionality', () => {
   });
 });
 
+
 describe('--plot-modulated-sine flag functionality', () => {
   test('should print Modulated Sine Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-modulated-sine'];
@@ -282,6 +310,7 @@ describe('--plot-modulated-sine flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Modulated Sine Plot Output:'));
   });
 });
+
 
 describe('--plot-stat-summary flag functionality', () => {
   test('should print Statistical Summary Output', async () => {
@@ -299,6 +328,7 @@ describe('plotStatisticalSummaryReal function', () => {
     expect(summary).toEqual({ mean: 3, median: 3, min: 1, max: 5 });
   });
 });
+
 
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {

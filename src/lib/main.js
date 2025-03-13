@@ -7,6 +7,7 @@
 // - Updated inline documentation and error messages to align with our mission statement.
 // - Refined CLI help messaging and consolidated references to CONTRIBUTING.md for developer guidelines.
 // - Enhanced test coverage hook integration and new plotting modes.
+// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal for extended plotting capabilities.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -87,6 +88,45 @@ export function plotEnhancedParametricReal(tStart, tEnd, step = 0.1, xFunc = Mat
   return result;
 }
 
+// -------------------- New Extended Plotting Functions --------------------
+/**
+ * Generates a Random Walk plot with a set number of steps.
+ * @param {number} steps - Total number of steps.
+ * @param {number} stepSize - The constant step size for each move.
+ * @returns {Array} - Array of points representing the random walk.
+ */
+export function plotRandomWalkReal(steps = 100, stepSize = 1) {
+  const points = [{ x: 0, y: 0 }];
+  for (let i = 1; i < steps; i++) {
+    const last = points[points.length - 1];
+    const angle = Math.random() * 2 * Math.PI;
+    const x = last.x + stepSize * Math.cos(angle);
+    const y = last.y + stepSize * Math.sin(angle);
+    points.push({ x, y });
+  }
+  console.log('Random Walk Plot (real):', points);
+  return points;
+}
+
+/**
+ * Generates a Phyllotaxis plot based on the divergence angle.
+ * @param {number} points - Number of points in the plot.
+ * @param {number} divergence - Divergence angle in degrees (default 137.5, golden angle).
+ * @param {number} scale - Scaling factor for the radius.
+ * @returns {Array} - Array of points representing the phyllotaxis pattern.
+ */
+export function plotPhyllotaxisReal(points = 1000, divergence = 137.5, scale = 2) {
+  const result = [];
+  const angle = divergence * Math.PI / 180;
+  for (let n = 0; n < points; n++) {
+    const r = scale * Math.sqrt(n);
+    const theta = n * angle;
+    result.push({ n, x: r * Math.cos(theta), y: r * Math.sin(theta) });
+  }
+  console.log('Phyllotaxis Plot (real):', result);
+  return result;
+}
+
 // -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
@@ -136,7 +176,7 @@ export async function main(argsInput) {
       'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
       'plotPiecewiseReal', 'movingProductReal',
       // Newly added functions
-      'plotEnhancedParametricReal',
+      'plotEnhancedParametricReal', 'plotRandomWalkReal', 'plotPhyllotaxisReal',
       // Additional newly added features
       'plotBoxPlotReal', 'plotViolinPlotReal', 'loadExpress', 'loadReadline',
       'plotDampedOscillationReal', 'plotSpiralColoredReal',
@@ -515,6 +555,19 @@ export async function main(argsInput) {
   if (args.includes('--plot-cos-cumsum')) {
     const plotCosCumsum = plotCosineCumulativeSumReal(0, Math.PI, 0.5);
     console.log('Cosine Cumulative Sum Plot Output:', plotCosCumsum);
+    return;
+  }
+
+  // -------------------- New Extended Functions Testing --------------------
+  if (args.includes('--plot-random-walk')) {
+    const randomWalk = plotRandomWalkReal();
+    console.log('Random Walk Plot Output:', randomWalk);
+    return;
+  }
+
+  if (args.includes('--plot-phyllotaxis')) {
+    const phyllotaxis = plotPhyllotaxisReal();
+    console.log('Phyllotaxis Plot Output:', phyllotaxis);
     return;
   }
 
