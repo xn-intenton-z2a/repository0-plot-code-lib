@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 // src/lib/main.js
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-// Last refined on 2024-12-29.
+// Last refined on 2024-12-30.
 // Changelog:
 // - Pruned outdated demo implementations and removed code drift.
-// - Updated inline documentation and error messages to fully align with our mission statement.
-// - Refined CLI help messaging and consolidated references to CONTRIBUTING.md for developer guidelines.
-// - Enhanced test coverage hook integration and new plotting modes.
-// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for deep external resource mocking tests.
-// - Added extended plotting functions: plotSpiral3DReal and plotExponentialDecayEnhancedReal for 3D spiral and enhanced exponential decay plots.
+// - Updated inline documentation and error messages in line with our mission statement.
+// - Enhanced CLI help messaging with clear references to CONTRIBUTING.md for developer guidelines.
+// - Improved test coverage integration with deep external resource mocks.
+// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for external resource testing.
+// - Extended plotting functionalities with plotSpiral3DReal and plotExponentialDecayEnhancedReal.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -140,7 +140,7 @@ export async function main(argsInput) {
 
   // Recognized flags including new ones
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--plot-enhanced-parametric', '--plot-random-walk', '--plot-phyllotaxis', '--debug', '--reset', '--test-coverage-hook'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--plot-enhanced-parametric', '--plot-random-walk', '--plot-phyllotaxis', '--debug', '--reset', '--test-coverage-hook', '--plot-spiral-3d', '--plot-exp-decay-enhanced'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -186,7 +186,9 @@ export async function main(argsInput) {
       'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal',
       'plotComplexFunctionReal', 'plotExponentialMovingAverageReal', 'plotExponentialSineReal', 'plotCosineCumulativeSumReal',
       'testCoverageHook',
-      'mockExternalResourceTest'
+      'mockExternalResourceTest',
+      // Newly added extended functions
+      'plotSpiral3DReal', 'plotExponentialDecayEnhancedReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
   }
