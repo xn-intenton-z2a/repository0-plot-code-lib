@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, and more.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, random walk and phyllotaxis plots, and more.
 
 ## Overview
 
@@ -11,13 +11,14 @@ This tool offers a robust command-line interface with multiple modes:
 - **Diagnostics Mode:** Check runtime diagnostics.
 - **Various Export/Plot Modes:** Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
 
-Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, and the newly added `--plot-enhanced-parametric` and `--test-coverage-hook` provide extended capabilities.
+Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, and `--test-coverage-hook` provide extended capabilities.
 
 ## Changelog
 
 - **Mission-Driven Refactoring:** Applied refactoring to prune outdated demo code and align inline documentation and error messages with our mission statement.
 - **Enhanced CLI Messaging:** Updated help messages to clearly reference CONTRIBUTING.md and provide consistent user guidance.
 - **Improved Testing:** Extended test coverage and provided hooks for improved module mocking, ensuring robust functionality.
+- **New Features:** Added new plotting functions: `plotRandomWalkReal` and `plotPhyllotaxisReal` to extend the library's capabilities.
 
 ## Installation
 
@@ -43,7 +44,7 @@ Other common commands:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** e.g., `--export-csv`, `--export-json`, etc.
-- **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-enhanced-parametric`, etc.
+- **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, etc.
 - **Test Coverage Hook:** `node src/lib/main.js --test-coverage-hook`
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
@@ -60,7 +61,7 @@ npm test
 
 We welcome contributions! Please follow these steps:
 
-1. **Open an Issue:** Describe bugs, suggest improvements, or propose new features in our GitHub repository.
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
 2. **Label as `automated`:** This triggers our automated contribution workflows.
 3. **Submit a Pull Request:** Include detailed commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
 
