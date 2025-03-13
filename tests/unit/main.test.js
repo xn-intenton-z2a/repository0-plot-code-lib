@@ -90,7 +90,8 @@ import {
   plotExponentialMovingAverageReal,
   plotExponentialSineReal,
   plotCosineCumulativeSumReal,
-  testCoverageHook
+  testCoverageHook,
+  mockExternalResourceTest
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -320,6 +321,7 @@ describe('--plot-stat-summary flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Statistical Summary:'));
   });
 });
+
 
 describe('plotStatisticalSummaryReal function', () => {
   test('returns correct statistical summary', () => {
@@ -689,6 +691,13 @@ describe('Extended Functions Full Coverage', () => {
     });
   });
 
+  describe('Mock External Resource Test', () => {
+    test('mockExternalResourceTest returns correct message', () => {
+      const result = mockExternalResourceTest();
+      expect(result).toBe('External resource test complete');
+    });
+  });
+
   describe('Test Coverage Hook', () => {
     test('testCoverageHook returns true', () => {
       const result = testCoverageHook();
@@ -696,6 +705,7 @@ describe('Extended Functions Full Coverage', () => {
     });
   });
 });
+
 
 describe('External resource mocking', () => {
   test('loadExpress returns fake module when overridden', async () => {
@@ -713,6 +723,7 @@ describe('External resource mocking', () => {
   });
 });
 
+
 describe('Unknown Flag Handling', () => {
   test('should show help when an unknown flag is passed', async () => {
     process.argv = ['node', 'src/lib/main.js', '--unknown-flag'];
@@ -721,6 +732,7 @@ describe('Unknown Flag Handling', () => {
     expect(spyWarn).toHaveBeenCalledWith(expect.stringContaining('Unknown option(s): --unknown-flag'));
   });
 });
+
 
 describe('--test-coverage-hook flag functionality', () => {
   test('should execute testCoverageHook and log its execution', async () => {

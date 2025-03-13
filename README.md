@@ -17,8 +17,8 @@ Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plo
 
 - **Mission-Driven Refactoring:** Applied refactoring to prune outdated demo code and align inline documentation and error messages with our mission statement.
 - **Enhanced CLI Messaging:** Updated help messages to clearly reference CONTRIBUTING.md and provide consistent user guidance.
-- **Improved Testing:** Extended test coverage and provided hooks for improved module mocking, ensuring robust functionality.
-- **New Features:** Added new plotting functions: `plotRandomWalkReal` and `plotPhyllotaxisReal` to extend the library's capabilities.
+- **Improved Testing:** Extended test coverage including deep mocks for external dependencies (e.g., Express and Readline) and added a new function `mockExternalResourceTest` to simulate external resource calls.
+- **New Features:** Added new plotting functions: `plotRandomWalkReal`, `plotPhyllotaxisReal`, and `mockExternalResourceTest` to extend the library's capabilities.
 
 ## Installation
 
@@ -56,6 +56,10 @@ The project includes a comprehensive test suite with Vitest. Run the tests with:
 ```bash
 npm test
 ```
+
+### Mocking External Resources
+
+the test suite includes mocks for external modules such as Express and Readline to ensure robust testing of network and file system dependencies. Use functions like `testCoverageHook` and `mockExternalResourceTest` for deep external resource testing.
 
 ## Contributing
 
