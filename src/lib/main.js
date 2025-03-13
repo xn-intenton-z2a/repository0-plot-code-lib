@@ -7,7 +7,7 @@
 // - Updated inline documentation and error messages to align with our mission statement.
 // - Refined CLI help messaging and consolidated references to CONTRIBUTING.md for developer guidelines.
 // - Enhanced test coverage hook integration and new plotting modes.
-// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal for extended plotting capabilities.
+// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for deep external resource mocking tests.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -63,7 +63,7 @@ export async function loadReadline() {
 function displayHelpMessage() {
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
 Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --debug, --reset, --plot-enhanced-parametric, --test-coverage-hook
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
@@ -139,7 +139,7 @@ export async function main(argsInput) {
 
   // Recognized flags including new ones
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--debug', '--reset', '--plot-enhanced-parametric', '--test-coverage-hook'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--debug', '--reset', '--plot-enhanced-parametric', '--plot-random-walk', '--plot-phyllotaxis', '--test-coverage-hook'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -183,7 +183,8 @@ export async function main(argsInput) {
       'plotDualAxisReal', 'plotHarmonicsReal', 'plotModulatedSineReal', 'plotStatisticalSummaryReal',
       'plotParametricReal', 'plotCumulativeAverageReal', 'plotInverseFunctionReal',
       'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal',
-      'plotComplexFunctionReal', 'plotExponentialMovingAverageReal', 'plotExponentialSineReal', 'plotCosineCumulativeSumReal'
+      'plotComplexFunctionReal', 'plotExponentialMovingAverageReal', 'plotExponentialSineReal', 'plotCosineCumulativeSumReal',
+      'mockExternalResourceTest'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
   }
@@ -1396,4 +1397,10 @@ export function plotCosineCumulativeSumReal(rangeStart, rangeEnd, step = 0.5) {
 export function testCoverageHook() {
   console.log('Test coverage hook executed');
   return true;
+}
+
+// -------------------- New Function for Deep External Resource Testing --------------------
+export function mockExternalResourceTest() {
+  console.log('Mock external resource test complete');
+  return 'External resource test complete';
 }
