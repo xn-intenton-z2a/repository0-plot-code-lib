@@ -11,14 +11,14 @@ This tool offers a robust command-line interface with multiple modes:
 - **Diagnostics Mode:** Check runtime diagnostics.
 - **Various Export/Plot Modes:** Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
 
-Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, and `--test-coverage-hook` provide extended capabilities. New extended functions like `plotSpiral3DReal` and `plotExponentialDecayEnhancedReal` have been added to deliver even more powerful visualizations.
+Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, `--plot-spiral-3d`, `--plot-exp-decay-enhanced`, and `--test-coverage-hook` provide extended capabilities. 
 
-## Changelog
+**Changelog**
 
 - **Mission-Driven Refactoring:** Pruned outdated demo implementations and removed code drift.
-- **Enhanced CLI Messaging:** Updated help messages to clearly reference CONTRIBUTING.md and provide consistent user guidance.
-- **Improved Testing:** Extended test coverage including deep mocks for external dependencies (e.g., Express and Readline) and added new functions like `mockExternalResourceTest` for simulating external resource calls.
-- **New Features:** Added new plotting functions: `plotRandomWalkReal`, `plotPhyllotaxisReal`, `mockExternalResourceTest`, **`plotSpiral3DReal`**, and **`plotExponentialDecayEnhancedReal`** to extend the library's capabilities.
+- **Enhanced CLI Messaging:** Updated help messages and inline documentation with clear references to CONTRIBUTING.md.
+- **Improved Testing:** Integrated deep mocks for external dependencies and expanded test coverage.
+- **New Features:** Added new plotting functions: `plotRandomWalkReal`, `plotPhyllotaxisReal`, `mockExternalResourceTest`, `plotSpiral3DReal`, and `plotExponentialDecayEnhancedReal` to extend the library's capabilities.
 
 ## Installation
 
@@ -59,7 +59,7 @@ npm test
 
 ### Mocking External Resources
 
-the test suite includes mocks for external modules such as Express and Readline to ensure robust testing of network and file system dependencies. Use functions like `testCoverageHook` and `mockExternalResourceTest` for deep external resource testing.
+The test suite includes mocks for external modules such as Express and Readline to ensure robust testing of network and file system dependencies. Use functions like `testCoverageHook` and `mockExternalResourceTest` for deep external resource testing.
 
 ## Contributing
 
