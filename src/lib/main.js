@@ -8,6 +8,7 @@
 // - Refined CLI help messaging and consolidated references to CONTRIBUTING.md for developer guidelines.
 // - Enhanced test coverage hook integration and new plotting modes.
 // - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for deep external resource mocking tests.
+// - Added extended plotting functions: plotSpiral3DReal and plotExponentialDecayEnhancedReal for 3D spiral and enhanced exponential decay plots.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -184,6 +185,7 @@ export async function main(argsInput) {
       'plotParametricReal', 'plotCumulativeAverageReal', 'plotInverseFunctionReal',
       'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal',
       'plotComplexFunctionReal', 'plotExponentialMovingAverageReal', 'plotExponentialSineReal', 'plotCosineCumulativeSumReal',
+      'testCoverageHook',
       'mockExternalResourceTest'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
@@ -322,7 +324,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
+    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
     return;
   }
 
@@ -569,6 +571,21 @@ export async function main(argsInput) {
   if (args.includes('--plot-phyllotaxis')) {
     const phyllotaxis = plotPhyllotaxisReal();
     console.log('Phyllotaxis Plot Output:', phyllotaxis);
+    return;
+  }
+
+  // -------------------- New Extended Functions --------------------
+  // New function: 3D Spiral Plot
+  if (args.includes('--plot-spiral-3d')) {
+    const spiral3D = plotSpiral3DReal();
+    console.log('3D Spiral Plot Output:', spiral3D);
+    return;
+  }
+
+  // New function: Enhanced Exponential Decay Plot
+  if (args.includes('--plot-exp-decay-enhanced')) {
+    const decayEnhanced = plotExponentialDecayEnhancedReal(0, 10, 1, 0.2, 1);
+    console.log('Enhanced Exponential Decay Plot Output:', decayEnhanced);
     return;
   }
 
@@ -1403,4 +1420,26 @@ export function testCoverageHook() {
 export function mockExternalResourceTest() {
   console.log('Mock external resource test complete');
   return 'External resource test complete';
+}
+
+// -------------------- New Extended Functions for 3D and Enhanced Decay --------------------
+export function plotSpiral3DReal(steps = 100, a = 0, b = 0.1, c = 0.05) {
+  const points = [];
+  for (let i = 0; i < steps; i++) {
+    const theta = i * (Math.PI / 15);
+    const r = a + b * theta;
+    const x = r * Math.cos(theta);
+    const y = r * Math.sin(theta);
+    const z = c * theta;
+    points.push({ theta, x, y, z });
+  }
+  console.log('3D Spiral Plot (real):', points);
+  return points;
+}
+
+export function plotExponentialDecayEnhancedReal(rangeStart, rangeEnd, step = 1, decayRate = 0.1, offset = 0) {
+  const range = generateRange(rangeStart, rangeEnd, step);
+  const plot = range.map(x => ({ x, y: Math.exp(-decayRate * x) + offset }));
+  console.log('Enhanced Exponential Decay Plot (real):', plot);
+  return plot;
 }

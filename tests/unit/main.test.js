@@ -35,7 +35,6 @@ import {
   plotGaussianReal,
   plotHeatMapReal,
   plotSpiralReal,
-  plotScatterReal,
   plotBarChartReal,
   plotLissajousReal,
   plotCustomReal,
@@ -57,7 +56,7 @@ import {
   plotEnhancedParametricReal,
   plotRandomWalkReal,
   plotPhyllotaxisReal,
-  // Newly added extended functions
+  // Extended functions
   plotNthRootReal,
   plotPolynomialFromCoeffsReal,
   plotCumulativeSumReal,
@@ -91,7 +90,10 @@ import {
   plotExponentialSineReal,
   plotCosineCumulativeSumReal,
   testCoverageHook,
-  mockExternalResourceTest
+  mockExternalResourceTest,
+  // Newly added extended functions
+  plotSpiral3DReal,
+  plotExponentialDecayEnhancedReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -174,7 +176,6 @@ describe('New Extended Functions', () => {
   });
 });
 
-
 describe('--reset flag functionality', () => {
   test('should reset overrides when --reset is passed', async () => {
     overrides.loadExpressOverride = async () => 'dummyExpress';
@@ -188,7 +189,6 @@ describe('--reset flag functionality', () => {
   });
 });
 
-
 describe('Interactive Mode in test environment', () => {
   test('should simulate immediate response', async () => {
     process.env.VITEST = 'true';
@@ -199,7 +199,6 @@ describe('Interactive Mode in test environment', () => {
     delete process.env.VITEST;
   });
 });
-
 
 describe('Serve Mode in test environment', () => {
   test('should simulate server start in test environment', async () => {
@@ -212,7 +211,6 @@ describe('Serve Mode in test environment', () => {
   });
 });
 
-
 describe('--plot-circle flag functionality', () => {
   test('should print Circular Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-circle'];
@@ -221,7 +219,6 @@ describe('--plot-circle flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Circular Plot Output:'));
   });
 });
-
 
 describe('--plot-grid flag functionality', () => {
   test('should print Grid Plot Output with sine and cosine plots', async () => {
@@ -232,7 +229,6 @@ describe('--plot-grid flag functionality', () => {
   });
 });
 
-
 describe('--plot-spiral-enhanced flag functionality', () => {
   test('should print Enhanced Spiral Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-spiral-enhanced'];
@@ -241,7 +237,6 @@ describe('--plot-spiral-enhanced flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Enhanced Spiral Plot Output:'));
   });
 });
-
 
 describe('--plot-polar-heatmap flag functionality', () => {
   test('should print Polar Heatmap Plot Output', async () => {
@@ -252,7 +247,6 @@ describe('--plot-polar-heatmap flag functionality', () => {
   });
 });
 
-
 describe('--power-plot flag functionality', () => {
   test('should print Power Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--power-plot'];
@@ -261,7 +255,6 @@ describe('--power-plot flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Power Plot (real):'));
   });
 });
-
 
 describe('--plot-custom-enhanced flag functionality', () => {
   test('should print Custom Enhanced Plot Output', async () => {
@@ -272,7 +265,6 @@ describe('--plot-custom-enhanced flag functionality', () => {
   });
 });
 
-
 describe('--plot-piecewise flag functionality', () => {
   test('should print Piecewise Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-piecewise'];
@@ -281,7 +273,6 @@ describe('--plot-piecewise flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Piecewise Plot Output:'));
   });
 });
-
 
 describe('--plot-derivative flag functionality', () => {
   test('should print Derivative Plot Output', async () => {
@@ -292,7 +283,6 @@ describe('--plot-derivative flag functionality', () => {
   });
 });
 
-
 describe('--plot-harmonics flag functionality', () => {
   test('should print Harmonics Plot Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-harmonics'];
@@ -301,7 +291,6 @@ describe('--plot-harmonics flag functionality', () => {
     expect(spy).toHaveBeenCalledWith(expect.stringContaining('Harmonics Plot Output:'));
   });
 });
-
 
 describe('--plot-modulated-sine flag functionality', () => {
   test('should print Modulated Sine Plot Output', async () => {
@@ -312,7 +301,6 @@ describe('--plot-modulated-sine flag functionality', () => {
   });
 });
 
-
 describe('--plot-stat-summary flag functionality', () => {
   test('should print Statistical Summary Output', async () => {
     process.argv = ['node', 'src/lib/main.js', '--plot-stat-summary'];
@@ -322,7 +310,6 @@ describe('--plot-stat-summary flag functionality', () => {
   });
 });
 
-
 describe('plotStatisticalSummaryReal function', () => {
   test('returns correct statistical summary', () => {
     const data = [1, 2, 3, 4, 5];
@@ -330,7 +317,6 @@ describe('plotStatisticalSummaryReal function', () => {
     expect(summary).toEqual({ mean: 3, median: 3, min: 1, max: 5 });
   });
 });
-
 
 describe('Extended Functions Full Coverage', () => {
   test('generateRange returns correct sequence', () => {
@@ -704,41 +690,53 @@ describe('Extended Functions Full Coverage', () => {
       expect(result).toBe(true);
     });
   });
-});
 
+  describe('External resource mocking', () => {
+    test('loadExpress returns fake module when overridden', async () => {
+      overrides.loadExpressOverride = async () => 'fakeExpress';
+      const result = await loadExpress();
+      expect(result).toBe('fakeExpress');
+      resetOverrides();
+    });
 
-describe('External resource mocking', () => {
-  test('loadExpress returns fake module when overridden', async () => {
-    overrides.loadExpressOverride = async () => 'fakeExpress';
-    const result = await loadExpress();
-    expect(result).toBe('fakeExpress');
-    resetOverrides();
+    test('loadReadline returns fake module when overridden', async () => {
+      overrides.loadReadlineOverride = async () => ({ createInterface: () => ({ close: () => {} }) });
+      const res = await loadReadline();
+      expect(typeof res.createInterface).toBe('function');
+      resetOverrides();
+    });
   });
 
-  test('loadReadline returns fake module when overridden', async () => {
-    overrides.loadReadlineOverride = async () => ({ createInterface: () => ({ close: () => {} }) });
-    const res = await loadReadline();
-    expect(typeof res.createInterface).toBe('function');
-    resetOverrides();
+  describe('Unknown Flag Handling', () => {
+    test('should show help when an unknown flag is passed', async () => {
+      process.argv = ['node', 'src/lib/main.js', '--unknown-flag'];
+      const spyWarn = vi.spyOn(console, 'warn');
+      await main();
+      expect(spyWarn).toHaveBeenCalledWith(expect.stringContaining('Unknown option(s): --unknown-flag'));
+    });
   });
-});
 
-
-describe('Unknown Flag Handling', () => {
-  test('should show help when an unknown flag is passed', async () => {
-    process.argv = ['node', 'src/lib/main.js', '--unknown-flag'];
-    const spyWarn = vi.spyOn(console, 'warn');
-    await main();
-    expect(spyWarn).toHaveBeenCalledWith(expect.stringContaining('Unknown option(s): --unknown-flag'));
+  describe('--test-coverage-hook flag functionality', () => {
+    test('should execute testCoverageHook and log its execution', async () => {
+      process.argv = ['node', 'src/lib/main.js', '--test-coverage-hook'];
+      const spy = vi.spyOn(console, 'log');
+      await main();
+      expect(spy).toHaveBeenCalledWith('Test coverage hook executed');
+    });
   });
-});
 
+  // New tests for extended functions
+  describe('New Extended 3D and Enhanced Decay Functions', () => {
+    test('plotSpiral3DReal returns points with x, y, and z', () => {
+      const result = plotSpiral3DReal(10, 0, 0.1, 0.05);
+      expect(result.length).toBe(10);
+      expect(result[0]).toHaveProperty('z');
+    });
 
-describe('--test-coverage-hook flag functionality', () => {
-  test('should execute testCoverageHook and log its execution', async () => {
-    process.argv = ['node', 'src/lib/main.js', '--test-coverage-hook'];
-    const spy = vi.spyOn(console, 'log');
-    await main();
-    expect(spy).toHaveBeenCalledWith('Test coverage hook executed');
+    test('plotExponentialDecayEnhancedReal returns modified exponential decay values', () => {
+      const result = plotExponentialDecayEnhancedReal(0, 2, 1, 0.5, 1);
+      expect(result[0].y).toBeCloseTo(Math.exp(0 * -0.5) + 1);
+    });
   });
+
 });
