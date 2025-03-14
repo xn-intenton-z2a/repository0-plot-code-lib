@@ -218,7 +218,8 @@ export async function main(argsInput) {
         }
         return;
       } else {
-        const fallbackTime = 100;
+        // Adjust fallback time for testing environments using fake timers
+        const fallbackTime = process.env.NODE_ENV === 'test' ? 10 : 100;
         answer = await new Promise((resolve) => {
           const timeout = setTimeout(() => resolve(undefined), fallbackTime);
           rl.question('Enter a command: ', (res) => {

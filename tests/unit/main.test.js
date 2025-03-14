@@ -202,20 +202,18 @@ describe('Interactive Mode in test environment', () => {
   });
 
   test('should trigger fallback after timeout when no input is received', async () => {
-    // Using fake timers to simulate timeout
     vi.useFakeTimers();
     process.argv = ['node', 'src/lib/main.js', '--interactive'];
     const spyWarn = vi.spyOn(console, 'warn');
-    // Override createInterface to never call the callback
     overrides.loadReadlineOverride = async () => ({
       createInterface: () => ({
         question: (q, cb) => {},
         close: () => {}
       })
     });
-    await main();
-    // Fast forward time
+    const p = main();
     vi.advanceTimersByTime(150);
+    await p;
     expect(spyWarn).toHaveBeenCalledWith('Interactive mode fallback triggered after timeout');
     vi.useRealTimers();
     resetOverrides();
