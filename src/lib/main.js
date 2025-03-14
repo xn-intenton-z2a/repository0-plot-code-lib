@@ -9,10 +9,12 @@
 // - Improved test coverage integration with deep external resource mocks.
 // - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for external resource testing.
 // - Extended plotting functionalities with plotSpiral3DReal and plotExponentialDecayEnhancedReal.
+// - Enhanced external module loading with deeper mocks for express and readline to boost test coverage as per CONTRIBUTING.md.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
 import { createInterface } from 'readline';
+import { setTimeout as delay } from 'node:timers/promises';
 
 // Export override hooks for testing purposes via a mutable object
 export const overrides = {
@@ -64,7 +66,7 @@ export async function loadReadline() {
 function displayHelpMessage() {
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
 Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook, --plot-spiral-3d, --plot-exp-decay-enhanced
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
@@ -217,14 +219,15 @@ export async function main(argsInput) {
         }
         return;
       } else {
-        const fallbackTime = 100;
-        answer = await new Promise((resolve) => {
-          const timeout = setTimeout(() => resolve(undefined), fallbackTime);
-          rl.question('Enter a command: ', (res) => {
-            clearTimeout(timeout);
-            resolve(res);
-          });
-        });
+        const fallbackTime = process.env.NODE_ENV === 'test' ? 10 : 100;
+        answer = await Promise.race([
+          new Promise((resolve) => {
+            rl.question('Enter a command: ', (res) => {
+              resolve(res);
+            });
+          }),
+          delay(fallbackTime, undefined)
+        ]);
         if (answer === undefined) {
           console.warn('Interactive mode fallback triggered after timeout');
         } else {

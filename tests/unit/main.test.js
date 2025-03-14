@@ -200,6 +200,24 @@ describe('Interactive Mode in test environment', () => {
     expect(spy).toHaveBeenCalledWith('Received plot command: simulated plot command');
     delete process.env.VITEST;
   });
+
+  test('should trigger fallback after timeout when no input is received', async () => {
+    vi.useFakeTimers();
+    process.argv = ['node', 'src/lib/main.js', '--interactive'];
+    const spyWarn = vi.spyOn(console, 'warn');
+    overrides.loadReadlineOverride = async () => ({
+      createInterface: () => ({
+        question: (q, cb) => {},
+        close: () => {}
+      })
+    });
+    const p = main();
+    await vi.advanceTimersByTimeAsync(150);
+    await p;
+    expect(spyWarn).toHaveBeenCalledWith('Interactive mode fallback triggered after timeout');
+    vi.useRealTimers();
+    resetOverrides();
+  });
 });
 
 describe('Serve Mode in test environment', () => {
@@ -737,7 +755,7 @@ describe('Extended Functions Full Coverage', () => {
 
     test('plotExponentialDecayEnhancedReal returns modified exponential decay values', () => {
       const result = plotExponentialDecayEnhancedReal(0, 2, 1, 0.5, 1);
-      expect(result[0].y).toBeCloseTo(Math.exp(0 * -0.5) + 1);
+      expect(result[0].y).toBeCloseTo(Math.exp(-0.5 * 0) + 1);
     });
   });
 

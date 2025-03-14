@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, random walk and phyllotaxis plots, and more. Recent updates include extended 3D plotting and enhanced exponential decay plotting functions.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, random walk and phyllotaxis plots, and more. Recent updates include extended 3D plotting, enhanced exponential decay plotting functions, and improved test coverage with deeper external resource mocks.
 
 ## Overview
 
@@ -17,7 +17,7 @@ Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plo
 
 - **Mission-Driven Refactoring:** Pruned outdated demo implementations and removed code drift.
 - **Enhanced CLI Messaging:** Updated help messages and inline documentation with clear references to CONTRIBUTING.md.
-- **Improved Testing:** Integrated deep mocks for external dependencies and expanded test coverage.
+- **Improved Testing:** Integrated deeper mock tests for external dependencies (Express, Readline) to boost test coverage as per the CONTRIBUTING guidelines.
 - **New Features:** Added new plotting functions: `plotRandomWalkReal`, `plotPhyllotaxisReal`, `mockExternalResourceTest`, `plotSpiral3DReal`, and `plotExponentialDecayEnhancedReal` to extend the library's capabilities.
 
 ## Installation
