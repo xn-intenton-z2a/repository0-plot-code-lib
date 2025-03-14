@@ -17,7 +17,7 @@ Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plo
 
 - **Mission-Driven Refactoring:** Pruned outdated demo implementations and removed code drift.
 - **Enhanced CLI Messaging:** Updated help messages and inline documentation with clear references to CONTRIBUTING.md.
-- **Improved Testing:** Integrated deeper mock tests for external dependencies (Express, Readline) to boost test coverage as per the CONTRIBUTING guidelines.
+- **Improved Testing:** Integrated deeper mocks for external dependencies (Express, Readline) to boost test coverage as per the CONTRIBUTING guidelines.
 - **New Features:** Added new plotting functions: `plotRandomWalkReal`, `plotPhyllotaxisReal`, `mockExternalResourceTest`, `plotSpiral3DReal`, and `plotExponentialDecayEnhancedReal` to extend the library's capabilities.
 
 ## Installation
