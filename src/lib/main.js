@@ -6,7 +6,7 @@
 // - Pruned outdated demo implementations and removed code drift.
 // - Updated inline documentation and error messages in line with our mission statement.
 // - Enhanced CLI help messaging with clear references to CONTRIBUTING.md for developer guidelines.
-// - Improved test coverage integration with deep external resource mocks.
+// - Improved test coverage integration with deep external resource mocks and extended external module loading validations as per CONTRIBUTING.md.
 // - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for external resource testing.
 // - Extended plotting functionalities with plotSpiral3DReal and plotExponentialDecayEnhancedReal.
 // - Enhanced external module loading with deeper mocks for express and readline to boost test coverage as per CONTRIBUTING.md.
