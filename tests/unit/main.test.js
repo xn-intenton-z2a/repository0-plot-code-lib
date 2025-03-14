@@ -94,8 +94,8 @@ import {
   // Newly added extended functions
   plotSpiral3DReal,
   plotExponentialDecayEnhancedReal,
-  // Added missing function
-  plotScatterReal
+  // Newly added modulo function
+  plotModuloReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -756,6 +756,22 @@ describe('Extended Functions Full Coverage', () => {
     test('plotExponentialDecayEnhancedReal returns modified exponential decay values', () => {
       const result = plotExponentialDecayEnhancedReal(0, 2, 1, 0.5, 1);
       expect(result[0].y).toBeCloseTo(Math.exp(-0.5 * 0) + 1);
+    });
+  });
+
+  describe('--plot-modulo flag functionality', () => {
+    test('should print Modulo Plot Output', async () => {
+      process.argv = ['node', 'src/lib/main.js', '--plot-modulo'];
+      const spy = vi.spyOn(console, 'log');
+      await main();
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining('Modulo Plot Output:'));
+    });
+
+    test('plotModuloReal returns correct modulo values', () => {
+      const result = plotModuloReal(0, 10, 1, 3);
+      result.forEach(point => {
+        expect(point.y).toBe(point.x % 3);
+      });
     });
   });
 

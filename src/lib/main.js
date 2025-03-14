@@ -10,6 +10,7 @@
 // - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for external resource testing.
 // - Extended plotting functionalities with plotSpiral3DReal and plotExponentialDecayEnhancedReal.
 // - Enhanced external module loading with deeper mocks for express and readline to boost test coverage as per CONTRIBUTING.md.
+// - Added new function: plotModuloReal and CLI flag (--plot-modulo) to extend the plotting features in line with our mission statement.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -66,7 +67,7 @@ export async function loadReadline() {
 function displayHelpMessage() {
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
 Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook, --plot-spiral-3d, --plot-exp-decay-enhanced
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook, --plot-spiral-3d, --plot-exp-decay-enhanced, --plot-modulo
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
@@ -130,6 +131,24 @@ export function plotPhyllotaxisReal(points = 1000, divergence = 137.5, scale = 2
   return result;
 }
 
+// -------------------- Additional Extended Feature --------------------
+/**
+ * Generates a modulo plot. For each x in the range, returns the modulo of x with a given divisor.
+ * @param {number} rangeStart - Starting value of the range.
+ * @param {number} rangeEnd - Ending value of the range.
+ * @param {number} step - Step increment.
+ * @param {number} divisor - The divisor for modulo operation.
+ * @returns {Array} - Array of points with x and modulo result y.
+ */
+export function plotModuloReal(rangeStart, rangeEnd, step = 1, divisor = 2) {
+  const result = [];
+  for (let x = rangeStart; x <= rangeEnd; x += step) {
+    result.push({ x, y: x % divisor });
+  }
+  console.log('Modulo Plot (real):', result);
+  return result;
+}
+
 // -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
@@ -142,7 +161,7 @@ export async function main(argsInput) {
 
   // Recognized flags including new ones
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--plot-enhanced-parametric', '--plot-random-walk', '--plot-phyllotaxis', '--debug', '--reset', '--test-coverage-hook', '--plot-spiral-3d', '--plot-exp-decay-enhanced'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--plot-enhanced-parametric', '--plot-random-walk', '--plot-phyllotaxis', '--debug', '--reset', '--test-coverage-hook', '--plot-spiral-3d', '--plot-exp-decay-enhanced', '--plot-modulo'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -187,10 +206,11 @@ export async function main(argsInput) {
       'plotParametricReal', 'plotCumulativeAverageReal', 'plotInverseFunctionReal',
       'plotCustomFancyReal', 'plotInteractiveGuideReal', 'plotSineCosineDetailedReal',
       'plotComplexFunctionReal', 'plotExponentialMovingAverageReal', 'plotExponentialSineReal', 'plotCosineCumulativeSumReal',
-      'testCoverageHook',
-      'mockExternalResourceTest',
+      'testCoverageHook', 'mockExternalResourceTest',
       // Newly added extended functions
-      'plotSpiral3DReal', 'plotExponentialDecayEnhancedReal'
+      'plotSpiral3DReal', 'plotExponentialDecayEnhancedReal',
+      // Newly added modulo function
+      'plotModuloReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
   }
@@ -591,6 +611,13 @@ export async function main(argsInput) {
   if (args.includes('--plot-exp-decay-enhanced')) {
     const decayEnhanced = plotExponentialDecayEnhancedReal(0, 10, 1, 0.2, 1);
     console.log('Enhanced Exponential Decay Plot Output:', decayEnhanced);
+    return;
+  }
+
+  // New function: Modulo Plot
+  if (args.includes('--plot-modulo')) {
+    const moduloPlot = plotModuloReal(0, 10, 1, 3);
+    console.log('Modulo Plot Output:', moduloPlot);
     return;
   }
 
