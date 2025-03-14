@@ -95,7 +95,9 @@ import {
   plotSpiral3DReal,
   plotExponentialDecayEnhancedReal,
   // Newly added modulo function
-  plotModuloReal
+  plotModuloReal,
+  // Newly added scatter plot
+  plotScatterReal
 } from '@src/lib/main.js';
 
 // Suppress console output during tests
@@ -160,19 +162,19 @@ describe('New Extended Functions', () => {
   });
 
   test('plotEnhancedParametricReal returns enhanced parametric data', () => {
-    const result = plotEnhancedParametricReal(0, Math.PI, Math.PI / 4, Math.cos, Math.sin, { color: 'red' });
+    const result = mainModule.plotEnhancedParametricReal(0, Math.PI, Math.PI / 4, Math.cos, Math.sin, { color: 'red' });
     expect(Array.isArray(result)).toBe(true);
     expect(result[0]).toHaveProperty('style');
   });
 
   test('plotRandomWalkReal returns an array with specified number of steps', () => {
-    const walk = plotRandomWalkReal(100, 1);
+    const walk = mainModule.plotRandomWalkReal(100, 1);
     expect(Array.isArray(walk)).toBe(true);
     expect(walk.length).toBe(100);
   });
 
   test('plotPhyllotaxisReal returns an array with 1000 points by default', () => {
-    const phyllo = plotPhyllotaxisReal();
+    const phyllo = mainModule.plotPhyllotaxisReal();
     expect(Array.isArray(phyllo)).toBe(true);
     expect(phyllo.length).toBe(1000);
   });

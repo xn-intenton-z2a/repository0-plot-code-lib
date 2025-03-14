@@ -145,8 +145,23 @@ export function plotModuloReal(rangeStart, rangeEnd, step = 1, divisor = 2) {
   for (let x = rangeStart; x <= rangeEnd; x += step) {
     result.push({ x, y: x % divisor });
   }
-  console.log('Modulo Plot (real):', result);
+  console.log('Modulo Plot Output:', result);
   return result;
+}
+
+// -------------------- New Function: Scatter Plot --------------------
+/**
+ * Generates a scatter plot with random points.
+ * @param {number} count - Number of scatter points.
+ * @returns {Array} - Array of points with x and y coordinates.
+ */
+export function plotScatterReal(count = 10) {
+  const points = [];
+  for (let i = 0; i < count; i++) {
+    points.push({ x: Math.random(), y: Math.random() });
+  }
+  console.log('Scatter Plot Output:', points);
+  return points;
 }
 
 // -------------------- CLI Core --------------------
@@ -349,7 +364,7 @@ export async function main(argsInput) {
   }
 
   if (args.includes('--export-latex')) {
-    console.log('LaTeX Output:', "\begin{tabular} 1 & 2\end{tabular}");
+    console.log('LaTeX Output:', "\\begin{tabular} 1 & 2\\end{tabular}");
     return;
   }
 
@@ -911,15 +926,6 @@ export function plotSpiralEnhancedReal(steps = 100, a = 0, b = 0.05, rotation = 
     points.push({ theta, x: r * Math.cos(theta), y: r * Math.sin(theta) });
   }
   console.log('Enhanced Spiral Plot Output:', points);
-  return points;
-}
-
-export function plotScatterReal(count = 10) {
-  const points = [];
-  for (let i = 0; i < count; i++) {
-    points.push({ x: Math.random(), y: Math.random() });
-  }
-  console.log('Scatter Plot (real):', points);
   return points;
 }
 
