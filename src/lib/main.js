@@ -14,6 +14,7 @@
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
 import { createInterface } from 'readline';
+import { setTimeout as delay } from 'node:timers/promises';
 
 // Export override hooks for testing purposes via a mutable object
 export const overrides = {
@@ -218,15 +219,15 @@ export async function main(argsInput) {
         }
         return;
       } else {
-        // Adjust fallback time for testing environments using fake timers
         const fallbackTime = process.env.NODE_ENV === 'test' ? 10 : 100;
-        answer = await new Promise((resolve) => {
-          const timeout = setTimeout(() => resolve(undefined), fallbackTime);
-          rl.question('Enter a command: ', (res) => {
-            clearTimeout(timeout);
-            resolve(res);
-          });
-        });
+        answer = await Promise.race([
+          new Promise((resolve) => {
+            rl.question('Enter a command: ', (res) => {
+              resolve(res);
+            });
+          }),
+          delay(fallbackTime, undefined)
+        ]);
         if (answer === undefined) {
           console.warn('Interactive mode fallback triggered after timeout');
         } else {

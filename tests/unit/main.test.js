@@ -212,7 +212,7 @@ describe('Interactive Mode in test environment', () => {
       })
     });
     const p = main();
-    vi.advanceTimersByTime(150);
+    await vi.advanceTimersByTimeAsync(150);
     await p;
     expect(spyWarn).toHaveBeenCalledWith('Interactive mode fallback triggered after timeout');
     vi.useRealTimers();
