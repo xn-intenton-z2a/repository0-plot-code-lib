@@ -104,6 +104,7 @@ import {
 vi.spyOn(console, 'log').mockImplementation(() => {});
 vi.spyOn(console, 'warn').mockImplementation(() => {});
 
+// Additional tests for improved coverage
 
 describe('Main Module Import', () => {
   test('should be non-null', () => {
@@ -776,5 +777,4 @@ describe('Extended Functions Full Coverage', () => {
       });
     });
   });
-
 });
