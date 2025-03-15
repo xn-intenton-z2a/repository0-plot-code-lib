@@ -94,7 +94,9 @@ import {
   // Newly added extended functions
   plotSpiral3DReal,
   plotExponentialDecayEnhancedReal,
-  // Added missing function
+  // Newly added modulo function
+  plotModuloReal,
+  // Newly added scatter plot
   plotScatterReal
 } from '@src/lib/main.js';
 
@@ -160,19 +162,19 @@ describe('New Extended Functions', () => {
   });
 
   test('plotEnhancedParametricReal returns enhanced parametric data', () => {
-    const result = plotEnhancedParametricReal(0, Math.PI, Math.PI / 4, Math.cos, Math.sin, { color: 'red' });
+    const result = mainModule.plotEnhancedParametricReal(0, Math.PI, Math.PI / 4, Math.cos, Math.sin, { color: 'red' });
     expect(Array.isArray(result)).toBe(true);
     expect(result[0]).toHaveProperty('style');
   });
 
   test('plotRandomWalkReal returns an array with specified number of steps', () => {
-    const walk = plotRandomWalkReal(100, 1);
+    const walk = mainModule.plotRandomWalkReal(100, 1);
     expect(Array.isArray(walk)).toBe(true);
     expect(walk.length).toBe(100);
   });
 
   test('plotPhyllotaxisReal returns an array with 1000 points by default', () => {
-    const phyllo = plotPhyllotaxisReal();
+    const phyllo = mainModule.plotPhyllotaxisReal();
     expect(Array.isArray(phyllo)).toBe(true);
     expect(phyllo.length).toBe(1000);
   });
@@ -756,6 +758,22 @@ describe('Extended Functions Full Coverage', () => {
     test('plotExponentialDecayEnhancedReal returns modified exponential decay values', () => {
       const result = plotExponentialDecayEnhancedReal(0, 2, 1, 0.5, 1);
       expect(result[0].y).toBeCloseTo(Math.exp(-0.5 * 0) + 1);
+    });
+  });
+
+  describe('--plot-modulo flag functionality', () => {
+    test('should print Modulo Plot Output', async () => {
+      process.argv = ['node', 'src/lib/main.js', '--plot-modulo'];
+      const spy = vi.spyOn(console, 'log');
+      await main();
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining('Modulo Plot Output:'));
+    });
+
+    test('plotModuloReal returns correct modulo values', () => {
+      const result = plotModuloReal(0, 10, 1, 3);
+      result.forEach(point => {
+        expect(point.y).toBe(point.x % 3);
+      });
     });
   });
 
