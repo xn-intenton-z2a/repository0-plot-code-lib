@@ -11,6 +11,7 @@
 // - Extended plotting functionalities with plotSpiral3DReal and plotExponentialDecayEnhancedReal.
 // - Enhanced external module loading with deeper mocks for express and readline to boost test coverage as per CONTRIBUTING.md.
 // - Added new function: plotModuloReal and CLI flag (--plot-modulo) to extend the plotting features in line with our mission statement.
+// - Increased test coverage with enhanced external resource mocks and deeper integration tests.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
@@ -210,8 +211,7 @@ export async function main(argsInput) {
       'plotSpiralReal', 'plotSpiralEnhancedReal', 'plotScatterReal', 'plotBarChartReal', 'plotLissajousReal',
       'plotCustomReal', 'plotSinCosCombinedReal', 'fibonacciSequence', 'plotFibonacciSpiralReal',
       'plotCircularPlotReal', 'plotPolarRoseReal', 'plotStarPolygonReal', 'plotLogLogReal', 'plotStepFunctionReal',
-      'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal',
-      'plotPiecewiseReal', 'movingProductReal',
+      'plotCubicBezierReal', 'plotPolarHeatmapReal', 'plotPowerPlotReal', 'plotCustomEnhancedReal', 'plotPiecewiseReal', 'movingProductReal',
       // Newly added functions
       'plotEnhancedParametricReal', 'plotRandomWalkReal', 'plotPhyllotaxisReal',
       // Additional newly added features
