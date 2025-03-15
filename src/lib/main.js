@@ -67,7 +67,7 @@ export async function loadReadline() {
 function displayHelpMessage() {
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
 Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook, --plot-spiral-3d, --plot-exp-decay-enhanced, --plot-modulo
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook, --plot-spiral-3d, --plot-exp-decay-enhanced, --plot-modulo`
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
@@ -145,7 +145,7 @@ export function plotModuloReal(rangeStart, rangeEnd, step = 1, divisor = 2) {
   for (let x = rangeStart; x <= rangeEnd; x += step) {
     result.push({ x, y: x % divisor });
   }
-  console.log('Modulo Plot Output:', result);
+  console.log('Modulo Plot Output: ' + JSON.stringify(result));
   return result;
 }
 
@@ -632,7 +632,7 @@ export async function main(argsInput) {
   // New function: Modulo Plot
   if (args.includes('--plot-modulo')) {
     const moduloPlot = plotModuloReal(0, 10, 1, 3);
-    console.log('Modulo Plot Output:', moduloPlot);
+    console.log('Modulo Plot Output: ' + JSON.stringify(moduloPlot));
     return;
   }
 
