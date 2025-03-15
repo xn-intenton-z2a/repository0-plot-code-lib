@@ -3,15 +3,12 @@
 // Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 // Last refined on 2024-12-30.
 // Changelog:
-// - Pruned outdated demo implementations and removed code drift.
-// - Updated inline documentation and error messages in line with our mission statement.
+// - Removed legacy demo implementations and pruned code drift to align with our mission statement.
+// - Updated inline documentation and error messages.
 // - Enhanced CLI help messaging with clear references to CONTRIBUTING.md for developer guidelines.
-// - Improved test coverage integration with deep external resource mocks and extended external module loading validations as per CONTRIBUTING.md.
-// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, and mockExternalResourceTest for external resource testing.
-// - Extended plotting functionalities with plotSpiral3DReal and plotExponentialDecayEnhancedReal.
-// - Enhanced external module loading with deeper mocks for express and readline to boost test coverage as per CONTRIBUTING.md.
-// - Added new function: plotModuloReal and CLI flag (--plot-modulo) to extend the plotting features in line with our mission statement.
-// - Increased test coverage with enhanced external resource mocks and deeper integration tests.
+// - Improved test coverage integration with deep external resource mocks and extended validations for external module loading as per CONTRIBUTING.md.
+// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, mockExternalResourceTest, plotSpiral3DReal, plotExponentialDecayEnhancedReal, plotModuloReal, and plotScatterReal.
+// - Refined CLI flag recognition and error handling to promote reliability and clarity.
 
 import { fileURLToPath } from 'url';
 import * as math from 'mathjs';
