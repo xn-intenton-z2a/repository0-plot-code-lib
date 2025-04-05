@@ -1,0 +1,87 @@
+{
+  "openIssues": 94,
+  "issuesClosedLastHour": 0,
+  "issuesClosedLastDay": 0,
+  "openPRs": 5,
+  "prDetails": [
+    {
+      "title": "Bump openai from 4.89.0 to 4.91.0",
+      "ageMinutes": 6718
+    },
+    {
+      "title": "Bump mathjs from 14.3.1 to 14.4.0",
+      "ageMinutes": 6719
+    },
+    {
+      "title": "Bump @vitest/coverage-v8 from 3.0.9 to 3.1.1",
+      "ageMinutes": 6720
+    },
+    {
+      "title": "Bump vitest from 3.0.9 to 3.1.1",
+      "ageMinutes": 6721
+    },
+    {
+      "title": "Bump npm-check-updates from 17.1.15 to 17.1.16",
+      "ageMinutes": 16717
+    }
+  ],
+  "diffMinutes": 23,
+  "diffMinutesMain": 23,
+  "commitsLastHour": 4,
+  "commitsLastDay": 5,
+  "lastFiveCommitMessages": [
+    {
+      "time": "11:41",
+      "message": "0.8.1-0"
+    },
+    {
+      "time": "11:41",
+      "message": "0.8.0"
+    },
+    {
+      "time": "11:29",
+      "message": "0.7.128-0"
+    },
+    {
+      "time": "11:22",
+      "message": "Update from agentic-lib"
+    },
+    {
+      "time": "02:06",
+      "message": "Add schedule configuration and update contribution guide\n\nIntrod..."
+    }
+  ],
+  "branches": {
+    "count": 6,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-685",
+        "minutesSinceLastCommit": 30459
+      },
+      {
+        "branch": "dependabot/npm_and_yarn/mathjs-14.4.0",
+        "minutesSinceLastCommit": 6719
+      },
+      {
+        "branch": "dependabot/npm_and_yarn/npm-check-updates-17.1.16",
+        "minutesSinceLastCommit": 10767
+      },
+      {
+        "branch": "dependabot/npm_and_yarn/openai-4.91.0",
+        "minutesSinceLastCommit": 6718
+      },
+      {
+        "branch": "dependabot/npm_and_yarn/vitest/coverage-v8-3.1.1",
+        "minutesSinceLastCommit": 6720
+      },
+      {
+        "branch": "dependabot/npm_and_yarn/vitest-3.1.1",
+        "minutesSinceLastCommit": 6721
+      }
+    ]
+  },
+  "averagePRAge": 8719,
+  "testStatus": "PASS",
+  "testsLastPassedMinutes": 15,
+  "generatedAt": "2025-04-05T12:05:07.440Z"
+}
