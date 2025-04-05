@@ -6,27 +6,27 @@
   "prDetails": [
     {
       "title": "Bump openai from 4.89.0 to 4.91.0",
-      "ageMinutes": 7197
+      "ageMinutes": 7316
     },
     {
       "title": "Bump mathjs from 14.3.1 to 14.4.0",
-      "ageMinutes": 7198
+      "ageMinutes": 7317
     },
     {
       "title": "Bump @vitest/coverage-v8 from 3.0.9 to 3.1.1",
-      "ageMinutes": 7199
+      "ageMinutes": 7319
     },
     {
       "title": "Bump vitest from 3.0.9 to 3.1.1",
-      "ageMinutes": 7199
+      "ageMinutes": 7319
     },
     {
       "title": "Bump npm-check-updates from 17.1.15 to 17.1.16",
-      "ageMinutes": 17196
+      "ageMinutes": 17315
     }
   ],
   "diffMinutes": 119,
-  "diffMinutesMain": 451,
+  "diffMinutesMain": 570,
   "commitsLastHour": 0,
   "commitsLastDay": 6,
   "lastFiveCommitMessages": [
@@ -56,32 +56,32 @@
     "details": [
       {
         "branch": "agentic-lib-issue-685",
-        "minutesSinceLastCommit": 30938
+        "minutesSinceLastCommit": 31058
       },
       {
         "branch": "dependabot/npm_and_yarn/mathjs-14.4.0",
-        "minutesSinceLastCommit": 7198
+        "minutesSinceLastCommit": 7317
       },
       {
         "branch": "dependabot/npm_and_yarn/npm-check-updates-17.1.16",
-        "minutesSinceLastCommit": 11246
+        "minutesSinceLastCommit": 11365
       },
       {
         "branch": "dependabot/npm_and_yarn/openai-4.91.0",
-        "minutesSinceLastCommit": 7197
+        "minutesSinceLastCommit": 7316
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest/coverage-v8-3.1.1",
-        "minutesSinceLastCommit": 7199
+        "minutesSinceLastCommit": 7319
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest-3.1.1",
-        "minutesSinceLastCommit": 7199
+        "minutesSinceLastCommit": 7319
       }
     ]
   },
-  "averagePRAge": 9197,
+  "averagePRAge": 9317,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-05T20:03:33.199Z"
+  "generatedAt": "2025-04-05T22:03:15.503Z"
 }
