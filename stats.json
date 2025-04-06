@@ -6,29 +6,29 @@
   "prDetails": [
     {
       "title": "Bump openai from 4.89.0 to 4.91.0",
-      "ageMinutes": 8037
+      "ageMinutes": 8159
     },
     {
       "title": "Bump mathjs from 14.3.1 to 14.4.0",
-      "ageMinutes": 8038
+      "ageMinutes": 8159
     },
     {
       "title": "Bump @vitest/coverage-v8 from 3.0.9 to 3.1.1",
-      "ageMinutes": 8039
+      "ageMinutes": 8161
     },
     {
       "title": "Bump vitest from 3.0.9 to 3.1.1",
-      "ageMinutes": 8039
+      "ageMinutes": 8161
     },
     {
       "title": "Bump npm-check-updates from 17.1.15 to 17.1.16",
-      "ageMinutes": 18036
+      "ageMinutes": 18157
     }
   ],
-  "diffMinutes": 119,
-  "diffMinutesMain": 1291,
+  "diffMinutes": 121,
+  "diffMinutesMain": 1413,
   "commitsLastHour": 0,
-  "commitsLastDay": 5,
+  "commitsLastDay": 1,
   "lastFiveCommitMessages": [
     {
       "time": "12:32",
@@ -56,32 +56,32 @@
     "details": [
       {
         "branch": "agentic-lib-issue-685",
-        "minutesSinceLastCommit": 31778
+        "minutesSinceLastCommit": 31900
       },
       {
         "branch": "dependabot/npm_and_yarn/mathjs-14.4.0",
-        "minutesSinceLastCommit": 8038
+        "minutesSinceLastCommit": 8159
       },
       {
         "branch": "dependabot/npm_and_yarn/npm-check-updates-17.1.16",
-        "minutesSinceLastCommit": 12086
+        "minutesSinceLastCommit": 12207
       },
       {
         "branch": "dependabot/npm_and_yarn/openai-4.91.0",
-        "minutesSinceLastCommit": 8037
+        "minutesSinceLastCommit": 8159
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest/coverage-v8-3.1.1",
-        "minutesSinceLastCommit": 8039
+        "minutesSinceLastCommit": 8161
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest-3.1.1",
-        "minutesSinceLastCommit": 8039
+        "minutesSinceLastCommit": 8161
       }
     ]
   },
-  "averagePRAge": 10037,
+  "averagePRAge": 10159,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-06T10:04:02.872Z"
+  "generatedAt": "2025-04-06T12:05:27.923Z"
 }
