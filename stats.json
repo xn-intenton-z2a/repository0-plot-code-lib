@@ -1,32 +1,32 @@
 {
-  "openIssues": 94,
+  "openIssues": 95,
   "issuesClosedLastHour": 0,
   "issuesClosedLastDay": 0,
   "openPRs": 5,
   "prDetails": [
     {
       "title": "Bump openai from 4.89.0 to 4.91.0",
-      "ageMinutes": 7677
+      "ageMinutes": 7798
     },
     {
       "title": "Bump mathjs from 14.3.1 to 14.4.0",
-      "ageMinutes": 7678
+      "ageMinutes": 7799
     },
     {
       "title": "Bump @vitest/coverage-v8 from 3.0.9 to 3.1.1",
-      "ageMinutes": 7679
+      "ageMinutes": 7800
     },
     {
       "title": "Bump vitest from 3.0.9 to 3.1.1",
-      "ageMinutes": 7679
+      "ageMinutes": 7800
     },
     {
       "title": "Bump npm-check-updates from 17.1.15 to 17.1.16",
-      "ageMinutes": 17676
+      "ageMinutes": 17797
     }
   ],
-  "diffMinutes": 92,
-  "diffMinutesMain": 931,
+  "diffMinutes": 120,
+  "diffMinutesMain": 1052,
   "commitsLastHour": 0,
   "commitsLastDay": 5,
   "lastFiveCommitMessages": [
@@ -56,32 +56,32 @@
     "details": [
       {
         "branch": "agentic-lib-issue-685",
-        "minutesSinceLastCommit": 31418
+        "minutesSinceLastCommit": 31539
       },
       {
         "branch": "dependabot/npm_and_yarn/mathjs-14.4.0",
-        "minutesSinceLastCommit": 7678
+        "minutesSinceLastCommit": 7799
       },
       {
         "branch": "dependabot/npm_and_yarn/npm-check-updates-17.1.16",
-        "minutesSinceLastCommit": 11726
+        "minutesSinceLastCommit": 11847
       },
       {
         "branch": "dependabot/npm_and_yarn/openai-4.91.0",
-        "minutesSinceLastCommit": 7677
+        "minutesSinceLastCommit": 7798
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest/coverage-v8-3.1.1",
-        "minutesSinceLastCommit": 7679
+        "minutesSinceLastCommit": 7800
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest-3.1.1",
-        "minutesSinceLastCommit": 7679
+        "minutesSinceLastCommit": 7800
       }
     ]
   },
-  "averagePRAge": 9677,
+  "averagePRAge": 9798,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-06T04:04:02.923Z"
+  "generatedAt": "2025-04-06T06:04:44.300Z"
 }
