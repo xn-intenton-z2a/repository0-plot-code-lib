@@ -6,27 +6,27 @@
   "prDetails": [
     {
       "title": "Bump openai from 4.89.0 to 4.91.0",
-      "ageMinutes": 8517
+      "ageMinutes": 8637
     },
     {
       "title": "Bump mathjs from 14.3.1 to 14.4.0",
-      "ageMinutes": 8518
+      "ageMinutes": 8638
     },
     {
       "title": "Bump @vitest/coverage-v8 from 3.0.9 to 3.1.1",
-      "ageMinutes": 8519
+      "ageMinutes": 8639
     },
     {
       "title": "Bump vitest from 3.0.9 to 3.1.1",
-      "ageMinutes": 8520
+      "ageMinutes": 8639
     },
     {
       "title": "Bump npm-check-updates from 17.1.15 to 17.1.16",
-      "ageMinutes": 18516
+      "ageMinutes": 18636
     }
   ],
-  "diffMinutes": 120,
-  "diffMinutesMain": 1771,
+  "diffMinutes": 119,
+  "diffMinutesMain": 1891,
   "commitsLastHour": 0,
   "commitsLastDay": 0,
   "lastFiveCommitMessages": [
@@ -56,32 +56,32 @@
     "details": [
       {
         "branch": "agentic-lib-issue-685",
-        "minutesSinceLastCommit": 32259
+        "minutesSinceLastCommit": 32378
       },
       {
         "branch": "dependabot/npm_and_yarn/mathjs-14.4.0",
-        "minutesSinceLastCommit": 8518
+        "minutesSinceLastCommit": 8638
       },
       {
         "branch": "dependabot/npm_and_yarn/npm-check-updates-17.1.16",
-        "minutesSinceLastCommit": 12566
+        "minutesSinceLastCommit": 12686
       },
       {
         "branch": "dependabot/npm_and_yarn/openai-4.91.0",
-        "minutesSinceLastCommit": 8517
+        "minutesSinceLastCommit": 8637
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest/coverage-v8-3.1.1",
-        "minutesSinceLastCommit": 8519
+        "minutesSinceLastCommit": 8639
       },
       {
         "branch": "dependabot/npm_and_yarn/vitest-3.1.1",
-        "minutesSinceLastCommit": 8520
+        "minutesSinceLastCommit": 8639
       }
     ]
   },
-  "averagePRAge": 10518,
+  "averagePRAge": 10637,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-06T18:04:10.358Z"
+  "generatedAt": "2025-04-06T20:03:50.898Z"
 }
