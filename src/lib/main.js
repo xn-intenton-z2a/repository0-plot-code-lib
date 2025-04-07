@@ -20,9 +20,9 @@ function evaluateParameter(p, index) {
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to NaN. Please verify the expression syntax and ensure it returns a valid number.`);
+    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to NaN. This can occur due to invalid operators, unsupported syntax, or missing values. Please review your expression to ensure it is a valid numeric expression.`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Verify the expression syntax and ensure it produces a finite number." };
+    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Check the syntax, operators, and ensure the expression returns a finite number." };
     throw err;
   }
   if (!Number.isFinite(evaluated)) {
