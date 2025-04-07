@@ -28,13 +28,13 @@ function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
   // Reject literal 'NaN' values robustly by checking case-insensitively after trimming
   if (trimmedValue.toLowerCase() === 'nan') {
-    const err = new Error(`Parameter ${index} error: Literal 'NaN' detected. Raw input: '${p}', trimmed input: '${trimmedValue}' is not a valid finite number.`);
+    const err = new Error(`Parameter ${index} error: Literal 'NaN' detected. Provided raw input '${p}', trimmed to '${trimmedValue}', is not a valid finite number.`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
       trimmedValue,
-      suggestion: "Replace any occurrence of literal 'NaN' (even with extra whitespace or different casing) with a valid numeric expression."
+      suggestion: "Replace the literal 'NaN' with a valid numeric expression, for example, '0' or another finite number."
     };
     throw err;
   }
