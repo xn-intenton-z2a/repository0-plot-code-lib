@@ -1,3 +1,6 @@
+///////////////////////////////
+// File: tests/unit/main.test.js
+///////////////////////////////
 // File: tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
@@ -43,11 +46,9 @@ describe("Invalid Numeric Input Handling", () => {
   });
 });
 
-
-// -----------------------------------------------------------------------------
-// New Test File: tests/unit/advancedPlots.test.js
-// -----------------------------------------------------------------------------
-
+///////////////////////////////
+// File: tests/unit/advancedPlots.test.js
+///////////////////////////////
 import { describe, test, expect, vi } from "vitest";
 import * as advancedPlots from "@src/lib/advancedPlots.js";
 import { main } from "@src/lib/main.js";

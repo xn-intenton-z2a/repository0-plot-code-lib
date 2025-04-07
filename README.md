@@ -52,6 +52,8 @@ Enhance your visualizations with advanced plotting capabilities. Use the `--adva
 - modulatedSine
 - extended3D
 
+_Note: The advanced plotting functionality is implemented in the separate module file `advancedPlots.js`, which is required to be present in the same directory as `main.js`._
+
 #### Examples
 
 **Spiral Plot (CLI):**

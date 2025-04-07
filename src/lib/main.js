@@ -1,3 +1,6 @@
+///////////////////////////////
+// File: src/lib/main.js
+///////////////////////////////
 #!/usr/bin/env node
 // src/lib/main.js
 
@@ -93,11 +96,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
+///////////////////////////////
+// End of src/lib/main.js
 
-// -----------------------------------------------------------------------------
-// New Module: src/lib/advancedPlots.js
-// -----------------------------------------------------------------------------
 
+///////////////////////////////
+// New File: src/lib/advancedPlots.js
+///////////////////////////////
 // src/lib/advancedPlots.js
 
 import { evaluate } from "mathjs";
@@ -146,3 +151,6 @@ export function extended3D(params) {
   // Dummy implementation for extended 3D plotting
   console.log("Plotting extended 3D plot with params:", params);
 }
+
+///////////////////////////////
+// End of src/lib/advancedPlots.js
