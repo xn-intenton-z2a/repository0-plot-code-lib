@@ -10,14 +10,14 @@ import readline from "readline";
 // Helper: Standardized error throwing for invalid numeric evaluations
 function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
   const trimmedValue = rawValue.trim();
-  const err = new Error(`Parameter ${index} error: Expression '${trimmedValue}' evaluated to ${evaluated}, which is not a finite number. Raw input: '${rawValue}'.`);
+  const err = new Error(`Parameter ${index} error: The expression '${trimmedValue}' evaluated to ${evaluated}, which is not a finite number. Please replace any literal 'NaN' with a valid finite numeric expression (e.g., 0). Raw input was '${rawValue}'.`);
   err.code = 1;
   err.diagnostic = {
     index,
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Replace any literal 'NaN' (even if formatted with extra whitespace or different casing) with a valid numeric expression."
+    suggestion: "Replace any literal 'NaN' with a valid finite number, for example, '0'."
   };
   throw err;
 }
@@ -26,17 +26,9 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 // This function robustly rejects literal 'NaN' inputs (regardless of case or extra whitespace) and ensures all evaluated expressions yield a finite number.
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
-  // Enhanced robust NaN detection: if the trimmed value matches 'NaN' in any casing, throw an error
+  // Enhanced robust NaN detection: if the trimmed value matches 'NaN' in any casing, throw an error using standardized error message
   if (/^nan$/i.test(trimmedValue)) {
-    const err = new Error(`Parameter ${index} error: Literal 'NaN' detected. Provided raw input '${p}', trimmed to '${trimmedValue}', is not a valid finite number.`);
-    err.code = 1;
-    err.diagnostic = {
-      index,
-      rawValue: p,
-      trimmedValue,
-      suggestion: "Replace the literal 'NaN' with a valid numeric expression, for example, '0' or another finite number."
-    };
-    throw err;
+    throwInvalidNumberError(index, p, "NaN");
   }
   let evaluated;
   try {
