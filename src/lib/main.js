@@ -54,10 +54,10 @@ export function main(args) {
   const paramsString = parts.slice(1).join(":");
   const params = paramsString.split(",");
 
-  // Validate that all parameters are numeric
-  const invalidParams = params.filter(p => isNaN(parseFloat(p)));
+  // Validate that all parameters are numeric using Number conversion.
+  const invalidParams = params.filter(p => Number.isNaN(Number(p)));
   if (invalidParams.length > 0) {
-    console.error("Invalid parameter detected. All parameters must be numeric.");
+    console.error(`Invalid parameter(s): ${invalidParams.join(", ")}. All parameters must be numeric.`);
     process.exit(1);
   }
 
