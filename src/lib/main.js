@@ -11,7 +11,7 @@ import readline from "readline";
 // Now includes detailed diagnostic information when an expression evaluates to NaN or a non-finite number, with refined suggestions.
 function evaluateParameter(p, index) {
   const input = p.trim();
-  // Early check for literal 'NaN' (case-insensitive, even with surrounding whitespace) to provide clearer error message
+  // Check for literal 'NaN' input (case-insensitive even with extra whitespace) to provide a clearer error message
   if (input.toLowerCase() === 'nan') {
     const err = new Error(`Parameter ${index} error: Literal 'NaN' is not allowed. Replace it with a valid numeric expression.`);
     err.code = 1;
