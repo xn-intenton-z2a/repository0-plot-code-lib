@@ -92,7 +92,7 @@ describe("Main CLI Functionality", () => {
     } catch (e) {
       captured = e.captured || { logs: [], errors: [] };
     }
-    expect(captured.errors.some(error => error.includes('not a valid finite number'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('not a finite number'))).toBe(true);
     expect(captured.errors.some(error => error.includes('Replace'))).toBe(true);
   });
 
