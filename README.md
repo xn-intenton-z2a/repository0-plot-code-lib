@@ -92,6 +92,10 @@ When an expression evaluation error occurs (e.g., an expression evaluating to Na
 
 ---
 
+## Note on Enhanced Error Diagnostics
+
+This release includes improved error handling for cases where expressions evaluate to NaN. If a literal 'NaN' or an expression that does not yield a numeric value is provided, the error message and diagnostic information will instruct you to replace it with a valid number or adjust your expression accordingly.
+
 ## License
 
 MIT
