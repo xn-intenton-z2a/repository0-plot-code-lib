@@ -30,7 +30,7 @@ function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
   // Immediate rejection if parameter exactly equals 'NaN' in any casing
   if (trimmedValue.toLowerCase() === 'nan') {
-    throwInvalidNumberError(index, p, "NaN");
+    throwInvalidNumberError(index, p, 'NaN');
   }
   let evaluated;
   try {
