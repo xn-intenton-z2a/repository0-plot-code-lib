@@ -20,7 +20,7 @@ function evaluateParameter(p, index) {
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Invalid parameter at index ${index}: Evaluated result is NaN for input '${p}'. Please provide a valid finite mathematical expression.`);
+    const err = new Error(`Invalid parameter at index ${index}: Evaluated result is NaN for input '${p}'. Please ensure the expression is valid (e.g., use '1+2' instead of 'NaN') and returns a finite number.`);
     err.code = 1;
     err.diagnostic = { index, rawValue: p, evaluated };
     throw err;

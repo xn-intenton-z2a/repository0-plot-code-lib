@@ -39,10 +39,10 @@ In the above examples, mathematical expressions like `2+2` are evaluated at runt
 The CLI now features enhanced argument parsing with clear error reporting, centralized command handlers, and structured diagnostic logging. For example, if an invalid expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will halt execution and display a detailed error message:
 
 ```
-Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please provide a valid finite mathematical expression.
+Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please ensure the expression is valid (e.g., use '1+2' instead of 'NaN') and returns a finite number.
 ```
 
-Error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value) to aid debugging.
+Error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value, evaluated result) to aid debugging.
 
 ### Modes and Features
 
