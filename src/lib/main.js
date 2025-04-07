@@ -17,7 +17,7 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Ensure the expression yields a valid finite number. Replace any literal 'NaN' with a valid numeric expression."
+    suggestion: "Ensure the expression yields a valid finite number. Replace any literal 'NaN' (or similar non-numeric values) with a valid numeric expression."
   };
   throw err;
 }
@@ -34,7 +34,7 @@ function evaluateParameter(p, index) {
       index,
       rawValue: p,
       trimmedValue,
-      suggestion: "Replace 'NaN' with a valid numeric expression. Do not use 'NaN' as input."
+      suggestion: "Replace any occurrence of literal 'NaN' (even with extra whitespace or different casing) with a valid numeric expression."
     };
     throw err;
   }
