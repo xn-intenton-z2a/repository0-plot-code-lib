@@ -12,29 +12,31 @@ function parseArguments(args) {
         console.log("No arguments provided. Starting interactive mode by default.");
       }
     };
-  }
-  if (args.includes("--interactive")) {
+  } else if (args.includes("--interactive")) {
     return {
       action: () => {
         console.log("Interactive mode activated.");
       }
     };
-  }
-  if (args.includes("--serve")) {
+  } else if (args.includes("--serve")) {
     return {
       action: () => {
         console.log("Starting web server (placeholder) on port 3000.");
       }
     };
-  }
-  if (args.includes("--ascii")) {
+  } else if (args.includes("--ascii")) {
     return {
       action: () => {
         console.log("Generating ASCII plot output (placeholder).");
       }
     };
-  }
-  if (args.length >= 2) {
+  } else if (args.includes("--diagnostics")) {
+    return {
+      action: () => {
+        console.log("Diagnostics mode activated.");
+      }
+    };
+  } else if (args.length >= 2) {
     const output = args[0];
     const command = args[1];
     if (command.startsWith("quad:")) {
@@ -63,10 +65,11 @@ function parseArguments(args) {
       err.code = 1;
       throw err;
     }
+  } else {
+    const err = new Error("Invalid command");
+    err.code = 1;
+    throw err;
   }
-  const err = new Error("Invalid command");
-  err.code = 1;
-  throw err;
 }
 
 export function main(args) {

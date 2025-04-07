@@ -53,6 +53,11 @@ describe("Main CLI Functionality", () => {
     expect(logs).toContain("Generating ASCII plot output (placeholder).");
   });
 
+  test("should activate diagnostics mode with --diagnostics flag", () => {
+    const { logs } = captureOutput(() => main(["--diagnostics"]));
+    expect(logs).toContain("Diagnostics mode activated.");
+  });
+
   test("should generate plot for valid command", () => {
     const { logs } = captureOutput(() => main(["output.svg", "quad:1,0,0,-10,10,1"]));
     expect(logs[0]).toMatch(/Generating quad plot to output.svg with parameters 1,0,0,-10,10,1/);
