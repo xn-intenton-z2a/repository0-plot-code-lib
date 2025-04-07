@@ -1,19 +1,18 @@
 {
-  "openIssues": 2,
+  "openIssues": 0,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refined NaN error messages and enhanced diagnostic suggestions for non-finite numeric evaluations. (fixes #861)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 0,
-  "diffMinutesMain": 11,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 6,
+  "diffMinutesMain": 6,
   "commitsLastHour": 4,
-  "commitsLastDay": 72,
+  "commitsLastDay": 73,
   "lastFiveCommitMessages": [
+    {
+      "time": "15:38",
+      "message": "Refined NaN error messages and enhanced diagnostic suggestions f..."
+    },
     {
       "time": "15:26",
       "message": "Enhance literal NaN input handling with improved diagnostic repo..."
@@ -29,23 +28,14 @@
     {
       "time": "14:40",
       "message": "Enhance NaN input validation and error diagnostics for numeric p..."
-    },
-    {
-      "time": "14:25",
-      "message": "Enhanced robust NaN validation using regex for improved error di..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-861",
-        "minutesSinceLastCommit": 0
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T15:37:49.251Z"
+  "generatedAt": "2025-04-07T15:44:40.160Z"
 }
