@@ -23,10 +23,10 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 }
 
 // Enhanced error handling for evaluating mathematical expressions
-// This function robustly rejects literal 'NaN' inputs (case-insensitive, extra whitespace) and ensures all evaluated expressions yield a finite number.
+// Rejects literal 'NaN' (case-insensitive, extra whitespace) and ensures evaluated expressions are finite
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
-  // Reject if the trimmed value is exactly 'NaN' regardless of casing
+  // Immediate rejection if parameter exactly equals 'NaN' in any casing
   if (trimmedValue.toLowerCase() === 'nan') {
     throwInvalidNumberError(index, p, "NaN");
   }
@@ -54,7 +54,7 @@ function evaluateParameter(p, index) {
     };
     throw err;
   }
-  // Check: if evaluated result is not a finite number or is NaN (e.g., expressions like '2+NaN'), throw error
+  // Check if evaluated result is not a finite number (or is NaN) and throw error accordingly
   if (!Number.isFinite(evaluated) || Number.isNaN(evaluated)) {
     throwInvalidNumberError(index, p, evaluated);
   }
