@@ -4,7 +4,7 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
-import * as advancedPlots from new URL("./advancedPlots.js", import.meta.url);
+import * as advancedPlots from "./advancedPlots.js";
 
 function errorExit(message) {
   console.error(message);
@@ -97,7 +97,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
 ///////////////////////////////
 // End of src/lib/main.js
-
 
 ///////////////////////////////
 // File: src/lib/advancedPlots.js
