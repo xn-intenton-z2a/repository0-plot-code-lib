@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (regardless of case or surrounding whitespace) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. The diagnostic now includes both the raw input and its trimmed version along with enhanced suggestions to help identify and resolve issues. Replace any such values with a valid numeric expression.
+**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (regardless of case or surrounding whitespace) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. The diagnostic includes both the raw and trimmed inputs along with specific suggestions to resolve the issue. Replace any such values with a valid numeric expression.
 
 ### Modes and Features
 
@@ -94,7 +94,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 ## Note on Enhanced Error Diagnostics
 
-This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. If an expression results in a non-finite value, or a literal 'NaN' (even with extra whitespace) is provided, the CLI will return a consistent error message along with detailed diagnostics. The diagnostic output now includes both the raw and trimmed inputs along with specific suggestions to address the error (such as checking syntax, arithmetic operations, and avoiding literal 'NaN').
+This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (even with extra whitespace or in different casings) are now explicitly rejected with a clear error message and diagnostic details. Please ensure that each numeric parameter is a valid expression that evaluates to a finite number.
 
 ## License
 
