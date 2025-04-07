@@ -7,26 +7,26 @@ import { evaluate } from "mathjs";
 import express from "express";
 import readline from "readline";
 
-// Helper function to evaluate a single parameter
-// Enhanced NaN handling: when an expression evaluates to NaN, a detailed error message with diagnostic info is thrown.
+// Enhanced error handling for evaluating mathematical expressions
+// Now includes detailed diagnostic information when a parameter evaluates to NaN or a non-finite number.
 function evaluateParameter(p, index) {
   let evaluated;
   try {
     evaluated = evaluate(p);
   } catch (evaluationError) {
-    const err = new Error(`Error evaluating parameter at index ${index}: value '${p}' is not a valid expression. Details: ${evaluationError.message}`);
+    const err = new Error(`Error evaluating parameter ${index} with input '${p}': ${evaluationError.message}. Please check your expression.`);
     err.code = 1;
     err.diagnostic = { index, rawValue: p, error: evaluationError.message };
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Invalid parameter at index ${index}: Evaluated result is NaN for input '${p}'. This might be due to a malformed expression or invalid operation. Please ensure the expression is valid and returns a finite number.`);
+    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to NaN. Please verify the expression syntax and ensure it returns a valid number.`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Check the expression syntax and ensure it produces a finite number." };
+    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Verify the expression syntax and ensure it produces a finite number." };
     throw err;
   }
   if (!Number.isFinite(evaluated)) {
-    const err = new Error(`Invalid parameter at index ${index}: Evaluated result is not a finite number for input '${p}'. Please provide a valid finite mathematical expression.`);
+    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to a non-finite number (${evaluated}). Please provide a finite numeric expression.`);
     err.code = 1;
     err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Ensure the expression does not result in Infinity or -Infinity." };
     throw err;

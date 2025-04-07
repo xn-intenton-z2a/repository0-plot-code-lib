@@ -22,7 +22,6 @@ function captureOutput(func) {
   return { logs, errors };
 }
 
-
 describe("Main CLI Functionality", () => {
   let exitSpy;
 
@@ -93,7 +92,7 @@ describe("Main CLI Functionality", () => {
     } catch (e) {
       captured = e.captured || { logs: [], errors: [] };
     }
-    expect(captured.errors.some(error => error.includes('Evaluated result is NaN'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('evaluated to NaN'))).toBe(true);
   });
 
   test("should error on invalid mathematical expression in quad command", () => {
