@@ -39,7 +39,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ### Improved NaN Handling and Diagnostic Messaging
 
 - Explicitly rejects any numeric parameter that, when trimmed, exactly matches 'NaN' (case-insensitive), including inputs with extra whitespace.
-- Provides enhanced error diagnostics by reporting both the raw and trimmed values along with clear guidance for replacing invalid inputs with a valid finite number (e.g., 0).
+- Provides enhanced error diagnostics by reporting both the raw and trimmed values along with clear guidance for correcting the input to a valid finite number (e.g., 0).
 
 This refinement ensures that all edge cases, including varied casing and extra whitespace, are handled consistently.
 
@@ -69,7 +69,7 @@ This refinement ensures that all edge cases, including varied casing and extra w
 
 ## Note on Enhanced Error Diagnostics
 
-This update improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (including those with extra whitespace or varied casing) and any expression that results in a non-finite number are strictly rejected, with detailed diagnostic messages providing both the raw and trimmed input values along with guidance to replace them with a valid numeric expression (e.g., 0).
+This update improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (including those with extra whitespace or varied casing) and any expression that results in a non-finite number are strictly rejected, with detailed diagnostic messages providing both the raw and trimmed input values along with guidance to substitute them with a valid numeric expression (e.g., 0).
 
 ---
 
