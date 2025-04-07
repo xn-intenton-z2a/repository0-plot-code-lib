@@ -43,16 +43,19 @@ function parseArguments(args) {
       const paramsStr = command.substring(5);
       const params = paramsStr.split(",");
       if (params.length !== 6) {
-        const err = new Error("Invalid plot command format");
+        const err = new Error("Invalid plot command format: Expected 6 numeric parameters separated by commas.");
         err.code = 1;
+        err.diagnostic = { error: "Incorrect number of parameters", provided: params.length, expected: 6 };
         throw err;
       }
-      // Enhanced numeric validation with explicit error messaging for non-numeric parameters
-      for (const p of params) {
+      // Enhanced numeric validation with structured diagnostic logging for invalid parameters
+      for (let i = 0; i < params.length; i++) {
+        const p = params[i];
         const num = Number(p);
         if (isNaN(num) || !Number.isFinite(num)) {
-          const err = new Error(`Invalid parameter: '${p}' is not a valid number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
+          const err = new Error(`Invalid parameter: at index ${i}, value '${p}' is not a valid number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
           err.code = 1;
+          err.diagnostic = { index: i, rawValue: p, attemptedNumber: num };
           throw err;
         }
       }
@@ -64,11 +67,13 @@ function parseArguments(args) {
     } else {
       const err = new Error("Invalid plot command format");
       err.code = 1;
+      err.diagnostic = { command };
       throw err;
     }
   } else {
     const err = new Error("Invalid command");
     err.code = 1;
+    err.diagnostic = { args };
     throw err;
   }
 }
@@ -79,6 +84,9 @@ export function main(args) {
     action();
   } catch (error) {
     console.error(error.message);
+    if (error.diagnostic) {
+      console.error("Diagnostic info:", JSON.stringify(error.diagnostic));
+    }
     process.exit(error.code || 1);
   }
 }
