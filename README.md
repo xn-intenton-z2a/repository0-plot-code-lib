@@ -34,12 +34,12 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite values (e.g., expressions like "2+NaN") — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace such values with a valid numeric expression (e.g., 0).
+**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite numbers (e.g., expressions like "2+NaN") — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace such values with a valid numeric expression (e.g., 0).
 
 ### Improved NaN Handling and Diagnostic Messaging
 
 - Strictly rejects any parameter that, when trimmed, exactly matches 'NaN' (case-insensitive), even if extra whitespace is present.
-- Enhanced error diagnostics for expressions evaluating to non-finite numbers, ensuring that both the raw and trimmed input values are included in the error message along with a suggestion: "Replace any instance of literal 'NaN' or non-finite expressions with a valid finite number (e.g., 0)."
+- Enhanced error diagnostics for expressions evaluating to non-finite numbers, ensuring that both the raw and trimmed input values are included in the error message along with guidance to replace them with a valid numeric expression (e.g., 0).
 
 ---
 

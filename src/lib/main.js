@@ -24,7 +24,7 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 }
 
 // Enhanced error handling for evaluating mathematical expressions
-// Rejects literal 'NaN' (case-insensitive, extra whitespace) and ensures evaluated expressions are finite
+// This function rejects inputs that, after trimming, exactly equal 'NaN' (ignoring case), and also any expression that evaluates to a non-finite number.
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
   // Immediate rejection if parameter exactly equals 'NaN' in any casing
