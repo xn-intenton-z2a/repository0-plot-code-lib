@@ -2,9 +2,18 @@ prompts/PRUNE.md
 # prompts/PRUNE.md
 Update the source file by applying the Mission Statement to prune any "drift" from the source file.
 Do his pruning one area at a time and consider carefully the potential value against the cost of retaining this code.
-Where possible reduce the complexity of the code if the value of that complexity is not clear (or low).prompts/MISSION.md
-# prompts/MISSION.md
+Where possible reduce the complexity of the code if the value of that complexity is not clear (or low).prompts/unused/MISSION.md
+# prompts/unused/MISSION.md
 Create, vary or extend as the most significant feature you can think of inline with the Mission Statement by updating the source file.
+prompts/unused/IDEATION.md
+# prompts/unused/IDEATION.md
+Generate a new feature file for a feature that will add value.
+prompts/unused/REFINE.md
+# prompts/unused/REFINE.md
+Refine a feature so that it can be developed.
+prompts/unused/FEATURE.md
+# prompts/unused/FEATURE.md
+Implement, vary or extend funcionality based on one of the features.
 prompts/TESTS.md
 # prompts/TESTS.md
 Improve the test coverage by pragmatically examining likely paths and failure scenarios and adding tests.
