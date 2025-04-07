@@ -4,65 +4,78 @@
 import { fileURLToPath } from "url";
 import process from "process";
 
-export function main(args) {
-  if (!args || args.length === 0) {
-    console.log("No arguments provided. Starting interactive mode by default.");
-    // Placeholder for interactive mode logic.
-    return;
+// Internal CLI argument parser implementation
+function parseArguments(args) {
+  if (args.length === 0) {
+    return {
+      action: () => {
+        console.log("No arguments provided. Starting interactive mode by default.");
+      }
+    };
   }
-
-  // Check if any argument is a flag (starts with "--")
-  const flagArg = args.find(arg => arg.startsWith("--"));
-  if (flagArg) {
-    switch (flagArg) {
-      case "--interactive":
+  if (args.includes("--interactive")) {
+    return {
+      action: () => {
         console.log("Interactive mode activated.");
-        // Placeholder for interactive mode logic.
-        break;
-      case "--serve":
+      }
+    };
+  }
+  if (args.includes("--serve")) {
+    return {
+      action: () => {
         console.log("Starting web server (placeholder) on port 3000.");
-        // Placeholder for Express server startup.
-        break;
-      case "--ascii":
+      }
+    };
+  }
+  if (args.includes("--ascii")) {
+    return {
+      action: () => {
         console.log("Generating ASCII plot output (placeholder).");
-        // Placeholder for ASCII plot generation.
-        break;
-      case "--diagnostics":
-        console.log("Diagnostics mode active.");
-        // Placeholder for diagnostics.
-        break;
-      default:
-        console.error(`Unknown flag: ${flagArg}`);
-        process.exit(1);
+      }
+    };
+  }
+  if (args.length >= 2) {
+    const output = args[0];
+    const command = args[1];
+    if (command.startsWith("quad:")) {
+      const paramsStr = command.substring(5);
+      const params = paramsStr.split(",");
+      if (params.length !== 6) {
+        const err = new Error("Invalid plot command format");
+        err.code = 1;
+        throw err;
+      }
+      for (const p of params) {
+        if (isNaN(Number(p))) {
+          const err = new Error(`Invalid parameter(s): "${p}" provided. All parameters must be numeric. Please ensure you use only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
+          err.code = 1;
+          throw err;
+        }
+      }
+      return {
+        action: () => {
+          console.log(`Generating quad plot to ${output} with parameters ${params.join(",")}`);
+        }
+      };
+    } else {
+      const err = new Error("Invalid plot command format");
+      err.code = 1;
+      throw err;
     }
-    return;
   }
+  const err = new Error("Invalid command");
+  err.code = 1;
+  throw err;
+}
 
-  // If no flag, assume the arguments are for generating a plot
-  if (args.length < 2) {
-    console.error("Insufficient arguments. Expected output file and plot command.");
-    process.exit(1);
+export function main(args) {
+  try {
+    const { action } = parseArguments(args);
+    action();
+  } catch (error) {
+    console.error(error.message);
+    process.exit(error.code || 1);
   }
-
-  const [outputFile, plotCommand] = args;
-  const parts = plotCommand.split(":");
-  if (parts.length < 2) {
-    console.error("Invalid plot command format. Expected 'command:parameters'.");
-    process.exit(1);
-  }
-  const commandName = parts[0];
-  const paramsString = parts.slice(1).join(":");
-  const params = paramsString.split(",");
-
-  // Validate that all parameters are numeric using Number conversion.
-  const invalidParam = params.find(p => Number.isNaN(Number(p)));
-  if (invalidParam !== undefined) {
-    const errorMsg = `Invalid parameter: "${invalidParam}" provided. All parameters must be numeric. Please ensure you use only numeric values. Example valid input: ${commandName}:1,0,0,-10,10,1`;
-    console.error(errorMsg);
-    process.exit(1);
-  }
-
-  console.log(`Generating ${commandName} plot to ${outputFile} with parameters ${params.join(",")}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
