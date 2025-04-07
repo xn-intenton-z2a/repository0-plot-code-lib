@@ -38,7 +38,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 ### Enhanced NaN Validation
 
-This version includes robust rejection of any numeric input formatted as 'NaN' (with any casing or extra whitespace). If such input is detected in any parameter, the CLI will produce a clear, detailed error message with diagnostic information. This helps in quickly identifying and correcting the mistake.
+This version includes robust rejection of any numeric input formatted as 'NaN' (with any casing or extra whitespace). If such input is detected in any parameter, the CLI will produce a clear, detailed error message with diagnostic information, ensuring users know exactly which input was invalid and how to correct it.
 
 ### Modes and Features
 
@@ -98,7 +98,9 @@ This version includes robust rejection of any numeric input formatted as 'NaN' (
 
 ## Note on Enhanced Error Diagnostics
 
-This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (even with extra whitespace, varied casing, or other non-numeric formats) are now explicitly rejected with an error message that includes both the raw input and its trimmed value, accompanied by a clear suggestion for correction.
+This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (even with extra whitespace, varied casing, or other non-numeric formats) are now explicitly rejected. The error message includes both the raw input and the trimmed value, along with a suggestion for correction.
+
+---
 
 ## License
 
