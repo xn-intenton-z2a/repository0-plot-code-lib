@@ -22,11 +22,13 @@ Generate a simple quadratic plot as SVG:
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
-The CLI now features enhanced argument parsing with clear error reporting. For example, if a non-numeric parameter is provided, the CLI will immediately halt execution and display a detailed error message such as:
+The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if a non-numeric parameter is provided, the CLI will immediately halt execution and display a detailed error message such as:
 
 ```
-Invalid parameter: 'NaN' is not a valid number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1
+Invalid parameter: at index 1, value 'NaN' is not a valid number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1
 ```
+
+Additionally, error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value) to aid debugging.
 
 In addition to standard plot commands, you can use the following flags:
 
@@ -56,7 +58,7 @@ In addition to standard plot commands, you can use the following flags:
 
 ### Enhanced Error Reporting
 
-The CLI now provides more descriptive error messages. If a parameter expected to be numeric (e.g., 'NaN') is supplied, the CLI halts execution immediately and prints a detailed error message specifying the problematic parameter along with clear instructions and an example (e.g., "quad:1,0,0,-10,10,1"). Users are advised to double-check the parameter inputs and follow the provided usage examples.
+The CLI now provides more descriptive error messages with structured diagnostic data. If a parameter expected to be numeric (e.g., 'NaN') is supplied, the CLI halts execution immediately and prints a detailed error message specifying the problematic parameter along with its index and its attempted numeric conversion. Users are advised to double-check the inputs and follow the provided usage examples.
 
 ### Interactive CLI
 
