@@ -1,12 +1,17 @@
 {
-  "openIssues": 0,
-  "issuesClosedLastHour": 8,
+  "openIssues": 2,
+  "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 2,
-  "diffMinutesMain": 2,
-  "commitsLastHour": 4,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Enhanced strict rejection of NaN values and improved detailed diagnostics for non-finite numeric expressions. (fixes #887)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 9,
+  "commitsLastHour": 3,
   "commitsLastDay": 85,
   "lastFiveCommitMessages": [
     {
@@ -31,11 +36,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-887",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T18:45:27.477Z"
+  "generatedAt": "2025-04-07T18:52:15.647Z"
 }
