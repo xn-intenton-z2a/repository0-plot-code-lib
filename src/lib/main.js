@@ -52,8 +52,8 @@ function parseArguments(args) {
       for (let i = 0; i < params.length; i++) {
         const p = params[i];
         const num = Number(p);
-        if (isNaN(num) || !Number.isFinite(num)) {
-          const err = new Error(`Invalid parameter: at index ${i}, value '${p}' is not a valid number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
+        if (!Number.isFinite(num)) {
+          const err = new Error(`Invalid parameter: at index ${i}, value '${p}' is not a valid finite number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
           err.code = 1;
           err.diagnostic = { index: i, rawValue: p, attemptedNumber: num };
           throw err;
