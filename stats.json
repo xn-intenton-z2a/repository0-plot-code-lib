@@ -1,14 +1,18 @@
 {
   "openIssues": 3,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 6,
-  "diffMinutesMain": 6,
-  "commitsLastHour": 4,
-  "commitsLastDay": 30,
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 5,
+  "commitsLastDay": 31,
   "lastFiveCommitMessages": [
+    {
+      "time": "05:49",
+      "message": "Refactored CLI error handling to include structured diagnostic l..."
+    },
     {
       "time": "05:38",
       "message": "Enhance error messaging for non-numeric parameters with explicit..."
@@ -24,10 +28,6 @@
     {
       "time": "04:59",
       "message": "Enhanced error handling for non-numeric parameters in quad plot ..."
-    },
-    {
-      "time": "04:41",
-      "message": "Enhance error handling for non-numeric parameters and add diagno..."
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T05:44:40.128Z"
+  "generatedAt": "2025-04-07T05:50:13.393Z"
 }
