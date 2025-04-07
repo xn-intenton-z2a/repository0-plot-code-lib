@@ -9,11 +9,13 @@ import readline from "readline";
 
 // Helper: Standardized error throwing for invalid numeric evaluations
 function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
-  const err = new Error(`Parameter ${index} error: Expression '${rawValue}' did not evaluate to a finite number${extraInfo ? ' (' + extraInfo + ')' : ''}.`);
+  const trimmedValue = rawValue.trim();
+  const err = new Error(`Parameter ${index} error: Expression '${trimmedValue}' did not evaluate to a finite number${extraInfo ? ' (' + extraInfo + ')' : ''}.`);
   err.code = 1;
   err.diagnostic = {
     index,
     rawValue,
+    trimmedValue,
     evaluated,
     suggestion: "Ensure the expression yields a valid finite number. Replace any literal 'NaN' with a valid numeric expression and correct any arithmetic issues."
   };
@@ -23,20 +25,21 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 // Enhanced error handling for evaluating mathematical expressions
 // Consolidates error messages for literal 'NaN' inputs and expressions that evaluate to non-finite numbers.
 function evaluateParameter(p, index) {
-  const input = p.trim();
-  if (input.toLowerCase() === 'nan') {
-    const err = new Error(`Parameter ${index} error: '${input}' is not a valid finite number.`);
+  const trimmedValue = p.trim();
+  if (trimmedValue.toLowerCase() === 'nan') {
+    const err = new Error(`Parameter ${index} error: '${trimmedValue}' is not a valid finite number.`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
+      trimmedValue,
       suggestion: "Replace with a valid numeric expression."
     };
     throw err;
   }
   let evaluated;
   try {
-    evaluated = evaluate(input);
+    evaluated = evaluate(trimmedValue);
   } catch (evaluationError) {
     let refinedSuggestion = "Ensure the expression is well-formed and yields a finite number.";
     const errMsg = evaluationError.message.toLowerCase();
@@ -52,6 +55,7 @@ function evaluateParameter(p, index) {
     err.diagnostic = {
       index,
       rawValue: p,
+      trimmedValue,
       error: evaluationError.message,
       suggestion: refinedSuggestion
     };
