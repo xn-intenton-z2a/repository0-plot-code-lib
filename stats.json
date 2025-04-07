@@ -1,12 +1,12 @@
 {
-  "openIssues": 0,
-  "issuesClosedLastHour": 8,
+  "openIssues": 1,
+  "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 4,
-  "diffMinutesMain": 4,
-  "commitsLastHour": 4,
+  "diffMinutes": 0,
+  "diffMinutesMain": 10,
+  "commitsLastHour": 3,
   "commitsLastDay": 53,
   "lastFiveCommitMessages": [
     {
@@ -31,11 +31,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-823",
+        "minutesSinceLastCommit": 0
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T10:45:41.949Z"
+  "generatedAt": "2025-04-07T10:51:35.290Z"
 }
