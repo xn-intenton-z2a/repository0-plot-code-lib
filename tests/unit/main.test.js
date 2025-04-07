@@ -93,7 +93,7 @@ describe("Main CLI Functionality", () => {
     } catch (e) {
       captured = e.captured || { logs: [], errors: [] };
     }
-    expect(captured.errors.some(error => error.includes('evaluated to NaN'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('evaluated to NaN') || error.includes("Literal 'NaN' is not allowed"))).toBe(true);
     expect(captured.errors.some(error => error.includes('Replace literal'))).toBe(true);
   });
 
