@@ -56,7 +56,7 @@ In addition to standard plot commands, you can use the following flags:
 
 ### Enhanced Error Reporting
 
-The CLI now provides more descriptive error messages. If a parameter expected to be numeric (e.g., 'NaN') is supplied, the CLI halts execution immediately and prints a detailed error message specifying the problematic parameter. Users are advised to double-check the parameter inputs and follow the provided usage examples.
+The CLI now provides more descriptive error messages. If a parameter expected to be numeric (e.g., 'NaN') is supplied, the CLI halts execution immediately and prints a detailed error message specifying the problematic parameter along with clear instructions and an example (e.g., "quad:1,0,0,-10,10,1"). Users are advised to double-check the parameter inputs and follow the provided usage examples.
 
 ### Interactive CLI
 

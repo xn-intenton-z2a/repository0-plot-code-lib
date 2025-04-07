@@ -49,7 +49,7 @@ function parseArguments(args) {
       }
       for (const p of params) {
         const num = Number(p);
-        if (!Number.isFinite(num)) {
+        if (isNaN(num) || !Number.isFinite(num)) {
           const err = new Error(`Invalid parameter: '${p}' is not a valid number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
           err.code = 1;
           throw err;
