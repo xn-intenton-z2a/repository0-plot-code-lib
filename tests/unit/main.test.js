@@ -1,7 +1,7 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import { main } from "@src/lib/main.js";
 
-// Helper function to capture console output
+// Updated captureOutput to attach captured logs to thrown error if any
 function captureOutput(func) {
   const logs = [];
   const errors = [];
@@ -11,6 +11,10 @@ function captureOutput(func) {
   console.error = (msg) => errors.push(msg);
   try {
     func();
+  } catch (e) {
+    // Attach captured logs and errors to the error object for later inspection
+    e.captured = { logs, errors };
+    throw e;
   } finally {
     console.log = originalLog;
     console.error = originalError;
@@ -61,8 +65,12 @@ describe("Main CLI Functionality", () => {
   });
 
   test("should error on non-numeric parameters", () => {
-    expect(() => {
-      captureOutput(() => main(["output.svg", "quad:1,NaN,0,-10,10,1"]));
-    }).toThrow("process.exit:1");
+    let captured = { logs: [], errors: [] };
+    try {
+      captured = captureOutput(() => main(["output.svg", "quad:1,NaN,0,-10,10,1"]));
+    } catch (e) {
+      captured = e.captured || { logs: [], errors: [] };
+    }
+    expect(captured.errors.some(error => error.includes('Invalid parameter: "NaN" provided.'))).toBe(true);
   });
 });
