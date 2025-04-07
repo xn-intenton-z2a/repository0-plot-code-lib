@@ -38,7 +38,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 ### Improved NaN Handling
 
-This release enhances the handling of NaN inputs. It strictly rejects any parameter that is a literal 'NaN' (regardless of casing or extra whitespace) and any expression that evaluates to a non-finite number, ensuring clear diagnostic messaging and suggesting valid replacements (e.g., using 0).
+This release enhances the handling of NaN inputs. It strictly rejects any parameter that is a literal 'NaN' (regardless of casing or extra whitespace) and any expression that evaluates to a non-finite number. Detailed diagnostics are provided that include both the raw and trimmed input values along with a suggestion for correction.
 
 ---
 
