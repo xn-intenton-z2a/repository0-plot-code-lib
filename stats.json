@@ -1,23 +1,27 @@
 {
-  "openIssues": 4,
-  "issuesClosedLastHour": 8,
+  "openIssues": 3,
+  "issuesClosedLastHour": 9,
   "issuesClosedLastDay": 100,
-  "openPRs": 2,
+  "openPRs": 1,
   "prDetails": [
     {
-      "title": "Bump eslint from 9.23.0 to 9.24.0",
-      "ageMinutes": 7
-    },
-    {
-      "title": "Refined NaN handling logic in evaluateParameter and updated diagnostic messages to robustly capture varied NaN representations. (fixes #907)",
-      "ageMinutes": 11
+      "title": "Improve numeric evaluation for plot commands to robustly handle literal NaN inputs with extra whitespace and varied casing and non-finite numbers. (fixes #911)",
+      "ageMinutes": 4
     }
   ],
-  "diffMinutes": 7,
-  "diffMinutesMain": 10,
-  "commitsLastHour": 6,
-  "commitsLastDay": 96,
+  "diffMinutes": 1,
+  "diffMinutesMain": 1,
+  "commitsLastHour": 7,
+  "commitsLastDay": 98,
   "lastFiveCommitMessages": [
+    {
+      "time": "21:27",
+      "message": "Bump eslint from 9.23.0 to 9.24.0 (#910)\n\nBumps [eslint](https:/..."
+    },
+    {
+      "time": "21:20",
+      "message": "Refined NaN handling logic in evaluateParameter and updated diag..."
+    },
     {
       "time": "21:09",
       "message": "Bump eslint-plugin-react from 7.37.4 to 7.37.5 (#908)\n\nBumps [es..."
@@ -29,31 +33,19 @@
     {
       "time": "20:57",
       "message": "Refined NaN input handling and enhanced diagnostic messaging for..."
-    },
-    {
-      "time": "20:51",
-      "message": "Bump eslint-plugin-prettier from 5.2.3 to 5.2.6 (#903)\n\nBumps [e..."
-    },
-    {
-      "time": "20:46",
-      "message": "Bump openai from 4.91.0 to 4.92.1 (#902)\n\nBumps [openai](https:/..."
     }
   ],
   "branches": {
-    "count": 2,
+    "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-907",
-        "minutesSinceLastCommit": 12
-      },
-      {
-        "branch": "dependabot/npm_and_yarn/eslint-9.24.0",
-        "minutesSinceLastCommit": 7
+        "branch": "agentic-lib-issue-911",
+        "minutesSinceLastCommit": 5
       }
     ]
   },
-  "averagePRAge": 9,
+  "averagePRAge": 4,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T21:20:21.328Z"
+  "generatedAt": "2025-04-07T21:29:02.736Z"
 }
