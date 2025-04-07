@@ -1,19 +1,18 @@
 {
-  "openIssues": 5,
+  "openIssues": 3,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Enhance error messaging for non-numeric parameters with explicit instructions in the error message. (fixes #778)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 12,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 6,
+  "diffMinutesMain": 6,
   "commitsLastHour": 4,
-  "commitsLastDay": 29,
+  "commitsLastDay": 30,
   "lastFiveCommitMessages": [
+    {
+      "time": "05:38",
+      "message": "Enhance error messaging for non-numeric parameters with explicit..."
+    },
     {
       "time": "05:25",
       "message": "Refined error handling for NaN parameters in quad plot commands ..."
@@ -29,23 +28,14 @@
     {
       "time": "04:41",
       "message": "Enhance error handling for non-numeric parameters and add diagno..."
-    },
-    {
-      "time": "04:24",
-      "message": "Enhanced numeric parameter validation using Number.isFinite for ..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-778",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T05:38:05.529Z"
+  "generatedAt": "2025-04-07T05:44:40.128Z"
 }
