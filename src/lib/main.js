@@ -47,6 +47,7 @@ function parseArguments(args) {
         err.code = 1;
         throw err;
       }
+      // Enhanced numeric validation with explicit error messaging for non-numeric parameters
       for (const p of params) {
         const num = Number(p);
         if (isNaN(num) || !Number.isFinite(num)) {
