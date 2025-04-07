@@ -8,27 +8,42 @@ import express from "express";
 import readline from "readline";
 
 // Enhanced error handling for evaluating mathematical expressions
-// Now includes detailed diagnostic information when a parameter evaluates to NaN or a non-finite number.
+// Now includes detailed diagnostic information when an expression evaluates to NaN or a non-finite number.
 function evaluateParameter(p, index) {
   let evaluated;
   try {
     evaluated = evaluate(p);
   } catch (evaluationError) {
-    const err = new Error(`Error evaluating parameter ${index} with input '${p}': ${evaluationError.message}. Please check your expression for syntax and valid operators.`);
+    const err = new Error(`Parameter ${index} error: Unable to evaluate '${p}'. ${evaluationError.message}`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, error: evaluationError.message, suggestion: "Review the expression for invalid syntax, missing values, or unsupported operators." };
+    err.diagnostic = {
+      index,
+      rawValue: p,
+      error: evaluationError.message,
+      suggestion: "Verify the expression for syntax errors, missing operands, or unsupported operators."
+    };
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to NaN. This might be due to invalid operators, unsupported syntax, or missing values. Please ensure it forms a valid numeric expression.`);
+    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. This may be due to invalid syntax, undefined variables, or unsupported operations.`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Check the expression for syntax errors, missing values, and invalid operators." };
+    err.diagnostic = {
+      index,
+      rawValue: p,
+      evaluated,
+      suggestion: "Ensure the expression is valid, check for typos, undefined variables, or unsupported operators."
+    };
     throw err;
   }
   if (!Number.isFinite(evaluated)) {
-    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to a non-finite number (${evaluated}). Please provide a finite numeric expression. Suggestions: Check for division by zero or overflow issues.`);
+    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to a non-finite value (${evaluated}).`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Ensure the expression does not result in Infinity, -Infinity, or other non-finite values." };
+    err.diagnostic = {
+      index,
+      rawValue: p,
+      evaluated,
+      suggestion: "Provide expressions that yield finite numbers; avoid division by zero or overflow."
+    };
     throw err;
   }
   return evaluated;
