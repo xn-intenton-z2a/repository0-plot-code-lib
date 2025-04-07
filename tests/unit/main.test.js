@@ -94,7 +94,7 @@ describe("Main CLI Functionality", () => {
       captured = e.captured || { logs: [], errors: [] };
     }
     expect(captured.errors.some(error => error.includes('not a finite number'))).toBe(true);
-    expect(captured.errors.some(error => error.includes('Replace'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('Replace any instance of literal'))).toBe(true);
   });
 
   test("should error on invalid mathematical expression in quad command", () => {
@@ -131,7 +131,7 @@ describe("Main CLI Functionality", () => {
       throw new Error("Expected error not thrown");
     } catch (e) {
       expect(e.message).toContain("process.exit:1");
-      expect(e.diagnostic.suggestion).toMatch(/Replace any instance of literal 'NaN' or non-finite expressions/);
+      expect(e.diagnostic.suggestion).toMatch(/Replace any instance of literal 'NaN' or non-finite expressions with a valid finite number \(e.g., 0\)/);
     }
   });
 });
