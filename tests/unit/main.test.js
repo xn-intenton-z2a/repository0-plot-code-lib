@@ -35,17 +35,17 @@ describe("Main CLI Functionality", () => {
 
   test("should default to interactive mode when no arguments", () => {
     const { logs } = captureOutput(() => main([]));
-    expect(logs).toContain("No arguments provided. Starting interactive mode by default.");
+    expect(logs).toContain("Starting interactive mode...");
   });
 
   test("should activate interactive mode with --interactive flag", () => {
     const { logs } = captureOutput(() => main(["--interactive"]));
-    expect(logs).toContain("Interactive mode activated.");
+    expect(logs).toContain("Starting interactive mode...");
   });
 
   test("should start web server with --serve flag", () => {
     const { logs } = captureOutput(() => main(["--serve"]));
-    expect(logs).toContain("Starting web server (placeholder) on port 3000.");
+    expect(logs[0]).toMatch(/Starting web server \(placeholder\) on port 3000\./);
   });
 
   test("should generate ASCII plot output with --ascii flag", () => {
@@ -55,10 +55,10 @@ describe("Main CLI Functionality", () => {
 
   test("should activate diagnostics mode with --diagnostics flag", () => {
     const { logs } = captureOutput(() => main(["--diagnostics"]));
-    expect(logs).toContain("Diagnostics mode activated.");
+    expect(logs).toContain("Diagnostics mode activated. (Placeholder diagnostics information)");
   });
 
-  test("should generate plot for valid command with numeric parameters", () => {
+  test("should generate quad plot for valid command with numeric parameters", () => {
     const { logs } = captureOutput(() => main(["output.svg", "quad:1,0,0,-10,10,1"]));
     expect(logs[0]).toMatch(/Generating quad plot to output.svg with parameters 1,0,0,-10,10,1/);
   });
@@ -69,13 +69,23 @@ describe("Main CLI Functionality", () => {
     expect(logs[0]).toMatch(/Generating quad plot to output.svg with parameters 4,1,0,-10,10,1/);
   });
 
+  test("should generate linear plot with valid parameters", () => {
+    const { logs } = captureOutput(() => main(["output.svg", "linear:2,3,-10,10,1"]));
+    expect(logs[0]).toMatch(/Generating linear plot to output.svg with parameters 2,3,-10,10,1/);
+  });
+
+  test("should generate expression plot with valid function and range parameters", () => {
+    const { logs } = captureOutput(() => main(["output.svg", "expr:Math.sin(x)*x:-10,10,0.5"]));
+    expect(logs[0]).toMatch(/Generating expression plot to output.svg with function 'Math.sin\(x\)\*x' and range parameters -10,10,0.5/);
+  });
+
   test("should error on invalid plot command format", () => {
     expect(() => {
       captureOutput(() => main(["output.svg", "invalidFormat"]));
     }).toThrow("process.exit:1");
   });
 
-  test("should error on non-numeric parameters (including invalid expressions)", () => {
+  test("should error on non-numeric parameters (including invalid expressions) in quad command", () => {
     let captured = { logs: [], errors: [] };
     try {
       captured = captureOutput(() => main(["output.svg", "quad:1,NaN,0,-10,10,1"]));
@@ -85,7 +95,7 @@ describe("Main CLI Functionality", () => {
     expect(captured.errors.some(error => error.includes('Evaluated result is NaN'))).toBe(true);
   });
 
-  test("should error on invalid mathematical expression", () => {
+  test("should error on invalid mathematical expression in quad command", () => {
     expect(() => {
       captureOutput(() => main(["output.svg", "quad:2+unknown,1,0,-10,10,1"]));
     }).toThrow("process.exit:1");
