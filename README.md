@@ -16,7 +16,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ### CLI Quickstart
 
-Generate a simple quadratic plot as SVG with evaluated math expressions and enhanced diagnostic reporting for errors (such as NaN evaluations):
+Generate a simple quadratic plot as SVG with evaluated math expressions and enhanced diagnostic reporting for errors (such as when an expression evaluates to NaN or a non-finite number):
 
 ```bash
 node src/lib/main.js output.svg "quad:2+2,1,0,-10,10,1"
@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-In the above examples, mathematical expressions like `2+2` are evaluated at runtime using mathjs. If an expression evaluates to NaN or a non-finite number, the CLI will halt execution and display a detailed error message along with diagnostic information to help debug the issue. The diagnostic report includes keys such as parameter index, raw value, evaluated result, and suggestions.
+In the above examples, mathematical expressions like `2+2` are evaluated at runtime using mathjs. If an expression evaluates to NaN or a non-finite number, the CLI will halt execution and display a detailed error message along with diagnostic information, including the parameter index, the raw input, the evaluated result, and suggestions to correct the error.
 
 ### Modes and Features
 
