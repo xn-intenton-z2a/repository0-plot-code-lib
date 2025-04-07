@@ -1,14 +1,31 @@
 {
-  "openIssues": 4,
-  "issuesClosedLastHour": 4,
+  "openIssues": 5,
+  "issuesClosedLastHour": 5,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 1,
-  "diffMinutesMain": 1,
-  "commitsLastHour": 6,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Set default parameter for CLI args to an empty array to avoid logging undefined. (fixes #919)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 8,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "22:37",
+      "message": "Maintain WEB_INTERFACE"
+    },
+    {
+      "time": "22:32",
+      "message": "Maintain INTERACTIVE_MODE"
+    },
+    {
+      "time": "22:29",
+      "message": "Maintain CONFIG_SUPPORT"
+    },
     {
       "time": "22:28",
       "message": "Maintain CONFIG_SUPPORT"
@@ -16,31 +33,19 @@
     {
       "time": "22:26",
       "message": "Update from agentic-lib"
-    },
-    {
-      "time": "22:11",
-      "message": "\"Refactor CLI features and downgrade dependencies\n\nRevised the C..."
-    },
-    {
-      "time": "22:01",
-      "message": "Update from agentic-lib"
-    },
-    {
-      "time": "21:53",
-      "message": "Refactored numeric parameter evaluation to robustly handle NaN i..."
     }
   ],
   "branches": {
     "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-915",
-        "minutesSinceLastCommit": 30
+        "branch": "agentic-lib-issue-919",
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T22:29:29.681Z"
+  "generatedAt": "2025-04-07T22:38:02.523Z"
 }
