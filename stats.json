@@ -2,13 +2,22 @@
   "openIssues": 2,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 3,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Bump express from 4.21.2 to 5.1.0",
+      "ageMinutes": 1
+    }
+  ],
+  "diffMinutes": 1,
   "diffMinutesMain": 3,
   "commitsLastHour": 5,
-  "commitsLastDay": 93,
+  "commitsLastDay": 94,
   "lastFiveCommitMessages": [
+    {
+      "time": "20:57",
+      "message": "Refined NaN input handling and enhanced diagnostic messaging for..."
+    },
     {
       "time": "20:51",
       "message": "Bump eslint-plugin-prettier from 5.2.3 to 5.2.6 (#903)\n\nBumps [e..."
@@ -24,18 +33,19 @@
     {
       "time": "20:10",
       "message": "Enhanced numeric expression validation with strict NaN handling ..."
-    },
-    {
-      "time": "19:57",
-      "message": "Enhanced strict rejection of NaN inputs with extra whitespace an..."
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "dependabot/npm_and_yarn/express-5.1.0",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T20:55:10.335Z"
+  "generatedAt": "2025-04-07T21:01:33.007Z"
 }
