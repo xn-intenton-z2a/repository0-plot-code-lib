@@ -23,7 +23,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
 The CLI now features enhanced argument parsing and improved error reporting. For example, if a non-numeric parameter is provided,
-a detailed error message will be displayed such as:
+ a detailed error message will be displayed such as:
 
 ```
 Invalid parameter: "NaN" provided. All parameters must be numeric. Please ensure you use only numeric values. Example valid input: quad:1,0,0,-10,10,1
