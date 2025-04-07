@@ -48,12 +48,12 @@ function parseArguments(args) {
         err.diagnostic = { error: "Incorrect number of parameters", provided: params.length, expected: 6 };
         throw err;
       }
-      // Enhanced numeric validation with structured diagnostic logging for invalid parameters
+      // Enhanced numeric validation with clearer error diagnostic for invalid parameters
       for (let i = 0; i < params.length; i++) {
         const p = params[i];
         const num = Number(p);
         if (!Number.isFinite(num)) {
-          const err = new Error(`Invalid parameter: at index ${i}, value '${p}' is not a valid finite number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
+          const err = new Error(`Invalid parameter at index ${i}: value '${p}' is not a valid finite number. Please ensure all parameters are numeric. Example valid input: quad:1,0,0,-10,10,1`);
           err.code = 1;
           err.diagnostic = { index: i, rawValue: p, attemptedNumber: num };
           throw err;
