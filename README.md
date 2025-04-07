@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (even with extra whitespace or different casing) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. The diagnostic information now includes both the raw input and the trimmed input values, along with a clear suggestion on how to provide a valid numeric expression. Replace any literal 'NaN' with a valid numeric expression.
+**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (even with extra whitespace, different casing, or other non-numeric variations) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. The diagnostic information includes both the raw input and the trimmed input values, along with a clear suggestion for correction. Replace any occurrence of literal 'NaN' with a valid numeric expression.
 
 ### Modes and Features
 
@@ -94,7 +94,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 ## Note on Enhanced Error Diagnostics
 
-This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (even with extra whitespace or in different casings) are now explicitly rejected with an error message that includes both the raw input and its trimmed value, accompanied by a clear suggestion for correction.
+This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (even with extra whitespace or in different casings) and similar non-numeric values are now explicitly rejected with an error message that includes both the raw input and its trimmed value, accompanied by a clear suggestion for correction.
 
 ## License
 
