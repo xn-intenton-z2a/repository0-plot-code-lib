@@ -61,8 +61,14 @@ function parseArguments(args) {
           err.diagnostic = { index: i, rawValue: p, error: evaluationError.message };
           throw err;
         }
+        if (Number.isNaN(evaluated)) {
+          const err = new Error(`Invalid parameter at index ${i}: Evaluated result is NaN for input '${p}'. Please provide a valid finite mathematical expression.`);
+          err.code = 1;
+          err.diagnostic = { index: i, rawValue: p, evaluated };
+          throw err;
+        }
         if (!Number.isFinite(evaluated)) {
-          const err = new Error(`Invalid parameter at index ${i}: value '${p}' did not evaluate to a valid finite number.`);
+          const err = new Error(`Invalid parameter at index ${i}: Evaluated result is not a finite number for input '${p}'. Please provide a valid finite mathematical expression.`);
           err.code = 1;
           err.diagnostic = { index: i, rawValue: p, evaluated };
           throw err;

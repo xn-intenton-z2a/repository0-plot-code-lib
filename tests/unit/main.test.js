@@ -82,7 +82,7 @@ describe("Main CLI Functionality", () => {
     } catch (e) {
       captured = e.captured || { logs: [], errors: [] };
     }
-    expect(captured.errors.some(error => error.includes('Invalid parameter at index'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('Evaluated result is NaN'))).toBe(true);
   });
 
   test("should error on invalid mathematical expression", () => {

@@ -24,10 +24,10 @@ node src/lib/main.js output.svg "quad:2+2,1,0,-10,10,1"
 
 In the above example, the expression `2+2` is evaluated to `4` at runtime, showcasing enhanced parameter parsing.
 
-The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid mathematical expression is provided, the CLI will immediately halt execution and display a detailed error message such as:
+The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid mathematical expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will immediately halt execution and display a detailed error message such as:
 
 ```
-Error evaluating parameter at index 0: value '2+unknown' is not a valid expression. Details: [error details]
+Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please provide a valid finite mathematical expression.
 ```
 
 Additionally, error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value) to aid debugging.
@@ -60,7 +60,7 @@ In addition to standard plot commands, you can use the following flags:
 
 ### Enhanced Error Reporting and Expression Support
 
-The CLI now uses mathjs to evaluate each plot parameter, allowing mathematical expressions such as `2+2` or `Math.sin(0.5)` as valid inputs. This provides a more flexible and powerful input mechanism for dynamic plotting. If an expression is invalid or does not evaluate to a finite number, the CLI will report a clear and specific error message.
+The CLI now uses mathjs to evaluate each plot parameter, allowing mathematical expressions such as `2+2` or `Math.sin(0.5)` as valid inputs. This provides a more flexible and powerful input mechanism for dynamic plotting. If an expression is invalid or evaluates to a non-finite number (e.g., NaN or Infinity), the CLI will report a clear and specific error message.
 
 ### Interactive CLI
 
