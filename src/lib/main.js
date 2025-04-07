@@ -7,14 +7,91 @@ import { evaluate } from "mathjs";
 import express from "express";
 import readline from "readline";
 
-// Internal CLI argument parser implementation
-function parseArguments(args) {
-  // Modes activated by single flag arguments
-  if (args.length === 0) {
+// Helper function to evaluate a single parameter
+function evaluateParameter(p, index) {
+  let evaluated;
+  try {
+    evaluated = evaluate(p);
+  } catch (evaluationError) {
+    const err = new Error(`Error evaluating parameter at index ${index}: value '${p}' is not a valid expression. Details: ${evaluationError.message}`);
+    err.code = 1;
+    err.diagnostic = { index, rawValue: p, error: evaluationError.message };
+    throw err;
+  }
+  if (Number.isNaN(evaluated)) {
+    const err = new Error(`Invalid parameter at index ${index}: Evaluated result is NaN for input '${p}'. Please provide a valid finite mathematical expression.`);
+    err.code = 1;
+    err.diagnostic = { index, rawValue: p, evaluated };
+    throw err;
+  }
+  if (!Number.isFinite(evaluated)) {
+    const err = new Error(`Invalid parameter at index ${index}: Evaluated result is not a finite number for input '${p}'. Please provide a valid finite mathematical expression.`);
+    err.code = 1;
+    err.diagnostic = { index, rawValue: p, evaluated };
+    throw err;
+  }
+  return evaluated;
+}
+
+// Helper function to process parameters for commands expecting numeric expressions
+function processParams(params, expectedCount) {
+  if (params.length !== expectedCount) {
+    const err = new Error(`Invalid parameter count: Expected ${expectedCount} numeric parameters separated by commas, but got ${params.length}.`);
+    err.code = 1;
+    err.diagnostic = { provided: params.length, expected: expectedCount };
+    throw err;
+  }
+  return params.map((p, i) => evaluateParameter(p, i));
+}
+
+// Command Handlers mapping for plot commands
+const commandHandlers = {
+  quad: (output, paramString) => {
+    const params = paramString.split(",");
+    const evaluatedParams = processParams(params, 6);
     return {
-      action: interactiveMode
+      action: () => {
+        console.log(`Generating quad plot to ${output} with parameters ${evaluatedParams.join(",")}`);
+        // Placeholder for actual quad plot generation logic
+      }
     };
-  } else if (args.includes("--interactive")) {
+  },
+  linear: (output, paramString) => {
+    const params = paramString.split(",");
+    const evaluatedParams = processParams(params, 5);
+    return {
+      action: () => {
+        console.log(`Generating linear plot to ${output} with parameters ${evaluatedParams.join(",")}`);
+        // Placeholder for actual linear plot generation logic
+      }
+    };
+  },
+  expr: (output, paramString) => {
+    // Expected format: <function_expression>:<rangeStart>,<rangeEnd>,<step>
+    const firstColonIndex = paramString.indexOf(":");
+    if (firstColonIndex === -1) {
+      const err = new Error("Invalid expr plot command format: Missing range parameters.");
+      err.code = 1;
+      err.diagnostic = { error: "Expected format expr:<expression>:<rangeStart>,<rangeEnd>,<step>" };
+      throw err;
+    }
+    const funcExpr = paramString.substring(0, firstColonIndex);
+    const rangeStr = paramString.substring(firstColonIndex + 1);
+    const rangeParams = rangeStr.split(",");
+    const evaluatedRangeParams = processParams(rangeParams, 3);
+    return {
+      action: () => {
+        console.log(`Generating expression plot to ${output} with function '${funcExpr}' and range parameters ${evaluatedRangeParams.join(",")}`);
+        // Placeholder for actual expression plot generation logic
+      }
+    };
+  }
+};
+
+// Refactored argument parser
+function parseArguments(args) {
+  // Check for modes activated by flags
+  if (args.length === 0 || args.includes("--interactive")) {
     return {
       action: interactiveMode
     };
@@ -33,134 +110,23 @@ function parseArguments(args) {
   } else if (args.length >= 2) {
     const output = args[0];
     const command = args[1];
-    // Determine plot type by prefix
-    if (command.startsWith("quad:")) {
-      const paramsStr = command.substring(5);
-      const params = paramsStr.split(",");
-      if (params.length !== 6) {
-        const err = new Error("Invalid quad plot command format: Expected 6 numeric parameters separated by commas.");
-        err.code = 1;
-        err.diagnostic = { error: "Incorrect number of parameters", provided: params.length, expected: 6 };
-        throw err;
-      }
-      // Evaluate each parameter using mathjs
-      for (let i = 0; i < params.length; i++) {
-        const p = params[i];
-        let evaluated;
-        try {
-          evaluated = evaluate(p);
-        } catch (evaluationError) {
-          const err = new Error(`Error evaluating parameter at index ${i}: value '${p}' is not a valid expression. Details: ${evaluationError.message}`);
-          err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, error: evaluationError.message };
-          throw err;
-        }
-        if (Number.isNaN(evaluated)) {
-          const err = new Error(`Invalid parameter at index ${i}: Evaluated result is NaN for input '${p}'. Please provide a valid finite mathematical expression.`);
-          err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, evaluated };
-          throw err;
-        }
-        if (!Number.isFinite(evaluated)) {
-          const err = new Error(`Invalid parameter at index ${i}: Evaluated result is not a finite number for input '${p}'. Please provide a valid finite mathematical expression.`);
-          err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, evaluated };
-          throw err;
-        }
-        // Replace text parameter with its evaluated numeric value
-        params[i] = evaluated;
-      }
-      return {
-        action: () => {
-          console.log(`Generating quad plot to ${output} with parameters ${params.join(",")}`);
-          // Placeholder for actual quad plot generation logic
-        }
-      };
-    } else if (command.startsWith("linear:")) {
-      const paramsStr = command.substring(7);
-      const params = paramsStr.split(",");
-      if (params.length !== 5) {
-        const err = new Error("Invalid linear plot command format: Expected 5 numeric parameters separated by commas.");
-        err.code = 1;
-        err.diagnostic = { error: "Incorrect number of parameters", provided: params.length, expected: 5 };
-        throw err;
-      }
-      for (let i = 0; i < params.length; i++) {
-        const p = params[i];
-        let evaluated;
-        try {
-          evaluated = evaluate(p);
-        } catch (evaluationError) {
-          const err = new Error(`Error evaluating parameter at index ${i}: value '${p}' is not a valid expression. Details: ${evaluationError.message}`);
-          err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, error: evaluationError.message };
-          throw err;
-        }
-        if (Number.isNaN(evaluated) || !Number.isFinite(evaluated)) {
-          const err = new Error(`Invalid parameter at index ${i}: Evaluated result is not a valid finite number for input '${p}'.`);
-          err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, evaluated };
-          throw err;
-        }
-        params[i] = evaluated;
-      }
-      return {
-        action: () => {
-          console.log(`Generating linear plot to ${output} with parameters ${params.join(",")}`);
-          // Placeholder for actual linear plot generation logic
-        }
-      };
-    } else if (command.startsWith("expr:")) {
-      // Expected format: expr:<function_expression>:<rangeStart>,<rangeEnd>,<step>
-      const remainder = command.substring(5);
-      const firstColonIndex = remainder.indexOf(":");
-      if (firstColonIndex === -1) {
-        const err = new Error("Invalid expr plot command format: Missing range parameters.");
-        err.code = 1;
-        err.diagnostic = { error: "Expected format expr:<expression>:<rangeStart>,<rangeEnd>,<step>" };
-        throw err;
-      }
-      const funcExpr = remainder.substring(0, firstColonIndex);
-      const rangeStr = remainder.substring(firstColonIndex + 1);
-      const params = rangeStr.split(",");
-      if (params.length !== 3) {
-        const err = new Error("Invalid expr plot command format: Expected 3 numeric range parameters separated by commas.");
-        err.code = 1;
-        err.diagnostic = { error: "Incorrect number of range parameters", provided: params.length, expected: 3 };
-        throw err;
-      }
-      // Evaluate the range parameters
-      for (let i = 0; i < params.length; i++) {
-        const p = params[i];
-        let evaluated;
-        try {
-          evaluated = evaluate(p);
-        } catch (evaluationError) {
-          const err = new Error(`Error evaluating range parameter at index ${i}: value '${p}' is not a valid expression. Details: ${evaluationError.message}`);
-          err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, error: evaluationError.message };
-          throw err;
-        }
-        if (Number.isNaN(evaluated) || !Number.isFinite(evaluated)) {
-          const err = new Error(`Invalid range parameter at index ${i}: Evaluated result is not a valid finite number for input '${p}'.`);
-          err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, evaluated };
-          throw err;
-        }
-        params[i] = evaluated;
-      }
-      return {
-        action: () => {
-          console.log(`Generating expression plot to ${output} with function '${funcExpr}' and range parameters ${params.join(",")}`);
-          // Placeholder for actual expression plot generation logic
-        }
-      };
-    } else {
+    const colonIndex = command.indexOf(":");
+    if (colonIndex === -1) {
       const err = new Error("Invalid plot command format");
       err.code = 1;
       err.diagnostic = { command };
       throw err;
     }
+    const prefix = command.substring(0, colonIndex);
+    const paramString = command.substring(colonIndex + 1);
+    const handler = commandHandlers[prefix];
+    if (!handler) {
+      const err = new Error("Invalid plot command format");
+      err.code = 1;
+      err.diagnostic = { command };
+      throw err;
+    }
+    return handler(output, paramString);
   } else {
     const err = new Error("Invalid command");
     err.code = 1;
@@ -200,7 +166,6 @@ function webServerMode() {
   app.get("/", (req, res) => {
     res.send("Welcome to the plotting web interface. (Placeholder)");
   });
-  // Start listening asynchronously, but log synchronously for testing purposes
   app.listen(port, () => {
     // Additional async log can be placed here if needed
   });
