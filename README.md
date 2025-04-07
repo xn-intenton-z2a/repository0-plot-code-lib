@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-In the above examples, mathematical expressions like `2+2` are evaluated at runtime using mathjs. If an expression evaluates to NaN or a non-finite number, the CLI will halt execution and display a detailed error message along with diagnostic information including the parameter index, the raw input, the evaluated result, and suggestions to correct the error. The diagnostic message now explicitly mentions potential issues with invalid operators, unsupported syntax, or missing values.
+In the above examples, mathematical expressions like `2+2` are evaluated at runtime using mathjs. If an expression evaluates to NaN or a non-finite number, the CLI will halt execution and display a detailed error message along with diagnostic information including the parameter index, the raw input, the evaluated result, and suggestions to correct the error. The diagnostic messages now explicitly include recommendations to check for invalid syntax, unsupported operators, and missing values.
 
 ### Modes and Features
 
