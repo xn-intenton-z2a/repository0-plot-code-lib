@@ -22,17 +22,29 @@ Generate a simple quadratic plot as SVG with evaluated math expressions:
 node src/lib/main.js output.svg "quad:2+2,1,0,-10,10,1"
 ```
 
-In the above example, the expression `2+2` is evaluated to `4` at runtime, showcasing enhanced parameter parsing.
+Generate a linear plot:
 
-The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid mathematical expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will immediately halt execution and display a detailed error message such as:
+```bash
+node src/lib/main.js output.svg "linear:2,3,-10,10,1"
+```
+
+Generate a plot based on a custom mathematical expression:
+
+```bash
+node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
+```
+
+In the above examples, mathematical expressions like `2+2` are evaluated at runtime using mathjs, showcasing enhanced parameter parsing.
+
+The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will halt execution and display a detailed error message:
 
 ```
 Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please provide a valid finite mathematical expression.
 ```
 
-Additionally, error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value) to aid debugging.
+Error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value) to aid debugging.
 
-In addition to standard plot commands, you can use the following flags:
+### Modes and Features
 
 - **Interactive Mode:**
 
@@ -40,11 +52,15 @@ In addition to standard plot commands, you can use the following flags:
   node src/lib/main.js --interactive
   ```
 
+  Starts an interactive CLI to enter plot commands directly.
+
 - **Web Server Mode:**
 
   ```bash
   node src/lib/main.js --serve
   ```
+
+  Launches an Express-based web interface (placeholder) for plotting.
 
 - **ASCII Plot Output:**
 
@@ -52,59 +68,35 @@ In addition to standard plot commands, you can use the following flags:
   node src/lib/main.js --ascii
   ```
 
+  Generates an ASCII plot output (placeholder).
+
 - **Diagnostics Mode:**
 
   ```bash
   node src/lib/main.js --diagnostics
   ```
 
-### Enhanced Error Reporting and Expression Support
+  Activates diagnostics mode, providing detailed error information (placeholder).
 
-The CLI now uses mathjs to evaluate each plot parameter, allowing mathematical expressions such as `2+2` or `Math.sin(0.5)` as valid inputs. This provides a more flexible and powerful input mechanism for dynamic plotting. If an expression is invalid or evaluates to a non-finite number (e.g., NaN or Infinity), the CLI will report a clear and specific error message.
+### Enhanced Plot Commands
 
-### Interactive CLI
+- **Quadratic Plot (SVG) with Expression Evaluation:**
 
-Interactive mode prompts the user to input formulas directly:
+  ```bash
+  node src/lib/main.js quad.svg "quad:2+2,1,0,-10,10,1"
+  ```
 
-```bash
-node src/lib/main.js --interactive
-```
+- **Linear Plot (SVG):**
 
-### Web Interface
+  ```bash
+  node src/lib/main.js linear.svg "linear:2,3,-10,10,1"
+  ```
 
-Start the Express-based interactive plotting web interface:
+- **Custom Expression Plot (SVG):**
 
-```bash
-node src/lib/main.js --serve
-```
-
----
-
-## Examples
-
-**Quadratic Plot (SVG) with Expression Evaluation:**
-
-```bash
-node src/lib/main.js quad.svg "quad:2+2,1,0,-10,10,1"
-```
-
-**Linear Plot (SVG):**
-
-```bash
-node src/lib/main.js linear.svg "linear:2,3,-10,10,1"
-```
-
-**Custom Mathematical Expression:**
-
-```bash
-node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
-```
-
-**ASCII Plot Output:**
-
-```bash
-node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
-```
+  ```bash
+  node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
+  ```
 
 ---
 
