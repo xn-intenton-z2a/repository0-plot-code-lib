@@ -42,9 +42,9 @@
 </code></pre>
 <p class="md-github">In the above examples, mathematical expressions like <code class="md-github">2+2</code> are evaluated at runtime using mathjs, showcasing enhanced parameter parsing.</p>
 <p class="md-github">The CLI now features enhanced argument parsing with clear error reporting, centralized command handlers, and structured diagnostic logging. For example, if an invalid expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will halt execution and display a detailed error message:</p>
-<pre class="md-github"><code class="md-github">Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please provide a valid finite mathematical expression.
+<pre class="md-github"><code class="md-github">Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please ensure the expression is valid (e.g., use '1+2' instead of 'NaN') and returns a finite number.
 </code></pre>
-<p class="md-github">Error objects include a structured <code class="md-github">diagnostic</code> property containing details (e.g., parameter index, provided value) to aid debugging.</p>
+<p class="md-github">Error objects include a structured <code class="md-github">diagnostic</code> property containing details (e.g., parameter index, provided value, evaluated result) to aid debugging.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="modes-and-features" href="#modes-and-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modes and Features</h3>
 <ul class="md-github">
 <li class="md-github">
@@ -96,7 +96,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-07T07:12:07.317Z</p>
+    <p>Generated on 2025-04-07T07:24:08.280Z</p>
   </footer>
 </body>
 </html>
