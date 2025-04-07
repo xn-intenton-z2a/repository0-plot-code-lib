@@ -159,7 +159,7 @@ function parseArguments(args) {
   } else {
     const err = new Error("Invalid command");
     err.code = 1;
-    err.diagnostic = { args };
+    err.diagnostic = { providedArgs: args };
     throw err;
   }
 }
