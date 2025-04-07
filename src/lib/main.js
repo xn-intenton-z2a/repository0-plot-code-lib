@@ -7,18 +7,30 @@ import { evaluate } from "mathjs";
 import express from "express";
 import readline from "readline";
 
+// Helper: Standardized error throwing for invalid numeric evaluations
+function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
+  const err = new Error(`Parameter ${index} error: Expression '${rawValue}' did not evaluate to a finite number${extraInfo ? ' (' + extraInfo + ')' : ''}.`);
+  err.code = 1;
+  err.diagnostic = {
+    index,
+    rawValue,
+    evaluated,
+    suggestion: "Ensure the expression yields a valid finite number. Replace any literal 'NaN' with a valid numeric expression and correct any arithmetic issues."
+  };
+  throw err;
+}
+
 // Enhanced error handling for evaluating mathematical expressions
-// Now includes detailed diagnostic information when an expression evaluates to NaN or a non-finite number, with refined suggestions.
+// Consolidates error messages for literal 'NaN' inputs and expressions that evaluate to non-finite numbers.
 function evaluateParameter(p, index) {
   const input = p.trim();
-  // Check for literal 'NaN' input (case-insensitive even with extra whitespace) to provide a clearer error message
   if (input.toLowerCase() === 'nan') {
-    const err = new Error(`Parameter ${index} error: Literal 'NaN' is not allowed. Replace it with a valid numeric expression.`);
+    const err = new Error(`Parameter ${index} error: '${input}' is not a valid finite number.`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
-      suggestion: "Replace literal 'NaN' with a valid numeric expression."
+      suggestion: "Replace with a valid numeric expression."
     };
     throw err;
   }
@@ -26,8 +38,7 @@ function evaluateParameter(p, index) {
   try {
     evaluated = evaluate(input);
   } catch (evaluationError) {
-    // Refine suggestion based on error message content
-    let refinedSuggestion = "Verify the expression for general syntax errors or unsupported operations.";
+    let refinedSuggestion = "Ensure the expression is well-formed and yields a finite number.";
     const errMsg = evaluationError.message.toLowerCase();
     if (errMsg.includes("undefined symbol") || errMsg.includes("is not defined")) {
       refinedSuggestion = "Verify that all variables are defined and correctly spelled.";
@@ -46,27 +57,8 @@ function evaluateParameter(p, index) {
     };
     throw err;
   }
-  if (Number.isNaN(evaluated)) {
-    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. Replace literal 'NaN' with a valid numeric expression or adjust the expression so it evaluates to a numeric value.`);
-    err.code = 1;
-    err.diagnostic = {
-      index,
-      rawValue: p,
-      evaluated,
-      suggestion: "Replace literal 'NaN' with a valid number or adjust the expression so it evaluates to a numeric value."
-    };
-    throw err;
-  }
   if (!Number.isFinite(evaluated)) {
-    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to a non-finite value (${evaluated}).`);
-    err.code = 1;
-    err.diagnostic = {
-      index,
-      rawValue: p,
-      evaluated,
-      suggestion: "Provide expressions that yield finite numbers; avoid division by zero, overflow errors, or invalid operations."
-    };
-    throw err;
+    throwInvalidNumberError(index, p, evaluated);
   }
   return evaluated;
 }

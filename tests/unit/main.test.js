@@ -22,7 +22,6 @@ function captureOutput(func) {
   return { logs, errors };
 }
 
-
 describe("Main CLI Functionality", () => {
   let exitSpy;
 
@@ -93,8 +92,8 @@ describe("Main CLI Functionality", () => {
     } catch (e) {
       captured = e.captured || { logs: [], errors: [] };
     }
-    expect(captured.errors.some(error => error.includes('evaluated to NaN') || error.includes("Literal 'NaN' is not allowed"))).toBe(true);
-    expect(captured.errors.some(error => error.includes('Replace literal'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('not a valid finite number'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('Replace with a valid numeric expression'))).toBe(true);
   });
 
   test("should error on invalid mathematical expression in quad command", () => {

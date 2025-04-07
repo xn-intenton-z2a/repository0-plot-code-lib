@@ -16,7 +16,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ### CLI Quickstart
 
-Generate a simple quadratic plot as SVG with evaluated math expressions and enhanced diagnostic reporting for errors (such as when an expression evaluates to NaN or a non-finite number):
+Generate a simple quadratic plot as SVG with evaluated math expressions and enhanced diagnostic reporting for errors (such as when an expression does not evaluate to a valid finite number):
 
 ```bash
 node src/lib/main.js output.svg "quad:2+2,1,0,-10,10,1"
@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-**Note:** The CLI does not allow the literal 'NaN' (in any case, even when surrounded by whitespace) as a valid numeric parameter. If such a value is provided, an error with detailed diagnostic information will be thrown. Replace any occurrence of literal 'NaN' with a valid numeric expression.
+**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (regardless of case or surrounding whitespace) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. Replace any such values with a valid numeric expression.
 
 ### Modes and Features
 
@@ -94,7 +94,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 ## Note on Enhanced Error Diagnostics
 
-This release includes improved error handling for cases where expressions evaluate to NaN, non-finite values, or when a literal 'NaN' (case-insensitive, even with extra whitespace) is supplied. If a literal 'NaN' or an expression that does not yield a valid numeric value is provided, the error message and diagnostic information will instruct you to replace it with a valid number or adjust your expression accordingly.
+This release standardizes error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. If an expression results in a non-finite value, or if a literal 'NaN' (even with extra whitespace) is provided, the CLI will return a consistent error message along with diagnostic information to help you diagnose and correct the issue.
 
 ## License
 
