@@ -1,14 +1,18 @@
 {
-  "openIssues": 1,
+  "openIssues": 0,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 6,
-  "diffMinutesMain": 12,
+  "diffMinutes": 4,
+  "diffMinutesMain": 4,
   "commitsLastHour": 4,
-  "commitsLastDay": 86,
+  "commitsLastDay": 87,
   "lastFiveCommitMessages": [
+    {
+      "time": "19:09",
+      "message": "Improve handling and diagnostics of NaN inputs in expression eva..."
+    },
     {
       "time": "18:52",
       "message": "Enhanced strict rejection of NaN values and improved detailed di..."
@@ -24,10 +28,6 @@
     {
       "time": "18:06",
       "message": "Enhance strict NaN rejection in numeric parameter handling with ..."
-    },
-    {
-      "time": "17:50",
-      "message": "Refined NaN error diagnostics to include raw and trimmed values ..."
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T19:04:59.276Z"
+  "generatedAt": "2025-04-07T19:13:36.483Z"
 }

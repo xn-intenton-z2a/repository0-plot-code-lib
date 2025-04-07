@@ -40,11 +40,11 @@
 <p class="md-github">Generate a plot based on a custom mathematical expression:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;expr:Math.sin(x)*x:-10,10,0.5&quot;
 </code></pre>
-<p class="md-github"><strong class="md-github">Note:</strong> The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite values (e.g., expressions like &quot;2+NaN&quot;) — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace such values with a valid numeric expression (e.g., 0).</p>
+<p class="md-github"><strong class="md-github">Note:</strong> The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite numbers (e.g., expressions like &quot;2+NaN&quot;) — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace such values with a valid numeric expression (e.g., 0).</p>
 <h3 class="md-github"><a class="md-github__anchor" name="improved-nan-handling-and-diagnostic-messaging" href="#improved-nan-handling-and-diagnostic-messaging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Improved NaN Handling and Diagnostic Messaging</h3>
 <ul class="md-github">
 <li class="md-github">Strictly rejects any parameter that, when trimmed, exactly matches 'NaN' (case-insensitive), even if extra whitespace is present.</li>
-<li class="md-github">Enhanced error diagnostics for expressions evaluating to non-finite numbers, ensuring that both the raw and trimmed input values are included in the error message along with a suggestion: &quot;Replace any instance of literal 'NaN' or non-finite expressions with a valid finite number (e.g., 0).&quot;</li>
+<li class="md-github">Enhanced error diagnostics for expressions evaluating to non-finite numbers, ensuring that both the raw and trimmed input values are included in the error message along with guidance to replace them with a valid numeric expression (e.g., 0).</li>
 </ul>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="enhanced-plot-commands" href="#enhanced-plot-commands"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Plot Commands</h2>
@@ -74,7 +74,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-07T19:05:10.019Z</p>
+    <p>Generated on 2025-04-07T19:13:45.894Z</p>
   </footer>
 </body>
 </html>
