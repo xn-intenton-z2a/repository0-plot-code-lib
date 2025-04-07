@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-When an expression evaluation error occurs (e.g., an expression evaluating to NaN or a non-finite value), the CLI now provides detailed diagnostic feedback. The output includes the parameter index, the raw input, the evaluated result (if any), and actionable suggestions. Note that literal 'NaN' inputs or expressions that result in non-numeric values are now explicitly disallowed and will trigger a clear error message.
+When an expression evaluation error occurs (e.g., an expression evaluating to NaN or a non-finite value), the CLI now provides detailed diagnostic feedback. The output includes the parameter index, the raw input, the evaluated result (if any), and actionable suggestions. For instance, if a literal 'NaN' is input, the error message will advise replacing it with a valid number.
 
 ### Modes and Features
 
