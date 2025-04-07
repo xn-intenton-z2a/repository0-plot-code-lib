@@ -6,11 +6,13 @@ import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
   });
 });
+
 
 describe("Default Demo Output", () => {
   test("should terminate without error for valid inputs", () => {
@@ -18,6 +20,7 @@ describe("Default Demo Output", () => {
     main();
   });
 });
+
 
 describe("Invalid Numeric Input Handling", () => {
   test("should output error and exit when an invalid numeric parameter is provided", () => {
@@ -46,12 +49,14 @@ describe("Invalid Numeric Input Handling", () => {
   });
 });
 
+
 ///////////////////////////////
 // File: tests/unit/advancedPlots.test.js
 ///////////////////////////////
 import { describe, test, expect, vi } from "vitest";
 import * as advancedPlots from "@src/lib/advancedPlots.js";
 import { main } from "@src/lib/main.js";
+
 
 describe("Advanced Plots CLI Integration", () => {
   test("should invoke spiral advanced plot", () => {
@@ -76,6 +81,7 @@ describe("Advanced Plots CLI Integration", () => {
     consoleSpy.mockRestore();
   });
 });
+
 
 describe("AdvancedPlots Module Functions", () => {
   test("spiral function logs correctly", () => {

@@ -1,7 +1,6 @@
 ///////////////////////////////
 // File: src/lib/main.js
 ///////////////////////////////
-#!/usr/bin/env node
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
@@ -98,7 +97,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
 ///////////////////////////////
 // End of src/lib/main.js
-
 
 ///////////////////////////////
 // New File: src/lib/advancedPlots.js
