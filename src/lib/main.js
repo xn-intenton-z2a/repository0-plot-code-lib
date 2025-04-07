@@ -225,7 +225,15 @@ export function main(args) {
     if (error.diagnostic) {
       console.error("Diagnostic info:", JSON.stringify(error.diagnostic));
     }
-    process.exit(error.code || 1);
+    const exitCode = error.code || 1;
+    // In test environment, throw an error that includes diagnostic info, else exit
+    if (process.env.NODE_ENV === 'test') {
+      const exitError = new Error(`process.exit:${exitCode}`);
+      exitError.diagnostic = error.diagnostic;
+      throw exitError;
+    } else {
+      process.exit(exitCode);
+    }
   }
 }
 
