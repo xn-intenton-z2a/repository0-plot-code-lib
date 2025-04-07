@@ -22,6 +22,32 @@ Generate a simple quadratic plot as SVG:
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
+The CLI now features enhanced argument parsing and input validation. In addition to standard plot commands, you can use the following flags:
+
+- **Interactive Mode:**
+
+  ```bash
+  node src/lib/main.js --interactive
+  ```
+
+- **Web Server Mode:**
+
+  ```bash
+  node src/lib/main.js --serve
+  ```
+
+- **ASCII Plot Output:**
+
+  ```bash
+  node src/lib/main.js --ascii
+  ```
+
+- **Diagnostics Mode:**
+
+  ```bash
+  node src/lib/main.js --diagnostics
+  ```
+
 ### Interactive CLI
 
 Interactive mode prompts the user to input formulas directly:
@@ -65,6 +91,3 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 ## License
 
 MIT
-
----
-
