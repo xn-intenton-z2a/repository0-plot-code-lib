@@ -96,6 +96,8 @@ import {
   plotExponentialDecayEnhancedReal,
   // Newly added modulo function
   plotModuloReal,
+  // Newly added fractal function
+  plotFractalReal,
   // Newly added scatter plot
   plotScatterReal
 } from '@src/lib/main.js';
@@ -112,14 +114,12 @@ describe('Main Module Import', () => {
   });
 });
 
-
 describe('Default Demo Output', () => {
   test('should terminate without error', () => {
     process.argv = ['node', 'src/lib/main.js'];
     main();
   });
 });
-
 
 describe('Module Loader Error Handling', () => {
   test('loadExpress throws error when override fails', async () => {
@@ -134,7 +134,6 @@ describe('Module Loader Error Handling', () => {
     resetOverrides();
   });
 });
-
 
 describe('New Extended Functions', () => {
   test('plotLogLogReal returns non-empty array', () => {
@@ -178,6 +177,12 @@ describe('New Extended Functions', () => {
     const phyllo = mainModule.plotPhyllotaxisReal();
     expect(Array.isArray(phyllo)).toBe(true);
     expect(phyllo.length).toBe(1000);
+  });
+
+  test('plotFractalReal returns an array and each point has an iterations property', () => {
+    const fractal = plotFractalReal(-2.5, 1, -1, 1, 80, 40, 50);
+    expect(Array.isArray(fractal)).toBe(true);
+    expect(fractal[0]).toHaveProperty('iterations');
   });
 });
 
@@ -775,6 +780,15 @@ describe('Extended Functions Full Coverage', () => {
       result.forEach(point => {
         expect(point.y).toBe(point.x % 3);
       });
+    });
+  });
+
+  describe('--plot-fractal flag functionality', () => {
+    test('should print Fractal Plot Output', async () => {
+      process.argv = ['node', 'src/lib/main.js', '--plot-fractal'];
+      const spy = vi.spyOn(console, 'log');
+      await main();
+      expect(spy).toHaveBeenCalledWith(expect.stringContaining('Fractal Plot Output:'));
     });
   });
 });

@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, random walk and phyllotaxis plots, and more. Recent updates include extended 3D plotting, enhanced exponential decay plotting functions, a new modulo plotting function, a scatter plot function, and significant improvements in test coverage with enhanced external resource mocks.
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, random walk and phyllotaxis plots, and more. Recent updates include extended 3D plotting, enhanced exponential decay plotting functions, a new modulo plotting function, a scatter plot function, and a new fractal plotting feature.
 
 ## Overview
 
@@ -11,14 +11,14 @@ This tool offers a robust command-line interface with multiple modes:
 - **Diagnostics Mode:** Check runtime diagnostics.
 - **Various Export/Plot Modes:** Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
 
-Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, `--plot-spiral-3d`, `--plot-exp-decay-enhanced`, `--plot-modulo`, and `--scatter` provide extended capabilities. 
+Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, `--plot-spiral-3d`, `--plot-exp-decay-enhanced`, `--plot-modulo`, `--plot-fractal`, `--scatter`, and more provide extended capabilities. 
 
 **Changelog**
 
 - **Drift Pruning:** Removed legacy demo implementations and pruned code drift to remain aligned with our mission statement.
 - **Documentation & Messaging:** Updated inline documentation, error messages, and CLI help to clearly reference CONTRIBUTING guidelines.
-- **Enhanced Testing:** Improved test coverage with deeper external resource mocks for a more robust integration.
-- **New Features:** Added functions such as `plotRandomWalkReal`, `plotPhyllotaxisReal`, `mockExternalResourceTest`, `plotSpiral3DReal`, `plotExponentialDecayEnhancedReal`, `plotModuloReal`, and `plotScatterReal` to extend the library's capabilities.
+- **Enhanced Testing:** Improved test coverage with deeper external resource mocks.
+- **New Features:** Added functions such as `plotRandomWalkReal`, `plotPhyllotaxisReal`, `mockExternalResourceTest`, `plotSpiral3DReal`, `plotExponentialDecayEnhancedReal`, `plotModuloReal`, `plotScatterReal`, and **`plotFractalReal`** to extend the library's capabilities.
 
 ## Installation
 
@@ -44,10 +44,14 @@ Other common commands:
 - **Interactive Mode:** `node src/lib/main.js --interactive`
 - **Server Mode:** `node src/lib/main.js --serve`
 - **Export Options:** e.g., `--export-csv`, `--export-json`, etc.
-- **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, `--plot-spiral-3d`, `--plot-exp-decay-enhanced`, `--plot-modulo`, `--scatter`, etc.
+- **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, `--plot-spiral-3d`, `--plot-exp-decay-enhanced`, **`--plot-fractal`**, `--plot-modulo`, `--scatter`, etc.
 - **Test Coverage Hook:** `node src/lib/main.js --test-coverage-hook`
 - **Reset Overrides:** `node src/lib/main.js --reset`
 - **Debug Mode:** `node src/lib/main.js --debug`
+
+## Fractal Plotting Feature
+
+The new fractal plotting feature (`plotFractalReal`) computes a Mandelbrot set over a given range and outputs fractal data. Use the `--plot-fractal` flag to generate fractal plots.
 
 ## Testing
 

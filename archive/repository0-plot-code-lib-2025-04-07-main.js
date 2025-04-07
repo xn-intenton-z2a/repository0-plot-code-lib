@@ -7,7 +7,8 @@
 // - Updated inline documentation and error messages.
 // - Enhanced CLI help messaging with clear references to CONTRIBUTING.md for developer guidelines.
 // - Improved test coverage integration with deep external resource mocks and extended validations for external module loading as per CONTRIBUTING.md.
-// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, mockExternalResourceTest, plotSpiral3DReal, plotExponentialDecayEnhancedReal, plotModuloReal, and plotScatterReal.
+// - Added new functions: plotRandomWalkReal, plotPhyllotaxisReal, mockExternalResourceTest, plotSpiral3DReal, plotExponentialDecayEnhancedReal, plotModuloReal, plotScatterReal.
+// - Added new fractal plotting function: plotFractalReal and CLI flag --plot-fractal.
 // - Refined CLI flag recognition and error handling to promote reliability and clarity.
 
 import { fileURLToPath } from 'url';
@@ -65,7 +66,7 @@ export async function loadReadline() {
 function displayHelpMessage() {
   const demoMessage = `Welcome to repository0-plot-code-lib CLI!
 Mission: "Be a go-to plot library with a CLI, be the jq of formulae visualisations."
-Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook, --plot-spiral-3d, --plot-exp-decay-enhanced, --plot-modulo
+Select from modes: --interactive, --serve, --diagnostics, --plot-abs, --export-csv, --export-md, --export-json, --export-html, --export-ascii, --export-svg, --export-xml, --export-latex, --export-txt, --export-r, --export-png, --plot-fibonacci, --bar-chart, --scatter, --plot-parametric, --plot-poly, --lissajous, --lemniscate, --hyperbola, --power-plot, --plot-histogram, --heatmap, --plot-spiral, --plot-spiral-enhanced, --plot-custom, --plot-sincos, --plot-circle, --plot-polarrose, --plot-starpolygon, --plot-loglog, --plot-step, --plot-grid, --plot-polar-heatmap, --plot-custom-enhanced, --plot-piecewise, --plot-derivative, --plot-harmonics, --plot-modulated-sine, --plot-stat-summary, --plot-inverse, --plot-custom-fancy, --interactive-guide, --plot-detailed, --plot-cumprod, --plot-ema, --plot-exp-sine, --plot-cos-cumsum, --plot-enhanced-parametric, --plot-random-walk, --plot-phyllotaxis, --debug, --reset, --test-coverage-hook, --plot-spiral-3d, --plot-exp-decay-enhanced, --plot-modulo, --plot-fractal
 For contribution guidelines, please refer to CONTRIBUTING.md.`;
   console.log(demoMessage);
 }
@@ -129,7 +130,6 @@ export function plotPhyllotaxisReal(points = 1000, divergence = 137.5, scale = 2
   return result;
 }
 
-// -------------------- Additional Extended Feature --------------------
 /**
  * Generates a modulo plot. For each x in the range, returns the modulo of x with a given divisor.
  * @param {number} rangeStart - Starting value of the range.
@@ -147,7 +147,6 @@ export function plotModuloReal(rangeStart, rangeEnd, step = 1, divisor = 2) {
   return result;
 }
 
-// -------------------- New Function: Scatter Plot --------------------
 /**
  * Generates a scatter plot with random points.
  * @param {number} count - Number of scatter points.
@@ -162,6 +161,40 @@ export function plotScatterReal(count = 10) {
   return points;
 }
 
+// -------------------- New Fractal Plotting Function --------------------
+/**
+ * Generates a Mandelbrot fractal plot over a given range.
+ * @param {number} xStart - Start value for x-axis.
+ * @param {number} xEnd - End value for x-axis.
+ * @param {number} yStart - Start value for y-axis.
+ * @param {number} yEnd - End value for y-axis.
+ * @param {number} width - Number of points along the x-axis.
+ * @param {number} height - Number of points along the y-axis.
+ * @param {number} maxIter - Maximum iterations to escape.
+ * @returns {Array} - Array of objects representing fractal data.
+ */
+export function plotFractalReal(xStart, xEnd, yStart, yEnd, width = 80, height = 40, maxIter = 50) {
+  const result = [];
+  const dx = (xEnd - xStart) / width;
+  const dy = (yEnd - yStart) / height;
+  for (let i = 0; i < width; i++) {
+    for (let j = 0; j < height; j++) {
+      let x0 = xStart + i * dx;
+      let y0 = yStart + j * dy;
+      let x = 0, y = 0, iter = 0;
+      while (x*x + y*y <= 4 && iter < maxIter) {
+        let xtemp = x*x - y*y + x0;
+        y = 2*x*y + y0;
+        x = xtemp;
+        iter++;
+      }
+      result.push({ x: x0, y: y0, iterations: iter });
+    }
+  }
+  console.log('Fractal Plot (real):', result);
+  return result;
+}
+
 // -------------------- CLI Core --------------------
 export async function main(argsInput) {
   const args = argsInput || process.argv.slice(2);
@@ -174,7 +207,7 @@ export async function main(argsInput) {
 
   // Recognized flags including new ones
   const recognizedFlags = [
-    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--plot-enhanced-parametric', '--plot-random-walk', '--plot-phyllotaxis', '--debug', '--reset', '--test-coverage-hook', '--plot-spiral-3d', '--plot-exp-decay-enhanced', '--plot-modulo'
+    '--interactive', '--serve', '--diagnostics', '--plot-abs', '--export-csv', '--export-md', '--export-json', '--export-html', '--export-ascii', '--export-svg', '--export-xml', '--export-latex', '--export-txt', '--export-r', '--export-png', '--plot-fibonacci', '--bar-chart', '--scatter', '--plot-parametric', '--plot-poly', '--lissajous', '--lemniscate', '--hyperbola', '--power-plot', '--plot-histogram', '--heatmap', '--plot-spiral', '--plot-spiral-enhanced', '--plot-custom', '--plot-sincos', '--plot-circle', '--plot-polarrose', '--plot-starpolygon', '--plot-loglog', '--plot-step', '--plot-grid', '--plot-polar-heatmap', '--plot-custom-enhanced', '--plot-piecewise', '--plot-derivative', '--plot-harmonics', '--plot-modulated-sine', '--plot-stat-summary', '--plot-inverse', '--plot-custom-fancy', '--interactive-guide', '--plot-detailed', '--plot-cumprod', '--plot-ema', '--plot-exp-sine', '--plot-cos-cumsum', '--plot-enhanced-parametric', '--plot-random-walk', '--plot-phyllotaxis', '--debug', '--reset', '--test-coverage-hook', '--plot-spiral-3d', '--plot-exp-decay-enhanced', '--plot-modulo', '--plot-fractal'
   ];
   const unrecognized = args.filter(arg => !recognizedFlags.includes(arg));
   if (unrecognized.length > 0) {
@@ -222,7 +255,9 @@ export async function main(argsInput) {
       // Newly added extended functions
       'plotSpiral3DReal', 'plotExponentialDecayEnhancedReal',
       // Newly added modulo function
-      'plotModuloReal'
+      'plotModuloReal',
+      // Newly added fractal function
+      'plotFractalReal'
     ];
     console.log('Debug: Available plotting functions: ' + funcs.join(', '));
   }
@@ -626,10 +661,10 @@ export async function main(argsInput) {
     return;
   }
 
-  // New function: Modulo Plot
-  if (args.includes('--plot-modulo')) {
-    const moduloPlot = plotModuloReal(0, 10, 1, 3);
-    console.log('Modulo Plot Output: ' + JSON.stringify(moduloPlot));
+  // -------------------- New Fractal Plot --------------------
+  if (args.includes('--plot-fractal')) {
+    const fractal = plotFractalReal(-2.5, 1, -1, 1, 80, 40, 50);
+    console.log('Fractal Plot Output:', fractal);
     return;
   }
 

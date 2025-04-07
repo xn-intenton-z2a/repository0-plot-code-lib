@@ -1,0 +1,8 @@
+features/MATH-LIB.md
+# features/MATH-LIB.md
+Mathematical Functions
+Supports plotting of quadratic, linear, sine, cosine, polar, exponential, and logarithmic functions.
+features/MULTI-OUTPUT.md
+# features/MULTI-OUTPUT.md
+Multiple Output Formats:
+Generates plots in SVG, JSON, CSV, Markdown, ASCII, and HTML formats.
