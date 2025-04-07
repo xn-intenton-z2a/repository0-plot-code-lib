@@ -10,6 +10,17 @@ import readline from "readline";
 // Enhanced error handling for evaluating mathematical expressions
 // Now includes detailed diagnostic information when an expression evaluates to NaN or a non-finite number, with refined suggestions.
 function evaluateParameter(p, index) {
+  // Early check for literal 'NaN' (case-insensitive) to provide clearer error message
+  if (p.trim().toLowerCase() === 'nan') {
+    const err = new Error(`Parameter ${index} error: Literal 'NaN' is not allowed. Replace it with a valid numeric expression.`);
+    err.code = 1;
+    err.diagnostic = {
+      index,
+      rawValue: p,
+      suggestion: "Replace literal 'NaN' with a valid numeric expression."
+    };
+    throw err;
+  }
   let evaluated;
   try {
     evaluated = evaluate(p);
@@ -35,7 +46,7 @@ function evaluateParameter(p, index) {
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. Literal 'NaN' inputs or expressions producing non-numeric values are invalid. Please replace 'NaN' with a valid numeric expression.`);
+    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. Replace literal 'NaN' with a valid numeric expression or adjust the expression so it evaluates to a numeric value.`);
     err.code = 1;
     err.diagnostic = {
       index,

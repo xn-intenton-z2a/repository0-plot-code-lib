@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-When an expression evaluation error occurs (e.g., an expression evaluating to NaN or a non-finite value), the CLI now provides detailed diagnostic feedback. The output includes the parameter index, the raw input, the evaluated result (if any), and actionable suggestions. For instance, if a literal 'NaN' is input, the error message will advise replacing it with a valid numeric expression.
+When an expression evaluation error occurs (e.g., an expression evaluating to NaN, non-finite value, or literal 'NaN' input), the CLI provides detailed diagnostic feedback. The output includes the parameter index, the raw input, the evaluated result (if any), and actionable suggestions. For instance, if a literal 'NaN' is input, the error message will advise replacing it with a valid numeric expression.
 
 ### Modes and Features
 
@@ -90,11 +90,13 @@ When an expression evaluation error occurs (e.g., an expression evaluating to Na
   node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
   ```
 
+**Note:** Ensure you do not use literal 'NaN' as an input. Replace any occurrence of literal 'NaN' with a valid numeric expression to avoid errors.
+
 ---
 
 ## Note on Enhanced Error Diagnostics
 
-This release includes improved error handling for cases where expressions evaluate to NaN. If a literal 'NaN' or an expression that does not yield a numeric value is provided, the error message and diagnostic information will instruct you to replace it with a valid number or adjust your expression accordingly. The message now clearly advises: "Replace literal 'NaN' with a valid number or adjust the expression so it evaluates to a numeric value." 
+This release includes improved error handling for cases where expressions evaluate to NaN, non-finite values, or when a literal 'NaN' is supplied. If a literal 'NaN' or an expression that does not yield a valid numeric value is provided, the error message and diagnostic information will instruct you to replace it with a valid number or adjust your expression accordingly.
 
 ## License
 
