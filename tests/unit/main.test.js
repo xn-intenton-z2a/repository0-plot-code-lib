@@ -112,4 +112,15 @@ describe("Main CLI Functionality", () => {
       expect(e.diagnostic.trimmedValue).toBe("NaN");
     }
   });
+
+  test("should error on literal 'nAn' input with mixed casing", () => {
+    try {
+      captureOutput(() => main(["output.svg", "quad:nAn,1,0,-10,10,1"]));
+      throw new Error("Expected error not thrown");
+    } catch (e) {
+      expect(e.message).toContain("process.exit:1");
+      expect(e.diagnostic.rawValue).toBe("nAn");
+      expect(e.diagnostic.trimmedValue).toBe("nAn");
+    }
+  });
 });
