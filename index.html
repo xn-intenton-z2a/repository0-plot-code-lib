@@ -34,65 +34,69 @@
 <p class="md-github">Generate a simple quadratic plot as SVG with evaluated math expressions:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;quad:2+2,1,0,-10,10,1&quot;
 </code></pre>
-<p class="md-github">In the above example, the expression <code class="md-github">2+2</code> is evaluated to <code class="md-github">4</code> at runtime, showcasing enhanced parameter parsing.</p>
-<p class="md-github">The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid mathematical expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will immediately halt execution and display a detailed error message such as:</p>
+<p class="md-github">Generate a linear plot:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;linear:2,3,-10,10,1&quot;
+</code></pre>
+<p class="md-github">Generate a plot based on a custom mathematical expression:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;expr:Math.sin(x)*x:-10,10,0.5&quot;
+</code></pre>
+<p class="md-github">In the above examples, mathematical expressions like <code class="md-github">2+2</code> are evaluated at runtime using mathjs, showcasing enhanced parameter parsing.</p>
+<p class="md-github">The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will halt execution and display a detailed error message:</p>
 <pre class="md-github"><code class="md-github">Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please provide a valid finite mathematical expression.
 </code></pre>
-<p class="md-github">Additionally, error objects include a structured <code class="md-github">diagnostic</code> property containing details (e.g., parameter index, provided value) to aid debugging.</p>
-<p class="md-github">In addition to standard plot commands, you can use the following flags:</p>
+<p class="md-github">Error objects include a structured <code class="md-github">diagnostic</code> property containing details (e.g., parameter index, provided value) to aid debugging.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="modes-and-features" href="#modes-and-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modes and Features</h3>
 <ul class="md-github">
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
 </code></pre>
+<p class="md-github">Starts an interactive CLI to enter plot commands directly.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Web Server Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
 </code></pre>
+<p class="md-github">Launches an Express-based web interface (placeholder) for plotting.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">ASCII Plot Output:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --ascii
 </code></pre>
+<p class="md-github">Generates an ASCII plot output (placeholder).</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">Diagnostics Mode:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --diagnostics
 </code></pre>
+<p class="md-github">Activates diagnostics mode, providing detailed error information (placeholder).</p>
 </li>
 </ul>
-<h3 class="md-github"><a class="md-github__anchor" name="enhanced-error-reporting-and-expression-support" href="#enhanced-error-reporting-and-expression-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Error Reporting and Expression Support</h3>
-<p class="md-github">The CLI now uses mathjs to evaluate each plot parameter, allowing mathematical expressions such as <code class="md-github">2+2</code> or <code class="md-github">Math.sin(0.5)</code> as valid inputs. This provides a more flexible and powerful input mechanism for dynamic plotting. If an expression is invalid or evaluates to a non-finite number (e.g., NaN or Infinity), the CLI will report a clear and specific error message.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="interactive-cli" href="#interactive-cli"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Interactive CLI</h3>
-<p class="md-github">Interactive mode prompts the user to input formulas directly:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="web-interface" href="#web-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface</h3>
-<p class="md-github">Start the Express-based interactive plotting web interface:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
-</code></pre>
-<hr class="md-github">
-<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="enhanced-plot-commands" href="#enhanced-plot-commands"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Plot Commands</h3>
+<ul class="md-github">
+<li class="md-github">
 <p class="md-github"><strong class="md-github">Quadratic Plot (SVG) with Expression Evaluation:</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js quad.svg &quot;quad:2+2,1,0,-10,10,1&quot;
 </code></pre>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">Linear Plot (SVG):</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js linear.svg &quot;linear:2,3,-10,10,1&quot;
 </code></pre>
-<p class="md-github"><strong class="md-github">Custom Mathematical Expression:</strong></p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Custom Expression Plot (SVG):</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js expression.svg &quot;expr:Math.sin(x)*x:-10,10,0.5&quot;
 </code></pre>
-<p class="md-github"><strong class="md-github">ASCII Plot Output:</strong></p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --ascii &quot;sine:1,1,0,0,360,30&quot;
-</code></pre>
+</li>
+</ul>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-07T06:50:04.247Z</p>
+    <p>Generated on 2025-04-07T06:56:02.242Z</p>
   </footer>
 </body>
 </html>

@@ -1,14 +1,23 @@
 {
-  "openIssues": 2,
+  "openIssues": 3,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 22,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Refactored CLI argument parsing to use centralized command handlers for improved maintainability. (fixes #790)",
+      "ageMinutes": 1
+    }
+  ],
+  "diffMinutes": 2,
+  "diffMinutesMain": 4,
   "commitsLastHour": 5,
-  "commitsLastDay": 35,
+  "commitsLastDay": 36,
   "lastFiveCommitMessages": [
+    {
+      "time": "06:51",
+      "message": "Modified webServerMode in main.js to log synchronously for testi..."
+    },
     {
       "time": "06:27",
       "message": "Improved error messaging for NaN values in plot command paramete..."
@@ -24,23 +33,19 @@
     {
       "time": "05:57",
       "message": "Enhanced CLI error messaging to clearly report non-numeric param..."
-    },
-    {
-      "time": "05:49",
-      "message": "Refactored CLI error handling to include structured diagnostic l..."
     }
   ],
   "branches": {
     "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-754",
-        "minutesSinceLastCommit": 0
+        "branch": "agentic-lib-issue-790",
+        "minutesSinceLastCommit": 2
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T06:49:47.290Z"
+  "generatedAt": "2025-04-07T06:55:48.580Z"
 }
