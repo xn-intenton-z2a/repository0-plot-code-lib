@@ -54,8 +54,8 @@ function evaluateParameter(p, index) {
     };
     throw err;
   }
-  // If evaluated result is not a finite number (including Infinity, -Infinity, or NaN), throw error
-  if (!Number.isFinite(evaluated)) {
+  // Enhanced check: if evaluated result is not a finite number or is NaN (e.g., expressions like '2+NaN'), throw error
+  if (!Number.isFinite(evaluated) || Number.isNaN(evaluated)) {
     throwInvalidNumberError(index, p, evaluated);
   }
   return evaluated;
