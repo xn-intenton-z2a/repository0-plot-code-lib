@@ -25,7 +25,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 The CLI now features enhanced argument parsing with clear error reporting. For example, if a non-numeric parameter is provided, the CLI will immediately halt execution and display a detailed error message such as:
 
 ```
-Invalid parameter(s): "NaN" provided. All parameters must be numeric. Please ensure you use only numeric values. Example valid input: quad:1,0,0,-10,10,1
+Invalid parameter: "NaN" is not a valid number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1
 ```
 
 In addition to standard plot commands, you can use the following flags:
@@ -56,7 +56,7 @@ In addition to standard plot commands, you can use the following flags:
 
 ### Enhanced Error Reporting
 
-The CLI now provides more descriptive error messages. If a parameter expected to be numeric (e.g., "NaN") is supplied, the CLI halts execution immediately and prints a detailed error message. Users are advised to double-check the parameter inputs and follow the provided usage examples.
+The CLI now provides more descriptive error messages. If a parameter expected to be numeric (e.g., "NaN") is supplied, the CLI halts execution immediately and prints a detailed error message specifying the problematic parameter. Users are advised to double-check the parameter inputs and follow the provided usage examples.
 
 ### Interactive CLI
 
