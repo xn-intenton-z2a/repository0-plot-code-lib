@@ -1,19 +1,22 @@
 {
-  "openIssues": 3,
-  "issuesClosedLastHour": 10,
+  "openIssues": 0,
+  "issuesClosedLastHour": 12,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refactored CLI argument parsing to use centralized command handlers for improved maintainability. (fixes #790)",
-      "ageMinutes": 1
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 2,
-  "diffMinutesMain": 4,
-  "commitsLastHour": 5,
-  "commitsLastDay": 36,
+  "diffMinutesMain": 2,
+  "commitsLastHour": 6,
+  "commitsLastDay": 38,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:00",
+      "message": "Enhance NaN handling in quad commands by improving error message..."
+    },
+    {
+      "time": "06:56",
+      "message": "Refactored CLI argument parsing to use centralized command handl..."
+    },
     {
       "time": "06:51",
       "message": "Modified webServerMode in main.js to log synchronously for testi..."
@@ -25,27 +28,14 @@
     {
       "time": "06:13",
       "message": "Enhanced plot parameter parsing to support mathematical expressi..."
-    },
-    {
-      "time": "06:06",
-      "message": "Enhance diagnostic reporting for NaN inputs in quad plot command..."
-    },
-    {
-      "time": "05:57",
-      "message": "Enhanced CLI error messaging to clearly report non-numeric param..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-790",
-        "minutesSinceLastCommit": 2
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 1,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T06:55:48.580Z"
+  "generatedAt": "2025-04-07T07:02:43.538Z"
 }

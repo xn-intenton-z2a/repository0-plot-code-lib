@@ -41,7 +41,7 @@
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;expr:Math.sin(x)*x:-10,10,0.5&quot;
 </code></pre>
 <p class="md-github">In the above examples, mathematical expressions like <code class="md-github">2+2</code> are evaluated at runtime using mathjs, showcasing enhanced parameter parsing.</p>
-<p class="md-github">The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will halt execution and display a detailed error message:</p>
+<p class="md-github">The CLI now features enhanced argument parsing with clear error reporting, centralized command handlers, and structured diagnostic logging. For example, if an invalid expression is provided or if an expression evaluates to NaN (or an infinite value), the CLI will halt execution and display a detailed error message:</p>
 <pre class="md-github"><code class="md-github">Invalid parameter at index 1: Evaluated result is NaN for input 'NaN'. Please provide a valid finite mathematical expression.
 </code></pre>
 <p class="md-github">Error objects include a structured <code class="md-github">diagnostic</code> property containing details (e.g., parameter index, provided value) to aid debugging.</p>
@@ -96,7 +96,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-07T06:56:02.242Z</p>
+    <p>Generated on 2025-04-07T07:02:58.942Z</p>
   </footer>
 </body>
 </html>
