@@ -1,16 +1,16 @@
 {
-  "openIssues": 3,
+  "openIssues": 4,
   "issuesClosedLastHour": 9,
   "issuesClosedLastDay": 100,
   "openPRs": 1,
   "prDetails": [
     {
       "title": "Improve numeric evaluation for plot commands to robustly handle literal NaN inputs with extra whitespace and varied casing and non-finite numbers. (fixes #911)",
-      "ageMinutes": 4
+      "ageMinutes": 11
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 1,
+  "diffMinutes": 7,
+  "diffMinutesMain": 8,
   "commitsLastHour": 7,
   "commitsLastDay": 98,
   "lastFiveCommitMessages": [
@@ -40,12 +40,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-911",
-        "minutesSinceLastCommit": 5
+        "minutesSinceLastCommit": 12
       }
     ]
   },
-  "averagePRAge": 4,
+  "averagePRAge": 11,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T21:29:02.736Z"
+  "generatedAt": "2025-04-07T21:36:19.495Z"
 }
