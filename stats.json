@@ -1,14 +1,18 @@
 {
   "openIssues": 0,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 0,
-  "commitsLastHour": 4,
-  "commitsLastDay": 58,
+  "diffMinutes": 5,
+  "diffMinutesMain": 5,
+  "commitsLastHour": 5,
+  "commitsLastDay": 59,
   "lastFiveCommitMessages": [
+    {
+      "time": "12:07",
+      "message": "Enhanced NaN error handling with more robust diagnostic messages..."
+    },
     {
       "time": "11:57",
       "message": "Refined literal NaN handling for numeric parameters with enhance..."
@@ -24,10 +28,6 @@
     {
       "time": "11:25",
       "message": "Standardized numeric evaluation error messages and updated tests..."
-    },
-    {
-      "time": "10:52",
-      "message": "Ensure consistent detailed error diagnostics for literal NaN inp..."
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T11:58:42.899Z"
+  "generatedAt": "2025-04-07T12:12:53.130Z"
 }
