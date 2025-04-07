@@ -10,14 +10,14 @@ import readline from "readline";
 // Helper: Standardized error throwing for invalid numeric evaluations
 function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
   const trimmedValue = rawValue.trim();
-  const err = new Error(`Parameter ${index} error: The expression '${trimmedValue}' evaluated to ${evaluated}, which is not a finite number. Please replace any literal 'NaN' with a valid finite numeric expression (e.g., 0). Raw input was '${rawValue}'.`);
+  const err = new Error(`Parameter ${index} error: The expression '${trimmedValue}' evaluated to ${evaluated}, which is not a finite number. Please replace any literal 'NaN' (or expressions that result in non-finite values) with a valid finite numeric expression (e.g., 0). Raw input was '${rawValue}'.`);
   err.code = 1;
   err.diagnostic = {
     index,
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Replace any literal 'NaN' with a valid finite number, for example, '0'."
+    suggestion: "Replace any occurrence of literal 'NaN' or non-finite expressions with a valid finite number, for example, '0'."
   };
   throw err;
 }
