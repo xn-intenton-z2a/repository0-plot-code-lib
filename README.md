@@ -25,7 +25,7 @@ node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if a non-numeric parameter is provided, the CLI will immediately halt execution and display a detailed error message such as:
 
 ```
-Invalid parameter: at index 1, value 'NaN' is not a valid finite number. Please provide only numeric values. Example valid input: quad:1,0,0,-10,10,1
+Invalid parameter at index 1: value 'NaN' is not a valid finite number. Please ensure all parameters are numeric. Example valid input: quad:1,0,0,-10,10,1
 ```
 
 Additionally, error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value) to aid debugging.
