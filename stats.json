@@ -1,19 +1,18 @@
 {
-  "openIssues": 4,
-  "issuesClosedLastHour": 9,
+  "openIssues": 2,
+  "issuesClosedLastHour": 11,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Improve numeric evaluation for plot commands to robustly handle literal NaN inputs with extra whitespace and varied casing and non-finite numbers. (fixes #911)",
-      "ageMinutes": 11
-    }
-  ],
-  "diffMinutes": 7,
-  "diffMinutesMain": 8,
-  "commitsLastHour": 7,
-  "commitsLastDay": 98,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 6,
+  "diffMinutesMain": 6,
+  "commitsLastHour": 8,
+  "commitsLastDay": 99,
   "lastFiveCommitMessages": [
+    {
+      "time": "21:36",
+      "message": "Improve numeric evaluation for plot commands to robustly handle ..."
+    },
     {
       "time": "21:27",
       "message": "Bump eslint from 9.23.0 to 9.24.0 (#910)\n\nBumps [eslint](https:/..."
@@ -29,23 +28,14 @@
     {
       "time": "21:06",
       "message": "Bump express from 4.21.2 to 5.1.0 (#906)\n\nBumps [express](https:..."
-    },
-    {
-      "time": "20:57",
-      "message": "Refined NaN input handling and enhanced diagnostic messaging for..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-911",
-        "minutesSinceLastCommit": 12
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 11,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T21:36:19.495Z"
+  "generatedAt": "2025-04-07T21:43:04.733Z"
 }
