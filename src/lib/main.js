@@ -14,21 +14,21 @@ function evaluateParameter(p, index) {
   try {
     evaluated = evaluate(p);
   } catch (evaluationError) {
-    const err = new Error(`Error evaluating parameter ${index} with input '${p}': ${evaluationError.message}. Please check your expression.`);
+    const err = new Error(`Error evaluating parameter ${index} with input '${p}': ${evaluationError.message}. Please check your expression for syntax and valid operators.`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, error: evaluationError.message };
+    err.diagnostic = { index, rawValue: p, error: evaluationError.message, suggestion: "Review the expression for invalid syntax, missing values, or unsupported operators." };
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to NaN. This can occur due to invalid operators, unsupported syntax, or missing values. Please review your expression to ensure it is a valid numeric expression.`);
+    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to NaN. This might be due to invalid operators, unsupported syntax, or missing values. Please ensure it forms a valid numeric expression.`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Check the syntax, operators, and ensure the expression returns a finite number." };
+    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Check the expression for syntax errors, missing values, and invalid operators." };
     throw err;
   }
   if (!Number.isFinite(evaluated)) {
-    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to a non-finite number (${evaluated}). Please provide a finite numeric expression.`);
+    const err = new Error(`Error: Parameter ${index} with input '${p}' evaluated to a non-finite number (${evaluated}). Please provide a finite numeric expression. Suggestions: Check for division by zero or overflow issues.`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Ensure the expression does not result in Infinity or -Infinity." };
+    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Ensure the expression does not result in Infinity, -Infinity, or other non-finite values." };
     throw err;
   }
   return evaluated;
