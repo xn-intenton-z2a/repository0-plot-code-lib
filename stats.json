@@ -1,19 +1,18 @@
 {
-  "openIssues": 2,
-  "issuesClosedLastHour": 6,
+  "openIssues": 0,
+  "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Enhanced strict rejection of NaN values and improved detailed diagnostics for non-finite numeric expressions. (fixes #887)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 9,
-  "commitsLastHour": 3,
-  "commitsLastDay": 85,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 4,
+  "diffMinutesMain": 4,
+  "commitsLastHour": 4,
+  "commitsLastDay": 86,
   "lastFiveCommitMessages": [
+    {
+      "time": "18:52",
+      "message": "Enhanced strict rejection of NaN values and improved detailed di..."
+    },
     {
       "time": "18:43",
       "message": "Enhanced NaN detection and improved diagnostic messaging for plo..."
@@ -29,23 +28,14 @@
     {
       "time": "17:50",
       "message": "Refined NaN error diagnostics to include raw and trimmed values ..."
-    },
-    {
-      "time": "17:37",
-      "message": "Enhance NaN handling by rejecting literal and non-finite express..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-887",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T18:52:15.647Z"
+  "generatedAt": "2025-04-07T18:57:42.577Z"
 }
