@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-When an expression evaluation error occurs (e.g., an expression evaluating to NaN, non-finite value, or literal 'NaN' input), the CLI provides detailed diagnostic feedback. The output includes the parameter index, the raw input, the evaluated result (if any), and actionable suggestions. For instance, if a literal 'NaN' is input, the error message will advise replacing it with a valid numeric expression.
+**Note:** The CLI does not allow the literal 'NaN' (in any case variant) as a valid numeric parameter. If such a value is provided, an error with detailed diagnostic information will be thrown. Replace any occurrence of literal 'NaN' with a valid numeric expression.
 
 ### Modes and Features
 
@@ -90,13 +90,11 @@ When an expression evaluation error occurs (e.g., an expression evaluating to Na
   node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
   ```
 
-**Note:** Ensure you do not use literal 'NaN' as an input. Replace any occurrence of literal 'NaN' with a valid numeric expression to avoid errors.
-
 ---
 
 ## Note on Enhanced Error Diagnostics
 
-This release includes improved error handling for cases where expressions evaluate to NaN, non-finite values, or when a literal 'NaN' is supplied. If a literal 'NaN' or an expression that does not yield a valid numeric value is provided, the error message and diagnostic information will instruct you to replace it with a valid number or adjust your expression accordingly.
+This release includes improved error handling for cases where expressions evaluate to NaN, non-finite values, or when a literal 'NaN' is supplied. If a literal 'NaN' (or any case variant thereof) or an expression that does not yield a valid numeric value is provided, the error message and diagnostic information instruct you to replace it with a valid number or adjust your expression accordingly.
 
 ## License
 
