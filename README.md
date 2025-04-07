@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-**Note:** The CLI does not allow the literal 'NaN' (in any case variant) as a valid numeric parameter. If such a value is provided, an error with detailed diagnostic information will be thrown. Replace any occurrence of literal 'NaN' with a valid numeric expression.
+**Note:** The CLI does not allow the literal 'NaN' (in any case, even when surrounded by whitespace) as a valid numeric parameter. If such a value is provided, an error with detailed diagnostic information will be thrown. Replace any occurrence of literal 'NaN' with a valid numeric expression.
 
 ### Modes and Features
 
@@ -94,7 +94,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 ## Note on Enhanced Error Diagnostics
 
-This release includes improved error handling for cases where expressions evaluate to NaN, non-finite values, or when a literal 'NaN' is supplied. If a literal 'NaN' (or any case variant thereof) or an expression that does not yield a valid numeric value is provided, the error message and diagnostic information instruct you to replace it with a valid number or adjust your expression accordingly.
+This release includes improved error handling for cases where expressions evaluate to NaN, non-finite values, or when a literal 'NaN' (case-insensitive, even with extra whitespace) is supplied. If a literal 'NaN' or an expression that does not yield a valid numeric value is provided, the error message and diagnostic information will instruct you to replace it with a valid number or adjust your expression accordingly.
 
 ## License
 
