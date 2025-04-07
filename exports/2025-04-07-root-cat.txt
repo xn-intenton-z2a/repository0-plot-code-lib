@@ -1,0 +1,380 @@
+./MISSION.md
+==== Content of ./MISSION.md ====
+# Mission Statement
+
+_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
+
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions.
+Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad
+range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced
+visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics,
+modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric
+plots, random walk and phyllotaxis plots, and more. Recent updates include extended 3D plotting, enhanced exponential
+decay plotting functions, a new modulo plotting function, a scatter plot function, and significant improvements in test
+coverage with enhanced external resource mocks.
+./README.md
+==== Content of ./README.md ====
+# repository0-plot-code-lib
+
+repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to "Be a go-to plot library with a CLI, be the jq of formulae visualisations." This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, random walk and phyllotaxis plots, and more. Recent updates include extended 3D plotting, enhanced exponential decay plotting functions, a new modulo plotting function, a scatter plot function, and significant improvements in test coverage with enhanced external resource mocks.
+
+## Overview
+
+This tool offers a robust command-line interface with multiple modes:
+
+- **Interactive Mode:** Launch an interactive session to input commands.
+- **Server Mode:** Run a basic Express server.
+- **Diagnostics Mode:** Check runtime diagnostics.
+- **Various Export/Plot Modes:** Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.
+
+Advanced flags such as `--plot-detailed`, `--plot-cumprod`, `--plot-ema`, `--plot-exp-sine`, `--plot-cos-cumsum`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, `--plot-spiral-3d`, `--plot-exp-decay-enhanced`, `--plot-modulo`, and `--scatter` provide extended capabilities. 
+
+**Changelog**
+
+- **Drift Pruning:** Removed legacy demo implementations and pruned code drift to remain aligned with our mission statement.
+- **Documentation & Messaging:** Updated inline documentation, error messages, and CLI help to clearly reference CONTRIBUTING guidelines.
+- **Enhanced Testing:** Improved test coverage with deeper external resource mocks for a more robust integration.
+- **New Features:** Added functions such as `plotRandomWalkReal`, `plotPhyllotaxisReal`, `mockExternalResourceTest`, `plotSpiral3DReal`, `plotExponentialDecayEnhancedReal`, `plotModuloReal`, and `plotScatterReal` to extend the library's capabilities.
+
+## Installation
+
+**Prerequisites:** Node.js v20 or higher.
+
+Install via npm:
+
+```bash
+npm install @xn-intenton-z2a/repository0-plot-code-lib
+```
+
+## Usage
+
+Run the default demo:
+
+```bash
+npm run start
+```
+
+Other common commands:
+
+- **Diagnostics:** `npm run diagnostics`
+- **Interactive Mode:** `node src/lib/main.js --interactive`
+- **Server Mode:** `node src/lib/main.js --serve`
+- **Export Options:** e.g., `--export-csv`, `--export-json`, etc.
+- **Plot Options:** e.g., `--plot-custom-fancy`, `--plot-detailed`, `--interactive-guide`, `--plot-enhanced-parametric`, `--plot-random-walk`, `--plot-phyllotaxis`, `--plot-spiral-3d`, `--plot-exp-decay-enhanced`, `--plot-modulo`, `--scatter`, etc.
+- **Test Coverage Hook:** `node src/lib/main.js --test-coverage-hook`
+- **Reset Overrides:** `node src/lib/main.js --reset`
+- **Debug Mode:** `node src/lib/main.js --debug`
+
+## Testing
+
+The project includes a comprehensive test suite with Vitest. Run the tests with:
+
+```bash
+npm test
+```
+
+### Mocking External Resources
+
+The test suite includes mocks for external modules such as Express and Readline to ensure robust testing of network and file system dependencies. Use functions like `testCoverageHook` and `mockExternalResourceTest` for deep external resource testing.
+
+## Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Open an Issue:** Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.
+2. **Label as `automated`:** This triggers our automated contribution workflows.
+3. **Submit a Pull Request:** Include detailed commit messages and tests. See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines.
+
+## License
+
+MIT
+./CONTRIBUTING.md
+==== Content of ./CONTRIBUTING.md ====
+# repository0-plot-code-lib
+
+_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
+
+## How to Contribute
+
+The guidelines below apply to human or automated contributions:
+
+1. **Report Issues or Ideas:**
+    - Open an issue on GitHub to share bug reports, feature requests, or any improvements you envision.
+    - Clear descriptions and reproducible steps are highly appreciated.
+
+2. **Submit Pull Requests:**
+    - Fork the repository and create a feature branch.
+    - Implement your changes, ensuring you follow the existing coding style and standards.
+    - Add tests to cover any new functionality.
+    - Update documentation if your changes affect usage or workflow behavior.
+    - Submit your pull request for review.
+
+## Guidelines
+
+- **Code Quality:**
+    - Ensure there are tests that cover your changes and any likely new cases they introduce.
+    - When making a change remain consistent with the existing code style and structure.
+    - When adding new functionality, consider if some unused or superseded code should be removed.
+
+- **Compatibility:**
+    - Ensure your code runs on Node 20 and adheres to ECMAScript Module (ESM) standards.
+    - Tests use vitest and competing test frameworks should not be added.
+    - Mocks in tests must not interfere with other tests.
+
+- **Testing:**
+    - The command `npm test` should invoke the tests added for the new functionality (and pass).
+    - If you add new functionality, ensure it is covered by tests.
+
+- **Documentation:**
+    - When making a change to the main source file, review the readme to see if it needs to be updated and if so, update it.
+    - Where the source exports a function, consider that part of the API of the library and document it in the readme.
+    - Where the source stands-up an HTTP endpoint, consider that part of the API of the library and document it in the readme.
+    - Include usage examples including inline code usage and CLI and HTTP invocation, API references.
+./package.json
+==== Content of ./package.json ====
+{
+  "name": "@xn-intenton-z2a/repository0-plot-code-lib",
+  "version": "0.8.1-0",
+  "description": "A versatile CLI tool for plotting mathematical functions in various formats, featuring enhanced error handling, extended plotting functions, and a clean codebase aligned with our mission to be the go-to plot library for formulae visualisations.",
+  "type": "module",
+  "main": "src/lib/main.js",
+  "scripts": {
+    "build": "echo 'Nothing to build'",
+    "formatting": "prettier --check .",
+    "formatting-fix": "prettier --write .",
+    "linting": "eslint .",
+    "linting-json": "eslint --format=@microsoft/eslint-formatter-sarif .",
+    "linting-fix": "eslint --fix .",
+    "update-to-minor": "npx npm-check-updates --upgrade --enginesNode --target minor --verbose --install always",
+    "update-to-greatest": "npx npm-check-updates --upgrade --enginesNode --target greatest --verbose --install always --reject 'alpha'",
+    "test": "vitest tests/unit/*.test.js",
+    "test:unit": "vitest --coverage tests/unit/*.test.js",
+    "start": "node src/lib/main.js",
+    "diagnostics": "node src/lib/main.js --diagnostics"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "openai": "^4.89.0",
+    "zod": "^3.24.2",
+    "express": "^4.21.2",
+    "mathjs": "^14.3.1"
+  },
+  "devDependencies": {
+    "@microsoft/eslint-formatter-sarif": "^3.1.0",
+    "@vitest/coverage-v8": "^3.0.9",
+    "eslint": "^9.23.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-prettier": "^5.2.3",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-security": "^3.0.1",
+    "eslint-plugin-sonarjs": "^3.0.2",
+    "markdown-it-github": "^0.5.0",
+    "markdown-it": "^14.1.0",
+    "npm-check-updates": "^17.1.15",
+    "prettier": "^3.5.3",
+    "vitest": "^3.0.9"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "package.json"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
+}
+./vitest.config.js
+==== Content of ./vitest.config.js ====
+import { defineConfig } from "vitest/config";
+
+export default defineConfig({
+  resolve: {
+    alias: {
+      "@dist": "/dist",
+      "@src": "/src",
+      "@tests": "/tests",
+    },
+  },
+  test: {
+    environment: "node",
+    include: ["src/lib/main.js", "tests/unit/*.test.js"],
+    coverage: {
+      provider: "v8",
+      reportsDirectory: "./coverage",
+      reporter: ["text", "json", "html"],
+      include: ["src/**/*.js"],
+      exclude: ["**/dist/**", "**/entrypoint/**", "**/tests/**", "**/node_modules/**", "src/index.js", "**/exports/**"],
+      threshold: {
+        statements: 85,
+        branches: 80,
+        functions: 75,
+        lines: 85,
+        perFile: {
+          statements: 70,
+          branches: 60,
+          functions: 40,
+          lines: 70,
+        },
+      },
+    },
+  },
+});
+./jsconfig.json
+==== Content of ./jsconfig.json ====
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "// Also make path changes in vitest.config.js": "",
+    "paths": {
+      "@dist/*": ["dist/*"],
+      "@src/*": ["src/*"],
+      "@tests/*": ["tests/*"]
+    }
+  }
+}
+./eslint.config.js
+==== Content of ./eslint.config.js ====
+import js from "@eslint/js";
+import google from "eslint-config-google";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
+import globals from "globals";
+import promise from "eslint-plugin-promise";
+import security from "eslint-plugin-security";
+import sonarjs from "eslint-plugin-sonarjs";
+import react from "eslint-plugin-react";
+import importPlugin from "eslint-plugin-import";
+
+const modifiedGoogleConfig = { ...google, rules: { ...google.rules } };
+delete modifiedGoogleConfig.rules["valid-jsdoc"];
+delete modifiedGoogleConfig.rules["require-jsdoc"];
+
+/** @type {import('eslint').Linter.FlatConfig[]} */
+export default [
+  js.configs.recommended,
+  modifiedGoogleConfig,
+  eslintPluginPrettierRecommended,
+  {
+    plugins: {
+      promise,
+      security,
+      sonarjs,
+      react,
+      import: importPlugin,
+    },
+    languageOptions: {
+      ecmaVersion: 2023,
+      sourceType: "module",
+      globals: {
+        ...globals.node,
+      },
+    },
+    rules: {
+      "prettier/prettier": "error",
+      ...promise.configs.recommended.rules,
+      ...sonarjs.configs.recommended.rules,
+      "sonarjs/os-command": "off",
+
+      // Formatting and organisation
+      "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+      "no-extra-semi": 2,
+      "object-curly-newline": ["error", { consistent: true }],
+      "array-element-newline": ["error", "consistent", { multiline: true, minItems: 10 }],
+      "import/newline-after-import": ["error", { count: 1 }],
+      "camelcase": "off",
+
+      // ESM import rules
+      "import/no-amd": "error",
+      "import/no-commonjs": "error",
+      "import/no-import-module-exports": "error",
+      "import/no-cycle": "error",
+      "import/no-dynamic-require": "error",
+      "import/no-self-import": "off",
+      "import/no-unresolved": "off",
+      "import/no-useless-path-segments": "error",
+      "import/no-duplicates": "error",
+      "sonarjs/fixme-tag": "warn",
+    },
+  },
+  {
+    files: ["**/*.js"],
+    ignores: ["**/tests/**/*.js", "**/*.test.js", "eslint.config.js"],
+    rules: {
+      ...security.configs.recommended.rules,
+      "security/detect-non-literal-fs-filename": "off",
+      "security/detect-non-literal-regexp": "off",
+      "security/detect-object-injection": "off",
+    },
+  },
+  {
+    settings: {
+      react: {
+        version: "18",
+      },
+    },
+  },
+  {
+    ignores: ["build/", "coverage/", "dist/", "exports/", "node_modules/", "eslint.config.js"],
+  },
+];
+./.prettierrc
+==== Content of ./.prettierrc ====
+{
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "quoteProps": "consistent",
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    }
+  ]
+}
+./LICENSE
+==== Content of ./LICENSE ====
+MIT License
+
+Copyright (c) 2025 intentïon
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+./.prettierrc
+==== Content of ./.prettierrc ====
+{
+  "singleQuote": false,
+  "trailingComma": "all",
+  "printWidth": 120,
+  "tabWidth": 2,
+  "useTabs": false,
+  "quoteProps": "consistent",
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    }
+  ]
+}
