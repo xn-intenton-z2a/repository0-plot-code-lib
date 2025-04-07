@@ -10,7 +10,7 @@ import readline from "readline";
 // Helper: Standardized error throwing for invalid numeric evaluations
 function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
   const trimmedValue = rawValue.trim();
-  const err = new Error(`Parameter ${index} error: Expression '${trimmedValue}' did not evaluate to a valid finite number${extraInfo ? ' (' + extraInfo + ')' : ''}.`);
+  const err = new Error(`Parameter ${index} error: Expression '${trimmedValue}' evaluated to ${evaluated}, which is not a finite number. Raw input: '${rawValue}'.`);
   err.code = 1;
   err.diagnostic = {
     index,
@@ -28,13 +28,13 @@ function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
   // Reject literal 'NaN' values robustly by checking case-insensitively after trimming
   if (trimmedValue.toLowerCase() === 'nan') {
-    const err = new Error(`Parameter ${index} error: Literal 'NaN' input '${trimmedValue}' is not a valid finite number.`);
+    const err = new Error(`Parameter ${index} error: Literal 'NaN' detected. Raw input: '${p}', trimmed input: '${trimmedValue}' is not a valid finite number.`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
       trimmedValue,
-      suggestion: "Replace any literal 'NaN' with a valid numeric expression. Do not use 'NaN' or expressions that yield NaN."
+      suggestion: "Replace 'NaN' with a valid numeric expression. Do not use 'NaN' as input."
     };
     throw err;
   }
