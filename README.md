@@ -62,8 +62,12 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 
 ---
 
+## Input Validation
+
+This tool now includes robust input validation for numerical parameters. If any numeric parameter cannot be parsed correctly (resulting in NaN), the CLI will display an error message indicating the invalid input and terminate with a non-zero exit code.
+
+---
+
 ## License
 
 MIT
-
----
