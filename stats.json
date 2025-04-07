@@ -1,19 +1,18 @@
 {
-  "openIssues": 5,
+  "openIssues": 3,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Enhance error handling for non-numeric parameters and add diagnostics mode flag for CLI. (fixes #770)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 0,
-  "diffMinutesMain": 14,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 5,
+  "diffMinutesMain": 5,
   "commitsLastHour": 4,
-  "commitsLastDay": 25,
+  "commitsLastDay": 26,
   "lastFiveCommitMessages": [
+    {
+      "time": "04:41",
+      "message": "Enhance error handling for non-numeric parameters and add diagno..."
+    },
     {
       "time": "04:24",
       "message": "Enhanced numeric parameter validation using Number.isFinite for ..."
@@ -29,23 +28,14 @@
     {
       "time": "03:44",
       "message": "Enhanced error message for non-numeric parameters to improve gui..."
-    },
-    {
-      "time": "03:36",
-      "message": "Updated test files captureOutput function to properly capture co..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-770",
-        "minutesSinceLastCommit": 0
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T04:39:04.382Z"
+  "generatedAt": "2025-04-07T04:46:49.330Z"
 }
