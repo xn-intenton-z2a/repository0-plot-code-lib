@@ -27,7 +27,7 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
   // Reject if the trimmed value is literal 'NaN' regardless of casing
-  if (/^nan$/i.test(trimmedValue)) {
+  if (trimmedValue.toLowerCase() === 'nan') {
     throwInvalidNumberError(index, p, "NaN");
   }
   let evaluated;
