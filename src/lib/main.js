@@ -17,16 +17,16 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Replace any occurrence of literal 'NaN' or non-finite expressions with a valid finite number, for example, '0'."
+    suggestion: "Replace any occurrence of literal 'NaN' or non-finite expressions with a valid finite number, e.g., 0."
   };
   throw err;
 }
 
 // Enhanced error handling for evaluating mathematical expressions
-// This function robustly rejects literal 'NaN' inputs (regardless of case or extra whitespace) and ensures all evaluated expressions yield a finite number.
+// This function robustly rejects literal 'NaN' inputs (case-insensitive, extra whitespace) and ensures all evaluated expressions yield a finite number.
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
-  // Enhanced robust NaN detection: if the trimmed value matches 'NaN' in any casing, throw an error using standardized error message
+  // Reject if the trimmed value is literal 'NaN' regardless of casing
   if (/^nan$/i.test(trimmedValue)) {
     throwInvalidNumberError(index, p, "NaN");
   }
@@ -54,6 +54,7 @@ function evaluateParameter(p, index) {
     };
     throw err;
   }
+  // If evaluated result is not a finite number (including Infinity, -Infinity, or NaN), throw error
   if (!Number.isFinite(evaluated)) {
     throwInvalidNumberError(index, p, evaluated);
   }
