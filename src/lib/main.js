@@ -17,7 +17,7 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Ensure the expression yields a valid finite number. Replace any occurrence of 'NaN' with a valid numeric expression."
+    suggestion: "Ensure the expression yields a valid finite number. Replace any literal 'NaN' with a valid numeric expression."
   };
   throw err;
 }
@@ -28,13 +28,13 @@ function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
   // Reject literal 'NaN' values robustly by checking case-insensitively after trimming
   if (trimmedValue.toLowerCase() === 'nan') {
-    const err = new Error(`Parameter ${index} error: '${trimmedValue}' is not a valid finite number.`);
+    const err = new Error(`Parameter ${index} error: Literal 'NaN' input '${trimmedValue}' is not a valid finite number.`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
       trimmedValue,
-      suggestion: "Replace with a valid numeric expression. Avoid using 'NaN' or expressions that might yield it."
+      suggestion: "Replace any literal 'NaN' with a valid numeric expression. Do not use 'NaN' or expressions that yield NaN."
     };
     throw err;
   }

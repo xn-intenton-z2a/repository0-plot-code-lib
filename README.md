@@ -34,7 +34,7 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (regardless of case or surrounding whitespace) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. The diagnostic includes both the raw and trimmed input values along with specific suggestions to resolve the issue. Replace any such values with a valid numeric expression.
+**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (even with extra whitespace or different casing) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. The diagnostic information includes both the raw and trimmed input values along with specific suggestions to resolve the issue. Replace any literal 'NaN' with a valid numeric expression.
 
 ### Modes and Features
 
