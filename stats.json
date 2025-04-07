@@ -1,11 +1,16 @@
 {
-  "openIssues": 3,
+  "openIssues": 5,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 3,
-  "diffMinutesMain": 3,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Enhance error messaging for non-numeric parameters with explicit instructions in the error message. (fixes #778)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 12,
   "commitsLastHour": 4,
   "commitsLastDay": 29,
   "lastFiveCommitMessages": [
@@ -31,11 +36,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-778",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T05:29:18.618Z"
+  "generatedAt": "2025-04-07T05:38:05.529Z"
 }
