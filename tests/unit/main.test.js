@@ -61,8 +61,10 @@ describe("Main CLI Functionality", () => {
   });
 
   test("should error on non-numeric parameters", () => {
-    expect(() => {
-      captureOutput(() => main(["output.svg", "quad:1,NaN,0,-10,10,1"]));
-    }).toThrow("process.exit:1");
+    let captured = { logs: [], errors: [] };
+    try {
+      captured = captureOutput(() => main(["output.svg", "quad:1,NaN,0,-10,10,1"]));
+    } catch (e) {}
+    expect(captured.errors.some(error => error.includes('Invalid parameter: "NaN" provided.'))).toBe(true);
   });
 });

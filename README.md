@@ -22,7 +22,12 @@ Generate a simple quadratic plot as SVG:
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
-The CLI now features enhanced argument parsing and input validation with improved error reporting. In cases where non-numeric parameters are provided, the error message will list the exact invalid parameter(s).
+The CLI now features enhanced argument parsing and improved error reporting. For example, if a non-numeric parameter is provided,
+a detailed error message will be displayed such as:
+
+```
+Invalid parameter: "NaN" provided. All parameters must be numeric. Example valid input: quad:1,0,0,-10,10,1
+```
 
 In addition to standard plot commands, you can use the following flags:
 

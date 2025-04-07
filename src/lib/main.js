@@ -57,7 +57,9 @@ export function main(args) {
   // Validate that all parameters are numeric using Number conversion.
   const invalidParams = params.filter(p => Number.isNaN(Number(p)));
   if (invalidParams.length > 0) {
-    console.error(`Invalid parameter(s): ${invalidParams.join(", ")}. All parameters must be numeric.`);
+    invalidParams.forEach(param => {
+      console.error(`Invalid parameter: "${param}" provided. All parameters must be numeric. Example valid input: ${commandName}:1,0,0,-10,10,1`);
+    });
     process.exit(1);
   }
 
