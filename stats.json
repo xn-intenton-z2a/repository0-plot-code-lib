@@ -1,12 +1,17 @@
 {
-  "openIssues": 0,
-  "issuesClosedLastHour": 8,
+  "openIssues": 2,
+  "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 5,
-  "diffMinutesMain": 5,
-  "commitsLastHour": 4,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Improve diagnostic messaging for NaN evaluation errors with refined and actionable suggestions. (fixes #807)",
+      "ageMinutes": 1
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 11,
+  "commitsLastHour": 3,
   "commitsLastDay": 45,
   "lastFiveCommitMessages": [
     {
@@ -31,11 +36,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-807",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T08:47:58.476Z"
+  "generatedAt": "2025-04-07T08:54:48.588Z"
 }
