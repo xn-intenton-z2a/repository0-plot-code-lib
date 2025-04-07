@@ -4,11 +4,15 @@
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 9,
-  "diffMinutesMain": 55,
+  "diffMinutes": 0,
+  "diffMinutesMain": 5,
   "commitsLastHour": 1,
-  "commitsLastDay": 20,
+  "commitsLastDay": 21,
   "lastFiveCommitMessages": [
+    {
+      "time": "03:36",
+      "message": "Updated test files captureOutput function to properly capture co..."
+    },
     {
       "time": "02:32",
       "message": "Improve error message for non-numeric plot parameters by listing..."
@@ -24,23 +28,19 @@
     {
       "time": "02:14",
       "message": "Update from agentic-lib"
-    },
-    {
-      "time": "01:54",
-      "message": "Enhanced CLI parsing with command routing and input validation i..."
     }
   ],
   "branches": {
     "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-759",
-        "minutesSinceLastCommit": 9
+        "branch": "agentic-lib-issue-762",
+        "minutesSinceLastCommit": 0
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T03:28:13.163Z"
+  "generatedAt": "2025-04-07T03:42:11.323Z"
 }
