@@ -103,8 +103,13 @@ describe("Main CLI Functionality", () => {
   });
 
   test("should error on literal 'NaN' input with extra whitespace", () => {
-    expect(() => {
+    try {
       captureOutput(() => main(["output.svg", "quad:  NaN ,1,0,-10,10,1"]));
-    }).toThrow("process.exit:1");
+      throw new Error("Expected error not thrown");
+    } catch (e) {
+      expect(e.message).toContain("process.exit:1");
+      expect(e.diagnostic.rawValue).toBe("  NaN ");
+      expect(e.diagnostic.trimmedValue).toBe("NaN");
+    }
   });
 });
