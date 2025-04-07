@@ -28,7 +28,7 @@ function evaluateParameter(p, index) {
   if (!Number.isFinite(evaluated)) {
     const err = new Error(`Invalid parameter at index ${index}: Evaluated result is not a finite number for input '${p}'. Please provide a valid finite mathematical expression.`);
     err.code = 1;
-    err.diagnostic = { index, rawValue: p, evaluated };
+    err.diagnostic = { index, rawValue: p, evaluated, suggestion: "Ensure the expression does not result in Infinity or -Infinity." };
     throw err;
   }
   return evaluated;
