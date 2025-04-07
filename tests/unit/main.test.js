@@ -94,7 +94,7 @@ describe("Main CLI Functionality", () => {
       captured = e.captured || { logs: [], errors: [] };
     }
     expect(captured.errors.some(error => error.includes('evaluated to NaN'))).toBe(true);
-    expect(captured.errors.some(error => error.includes('invalid syntax') || error.includes('undefined') || error.includes('unsupported'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('Replace literal'))).toBe(true);
   });
 
   test("should error on invalid mathematical expression in quad command", () => {
