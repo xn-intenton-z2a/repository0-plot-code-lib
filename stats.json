@@ -1,19 +1,18 @@
 {
-  "openIssues": 2,
-  "issuesClosedLastHour": 6,
+  "openIssues": 0,
+  "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Improve diagnostic messaging for NaN evaluation errors with refined and actionable suggestions. (fixes #807)",
-      "ageMinutes": 1
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 11,
-  "commitsLastHour": 3,
-  "commitsLastDay": 45,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 4,
+  "diffMinutesMain": 4,
+  "commitsLastHour": 4,
+  "commitsLastDay": 46,
   "lastFiveCommitMessages": [
+    {
+      "time": "08:56",
+      "message": "Improve diagnostic messaging for NaN evaluation errors with refi..."
+    },
     {
       "time": "08:42",
       "message": "Improve NaN diagnostic handling in expression evaluation with cl..."
@@ -29,23 +28,14 @@
     {
       "time": "07:51",
       "message": "Refined evaluateParameter error handling to include explicit dia..."
-    },
-    {
-      "time": "07:37",
-      "message": "Enhance diagnostic reporting for NaN evaluations in plot command..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-807",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 1,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T08:54:48.588Z"
+  "generatedAt": "2025-04-07T09:01:00.014Z"
 }
