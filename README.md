@@ -67,4 +67,3 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 MIT
 
 ---
-
