@@ -8,6 +8,7 @@ import express from "express";
 import readline from "readline";
 
 // Helper function to evaluate a single parameter
+// Enhanced NaN handling: when an expression evaluates to NaN, a clear error message with diagnostic info is thrown.
 function evaluateParameter(p, index) {
   let evaluated;
   try {
