@@ -35,13 +35,13 @@ function evaluateParameter(p, index) {
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. This may be due to invalid syntax, missing operands, or undefined variables.`);
+    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. Literal 'NaN' inputs or expressions producing non-numeric values are invalid.`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
       evaluated,
-      suggestion: "Ensure the expression is valid; check for typos, missing operands, undefined variables, or unsupported operators."
+      suggestion: "Replace literal 'NaN' with a valid number or correct the mathematical expression syntax."
     };
     throw err;
   }
