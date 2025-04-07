@@ -22,6 +22,7 @@ function captureOutput(func) {
   return { logs, errors };
 }
 
+
 describe("Main CLI Functionality", () => {
   let exitSpy;
 

@@ -200,9 +200,11 @@ function webServerMode() {
   app.get("/", (req, res) => {
     res.send("Welcome to the plotting web interface. (Placeholder)");
   });
+  // Start listening asynchronously, but log synchronously for testing purposes
   app.listen(port, () => {
-    console.log(`Starting web server (placeholder) on port ${port}.`);
+    // Additional async log can be placed here if needed
   });
+  console.log(`Starting web server (placeholder) on port ${port}.`);
 }
 
 // ASCII plot mode (placeholder implementation)
