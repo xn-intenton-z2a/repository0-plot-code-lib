@@ -23,62 +23,66 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">repository0-plot-code-lib is a versatile CLI tool for plotting and analyzing mathematical functions. Our mission is to &quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot; This tool supports a broad range of plotting functionalities—from basic functions like sine, cosine, exponential, and logarithmic plots to advanced visualizations including enhanced spiral, polar heatmap, dual axis, box plot, violin plot, damped oscillation, harmonics, modulated sine, statistical summary, parametric plot, cumulative average, inverse function plotting, enhanced parametric plots, random walk and phyllotaxis plots, and more. Recent updates include extended 3D plotting, enhanced exponential decay plotting functions, a new modulo plotting function, a scatter plot function, and significant improvements in test coverage with enhanced external resource mocks.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">This tool offers a robust command-line interface with multiple modes:</p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Interactive Mode:</strong> Launch an interactive session to input commands.</li>
-<li class="md-github"><strong class="md-github">Server Mode:</strong> Run a basic Express server.</li>
-<li class="md-github"><strong class="md-github">Diagnostics Mode:</strong> Check runtime diagnostics.</li>
-<li class="md-github"><strong class="md-github">Various Export/Plot Modes:</strong> Generate plots and exports in formats like CSV, JSON, Markdown, HTML, ASCII, SVG, XML, LaTeX, TXT, and more.</li>
-</ul>
-<p class="md-github">Advanced flags such as <code class="md-github">--plot-detailed</code>, <code class="md-github">--plot-cumprod</code>, <code class="md-github">--plot-ema</code>, <code class="md-github">--plot-exp-sine</code>, <code class="md-github">--plot-cos-cumsum</code>, <code class="md-github">--plot-enhanced-parametric</code>, <code class="md-github">--plot-random-walk</code>, <code class="md-github">--plot-phyllotaxis</code>, <code class="md-github">--plot-spiral-3d</code>, <code class="md-github">--plot-exp-decay-enhanced</code>, <code class="md-github">--plot-modulo</code>, and <code class="md-github">--scatter</code> provide extended capabilities.</p>
-<p class="md-github"><strong class="md-github">Changelog</strong></p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Drift Pruning:</strong> Removed legacy demo implementations and pruned code drift to remain aligned with our mission statement.</li>
-<li class="md-github"><strong class="md-github">Documentation &amp; Messaging:</strong> Updated inline documentation, error messages, and CLI help to clearly reference CONTRIBUTING guidelines.</li>
-<li class="md-github"><strong class="md-github">Enhanced Testing:</strong> Improved test coverage with deeper external resource mocks for a more robust integration.</li>
-<li class="md-github"><strong class="md-github">New Features:</strong> Added functions such as <code class="md-github">plotRandomWalkReal</code>, <code class="md-github">plotPhyllotaxisReal</code>, <code class="md-github">mockExternalResourceTest</code>, <code class="md-github">plotSpiral3DReal</code>, <code class="md-github">plotExponentialDecayEnhancedReal</code>, <code class="md-github">plotModuloReal</code>, and <code class="md-github">plotScatterReal</code> to extend the library's capabilities.</li>
-</ul>
+<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<p class="md-github"><strong class="md-github">Prerequisites:</strong> Node.js v20 or higher.</p>
-<p class="md-github">Install via npm:</p>
+<p class="md-github">Requires Node.js (v20 or higher):</p>
 <pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
-<p class="md-github">Run the default demo:</p>
-<pre class="md-github"><code class="md-github language-bash">npm run start
+<h3 class="md-github"><a class="md-github__anchor" name="cli-quickstart" href="#cli-quickstart"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Quickstart</h3>
+<p class="md-github">Generate a simple quadratic plot as SVG:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;quad:1,0,0,-10,10,1&quot;
 </code></pre>
-<p class="md-github">Other common commands:</p>
+<p class="md-github">The CLI now features enhanced argument parsing and input validation. In addition to standard plot commands, you can use the following flags:</p>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Diagnostics:</strong> <code class="md-github">npm run diagnostics</code></li>
-<li class="md-github"><strong class="md-github">Interactive Mode:</strong> <code class="md-github">node src/lib/main.js --interactive</code></li>
-<li class="md-github"><strong class="md-github">Server Mode:</strong> <code class="md-github">node src/lib/main.js --serve</code></li>
-<li class="md-github"><strong class="md-github">Export Options:</strong> e.g., <code class="md-github">--export-csv</code>, <code class="md-github">--export-json</code>, etc.</li>
-<li class="md-github"><strong class="md-github">Plot Options:</strong> e.g., <code class="md-github">--plot-custom-fancy</code>, <code class="md-github">--plot-detailed</code>, <code class="md-github">--interactive-guide</code>, <code class="md-github">--plot-enhanced-parametric</code>, <code class="md-github">--plot-random-walk</code>, <code class="md-github">--plot-phyllotaxis</code>, <code class="md-github">--plot-spiral-3d</code>, <code class="md-github">--plot-exp-decay-enhanced</code>, <code class="md-github">--plot-modulo</code>, <code class="md-github">--scatter</code>, etc.</li>
-<li class="md-github"><strong class="md-github">Test Coverage Hook:</strong> <code class="md-github">node src/lib/main.js --test-coverage-hook</code></li>
-<li class="md-github"><strong class="md-github">Reset Overrides:</strong> <code class="md-github">node src/lib/main.js --reset</code></li>
-<li class="md-github"><strong class="md-github">Debug Mode:</strong> <code class="md-github">node src/lib/main.js --debug</code></li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="testing" href="#testing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Testing</h2>
-<p class="md-github">The project includes a comprehensive test suite with Vitest. Run the tests with:</p>
-<pre class="md-github"><code class="md-github language-bash">npm test
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="mocking-external-resources" href="#mocking-external-resources"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mocking External Resources</h3>
-<p class="md-github">The test suite includes mocks for external modules such as Express and Readline to ensure robust testing of network and file system dependencies. Use functions like <code class="md-github">testCoverageHook</code> and <code class="md-github">mockExternalResourceTest</code> for deep external resource testing.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
-<p class="md-github">We welcome contributions! Please follow these steps:</p>
-<ol class="md-github">
-<li class="md-github"><strong class="md-github">Open an Issue:</strong> Describe your idea, report a bug, or suggest an improvement by opening an issue in our repository.</li>
-<li class="md-github"><strong class="md-github">Label as <code class="md-github">automated</code>:</strong> This triggers our automated contribution workflows.</li>
-<li class="md-github"><strong class="md-github">Submit a Pull Request:</strong> Include detailed commit messages and tests. See <a href="./CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for full guidelines.</li>
-</ol>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Web Server Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">ASCII Plot Output:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --ascii
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Diagnostics Mode:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --diagnostics
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="interactive-cli" href="#interactive-cli"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Interactive CLI</h3>
+<p class="md-github">Interactive mode prompts the user to input formulas directly:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="web-interface" href="#web-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface</h3>
+<p class="md-github">Start the Express-based interactive plotting web interface:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
+</code></pre>
+<hr class="md-github">
+<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<p class="md-github"><strong class="md-github">Linear Plot (SVG):</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js linear.svg &quot;linear:2,3,-10,10,1&quot;
+</code></pre>
+<p class="md-github"><strong class="md-github">Custom Mathematical Expression:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js expression.svg &quot;expr:Math.sin(x)*x:-10,10,0.5&quot;
+</code></pre>
+<p class="md-github"><strong class="md-github">ASCII Plot Output:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --ascii &quot;sine:1,1,0,0,360,30&quot;
+</code></pre>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-07T00:16:00.900Z</p>
+    <p>Generated on 2025-04-07T02:21:19.254Z</p>
   </footer>
 </body>
 </html>
