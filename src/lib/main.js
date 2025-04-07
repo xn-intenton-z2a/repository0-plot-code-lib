@@ -10,14 +10,14 @@ import readline from "readline";
 // Helper: Standardized error throwing for invalid numeric evaluations
 function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
   const trimmedValue = rawValue.trim();
-  const err = new Error(`Parameter ${index} error: Expression '${trimmedValue}' did not evaluate to a finite number${extraInfo ? ' (' + extraInfo + ')' : ''}.`);
+  const err = new Error(`Parameter ${index} error: Expression '${trimmedValue}' did not evaluate to a valid finite number${extraInfo ? ' (' + extraInfo + ')' : ''}.`);
   err.code = 1;
   err.diagnostic = {
     index,
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Ensure the expression yields a valid finite number. Replace any literal 'NaN' with a valid numeric expression and correct any arithmetic issues."
+    suggestion: "Ensure the expression yields a valid finite number. Check your syntax, arithmetic operations, and avoid using literal 'NaN'."
   };
   throw err;
 }
@@ -26,6 +26,7 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 // Consolidates error messages for literal 'NaN' inputs and expressions that evaluate to non-finite numbers.
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
+  // Normalize the input by trimming
   if (trimmedValue.toLowerCase() === 'nan') {
     const err = new Error(`Parameter ${index} error: '${trimmedValue}' is not a valid finite number.`);
     err.code = 1;
@@ -33,7 +34,7 @@ function evaluateParameter(p, index) {
       index,
       rawValue: p,
       trimmedValue,
-      suggestion: "Replace with a valid numeric expression."
+      suggestion: "Replace with a valid numeric expression. Avoid using 'NaN' or expressions that might yield it."
     };
     throw err;
   }
@@ -50,7 +51,7 @@ function evaluateParameter(p, index) {
     } else if (errMsg.includes("operator")) {
       refinedSuggestion = "Ensure that all operators are supported and used correctly.";
     }
-    const err = new Error(`Parameter ${index} error: Unable to evaluate '${p}'. ${evaluationError.message}`);
+    const err = new Error(`Parameter ${index} error: Unable to evaluate '${trimmedValue}'. ${evaluationError.message}`);
     err.code = 1;
     err.diagnostic = {
       index,
