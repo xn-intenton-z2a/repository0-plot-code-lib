@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// Enhanced diagnostics: Strict rejection of literal 'NaN' values (with extra whitespace or varied casing) and expressions evaluating to non-finite numbers.
+// Enhanced diagnostics: Strict rejection of literal 'NaN' values (with extra whitespace, varied casing) and expressions evaluating to non-finite numbers.
+// Updated to enforce consistent trimming and detailed diagnostic messaging for numeric parameter evaluation.
 
 import { fileURLToPath } from "url";
 import process from "process";
