@@ -1,14 +1,14 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from "vitest";
 import { main } from "@src/lib/main.js";
 
-// Updated captureOutput to attach captured logs to thrown error if any
+// Updated captureOutput to attach captured logs to thrown error if any and capture all arguments
 function captureOutput(func) {
   const logs = [];
   const errors = [];
   const originalLog = console.log;
   const originalError = console.error;
-  console.log = (msg) => logs.push(msg);
-  console.error = (msg) => errors.push(msg);
+  console.log = (...args) => logs.push(args.join(" "));
+  console.error = (...args) => errors.push(args.join(" "));
   try {
     func();
   } catch (e) {
