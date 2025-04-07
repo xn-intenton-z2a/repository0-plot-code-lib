@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 // src/lib/main.js
-// Enhanced diagnostics: Strict rejection of literal 'NaN' values (with extra whitespace, varied casing) and expressions evaluating to non-finite numbers.
-// Updated to enforce consistent trimming and detailed diagnostic messaging for numeric parameter evaluation.
-// Further refined NaN input handling to ensure all edge cases are covered as per issue #904.
+// Overhaul NaN Input Validation and Edge Case Handling
+// This update enforces strict rejection of literal 'NaN' inputs (including extra whitespace and varied casing)
+// and expressions that evaluate to non-finite numbers. Detailed diagnostics are provided for invalid inputs.
 
 import { fileURLToPath } from "url";
 import process from "process";
