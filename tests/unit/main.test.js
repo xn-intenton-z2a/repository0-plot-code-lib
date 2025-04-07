@@ -102,4 +102,10 @@ describe("Main CLI Functionality", () => {
       captureOutput(() => main(["output.svg", "quad:2+unknown,1,0,-10,10,1"]));
     }).toThrow("process.exit:1");
   });
+
+  test("should error on literal 'NaN' input with extra whitespace", () => {
+    expect(() => {
+      captureOutput(() => main(["output.svg", "quad:  NaN ,1,0,-10,10,1"]));
+    }).toThrow("process.exit:1");
+  });
 });
