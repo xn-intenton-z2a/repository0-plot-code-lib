@@ -10,7 +10,7 @@ import readline from "readline";
 // Helper: Standardized error throwing for invalid numeric evaluations
 function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
   const trimmedValue = rawValue.trim();
-  const err = new Error(`Parameter ${index} error: The expression '${trimmedValue}' (raw: '${rawValue}') evaluated to ${evaluated}, which is not a finite number. Please provide a valid finite number (e.g., 0) instead of non-finite values.`);
+  const err = new Error(`Parameter ${index} error: The expression '${trimmedValue}' (raw: '${rawValue}') evaluated to ${evaluated}, which is not a finite number. Please provide a valid finite number (e.g., 0).`);
   err.code = 1;
   err.diagnostic = {
     index,
