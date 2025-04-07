@@ -1,19 +1,18 @@
 {
-  "openIssues": 2,
+  "openIssues": 0,
   "issuesClosedLastHour": 12,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refined evaluateParameter error handling to include explicit diagnostic details for NaN and non-finite evaluations. (fixes #799)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 12,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 5,
+  "diffMinutesMain": 5,
   "commitsLastHour": 6,
-  "commitsLastDay": 41,
+  "commitsLastDay": 42,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:51",
+      "message": "Refined evaluateParameter error handling to include explicit dia..."
+    },
     {
       "time": "07:37",
       "message": "Enhance diagnostic reporting for NaN evaluations in plot command..."
@@ -29,23 +28,14 @@
     {
       "time": "07:00",
       "message": "Enhance NaN handling in quad commands by improving error message..."
-    },
-    {
-      "time": "06:56",
-      "message": "Refactored CLI argument parsing to use centralized command handl..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-799",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T07:50:39.716Z"
+  "generatedAt": "2025-04-07T07:56:10.751Z"
 }
