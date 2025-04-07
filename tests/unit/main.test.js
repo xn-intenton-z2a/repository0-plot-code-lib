@@ -1,10 +1,10 @@
 ///////////////////////////////
 // File: tests/unit/main.test.js
 ///////////////////////////////
-// File: tests/unit/main.test.js
+// Updated tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
-import * as mainModule from "@src/lib/main.js";
-import { main } from "@src/lib/main.js";
+import * as mainModule from "../../src/lib/main.js";
+import { main } from "../../src/lib/main.js";
 
 
 describe("Main Module Import", () => {
@@ -53,9 +53,10 @@ describe("Invalid Numeric Input Handling", () => {
 ///////////////////////////////
 // File: tests/unit/advancedPlots.test.js
 ///////////////////////////////
+// Updated tests/unit/advancedPlots.test.js
 import { describe, test, expect, vi } from "vitest";
-import * as advancedPlots from "@src/lib/advancedPlots.js";
-import { main } from "@src/lib/main.js";
+import * as advancedPlots from "../../src/lib/advancedPlots.js";
+import { main } from "../../src/lib/main.js";
 
 
 describe("Advanced Plots CLI Integration", () => {
