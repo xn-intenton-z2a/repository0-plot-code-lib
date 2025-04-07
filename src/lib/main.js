@@ -106,7 +106,8 @@ const commandHandlers = {
       err.diagnostic = { error: "Expected format expr:<expression>:<rangeStart>,<rangeEnd>,<step>" };
       throw err;
     }
-    const funcExpr = paramString.substring(0, firstColonIndex);
+    // Trim the function expression to remove unwanted whitespace
+    const funcExpr = paramString.substring(0, firstColonIndex).trim();
     const rangeStr = paramString.substring(firstColonIndex + 1);
     const rangeParams = rangeStr.split(",");
     const evaluatedRangeParams = processParams(rangeParams, 3);

@@ -40,6 +40,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 - Explicitly rejects any numeric parameter that, when trimmed, exactly matches 'NaN' (case-insensitive), including inputs with extra whitespace.
 - Provides enhanced error diagnostics by reporting both the raw and trimmed values along with clear guidance for correcting the input to a valid finite number (e.g., 0).
+- Now also trims the function expression in custom expression plots to ensure consistent parsing.
 
 This refinement ensures that all edge cases, including varied casing and extra whitespace, are handled consistently.
 
