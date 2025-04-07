@@ -22,7 +22,7 @@ Generate a simple quadratic plot as SVG:
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
-The CLI now features enhanced argument parsing using a dedicated module (cliParser.js) for improved maintainability and clearer error reporting. For example, if a non-numeric parameter is provided, a detailed error message will be displayed such as:
+The CLI now features enhanced argument parsing with clear error reporting. For example, if a non-numeric parameter is provided, a detailed error message will be displayed such as:
 
 ```
 Invalid parameter(s): "NaN" provided. All parameters must be numeric. Please ensure you use only numeric values. Example valid input: quad:1,0,0,-10,10,1
