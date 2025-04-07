@@ -36,47 +36,13 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 **Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite values (e.g., expressions like "2+NaN") — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace such values with a valid numeric expression (e.g., 0).
 
+### Improved NaN Handling
+
+This release enhances the handling of NaN inputs. It strictly rejects any parameter that is a literal 'NaN' (regardless of casing or extra whitespace) and any expression that evaluates to a non-finite number, ensuring clear diagnostic messaging and suggesting valid replacements (e.g., using 0).
+
 ---
 
-## Enhanced NaN Validation and Diagnostics
-
-This release includes robust rejection of any numeric input formatted as 'NaN' — whether it appears with extra whitespace or in varied casing. Additionally, any expression that evaluates to a non-finite number (such as "2+NaN") is explicitly rejected with detailed diagnostic messages. This ensures clear and actionable feedback when using plot commands.
-
-### Modes and Features
-
-- **Interactive Mode:**
-
-  ```bash
-  node src/lib/main.js --interactive
-  ```
-
-  Starts an interactive CLI to enter plot commands directly.
-
-- **Web Server Mode:**
-
-  ```bash
-  node src/lib/main.js --serve
-  ```
-
-  Launches an Express-based web interface (placeholder) for plotting.
-
-- **ASCII Plot Output:**
-
-  ```bash
-  node src/lib/main.js --ascii
-  ```
-
-  Generates an ASCII plot output (placeholder).
-
-- **Diagnostics Mode:**
-
-  ```bash
-  node src/lib/main.js --diagnostics
-  ```
-
-  Activates diagnostics mode, providing detailed error information (placeholder).
-
-### Enhanced Plot Commands
+## Enhanced Plot Commands
 
 - **Quadratic Plot (SVG) with Expression Evaluation:**
 
