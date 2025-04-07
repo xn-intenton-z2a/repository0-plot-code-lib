@@ -26,17 +26,9 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 // This function robustly rejects literal 'NaN' inputs (regardless of case or extra whitespace) and ensures all evaluated expressions yield a finite number.
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
-  // Enhanced robust NaN detection: if the trimmed value matches 'NaN' in any casing, throw an error
+  // Enhanced robust NaN detection: if the trimmed value matches 'NaN' in any casing, throw an error using standardized error message
   if (/^nan$/i.test(trimmedValue)) {
-    const err = new Error(`Parameter ${index} error: Detected a literal 'NaN' input. Raw input '${p}', trimmed to '${trimmedValue}', is not valid. Please replace it with a valid finite numeric expression (e.g., 0).`);
-    err.code = 1;
-    err.diagnostic = {
-      index,
-      rawValue: p,
-      trimmedValue,
-      suggestion: "Replace the literal 'NaN' with a valid numeric expression, for example, '0'."
-    };
-    throw err;
+    throwInvalidNumberError(index, p, "NaN");
   }
   let evaluated;
   try {
