@@ -46,7 +46,8 @@ function parseArguments(args) {
         throw err;
       }
       for (const p of params) {
-        if (isNaN(Number(p))) {
+        const num = Number(p);
+        if (!Number.isFinite(num)) {
           const err = new Error(`Invalid parameter(s): "${p}" provided. All parameters must be numeric. Please ensure you use only numeric values. Example valid input: quad:1,0,0,-10,10,1`);
           err.code = 1;
           throw err;
