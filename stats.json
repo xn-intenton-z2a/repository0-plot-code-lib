@@ -1,12 +1,17 @@
 {
-  "openIssues": 1,
-  "issuesClosedLastHour": 12,
+  "openIssues": 3,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 0,
-  "commitsLastHour": 6,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Improved error messaging for NaN values in plot command parameters with enhanced diagnostic output. (fixes #786)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 13,
+  "commitsLastHour": 5,
   "commitsLastDay": 34,
   "lastFiveCommitMessages": [
     {
@@ -31,11 +36,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-786",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T06:14:11.750Z"
+  "generatedAt": "2025-04-07T06:27:06.664Z"
 }
