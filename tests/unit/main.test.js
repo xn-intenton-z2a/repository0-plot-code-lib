@@ -123,4 +123,14 @@ describe("Main CLI Functionality", () => {
       expect(e.diagnostic.trimmedValue).toBe("nAn");
     }
   });
+
+  test("should error on expression evaluating to NaN (e.g., '2+NaN')", () => {
+    try {
+      captureOutput(() => main(["output.svg", "quad:2+NaN,1,0,-10,10,1"]));
+      throw new Error("Expected error not thrown");
+    } catch (e) {
+      expect(e.message).toContain("process.exit:1");
+      expect(e.diagnostic.suggestion).toMatch(/Replace any instance of literal 'NaN' or non-finite expressions/);
+    }
+  });
 });
