@@ -36,6 +36,10 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 **Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs—such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite values—will trigger an error with detailed diagnostic information. The diagnostic information includes both the raw input and the trimmed input values, along with a clear suggestion for correction. Replace any occurrence of literal 'NaN' with a valid numeric expression.
 
+### Enhanced NaN Validation
+
+This version includes robust rejection of any numeric input formatted as 'NaN' (with any casing or extra whitespace). If such input is detected in any parameter, the CLI will produce a clear, detailed error message with diagnostic information. This helps in quickly identifying and correcting the mistake.
+
 ### Modes and Features
 
 - **Interactive Mode:**
