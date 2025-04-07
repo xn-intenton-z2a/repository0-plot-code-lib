@@ -1,11 +1,16 @@
 {
-  "openIssues": 0,
+  "openIssues": 2,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 3,
-  "diffMinutesMain": 3,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Refined NaN error messages and enhanced diagnostic suggestions for non-finite numeric evaluations. (fixes #861)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 0,
+  "diffMinutesMain": 11,
   "commitsLastHour": 4,
   "commitsLastDay": 72,
   "lastFiveCommitMessages": [
@@ -31,11 +36,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-861",
+        "minutesSinceLastCommit": 0
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T15:29:49.573Z"
+  "generatedAt": "2025-04-07T15:37:49.251Z"
 }
