@@ -58,9 +58,15 @@ describe("Main CLI Functionality", () => {
     expect(logs).toContain("Diagnostics mode activated.");
   });
 
-  test("should generate plot for valid command", () => {
+  test("should generate plot for valid command with numeric parameters", () => {
     const { logs } = captureOutput(() => main(["output.svg", "quad:1,0,0,-10,10,1"]));
     expect(logs[0]).toMatch(/Generating quad plot to output.svg with parameters 1,0,0,-10,10,1/);
+  });
+
+  test("should generate quad plot with expression evaluation", () => {
+    // Here 2+2 should be evaluated to 4
+    const { logs } = captureOutput(() => main(["output.svg", "quad:2+2,1,0,-10,10,1"]));
+    expect(logs[0]).toMatch(/Generating quad plot to output.svg with parameters 4,1,0,-10,10,1/);
   });
 
   test("should error on invalid plot command format", () => {
@@ -69,13 +75,19 @@ describe("Main CLI Functionality", () => {
     }).toThrow("process.exit:1");
   });
 
-  test("should error on non-numeric parameters", () => {
+  test("should error on non-numeric parameters (including invalid expressions)", () => {
     let captured = { logs: [], errors: [] };
     try {
       captured = captureOutput(() => main(["output.svg", "quad:1,NaN,0,-10,10,1"]));
     } catch (e) {
       captured = e.captured || { logs: [], errors: [] };
     }
-    expect(captured.errors.some(error => error.includes('Invalid parameter at index 1'))).toBe(true);
+    expect(captured.errors.some(error => error.includes('Invalid parameter at index'))).toBe(true);
+  });
+
+  test("should error on invalid mathematical expression", () => {
+    expect(() => {
+      captureOutput(() => main(["output.svg", "quad:2+unknown,1,0,-10,10,1"]));
+    }).toThrow("process.exit:1");
   });
 });

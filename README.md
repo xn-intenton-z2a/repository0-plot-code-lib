@@ -16,16 +16,18 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ### CLI Quickstart
 
-Generate a simple quadratic plot as SVG:
+Generate a simple quadratic plot as SVG with evaluated math expressions:
 
 ```bash
-node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
+node src/lib/main.js output.svg "quad:2+2,1,0,-10,10,1"
 ```
 
-The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if a non-numeric parameter is provided, the CLI will immediately halt execution and display a detailed error message such as:
+In the above example, the expression `2+2` is evaluated to `4` at runtime, showcasing enhanced parameter parsing.
+
+The CLI now features enhanced argument parsing with clear error reporting and structured diagnostic logging. For example, if an invalid mathematical expression is provided, the CLI will immediately halt execution and display a detailed error message such as:
 
 ```
-Invalid parameter at index 1: value 'NaN' is not a valid finite number. Please ensure all parameters are numeric. Example valid input: quad:1,0,0,-10,10,1
+Error evaluating parameter at index 0: value '2+unknown' is not a valid expression. Details: [error details]
 ```
 
 Additionally, error objects include a structured `diagnostic` property containing details (e.g., parameter index, provided value) to aid debugging.
@@ -56,9 +58,9 @@ In addition to standard plot commands, you can use the following flags:
   node src/lib/main.js --diagnostics
   ```
 
-### Enhanced Error Reporting
+### Enhanced Error Reporting and Expression Support
 
-The CLI now provides more descriptive error messages with structured diagnostic data. If a parameter expected to be numeric is supplied (for example, the literal 'NaN'), the CLI halts execution immediately and prints a detailed error message specifying the problematic parameter along with its index and its attempted numeric conversion. Users are advised to double-check the inputs and follow the provided usage examples.
+The CLI now uses mathjs to evaluate each plot parameter, allowing mathematical expressions such as `2+2` or `Math.sin(0.5)` as valid inputs. This provides a more flexible and powerful input mechanism for dynamic plotting. If an expression is invalid or does not evaluate to a finite number, the CLI will report a clear and specific error message.
 
 ### Interactive CLI
 
@@ -79,6 +81,12 @@ node src/lib/main.js --serve
 ---
 
 ## Examples
+
+**Quadratic Plot (SVG) with Expression Evaluation:**
+
+```bash
+node src/lib/main.js quad.svg "quad:2+2,1,0,-10,10,1"
+```
 
 **Linear Plot (SVG):**
 

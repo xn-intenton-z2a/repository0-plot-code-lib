@@ -3,6 +3,7 @@
 
 import { fileURLToPath } from "url";
 import process from "process";
+import { evaluate } from "mathjs";
 
 // Internal CLI argument parser implementation
 function parseArguments(args) {
@@ -48,16 +49,26 @@ function parseArguments(args) {
         err.diagnostic = { error: "Incorrect number of parameters", provided: params.length, expected: 6 };
         throw err;
       }
-      // Enhanced numeric validation with clearer error diagnostic for invalid parameters
+      // Evaluate each parameter using mathjs to support expressions
       for (let i = 0; i < params.length; i++) {
         const p = params[i];
-        const num = Number(p);
-        if (!Number.isFinite(num)) {
-          const err = new Error(`Invalid parameter at index ${i}: value '${p}' is not a valid finite number. Please ensure all parameters are numeric. Example valid input: quad:1,0,0,-10,10,1`);
+        let evaluated;
+        try {
+          evaluated = evaluate(p);
+        } catch (evaluationError) {
+          const err = new Error(`Error evaluating parameter at index ${i}: value '${p}' is not a valid expression. Details: ${evaluationError.message}`);
           err.code = 1;
-          err.diagnostic = { index: i, rawValue: p, attemptedNumber: num };
+          err.diagnostic = { index: i, rawValue: p, error: evaluationError.message };
           throw err;
         }
+        if (!Number.isFinite(evaluated)) {
+          const err = new Error(`Invalid parameter at index ${i}: value '${p}' did not evaluate to a valid finite number.`);
+          err.code = 1;
+          err.diagnostic = { index: i, rawValue: p, evaluated };
+          throw err;
+        }
+        // Replace text parameter with its evaluated numeric value
+        params[i] = evaluated;
       }
       return {
         action: () => {
