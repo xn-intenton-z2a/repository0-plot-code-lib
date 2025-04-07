@@ -8,30 +8,40 @@ import express from "express";
 import readline from "readline";
 
 // Enhanced error handling for evaluating mathematical expressions
-// Now includes detailed diagnostic information when an expression evaluates to NaN or a non-finite number.
+// Now includes detailed diagnostic information when an expression evaluates to NaN or a non-finite number, with refined suggestions.
 function evaluateParameter(p, index) {
   let evaluated;
   try {
     evaluated = evaluate(p);
   } catch (evaluationError) {
+    // Refine suggestion based on error message content
+    let refinedSuggestion = "Verify the expression for general syntax errors or unsupported operations.";
+    const errMsg = evaluationError.message.toLowerCase();
+    if (errMsg.includes("undefined symbol") || errMsg.includes("is not defined")) {
+      refinedSuggestion = "Verify that all variables are defined and correctly spelled.";
+    } else if (errMsg.includes("syntax")) {
+      refinedSuggestion = "Ensure the expression follows correct syntax and operator usage.";
+    } else if (errMsg.includes("operator")) {
+      refinedSuggestion = "Ensure that all operators are supported and used correctly.";
+    }
     const err = new Error(`Parameter ${index} error: Unable to evaluate '${p}'. ${evaluationError.message}`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
       error: evaluationError.message,
-      suggestion: "Verify the expression for syntax errors, missing operands, or unsupported operators."
+      suggestion: refinedSuggestion
     };
     throw err;
   }
   if (Number.isNaN(evaluated)) {
-    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. This may be due to invalid syntax, undefined variables, or unsupported operations.`);
+    const err = new Error(`Parameter ${index} error: Expression '${p}' evaluated to NaN. This may be due to invalid syntax, missing operands, or undefined variables.`);
     err.code = 1;
     err.diagnostic = {
       index,
       rawValue: p,
       evaluated,
-      suggestion: "Ensure the expression is valid, check for typos, undefined variables, or unsupported operators."
+      suggestion: "Ensure the expression is valid; check for typos, missing operands, undefined variables, or unsupported operators."
     };
     throw err;
   }
@@ -42,7 +52,7 @@ function evaluateParameter(p, index) {
       index,
       rawValue: p,
       evaluated,
-      suggestion: "Provide expressions that yield finite numbers; avoid division by zero or overflow."
+      suggestion: "Provide expressions that yield finite numbers; avoid division by zero, overflow errors, or invalid operations."
     };
     throw err;
   }
