@@ -94,7 +94,7 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 ## Note on Enhanced Error Diagnostics
 
-This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (even with extra whitespace or in different casings) are now explicitly rejected with a clear error message and diagnostic details. Please ensure that each numeric parameter is a valid expression that evaluates to a finite number.
+This release improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (even with extra whitespace or in different casings) are now explicitly rejected with a clear error message and diagnostic details. The diagnostic information includes both the raw input and the trimmed input values to help locate the issue. Please ensure that each numeric parameter is a valid expression that evaluates to a finite number.
 
 ## License
 

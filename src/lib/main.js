@@ -26,7 +26,7 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
 // Consolidates error messages for literal 'NaN' inputs (regardless of case or extra whitespace) and expressions that evaluate to non-finite numbers.
 function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
-  // Detect literal 'NaN' in any form (case-insensitive, extra whitespace)
+  // Reject literal 'NaN' values robustly by checking case-insensitively after trimming
   if (trimmedValue.toLowerCase() === 'nan') {
     const err = new Error(`Parameter ${index} error: '${trimmedValue}' is not a valid finite number.`);
     err.code = 1;
