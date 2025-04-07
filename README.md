@@ -34,13 +34,13 @@ Generate a plot based on a custom mathematical expression:
 node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
-**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite values (e.g., expressions like "2+NaN") — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace any 'NaN' or non-finite expression with a valid numeric expression (e.g., 0).
+**Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite values (e.g., expressions like "2+NaN") — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace such values with a valid numeric expression (e.g., 0).
 
 ---
 
 ## Enhanced NaN Validation
 
-This version includes robust rejection of any numeric input formatted as 'NaN' — whether it appears with extra whitespace or in varied casing. Additionally, expressions that evaluate to non-finite numbers (such as "2+NaN") are similarly rejected. All such invalid representations are explicitly rejected, ensuring clear and actionable diagnostic feedback. In particular, error messages instruct users to replace any occurrence of literal 'NaN' or any non-finite expression with a valid finite number (e.g., 0).
+This version includes robust rejection of any numeric input formatted as 'NaN' — whether it appears with extra whitespace or in varied casing. Additionally, expressions that evaluate to non-finite numbers (such as "2+NaN") are similarly rejected. All such invalid representations are explicitly rejected, ensuring clear and actionable diagnostic feedback.
 
 ### Modes and Features
 
