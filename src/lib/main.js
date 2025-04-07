@@ -17,7 +17,7 @@ function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Ensure the expression yields a valid finite number. Check your syntax, arithmetic operations, and avoid using literal 'NaN'."
+    suggestion: "Ensure the expression yields a valid finite number. Replace any occurrence of 'NaN' with a valid numeric expression."
   };
   throw err;
 }
