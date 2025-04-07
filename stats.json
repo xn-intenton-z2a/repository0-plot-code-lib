@@ -1,19 +1,18 @@
 {
-  "openIssues": 3,
-  "issuesClosedLastHour": 7,
+  "openIssues": 2,
+  "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Bump eslint-plugin-prettier from 5.2.3 to 5.2.6",
-      "ageMinutes": 7
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 3,
   "diffMinutesMain": 3,
-  "commitsLastHour": 4,
-  "commitsLastDay": 92,
+  "commitsLastHour": 5,
+  "commitsLastDay": 93,
   "lastFiveCommitMessages": [
+    {
+      "time": "20:51",
+      "message": "Bump eslint-plugin-prettier from 5.2.3 to 5.2.6 (#903)\n\nBumps [e..."
+    },
     {
       "time": "20:46",
       "message": "Bump openai from 4.91.0 to 4.92.1 (#902)\n\nBumps [openai](https:/..."
@@ -29,23 +28,14 @@
     {
       "time": "19:57",
       "message": "Enhanced strict rejection of NaN inputs with extra whitespace an..."
-    },
-    {
-      "time": "19:40",
-      "message": "Improve NaN input handling and enhance diagnostic messaging for ..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "dependabot/npm_and_yarn/eslint-plugin-prettier-5.2.6",
-        "minutesSinceLastCommit": 7
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 7,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-07T20:49:29.620Z"
+  "generatedAt": "2025-04-07T20:55:10.335Z"
 }
