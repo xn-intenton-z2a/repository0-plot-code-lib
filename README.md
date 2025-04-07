@@ -36,9 +36,9 @@ node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
 
 **Note:** The CLI requires that all numeric parameters evaluate to a finite number. Invalid inputs — such as a literal 'NaN' (even with extra whitespace, varied casing, or other non-numeric representations) or expressions that yield non-finite values (e.g., expressions like "2+NaN") — will trigger an error with detailed diagnostic information. The error messages include both the raw input and the trimmed input values and provide a clear suggestion to replace such values with a valid numeric expression (e.g., 0).
 
-### Improved NaN Handling
+### Improved NaN Handling and Diagnostic Messaging
 
-This release enhances the handling of NaN inputs. It strictly rejects any parameter that is a literal 'NaN' (regardless of casing or extra whitespace) and any expression that evaluates to a non-finite number. Detailed diagnostics are provided that include both the raw and trimmed input values along with a suggestion for correction.
+This release enhances the handling of NaN inputs by strictly rejecting any parameter that, when trimmed, exactly equals 'NaN' (case-insensitive), as well as any expression that evaluates to a non-finite number. The resulting error reports now include both the raw and trimmed input values along with explicit guidance to replace invalid values with a valid finite number (e.g., 0).
 
 ---
 
@@ -66,7 +66,7 @@ This release enhances the handling of NaN inputs. It strictly rejects any parame
 
 ## Note on Enhanced Error Diagnostics
 
-This update improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (including those with extra whitespace or varied casing) and any expression that results in a non-finite number are strictly rejected, with detailed diagnostic messages providing the raw and trimmed input values along with guidance to replace them with a valid numeric expression (e.g., 0).
+This update improves error reporting for numeric parameters. All numeric inputs must evaluate to a finite number. In particular, literal representations of 'NaN' (including those with extra whitespace or varied casing) and any expression that results in a non-finite number are strictly rejected, with detailed diagnostic messages providing both the raw and trimmed input values along with guidance to replace them with a valid numeric expression (e.g., 0).
 
 ---
 
