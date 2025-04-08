@@ -119,3 +119,13 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     exitSpy.mockRestore();
   });
 });
+
+describe("Additional Numeric Edge Cases", () => {
+  test("should handle leading/trailing spaces and scientific notation in colon-separated input", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad:  3e2,   NaN,  -5E-1"]);
+    // Expected output: ["quad", [300, NaN, -0.5]] is printed as JSON with NaN replaced by "NaN"
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[300,"NaN",-0.5]]'));
+    logSpy.mockRestore();
+  });
+});

@@ -4,11 +4,11 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Enhanced Numeric Parameter Validation
 
-This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module. Both the CLI and the web interface use this logic to:
+This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with enhanced regex-based validation. Both the CLI and the web interface use this logic to:
 
-1. Validate numeric tokens (integer, decimal, or scientific notation) using a robust approach.
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching 'NaN' (case insensitive) to the native NaN value.
-3. Trim whitespace and provide detailed error messages when encountering invalid numeric inputs.
+1. Validate numeric tokens (integer, decimal, or scientific notation) and support the token 'NaN' (case insensitive) even with extra whitespace.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching 'NaN' to the native NaN value.
+3. Provide detailed error messages when encountering invalid numeric inputs.
 
 This approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.
 
@@ -36,7 +36,7 @@ Then, navigate to `http://localhost:3000` (or the port specified by the `PORT` e
 ### CLI Usage with Advanced Plotting
 
 ```bash
-# Using advanced plotting with numeric conversion (supports scientific notation)
+# Using advanced plotting with numeric conversion (supports scientific notation and robust NaN handling)
 node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
 ```
 
