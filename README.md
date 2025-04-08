@@ -4,9 +4,12 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Enhanced Numeric Parameter Validation
 
-This release includes improvements in numeric parameter validation. When using parameters with colon-delimited segments containing comma-separated numbers, the CLI now provides detailed error messages if a value cannot be converted to a valid number. The error message specifies the problematic token, its segment, and the reason (e.g., empty or not a valid number), making troubleshooting more straightforward.
+This release includes improvements in numeric parameter validation. When using parameters with colon-delimited segments containing comma-separated numbers, the CLI now performs two actions:
 
-Note: The literal 'NaN' (case-insensitive) is now accepted as a valid numeric parameter token and treated as a special numeric value.
+1. Detailed validation with error messages that specify the problematic token, its segment, and the reason (e.g., empty or not a valid number).
+2. Conversion of valid numeric tokens: any token matching 'NaN' (case insensitive) is converted to the native JavaScript NaN value, while other valid numeric strings are converted to Number types.
+
+This ensures that advanced plotting functions receive parameters in the correct numeric format, promoting consistency and correctness in mathematical operations.
 
 ## Web Interface
 
@@ -26,6 +29,17 @@ npm run start:web
 ```
 
 Then, navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable) in your browser.
+
+## Examples
+
+### CLI Usage with Advanced Plotting
+
+```bash
+# Using advanced plotting with numeric conversion
+node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
+```
+
+The above command will invoke the spiral plotting function with parameters converted to native numbers (with 'NaN' converted accordingly).
 
 ## License
 
