@@ -70,7 +70,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
-// Inlined advanced plotting implementations (previously in advancedPlots.js)
+// Inlined advanced plotting implementations
 const advancedPlots = {
   spiral: function(params) {
     // Dummy implementation for enhanced spiral plotting
@@ -109,46 +109,3 @@ const advancedPlots = {
     console.log("Plotting extended 3D plot with params:", params);
   }
 };
-
-///////////////////////////////
-// File: src/lib/argumentParser.js
-///////////////////////////////
-// This module encapsulates the CLI argument parsing and numeric parameter validation.
-
-export function parseArguments(args) {
-  // Check for the advanced flag
-  if (args.includes("--advanced")) {
-    const filteredArgs = args.filter(arg => arg !== "--advanced");
-    if (filteredArgs.length < 2) {
-      throw new Error("Insufficient arguments for advanced plotting.");
-    }
-    const [plotType, params] = filteredArgs;
-    validateNumericInputs(params);
-    return { advanced: true, plotType, params };
-  } else {
-    // Validate numeric parameters in each argument that contains a colon
-    args.forEach(arg => {
-      if (arg.includes(":")) {
-        validateNumericInputs(arg);
-      }
-    });
-    return { advanced: false, args };
-  }
-}
-
-function validateNumericInputs(arg) {
-  const tokens = arg.split(":");
-  tokens.forEach(token => {
-    if (token.includes(",")) {
-      const parts = token.split(",").map(p => p.trim());
-      const allNumeric = parts.every(part => part !== "" && !isNaN(Number(part)));
-      if (!allNumeric) {
-        for (const part of parts) {
-          if (part === "" || isNaN(Number(part))) {
-            throw new Error(`Invalid numeric parameter '${part}' in argument '${arg}'.`);
-          }
-        }
-      }
-    }
-  });
-}

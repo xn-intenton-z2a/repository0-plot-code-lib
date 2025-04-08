@@ -1,3 +1,4 @@
+README_FILE_START
 # repository0-plot-code-lib
 
 _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
@@ -52,7 +53,7 @@ Enhance your visualizations with advanced plotting capabilities. Use the `--adva
 - modulatedSine
 - extended3D
 
-_Note: In this release, advanced plotting functions have been inlined into `main.js`. Additionally, the CLI argument parsing logic has been refactored into a dedicated module (`argumentParser.js`) for enhanced maintainability and clarity._
+_Note: In this release, advanced plotting functions have been inlined into `main.js`. The CLI argument parsing logic has been refactored into a dedicated module (`argumentParser.js`) for enhanced maintainability and clarity._
 
 #### Examples
 
@@ -109,3 +110,5 @@ This tool now includes robust input validation for numerical parameters. The log
 ## License
 
 MIT
+
+README_FILE_END

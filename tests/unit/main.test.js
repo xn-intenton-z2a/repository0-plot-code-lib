@@ -67,10 +67,10 @@ describe("Argument Parser Module", () => {
   });
 
   test("should throw error for invalid numeric input in advanced arguments", () => {
-    expect(() => parseArguments(["--advanced", "spiral", "radius:1,abc,3,4"])).toThrow("Invalid numeric parameter 'abc'");
+    expect(() => parseArguments(["--advanced", "spiral", "radius:1,abc,3,4"]).toThrow("Invalid numeric parameter 'abc'"));
   });
 
   test("should throw error if insufficient arguments provided for advanced plotting", () => {
-    expect(() => parseArguments(["--advanced", "spiral"]).toThrow("Insufficient arguments for advanced plotting."));
+    expect(() => parseArguments(["--advanced", "spiral"])).toThrow("Insufficient arguments for advanced plotting.");
   });
 });
