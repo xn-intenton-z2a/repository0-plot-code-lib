@@ -82,3 +82,30 @@ describe("Advanced Plotting Numeric Conversion", () => {
     logSpy.mockRestore();
   });
 });
+
+describe("Regex-based Numeric Conversion Edge Cases", () => {
+  test("should trim extra whitespace and handle lower/upper case 'NaN'", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const arg = "quad:  1 ,  NaN  ,   5  , -10 , 10,  1";
+    
+    expect(() => main([arg])).not.toThrow();
+    expect(errorSpy).not.toHaveBeenCalled();
+    expect(exitSpy).not.toHaveBeenCalled();
+
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
+
+  test("should exit on malformed numeric input with extra non-numeric characters", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const badArg = "quad:1, 2x, 3";
+
+    expect(() => main([badArg])).toThrow(/process.exit: 1/);
+    expect(errorSpy).toHaveBeenCalled();
+
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
+});
