@@ -1,50 +1,53 @@
 # CORE_ENGINE Feature Specification
 
 ## Description
-This feature refines and consolidates the core plotting engine by integrating advanced CLI plotting, a new web interface, and an interactive wizard mode. The engine supports a wide range of advanced plotting functions (e.g., spiral, polarHeatmap, dualAxis, boxPlot, violinPlot, cumulativeAverage, inverse, modulatedSine, extended3D) and now includes an interactive help mode that guides users in constructing valid plot commands.
+This feature refines and consolidates the core plotting engine by integrating advanced CLI plotting, a new web interface, and an interactive wizard mode. In addition, it now supports multiple output formats for plots including SVG, JSON, CSV, Markdown, ASCII, and HTML. The core engine leverages robust numeric parameter validation and diagnostics to ensure high reliability and ease-of-use.
 
 ## Motivation
-- **Enhanced Accessibility:** In addition to CLI and web-based plotting, the interactive wizard mode provides a guided experience for new or unsure users to build plot commands step-by-step.
-- **Improved Usability:** Clear prompts and on-the-fly validation help users avoid common input errors, complementing the robust parameter validation provided by the dedicated module.
-- **Unified Experience:** By integrating CLI, web, and interactive wizard functionality under the core engine, we streamline testing, maintenance, and user engagement while staying true to our mission of being the go-to plot library for formulae visualisations.
+- **Enhanced Accessibility:** Offers diverse output formats to meet varied user needs.
+- **Improved Usability:** Enables users to export plots directly in their desired format, simplifying reporting and further analysis.
+- **Unified Experience:** Merges plotting, interactive wizard guidance, web interface interaction, and export options under a single cohesive module.
 
 ## Implementation Details
-1. **Module Consolidation and Advanced Plotting**
-   - Consolidate advanced plotting routines into `src/lib/advancedPlots.js` and update `src/lib/main.js` to import functionality from this module.
-   - Maintain support for the `--advanced` flag to invoke advanced plotting functions.
+1. **Module Consolidation and Advanced Plotting:**
+   - Consolidate advanced plotting routines into `src/lib/advancedPlots.js` and update `src/lib/main.js` to import these functionalities.
+   - Preserve the handling of the `--advanced` flag to invoke specific plotting functions.
 
-2. **Web Interface Integration**
-   - Retain the Express-based web server (`src/web/app.js`) with endpoints for serving an HTML form and processing plot submissions.
-   - Ensure that the web interface uses the same core plotting logic for consistency.
+2. **Web Interface Integration:**
+   - Extend the Express-based web server (`src/web/app.js`) to support plot generation along with export format selection via UI elements such as a dropdown menu.
+   - Update the POST endpoint at `/plot` to process an additional parameter for the desired export format.
 
-3. **Interactive Wizard Mode**
-   - Introduce a new CLI flag `--wizard` that triggers an interactive session in the terminal.
-   - In wizard mode, prompt the user for input step-by-step: select plot type, enter parameters, and receive real-time validation using the `paramValidation` module.
-   - Upon successful input, invoke the corresponding plotting function from the advanced plotting module and display a confirmation message or preview output.
+3. **Interactive Wizard Mode:**
+   - Introduce a CLI flag `--wizard` to launch an interactive session.
+   - Guide the user step-by-step to select the plot type, input parameters (validated using the `paramValidation` module), and choose an export format.
 
-4. **CLI and Routing Updates**
-   - Update the main CLI parser in `src/lib/main.js` to detect and route the `--wizard` flag.
-   - Ensure that other CLI functionalities (e.g., diagnostics via `--diagnostics`) remain fully operational.
+4. **Export Options:**
+   - Add export functionality to support output formats: SVG, JSON, CSV, Markdown, ASCII, and HTML.
+   - For CLI usage, enable an `--export <format>` flag to specify the desired output format.
+   - Internally, transform the plot data to match the specified format before rendering or saving the output.
 
-5. **Testing and Documentation**
-   - Expand unit tests (in `tests/unit/main.test.js`) to cover the new interactive wizard mode, including input validation and flow control.
-   - Update the README and CONTRIBUTING documentation to include usage examples for the interactive wizard, CLI advanced plotting, and web interface usage.
+5. **CLI and Routing Updates:**
+   - Modify the main CLI parser in `src/lib/main.js` to detect the export flag and validate it against supported formats.
+   - Ensure that core functionalities (advanced plotting, diagnostics, and interactive mode) harmoniously incorporate export capabilities.
+
+6. **Testing and Documentation:**
+   - Add comprehensive unit tests to cover new export functionality alongside existing features.
+   - Update the README and CONTRIBUTING documentation to include usage examples and guidelines on the export feature.
 
 ## Usage Examples
-- **CLI Advanced Plotting:**
+- **CLI Advanced Plotting with Export Option:**
   ```bash
-  node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
+  node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1" --export SVG
   ```
 
 - **Interactive Wizard Mode:**
   ```bash
   node src/lib/main.js --wizard
   ```
-  This will launch an interactive session guiding you through selecting a plot type and entering parameters.
 
 - **Web Interface:**
   1. Start the web server:
      ```bash
      npm run start:web
      ```
-  2. Navigate to `http://localhost:3000` to access the plotting form.
+  2. Access the application at `http://localhost:3000`, select the plot type, enter parameters, and choose an output format from the provided options.
