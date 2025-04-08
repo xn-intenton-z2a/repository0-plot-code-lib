@@ -1,7 +1,6 @@
 ///////////////////////////////
 // File: src/lib/main.js
 ///////////////////////////////
-// src/lib/main.js
 
 import { fileURLToPath } from "url";
 
@@ -10,45 +9,31 @@ function errorExit(message) {
   process.exit(1);
 }
 
-// Updated regular expression to validate numeric tokens (integer, decimal, or scientific notation), e.g., -10, 5, 3.14, 1e4, 2.14e-3
-const numberRegex = /^-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?$/;
-
-// Validate numeric parameters in arguments that are expected to contain comma-separated numbers.
-// This function checks each token that contains a comma across colon-delimited segments and
-// if all parts are valid numbers. It treats the literal 'NaN' (case insensitive) as a special valid value.
-function validateNumericInputs(arg) {
-  const segments = arg.split(":");
-  segments.forEach(segment => {
-    if (segment.includes(",")) {
-      const parts = segment.split(",").map(p => p.trim());
-      parts.forEach(part => {
-        if (part === "") {
-          errorExit(`Error: Invalid numeric parameter '' (empty) in segment '${segment}' of argument '${arg}'.`);
-        } else if (part.toLowerCase() !== 'nan' && !numberRegex.test(part)) {
-          errorExit(`Error: Invalid numeric parameter '${part}' (not a valid number) in segment '${segment}' of argument '${arg}'.`);
-        }
-      });
+// Inline implementation of numeric parameter conversion utility
+function parseNumericParams(paramStr) {
+  const tokens = paramStr.split(",");
+  const result = [];
+  for (const token of tokens) {
+    const trimmed = token.trim();
+    if (trimmed.toLowerCase() === "nan") {
+      result.push(NaN);
+    } else {
+      const num = Number(trimmed);
+      if (isNaN(num)) {
+        errorExit(`Invalid numeric parameter '${trimmed}'`);
+      }
+      result.push(num);
     }
-  });
+  }
+  return result;
 }
 
-// New function to parse numeric tokens and convert them to native numbers.
-// It splits a comma-separated string and converts each token: if token equals 'NaN' (case insensitive) then returns native NaN,
-// otherwise converts using Number and validates the conversion using an updated regex that supports scientific notation.
-function parseNumericParams(paramStr) {
-  const parts = paramStr.split(",").map(p => p.trim());
-  const converted = parts.map(part => {
-    if (part.toLowerCase() === 'nan') {
-      return NaN;
-    } else if (part === "") {
-      errorExit(`Error: Invalid numeric parameter '' (empty) in parameters '${paramStr}'.`);
-    } else if (!numberRegex.test(part)) {
-      errorExit(`Error: Invalid numeric parameter '${part}' (not a valid number, supports scientific notation) in parameters '${paramStr}'.`);
-    } else {
-      return Number(part);
-    }
-  });
-  return converted;
+// Custom replacer to correctly display native NaN values instead of null
+function replacer(key, value) {
+  if (typeof value === "number" && isNaN(value)) {
+    return "NaN";
+  }
+  return value;
 }
 
 export function main(args = []) {
@@ -56,7 +41,7 @@ export function main(args = []) {
   if (args.includes("--advanced")) {
     const filteredArgs = args.filter(arg => arg !== "--advanced");
     const [plotType, params] = filteredArgs;
-    // If parameters contain a comma, parse them to convert numeric tokens
+    // If parameters contain a comma, parse them using the numeric utility
     let parsedParams = params;
     if (params && params.includes(",")) {
       parsedParams = parseNumericParams(params);
@@ -99,7 +84,7 @@ export function main(args = []) {
         advancedPlots.extended3D(parsedParams);
         break;
       case "testPlot":
-        // Added for testing numeric conversion
+        console.log("Advanced Plot: Test Plot");
         advancedPlots.testPlot(parsedParams);
         break;
       default:
@@ -122,14 +107,6 @@ export function main(args = []) {
     return arg;
   });
 
-  // Custom replacer to correctly display native NaN values instead of null
-  function replacer(key, value) {
-    if (typeof value === 'number' && isNaN(value)) {
-      return "NaN";
-    }
-    return value;
-  }
-
   console.log(`Run with: ${JSON.stringify(finalArgs, replacer)}`);
 }
 
@@ -138,49 +115,38 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
-// Inlined advanced plotting implementations (previously in advancedPlots.js)
+// Inlined advanced plotting implementations
 const advancedPlots = {
   spiral: function(params) {
-    // Dummy implementation for enhanced spiral plotting
     console.log("Plotting spiral with params:", params);
   },
   polarHeatmap: function(params) {
-    // Dummy implementation for polar heatmap plotting
     console.log("Plotting polar heatmap with params:", params);
   },
   dualAxis: function(params) {
-    // Dummy implementation for dual axis plotting
     console.log("Plotting dual axis with params:", params);
   },
   boxPlot: function(params) {
-    // Dummy implementation for box plot
     console.log("Plotting box plot with params:", params);
   },
   violinPlot: function(params) {
-    // Dummy implementation for violin plot
     console.log("Plotting violin plot with params:", params);
   },
   cumulativeAverage: function(params) {
-    // Dummy implementation for cumulative average plotting
     console.log("Plotting cumulative average with params:", params);
   },
   inverse: function(params) {
-    // Dummy implementation for inverse function plotting
     console.log("Plotting inverse function with params:", params);
   },
   modulatedSine: function(params) {
-    // Dummy implementation for modulated sine plotting
     console.log("Plotting modulated sine with params:", params);
   },
   extended3D: function(params) {
-    // Dummy implementation for extended 3D plotting
     console.log("Plotting extended 3D plot with params:", params);
   },
   testPlot: function(params) {
-    // Dummy implementation for testing numeric conversion
     console.log("Test Plot with params:", params);
   }
 };
 
-// Export advancedPlots for use in the web interface
 export { advancedPlots };
