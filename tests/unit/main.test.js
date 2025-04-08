@@ -1,4 +1,3 @@
------ tests/unit/main.test.js -----
 ///////////////////////////////
 // File: tests/unit/main.test.js
 ///////////////////////////////
@@ -44,33 +43,5 @@ describe("Invalid Numeric Input Handling", () => {
 
     errorSpy.mockRestore();
     exitSpy.mockRestore();
-  });
-});
-
------ tests/web/app.test.js -----
-import request from 'supertest';
-import app from "../../src/web/app.js";
-
-describe("Web Interface", () => {
-  test("GET / returns HTML form", async () => {
-    const res = await request(app).get('/');
-    expect(res.statusCode).toBe(200);
-    expect(res.text).toContain('<form action="/plot" method="post">');
-  });
-
-  test("POST /plot with valid plot type returns confirmation", async () => {
-    const res = await request(app)
-      .post('/plot')
-      .send('plotType=spiral&params=testParams');
-    expect(res.statusCode).toBe(200);
-    expect(res.text).toContain('Executed spiral plot with parameters: testParams');
-  });
-
-  test("POST /plot with invalid plot type returns error", async () => {
-    const res = await request(app)
-      .post('/plot')
-      .send('plotType=unknown&params=testParams');
-    expect(res.statusCode).toBe(400);
-    expect(res.text).toContain('Error: Unknown advanced plot type.');
   });
 });
