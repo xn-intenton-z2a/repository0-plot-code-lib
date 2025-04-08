@@ -4,14 +4,13 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Enhanced Numeric Parameter Validation
 
-This release includes improvements in numeric parameter handling. The CLI now performs the following actions for parameters with colon-delimited segments containing comma-separated numbers:
+This release includes improvements in numeric parameter handling. The core numeric conversion logic has been extracted into a dedicated utility module (src/lib/numericUtil.js). Both the CLI and the web interface now use this common utility to:
 
-1. Detailed validation with error messages that specify the problematic token, its segment, and the reason (e.g., empty or not a valid number).
-2. Consistent numeric conversion: Any token matching 'NaN' (case insensitive) is converted to the native JavaScript NaN value, while other valid numeric strings, including those in scientific notation (e.g., '1e4', '2.14e-3'), are converted to Number types. This conversion is now applied in both advanced and non-advanced modes, ensuring that downstream processing always receives numbers in a uniform format.
-3. Regex-based validation: Numeric tokens are now validated using a regular expression that strictly enforces valid integer, decimal, or scientific notation formats, improving robustness and maintainability.
-4. Accurate CLI Output: The CLI now uses a custom JSON replacer to correctly display native NaN values as "NaN" instead of converting them to null in the output.
+1. Validate numeric tokens (integer, decimal, or scientific notation) using a robust regular expression.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching 'NaN' (case insensitive) to the native NaN value.
+3. Trim whitespace and provide detailed error messages when encountering invalid numeric inputs.
 
-This ensures that advanced plotting functions, as well as other components like the web interface, receive parameters in the correct numeric format, promoting consistency and correctness in mathematical operations.
+This centralized approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.
 
 ## Web Interface
 
