@@ -3,16 +3,34 @@
 ///////////////////////////////
 
 import { fileURLToPath } from "url";
-import { parseNumericParams } from "./numericUtil.js";
 
 function errorExit(message) {
   console.error(message);
   process.exit(1);
 }
 
+// Inline implementation of numeric parameter conversion utility
+function parseNumericParams(paramStr) {
+  const tokens = paramStr.split(",");
+  const result = [];
+  for (const token of tokens) {
+    const trimmed = token.trim();
+    if (trimmed.toLowerCase() === "nan") {
+      result.push(NaN);
+    } else {
+      const num = Number(trimmed);
+      if (isNaN(num)) {
+        errorExit(`Invalid numeric parameter '${trimmed}'`);
+      }
+      result.push(num);
+    }
+  }
+  return result;
+}
+
 // Custom replacer to correctly display native NaN values instead of null
 function replacer(key, value) {
-  if (typeof value === 'number' && isNaN(value)) {
+  if (typeof value === "number" && isNaN(value)) {
     return "NaN";
   }
   return value;
