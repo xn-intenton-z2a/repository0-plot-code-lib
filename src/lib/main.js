@@ -4,7 +4,6 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
-import * as advancedPlots from "./advancedPlots.js";
 
 function errorExit(message) {
   console.error(message);
@@ -95,60 +94,42 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
-///////////////////////////////
-// End of src/lib/main.js
-
-///////////////////////////////
-// File: src/lib/advancedPlots.js
-///////////////////////////////
-// src/lib/advancedPlots.js
-
-import { evaluate } from "mathjs";
-
-export function spiral(params) {
-  // Dummy implementation for enhanced spiral plotting
-  console.log("Plotting spiral with params:", params);
-}
-
-export function polarHeatmap(params) {
-  // Dummy implementation for polar heatmap plotting
-  console.log("Plotting polar heatmap with params:", params);
-}
-
-export function dualAxis(params) {
-  // Dummy implementation for dual axis plotting
-  console.log("Plotting dual axis with params:", params);
-}
-
-export function boxPlot(params) {
-  // Dummy implementation for box plot
-  console.log("Plotting box plot with params:", params);
-}
-
-export function violinPlot(params) {
-  // Dummy implementation for violin plot
-  console.log("Plotting violin plot with params:", params);
-}
-
-export function cumulativeAverage(params) {
-  // Dummy implementation for cumulative average plotting
-  console.log("Plotting cumulative average with params:", params);
-}
-
-export function inverse(params) {
-  // Dummy implementation for inverse function plotting
-  console.log("Plotting inverse function with params:", params);
-}
-
-export function modulatedSine(params) {
-  // Dummy implementation for modulated sine plotting
-  console.log("Plotting modulated sine with params:", params);
-}
-
-export function extended3D(params) {
-  // Dummy implementation for extended 3D plotting
-  console.log("Plotting extended 3D plot with params:", params);
-}
-
-///////////////////////////////
-// End of src/lib/advancedPlots.js
+// Inlined advanced plotting implementations (previously in advancedPlots.js)
+const advancedPlots = {
+  spiral: function(params) {
+    // Dummy implementation for enhanced spiral plotting
+    console.log("Plotting spiral with params:", params);
+  },
+  polarHeatmap: function(params) {
+    // Dummy implementation for polar heatmap plotting
+    console.log("Plotting polar heatmap with params:", params);
+  },
+  dualAxis: function(params) {
+    // Dummy implementation for dual axis plotting
+    console.log("Plotting dual axis with params:", params);
+  },
+  boxPlot: function(params) {
+    // Dummy implementation for box plot
+    console.log("Plotting box plot with params:", params);
+  },
+  violinPlot: function(params) {
+    // Dummy implementation for violin plot
+    console.log("Plotting violin plot with params:", params);
+  },
+  cumulativeAverage: function(params) {
+    // Dummy implementation for cumulative average plotting
+    console.log("Plotting cumulative average with params:", params);
+  },
+  inverse: function(params) {
+    // Dummy implementation for inverse function plotting
+    console.log("Plotting inverse function with params:", params);
+  },
+  modulatedSine: function(params) {
+    // Dummy implementation for modulated sine plotting
+    console.log("Plotting modulated sine with params:", params);
+  },
+  extended3D: function(params) {
+    // Dummy implementation for extended 3D plotting
+    console.log("Plotting extended 3D plot with params:", params);
+  }
+};
