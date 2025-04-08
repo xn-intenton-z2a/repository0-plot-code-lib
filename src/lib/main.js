@@ -12,7 +12,8 @@ function errorExit(message) {
 
 // Validate numeric parameters in arguments that are expected to contain comma-separated numbers.
 // This function checks each token that contains a comma across colon-delimited segments and
-// if all parts are valid numbers. If not, it provides a detailed error message indicating the
+// if all parts are valid numbers. It now treats the literal 'NaN' (case insensitive) as a special valid value.
+// If not valid (and not 'NaN'), it provides a detailed error message indicating the
 // problematic token and its segment.
 function validateNumericInputs(arg) {
   const segments = arg.split(":");
@@ -20,7 +21,8 @@ function validateNumericInputs(arg) {
     if (segment.includes(",")) {
       const parts = segment.split(",").map(p => p.trim());
       parts.forEach(part => {
-        if (part === "" || isNaN(Number(part))) {
+        // Allow token 'NaN' (case insensitive) as a valid number
+        if (part === "" || (part.toLowerCase() !== 'nan' && isNaN(Number(part)))) {
           const explanation = part === "" ? "empty" : "not a valid number";
           errorExit(`Error: Invalid numeric parameter '${part}' (${explanation}) in segment '${segment}' of argument '${arg}'.`);
         }

@@ -45,3 +45,18 @@ describe("Invalid Numeric Input Handling", () => {
     exitSpy.mockRestore();
   });
 });
+
+describe("Handling 'NaN' as a valid token", () => {
+  test("should not exit when 'NaN' is provided among numeric parameters", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const argWithNaN = "quad:1,NaN,5,-10,10,1";
+    
+    expect(() => main([argWithNaN])).not.toThrow();
+    expect(errorSpy).not.toHaveBeenCalled();
+    expect(exitSpy).not.toHaveBeenCalled();
+
+    exitSpy.mockRestore();
+    errorSpy.mockRestore();
+  });
+});
