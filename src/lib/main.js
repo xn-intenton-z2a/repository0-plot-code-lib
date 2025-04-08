@@ -83,6 +83,18 @@ export function main(args = []) {
           errorExit("Error: Unknown advanced plot type.");
       }
     } else {
+      // For non-advanced mode, if argument has numeric parameters, validate them
+      if (parsed.args.length > 0 && parsed.args[0].includes(":")) {
+        const parts = parsed.args[0].split(":");
+        if (parts.length === 2) {
+          const numberStrings = parts[1].split(",");
+          for (const numStr of numberStrings) {
+            if (isNaN(Number(numStr))) {
+              throw new Error(`Invalid numeric parameter '${numStr}'`);
+            }
+          }
+        }
+      }
       // For non-advanced mode, simply print the arguments
       console.log(`Run with: ${JSON.stringify(parsed.args)}`);
     }
