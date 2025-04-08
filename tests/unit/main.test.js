@@ -60,3 +60,26 @@ describe("Handling 'NaN' as a valid token", () => {
     errorSpy.mockRestore();
   });
 });
+
+describe("Advanced Plotting Numeric Conversion", () => {
+  test("should convert 'NaN' token to native NaN in advanced mode", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Override testPlot to capture the params
+    const originalTestPlot = mainModule.advancedPlots.testPlot;
+    let receivedParams;
+    mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
+    
+    // Call main with advanced flag, using testPlot as the plot type
+    main(["--advanced", "testPlot", "1,NaN,5"]);
+    
+    expect(receivedParams).toHaveLength(3);
+    expect(receivedParams[0]).toBe(1);
+    // Use toBeNaN matcher for the second element
+    expect(receivedParams[1]).toBeNaN();
+    expect(receivedParams[2]).toBe(5);
+
+    // Restore original testPlot function
+    mainModule.advancedPlots.testPlot = originalTestPlot;
+    logSpy.mockRestore();
+  });
+});

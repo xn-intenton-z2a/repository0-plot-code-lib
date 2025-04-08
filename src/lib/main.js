@@ -12,16 +12,14 @@ function errorExit(message) {
 
 // Validate numeric parameters in arguments that are expected to contain comma-separated numbers.
 // This function checks each token that contains a comma across colon-delimited segments and
-// if all parts are valid numbers. It now treats the literal 'NaN' (case insensitive) as a special valid value.
-// If not valid (and not 'NaN'), it provides a detailed error message indicating the
-// problematic token and its segment.
+// if all parts are valid numbers. It still treats the literal 'NaN' (case insensitive) as a special valid value.
+// (This function is retained for non-advanced mode validations.)
 function validateNumericInputs(arg) {
   const segments = arg.split(":");
   segments.forEach(segment => {
     if (segment.includes(",")) {
       const parts = segment.split(",").map(p => p.trim());
       parts.forEach(part => {
-        // Allow token 'NaN' (case insensitive) as a valid number
         if (part === "" || (part.toLowerCase() !== 'nan' && isNaN(Number(part)))) {
           const explanation = part === "" ? "empty" : "not a valid number";
           errorExit(`Error: Invalid numeric parameter '${part}' (${explanation}) in segment '${segment}' of argument '${arg}'.`);
@@ -31,47 +29,77 @@ function validateNumericInputs(arg) {
   });
 }
 
+// New function to parse numeric tokens and convert them to native numbers.
+// It splits a comma-separated string and converts each token: if token equals 'NaN' (case insensitive) then returns native NaN,
+// otherwise converts using Number and validates the conversion.
+function parseNumericParams(paramStr) {
+  const parts = paramStr.split(",").map(p => p.trim());
+  const converted = parts.map(part => {
+    if (part.toLowerCase() === 'nan') {
+      return NaN;
+    } else if (part === "") {
+      errorExit(`Error: Invalid numeric parameter '' (empty) in parameters '${paramStr}'.`);
+    } else {
+      const num = Number(part);
+      if (isNaN(num)) {
+        errorExit(`Error: Invalid numeric parameter '${part}' (not a valid number) in parameters '${paramStr}'.`);
+      }
+      return num;
+    }
+  });
+  return converted;
+}
+
 export function main(args = []) {
   // Check if the --advanced flag is provided
   if (args.includes("--advanced")) {
     const filteredArgs = args.filter(arg => arg !== "--advanced");
     const [plotType, params] = filteredArgs;
+    // If parameters contain a comma, parse them to convert numeric tokens
+    let parsedParams = params;
+    if (params && params.includes(",")) {
+      parsedParams = parseNumericParams(params);
+    }
     switch (plotType) {
       case "spiral":
         console.log("Advanced Plot: Spiral");
-        advancedPlots.spiral(params);
+        advancedPlots.spiral(parsedParams);
         break;
       case "polarHeatmap":
         console.log("Advanced Plot: Polar Heatmap");
-        advancedPlots.polarHeatmap(params);
+        advancedPlots.polarHeatmap(parsedParams);
         break;
       case "dualAxis":
         console.log("Advanced Plot: Dual Axis");
-        advancedPlots.dualAxis(params);
+        advancedPlots.dualAxis(parsedParams);
         break;
       case "boxPlot":
         console.log("Advanced Plot: Box Plot");
-        advancedPlots.boxPlot(params);
+        advancedPlots.boxPlot(parsedParams);
         break;
       case "violinPlot":
         console.log("Advanced Plot: Violin Plot");
-        advancedPlots.violinPlot(params);
+        advancedPlots.violinPlot(parsedParams);
         break;
       case "cumulativeAverage":
         console.log("Advanced Plot: Cumulative Average");
-        advancedPlots.cumulativeAverage(params);
+        advancedPlots.cumulativeAverage(parsedParams);
         break;
       case "inverse":
         console.log("Advanced Plot: Inverse Function");
-        advancedPlots.inverse(params);
+        advancedPlots.inverse(parsedParams);
         break;
       case "modulatedSine":
         console.log("Advanced Plot: Modulated Sine");
-        advancedPlots.modulatedSine(params);
+        advancedPlots.modulatedSine(parsedParams);
         break;
       case "extended3D":
         console.log("Advanced Plot: Extended 3D Plot");
-        advancedPlots.extended3D(params);
+        advancedPlots.extended3D(parsedParams);
+        break;
+      case "testPlot":
+        // Added for testing numeric conversion
+        advancedPlots.testPlot(parsedParams);
         break;
       default:
         errorExit("Error: Unknown advanced plot type.");
@@ -131,6 +159,10 @@ const advancedPlots = {
   extended3D: function(params) {
     // Dummy implementation for extended 3D plotting
     console.log("Plotting extended 3D plot with params:", params);
+  },
+  testPlot: function(params) {
+    // Dummy implementation for testing numeric conversion
+    console.log("Test Plot with params:", params);
   }
 };
 
