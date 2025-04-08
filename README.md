@@ -12,45 +12,67 @@ This release includes improvements in numeric parameter handling. The core numer
 
 This approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.
 
-## Web Interface
+## Examples
 
-In addition to the CLI, a basic web interface has been implemented. This allows users to interact with our advanced plotting capabilities via a browser.
+### CLI Usage with Advanced Plotting
 
-### Features:
-- An Express-powered web server listening on a configurable port (default 3000).
-- A GET endpoint at `/` that serves an HTML form letting users select an advanced plot type and enter parameters.
-- A POST endpoint at `/plot` that processes the form submission, invokes the corresponding advanced plotting function, and returns a confirmation page.
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, and various NaN aliases):
 
-### Usage:
+```bash
+# Example with advanced plotting using the --advanced flag
+node src/lib/main.js --advanced testPlot " 1, NaN , 5, -10, 10, 1"
+```
 
-To start the web server, run:
+**Expected Console Output:**
+```
+Advanced Plot: Test Plot
+Test Plot with params: [ 1, NaN, 5 ]
+```
+
+### CLI Usage in Non-Advanced Mode
+
+When running without the `--advanced` flag, the CLI automatically parses any parameter that is a comma-separated string, converting numbers accordingly. For example:
+
+```bash
+node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
+```
+
+**Expected Console Output:**
+```
+Run with: ["quad", [1, 0.00214, "NaN", -350]]
+```
+
+_Note: The replacer function in the code converts any native NaN values to the string "NaN" when printing as JSON._
+
+### Web Interface Usage
+
+The web interface provides similar numeric parameter validation. To test it locally:
+
+1. Start the web server:
 
 ```bash
 npm run start:web
 ```
 
-Then, navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable) in your browser.
+2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral") and enter a set of parameters, such as:
 
-## Examples
-
-### CLI Usage with Advanced Plotting
-
-```bash
-# Using advanced plotting with numeric conversion (supports scientific notation and robust NaN handling with alternative aliases)
-node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
+```
+1, na, 5, -10, 10, 1
 ```
 
-The above command will invoke the spiral plotting function with parameters converted to native numbers (with any NaN indicator converted accordingly).
+3. Submit the form to see the converted parameters and a confirmation page indicating that the correct plotting function was invoked.
 
-### CLI Usage in Non-Advanced Mode
-
-When running without the `--advanced` flag, any parameter that includes comma-separated numbers is automatically converted. For example:
+You can also test using a simple cURL command:
 
 ```bash
-node src/lib/main.js "quad:1,0,5,-10,10,1"
+curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumber ,5, -10, 10, 1"
 ```
 
-The parameters will be split by colon and any segment containing commas will be converted to an array of native numbers. The CLI output now accurately represents native NaN values as "NaN" in the JSON output.
+## Additional Details
+
+- Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
+- Various representations of NaN ("NaN", "not a number", "notanumber", "na") are accepted and converted to the native JavaScript NaN value.
+- The CLI and web interface provide consistent behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
 
 ## License
 
