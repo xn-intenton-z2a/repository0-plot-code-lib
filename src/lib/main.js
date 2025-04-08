@@ -122,7 +122,15 @@ export function main(args = []) {
     return arg;
   });
 
-  console.log(`Run with: ${JSON.stringify(finalArgs)}`);
+  // Custom replacer to correctly display native NaN values instead of null
+  function replacer(key, value) {
+    if (typeof value === 'number' && isNaN(value)) {
+      return "NaN";
+    }
+    return value;
+  }
+
+  console.log(`Run with: ${JSON.stringify(finalArgs, replacer)}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
