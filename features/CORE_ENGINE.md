@@ -1,37 +1,36 @@
 # CORE_ENGINE Feature Specification
 
+## Overview
+The CORE_ENGINE is the backbone of the plotting library, consolidating advanced plotting functionalities, diagnostics, numeric parameter validation, interactive wizard, web interface integration, and an enhanced help mode. This feature provides a unified and consistent experience across both CLI and web-based interactions.
+
 ## Description
-This feature consolidates the core plotting, diagnostics, parameter validation, interactive wizard, web interface integration, and now an enhanced help mode into a unified module. It supports:
-
-- **Advanced Plotting:** Enables multiple output formats (SVG, JSON, CSV, Markdown, ASCII, HTML) and supports various plot types (spiral, polar heatmap, dual axis, box plot, etc.).
-- **Diagnostics Mode:** Activated with the `--diagnostics` flag, it runs self-tests, health checks, and configuration verifications to provide detailed troubleshooting insights.
-- **Numeric Parameter Validation:** Robust validation and conversion of colon-delimited segments containing comma-separated numeric tokens. Special handling is provided for the literal string 'NaN' (case insensitive), converting it to the native JavaScript NaN.
-- **Interactive Wizard Mode & Logging:** A CLI wizard (`--wizard` flag) guides users through plot configuration along with real-time debugging logs.
-- **Web Interface Integration:** Exposes an Express-based web server for plot generation from an HTML form, ensuring a consistent experience with the CLI.
-- **Help Mode:** Introduces a new `--help` flag that, when invoked, bypasses all other operations to display a comprehensive help message. This help message details available commands, flags, usage examples, and plot types.
-
-## Motivation
-- **Unified Experience:** Combining all plotting routines and support functionalities into one feature ensures consistency across CLI and web environments.
-- **Enhanced Usability:** The addition of a dedicated help mode improves onboarding and user friendliness by giving immediate guidance.
-- **Improved Reliability:** Comprehensive numeric validation and diagnostics reduce runtime errors.
+- **Advanced Plotting:** Supports multiple output formats including SVG, JSON, CSV, Markdown, ASCII, and HTML. It covers a variety of plot types such as spiral, polar heatmap, dual axis, box plot, violin plot, cumulative average, inverse function, modulated sine, and extended 3D plot.
+- **Diagnostics Mode:** Activated using the `--diagnostics` flag. It runs self-tests, health checks, and configuration verifications, providing detailed troubleshooting insights.
+- **Numeric Parameter Validation:** Robust handling of colon-delimited segments with comma-separated numeric tokens. It seamlessly converts valid numeric inputs (including integers, decimals, scientific notation, and the literal 'NaN' in any case) to native JavaScript numbers.
+- **Interactive Wizard Mode & Logging:** Guides the user through plot configuration using the CLI wizard (`--wizard` flag) and offers real-time debugging logs.
+- **Web Interface Integration:** Provides an Express-based server for generating plots via an HTML form, delivering a consistent experience with CLI operations.
+- **Enhanced Help Mode:** Implements a dedicated `--help` flag that immediately displays a comprehensive help message and bypasses further processing. The help message includes:
+  - An overview of available functionalities
+  - Detailed explanations of flags and use-cases including advanced plotting, diagnostics, interactive wizard, and numeric parameter handling
+  - Usage examples for both CLI and web interactions
 
 ## Implementation Details
-1. **Flag Detection:**
-   - Enhance the CLI parser in `src/lib/main.js` to check for the `--help` flag early in the processing sequence.
-   - When `--help` is detected, immediately output a detailed help message and bypass any further processing.
+1. **Flag Detection and Processing:**
+   - Update the CLI parser in `src/lib/main.js` to check for flags such as `--advanced`, `--diagnostics`, `--wizard`, and `--help` early in the execution process.
+   - If `--help` is detected, generate and display a detailed help message covering commands, usage examples, plot types, and integrated functionalities.
 
-2. **Help Message Content:**
-   - The help message should include an overview of available functionality including:
-     - **Advanced Plotting:** List supported plot types with short descriptions.
-     - **Diagnostics Mode:** Explain the `--diagnostics` flag usage.
-     - **Interactive Wizard:** Detail the benefits and usage of `--wizard` mode.
-     - **Numeric Parameter Handling:** Describe the numeric validation, including how comma-delimited numbers and the 'NaN' token are processed.
-     - **Web Interface:** Outline the endpoints available for web-based plotting.
+2. **Numeric Validation:**
+   - Utilize regex-based validation to ensure robust conversion of numeric tokens. Convert any token matching 'NaN' (case insensitive) to the native JavaScript NaN.
+   - Support both simple and colon-separated parameters with proper error messages on invalid inputs.
 
-3. **Integration and Testing:**
-   - Ensure that the help mode interrupts any ongoing process so that only the help message is displayed.
-   - Update and add unit tests to verify that when `--help` is provided, the output contains all relevant documentation and bypasses other functionalities.
-   - Update the README and CONTRIBUTING documents to include detailed help mode usage and flags explanation.
+3. **Integrated Help Mode:
+   - Interrupt standard command processing when the `--help` flag is provided.
+   - Ensure that the help mode outputs a complete guide that covers all aspects of the CORE_ENGINE functionality.
+   - Include examples covering advanced plotting, diagnostics, interactive wizard, and numeric validation.
+
+4. **Testing and Documentation:**
+   - Extend unit tests to validate help mode behavior and ensure the help message is complete and accurate.
+   - Update README and CONTRIBUTING documentation to reflect the enhanced help mode and any changes to CLI flag processing.
 
 ## Usage Examples
 
@@ -40,7 +39,7 @@ This feature consolidates the core plotting, diagnostics, parameter validation, 
 node src/lib/main.js --help
 ```
 
-**Advanced Plotting Example:**
+**Advanced Plotting:**
 ```bash
 node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
 ```
