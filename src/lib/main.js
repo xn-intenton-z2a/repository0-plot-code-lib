@@ -10,8 +10,8 @@ function errorExit(message) {
   process.exit(1);
 }
 
-// Regular expression to validate numeric tokens (integer or decimal), e.g., -10, 5, 3.14
-const numberRegex = /^-?\d+(\.\d+)?$/;
+// Updated regular expression to validate numeric tokens (integer, decimal, or scientific notation), e.g., -10, 5, 3.14, 1e4, 2.14e-3
+const numberRegex = /^-?\d+(?:\.\d+)?(?:[eE][-+]?\d+)?$/;
 
 // Validate numeric parameters in arguments that are expected to contain comma-separated numbers.
 // This function checks each token that contains a comma across colon-delimited segments and
@@ -34,7 +34,7 @@ function validateNumericInputs(arg) {
 
 // New function to parse numeric tokens and convert them to native numbers.
 // It splits a comma-separated string and converts each token: if token equals 'NaN' (case insensitive) then returns native NaN,
-// otherwise converts using Number and validates the conversion using a regex.
+// otherwise converts using Number and validates the conversion using an updated regex that supports scientific notation.
 function parseNumericParams(paramStr) {
   const parts = paramStr.split(",").map(p => p.trim());
   const converted = parts.map(part => {
@@ -43,7 +43,7 @@ function parseNumericParams(paramStr) {
     } else if (part === "") {
       errorExit(`Error: Invalid numeric parameter '' (empty) in parameters '${paramStr}'.`);
     } else if (!numberRegex.test(part)) {
-      errorExit(`Error: Invalid numeric parameter '${part}' (not a valid number) in parameters '${paramStr}'.`);
+      errorExit(`Error: Invalid numeric parameter '${part}' (not a valid number, supports scientific notation) in parameters '${paramStr}'.`);
     } else {
       return Number(part);
     }

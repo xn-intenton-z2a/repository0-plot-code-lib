@@ -7,8 +7,8 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 This release includes improvements in numeric parameter handling. The CLI now performs the following actions for parameters with colon-delimited segments containing comma-separated numbers:
 
 1. Detailed validation with error messages that specify the problematic token, its segment, and the reason (e.g., empty or not a valid number).
-2. Consistent numeric conversion: Any token matching 'NaN' (case insensitive) is converted to the native JavaScript NaN value, while other valid numeric strings are converted to Number types. This conversion is now applied in both advanced and non-advanced modes, ensuring that downstream processing always receives numbers in a uniform format.
-3. Regex-based validation: Numeric tokens are now validated using a regular expression to strictly enforce valid integer or decimal formats, improving robustness and maintainability.
+2. Consistent numeric conversion: Any token matching 'NaN' (case insensitive) is converted to the native JavaScript NaN value, while other valid numeric strings, including those in scientific notation (e.g., '1e4', '2.14e-3'), are converted to Number types. This conversion is now applied in both advanced and non-advanced modes, ensuring that downstream processing always receives numbers in a uniform format.
+3. Regex-based validation: Numeric tokens are now validated using a regular expression that strictly enforces valid integer, decimal, or scientific notation formats, improving robustness and maintainability.
 4. Accurate CLI Output: The CLI now uses a custom JSON replacer to correctly display native NaN values as "NaN" instead of converting them to null in the output.
 
 This ensures that advanced plotting functions, as well as other components like the web interface, receive parameters in the correct numeric format, promoting consistency and correctness in mathematical operations.
@@ -37,7 +37,7 @@ Then, navigate to `http://localhost:3000` (or the port specified by the `PORT` e
 ### CLI Usage with Advanced Plotting
 
 ```bash
-# Using advanced plotting with numeric conversion
+# Using advanced plotting with numeric conversion (supports scientific notation)
 node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
 ```
 
