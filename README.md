@@ -9,6 +9,7 @@ This release includes improvements in numeric parameter handling. The CLI now pe
 1. Detailed validation with error messages that specify the problematic token, its segment, and the reason (e.g., empty or not a valid number).
 2. Consistent numeric conversion: Any token matching 'NaN' (case insensitive) is converted to the native JavaScript NaN value, while other valid numeric strings are converted to Number types. This conversion is now applied in both advanced and non-advanced modes, ensuring that downstream processing always receives numbers in a uniform format.
 3. Regex-based validation: Numeric tokens are now validated using a regular expression to strictly enforce valid integer or decimal formats, improving robustness and maintainability.
+4. Accurate CLI Output: The CLI now uses a custom JSON replacer to correctly display native NaN values as "NaN" instead of converting them to null in the output.
 
 This ensures that advanced plotting functions, as well as other components like the web interface, receive parameters in the correct numeric format, promoting consistency and correctness in mathematical operations.
 
@@ -50,7 +51,7 @@ When running without the `--advanced` flag, any parameter that includes comma-se
 node src/lib/main.js "quad:1,0,5,-10,10,1"
 ```
 
-The parameters will be split by colon and any segment containing commas will be converted to an array of native numbers.
+The parameters will be split by colon and any segment containing commas will be converted to an array of native numbers. The CLI output now accurately represents native NaN values as "NaN" in the JSON output.
 
 ## License
 
