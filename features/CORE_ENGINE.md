@@ -1,47 +1,50 @@
 # CORE_ENGINE Feature Specification
 
 ## Description
-This feature refines and consolidates the core plotting engine by integrating both advanced CLI plotting functions and a new web interface for plotting. The advanced plotting functions (such as spiral, polarHeatmap, dualAxis, boxPlot, violinPlot, cumulativeAverage, inverse, modulatedSine, extended3D) are encapsulated in a dedicated module, while the web interface provides an Express-powered user experience for inputting parameters and viewing plot results.
+This feature refines and consolidates the core plotting engine by integrating advanced CLI plotting, a new web interface, and an interactive wizard mode. The engine supports a wide range of advanced plotting functions (e.g., spiral, polarHeatmap, dualAxis, boxPlot, violinPlot, cumulativeAverage, inverse, modulatedSine, extended3D) and now includes an interactive help mode that guides users in constructing valid plot commands.
 
 ## Motivation
-- **Maintainability:** Separates core engine logic from user interface concerns and centralizes advanced plotting functions, making the codebase cleaner.
-- **Enhanced Accessibility:** Offers both CLI and web-based access to advanced plotting, broadening user engagement and real-world application.
-- **Streamlined Testing:** Isolates functionality for robust unit and integration testing, ensuring consistency between web and CLI modes.
-- **Mission Alignment:** Realizes the mission of being the go-to plot library by providing multiple interfaces (CLI and web) to interact with mathematical visualisations.
+- **Enhanced Accessibility:** In addition to CLI and web-based plotting, the interactive wizard mode provides a guided experience for new or unsure users to build plot commands step-by-step.
+- **Improved Usability:** Clear prompts and on-the-fly validation help users avoid common input errors, complementing the robust parameter validation provided by the dedicated module.
+- **Unified Experience:** By integrating CLI, web, and interactive wizard functionality under the core engine, we streamline testing, maintenance, and user engagement while staying true to our mission of being the go-to plot library for formulae visualisations.
 
 ## Implementation Details
-1. **Module Extraction:**
-   - Consolidate advanced plotting routines into `src/lib/advancedPlots.js` and update `src/lib/main.js` to import from this module.
-   - Ensure existing flag detections (e.g., `--advanced`) work seamlessly.
+1. **Module Consolidation and Advanced Plotting**
+   - Consolidate advanced plotting routines into `src/lib/advancedPlots.js` and update `src/lib/main.js` to import functionality from this module.
+   - Maintain support for the `--advanced` flag to invoke advanced plotting functions.
 
-2. **Web Interface Integration:**
-   - Implement an Express-based web server (located in `src/web/app.js`) with the following endpoints:
-     - **GET /**: Serves an HTML form for selecting a plot type and entering parameters.
-     - **POST /plot**: Processes form submissions to invoke the corresponding advanced plotting function and returns a confirmation or rendered output.
-   - Update README and CONTRIBUTING documentation to reflect web interface usage and migration guidelines.
+2. **Web Interface Integration**
+   - Retain the Express-based web server (`src/web/app.js`) with endpoints for serving an HTML form and processing plot submissions.
+   - Ensure that the web interface uses the same core plotting logic for consistency.
 
-3. **CLI and Routing Updates:**
-   - Retain CLI functionalities for diagnostics and parameter validation while ensuring that both CLI and web routes share the core plotting logic.
+3. **Interactive Wizard Mode**
+   - Introduce a new CLI flag `--wizard` that triggers an interactive session in the terminal.
+   - In wizard mode, prompt the user for input step-by-step: select plot type, enter parameters, and receive real-time validation using the `paramValidation` module.
+   - Upon successful input, invoke the corresponding plotting function from the advanced plotting module and display a confirmation message or preview output.
 
-4. **Error Handling and Reporting:**
-   - Maintain robust error reporting in numeric validations and advanced plotting functions for both interfaces.
-   - Provide diagnostic outputs when triggered via the `--diagnostics` flag.
+4. **CLI and Routing Updates**
+   - Update the main CLI parser in `src/lib/main.js` to detect and route the `--wizard` flag.
+   - Ensure that other CLI functionalities (e.g., diagnostics via `--diagnostics`) remain fully operational.
 
-## Testing and Documentation
-- **Unit and Integration Tests:**
-  - Expand existing tests in `tests/unit/main.test.js` to cover CLI functionality.
-  - Add integration tests (using `supertest` and Vitest) for the web endpoints to ensure proper routing and response.
-- **Documentation:**
-  - Update README.md and CONTRIBUTING.md to include detailed instructions, usage examples (both CLI and web), and migration information.
+5. **Testing and Documentation**
+   - Expand unit tests (in `tests/unit/main.test.js`) to cover the new interactive wizard mode, including input validation and flow control.
+   - Update the README and CONTRIBUTING documentation to include usage examples for the interactive wizard, CLI advanced plotting, and web interface usage.
 
 ## Usage Examples
 - **CLI Advanced Plotting:**
   ```bash
   node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
   ```
+
+- **Interactive Wizard Mode:**
+  ```bash
+  node src/lib/main.js --wizard
+  ```
+  This will launch an interactive session guiding you through selecting a plot type and entering parameters.
+
 - **Web Interface:**
   1. Start the web server:
      ```bash
      npm run start:web
      ```
-  2. Navigate to `http://localhost:3000` to access the plotting form, select a plot type, and enter parameters.
+  2. Navigate to `http://localhost:3000` to access the plotting form.
