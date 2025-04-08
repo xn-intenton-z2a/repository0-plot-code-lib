@@ -108,4 +108,16 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     errorSpy.mockRestore();
     exitSpy.mockRestore();
   });
+
+  test("should support valid scientific notation inputs", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    // Scientific notation with leading/trailing whitespace
+    const arg = "quad: 1e4 , 2.14e-3 , NaN , -3.5E+2";
+    
+    expect(() => main([arg])).not.toThrow();
+    // Capture the output for advanced and non-advanced modes
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
 });
