@@ -1,34 +1,34 @@
 # CHAT_ISSUES Feature Specification
 
 ## Description
-This updated feature integrates a Chat Completions API into the plotting tool to automatically convert natural language prompts into detailed, well-structured GitHub issues. It builds on the existing implementation by enabling iterative dialogue and enhanced customization of issue templates. The generated issues include complete implementation instructions, testing guidelines, and documentation updates in line with the CONTRIBUTING guidelines and our mission.
+This feature integrates a Chat Completions API into the plotting tool, automating the conversion of natural language prompts into detailed, well-structured GitHub issues. It enables users to submit prompts that describe desired new functionality or modifications, and the system returns fully formed issue drafts. Each generated issue contains complete implementation instructions, testing guidelines, and documentation updates in line with the project's CONTRIBUTING guidelines.
 
 ## Motivation
-- **Streamlined Issue Management:** Automate the creation of detailed GitHub issues directly from user prompts, minimizing manual overhead and ensuring consistency.
-- **Iterative Refinement:** Allow users to engage in a conversation with the tool, refining issues iteratively until they are precise and actionable.
-- **Enhanced Quality and Consistency:** Maintain uniformity in issue formatting and content, supporting high-quality contributions that align with our mission to be the go-to plot library for formula-based visualisations.
+- **Streamlined Issue Management:** Eliminate the need for manual issue creation by automating detail-rich GitHub issue generation from brief natural language inputs.
+- **Iterative Refinement:** Allow an interactive dialogue in which users can continuously refine the generated issues until they are both precise and actionable.
+- **Enhanced Quality & Consistency:** Ensure that all issues adhere to a uniform format and include all necessary information, supporting our mission to be the go-to plot library for formula-based visualizations.
 
 ## Implementation Details
 1. **CLI and Web Interface Integration:**
-   - Introduce a dedicated flag (e.g., `--chat`) for the CLI and a corresponding section in the web interface where users can submit natural language prompts.
-   - Ensure that user inputs are sanitized and validated to meet security and formatting standards.
+   - Introduce a dedicated command-line flag (e.g., `--chat`) to activate the chat-completion mode, as well as a dedicated section in the web interface for submitting natural language prompts.
+   - Sanitize and validate user inputs to ensure security and proper formatting.
 
 2. **Chat Completions API Integration:**
-   - Utilize the OpenAI package to send user prompts along with repository context (extracted from CONTRIBUTING.md and MISSION.md) to generate structured GitHub issue drafts.
+   - Utilize the OpenAI API to send user prompts, enriched with context from relevant repository files (such as CONTRIBUTING.md and MISSION.md), in order to generate structured GitHub issue drafts.
    - Secure API credentials via environment variables and implement robust error handling for connectivity and authentication issues.
 
 3. **Issue Generation and Formatting:**
-   - Parse the response from the Chat Completions API to construct a list of actionable GitHub issues. Each issue will include a title, detailed description, and categorized action items (implementation, testing, documentation).
-   - Support output formats in both Markdown and JSON, enabling seamless integration with GitHub workflows and other project management tools.
+   - Parse the API response to construct a set of actionable GitHub issues. Each issue includes a title, a detailed description, categorized action items (for implementation, testing, and documentation), and optional metadata (labels, priority tags).
+   - Support output formats in both Markdown and JSON to facilitate GitHub workflows and integration with other project management tools.
 
 4. **Enhanced Customization and Iteration:**
-   - Allow users to customize issue templates, including tone, formatting, and metadata (labels, priority tags) directly through the prompt or via configuration files.
-   - Provide an iterative refinement mode where users can send follow-up prompts to adjust or further detail the generated issues.
-   - Log interactions for debugging and continuous improvement of the issue generation process.
+   - Allow configuration of issue templates, including tone, formatting style, and metadata, either directly through the prompt or via external configuration files.
+   - Implement an iterative dialogue system where follow-up prompts can be used to adjust and further detail the generated issues.
+   - Log interaction history for debugging and continuous improvement of the issue generation process.
 
 5. **Testing and Documentation:**
-   - Develop comprehensive unit and integration tests to simulate API interactions and verify that all generated issues adhere to repository standards.
-   - Update the README and CONTRIBUTING guidelines with detailed usage examples, configuration instructions, and troubleshooting tips specific to the CHAT_ISSUES feature.
+   - Develop comprehensive unit and integration tests to simulate API interactions, ensuring that all generated issues adhere to repository standards and include all necessary sections.
+   - Update the README and CONTRIBUTING documentation with detailed usage examples, configuration instructions, and troubleshooting tips for the CHAT_ISSUES feature.
 
 ## Usage
 - **CLI Example:**
@@ -36,5 +36,4 @@ This updated feature integrates a Chat Completions API into the plotting tool to
   node src/lib/main.js --chat "Add modular API for real-time data transformation with iterative refinement for user feedback."
   ```
 - **Web Interface Example:**
-   - Navigate to the dedicated chat-based issue generation section in the web interface.
-   - Submit a descriptive prompt and review the structured GitHub issues generated by the system, with options to refine them further.
+   - Navigate to the dedicated chat issue generation section, submit your descriptive prompt, and review the structured GitHub issues generated by the system. Options are provided to refine the output interactively.
