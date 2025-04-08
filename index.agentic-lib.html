@@ -29,6 +29,7 @@
 <ol class="md-github">
 <li class="md-github">Detailed validation with error messages that specify the problematic token, its segment, and the reason (e.g., empty or not a valid number).</li>
 <li class="md-github">Consistent numeric conversion: Any token matching 'NaN' (case insensitive) is converted to the native JavaScript NaN value, while other valid numeric strings are converted to Number types. This conversion is now applied in both advanced and non-advanced modes, ensuring that downstream processing always receives numbers in a uniform format.</li>
+<li class="md-github">Regex-based validation: Numeric tokens are now validated using a regular expression to strictly enforce valid integer or decimal formats, improving robustness and maintainability.</li>
 </ol>
 <p class="md-github">This ensures that advanced plotting functions, as well as other components like the web interface, receive parameters in the correct numeric format, promoting consistency and correctness in mathematical operations.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="web-interface" href="#web-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface</h2>
@@ -60,7 +61,7 @@ node src/lib/main.js --advanced spiral &quot;1,NaN,5,-10,10,1&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-08T22:55:42.498Z</p>
+    <p>Generated on 2025-04-08T23:02:10.748Z</p>
   </footer>
 </body>
 </html>
