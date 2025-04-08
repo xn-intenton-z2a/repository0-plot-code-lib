@@ -13,7 +13,7 @@ function errorExit(message) {
 // Validate numeric parameters in arguments that are expected to contain comma-separated numbers.
 // This function checks each token that contains a comma across colon-delimited segments and
 // if all parts are valid numbers. It still treats the literal 'NaN' (case insensitive) as a special valid value.
-// (This function is retained for non-advanced mode validations.)
+// (This function is retained for non-advanced mode validations, though numeric conversion is now standardized.)
 function validateNumericInputs(arg) {
   const segments = arg.split(":");
   segments.forEach(segment => {
@@ -107,14 +107,21 @@ export function main(args = []) {
     return;
   }
 
-  // Process each argument: if it contains a colon, check potential numeric tokens
-  args.forEach(arg => {
-    if (arg.includes(":")) {
-      validateNumericInputs(arg);
+  // For non-advanced mode, standardize numeric conversion on parameters that include comma-separated tokens.
+  const finalArgs = args.map(arg => {
+    if (arg.includes(",")) {
+      if (arg.includes(":")) {
+        return arg.split(":").map(segment => {
+          return segment.includes(",") ? parseNumericParams(segment) : segment;
+        });
+      } else {
+        return parseNumericParams(arg);
+      }
     }
+    return arg;
   });
 
-  console.log(`Run with: ${JSON.stringify(args)}`);
+  console.log(`Run with: ${JSON.stringify(finalArgs)}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
