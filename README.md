@@ -7,10 +7,25 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with enhanced regex-based validation. Both the CLI and the web interface use this logic to:
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: "not a number", "notanumber", and "na".
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value, with optional debug logging when enabled.
 3. Provide detailed error messages when encountering invalid numeric inputs.
 
 This approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.
+
+## Debug Logging for Numeric Conversion
+
+Developers can enable debug logging to trace when NaN aliases are normalized. Set the environment variable `DEBUG_NUMERIC` to any truthy value to activate detailed logging. For example:
+
+```bash
+export DEBUG_NUMERIC=true
+node src/lib/main.js "quad: 1 , na, 5"
+```
+
+This will log messages like:
+
+```
+Normalized token 'na' to native NaN
+```
 
 ## Examples
 
@@ -72,6 +87,7 @@ curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumbe
 
 - Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
 - Various representations of NaN ("NaN", "not a number", "notanumber", "na") are accepted and converted to the native JavaScript NaN value.
+- Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
 - The CLI and web interface provide consistent behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
 
 ## License

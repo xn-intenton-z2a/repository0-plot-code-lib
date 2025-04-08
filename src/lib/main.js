@@ -10,7 +10,8 @@ function errorExit(message) {
 }
 
 // Enhanced implementation of numeric parameter conversion utility using regex validation
-// Now supports alternative NaN aliases: "nan", "not a number", "notanumber", and "na" (case-insensitive, whitespace-tolerant)
+// Now supports alternative NaN aliases: "nan", "not a number", "notanumber", and "na" (case-insensitive, whitespace-tolerant).
+// Adds conditional debug logging if DEBUG_NUMERIC environment variable is set.
 function parseNumericParams(paramStr) {
   const tokens = paramStr.split(",");
   const result = [];
@@ -22,9 +23,11 @@ function parseNumericParams(paramStr) {
     if (!numberRegex.test(trimmed)) {
       errorExit(`Invalid numeric parameter '${trimmed}'`);
     }
-    // Convert any of the accepted NaN representations to native NaN
     const lower = trimmed.toLowerCase();
     if (lower === "nan" || lower === "not a number" || lower === "notanumber" || lower === "na") {
+      if (process.env.DEBUG_NUMERIC) {
+        console.debug(`Normalized token '${trimmed}' to native NaN`);
+      }
       result.push(NaN);
     } else {
       result.push(Number(trimmed));
