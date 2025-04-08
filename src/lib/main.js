@@ -131,3 +131,6 @@ const advancedPlots = {
     console.log("Plotting extended 3D plot with params:", params);
   }
 };
+
+// Export advancedPlots for use in the web interface
+export { advancedPlots };
