@@ -4,11 +4,37 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
-import { parseArguments } from "./argumentParser.js";
 
 function errorExit(message) {
   console.error(message);
   process.exit(1);
+}
+
+// Inlined argument parser function
+export function parseArguments(args) {
+  if (args.length === 0) {
+    return { advanced: false, args };
+  }
+  if (args[0] === "--advanced") {
+    if (args.length < 3) {
+      throw new Error("Insufficient arguments for advanced plotting.");
+    }
+    const plotType = args[1];
+    const paramStr = args[2];
+    const parts = paramStr.split(":");
+    if (parts.length !== 2) {
+      return { advanced: true, plotType, params: paramStr };
+    }
+    // Validate numeric values
+    const numberStrings = parts[1].split(",");
+    for (const numStr of numberStrings) {
+      if (isNaN(Number(numStr))) {
+        throw new Error(`Invalid numeric parameter '${numStr}'`);
+      }
+    }
+    return { advanced: true, plotType, params: paramStr };
+  }
+  return { advanced: false, args };
 }
 
 export function main(args = []) {
@@ -57,7 +83,7 @@ export function main(args = []) {
           errorExit("Error: Unknown advanced plot type.");
       }
     } else {
-      // For non-advanced mode, arguments have been validated
+      // For non-advanced mode, simply print the arguments
       console.log(`Run with: ${JSON.stringify(parsed.args)}`);
     }
   } catch (error) {

@@ -53,7 +53,7 @@ Enhance your visualizations with advanced plotting capabilities. Use the `--adva
 - modulatedSine
 - extended3D
 
-_Note: In this release, advanced plotting functions have been inlined into `main.js`. The CLI argument parsing logic has been refactored into a dedicated module (`argumentParser.js`) for enhanced maintainability and clarity._
+_Note: In this release, advanced plotting functions and the argument parsing logic have been inlined into `main.js` for simplicity._
 
 #### Examples
 
@@ -103,7 +103,7 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 
 ## Input Validation
 
-This tool now includes robust input validation for numerical parameters. The logic for parsing and validating these parameters has been extracted into its own module (`argumentParser.js`), ensuring that any invalid numeric input (resulting in NaN) produces a clear error message and terminates the CLI with a non-zero exit code.
+This tool now includes robust input validation for numerical parameters. Any invalid numeric input will produce a clear error message and terminate the CLI with a non-zero exit code.
 
 ---
 

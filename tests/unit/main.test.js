@@ -1,12 +1,11 @@
 ///////////////////////////////
 // File: tests/unit/main.test.js
 ///////////////////////////////
-// Updated tests/unit/main.test.js with additional tests for the argumentParser module
+// Updated tests/unit/main.test.js with additional tests for the argumentParser (now inlined in main.js)
 
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
-import { main } from "../../src/lib/main.js";
-import { parseArguments } from "../../src/lib/argumentParser.js";
+import { main, parseArguments } from "../../src/lib/main.js";
 
 
 describe("Main Module Import", () => {
@@ -67,10 +66,12 @@ describe("Argument Parser Module", () => {
   });
 
   test("should throw error for invalid numeric input in advanced arguments", () => {
-    expect(() => parseArguments(["--advanced", "spiral", "radius:1,abc,3,4"]).toThrow("Invalid numeric parameter 'abc'"));
+    expect(() => parseArguments(["--advanced", "spiral", "radius:1,abc,3,4"]))
+      .toThrow("Invalid numeric parameter 'abc'");
   });
 
   test("should throw error if insufficient arguments provided for advanced plotting", () => {
-    expect(() => parseArguments(["--advanced", "spiral"])).toThrow("Insufficient arguments for advanced plotting.");
+    expect(() => parseArguments(["--advanced", "spiral"]))
+      .toThrow("Insufficient arguments for advanced plotting.");
   });
 });
