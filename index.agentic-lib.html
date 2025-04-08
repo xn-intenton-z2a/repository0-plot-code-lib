@@ -42,8 +42,33 @@
 <p class="md-github">Start the Express-based interactive plotting web interface:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
 </code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="advanced-plotting" href="#advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Plotting</h3>
+<p class="md-github">Enhance your visualizations with advanced plotting capabilities. Use the <code class="md-github">--advanced</code> flag followed by the plot type and parameters. The supported advanced plot types include:</p>
+<ul class="md-github">
+<li class="md-github">spiral</li>
+<li class="md-github">polarHeatmap</li>
+<li class="md-github">dualAxis</li>
+<li class="md-github">boxPlot</li>
+<li class="md-github">violinPlot</li>
+<li class="md-github">cumulativeAverage</li>
+<li class="md-github">inverse</li>
+<li class="md-github">modulatedSine</li>
+<li class="md-github">extended3D</li>
+</ul>
+<p class="md-github"><em class="md-github">Note: In this release, advanced plotting functions have been inlined into <code class="md-github">main.js</code>, so there is no separate <code class="md-github">advancedPlots.js</code> file required.</em></p>
+<h4 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h4>
+<p class="md-github"><strong class="md-github">Spiral Plot (CLI):</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced spiral &quot;radius:1,2,3,4&quot;
+</code></pre>
+<p class="md-github"><strong class="md-github">Polar Heatmap:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced polarHeatmap &quot;heat:0.5,0.8,1,2&quot;
+</code></pre>
+<p class="md-github"><strong class="md-github">Cumulative Average Plot:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced cumulativeAverage &quot;data:5,10,15,20&quot;
+</code></pre>
+<p class="md-github">Explore and combine these advanced plotting options to suit your complex visualization needs!</p>
 <hr class="md-github">
-<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="examples-1" href="#examples-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <p class="md-github"><strong class="md-github">Linear Plot (SVG):</strong></p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js linear.svg &quot;linear:2,3,-10,10,1&quot;
 </code></pre>
@@ -62,7 +87,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-08T00:01:15.065Z</p>
+    <p>Generated on 2025-04-08T00:33:31.923Z</p>
   </footer>
 </body>
 </html>
