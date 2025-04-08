@@ -1,35 +1,35 @@
 # CORE_ENGINE Feature Specification
 
 ## Description
-This feature consolidates and refines the core plotting engine by integrating multiple functionalities into a unified module. It supports:
+This feature consolidates and refines the core plotting capabilities of the repository by integrating multiple functionalities into a unified module. It supports:
 
 - **Advanced Plotting:** Enables multiple output formats (SVG, JSON, CSV, Markdown, ASCII, HTML) and supports various plot types (spiral, polar heatmap, dual axis, box plot, etc.).
-- **Diagnostics Mode:** Activated with the `--diagnostics` flag, it runs self-tests, health checks, and configuration verifications, providing a detailed status report for rapid troubleshooting.
-- **Numeric Parameter Validation:** Enhanced handling of colon-delimited segments with comma-separated numeric inputs. Validates tokens (treating 'NaN' as a valid value) and converts them to native numbers.
-- **Interactive Wizard Mode & Logging:** Incorporates an interactive CLI wizard (`--wizard` flag) to guide users through plot configuration, along with a configurable logging subsystem for real-time debugging and traceability.
-- **Web Interface Integration:** Offers an Express-based web server that supports plot generation through a dynamic HTML form, ensuring consistent behavior between CLI and web interactions.
-- **Help Mode:** Introduces a new `--help` flag to display an overview of available commands, plot types, and usage examples. This mode provides users with quick guidance on how to invoke the various functionalities of the tool.
+- **Diagnostics Mode:** Activated with the `--diagnostics` flag, it runs self-tests, health checks, and configuration verifications, providing a detailed status report for troubleshooting.
+- **Numeric Parameter Validation:** Enhanced validation and conversion of numeric parameters. It accepts colon-delimited segments with comma-separated numeric tokens. The literal string 'NaN' (case insensitive) is correctly converted to the native JavaScript NaN value and numeric strings are converted appropriately.
+- **Interactive Wizard Mode & Logging:** Provides an interactive CLI wizard (`--wizard` flag) that guides users through plot configuration and offers configurable logging for real-time debugging.
+- **Web Interface Integration:** Offers an Express-based web server that supports plot generation through a dynamic HTML form, ensuring consistency with the CLI experience.
+- **Help Mode:** Introduces a new `--help` flag that displays a comprehensive help message covering available commands, supported plot types, flag options, and usage examples. This mode takes precedence over other operations when activated.
 
 ## Motivation
-- **Unified Experience:** Delivering a consistent CLI and web interface experience by consolidating diagnostics, plotting, validation, and help functionalities.
-- **Improved Usability:** The addition of a help mode makes it easier for new users to understand and use the tool effectively.
-- **Enhanced Reliability and Maintenance:** Further streamlining of core functionalities supports better troubleshooting and easier future enhancements.
+- **Unified Experience:** By consolidating multiple plotting and diagnostic functionalities into one feature, users experience a consistent interface across both CLI and web environments.
+- **Improved Usability:** The addition of the help mode improves onboarding and documentation, offering quick guidance on using various commands and flags.
+- **Enhanced Reliability:** Built-in diagnostics and improved parameter handling reduce runtime errors and facilitate easier troubleshooting.
 
 ## Implementation Details
-1. **Module Consolidation and CLI Parser Enhancements:**
-   - Maintain existing advanced plotting, diagnostics, numeric validation, interactive wizard, and web functionalities.
-   - Extend the CLI parser (in `src/lib/main.js`) to recognize a new `--help` flag. When detected, it displays a help message including:
-     - An overview of all available modes and flags (`--advanced`, `--diagnostics`, `--wizard`, `--export <format>`, and the new `--help` flag).
-     - A list of supported plot types and a brief description of each.
-     - Usage examples mirroring the ones in the README.
+1. **CLI Parser Enhancements:**
+   - Modify the CLI parser in `src/lib/main.js` to detect the `--help` flag.
+   - If the `--help` flag is provided, display a help message that lists:
+     - An overview of all available modes: advanced plotting (`--advanced`), diagnostics (`--diagnostics`), interactive wizard (`--wizard`) and help (`--help`).
+     - Supported plot types with short descriptions for each, drawing from usage examples in the README.
+   - Ensure that the help mode interrupts any ongoing plotting or diagnostic operations so that only the help message is displayed.
 
-2. **Integration with Existing Features:**
-   - Ensure that if the `--help` flag is provided, it takes precedence and displays the help message without invoking other plot routines.
-   - Preserve the behavior of other modes when their respective flags are used.
+2. **Integration with Existing Functionality:**
+   - Preserve all current functionalities (advanced plotting, diagnostics, numeric validation, interactive wizard, and web interface integration) when the `--help` flag is not used.
+   - When `--help` is detected, bypass other processing steps and display the help message exclusively.
 
 3. **Testing and Documentation:**
-   - Update tests to verify that invoking `--help` displays the correct help message without error.
-   - Update the README and CONTRIBUTING documents to include details on the new help mode and usage examples.
+   - Update unit tests to include a test case verifying that invoking the CLI with `--help` displays the complete help message without triggering other routines.
+   - Update the README and CONTRIBUTING documents to detail the usage, flags, and available commands including the new help mode.
 
 ## Usage Examples
 
@@ -38,7 +38,7 @@ This feature consolidates and refines the core plotting engine by integrating mu
 node src/lib/main.js --help
 ```
 
-**CLI Advanced Plotting Example:**
+**Advanced Plotting Example:**
 ```bash
 node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
 ```
@@ -58,4 +58,4 @@ node src/lib/main.js --wizard
    ```bash
    npm run start:web
    ```
-2. Visit `http://localhost:3000` to use the plotting form.
+2. Open a browser and navigate to `http://localhost:3000`.
