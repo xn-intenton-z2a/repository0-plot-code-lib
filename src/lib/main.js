@@ -9,20 +9,22 @@ function errorExit(message) {
   process.exit(1);
 }
 
-// Inline implementation of numeric parameter conversion utility
+// Enhanced implementation of numeric parameter conversion utility using regex validation
 function parseNumericParams(paramStr) {
   const tokens = paramStr.split(",");
   const result = [];
+  // Regex to match valid numbers: integer, decimal, scientific notation, or NaN (case-insensitive)
+  const numberRegex = /^\s*([-+]?(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?|nan)\s*$/i;
+
   for (const token of tokens) {
     const trimmed = token.trim();
+    if (!numberRegex.test(trimmed)) {
+      errorExit(`Invalid numeric parameter '${trimmed}'`);
+    }
     if (trimmed.toLowerCase() === "nan") {
       result.push(NaN);
     } else {
-      const num = Number(trimmed);
-      if (isNaN(num)) {
-        errorExit(`Invalid numeric parameter '${trimmed}'`);
-      }
-      result.push(num);
+      result.push(Number(trimmed));
     }
   }
   return result;
