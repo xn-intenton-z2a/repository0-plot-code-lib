@@ -1,14 +1,22 @@
 {
-  "openIssues": 44,
-  "issuesClosedLastHour": 6,
+  "openIssues": 45,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 2,
-  "diffMinutesMain": 2,
-  "commitsLastHour": 9,
-  "commitsLastDay": 96,
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 10,
+  "commitsLastDay": 97,
   "lastFiveCommitMessages": [
+    {
+      "time": "23:10",
+      "message": "Support scientific notation in numeric parameter parsing (fixes ..."
+    },
+    {
+      "time": "23:06",
+      "message": "Fix CLI output to correctly display native NaN values using a cu..."
+    },
     {
       "time": "22:59",
       "message": "Maintain CORE_ENGINE"
@@ -20,14 +28,6 @@
     {
       "time": "22:51",
       "message": "Standardized numeric parameter conversion across both advanced a..."
-    },
-    {
-      "time": "22:50",
-      "message": "Maintain CORE_ENGINE"
-    },
-    {
-      "time": "22:40",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-08T23:01:57.892Z"
+  "generatedAt": "2025-04-08T23:10:27.137Z"
 }
