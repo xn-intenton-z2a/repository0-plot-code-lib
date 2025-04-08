@@ -169,3 +169,14 @@ describe("Alternative NaN Aliases", () => {
     exitSpy.mockRestore();
   });
 });
+
+describe("Numeric Debug Logging", () => {
+  test("should log debug message when DEBUG_NUMERIC is enabled", () => {
+    const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
+    process.env.DEBUG_NUMERIC = "true";
+    main(["quad:1,na,5"]);
+    expect(debugSpy).toHaveBeenCalledWith("Normalized token 'na' to native NaN");
+    delete process.env.DEBUG_NUMERIC;
+    debugSpy.mockRestore();
+  });
+});
