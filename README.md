@@ -6,8 +6,8 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with enhanced regex-based validation. Both the CLI and the web interface use this logic to:
 
-1. Validate numeric tokens (integer, decimal, or scientific notation) and support the token 'NaN' (case insensitive) even with extra whitespace.
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching 'NaN' to the native NaN value.
+1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: "not a number", "notanumber", and "na".
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value.
 3. Provide detailed error messages when encountering invalid numeric inputs.
 
 This approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.
@@ -36,11 +36,11 @@ Then, navigate to `http://localhost:3000` (or the port specified by the `PORT` e
 ### CLI Usage with Advanced Plotting
 
 ```bash
-# Using advanced plotting with numeric conversion (supports scientific notation and robust NaN handling)
+# Using advanced plotting with numeric conversion (supports scientific notation and robust NaN handling with alternative aliases)
 node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
 ```
 
-The above command will invoke the spiral plotting function with parameters converted to native numbers (with 'NaN' converted accordingly).
+The above command will invoke the spiral plotting function with parameters converted to native numbers (with any NaN indicator converted accordingly).
 
 ### CLI Usage in Non-Advanced Mode
 
