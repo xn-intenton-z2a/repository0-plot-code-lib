@@ -27,8 +27,8 @@
 <h2 class="md-github"><a class="md-github__anchor" name="enhanced-numeric-parameter-validation" href="#enhanced-numeric-parameter-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Numeric Parameter Validation</h2>
 <p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with enhanced regex-based validation. Both the CLI and the web interface use this logic to:</p>
 <ol class="md-github">
-<li class="md-github">Validate numeric tokens (integer, decimal, or scientific notation) and support the token 'NaN' (case insensitive) even with extra whitespace.</li>
-<li class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching 'NaN' to the native NaN value.</li>
+<li class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: &quot;not a number&quot;, &quot;notanumber&quot;, and &quot;na&quot;.</li>
+<li class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value.</li>
 <li class="md-github">Provide detailed error messages when encountering invalid numeric inputs.</li>
 </ol>
 <p class="md-github">This approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.</p>
@@ -47,10 +47,10 @@
 <p class="md-github">Then, navigate to <code class="md-github">http://localhost:3000</code> (or the port specified by the <code class="md-github">PORT</code> environment variable) in your browser.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
-<pre class="md-github"><code class="md-github language-bash"># Using advanced plotting with numeric conversion (supports scientific notation and robust NaN handling)
+<pre class="md-github"><code class="md-github language-bash"># Using advanced plotting with numeric conversion (supports scientific notation and robust NaN handling with alternative aliases)
 node src/lib/main.js --advanced spiral &quot;1,NaN,5,-10,10,1&quot;
 </code></pre>
-<p class="md-github">The above command will invoke the spiral plotting function with parameters converted to native numbers (with 'NaN' converted accordingly).</p>
+<p class="md-github">The above command will invoke the spiral plotting function with parameters converted to native numbers (with any NaN indicator converted accordingly).</p>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-in-non-advanced-mode" href="#cli-usage-in-non-advanced-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage in Non-Advanced Mode</h3>
 <p class="md-github">When running without the <code class="md-github">--advanced</code> flag, any parameter that includes comma-separated numbers is automatically converted. For example:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad:1,0,5,-10,10,1&quot;
@@ -61,7 +61,7 @@ node src/lib/main.js --advanced spiral &quot;1,NaN,5,-10,10,1&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-08T23:41:45.516Z</p>
+    <p>Generated on 2025-04-08T23:47:36.475Z</p>
   </footer>
 </body>
 </html>
