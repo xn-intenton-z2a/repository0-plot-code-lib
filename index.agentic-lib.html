@@ -32,36 +32,54 @@
 <li class="md-github">Provide detailed error messages when encountering invalid numeric inputs.</li>
 </ol>
 <p class="md-github">This approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="web-interface" href="#web-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface</h2>
-<p class="md-github">In addition to the CLI, a basic web interface has been implemented. This allows users to interact with our advanced plotting capabilities via a browser.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="features" href="#features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Features:</h3>
-<ul class="md-github">
-<li class="md-github">An Express-powered web server listening on a configurable port (default 3000).</li>
-<li class="md-github">A GET endpoint at <code class="md-github">/</code> that serves an HTML form letting users select an advanced plot type and enter parameters.</li>
-<li class="md-github">A POST endpoint at <code class="md-github">/plot</code> that processes the form submission, invokes the corresponding advanced plotting function, and returns a confirmation page.</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage:</h3>
-<p class="md-github">To start the web server, run:</p>
-<pre class="md-github"><code class="md-github language-bash">npm run start:web
-</code></pre>
-<p class="md-github">Then, navigate to <code class="md-github">http://localhost:3000</code> (or the port specified by the <code class="md-github">PORT</code> environment variable) in your browser.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
-<pre class="md-github"><code class="md-github language-bash"># Using advanced plotting with numeric conversion (supports scientific notation and robust NaN handling with alternative aliases)
-node src/lib/main.js --advanced spiral &quot;1,NaN,5,-10,10,1&quot;
+<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, and various NaN aliases):</p>
+<pre class="md-github"><code class="md-github language-bash"># Example with advanced plotting using the --advanced flag
+node src/lib/main.js --advanced testPlot &quot; 1, NaN , 5, -10, 10, 1&quot;
 </code></pre>
-<p class="md-github">The above command will invoke the spiral plotting function with parameters converted to native numbers (with any NaN indicator converted accordingly).</p>
+<p class="md-github"><strong class="md-github">Expected Console Output:</strong></p>
+<pre class="md-github"><code class="md-github">Advanced Plot: Test Plot
+Test Plot with params: [ 1, NaN, 5 ]
+</code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-in-non-advanced-mode" href="#cli-usage-in-non-advanced-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage in Non-Advanced Mode</h3>
-<p class="md-github">When running without the <code class="md-github">--advanced</code> flag, any parameter that includes comma-separated numbers is automatically converted. For example:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad:1,0,5,-10,10,1&quot;
+<p class="md-github">When running without the <code class="md-github">--advanced</code> flag, the CLI automatically parses any parameter that is a comma-separated string, converting numbers accordingly. For example:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad: 1 , 2.14e-3 , not a number , -3.5E+2&quot;
 </code></pre>
-<p class="md-github">The parameters will be split by colon and any segment containing commas will be converted to an array of native numbers. The CLI output now accurately represents native NaN values as &quot;NaN&quot; in the JSON output.</p>
+<p class="md-github"><strong class="md-github">Expected Console Output:</strong></p>
+<pre class="md-github"><code class="md-github">Run with: [&quot;quad&quot;, [1, 0.00214, &quot;NaN&quot;, -350]]
+</code></pre>
+<p class="md-github"><em class="md-github">Note: The replacer function in the code converts any native NaN values to the string &quot;NaN&quot; when printing as JSON.</em></p>
+<h3 class="md-github"><a class="md-github__anchor" name="web-interface-usage" href="#web-interface-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface Usage</h3>
+<p class="md-github">The web interface provides similar numeric parameter validation. To test it locally:</p>
+<ol class="md-github">
+<li class="md-github">Start the web server:</li>
+</ol>
+<pre class="md-github"><code class="md-github language-bash">npm run start:web
+</code></pre>
+<ol start="2" class="md-github">
+<li class="md-github">Open your browser and navigate to <code class="md-github">http://localhost:3000</code> (or the port specified by the <code class="md-github">PORT</code> environment variable). Use the provided form to select an advanced plot type (e.g., &quot;spiral&quot;) and enter a set of parameters, such as:</li>
+</ol>
+<pre class="md-github"><code class="md-github">1, na, 5, -10, 10, 1
+</code></pre>
+<ol start="3" class="md-github">
+<li class="md-github">Submit the form to see the converted parameters and a confirmation page indicating that the correct plotting function was invoked.</li>
+</ol>
+<p class="md-github">You can also test using a simple cURL command:</p>
+<pre class="md-github"><code class="md-github language-bash">curl -X POST http://localhost:3000/plot -d &quot;plotType=spiral&amp;params=1, not anumber ,5, -10, 10, 1&quot;
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="additional-details" href="#additional-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Details</h2>
+<ul class="md-github">
+<li class="md-github">Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., <code class="md-github">1e4</code>, <code class="md-github">2.14e-3</code>, <code class="md-github">-3.5E+2</code>).</li>
+<li class="md-github">Various representations of NaN (&quot;NaN&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;) are accepted and converted to the native JavaScript NaN value.</li>
+<li class="md-github">The CLI and web interface provide consistent behavior in handling numeric parameters, ensuring a robust and user-friendly experience.</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-08T23:47:36.475Z</p>
+    <p>Generated on 2025-04-08T23:53:32.930Z</p>
   </footer>
 </body>
 </html>
