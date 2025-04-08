@@ -6,6 +6,7 @@ import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main } from "../../src/lib/main.js";
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -127,5 +128,44 @@ describe("Additional Numeric Edge Cases", () => {
     // Expected output: ["quad", [300, NaN, -0.5]] is printed as JSON with NaN replaced by "NaN"
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[300,"NaN",-0.5]]'));
     logSpy.mockRestore();
+  });
+});
+
+describe("Alternative NaN Aliases", () => {
+  test("should treat 'not a number' as NaN", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    // Using colon-delimited input
+    const arg = "quad:1, not a number ,5,-10,10,1";
+    expect(() => main([arg])).not.toThrow();
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
+
+  test("should treat 'notanumber' as NaN", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const arg = "quad:1,notanumber,5,-10,10,1";
+    expect(() => main([arg])).not.toThrow();
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
+
+  test("should treat 'na' as NaN", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const arg = "quad:1,na,5,-10,10,1";
+    expect(() => main([arg])).not.toThrow();
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
+
+  test("should reject near miss variants like 'n/a'", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const arg = "quad:1,n/a,5,-10,10,1";
+    expect(() => main([arg])).toThrow(/process.exit: 1/);
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
   });
 });
