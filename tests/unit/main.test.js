@@ -74,7 +74,6 @@ describe("Advanced Plotting Numeric Conversion", () => {
     
     expect(receivedParams).toHaveLength(3);
     expect(receivedParams[0]).toBe(1);
-    // Use toBeNaN matcher for the second element
     expect(receivedParams[1]).toBeNaN();
     expect(receivedParams[2]).toBe(5);
 
