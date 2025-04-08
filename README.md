@@ -38,6 +38,44 @@ Start the Express-based interactive plotting web interface:
 node src/lib/main.js --serve
 ```
 
+### Advanced Plotting
+
+Enhance your visualizations with advanced plotting capabilities. Use the `--advanced` flag followed by the plot type and parameters. The supported advanced plot types include:
+
+- spiral
+- polarHeatmap
+- dualAxis
+- boxPlot
+- violinPlot
+- cumulativeAverage
+- inverse
+- modulatedSine
+- extended3D
+
+_Note: In this release, advanced plotting functions have been inlined into `main.js`, so there is no separate `advancedPlots.js` file required._
+
+#### Examples
+
+**Spiral Plot (CLI):**
+
+```bash
+node src/lib/main.js --advanced spiral "radius:1,2,3,4"
+```
+
+**Polar Heatmap:**
+
+```bash
+node src/lib/main.js --advanced polarHeatmap "heat:0.5,0.8,1,2"
+```
+
+**Cumulative Average Plot:**
+
+```bash
+node src/lib/main.js --advanced cumulativeAverage "data:5,10,15,20"
+```
+
+Explore and combine these advanced plotting options to suit your complex visualization needs!
+
 ---
 
 ## Examples
