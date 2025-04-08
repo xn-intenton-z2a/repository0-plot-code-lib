@@ -1,58 +1,69 @@
 # CORE_ENGINE Feature Specification
 
 ## Description
-This feature refines and consolidates the core plotting engine by integrating advanced CLI plotting, a new web interface, an interactive wizard mode, and enhanced logging capabilities. It now supports multiple output formats for plots including SVG, JSON, CSV, Markdown, ASCII, and HTML. Through robust numeric parameter validation, diagnostics, and the new logging subsystem, the engine ensures high reliability, a unified user experience, and easier troubleshooting.
+This feature consolidates and refines the core plotting engine by merging diagnostics handling and numeric parameter validation into a unified module. It now integrates several key functionalities:
+
+- **Advanced Plotting:** Supports multiple output formats including SVG, JSON, CSV, Markdown, ASCII, and HTML, with dedicated routines for various plot types (e.g., spiral, polar heatmap, dual axis, box plot, etc.).
+- **Diagnostics Mode:** Activated with the `--diagnostics` flag, this mode runs self-tests and health checks (including parameter validation tests, advanced plotting dry-runs, and configuration verifications) and produces a detailed status report. This helps in rapid troubleshooting and ensures system integrity.
+- **Numeric Parameter Validation:** Extracts and refines logic to validate and convert colon-delimited, comma-separated numeric inputs. The module now treats 'NaN' (case-insensitive) as a valid token, converting it to native JavaScript `NaN`, while providing clear error messages for invalid tokens.
+- **Interactive Wizard Mode & Logging:** Incorporates an interactive CLI wizard (`--wizard` flag) for guided plot configuration and integrates a configurable logging subsystem with adjustable verbosity for real-time debugging and traceability.
+- **Web Interface Integration:** Provides an Express-based web server supporting plot generation via a user-friendly HTML form. The web interface allows users to select plot types, input parameters, choose export formats, and view logs.
 
 ## Motivation
-- **Enhanced Accessibility:** Offers diverse output formats and interactive options to meet varied user needs.
-- **Improved Usability:** Enables users to export plots directly in their desired format and guides them through an interactive wizard for plot configuration.
-- **Unified Experience:** Merges plotting, web interface interaction, diagnostics, and logging under a single cohesive module.
-- **Traceability & Debugging:** The new logging subsystem provides detailed runtime logs with configurable verbosity, aiding both users and developers in tracing execution flow and diagnosing issues.
+- **Unified Experience:** Merging diagnostics, validation, and plotting into a single module delivers a consistent CLI and web interface experience.
+- **Improved Reliability:** Enhanced numeric validation and integrated diagnostics ensure that both user inputs and system configurations are correct and robust.
+- **Better Troubleshooting:** The new diagnostics mode, coupled with detailed logging, allows rapid detection and resolution of issues across various subsystems.
+- **Maintainability:** Consolidating related functionality simplifies the codebase and future development, reducing redundancy and potential code conflicts.
 
 ## Implementation Details
-1. **Module Consolidation and Advanced Plotting:**
-   - Consolidate advanced plotting routines in `src/lib/advancedPlots.js` (currently inlined in `main.js`).
-   - Update `src/lib/main.js` to import these functionalities and handle the `--advanced` flag accordingly.
+1. **Module Consolidation:**
+   - Merge the diagnostic routines from the old DIAGNOSTICS feature and numeric validations from PARAM_VALIDATION into the core engine module.
+   - Update the CLI parser in `src/lib/main.js` to detect the following flags:
+     - `--advanced`: Trigger advanced plotting routines.
+     - `--diagnostics`: Execute comprehensive system health checks.
+     - `--wizard`: Initiate an interactive session for plot configuration.
+     - `--export <format>`: Specify the desired output format for plots.
 
-2. **Web Interface Integration:**
-   - Extend the Express-based web server (`src/web/app.js`) to support plot generation with export format selection via UI elements (e.g., a dropdown menu).
-   - Enhance the POST endpoint at `/plot` to process an additional parameter for the desired export format.
+2. **Numeric Parameter Handling:**
+   - Refactor numeric input parsing to split colon-delimited segments with comma-separated numbers.
+   - Convert valid numeric tokens to JavaScript numbers, treating 'NaN' (case-insensitive) as native `NaN` and rejecting empty or non-numeric tokens with explicit error messages.
 
-3. **Interactive Wizard Mode:**
-   - Introduce a CLI flag `--wizard` to launch an interactive session.
-   - Step-by-step guidance is provided to select plot type, input parameters (using the `paramValidation` module), and choose an export format.
+3. **Diagnostics Mode:**
+   - Implement self-test routines including parameter validation tests and advanced plotting dry-runs.
+   - Compile the results into a structured report displayed on the console and return appropriate summary status codes for CI/CD integration.
 
-4. **Export Options:**
-   - Support output formats including SVG, JSON, CSV, Markdown, ASCII, and HTML.
-   - For CLI usage, enable an `--export <format>` flag to specify the desired output type and transform the plot data accordingly.
+4. **Logging Subsystem and Interactive Wizard:**
+   - Integrate logging across all modules to record significant runtime events with timestamps and configurable log levels (e.g., INFO, DEBUG, ERROR).
+   - Develop an interactive CLI wizard mode to guide users through plot selection, parameter input (with validation), and export format decisions.
 
-5. **Logging Integration:**
-   - Integrate a lightweight logging subsystem to track and record significant events and errors across the engine.
-   - Implement logging with timestamps and configurable log levels (e.g., INFO, DEBUG, ERROR) via environment variables (like `LOG_LEVEL`).
-   - Replace scattered `console.log` calls with calls to the logging module to ensure consistency in log output.
+5. **Web Interface Enhancements:**
+   - Extend the Express-based server (`src/web/app.js`) to support advanced plotting through a dynamic HTML form.
+   - Incorporate backend validation and logging to ensure consistent behavior between CLI and web interactions.
 
-6. **CLI and Routing Updates:**
-   - Enhance the main CLI parser in `src/lib/main.js` to detect flags for advanced plotting, diagnostics, interactive wizard mode, export, and logging preferences.
-   - Validate and route commands to the appropriate sub-modules (plotting, wizard, diagnostics, and logging).
-
-7. **Testing and Documentation:**
-   - Add comprehensive unit tests to cover new logging behavior as well as its integration with plotting, diagnostics, and the web interface.
-   - Update the README and CONTRIBUTING documentation to include usage examples, logging configuration guidelines, and instructions for interpreting runtime logs.
+6. **Testing and Documentation:**
+   - Update tests to cover new diagnostics and numeric validation routines, along with interactive wizard operations and logging behavior.
+   - Revise the README and CONTRIBUTING documents to document new usage examples, including CLI invocations and web interface operations.
 
 ## Usage Examples
-- **CLI Advanced Plotting with Export Option and Logging:**
-  ```bash
-  node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1" --export SVG
-  ```
 
-- **Interactive Wizard Mode with Detailed Logging:**
-  ```bash
-  node src/lib/main.js --wizard
-  ```
+**CLI Advanced Plotting:**
+```bash
+node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1" --export SVG
+```
 
-- **Web Interface:**
-  1. Start the web server:
-     ```bash
-     npm run start:web
-     ```
-  2. Access the application at `http://localhost:3000` and use the provided UI to select plot types, input parameters, choose an export format, and view detailed logs if enabled.
+**Diagnostics Mode:**
+```bash
+node src/lib/main.js --diagnostics
+```
+
+**Interactive Wizard Mode:**
+```bash
+node src/lib/main.js --wizard
+```
+
+**Web Interface:**
+1. Start the web server:
+   ```bash
+   npm run start:web
+   ```
+2. Access the application at `http://localhost:3000` and use the form to generate plots.
