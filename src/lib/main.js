@@ -11,22 +11,20 @@ function errorExit(message) {
 }
 
 // Validate numeric parameters in arguments that are expected to contain comma-separated numbers.
-// This function checks each token that contains a comma across colon-delimited segments and if all parts are numbers.
+// This function checks each token that contains a comma across colon-delimited segments and
+// if all parts are valid numbers. If not, it provides a detailed error message indicating the
+// problematic token and its segment.
 function validateNumericInputs(arg) {
-  const tokens = arg.split(":");
-  tokens.forEach(token => {
-    if (token.includes(",")) {
-      const parts = token.split(",").map(p => p.trim());
-      // Only validate if all parts are non-empty
-      const allNumeric = parts.every(part => part !== "" && !isNaN(Number(part)));
-      if (!allNumeric) {
-        // Find which part is invalid
-        for (const part of parts) {
-          if (part === "" || isNaN(Number(part))) {
-            errorExit(`Error: Invalid numeric parameter '${part}' in argument '${arg}'.`);
-          }
+  const segments = arg.split(":");
+  segments.forEach(segment => {
+    if (segment.includes(",")) {
+      const parts = segment.split(",").map(p => p.trim());
+      parts.forEach(part => {
+        if (part === "" || isNaN(Number(part))) {
+          const explanation = part === "" ? "empty" : "not a valid number";
+          errorExit(`Error: Invalid numeric parameter '${part}' (${explanation}) in segment '${segment}' of argument '${arg}'.`);
         }
-      }
+      });
     }
   });
 }
