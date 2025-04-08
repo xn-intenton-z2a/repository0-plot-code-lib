@@ -4,89 +4,65 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
+import { parseArguments } from "./argumentParser.js";
 
 function errorExit(message) {
   console.error(message);
   process.exit(1);
 }
 
-// Validate numeric parameters in arguments that are expected to contain comma-separated numbers.
-// This function checks each token that contains a comma across colon-delimited segments and if all parts are numbers.
-function validateNumericInputs(arg) {
-  const tokens = arg.split(":");
-  tokens.forEach(token => {
-    if (token.includes(",")) {
-      const parts = token.split(",").map(p => p.trim());
-      // Only validate if all parts are non-empty
-      const allNumeric = parts.every(part => part !== "" && !isNaN(Number(part)));
-      if (!allNumeric) {
-        // Find which part is invalid
-        for (const part of parts) {
-          if (part === "" || isNaN(Number(part))) {
-            errorExit(`Error: Invalid numeric parameter '${part}' in argument '${arg}'.`);
-          }
-        }
-      }
-    }
-  });
-}
-
 export function main(args = []) {
-  // Check if the --advanced flag is provided
-  if (args.includes("--advanced")) {
-    const filteredArgs = args.filter(arg => arg !== "--advanced");
-    const [plotType, params] = filteredArgs;
-    switch (plotType) {
-      case "spiral":
-        console.log("Advanced Plot: Spiral");
-        advancedPlots.spiral(params);
-        break;
-      case "polarHeatmap":
-        console.log("Advanced Plot: Polar Heatmap");
-        advancedPlots.polarHeatmap(params);
-        break;
-      case "dualAxis":
-        console.log("Advanced Plot: Dual Axis");
-        advancedPlots.dualAxis(params);
-        break;
-      case "boxPlot":
-        console.log("Advanced Plot: Box Plot");
-        advancedPlots.boxPlot(params);
-        break;
-      case "violinPlot":
-        console.log("Advanced Plot: Violin Plot");
-        advancedPlots.violinPlot(params);
-        break;
-      case "cumulativeAverage":
-        console.log("Advanced Plot: Cumulative Average");
-        advancedPlots.cumulativeAverage(params);
-        break;
-      case "inverse":
-        console.log("Advanced Plot: Inverse Function");
-        advancedPlots.inverse(params);
-        break;
-      case "modulatedSine":
-        console.log("Advanced Plot: Modulated Sine");
-        advancedPlots.modulatedSine(params);
-        break;
-      case "extended3D":
-        console.log("Advanced Plot: Extended 3D Plot");
-        advancedPlots.extended3D(params);
-        break;
-      default:
-        errorExit("Error: Unknown advanced plot type.");
+  try {
+    const parsed = parseArguments(args);
+    if (parsed.advanced) {
+      const { plotType, params } = parsed;
+      switch (plotType) {
+        case "spiral":
+          console.log("Advanced Plot: Spiral");
+          advancedPlots.spiral(params);
+          break;
+        case "polarHeatmap":
+          console.log("Advanced Plot: Polar Heatmap");
+          advancedPlots.polarHeatmap(params);
+          break;
+        case "dualAxis":
+          console.log("Advanced Plot: Dual Axis");
+          advancedPlots.dualAxis(params);
+          break;
+        case "boxPlot":
+          console.log("Advanced Plot: Box Plot");
+          advancedPlots.boxPlot(params);
+          break;
+        case "violinPlot":
+          console.log("Advanced Plot: Violin Plot");
+          advancedPlots.violinPlot(params);
+          break;
+        case "cumulativeAverage":
+          console.log("Advanced Plot: Cumulative Average");
+          advancedPlots.cumulativeAverage(params);
+          break;
+        case "inverse":
+          console.log("Advanced Plot: Inverse Function");
+          advancedPlots.inverse(params);
+          break;
+        case "modulatedSine":
+          console.log("Advanced Plot: Modulated Sine");
+          advancedPlots.modulatedSine(params);
+          break;
+        case "extended3D":
+          console.log("Advanced Plot: Extended 3D Plot");
+          advancedPlots.extended3D(params);
+          break;
+        default:
+          errorExit("Error: Unknown advanced plot type.");
+      }
+    } else {
+      // For non-advanced mode, arguments have been validated
+      console.log(`Run with: ${JSON.stringify(parsed.args)}`);
     }
-    return;
+  } catch (error) {
+    errorExit(error.message);
   }
-
-  // Process each argument: if it contains a colon, check potential numeric tokens
-  args.forEach(arg => {
-    if (arg.includes(":")) {
-      validateNumericInputs(arg);
-    }
-  });
-
-  console.log(`Run with: ${JSON.stringify(args)}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
@@ -133,3 +109,46 @@ const advancedPlots = {
     console.log("Plotting extended 3D plot with params:", params);
   }
 };
+
+///////////////////////////////
+// File: src/lib/argumentParser.js
+///////////////////////////////
+// This module encapsulates the CLI argument parsing and numeric parameter validation.
+
+export function parseArguments(args) {
+  // Check for the advanced flag
+  if (args.includes("--advanced")) {
+    const filteredArgs = args.filter(arg => arg !== "--advanced");
+    if (filteredArgs.length < 2) {
+      throw new Error("Insufficient arguments for advanced plotting.");
+    }
+    const [plotType, params] = filteredArgs;
+    validateNumericInputs(params);
+    return { advanced: true, plotType, params };
+  } else {
+    // Validate numeric parameters in each argument that contains a colon
+    args.forEach(arg => {
+      if (arg.includes(":")) {
+        validateNumericInputs(arg);
+      }
+    });
+    return { advanced: false, args };
+  }
+}
+
+function validateNumericInputs(arg) {
+  const tokens = arg.split(":");
+  tokens.forEach(token => {
+    if (token.includes(",")) {
+      const parts = token.split(",").map(p => p.trim());
+      const allNumeric = parts.every(part => part !== "" && !isNaN(Number(part)));
+      if (!allNumeric) {
+        for (const part of parts) {
+          if (part === "" || isNaN(Number(part))) {
+            throw new Error(`Invalid numeric parameter '${part}' in argument '${arg}'.`);
+          }
+        }
+      }
+    }
+  });
+}
