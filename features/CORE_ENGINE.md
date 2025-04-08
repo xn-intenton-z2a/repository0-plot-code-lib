@@ -1,40 +1,36 @@
-# CORE_ENGINE Feature Specification
+# CORE_ENGINE Feature Specification (Updated)
 
 ## Description
-This feature unifies and streamlines the core functionalities of the plotting library. It consolidates CLI plotting, advanced numerical parameter validation, advanced plotting, data processing, and integrated web interface endpoints into a single, robust engine. This update also addresses maintainability improvements by extracting inlined advanced plotting implementations into a dedicated module, and ensuring that all parts of the system work together seamlessly.
+This feature unifies the core functionalities of the plotting library by integrating CLI plotting, numeric parameter validation (via the PARAM_VALIDATION module), and advanced plotting. In this update, advanced plotting implementations in the main CLI file will be extracted into a dedicated module (e.g., `src/lib/advancedPlots.js`) to improve maintainability, separation of concerns, and ease of testing. The updated engine continues to support both CLI and web interface endpoints.
 
 ## Motivation
-- **Streamlined Workflow:** Integrates formula parsing, parameter validation, advanced plotting, and data export into one cohesive engine.
-- **Maintainability:** Removing inlined advanced plotting code and consolidating core functionalities into discrete modules makes future enhancements easier.
-- **Enhanced User Experience:** Provides unified CLI and web interface interactions, ensuring consistency between different ways of using the library.
-- **Mission Alignment:** This upgrade reinforces our mission to be the go-to plot library by offering a single, highly maintainable, and fully-featured tool.
+- **Streamlined Workflow:** Centralizes all core operations (plotting, data processing, validation, and web endpoints) under one engine while clearly separating concerns.
+- **Maintainability:** Extracting inline advanced plotting implementations to a standalone module facilitates future enhancements, debugging, and contribution from the community.
+- **Enhanced User Experience:** Uniform error handling and consistent functionality across both CLI and web interfaces.
+- **Mission Alignment:** Reinforces our mission to be the go-to plot library by offering a robust, maintainable tool with clear module boundaries.
 
 ## Implementation Details
-1. **Unified CLI Operations & Integration:**
-   - Merge advanced plotting functionalities by moving inlined implementations from `src/lib/main.js` into a dedicated module (e.g., `src/lib/advancedPlots.js`).
-   - Update the CLI in `src/lib/main.js` to import advanced plotting functions from the new module instead of using inline definitions.
-   - Ensure that numeric parameter validation continues to be handled by the dedicated PARAM_VALIDATION module.
-   - Retain and further refactor the existing data processing and export capabilities from CSV, JSON, etc.
+1. **Advanced Plotting Extraction:**
+   - Create a new module, `src/lib/advancedPlots.js`, and move all advanced plotting functions (spiral, polarHeatmap, dualAxis, boxPlot, violinPlot, cumulativeAverage, inverse, modulatedSine, extended3D) from the inlined code in `src/lib/main.js` into this module.
+   - Refactor the advanced plotting implementations, ensuring they follow consistent logging and error reporting patterns.
 
-2. **Web Interface Enhancements:**
-   - Integrate and extend the pre-existing web endpoints (GET `/` for the interactive form and POST `/plot` for processing) within the unified engine.
-   - Ensure the Express web server is configured correctly for both basic interactions and advanced plot processing.
-   
-3. **Testing and Documentation:**
-   - Update and expand unit and integration tests to cover the newly extracted advanced plotting module and ensure smooth operation of both CLI and web functionalities.
-   - Revise the documentation in README and CONTRIBUTING files to reflect the new structure, including usage examples for both CLI and web endpoints.
+2. **CLI Integration:**
+   - Update `src/lib/main.js` to import the advanced plotting functions from `src/lib/advancedPlots.js` rather than using the inline definitions.
+   - Ensure that the CLI argument parsing correctly delegates to the new module based on the provided plot type and parameters.
+
+3. **Web Interface Enhancements:**
+   - Verify that the Express-based web endpoints (GET `/` and POST `/plot`) reference the updated core engine and advanced plotting module.
+   - Ensure that the integration between numeric parameter validation and advanced plotting remains seamless.
+
+4. **Testing and Documentation:**
+   - Expand unit and integration tests to cover the newly created advanced plotting module.
+   - Update documentation in the README and CONTRIBUTING files to reflect the new module structure and usage examples for both CLI and web endpoints.
+   - Provide clear migration guidelines for developers referencing the old inline implementations.
 
 ## Usage Examples
-- **CLI Example for Plotting a Formula:**
+- **CLI Example for Advanced Plotting:**
   ```bash
-  node src/lib/main.js --formula "sin(x)" --advanced spiral
+  node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
   ```
-
-- **CLI Example for Data Import and Analysis:**
-  ```bash
-  node src/lib/main.js --import data.csv --stats console --export SVG
-  ```
-
-- **Web Interface Example:**
-  - Start the server: `npm run start:web`
-  - Navigate to `http://localhost:3000` to access the unified interface for plotting and data export.
+- **Web Interface:**
+  - Start the web server using `npm run start:web` and navigate to `http://localhost:3000` to interact with the unified plotting engine.
