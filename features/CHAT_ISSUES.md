@@ -1,39 +1,40 @@
 # CHAT_ISSUES Feature Specification
 
 ## Description
-This feature integrates a Chat Completions API into the plotting tool to streamline the creation and refinement of GitHub issue drafts. Users can submit natural language prompts describing new functionalities, improvements, or bug reports, and the system will generate detailed issue templates. These templates include an actionable title, step-by-step implementation instructions, testing guidelines, and documentation updates. The process supports an iterative dialogue, enabling users to refine and finalize issues interactively.
+This feature integrates a Chat Completions API into the plotting tool to automatically generate well-structured GitHub issue drafts. Users can submit natural language prompts—describing new functionalities, improvements, or bug reports—and the system will produce actionable issue templates. These templates include a precise title, step-by-step implementation instructions, testing guidelines, and documentation updates. It supports an iterative dialogue that allows users to refine and finalize issues interactively.
 
 ## Motivation
-- **Streamlined Issue Management:** Automatically convert descriptive prompts into well-structured GitHub issues, reducing manual overhead.
-- **Iterative Refinement:** Allow users to interactively refine the generated issues, ensuring they meet repository standards and align with the project mission.
-- **Enhanced Documentation:** Integrate project context (from CONTRIBUTING.md and MISSION.md) into issue drafts to maintain consistency and clarity.
+- **Streamlined Issue Management:** Automates the creation of GitHub issues based on descriptive prompts, significantly reducing manual overhead while ensuring consistency with repository standards.
+- **Iterative Enhancement:** Facilitates a conversational workflow, allowing developers to incrementally refine the issue details until they accurately capture the intended changes.
+- **Mission Alignment:** Supports our mission of being the go-to plot library by integrating advanced, formula-driven visualisation tools with modern, AI-powered development workflows.
 
 ## Implementation Details
 1. **API Integration and Input Processing:**
-   - Introduce a CLI flag (e.g., `--chat`) and a dedicated web interface section for submitting natural language prompts.
-   - Sanitize and enrich user inputs with contextual information from core project documents.
+   - Introduce a CLI flag (e.g., `--chat`) and a dedicated section in the web interface for submitting natural language prompts.
+   - Sanitize user inputs and enrich them with contextual data extracted from the repository’s core documents (e.g., README, CONTRIBUTING, MISSION).
 
 2. **Chat Completions Engine:**
-   - Connect securely to the Chat Completions API using managed credentials.
-   - Parse the API responses to extract actionable GitHub issue drafts and present them in Markdown and JSON formats.
+   - Securely connect to the Chat Completions API using managed credentials, ensuring proper handling of API keys and rate limits.
+   - Parse API responses to extract structured issue data, including title, description, step-by-step implementation, testing advice, and recommended documentation changes.
+   - Log all API interactions to allow review and potential reversion of changes if necessary.
 
 3. **Iterative Dialogue and Customization:**
-   - Support follow-up prompts to refine issue titles, descriptions, and metadata (labels, priorities, etc.).
-   - Log all interactions to allow users to review and revert changes if necessary.
+   - Enable follow-up prompts to further refine the generated issues on parameters such as issue labels, priorities, and additional metadata.
+   - Support interactive editing in both the CLI output and the web interface, allowing users to adjust any aspect of the issue before final submission.
 
 4. **CLI and Web Interface Enhancements:**
-   - For the CLI, output generated issue drafts directly to the terminal with options for immediate editing.
-   - In the web interface, provide an interactive editor where users can adjust the issue details before final submission.
+   - For CLI interactions, display generated issue drafts in the terminal with options for immediate editing or saving as a JSON/Markdown file.
+   - In the web interface, provide an interactive editor that includes inline help and tooltips, making it easy for users to modify the draft before submission to GitHub.
 
 5. **Testing and Documentation:**
-   - Develop comprehensive unit and integration tests to simulate various natural language inputs and verify that generated issues conform to repository standards.
-   - Update the README and CONTRIBUTING documentation with clear usage examples and troubleshooting guidelines.
+   - Develop comprehensive tests to simulate various input scenarios and ensure that the generated issues adhere to repository and community standards.
+   - Update the README and CONTRIBUTING documents with clear examples and guidelines on how to use the CHAT_ISSUES feature.
 
 ## Usage
 - **CLI Example:**
   ```bash
   node src/lib/main.js --chat "Add support for real-time data filtering with interactive legends."
   ```
-
 - **Web Interface Example:**
-   - Navigate to the chat issue generation section, input your descriptive prompt, and interactively refine the generated GitHub issue draft before submission.
+   - Navigate to the chat issue generation section in the web UI.
+   - Input your descriptive prompt and interactively refine the generated GitHub issue draft before submission.
