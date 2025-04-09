@@ -7,8 +7,11 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module with consolidated and optimized regex-based validation. Both the CLI and the web interface use this logic to:
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set.
+
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
-3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that explicitly states the token is invalid and lists the acceptable alternatives.
+
+3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the acceptable alternatives.
+
 4. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
 Additionally, debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
@@ -129,7 +132,7 @@ This feature ensures that numeric validation can adapt to various regional forma
 
 - Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
 - Various representations of NaN (default or localized) are accepted and converted to the string "NaN" to ensure a consistent interface.
-- Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and lists the acceptable alternatives.
+- Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and provides suggestions.
 - Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
 - The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.

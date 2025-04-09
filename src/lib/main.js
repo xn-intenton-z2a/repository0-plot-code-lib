@@ -24,16 +24,18 @@ function getAcceptedNaNAliases() {
     if (process.env.LOCALE_NAN_ALIASES) {
       const parsed = JSON.parse(process.env.LOCALE_NAN_ALIASES);
       if (Array.isArray(parsed)) {
+        // Normalize and return as a set
         return new Set(parsed.map(token => token.toLowerCase().replace(/\s+/g, ' ').trim()));
       }
     }
   } catch (e) {
-    // ignore error and fallback to default
+    // Ignore error and fallback to default
   }
   return new Set(defaultNaNAliases);
 }
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
+// Enhanced to ensure unified handling of NaN aliases and improved error messaging for near-miss tokens.
 function parseNumericParams(paramStr) {
   const acceptedNaNAliases = getAcceptedNaNAliases();
   const tokens = paramStr.split(",");
@@ -50,9 +52,9 @@ function parseNumericParams(paramStr) {
     // Normalize token for consistent alias checking
     const normToken = trimmed.toLowerCase().replace(/\s+/g, ' ').trim();
 
-    // Reject near-miss tokens like "n/a"
+    // Reject near-miss tokens like "n/a" with a clear suggestion
     if (normToken === "n/a") {
-      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")}?`);
+      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")} ?`);
     }
 
     if (acceptedNaNAliases.has(normToken)) {
