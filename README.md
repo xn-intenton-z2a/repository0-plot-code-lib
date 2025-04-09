@@ -4,14 +4,14 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Enhanced Numeric Parameter Validation
 
-This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with optimized regex-based validation. Both the CLI and the web interface use this logic to:
+This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module with consolidated and optimized regex-based validation. Both the CLI and the web interface use this logic to:
 
-1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set.
+1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set.
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
 3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that explicitly states the token is invalid and lists the acceptable alternatives.
 4. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
-This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN and properly handle trailing commas in numeric inputs.
+Additionally, debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
 
 ## Debug Logging for Numeric Conversion
 
@@ -87,7 +87,7 @@ node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
 **Expected Console Output:**
 
 ```
-Run with: ["quad", [1, 2.14e-3, "NaN", -350]]
+Run with: ["quad", [1, 0.00214, "NaN", -350]]
 ```
 
 ### Web Interface Usage

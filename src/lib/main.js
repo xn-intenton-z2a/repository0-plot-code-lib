@@ -33,29 +33,29 @@ function getAcceptedNaNAliases() {
   return new Set(defaultNaNAliases);
 }
 
-// Optimized implementation of numeric parameter conversion utility.
+// Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
 function parseNumericParams(paramStr) {
   const acceptedNaNAliases = getAcceptedNaNAliases();
   const tokens = paramStr.split(",");
   const result = [];
-  
+
   // Regex for valid numeric values: integer, decimal or scientific notation.
   const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
-  
+
   for (const token of tokens) {
     const trimmed = token.trim();
-    // Skip empty tokens
+    // Skip empty tokens (including those from trailing or consecutive commas)
     if (trimmed === "") continue;
-    
-    const lowerToken = trimmed.toLowerCase();
-    // Check for near-miss tokens such as "n/a" by removing all spaces
-    if (lowerToken.replace(/\s/g, '') === "n/a") {
+
+    // Normalize token for consistent alias checking
+    const normToken = trimmed.toLowerCase().replace(/\s+/g, ' ').trim();
+
+    // Reject near-miss tokens like "n/a"
+    if (normToken === "n/a") {
       errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")}?`);
     }
-    
-    // Normalize token for alias checking by replacing multiple spaces with a single space
-    const normalizedAlias = lowerToken.replace(/\s+/g, ' ').trim();
-    if (acceptedNaNAliases.has(normalizedAlias)) {
+
+    if (acceptedNaNAliases.has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
         console.debug(`Normalized token '${trimmed}' to "NaN"`);
       }
