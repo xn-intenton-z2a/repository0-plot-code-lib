@@ -1,61 +1,43 @@
 # PLOT_ENGINE
 
 ## Overview
-
-The PLOT_ENGINE is the core plotting module of the repository, responsible for converting a wide range of mathematical functions into visual plots. It supports multiple modes of operation including command-line, interactive REPL, and a web-based interface. In addition to the traditional functionalities such as generating quadratic, linear, sine, cosine, exponential, and logarithmic plots, the PLOT_ENGINE now incorporates advanced statistical visualization and interactive plotting capabilities to enhance user experience and analytical insights.
+The PLOT_ENGINE is the core plotting module of the repository. It is responsible for converting a wide range of mathematical functions into visual plots across multiple modes of operation including command-line, interactive REPL, and a web-based interface. Building upon its comprehensive plotting capabilities, this update introduces enhanced input validation to ensure robust, user-friendly experiences and to provide more detailed diagnostic feedback when formulas or parameters are incorrect.
 
 ## Key Objectives
-
-- **Comprehensive Plot Generation:** Support for standard mathematical functions and extended plot types including tangent, polar, parametric, inverse function plots, cumulative averages, gradient visualizations, box plots, and violin plots.
-- **Multi-Modal Operation:** Enable plot generation through direct CLI commands, an enhanced interactive REPL for real-time formula input and evaluation, and an Express-based web interface.
-- **Advanced Data Analysis:** Incorporate analytical methods such as area under the curve calculation, derivative estimation via finite differences, and additional statistical metrics.
-- **Robust Error Handling & Diagnostics:** Consistent logging and error diagnostics to aid in troubleshooting and ensuring stable operation across all modes.
+- **Comprehensive Plot Generation:** Support existing plot types (quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic and more) while ensuring consistent parsing and visualization.
+- **Enhanced Input Validation:** Implement advanced parsing and error detection for mathematical formula inputs across all modes. Feedback will be provided in realtime within the interactive CLI and for batch or web requests.
+- **Multi-Modal Operation:** Maintain seamless plot generation via CLI commands, an interactive REPL, and an Express-based web interface.
+- **Robust Error Handling & Diagnostics:** Augment existing error logging with detailed validation diagnostics to guide the user in correcting formula syntax errors and parameter mistakes.
 
 ## Design & Implementation
+### Input Validation Enhancements
+- **Validation Module:** Integrate a dedicated input validation layer that leverages the mathjs library for syntax checking and safe evaluation of mathematical expressions.
+- **Error Messages:** When an input error is detected, provide clear, actionable error messages that explain the issue and suggest corrective measures.
+- **Real-time Checks in REPL:** Enhance the interactive REPL to validate user inputs on-the-fly and display immediate feedback before attempting to generate a plot.
 
 ### CLI and File-based Plot Generation
-
-- **Command-line Arguments:** The first argument specifies the output type (e.g., file or specific format), and subsequent arguments provide the plot specification (e.g., formula and range). Additional flags such as `--help` display usage instructions.
-- **Formula Evaluation:** Utilizes the mathjs library for precise computation over defined ranges, followed by constructing visual outputs in multiple formats such as SVG, ASCII, CSV, JSON, Markdown, and HTML.
-
-### Enhanced Interactive REPL
-
-- **Interactive Mode Revamp:** Upgraded interactive mode now functions as a full-fledged REPL that prompts the user for input, evaluates mathematical expressions in real-time, and displays immediate plot previews or analytical summaries.
-- **Real-time Feedback:** Users receive instantaneous confirmation of parsed formulas and can iteratively refine their input with dynamic error checking and suggestions, enriching the user experience.
-- **Seamless Integration:** The REPL seamlessly ties into the underlying plotting engine, ensuring that all CLI functionalities (e.g., alias resolution and diagnostic logging) are maintained.
+- **Command-line Parsing:** Continue to support the usage of command-line arguments for specifying output types and plot formulations. Now integrated with robust checking to intercept invalid inputs early.
+- **Diagnostic Logging:** Update logging mechanisms to output specific details when invalid formulas or unsupported parameters are detected.
 
 ### Web Interface
-
-- **Express-based Endpoint:** Implements an HTTP API endpoint that allows clients to request plots dynamically using standard query parameters, facilitating integration with web applications and further automation.
-- **Scalable Deployment:** Designed to operate in both development and production environments with minimal configuration through environment variables.
+- **Endpoint Validation:** The HTTP API endpoint will incorporate input validation logic to handle query parameter errors gracefully, returning JSON descriptions of any input issues.
 
 ### Testing & Quality Assurance
-
-- **Comprehensive Unit Testing:** Utilizes vitest to cover all aspects of plot generation, REPL interactions, HTTP request handling, and error diagnostics.
-- **Integration with NAN_HANDLER:** Maintains the consistency and configurability provided by the NAN_HANDLER for alias resolution, ensuring valid numerical handling throughout plot computations.
+- **Unit Tests:** Extend the existing vitest coverage to include tests for the new validation routines, ensuring that both valid and invalid inputs are handled correctly.
+- **Integration Tests:** Validate that enhanced error diagnostics work across interactive, CLI, and web interface modes.
 
 ## Usage
+- **CLI Quickstart:**
+  ```bash
+  node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
+  ```
+- **Interactive Mode:**
+  ```bash
+  node src/lib/main.js --interactive
+  ```
+- **Web Interface:**
+  ```bash
+  node src/lib/main.js --serve
+  ```
 
-### CLI Quickstart
-
-```bash
-node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
-```
-
-### Enhanced Interactive REPL
-
-```bash
-node src/lib/main.js --interactive
-```
-
-- The REPL will prompt for formulas interactively and provide immediate textual or visual feedback.
-
-### Web Interface
-
-```bash
-node src/lib/main.js --serve
-```
-
-- Access the web interface at http://localhost:3000 to generate plots via HTTP requests.
-
-By enhancing the PLOT_ENGINE with an interactive REPL along with extended plotting capabilities and detailed error diagnostics, the repository continues to fulfill its mission of being the go-to tool for formula visualisations.
+This updated PLOT_ENGINE ensures that users can rely on clear guidance and robust error handling across all input methods, further solidifying the repository's role as the go-to tool for formula visualisations.
