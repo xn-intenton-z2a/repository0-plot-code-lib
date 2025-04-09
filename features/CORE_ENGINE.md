@@ -1,48 +1,49 @@
 # CORE_ENGINE
 
 ## Overview
-The CORE_ENGINE is the backbone of our plotting library. It not only manages advanced plotting functions such as spiral, polarHeatmap, dualAxis, and more, but also now robustly handles numeric parameter validation, interactive CLI wizard operations, and system diagnostics. This integration ensures that numeric inputs are safely and consistently converted using features like Unicode normalization and caching of NaN aliases.
-
-## Motivation
-- **Unified Experience:** Bring advanced plotting, precise numeric parameter validation, plugin integration, and diagnostics into one cohesive engine.
-- **Improved Reliability:** Ensure all numeric inputs are processed with rigorous validation using a well-defined set of accepted NaN aliases (e.g., "nan", "not a number", "notanumber", "na", "not-a-number") and locale-specific configurations.
-- **User Guidance:** Provide an interactive CLI wizard to guide users through plot configuration, along with a diagnostics mode for error-checking and system configuration review.
+The CORE_ENGINE is the backbone of our plotting library. It manages advanced plotting functions (such as spiral, polarHeatmap, dualAxis, boxPlot, violinPlot, cumulativeAverage, inverse, modulatedSine, extended3D, testPlot, contourPlot, scatterMatrix), robust numeric parameter validation, interactive CLI wizard operations, and system diagnostics. It seamlessly integrates with the plugin system to offer dynamic plot extensions and is aligned with our mission to be the go-to plot library for formulae visualisations.
 
 ## Numeric Parameter Validation
-- **Consolidated Validation:** Utilizes a dedicated utility within the CORE_ENGINE to parse numeric parameters. The utility applies a strict regex for integer, decimal, and scientific notation values.
-- **NaN Handling:** Automatically converts any token matching the accepted NaN aliases to the native JavaScript NaN. The system supports locale-specific aliases via the `LOCALE_NAN_ALIASES` environment variable, with caching applied when no locale customization is provided.
-- **Error Messaging:** Provides clear error messages if malformed inputs or near-miss tokens (e.g., "n/a") are detected, suggesting the accepted tokens.
-- **Integration:** This validation mechanism is used uniformly across both CLI and WEB_API inputs, ensuring consistency across the repository.
+- **Consolidated Validation:** Uses a dedicated utility to parse numeric parameters. The regex validates integer, decimal, and scientific notation values.
+- **NaN Handling:** Converts tokens matching accepted NaN aliases (by default: "nan", "not a number", "notanumber", "na", "not-a-number") into native NaN values. Locale-specific aliases can be provided using the `LOCALE_NAN_ALIASES` environment variable.
+- **Normalization & Caching:** Applies lower-casing, Unicode NFC normalization, and whitespace trimming to ensure consistent token processing. Caching accelerates repeated lookups when no locale customization is provided.
+- **Error Messaging:** Provides detailed error messages for malformed inputs, including near-miss tokens like "n/a" with suggestion notes.
 
-## Interactive CLI Wizard
-- **Guided Workflow:** When triggered with the `--wizard` flag, the CLI presents a step-by-step interface that helps users choose the plot type, enter numeric parameters with inline validation, and optionally select plugins.
-- **Validation Integration:** The wizard leverages the numeric parameter utility to ensure all inputs meet strict standards, incorporating detailed real-time feedback when errors are detected.
-- **User Flexibility:** Users can confirm or cancel the configuration, reverting to defaults if needed.
+## Interactive CLI Wizard & Diagnostics Mode
+- **CLI Wizard:** Triggered with the `--wizard` flag, it guides users through plot configuration while providing real-time numeric validation feedback.
+- **Diagnostics Mode:** Activated with the `--diagnostics` flag, it outputs system diagnostics including numeric configuration, environment variables (e.g., `LOCALE_NAN_ALIASES`, `DEBUG_NUMERIC`), and plugin status information for troubleshooting.
 
-## Diagnostics Mode
-- **Comprehensive Diagnostics:** Activated using the `--diagnostics` flag, this mode displays detailed system diagnostics including current numeric configuration, environment variables (like `LOCALE_NAN_ALIASES` and `DEBUG_NUMERIC`), and plugin status information.
-- **Self-Check Capabilities:** Performs a self-check on numeric conversion utilities to verify that accepted aliases are applied correctly, and that caching is operational to optimize performance.
-- **Troubleshooting Support:** Provides clear logging for any issues encountered during numeric conversion or plugin integration, making it easier for developers and users to diagnose problems.
+## Integration with Plugins and Web API
+- **Plugin Integration:** The engine loads and manages plugins that can extend or modify plotting behavior. Plugin status is displayed in both the CLI wizard and diagnostics mode.
+- **Web API Re-use:** Shares utilities such as numeric validation and error handling with the unified WEB_API to ensure a consistent experience across CLI and web interactions.
 
-## Integration with Other Components
-- **Plugin System:** Seamlessly integrates with the PLUGIN_SYSTEM, so that any dynamic extensions can contribute to both interactive plotting and diagnostics reports.
-- **Web API:** Shares common utilities (numeric validation, error handling) with the WEB_API, ensuring consistency throughout CLI and web-based interactions.
+## Formula Parsing
+In response to user needs for more dynamic formula input, the CORE_ENGINE now incorporates a formula parsing module:
 
-## Usage Examples
+### Overview
+- **Purpose:** Allows users to input mathematical formulae (e.g., "sin(x)", "x^2 + 3x + 2") directly, which are then parsed to generate parameters or configuration required by the plotting functions.
+- **Mission Alignment:** This enhancement directly supports our mission of providing formulae visualisations by enabling users to convert algebraic expressions into meaningful plot data.
 
-**Running the Interactive CLI Wizard:**
+### Implementation Details
+- **Parser Integration:** Utilizes the `mathjs` library to parse and evaluate mathematical expressions.
+- **Command-line Flag:** A new flag `--formula` can be introduced, accepting a formula string. The parser then extracts parameters such as coefficients, function type, or range values to streamline plot setup.
+- **Error Handling:** Built-in error detection for malformed formulae with detailed messaging to guide users in correcting input errors.
+- **Interoperability:** The parsed output integrates seamlessly with existing numeric parameter handling, allowing further refinements and validations as needed.
+
+### Usage Examples
+- **CLI Example:** 
 ```bash
-node src/lib/main.js --wizard
+node src/lib/main.js --formula "sin(x)" 
 ```
+This will parse the trigonometric formula, determine appropriate parameter ranges, and provide a prompt for further plot customization.
 
-**Running Advanced Plot Types with Validation:**
-```bash
-node src/lib/main.js --advanced contourPlot "1, NaN, 5, -10, 10, 1"
-```
+- **Combined Usage:** Users can mix formula input with explicit numeric parameters for complex plotting scenarios (e.g., combining a parsed quadratic formula with advanced plot templates).
 
-**Viewing Diagnostics Information:**
-```bash
-node src/lib/main.js --diagnostics
-```
+## Testing & Documentation
+- **Test Coverage:** Unit tests and integration tests are updated to cover formula parsing scenarios, ensuring robust error handling and accurate parameter extraction.
+- **Documentation Updates:** README and CONTRIBUTING guides now include sections on how to use and extend formula parsing, with examples provided for both CLI and web interactions.
 
-This comprehensive CORE_ENGINE update not only bolsters the plotting capabilities but also embeds robust input validation and diagnostic support, reinforcing our mission to be the go-to plot library for formulae visualisations.
+## Benefits
+- **Ease of Use:** Users can quickly transition from mathematical expressions to visual plots without manual conversion of parameters.
+- **Error Reduction:** Automated parsing reduces manual input errors when configuring advanced plots.
+- **Enhanced Flexibility:** Supports a broader range of plotting scenarios by allowing dynamic, text-based configuration of plot parameters.
