@@ -25,13 +25,14 @@
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
 <p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
 <h2 class="md-github"><a class="md-github__anchor" name="enhanced-numeric-parameter-validation" href="#enhanced-numeric-parameter-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Numeric Parameter Validation</h2>
-<p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with enhanced regex-based validation. Both the CLI and the web interface use this logic to:</p>
+<p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with optimized regex-based validation. Both the CLI and the web interface use this logic to:</p>
 <ol class="md-github">
 <li class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: &quot;not a number&quot;, &quot;notanumber&quot;, and &quot;na&quot;.</li>
 <li class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string &quot;NaN&quot; for a unified representation across advanced and non-advanced modes.</li>
 <li class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now produce an error message suggesting the accepted alternatives.</li>
+<li class="md-github">Gracefully ignore empty tokens resulting from optional trailing or extra commas, enhancing usability without compromising strict validation of numeric inputs.</li>
 </ol>
-<p class="md-github">This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN.</p>
+<p class="md-github">This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN and properly handle trailing commas in numeric inputs.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="debug-logging-for-numeric-conversion" href="#debug-logging-for-numeric-conversion"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debug Logging for Numeric Conversion</h2>
 <p class="md-github">Developers can enable debug logging to trace when NaN aliases are normalized. Set the environment variable <code class="md-github">DEBUG_NUMERIC</code> to any truthy value to activate detailed logging. For example:</p>
 <pre class="md-github"><code class="md-github language-bash">export DEBUG_NUMERIC=true
@@ -42,9 +43,9 @@ node src/lib/main.js &quot;quad: 1 , na, 5&quot;
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
-<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, and various NaN aliases):</p>
+<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, various NaN aliases, and trailing commas):</p>
 <pre class="md-github"><code class="md-github language-bash"># Example with advanced plotting using the --advanced flag
-node src/lib/main.js --advanced testPlot &quot; 1, NaN , 5, -10, 10, 1&quot;
+node src/lib/main.js --advanced testPlot &quot; 1, NaN , 5, -10, 10, 1,&quot;
 </code></pre>
 <p class="md-github"><strong class="md-github">Expected Console Output:</strong></p>
 <pre class="md-github"><code class="md-github">Advanced Plot: Test Plot
@@ -96,6 +97,7 @@ Plotting scatter matrix with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 <li class="md-github">Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., <code class="md-github">1e4</code>, <code class="md-github">2.14e-3</code>, <code class="md-github">-3.5E+2</code>).</li>
 <li class="md-github">Various representations of NaN (&quot;NaN&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;) are accepted and converted to the string &quot;NaN&quot; to ensure a consistent interface.</li>
 <li class="md-github">Near-miss tokens like &quot;n/a&quot; now trigger an error message with suggestions for the accepted tokens.</li>
+<li class="md-github">Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.</li>
 <li class="md-github">Debug logging can be enabled via <code class="md-github">DEBUG_NUMERIC</code> to track NaN normalization.</li>
 <li class="md-github">The CLI and web interface now provide a unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.</li>
 </ul>
@@ -104,7 +106,7 @@ Plotting scatter matrix with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T01:32:01.913Z</p>
+    <p>Generated on 2025-04-09T02:11:03.602Z</p>
   </footer>
 </body>
 </html>

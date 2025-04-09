@@ -1,19 +1,26 @@
 {
   "openIssues": 53,
-  "issuesClosedLastHour": 6,
+  "issuesClosedLastHour": 4,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Enhance parseNumericParams to ignore empty tokens from trailing or consecutive commas. (fixes #1223)",
-      "ageMinutes": 19
-    }
-  ],
-  "diffMinutes": 19,
-  "diffMinutesMain": 19,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 13,
+  "diffMinutesMain": 13,
   "commitsLastHour": 4,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "01:57",
+      "message": "Maintain CORE_ENGINE"
+    },
+    {
+      "time": "01:55",
+      "message": "Refactored numeric parameter parsing to use optimized regex sepa..."
+    },
+    {
+      "time": "01:37",
+      "message": "Enhance parseNumericParams to ignore empty tokens from trailing ..."
+    },
     {
       "time": "01:12",
       "message": "Maintain CORE_ENGINE"
@@ -21,31 +28,14 @@
     {
       "time": "00:59",
       "message": "Added scatterMatrix advanced plot functionality with tests and u..."
-    },
-    {
-      "time": "00:39",
-      "message": "Improve error messaging for near-miss NaN tokens e.g. na in nume..."
-    },
-    {
-      "time": "00:32",
-      "message": "Added advanced contour plot feature with corresponding tests and..."
-    },
-    {
-      "time": "00:18",
-      "message": "Maintain JSON_API"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1223",
-        "minutesSinceLastCommit": 20
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 19,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T01:31:52.252Z"
+  "generatedAt": "2025-04-09T02:10:52.278Z"
 }
