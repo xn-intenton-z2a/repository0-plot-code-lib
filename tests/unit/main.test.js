@@ -279,3 +279,27 @@ describe("Locale-Specific Number Formatting", () => {
     delete process.env.NUMERIC_LOCALE;
   });
 });
+
+// New Test Suite for Strict NaN Mode
+
+describe("Strict NaN Mode", () => {
+  test("should accept only canonical 'NaN' token when strict mode enabled", () => {
+    process.env.STRICT_NAN_MODE = "true";
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad: 1, NaN, 5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    logSpy.mockRestore();
+    delete process.env.STRICT_NAN_MODE;
+  });
+
+  test("should reject alternative NaN alias when strict mode is enabled", () => {
+    process.env.STRICT_NAN_MODE = "true";
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    expect(() => main(["quad: 1, na, 5"])).toThrow(/process.exit: 1/);
+    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("Invalid numeric parameter 'na'"));
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+    delete process.env.STRICT_NAN_MODE;
+  });
+});
