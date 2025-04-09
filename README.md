@@ -15,7 +15,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
    Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases." When the environment variable `LOCALE_NAN_OVERRIDE` is set (to any truthy value), only the provided aliases will be used.
 
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`). Tokens that are near-misses (for example, "n/a") are strictly rejected with a clear error message detailing the accepted tokens.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`). Tokens that are near-misses (for example, "n/a") are strictly rejected with a clear error message detailing the accepted tokens (provided in sorted order).
 
 3. Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, particularly for locale-specific NaN aliases.
 
