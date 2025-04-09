@@ -1,14 +1,23 @@
 {
-  "openIssues": 90,
+  "openIssues": 92,
   "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 8,
-  "diffMinutesMain": 8,
-  "commitsLastHour": 6,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Fixed syntax error in the main.js file removed newline in the string literal for the violinPlot function and ensured all file contents are properly updated. (fixes #1298)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 0,
+  "diffMinutesMain": 5,
+  "commitsLastHour": 7,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:13",
+      "message": "Maintain CORE_ENGINE"
+    },
     {
       "time": "06:59",
       "message": "Refactored parseNumericParams to use Zod schema validation for e..."
@@ -24,18 +33,19 @@
     {
       "time": "06:49",
       "message": "Fixed main argument parsing to properly split colon-separated to..."
-    },
-    {
-      "time": "06:39",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1298",
+        "minutesSinceLastCommit": 0
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T07:08:31.931Z"
+  "generatedAt": "2025-04-09T07:18:37.811Z"
 }
