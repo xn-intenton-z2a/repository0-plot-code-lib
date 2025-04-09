@@ -10,19 +10,15 @@ This release includes improvements in numeric parameter handling. The core numer
 
 2. Optionally, users can completely override the default NaN aliases by setting the environment variable `LOCALE_NAN_OVERRIDE` to a truthy value. When set, the parser will use only the aliases specified in `LOCALE_NAN_ALIASES` without merging them with the default list.
 
-3. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`).
+3. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`). Tokens that are near-misses (for example, "n/a") are strictly rejected with a clear error message suggesting the correct accepted tokens.
 
 4. Process all tokens using a unified normalization function that now applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures that both precomposed and decomposed Unicode forms are treated as equivalent, enhancing consistency when handling locale-specific NaN aliases.
 
-5. Process numeric parameters by splitting on commas, semicolons, or whitespace as appropriate, without compromising strict validation of numeric inputs.
+5. Process numeric parameters by splitting on commas, semicolons, or whitespace as appropriate, without compromising strict validation of numeric inputs. Extra delimiters, trailing commas, and multiple consecutive separators are gracefully ignored.
 
-6. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases. The integration of Zod helps standardize and simplify this validation logic.
+6. Provide detailed error messages when encountering invalid numeric inputs. The integration of Zod standardizes and simplifies this validation logic.
 
-7. Gracefully ignore empty tokens resulting from extra delimiters (including trailing delimiters and multiple consecutive commas, semicolons, or spaces), enhancing usability.
-
-8. Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.
-
-9. New Feature: JSON-Based Parameter Configuration
+7. New Feature: JSON-Based Parameter Configuration
 
 Advanced plot functions now also accept a JSON configuration for more complex parameter setups. When using the `--advanced` flag (or in colon-separated non-advanced mode), if the parameter string starts with a `{` and ends with a `}`, it will be parsed as JSON. This allows you to pass additional options such as labels, colors, and other plot options. For example:
 
@@ -129,8 +125,8 @@ node src/lib/main.js "chart:{\"data\": [10, 20, 30], \"label\": \"Test\"}"
 **Expected Console Output:**
 
 ```
-Run with: [["quad", [1,NaN,5,-10,10]]]
-Run with: [["chart", { data: [10,20,30], label: "Test" }]]
+Run with: [["quad", [1, NaN, 5, -10, 10]]]
+Run with: [["chart", { data: [10, 20, 30], label: "Test" }]]
 ```
 
 (Note: When using JSON.stringify, native NaN values are serialized as null.)
