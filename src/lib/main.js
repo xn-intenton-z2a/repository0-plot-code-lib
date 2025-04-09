@@ -70,20 +70,21 @@ function parseNumericParams(paramStr, errorHandler) {
 
   // Zod schema for validating and transforming each token
   const tokenSchema = z.string().transform(token => {
-    const normToken = normalizeAlias(token);
+    const trimmedToken = token.trim();
+    const normToken = normalizeAlias(trimmedToken);
     if (normToken === "n/a") {
-      throw new Error(`Invalid numeric parameter '${token.trim()}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
+      throw new Error(`Invalid numeric parameter '${trimmedToken}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
     }
     if (getAcceptedNaNAliases().has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
-        console.debug(`Normalized token '${token.trim()}' to native NaN`);
+        console.debug(`Normalized token '${trimmedToken}' to native NaN`);
       }
       return Number.NaN;
     }
-    if (numericRegex.test(token.trim())) {
-      return Number(token.trim());
+    if (numericRegex.test(trimmedToken)) {
+      return Number(trimmedToken);
     }
-    throw new Error(`Invalid numeric parameter '${token.trim()}'`);
+    throw new Error(`Invalid numeric parameter '${trimmedToken}'`);
   });
 
   for (const token of tokens) {
