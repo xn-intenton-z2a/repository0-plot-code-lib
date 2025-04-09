@@ -97,6 +97,10 @@ export function main(args = []) {
         console.log("Advanced Plot: Contour Plot");
         advancedPlots.contourPlot(parsedParams);
         break;
+      case "scatterMatrix":
+        console.log("Advanced Plot: Scatter Matrix");
+        advancedPlots.scatterMatrix(parsedParams);
+        break;
       default:
         errorExit("Error: Unknown advanced plot type.");
     }
@@ -159,6 +163,9 @@ const advancedPlots = {
   },
   contourPlot: function(params) {
     console.log("Plotting contour plot with params:", params);
+  },
+  scatterMatrix: function(params) {
+    console.log("Plotting scatter matrix with params:", params);
   }
 };
 
