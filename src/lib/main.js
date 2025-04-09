@@ -103,8 +103,7 @@ const advancedPlots = {
     console.log("Plotting box plot with params:", params);
   },
   violinPlot: function (params) {
-    console.log("Plotting violin plot with params:
-", params);
+    console.log("Plotting violin plot with params:", params);
   },
   cumulativeAverage: function (params) {
     console.log("Plotting cumulative average with params:", params);
