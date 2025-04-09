@@ -1,38 +1,71 @@
 # JSON_API Feature Specification
 
 ## Overview
-The JSON_API feature introduces a RESTful JSON interface to the plotting library. In addition to the existing CLI and HTML-based web interactions, this feature enables programmatic access for generating plots, evaluating formulas, and retrieving diagnostics information via JSON payloads. This extension supports seamless integration with automated workflows, dashboards, and CI/CD pipelines.
+The JSON_API feature introduces a RESTful JSON interface to the plotting library. In addition to the existing CLI and HTML-based web interactions, this feature enables programmatic access for generating plots, evaluating formulas, retrieving diagnostics information, and managing user-oriented data (like configuration and history) via JSON payloads. This extension supports seamless integration with automated workflows, dashboards, and CI/CD pipelines, aligning with our mission to be the go-to plot library for formulae visualisations.
 
-## Description
-- **Endpoint Exposure:**
-  - Adds a new HTTP API endpoint (e.g., POST `/api/plot`) on the existing Express server.
-  - Accepts JSON payloads defining the plot command, parameters, and optional formula expressions.
-- **Command Dispatching:**
-  - Supports advanced plotting commands, diagnostics, and formula evaluations (the latter merged from the former FORMULA_ENGINE feature).
-  - Delegates processing to the unified CORE_ENGINE logic which now includes all formula evaluation capabilities.
-- **Input Validation and Error Handling:**
-  - Validates incoming JSON requests to ensure proper command types and numeric parameters (using the robust, regex-based numeric parameter validation already in place).
-  - Returns descriptive error responses as JSON when the input is malformed or unsupported.
-- **Unified Response Structure:**
-  - Provides a standardized response including a `success` flag, result data (such as plot details or evaluated data points), and metadata (timestamp, execution details).
-- **Usage Examples:**
-  - Detailed examples in the documentation (README.md) and CONTRIBUTING.md will guide developers on crafting proper JSON requests (using cURL or HTTP libraries) and interpreting responses.
+## Endpoints and Capabilities
+
+### 1. Plot Command Endpoint
+- **Endpoint:** POST `/api/plot`
+- **Description:** Accepts a JSON payload defining the plotting command, its parameters, and optional formula expressions. Supports advanced plotting commands, diagnostics, and formula evaluations by delegating processing to the CORE_ENGINE.
+- **Validation:** Utilizes existing regex-based numeric parameter validation to ensure robust error handling. Returns a standardized response with keys such as `success`, `data`, and `error` if applicable.
+
+### 2. Configuration Management Endpoints
+- **Endpoint:** GET `/api/config`
+  - **Description:** Retrieves the current persistent user configuration (e.g., default plot type and parameters).
+- **Endpoint:** POST `/api/config`
+  - **Description:** Allows clients to update persistent user settings. The submitted configuration is merged with existing defaults, streamlining user interactions across subsequent plotting commands.
+
+### 3. History Logging Endpoint
+- **Endpoint:** GET `/api/history`
+- **Description:** Returns a log of executed plotting commands along with associated parameters and timestamps. This endpoint supports external auditing and integration with other systems that may require plot execution data.
 
 ## Implementation Details
-1. **Express Route Addition:**
-   - Implement a new route handler in the Express server (e.g., in `src/web/app.js`) for POST requests at `/api/plot`.
-   - Utilize middleware to parse JSON and validate payload structures.
-2. **Processing Logic:**
-   - Extract the command type (e.g., `advanced`, `diagnostics`, `batch`, or `formula`) from the JSON body.
-   - Forward the command and parameters to the CORE_ENGINE, which now incorporates the logic of the retired FORMULA_ENGINE, ensuring a consistent behavior.
-3. **Response Format:**
-   - Return results in a JSON format with keys such as `success`, `data`, and `error` (if any).
-4. **Testing and Documentation:**
-   - Extend unit and integration tests to validate JSON API functionality and error handling.
-   - Update the README and CONTRIBUTING documentation to include API usage instructions and example requests/responses.
+1. **Express Route Additions:**
+   - Extend the current Express server setup (e.g., in `src/web/app.js`) to include the new endpoints for configuration retrieval/update and command history.
+   - Ensure proper middleware for JSON parsing and request validation is in place.
+2. **Unified Processing:**
+   - Maintain a consistent processing model by forwarding plot commands to the CORE_ENGINE, which already integrates advanced plotting and configuration management.
+   - Error responses and success confirmations follow a unified JSON structure.
+3. **Testing and Documentation:**
+   - Update unit and integration tests to cover new endpoints. Tests should validate both correct processing of valid JSON payloads and proper error handling for malformed requests.
+   - Revise the README and CONTRIBUTING documents to include usage examples and API references for the new endpoints.
+
+## Usage Examples
+
+**Plot Command Example:**
+```bash
+curl -X POST http://localhost:3000/api/plot \
+  -H "Content-Type: application/json" \
+  -d '{
+         "command": "advanced",
+         "plotType": "spiral",
+         "params": "1,NaN,5,-10,10,1"
+      }'
+```
+
+**Get User Configuration:**
+```bash
+curl -X GET http://localhost:3000/api/config
+```
+
+**Update User Configuration:**
+```bash
+curl -X POST http://localhost:3000/api/config \
+  -H "Content-Type: application/json" \
+  -d '{
+         "defaultPlotType": "spiral",
+         "defaultOutputFormat": "SVG",
+         "defaultParams": "1,NaN,5,-10,10,1"
+      }'
+```
+
+**Retrieve Command History:**
+```bash
+curl -X GET http://localhost:3000/api/history
+```
 
 ## Motivation and Value
-- **Enhanced Accessibility:** Provides programmatic access to plotting functionality, catering to diverse integration scenarios.
-- **Consistency Across Interfaces:** Aligns CLI, web, and API interactions under a unified processing model with consistent numeric validation and error reporting.
-- **Developer Productivity:** Simplifies integration with external systems and supports automated plot generation workflows.
-
+- **Enhanced Accessibility:** Provides programmatic access to plotting functionality and user management, accommodating diverse integration scenarios.
+- **Consistency Across Interfaces:** Aligns CLI, web, and API interactions under a unified processing model with consistent numeric validation and logging practices.
+- **Developer Productivity:** Simplifies integration with external systems by exposing configuration and history data, fostering automated plot generation workflows.
