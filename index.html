@@ -31,6 +31,9 @@
 <p class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: &quot;nan&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, and &quot;not-a-number&quot;. Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: &quot;Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.&quot;</p>
 </li>
 <li class="md-github">
+<p class="md-github">Optionally, users can completely override the default NaN aliases by setting the environment variable <code class="md-github">LOCALE_NAN_OVERRIDE</code> to a truthy value. When set, the parser will use only the custom aliases provided in <code class="md-github">LOCALE_NAN_ALIASES</code> without merging them with the default list.</p>
+</li>
+<li class="md-github">
 <p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (<code class="md-github">Number.NaN</code>) for a unified representation across advanced and non-advanced modes.</p>
 </li>
 <li class="md-github">
@@ -47,7 +50,7 @@
 </li>
 </ol>
 <p class="md-github"><strong class="md-github">New Feature:</strong></p>
-<p class="md-github">Numeric parameter parsing now supports additional delimiters including semicolons. For example, both &quot;1, NaN, 5&quot; and &quot;1;NaN;5&quot; or even &quot;1  NaN  5&quot; (whitespace-separated) are correctly parsed.</p>
+<p class="md-github">Numeric parameter parsing now supports additional delimiters including semicolons. For example, both &quot;1, NaN, 5&quot; and &quot;1;NaN;5&quot; or even &quot;1  NaN  5&quot; (whitespace-separated) are correctly parsed. Additionally, you can fully override the default NaN aliases using the <code class="md-github">LOCALE_NAN_OVERRIDE</code> flag.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="debug-logging-for-numeric-conversion" href="#debug-logging-for-numeric-conversion"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debug Logging for Numeric Conversion</h2>
 <p class="md-github">Developers can enable debug logging to trace when NaN aliases are normalized. Set the environment variable <code class="md-github">DEBUG_NUMERIC</code> to any truthy value to activate detailed logging. For example:</p>
 <pre class="md-github"><code class="md-github language-bash">export DEBUG_NUMERIC=true
@@ -113,7 +116,7 @@ Plotting scatter matrix with params: [ 1, NaN, 5, -10, 10, 1 ]
 <pre class="md-github"><code class="md-github language-bash">export LOCALE_NAN_ALIASES='[&quot;nicht eine zahl&quot;]'
 node src/lib/main.js &quot;quad: 1, nicht eine zahl, 5&quot;
 </code></pre>
-<p class="md-github">This feature ensures that numeric validation can adapt to various regional formats and terminologies. In addition, if the <code class="md-github">LOCALE_NAN_ALIASES</code> contains invalid JSON or a non-array value, a unified warning message will be displayed and the default set of aliases will be used.</p>
+<p class="md-github">Additionally, to completely override the default NaN aliases, set the <code class="md-github">LOCALE_NAN_OVERRIDE</code> environment variable (to any truthy value). This ensures that only the aliases specified in <code class="md-github">LOCALE_NAN_ALIASES</code> are recognized as NaN.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="utility-module" href="#utility-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Module</h2>
 <p class="md-github">All logic for parsing and normalizing NaN aliases is now incorporated within the main module (<code class="md-github">src/lib/main.js</code>), simplifying module resolution and reducing file dependencies.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
@@ -121,7 +124,7 @@ node src/lib/main.js &quot;quad: 1, nicht eine zahl, 5&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T06:53:52.398Z</p>
+    <p>Generated on 2025-04-09T06:59:49.637Z</p>
   </footer>
 </body>
 </html>

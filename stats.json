@@ -5,15 +5,19 @@
   "openPRs": 1,
   "prDetails": [
     {
-      "title": "Add LOCALE_NAN_OVERRIDE option to allow full override of default NaN aliases. (fixes #1292)",
+      "title": "Refactored parseNumericParams to use Zod schema validation for enhanced numeric parameter parsing and NaN handling. (fixes #1295)",
       "ageMinutes": 0
     }
   ],
-  "diffMinutes": 0,
-  "diffMinutesMain": 2,
-  "commitsLastHour": 7,
+  "diffMinutes": 1,
+  "diffMinutesMain": 5,
+  "commitsLastHour": 6,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "06:54",
+      "message": "Add LOCALE_NAN_OVERRIDE option to allow full override of default..."
+    },
     {
       "time": "06:51",
       "message": "Maintain CORE_ENGINE"
@@ -29,23 +33,19 @@
     {
       "time": "06:22",
       "message": "Maintain CORE_ENGINE"
-    },
-    {
-      "time": "06:07",
-      "message": "Unified warning messages for LOCALE_NAN_ALIASES parsing errors. ..."
     }
   ],
   "branches": {
     "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-1292",
-        "minutesSinceLastCommit": 0
+        "branch": "agentic-lib-issue-1295",
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T06:53:37.616Z"
+  "generatedAt": "2025-04-09T06:59:32.996Z"
 }
