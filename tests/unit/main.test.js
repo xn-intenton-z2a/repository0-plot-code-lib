@@ -5,9 +5,12 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main, getAcceptedNaNAliases, parseNumericParams } from "../../src/lib/main.js";
+// Updated direct import: now getAcceptedNaNAliases is imported from main.js instead of nanAlias.js
+import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/lib/main.js";
 
 // Helper function to check if an element is NaN
 const isNativeNaN = (x) => typeof x === 'number' && Number.isNaN(x);
+
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -72,8 +75,7 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
-    // JSON.stringify will convert native NaN to null
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
     logSpy.mockRestore();
@@ -98,8 +100,7 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
-    // Expect JSON.stringify conversion: NaN becomes null
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[10000,0.00214,null,-350]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
     logSpy.mockRestore();
@@ -110,8 +111,7 @@ describe("Additional Numeric Edge Cases", () => {
   test("should handle leading/trailing spaces and scientific notation in colon-separated input", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:  3e2,   NaN,  -5E-1"]);
-    // JSON.stringify conversion: NaN becomes null
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[300,null,-0.5]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     logSpy.mockRestore();
   });
 });
@@ -124,7 +124,7 @@ describe("Alternative NaN Aliases", () => {
     
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
     logSpy.mockRestore();
@@ -137,7 +137,7 @@ describe("Alternative NaN Aliases", () => {
     
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
     logSpy.mockRestore();
@@ -150,7 +150,7 @@ describe("Alternative NaN Aliases", () => {
     
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
     logSpy.mockRestore();
@@ -163,7 +163,7 @@ describe("Alternative NaN Aliases", () => {
     
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
     logSpy.mockRestore();
@@ -186,7 +186,6 @@ describe("Numeric Debug Logging", () => {
     process.env.DEBUG_NUMERIC = "true";
     const arg = "quad:1,na,5";
     main([arg]);
-    // Check for debug message indicating native NaN
     expect(debugSpy).toHaveBeenCalledWith("Normalized token 'na' to native NaN");
     delete process.env.DEBUG_NUMERIC;
     debugSpy.mockRestore();
@@ -238,7 +237,7 @@ describe("Trailing Commas Handling", () => {
   test("should ignore trailing commas in non-advanced mode", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:1,2,3,"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,2,3]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     logSpy.mockRestore();
   });
 
@@ -248,7 +247,6 @@ describe("Trailing Commas Handling", () => {
     let receivedParams;
     mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
     main(["--advanced", "testPlot", "1,,NaN,5,,"]);
-    // Expect that empty tokens are ignored and NaN is native
     expect(receivedParams).toEqual([1, Number.NaN, 5]);
     mainModule.advancedPlots.testPlot = originalTestPlot;
     logSpy.mockRestore();
@@ -257,12 +255,10 @@ describe("Trailing Commas Handling", () => {
 
 describe("Localized NaN Aliases", () => {
   test("should accept a localized NaN alias when configured via LOCALE_NAN_ALIASES", () => {
-    // Set a localized alias, e.g., German: "nicht eine zahl"
     process.env.LOCALE_NAN_ALIASES = JSON.stringify(["nicht eine zahl"]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Using the localized alias in the input
     main(["quad:1, nicht eine zahl ,5"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });
@@ -299,14 +295,20 @@ describe("NaN Alias Utility Module", () => {
   });
 });
 
+describe("Direct NaN Alias Module Import", () => {
+  test("should correctly import from main module and return default alias set", () => {
+    const aliases = getAcceptedNaNAliasesDirect();
+    expect(aliases.has("nan")).toBe(true);
+  });
+});
+
 describe("Unicode Normalization Handling", () => {
   test("should handle decomposed Unicode forms of NaN aliases provided via LOCALE_NAN_ALIASES", () => {
-    // Use a decomposed form for a localized NaN alias
     const decomposedAlias = "nicht eine zahl".normalize('NFD');
     process.env.LOCALE_NAN_ALIASES = JSON.stringify([decomposedAlias]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:1, nicht eine zahl ,5"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });

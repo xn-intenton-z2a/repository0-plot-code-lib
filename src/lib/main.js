@@ -4,44 +4,36 @@
 
 import { fileURLToPath } from "url";
 
-let cachedNaNAliases = null;
-
 function errorExit(message) {
   console.error(message);
   process.exit(1);
 }
 
-// Inline implementation of NaN alias normalization with caching
+// Utility function to get accepted NaN aliases
 function getAcceptedNaNAliases() {
-  // Use caching only when LOCALE_NAN_ALIASES is not set
-  if (!process.env.LOCALE_NAN_ALIASES && cachedNaNAliases !== null) {
-    return cachedNaNAliases;
-  }
-  const defaultAliases = ["nan", "not a number", "notanumber", "na", "not-a-number"];
-  let aliases = new Set();
-  // Normalize default aliases using lowercase, trim and Unicode NFC normalization
-  for (const token of defaultAliases) {
-    aliases.add(token.toLowerCase().trim().normalize('NFC'));
-  }
+  const defaultAliases = new Set(["nan", "not a number", "notanumber", "na", "not-a-number"]);
   if (process.env.LOCALE_NAN_ALIASES) {
     try {
-      const configured = JSON.parse(process.env.LOCALE_NAN_ALIASES);
-      if (Array.isArray(configured)) {
-        // Extend default aliases with locale specific ones normalized to NFC
-        for (const token of configured) {
-          aliases.add(token.toLowerCase().trim().normalize('NFC'));
+      const customAliases = JSON.parse(process.env.LOCALE_NAN_ALIASES);
+      if (Array.isArray(customAliases)) {
+        const normalized = new Set(
+          customAliases.map(alias => alias.toLowerCase().trim().normalize("NFC"))
+        );
+        // Merge default aliases with custom ones
+        for (const alias of defaultAliases) {
+          normalized.add(alias);
         }
+        return normalized;
       } else {
-        console.warn("Invalid configuration for LOCALE_NAN_ALIASES: expected array, using default aliases.");
+        console.warn("LOCALE_NAN_ALIASES should be a JSON array. Using default NaN aliases.");
+        return defaultAliases;
       }
-    } catch (e) {
-      console.warn("Invalid configuration for LOCALE_NAN_ALIASES: unable to parse JSON, using default aliases.");
+    } catch (err) {
+      console.warn("Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
+      return defaultAliases;
     }
-  } else {
-    // Cache the computed default aliases if no locale-specific configuration is provided
-    cachedNaNAliases = aliases;
   }
-  return aliases;
+  return defaultAliases;
 }
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
@@ -60,7 +52,7 @@ function parseNumericParams(paramStr) {
     if (trimmed === "") continue;
 
     // Normalize token for consistent alias checking: lowercase, collapse whitespace, trim and Unicode NFC
-    const normToken = trimmed.toLowerCase().replace(/\s+/g, ' ').trim().normalize('NFC');
+    const normToken = trimmed.toLowerCase().replace(/\s+/g, " ").trim().normalize("NFC");
 
     // Reject near-miss tokens like "n/a" with a clear suggestion
     if (normToken === "n/a") {
@@ -81,7 +73,47 @@ function parseNumericParams(paramStr) {
   return result;
 }
 
-export function main(args = []) {
+// Inlined advanced plotting implementations
+const advancedPlots = {
+  spiral: function (params) {
+    console.log("Plotting spiral with params:", params);
+  },
+  polarHeatmap: function (params) {
+    console.log("Plotting polar heatmap with params:", params);
+  },
+  dualAxis: function (params) {
+    console.log("Plotting dual axis with params:", params);
+  },
+  boxPlot: function (params) {
+    console.log("Plotting box plot with params:", params);
+  },
+  violinPlot: function (params) {
+    console.log("Plotting violin plot with params:", params);
+  },
+  cumulativeAverage: function (params) {
+    console.log("Plotting cumulative average with params:", params);
+  },
+  inverse: function (params) {
+    console.log("Plotting inverse function with params:", params);
+  },
+  modulatedSine: function (params) {
+    console.log("Plotting modulated sine with params:", params);
+  },
+  extended3D: function (params) {
+    console.log("Plotting extended 3D plot with params:", params);
+  },
+  testPlot: function (params) {
+    console.log("Test Plot with params:", params);
+  },
+  contourPlot: function (params) {
+    console.log("Plotting contour plot with params:", params);
+  },
+  scatterMatrix: function (params) {
+    console.log("Plotting scatter matrix with params:", params);
+  }
+};
+
+function main(args = []) {
   // Check if the --advanced flag is provided
   if (args.includes("--advanced")) {
     const filteredArgs = args.filter(arg => arg !== "--advanced");
@@ -168,44 +200,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
-// Inlined advanced plotting implementations
-const advancedPlots = {
-  spiral: function(params) {
-    console.log("Plotting spiral with params:", params);
-  },
-  polarHeatmap: function(params) {
-    console.log("Plotting polar heatmap with params:", params);
-  },
-  dualAxis: function(params) {
-    console.log("Plotting dual axis with params:", params);
-  },
-  boxPlot: function(params) {
-    console.log("Plotting box plot with params:", params);
-  },
-  violinPlot: function(params) {
-    console.log("Plotting violin plot with params:", params);
-  },
-  cumulativeAverage: function(params) {
-    console.log("Plotting cumulative average with params:", params);
-  },
-  inverse: function(params) {
-    console.log("Plotting inverse function with params:", params);
-  },
-  modulatedSine: function(params) {
-    console.log("Plotting modulated sine with params:", params);
-  },
-  extended3D: function(params) {
-    console.log("Plotting extended 3D plot with params:", params);
-  },
-  testPlot: function(params) {
-    console.log("Test Plot with params:", params);
-  },
-  contourPlot: function(params) {
-    console.log("Plotting contour plot with params:", params);
-  },
-  scatterMatrix: function(params) {
-    console.log("Plotting scatter matrix with params:", params);
-  }
-};
-
-export { advancedPlots, getAcceptedNaNAliases, parseNumericParams };
+export { advancedPlots, getAcceptedNaNAliases, parseNumericParams, main };
