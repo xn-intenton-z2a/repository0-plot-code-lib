@@ -208,3 +208,4 @@ describe("Unicode Normalization Handling", () => {
     logSpy.mockRestore();
   });
 });
+

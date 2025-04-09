@@ -87,7 +87,7 @@ Plotting scatter matrix with params: [ 1, NaN, 5, -10, 10, 1 ]
 
 ### CLI Usage in Non-Advanced Mode
 
-When running without the `--advanced` flag, the CLI automatically parses any parameter that is a delimited string, converting numbers accordingly. For example:
+When running without the `--advanced` flag, the CLI automatically parses arguments that are colon-separated by splitting them into a label and numeric parameters. For example:
 
 ```bash
 node src/lib/main.js "quad: 1 ; 2.14e-3  not a number   -3.5E+2"
@@ -96,7 +96,7 @@ node src/lib/main.js "quad: 1 ; 2.14e-3  not a number   -3.5E+2"
 **Expected Console Output:**
 
 ```
-Run with: ["quad", [1,0,5,-10,10]]
+Run with: [["quad", [1,0,5,-10,10]]]
 ```
 
 (Note: In JSON conversion, native NaN is represented as null.)

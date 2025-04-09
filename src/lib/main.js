@@ -124,12 +124,8 @@ function main(args = []) {
     const [plotType, params] = filteredArgs;
     // If parameters contain a delimiter, parse them using the numeric utility
     let parsedParams = params;
-    if (params && (params.includes(",") || params.includes("") || params.includes(";"))) {
-      if (params.includes(",") || params.includes(";")) {
-        parsedParams = parseNumericParams(params);
-      } else if (/\s+/.test(params)) {
-        parsedParams = parseNumericParams(params);
-      }
+    if (params && (params.includes(",") || params.includes(";") || /\s+/.test(params))) {
+      parsedParams = parseNumericParams(params);
     }
     switch (plotType) {
       case "spiral":
@@ -186,16 +182,17 @@ function main(args = []) {
     return;
   }
 
-  // For non-advanced mode, standardize numeric conversion on parameters that include delimiters.
+  // For non-advanced mode, check for colon-separated arguments first
   const finalArgs = args.map(arg => {
-    if (arg.includes(",") || arg.includes(";")) {
-      if (arg.includes(":")) {
-        return arg.split(":").map(segment => {
-          return (segment.includes(",") || segment.includes(";")) ? parseNumericParams(segment) : segment;
-        });
-      } else {
-        return parseNumericParams(arg);
-      }
+    if (arg.includes(":")) {
+      // Split only on the first colon to separate label and parameters
+      const parts = arg.split(/:(.+)/);
+      const label = parts[0].trim();
+      const paramStr = parts[1] ? parts[1].trim() : "";
+      const parsedParams = paramStr ? parseNumericParams(paramStr) : [];
+      return [label, parsedParams];
+    } else if (arg.includes(",") || arg.includes(";")) {
+      return parseNumericParams(arg);
     } else if (/\s+/.test(arg)) {
       return parseNumericParams(arg);
     }
