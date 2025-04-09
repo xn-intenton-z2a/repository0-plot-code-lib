@@ -1,51 +1,35 @@
 # CORE_ENGINE Feature
 
 ## Overview
-The CORE_ENGINE is the backbone of our plotting library. It is responsible for advanced plotting functions, robust numeric parameter validation, an interactive CLI wizard, formula parsing, diagnostics mode, and configuration file support. In this update, the CORE_ENGINE is enhanced not only to include configuration file support but also to incorporate a unified logging system for improved diagnostics and maintainability.
+The CORE_ENGINE is the backbone of our plotting library and handles multiple critical functionalities including advanced plotting routines, interactive CLI wizard, configuration file support, robust numeric parameter validation, dynamic formula parsing, and a unified logging system for diagnostics. This enhancement further refines the engine to include a dedicated Formula Parsing module that leverages the power of Math.js for dynamic expression evaluation and error handling.
+
+## Formula Parsing Engine
+- **Objective:** Provide users with the ability to input mathematical formulae as strings, which are then parsed, validated, and transformed into plot data or intermediate representations. This supports our mission to be the jq of formulae visualisations.
+- **Implementation:**
+  - Integrate Math.js to parse and evaluate mathematical expressions reliably.
+  - Support standard mathematical operations and functions as well as custom variables.
+  - Validate expressions and provide clear error messages in cases of malformed or unsupported expressions.
+  - Allow the parsed formulae to interact seamlessly with the advanced plotting functions, ensuring that user inputs can be visualized accurately.
+- **Usage Examples:**
+  - Users can input a formula like `sin(x) + log(x)` which the engine parses and converts into a corresponding data series for plotting.
+  - Error handling will catch syntax errors and advise on correct formatting.
 
 ## Configuration File Support
-- **Purpose:** Allow users to define plot configurations via external JSON or YAML files. This enables pre-setting parameters and defaults without relying solely on CLI arguments.
-- **Implementation:**
-  - A dedicated configuration loader module reads the file specified via the `--config` flag.
-  - Determines file format by extension and loads configuration data accordingly.
-  - Merges or overrides command-line parameters with configuration file settings (with CLI arguments taking precedence).
-  - Provides clear error messages when the configuration file is missing or malformed.
+- Enable users to provide plot configurations using JSON or YAML files.
+- The configuration loader module properly merges CLI arguments and configuration file settings, with CLI parameters taking precedence.
+- Provides descriptive error messages for missing or malformed configuration files.
 
-## Advanced Plotting and CLI Wizard
-- **Interactive CLI:** The engine drives an interactive wizard for plot selection and dynamic parameter input.
-- **Advanced Flag:** With the `--advanced` flag, users can invoke advanced plotting routines that include multiple plot types (e.g., spiral, polarHeatmap, dualAxis, etc.) with validated numeric parameters.
-- **Numeric Parameter Validation:** Implements robust regex-based numeric validation supporting integers, decimals, and scientific notation. It also handles various NaN aliases (including localized aliases via the `LOCALE_NAN_ALIASES` environment variable) with unicode normalization.
+## Enhanced Numeric Parameter Validation and Logging
+- **Numeric Validation:** Utilizes Zod schema validation to ensure numeric parameters are parsed accurately (supporting integers, decimals, scientific notation, and multiple NaN aliases).
+- **Debug Logging:** Employs a unified logging module replacing ad hoc console logs. Logging is standardized, with dynamic verbosity controlled by environment variables.
+- **Diagnostics:** The engine logs parameter conversion and formula parsing events, aiding in easier maintenance and troubleshooting.
 
-## Enhanced Logging and Diagnostics
-- **Unified Logging Module:** Introduces a centralized logging solution that replaces ad hoc console logging. This module provides:
-  - **Consistent Format:** Timestamped and severity-based logs (e.g., INFO, DEBUG, ERROR).
-  - **Dynamic Verbosity:** Controlled via environment variables (such as `DEBUG_NUMERIC`, `DEBUG_WEB`, `LOG_LEVEL`, etc.)
-  - **Integration:** Logging is integrated across the configuration loader, numeric parameter conversion, CLI wizard, and diagnostics modes, offering a consistent view of internal operations.
-  - **Optional File Logging:** If enabled via an environment variable (e.g., `LOG_FILE`), logs can also be written to a designated file.
-- **Benefits:** Improves troubleshooting by providing clear, uniform diagnostic messages and facilitating easier maintenance.
+## Integration and Testing
+- The CORE_ENGINE is integrated with all advanced plotting functionalities, including CLI wizard and Web API interfaces.
+- Comprehensive unit and integration tests verify numeric conversion, formula parsing, logging, and configuration handling.
+- Documentation in the README and CONTRIBUTING files is updated to detail the usage of formula parsing and enhanced validation features.
 
-## Implementation Details
-- Expand the main module (`src/lib/main.js`) to include the logging utility functions.
-- Refactor existing console calls to use the new logging module where appropriate.
-- Maintain backward compatibility with existing outputs while adding enhanced structure and detail.
-- Update unit tests to verify both functional outcomes and proper log outputs when debug modes are enabled.
-
-## Usage Examples
-- **CLI Invocation with Config File:**
-  ```bash
-  node src/lib/main.js --config config.json "quad: 1, NaN, 5,-10,10,1"
-  ```
-- **Advanced Plotting with Enhanced Logging:**
-  ```bash
-  export DEBUG_NUMERIC=true
-  export LOG_LEVEL=DEBUG
-  node src/lib/main.js --advanced testPlot "1, NaN, 5, -10, 10, 1"
-  ```
-- **Error Scenario:**
-  If a configuration file is missing or malformed, the unified logger outputs a timestamped error message, and the system falls back to default settings.
-
-## Testing and Documentation
-- All changes are covered with unit tests in the `tests/unit` and `tests/web` directories.
-- Documentation is updated in the README and CONTRIBUTING files to explain configuration file usage, debug logging, and diagnostics enhancements.
-
-This update brings the CORE_ENGINE in line with our mission by not only enhancing the plotting and configuration capabilities but also by ensuring maintainability and ease-of-troubleshooting through a unified logging system.
+## Benefits
+- **Enhanced Functionality:** Direct formula parsing enables users to input complex expressions which are immediately converted for visualization.
+- **Robust Error Handling:** Improved validations and clear error messages ensure a smooth user experience even when inputs are malformed.
+- **Unified Experience:** The changes maintain backward compatibility while integrating new features seamlessly with existing plotting and configuration logic.
