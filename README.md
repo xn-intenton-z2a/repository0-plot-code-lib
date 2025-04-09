@@ -14,7 +14,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ## Usage
 
-The CLI now supports multiple modes of operation with robust argument parsing and error handling:
+The CLI now supports multiple modes of operation with robust argument parsing, enhanced alias normalization, and error handling:
 
 ### CLI Quickstart
 
@@ -52,7 +52,7 @@ node src/lib/main.js --help
 
 ## Environment Configuration for NaN Alias Resolution
 
-This library supports dynamic and locale-aware NaN alias resolution. Configure via the following environment variables:
+This library supports dynamic and locale-aware NaN alias resolution. Aliases are normalized by trimming and converting to lowercase. Configure using the following environment variables:
 
 - **STRICT_NAN_MODE**: When set to "true", only the canonical alias `nan` is accepted.
 - **LOCALE_NAN_ALIASES**: A comma-separated list of additional aliases to merge with the defaults (defaults are: `nan`, `notanumber`, `undefined`).
