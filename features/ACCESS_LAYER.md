@@ -1,38 +1,55 @@
 # ACCESS_LAYER
 
 ## Overview
-This update refines the existing ACCESS_LAYER module to fully support a dedicated diagnostics mode alongside its CLI and web interface functionalities. The enhanced diagnostics mode will output comprehensive system, dependency, and configuration details along with structured logs to facilitate troubleshooting and system introspection.
+This update refines the existing ACCESS_LAYER module to fully support a dedicated diagnostics mode alongside its CLI and web interface functionalities. In addition, this update introduces a new version information flag (`--version`) to provide users with quick access to the current version and dependency information, ensuring transparency and easier troubleshooting.
 
 ## Key Objectives
-- **Diagnostics Mode Integration:** Implement a new command-line flag (`--diagnostics`) to trigger diagnostics mode, ensuring detailed information on system configuration, dependencies, and runtime state is output.
-- **Consistent Logging:** Utilize the existing centralized structured logging approach to capture diagnostic details in both human-readable and JSON formats. All modes (interactive, serve, and diagnostics) will share the same logging practices.
-- **Seamless User Interface:** Preserve the current interactive and web modes while extending functionality to support diagnostics mode without introducing complexity or redundant modules.
-- **Robust Error Handling:** Enhance error management during diagnostics by logging exceptions and system warnings to aid rapid resolution.
+- **Diagnostics Mode Integration:**
+  - Implement a command-line flag (`--diagnostics`) that outputs detailed system configuration, dependency, and runtime state information in both human-readable and JSON formats.
+  - Integrate comprehensive error handling to log exceptions and warnings.
+
+- **Version Information Flag:**
+  - Introduce a new command-line flag (`--version`) that outputs the current version of the package (sourced from package.json) along with a summary of key dependency versions.
+  - Ensure that version output is clear and formatted consistently with other CLI outputs.
+
+- **Consistent Logging:**
+  - Utilize the centralized structured logging approach for both diagnostics and version information outputs to maintain consistency across user interactions.
+
+- **Seamless User Interface:**
+  - Preserve existing interactive (`--interactive`) and web (`--serve`) modes while extending CLI functionalities without introducing additional complexity.
 
 ## Design & Implementation
-### Mode Detection and Routing
-- Update the main CLI parser (in `src/lib/main.js`) to detect the `--diagnostics` flag.
-- If the `--diagnostics` flag is present, bypass normal plot generation and interactive/web mode logic.
-- Route to a new diagnostics handler that gathers and outputs:
-  - System configuration (e.g., OS, Node version).
-  - Dependency versions and environment details (parsed from package.json and process.env).
-  - Recent log summaries from the centralized logging mechanism.
+### CLI Parser Enhancements
+- **Flag Detection:**
+  - Update the main CLI parser (in `src/lib/main.js`) to detect the new `--version` flag.
+  - Branch early in the main function to handle the `--version` flag by reading package version info from package.json and outputting it.
 
-### Logging and Diagnostics Handler
-- Integrate diagnostics functionality within the ACCESS_LAYER rather than as a separate module to maintain code simplicity.
-- Consolidate logging methods (`logInfo()`, `logWarn()`, `logError()`, and `logDebug()`) to include diagnostic output upon flag activation.
-- Ensure that detailed error capturing and asynchronous logging mechanisms are maintained across all modes.
+### Diagnostics and Version Handlers
+- **Diagnostics Handler:**
+  - Route the `--diagnostics` flag to a diagnostics handler that aggregates system details, dependency versions, configuration settings, and logs summaries.
+
+- **Version Handler:**
+  - Implement a lightweight version handler that reads package.json and outputs the version, along with key dependency versions (e.g., express, mathjs, etc.).
+  - Format the version information in a structured and user-friendly manner.
 
 ### Testing and Documentation
-- **Unit Tests:** Add test cases to validate that when `--diagnostics` is provided, all required system and environment details are output.
-- **Documentation:** Update the README and CONTRIBUTING files to document the `--diagnostics` usage and expected output format.
-- **Code Quality:** Ensure compliance with existing coding style and performance standards mandated in CONTRIBUTING.md.
+- **Unit Tests:**
+  - Add test cases for verifying that the `--version` flag outputs correct version information.
+  - Ensure test coverage for both standard output and error conditions.
+
+- **Documentation:**
+  - Update the README and CONTRIBUTING files to document the usage of both the `--diagnostics` and new `--version` flags.
+  - Provide usage examples for both flags in the user documentation.
 
 ## Usage Examples
+- **Version Information:**
+  ```bash
+  node src/lib/main.js --version
+  ```
 
 - **Diagnostics Mode:**
   ```bash
   node src/lib/main.js --diagnostics
   ```
 
-This update reinforces the mission of providing a versatile, reliable CLI tool for formula visualisation by ensuring robust diagnostics and logging capabilities to support effective troubleshooting and system analysis.
+This enhancement reinforces the mission of providing a versatile, reliable CLI tool for formula visualisation by improving system introspection and user transparency.
