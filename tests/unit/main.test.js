@@ -222,7 +222,7 @@ describe("Trailing Commas Handling", () => {
     let receivedParams;
     mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
     main(["--advanced", "testPlot", "1,,NaN,5,,"]);
-    expect(receivedParams).toEqual([1,"NaN",5]);
+    expect(receivedParams).toEqual([1, "NaN", 5]);
     mainModule.advancedPlots.testPlot = originalTestPlot;
     logSpy.mockRestore();
   });
@@ -269,5 +269,18 @@ describe("NaN Alias Utility Module", () => {
     expect(aliases.has("nicht eine zahl")).toBe(true);
     expect(aliases.has("nan")).toBe(true);
     delete process.env.LOCALE_NAN_ALIASES;
+  });
+});
+
+describe("Unicode Normalization Handling", () => {
+  test("should handle decomposed Unicode forms of NaN aliases provided via LOCALE_NAN_ALIASES", () => {
+    // Use a decomposed form for a localized NaN alias
+    const decomposedAlias = "nicht eine zahl".normalize('NFD');
+    process.env.LOCALE_NAN_ALIASES = JSON.stringify([decomposedAlias]);
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad:1, nicht eine zahl ,5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,"NaN",5]]'));
+    delete process.env.LOCALE_NAN_ALIASES;
+    logSpy.mockRestore();
   });
 });
