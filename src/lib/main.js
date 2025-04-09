@@ -22,11 +22,16 @@ function getAcceptedNaNAliases() {
       const normalized = new Set(
         customAliases.map(alias => alias.toLowerCase().trim().normalize("NFC"))
       );
-      // Merge default aliases with custom ones
-      for (const alias of defaultAliases) {
-        normalized.add(alias);
+      // Check if override flag is set; if so, use only the custom aliases
+      if (process.env.LOCALE_NAN_OVERRIDE) {
+        return normalized;
+      } else {
+        // Merge default aliases with custom ones
+        for (const alias of defaultAliases) {
+          normalized.add(alias);
+        }
+        return normalized;
       }
-      return normalized;
     } catch (err) {
       console.warn("Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
       return defaultAliases;

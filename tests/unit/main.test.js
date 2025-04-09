@@ -18,12 +18,14 @@ describe("Main Module Import", () => {
   });
 });
 
+
 describe("Default Demo Output", () => {
   test("should terminate without error for valid inputs", () => {
     process.argv = ["node", "src/lib/main.js"];
     main();
   });
 });
+
 
 describe("Invalid Numeric Input Handling", () => {
   test("should output error and exit when an invalid numeric parameter is provided", () => {
@@ -209,3 +211,14 @@ describe("Unicode Normalization Handling", () => {
   });
 });
 
+describe("Override Default NaN Aliases", () => {
+  test("should use only custom aliases when LOCALE_NAN_OVERRIDE is set", () => {
+    process.env.LOCALE_NAN_ALIASES = JSON.stringify(["customnan"]);
+    process.env.LOCALE_NAN_OVERRIDE = "true";
+    const aliases = getAcceptedNaNAliases();
+    expect(aliases.has("customnan")).toBe(true);
+    expect(aliases.has("nan")).toBe(false);
+    delete process.env.LOCALE_NAN_ALIASES;
+    delete process.env.LOCALE_NAN_OVERRIDE;
+  });
+});
