@@ -8,7 +8,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: "not a number", "notanumber", and "na".
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
-3. Provide detailed error messages when encountering invalid numeric inputs.
+3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now produce an error message suggesting the accepted alternatives.
 
 This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN.
 
@@ -99,6 +99,7 @@ curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumbe
 
 - Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
 - Various representations of NaN ("NaN", "not a number", "notanumber", "na") are accepted and converted to the string "NaN" to ensure a consistent interface.
+- Near-miss tokens like "n/a" now trigger an error message with suggestions for the accepted tokens.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
 - The CLI and web interface now provide a unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
 

@@ -21,6 +21,11 @@ function parseNumericParams(paramStr) {
   
   for (const token of tokens) {
     const trimmed = token.trim();
+    // Check for near-miss tokens such as "n/a"
+    const normalized = trimmed.toLowerCase().replace(/\s/g, '');
+    if (normalized === "n/a") {
+      errorExit(`Invalid numeric parameter '${trimmed}'. Did you mean one of the accepted tokens: 'NaN', 'not a number', 'notanumber', or 'na'?`);
+    }
     if (!numberRegex.test(trimmed)) {
       errorExit(`Invalid numeric parameter '${trimmed}'`);
     }
