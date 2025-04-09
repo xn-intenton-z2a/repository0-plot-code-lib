@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/lib/main.js",
   "bin": {
-    "repository0-plot-code-lib": "bin/cli.js"
+    "repository0-plot-code-lib": "src/lib/main.js"
   },
   "scripts": {
     "build": "echo 'Nothing to build'",
@@ -18,8 +18,8 @@
     "update-to-greatest": "npx npm-check-updates --upgrade --enginesNode --target greatest --verbose --install always --reject 'alpha'",
     "test": "vitest tests/unit/*.test.js",
     "test:unit": "vitest --coverage tests/unit/*.test.js",
-    "start": "node bin/cli.js",
-    "diagnostics": "node bin/cli.js --diagnostics"
+    "start": "node src/lib/main.js",
+    "diagnostics": "node src/lib/main.js --diagnostics"
   },
   "keywords": [],
   "author": "",

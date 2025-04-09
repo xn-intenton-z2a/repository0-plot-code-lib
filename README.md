@@ -19,7 +19,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 Generate a simple quadratic plot as SVG using the CLI entrypoint:
 
 ```bash
-node bin/cli.js output.svg "quad:1,0,0,-10,10,1"
+node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
 ### Interactive CLI
@@ -27,7 +27,7 @@ node bin/cli.js output.svg "quad:1,0,0,-10,10,1"
 Interactive mode prompts the user to input formulas directly:
 
 ```bash
-node bin/cli.js --interactive
+node src/lib/main.js --interactive
 ```
 
 ### Web Interface
@@ -35,7 +35,7 @@ node bin/cli.js --interactive
 Start the Express-based interactive plotting web interface:
 
 ```bash
-node bin/cli.js --serve
+node src/lib/main.js --serve
 ```
 
 ---
@@ -65,19 +65,19 @@ export LOCALE_NAN_ALIASES="NaNValue, NotA-Number"
 **Linear Plot (SVG):**
 
 ```bash
-node bin/cli.js linear.svg "linear:2,3,-10,10,1"
+node src/lib/main.js linear.svg "linear:2,3,-10,10,1"
 ```
 
 **Custom Mathematical Expression:**
 
 ```bash
-node bin/cli.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
+node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
 ```
 
 **ASCII Plot Output:**
 
 ```bash
-node bin/cli.js --ascii "sine:1,1,0,0,360,30"
+node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 ```
 
 ---

@@ -33,4 +33,4 @@ export function main(args) {
 }
 
 // Removed the shebang line to comply with ECMAScript Module specifications.
-// This file is now intended to be imported. For CLI execution, use the provided CLI entrypoint (bin/cli.js).
+// This file is now intended to be imported. For CLI execution, use the CLI entrypoint defined in package.json.
