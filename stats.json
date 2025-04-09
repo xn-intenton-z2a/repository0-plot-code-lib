@@ -1,14 +1,23 @@
 {
-  "openIssues": 96,
-  "issuesClosedLastHour": 12,
+  "openIssues": 97,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 4,
-  "diffMinutesMain": 4,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Refactor NaN alias normalization by adding DEFAULT_NAN_ALIASES constant and normalizeAlias helper function. (fixes #1312)",
+      "ageMinutes": 2
+    }
+  ],
+  "diffMinutes": 2,
+  "diffMinutesMain": 2,
   "commitsLastHour": 10,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:56",
+      "message": "Maintain CLI_ASSIST"
+    },
     {
       "time": "07:48",
       "message": "Enhance NaN alias normalization to use locale-aware lowercasing ..."
@@ -24,18 +33,19 @@
     {
       "time": "07:37",
       "message": "Improved documentation on NaN handling with added notes on JSON ..."
-    },
-    {
-      "time": "07:26",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1312",
+        "minutesSinceLastCommit": 2
+      }
+    ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 2,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T07:53:03.777Z"
+  "generatedAt": "2025-04-09T07:58:48.692Z"
 }
