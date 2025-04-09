@@ -1,51 +1,50 @@
 # PLOT_ENGINE
 
-The PLOT_ENGINE feature remains the core plotting module of our repository, providing a versatile and unified interface for visualizing mathematical functions and performing analytical computations. This update expands its capabilities with additional supported plot types that align with our mission of offering a go-to plot library for formulae visualisations.
+The PLOT_ENGINE remains the core plotting module, now enhanced with additional statistical visualizations to better fulfill our mission of being the go-to plot library for formulae visualisations. This update consolidates the plotting capabilities, ensuring the module remains robust, extensible, and streamlined for both command-line and web-based usage.
 
-# Overview
+## Overview
 
 The updated PLOT_ENGINE now supports:
 
-- **Plot Generation:** Conversion of a wide range of mathematical functions into visual plots. Beyond existing support for quadratic, linear, sine, cosine, exponential, and logarithmic plots, the module now includes:
+- **Plot Generation:** Conversion of a wide range of mathematical functions into visual plots. Beyond the existing support for quadratic, linear, sine, cosine, exponential, and logarithmic plots, the engine has been extended with:
   - **Tangent Plots:** Visualization of tangent functions.
   - **Polar Plots:** Radial and angular representations for polar equations.
-  - **Parametric Plots:** Support for plotting functions defined by parametric equations.
-  - **Inverse Function Plots:** Graphs for inverse relationships.
-  - **Cumulative Average & Gradient Visualization:** Display of cumulative averages and gradient heatmaps to provide deeper insight into function dynamics.
+  - **Parametric Plots:** Support for functions described by parametric equations.
+  - **Inverse Function Plots:** Graphs representing inverse relationships.
+  - **Cumulative Average & Gradient Visualization:** Display of running averages and detailed gradient heatmaps.
+  - **Box Plot & Violin Plot:** New statistical plot types for representing data distributions to enhance the analytical capabilities of the module.
 
 - **Mode Integration:**
-  - **CLI Mode:** Generate plots directly via command-line with file output and summary information.
-  - **Interactive Mode:** Real-time input prompting and feedback.
-  - **Web Interface:** An Express server providing HTTP endpoints for dynamic plotting.
+  - **CLI Mode:** Generate plots directly via command-line with options for file output and summary results.
+  - **Interactive Mode:** Real-time user input prompting and immediate feedback.
+  - **Web Interface:** An Express-based HTTP API for dynamic plotting requests.
 
 - **Advanced Analysis & Transformations:**
-  - **Area Under Curve (AUC):** Calculation using the trapezoidal rule.
-  - **Derivative Calculation:** Estimation via finite differences, now extended with gradient visualization.
-  - **Statistical Metrics:** Computation of average, standard deviation, median, and mode of plotted data.
-  - **Data Transformations:** Operations such as rotation, reflection, scaling, inversion, and smoothing (moving average).
+  - **Area Under Curve (AUC):** Computed using the trapezoidal rule.
+  - **Derivative Calculation:** Estimation via finite differences, now enhanced with gradient visualizations.
+  - **Statistical Metrics:** Calculation of average, standard deviation, median, and mode, supplemented with box and violin plots for distribution insights.
+  - **Data Transformations:** Operations including rotation, reflection, scaling, inversion, and smoothing (moving average).
 
-- **Robust Error Handling:** Detailed error messages and graceful exits for invalid input scenarios.
+- **Robust Error Handling:** Detailed, consistent error messages ensuring graceful exits and clear diagnostics in response to invalid inputs.
 
-# Design
+## Design
 
-## Input Parsing
+### Input Parsing
 
-- Command-line arguments are parsed where the first argument designates the output target (file or CLI option) and the second describes the formula (e.g., `quad:1,0,0,-10,10,1`).
-- Additional flags such as `--interactive` and `--serve` are used to switch between operation modes.
+- **Command-line Arguments:** The first argument specifies the output type (file or option), and subsequent arguments define the mathematical formula (e.g., `quad:1,0,0,-10,10,1`). Additional flags such as `--interactive` or `--serve` modify the operation mode.
 
-## Plot Computation & Analysis
+### Plot Computation & Construction
 
-- **Formula Evaluation:** Uses the mathjs library to evaluate mathematical expressions over a specified range.
-- **Plot Construction:** Based on evaluated data, the engine builds the corresponding visual representation supporting multiple output formats.
-- **Extended Plot Types:** Incorporates tangent, polar, parametric, inverse, cumulative average, and gradient visualization, expanding the analytical capabilities of the earlier version.
+- **Formula Evaluation:** Leveraging the mathjs library to process mathematical expressions across defined ranges.
+- **Plot Construction:** Building visual outputs in multiple formats (SVG, ASCII, CSV, JSON, Markdown, HTML) based on evaluated data.
+- **Extended Statistical Plots:** Addition of box plots and violin plots to visually summarise statistical properties of the dataset.
 
-## Output Generation
+### Output Generation
 
-- The module dynamically generates desired outputs in formats including SVG, ASCII, CSV, JSON, Markdown, and HTML.
-- Analytical results are integrated with the visual plots when applicable.
-- Consistent and robust error handling ensures correct responses to any user errors or edge cases.
+- The module generates outputs containing both the visual plot and associated analytical results.
+- Detailed output formatting is applied to ensure clarity and utility in both CLI and web contexts.
 
-# Usage
+## Usage
 
 ### CLI Plot Generation
 
@@ -65,8 +64,8 @@ node src/lib/main.js --interactive
 node src/lib/main.js --serve
 ```
 
-# Integration & Maintenance
+## Integration & Maintenance
 
-- The updated PLOT_ENGINE is maintained as a self-contained module suitable for a single repository deployment, following the guidelines in CONTRIBUTING.md.
-- Unit tests (using vitest) ensure reliability across both the plotting and analytical components.
-- Contributions should adhere to repository style guides and ensure that new features are covered by corresponding tests.
+- **Self-Contained Module:** The PLOT_ENGINE is designed for deployment as a single repository module.
+- **Testing & Quality Assurance:** Comprehensive unit tests (using vitest) cover plotting, statistical computation, and error handling.
+- **Contribution Guidelines:** Developers are encouraged to adhere to the repository style guidelines and ensure that any new functionality is accompanied by appropriate tests and documentation updates.
