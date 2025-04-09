@@ -266,7 +266,6 @@ describe("NaN Alias Utility Module", () => {
 
   test("should parse and normalize LOCALE_NAN_ALIASES if valid", () => {
     process.env.LOCALE_NAN_ALIASES = JSON.stringify(["Nicht Eine Zahl", "NaN"]);
-    // Clear cached value
     const aliases = getAcceptedNaNAliases();
     expect(aliases.has("nicht eine zahl")).toBe(true);
     expect(aliases.has("nan")).toBe(true);

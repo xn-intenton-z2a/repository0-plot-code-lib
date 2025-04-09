@@ -10,7 +10,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
 
-3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the acceptable alternatives.
+3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and provides suggestions for acceptable alternatives.
 
 4. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
