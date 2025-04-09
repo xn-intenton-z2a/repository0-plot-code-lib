@@ -1,46 +1,53 @@
-# CORE_ENGINE Feature
+# CORE_ENGINE Feature (Updated)
 
 ## Overview
-The CORE_ENGINE remains the backbone of our plotting library, offering advanced plotting routines, interactive CLI wizard support, configuration file parsing, robust numeric parameter validation, dynamic formula parsing, and a unified logging system. In this update, we extend the engine with a new Dynamic Theme Manager to provide users greater control over plot aesthetics, making the library even more adaptable and user-friendly.
+The CORE_ENGINE remains the backbone of our plotting library, managing advanced plotting routines, interactive CLI support, configuration parsing, robust numeric validation, dynamic formula interpretation, and unified logging. In this update, we extend the engine with two significant enhancements: a Dynamic Theme Manager and an Export Manager. The Export Manager enables users to export plots in multiple formats, aligning with our mission to be the go-to tool for formula visualisations.
 
 ## Formula Parsing Engine
-- **Objective:** Parse and validate mathematical formulae from user input using Math.js, enabling dynamic expression evaluation and conversion into plot data.
+- **Objective:** Parse and validate mathematical formulae using Math.js to enable dynamic expression evaluation and conversion into plot data.
 - **Implementation:**
   - Integrate Math.js for reliable parsing.
-  - Validate mathematical expressions and provide clear error messages for malformed inputs.
-  - Enable parsed expressions to seamlessly interface with advanced plotting routines.
+  - Validate expressions with clear error messaging.
+  - Seamlessly interface parsed expressions with advanced plotting routines.
 
 ## Configuration File Support
-- Support for plot configuration through JSON and YAML files.
-- Merge CLI arguments with configuration file settings with CLI parameters having precedence.
-- Provide descriptive error messages for missing or malformed configuration files.
+- **Features:**
+  - Support configuration via JSON and YAML.
+  - Merge CLI args with configuration file settings (CLI parameters take precedence).
+  - Provide descriptive error messages for configuration issues.
 
 ## Enhanced Numeric Validation & Logging
-- **Numeric Validation:** Use Zod schema validation to ensure accuracy in converting numeric tokens, including support for various NaN aliases (configurable via environment variables).
-- **Logging & Diagnostics:** Implement a unified logging mechanism to track numeric conversions, formula parsing, and configuration merging alongside detailed error reporting.
+- **Numeric Validation:**
+  - Utilize Zod schema validation to accurately convert numeric tokens, including accepted international NaN aliases.
+- **Logging & Diagnostics:**
+  - Unified logging to track numeric conversions, formula parsing, and configuration merging.
+  - Detailed error reporting and optional debug logging via environment variables.
 
 ## Dynamic Theme Manager
-- **Objective:** Empower users to customize the visual style of their plots through dynamic theming options.
+- **Objective:** Empower users to customize the visual style of their plots.
 - **Features:**
-  - Allow configuration of plot elements including colors, fonts, backgrounds, grid styles, and other styling parameters.
-  - Provide both CLI and Web API integrations for theme selection and customization.
-  - Expose a dedicated module (e.g., `src/lib/themeManager.js`) that loads theme settings from configuration files or command-line arguments.
-  - Enable live preview of themes in diagnostics or interactive modes to assist users in real-time theme selection.
+  - Configure plot elements such as colors, fonts, and grid styles via CLI or web API.
+  - Load theme settings from configuration files or command-line arguments.
+  - Provide live preview in diagnostic or interactive modes for real-time theme selection.
+
+## Export Manager
+- **Objective:** Enable users to export their plots in a variety of formats including SVG, JSON, CSV, Markdown, ASCII, and HTML.
+- **Features:**
+  - Introduce a dedicated module (`src/lib/plotExport.js`) to encapsulate exporting logic.
+  - Support integration with both CLI and web API interfaces.
+  - Allow users to specify export format via command-line flags (e.g., `--export format=SVG`) or within JSON-based configuration.
+  - Ensure output consistency and format-specific customization through configuration.
 
 ## Integration and Testing
 - **Integration:**
-  - Seamlessly combine the Theme Manager with existing plotting functionalities in both CLI and Web API contexts.
-  - Ensure that theme settings can override default styles without interfering with core plotting logic.
-  - Maintain support for dynamic plugin integration wherein plugins can provide additional theming options if desired.
+  - Seamlessly merge export routines with existing plotting functionalities.
+  - Ensure that export settings can override default display formats without impacting core plotting logic.
+  - Maintain backward compatibility with existing CLI and web API integrations.
 - **Testing:**
-  - Update unit tests to cover theme configuration parsing and integration with plotting routines.
-  - Enhance integration tests to verify that theme settings correctly modify plot outputs.
+  - Update unit and integration tests to cover export functionality across supported formats.
+  - Enhance documentation in README and CONTRIBUTING guides with usage examples and configuration details.
 
 ## Benefits
-- **Customization:** Offers users the ability to tailor plot aesthetics to suit diverse presentation needs.
-- **Enhanced User Experience:** Improves visual appeal and accessibility of plots through customizable themes.
-- **Seamless Integration:** Integrates with the existing architecture, leveraging configuration file support and diagnostics for real-time theme adjustments.
-
-## Documentation & Future Opportunities
-- Update the README and CONTRIBUTING guidelines to include instructions on developing and applying custom themes.
-- Future enhancements may include a theme marketplace or user-contributed theme repository, further extending the modularity of the CORE_ENGINE.
+- **Comprehensive Functionality:** Combines core plotting, theming, and export capabilities in a single, unified engine.
+- **User Flexibility:** Supports a wide range of output formats to facilitate different presentation or data processing needs.
+- **Mission Alignment:** Directly contributes to our goal of being a versatile and user-friendly formula visualisation tool.
