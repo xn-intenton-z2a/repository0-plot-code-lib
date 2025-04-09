@@ -1,19 +1,22 @@
 {
-  "openIssues": 82,
-  "issuesClosedLastHour": 8,
+  "openIssues": 81,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Integrated the NaN alias utility into main.js and updated test and README references to resolve module not found errors. (fixes #1275)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 4,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 2,
+  "diffMinutesMain": 2,
   "commitsLastHour": 9,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "06:07",
+      "message": "Unified warning messages for LOCALE_NAN_ALIASES parsing errors. ..."
+    },
+    {
+      "time": "05:59",
+      "message": "Integrated the NaN alias utility into main.js and updated test a..."
+    },
     {
       "time": "05:54",
       "message": "Maintain CORE_ENGINE"
@@ -25,27 +28,14 @@
     {
       "time": "05:39",
       "message": "Updated parseNumericParams to return native Number.NaN instead o..."
-    },
-    {
-      "time": "05:34",
-      "message": "Maintain WEB_API"
-    },
-    {
-      "time": "05:26",
-      "message": "Improve NaN error messaging and refine caching behavior for nume..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1275",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T05:58:19.219Z"
+  "generatedAt": "2025-04-09T06:09:50.592Z"
 }
