@@ -4,7 +4,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Enhanced Numeric Parameter Validation
 
-This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with enhanced regex-based validation. Both the CLI and the web interface use this logic to:
+This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with optimized regex-based validation. Both the CLI and the web interface use this logic to:
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: "not a number", "notanumber", and "na".
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
