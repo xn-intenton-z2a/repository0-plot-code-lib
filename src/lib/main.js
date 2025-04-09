@@ -13,24 +13,14 @@ export function resolveNaNAliases() {
   }
 
   if (process.env.LOCALE_NAN_OVERRIDE) {
-    // If LOCALE_NAN_OVERRIDE is set, override defaults completely
-    // and return normalized aliases using both comma and semicolon as delimiters
+    // LOCALE_NAN_OVERRIDE fully defines the NaN aliases; legacy LOCALE_NAN_ALIASES is deprecated and ignored
     return process.env.LOCALE_NAN_OVERRIDE.split(/[;,]/)
       .map(normalizeAlias)
       .filter(alias => alias.length > 0);
   }
 
-  // Define default aliases and normalize them
+  // Default aliases when no override is provided
   const defaultAliases = ["nan", "notanumber", "undefined"].map(normalizeAlias);
-
-  if (process.env.LOCALE_NAN_ALIASES) {
-    // Merge custom aliases with defaults, ensuring deduplication
-    const customAliases = process.env.LOCALE_NAN_ALIASES.split(/[;,]/)
-      .map(normalizeAlias)
-      .filter(alias => alias.length > 0);
-    return Array.from(new Set([...defaultAliases, ...customAliases]));
-  }
-
   return defaultAliases;
 }
 
