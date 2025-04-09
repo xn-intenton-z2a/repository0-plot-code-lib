@@ -29,7 +29,7 @@ function getAcceptedNaNAliases() {
       }
     }
   } catch (e) {
-    // Ignore error and fallback to default
+    console.warn("Warning: Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
   }
   return new Set(defaultNaNAliases);
 }
