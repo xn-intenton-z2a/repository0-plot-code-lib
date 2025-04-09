@@ -89,6 +89,7 @@ function parseNumericParams(paramStr) {
 
 // Inlined advanced plotting implementations
 const advancedPlots = {
+  // Each function now supports both numeric array parameters and JSON configuration objects.
   spiral: function (params) {
     console.log("Plotting spiral with params:", params);
   },
@@ -102,7 +103,8 @@ const advancedPlots = {
     console.log("Plotting box plot with params:", params);
   },
   violinPlot: function (params) {
-    console.log("Plotting violin plot with params:", params);
+    console.log("Plotting violin plot with params:
+", params);
   },
   cumulativeAverage: function (params) {
     console.log("Plotting cumulative average with params:", params);
@@ -132,9 +134,15 @@ function main(args = []) {
   if (args.includes("--advanced")) {
     const filteredArgs = args.filter(arg => arg !== "--advanced");
     const [plotType, params] = filteredArgs;
-    // If parameters contain a delimiter, parse them using the numeric utility
     let parsedParams = params;
-    if (params && (params.includes(",") || params.includes(";") || /\s+/.test(params))) {
+    // Check if params is a valid JSON configuration
+    if (params && params.trim().startsWith("{") && params.trim().endsWith("}")) {
+      try {
+        parsedParams = JSON.parse(params);
+      } catch (err) {
+        errorExit("Invalid JSON configuration for advanced plot parameters.");
+      }
+    } else if (params && (params.includes(",") || params.includes(";") || /\s+/.test(params))) {
       parsedParams = parseNumericParams(params);
     }
     switch (plotType) {
@@ -199,7 +207,17 @@ function main(args = []) {
       const parts = arg.split(/:(.+)/);
       const label = parts[0].trim();
       const paramStr = parts[1] ? parts[1].trim() : "";
-      const parsedParams = paramStr ? parseNumericParams(paramStr) : [];
+      // Check if paramStr is a valid JSON configuration
+      let parsedParams;
+      if (paramStr && paramStr.startsWith("{") && paramStr.endsWith("}")) {
+        try {
+          parsedParams = JSON.parse(paramStr);
+        } catch (err) {
+          errorExit("Invalid JSON configuration for plot parameters.");
+        }
+      } else {
+        parsedParams = paramStr ? parseNumericParams(paramStr) : [];
+      }
       return [label, parsedParams];
     } else if (arg.includes(",") || arg.includes(";")) {
       return parseNumericParams(arg);
