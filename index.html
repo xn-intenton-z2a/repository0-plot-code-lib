@@ -27,10 +27,10 @@
 <h2 class="md-github"><a class="md-github__anchor" name="enhanced-numeric-parameter-validation" href="#enhanced-numeric-parameter-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Numeric Parameter Validation</h2>
 <p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with optimized regex-based validation. Both the CLI and the web interface use this logic to:</p>
 <ol class="md-github">
-<li class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: &quot;not a number&quot;, &quot;notanumber&quot;, and &quot;na&quot;.</li>
+<li class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, and &quot;not-a-number&quot;.</li>
 <li class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string &quot;NaN&quot; for a unified representation across advanced and non-advanced modes.</li>
-<li class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now produce an error message suggesting the accepted alternatives.</li>
-<li class="md-github">Gracefully ignore empty tokens resulting from optional trailing or extra commas, enhancing usability without compromising strict validation of numeric inputs.</li>
+<li class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now trigger an error message that explicitly states that such tokens are not accepted and suggests the accepted tokens: 'NaN', 'not a number', 'notanumber', 'na', or 'not-a-number'.</li>
+<li class="md-github">Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.</li>
 </ol>
 <p class="md-github">This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN and properly handle trailing commas in numeric inputs.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="debug-logging-for-numeric-conversion" href="#debug-logging-for-numeric-conversion"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debug Logging for Numeric Conversion</h2>
@@ -95,8 +95,8 @@ Plotting scatter matrix with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 <h2 class="md-github"><a class="md-github__anchor" name="additional-details" href="#additional-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Details</h2>
 <ul class="md-github">
 <li class="md-github">Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., <code class="md-github">1e4</code>, <code class="md-github">2.14e-3</code>, <code class="md-github">-3.5E+2</code>).</li>
-<li class="md-github">Various representations of NaN (&quot;NaN&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;) are accepted and converted to the string &quot;NaN&quot; to ensure a consistent interface.</li>
-<li class="md-github">Near-miss tokens like &quot;n/a&quot; now trigger an error message with suggestions for the accepted tokens.</li>
+<li class="md-github">Various representations of NaN (&quot;NaN&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, &quot;not-a-number&quot;) are accepted and converted to the string &quot;NaN&quot; to ensure a consistent interface.</li>
+<li class="md-github">Near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and lists the acceptable alternatives.</li>
 <li class="md-github">Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.</li>
 <li class="md-github">Debug logging can be enabled via <code class="md-github">DEBUG_NUMERIC</code> to track NaN normalization.</li>
 <li class="md-github">The CLI and web interface now provide a unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.</li>
@@ -106,7 +106,7 @@ Plotting scatter matrix with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T02:11:03.602Z</p>
+    <p>Generated on 2025-04-09T02:42:53.302Z</p>
   </footer>
 </body>
 </html>
