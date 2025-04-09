@@ -14,9 +14,11 @@ This release includes improvements in numeric parameter handling. The core numer
 
 4. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
+5. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable for every numeric conversion.
+
 **Refactoring Note:**
 
-The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (`src/lib/main.js`) instead of in a separate utility file. This promotes tighter integration and ease of maintenance.
+The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (`src/lib/main.js`) instead of in a separate utility file. This promotes tighter integration, ease of maintenance, and improved performance via caching when applicable.
 
 Additionally, debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
 
@@ -139,6 +141,7 @@ This feature ensures that numeric validation can adapt to various regional forma
 - Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and provides suggestions.
 - Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
+- Caching of accepted NaN aliases is applied when no locale-specific configuration is provided to optimize performance.
 - The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
 
 ## Utility Module
