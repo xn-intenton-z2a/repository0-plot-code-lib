@@ -19,7 +19,8 @@ const DEFAULT_NAN_ALIASES = new Set([
   "not-a-number",
   "nicht eine zahl",
   "pas un nombre",
-  "no es un número"
+  "no es un número",
+  "non è un numero"
 ]);
 
 // Helper function for normalizing aliases
