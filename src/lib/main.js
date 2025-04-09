@@ -40,8 +40,7 @@ function getAcceptedNaNAliases() {
 function parseNumericParams(paramStr) {
   const acceptedNaNAliases = getAcceptedNaNAliases();
   // Split on one or more of comma, semicolon, or whitespace characters
-  const tokens = paramStr.split(/[
-\s,;]+/);
+  const tokens = paramStr.split(/[\s,;]+/);
   const result = [];
 
   // Regex for valid numeric values: integer, decimal or scientific notation.
