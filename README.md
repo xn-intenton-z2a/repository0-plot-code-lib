@@ -8,9 +8,9 @@ This release includes improvements in numeric parameter handling. The core numer
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases."
 
-2. Optionally, users can completely override the default NaN aliases by setting the environment variable `LOCALE_NAN_OVERRIDE` to a truthy value. When set, the parser will use only the custom aliases provided in `LOCALE_NAN_ALIASES` without merging them with the default list.
+2. Optionally, users can completely override the default NaN aliases by setting the environment variable `LOCALE_NAN_OVERRIDE` to a truthy value. When set, the parser will use only the aliases specified in `LOCALE_NAN_ALIASES` without merging them with the default list.
 
-3. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`) for a unified representation across advanced and non-advanced modes.
+3. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`).
 
 4. Process all tokens using Unicode normalization (NFC) in addition to lower-casing and trimming. Numeric parameters are split by commas or semicolons when present, preserving multi-word NaN aliases, and fallback to splitting by whitespace if no comma or semicolon is found. This ensures that visually equivalent Unicode representations and multi-word aliases are recognized as valid.
 
@@ -19,6 +19,8 @@ This release includes improvements in numeric parameter handling. The core numer
 6. Gracefully ignore empty tokens resulting from extra delimiters (including trailing delimiters and multiple consecutive commas, semicolons, or spaces), enhancing usability without compromising strict validation of numeric inputs.
 
 7. Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.
+
+8. Note on JSON Serialization: Numeric tokens recognized as NaN (including custom aliases via `LOCALE_NAN_ALIASES`) are converted to the native value `Number.NaN`. When serialized using JSON.stringify, these values become `null`. Users expecting a literal 'NaN' string in outputs should implement custom serialization logic or handle null values appropriately.
 
 **New Feature: JSON-Based Parameter Configuration**
 
@@ -135,7 +137,7 @@ Run with: [["quad", [1,NaN,5,-10,10]]]
 Run with: [["chart", { data: [10,20,30], label: "Test" }]]
 ```
 
-(Note: In JSON conversion, native NaN is represented as null.)
+(Note: When using JSON.stringify, native NaN values are serialized as null.)
 
 ### Web Interface Usage
 
