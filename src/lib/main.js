@@ -26,6 +26,7 @@ const DEFAULT_NAN_ALIASES = new Set([
 // Helper function for normalizing aliases
 // Normalization order: trim, NFC normalization, then lower-case to properly handle decomposed and composed Unicode forms.
 function normalizeAlias(alias) {
+  // Normalize by trimming, Unicode NFC normalization, then lower-case conversion
   return alias.trim().normalize("NFC").toLocaleLowerCase();
 }
 
@@ -86,6 +87,7 @@ const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 
 // Optimized implementation of numeric parameter conversion using Zod for validation and transformation.
 // This function processes delimiters (commas, semicolons, whitespace) and normalizes tokens to support international and strict NaN alias handling.
+// Note: When serializing the resulting numeric array with JSON.stringify, native NaN values are converted to null as per JSON specification.
 function parseNumericParams(paramStr, errorHandler) {
   let tokens;
   // Determine delimiter: if comma or semicolon exists, split using them; otherwise use whitespace splitting.
@@ -105,7 +107,7 @@ function parseNumericParams(paramStr, errorHandler) {
     // Reject near-miss tokens such as "n/a"
     if (normToken === "n/a") {
       const accepted = Array.from(acceptedAliases).sort().join(", ");
-      throw new Error(`Invalid numeric parameter '${trimmedToken}'. Near-miss token 'n/a' is not accepted. Accepted tokens: ${accepted}.`);
+      throw new Error(`Invalid numeric parameter '${trimmedToken}'. Detected near-miss token 'n/a'. Accepted NaN aliases: ${accepted}.`);
     }
     // If token is a recognized NaN alias, return native NaN
     if (acceptedAliases.has(normToken)) {
@@ -122,7 +124,8 @@ function parseNumericParams(paramStr, errorHandler) {
     if (numericRegex.test(processedToken)) {
       return Number(processedToken);
     }
-    throw new Error(`Invalid numeric parameter '${trimmedToken}'. Expected a valid number or an accepted NaN alias.`);
+    const accepted = Array.from(acceptedAliases).sort().join(", ");
+    throw new Error(`Invalid numeric parameter '${trimmedToken}'. Expected a valid number or an accepted NaN alias: ${accepted}.`);
   });
 
   for (const token of tokens) {
@@ -277,7 +280,7 @@ function main(args = []) {
         } else {
           parsedParams = paramStr ? parseNumericParams(paramStr) : [];
         }
-        console.log(`Run with: [["${label}", ${JSON.stringify(parsedParams)}]]`);
+        console.log(`Run with: [[\"${label}\", ${JSON.stringify(parsedParams)}]]`);
       } else if (arg.includes(",") || arg.includes(";") || /\s+/.test(arg)) {
         const parsed = parseNumericParams(arg);
         console.log(`Run with: ${JSON.stringify(parsed)}`);
