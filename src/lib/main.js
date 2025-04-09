@@ -39,7 +39,9 @@ function getAcceptedNaNAliases() {
 // Enhanced to ensure unified handling of NaN aliases (with caching), Unicode normalization (NFC), and improved error messaging for near-miss tokens.
 function parseNumericParams(paramStr) {
   const acceptedNaNAliases = getAcceptedNaNAliases();
-  const tokens = paramStr.split(",");
+  // Split on one or more of comma, semicolon, or whitespace characters
+  const tokens = paramStr.split(/[
+\s,;]+/);
   const result = [];
 
   // Regex for valid numeric values: integer, decimal or scientific notation.
@@ -47,7 +49,7 @@ function parseNumericParams(paramStr) {
 
   for (const token of tokens) {
     const trimmed = token.trim();
-    // Skip empty tokens (including those from trailing or consecutive commas)
+    // Skip empty tokens (including those from trailing or consecutive delimiters)
     if (trimmed === "") continue;
 
     // Normalize token for consistent alias checking: lowercase, collapse whitespace, trim and Unicode NFC
@@ -117,9 +119,9 @@ function main(args = []) {
   if (args.includes("--advanced")) {
     const filteredArgs = args.filter(arg => arg !== "--advanced");
     const [plotType, params] = filteredArgs;
-    // If parameters contain a comma, parse them using the numeric utility
+    // If parameters contain a delimiter, parse them using the numeric utility
     let parsedParams = params;
-    if (params && params.includes(",")) {
+    if (params && (/[,;\s]/.test(params))) {
       parsedParams = parseNumericParams(params);
     }
     switch (plotType) {
@@ -177,12 +179,12 @@ function main(args = []) {
     return;
   }
 
-  // For non-advanced mode, standardize numeric conversion on parameters that include comma-separated tokens.
+  // For non-advanced mode, standardize numeric conversion on parameters that include delimiters.
   const finalArgs = args.map(arg => {
-    if (arg.includes(",")) {
+    if (/[,;\s]/.test(arg)) {
       if (arg.includes(":")) {
         return arg.split(":").map(segment => {
-          return segment.includes(",") ? parseNumericParams(segment) : segment;
+          return /[,;\s]/.test(segment) ? parseNumericParams(segment) : segment;
         });
       } else {
         return parseNumericParams(arg);

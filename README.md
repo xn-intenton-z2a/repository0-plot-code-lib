@@ -14,13 +14,13 @@ This release includes improvements in numeric parameter handling. The core numer
 
 4. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.
 
-5. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
+5. Gracefully ignore empty tokens resulting from extra delimiters (including trailing delimiters and multiple consecutive commas, semicolons, or spaces), enhancing usability without compromising strict validation of numeric inputs.
 
 6. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided. Note that when `LOCALE_NAN_ALIASES` is provided, caching is bypassed to ensure the latest configuration is used.
 
-**Refactoring Note:**
+**New Feature:**
 
-The logic for parsing and normalizing NaN aliases is now incorporated within the main module (`src/lib/main.js`), simplifying module management and resolution.
+Numeric parameter parsing now supports additional delimiters including semicolons and whitespace. For example, both "1, NaN, 5" and "1;NaN;5" or even "1  NaN  5" are correctly parsed.
 
 ## Debug Logging for Numeric Conversion
 
@@ -41,11 +41,11 @@ Normalized token 'na' to native NaN
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization, and trailing commas):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization, and trailing delimiters):
 
 ```bash
 # Example with advanced plotting using the --advanced flag
-node src/lib/main.js --advanced testPlot " 1, NaN , 5, -10, 10, 1,"
+node src/lib/main.js --advanced testPlot " 1, NaN ; 5  , -10, 10, 1;"
 ```
 
 **Expected Console Output:**
@@ -60,14 +60,14 @@ Test Plot with params: [ 1, NaN, 5, -10, 10, 1 ]
 To render a contour plot, use the --advanced flag with the contourPlot option:
 
 ```bash
-node src/lib/main.js --advanced contourPlot "1, NaN, 5, -10, 10, 1"
+node src/lib/main.js --advanced contourPlot "1; NaN  5, -10, 10"
 ```
 
 **Expected Console Output:**
 
 ```
 Advanced Plot: Contour Plot
-Plotting contour plot with params: [ 1, NaN, 5, -10, 10, 1 ]
+Plotting contour plot with params: [ 1, NaN, 5, -10, 10 ]
 ```
 
 ### Advanced Plotting: Scatter Matrix
@@ -87,16 +87,16 @@ Plotting scatter matrix with params: [ 1, NaN, 5, -10, 10, 1 ]
 
 ### CLI Usage in Non-Advanced Mode
 
-When running without the `--advanced` flag, the CLI automatically parses any parameter that is a comma-separated string, converting numbers accordingly. For example:
+When running without the `--advanced` flag, the CLI automatically parses any parameter that is a delimited string, converting numbers accordingly. For example:
 
 ```bash
-node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
+node src/lib/main.js "quad: 1 ; 2.14e-3  not a number   -3.5E+2"
 ```
 
 **Expected Console Output:**
 
 ```
-Run with: ["quad", [1,0,5,-10,10]]
+Run with: ["quad", [1, 0, 5, -10, 10]]
 ```
 
 (Note: In JSON conversion, native NaN is represented as null.)
@@ -114,7 +114,7 @@ npm run start:web
 2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral", "contourPlot", or "scatterMatrix") and enter a set of parameters, such as:
 
 ```
-1, na, 5, -10, 10, 1
+1; na; 5 , -10  10, 1
 ```
 
 3. Submit the form to see the converted parameters and a confirmation page indicating that the correct plotting function was invoked.
@@ -122,7 +122,7 @@ npm run start:web
 You can also test using a simple cURL command:
 
 ```bash
-curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumber ,5, -10, 10, 1"
+curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumber ,5"
 ```
 
 ## Localization Support
