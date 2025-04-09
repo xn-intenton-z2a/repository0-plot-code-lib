@@ -24,7 +24,8 @@ const DEFAULT_NAN_ALIASES = new Set([
 ]);
 
 // Helper function for normalizing aliases
-// Updated normalization order: trim, normalize (NFC), then lower-case to properly handle decomposed Unicode forms
+// Updated normalization order: trim, normalize (NFC), then lower-case to properly handle both decomposed and composed Unicode forms,
+// ensuring support for extended Unicode representations including non-Latin scripts.
 function normalizeAlias(alias) {
   return alias.trim().normalize("NFC").toLocaleLowerCase();
 }

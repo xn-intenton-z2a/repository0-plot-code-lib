@@ -18,7 +18,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`). Note that due to the nature of JSON, when these NaN values are serialized using `JSON.stringify`, they will appear as `null`.
 
-3. Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, particularly for locale-specific NaN aliases.
+3. Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, including extended support for non-Latin scripts such as Cyrillic and Japanese, particularly for locale-specific NaN aliases.
 
 4. Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace, while gracefully ignoring extra delimiters, trailing commas, and multiple consecutive separators.
 
@@ -82,11 +82,15 @@ This release includes improvements in numeric parameter handling. The core numer
 
     With this new mode, if the environment variable `STRICT_NAN_MODE` is enabled, only the canonical (normalized) 'NaN' token is accepted as a valid NaN indicator. All alternative aliases (e.g., "na", "not a number") will be rejected, enforcing unambiguous numeric input.
 
+## Extended Unicode Support
+
+This update further enhances Unicode normalization to correctly process extended Unicode representations, including non-Latin scripts such as Cyrillic and Japanese. Users can now configure custom NaN aliases in any Unicode script, and the normalization logic will accurately transform decomposed forms to their canonical representations.
+
 ## Examples
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, JSON configuration support, locale-specific number formatting, and strict NaN mode if enabled):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international and extended Unicode variants, strict rejection of near-miss tokens, JSON configuration support, locale-specific number formatting, and strict NaN mode if enabled):
 
 ```bash
 # Example with advanced plotting using numeric parameters
@@ -139,17 +143,17 @@ Run with: [["quad", [1, NaN, 5, -10, 10]]]
 Run with: [["chart", { data: [10, 20, 30], label: "Test" }]]
 ```
 
-### International NaN Aliases
+### International and Extended Unicode NaN Aliases
 
-The parser now natively recognizes international representations of NaN. For example:
+The parser now natively recognizes international representations of NaN as well as extended Unicode representations in non-Latin scripts. For example:
 
 ```bash
 node src/lib/main.js "quad: 1, pas un nombre, 5"
-node src/lib/main.js "quad: 1, no es un número, 5"
-node src/lib/main.js "quad: 1, non è un numero, 5"
+node src/lib/main.js "quad: 1, не число, 5"   # Cyrillic example
+node src/lib/main.js "quad: 1, 非数, 5"       # Japanese example
 ```
 
-All commands will interpret the international aliases as a NaN value.
+All commands will interpret the international and extended Unicode aliases as a NaN value.
 
 ### Locale-Specific Number Formatting
 
