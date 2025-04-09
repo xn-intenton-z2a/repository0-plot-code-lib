@@ -1,48 +1,41 @@
 # CORE_ENGINE
 
 ## Overview
-The CORE_ENGINE remains the backbone of our plotting library, handling advanced plotting, formula evaluation, diagnostics, interactive CLI wizard, preview mode, built-in help, web integration, and persistent user configuration. This update enriches the feature set by incorporating an Interactive CLI Wizard, enabling users to configure plots and formulas through a guided, step-by-step interface.
+The CORE_ENGINE is the backbone of our plotting library. It manages advanced plotting, formula evaluation, diagnostics, and now an interactive CLI wizard. The engine integrates numeric parameter validation and supports dynamic plot types along with optional plugin extensions. This update enhances the user experience by offering a guided command-line interface for plot configuration.
 
 ## Motivation
-- **Advanced Plotting:** Continue supporting diverse output formats (SVG, JSON, CSV, Markdown, ASCII, HTML) and a variety of plot types including spiral, polar heatmap, dual axis, and more.
-- **User Guidance:** Lower the entry barrier for new users via an interactive CLI wizard that walks them through plot configuration, parameter input, and theme selection.
-- **Unified Experience:** Consolidate configuration management (including numeric parameter validation, theme customizations, and plugin integrations) under a single, extensible core.
+- **Unified Experience:** Consolidate advanced plotting, configuration, and plugin integration under one cohesive engine.
+- **User Guidance:** Lower the barrier for new users with an interactive CLI wizard that guides users through selecting plot types, entering numeric parameters, and choosing themes or plugins.
+- **Extensibility:** Seamlessly integrate with the PLUGIN_SYSTEM to allow dynamic addition of new plot types without modifying core logic.
 
 ## Implementation Details
-1. **Plotting and Formula Evaluation:**
-   - Retain existing capabilities for numeric validation, regex-based parsing, and formula evaluation through libraries like mathjs.
-   - Ensure advanced plot types (e.g., spiral, contour plot, scatter matrix) continue to be invoked correctly with parsed parameters.
+1. **Legacy Plotting Support:**
+   - Maintain existing plotting functions (spiral, polarHeatmap, dualAxis, etc.) with robust numeric parameter conversion.
+   - Ensure error handling is consistent and clear for all numeric inputs.
 
-2. **Visual Themes and Diagnostics:**
-   - Integrate customizable visual themes. Users can pass a `--theme` flag or persist preferences through configuration files.
-   - Maintain diagnostics mode (`--diagnostics`) that runs self-tests and health checks.
+2. **Interactive CLI Wizard:**
+   - **Trigger:** Activate the wizard mode with a `--wizard` flag (in addition to the existing `--advanced` flag).
+   - **Flow:**
+     - Prompt the user to select a plot type from the list of supported plot types.
+     - Request numeric parameters with inline validation using the established numeric conversion utility.
+     - Allow selection of visual themes and optional plugin usage if the PLUGIN_SYSTEM is enabled.
+     - Confirm or allow cancellation of the current configuration, gracefully falling back to default settings if needed.
+   - **Single Source File:** The wizard will be implemented in a dedicated module (e.g., `src/lib/cliWizard.js`) and integrated into the main control flow in `src/lib/main.js` when `--wizard` is detected.
 
-3. **Interactive CLI Wizard:**
-   - **Design:** Introduce a guided CLI wizard (triggered via a `--wizard` flag) that interactively prompts users for plot type, numeric parameters, theme selection, and optional plugin usage.
-   - **Flow:** 
-     - Start by asking the user to select a plot type from a list of supported types.
-     - Prompt for numeric inputs with inline validation (leveraging the existing numeric conversion logic).
-     - Provide an option to choose or define a visual theme.
-     - Optionally, offer plugin integration if the PLUGIN_SYSTEM is active.
-   - **Integration:** Embed the wizard logic within a single module (e.g., `src/lib/cliWizard.js`) that is invoked from the main entry point when the `--wizard` flag is detected. The wizard should gracefully fallback to default settings if the user opts to cancel any step.
-
-4. **Testing and Documentation:**
-   - Update unit and integration tests to cover the interactive CLI wizard functionality.
-   - Revise the README and CONTRIBUTING guides with usage examples of the wizard mode, including step-by-step prompts and fallback behaviors.
+3. **Integration with Existing Functionality:**
+   - Re-use the existing numeric validation and plugin integration.
+   - Update documentation and tests to cover the new wizard mode.
 
 ## Usage Examples
 
-**Running a Guided CLI Wizard:**
+**Running the Interactive CLI Wizard:**
 ```bash
 node src/lib/main.js --wizard
 ```
 
-During execution, the user is prompted to:
-- Select a plot type (e.g., spiral, contourPlot, scatterMatrix)
-- Enter numeric parameters with real-time validation
-- Choose a visual theme (from a list of pre-defined options such as darkMode or lightMode)
-- Confirm or modify plugin integrations (if desired)
+During execution, the CLI will prompt the user to choose a plot type (e.g., spiral, contourPlot, scatterMatrix), enter required numeric parameters, and optionally select a theme or load a plugin. After confirmation, the engine invokes the appropriate plotting function.
 
-The wizard then consolidates these inputs and triggers the corresponding plotting function in the CORE_ENGINE.
+**Fallback Behavior:**
+If the user cancels any step, the wizard mode gracefully reverts to a default configuration, ensuring stable operation.
 
-This enhancement reinforces our mission to be the go-to plot library by making advanced plotting more accessible and user-friendly, while keeping the repository lean and maintainable.
+This enhancement aligns with our mission to be the go-to plot library, combining a powerful core engine with a user-friendly, guided configuration experience.
