@@ -69,10 +69,28 @@ node src/lib/main.js &quot;quad: 1, na, 5&quot;
 <pre class="md-github"><code class="md-github">Normalized token 'na' to native NaN
 </code></pre>
 </li>
+<li class="md-github">
+<p class="md-github">Locale-Specific Number Formatting (New)</p>
+<p class="md-github">By enabling thousands separator parsing using the environment variable <code class="md-github">ENABLE_THOUSANDS_SEPARATOR</code>, the parser can now handle locale-specific number formats. Set <code class="md-github">NUMERIC_LOCALE</code> to specify the format:</p>
+<ul class="md-github">
+<li class="md-github">For English (e.g., &quot;1,234.56&quot; becomes 1234.56), set <code class="md-github">NUMERIC_LOCALE=en</code>.</li>
+<li class="md-github">For European formats (e.g., &quot;1.234,56&quot; becomes 1234.56), set <code class="md-github">NUMERIC_LOCALE=eu</code>.</li>
+</ul>
+<p class="md-github">Example for English:</p>
+<pre class="md-github"><code class="md-github language-bash">export ENABLE_THOUSANDS_SEPARATOR=true
+export NUMERIC_LOCALE=en
+node src/lib/main.js &quot;quad: 1,234.56, NaN, 7,890&quot;
+</code></pre>
+<p class="md-github">Example for European:</p>
+<pre class="md-github"><code class="md-github language-bash">export ENABLE_THOUSANDS_SEPARATOR=true
+export NUMERIC_LOCALE=eu
+node src/lib/main.js &quot;quad: 1.234,56, NaN, 7.890&quot;
+</code></pre>
+</li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
-<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, and JSON configuration support):</p>
+<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, JSON configuration support, and locale-specific number formatting):</p>
 <pre class="md-github"><code class="md-github language-bash"># Example with advanced plotting using numeric parameters
 node src/lib/main.js --advanced testPlot &quot; 1, NaN ; 5  , -10, 10, 1;&quot;
 
@@ -109,6 +127,18 @@ Run with: [[&quot;chart&quot;, { data: [10, 20, 30], label: &quot;Test&quot; }]]
 node src/lib/main.js &quot;quad: 1, no es un número, 5&quot;
 </code></pre>
 <p class="md-github">Both commands will interpret the international alias as a NaN value.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="locale-specific-number-formatting" href="#locale-specific-number-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locale-Specific Number Formatting</h3>
+<p class="md-github">Enable locale-specific number formatting to correctly parse numbers with thousands separators:</p>
+<p class="md-github">For English:</p>
+<pre class="md-github"><code class="md-github language-bash">export ENABLE_THOUSANDS_SEPARATOR=true
+export NUMERIC_LOCALE=en
+node src/lib/main.js &quot;quad: 1,234.56, NaN, 7,890&quot;
+</code></pre>
+<p class="md-github">For European:</p>
+<pre class="md-github"><code class="md-github language-bash">export ENABLE_THOUSANDS_SEPARATOR=true
+export NUMERIC_LOCALE=eu
+node src/lib/main.js &quot;quad: 1.234,56, NaN, 7.890&quot;
+</code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="localization-support" href="#localization-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Localization Support</h2>
 <p class="md-github">Customize accepted NaN aliases by setting the <code class="md-github">LOCALE_NAN_ALIASES</code> environment variable. For example, to accept the German alias &quot;nicht eine zahl&quot;, the French alias &quot;pas un nombre&quot;, or the Spanish alias &quot;no es un número&quot;:</p>
 <pre class="md-github"><code class="md-github language-bash">export LOCALE_NAN_ALIASES='[&quot;nicht eine zahl&quot;]'
@@ -124,7 +154,7 @@ node src/lib/main.js &quot;quad: 1, your_alias, 5&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T09:09:04.757Z</p>
+    <p>Generated on 2025-04-09T09:19:37.846Z</p>
   </footer>
 </body>
 </html>
