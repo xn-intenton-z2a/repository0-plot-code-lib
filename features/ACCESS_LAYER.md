@@ -1,49 +1,83 @@
 # ACCESS_LAYER
 
 ## Overview
-This feature provides a unified interface for CLI operations including interactive sessions, diagnostics, onboarding tutorials, and alias management with enhanced import/export capabilities. The updated ACCESS_LAYER now integrates a robust interactive mode that guides users step by step, offering real-time command suggestions, dynamic error handling, and history logging. This update aligns closely with our mission, empowering users with a seamless plotting experience and robust CLI interactions.
+This feature provides a unified interface for both CLI and HTTP operations. It supports interactive sessions, diagnostics, onboarding tutorials, alias management with enhanced import/export capabilities, and now an expanded Web API for programmatic access. This update maintains its core mission of empowering users with seamless plotting experiences while enabling remote usage via a RESTful interface.
 
 ## Key Objectives
 - **Enhanced Interactive Mode:**
-  - Provide a guided interactive session that supports real-time input validation, command suggestions, and error recovery.
-  - Log command history to help users review past interactions and facilitate troubleshooting.
+  - Offer a guided interactive session with real-time command suggestions, input validation, and error recovery.
+  - Log command history to assist with troubleshooting and session review.
+
 - **Extended Diagnostics:**
-  - Support traditional diagnostics flags along with the diagnostic API endpoint to return alias and session details.
-  - Offer detailed runtime metrics and system configuration data.
-- **Unified Alias Management with Import/Export:**
-  - Enable users to define, list, delete, export, and import CLI command aliases.
-  - Validate alias conflicts and ensure compatibility with reserved commands.
+  - Continue supporting traditional diagnostic flags and a diagnostic API endpoint that returns alias and session details alongside runtime metrics and system configuration data.
+
+- **Unified Alias Management:**
+  - Facilitate creating, listing, deleting, exporting, and importing CLI command aliases with conflict validation.
+
 - **Onboarding Tutorial Enhancement:**
-  - Integrate an interactive onboarding tutorial to educate new users on the CLI usage and plotting commands.
-  - Include dynamic walkthroughs based on user input to improve learning outcomes.
+  - Integrate an interactive tutorial to assist new users in learning CLI operations and plotting commands via dynamic walkthroughs.
+
+- **Expanded Web API Integration:**
+  - Implement a robust RESTful API using Express for remote plot submission and retrieval.
+  - Expose endpoints such as:
+    - **GET /** – Welcome and basic usage information.
+    - **POST /plot** – Accept a plot specification and generate a plot (e.g., SVG, JSON, etc.).
+    - **GET /plot/:id** – Retrieve details of a previously generated plot.
+    - **GET /diagnostics** – Serve extended diagnostic data including session logs and alias configurations.
+    - **GET /aliases** – List or manage alias configurations via HTTP.
+  - Ensure consistent error handling, logging, and integration with the underlying plotting engine (PLOT_ENGINE) and text output utilities (TEXT_OUTPUT).
 
 ## Design & Implementation
 - **CLI Parser Enhancements:**
-  - Extend argument parsing in `src/lib/main.js` to fully support interactive sessions, diagnostics, alias management, and tutorials.
-  - Introduce a subroutine for processing interactive commands with real-time suggestions and history logging.
+  - Extend argument parsing in `src/lib/main.js` to handle CLI commands as before, seamlessly integrating with the new HTTP endpoints.
+
 - **Interactive Session Module:**
-  - Develop a dedicated module to handle guided sessions that prompt the user for valid input and provide contextual help.
-  - Integrate logs to capture session histories and command feedback.
+  - Maintain a dedicated module to capture guided sessions, provide contextual help, and store interactive command histories.
+
 - **Alias Configuration Module:**
-  - Augment existing alias functionality to support robust import and export operations, ensuring configurations can be backed up and restored.
+  - Keep the robust alias management system with import/export functionality, now accessible via both CLI and HTTP endpoints.
+
 - **Web API Integration:**
-  - Optionally extend the diagnostics HTTP endpoint to include interactive session logs and current alias configurations.
+  - Build out a full RESTful API using Express. The API shall:
+    - Expose endpoints for plot generation, diagnostics, and alias management.
+    - Use asynchronous processing to call the underlying plotting and text-rendering modules.
+    - Provide JSON responses with structured data including metadata, plot data, and logs.
+    - Integrate error messaging and dynamic command suggestions similar to the interactive CLI mode.
 
 ## Testing and Documentation
-- Update unit and integration tests (e.g., in `tests/unit/main.test.js`) to cover new interactive session workflows, real-time feedback, and alias operations.
-- Revise documentation in README.md and CONTRIBUTING.md to include examples and guidelines for using the enhanced interactive mode and alias management features.
+- **Testing:**
+  - Update unit and integration tests (e.g., in `tests/unit/main.test.js`) to cover new HTTP endpoints alongside CLI functionalities.
+  - Ensure consistent test coverage across interactive, alias, and API modules.
+
+- **Documentation:**
+  - Revise README.md and CONTRIBUTING.md to include detailed API usage examples, endpoint descriptions, and integration guidelines.
 
 ## Usage Examples
-- **Activating Enhanced Interactive Mode:**
+- **CLI Interactive Mode:**
   ```bash
   node src/lib/main.js --interactive
   ```
-- **Alias Export/Import Commands:**
+
+- **Plot Generation via CLI:**
   ```bash
-  node src/lib/main.js --alias export my_aliases.json
-  node src/lib/main.js --alias import my_aliases.json
+  node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```
-- **Accessing Onboarding Tutorial:**
+
+- **Starting the Web Interface (HTTP API):**
   ```bash
-  node src/lib/main.js --tutorial
+  node src/lib/main.js --serve
   ```
+
+- **Example HTTP API Calls:**
+  - Retrieve welcome info:
+    ```bash
+    curl http://localhost:3000/
+    ```
+  - Submit a plot specification:
+    ```bash
+    curl -X POST http://localhost:3000/plot -H "Content-Type: application/json" -d '{"plotSpec": "expr:Math.sin(x)*x:-10,10,0.5"}'
+    ```
+  - Access diagnostics:
+    ```bash
+    curl http://localhost:3000/diagnostics
+    ```
