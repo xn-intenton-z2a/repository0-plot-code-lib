@@ -95,7 +95,7 @@ function parseNumericParams(paramStr, errorHandler) {
     if (numericRegex.test(trimmedToken)) {
       return Number(trimmedToken);
     }
-    throw new Error(`Invalid numeric parameter '${trimmedToken}'`);
+    throw new Error(`Invalid numeric parameter '${trimmedToken}'. Expected a valid number or an accepted NaN alias.`);
   });
 
   for (const token of tokens) {
