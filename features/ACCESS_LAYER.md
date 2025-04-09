@@ -1,49 +1,48 @@
 # ACCESS_LAYER
 
 ## Overview
-This feature consolidates diagnostics, interactive session enhancements, and an integrated tutorial mode into a unified CLI and API experience. It centralizes interactive user guidance including command history logging and a step-by-step walkthrough for new users, while maintaining robust diagnostics for both CLI and web endpoints.
+This feature consolidates CLI operational modes with enhanced diagnostics, interactive session handling, an onboarding tutorial, and a new unified alias configuration system. The alias system simplifies command invocation by allowing users to define short commands or alternate names for frequently used options, thereby reducing complexity in repetitive tasks.
 
 ## Key Objectives
-- **Unified CLI Experience:** Enhance the CLI to support multiple modes including diagnostics (--diagnostics), interactive session (--interactive), and an onboarding tutorial (--tutorial).
-- **Robust Diagnostics:** Continue to provide detailed system configuration, runtime metrics, and dependency information in both human-readable and JSON formats via CLI and a dedicated web API endpoint (/diagnostics).
-- **Interactive Session Enhancements:** Implement command history logging with secure file handling, along with a command retrieval feature (--history), enabling users to review past interactions.
-- **Onboarding Tutorial Mode:** Integrate a guided tutorial that activates with the --tutorial flag. This mode will present a welcome message, step-by-step instructions on plot generation, usage of diagnostics, interactive mode, and text output options, ensuring a smooth onboarding process.
+- **Unified CLI Experience:** Support diagnostics (--diagnostics), interactive mode (--interactive), tutorial (--tutorial), and now alias management (--alias) through a single, consistent interface.
+- **Robust Diagnostics & Interactive Sessions:** Continue to provide detailed system configuration, runtime metrics, command history logging, and guided tutorials.
+- **Unified Alias Configuration:** Allow users to define, list, and delete command aliases directly from the CLI. This feature will enable streamlined command input and easier command recall.
+- **Seamless Web API Integration:** Maintain the diagnostics endpoint (/diagnostics) to serve both the existing diagnostics information and alias configuration status when applicable.
 
 ## Design & Implementation
 ### CLI Parser Enhancements (src/lib/main.js)
-- **Diagnostics Flag:** Process the --diagnostics flag to display detailed system and runtime diagnostics in both formatted text and JSON.
-- **Interactive Mode:** When --interactive is passed, activate the interactive session with logging of user commands, including timestamping and secure storage in a history file.
-- **Tutorial Mode:** Detect the --tutorial flag to launch an interactive onboarding guide that walks the user through various functionalities, including generating plots, using diagnostics, and understanding CLI flags. The tutorial will prompt for confirmations and provide sample command executions.
+- **Flag Handling:**
+  - Process traditional flags: --diagnostics, --interactive, --tutorial.
+  - Introduce a new flag, --alias, which will trigger alias management commands. For example:
+    - `--alias set <alias> <command>` to create an alias.
+    - `--alias list` to display all available aliases.
+    - `--alias delete <alias>` to remove an alias.
+
+### Alias Management Module
+- **Implementation:**
+  - Integrate alias management into the existing CLI parser.
+  - Store aliases in a dedicated configuration file (e.g., aliases.json) with secure read/write operations.
+  - Provide validation and error handling to ensure that alias names do not conflict with existing flags or reserved commands.
 
 ### Web API Integration
-- **GET /diagnostics Endpoint:** Maintain the existing diagnostics endpoint to serve the same data as the CLI diagnostics output, ensuring consistency.
+- Optionally extend the `/diagnostics` endpoint to include current alias configurations when requested (e.g., via query parameter `?aliases=true`).
 
 ### Testing and Documentation
-- **Testing:** Expand unit tests to cover scenarios for diagnostics, interactive session logging (including history retrieval), and the new tutorial mode. This includes tests for correct flag parsing and guided interactions.
-- **Documentation:** Update README.md and CONTRIBUTING.md to include detailed instructions and examples for using the tutorial mode alongside diagnostics and interactive features.
+- **Unit Tests:** Extend tests in `tests/unit/main.test.js` to cover alias creation, listing, and deletion scenarios.
+- **Documentation:** Update README.md and CONTRIBUTING.md with examples on how to use the alias system along with the other CLI modes.
 
 ## Usage Examples
-- **Diagnostics:**
+- **Set an Alias:**
   ```bash
-  node src/lib/main.js --diagnostics
+  node src/lib/main.js --alias set ls "--interactive"
   ```
-- **Interactive Session:**
+- **List Aliases:**
   ```bash
-  node src/lib/main.js --interactive
+  node src/lib/main.js --alias list
   ```
-  To retrieve command history:
+- **Delete an Alias:**
   ```bash
-  node src/lib/main.js --history
+  node src/lib/main.js --alias delete ls
   ```
-- **Tutorial Mode:**
-  ```bash
-  node src/lib/main.js --tutorial
-  ```
-- **Web Diagnostics Endpoint:**
-  ```bash
-  node src/lib/main.js --serve
-  ```
-  Then access via:
-  ```bash
-  curl http://localhost:3000/diagnostics
-  ```
+
+This update to ACCESS_LAYER ensures a streamlined and efficient CLI experience by integrating a unified alias configuration system with the existing diagnostic, interactive, and tutorial functionalities.
