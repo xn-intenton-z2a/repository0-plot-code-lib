@@ -6,7 +6,6 @@ import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main } from "../../src/lib/main.js";
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -63,7 +62,7 @@ describe("Handling 'NaN' as a valid token", () => {
 });
 
 describe("Advanced Plotting Numeric Conversion", () => {
-  test("should convert 'NaN' token to native NaN in advanced mode", () => {
+  test("should convert 'NaN' token to string \"NaN\" in advanced mode", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     // Override testPlot to capture the params
     const originalTestPlot = mainModule.advancedPlots.testPlot;
@@ -75,7 +74,7 @@ describe("Advanced Plotting Numeric Conversion", () => {
     
     expect(receivedParams).toHaveLength(3);
     expect(receivedParams[0]).toBe(1);
-    expect(receivedParams[1]).toBeNaN();
+    expect(receivedParams[1]).toBe("NaN");
     expect(receivedParams[2]).toBe(5);
 
     // Restore original testPlot function
@@ -125,7 +124,7 @@ describe("Additional Numeric Edge Cases", () => {
   test("should handle leading/trailing spaces and scientific notation in colon-separated input", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:  3e2,   NaN,  -5E-1"]);
-    // Expected output: ["quad", [300, NaN, -0.5]] is printed as JSON with NaN replaced by "NaN"
+    // Expected output: ["quad", [300, "NaN", -0.5]] is printed as JSON
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[300,"NaN",-0.5]]'));
     logSpy.mockRestore();
   });
@@ -175,7 +174,7 @@ describe("Numeric Debug Logging", () => {
     const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
     process.env.DEBUG_NUMERIC = "true";
     main(["quad:1,na,5"]);
-    expect(debugSpy).toHaveBeenCalledWith("Normalized token 'na' to native NaN");
+    expect(debugSpy).toHaveBeenCalledWith("Normalized token 'na' to \"NaN\"");
     delete process.env.DEBUG_NUMERIC;
     debugSpy.mockRestore();
   });
