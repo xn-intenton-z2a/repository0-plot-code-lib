@@ -6,18 +6,21 @@ export function resolveNaNAliases() {
     return ["nan"];
   }
 
+  // Normalize an alias by trimming and converting to lower case
+  const normalize = alias => alias.trim().toLowerCase();
+
   if (process.env.LOCALE_NAN_OVERRIDE) {
-    // Override defaults completely
+    // Override defaults completely and normalize each alias
     return process.env.LOCALE_NAN_OVERRIDE.split(",")
-      .map(alias => alias.trim())
+      .map(normalize)
       .filter(alias => alias.length > 0);
   }
 
-  const defaultAliases = ["nan", "notanumber", "undefined"];
+  const defaultAliases = ["nan", "notanumber", "undefined"].map(normalize);
 
   if (process.env.LOCALE_NAN_ALIASES) {
     const customAliases = process.env.LOCALE_NAN_ALIASES.split(",")
-      .map(alias => alias.trim().toLowerCase())
+      .map(normalize)
       .filter(alias => alias.length > 0);
     // Merge custom aliases with defaults, deduplicating
     const merged = new Set([...defaultAliases, ...customAliases]);
