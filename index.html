@@ -39,7 +39,7 @@
 <p class="md-github">Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a warning is emitted: &quot;Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.&quot; When the environment variable <code class="md-github">LOCALE_NAN_OVERRIDE</code> is set, only the provided aliases will be used.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native <code class="md-github">NaN</code> value. Note that when these values are serialized using <code class="md-github">JSON.stringify</code>, they appear as <code class="md-github">null</code>.</p>
+<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native <code class="md-github">NaN</code> value. Note that when these values are serialized using <code class="md-github">JSON.stringify</code>, they appear as <code class="md-github">null</code> (per JSON specification).</p>
 </li>
 <li class="md-github">
 <p class="md-github">Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, including extended support for non-Latin scripts.</p>
@@ -124,12 +124,14 @@ node src/lib/main.js &quot;quad: 1, your_alias, 5&quot;
 <p class="md-github">The optional error handling callback in <code class="md-github">parseNumericParams</code> enables custom error reporting, making the parser flexible for different runtime environments.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="utility-module" href="#utility-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Module</h2>
 <p class="md-github">All numeric parsing and NaN normalization logic is encapsulated in the main module (<code class="md-github">src/lib/main.js</code>), supporting maintainability and modularity.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="note-on-json-serialization" href="#note-on-json-serialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Note on JSON Serialization</h2>
+<p class="md-github">When converting numeric values to JSON (e.g., via <code class="md-github">JSON.stringify</code>), native NaN values are serialized as <code class="md-github">null</code>, as per the JSON standard.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T10:43:11.564Z</p>
+    <p>Generated on 2025-04-09T10:51:12.977Z</p>
   </footer>
 </body>
 </html>
