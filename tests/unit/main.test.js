@@ -179,3 +179,22 @@ describe("Numeric Debug Logging", () => {
     debugSpy.mockRestore();
   });
 });
+
+describe("Advanced Plotting - Contour Plot", () => {
+  test("should convert parameters and trigger contour plot handler", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const originalContourPlot = mainModule.advancedPlots.contourPlot;
+    let receivedParams;
+    mainModule.advancedPlots.contourPlot = function(params) { receivedParams = params; };
+
+    main(["--advanced", "contourPlot", "1,NaN,5"]);
+    
+    expect(receivedParams).toHaveLength(3);
+    expect(receivedParams[0]).toBe(1);
+    expect(receivedParams[1]).toBe("NaN");
+    expect(receivedParams[2]).toBe(5);
+
+    mainModule.advancedPlots.contourPlot = originalContourPlot;
+    logSpy.mockRestore();
+  });
+});

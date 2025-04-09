@@ -44,6 +44,20 @@ Advanced Plot: Test Plot
 Test Plot with params: [ 1, "NaN", 5 ]
 ```
 
+### Advanced Plotting: Contour Plot
+
+A new advanced plotting feature for contour plots has been added. To render a contour plot, use the --advanced flag with the contourPlot option:
+
+```bash
+node src/lib/main.js --advanced contourPlot "1, NaN, 5, -10, 10, 1"
+```
+
+**Expected Console Output:**
+```
+Advanced Plot: Contour Plot
+Plotting contour plot with params: [ 1, "NaN", 5, -10, 10, 1 ]
+```
+
 ### CLI Usage in Non-Advanced Mode
 
 When running without the `--advanced` flag, the CLI automatically parses any parameter that is a comma-separated string, converting numbers accordingly. For example:
@@ -54,10 +68,8 @@ node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
 
 **Expected Console Output:**
 ```
-Run with: ["quad",[1,2.14e-3,"NaN",-350]]
+Run with: ["quad", [1, 2.14e-3, "NaN", -350]]
 ```
-
-_Note: The unified representation ensures that NaN, regardless of the mode, is represented as the string "NaN"._
 
 ### Web Interface Usage
 
@@ -69,7 +81,7 @@ The web interface provides similar numeric parameter validation. To test it loca
 npm run start:web
 ```
 
-2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral") and enter a set of parameters, such as:
+2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral" or "contourPlot") and enter a set of parameters, such as:
 
 ```
 1, na, 5, -10, 10, 1

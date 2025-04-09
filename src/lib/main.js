@@ -88,6 +88,10 @@ export function main(args = []) {
         console.log("Advanced Plot: Test Plot");
         advancedPlots.testPlot(parsedParams);
         break;
+      case "contourPlot":
+        console.log("Advanced Plot: Contour Plot");
+        advancedPlots.contourPlot(parsedParams);
+        break;
       default:
         errorExit("Error: Unknown advanced plot type.");
     }
@@ -147,6 +151,9 @@ const advancedPlots = {
   },
   testPlot: function(params) {
     console.log("Test Plot with params:", params);
+  },
+  contourPlot: function(params) {
+    console.log("Plotting contour plot with params:", params);
   }
 };
 
