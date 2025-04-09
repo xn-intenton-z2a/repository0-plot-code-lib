@@ -1,44 +1,49 @@
 # PLOT_ENGINE
 
-The PLOT_ENGINE feature is the core of our repository, designed to convert mathematical formulae into visual plots and now extended with analytical capabilities. This feature is a self-contained module that can handle multiple output formats and modes, including direct CLI plots, an interactive mode, and a web interface via an Express server.
+The PLOT_ENGINE feature remains the core plotting module of our repository, providing a versatile and unified interface for visualizing mathematical functions and performing analytical computations. This update expands its capabilities with additional supported plot types that align with our mission of offering a go-to plot library for formulae visualisations.
 
 # Overview
 
-The updated PLOT_ENGINE now includes:
+The updated PLOT_ENGINE now supports:
 
-- **Plot Generation:** Conversion of formulae (e.g., quadratic, linear, sine, cosine, exponential, logarithmic) into visual plots in various formats such as SVG, ASCII, CSV, JSON, Markdown, and HTML.
+- **Plot Generation:** Conversion of a wide range of mathematical functions into visual plots. Beyond existing support for quadratic, linear, sine, cosine, exponential, and logarithmic plots, the module now includes:
+  - **Tangent Plots:** Visualization of tangent functions.
+  - **Polar Plots:** Radial and angular representations for polar equations.
+  - **Parametric Plots:** Support for plotting functions defined by parametric equations.
+  - **Inverse Function Plots:** Graphs for inverse relationships.
+  - **Cumulative Average & Gradient Visualization:** Display of cumulative averages and gradient heatmaps to provide deeper insight into function dynamics.
 
 - **Mode Integration:**
-  - **CLI Mode:** Generates a plot file directly and prints a summary to the console.
-  - **Interactive Mode:** Prompts for user input with real-time feedback.
-  - **Web Interface:** Launches an Express server with HTTP endpoints for plotting.
+  - **CLI Mode:** Generate plots directly via command-line with file output and summary information.
+  - **Interactive Mode:** Real-time input prompting and feedback.
+  - **Web Interface:** An Express server providing HTTP endpoints for dynamic plotting.
 
-- **Advanced Analysis:**
-  - **Area Under Curve (AUC):** Computes the area under a function curve using the trapezoidal rule.
-  - **Derivative Calculation:** Uses finite differences for estimating the derivative of functions.
-  - **Statistical Metrics:** Calculate average, standard deviation, median, and mode of plotted data.
-  - **Data Transformations:** Offers operations such as rotation, reflection, scaling, and inversion on plots.
+- **Advanced Analysis & Transformations:**
+  - **Area Under Curve (AUC):** Calculation using the trapezoidal rule.
+  - **Derivative Calculation:** Estimation via finite differences, now extended with gradient visualization.
+  - **Statistical Metrics:** Computation of average, standard deviation, median, and mode of plotted data.
+  - **Data Transformations:** Operations such as rotation, reflection, scaling, inversion, and smoothing (moving average).
 
-- **Robust Error Handling:** Ensures graceful exits and informative error messages on invalid input or calculation errors.
+- **Robust Error Handling:** Detailed error messages and graceful exits for invalid input scenarios.
 
 # Design
 
 ## Input Parsing
 
-- Accept command-line arguments with the first argument as the output target (e.g., output file or CLI flag) and the second as the formula definition (e.g., `quad:1,0,0,-10,10,1`).
-- Support additional flags such as `--interactive` and `--serve` to initiate different operational modes.
+- Command-line arguments are parsed where the first argument designates the output target (file or CLI option) and the second describes the formula (e.g., `quad:1,0,0,-10,10,1`).
+- Additional flags such as `--interactive` and `--serve` are used to switch between operation modes.
 
 ## Plot Computation & Analysis
 
-- **Formula Evaluation:** Leverage the mathjs library to parse and evaluate mathematical expressions over a defined range.
-- **Plot Construction:** Generate plot visuals based on the evaluated data and supported plot types.
-- **Analytical Extensions:** Calculate area under the curve, numerical derivatives, and statistical measures. Implement transformation operations to modify the plot data.
+- **Formula Evaluation:** Uses the mathjs library to evaluate mathematical expressions over a specified range.
+- **Plot Construction:** Based on evaluated data, the engine builds the corresponding visual representation supporting multiple output formats.
+- **Extended Plot Types:** Incorporates tangent, polar, parametric, inverse, cumulative average, and gradient visualization, expanding the analytical capabilities of the earlier version.
 
 ## Output Generation
 
-- Dynamically produce the desired output format (SVG, ASCII, CSV, JSON, Markdown, HTML) based on user parameters.
-- Integrate analytical results within the output when applicable.
-- Maintain robust error handling for incorrect inputs or edge cases.
+- The module dynamically generates desired outputs in formats including SVG, ASCII, CSV, JSON, Markdown, and HTML.
+- Analytical results are integrated with the visual plots when applicable.
+- Consistent and robust error handling ensures correct responses to any user errors or edge cases.
 
 # Usage
 
@@ -60,28 +65,8 @@ node src/lib/main.js --interactive
 node src/lib/main.js --serve
 ```
 
-# Examples
-
-1. **Basic Quadratic Plot with Analysis:**
-   Generates a quadratic plot with computed area under the curve and derivative information.
-   ```bash
-   node src/lib/main.js quad.svg "quad:1,0,0,-10,10,1"
-   ```
-
-2. **Linear Plot with Statistical Metrics:**
-   Computes average, standard deviation, and other statistics alongside a linear plot.
-   ```bash
-   node src/lib/main.js linear.svg "linear:2,3,-10,10,1"
-   ```
-
-3. **Custom Expression Plot with Transformations:**
-   Applies rotation, reflection, or scaling transformations and computes the derivative of the data.
-   ```bash
-   node src/lib/main.js expression.svg "expr:Math.sin(x)*x:-10,10,0.5"
-   ```
-
 # Integration & Maintenance
 
-- The updated PLOT_ENGINE is maintained in a single repository file for simplicity.
-- Unit tests using vitest ensure the reliability of both plotting and analytical computations.
-- Contributions should follow the guidelines in CONTRIBUTING.md to maintain code quality and consistency.
+- The updated PLOT_ENGINE is maintained as a self-contained module suitable for a single repository deployment, following the guidelines in CONTRIBUTING.md.
+- Unit tests (using vitest) ensure reliability across both the plotting and analytical components.
+- Contributions should adhere to repository style guides and ensure that new features are covered by corresponding tests.
