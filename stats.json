@@ -2,18 +2,17 @@
   "openIssues": 90,
   "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refactored parseNumericParams to use Zod schema validation for enhanced numeric parameter parsing and NaN handling. (fixes #1295)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 5,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 8,
+  "diffMinutesMain": 8,
   "commitsLastHour": 6,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "06:59",
+      "message": "Refactored parseNumericParams to use Zod schema validation for e..."
+    },
     {
       "time": "06:54",
       "message": "Add LOCALE_NAN_OVERRIDE option to allow full override of default..."
@@ -29,23 +28,14 @@
     {
       "time": "06:39",
       "message": "Maintain CORE_ENGINE"
-    },
-    {
-      "time": "06:22",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1295",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T06:59:32.996Z"
+  "generatedAt": "2025-04-09T07:08:31.931Z"
 }

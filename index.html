@@ -25,7 +25,7 @@
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
 <p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
 <h2 class="md-github"><a class="md-github__anchor" name="enhanced-numeric-parameter-validation" href="#enhanced-numeric-parameter-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Numeric Parameter Validation</h2>
-<p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (<code class="md-github">src/lib/main.js</code>) with consolidated and optimized regex-based validation. Both the CLI and the web interface use this logic to:</p>
+<p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (<code class="md-github">src/lib/main.js</code>) and has been refactored to use the Zod schema validation library for robust and declarative input transformation. Both the CLI and the web interface use this logic to:</p>
 <ol class="md-github">
 <li class="md-github">
 <p class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: &quot;nan&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, and &quot;not-a-number&quot;. Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: &quot;Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.&quot;</p>
@@ -40,13 +40,13 @@
 <p class="md-github">Process all tokens using Unicode normalization (NFC) in addition to lower-casing and trimming. Numeric parameters are split by commas or semicolons when present, preserving multi-word NaN aliases, and fallback to splitting by whitespace if no comma or semicolon is found. This ensures that visually equivalent Unicode representations and multi-word aliases are recognized as valid.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.</p>
+<p class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and suggests the accepted aliases. The integration of Zod helps standardize and simplify this validation logic.</p>
 </li>
 <li class="md-github">
 <p class="md-github">Gracefully ignore empty tokens resulting from extra delimiters (including trailing delimiters and multiple consecutive commas, semicolons, or spaces), enhancing usability without compromising strict validation of numeric inputs.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided. Note that when <code class="md-github">LOCALE_NAN_ALIASES</code> is provided, caching is bypassed to ensure the latest configuration is used.</p>
+<p class="md-github">Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.</p>
 </li>
 </ol>
 <p class="md-github"><strong class="md-github">New Feature:</strong></p>
@@ -118,13 +118,13 @@ node src/lib/main.js &quot;quad: 1, nicht eine zahl, 5&quot;
 </code></pre>
 <p class="md-github">Additionally, to completely override the default NaN aliases, set the <code class="md-github">LOCALE_NAN_OVERRIDE</code> environment variable (to any truthy value). This ensures that only the aliases specified in <code class="md-github">LOCALE_NAN_ALIASES</code> are recognized as NaN.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="utility-module" href="#utility-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Module</h2>
-<p class="md-github">All logic for parsing and normalizing NaN aliases is now incorporated within the main module (<code class="md-github">src/lib/main.js</code>), simplifying module resolution and reducing file dependencies.</p>
+<p class="md-github">All logic for parsing and normalizing NaN aliases is now incorporated within the main module (<code class="md-github">src/lib/main.js</code>), simplifying module resolution and reducing file dependencies. The integration of Zod for validation further enhances the reliability and maintainability of the numeric parameter processing.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T06:59:49.637Z</p>
+    <p>Generated on 2025-04-09T07:08:51.042Z</p>
   </footer>
 </body>
 </html>
