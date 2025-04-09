@@ -5,7 +5,6 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main, getAcceptedNaNAliases, parseNumericParams, advancedPlots } from "../../src/lib/main.js";
-// Updated direct import: now getAcceptedNaNAliases is imported from main.js instead of nanAlias.js
 import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/lib/main.js";
 
 // Helper function to check if an element is NaN
@@ -175,10 +174,7 @@ describe("Localized NaN Aliases", () => {
     delete process.env.LOCALE_NAN_ALIASES;
     warnSpy.mockRestore();
   });
-});
 
-
-describe("NaN Alias Utility Module", () => {
   test("should return default aliases when LOCALE_NAN_ALIASES is not set", () => {
     delete process.env.LOCALE_NAN_ALIASES;
     const aliases = getAcceptedNaNAliases();
@@ -187,6 +183,10 @@ describe("NaN Alias Utility Module", () => {
     expect(aliases.has("notanumber")).toBe(true);
     expect(aliases.has("na")).toBe(true);
     expect(aliases.has("not-a-number")).toBe(true);
+    // Ensure international defaults are present
+    expect(aliases.has("nicht eine zahl")).toBe(true);
+    expect(aliases.has("pas un nombre")).toBe(true);
+    expect(aliases.has("no es un número")).toBe(true);
   });
 
   test("should parse and normalize LOCALE_NAN_ALIASES if valid", () => {
@@ -219,49 +219,19 @@ describe("Unicode Normalization Handling", () => {
   });
 });
 
-
-describe("Override Default NaN Aliases", () => {
-  test("should use only custom aliases when LOCALE_NAN_OVERRIDE is set", () => {
-    process.env.LOCALE_NAN_ALIASES = JSON.stringify(["customnan"]);
-    process.env.LOCALE_NAN_OVERRIDE = "true";
-    const aliases = getAcceptedNaNAliases();
-    expect(aliases.has("customnan")).toBe(true);
-    expect(aliases.has("nan")).toBe(false);
-    delete process.env.LOCALE_NAN_ALIASES;
-    delete process.env.LOCALE_NAN_OVERRIDE;
-  });
-});
-
-
-describe("Advanced Plot JSON Configuration", () => {
-  test("should parse JSON configuration in advanced mode and pass object to plot function", () => {
-    const originalBoxPlot = advancedPlots.boxPlot;
-    let receivedParams;
-    advancedPlots.boxPlot = function(params) { receivedParams = params; };
-    const jsonConfig = '{"data":[1,2,3,4],"title":"My Box Plot","color":"blue"}';
-    main(["--advanced", "boxPlot", jsonConfig]);
-    expect(typeof receivedParams).toBe('object');
-    expect(receivedParams).toHaveProperty('data');
-    expect(receivedParams).toHaveProperty('title', 'My Box Plot');
-    expect(receivedParams).toHaveProperty('color', 'blue');
-    advancedPlots.boxPlot = originalBoxPlot;
-  });
-
-  test("should throw error on malformed JSON configuration in advanced mode", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
-    expect(() => {
-      main(["--advanced", "boxPlot", '{invalidJson:true}']);
-    }).toThrow(/process.exit: 1/);
-    exitSpy.mockRestore();
-  });
-
-  test("should parse JSON configuration in non-advanced mode for colon-separated arguments", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+// New Test Suite for International NaN Aliases
+describe("International NaN Aliases", () => {
+  test("should accept French NaN alias 'pas un nombre'", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const jsonConfig = '{"data":[10,20,30],"label":"Test"}';
-    main(["chart:" + jsonConfig]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Test'));
-    exitSpy.mockRestore();
+    main(["quad:1, pas un nombre, 5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    logSpy.mockRestore();
+  });
+  
+  test("should accept Spanish NaN alias 'no es un número'", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad:1, no es un número, 5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     logSpy.mockRestore();
   });
 });

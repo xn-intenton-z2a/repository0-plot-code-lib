@@ -6,7 +6,14 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (`src/lib/main.js`) and has been refactored to use the Zod schema validation library for robust and declarative input transformation. Both the CLI and the web interface use this logic to:
 
-1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases."
+1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported:
+
+   - English: "nan", "not a number", "notanumber", "na", "not-a-number"
+   - German: "nicht eine zahl"
+   - French: "pas un nombre"
+   - Spanish: "no es un número"
+
+   Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases."
 
 2. Optionally, users can completely override the default NaN aliases by setting the environment variable `LOCALE_NAN_OVERRIDE` to a truthy value. When set, the parser will use only the aliases specified in `LOCALE_NAN_ALIASES` without merging them with the default list.
 
@@ -63,7 +70,7 @@ Normalized token 'na' to native NaN
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, standardized Unicode normalization, trailing delimiters, and JSON configuration):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases including international variants, standardized Unicode normalization, trailing delimiters, and JSON configuration):
 
 ```bash
 # Example with advanced plotting using numeric parameters
@@ -131,6 +138,17 @@ Run with: [["chart", { data: [10, 20, 30], label: "Test" }]]
 
 (Note: When using JSON.stringify, native NaN values are serialized as null.)
 
+### International NaN Aliases
+
+The parser now natively recognizes international representations of NaN. For example:
+
+```bash
+node src/lib/main.js "quad: 1, pas un nombre, 5"
+node src/lib/main.js "quad: 1, no es un número, 5"
+```
+
+Both commands will interpret the international alias as a NaN value.
+
 ### Web Interface Usage
 
 The web interface provides similar numeric parameter validation. To test it locally:
@@ -153,11 +171,13 @@ curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumbe
 
 ## Localization Support
 
-To support users from different locales, you can customize the accepted NaN aliases by setting the `LOCALE_NAN_ALIASES` environment variable. For example, to accept the German alias "nicht eine zahl" as NaN, run:
+To support users from different locales, you can customize the accepted NaN aliases by setting the `LOCALE_NAN_ALIASES` environment variable. For example, to accept the German alias "nicht eine zahl", the French alias "pas un nombre", or the Spanish alias "no es un número" as NaN, run:
 
 ```bash
 export LOCALE_NAN_ALIASES='["nicht eine zahl"]'
-node src/lib/main.js "quad: 1, nicht eine zahl, 5"
+export LOCALE_NAN_ALIASES='["pas un nombre"]'
+export LOCALE_NAN_ALIASES='["no es un número"]'
+node src/lib/main.js "quad: 1, your_alias, 5"
 ```
 
 Additionally, to completely override the default NaN aliases, set the environment variable `LOCALE_NAN_OVERRIDE` (to any truthy value). This ensures that only the aliases specified in `LOCALE_NAN_ALIASES` are recognized as NaN.
