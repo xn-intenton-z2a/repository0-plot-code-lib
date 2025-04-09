@@ -4,13 +4,18 @@
 
 import { fileURLToPath } from "url";
 
+let cachedNaNAliases = null;
+
 function errorExit(message) {
   console.error(message);
   process.exit(1);
 }
 
-// Inline implementation of NaN alias normalization
+// Inline implementation of NaN alias normalization with caching
 function getAcceptedNaNAliases() {
+  if (cachedNaNAliases !== null) {
+    return cachedNaNAliases;
+  }
   const defaultAliases = ["nan", "not a number", "notanumber", "na", "not-a-number"];
   let aliases = new Set(defaultAliases);
   if (process.env.LOCALE_NAN_ALIASES) {
@@ -25,11 +30,12 @@ function getAcceptedNaNAliases() {
       console.warn("Invalid configuration for LOCALE_NAN_ALIASES: unable to parse JSON, using default aliases.");
     }
   }
+  cachedNaNAliases = aliases;
   return aliases;
 }
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
-// Enhanced to ensure unified handling of NaN aliases and improved error messaging for near-miss tokens.
+// Enhanced to ensure unified handling of NaN aliases (with caching) and improved error messaging for near-miss tokens.
 function parseNumericParams(paramStr) {
   const acceptedNaNAliases = getAcceptedNaNAliases();
   const tokens = paramStr.split(",");
