@@ -18,29 +18,24 @@ const defaultNaNAliases = [
   "not-a-number"
 ];
 
-// Determine accepted NaN aliases from localization configuration via environment variable.
-// If LOCALE_NAN_ALIASES is provided as a JSON array, use that; otherwise use the default.
-let acceptedNaNAliases;
-try {
-  if (process.env.LOCALE_NAN_ALIASES) {
-    const parsed = JSON.parse(process.env.LOCALE_NAN_ALIASES);
-    if (Array.isArray(parsed)) {
-      acceptedNaNAliases = new Set(parsed.map(token => token.toLowerCase().replace(/\s+/g, ' ').trim()));
-    } else {
-      acceptedNaNAliases = new Set(defaultNaNAliases);
+// Helper function to fetch accepted NaN aliases from environment variable or fallback to default.
+function getAcceptedNaNAliases() {
+  try {
+    if (process.env.LOCALE_NAN_ALIASES) {
+      const parsed = JSON.parse(process.env.LOCALE_NAN_ALIASES);
+      if (Array.isArray(parsed)) {
+        return new Set(parsed.map(token => token.toLowerCase().replace(/\s+/g, ' ').trim()));
+      }
     }
-  } else {
-    acceptedNaNAliases = new Set(defaultNaNAliases);
+  } catch (e) {
+    // ignore error and fallback to default
   }
-} catch (e) {
-  acceptedNaNAliases = new Set(defaultNaNAliases);
+  return new Set(defaultNaNAliases);
 }
 
 // Optimized implementation of numeric parameter conversion utility.
-// This version separates the numeric value matching from accepted NaN aliases, enhancing readability and performance.
-// Accepted NaN aliases are determined by the configuration (default or localized), and near-miss tokens like "n/a" are rejected.
-// Empty tokens from trailing or consecutive commas are gracefully ignored.
 function parseNumericParams(paramStr) {
+  const acceptedNaNAliases = getAcceptedNaNAliases();
   const tokens = paramStr.split(",");
   const result = [];
   
@@ -55,7 +50,7 @@ function parseNumericParams(paramStr) {
     const lowerToken = trimmed.toLowerCase();
     // Check for near-miss tokens such as "n/a" by removing all spaces
     if (lowerToken.replace(/\s/g, '') === "n/a") {
-      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")}?`);
+      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")}?”);
     }
     
     // Normalize token for alias checking by replacing multiple spaces with a single space
