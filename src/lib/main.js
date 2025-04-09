@@ -5,12 +5,16 @@
 import { fileURLToPath } from "url";
 import { z } from "zod";
 
+/**
+ * Immediately exits the process after logging an error message.
+ * @param {string} message - The error message to log before exiting.
+ */
 function errorExit(message) {
   console.error(message);
   process.exit(1);
 }
 
-// Default NaN aliases constant, expanded to include common international representations
+// A set of default aliases representing Not-a-Number (NaN) values in various languages.
 const DEFAULT_NAN_ALIASES = new Set([
   "nan",
   "not a number",
@@ -23,31 +27,53 @@ const DEFAULT_NAN_ALIASES = new Set([
   "non è un numero"
 ]);
 
-// Helper function for normalizing aliases
-// Normalization order: trim, NFC normalization, then lower-case to properly handle decomposed and composed Unicode forms.
+/**
+ * Normalizes an alias string by applying trimming, Unicode NFC normalization, and converting to lower case.
+ * This ensures that both precomposed and decomposed Unicode forms are handled uniformly.
+ * 
+ * @param {string} alias - The alias string to normalize.
+ * @returns {string} - The normalized alias.
+ */
 function normalizeAlias(alias) {
-  // Normalize by trimming, Unicode NFC normalization, then lower-case conversion
+  // Normalize by trimming whitespace, applying Unicode NFC normalization, then converting to lower-case
   return alias.trim().normalize("NFC").toLocaleLowerCase();
 }
 
-// Helper function to clean numeric token if thousands separator parsing is enabled
+/**
+ * Cleans a numeric token by removing or replacing thousands separators based on locale-specific configurations.
+ * For European locale, dots are removed as thousands separators and commas replaced with dots.
+ * For English formatting, commas are simply removed.
+ * 
+ * @param {string} token - The numeric token to process.
+ * @returns {string} - The processed numeric token.
+ */
 function parseFormattedNumberValue(token) {
   if (process.env.ENABLE_THOUSANDS_SEPARATOR) {
     const locale = process.env.NUMERIC_LOCALE || 'en';
     if (locale.toLowerCase() === 'eu') {
-      // For European formats, remove dot as thousands separator and replace comma with period
+      // European number format: remove dots as thousands separators and replace comma with period
       token = token.replace(/\./g, '');
       token = token.replace(/,/g, '.');
     } else {
-      // Default English formatting: remove commas as thousands separators
+      // Default English formatting: remove commas
       token = token.replace(/,/g, '');
     }
   }
   return token;
 }
 
-// Utility function to get accepted NaN aliases
-// When STRICT_NAN_MODE is enabled, only the canonical normalized 'nan' is accepted.
+/**
+ * Retrieves the set of accepted NaN aliases.
+ * It begins with a set of default aliases and merges with locale-specific custom aliases if provided via environment variables.
+ * 
+ * Behavior:
+ * - If STRICT_NAN_MODE is enabled, only the canonical normalized "nan" is acceptable.
+ * - If LOCALE_NAN_ALIASES is provided and valid (as a JSON array), the custom aliases are normalized.
+ *   If LOCALE_NAN_OVERRIDE is set, only the custom aliases are used; otherwise, they are merged with the default aliases.
+ * - If LOCALE_NAN_ALIASES is invalid, a warning is printed and the default aliases are used.
+ * 
+ * @returns {Set<string>} - A set of normalized accepted NaN aliases.
+ */
 function getAcceptedNaNAliases() {
   if (process.env.STRICT_NAN_MODE) {
     return new Set([normalizeAlias('NaN')]);
@@ -69,6 +95,7 @@ function getAcceptedNaNAliases() {
       if (process.env.LOCALE_NAN_OVERRIDE) {
         return normalizedCustom;
       } else {
+        // Merge default aliases with custom ones
         for (const alias of defaultAliases) {
           normalizedCustom.add(alias);
         }
@@ -82,15 +109,31 @@ function getAcceptedNaNAliases() {
   return defaultAliases;
 }
 
-// Regex for valid numeric values: integer, decimal or scientific notation.
+// Regular expression to validate numeric input. It supports integers, decimals, and scientific notation.
 const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 
-// Optimized implementation of numeric parameter conversion using Zod for validation and transformation.
-// This function processes delimiters (commas, semicolons, whitespace) and normalizes tokens to support international and strict NaN alias handling.
-// Note: When serializing the resulting numeric array with JSON.stringify, native NaN values are converted to null as per JSON specification.
+/**
+ * Parses a string of numeric parameters, handling multiple delimiters and locale-specific formatting.
+ * The function splits the input token by commas, semicolons, or whitespace, trims extra spaces,
+ * and processes each token using Zod for validation and transformation.
+ * 
+ * The processing steps include:
+ * 1. Token splitting based on available delimiters (commas, semicolons, whitespace).
+ * 2. Normalization of each token using normalizeAlias to support Unicode forms.
+ * 3. Checking if a token matches a disallowed near-miss (e.g., "n/a").
+ * 4. Converting recognized NaN alias tokens to native JavaScript NaN.
+ * 5. Applying locale-specific formatting if thousands separators are enabled.
+ * 6. Validating the final numeric format using a regular expression.
+ * 
+ * If a token fails validation, a descriptive error is thrown (or passed to a custom error handler).
+ * 
+ * @param {string} paramStr - The string containing numeric parameters.
+ * @param {Function} [errorHandler] - Optional custom error handler function.
+ * @returns {Array<number>} - The array of parsed numeric values (with NaN values as native NaN).
+ */
 function parseNumericParams(paramStr, errorHandler) {
   let tokens;
-  // Determine delimiter: if comma or semicolon exists, split using them; otherwise use whitespace splitting.
+  // Determine delimiter: use commas or semicolons if present; otherwise, split by whitespace.
   if (paramStr.includes(",") || paramStr.includes(";")) {
     tokens = paramStr.split(/[,;]+/);
   } else {
@@ -104,23 +147,24 @@ function parseNumericParams(paramStr, errorHandler) {
   const tokenSchema = z.string().transform(token => {
     const trimmedToken = token.trim();
     const normToken = normalizeAlias(trimmedToken);
-    // Reject near-miss tokens such as "n/a"
+    // Disallow near-miss tokens such as "n/a"
     if (normToken === "n/a") {
       const accepted = Array.from(acceptedAliases).sort().join(", ");
       throw new Error(`Invalid numeric parameter '${trimmedToken}'. Detected near-miss token 'n/a'. Expected ${process.env.STRICT_NAN_MODE ? "canonical NaN" : "an accepted NaN alias"}: ${accepted}.`);
     }
-    // If token is a recognized NaN alias, return native NaN
+    // If token matches an accepted NaN alias, return native NaN
     if (acceptedAliases.has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
         console.debug(`Normalized token '${trimmedToken}' to native NaN`);
       }
       return Number.NaN;
     }
-    // Process token for thousands separator if enabled
+    // Apply locale-specific formatting for thousands separators if enabled
     let processedToken = trimmedToken;
     if (process.env.ENABLE_THOUSANDS_SEPARATOR) {
       processedToken = parseFormattedNumberValue(trimmedToken);
     }
+    // Validate numeric format using regex
     if (numericRegex.test(processedToken)) {
       return Number(processedToken);
     }
@@ -146,7 +190,7 @@ function parseNumericParams(paramStr, errorHandler) {
   return result;
 }
 
-// Inlined advanced plotting implementations
+// Advanced plotting implementations are inlined under the advancedPlots object
 const advancedPlots = {
   spiral: function (params) {
     console.log("Plotting spiral with params:", params);
@@ -186,7 +230,21 @@ const advancedPlots = {
   }
 };
 
-// Refactored main function to support batch plotting commands
+/**
+ * The main function which processes CLI arguments and executes plotting commands.
+ * It handles both batch plotting commands and advanced mode commands.
+ * 
+ * Command processing:
+ * - If an argument starts with "--advanced", it processes the next two arguments
+ *   as the plot type and parameters respectively. The parameters can be in JSON format or numeric string.
+ * - For non-advanced commands separated by a colon, it splits the command into label and parameter string,
+ *   then parses the numeric parameters or JSON configuration.
+ * - If an argument contains numeric delimiters without a colon, it is processed as a plain numeric parameter sequence.
+ * 
+ * This function demonstrates integration of Zod-based validation for robust parsing of numeric values.
+ * 
+ * @param {Array<string>} args - An array of CLI arguments.
+ */
 function main(args = []) {
   if (args.length === 0) {
     console.log("Run with: []");
