@@ -1,14 +1,27 @@
 {
-  "openIssues": 21,
+  "openIssues": 25,
   "issuesClosedLastHour": 100,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 4,
-  "diffMinutesMain": 4,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Streamlined NaN alias normalization standardized error messages and documented JSON serialization behavior. (fixes #1357)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 3,
   "commitsLastHour": 11,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "10:39",
+      "message": "Update from agentic-lib"
+    },
+    {
+      "time": "10:37",
+      "message": "Maintain USER_INTERFACE"
+    },
     {
       "time": "10:26",
       "message": "Refined NaN handling and normalization in numeric parameter pars..."
@@ -20,22 +33,19 @@
     {
       "time": "10:13",
       "message": "Refactored CLI to support batch plotting commands and updated te..."
-    },
-    {
-      "time": "10:08",
-      "message": "Extended Unicode alias support added with enhanced tests and doc..."
-    },
-    {
-      "time": "10:06",
-      "message": "Maintain USER_INTERFACE"
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1357",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T10:31:32.988Z"
+  "generatedAt": "2025-04-09T10:42:58.384Z"
 }
