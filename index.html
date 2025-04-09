@@ -37,17 +37,17 @@
 <p class="md-github">Process all tokens and aliases using Unicode normalization (NFC) in addition to lower-casing and trimming, ensuring that visually equivalent Unicode representations are recognized as valid.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and provides suggestions for acceptable alternatives.</p>
+<p class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and suggests the accepted NaN aliases.</p>
 </li>
 <li class="md-github">
 <p class="md-github">Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable for every numeric conversion.</p>
+<p class="md-github">Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable on every numeric conversion. Note that when <code class="md-github">LOCALE_NAN_ALIASES</code> is provided, caching is bypassed to ensure the latest configuration is used.</p>
 </li>
 </ol>
 <p class="md-github"><strong class="md-github">Refactoring Note:</strong></p>
-<p class="md-github">The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (<code class="md-github">src/lib/main.js</code>) instead of in a separate utility file. This promotes tighter integration, ease of maintenance, and improved performance via caching when applicable.</p>
+<p class="md-github">The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (<code class="md-github">src/lib/main.js</code>), eliminating the need for a separate utility module. This promotes tighter integration, ease of maintenance, and improved performance via caching when applicable.</p>
 <p class="md-github">Additionally, debug logging can be enabled via the environment variable <code class="md-github">DEBUG_NUMERIC</code> to trace when NaN aliases are normalized.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="debug-logging-for-numeric-conversion" href="#debug-logging-for-numeric-conversion"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debug Logging for Numeric Conversion</h2>
 <p class="md-github">Developers can enable debug logging to trace when NaN aliases are normalized. Set the environment variable <code class="md-github">DEBUG_NUMERIC</code> to any truthy value to activate detailed logging. For example:</p>
@@ -118,11 +118,10 @@ node src/lib/main.js &quot;quad: 1, nicht eine zahl, 5&quot;
 <ul class="md-github">
 <li class="md-github">Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., <code class="md-github">1e4</code>, <code class="md-github">2.14e-3</code>, <code class="md-github">-3.5E+2</code>).</li>
 <li class="md-github">Various representations of NaN (default or localized) are accepted and converted to the string &quot;NaN&quot; to ensure a consistent interface.</li>
-<li class="md-github">Near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and provides suggestions.</li>
+<li class="md-github">Near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.</li>
 <li class="md-github">Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.</li>
 <li class="md-github">Debug logging can be enabled via <code class="md-github">DEBUG_NUMERIC</code> to track NaN normalization.</li>
-<li class="md-github">Caching of accepted NaN aliases is applied when no locale-specific configuration is provided to optimize performance.</li>
-<li class="md-github">Unicode normalization (NFC) is applied to all numeric tokens and locale-specific aliases to handle visually equivalent representations.</li>
+<li class="md-github">Caching of accepted NaN aliases is applied when no locale-specific configuration is provided to optimize performance, while always using the current configuration when <code class="md-github">LOCALE_NAN_ALIASES</code> is set.</li>
 <li class="md-github">The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="utility-module" href="#utility-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Module</h2>
@@ -132,7 +131,7 @@ node src/lib/main.js &quot;quad: 1, nicht eine zahl, 5&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T05:23:50.678Z</p>
+    <p>Generated on 2025-04-09T05:33:28.996Z</p>
   </footer>
 </body>
 </html>

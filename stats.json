@@ -1,14 +1,18 @@
 {
   "openIssues": 76,
-  "issuesClosedLastHour": 6,
+  "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 1,
-  "diffMinutesMain": 1,
-  "commitsLastHour": 8,
+  "diffMinutes": 6,
+  "diffMinutesMain": 6,
+  "commitsLastHour": 9,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "05:26",
+      "message": "Improve NaN error messaging and refine caching behavior for nume..."
+    },
     {
       "time": "05:21",
       "message": "Maintain EXPORT_ENGINE"
@@ -24,10 +28,6 @@
     {
       "time": "05:06",
       "message": "Fixed getAcceptedNaNAliases to extend default aliases with local..."
-    },
-    {
-      "time": "04:55",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T05:23:37.107Z"
+  "generatedAt": "2025-04-09T05:33:19.618Z"
 }
