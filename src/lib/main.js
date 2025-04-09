@@ -1,30 +1,34 @@
 // File: src/lib/main.js
 
+// Helper function to normalize an alias by trimming and converting to lower case
+function normalizeAlias(alias) {
+  return alias.trim().toLowerCase();
+}
+
 export function resolveNaNAliases() {
   const strict = process.env.STRICT_NAN_MODE === "true";
   if (strict) {
+    // In strict mode, only the canonical alias 'nan' is accepted
     return ["nan"];
   }
 
-  // Normalize an alias by trimming and converting to lower case
-  const normalize = alias => alias.trim().toLowerCase();
-
   if (process.env.LOCALE_NAN_OVERRIDE) {
-    // Override defaults completely and normalize each alias, supporting both commas and semicolons as delimiters
+    // If LOCALE_NAN_OVERRIDE is set, override defaults completely
+    // and return normalized aliases using both comma and semicolon as delimiters
     return process.env.LOCALE_NAN_OVERRIDE.split(/[;,]/)
-      .map(normalize)
+      .map(normalizeAlias)
       .filter(alias => alias.length > 0);
   }
 
-  const defaultAliases = ["nan", "notanumber", "undefined"].map(normalize);
+  // Define default aliases and normalize them
+  const defaultAliases = ["nan", "notanumber", "undefined"].map(normalizeAlias);
 
   if (process.env.LOCALE_NAN_ALIASES) {
+    // Merge custom aliases with defaults, ensuring deduplication
     const customAliases = process.env.LOCALE_NAN_ALIASES.split(/[;,]/)
-      .map(normalize)
+      .map(normalizeAlias)
       .filter(alias => alias.length > 0);
-    // Merge custom aliases with defaults, deduplicating
-    const merged = new Set([...defaultAliases, ...customAliases]);
-    return Array.from(merged);
+    return Array.from(new Set([...defaultAliases, ...customAliases]));
   }
 
   return defaultAliases;
