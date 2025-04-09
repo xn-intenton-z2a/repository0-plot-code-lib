@@ -15,19 +15,18 @@ function getAcceptedNaNAliases() {
   if (process.env.LOCALE_NAN_ALIASES) {
     try {
       const customAliases = JSON.parse(process.env.LOCALE_NAN_ALIASES);
-      if (Array.isArray(customAliases)) {
-        const normalized = new Set(
-          customAliases.map(alias => alias.toLowerCase().trim().normalize("NFC"))
-        );
-        // Merge default aliases with custom ones
-        for (const alias of defaultAliases) {
-          normalized.add(alias);
-        }
-        return normalized;
-      } else {
-        console.warn("LOCALE_NAN_ALIASES should be a JSON array. Using default NaN aliases.");
+      if (!Array.isArray(customAliases)) {
+        console.warn("Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
         return defaultAliases;
       }
+      const normalized = new Set(
+        customAliases.map(alias => alias.toLowerCase().trim().normalize("NFC"))
+      );
+      // Merge default aliases with custom ones
+      for (const alias of defaultAliases) {
+        normalized.add(alias);
+      }
+      return normalized;
     } catch (err) {
       console.warn("Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
       return defaultAliases;

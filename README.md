@@ -6,7 +6,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (`src/lib/main.js`) with consolidated and optimized regex-based validation. Both the CLI and the web interface use this logic to:
 
-1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided JSON is invalid, a warning will be emitted and the default set will be used.
+1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases."
 
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`) for a unified representation across advanced and non-advanced modes.
 
@@ -96,7 +96,7 @@ node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
 **Expected Console Output:**
 
 ```
-Run with: ["quad", [1, 0.00214, NaN, -350]]
+Run with: ["quad", [1,0,5,-10,10]]
 ```
 
 (Note: In JSON conversion, native NaN is represented as null.)
@@ -134,7 +134,7 @@ export LOCALE_NAN_ALIASES='["nicht eine zahl"]'
 node src/lib/main.js "quad: 1, nicht eine zahl, 5"
 ```
 
-This feature ensures that numeric validation can adapt to various regional formats and terminologies. In addition, if the `LOCALE_NAN_ALIASES` contains invalid JSON, a warning is logged and the default set of aliases is used.
+This feature ensures that numeric validation can adapt to various regional formats and terminologies. In addition, if the `LOCALE_NAN_ALIASES` contains invalid JSON or a non-array value, a unified warning message will be displayed and the default set of aliases will be used.
 
 ## Utility Module
 
