@@ -1,33 +1,42 @@
 # CLI_ASSIST Feature
 
 ## Overview
-This feature builds upon our existing command-line assistant to provide interactive help and wizard-based configuration with enhanced capabilities. It not only allows users to configure plots interactively but now also includes an ASCII preview mode and enhanced error correction with dynamic suggestions. This update reinforces our mission to offer accessible plot visualizations and real-time feedback while improving the robustness of input handling.
+This feature provides an interactive command-line assistant that guides users through plot configuration, interactive help, and now supports batch processing of plot commands. It builds on the existing CLI wizard, enhanced error correction, and ASCII preview mode. With the addition of batch processing, users can run multiple plot configurations sequentially from a specified file, streamlining workflows for automated or repetitive tasks.
 
-## Enhanced Interactive Wizard and ASCII Preview
+## Interactive Wizard and ASCII Preview (Existing)
 - **Interactive Wizard:**
-  - Extend the CLI wizard mode (triggered by the `--assist` flag) to provide step-by-step guidance for plot configuration.
-  - Integrate advanced numeric validation using Zod-based parsing as well as contextual help to guide users through parameter specification.
+  - Guides users step-by-step through plot configuration using the `--assist` flag.
+  - Integrates advanced numeric validation and contextual help.
 
 - **ASCII Preview Mode:**
-  - Introduce a new CLI flag (e.g., `--preview`) that renders a simplified ASCII art version of the plot if combined with a valid plot command.
-  - Develop a lightweight module to translate plot parameters into terminal-friendly ASCII art for a rapid visual check before full plot generation.
+  - Introduces an option (e.g., `--preview`) to render the plot layout as ASCII art, enabling rapid visual checks before full plot generation.
 
-## Enhanced Error Correction and Suggestions
-- **Custom Error Handling:**
-  - Leverage the optional error handler in the numeric parameter parsing function (`parseNumericParams`) to capture validation errors, especially for common near-miss tokens like "n/a".
-  - Display clear, actionable error messages and suggestions that point out the accepted NaN aliases (e.g., "nan", "not a number", "notanumber", "na", and "not-a-number").
+- **Enhanced Error Correction:**
+  - Provides dynamic error suggestions and detailed logs when encountering input validation errors.
 
-- **Dynamic Suggestions:**
-  - When a user inputs an invalid token, the CLI will now provide suggestions for corrections based on the configured locale-specific or default NaN aliases.
-  - Improve logging around error conditions (when environment variable `DEBUG_NUMERIC` is active), offering developers insights into input transformation and error occurrence.
+## Batch Processing Mode
+- **Overview:**
+  - Introduces a new mode that allows users to process multiple plot commands provided through a text file.
+  - The batch mode is activated via a new flag (e.g., `--batch <filepath>`).
 
-## Integration and Backward Compatibility
-- Update the main CLI module to seamlessly integrate ASCII preview mode and the new error correction flow.
-- Ensure backward compatibility with existing CLI operations and configuration workflows.
-- Extend unit tests to cover new error handling paths and suggestion outputs, ensuring robustness across interactive sessions.
+- **Implementation Details:**
+  - **File Parsing:** The system will read a supplied text file where each line represents a separate plot command. Commands follow the existing colon-separated or JSON configuration formats.
+  - **Command Processing:** Each line will be processed sequentially using the established numeric parsing and CLI assistant logic. Errors in one command will be handled gracefully, allowing the batch process to continue or report all errors at the end.
+  - **Integration:** Utilizes the same utility functions (e.g., `parseNumericParams`) for consistency and ensures that advanced validation (including support for localized NaN aliases) is maintained.
 
-## Benefits
-- **Improved User Experience:** Provides clear, actionable suggestions for correcting input errors, reducing user frustration.
-- **Real-time Visual Feedback:** The ASCII preview mode allows users to quickly verify plot layouts and configurations directly in the terminal.
-- **Enhanced Debuggability:** With improved logging and custom error handling callbacks, both end-users and developers can diagnose issues more effectively.
-- **Consistency:** Integrates with the existing numeric validation and plotting logic, ensuring a unified experience across the CLI tool.
+- **Benefits:**
+  - **Automation:** Enables users to automate multiple plot configurations without manual intervention for each command.
+  - **Efficiency:** Ideal for batch generation of plots for reporting, testing, or data analysis tasks.
+  - **Consistency:** Leverages existing CLI wizard capabilities, error handling, and ASCII preview to maintain a unified user experience.
+
+## Integration and Testing
+- **Backward Compatibility:**
+  - Maintains full compatibility with previous CLI operations. Existing commands remain unchanged when batch mode is not used.
+- **Testing:**
+  - Extend unit tests to cover batch file parsing, ensuring each command is processed correctly and error scenarios are properly handled.
+  - Include integration tests to simulate batch processing of multiple plot commands.
+
+## Future Enhancements
+- Consider adding options for parallel processing of commands, configurable error handling, and detailed batch process logging.
+
+This update reinforces our mission to offer accessible plot visualizations by expanding the CLI tool to support both interactive and batch-based workflows.
