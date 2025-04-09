@@ -14,55 +14,45 @@ This release includes improvements in numeric parameter handling. The core numer
    - Spanish: "no es un número"
    - Italian: "non è un numero"
 
-   Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a warning is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases." When the environment variable `LOCALE_NAN_OVERRIDE` is set, only the provided aliases will be used.
+   Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid, a warning is emitted and the default aliases are used. Setting `LOCALE_NAN_OVERRIDE` ensures that only the specified custom aliases are used.
 
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native `NaN` value. Note that when these values are serialized using `JSON.stringify`, they appear as `null` (per JSON specification).
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native `NaN` value. When serialized using `JSON.stringify`, these values appear as `null` per the JSON specification.
 
-3. Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, including extended support for non-Latin scripts.
+3. Normalize all tokens using Unicode NFC normalization along with trimming and lowercasing to support both precomposed and decomposed Unicode forms across various languages.
 
-4. Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace while gracefully ignoring extra delimiters, trailing commas, and multiple consecutive separators.
+4. Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace while gracefully handling extraneous delimiters and trailing commas.
 
-5. Provide refined error messages when encountering invalid numeric inputs. In strict mode (enabled via `STRICT_NAN_MODE`), only the canonical 'NaN' token is accepted, and all alternative aliases (such as "na" or "not a number") are rejected with a clear error message that lists the accepted alias.
+5. Leverage Zod for input validation and transformation, supporting scientific notation and locale-specific formatting (e.g., thousands separators) based on environment configurations (`ENABLE_THOUSANDS_SEPARATOR` and `NUMERIC_LOCALE`).
 
 6. **New Feature: JSON-Based Parameter Configuration**
 
-   Advanced plot functions now also accept a JSON configuration for more complex parameter setups. When using the `--advanced` flag (or in colon-separated non-advanced mode), if the parameter string starts with a `{` and ends with a `}`, it will be parsed as JSON. This allows you to pass additional options such as labels, colors, and other plot settings. For example:
+   Advanced plot functions now accept JSON configuration for complex parameter setups. When using the `--advanced` flag (or colon-separated non-advanced mode), if the parameter string begins with a `{` and ends with a `}`, it is parsed as JSON. This allows passing options such as labels, colors, and other settings. For example:
 
    ```bash
    node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "title": "My Box Plot", "color": "blue"}'
    ```
 
-7. **New Feature: Batch Plotting Commands**
+7. **Batch Plotting Commands**
 
-   You can now pass multiple plotting commands in a single CLI invocation. Both advanced and non-advanced commands are processed sequentially. For instance:
+   You can now pass multiple plotting commands in a single CLI invocation. Commands are processed sequentially with independent validation and logging. For example:
 
    ```bash
    node src/lib/main.js "quad: 1,2,3,4" --advanced spiral "1, NaN, 5, 10"
    ```
 
-8. Customizable Error Handling Hooks
+8. Customizable error handling hooks allow the parsing function to use a custom callback for reporting errors.
 
-   The numeric parameter parsing function `parseNumericParams` now accepts an optional error handling callback. Instead of terminating on encountering an invalid token, the callback is invoked with a descriptive error message.
+9. Debug logging for numeric conversion can be enabled via the `DEBUG_NUMERIC` environment variable.
 
-9. Debug Logging for Numeric Conversion
-
-   Enable debug logging for numeric conversion (including NaN alias normalization) by setting the environment variable `DEBUG_NUMERIC` to a truthy value.
-
-10. Locale-Specific Number Formatting
-
-    By enabling thousands separator parsing (via `ENABLE_THOUSANDS_SEPARATOR`), the parser handles locale-specific number formats. Set `NUMERIC_LOCALE` to specify the format (e.g., `en` for English, `eu` for European).
+10. Locale-Specific Number Formatting processes numeric strings using locale-based separators when `ENABLE_THOUSANDS_SEPARATOR` is set.
 
 ## Extended Unicode Support
 
-This update enhances Unicode normalization to correctly process extended Unicode representations, including non-Latin scripts such as Cyrillic and Japanese. Custom NaN aliases provided via `LOCALE_NAN_ALIASES` will be properly normalized.
+This update enhances Unicode normalization to correctly process extended Unicode representations, including non-Latin scripts such as Cyrillic and Japanese. Custom NaN aliases provided via `LOCALE_NAN_ALIASES` will be normalized accordingly.
 
 ## Batch Plotting Commands
 
-Multiple plotting commands can now be executed in a single CLI invocation. Commands are processed sequentially with independent validation and logging. For example:
-
-```bash
-node src/lib/main.js "quad: 1,2,3,4" --advanced testPlot "1, NaN, 5" "chart:{\"data\":[10,20,30],\"label\":\"Test\"}"
-```
+Multiple plotting commands can now be executed in a single CLI invocation, with both advanced and non-advanced commands processed sequentially.
 
 ## Examples
 
@@ -117,28 +107,9 @@ node src/lib/main.js "quad: 1, NaN, 5"   # Valid
 node src/lib/main.js "quad: 1, na, 5"    # Will be rejected
 ```
 
-## Localization Support
-
-Customize accepted NaN aliases by setting the `LOCALE_NAN_ALIASES` environment variable. For example:
-
-```bash
-export LOCALE_NAN_ALIASES='["nicht eine zahl"]'
-node src/lib/main.js "quad: 1, your_alias, 5"
-```
-
-Setting `LOCALE_NAN_OVERRIDE` ensures that only the provided aliases are used.
-
 ## Custom Error Handling
 
-The optional error handling callback in `parseNumericParams` enables custom error reporting, making the parser flexible for different runtime environments.
-
-## Utility Module
-
-All numeric parsing and NaN normalization logic is encapsulated in the main module (`src/lib/main.js`), supporting maintainability and modularity.
-
-## Note on JSON Serialization
-
-When converting numeric values to JSON (e.g., via `JSON.stringify`), native NaN values are serialized as `null`, as per the JSON standard.
+The numeric parameter parsing function supports an optional error handling callback, allowing custom error reporting instead of immediate termination.
 
 ## License
 
