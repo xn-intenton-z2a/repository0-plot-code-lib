@@ -39,7 +39,7 @@
 <p class="md-github">Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: &quot;Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.&quot; When the environment variable <code class="md-github">LOCALE_NAN_OVERRIDE</code> is set (to any truthy value), only the provided aliases will be used.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (<code class="md-github">Number.NaN</code>). Tokens that are near-misses (for example, &quot;n/a&quot;) are strictly rejected with a clear error message detailing the accepted tokens (provided in sorted order).</p>
+<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (<code class="md-github">Number.NaN</code>). Note that due to the nature of JSON, when these NaN values are serialized using <code class="md-github">JSON.stringify</code>, they will appear as <code class="md-github">null</code>.</p>
 </li>
 <li class="md-github">
 <p class="md-github">Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, particularly for locale-specific NaN aliases.</p>
@@ -58,7 +58,7 @@
 </li>
 <li class="md-github">
 <p class="md-github">Customizable Error Handling Hooks</p>
-<p class="md-github">The numeric parameter parsing function <code class="md-github">parseNumericParams</code> now accepts an optional error handling callback. When provided, instead of terminating the process on encountering an invalid token or near-miss token (like &quot;n/a&quot;), the callback is invoked with a descriptive error message. This allows the CLI and web interfaces to implement custom error reporting and recovery strategies.</p>
+<p class="md-github">The numeric parameter parsing function <code class="md-github">parseNumericParams</code> now accepts an optional error handling callback. When provided, instead of terminating the process on encountering an invalid token or near-miss token (like &quot;n/a&quot;), the callback is invoked with a descriptive error message.</p>
 </li>
 <li class="md-github">
 <p class="md-github">Debug Logging for Numeric Conversion</p>
@@ -71,7 +71,7 @@ node src/lib/main.js &quot;quad: 1, na, 5&quot;
 </code></pre>
 </li>
 <li class="md-github">
-<p class="md-github">Locale-Specific Number Formatting (New)</p>
+<p class="md-github">Locale-Specific Number Formatting</p>
 <p class="md-github">By enabling thousands separator parsing using the environment variable <code class="md-github">ENABLE_THOUSANDS_SEPARATOR</code>, the parser can now handle locale-specific number formats. Set <code class="md-github">NUMERIC_LOCALE</code> to specify the format:</p>
 <ul class="md-github">
 <li class="md-github">For English (e.g., &quot;1,234.56&quot; becomes 1234.56), set <code class="md-github">NUMERIC_LOCALE=en</code>.</li>
@@ -89,7 +89,8 @@ node src/lib/main.js &quot;quad: 1.234,56, NaN, 7,890&quot;
 </code></pre>
 </li>
 <li class="md-github">
-<p class="md-github">Optimization: The normalization of NaN aliases is now computed once per parsing call to improve performance and ensure consistency across both advanced and non-advanced modes.</p>
+<p class="md-github">JSON Serialization Note</p>
+<p class="md-github">It is important to note that while the parser converts recognized NaN tokens to JavaScript's native <code class="md-github">NaN</code>, when serialized to JSON using <code class="md-github">JSON.stringify</code>, these values appear as <code class="md-github">null</code>. This behavior is inherent to JSON and should be accounted for when integrating with web interfaces or other components that consume JSON data.</p>
 </li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
@@ -159,7 +160,7 @@ node src/lib/main.js &quot;quad: 1, your_alias, 5&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T09:52:17.612Z</p>
+    <p>Generated on 2025-04-09T09:57:45.669Z</p>
   </footer>
 </body>
 </html>

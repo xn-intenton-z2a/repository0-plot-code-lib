@@ -1,19 +1,22 @@
 {
   "openIssues": 100,
-  "issuesClosedLastHour": 10,
+  "issuesClosedLastHour": 12,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Improved CLI documentation to clarify NaN alias handling and JSON serialization behavior. (fixes #1342)",
-      "ageMinutes": 1
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 6,
-  "commitsLastHour": 10,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 3,
+  "diffMinutesMain": 3,
+  "commitsLastHour": 11,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "09:54",
+      "message": "Maintain CORE_ENGINE"
+    },
+    {
+      "time": "09:52",
+      "message": "Improved CLI documentation to clarify NaN alias handling and JSO..."
+    },
     {
       "time": "09:45",
       "message": "Maintain CLI_WIZARD"
@@ -25,27 +28,14 @@
     {
       "time": "09:34",
       "message": "Maintain CLI_WIZARD"
-    },
-    {
-      "time": "09:27",
-      "message": "Added Italian NaN alias non un numero to enhance international s..."
-    },
-    {
-      "time": "09:21",
-      "message": "Maintain PLOT_ANIMATIONS"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1342",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 1,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T09:51:49.627Z"
+  "generatedAt": "2025-04-09T09:57:35.737Z"
 }
