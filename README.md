@@ -12,15 +12,15 @@ This release includes improvements in numeric parameter handling. The core numer
 
 3. Process all tokens and aliases using Unicode normalization (NFC) in addition to lower-casing and trimming, ensuring that visually equivalent Unicode representations are recognized as valid.
 
-4. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and provides suggestions for acceptable alternatives.
+4. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted NaN aliases.
 
 5. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
-6. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable for every numeric conversion.
+6. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable on every numeric conversion. Note that when `LOCALE_NAN_ALIASES` is provided, caching is bypassed to ensure the latest configuration is used.
 
 **Refactoring Note:**
 
-The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (`src/lib/main.js`) instead of in a separate utility file. This promotes tighter integration, ease of maintenance, and improved performance via caching when applicable.
+The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (`src/lib/main.js`), eliminating the need for a separate utility module. This promotes tighter integration, ease of maintenance, and improved performance via caching when applicable.
 
 Additionally, debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
 
@@ -140,11 +140,10 @@ This feature ensures that numeric validation can adapt to various regional forma
 
 - Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
 - Various representations of NaN (default or localized) are accepted and converted to the string "NaN" to ensure a consistent interface.
-- Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and provides suggestions.
+- Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.
 - Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
-- Caching of accepted NaN aliases is applied when no locale-specific configuration is provided to optimize performance.
-- Unicode normalization (NFC) is applied to all numeric tokens and locale-specific aliases to handle visually equivalent representations.
+- Caching of accepted NaN aliases is applied when no locale-specific configuration is provided to optimize performance, while always using the current configuration when `LOCALE_NAN_ALIASES` is set.
 - The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
 
 ## Utility Module

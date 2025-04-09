@@ -13,7 +13,7 @@ function errorExit(message) {
 
 // Inline implementation of NaN alias normalization with caching
 function getAcceptedNaNAliases() {
-  // If LOCALE_NAN_ALIASES is not set, use cached value if available
+  // Use caching only when LOCALE_NAN_ALIASES is not set
   if (!process.env.LOCALE_NAN_ALIASES && cachedNaNAliases !== null) {
     return cachedNaNAliases;
   }
@@ -38,7 +38,7 @@ function getAcceptedNaNAliases() {
       console.warn("Invalid configuration for LOCALE_NAN_ALIASES: unable to parse JSON, using default aliases.");
     }
   } else {
-    // Only cache if LOCALE_NAN_ALIASES is not provided
+    // Cache the computed default aliases if no locale-specific configuration is provided
     cachedNaNAliases = aliases;
   }
   return aliases;
@@ -64,7 +64,7 @@ function parseNumericParams(paramStr) {
 
     // Reject near-miss tokens like "n/a" with a clear suggestion
     if (normToken === "n/a") {
-      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")} ?`);
+      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")} ?`);
     }
 
     if (acceptedNaNAliases.has(normToken)) {
