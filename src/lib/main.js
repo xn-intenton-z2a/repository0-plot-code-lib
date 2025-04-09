@@ -38,27 +38,32 @@ function getAcceptedNaNAliases() {
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
 // Enhanced to ensure unified handling of NaN aliases (with caching), Unicode normalization (NFC), and improved error messaging for near-miss tokens.
 function parseNumericParams(paramStr) {
-  const acceptedNaNAliases = getAcceptedNaNAliases();
-  const tokens = paramStr.split(",");
-  const result = [];
+  let tokens;
+  // If the string contains a comma or semicolon, use them as delimiters. Otherwise, split on whitespace.
+  if (paramStr.includes(",") || paramStr.includes(";")) {
+    tokens = paramStr.split(/[,;]+/);
+  } else {
+    tokens = paramStr.split(/\s+/);
+  }
 
+  const result = [];
   // Regex for valid numeric values: integer, decimal or scientific notation.
   const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 
   for (const token of tokens) {
     const trimmed = token.trim();
-    // Skip empty tokens (including those from trailing or consecutive commas)
+    // Skip empty tokens (including those from trailing or consecutive delimiters)
     if (trimmed === "") continue;
 
-    // Normalize token for consistent alias checking: lowercase, collapse whitespace, trim and Unicode NFC
-    const normToken = trimmed.toLowerCase().replace(/\s+/g, " ").trim().normalize("NFC");
+    // Normalize token for consistent alias checking: lowercase, trim and Unicode NFC
+    const normToken = trimmed.toLowerCase().trim().normalize("NFC");
 
     // Reject near-miss tokens like "n/a" with a clear suggestion
     if (normToken === "n/a") {
-      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")} ?`);
+      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
     }
 
-    if (acceptedNaNAliases.has(normToken)) {
+    if (getAcceptedNaNAliases().has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
         console.debug(`Normalized token '${trimmed}' to native NaN`);
       }
@@ -117,9 +122,9 @@ function main(args = []) {
   if (args.includes("--advanced")) {
     const filteredArgs = args.filter(arg => arg !== "--advanced");
     const [plotType, params] = filteredArgs;
-    // If parameters contain a comma, parse them using the numeric utility
+    // If parameters contain a delimiter, parse them using the numeric utility
     let parsedParams = params;
-    if (params && params.includes(",")) {
+    if (params && (params.includes(",") || params.includes(";") || /\s+/.test(params))) {
       parsedParams = parseNumericParams(params);
     }
     switch (plotType) {
@@ -177,16 +182,19 @@ function main(args = []) {
     return;
   }
 
-  // For non-advanced mode, standardize numeric conversion on parameters that include comma-separated tokens.
+  // For non-advanced mode, check for colon-separated arguments first
   const finalArgs = args.map(arg => {
-    if (arg.includes(",")) {
-      if (arg.includes(":")) {
-        return arg.split(":").map(segment => {
-          return segment.includes(",") ? parseNumericParams(segment) : segment;
-        });
-      } else {
-        return parseNumericParams(arg);
-      }
+    if (arg.includes(":")) {
+      // Split only on the first colon to separate label and parameters
+      const parts = arg.split(/:(.+)/);
+      const label = parts[0].trim();
+      const paramStr = parts[1] ? parts[1].trim() : "";
+      const parsedParams = paramStr ? parseNumericParams(paramStr) : [];
+      return [label, parsedParams];
+    } else if (arg.includes(",") || arg.includes(";")) {
+      return parseNumericParams(arg);
+    } else if (/\s+/.test(arg)) {
+      return parseNumericParams(arg);
     }
     return arg;
   });

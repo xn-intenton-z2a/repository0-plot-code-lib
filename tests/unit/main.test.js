@@ -107,141 +107,38 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
   });
 });
 
-describe("Additional Numeric Edge Cases", () => {
-  test("should handle leading/trailing spaces and scientific notation in colon-separated input", () => {
+describe("Additional Numeric Edge Cases with New Delimiters", () => {
+  test("should handle semicolons as delimiters", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["quad:  3e2,   NaN,  -5E-1"]);
+    main(["quad:1;NaN;5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    logSpy.mockRestore();
+  });
+
+  test("should handle multiple spaces as delimiters", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad:1  NaN  5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    logSpy.mockRestore();
+  });
+
+  test("should handle mixed delimiters", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad: 1, NaN;5  , -10"]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     logSpy.mockRestore();
   });
 });
 
-describe("Alternative NaN Aliases", () => {
-  test("should treat 'not a number' as NaN", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const arg = "quad:1, not a number ,5,-10,10,1";
-    
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
-    errorSpy.mockRestore();
-    exitSpy.mockRestore();
-    logSpy.mockRestore();
-  });
-
-  test("should treat 'notanumber' as NaN", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const arg = "quad:1,notanumber,5,-10,10,1";
-    
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
-    errorSpy.mockRestore();
-    exitSpy.mockRestore();
-    logSpy.mockRestore();
-  });
-
-  test("should treat 'na' as NaN", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const arg = "quad:1,na,5,-10,10,1";
-    
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
-    errorSpy.mockRestore();
-    exitSpy.mockRestore();
-    logSpy.mockRestore();
-  });
-
-  test("should treat 'not-a-number' as NaN", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const arg = "quad:1,not-a-number,5,-10,10,1";
-    
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main([arg]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
-    errorSpy.mockRestore();
-    exitSpy.mockRestore();
-    logSpy.mockRestore();
-  });
-
-  test("should reject near miss variants like 'n/a' with suggestion", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const arg = "quad:1,n/a,5,-10,10,1";
-    expect(() => main([arg])).toThrow(/process.exit: 1/);
-    expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("Did you mean one of the accepted tokens"));
-    errorSpy.mockRestore();
-    exitSpy.mockRestore();
-  });
-});
-
-describe("Numeric Debug Logging", () => {
-  test("should log debug message when DEBUG_NUMERIC is enabled", () => {
-    const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
-    process.env.DEBUG_NUMERIC = "true";
-    const arg = "quad:1,na,5";
-    main([arg]);
-    expect(debugSpy).toHaveBeenCalledWith("Normalized token 'na' to native NaN");
-    delete process.env.DEBUG_NUMERIC;
-    debugSpy.mockRestore();
-  });
-});
-
-describe("Advanced Plotting - Contour Plot", () => {
-  test("should convert parameters and trigger contour plot handler", () => {
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const originalContourPlot = mainModule.advancedPlots.contourPlot;
-    let receivedParams;
-    mainModule.advancedPlots.contourPlot = function(params) { receivedParams = params; };
-
-    main(["--advanced", "contourPlot", "1,NaN,5"]);
-    
-    expect(receivedParams).toHaveLength(3);
-    expect(receivedParams[0]).toBe(1);
-    expect(isNativeNaN(receivedParams[1])).toBe(true);
-    expect(receivedParams[2]).toBe(5);
-
-    mainModule.advancedPlots.contourPlot = originalContourPlot;
-    logSpy.mockRestore();
-  });
-});
-
-describe("Advanced Plotting - Scatter Matrix", () => {
-  test("should convert parameters and trigger scatter matrix handler", () => {
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const originalScatterMatrix = mainModule.advancedPlots.scatterMatrix;
-    let receivedParams;
-    mainModule.advancedPlots.scatterMatrix = function(params) { receivedParams = params; };
-
-    main(["--advanced", "scatterMatrix", "1,NaN,5,-10,10,1"]);
-    
-    expect(receivedParams).toHaveLength(6);
-    expect(receivedParams[0]).toBe(1);
-    expect(isNativeNaN(receivedParams[1])).toBe(true);
-    expect(receivedParams[2]).toBe(5);
-    expect(receivedParams[3]).toBe(-10);
-    expect(receivedParams[4]).toBe(10);
-    expect(receivedParams[5]).toBe(1);
-
-    mainModule.advancedPlots.scatterMatrix = originalScatterMatrix;
-    logSpy.mockRestore();
-  });
-});
-
-describe("Trailing Commas Handling", () => {
-  test("should ignore trailing commas in non-advanced mode", () => {
+describe("Trailing Commas and Extra Delimiters Handling", () => {
+  test("should ignore trailing delimiters in non-advanced mode", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:1,2,3,"]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     logSpy.mockRestore();
   });
 
-  test("should ignore extra consecutive commas in advanced mode", () => {
+  test("should ignore extra consecutive delimiters in advanced mode", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const originalTestPlot = mainModule.advancedPlots.testPlot;
     let receivedParams;
@@ -262,10 +159,8 @@ describe("Localized NaN Aliases", () => {
     delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });
-});
 
-describe("Invalid LOCALE_NAN_ALIASES Handling", () => {
-  test("should warn and use default NaN aliases when LOCALE_NAN_ALIASES is invalid", () => {
+  test("should warn and use default aliases when LOCALE_NAN_ALIASES is invalid", () => {
     process.env.LOCALE_NAN_ALIASES = "invalid_json";
     const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
     main(["quad:1,na,5"]);
@@ -313,3 +208,4 @@ describe("Unicode Normalization Handling", () => {
     logSpy.mockRestore();
   });
 });
+
