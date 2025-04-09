@@ -1,39 +1,51 @@
-# CORE_ENGINE
+# CORE_ENGINE Feature
 
 ## Overview
-The CORE_ENGINE remains the backbone of our plotting library, responsible for advanced plotting functions, robust numeric parameter validation, an interactive CLI wizard, formula parsing, and diagnostics mode. In this update, we are enhancing the CORE_ENGINE to include configuration file support, allowing users to load plot settings from an external file (JSON or YAML), thus providing more flexibility and ease-of-use for complex visualization scenarios.
+The CORE_ENGINE is the backbone of our plotting library. It is responsible for advanced plotting functions, robust numeric parameter validation, an interactive CLI wizard, formula parsing, diagnostics mode, and configuration file support. In this update, the CORE_ENGINE is enhanced not only to include configuration file support but also to incorporate a unified logging system for improved diagnostics and maintainability.
 
 ## Configuration File Support
-- **Purpose:** Introduce a mechanism that lets users define plot configurations and defaults in a configuration file. This allows for pre-setting parameters and preferences without always relying on command-line arguments.
-- **Supported Formats:** The feature will support JSON and YAML formats using built-in Node capabilities or simple libraries (if needed from dependencies).
-- **Command-line Flag:** A new flag `--config` will be introduced. When provided, the CORE_ENGINE will read and parse the configuration file before processing any CLI arguments.
+- **Purpose:** Allow users to define plot configurations via external JSON or YAML files. This enables pre-setting parameters and defaults without relying solely on CLI arguments.
+- **Implementation:**
+  - A dedicated configuration loader module reads the file specified via the `--config` flag.
+  - Determines file format by extension and loads configuration data accordingly.
+  - Merges or overrides command-line parameters with configuration file settings (with CLI arguments taking precedence).
+  - Provides clear error messages when the configuration file is missing or malformed.
+
+## Advanced Plotting and CLI Wizard
+- **Interactive CLI:** The engine drives an interactive wizard for plot selection and dynamic parameter input.
+- **Advanced Flag:** With the `--advanced` flag, users can invoke advanced plotting routines that include multiple plot types (e.g., spiral, polarHeatmap, dualAxis, etc.) with validated numeric parameters.
+- **Numeric Parameter Validation:** Implements robust regex-based numeric validation supporting integers, decimals, and scientific notation. It also handles various NaN aliases (including localized aliases via the `LOCALE_NAN_ALIASES` environment variable) with unicode normalization.
+
+## Enhanced Logging and Diagnostics
+- **Unified Logging Module:** Introduces a centralized logging solution that replaces ad hoc console logging. This module provides:
+  - **Consistent Format:** Timestamped and severity-based logs (e.g., INFO, DEBUG, ERROR).
+  - **Dynamic Verbosity:** Controlled via environment variables (such as `DEBUG_NUMERIC`, `DEBUG_WEB`, `LOG_LEVEL`, etc.)
+  - **Integration:** Logging is integrated across the configuration loader, numeric parameter conversion, CLI wizard, and diagnostics modes, offering a consistent view of internal operations.
+  - **Optional File Logging:** If enabled via an environment variable (e.g., `LOG_FILE`), logs can also be written to a designated file.
+- **Benefits:** Improves troubleshooting by providing clear, uniform diagnostic messages and facilitating easier maintenance.
 
 ## Implementation Details
-- **Configuration Loader Module:** Implement a lightweight module (in the same repository) that reads a file path provided via the `--config` flag, determines the file format (e.g., by extension), and loads the configuration data.
-- **Integration:** Integrate the loaded configuration into the existing parameter processing logic in the CORE_ENGINE. The configuration file settings will override or supplement command-line parameters, but explicit CLI arguments will take priority.
-- **Validation:** Use the existing numeric parameter validation and formula parsing routines to validate any configuration-driven plot parameters.
-- **Fallbacks:** If the configuration file is missing or formatted incorrectly, a clear warning message will be logged and defaults will be used.
+- Expand the main module (`src/lib/main.js`) to include the logging utility functions.
+- Refactor existing console calls to use the new logging module where appropriate.
+- Maintain backward compatibility with existing outputs while adding enhanced structure and detail.
+- Update unit tests to verify both functional outcomes and proper log outputs when debug modes are enabled.
 
 ## Usage Examples
-- **CLI Usage:**
+- **CLI Invocation with Config File:**
   ```bash
-  node src/lib/main.js --config config.json "quad: 1, 2, not a number, -3.5E+2"
+  node src/lib/main.js --config config.json "quad: 1, NaN, 5,-10,10,1"
   ```
-- **Configuration File Example (JSON):**
-  ```json
-  {
-    "defaultPlot": "spiral",
-    "params": "1,NaN,5,-10,10,1",
-    "advanced": true
-  }
+- **Advanced Plotting with Enhanced Logging:**
+  ```bash
+  export DEBUG_NUMERIC=true
+  export LOG_LEVEL=DEBUG
+  node src/lib/main.js --advanced testPlot "1, NaN, 5, -10, 10, 1"
   ```
-
-## Benefits
-- **Flexibility:** Users can define and reuse configuration files, streamlining repetitive plotting tasks.
-- **Usability:** Makes it easier for non-technical users to set defaults without memorizing complex CLI parameters.
-- **Integration:** Harmonizes with the existing plugin system and diagnostics mode to provide a unified experience.
+- **Error Scenario:**
+  If a configuration file is missing or malformed, the unified logger outputs a timestamped error message, and the system falls back to default settings.
 
 ## Testing and Documentation
-- Update unit tests and integration tests (in tests/unit and tests/web) to cover configuration file loading, format validation, and seamless merging with CLI arguments.
-- Update README and CONTRIBUTING guidelines with usage examples and troubleshooting tips for configuration file support.
+- All changes are covered with unit tests in the `tests/unit` and `tests/web` directories.
+- Documentation is updated in the README and CONTRIBUTING files to explain configuration file usage, debug logging, and diagnostics enhancements.
 
+This update brings the CORE_ENGINE in line with our mission by not only enhancing the plotting and configuration capabilities but also by ensuring maintainability and ease-of-troubleshooting through a unified logging system.
