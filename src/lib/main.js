@@ -117,16 +117,6 @@ const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
  * The function splits the input token by commas, semicolons, or whitespace, trims extra spaces,
  * and processes each token using Zod for validation and transformation.
  * 
- * The processing steps include:
- * 1. Token splitting based on available delimiters (commas, semicolons, whitespace).
- * 2. Normalization of each token using normalizeAlias to support Unicode forms.
- * 3. Checking if a token matches a disallowed near-miss (e.g., "n/a").
- * 4. Converting recognized NaN alias tokens to native JavaScript NaN.
- * 5. Applying locale-specific formatting if thousands separators are enabled.
- * 6. Validating the final numeric format using a regular expression.
- * 
- * If a token fails validation, a descriptive error is thrown (or passed to a custom error handler).
- * 
  * @param {string} paramStr - The string containing numeric parameters.
  * @param {Function} [errorHandler] - Optional custom error handler function.
  * @returns {Array<number>} - The array of parsed numeric values (with NaN values as native NaN).
@@ -188,6 +178,22 @@ function parseNumericParams(paramStr, errorHandler) {
     }
   }
   return result;
+}
+
+/**
+ * Parses a JSON configuration string using Zod for validation. Provides detailed error messages for invalid JSON.
+ * @param {string} configStr - The JSON configuration string to parse.
+ * @returns {any} - The validated JSON object.
+ */
+function parseJSONConfig(configStr) {
+  // Use a generic schema for JSON objects
+  const jsonSchema = z.any();
+  try {
+    const parsed = JSON.parse(configStr.trim());
+    return jsonSchema.parse(parsed);
+  } catch (error) {
+    errorExit(`Invalid JSON configuration: ${error.message}`);
+  }
 }
 
 // Advanced plotting implementations are inlined under the advancedPlots object
@@ -261,11 +267,8 @@ function main(args = []) {
       let params = args[i + 2];
       let parsedParams = params;
       if (params && params.trim().startsWith("{") && params.trim().endsWith("}")) {
-        try {
-          parsedParams = JSON.parse(params);
-        } catch (err) {
-          errorExit("Invalid JSON configuration for advanced plot parameters.");
-        }
+        // Use dedicated JSON parsing function for nested JSON configurations
+        parsedParams = parseJSONConfig(params);
       } else if (params && (params.includes(",") || params.includes(";") || /\s+/.test(params))) {
         parsedParams = parseNumericParams(params);
       }
@@ -330,11 +333,7 @@ function main(args = []) {
         const paramStr = parts[1] ? parts[1].trim() : "";
         let parsedParams;
         if (paramStr && paramStr.startsWith("{") && paramStr.endsWith("}")) {
-          try {
-            parsedParams = JSON.parse(paramStr);
-          } catch (err) {
-            errorExit("Invalid JSON configuration for plot parameters.");
-          }
+          parsedParams = parseJSONConfig(paramStr);
         } else {
           parsedParams = paramStr ? parseNumericParams(paramStr) : [];
         }
@@ -355,4 +354,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
-export { advancedPlots, getAcceptedNaNAliases, parseNumericParams, main };
+export { advancedPlots, getAcceptedNaNAliases, parseNumericParams, main, parseJSONConfig };
