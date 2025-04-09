@@ -1,14 +1,22 @@
 {
-  "openIssues": 75,
-  "issuesClosedLastHour": 4,
+  "openIssues": 76,
+  "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 4,
-  "commitsLastHour": 7,
+  "diffMinutes": 1,
+  "diffMinutesMain": 1,
+  "commitsLastHour": 8,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "05:21",
+      "message": "Maintain EXPORT_ENGINE"
+    },
+    {
+      "time": "05:13",
+      "message": "Enhanced NaN token handling by adding Unicode normalization NFC ..."
+    },
     {
       "time": "05:07",
       "message": "Maintain CORE_ENGINE"
@@ -20,27 +28,14 @@
     {
       "time": "04:55",
       "message": "Maintain CORE_ENGINE"
-    },
-    {
-      "time": "04:51",
-      "message": "Updated main.js to inline the NaN alias utility and modified tes..."
-    },
-    {
-      "time": "04:45",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1267",
-        "minutesSinceLastCommit": 0
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T05:12:19.438Z"
+  "generatedAt": "2025-04-09T05:23:37.107Z"
 }
