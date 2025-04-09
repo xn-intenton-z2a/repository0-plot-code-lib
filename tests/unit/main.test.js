@@ -265,3 +265,14 @@ describe("Advanced Plot JSON Configuration", () => {
     logSpy.mockRestore();
   });
 });
+
+// New Test Suite for Custom Error Handling Callback in parseNumericParams
+
+describe("Custom Error Handling Callback", () => {
+  test("should invoke custom error handler with correct error message", () => {
+    let capturedMessage = "";
+    const customHandler = (msg) => { capturedMessage = msg; };
+    expect(() => parseNumericParams("1,abc,5", customHandler)).toThrow();
+    expect(capturedMessage).toContain("Invalid numeric parameter 'abc'");
+  });
+});

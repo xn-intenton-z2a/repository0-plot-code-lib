@@ -30,6 +30,22 @@ node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "title": "My Box
 
 The advanced plot functions will then receive the configuration object, making it easy to set up more complex plots.
 
+## Customizable Error Handling Hooks
+
+In this release, the numeric parameter parsing function `parseNumericParams` has been enhanced to accept an optional error handling callback. When provided, instead of terminating the process on encountering an invalid token (or near-miss token like "n/a"), the callback is invoked with the error message. This allows CLI and web interfaces to implement custom error reporting, logging, or recovery strategies. For example:
+
+```javascript
+// Using a custom error handler
+try {
+  const params = parseNumericParams("1,abc,5", (errMsg) => {
+    // Custom error processing
+    console.error('Custom error handler:', errMsg);
+  });
+} catch (err) {
+  // Handle the error as needed
+}
+```
+
 ## Debug Logging for Numeric Conversion
 
 Developers can enable debug logging to trace when NaN aliases are normalized. Set the environment variable `DEBUG_NUMERIC` to any truthy value to activate detailed logging. For example:
@@ -109,14 +125,13 @@ When running without the `--advanced` flag, the CLI automatically parses argumen
 
 ```bash
 node src/lib/main.js "quad: 1 ; 2.14e-3  not a number   -3.5E+2"
-
 node src/lib/main.js "chart:{\"data\": [10, 20, 30], \"label\": \"Test\"}"
 ```
 
 **Expected Console Output:**
 
 ```
-Run with: [["quad", [1,0,5,-10,10]]]
+Run with: [["quad", [1,NaN,5,-10,10]]]
 Run with: [["chart", { data: [10,20,30], label: "Test" }]]
 ```
 
@@ -152,6 +167,10 @@ node src/lib/main.js "quad: 1, nicht eine zahl, 5"
 ```
 
 Additionally, to completely override the default NaN aliases, set the `LOCALE_NAN_OVERRIDE` environment variable (to any truthy value). This ensures that only the aliases specified in `LOCALE_NAN_ALIASES` are recognized as NaN.
+
+## Custom Error Handling
+
+With the new error handling hook in `parseNumericParams`, users can now supply an optional callback to customize error reporting. This is especially useful when integrating the library into environments where default process termination is not desired (e.g., web servers or GUI applications). Refer to the example in the Customizable Error Handling Hooks section above.
 
 ## Utility Module
 
