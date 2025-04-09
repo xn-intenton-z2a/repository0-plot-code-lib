@@ -135,6 +135,15 @@ describe("Alternative NaN Aliases", () => {
     exitSpy.mockRestore();
   });
 
+  test("should treat 'not-a-number' as NaN", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const arg = "quad:1,not-a-number,5,-10,10,1";
+    expect(() => main([arg])).not.toThrow();
+    errorSpy.mockRestore();
+    exitSpy.mockRestore();
+  });
+
   test("should reject near miss variants like 'n/a' with suggestion", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});

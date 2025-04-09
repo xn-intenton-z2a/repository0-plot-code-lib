@@ -6,9 +6,9 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with optimized regex-based validation. Both the CLI and the web interface use this logic to:
 
-1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: "not a number", "notanumber", and "na".
+1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: "not a number", "notanumber", "na", and "not-a-number".
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
-3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now trigger an error message that explicitly states that such tokens are not accepted and suggests the accepted tokens: 'NaN', 'not a number', 'notanumber', or 'na'.
+3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now trigger an error message that explicitly states that such tokens are not accepted and suggests the accepted tokens: 'NaN', 'not a number', 'notanumber', 'na', or 'not-a-number'.
 4. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
 This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN and properly handle trailing commas in numeric inputs.
@@ -113,7 +113,7 @@ curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumbe
 ## Additional Details
 
 - Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
-- Various representations of NaN ("NaN", "not a number", "notanumber", "na") are accepted and converted to the string "NaN" to ensure a consistent interface.
+- Various representations of NaN ("NaN", "not a number", "notanumber", "na", "not-a-number") are accepted and converted to the string "NaN" to ensure a consistent interface.
 - Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and lists the acceptable alternatives.
 - Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
