@@ -24,24 +24,21 @@ const DEFAULT_NAN_ALIASES = new Set([
 ]);
 
 // Helper function for normalizing aliases
-// Updated normalization order: trim, normalize (NFC), then lower-case to properly handle both decomposed and composed Unicode forms,
-// ensuring support for extended Unicode representations including non-Latin scripts.
+// Normalization order: trim, NFC normalization, then lower-case to properly handle decomposed and composed Unicode forms.
 function normalizeAlias(alias) {
   return alias.trim().normalize("NFC").toLocaleLowerCase();
 }
 
 // Helper function to clean numeric token if thousands separator parsing is enabled
 function parseFormattedNumberValue(token) {
-  // Check if thousands separator processing is enabled
   if (process.env.ENABLE_THOUSANDS_SEPARATOR) {
     const locale = process.env.NUMERIC_LOCALE || 'en';
-    // For European locale, period is used as thousands separator and comma as decimal
     if (locale.toLowerCase() === 'eu') {
-      // Remove all dots (thousands separator) and replace comma with period
+      // For European formats, remove dot as thousands separator and replace comma with period
       token = token.replace(/\./g, '');
       token = token.replace(/,/g, '.');
     } else {
-      // Default to English style: remove commas used as thousands separators
+      // Default English formatting: remove commas as thousands separators
       token = token.replace(/,/g, '');
     }
   }
@@ -49,13 +46,12 @@ function parseFormattedNumberValue(token) {
 }
 
 // Utility function to get accepted NaN aliases
+// When STRICT_NAN_MODE is enabled, only the canonical normalized 'nan' is accepted.
 function getAcceptedNaNAliases() {
-  // If strict mode is enabled, only allow the canonical 'NaN'
   if (process.env.STRICT_NAN_MODE) {
     return new Set([normalizeAlias('NaN')]);
   }
   
-  // Normalize default aliases
   const defaultAliases = new Set();
   for (const alias of DEFAULT_NAN_ALIASES) {
     defaultAliases.add(normalizeAlias(alias));
@@ -72,7 +68,6 @@ function getAcceptedNaNAliases() {
       if (process.env.LOCALE_NAN_OVERRIDE) {
         return normalizedCustom;
       } else {
-        // Merge default aliases with custom ones
         for (const alias of defaultAliases) {
           normalizedCustom.add(alias);
         }
@@ -89,13 +84,11 @@ function getAcceptedNaNAliases() {
 // Regex for valid numeric values: integer, decimal or scientific notation.
 const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 
-// Optimized implementation of numeric parameter conversion utility with consolidated NaN validation using Zod schema validation.
-// Now leveraging Zod for declarative input transformation and validation to improve robustness and clarity.
-// Added an optional errorHandler callback parameter to allow customizable error processing instead of calling errorExit directly.
-// Note: When numeric tokens convert to native NaN, JSON.stringify will represent them as null.
+// Optimized implementation of numeric parameter conversion using Zod for validation and transformation.
+// This function processes delimiters (commas, semicolons, whitespace) and normalizes tokens to support international and strict NaN alias handling.
 function parseNumericParams(paramStr, errorHandler) {
   let tokens;
-  // If the string contains a comma or semicolon, use them as delimiters. Otherwise, split on whitespace.
+  // Determine delimiter: if comma or semicolon exists, split using them; otherwise use whitespace splitting.
   if (paramStr.includes(",") || paramStr.includes(";")) {
     tokens = paramStr.split(/[,;]+/);
   } else {
@@ -103,25 +96,25 @@ function parseNumericParams(paramStr, errorHandler) {
   }
 
   const result = [];
-  // Cache accepted aliases once per parsing session for performance and consistency
   const acceptedAliases = getAcceptedNaNAliases();
 
   // Zod schema for validating and transforming each token
   const tokenSchema = z.string().transform(token => {
     const trimmedToken = token.trim();
     const normToken = normalizeAlias(trimmedToken);
-    // Strictly reject near-miss tokens like "n/a"
+    // Reject near-miss tokens such as "n/a"
     if (normToken === "n/a") {
       const accepted = Array.from(acceptedAliases).sort().join(", ");
       throw new Error(`Invalid numeric parameter '${trimmedToken}'. Near-miss token 'n/a' is not accepted. Accepted tokens: ${accepted}.`);
     }
+    // If token is a recognized NaN alias, return native NaN
     if (acceptedAliases.has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
         console.debug(`Normalized token '${trimmedToken}' to native NaN`);
       }
       return Number.NaN;
     }
-    // If thousands separator processing is enabled, clean the token
+    // Process token for thousands separator if enabled
     let processedToken = trimmedToken;
     if (process.env.ENABLE_THOUSANDS_SEPARATOR) {
       processedToken = parseFormattedNumberValue(trimmedToken);
@@ -134,7 +127,7 @@ function parseNumericParams(paramStr, errorHandler) {
 
   for (const token of tokens) {
     const trimmed = token.trim();
-    if (trimmed === "") continue; // Skip empty tokens
+    if (trimmed === "") continue; // Skip empty tokens from extra delimiters
     try {
       const value = tokenSchema.parse(token);
       result.push(value);
@@ -198,10 +191,8 @@ function main(args = []) {
   }
 
   let i = 0;
-  // Process each command sequentially
   while (i < args.length) {
     if (args[i] === "--advanced") {
-      // Expect two more arguments: plotType and parameters
       if (i + 2 >= args.length) {
         errorExit("Insufficient arguments for advanced command.");
       }
@@ -271,10 +262,8 @@ function main(args = []) {
       }
       i += 3;
     } else {
-      // Non-advanced command processing
       const arg = args[i];
       if (arg.includes(":")) {
-        // Split on the first colon
         const parts = arg.split(/:(.+)/);
         const label = parts[0].trim();
         const paramStr = parts[1] ? parts[1].trim() : "";
@@ -288,7 +277,7 @@ function main(args = []) {
         } else {
           parsedParams = paramStr ? parseNumericParams(paramStr) : [];
         }
-        console.log(`Run with: [[\"${label}\", ${JSON.stringify(parsedParams)}]]`);
+        console.log(`Run with: [["${label}", ${JSON.stringify(parsedParams)}]]`);
       } else if (arg.includes(",") || arg.includes(";") || /\s+/.test(arg)) {
         const parsed = parseNumericParams(arg);
         console.log(`Run with: ${JSON.stringify(parsed)}`);

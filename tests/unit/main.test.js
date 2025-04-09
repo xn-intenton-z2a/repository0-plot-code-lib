@@ -175,7 +175,6 @@ describe("Localized NaN Aliases", () => {
     expect(aliases.has("notanumber")).toBe(true);
     expect(aliases.has("na")).toBe(true);
     expect(aliases.has("not-a-number")).toBe(true);
-    // Ensure international defaults are present
     expect(aliases.has("nicht eine zahl")).toBe(true);
     expect(aliases.has("pas un nombre")).toBe(true);
     expect(aliases.has("no es un número")).toBe(true);
@@ -284,7 +283,7 @@ describe("Strict NaN Mode", () => {
     process.env.STRICT_NAN_MODE = "true";
     const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    expect(() => main(["quad: 1, na, 5"])).toThrow(/process.exit: 1/);
+    expect(() => main(["quad: 1, na, 5"]).toThrow()).toThrow(/process.exit: 1/);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("Invalid numeric parameter 'na'"));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
@@ -305,7 +304,6 @@ describe("Batch Plotting Commands", () => {
 
   test("should process a mix of advanced and non-advanced commands", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Advanced command: testPlot; non-advanced: quad
     main(["--advanced", "testPlot", "1,NaN,5", "quad: 1,2,3"]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Advanced Plot: Test Plot'));
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
