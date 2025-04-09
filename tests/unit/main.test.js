@@ -62,7 +62,7 @@ describe("Handling 'NaN' as a valid token", () => {
 });
 
 describe("Advanced Plotting Numeric Conversion", () => {
-  test("should convert 'NaN' token to string \"NaN\" in advanced mode", () => {
+  test("should convert 'NaN' token to string \"NaN\" in advanced mode for testPlot", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     // Override testPlot to capture the params
     const originalTestPlot = mainModule.advancedPlots.testPlot;
@@ -124,7 +124,6 @@ describe("Additional Numeric Edge Cases", () => {
   test("should handle leading/trailing spaces and scientific notation in colon-separated input", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:  3e2,   NaN,  -5E-1"]);
-    // Expected output: ["quad", [300, "NaN", -0.5]] is printed as JSON
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[300,"NaN",-0.5]]'));
     logSpy.mockRestore();
   });
@@ -134,7 +133,6 @@ describe("Alternative NaN Aliases", () => {
   test("should treat 'not a number' as NaN", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    // Using colon-delimited input
     const arg = "quad:1, not a number ,5,-10,10,1";
     expect(() => main([arg])).not.toThrow();
     errorSpy.mockRestore();
@@ -196,6 +194,28 @@ describe("Advanced Plotting - Contour Plot", () => {
     expect(receivedParams[2]).toBe(5);
 
     mainModule.advancedPlots.contourPlot = originalContourPlot;
+    logSpy.mockRestore();
+  });
+});
+
+describe("Advanced Plotting - Scatter Matrix", () => {
+  test("should convert parameters and trigger scatter matrix handler", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const originalScatterMatrix = mainModule.advancedPlots.scatterMatrix;
+    let receivedParams;
+    mainModule.advancedPlots.scatterMatrix = function(params) { receivedParams = params; };
+
+    main(["--advanced", "scatterMatrix", "1,NaN,5,-10,10,1"]);
+    
+    expect(receivedParams).toHaveLength(6);
+    expect(receivedParams[0]).toBe(1);
+    expect(receivedParams[1]).toBe("NaN");
+    expect(receivedParams[2]).toBe(5);
+    expect(receivedParams[3]).toBe(-10);
+    expect(receivedParams[4]).toBe(10);
+    expect(receivedParams[5]).toBe(1);
+
+    mainModule.advancedPlots.scatterMatrix = originalScatterMatrix;
     logSpy.mockRestore();
   });
 });

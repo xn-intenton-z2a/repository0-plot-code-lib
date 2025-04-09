@@ -41,7 +41,7 @@ node src/lib/main.js --advanced testPlot " 1, NaN , 5, -10, 10, 1"
 **Expected Console Output:**
 ```
 Advanced Plot: Test Plot
-Test Plot with params: [ 1, "NaN", 5 ]
+Test Plot with params: [ 1, "NaN", 5, -10, 10, 1 ]
 ```
 
 ### Advanced Plotting: Contour Plot
@@ -56,6 +56,20 @@ node src/lib/main.js --advanced contourPlot "1, NaN, 5, -10, 10, 1"
 ```
 Advanced Plot: Contour Plot
 Plotting contour plot with params: [ 1, "NaN", 5, -10, 10, 1 ]
+```
+
+### Advanced Plotting: Scatter Matrix
+
+A new advanced plotting feature for scatter matrix plots has been introduced. This feature visualizes correlations among multiple variables in a grid layout. Use the --advanced flag with the scatterMatrix option:
+
+```bash
+node src/lib/main.js --advanced scatterMatrix "1, NaN, 5, -10, 10, 1"
+```
+
+**Expected Console Output:**
+```
+Advanced Plot: Scatter Matrix
+Plotting scatter matrix with params: [ 1, "NaN", 5, -10, 10, 1 ]
 ```
 
 ### CLI Usage in Non-Advanced Mode
@@ -81,7 +95,7 @@ The web interface provides similar numeric parameter validation. To test it loca
 npm run start:web
 ```
 
-2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral" or "contourPlot") and enter a set of parameters, such as:
+2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral", "contourPlot", or "scatterMatrix") and enter a set of parameters, such as:
 
 ```
 1, na, 5, -10, 10, 1
