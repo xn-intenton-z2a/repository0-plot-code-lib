@@ -10,8 +10,8 @@ export function resolveNaNAliases() {
   const normalize = alias => alias.trim().toLowerCase();
 
   if (process.env.LOCALE_NAN_OVERRIDE) {
-    // Override defaults completely and normalize each alias
-    return process.env.LOCALE_NAN_OVERRIDE.split(",")
+    // Override defaults completely and normalize each alias, supporting both commas and semicolons as delimiters
+    return process.env.LOCALE_NAN_OVERRIDE.split(/[;,]/)
       .map(normalize)
       .filter(alias => alias.length > 0);
   }
@@ -19,7 +19,7 @@ export function resolveNaNAliases() {
   const defaultAliases = ["nan", "notanumber", "undefined"].map(normalize);
 
   if (process.env.LOCALE_NAN_ALIASES) {
-    const customAliases = process.env.LOCALE_NAN_ALIASES.split(",")
+    const customAliases = process.env.LOCALE_NAN_ALIASES.split(/[;,]/)
       .map(normalize)
       .filter(alias => alias.length > 0);
     // Merge custom aliases with defaults, deduplicating

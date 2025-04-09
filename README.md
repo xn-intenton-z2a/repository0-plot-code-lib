@@ -14,7 +14,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ## Usage
 
-The CLI now supports multiple modes of operation with robust argument parsing, enhanced alias normalization, and error handling:
+The CLI now supports multiple modes of operation with robust argument parsing, enhanced alias normalization (supporting both comma and semicolon delimiters), and error handling:
 
 ### CLI Quickstart
 
@@ -55,8 +55,8 @@ node src/lib/main.js --help
 This library supports dynamic and locale-aware NaN alias resolution. Aliases are normalized by trimming and converting to lowercase. Configure using the following environment variables:
 
 - **STRICT_NAN_MODE**: When set to "true", only the canonical alias `nan` is accepted.
-- **LOCALE_NAN_ALIASES**: A comma-separated list of additional aliases to merge with the defaults (defaults are: `nan`, `notanumber`, `undefined`).
-- **LOCALE_NAN_OVERRIDE**: A comma-separated list that completely overrides the default aliases.
+- **LOCALE_NAN_ALIASES**: A list (comma or semicolon separated) of additional aliases to merge with the defaults (defaults are: `nan`, `notanumber`, `undefined`).
+- **LOCALE_NAN_OVERRIDE**: A list (comma or semicolon separated) that completely overrides the default aliases.
 
 For example, to enable strict mode:
 
@@ -64,10 +64,10 @@ For example, to enable strict mode:
 export STRICT_NAN_MODE=true
 ```
 
-Or to add custom aliases:
+Or to add custom aliases using semicolon delimiters:
 
 ```bash
-export LOCALE_NAN_ALIASES="NaNValue, NotA-Number"
+export LOCALE_NAN_ALIASES="NaNValue; NotA-Number"
 ```
 
 ---
