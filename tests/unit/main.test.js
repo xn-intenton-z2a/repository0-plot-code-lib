@@ -90,4 +90,20 @@ describe('NaN Alias Resolution', () => {
     const aliases = resolveNaNAliases();
     expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined', 'nanalias', 'custom'].sort());
   });
+
+  test('handles semicolon delimiters in LOCALE_NAN_ALIASES', () => {
+    delete process.env.STRICT_NAN_MODE;
+    process.env.LOCALE_NAN_ALIASES = ' NaN ; nAnAlias ; CUSTOM ';
+    delete process.env.LOCALE_NAN_OVERRIDE;
+    const aliases = resolveNaNAliases();
+    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined', 'nanalias', 'custom'].sort());
+  });
+
+  test('handles semicolon delimiters in LOCALE_NAN_OVERRIDE', () => {
+    process.env.LOCALE_NAN_OVERRIDE = ' override1 ; override2 ';
+    process.env.STRICT_NAN_MODE = 'false';
+    process.env.LOCALE_NAN_ALIASES = 'should, be, ignored';
+    const aliases = resolveNaNAliases();
+    expect(aliases.sort()).toEqual(['override1', 'override2'].sort());
+  });
 });
