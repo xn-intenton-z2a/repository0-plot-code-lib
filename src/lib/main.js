@@ -9,37 +9,49 @@ function errorExit(message) {
   process.exit(1);
 }
 
-// Enhanced implementation of numeric parameter conversion utility using regex validation
-// Now supports alternative NaN aliases: "nan", "not a number", "notanumber", and "na" (case-insensitive, whitespace-tolerant).
-// All recognized NaN tokens are uniformly converted to the string "NaN" for consistency across CLI and advanced mode.
-// Adds conditional debug logging if DEBUG_NUMERIC environment variable is set.
-// Now also gracefully ignores empty tokens resulting from trailing or consecutive commas.
+// Optimized implementation of numeric parameter conversion utility.
+// This version separates the numeric value matching from accepted NaN aliases, enhancing readability and performance.
+// Accepted NaN aliases (case-insensitive, whitespace-tolerant): "NaN", "not a number", "notanumber", "na".
+// Near-miss tokens like "n/a" are rejected with a detailed error message.
+// Empty tokens from trailing or consecutive commas are gracefully ignored.
 function parseNumericParams(paramStr) {
   const tokens = paramStr.split(",");
   const result = [];
-  // Regex to match valid numbers: integer, decimal, scientific notation, or NaN and its aliases
-  const numberRegex = /^\s*([-+]?(?:(?:\d+\.?\d*|\.?\d+)(?:[eE][-+]?\d+)?|nan|not\s*a\s*number|notanumber|na))\s*$/i;
   
+  // Regex for valid numeric values: integer, decimal or scientific notation.
+  const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
+  
+  // Accepted NaN aliases in lower case (with standard spacing for "not a number")
+  const acceptedNaNAliases = new Set([
+    "nan",
+    "not a number",
+    "notanumber",
+    "na"
+  ]);
+
   for (const token of tokens) {
     const trimmed = token.trim();
     // Skip empty tokens from trailing or extra commas
     if (trimmed === "") continue;
-    // Check for near-miss tokens such as "n/a"
-    const normalized = trimmed.toLowerCase().replace(/\s/g, '');
-    if (normalized === "n/a") {
+    
+    const lowerToken = trimmed.toLowerCase();
+    // Check for near-miss tokens such as "n/a" by removing all spaces
+    if (lowerToken.replace(/\s/g, '') === "n/a") {
       errorExit(`Invalid numeric parameter '${trimmed}'. Did you mean one of the accepted tokens: 'NaN', 'not a number', 'notanumber', or 'na'?`);
     }
-    if (!numberRegex.test(trimmed)) {
-      errorExit(`Invalid numeric parameter '${trimmed}'`);
-    }
-    const lower = trimmed.toLowerCase();
-    if (lower === "nan" || lower === "not a number" || lower === "notanumber" || lower === "na") {
+    
+    // If token matches one of the accepted NaN aliases (case-insensitive and whitespace-tolerant)
+    // Normalize by replacing multiple spaces with a single space
+    const normalizedAlias = lowerToken.replace(/\s+/g, ' ').trim();
+    if (acceptedNaNAliases.has(normalizedAlias)) {
       if (process.env.DEBUG_NUMERIC) {
         console.debug(`Normalized token '${trimmed}' to "NaN"`);
       }
       result.push("NaN");
-    } else {
+    } else if (numericRegex.test(trimmed)) {
       result.push(Number(trimmed));
+    } else {
+      errorExit(`Invalid numeric parameter '${trimmed}'`);
     }
   }
   return result;
