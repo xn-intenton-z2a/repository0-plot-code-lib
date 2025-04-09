@@ -1,14 +1,27 @@
 {
-  "openIssues": 88,
-  "issuesClosedLastHour": 4,
+  "openIssues": 90,
+  "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 6,
-  "diffMinutesMain": 6,
-  "commitsLastHour": 5,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Add LOCALE_NAN_OVERRIDE option to allow full override of default NaN aliases. (fixes #1292)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 0,
+  "diffMinutesMain": 2,
+  "commitsLastHour": 7,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "06:51",
+      "message": "Maintain CORE_ENGINE"
+    },
+    {
+      "time": "06:49",
+      "message": "Fixed main argument parsing to properly split colon-separated to..."
+    },
     {
       "time": "06:39",
       "message": "Maintain CORE_ENGINE"
@@ -20,27 +33,19 @@
     {
       "time": "06:07",
       "message": "Unified warning messages for LOCALE_NAN_ALIASES parsing errors. ..."
-    },
-    {
-      "time": "05:59",
-      "message": "Integrated the NaN alias utility into main.js and updated test a..."
-    },
-    {
-      "time": "05:54",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
     "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-1283",
-        "minutesSinceLastCommit": 12
+        "branch": "agentic-lib-issue-1292",
+        "minutesSinceLastCommit": 0
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T06:46:21.296Z"
+  "generatedAt": "2025-04-09T06:53:37.616Z"
 }
