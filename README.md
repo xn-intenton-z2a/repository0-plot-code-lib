@@ -16,7 +16,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ### CLI Quickstart
 
-Generate a simple quadratic plot as SVG:
+Generate a simple quadratic plot as SVG using the CLI entrypoint:
 
 ```bash
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
@@ -39,6 +39,26 @@ node src/lib/main.js --serve
 ```
 
 ---
+
+## Environment Configuration for NaN Alias Resolution
+
+This library now supports dynamic and locale-aware NaN alias resolution. The following environment variables can be used to configure its behavior:
+
+- **STRICT_NAN_MODE**: When set to "true", only the canonical alias `nan` is accepted.
+- **LOCALE_NAN_ALIASES**: A comma-separated list of additional aliases to merge with the defaults (defaults are: `nan`, `notanumber`, `undefined`).
+- **LOCALE_NAN_OVERRIDE**: A comma-separated list that overrides the default aliases entirely.
+
+For example, to enable strict mode:
+
+```bash
+export STRICT_NAN_MODE=true
+```
+
+Or to add custom aliases:
+
+```bash
+export LOCALE_NAN_ALIASES="NaNValue, NotA-Number"
+```
 
 ## Examples
 
@@ -65,6 +85,3 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 ## License
 
 MIT
-
----
-
