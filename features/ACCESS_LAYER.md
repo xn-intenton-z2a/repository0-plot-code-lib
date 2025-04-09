@@ -1,42 +1,35 @@
 # ACCESS_LAYER
 
 ## Overview
-This update refines and extends the existing ACCESS_LAYER module by ensuring full support for diagnostics across both CLI and web interfaces. In addition to supporting a dedicated diagnostics mode, version flag, and an enhanced RESTful API, this update now incorporates consistent diagnostics handling directly within the CLI, addressing the missing --diagnostics branch in the main execution flow.
+This update refines the ACCESS_LAYER module by ensuring complete and consistent diagnostics support across the CLI and the web API. In previous iterations, the diagnostics functionality was defined in the design documents but not fully implemented in the CLI's argument parser. This update adds the missing branch for the `--diagnostics` flag in the main execution flow, ensuring that system configuration, dependency information, and runtime diagnostics are output consistently in both human-readable and JSON formats.
 
 ## Key Objectives
 - **CLI Diagnostics Integration:**
-  - Add a new branch in the CLI argument parser to support the `--diagnostics` flag.
-  - When the `--diagnostics` flag is provided, output detailed system configuration, dependency information, and runtime diagnostics in both human-readable and JSON formats.
-  - Ensure the diagnostics output is consistent with data provided via the API endpoints.
+  - Update the CLI parser (in `src/lib/main.js`) to detect a `--diagnostics` flag early in the argument evaluation.
+  - When the `--diagnostics` flag is provided, output detailed system configuration, environment variables, dependency versions (from package.json), and runtime diagnostics.
+  - Format the diagnostics output in both a user-friendly and a JSON format to allow easy parsing by automated tools.
 
-- **Enhanced Version Information Flag:**
-  - Ensure the existing `--version` flag outputs the current package version along with key dependency summaries, adhering to the standard logging conventions.
+- **Web API Diagnostics Endpoint:**
+  - Augment the Express-based web interface to provide a dedicated `GET /diagnostics` endpoint that mirrors the diagnostic output of the CLI.
+  - Ensure that the logic is shared between CLI and API to keep the diagnostics output consistent.
 
-- **Robust Web Interface & HTTP API:**
-  - Maintain and improve the web API endpoints:
-    - **GET /version:** Returns the current package version.
-    - **GET /diagnostics:** Provides detailed system diagnostics, mirroring the CLI output.
-    - **POST /plot:** Accepts JSON payloads containing plot specifications and output preferences, processes the request with PLOT_ENGINE integration, and returns plot data.
-  - Integrate robust error handling, input validations, and logging for all endpoints.
-
-- **Seamless CLI and API Coexistence:**
-  - Update the main CLI parser (in `src/lib/main.js`) to branch based on flags (`--diagnostics`, `--version`, `--serve`, etc.), ensuring that diagnostics can be invoked both as a standalone CLI command and via an API call in serve mode.
-  - Provide consistent output formats and logging behavior across all diagnostics functionalities.
-
+- **Consistent Logging and Error Handling:**
+  - Integrate robust error handling and logging for both CLI and API components dealing with diagnostics.
+  
 ## Design & Implementation
 ### CLI Parser Enhancements (src/lib/main.js)
-- Add a condition to check for the `--diagnostics` flag before other arguments.
-- When invoked, gather system configuration details, environment variables, dependency versions (sourced from package.json), and runtime diagnostics.
-- Output the diagnostics in both user-friendly and JSON format.
+- Add a new branch to handle the `--diagnostics` flag before processing other arguments. 
+- When `--diagnostics` is detected, aggregate system configuration details, environment variables, and dependency information from package.json.
+- Output this information in two formats: a human-readable section and a JSON object.
 
 ### HTTP API Updates
-- Extend the Express-based API server to include a dedicated endpoint for diagnostics (`GET /diagnostics`).
-- Route diagnostics requests through the same logic as the CLI handler for consistency.
+- Extend the current Express server setup to include a new route (`GET /diagnostics`) that calls the same diagnostics logic used by the CLI.
+- Apply the same validation and error handling strategies used elsewhere in ACCESS_LAYER to guarantee robustness.
 
 ### Testing and Documentation
-- Update unit tests (e.g., in `tests/unit/main.test.js`) to include scenarios for the new diagnostics flag.
-- Revise the README and CONTRIBUTING documentation to include usage examples for invoking diagnostics via the CLI and API.
-- Ensure the diagnostics output includes all relevant system and dependency information.
+- Update the unit tests (e.g., in `tests/unit/main.test.js`) to include scenarios for the new diagnostics flag.
+- Revise both the README.md and CONTRIBUTING.md files to include examples and usage instructions for invoking diagnostics via the CLI and via HTTP.
+- Ensure that the merged diagnostics functionality complies with the mission statement and design guidelines.
 
 ## Usage Examples
 - **CLI Diagnostics:**
@@ -44,12 +37,7 @@ This update refines and extends the existing ACCESS_LAYER module by ensuring ful
   node src/lib/main.js --diagnostics
   ```
 
-- **Version Information:**
-  ```bash
-  node src/lib/main.js --version
-  ```
-
-- **Start API Server (with diagnostics endpoint):**
+- **Web Diagnostics Endpoint:**
   ```bash
   node src/lib/main.js --serve
   ```
@@ -57,3 +45,5 @@ This update refines and extends the existing ACCESS_LAYER module by ensuring ful
   ```bash
   curl http://localhost:3000/diagnostics
   ```
+
+This update makes the diagnostic functionality a first-class citizen in the ACCESS_LAYER module, ensuring that both the CLI and the web API provide consistent and comprehensive runtime diagnostics to users and developers.
