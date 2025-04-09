@@ -48,7 +48,7 @@
 <p class="md-github">Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace while gracefully ignoring extra delimiters, trailing commas, and multiple consecutive separators.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Provide detailed error messages when encountering invalid numeric inputs. The integration of Zod standardizes and simplifies this validation logic. In strict mode (enabled via <code class="md-github">STRICT_NAN_MODE</code>), only the canonical 'NaN' token is accepted, and all alternative aliases (such as &quot;na&quot; or &quot;not a number&quot;) are rejected.</p>
+<p class="md-github">Provide refined error messages when encountering invalid numeric inputs. In strict mode (enabled via <code class="md-github">STRICT_NAN_MODE</code>), only the canonical 'NaN' token is accepted, and all alternative aliases (such as &quot;na&quot; or &quot;not a number&quot;) are rejected with a clear error message that lists the accepted alias.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">New Feature: JSON-Based Parameter Configuration</strong></p>
@@ -131,7 +131,7 @@ node src/lib/main.js &quot;quad: 1, your_alias, 5&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T10:51:12.977Z</p>
+    <p>Generated on 2025-04-09T10:57:56.797Z</p>
   </footer>
 </body>
 </html>
