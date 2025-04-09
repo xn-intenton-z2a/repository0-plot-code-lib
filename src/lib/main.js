@@ -44,6 +44,8 @@ function getAcceptedNaNAliases() {
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation using Zod schema validation.
 // Now leveraging Zod for declarative input transformation and validation to improve robustness and clarity.
 // Added an optional errorHandler callback parameter to allow customizable error processing instead of calling errorExit directly.
+// Note: Numeric tokens that match accepted NaN aliases are converted to native Number.NaN. When using JSON.stringify,
+// Number.NaN becomes null. This behavior is important to consider when logging or serializing output.
 function parseNumericParams(paramStr, errorHandler) {
   let tokens;
   // If the string contains a comma or semicolon, use them as delimiters. Otherwise, split on whitespace.
