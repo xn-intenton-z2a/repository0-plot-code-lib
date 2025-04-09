@@ -24,99 +24,43 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
 <p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
-<h2 class="md-github"><a class="md-github__anchor" name="enhanced-numeric-parameter-validation" href="#enhanced-numeric-parameter-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Numeric Parameter Validation</h2>
-<p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (<code class="md-github">src/lib/main.js</code>) and has been refactored to use the Zod schema validation library for robust and declarative input transformation. Both the CLI and the web interface use this logic to:</p>
-<ol class="md-github">
-<li class="md-github">
-<p class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number (NaN) values. In addition to the canonical token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported:</p>
-<ul class="md-github">
-<li class="md-github">English: &quot;nan&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, &quot;not-a-number&quot;</li>
-<li class="md-github">German: &quot;nicht eine zahl&quot;</li>
-<li class="md-github">French: &quot;pas un nombre&quot;</li>
-<li class="md-github">Spanish: &quot;no es un número&quot;</li>
-<li class="md-github">Italian: &quot;non è un numero&quot;</li>
-</ul>
-<p class="md-github">Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid, a warning is emitted and the default aliases are used. Setting <code class="md-github">LOCALE_NAN_OVERRIDE</code> ensures that only the specified custom aliases are used.</p>
-</li>
-<li class="md-github">
-<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native <code class="md-github">NaN</code> value. When serialized using <code class="md-github">JSON.stringify</code>, these values appear as <code class="md-github">null</code> per the JSON specification.</p>
-</li>
-<li class="md-github">
-<p class="md-github">Normalize all tokens using Unicode NFC normalization along with trimming and lowercasing to support both precomposed and decomposed Unicode forms across various languages.</p>
-</li>
-<li class="md-github">
-<p class="md-github">Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace while gracefully handling extraneous delimiters and trailing commas.</p>
-</li>
-<li class="md-github">
-<p class="md-github">Leverage Zod for input validation and transformation, supporting scientific notation and locale-specific formatting (e.g., thousands separators) based on environment configurations (<code class="md-github">ENABLE_THOUSANDS_SEPARATOR</code> and <code class="md-github">NUMERIC_LOCALE</code>).</p>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">New Feature: JSON-Based Parameter Configuration with Nested Support</strong></p>
-<p class="md-github">Advanced plot functions now accept JSON configuration for complex parameter setups. The JSON parsing logic has been refactored into a dedicated function that uses Zod for validating nested configurations. This improves error reporting with more descriptive messages (e.g., missing commas, unmatched brackets, etc.) for invalid JSON inputs. For example:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced boxPlot '{&quot;data&quot;: [1, 2, 3, 4], &quot;config&quot;: {&quot;title&quot;: &quot;My Box Plot&quot;, &quot;color&quot;: &quot;blue&quot;}}'
+<hr class="md-github">
+<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p class="md-github">Requires Node.js (v20 or higher):</p>
+<pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
 </code></pre>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Batch Plotting Commands</strong></p>
-<p class="md-github">You can now pass multiple plotting commands in a single CLI invocation. Commands are processed sequentially with independent validation and logging. For example:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad: 1,2,3,4&quot; --advanced spiral &quot;1, NaN, 5, 10&quot;
+<h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="cli-quickstart" href="#cli-quickstart"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Quickstart</h3>
+<p class="md-github">Generate a simple quadratic plot as SVG:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js output.svg &quot;quad:1,0,0,-10,10,1&quot;
 </code></pre>
-</li>
-<li class="md-github">
-<p class="md-github">Customizable error handling hooks allow the parsing function to use a custom callback for reporting errors.</p>
-</li>
-<li class="md-github">
-<p class="md-github">Debug logging for numeric conversion can be enabled via the <code class="md-github">DEBUG_NUMERIC</code> environment variable.</p>
-</li>
-<li class="md-github">
-<p class="md-github">Locale-Specific Number Formatting processes numeric strings using locale-based separators when <code class="md-github">ENABLE_THOUSANDS_SEPARATOR</code> is set.</p>
-</li>
-</ol>
-<h2 class="md-github"><a class="md-github__anchor" name="extended-unicode-support" href="#extended-unicode-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Extended Unicode Support</h2>
-<p class="md-github">This update enhances Unicode normalization to correctly process extended Unicode representations, including non-Latin scripts such as Cyrillic and Japanese. Custom NaN aliases provided via <code class="md-github">LOCALE_NAN_ALIASES</code> will be normalized accordingly.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="batch-plotting-commands" href="#batch-plotting-commands"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Batch Plotting Commands</h2>
-<p class="md-github">Multiple plotting commands can now be executed in a single CLI invocation, with both advanced and non-advanced commands processed sequentially.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="interactive-cli" href="#interactive-cli"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Interactive CLI</h3>
+<p class="md-github">Interactive mode prompts the user to input formulas directly:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --interactive
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="web-interface" href="#web-interface"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface</h3>
+<p class="md-github">Start the Express-based interactive plotting web interface:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --serve
+</code></pre>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
-<pre class="md-github"><code class="md-github language-bash"># Using numeric parameters
-node src/lib/main.js --advanced testPlot &quot; 1, NaN ; 5  , -10, 10, 1;&quot;
-
-# Using JSON configuration with nested parameters
-node src/lib/main.js --advanced boxPlot '{&quot;data&quot;: [1, 2, 3, 4], &quot;config&quot;: {&quot;title&quot;: &quot;My Box Plot&quot;, &quot;color&quot;: &quot;blue&quot;}}'
+<p class="md-github"><strong class="md-github">Linear Plot (SVG):</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js linear.svg &quot;linear:2,3,-10,10,1&quot;
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="cli-usage-in-non-advanced-mode" href="#cli-usage-in-non-advanced-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage in Non-Advanced Mode</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad: 1 ; 2.14e-3  not a number   -3.5E+2&quot;
-node src/lib/main.js &quot;chart:{\&quot;data\&quot;:[10,20,30],\&quot;label\&quot;:\&quot;Test\&quot;}&quot;
+<p class="md-github"><strong class="md-github">Custom Mathematical Expression:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js expression.svg &quot;expr:Math.sin(x)*x:-10,10,0.5&quot;
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="international-and-extended-unicode-nan-aliases" href="#international-and-extended-unicode-nan-aliases"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>International and Extended Unicode NaN Aliases</h3>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad: 1, pas un nombre, 5&quot;
-node src/lib/main.js &quot;quad: 1, не число, 5&quot;   # Cyrillic example
-node src/lib/main.js &quot;quad: 1, 非数, 5&quot;       # Japanese example
+<p class="md-github"><strong class="md-github">ASCII Plot Output:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --ascii &quot;sine:1,1,0,0,360,30&quot;
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="locale-specific-number-formatting" href="#locale-specific-number-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locale-Specific Number Formatting</h3>
-<p class="md-github">For English:</p>
-<pre class="md-github"><code class="md-github language-bash">export ENABLE_THOUSANDS_SEPARATOR=true
-export NUMERIC_LOCALE=en
-node src/lib/main.js &quot;quad: 1,234.56, NaN, 7,890&quot;
-</code></pre>
-<p class="md-github">For European:</p>
-<pre class="md-github"><code class="md-github language-bash">export ENABLE_THOUSANDS_SEPARATOR=true
-export NUMERIC_LOCALE=eu
-node src/lib/main.js &quot;quad: 1.234,56, NaN, 7,890&quot;
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="strict-nan-mode" href="#strict-nan-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Strict NaN Mode</h3>
-<pre class="md-github"><code class="md-github language-bash">export STRICT_NAN_MODE=true
-node src/lib/main.js &quot;quad: 1, NaN, 5&quot;   # Valid
-node src/lib/main.js &quot;quad: 1, na, 5&quot;    # Will be rejected
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="custom-error-handling" href="#custom-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Error Handling</h2>
-<p class="md-github">The numeric parameter parsing function supports an optional error handling callback, allowing custom error reporting instead of immediate termination.</p>
+<hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
+<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T11:23:31.189Z</p>
+    <p>Generated on 2025-04-09T11:29:36.910Z</p>
   </footer>
 </body>
 </html>
