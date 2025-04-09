@@ -13,6 +13,7 @@ function errorExit(message) {
 // Now supports alternative NaN aliases: "nan", "not a number", "notanumber", and "na" (case-insensitive, whitespace-tolerant).
 // All recognized NaN tokens are uniformly converted to the string "NaN" for consistency across CLI and advanced mode.
 // Adds conditional debug logging if DEBUG_NUMERIC environment variable is set.
+// Now also gracefully ignores empty tokens resulting from trailing or consecutive commas.
 function parseNumericParams(paramStr) {
   const tokens = paramStr.split(",");
   const result = [];
@@ -21,6 +22,8 @@ function parseNumericParams(paramStr) {
   
   for (const token of tokens) {
     const trimmed = token.trim();
+    // Skip empty tokens from trailing or extra commas
+    if (trimmed === "") continue;
     // Check for near-miss tokens such as "n/a"
     const normalized = trimmed.toLowerCase().replace(/\s/g, '');
     if (normalized === "n/a") {
