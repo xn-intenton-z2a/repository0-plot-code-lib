@@ -1,54 +1,58 @@
 # PLOT_ENGINE
 
 ## Overview
-This feature remains the core plotting and numerical analysis module while incorporating significant enhancements to expression parsing, validation, and plot history management. In addition to processing both legacy and modern plot specification strings, the updated PLOT_ENGINE now leverages asynchronous evaluation, improved error handling, and an enhanced caching system for plot history. These improvements ensure robust operation and deliver detailed feedback to users in real-time.
+This update extends the core plotting module to not only enhance expression parsing, asynchronous plotting, and caching but also to integrate advanced analysis functionalities. In addition to generating plots from various mathematical expressions, the updated PLOT_ENGINE will now support numerical analysis such as area under curve (using the trapezoidal rule), derivative calculation (via finite differences), and basic statistical computations (average, standard deviation, median, mode) as well as transformations (rotation, reflection, scaling, inversion, smoothing).
 
 ## Key Objectives
 - **Expression Parsing & Validation:**
-  - Process plot specification strings prefixed with modes such as "quad:" and "expr:".
-  - Utilize mathjs for syntactic and semantic validation, ensuring robust evaluation and meaningful error messages on failure.
+  - Continue to process and validate plot specification strings with prefixes like "quad:" and "expr:".
+  - Support both legacy and modern input protocols with integration of mathjs for syntactic and semantic checks.
+
 - **Enhanced Plot Generation:**
-  - Support traditional and extended plot types including quadratic, linear, trigonometric, polar, exponential, and logarithmic plots.
-  - Implement asynchronous evaluation for heavy computations, reducing input-to-output latency.
-- **Plot History Caching:**
-  - Introduce an improved caching layer that asynchronously logs every plot request, save plot specification, timestamp, and summary metadata in a dedicated local file.
-  - Allow retrieval via a CLI flag (e.g. `--history`) with enhanced formatting and optional cache expiration controls.
-- **Robust Logging & Debug Support:**
-  - Expand logging to include detailed information on parsing results, asynchronous processing outcomes, and caching operations.
-  - Integrate with existing CLI flags to ensure errors and important events are logged with sufficient context for troubleshooting.
+  - Maintain support for various plot types (quadratic, linear, trigonometric, polar, exponential, logarithmic, etc).
+  - Implement asynchronous evaluation to ensure responsive performance during heavy computations.
+
+- **Advanced Analysis Integration:**
+  - **Area Under Curve:** Calculate the area under the plotted curve using the trapezoidal rule.
+  - **Derivative Calculation:** Compute approximate derivatives using finite differences for better insight into the behavior of functions.
+  - **Statistical Functions:** Offer basic statistical metrics including mean, standard deviation, median, and mode for the generated data points.
+  - **Transformations:** Provide functions for rotation, reflection, scaling, and smoothing of plots (e.g., moving average) to aid further data analysis.
+
+- **Robust Logging & Caching:**
+  - Leverage existing asynchronous processing and caching mechanisms to log both plotting and analysis operations.
+  - Integrate detailed error handling to capture issues arising from both plotting and analysis computations.
 
 ## Design & Implementation
-### Expression Processing
-- Develop a parser module (e.g., `src/lib/parser.js`) that interprets plot specifications, handling multiple prefixes and ensuring backward compatibility.
-- Integrate mathjs for both immediate validation and asynchronous evaluation to cater for computation-heavy expressions.
+### Parser and Evaluation
+- Refine the parser module (e.g., `src/lib/parser.js`) to not only validate expressions but also to route the computed data to the new analysis routines.
+- Continue using mathjs for robust validation and introduce new helper functions for numerical analysis.
 
-### Asynchronous Processing & Caching
-- Update the main plotting routine to perform asynchronous computations where applicable, especially for complex expressions.
-- Enhance the caching mechanism to write plot history records asynchronously, ensuring non-blocking operations during high usage.
-- Add optional settings (e.g., expiration or manual cache clearing) to improve long-term usability.
+### Analysis Routines
+- Implement numerical methods for:
+  - **Area Under Curve:** Using the trapezoidal rule over computed plot data points.
+  - **Derivative Calculation:** Approximating derivatives via finite differences.
+  - **Statistics:** Calculating average, standard deviation, median, and mode from the data set.
+  - **Data Transformations:** Applying rotation, reflection, scaling, inversion, or smoothing (e.g., moving average) to the plot data.
+- Embed these routines directly within the PLOT_ENGINE to ensure a streamlined user experience.
 
-### CLI & Debug Integration
-- Modify `src/lib/main.js` to recognize the new asynchronous processing enhancements without altering the existing user interface.
-- Ensure that the `--history` flag prints a detailed log of past plots, including enhanced metadata.
-- Include robust error detection and logging that captures both synchronous and asynchronous failures.
+### CLI and Integration
+- Update `src/lib/main.js` to handle extended plotting requests that include analysis. Optionally, use a modifier flag (e.g., `--analyze`) within the plot specification to trigger analysis routines along with the plot generation.
+- Expand logging to include both plotting and analysis outputs, ensuring that the user is informed of both processes concurrently.
+
+### Testing and Documentation
+- Develop additional unit tests to cover the new analysis functionality, ensuring coverage for area calculation, derivative approximation, and statistical metrics.
+- Update user documentation (README.md and CONTRIBUTING.md) to include examples for invoking advanced analysis alongside plot generation.
 
 ## Usage Examples
-- **Generating a Plot:**
+
+- **Generate Plot with Analysis:**
+  ```bash
+  node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5 --analyze"
+  ```
+
+- **Standard Plot Generation:**
   ```bash
   node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```
-- **Custom Mathematical Expression:**
-  ```bash
-  node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
-  ```
-- **Retrieving Plot History:**
-  ```bash
-  node src/lib/main.js --history
-  ```
 
-## Future Considerations
-- Extend asynchronous processing further to support parallel evaluations on multi-core systems.
-- Incorporate user-defined cache management options, such as cache expiration and manual purging.
-- Continue to refine error logging to cover emerging edge cases in complex mathematical expression evaluations.
-
-This enhancement to the PLOT_ENGINE not only maintains existing functionalities but also improves performance, user feedback, and scalability for more demanding plotting tasks.
+This integration reinforces the mission of providing a versatile, go-to plotting tool by merging visualisation and advanced numerical analysis within a single, cohesive module.
