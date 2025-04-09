@@ -9,36 +9,48 @@ function errorExit(message) {
   process.exit(1);
 }
 
+// Default NaN aliases in lower case with normalized spacing
+const defaultNaNAliases = [
+  "nan",
+  "not a number",
+  "notanumber",
+  "na",
+  "not-a-number"
+];
+
+// Helper function to fetch accepted NaN aliases from environment variable or fallback to default.
+function getAcceptedNaNAliases() {
+  try {
+    if (process.env.LOCALE_NAN_ALIASES) {
+      const parsed = JSON.parse(process.env.LOCALE_NAN_ALIASES);
+      if (Array.isArray(parsed)) {
+        return new Set(parsed.map(token => token.toLowerCase().replace(/\s+/g, ' ').trim()));
+      }
+    }
+  } catch (e) {
+    // ignore error and fallback to default
+  }
+  return new Set(defaultNaNAliases);
+}
+
 // Optimized implementation of numeric parameter conversion utility.
-// This version separates the numeric value matching from accepted NaN aliases, enhancing readability and performance.
-// Accepted NaN aliases (case-insensitive, whitespace-tolerant): "NaN", "not a number", "notanumber", "na", and "not-a-number".
-// Near-miss tokens like "n/a" are rejected with a detailed error message.
-// Empty tokens from trailing or consecutive commas are gracefully ignored.
 function parseNumericParams(paramStr) {
+  const acceptedNaNAliases = getAcceptedNaNAliases();
   const tokens = paramStr.split(",");
   const result = [];
   
   // Regex for valid numeric values: integer, decimal or scientific notation.
   const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
   
-  // Accepted NaN aliases in lower case (with standard spacing for "not a number")
-  const acceptedNaNAliases = new Set([
-    "nan",
-    "not a number",
-    "notanumber",
-    "na",
-    "not-a-number"
-  ]);
-
   for (const token of tokens) {
     const trimmed = token.trim();
-    // Skip empty tokens from trailing or extra commas
+    // Skip empty tokens
     if (trimmed === "") continue;
     
     const lowerToken = trimmed.toLowerCase();
     // Check for near-miss tokens such as "n/a" by removing all spaces
     if (lowerToken.replace(/\s/g, '') === "n/a") {
-      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: 'NaN', 'not a number', 'notanumber', 'na', or 'not-a-number'?`);
+      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")}?`);
     }
     
     // Normalize token for alias checking by replacing multiple spaces with a single space
