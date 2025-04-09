@@ -43,7 +43,8 @@ function getAcceptedNaNAliases() {
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation using Zod schema validation.
 // Now leveraging Zod for declarative input transformation and validation to improve robustness and clarity.
-function parseNumericParams(paramStr) {
+// Added an optional errorHandler callback parameter to allow customizable error processing instead of calling errorExit directly.
+function parseNumericParams(paramStr, errorHandler) {
   let tokens;
   // If the string contains a comma or semicolon, use them as delimiters. Otherwise, split on whitespace.
   if (paramStr.includes(",") || paramStr.includes(";")) {
@@ -81,7 +82,12 @@ function parseNumericParams(paramStr) {
       const value = tokenSchema.parse(token);
       result.push(value);
     } catch (err) {
-      errorExit(err.message);
+      if (typeof errorHandler === 'function') {
+        errorHandler(err.message);
+        throw err;
+      } else {
+        errorExit(err.message);
+      }
     }
   }
   return result;
