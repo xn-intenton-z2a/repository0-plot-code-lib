@@ -190,105 +190,114 @@ const advancedPlots = {
   }
 };
 
+// Refactored main function to support batch plotting commands
 function main(args = []) {
-  // Check if the --advanced flag is provided
-  if (args.includes("--advanced")) {
-    const filteredArgs = args.filter(arg => arg !== "--advanced");
-    const [plotType, params] = filteredArgs;
-    let parsedParams = params;
-    // Check if params is a valid JSON configuration
-    if (params && params.trim().startsWith("{") && params.trim().endsWith("}")) {
-      try {
-        parsedParams = JSON.parse(params);
-      } catch (err) {
-        errorExit("Invalid JSON configuration for advanced plot parameters.");
-      }
-    } else if (params && (params.includes(",") || params.includes(";") || /\s+/.test(params))) {
-      parsedParams = parseNumericParams(params);
-    }
-    switch (plotType) {
-      case "spiral":
-        console.log("Advanced Plot: Spiral");
-        advancedPlots.spiral(parsedParams);
-        break;
-      case "polarHeatmap":
-        console.log("Advanced Plot: Polar Heatmap");
-        advancedPlots.polarHeatmap(parsedParams);
-        break;
-      case "dualAxis":
-        console.log("Advanced Plot: Dual Axis");
-        advancedPlots.dualAxis(parsedParams);
-        break;
-      case "boxPlot":
-        console.log("Advanced Plot: Box Plot");
-        advancedPlots.boxPlot(parsedParams);
-        break;
-      case "violinPlot":
-        console.log("Advanced Plot: Violin Plot");
-        advancedPlots.violinPlot(parsedParams);
-        break;
-      case "cumulativeAverage":
-        console.log("Advanced Plot: Cumulative Average");
-        advancedPlots.cumulativeAverage(parsedParams);
-        break;
-      case "inverse":
-        console.log("Advanced Plot: Inverse Function");
-        advancedPlots.inverse(parsedParams);
-        break;
-      case "modulatedSine":
-        console.log("Advanced Plot: Modulated Sine");
-        advancedPlots.modulatedSine(parsedParams);
-        break;
-      case "extended3D":
-        console.log("Advanced Plot: Extended 3D Plot");
-        advancedPlots.extended3D(parsedParams);
-        break;
-      case "testPlot":
-        console.log("Advanced Plot: Test Plot");
-        advancedPlots.testPlot(parsedParams);
-        break;
-      case "contourPlot":
-        console.log("Advanced Plot: Contour Plot");
-        advancedPlots.contourPlot(parsedParams);
-        break;
-      case "scatterMatrix":
-        console.log("Advanced Plot: Scatter Matrix");
-        advancedPlots.scatterMatrix(parsedParams);
-        break;
-      default:
-        errorExit("Error: Unknown advanced plot type.");
-    }
+  if (args.length === 0) {
+    console.log("Run with: []");
     return;
   }
 
-  // For non-advanced mode, check for colon-separated arguments first
-  const finalArgs = args.map(arg => {
-    if (arg.includes(":")) {
-      // Split only on the first colon to separate label and parameters
-      const parts = arg.split(/:(.+)/);
-      const label = parts[0].trim();
-      const paramStr = parts[1] ? parts[1].trim() : "";
-      // Check if paramStr is a valid JSON configuration
-      let parsedParams;
-      if (paramStr && paramStr.startsWith("{") && paramStr.endsWith("}")) {
-        try {
-          parsedParams = JSON.parse(paramStr);
-        } catch (err) {
-          errorExit("Invalid JSON configuration for plot parameters.");
-        }
-      } else {
-        parsedParams = paramStr ? parseNumericParams(paramStr) : [];
+  let i = 0;
+  // Process each command sequentially
+  while (i < args.length) {
+    if (args[i] === "--advanced") {
+      // Expect two more arguments: plotType and parameters
+      if (i + 2 >= args.length) {
+        errorExit("Insufficient arguments for advanced command.");
       }
-      return [label, parsedParams];
-    } else if (arg.includes(",") || arg.includes(";")) {
-      return parseNumericParams(arg);
-    } else if (/\s+/.test(arg)) {
-      return parseNumericParams(arg);
+      const plotType = args[i + 1];
+      let params = args[i + 2];
+      let parsedParams = params;
+      if (params && params.trim().startsWith("{") && params.trim().endsWith("}")) {
+        try {
+          parsedParams = JSON.parse(params);
+        } catch (err) {
+          errorExit("Invalid JSON configuration for advanced plot parameters.");
+        }
+      } else if (params && (params.includes(",") || params.includes(";") || /\s+/.test(params))) {
+        parsedParams = parseNumericParams(params);
+      }
+      switch (plotType) {
+        case "spiral":
+          console.log("Advanced Plot: Spiral");
+          advancedPlots.spiral(parsedParams);
+          break;
+        case "polarHeatmap":
+          console.log("Advanced Plot: Polar Heatmap");
+          advancedPlots.polarHeatmap(parsedParams);
+          break;
+        case "dualAxis":
+          console.log("Advanced Plot: Dual Axis");
+          advancedPlots.dualAxis(parsedParams);
+          break;
+        case "boxPlot":
+          console.log("Advanced Plot: Box Plot");
+          advancedPlots.boxPlot(parsedParams);
+          break;
+        case "violinPlot":
+          console.log("Advanced Plot: Violin Plot");
+          advancedPlots.violinPlot(parsedParams);
+          break;
+        case "cumulativeAverage":
+          console.log("Advanced Plot: Cumulative Average");
+          advancedPlots.cumulativeAverage(parsedParams);
+          break;
+        case "inverse":
+          console.log("Advanced Plot: Inverse Function");
+          advancedPlots.inverse(parsedParams);
+          break;
+        case "modulatedSine":
+          console.log("Advanced Plot: Modulated Sine");
+          advancedPlots.modulatedSine(parsedParams);
+          break;
+        case "extended3D":
+          console.log("Advanced Plot: Extended 3D Plot");
+          advancedPlots.extended3D(parsedParams);
+          break;
+        case "testPlot":
+          console.log("Advanced Plot: Test Plot");
+          advancedPlots.testPlot(parsedParams);
+          break;
+        case "contourPlot":
+          console.log("Advanced Plot: Contour Plot");
+          advancedPlots.contourPlot(parsedParams);
+          break;
+        case "scatterMatrix":
+          console.log("Advanced Plot: Scatter Matrix");
+          advancedPlots.scatterMatrix(parsedParams);
+          break;
+        default:
+          errorExit("Error: Unknown advanced plot type.");
+      }
+      i += 3;
+    } else {
+      // Non-advanced command processing
+      const arg = args[i];
+      if (arg.includes(":")) {
+        // Split on the first colon
+        const parts = arg.split(/:(.+)/);
+        const label = parts[0].trim();
+        const paramStr = parts[1] ? parts[1].trim() : "";
+        let parsedParams;
+        if (paramStr && paramStr.startsWith("{") && paramStr.endsWith("}")) {
+          try {
+            parsedParams = JSON.parse(paramStr);
+          } catch (err) {
+            errorExit("Invalid JSON configuration for plot parameters.");
+          }
+        } else {
+          parsedParams = paramStr ? parseNumericParams(paramStr) : [];
+        }
+        console.log(`Run with: [[\"${label}\", ${JSON.stringify(parsedParams)}]]`);
+      } else if (arg.includes(",") || arg.includes(";") || /\s+/.test(arg)) {
+        const parsed = parseNumericParams(arg);
+        console.log(`Run with: ${JSON.stringify(parsed)}`);
+      } else {
+        console.log(`Run with: ${arg}`);
+      }
+      i++;
     }
-    return arg;
-  });
-
-  console.log(`Run with: ${JSON.stringify(finalArgs)}`);
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

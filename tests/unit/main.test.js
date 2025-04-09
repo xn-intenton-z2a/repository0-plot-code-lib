@@ -10,13 +10,11 @@ import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/
 // Helper function to check if an element is NaN
 const isNativeNaN = (x) => typeof x === 'number' && Number.isNaN(x);
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
   });
 });
-
 
 describe("Default Demo Output", () => {
   test("should terminate without error for valid inputs", () => {
@@ -24,7 +22,6 @@ describe("Default Demo Output", () => {
     main();
   });
 });
-
 
 describe("Invalid Numeric Input Handling", () => {
   test("should output error and exit when an invalid numeric parameter is provided", () => {
@@ -53,7 +50,6 @@ describe("Invalid Numeric Input Handling", () => {
   });
 });
 
-
 describe("Handling 'NaN' as a valid token", () => {
   test("should not exit when 'NaN' is provided among numeric parameters", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
@@ -68,7 +64,6 @@ describe("Handling 'NaN' as a valid token", () => {
     errorSpy.mockRestore();
   });
 });
-
 
 describe("Regex-based Numeric Conversion Edge Cases", () => {
   test("should trim extra whitespace and handle lower/upper case 'NaN'", () => {
@@ -110,7 +105,6 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
   });
 });
 
-
 describe("Additional Numeric Edge Cases with New Delimiters", () => {
   test("should handle semicolons as delimiters", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -134,7 +128,6 @@ describe("Additional Numeric Edge Cases with New Delimiters", () => {
   });
 });
 
-
 describe("Trailing Commas and Extra Delimiters Handling", () => {
   test("should ignore trailing delimiters in non-advanced mode", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -154,7 +147,6 @@ describe("Trailing Commas and Extra Delimiters Handling", () => {
     logSpy.mockRestore();
   });
 });
-
 
 describe("Localized NaN Aliases", () => {
   test("should accept a localized NaN alias when configured via LOCALE_NAN_ALIASES", () => {
@@ -206,7 +198,6 @@ describe("Direct NaN Alias Module Import", () => {
   });
 });
 
-
 describe("Unicode Normalization Handling", () => {
   test("should handle decomposed Unicode forms of NaN aliases provided via LOCALE_NAN_ALIASES", () => {
     const decomposedAlias = "nicht eine zahl".normalize('NFD');
@@ -232,7 +223,6 @@ describe("Extended Unicode NaN Aliases", () => {
   });
 
   test("should accept Japanese NaN alias '非数' when configured via LOCALE_NAN_ALIASES, including decomposed forms", () => {
-    // Simulate a decomposed form by normalizing to NFD then relying on normalizeAlias to fix it
     const decomposed = "非数".normalize('NFD');
     process.env.LOCALE_NAN_ALIASES = JSON.stringify([decomposed]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -299,5 +289,32 @@ describe("Strict NaN Mode", () => {
     errorSpy.mockRestore();
     exitSpy.mockRestore();
     delete process.env.STRICT_NAN_MODE;
+  });
+});
+
+// New Test Suite for Batch Plotting Commands
+
+describe("Batch Plotting Commands", () => {
+  test("should process multiple non-advanced commands in one invocation", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad: 1,2,3,4", "chart:{\"data\":[10,20,30],\"label\":\"Test\"}"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"chart"'));
+    logSpy.mockRestore();
+  });
+
+  test("should process a mix of advanced and non-advanced commands", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Advanced command: testPlot; non-advanced: quad
+    main(["--advanced", "testPlot", "1,NaN,5", "quad: 1,2,3"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Advanced Plot: Test Plot'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    logSpy.mockRestore();
+  });
+
+  test("should error if advanced command is missing arguments", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    expect(() => main(["--advanced", "boxPlot"]).toThrow()).toThrow();
+    exitSpy.mockRestore();
   });
 });
