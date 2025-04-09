@@ -86,6 +86,7 @@ const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation using Zod schema validation.
 // Now leveraging Zod for declarative input transformation and validation to improve robustness and clarity.
 // Added an optional errorHandler callback parameter to allow customizable error processing instead of calling errorExit directly.
+// Note: When numeric tokens convert to native NaN, JSON.stringify will represent them as null.
 function parseNumericParams(paramStr, errorHandler) {
   let tokens;
   // If the string contains a comma or semicolon, use them as delimiters. Otherwise, split on whitespace.

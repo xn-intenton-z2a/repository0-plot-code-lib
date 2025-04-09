@@ -16,7 +16,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
    Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases." When the environment variable `LOCALE_NAN_OVERRIDE` is set (to any truthy value), only the provided aliases will be used.
 
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`). Tokens that are near-misses (for example, "n/a") are strictly rejected with a clear error message detailing the accepted tokens (provided in sorted order).
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`). Note that due to the nature of JSON, when these NaN values are serialized using `JSON.stringify`, they will appear as `null`.
 
 3. Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, particularly for locale-specific NaN aliases.
 
@@ -34,7 +34,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 7. Customizable Error Handling Hooks
 
-   The numeric parameter parsing function `parseNumericParams` now accepts an optional error handling callback. When provided, instead of terminating the process on encountering an invalid token or near-miss token (like "n/a"), the callback is invoked with a descriptive error message. This allows the CLI and web interfaces to implement custom error reporting and recovery strategies.
+   The numeric parameter parsing function `parseNumericParams` now accepts an optional error handling callback. When provided, instead of terminating the process on encountering an invalid token or near-miss token (like "n/a"), the callback is invoked with a descriptive error message.
 
 8. Debug Logging for Numeric Conversion
 
@@ -51,7 +51,7 @@ This release includes improvements in numeric parameter handling. The core numer
    Normalized token 'na' to native NaN
    ```
 
-9. Locale-Specific Number Formatting (New)
+9. Locale-Specific Number Formatting
 
    By enabling thousands separator parsing using the environment variable `ENABLE_THOUSANDS_SEPARATOR`, the parser can now handle locale-specific number formats. Set `NUMERIC_LOCALE` to specify the format:
 
@@ -74,7 +74,9 @@ This release includes improvements in numeric parameter handling. The core numer
    node src/lib/main.js "quad: 1.234,56, NaN, 7,890"
    ```
 
-10. Optimization: The normalization of NaN aliases is now computed once per parsing call to improve performance and ensure consistency across both advanced and non-advanced modes.
+10. JSON Serialization Note
+
+    It is important to note that while the parser converts recognized NaN tokens to JavaScript's native `NaN`, when serialized to JSON using `JSON.stringify`, these values appear as `null`. This behavior is inherent to JSON and should be accounted for when integrating with web interfaces or other components that consume JSON data.
 
 ## Examples
 
