@@ -92,10 +92,14 @@ node src/lib/main.js &quot;quad: 1.234,56, NaN, 7,890&quot;
 <p class="md-github">JSON Serialization Note</p>
 <p class="md-github">It is important to note that while the parser converts recognized NaN tokens to JavaScript's native <code class="md-github">NaN</code>, when serialized to JSON using <code class="md-github">JSON.stringify</code>, these values appear as <code class="md-github">null</code>. This behavior is inherent to JSON and should be accounted for when integrating with web interfaces or other components that consume JSON data.</p>
 </li>
+<li class="md-github">
+<p class="md-github">Strict NaN Mode</p>
+<p class="md-github">With this new mode, if the environment variable <code class="md-github">STRICT_NAN_MODE</code> is enabled, only the canonical (normalized) 'NaN' token is accepted as a valid NaN indicator. All alternative aliases (e.g., &quot;na&quot;, &quot;not a number&quot;) will be rejected, enforcing unambiguous numeric input.</p>
+</li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
-<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, JSON configuration support, and locale-specific number formatting):</p>
+<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, JSON configuration support, locale-specific number formatting, and strict NaN mode if enabled):</p>
 <pre class="md-github"><code class="md-github language-bash"># Example with advanced plotting using numeric parameters
 node src/lib/main.js --advanced testPlot &quot; 1, NaN ; 5  , -10, 10, 1;&quot;
 
@@ -145,8 +149,14 @@ node src/lib/main.js &quot;quad: 1,234.56, NaN, 7,890&quot;
 export NUMERIC_LOCALE=eu
 node src/lib/main.js &quot;quad: 1.234,56, NaN, 7,890&quot;
 </code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="strict-nan-mode" href="#strict-nan-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Strict NaN Mode</h3>
+<p class="md-github">If you prefer unambiguous numeric input, enable strict mode by setting the <code class="md-github">STRICT_NAN_MODE</code> environment variable. When enabled, only the canonical 'NaN' token is accepted. For example:</p>
+<pre class="md-github"><code class="md-github language-bash">export STRICT_NAN_MODE=true
+node src/lib/main.js &quot;quad: 1, NaN, 5&quot;   # Valid
+node src/lib/main.js &quot;quad: 1, na, 5&quot;    # Will be rejected
+</code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="localization-support" href="#localization-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Localization Support</h2>
-<p class="md-github">Customize accepted NaN aliases by setting the <code class="md-github">LOCALE_NAN_ALIASES</code> environment variable. For example, to accept the German alias &quot;nicht eine zahl&quot;, the French alias &quot;pas un nombre&quot;, the Spanish alias &quot;no es un número&quot;, or the Italian alias &quot;non è un numero&quot;:</p>
+<p class="md-github">Customize accepted NaN aliases by setting the <code class="md-github">LOCALE_NAN_ALIASES</code> environment variable. For example, to accept a custom alias:</p>
 <pre class="md-github"><code class="md-github language-bash">export LOCALE_NAN_ALIASES='[&quot;nicht eine zahl&quot;]'
 node src/lib/main.js &quot;quad: 1, your_alias, 5&quot;
 </code></pre>
@@ -160,7 +170,7 @@ node src/lib/main.js &quot;quad: 1, your_alias, 5&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T09:57:45.669Z</p>
+    <p>Generated on 2025-04-09T10:07:43.573Z</p>
   </footer>
 </body>
 </html>
