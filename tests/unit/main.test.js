@@ -210,9 +210,7 @@ describe("Advanced Plotting - Scatter Matrix", () => {
 describe("Trailing Commas Handling", () => {
   test("should ignore trailing commas in non-advanced mode", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // The input has a trailing comma which should be ignored
     main(["quad:1,2,3,"]);
-    // Expected numeric array should be [1,2,3]
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,2,3]]'));
     logSpy.mockRestore();
   });
@@ -222,11 +220,22 @@ describe("Trailing Commas Handling", () => {
     const originalTestPlot = mainModule.advancedPlots.testPlot;
     let receivedParams;
     mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
-    // Extra comma between numbers
     main(["--advanced", "testPlot", "1,,NaN,5,,"]);
-    // Expected: empty tokens ignored -> [1, "NaN", 5]
     expect(receivedParams).toEqual([1, "NaN", 5]);
     mainModule.advancedPlots.testPlot = originalTestPlot;
+    logSpy.mockRestore();
+  });
+});
+
+describe("Localized NaN Aliases", () => {
+  test("should accept a localized NaN alias when configured via LOCALE_NAN_ALIASES", () => {
+    // Set a localized alias, e.g., German: "nicht eine zahl"
+    process.env.LOCALE_NAN_ALIASES = JSON.stringify(["nicht eine zahl"]);
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Using the localized alias in the input
+    main(["quad:1, nicht eine zahl ,5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,"NaN",5]]'));
+    delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });
 });
