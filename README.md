@@ -40,6 +40,26 @@ node src/lib/main.js --serve
 
 ---
 
+## Environment Configuration for NaN Alias Resolution
+
+This library now supports dynamic and locale-aware NaN alias resolution. The following environment variables can be used to configure its behavior:
+
+- **STRICT_NAN_MODE**: When set to "true", only the canonical alias `nan` is accepted.
+- **LOCALE_NAN_ALIASES**: A comma-separated list of additional aliases to merge with the defaults (defaults are: `nan`, `notanumber`, `undefined`).
+- **LOCALE_NAN_OVERRIDE**: A comma-separated list that overrides the default aliases entirely.
+
+For example, to enable strict mode:
+
+```bash
+export STRICT_NAN_MODE=true
+```
+
+Or to add custom aliases:
+
+```bash
+export LOCALE_NAN_ALIASES="NaNValue, NotA-Number"
+```
+
 ## Examples
 
 **Linear Plot (SVG):**
@@ -67,4 +87,3 @@ node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
 MIT
 
 ---
-
