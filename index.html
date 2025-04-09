@@ -36,51 +36,46 @@
 <li class="md-github">Spanish: &quot;no es un número&quot;</li>
 <li class="md-github">Italian: &quot;non è un numero&quot;</li>
 </ul>
-<p class="md-github">Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a warning is emitted: &quot;Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.&quot; When the environment variable <code class="md-github">LOCALE_NAN_OVERRIDE</code> is set, only the provided aliases will be used.</p>
+<p class="md-github">Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid, a warning is emitted and the default aliases are used. Setting <code class="md-github">LOCALE_NAN_OVERRIDE</code> ensures that only the specified custom aliases are used.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native <code class="md-github">NaN</code> value. Note that when these values are serialized using <code class="md-github">JSON.stringify</code>, they appear as <code class="md-github">null</code> (per JSON specification).</p>
+<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native <code class="md-github">NaN</code> value. When serialized using <code class="md-github">JSON.stringify</code>, these values appear as <code class="md-github">null</code> per the JSON specification.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, including extended support for non-Latin scripts.</p>
+<p class="md-github">Normalize all tokens using Unicode NFC normalization along with trimming and lowercasing to support both precomposed and decomposed Unicode forms across various languages.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace while gracefully ignoring extra delimiters, trailing commas, and multiple consecutive separators.</p>
+<p class="md-github">Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace while gracefully handling extraneous delimiters and trailing commas.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Provide refined error messages when encountering invalid numeric inputs. In strict mode (enabled via <code class="md-github">STRICT_NAN_MODE</code>), only the canonical 'NaN' token is accepted, and all alternative aliases (such as &quot;na&quot; or &quot;not a number&quot;) are rejected with a clear error message that lists the accepted alias.</p>
+<p class="md-github">Leverage Zod for input validation and transformation, supporting scientific notation and locale-specific formatting (e.g., thousands separators) based on environment configurations (<code class="md-github">ENABLE_THOUSANDS_SEPARATOR</code> and <code class="md-github">NUMERIC_LOCALE</code>).</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">New Feature: JSON-Based Parameter Configuration</strong></p>
-<p class="md-github">Advanced plot functions now also accept a JSON configuration for more complex parameter setups. When using the <code class="md-github">--advanced</code> flag (or in colon-separated non-advanced mode), if the parameter string starts with a <code class="md-github">{</code> and ends with a <code class="md-github">}</code>, it will be parsed as JSON. This allows you to pass additional options such as labels, colors, and other plot settings. For example:</p>
+<p class="md-github">Advanced plot functions now accept JSON configuration for complex parameter setups. When using the <code class="md-github">--advanced</code> flag (or colon-separated non-advanced mode), if the parameter string begins with a <code class="md-github">{</code> and ends with a <code class="md-github">}</code>, it is parsed as JSON. This allows passing options such as labels, colors, and other settings. For example:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced boxPlot '{&quot;data&quot;: [1, 2, 3, 4], &quot;title&quot;: &quot;My Box Plot&quot;, &quot;color&quot;: &quot;blue&quot;}'
 </code></pre>
 </li>
 <li class="md-github">
-<p class="md-github"><strong class="md-github">New Feature: Batch Plotting Commands</strong></p>
-<p class="md-github">You can now pass multiple plotting commands in a single CLI invocation. Both advanced and non-advanced commands are processed sequentially. For instance:</p>
+<p class="md-github"><strong class="md-github">Batch Plotting Commands</strong></p>
+<p class="md-github">You can now pass multiple plotting commands in a single CLI invocation. Commands are processed sequentially with independent validation and logging. For example:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad: 1,2,3,4&quot; --advanced spiral &quot;1, NaN, 5, 10&quot;
 </code></pre>
 </li>
 <li class="md-github">
-<p class="md-github">Customizable Error Handling Hooks</p>
-<p class="md-github">The numeric parameter parsing function <code class="md-github">parseNumericParams</code> now accepts an optional error handling callback. Instead of terminating on encountering an invalid token, the callback is invoked with a descriptive error message.</p>
+<p class="md-github">Customizable error handling hooks allow the parsing function to use a custom callback for reporting errors.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Debug Logging for Numeric Conversion</p>
-<p class="md-github">Enable debug logging for numeric conversion (including NaN alias normalization) by setting the environment variable <code class="md-github">DEBUG_NUMERIC</code> to a truthy value.</p>
+<p class="md-github">Debug logging for numeric conversion can be enabled via the <code class="md-github">DEBUG_NUMERIC</code> environment variable.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Locale-Specific Number Formatting</p>
-<p class="md-github">By enabling thousands separator parsing (via <code class="md-github">ENABLE_THOUSANDS_SEPARATOR</code>), the parser handles locale-specific number formats. Set <code class="md-github">NUMERIC_LOCALE</code> to specify the format (e.g., <code class="md-github">en</code> for English, <code class="md-github">eu</code> for European).</p>
+<p class="md-github">Locale-Specific Number Formatting processes numeric strings using locale-based separators when <code class="md-github">ENABLE_THOUSANDS_SEPARATOR</code> is set.</p>
 </li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="extended-unicode-support" href="#extended-unicode-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Extended Unicode Support</h2>
-<p class="md-github">This update enhances Unicode normalization to correctly process extended Unicode representations, including non-Latin scripts such as Cyrillic and Japanese. Custom NaN aliases provided via <code class="md-github">LOCALE_NAN_ALIASES</code> will be properly normalized.</p>
+<p class="md-github">This update enhances Unicode normalization to correctly process extended Unicode representations, including non-Latin scripts such as Cyrillic and Japanese. Custom NaN aliases provided via <code class="md-github">LOCALE_NAN_ALIASES</code> will be normalized accordingly.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="batch-plotting-commands" href="#batch-plotting-commands"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Batch Plotting Commands</h2>
-<p class="md-github">Multiple plotting commands can now be executed in a single CLI invocation. Commands are processed sequentially with independent validation and logging. For example:</p>
-<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad: 1,2,3,4&quot; --advanced testPlot &quot;1, NaN, 5&quot; &quot;chart:{\&quot;data\&quot;:[10,20,30],\&quot;label\&quot;:\&quot;Test\&quot;}&quot;
-</code></pre>
+<p class="md-github">Multiple plotting commands can now be executed in a single CLI invocation, with both advanced and non-advanced commands processed sequentially.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
 <pre class="md-github"><code class="md-github language-bash"># Using numeric parameters
@@ -114,24 +109,14 @@ node src/lib/main.js &quot;quad: 1.234,56, NaN, 7,890&quot;
 node src/lib/main.js &quot;quad: 1, NaN, 5&quot;   # Valid
 node src/lib/main.js &quot;quad: 1, na, 5&quot;    # Will be rejected
 </code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="localization-support" href="#localization-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Localization Support</h2>
-<p class="md-github">Customize accepted NaN aliases by setting the <code class="md-github">LOCALE_NAN_ALIASES</code> environment variable. For example:</p>
-<pre class="md-github"><code class="md-github language-bash">export LOCALE_NAN_ALIASES='[&quot;nicht eine zahl&quot;]'
-node src/lib/main.js &quot;quad: 1, your_alias, 5&quot;
-</code></pre>
-<p class="md-github">Setting <code class="md-github">LOCALE_NAN_OVERRIDE</code> ensures that only the provided aliases are used.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="custom-error-handling" href="#custom-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Error Handling</h2>
-<p class="md-github">The optional error handling callback in <code class="md-github">parseNumericParams</code> enables custom error reporting, making the parser flexible for different runtime environments.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="utility-module" href="#utility-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Module</h2>
-<p class="md-github">All numeric parsing and NaN normalization logic is encapsulated in the main module (<code class="md-github">src/lib/main.js</code>), supporting maintainability and modularity.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="note-on-json-serialization" href="#note-on-json-serialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Note on JSON Serialization</h2>
-<p class="md-github">When converting numeric values to JSON (e.g., via <code class="md-github">JSON.stringify</code>), native NaN values are serialized as <code class="md-github">null</code>, as per the JSON standard.</p>
+<p class="md-github">The numeric parameter parsing function supports an optional error handling callback, allowing custom error reporting instead of immediate termination.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T10:57:56.797Z</p>
+    <p>Generated on 2025-04-09T11:05:29.636Z</p>
   </footer>
 </body>
 </html>
