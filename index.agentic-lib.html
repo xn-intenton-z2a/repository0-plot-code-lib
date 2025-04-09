@@ -27,9 +27,9 @@
 <h2 class="md-github"><a class="md-github__anchor" name="enhanced-numeric-parameter-validation" href="#enhanced-numeric-parameter-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Numeric Parameter Validation</h2>
 <p class="md-github">This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with optimized regex-based validation. Both the CLI and the web interface use this logic to:</p>
 <ol class="md-github">
-<li class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, and &quot;not-a-number&quot;.</li>
+<li class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, and &quot;not-a-number&quot;. Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set.</li>
 <li class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string &quot;NaN&quot; for a unified representation across advanced and non-advanced modes.</li>
-<li class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now trigger an error message that explicitly states that such tokens are not accepted and suggests the accepted tokens: 'NaN', 'not a number', 'notanumber', 'na', or 'not-a-number'.</li>
+<li class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like &quot;n/a&quot; now trigger an error message that explicitly states the token is invalid and lists the acceptable alternatives.</li>
 <li class="md-github">Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.</li>
 </ol>
 <p class="md-github">This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN and properly handle trailing commas in numeric inputs.</p>
@@ -43,7 +43,7 @@ node src/lib/main.js &quot;quad: 1 , na, 5&quot;
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-with-advanced-plotting" href="#cli-usage-with-advanced-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage with Advanced Plotting</h3>
-<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, various NaN aliases, and trailing commas):</p>
+<p class="md-github">Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, various NaN aliases, localized aliases via <code class="md-github">LOCALE_NAN_ALIASES</code>, and trailing commas):</p>
 <pre class="md-github"><code class="md-github language-bash"># Example with advanced plotting using the --advanced flag
 node src/lib/main.js --advanced testPlot &quot; 1, NaN , 5, -10, 10, 1,&quot;
 </code></pre>
@@ -52,7 +52,7 @@ node src/lib/main.js --advanced testPlot &quot; 1, NaN , 5, -10, 10, 1,&quot;
 Test Plot with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="advanced-plotting-contour-plot" href="#advanced-plotting-contour-plot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Plotting: Contour Plot</h3>
-<p class="md-github">A new advanced plotting feature for contour plots has been added. To render a contour plot, use the --advanced flag with the contourPlot option:</p>
+<p class="md-github">To render a contour plot, use the --advanced flag with the contourPlot option:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced contourPlot &quot;1, NaN, 5, -10, 10, 1&quot;
 </code></pre>
 <p class="md-github"><strong class="md-github">Expected Console Output:</strong></p>
@@ -60,7 +60,7 @@ Test Plot with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 Plotting contour plot with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="advanced-plotting-scatter-matrix" href="#advanced-plotting-scatter-matrix"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Plotting: Scatter Matrix</h3>
-<p class="md-github">A new advanced plotting feature for scatter matrix plots has been introduced. This feature visualizes correlations among multiple variables in a grid layout. Use the --advanced flag with the scatterMatrix option:</p>
+<p class="md-github">For scatter matrix plots, use the --advanced flag with the scatterMatrix option:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced scatterMatrix &quot;1, NaN, 5, -10, 10, 1&quot;
 </code></pre>
 <p class="md-github"><strong class="md-github">Expected Console Output:</strong></p>
@@ -92,21 +92,27 @@ Plotting scatter matrix with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
 <p class="md-github">You can also test using a simple cURL command:</p>
 <pre class="md-github"><code class="md-github language-bash">curl -X POST http://localhost:3000/plot -d &quot;plotType=spiral&amp;params=1, not anumber ,5, -10, 10, 1&quot;
 </code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="localization-support" href="#localization-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Localization Support</h2>
+<p class="md-github">To support users from different locales, you can customize the accepted NaN aliases by setting the <code class="md-github">LOCALE_NAN_ALIASES</code> environment variable. For example, to accept the German alias &quot;nicht eine zahl&quot; as NaN, run:</p>
+<pre class="md-github"><code class="md-github language-bash">export LOCALE_NAN_ALIASES='[&quot;nicht eine zahl&quot;]'
+node src/lib/main.js &quot;quad: 1, nicht eine zahl, 5&quot;
+</code></pre>
+<p class="md-github">This feature ensures that numeric validation can adapt to various regional formats and terminologies.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="additional-details" href="#additional-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Details</h2>
 <ul class="md-github">
 <li class="md-github">Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., <code class="md-github">1e4</code>, <code class="md-github">2.14e-3</code>, <code class="md-github">-3.5E+2</code>).</li>
-<li class="md-github">Various representations of NaN (&quot;NaN&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, &quot;not-a-number&quot;) are accepted and converted to the string &quot;NaN&quot; to ensure a consistent interface.</li>
+<li class="md-github">Various representations of NaN (default or localized) are accepted and converted to the string &quot;NaN&quot; to ensure a consistent interface.</li>
 <li class="md-github">Near-miss tokens like &quot;n/a&quot; now trigger an error message that clearly states the token is invalid and lists the acceptable alternatives.</li>
 <li class="md-github">Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.</li>
 <li class="md-github">Debug logging can be enabled via <code class="md-github">DEBUG_NUMERIC</code> to track NaN normalization.</li>
-<li class="md-github">The CLI and web interface now provide a unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.</li>
+<li class="md-github">The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T03:23:44.430Z</p>
+    <p>Generated on 2025-04-09T03:38:02.884Z</p>
   </footer>
 </body>
 </html>

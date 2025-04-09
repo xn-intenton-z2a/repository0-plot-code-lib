@@ -4,11 +4,19 @@
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 9,
-  "diffMinutesMain": 19,
+  "diffMinutes": 2,
+  "diffMinutesMain": 2,
   "commitsLastHour": 3,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "03:35",
+      "message": "Fixed smart quote in error message string to resolve syntax erro..."
+    },
+    {
+      "time": "03:24",
+      "message": "Maintain CORE_ENGINE"
+    },
     {
       "time": "03:04",
       "message": "Maintain JSON_API"
@@ -20,27 +28,14 @@
     {
       "time": "02:34",
       "message": "Added support for the not-a-number alias in numeric parameter pa..."
-    },
-    {
-      "time": "02:17",
-      "message": "Refined error message for near-miss NaN aliases in numeric param..."
-    },
-    {
-      "time": "01:57",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1234",
-        "minutesSinceLastCommit": 9
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T03:23:30.861Z"
+  "generatedAt": "2025-04-09T03:37:51.039Z"
 }
