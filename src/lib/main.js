@@ -3,6 +3,7 @@
 ///////////////////////////////
 
 import { fileURLToPath } from "url";
+import { z } from "zod";
 
 function errorExit(message) {
   console.error(message);
@@ -40,8 +41,8 @@ function getAcceptedNaNAliases() {
   return defaultAliases;
 }
 
-// Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
-// Enhanced to ensure unified handling of NaN aliases (with caching), Unicode normalization (NFC), and improved error messaging for near-miss tokens.
+// Optimized implementation of numeric parameter conversion utility with consolidated NaN validation using Zod schema validation.
+// Now leveraging Zod for declarative input transformation and validation to improve robustness and clarity.
 function parseNumericParams(paramStr) {
   let tokens;
   // If the string contains a comma or semicolon, use them as delimiters. Otherwise, split on whitespace.
@@ -55,28 +56,32 @@ function parseNumericParams(paramStr) {
   // Regex for valid numeric values: integer, decimal or scientific notation.
   const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 
-  for (const token of tokens) {
-    const trimmed = token.trim();
-    // Skip empty tokens (including those from trailing or consecutive delimiters)
-    if (trimmed === "") continue;
-
-    // Normalize token for consistent alias checking: lowercase, trim and Unicode NFC
-    const normToken = trimmed.toLowerCase().trim().normalize("NFC");
-
-    // Reject near-miss tokens like "n/a" with a clear suggestion
+  // Zod schema for validating and transforming each token
+  const tokenSchema = z.string().transform(token => {
+    const normToken = token.toLowerCase().trim().normalize("NFC");
     if (normToken === "n/a") {
-      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
+      throw new Error(`Invalid numeric parameter '${token.trim()}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
     }
-
     if (getAcceptedNaNAliases().has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
-        console.debug(`Normalized token '${trimmed}' to native NaN`);
+        console.debug(`Normalized token '${token.trim()}' to native NaN`);
       }
-      result.push(Number.NaN);
-    } else if (numericRegex.test(trimmed)) {
-      result.push(Number(trimmed));
-    } else {
-      errorExit(`Invalid numeric parameter '${trimmed}'`);
+      return Number.NaN;
+    }
+    if (numericRegex.test(token.trim())) {
+      return Number(token.trim());
+    }
+    throw new Error(`Invalid numeric parameter '${token.trim()}'`);
+  });
+
+  for (const token of tokens) {
+    const trimmed = token.trim();
+    if (trimmed === "") continue; // Skip empty tokens
+    try {
+      const value = tokenSchema.parse(token);
+      result.push(value);
+    } catch (err) {
+      errorExit(err.message);
     }
   }
   return result;

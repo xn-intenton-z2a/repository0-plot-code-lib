@@ -4,7 +4,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Enhanced Numeric Parameter Validation
 
-This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (`src/lib/main.js`) with consolidated and optimized regex-based validation. Both the CLI and the web interface use this logic to:
+This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (`src/lib/main.js`) and has been refactored to use the Zod schema validation library for robust and declarative input transformation. Both the CLI and the web interface use this logic to:
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases."
 
@@ -14,11 +14,11 @@ This release includes improvements in numeric parameter handling. The core numer
 
 4. Process all tokens using Unicode normalization (NFC) in addition to lower-casing and trimming. Numeric parameters are split by commas or semicolons when present, preserving multi-word NaN aliases, and fallback to splitting by whitespace if no comma or semicolon is found. This ensures that visually equivalent Unicode representations and multi-word aliases are recognized as valid.
 
-5. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.
+5. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases. The integration of Zod helps standardize and simplify this validation logic.
 
 6. Gracefully ignore empty tokens resulting from extra delimiters (including trailing delimiters and multiple consecutive commas, semicolons, or spaces), enhancing usability without compromising strict validation of numeric inputs.
 
-7. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided. Note that when `LOCALE_NAN_ALIASES` is provided, caching is bypassed to ensure the latest configuration is used.
+7. Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.
 
 **New Feature:**
 
@@ -140,7 +140,7 @@ Additionally, to completely override the default NaN aliases, set the `LOCALE_NA
 
 ## Utility Module
 
-All logic for parsing and normalizing NaN aliases is now incorporated within the main module (`src/lib/main.js`), simplifying module resolution and reducing file dependencies.
+All logic for parsing and normalizing NaN aliases is now incorporated within the main module (`src/lib/main.js`), simplifying module resolution and reducing file dependencies. The integration of Zod for validation further enhances the reliability and maintainability of the numeric parameter processing.
 
 ## License
 
