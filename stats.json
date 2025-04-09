@@ -1,14 +1,23 @@
 {
-  "openIssues": 81,
+  "openIssues": 82,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 3,
-  "diffMinutesMain": 7,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Integrated the NaN alias utility into main.js and updated test and README references to resolve module not found errors. (fixes #1275)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 4,
   "commitsLastHour": 9,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "05:54",
+      "message": "Maintain CORE_ENGINE"
+    },
     {
       "time": "05:45",
       "message": "Maintain PLUGIN_SYSTEM"
@@ -24,10 +33,6 @@
     {
       "time": "05:26",
       "message": "Improve NaN error messaging and refine caching behavior for nume..."
-    },
-    {
-      "time": "05:21",
-      "message": "Maintain EXPORT_ENGINE"
     }
   ],
   "branches": {
@@ -35,12 +40,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1275",
-        "minutesSinceLastCommit": 3
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T05:52:40.590Z"
+  "generatedAt": "2025-04-09T05:58:19.219Z"
 }
