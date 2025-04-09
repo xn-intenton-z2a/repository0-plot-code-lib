@@ -96,6 +96,8 @@ function parseNumericParams(paramStr, errorHandler) {
   }
 
   const result = [];
+  // Cache accepted aliases once per parsing session for performance and consistency
+  const acceptedAliases = getAcceptedNaNAliases();
 
   // Zod schema for validating and transforming each token
   const tokenSchema = z.string().transform(token => {
@@ -103,10 +105,10 @@ function parseNumericParams(paramStr, errorHandler) {
     const normToken = normalizeAlias(trimmedToken);
     // Strictly reject near-miss tokens like "n/a"
     if (normToken === "n/a") {
-      const accepted = Array.from(getAcceptedNaNAliases()).sort().join(", ");
+      const accepted = Array.from(acceptedAliases).sort().join(", ");
       throw new Error(`Invalid numeric parameter '${trimmedToken}'. Near-miss token 'n/a' is not accepted. Accepted tokens: ${accepted}.`);
     }
-    if (getAcceptedNaNAliases().has(normToken)) {
+    if (acceptedAliases.has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
         console.debug(`Normalized token '${trimmedToken}' to native NaN`);
       }

@@ -74,6 +74,8 @@ This release includes improvements in numeric parameter handling. The core numer
    node src/lib/main.js "quad: 1.234,56, NaN, 7,890"
    ```
 
+10. Optimization: The normalization of NaN aliases is now computed once per parsing call to improve performance and ensure consistency across both advanced and non-advanced modes.
+
 ## Examples
 
 ### CLI Usage with Advanced Plotting
