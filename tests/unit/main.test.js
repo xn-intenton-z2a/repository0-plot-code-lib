@@ -4,7 +4,10 @@
 // Updated tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
-import { main, getAcceptedNaNAliases } from "../../src/lib/main.js";
+import { main, getAcceptedNaNAliases, parseNumericParams } from "../../src/lib/main.js";
+
+// Helper function to check if an element is NaN
+const isNativeNaN = (x) => typeof x === 'number' && Number.isNaN(x);
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -67,12 +70,13 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad:  1 ,  NaN  ,   5  , -10 , 10,  1";
     
-    expect(() => main([arg])).not.toThrow();
-    expect(errorSpy).not.toHaveBeenCalled();
-    expect(exitSpy).not.toHaveBeenCalled();
-
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main([arg]);
+    // JSON.stringify will convert native NaN to null
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
+    logSpy.mockRestore();
   });
 
   test("should exit on malformed numeric input with extra non-numeric characters", () => {
@@ -92,9 +96,13 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad: 1e4 , 2.14e-3 , NaN , -3.5E+2";
     
-    expect(() => main([arg])).not.toThrow();
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main([arg]);
+    // Expect JSON.stringify conversion: NaN becomes null
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[10000,0.00214,null,-350]]'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
+    logSpy.mockRestore();
   });
 });
 
@@ -102,7 +110,8 @@ describe("Additional Numeric Edge Cases", () => {
   test("should handle leading/trailing spaces and scientific notation in colon-separated input", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:  3e2,   NaN,  -5E-1"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[300,"NaN",-0.5]]'));
+    // JSON.stringify conversion: NaN becomes null
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[300,null,-0.5]]'));
     logSpy.mockRestore();
   });
 });
@@ -112,36 +121,52 @@ describe("Alternative NaN Aliases", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad:1, not a number ,5,-10,10,1";
-    expect(() => main([arg])).not.toThrow();
+    
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main([arg]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
+    logSpy.mockRestore();
   });
 
   test("should treat 'notanumber' as NaN", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad:1,notanumber,5,-10,10,1";
-    expect(() => main([arg])).not.toThrow();
+    
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main([arg]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
+    logSpy.mockRestore();
   });
 
   test("should treat 'na' as NaN", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad:1,na,5,-10,10,1";
-    expect(() => main([arg])).not.toThrow();
+    
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main([arg]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
+    logSpy.mockRestore();
   });
 
   test("should treat 'not-a-number' as NaN", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad:1,not-a-number,5,-10,10,1";
-    expect(() => main([arg])).not.toThrow();
+    
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main([arg]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5,-10,10,1]]'));
     errorSpy.mockRestore();
     exitSpy.mockRestore();
+    logSpy.mockRestore();
   });
 
   test("should reject near miss variants like 'n/a' with suggestion", () => {
@@ -159,8 +184,10 @@ describe("Numeric Debug Logging", () => {
   test("should log debug message when DEBUG_NUMERIC is enabled", () => {
     const debugSpy = vi.spyOn(console, "debug").mockImplementation(() => {});
     process.env.DEBUG_NUMERIC = "true";
-    main(["quad:1,na,5"]);
-    expect(debugSpy).toHaveBeenCalledWith("Normalized token 'na' to \"NaN\"");
+    const arg = "quad:1,na,5";
+    main([arg]);
+    // Check for debug message indicating native NaN
+    expect(debugSpy).toHaveBeenCalledWith("Normalized token 'na' to native NaN");
     delete process.env.DEBUG_NUMERIC;
     debugSpy.mockRestore();
   });
@@ -177,7 +204,7 @@ describe("Advanced Plotting - Contour Plot", () => {
     
     expect(receivedParams).toHaveLength(3);
     expect(receivedParams[0]).toBe(1);
-    expect(receivedParams[1]).toBe("NaN");
+    expect(isNativeNaN(receivedParams[1])).toBe(true);
     expect(receivedParams[2]).toBe(5);
 
     mainModule.advancedPlots.contourPlot = originalContourPlot;
@@ -196,7 +223,7 @@ describe("Advanced Plotting - Scatter Matrix", () => {
     
     expect(receivedParams).toHaveLength(6);
     expect(receivedParams[0]).toBe(1);
-    expect(receivedParams[1]).toBe("NaN");
+    expect(isNativeNaN(receivedParams[1])).toBe(true);
     expect(receivedParams[2]).toBe(5);
     expect(receivedParams[3]).toBe(-10);
     expect(receivedParams[4]).toBe(10);
@@ -221,7 +248,8 @@ describe("Trailing Commas Handling", () => {
     let receivedParams;
     mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
     main(["--advanced", "testPlot", "1,,NaN,5,,"]);
-    expect(receivedParams).toEqual([1, "NaN", 5]);
+    // Expect that empty tokens are ignored and NaN is native
+    expect(receivedParams).toEqual([1, Number.NaN, 5]);
     mainModule.advancedPlots.testPlot = originalTestPlot;
     logSpy.mockRestore();
   });
@@ -234,7 +262,7 @@ describe("Localized NaN Aliases", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     // Using the localized alias in the input
     main(["quad:1, nicht eine zahl ,5"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,"NaN",5]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5]]'));
     delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });
@@ -278,7 +306,7 @@ describe("Unicode Normalization Handling", () => {
     process.env.LOCALE_NAN_ALIASES = JSON.stringify([decomposedAlias]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:1, nicht eine zahl ,5"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,"NaN",5]]'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,null,5]]'));
     delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });

@@ -8,11 +8,11 @@ This release includes improvements in numeric parameter handling. The core numer
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided JSON is invalid, a warning will be emitted and the default set will be used.
 
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (Number.NaN) for a unified representation across advanced and non-advanced modes.
 
 3. Process all tokens and aliases using Unicode normalization (NFC) in addition to lower-casing and trimming, ensuring that visually equivalent Unicode representations are recognized as valid.
 
-4. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted NaN aliases.
+4. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.
 
 5. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
@@ -36,7 +36,7 @@ node src/lib/main.js "quad: 1 , na, 5"
 This will log messages like:
 
 ```
-Normalized token 'na' to "NaN"
+Normalized token 'na' to native NaN
 ```
 
 ## Examples
@@ -54,7 +54,7 @@ node src/lib/main.js --advanced testPlot " 1, NaN , 5, -10, 10, 1,"
 
 ```
 Advanced Plot: Test Plot
-Test Plot with params: [ 1, "NaN", 5, -10, 10, 1 ]
+Test Plot with params: [ 1, NaN, 5, -10, 10, 1 ]
 ```
 
 ### Advanced Plotting: Contour Plot
@@ -69,7 +69,7 @@ node src/lib/main.js --advanced contourPlot "1, NaN, 5, -10, 10, 1"
 
 ```
 Advanced Plot: Contour Plot
-Plotting contour plot with params: [ 1, "NaN", 5, -10, 10, 1 ]
+Plotting contour plot with params: [ 1, NaN, 5, -10, 10, 1 ]
 ```
 
 ### Advanced Plotting: Scatter Matrix
@@ -84,7 +84,7 @@ node src/lib/main.js --advanced scatterMatrix "1, NaN, 5, -10, 10, 1"
 
 ```
 Advanced Plot: Scatter Matrix
-Plotting scatter matrix with params: [ 1, "NaN", 5, -10, 10, 1 ]
+Plotting scatter matrix with params: [ 1, NaN, 5, -10, 10, 1 ]
 ```
 
 ### CLI Usage in Non-Advanced Mode
@@ -98,8 +98,10 @@ node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
 **Expected Console Output:**
 
 ```
-Run with: ["quad", [1, 0.00214, "NaN", -350]]
+Run with: ["quad", [1, 0.00214, null, -350]]
 ```
+
+(Note: In JSON conversion, native NaN is represented as null.)
 
 ### Web Interface Usage
 
@@ -139,7 +141,7 @@ This feature ensures that numeric validation can adapt to various regional forma
 ## Additional Details
 
 - Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
-- Various representations of NaN (default or localized) are accepted and converted to the string "NaN" to ensure a consistent interface.
+- Various representations of NaN (default or localized) are accepted and converted to the native NaN value (Number.NaN) to ensure a consistent interface.
 - Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.
 - Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
