@@ -2,18 +2,17 @@
   "openIssues": 97,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refactor NaN alias normalization by adding DEFAULT_NAN_ALIASES constant and normalizeAlias helper function. (fixes #1312)",
-      "ageMinutes": 2
-    }
-  ],
-  "diffMinutes": 2,
-  "diffMinutesMain": 2,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 11,
   "commitsLastHour": 10,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:59",
+      "message": "Refactor NaN alias normalization by adding DEFAULT_NAN_ALIASES c..."
+    },
     {
       "time": "07:56",
       "message": "Maintain CLI_ASSIST"
@@ -29,23 +28,19 @@
     {
       "time": "07:43",
       "message": "Remove unused feature specs and reject outdated proposals\n\nDelet..."
-    },
-    {
-      "time": "07:37",
-      "message": "Improved documentation on NaN handling with added notes on JSON ..."
     }
   ],
   "branches": {
     "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-1312",
-        "minutesSinceLastCommit": 2
+        "branch": "agentic-lib-issue-1314",
+        "minutesSinceLastCommit": 0
       }
     ]
   },
-  "averagePRAge": 2,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T07:58:48.692Z"
+  "generatedAt": "2025-04-09T08:10:29.457Z"
 }
