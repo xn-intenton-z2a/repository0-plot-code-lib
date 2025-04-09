@@ -10,8 +10,17 @@ function errorExit(message) {
   process.exit(1);
 }
 
-// Default NaN aliases constant
-const DEFAULT_NAN_ALIASES = new Set(["nan", "not a number", "notanumber", "na", "not-a-number"]);
+// Default NaN aliases constant, expanded to include common international representations
+const DEFAULT_NAN_ALIASES = new Set([
+  "nan",
+  "not a number",
+  "notanumber",
+  "na",
+  "not-a-number",
+  "nicht eine zahl",
+  "pas un nombre",
+  "no es un número"
+]);
 
 // Helper function for normalizing aliases
 // Updated normalization order: trim, normalize (NFC), then lower-case to properly handle decomposed Unicode forms
