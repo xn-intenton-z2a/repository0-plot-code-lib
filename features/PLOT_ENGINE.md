@@ -1,43 +1,39 @@
 # PLOT_ENGINE Feature Specification
 
 ## Overview
-This feature introduces a simple plotting engine that leverages the existing mathjs dependency to evaluate mathematical expressions and generate a text-based ASCII plot. The CLI will accept a formula via the command line and produce a basic visualisation of the function's output over a defined interval. This aligns with the mission of being a go-to plot library with a CLI and serves both library and command-line usage.
+This feature implements a versatile plotting engine that evaluates mathematical expressions and generates ASCII plots. Built around the mathjs library, the plot engine serves both as a CLI tool and a library function. This feature aligns with the mission by offering an intuitive interface for visualising functions right from the terminal.
 
 ## Implementation Details
-- **Input Handling:**
-  - Extend the current CLI argument parsing in `src/lib/main.js` to support a new flag (e.g., `--plot`).
-  - The flag accepts a mathematical expression as a string, for example, "sin(x)" or "x^2".
-
-- **Evaluation and Data Generation:**
-  - Use mathjs to parse and evaluate the function over a fixed interval, such as x in [-10, 10] with a fixed step size.
-  - Compute corresponding y-values for each x value.
-
+- **CLI Integration:**
+  - Extend the main CLI handler in `src/lib/main.js` to recognize a `--plot` flag along with optional flags `--interval` and `--step` to customize the plotting range and resolution.
+  - Example: `repository0-plot-code-lib --plot "sin(x)" --interval "-15,15" --step 0.5`
+- **Function Evaluation and Data Generation:**
+  - Utilize mathjs to parse the provided mathematical expression.
+  - Evaluate the function over a default interval of [-10, 10] with a default step size, unless overridden by user-supplied flags.
+  - Calculate corresponding y-values and scale the data appropriately to fit into a terminal window.
 - **Plot Generation:**
-  - Convert the computed (x, y) pairs into a simple ASCII plot, scaling appropriately to display key features of the function.
-  - Display the plot in the terminal using standard console output.
+  - Convert computed data points into a clear ASCII plot representation.
+  - Ensure the plot highlights key features of the function, such as intercepts and turning points.
+- **Library Exposure:**
+  - Expose a function that accepts parameters (formula string, interval, step) and returns the generated ASCII plot. This function can be imported by other modules, making the plotting engine reusable beyond the CLI context.
 
-- **Error Handling and Defaults:**
-  - Provide clear error messages if the input formula cannot be parsed or evaluated.
-  - Include default values (e.g., interval [-10, 10] and step size) that can be overridden via additional optional flags if needed in future iterations.
-
-## Usage Examples
-
-- **Command Line:**
-  ```sh
-  repository0-plot-code-lib --plot "sin(x)"
-  ```
-
-- **Library Usage:**
-  - Expose a function that takes a formula string and returns the ASCII plot data for integration into other applications.
+## Error Handling and Defaults
+- Validate the formula and input parameters. If mathjs fails to parse the expression, return a clear and user-friendly error message.
+- If the interval or step flags are not provided, revert to the default values. If provided, validate the interval format and numerical correctness of the step size.
 
 ## Testing
+- **Unit Tests:**
+  - Add tests under `tests/unit` that confirm the following:
+    - Proper parsing and evaluation of common functions (e.g., sin(x), x^2).
+    - Correct ASCII output matching expected patterns for given inputs.
+    - Appropriate error messages for invalid expressions or malformed interval/step parameters.
+- **CLI Tests:**
+  - Simulate command-line invocations to ensure the feature completes without error and outputs the expected plot.
 
-- Add unit tests in the `tests/unit` directory to verify that:
-  - The formula is parsed correctly using mathjs.
-  - The output plot matches expected outputs for standard functions.
-  - Appropriate error messages are returned for invalid input.
+## Documentation and Examples
+- Update the README.md file with clear usage examples, including:
+  - Basic plotting with the `--plot` flag.
+  - Advanced usage with `--interval` and `--step` to demonstrate custom configuration.
+  - Library usage examples that illustrate how to import and use the plotting function from other JavaScript modules.
 
-## Documentation
-
-- Update the README.md with usage examples and connect the new API endpoint for formula plotting.
-- Ensure that modifications follow the guidelines in CONTRIBUTING.md and all tests pass on `npm test`.
+This refined PLOT_ENGINE feature ensures a robust and user-friendly plotting experience, aligned with our mission to be the go-to library for formula visualisations via CLI and code integrations.
