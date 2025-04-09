@@ -12,6 +12,7 @@ describe('Main Module Import', () => {
 
 describe('Default Demo Output', () => {
   test('should terminate without error', () => {
+    // Simulate CLI invocation; note that main.js no longer auto-executes due to removal of the shebang
     process.argv = ['node', 'src/lib/main.js'];
     main([]);
   });
