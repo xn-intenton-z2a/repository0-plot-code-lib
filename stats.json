@@ -1,14 +1,27 @@
 {
-  "openIssues": 94,
+  "openIssues": 96,
   "issuesClosedLastHour": 12,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 3,
-  "diffMinutesMain": 3,
-  "commitsLastHour": 9,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Enhance NaN alias normalization to use locale-aware lowercasing in custom and parsed tokens. (fixes #1307)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 11,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:46",
+      "message": "Maintain CLI_HELP"
+    },
+    {
+      "time": "07:43",
+      "message": "Remove unused feature specs and reject outdated proposals\n\nDelet..."
+    },
     {
       "time": "07:37",
       "message": "Improved documentation on NaN handling with added notes on JSON ..."
@@ -20,22 +33,19 @@
     {
       "time": "07:25",
       "message": "Added customizable error handling hook to parseNumericParams and..."
-    },
-    {
-      "time": "07:19",
-      "message": "Fixed syntax error in the main.js file removed newline in the st..."
-    },
-    {
-      "time": "07:13",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1307",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T07:41:29.108Z"
+  "generatedAt": "2025-04-09T07:47:16.881Z"
 }
