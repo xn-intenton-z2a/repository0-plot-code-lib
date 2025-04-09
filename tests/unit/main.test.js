@@ -4,7 +4,7 @@
 // Updated tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
-import { main, getAcceptedNaNAliases, parseNumericParams } from "../../src/lib/main.js";
+import { main, getAcceptedNaNAliases, parseNumericParams, advancedPlots } from "../../src/lib/main.js";
 // Updated direct import: now getAcceptedNaNAliases is imported from main.js instead of nanAlias.js
 import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/lib/main.js";
 
@@ -54,6 +54,7 @@ describe("Invalid Numeric Input Handling", () => {
   });
 });
 
+
 describe("Handling 'NaN' as a valid token", () => {
   test("should not exit when 'NaN' is provided among numeric parameters", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
@@ -68,6 +69,7 @@ describe("Handling 'NaN' as a valid token", () => {
     errorSpy.mockRestore();
   });
 });
+
 
 describe("Regex-based Numeric Conversion Edge Cases", () => {
   test("should trim extra whitespace and handle lower/upper case 'NaN'", () => {
@@ -109,6 +111,7 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
   });
 });
 
+
 describe("Additional Numeric Edge Cases with New Delimiters", () => {
   test("should handle semicolons as delimiters", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -132,6 +135,7 @@ describe("Additional Numeric Edge Cases with New Delimiters", () => {
   });
 });
 
+
 describe("Trailing Commas and Extra Delimiters Handling", () => {
   test("should ignore trailing delimiters in non-advanced mode", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -151,6 +155,7 @@ describe("Trailing Commas and Extra Delimiters Handling", () => {
     logSpy.mockRestore();
   });
 });
+
 
 describe("Localized NaN Aliases", () => {
   test("should accept a localized NaN alias when configured via LOCALE_NAN_ALIASES", () => {
@@ -172,6 +177,7 @@ describe("Localized NaN Aliases", () => {
   });
 });
 
+
 describe("NaN Alias Utility Module", () => {
   test("should return default aliases when LOCALE_NAN_ALIASES is not set", () => {
     delete process.env.LOCALE_NAN_ALIASES;
@@ -192,12 +198,14 @@ describe("NaN Alias Utility Module", () => {
   });
 });
 
+
 describe("Direct NaN Alias Module Import", () => {
   test("should correctly import from main module and return default alias set", () => {
     const aliases = getAcceptedNaNAliasesDirect();
     expect(aliases.has("nan")).toBe(true);
   });
 });
+
 
 describe("Unicode Normalization Handling", () => {
   test("should handle decomposed Unicode forms of NaN aliases provided via LOCALE_NAN_ALIASES", () => {
@@ -211,6 +219,7 @@ describe("Unicode Normalization Handling", () => {
   });
 });
 
+
 describe("Override Default NaN Aliases", () => {
   test("should use only custom aliases when LOCALE_NAN_OVERRIDE is set", () => {
     process.env.LOCALE_NAN_ALIASES = JSON.stringify(["customnan"]);
@@ -220,5 +229,39 @@ describe("Override Default NaN Aliases", () => {
     expect(aliases.has("nan")).toBe(false);
     delete process.env.LOCALE_NAN_ALIASES;
     delete process.env.LOCALE_NAN_OVERRIDE;
+  });
+});
+
+
+describe("Advanced Plot JSON Configuration", () => {
+  test("should parse JSON configuration in advanced mode and pass object to plot function", () => {
+    const originalBoxPlot = advancedPlots.boxPlot;
+    let receivedParams;
+    advancedPlots.boxPlot = function(params) { receivedParams = params; };
+    const jsonConfig = '{"data":[1,2,3,4],"title":"My Box Plot","color":"blue"}';
+    main(["--advanced", "boxPlot", jsonConfig]);
+    expect(typeof receivedParams).toBe('object');
+    expect(receivedParams).toHaveProperty('data');
+    expect(receivedParams).toHaveProperty('title', 'My Box Plot');
+    expect(receivedParams).toHaveProperty('color', 'blue');
+    advancedPlots.boxPlot = originalBoxPlot;
+  });
+
+  test("should throw error on malformed JSON configuration in advanced mode", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    expect(() => {
+      main(["--advanced", "boxPlot", '{invalidJson:true}']);
+    }).toThrow(/process.exit: 1/);
+    exitSpy.mockRestore();
+  });
+
+  test("should parse JSON configuration in non-advanced mode for colon-separated arguments", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const jsonConfig = '{"data":[10,20,30],"label":"Test"}';
+    main(["chart:" + jsonConfig]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Test'));
+    exitSpy.mockRestore();
+    logSpy.mockRestore();
   });
 });

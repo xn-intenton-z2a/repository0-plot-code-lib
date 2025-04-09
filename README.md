@@ -20,9 +20,15 @@ This release includes improvements in numeric parameter handling. The core numer
 
 7. Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.
 
-**New Feature:**
+**New Feature: JSON-Based Parameter Configuration**
 
-Numeric parameter parsing now supports additional delimiters including semicolons. For example, both "1, NaN, 5" and "1;NaN;5" or even "1  NaN  5" (whitespace-separated) are correctly parsed. Additionally, you can fully override the default NaN aliases using the `LOCALE_NAN_OVERRIDE` flag.
+Advanced plot functions now also accept a JSON configuration for more complex parameter setups. When using the `--advanced` flag (or in colon-separated non-advanced mode), if the parameter string starts with a `{` and ends with a `}`, it will be parsed as JSON. This allows you to pass additional options such as labels, colors, and other plot options. For example:
+
+```bash
+node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "title": "My Box Plot", "color": "blue"}'
+```
+
+The advanced plot functions will then receive the configuration object, making it easy to set up more complex plots.
 
 ## Debug Logging for Numeric Conversion
 
@@ -43,23 +49,33 @@ Normalized token 'na' to native NaN
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization, and trailing delimiters):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization, trailing delimiters, and JSON configuration):
 
 ```bash
-# Example with advanced plotting using the --advanced flag
+# Example with advanced plotting using numeric parameters
 node src/lib/main.js --advanced testPlot " 1, NaN ; 5  , -10, 10, 1;"
+
+# Example with advanced plotting using JSON configuration
+node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "title": "My Box Plot", "color": "blue"}'
 ```
 
-**Expected Console Output:**
+**Expected Console Output (Numeric):**
 
 ```
 Advanced Plot: Test Plot
 Test Plot with params: [ 1, NaN, 5, -10, 10, 1 ]
 ```
 
+**Expected Console Output (JSON):**
+
+```
+Advanced Plot: Box Plot
+Plotting box plot with params: { data: [1, 2, 3, 4], title: 'My Box Plot', color: 'blue' }
+```
+
 ### Advanced Plotting: Contour Plot
 
-To render a contour plot, use the --advanced flag with the contourPlot option:
+To render a contour plot, use the `--advanced` flag with the contourPlot option:
 
 ```bash
 node src/lib/main.js --advanced contourPlot "1; NaN  5, -10, 10"
@@ -74,7 +90,7 @@ Plotting contour plot with params: [ 1, NaN, 5, -10, 10 ]
 
 ### Advanced Plotting: Scatter Matrix
 
-For scatter matrix plots, use the --advanced flag with the scatterMatrix option:
+For scatter matrix plots, use the `--advanced` flag with the scatterMatrix option:
 
 ```bash
 node src/lib/main.js --advanced scatterMatrix "1, NaN, 5, -10, 10, 1"
@@ -89,16 +105,19 @@ Plotting scatter matrix with params: [ 1, NaN, 5, -10, 10, 1 ]
 
 ### CLI Usage in Non-Advanced Mode
 
-When running without the `--advanced` flag, the CLI automatically parses arguments that are colon-separated by splitting them into a label and numeric parameters. For example:
+When running without the `--advanced` flag, the CLI automatically parses arguments that are colon-separated by splitting them into a label and numeric parameters or a JSON configuration. For example:
 
 ```bash
 node src/lib/main.js "quad: 1 ; 2.14e-3  not a number   -3.5E+2"
+
+node src/lib/main.js "chart:{\"data\": [10, 20, 30], \"label\": \"Test\"}"
 ```
 
 **Expected Console Output:**
 
 ```
 Run with: [["quad", [1,0,5,-10,10]]]
+Run with: [["chart", { data: [10,20,30], label: "Test" }]]
 ```
 
 (Note: In JSON conversion, native NaN is represented as null.)
@@ -113,11 +132,7 @@ The web interface provides similar numeric parameter validation. To test it loca
 npm run start:web
 ```
 
-2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral", "contourPlot", or "scatterMatrix") and enter a set of parameters, such as:
-
-```
-1; na; 5 , -10  10, 1
-```
+2. Open your browser and navigate to `http://localhost:3000` (or the port specified by the `PORT` environment variable). Use the provided form to select an advanced plot type (e.g., "spiral", "contourPlot", or "scatterMatrix") and enter a set of parameters, either as numeric values or a JSON configuration.
 
 3. Submit the form to see the converted parameters and a confirmation page indicating that the correct plotting function was invoked.
 
