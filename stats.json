@@ -1,19 +1,26 @@
 {
   "openIssues": 92,
-  "issuesClosedLastHour": 6,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Fixed syntax error in the main.js file removed newline in the string literal for the violinPlot function and ensured all file contents are properly updated. (fixes #1298)",
-      "ageMinutes": 0
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 0,
-  "diffMinutesMain": 5,
-  "commitsLastHour": 7,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 9,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:26",
+      "message": "Maintain CORE_ENGINE"
+    },
+    {
+      "time": "07:25",
+      "message": "Added customizable error handling hook to parseNumericParams and..."
+    },
+    {
+      "time": "07:19",
+      "message": "Fixed syntax error in the main.js file removed newline in the st..."
+    },
     {
       "time": "07:13",
       "message": "Maintain CORE_ENGINE"
@@ -21,31 +28,14 @@
     {
       "time": "06:59",
       "message": "Refactored parseNumericParams to use Zod schema validation for e..."
-    },
-    {
-      "time": "06:54",
-      "message": "Add LOCALE_NAN_OVERRIDE option to allow full override of default..."
-    },
-    {
-      "time": "06:51",
-      "message": "Maintain CORE_ENGINE"
-    },
-    {
-      "time": "06:49",
-      "message": "Fixed main argument parsing to properly split colon-separated to..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1298",
-        "minutesSinceLastCommit": 0
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T07:18:37.811Z"
+  "generatedAt": "2025-04-09T07:27:50.287Z"
 }
