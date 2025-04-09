@@ -78,11 +78,15 @@ This release includes improvements in numeric parameter handling. The core numer
 
     It is important to note that while the parser converts recognized NaN tokens to JavaScript's native `NaN`, when serialized to JSON using `JSON.stringify`, these values appear as `null`. This behavior is inherent to JSON and should be accounted for when integrating with web interfaces or other components that consume JSON data.
 
+11. Strict NaN Mode
+
+    With this new mode, if the environment variable `STRICT_NAN_MODE` is enabled, only the canonical (normalized) 'NaN' token is accepted as a valid NaN indicator. All alternative aliases (e.g., "na", "not a number") will be rejected, enforcing unambiguous numeric input.
+
 ## Examples
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, JSON configuration support, and locale-specific number formatting):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, JSON configuration support, locale-specific number formatting, and strict NaN mode if enabled):
 
 ```bash
 # Example with advanced plotting using numeric parameters
@@ -167,9 +171,19 @@ export NUMERIC_LOCALE=eu
 node src/lib/main.js "quad: 1.234,56, NaN, 7,890"
 ```
 
+### Strict NaN Mode
+
+If you prefer unambiguous numeric input, enable strict mode by setting the `STRICT_NAN_MODE` environment variable. When enabled, only the canonical 'NaN' token is accepted. For example:
+
+```bash
+export STRICT_NAN_MODE=true
+node src/lib/main.js "quad: 1, NaN, 5"   # Valid
+node src/lib/main.js "quad: 1, na, 5"    # Will be rejected
+```
+
 ## Localization Support
 
-Customize accepted NaN aliases by setting the `LOCALE_NAN_ALIASES` environment variable. For example, to accept the German alias "nicht eine zahl", the French alias "pas un nombre", the Spanish alias "no es un número", or the Italian alias "non è un numero":
+Customize accepted NaN aliases by setting the `LOCALE_NAN_ALIASES` environment variable. For example, to accept a custom alias:
 
 ```bash
 export LOCALE_NAN_ALIASES='["nicht eine zahl"]'

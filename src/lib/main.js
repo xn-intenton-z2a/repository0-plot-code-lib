@@ -49,6 +49,11 @@ function parseFormattedNumberValue(token) {
 
 // Utility function to get accepted NaN aliases
 function getAcceptedNaNAliases() {
+  // If strict mode is enabled, only allow the canonical 'NaN'
+  if (process.env.STRICT_NAN_MODE) {
+    return new Set([normalizeAlias('NaN')]);
+  }
+  
   // Normalize default aliases
   const defaultAliases = new Set();
   for (const alias of DEFAULT_NAN_ALIASES) {
