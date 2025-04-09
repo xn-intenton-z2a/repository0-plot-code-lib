@@ -81,8 +81,10 @@ function parseNumericParams(paramStr, errorHandler) {
   const tokenSchema = z.string().transform(token => {
     const trimmedToken = token.trim();
     const normToken = normalizeAlias(trimmedToken);
+    // Strictly reject near-miss tokens like "n/a"
     if (normToken === "n/a") {
-      throw new Error(`Invalid numeric parameter '${trimmedToken}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
+      const accepted = Array.from(getAcceptedNaNAliases()).sort().join(", ");
+      throw new Error(`Invalid numeric parameter '${trimmedToken}'. Near-miss token 'n/a' is not accepted. Accepted tokens: ${accepted}.`);
     }
     if (getAcceptedNaNAliases().has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
