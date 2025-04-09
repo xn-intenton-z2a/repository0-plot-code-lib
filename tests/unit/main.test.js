@@ -61,18 +61,18 @@ describe('CLI Argument Parsing', () => {
 describe('NaN Alias Resolution', () => {
   test('Strict mode returns only canonical "nan"', () => {
     process.env.STRICT_NAN_MODE = 'true';
-    delete process.env.LOCALE_NAN_ALIASES;
     delete process.env.LOCALE_NAN_OVERRIDE;
+    delete process.env.LOCALE_NAN_ALIASES;
     const aliases = resolveNaNAliases();
     expect(aliases).toEqual(['nan']);
   });
 
-  test('Custom aliases are merged in non-strict mode', () => {
+  test('Legacy LOCALE_NAN_ALIASES is ignored and defaults are used in non-strict mode', () => {
     delete process.env.STRICT_NAN_MODE;
     process.env.LOCALE_NAN_ALIASES = 'NotANumber,  NaNValue ';
     delete process.env.LOCALE_NAN_OVERRIDE;
     const aliases = resolveNaNAliases();
-    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined', 'nanvalue'].sort());
+    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined'].sort());
   });
 
   test('Locale override replaces defaults completely', () => {
@@ -83,20 +83,22 @@ describe('NaN Alias Resolution', () => {
     expect(aliases.sort()).toEqual(['override1', 'override2'].sort());
   });
 
-  test('handles irregular spacing and capitalization in LOCALE_NAN_ALIASES', () => {
+  test('Legacy settings with irregular spacing and capitalization are ignored', () => {
     delete process.env.STRICT_NAN_MODE;
     process.env.LOCALE_NAN_ALIASES = ' NaN , nAnAlias , CUSTOM  ';
     delete process.env.LOCALE_NAN_OVERRIDE;
     const aliases = resolveNaNAliases();
-    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined', 'nanalias', 'custom'].sort());
+    // Expect defaults since LOCALE_NAN_ALIASES is deprecated
+    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined'].sort());
   });
 
-  test('handles semicolon delimiters in LOCALE_NAN_ALIASES', () => {
+  test('Legacy settings with semicolon delimiters are ignored', () => {
     delete process.env.STRICT_NAN_MODE;
     process.env.LOCALE_NAN_ALIASES = ' NaN ; nAnAlias ; CUSTOM ';
     delete process.env.LOCALE_NAN_OVERRIDE;
     const aliases = resolveNaNAliases();
-    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined', 'nanalias', 'custom'].sort());
+    // Expect defaults since LOCALE_NAN_ALIASES is deprecated
+    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined'].sort());
   });
 
   test('handles semicolon delimiters in LOCALE_NAN_OVERRIDE', () => {

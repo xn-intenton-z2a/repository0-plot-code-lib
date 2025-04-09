@@ -14,7 +14,7 @@ npm install @xn-intenton-z2a/repository0-plot-code-lib
 
 ## Usage
 
-The CLI now supports multiple modes of operation with robust argument parsing, enhanced alias normalization, and clear error handling. The NaN alias resolution mechanism has been refactored for improved clarity. A helper function now handles normalization (trimming and lowercasing) of aliases.
+The CLI now supports multiple modes of operation with robust argument parsing and a unified configuration for NaN alias resolution. The legacy LOCALE_NAN_ALIASES variable is deprecated. Instead, use LOCALE_NAN_OVERRIDE to completely define custom NaN aliases.
 
 ### CLI Quickstart
 
@@ -52,11 +52,12 @@ node src/lib/main.js --help
 
 ## Environment Configuration for NaN Alias Resolution
 
-This library supports dynamic and locale-aware NaN alias resolution. Aliases are normalized by a dedicated helper function (which trims whitespace and converts to lowercase). Configure using the following environment variables:
+This library supports a unified, locale-aware NaN alias resolution. Aliases are normalized (trimmed and lowercased) via a helper function. Configure using the following environment variables:
 
 - **STRICT_NAN_MODE**: When set to "true", only the canonical alias `nan` is accepted.
-- **LOCALE_NAN_ALIASES**: A list (comma or semicolon separated) of additional aliases to merge with the defaults (defaults are: `nan`, `notanumber`, `undefined`).
-- **LOCALE_NAN_OVERRIDE**: A list (comma or semicolon separated) that completely overrides the default aliases.
+- **LOCALE_NAN_OVERRIDE**: A list (comma or semicolon separated) of aliases that will replace default aliases entirely.
+
+> Note: The legacy environment variable **LOCALE_NAN_ALIASES** is deprecated and will be ignored.
 
 For example, to enable strict mode:
 
@@ -64,10 +65,10 @@ For example, to enable strict mode:
 export STRICT_NAN_MODE=true
 ```
 
-Or to add custom aliases using semicolon delimiters:
+Or to add custom aliases:
 
 ```bash
-export LOCALE_NAN_ALIASES="NaNValue; NotA-Number"
+export LOCALE_NAN_OVERRIDE="NaNValue, NotA-Number"
 ```
 
 ---
