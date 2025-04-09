@@ -50,8 +50,18 @@ describe('CLI Argument Parsing', () => {
     expect(logSpy).toHaveBeenCalledWith('Generating plot as output.svg with spec quad:1,0,0,-10,10,1');
   });
 
+  test('generates ASCII plot when --ascii and spec provided', () => {
+    main(['--ascii', 'sine:1,1,0,0,360,30']);
+    expect(logSpy).toHaveBeenCalledWith('Generating ASCII plot with spec sine:1,1,0,0,360,30');
+  });
+
   test('shows error on invalid arguments', () => {
     main(['onlyOneArg']);
     expect(errorSpy).toHaveBeenCalledWith('Invalid arguments. Use --help for usage information.');
+  });
+
+  test('shows error on missing ASCII plot specification', () => {
+    main(['--ascii']);
+    expect(errorSpy).toHaveBeenCalledWith('Missing plot specification for ASCII plotting. Use --help for usage information.');
   });
 });

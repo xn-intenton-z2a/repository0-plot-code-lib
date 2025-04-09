@@ -40,6 +40,14 @@ Start the Express-based web interface:
 node src/lib/main.js --serve
 ```
 
+### ASCII Plot Mode
+
+Generate an ASCII plot by providing the `--ascii` flag followed by a plot specification:
+
+```bash
+node src/lib/main.js --ascii "sine:1,1,0,0,360,30"
+```
+
 ### Help
 
 Display usage instructions:

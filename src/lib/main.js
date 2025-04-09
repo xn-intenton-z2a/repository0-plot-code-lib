@@ -5,6 +5,7 @@ export function main(args) {
     console.log("Usage: node src/lib/main.js [outputFile] [plotSpec]");
     console.log("   or: node src/lib/main.js --interactive");
     console.log("   or: node src/lib/main.js --serve");
+    console.log("   or: node src/lib/main.js --ascii <plotSpec>");
     return;
   }
 
@@ -27,6 +28,17 @@ export function main(args) {
         console.log(`Web interface running on http://localhost:${port}`);
       });
     })();
+    return;
+  }
+
+  if (args.includes("--ascii")) {
+    const asciiIndex = args.indexOf("--ascii");
+    if (args.length > asciiIndex + 1) {
+      const plotSpec = args[asciiIndex + 1];
+      console.log(`Generating ASCII plot with spec ${plotSpec}`);
+    } else {
+      console.error("Missing plot specification for ASCII plotting. Use --help for usage information.");
+    }
     return;
   }
 
