@@ -239,3 +239,14 @@ describe("Localized NaN Aliases", () => {
     logSpy.mockRestore();
   });
 });
+
+describe("Invalid LOCALE_NAN_ALIASES Handling", () => {
+  test("should warn and use default NaN aliases when LOCALE_NAN_ALIASES is invalid", () => {
+    process.env.LOCALE_NAN_ALIASES = "invalid_json";
+    const warnSpy = vi.spyOn(console, "warn").mockImplementation(() => {});
+    main(["quad:1,na,5"]);
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("Invalid configuration for LOCALE_NAN_ALIASES"));
+    delete process.env.LOCALE_NAN_ALIASES;
+    warnSpy.mockRestore();
+  });
+});
