@@ -1,7 +1,6 @@
 import { describe, test, expect } from 'vitest';
 import * as mainModule from '@src/lib/main.js';
-import { main } from '@src/lib/main.js';
-import { resolveNaNAliases } from '@src/lib/naNAlias.js';
+import { main, resolveNaNAliases } from '@src/lib/main.js';
 
 
 describe('Main Module Import', () => {
@@ -18,7 +17,7 @@ describe('Default Demo Output', () => {
   });
 });
 
-// Tests for the new NaN alias resolution module
+// Tests for the NaN alias resolution functionality
 
 describe('NaN Alias Resolution', () => {
   test('Strict mode returns only canonical "nan"', () => {
