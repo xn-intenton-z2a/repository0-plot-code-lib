@@ -1,35 +1,46 @@
 # CORE_ENGINE Feature
 
 ## Overview
-The CORE_ENGINE is the backbone of our plotting library and handles multiple critical functionalities including advanced plotting routines, interactive CLI wizard, configuration file support, robust numeric parameter validation, dynamic formula parsing, and a unified logging system for diagnostics. This enhancement further refines the engine to include a dedicated Formula Parsing module that leverages the power of Math.js for dynamic expression evaluation and error handling.
+The CORE_ENGINE remains the backbone of our plotting library, offering advanced plotting routines, interactive CLI wizard support, configuration file parsing, robust numeric parameter validation, dynamic formula parsing, and a unified logging system. In this update, we extend the engine with a new Dynamic Theme Manager to provide users greater control over plot aesthetics, making the library even more adaptable and user-friendly.
 
 ## Formula Parsing Engine
-- **Objective:** Provide users with the ability to input mathematical formulae as strings, which are then parsed, validated, and transformed into plot data or intermediate representations. This supports our mission to be the jq of formulae visualisations.
+- **Objective:** Parse and validate mathematical formulae from user input using Math.js, enabling dynamic expression evaluation and conversion into plot data.
 - **Implementation:**
-  - Integrate Math.js to parse and evaluate mathematical expressions reliably.
-  - Support standard mathematical operations and functions as well as custom variables.
-  - Validate expressions and provide clear error messages in cases of malformed or unsupported expressions.
-  - Allow the parsed formulae to interact seamlessly with the advanced plotting functions, ensuring that user inputs can be visualized accurately.
-- **Usage Examples:**
-  - Users can input a formula like `sin(x) + log(x)` which the engine parses and converts into a corresponding data series for plotting.
-  - Error handling will catch syntax errors and advise on correct formatting.
+  - Integrate Math.js for reliable parsing.
+  - Validate mathematical expressions and provide clear error messages for malformed inputs.
+  - Enable parsed expressions to seamlessly interface with advanced plotting routines.
 
 ## Configuration File Support
-- Enable users to provide plot configurations using JSON or YAML files.
-- The configuration loader module properly merges CLI arguments and configuration file settings, with CLI parameters taking precedence.
-- Provides descriptive error messages for missing or malformed configuration files.
+- Support for plot configuration through JSON and YAML files.
+- Merge CLI arguments with configuration file settings with CLI parameters having precedence.
+- Provide descriptive error messages for missing or malformed configuration files.
 
-## Enhanced Numeric Parameter Validation and Logging
-- **Numeric Validation:** Utilizes Zod schema validation to ensure numeric parameters are parsed accurately (supporting integers, decimals, scientific notation, and multiple NaN aliases).
-- **Debug Logging:** Employs a unified logging module replacing ad hoc console logs. Logging is standardized, with dynamic verbosity controlled by environment variables.
-- **Diagnostics:** The engine logs parameter conversion and formula parsing events, aiding in easier maintenance and troubleshooting.
+## Enhanced Numeric Validation & Logging
+- **Numeric Validation:** Use Zod schema validation to ensure accuracy in converting numeric tokens, including support for various NaN aliases (configurable via environment variables).
+- **Logging & Diagnostics:** Implement a unified logging mechanism to track numeric conversions, formula parsing, and configuration merging alongside detailed error reporting.
+
+## Dynamic Theme Manager
+- **Objective:** Empower users to customize the visual style of their plots through dynamic theming options.
+- **Features:**
+  - Allow configuration of plot elements including colors, fonts, backgrounds, grid styles, and other styling parameters.
+  - Provide both CLI and Web API integrations for theme selection and customization.
+  - Expose a dedicated module (e.g., `src/lib/themeManager.js`) that loads theme settings from configuration files or command-line arguments.
+  - Enable live preview of themes in diagnostics or interactive modes to assist users in real-time theme selection.
 
 ## Integration and Testing
-- The CORE_ENGINE is integrated with all advanced plotting functionalities, including CLI wizard and Web API interfaces.
-- Comprehensive unit and integration tests verify numeric conversion, formula parsing, logging, and configuration handling.
-- Documentation in the README and CONTRIBUTING files is updated to detail the usage of formula parsing and enhanced validation features.
+- **Integration:**
+  - Seamlessly combine the Theme Manager with existing plotting functionalities in both CLI and Web API contexts.
+  - Ensure that theme settings can override default styles without interfering with core plotting logic.
+  - Maintain support for dynamic plugin integration wherein plugins can provide additional theming options if desired.
+- **Testing:**
+  - Update unit tests to cover theme configuration parsing and integration with plotting routines.
+  - Enhance integration tests to verify that theme settings correctly modify plot outputs.
 
 ## Benefits
-- **Enhanced Functionality:** Direct formula parsing enables users to input complex expressions which are immediately converted for visualization.
-- **Robust Error Handling:** Improved validations and clear error messages ensure a smooth user experience even when inputs are malformed.
-- **Unified Experience:** The changes maintain backward compatibility while integrating new features seamlessly with existing plotting and configuration logic.
+- **Customization:** Offers users the ability to tailor plot aesthetics to suit diverse presentation needs.
+- **Enhanced User Experience:** Improves visual appeal and accessibility of plots through customizable themes.
+- **Seamless Integration:** Integrates with the existing architecture, leveraging configuration file support and diagnostics for real-time theme adjustments.
+
+## Documentation & Future Opportunities
+- Update the README and CONTRIBUTING guidelines to include instructions on developing and applying custom themes.
+- Future enhancements may include a theme marketplace or user-contributed theme repository, further extending the modularity of the CORE_ENGINE.
