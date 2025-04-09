@@ -31,10 +31,10 @@
 <p class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: &quot;nan&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;, and &quot;not-a-number&quot;. Developers can provide locale-specific aliases via the environment variable <code class="md-github">LOCALE_NAN_ALIASES</code> (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: &quot;Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.&quot;</p>
 </li>
 <li class="md-github">
-<p class="md-github">Optionally, users can completely override the default NaN aliases by setting the environment variable <code class="md-github">LOCALE_NAN_OVERRIDE</code> to a truthy value. When set, the parser will use only the custom aliases provided in <code class="md-github">LOCALE_NAN_ALIASES</code> without merging them with the default list.</p>
+<p class="md-github">Optionally, users can completely override the default NaN aliases by setting the environment variable <code class="md-github">LOCALE_NAN_OVERRIDE</code> to a truthy value. When set, the parser will use only the aliases specified in <code class="md-github">LOCALE_NAN_ALIASES</code> without merging them with the default list.</p>
 </li>
 <li class="md-github">
-<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (<code class="md-github">Number.NaN</code>) for a unified representation across advanced and non-advanced modes.</p>
+<p class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (<code class="md-github">Number.NaN</code>).</p>
 </li>
 <li class="md-github">
 <p class="md-github">Process all tokens using Unicode normalization (NFC) in addition to lower-casing and trimming. Numeric parameters are split by commas or semicolons when present, preserving multi-word NaN aliases, and fallback to splitting by whitespace if no comma or semicolon is found. This ensures that visually equivalent Unicode representations and multi-word aliases are recognized as valid.</p>
@@ -47,6 +47,9 @@
 </li>
 <li class="md-github">
 <p class="md-github">Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Note on JSON Serialization: Numeric tokens recognized as NaN (including custom aliases via <code class="md-github">LOCALE_NAN_ALIASES</code>) are converted to the native value <code class="md-github">Number.NaN</code>. When serialized using JSON.stringify, these values become <code class="md-github">null</code>. Users expecting a literal 'NaN' string in outputs should implement custom serialization logic or handle null values appropriately.</p>
 </li>
 </ol>
 <p class="md-github"><strong class="md-github">New Feature: JSON-Based Parameter Configuration</strong></p>
@@ -116,7 +119,7 @@ node src/lib/main.js &quot;chart:{\&quot;data\&quot;: [10, 20, 30], \&quot;label
 <pre class="md-github"><code class="md-github">Run with: [[&quot;quad&quot;, [1,NaN,5,-10,10]]]
 Run with: [[&quot;chart&quot;, { data: [10,20,30], label: &quot;Test&quot; }]]
 </code></pre>
-<p class="md-github">(Note: In JSON conversion, native NaN is represented as null.)</p>
+<p class="md-github">(Note: When using JSON.stringify, native NaN values are serialized as null.)</p>
 <h3 class="md-github"><a class="md-github__anchor" name="web-interface-usage" href="#web-interface-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface Usage</h3>
 <p class="md-github">The web interface provides similar numeric parameter validation. To test it locally:</p>
 <ol class="md-github">
@@ -150,7 +153,7 @@ node src/lib/main.js &quot;quad: 1, nicht eine zahl, 5&quot;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T07:34:50.514Z</p>
+    <p>Generated on 2025-04-09T07:41:40.617Z</p>
   </footer>
 </body>
 </html>
