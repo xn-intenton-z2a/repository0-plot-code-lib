@@ -1,11 +1,16 @@
 {
-  "openIssues": 62,
+  "openIssues": 64,
   "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Emit a warning when LOCALE_NAN_ALIASES contains invalid JSON and add corresponding tests and documentation. (fixes #1249)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 1,
-  "diffMinutesMain": 1,
+  "diffMinutesMain": 7,
   "commitsLastHour": 6,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -31,11 +36,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1249",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T03:55:09.193Z"
+  "generatedAt": "2025-04-09T04:01:27.734Z"
 }
