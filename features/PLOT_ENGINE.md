@@ -1,52 +1,35 @@
 # PLOT_ENGINE Feature Specification
 
 ## Overview
-This feature implements an enhanced plotting engine that evaluates mathematical expressions and generates clear ASCII plots. It functions both as a CLI tool and as an importable library function. Built around mathjs, the engine provides robust error handling and improved parsing of command-line arguments, aligning with our mission to deliver intuitive formula visualizations right from the terminal.
+This updated PLOT_ENGINE feature now combines the core plotting capabilities with file export functionality. It evaluates mathematical expressions and generates clear, colorized ASCII plots, and seamlessly integrates a file export utility. This consolidation enhances usability by streamlining CLI operations and library functions, aligning with our mission to be the go-to plot library for formula visualisations.
 
 ## Implementation Details
 ### CLI Integration
-- Extend the main CLI handler in `src/lib/main.js` to support a `--plot` flag along with optional flags `--interval` and `--step`.
-- Introduce a new `--color` flag to enable colorized output of the ASCII plot.
-- Enhance input parsing to validate interval format (e.g. `-15,15`) and numeric step size values.
-- Ensure graceful fallback to default values for interval `[-10, 10]` and a standard step size when optional parameters are missing or invalid.
+- Extend the main CLI handler in `src/lib/main.js` to support the `--plot` flag along with optional parameters: `--interval`, `--step`, `--color`, and now `--export`.
+- When the `--export` flag is provided (with an optional file path argument), compute the ASCII plot and write the output to the specified file, defaulting to a predefined filename if none is given.
+- Ensure that the exporting process is optional, and the standard console output is maintained if file I/O encounters errors.
 
-### Function Evaluation and Data Generation
-- Utilize mathjs to parse and evaluate the provided mathematical expression over a computed set of x-values.
-- Calculate corresponding y-values from the function evaluation and scale data appropriately for terminal display.
+### Function Evaluation and ASCII Plot Generation
+- Use mathjs to parse and evaluate the mathematical expression over computed x-values. 
+- Calculate corresponding y-values, scale data appropriately, and generate an ASCII plot.
+- Implement enhanced error handling and input validation to provide clear error messages for invalid expressions or parameter formats.
+- Add support for the `--color` flag to output colorized ASCII plots using ANSI escape sequences, conditionally enabled based on terminal capabilities.
 
-### Plot Generation
-- Convert evaluated data points into an ASCII plot, highlighting key function features such as intercepts, turning points, and discontinuities if applicable.
-- When the `--color` flag is active, incorporate ANSI escape sequences into the plot output to differentiate axes, curve lines, and data points. Detect terminal capabilities to ensure compatibility.
-- Wrap function calls to handle input validation and error messaging, similar to the CLI.
-
-### Library Exposure
-- Expose a function that accepts parameters (formula string, interval, step, and a color flag) and returns a string containing the ASCII plot. This facilitates integration both as a standalone CLI tool and as a library function in other applications.
-
-## Enhanced Error Handling & Defaults
-### Input Validation
-- Validate the mathematical expression using mathjs and provide clear error messages if the parsing fails.
-- Validate custom interval and step input. Distinguish between format errors and numeric correctness, and provide tailored feedback.
-
-### Defaults
-- Use default interval and step values when error conditions are met or when user inputs are absent.
-- Default to non-colorized output unless the `--color` flag is explicitly provided.
+### File Export Logic
+- Integrate Node’s built-in `fs` module to write the generated ASCII plot to a file when the `--export` flag is active. 
+- Handle file I/O errors gracefully, reverting output to the console if write operations fail.
+- Expose an export function (e.g., `exportPlot`) that can be invoked separately within the library for programmatic file exports.
 
 ## Testing and Documentation
 ### Testing
-- Unit tests should confirm that common functions (e.g., sin(x), x^2) are correctly parsed, evaluated, and rendered in both standard and colorized modes.
-- Compare generated ASCII output with expected patterns for given inputs.
-- Validate that appropriate error messages are returned for invalid expressions or malformed parameters.
+- Develop unit tests to validate plot generation with various flags: plain plotting, colorized plotting, and file export.
+- Simulate CLI commands with different combinations of flags (`--plot`, `--export`, `--color`, etc.) to ensure correct output and error reporting.
+- Mock file system operations to verify that export functionality writes the expected plot data without performing actual disk writes during tests.
 
-### Documentation and Examples
-- Update the README.md with usage examples:
-  - Basic plotting using the `--plot` flag.
-  - Advanced usage with custom `--interval`, `--step`, and the new `--color` option for enhanced visualization.
-  - Demonstrating library usage by importing the plotting function in JavaScript modules.
+### Documentation
+- Update the README.md, CONTRIBUTING.md, and DOCUMENTATION.md files to reflect the updated PLOT_ENGINE capabilities, including usage examples for file export functionality.
+- Provide detailed examples for both CLI and library usage:
+  - CLI: `node src/lib/main.js --plot "sin(x)" --color --export output.txt`
+  - Library: importing the `exportPlot` function to generate and save a plot from within a script.
 
-## Usage Example
-- **CLI Command without Colorization:**
-  - Run: `node src/lib/main.js --plot "sin(x)"`
-- **CLI Command with Colorization:**
-  - Run: `node src/lib/main.js --plot "sin(x)" --color`
-
-This enhancement reinforces our mission by broadening the visual appeal and clarity of the ASCII plots, making the tool more accessible and user-friendly for both casual users and developers.
+This consolidated feature enhances the repository by merging plotting and export functionalities into a single, efficient module, reducing redundancy and simplifying maintenance.
