@@ -69,9 +69,9 @@ function parseNumericParams(paramStr) {
 
     if (acceptedNaNAliases.has(normToken)) {
       if (process.env.DEBUG_NUMERIC) {
-        console.debug(`Normalized token '${trimmed}' to "NaN"`);
+        console.debug(`Normalized token '${trimmed}' to native NaN`);
       }
-      result.push("NaN");
+      result.push(Number.NaN);
     } else if (numericRegex.test(trimmed)) {
       result.push(Number(trimmed));
     } else {
@@ -208,4 +208,4 @@ const advancedPlots = {
   }
 };
 
-export { advancedPlots, getAcceptedNaNAliases };
+export { advancedPlots, getAcceptedNaNAliases, parseNumericParams };
