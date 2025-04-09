@@ -1,64 +1,70 @@
 # CORE_ENGINE Feature Specification
 
 ## Overview
-The CORE_ENGINE is the backbone of the plotting library. It consolidates essential plotting functionalities including advanced plotting, diagnostics, numeric parameter validation, an interactive CLI wizard, integrated preview mode, a built-in help system, web interface integration, and history logging. This unified engine ensures a consistent experience across CLI and web interactions.
+The CORE_ENGINE is the backbone of the plotting library. It brings together advanced plotting, diagnostics, numeric parameter validation, an interactive CLI wizard, integrated preview mode, built-in help support, web-interface integration, history logging, and now persistent user configuration management. This unified engine ensures a consistent and intuitive user experience across both CLI and web interactions.
 
 ## Description
-- **Advanced Plotting:** Supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, HTML) and various plot types such as spiral, polar heatmap, dual axis, box plot, violin plot, cumulative average, inverse function, modulated sine, extended 3D plot, test plot, contour plot, and scatter matrix.
+- **Advanced Plotting:** Supports multiple output formats (SVG, JSON, CSV, Markdown, ASCII, HTML) and a variety of plot types including spiral, polar heatmap, dual axis, box plot, violin plot, cumulative average, inverse function, modulated sine, extended 3D plot, test plot, contour plot, and scatter matrix.
 
-- **Diagnostics Mode:** Activated using the `--diagnostics` flag. Runs self-tests, health checks, and configuration verifications to provide detailed troubleshooting insights.
+- **Diagnostics Mode:** Activated using the `--diagnostics` flag. Runs self-tests, health checks, and configuration verifications, providing detailed troubleshooting insights.
 
-- **Numeric Parameter Validation:** Implements robust regex-based numeric validation including integers, decimals, scientific notation, and handles multiple accepted aliases for Not-a-Number (NaN): "NaN", "not a number", "notanumber", and "na" (case-insensitive and whitespace-tolerant). Provides explicit error messages for near miss tokens like "n/a".
+- **Numeric Parameter Validation:** Implements robust regex-based validation for numeric inputs (integers, decimals, scientific notation) and consistently converts accepted NaN aliases ("NaN", "not a number", "notanumber", "na", "not-a-number") to a normalized representation. Detailed error messages help users correct near-miss tokens such as "n/a".
 
-- **Interactive Wizard Mode & Logging:** Guides users through plot configuration via the CLI wizard (triggered by `--wizard`) and logs real-time debugging information.
+- **Interactive Wizard & Logging:** Guides users through plot configuration via the CLI wizard (triggered by `--wizard`), while logging debugging information in real time.
 
-- **Preview Mode:** Triggered by the `--preview` flag. Validates parameters, summarizes plot attributes (type, expected dimensions, output format), and provides immediate feedback without executing full plot rendering.
+- **Preview Mode:** Triggered by the `--preview` flag. Validates inputs, summarizes plot attributes, and provides immediate feedback without full plot rendering.
 
-- **Built-in CLI Help:** Introduces a comprehensive help system accessible with the `--help` flag. When triggered, the engine displays detailed usage instructions, descriptions of available commands and flags, and examples. This feature consolidates documentation from the README and CONTRIBUTING files to assist users in navigating the CLI.
+- **Built-in CLI Help:** Comprehensive help accessible with the `--help` flag. Displays usage instructions, command descriptions, flag details, and practical examples derived from repository documentation.
 
-- **Web Interface Integration:** Provides an Express-based server for generating plots via an HTML form, ensuring the web interface behavior is consistent with the CLI.
+- **Web Interface Integration:** Provides an Express-based server for generating plots via an HTML form, ensuring consistency between CLI and web interactions.
 
-- **History Logging:** Persists every executed plot command (advanced plotting, diagnostics, wizard mode, formula evaluations, and help requests) along with parameters and timestamps into a local JSON file. The `--history` flag allows users to review past commands.
+- **History Logging:** Records every executed plot command, along with parameters and timestamps, into a local JSON file. Users can review past commands using the `--history` flag.
+
+- **User Configuration Management:** Introduces persistent user settings. Users can create a configuration file (e.g., `~/.repo0_config.json`) to store preferred defaults such as plot type, output format, and other plotting parameters. The CORE_ENGINE reads these defaults at startup, allowing users to override them via CLI flags. This enhancement streamlines repetitive tasks and personalizes the plotting experience.
 
 ## Implementation Details
 1. **CLI Parser Enhancements:**
-   - Extend the CLI parser in `src/lib/main.js` to detect new flags: `--preview` for preview mode and `--help` for help.
-   - For the `--help` flag, bypass other operations and invoke the integrated help handler which outputs a structured guide on available commands and usage examples.
+   - Extend the CLI parser to detect additional flags for configuration management (e.g., `--set-defaults`, `--use-config`).
+   - Ensure the configuration file is read from a standard location (such as the user's home directory) and merged with command-line arguments.
 
-2. **Help Handler Function:**
-   - Develop a `displayHelp` function that compiles usage instructions from the repository documentation. This function should format output with clear sections describing available plotting modes (advanced, diagnostics, wizard, preview) and include examples.
-   - Ensure that the help output is concise yet comprehensive, making it easier for users to understand the plotting commands and their respective parameters.
+2. **Help Handler Updates:**
+   - Update the help system to include instructions on managing user configurations and setting default parameters.
 
 3. **Integration and Testing:**
-   - Integrate the help handler with the main control flow in `src/lib/main.js` so that when `--help` is detected, it outputs the help message and exits gracefully.
-   - Augment unit tests (e.g., in `tests/unit/main.test.js`) to verify help output and ensure that invoking the help flag does not interfere with other modes.
-   - Update the README and CONTRIBUTING documentation to include instructions on using the built-in help system.
+   - Incorporate the user configuration module into the main control flow in `src/lib/main.js`.
+   - Augment unit tests to validate that default configurations are correctly loaded and that CLI flags override these values as intended.
+   - Update the README and CONTRIBUTING files with usage examples and configuration file format details.
 
 ## Usage Examples
 
-**Advanced Plotting:**
+**Advanced Plotting Example:**
 ```bash
 node src/lib/main.js --advanced spiral "1,NaN,5,-10,10,1"
 ```
 
-**Preview Mode:**
+**Preview Mode Example:**
 ```bash
 node src/lib/main.js --preview spiral "1,NaN,5,-10,10,1"
 ```
 
-**Diagnostics Mode:**
+**User Configuration Setup:**
+Create a file at `~/.repo0_config.json` with content like:
+```json
+{
+  "defaultPlotType": "spiral",
+  "defaultOutputFormat": "SVG",
+  "defaultParams": "1,NaN,5,-10,10,1"
+}
+```
+Then run:
+```bash
+node src/lib/main.js --use-config
+```
+This will load your defaults, allowing you to omit common parameters from the command line.
+
+**Diagnostics Mode Example:**
 ```bash
 node src/lib/main.js --diagnostics
 ```
 
-**Interactive Wizard Mode:**
-```bash
-node src/lib/main.js --wizard
-```
-
-**CLI Help Mode:**
-```bash
-node src/lib/main.js --help
-```
-
-This updated CORE_ENGINE not only supports the comprehensive range of plotting functionalities but also empowers users with clarity through the integrated help system, ensuring a superior and accessible user experience.
+This updated CORE_ENGINE not only supports a comprehensive range of plotting functionalities but also enhances usability by allowing persistent user configurations, further aligning with our mission to be a go-to plot library for formulae visualisations.
