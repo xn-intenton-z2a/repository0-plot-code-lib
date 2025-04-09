@@ -1,49 +1,59 @@
 # PLOT_ENGINE
 
 ## Overview
-This feature is the core plotting and diagnostics engine of the repository. It now integrates extended plot types alongside the existing functionalities. In addition to the traditional plots (quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic), the updated PLOT_ENGINE provides support for new plot types such as dual axis plots, box plots, and violin plots. This enhancement further empowers users to analyze and visualize complex data patterns while maintaining robust numerical analysis capabilities including smoothing, cumulative average, derivative calculations, and area under the curve estimations.
+This update to the PLOT_ENGINE not only retains its role as the core plotting and numerical analysis module but also integrates a robust expression parsing and validation layer. By incorporating an expression parser, the engine can now process and validate plot specification strings (e.g., "quad:1,0,0,-10,10,1", "expr:Math.sin(x)*x:-10,10,0.5") before execution. This enhancement improves error handling, provides clearer feedback to users on malformed inputs, and leverages the mathjs library for complex expression evaluations, all while maintaining backward compatibility with legacy plot specifications.
 
 ## Key Objectives
-- **Comprehensive Plot Generation:**
-  - Support for traditional plot types: quadratic, linear, sine, cosine, tangent, polar, exponential, and logarithmic.
-  - **Extended Plot Types:** Introduce dual axis plots for comparing two related data series, box plots for statistical distribution, and violin plots for a detailed view of data density.
-- **Advanced Numerical Analysis:**
-  - Perform derivatives calculations using finite difference methods.
-  - Compute numerical integration (area under curve) via the trapezoidal rule.
-  - Provide statistical functions such as average, standard deviation, median, mode, smoothing (moving average), and cumulative average calculations.
-- **Robust Debug Logging:**
-  - Detailed logging for plot computations, parsing, and analysis when the `--debug` flag is enabled.
-- **CLI and API Integration:**
-  - Enhance CLI flags to support new analysis features with an optional `--analyze` flag, ensuring smooth integration with both interactive and web interfaces.
+- **Expression Parsing & Validation:**
+  - Implement a dedicated parsing component within the PLOT_ENGINE to interpret and validate plot specification strings.
+  - Use mathjs to evaluate and transform expressions, ensuring that formulas are syntactically and semantically correct.
+  - Provide precise error messages when an expression fails validation, aiding in quick debugging and user guidance.
 
-## Extended Plot Types
-- **Dual Axis Plotting:** Facilitate the visualization of two related datasets on different axes for direct comparison within one plot.
-- **Box Plot:** Provide statistical summaries including quartiles and outliers, enabling effective distribution analysis.
-- **Violin Plot:** Combine box plot features with a rotated kernel density plot for detailed examination of data distribution.
+- **Comprehensive Plot Generation:**
+  - Maintain support for traditional and extended plot types (quadratic, linear, sine, cosine, tangent, polar, exponential, logarithmic, dual axis, box, and violin plots).
+  - Ensure that numerical analysis (smoothing, derivative, integration, statistical functions) continues to operate seamlessly on validated inputs.
+
+- **Robust Debug Logging & CLI Integration:**
+  - Extend existing CLI flags (e.g., --analyze, --debug) to work in concert with the new parsing logic, providing detailed logs of parsing outcomes.
+  - Ensure that invalid inputs are handled gracefully without compromising the plotting pipeline.
+
+- **Documentation & Testing:**
+  - Update unit tests to cover the new expression parsing functionality.
+  - Revise the existing documentation (README and CONTRIBUTING guides) and usage examples to reflect the improvements in error handling and input validation.
 
 ## Design & Implementation
-- **Core Integration:**
-  - Leverage existing plotting functions and extend them to accommodate the new plot types.
-  - Ensure input validation, error handling, and consistent logging across all plot types.
-- **Modular Enhancements:**
-  - Implement additional functions for dual axis, box, and violin plotting within the numerical analysis module.
-  - Maintain backward compatibility with existing plot specifications.
-- **Testing & Documentation:**
-  - Expand the unit tests to cover all extended plot types and analytical functions (including smoothing and cumulative average).
-  - Update README and CONTRIBUTING documentation with new usage examples.
+### Expression Parsing Module
+- **Parser Integration:**
+  - Develop a new parser function or module (e.g., `src/lib/parser.js`) to process the raw plot specification string.
+  - The parser will analyze prefixes (like "quad:", "expr:" etc.) and parameters, converting them into a structured format for the plotting engine.
+  - Implement error-checking routines to detect syntax errors or unsupported operations using mathjs where applicable.
+
+### Modifications to the Plot Engine
+- **Input Flow Enhancement:**
+  - Update the main plotting routine to invoke the parser before any numerical computations or plotting is performed.
+  - If the parser encounters errors, immediately log detailed error messages and stop further processing.
+
+- **Backward Compatibility:**
+  - Ensure that legacy plot specifications continue to work without modification, but with the added benefit of improved error handling.
+  
+### CLI and Logging Improvements
+- Enhance CLI routing (in `src/lib/main.js`) so that invalid plot specifications trigger a clear diagnostic output.
+- Maintain robust error logging, especially when the `--debug` flag is used.
 
 ## Usage Examples
-- **Generating a Dual Axis Plot:**
+- **Valid Plot Specification with Expression Parsing:**
   ```bash
-  node src/lib/main.js dual_axis.svg "dual:dataset1,0,10,1;dataset2,0,10,1"
-  ```
-- **Creating a Box Plot with Analysis:**
-  ```bash
-  node src/lib/main.js boxplot.svg "box:1,2,3,4,5,6,7,8,9" --analyze
-  ```
-- **Debug Mode with Extended Plot Types:**
-  ```bash
-  node src/lib/main.js debug_plot.svg "violin:dataset" --debug --analyze
+  node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
   ```
 
-This update to the PLOT_ENGINE solidifies its role as the heart of the repository, empowering users with an even broader array of plotting options and in-depth numerical analysis to better visualize and interpret their data.
+- **Custom Mathematical Expression Validation:**
+  ```bash
+  node src/lib/main.js output.svg "expr:Math.sin(x)*x:-10,10,0.5"
+  ```
+
+- **Debug Mode to Trace Parsing:**
+  ```bash
+  node src/lib/main.js debug_plot.svg "expr:Math.sin(x)*x:-10,10,0.5" --debug
+  ```
+
+This update to the PLOT_ENGINE reinforces its central role by not only producing high-quality plots with extensive numerical analysis but also by ensuring that input expressions are correctly parsed and validated, aligning with our mission to be a go-to plotting library for formula visualizations.
