@@ -1,14 +1,18 @@
 {
-  "openIssues": 49,
-  "issuesClosedLastHour": 12,
+  "openIssues": 51,
+  "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 0,
-  "commitsLastHour": 9,
+  "diffMinutes": 17,
+  "diffMinutesMain": 17,
+  "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "00:39",
+      "message": "Improve error messaging for near-miss NaN tokens e.g. na in nume..."
+    },
     {
       "time": "00:32",
       "message": "Added advanced contour plot feature with corresponding tests and..."
@@ -24,10 +28,6 @@
     {
       "time": "23:56",
       "message": "Add conditional debug logging for NaN normalization in numeric p..."
-    },
-    {
-      "time": "23:53",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T00:32:52.936Z"
+  "generatedAt": "2025-04-09T00:56:51.276Z"
 }

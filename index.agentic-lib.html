@@ -29,7 +29,7 @@
 <ol class="md-github">
 <li class="md-github">Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: &quot;not a number&quot;, &quot;notanumber&quot;, and &quot;na&quot;.</li>
 <li class="md-github">Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string &quot;NaN&quot; for a unified representation across advanced and non-advanced modes.</li>
-<li class="md-github">Provide detailed error messages when encountering invalid numeric inputs.</li>
+<li class="md-github">Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like 'n/a' now produce an error message suggesting the accepted alternatives.</li>
 </ol>
 <p class="md-github">This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="debug-logging-for-numeric-conversion" href="#debug-logging-for-numeric-conversion"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debug Logging for Numeric Conversion</h2>
@@ -50,14 +50,21 @@ node src/lib/main.js --advanced testPlot &quot; 1, NaN , 5, -10, 10, 1&quot;
 <pre class="md-github"><code class="md-github">Advanced Plot: Test Plot
 Test Plot with params: [ 1, &quot;NaN&quot;, 5 ]
 </code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="advanced-plotting-contour-plot" href="#advanced-plotting-contour-plot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Plotting: Contour Plot</h3>
+<p class="md-github">A new advanced plotting feature for contour plots has been added. To render a contour plot, use the --advanced flag with the contourPlot option:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --advanced contourPlot &quot;1, NaN, 5, -10, 10, 1&quot;
+</code></pre>
+<p class="md-github"><strong class="md-github">Expected Console Output:</strong></p>
+<pre class="md-github"><code class="md-github">Advanced Plot: Contour Plot
+Plotting contour plot with params: [ 1, &quot;NaN&quot;, 5, -10, 10, 1 ]
+</code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="cli-usage-in-non-advanced-mode" href="#cli-usage-in-non-advanced-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage in Non-Advanced Mode</h3>
 <p class="md-github">When running without the <code class="md-github">--advanced</code> flag, the CLI automatically parses any parameter that is a comma-separated string, converting numbers accordingly. For example:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js &quot;quad: 1 , 2.14e-3 , not a number , -3.5E+2&quot;
 </code></pre>
 <p class="md-github"><strong class="md-github">Expected Console Output:</strong></p>
-<pre class="md-github"><code class="md-github">Run with: [&quot;quad&quot;,[1,2.14e-3,&quot;NaN&quot;,-350]]
+<pre class="md-github"><code class="md-github">Run with: [&quot;quad&quot;, [1, 2.14e-3, &quot;NaN&quot;, -350]]
 </code></pre>
-<p class="md-github"><em class="md-github">Note: The unified representation ensures that NaN, regardless of the mode, is represented as the string &quot;NaN&quot;.</em></p>
 <h3 class="md-github"><a class="md-github__anchor" name="web-interface-usage" href="#web-interface-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Interface Usage</h3>
 <p class="md-github">The web interface provides similar numeric parameter validation. To test it locally:</p>
 <ol class="md-github">
@@ -66,7 +73,7 @@ Test Plot with params: [ 1, &quot;NaN&quot;, 5 ]
 <pre class="md-github"><code class="md-github language-bash">npm run start:web
 </code></pre>
 <ol start="2" class="md-github">
-<li class="md-github">Open your browser and navigate to <code class="md-github">http://localhost:3000</code> (or the port specified by the <code class="md-github">PORT</code> environment variable). Use the provided form to select an advanced plot type (e.g., &quot;spiral&quot;) and enter a set of parameters, such as:</li>
+<li class="md-github">Open your browser and navigate to <code class="md-github">http://localhost:3000</code> (or the port specified by the <code class="md-github">PORT</code> environment variable). Use the provided form to select an advanced plot type (e.g., &quot;spiral&quot; or &quot;contourPlot&quot;) and enter a set of parameters, such as:</li>
 </ol>
 <pre class="md-github"><code class="md-github">1, na, 5, -10, 10, 1
 </code></pre>
@@ -80,6 +87,7 @@ Test Plot with params: [ 1, &quot;NaN&quot;, 5 ]
 <ul class="md-github">
 <li class="md-github">Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., <code class="md-github">1e4</code>, <code class="md-github">2.14e-3</code>, <code class="md-github">-3.5E+2</code>).</li>
 <li class="md-github">Various representations of NaN (&quot;NaN&quot;, &quot;not a number&quot;, &quot;notanumber&quot;, &quot;na&quot;) are accepted and converted to the string &quot;NaN&quot; to ensure a consistent interface.</li>
+<li class="md-github">Near-miss tokens like &quot;n/a&quot; now trigger an error message with suggestions for the accepted tokens.</li>
 <li class="md-github">Debug logging can be enabled via <code class="md-github">DEBUG_NUMERIC</code> to track NaN normalization.</li>
 <li class="md-github">The CLI and web interface now provide a unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.</li>
 </ul>
@@ -88,7 +96,7 @@ Test Plot with params: [ 1, &quot;NaN&quot;, 5 ]
 
   </section>
   <footer>
-    <p>Generated on 2025-04-09T00:33:04.467Z</p>
+    <p>Generated on 2025-04-09T00:57:01.179Z</p>
   </footer>
 </body>
 </html>
