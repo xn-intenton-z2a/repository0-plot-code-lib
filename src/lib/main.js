@@ -14,8 +14,9 @@ function errorExit(message) {
 const DEFAULT_NAN_ALIASES = new Set(["nan", "not a number", "notanumber", "na", "not-a-number"]);
 
 // Helper function for normalizing aliases
+// Updated normalization order: trim, normalize (NFC), then lower-case to properly handle decomposed Unicode forms
 function normalizeAlias(alias) {
-  return alias.toLocaleLowerCase().trim().normalize("NFC");
+  return alias.trim().normalize("NFC").toLocaleLowerCase();
 }
 
 // Utility function to get accepted NaN aliases

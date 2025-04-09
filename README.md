@@ -12,7 +12,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 3. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`).
 
-4. Process all tokens using a new unified normalization function that applies Unicode normalization (NFC), locale-aware lowercasing, and trimming. This refactoring, using a dedicated `DEFAULT_NAN_ALIASES` constant and `normalizeAlias` helper function, improves maintainability and readability.
+4. Process all tokens using a unified normalization function that now applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures that both precomposed and decomposed Unicode forms are treated as equivalent, enhancing consistency when handling locale-specific NaN aliases.
 
 5. Process numeric parameters by splitting on commas, semicolons, or whitespace as appropriate, without compromising strict validation of numeric inputs.
 
@@ -67,7 +67,7 @@ Normalized token 'na' to native NaN
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization, trailing delimiters, and JSON configuration):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, standardized Unicode normalization, trailing delimiters, and JSON configuration):
 
 ```bash
 # Example with advanced plotting using numeric parameters
