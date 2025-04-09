@@ -1,65 +1,49 @@
 # ACCESS_LAYER
 
 ## Overview
-This feature consolidates CLI operational modes with enhanced diagnostics, interactive session handling, an onboarding tutorial, and a unified alias configuration system. In this update, we extend alias management to support configuration import/export, allowing users to backup and migrate their alias settings, further streamlining command usage and enhancing user experience.
+This feature provides a unified interface for CLI operations including interactive sessions, diagnostics, onboarding tutorials, and alias management with enhanced import/export capabilities. The updated ACCESS_LAYER now integrates a robust interactive mode that guides users step by step, offering real-time command suggestions, dynamic error handling, and history logging. This update aligns closely with our mission, empowering users with a seamless plotting experience and robust CLI interactions.
 
 ## Key Objectives
-- **Unified CLI Experience:** Maintain support for diagnostics (--diagnostics), interactive mode (--interactive), tutorial (--tutorial), and alias management (--alias).
-- **Enhanced Diagnostics & Interactive Sessions:** Continue to provide detailed system configuration, runtime metrics, command history logging, and guided tutorials.
-- **Unified Alias Configuration with Extended Capabilities:**
-  - Allow users to define, list, and delete command aliases directly from the CLI.
-  - **New Import/Export Functionality:**
-    - `--alias export <file>`: Export current alias configurations to a specified JSON file for backup or migration.
-    - `--alias import <file>`: Import alias configurations from a specified JSON file.
-  - Ensure validation and error handling, preventing conflicts with existing CLI flags or reserved commands.
-- **Seamless Web API Integration:** Optionally extend the `/diagnostics` endpoint to include current alias configurations and import/export status when applicable.
+- **Enhanced Interactive Mode:**
+  - Provide a guided interactive session that supports real-time input validation, command suggestions, and error recovery.
+  - Log command history to help users review past interactions and facilitate troubleshooting.
+- **Extended Diagnostics:**
+  - Support traditional diagnostics flags along with the diagnostic API endpoint to return alias and session details.
+  - Offer detailed runtime metrics and system configuration data.
+- **Unified Alias Management with Import/Export:**
+  - Enable users to define, list, delete, export, and import CLI command aliases.
+  - Validate alias conflicts and ensure compatibility with reserved commands.
+- **Onboarding Tutorial Enhancement:**
+  - Integrate an interactive onboarding tutorial to educate new users on the CLI usage and plotting commands.
+  - Include dynamic walkthroughs based on user input to improve learning outcomes.
 
 ## Design & Implementation
-### CLI Parser Enhancements (src/lib/main.js)
-- **Flag Handling:**
-  - Process conventional flags: --diagnostics, --interactive, --tutorial.
-  - Extend the new flag `--alias` to support:
-    - Set alias: `--alias set <alias> <command>`
-    - List aliases: `--alias list`
-    - Delete alias: `--alias delete <alias>`
-    - Export aliases: `--alias export <file>`
-    - Import aliases: `--alias import <file>`
+- **CLI Parser Enhancements:**
+  - Extend argument parsing in `src/lib/main.js` to fully support interactive sessions, diagnostics, alias management, and tutorials.
+  - Introduce a subroutine for processing interactive commands with real-time suggestions and history logging.
+- **Interactive Session Module:**
+  - Develop a dedicated module to handle guided sessions that prompt the user for valid input and provide contextual help.
+  - Integrate logs to capture session histories and command feedback.
+- **Alias Configuration Module:**
+  - Augment existing alias functionality to support robust import and export operations, ensuring configurations can be backed up and restored.
+- **Web API Integration:**
+  - Optionally extend the diagnostics HTTP endpoint to include interactive session logs and current alias configurations.
 
-### Alias Management Module
-- **Implementation:**
-  - Integrate alias management within the CLI parser and manage alias data through a dedicated configuration file (e.g., aliases.json).
-  - Implement robust read/write operations along with import/export functionalities.
-  - Incorporate validation to ensure no conflicts with existing commands.
-
-### Web API Integration
-- Extend the `/diagnostics` endpoint to optionally return alias configuration details and import/export capabilities when queried (e.g., `?aliases=true`).
-
-### Testing and Documentation
-- **Unit Tests:**
-  - Update tests in `tests/unit/main.test.js` to cover alias setting, listing, deletion, as well as the new import/export commands.
-- **Documentation:**
-  - Revise README.md and CONTRIBUTING.md to document the new alias import/export functionalities with clear usage examples.
+## Testing and Documentation
+- Update unit and integration tests (e.g., in `tests/unit/main.test.js`) to cover new interactive session workflows, real-time feedback, and alias operations.
+- Revise documentation in README.md and CONTRIBUTING.md to include examples and guidelines for using the enhanced interactive mode and alias management features.
 
 ## Usage Examples
-- **Set an Alias:**
+- **Activating Enhanced Interactive Mode:**
   ```bash
-  node src/lib/main.js --alias set ls "--interactive"
+  node src/lib/main.js --interactive
   ```
-- **List Aliases:**
-  ```bash
-  node src/lib/main.js --alias list
-  ```
-- **Delete an Alias:**
-  ```bash
-  node src/lib/main.js --alias delete ls
-  ```
-- **Export Aliases:**
+- **Alias Export/Import Commands:**
   ```bash
   node src/lib/main.js --alias export my_aliases.json
-  ```
-- **Import Aliases:**
-  ```bash
   node src/lib/main.js --alias import my_aliases.json
   ```
-
-This update reinforces a streamlined and robust CLI experience by merging advanced diagnostics and interactive session management with a powerful and flexible alias configuration system, now enhanced by import/export capabilities.
+- **Accessing Onboarding Tutorial:**
+  ```bash
+  node src/lib/main.js --tutorial
+  ```
