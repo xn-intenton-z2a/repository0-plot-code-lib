@@ -107,7 +107,7 @@ function parseNumericParams(paramStr, errorHandler) {
     // Reject near-miss tokens such as "n/a"
     if (normToken === "n/a") {
       const accepted = Array.from(acceptedAliases).sort().join(", ");
-      throw new Error(`Invalid numeric parameter '${trimmedToken}'. Detected near-miss token 'n/a'. Accepted NaN aliases: ${accepted}.`);
+      throw new Error(`Invalid numeric parameter '${trimmedToken}'. Detected near-miss token 'n/a'. Expected ${process.env.STRICT_NAN_MODE ? "canonical NaN" : "an accepted NaN alias"}: ${accepted}.`);
     }
     // If token is a recognized NaN alias, return native NaN
     if (acceptedAliases.has(normToken)) {
@@ -125,7 +125,7 @@ function parseNumericParams(paramStr, errorHandler) {
       return Number(processedToken);
     }
     const accepted = Array.from(acceptedAliases).sort().join(", ");
-    throw new Error(`Invalid numeric parameter '${trimmedToken}'. Expected a valid number or an accepted NaN alias: ${accepted}.`);
+    throw new Error(`Invalid numeric parameter '${trimmedToken}'. Expected a valid number or ${process.env.STRICT_NAN_MODE ? "canonical NaN" : "an accepted NaN alias"}: ${accepted}.`);
   });
 
   for (const token of tokens) {
@@ -280,7 +280,7 @@ function main(args = []) {
         } else {
           parsedParams = paramStr ? parseNumericParams(paramStr) : [];
         }
-        console.log(`Run with: [[\"${label}\", ${JSON.stringify(parsedParams)}]]`);
+        console.log(`Run with: [["${label}", ${JSON.stringify(parsedParams)}]]`);
       } else if (arg.includes(",") || arg.includes(";") || /\s+/.test(arg)) {
         const parsed = parseNumericParams(arg);
         console.log(`Run with: ${JSON.stringify(parsed)}`);
