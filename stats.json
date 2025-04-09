@@ -1,14 +1,22 @@
 {
-  "openIssues": 74,
-  "issuesClosedLastHour": 2,
+  "openIssues": 75,
+  "issuesClosedLastHour": 4,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 2,
-  "diffMinutesMain": 8,
-  "commitsLastHour": 6,
+  "diffMinutes": 0,
+  "diffMinutesMain": 4,
+  "commitsLastHour": 7,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "05:07",
+      "message": "Maintain CORE_ENGINE"
+    },
+    {
+      "time": "05:06",
+      "message": "Fixed getAcceptedNaNAliases to extend default aliases with local..."
+    },
     {
       "time": "04:55",
       "message": "Maintain CORE_ENGINE"
@@ -20,27 +28,19 @@
     {
       "time": "04:45",
       "message": "Maintain CORE_ENGINE"
-    },
-    {
-      "time": "04:33",
-      "message": "Maintain CORE_ENGINE"
-    },
-    {
-      "time": "04:18",
-      "message": "Maintain WEB_INTERFACE"
     }
   ],
   "branches": {
     "count": 1,
     "details": [
       {
-        "branch": "agentic-lib-issue-1263",
-        "minutesSinceLastCommit": 2
+        "branch": "agentic-lib-issue-1267",
+        "minutesSinceLastCommit": 0
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T05:03:17.637Z"
+  "generatedAt": "2025-04-09T05:12:19.438Z"
 }
