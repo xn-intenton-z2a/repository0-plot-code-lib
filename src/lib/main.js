@@ -28,6 +28,24 @@ function normalizeAlias(alias) {
   return alias.trim().normalize("NFC").toLocaleLowerCase();
 }
 
+// Helper function to clean numeric token if thousands separator parsing is enabled
+function parseFormattedNumberValue(token) {
+  // Check if thousands separator processing is enabled
+  if (process.env.ENABLE_THOUSANDS_SEPARATOR) {
+    const locale = process.env.NUMERIC_LOCALE || 'en';
+    // For European locale, period is used as thousands separator and comma as decimal
+    if (locale.toLowerCase() === 'eu') {
+      // Remove all dots (thousands separator) and replace comma with period
+      token = token.replace(/\./g, '');
+      token = token.replace(/,/g, '.');
+    } else {
+      // Default to English style: remove commas used as thousands separators
+      token = token.replace(/,/g, '');
+    }
+  }
+  return token;
+}
+
 // Utility function to get accepted NaN aliases
 function getAcceptedNaNAliases() {
   // Normalize default aliases
@@ -61,6 +79,9 @@ function getAcceptedNaNAliases() {
   return defaultAliases;
 }
 
+// Regex for valid numeric values: integer, decimal or scientific notation.
+const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
+
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation using Zod schema validation.
 // Now leveraging Zod for declarative input transformation and validation to improve robustness and clarity.
 // Added an optional errorHandler callback parameter to allow customizable error processing instead of calling errorExit directly.
@@ -74,8 +95,6 @@ function parseNumericParams(paramStr, errorHandler) {
   }
 
   const result = [];
-  // Regex for valid numeric values: integer, decimal or scientific notation.
-  const numericRegex = /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/;
 
   // Zod schema for validating and transforming each token
   const tokenSchema = z.string().transform(token => {
@@ -92,8 +111,13 @@ function parseNumericParams(paramStr, errorHandler) {
       }
       return Number.NaN;
     }
-    if (numericRegex.test(trimmedToken)) {
-      return Number(trimmedToken);
+    // If thousands separator processing is enabled, clean the token
+    let processedToken = trimmedToken;
+    if (process.env.ENABLE_THOUSANDS_SEPARATOR) {
+      processedToken = parseFormattedNumberValue(trimmedToken);
+    }
+    if (numericRegex.test(processedToken)) {
+      return Number(processedToken);
     }
     throw new Error(`Invalid numeric parameter '${trimmedToken}'. Expected a valid number or an accepted NaN alias.`);
   });

@@ -50,11 +50,34 @@ This release includes improvements in numeric parameter handling. The core numer
    Normalized token 'na' to native NaN
    ```
 
+9. Locale-Specific Number Formatting (New)
+
+   By enabling thousands separator parsing using the environment variable `ENABLE_THOUSANDS_SEPARATOR`, the parser can now handle locale-specific number formats. Set `NUMERIC_LOCALE` to specify the format:
+
+   - For English (e.g., "1,234.56" becomes 1234.56), set `NUMERIC_LOCALE=en`.
+   - For European formats (e.g., "1.234,56" becomes 1234.56), set `NUMERIC_LOCALE=eu`.
+
+   Example for English:
+
+   ```bash
+   export ENABLE_THOUSANDS_SEPARATOR=true
+   export NUMERIC_LOCALE=en
+   node src/lib/main.js "quad: 1,234.56, NaN, 7,890"
+   ```
+
+   Example for European:
+
+   ```bash
+   export ENABLE_THOUSANDS_SEPARATOR=true
+   export NUMERIC_LOCALE=eu
+   node src/lib/main.js "quad: 1.234,56, NaN, 7.890"
+   ```
+
 ## Examples
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, and JSON configuration support):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of different delimiters, scientific notation, various NaN aliases including international variants, strict rejection of near-miss tokens, JSON configuration support, and locale-specific number formatting):
 
 ```bash
 # Example with advanced plotting using numeric parameters
@@ -117,6 +140,26 @@ node src/lib/main.js "quad: 1, no es un número, 5"
 ```
 
 Both commands will interpret the international alias as a NaN value.
+
+### Locale-Specific Number Formatting
+
+Enable locale-specific number formatting to correctly parse numbers with thousands separators:
+
+For English:
+
+```bash
+export ENABLE_THOUSANDS_SEPARATOR=true
+export NUMERIC_LOCALE=en
+node src/lib/main.js "quad: 1,234.56, NaN, 7,890"
+```
+
+For European:
+
+```bash
+export ENABLE_THOUSANDS_SEPARATOR=true
+export NUMERIC_LOCALE=eu
+node src/lib/main.js "quad: 1.234,56, NaN, 7.890"
+```
 
 ## Localization Support
 

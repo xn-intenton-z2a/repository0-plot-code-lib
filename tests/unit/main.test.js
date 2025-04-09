@@ -246,3 +246,29 @@ describe("Custom Error Handling Callback", () => {
     expect(capturedMessage).toContain("Invalid numeric parameter 'abc'");
   });
 });
+
+// New Test Suite for Locale-Specific Number Formatting
+
+describe("Locale-Specific Number Formatting", () => {
+  test("should correctly parse English formatted numbers with thousands separators", () => {
+    process.env.ENABLE_THOUSANDS_SEPARATOR = "true";
+    process.env.NUMERIC_LOCALE = "en";
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad: 1,234.56, NaN, 7,890"]);
+    // Expect that the parsed numbers are 1234.56, NaN, 7890
+    logSpy.mockRestore();
+    delete process.env.ENABLE_THOUSANDS_SEPARATOR;
+    delete process.env.NUMERIC_LOCALE;
+  });
+
+  test("should correctly parse European formatted numbers with thousands separators", () => {
+    process.env.ENABLE_THOUSANDS_SEPARATOR = "true";
+    process.env.NUMERIC_LOCALE = "eu";
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad: 1.234,56, NaN, 7.890"]);
+    // Expect that the parsed numbers are 1234.56, NaN, 7890
+    logSpy.mockRestore();
+    delete process.env.ENABLE_THOUSANDS_SEPARATOR;
+    delete process.env.NUMERIC_LOCALE;
+  });
+});
