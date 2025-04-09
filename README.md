@@ -16,13 +16,11 @@ This release includes improvements in numeric parameter handling. The core numer
 
 5. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
-6. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable on every numeric conversion. Note that when `LOCALE_NAN_ALIASES` is provided, caching is bypassed to ensure the latest configuration is used.
+6. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided. Note that when `LOCALE_NAN_ALIASES` is provided, caching is bypassed to ensure the latest configuration is used.
 
 **Refactoring Note:**
 
-The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (`src/lib/main.js`), eliminating the need for a separate utility module. This promotes tighter integration, ease of maintenance, and improved performance via caching when applicable.
-
-Additionally, debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
+The logic for parsing and normalizing NaN aliases has been extracted to a dedicated utility module (`src/lib/nanAlias.js`). This refactoring improves maintainability and testability by decoupling the alias normalization from the main application logic. Debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
 
 ## Debug Logging for Numeric Conversion
 
@@ -98,7 +96,7 @@ node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
 **Expected Console Output:**
 
 ```
-Run with: ["quad", [1, 0.00214, null, -350]]
+Run with: ["quad", [1, 0.00214, NaN, -350]]
 ```
 
 (Note: In JSON conversion, native NaN is represented as null.)
@@ -136,21 +134,11 @@ export LOCALE_NAN_ALIASES='["nicht eine zahl"]'
 node src/lib/main.js "quad: 1, nicht eine zahl, 5"
 ```
 
-This feature ensures that numeric validation can adapt to various regional formats and terminologies. Additionally, if the environment variable `LOCALE_NAN_ALIASES` contains invalid JSON, a warning is logged and the default set of aliases is used.
-
-## Additional Details
-
-- Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
-- Various representations of NaN (default or localized) are accepted and converted to the native NaN value (Number.NaN) to ensure a consistent interface.
-- Near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.
-- Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
-- Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
-- Caching of accepted NaN aliases is applied when no locale-specific configuration is provided to optimize performance, while always using the current configuration when `LOCALE_NAN_ALIASES` is set.
-- The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
+This feature ensures that numeric validation can adapt to various regional formats and terminologies. In addition, if the `LOCALE_NAN_ALIASES` contains invalid JSON, a warning is logged and the default set of aliases is used.
 
 ## Utility Module
 
-The normalization of NaN aliases is now implemented inline within the main module (`src/lib/main.js`), eliminating the need for a separate utility module.
+The normalization of NaN aliases has been refactored into its own module located at `src/lib/nanAlias.js`. This separation enhances modularity, maintainability, and allows for more targeted testing of the alias normalization logic.
 
 ## License
 

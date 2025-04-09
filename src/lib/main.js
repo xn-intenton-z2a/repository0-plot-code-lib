@@ -3,45 +3,11 @@
 ///////////////////////////////
 
 import { fileURLToPath } from "url";
-
-let cachedNaNAliases = null;
+import { getAcceptedNaNAliases } from "./nanAlias.js";
 
 function errorExit(message) {
   console.error(message);
   process.exit(1);
-}
-
-// Inline implementation of NaN alias normalization with caching
-function getAcceptedNaNAliases() {
-  // Use caching only when LOCALE_NAN_ALIASES is not set
-  if (!process.env.LOCALE_NAN_ALIASES && cachedNaNAliases !== null) {
-    return cachedNaNAliases;
-  }
-  const defaultAliases = ["nan", "not a number", "notanumber", "na", "not-a-number"];
-  let aliases = new Set();
-  // Normalize default aliases using lowercase, trim and Unicode NFC normalization
-  for (const token of defaultAliases) {
-    aliases.add(token.toLowerCase().trim().normalize('NFC'));
-  }
-  if (process.env.LOCALE_NAN_ALIASES) {
-    try {
-      const configured = JSON.parse(process.env.LOCALE_NAN_ALIASES);
-      if (Array.isArray(configured)) {
-        // Extend default aliases with locale specific ones normalized to NFC
-        for (const token of configured) {
-          aliases.add(token.toLowerCase().trim().normalize('NFC'));
-        }
-      } else {
-        console.warn("Invalid configuration for LOCALE_NAN_ALIASES: expected array, using default aliases.");
-      }
-    } catch (e) {
-      console.warn("Invalid configuration for LOCALE_NAN_ALIASES: unable to parse JSON, using default aliases.");
-    }
-  } else {
-    // Cache the computed default aliases if no locale-specific configuration is provided
-    cachedNaNAliases = aliases;
-  }
-  return aliases;
 }
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
