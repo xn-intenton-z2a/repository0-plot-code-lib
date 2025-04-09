@@ -3,11 +3,29 @@
 ///////////////////////////////
 
 import { fileURLToPath } from "url";
-import { getAcceptedNaNAliases } from "./nanAliases.js";
 
 function errorExit(message) {
   console.error(message);
   process.exit(1);
+}
+
+// Inline implementation of NaN alias normalization
+function getAcceptedNaNAliases() {
+  const defaultAliases = ["nan", "not a number", "notanumber", "na", "not-a-number"];
+  let aliases = new Set(defaultAliases);
+  if (process.env.LOCALE_NAN_ALIASES) {
+    try {
+      const configured = JSON.parse(process.env.LOCALE_NAN_ALIASES);
+      if (Array.isArray(configured)) {
+        aliases = new Set(configured.map(str => str.toLowerCase().trim()));
+      } else {
+        console.warn("Invalid configuration for LOCALE_NAN_ALIASES: expected array, using default aliases.");
+      }
+    } catch (e) {
+      console.warn("Invalid configuration for LOCALE_NAN_ALIASES: unable to parse JSON, using default aliases.");
+    }
+  }
+  return aliases;
 }
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
@@ -174,4 +192,4 @@ const advancedPlots = {
   }
 };
 
-export { advancedPlots };
+export { advancedPlots, getAcceptedNaNAliases };

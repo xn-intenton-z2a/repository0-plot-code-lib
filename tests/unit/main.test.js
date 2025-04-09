@@ -4,8 +4,7 @@
 // Updated tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
-import { main } from "../../src/lib/main.js";
-import { getAcceptedNaNAliases } from "../../src/lib/nanAliases.js";
+import { main, getAcceptedNaNAliases } from "../../src/lib/main.js";
 
 
 describe("Main Module Import", () => {
@@ -223,7 +222,7 @@ describe("Trailing Commas Handling", () => {
     let receivedParams;
     mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
     main(["--advanced", "testPlot", "1,,NaN,5,,"]);
-    expect(receivedParams).toEqual([1, "NaN", 5]);
+    expect(receivedParams).toEqual([1,"NaN",5]);
     mainModule.advancedPlots.testPlot = originalTestPlot;
     logSpy.mockRestore();
   });

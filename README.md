@@ -4,7 +4,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Enhanced Numeric Parameter Validation
 
-This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module with consolidated and optimized regex-based validation. Both the CLI and the web interface use this logic to:
+This release includes improvements in numeric parameter handling. The core numeric conversion logic is now implemented in the main module (`src/lib/main.js`) with consolidated and optimized regex-based validation. Both the CLI and the web interface use this logic to:
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided JSON is invalid, a warning will be emitted and the default set will be used.
 
@@ -16,7 +16,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 **Refactoring Note:**
 
-The logic for parsing and normalizing NaN aliases has been modularized into its own utility module (`src/lib/nanAliases.js`). This promotes better code organization and reusability.
+The logic for parsing and normalizing NaN aliases has been implemented inline within the main module (`src/lib/main.js`) instead of in a separate utility file. This promotes tighter integration and ease of maintenance.
 
 Additionally, debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
 
@@ -143,7 +143,7 @@ This feature ensures that numeric validation can adapt to various regional forma
 
 ## Utility Module
 
-The normalization of NaN aliases has been refactored into its own utility module at `src/lib/nanAliases.js` for improved modularity and maintainability.
+The normalization of NaN aliases is now implemented inline within the main module (`src/lib/main.js`), eliminating the need for a separate utility module.
 
 ## License
 
