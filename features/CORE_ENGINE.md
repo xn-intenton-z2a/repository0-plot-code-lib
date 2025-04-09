@@ -1,67 +1,48 @@
 # CORE_ENGINE
 
 ## Overview
-
-The CORE_ENGINE is the backbone of our plotting library. It manages advanced plotting, formula evaluation, diagnostics, and now an interactive CLI wizard. The engine integrates numeric parameter validation and supports dynamic plot types along with optional plugin extensions. This update enhances the user experience by offering a guided command-line interface for plot configuration and introduces a new diagnostics mode for improved debugging and configuration transparency.
+The CORE_ENGINE is the backbone of our plotting library. It not only manages advanced plotting functions such as spiral, polarHeatmap, dualAxis, and more, but also now robustly handles numeric parameter validation, interactive CLI wizard operations, and system diagnostics. This integration ensures that numeric inputs are safely and consistently converted using features like Unicode normalization and caching of NaN aliases.
 
 ## Motivation
+- **Unified Experience:** Bring advanced plotting, precise numeric parameter validation, plugin integration, and diagnostics into one cohesive engine.
+- **Improved Reliability:** Ensure all numeric inputs are processed with rigorous validation using a well-defined set of accepted NaN aliases (e.g., "nan", "not a number", "notanumber", "na", "not-a-number") and locale-specific configurations.
+- **User Guidance:** Provide an interactive CLI wizard to guide users through plot configuration, along with a diagnostics mode for error-checking and system configuration review.
 
-- **Unified Experience:** Consolidate advanced plotting, configuration, plugin integration, and diagnostics under one cohesive engine.
-- **User Guidance:** Lower the barrier for new users with an interactive CLI wizard that guides users through selecting plot types, entering numeric parameters, and choosing themes or plugins.
-- **Debugging & Transparency:** Empower developers and users to easily inspect system configurations, environment variables, and plugin statuses via the diagnostics mode.
-- **Extensibility:** Seamlessly integrate with the PLUGIN_SYSTEM to allow dynamic addition of new plot types without modifying core logic.
+## Numeric Parameter Validation
+- **Consolidated Validation:** Utilizes a dedicated utility within the CORE_ENGINE to parse numeric parameters. The utility applies a strict regex for integer, decimal, and scientific notation values.
+- **NaN Handling:** Automatically converts any token matching the accepted NaN aliases to the native JavaScript NaN. The system supports locale-specific aliases via the `LOCALE_NAN_ALIASES` environment variable, with caching applied when no locale customization is provided.
+- **Error Messaging:** Provides clear error messages if malformed inputs or near-miss tokens (e.g., "n/a") are detected, suggesting the accepted tokens.
+- **Integration:** This validation mechanism is used uniformly across both CLI and WEB_API inputs, ensuring consistency across the repository.
 
-## Implementation Details
+## Interactive CLI Wizard
+- **Guided Workflow:** When triggered with the `--wizard` flag, the CLI presents a step-by-step interface that helps users choose the plot type, enter numeric parameters with inline validation, and optionally select plugins.
+- **Validation Integration:** The wizard leverages the numeric parameter utility to ensure all inputs meet strict standards, incorporating detailed real-time feedback when errors are detected.
+- **User Flexibility:** Users can confirm or cancel the configuration, reverting to defaults if needed.
 
-1. **Legacy Plotting Support:**
-   - Maintain existing plotting functions (spiral, polarHeatmap, dualAxis, etc.) with robust numeric parameter conversion.
-   - Ensure error handling is consistent and clear for all numeric inputs.
+## Diagnostics Mode
+- **Comprehensive Diagnostics:** Activated using the `--diagnostics` flag, this mode displays detailed system diagnostics including current numeric configuration, environment variables (like `LOCALE_NAN_ALIASES` and `DEBUG_NUMERIC`), and plugin status information.
+- **Self-Check Capabilities:** Performs a self-check on numeric conversion utilities to verify that accepted aliases are applied correctly, and that caching is operational to optimize performance.
+- **Troubleshooting Support:** Provides clear logging for any issues encountered during numeric conversion or plugin integration, making it easier for developers and users to diagnose problems.
 
-2. **Interactive CLI Wizard:**
-   - **Trigger:** Activate wizard mode with a `--wizard` flag (in addition to the existing `--advanced` flag).
-   - **Flow:**
-     - Prompt the user to select a plot type from the list of supported plots.
-     - Request numeric parameters with inline validation using the established numeric conversion utility.
-     - Allow selection of visual themes and optional plugin usage if the PLUGIN_SYSTEM is enabled.
-     - Confirm or allow cancellation of the configuration, reverting to default settings if necessary.
-   - **Implementation:** Provided in a dedicated module (e.g., `src/lib/cliWizard.js`) and integrated into the main execution flow.
-
-3. **Diagnostics Mode (New):**
-   - **Trigger:** Activate using the `--diagnostics` flag.
-   - **Behavior:**
-     - Display detailed system diagnostics including current configuration settings, active environment variables (e.g., `LOCALE_NAN_ALIASES`, `DEBUG_NUMERIC`), and status of plugin registration.
-     - Perform a self-check on numeric conversion utilities to validate accepted NaN aliases and other system settings.
-     - Help developers quickly identify misconfigurations, validate expected behavior, and troubleshoot issues.
-   - **Implementation:** Integrated into the main control flow (`src/lib/main.js`), with diagnostic information output to the console.
-
-4. **Integration with Existing Functionality:**
-   - Re-use the existing numeric validation and plugin integration components.
-   - Ensure the new diagnostics mode does not interfere with the CLI wizard or advanced plotting functionalities.
-   - Update documentation and tests to cover the new diagnostics feature.
+## Integration with Other Components
+- **Plugin System:** Seamlessly integrates with the PLUGIN_SYSTEM, so that any dynamic extensions can contribute to both interactive plotting and diagnostics reports.
+- **Web API:** Shares common utilities (numeric validation, error handling) with the WEB_API, ensuring consistency throughout CLI and web-based interactions.
 
 ## Usage Examples
 
 **Running the Interactive CLI Wizard:**
-
 ```bash
 node src/lib/main.js --wizard
 ```
 
-**Running Advanced Plot Types:**
-
+**Running Advanced Plot Types with Validation:**
 ```bash
 node src/lib/main.js --advanced contourPlot "1, NaN, 5, -10, 10, 1"
 ```
 
 **Viewing Diagnostics Information:**
-
 ```bash
 node src/lib/main.js --diagnostics
 ```
 
-In diagnostics mode, users will see output detailing:
-- The list of accepted NaN aliases and any localized additions.
-- Current configuration settings and environment variable values.
-- Status of any plugins loaded through the PLUGIN_SYSTEM.
-
-This enhancement not only bolsters the plotting capabilities but also supports our mission to be the go-to plot library by offering deep insights for debugging, configuration validation, and improved user support.
+This comprehensive CORE_ENGINE update not only bolsters the plotting capabilities but also embeds robust input validation and diagnostic support, reinforcing our mission to be the go-to plot library for formulae visualisations.
