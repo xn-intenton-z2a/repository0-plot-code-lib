@@ -1,6 +1,6 @@
 {
-  "openIssues": 100,
-  "issuesClosedLastHour": 12,
+  "openIssues": 21,
+  "issuesClosedLastHour": 100,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
@@ -9,6 +9,14 @@
   "commitsLastHour": 11,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "10:26",
+      "message": "Refined NaN handling and normalization in numeric parameter pars..."
+    },
+    {
+      "time": "10:21",
+      "message": "Maintain USER_INTERFACE"
+    },
     {
       "time": "10:13",
       "message": "Refactored CLI to support batch plotting commands and updated te..."
@@ -20,14 +28,6 @@
     {
       "time": "10:06",
       "message": "Maintain USER_INTERFACE"
-    },
-    {
-      "time": "09:59",
-      "message": "Implemented strict NaN mode to accept only canonical NaN when ST..."
-    },
-    {
-      "time": "09:54",
-      "message": "Maintain CORE_ENGINE"
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T10:18:11.308Z"
+  "generatedAt": "2025-04-09T10:31:32.988Z"
 }
