@@ -24,7 +24,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 5. Provide detailed error messages when encountering invalid numeric inputs. The integration of Zod standardizes and simplifies this validation logic.
 
-6. New Feature: JSON-Based Parameter Configuration
+6. **New Feature: JSON-Based Parameter Configuration**
 
    Advanced plot functions now also accept a JSON configuration for more complex parameter setups. When using the `--advanced` flag (or in colon-separated non-advanced mode), if the parameter string starts with a `{` and ends with a `}`, it will be parsed as JSON. This allows you to pass additional options such as labels, colors, and other plot settings. For example:
 
@@ -32,11 +32,21 @@ This release includes improvements in numeric parameter handling. The core numer
    node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "title": "My Box Plot", "color": "blue"}'
    ```
 
-7. Customizable Error Handling Hooks
+7. **New Feature: Batch Plotting Commands**
+
+   You can now pass multiple plotting commands in a single CLI invocation. Both advanced and non-advanced commands are processed sequentially. For instance, you can run:
+
+   ```bash
+   node src/lib/main.js "quad: 1,2,3,4" --advanced spiral "1, NaN, 5, 10"
+   ```
+
+   This will process two separate plotting commands in one execution.
+
+8. Customizable Error Handling Hooks
 
    The numeric parameter parsing function `parseNumericParams` now accepts an optional error handling callback. When provided, instead of terminating the process on encountering an invalid token or near-miss token (like "n/a"), the callback is invoked with a descriptive error message.
 
-8. Debug Logging for Numeric Conversion
+9. Debug Logging for Numeric Conversion
 
    Developers can enable debug logging to trace NaN alias normalization by setting the environment variable `DEBUG_NUMERIC` to a truthy value. For example:
 
@@ -51,40 +61,50 @@ This release includes improvements in numeric parameter handling. The core numer
    Normalized token 'na' to native NaN
    ```
 
-9. Locale-Specific Number Formatting
+10. Locale-Specific Number Formatting
 
-   By enabling thousands separator parsing using the environment variable `ENABLE_THOUSANDS_SEPARATOR`, the parser can now handle locale-specific number formats. Set `NUMERIC_LOCALE` to specify the format:
+    By enabling thousands separator parsing using the environment variable `ENABLE_THOUSANDS_SEPARATOR`, the parser can now handle locale-specific number formats. Set `NUMERIC_LOCALE` to specify the format:
 
-   - For English (e.g., "1,234.56" becomes 1234.56), set `NUMERIC_LOCALE=en`.
-   - For European formats (e.g., "1.234,56" becomes 1234.56), set `NUMERIC_LOCALE=eu`.
+    - For English (e.g., "1,234.56" becomes 1234.56), set `NUMERIC_LOCALE=en`.
+    - For European formats (e.g., "1.234,56" becomes 1234.56), set `NUMERIC_LOCALE=eu`.
 
-   Example for English:
+    Example for English:
 
-   ```bash
-   export ENABLE_THOUSANDS_SEPARATOR=true
-   export NUMERIC_LOCALE=en
-   node src/lib/main.js "quad: 1,234.56, NaN, 7,890"
-   ```
+    ```bash
+    export ENABLE_THOUSANDS_SEPARATOR=true
+    export NUMERIC_LOCALE=en
+    node src/lib/main.js "quad: 1,234.56, NaN, 7,890"
+    ```
 
-   Example for European:
+    Example for European:
 
-   ```bash
-   export ENABLE_THOUSANDS_SEPARATOR=true
-   export NUMERIC_LOCALE=eu
-   node src/lib/main.js "quad: 1.234,56, NaN, 7,890"
-   ```
+    ```bash
+    export ENABLE_THOUSANDS_SEPARATOR=true
+    export NUMERIC_LOCALE=eu
+    node src/lib/main.js "quad: 1.234,56, NaN, 7,890"
+    ```
 
-10. JSON Serialization Note
+11. JSON Serialization Note
 
     It is important to note that while the parser converts recognized NaN tokens to JavaScript's native `NaN`, when serialized to JSON using `JSON.stringify`, these values appear as `null`. This behavior is inherent to JSON and should be accounted for when integrating with web interfaces or other components that consume JSON data.
 
-11. Strict NaN Mode
+12. Strict NaN Mode
 
     With this new mode, if the environment variable `STRICT_NAN_MODE` is enabled, only the canonical (normalized) 'NaN' token is accepted as a valid NaN indicator. All alternative aliases (e.g., "na", "not a number") will be rejected, enforcing unambiguous numeric input.
 
 ## Extended Unicode Support
 
 This update further enhances Unicode normalization to correctly process extended Unicode representations, including non-Latin scripts such as Cyrillic and Japanese. Users can now configure custom NaN aliases in any Unicode script, and the normalization logic will accurately transform decomposed forms to their canonical representations.
+
+## Batch Plotting Commands
+
+You can now execute multiple distinct plotting commands in a single CLI invocation. Commands can be mixed between advanced (prefixed with `--advanced`) and non-advanced (colon-separated format). Each command is processed sequentially with independent validation and logging. For example:
+
+```bash
+node src/lib/main.js "quad: 1,2,3,4" --advanced testPlot "1, NaN, 5" "chart:{\"data\":[10,20,30],\"label\":\"Test\"}"
+```
+
+This command will execute three plotting operations in order.
 
 ## Examples
 
@@ -114,19 +134,6 @@ Advanced Plot: Box Plot
 Plotting box plot with params: { data: [1, 2, 3, 4], title: 'My Box Plot', color: 'blue' }
 ```
 
-### Advanced Plotting: Contour Plot
-
-```bash
-node src/lib/main.js --advanced contourPlot "1; NaN  5, -10, 10"
-```
-
-**Expected Console Output:**
-
-```
-Advanced Plot: Contour Plot
-Plotting contour plot with params: [ 1, NaN, 5, -10, 10 ]
-```
-
 ### CLI Usage in Non-Advanced Mode
 
 When running without the `--advanced` flag, the CLI automatically parses arguments that are colon-separated into a label and numeric parameters or a JSON configuration. For example:
@@ -142,6 +149,16 @@ node src/lib/main.js "chart:{\"data\": [10, 20, 30], \"label\": \"Test\"}"
 Run with: [["quad", [1, NaN, 5, -10, 10]]]
 Run with: [["chart", { data: [10, 20, 30], label: "Test" }]]
 ```
+
+### Batch Plotting Commands
+
+Multiple plotting commands can now be executed in a single invocation. For instance:
+
+```bash
+node src/lib/main.js "quad: 1,2,3,4" --advanced spiral "1, NaN, 5, 10"
+```
+
+This command will process two separate plotting operations one after the other.
 
 ### International and Extended Unicode NaN Aliases
 
