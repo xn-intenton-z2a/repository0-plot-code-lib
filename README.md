@@ -10,7 +10,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`) for a unified representation across advanced and non-advanced modes.
 
-3. Process all tokens and aliases using Unicode normalization (NFC) in addition to lower-casing and trimming, ensuring that visually equivalent Unicode representations are recognized as valid.
+3. Process all tokens using Unicode normalization (NFC) in addition to lower-casing and trimming. Numeric parameters are split by commas or semicolons when present, preserving multi-word NaN aliases, and fallback to splitting by whitespace if no comma or semicolon is found. This ensures that visually equivalent Unicode representations and multi-word aliases are recognized as valid.
 
 4. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases.
 
@@ -20,7 +20,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 **New Feature:**
 
-Numeric parameter parsing now supports additional delimiters including semicolons and whitespace. For example, both "1, NaN, 5" and "1;NaN;5" or even "1  NaN  5" are correctly parsed.
+Numeric parameter parsing now supports additional delimiters including semicolons. For example, both "1, NaN, 5" and "1;NaN;5" or even "1  NaN  5" (whitespace-separated) are correctly parsed. 
 
 ## Debug Logging for Numeric Conversion
 
@@ -96,7 +96,7 @@ node src/lib/main.js "quad: 1 ; 2.14e-3  not a number   -3.5E+2"
 **Expected Console Output:**
 
 ```
-Run with: ["quad", [1, 0, 5, -10, 10]]
+Run with: ["quad", [1,0,5,-10,10]]
 ```
 
 (Note: In JSON conversion, native NaN is represented as null.)
