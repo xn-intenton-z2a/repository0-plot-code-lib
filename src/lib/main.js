@@ -21,7 +21,7 @@ function getAcceptedNaNAliases() {
         return defaultAliases;
       }
       const normalized = new Set(
-        customAliases.map(alias => alias.toLowerCase().trim().normalize("NFC"))
+        customAliases.map(alias => alias.toLocaleLowerCase().trim().normalize("NFC"))
       );
       // Check if override flag is set; if so, use only the custom aliases
       if (process.env.LOCALE_NAN_OVERRIDE) {
@@ -61,7 +61,7 @@ function parseNumericParams(paramStr, errorHandler) {
 
   // Zod schema for validating and transforming each token
   const tokenSchema = z.string().transform(token => {
-    const normToken = token.toLowerCase().trim().normalize("NFC");
+    const normToken = token.toLocaleLowerCase().trim().normalize("NFC");
     if (normToken === "n/a") {
       throw new Error(`Invalid numeric parameter '${token.trim()}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
     }
