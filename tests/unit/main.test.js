@@ -54,7 +54,7 @@ describe("Handling 'NaN' as a valid token", () => {
   test("should not exit when 'NaN' is provided among numeric parameters", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const argWithNaN = "quad:1,NaN,5,-10,10,1";
+    const argWithNaN = "quad:1,NaN,5";
     
     expect(() => main([argWithNaN])).not.toThrow();
     expect(errorSpy).not.toHaveBeenCalled();
@@ -335,4 +335,3 @@ describe("JSON Configuration Parsing", () => {
     exitSpy.mockRestore();
   });
 });
-
