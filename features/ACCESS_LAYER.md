@@ -1,35 +1,44 @@
 # ACCESS_LAYER
 
 ## Overview
-This feature consolidates CLI operational modes with enhanced diagnostics, interactive session handling, an onboarding tutorial, and a new unified alias configuration system. The alias system simplifies command invocation by allowing users to define short commands or alternate names for frequently used options, thereby reducing complexity in repetitive tasks.
+This feature consolidates CLI operational modes with enhanced diagnostics, interactive session handling, an onboarding tutorial, and a unified alias configuration system. In this update, we extend alias management to support configuration import/export, allowing users to backup and migrate their alias settings, further streamlining command usage and enhancing user experience.
 
 ## Key Objectives
-- **Unified CLI Experience:** Support diagnostics (--diagnostics), interactive mode (--interactive), tutorial (--tutorial), and now alias management (--alias) through a single, consistent interface.
-- **Robust Diagnostics & Interactive Sessions:** Continue to provide detailed system configuration, runtime metrics, command history logging, and guided tutorials.
-- **Unified Alias Configuration:** Allow users to define, list, and delete command aliases directly from the CLI. This feature will enable streamlined command input and easier command recall.
-- **Seamless Web API Integration:** Maintain the diagnostics endpoint (/diagnostics) to serve both the existing diagnostics information and alias configuration status when applicable.
+- **Unified CLI Experience:** Maintain support for diagnostics (--diagnostics), interactive mode (--interactive), tutorial (--tutorial), and alias management (--alias).
+- **Enhanced Diagnostics & Interactive Sessions:** Continue to provide detailed system configuration, runtime metrics, command history logging, and guided tutorials.
+- **Unified Alias Configuration with Extended Capabilities:**
+  - Allow users to define, list, and delete command aliases directly from the CLI.
+  - **New Import/Export Functionality:**
+    - `--alias export <file>`: Export current alias configurations to a specified JSON file for backup or migration.
+    - `--alias import <file>`: Import alias configurations from a specified JSON file.
+  - Ensure validation and error handling, preventing conflicts with existing CLI flags or reserved commands.
+- **Seamless Web API Integration:** Optionally extend the `/diagnostics` endpoint to include current alias configurations and import/export status when applicable.
 
 ## Design & Implementation
 ### CLI Parser Enhancements (src/lib/main.js)
 - **Flag Handling:**
-  - Process traditional flags: --diagnostics, --interactive, --tutorial.
-  - Introduce a new flag, --alias, which will trigger alias management commands. For example:
-    - `--alias set <alias> <command>` to create an alias.
-    - `--alias list` to display all available aliases.
-    - `--alias delete <alias>` to remove an alias.
+  - Process conventional flags: --diagnostics, --interactive, --tutorial.
+  - Extend the new flag `--alias` to support:
+    - Set alias: `--alias set <alias> <command>`
+    - List aliases: `--alias list`
+    - Delete alias: `--alias delete <alias>`
+    - Export aliases: `--alias export <file>`
+    - Import aliases: `--alias import <file>`
 
 ### Alias Management Module
 - **Implementation:**
-  - Integrate alias management into the existing CLI parser.
-  - Store aliases in a dedicated configuration file (e.g., aliases.json) with secure read/write operations.
-  - Provide validation and error handling to ensure that alias names do not conflict with existing flags or reserved commands.
+  - Integrate alias management within the CLI parser and manage alias data through a dedicated configuration file (e.g., aliases.json).
+  - Implement robust read/write operations along with import/export functionalities.
+  - Incorporate validation to ensure no conflicts with existing commands.
 
 ### Web API Integration
-- Optionally extend the `/diagnostics` endpoint to include current alias configurations when requested (e.g., via query parameter `?aliases=true`).
+- Extend the `/diagnostics` endpoint to optionally return alias configuration details and import/export capabilities when queried (e.g., `?aliases=true`).
 
 ### Testing and Documentation
-- **Unit Tests:** Extend tests in `tests/unit/main.test.js` to cover alias creation, listing, and deletion scenarios.
-- **Documentation:** Update README.md and CONTRIBUTING.md with examples on how to use the alias system along with the other CLI modes.
+- **Unit Tests:**
+  - Update tests in `tests/unit/main.test.js` to cover alias setting, listing, deletion, as well as the new import/export commands.
+- **Documentation:**
+  - Revise README.md and CONTRIBUTING.md to document the new alias import/export functionalities with clear usage examples.
 
 ## Usage Examples
 - **Set an Alias:**
@@ -44,5 +53,13 @@ This feature consolidates CLI operational modes with enhanced diagnostics, inter
   ```bash
   node src/lib/main.js --alias delete ls
   ```
+- **Export Aliases:**
+  ```bash
+  node src/lib/main.js --alias export my_aliases.json
+  ```
+- **Import Aliases:**
+  ```bash
+  node src/lib/main.js --alias import my_aliases.json
+  ```
 
-This update to ACCESS_LAYER ensures a streamlined and efficient CLI experience by integrating a unified alias configuration system with the existing diagnostic, interactive, and tutorial functionalities.
+This update reinforces a streamlined and robust CLI experience by merging advanced diagnostics and interactive session management with a powerful and flexible alias configuration system, now enhanced by import/export capabilities.
