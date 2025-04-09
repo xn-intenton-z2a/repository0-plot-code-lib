@@ -1,16 +1,29 @@
 # CLI_ASSIST Feature
 
 ## Overview
-This feature merges the traditional CLI help system with an interactive wizard mode to create a comprehensive command-line assistant. It guides users through plot configuration, parameter entry, and troubleshooting in a step-by-step manner. The CLI assistant offers contextual help messages and interactive prompts instead of static information, making the plotting tool more user-friendly and accessible for both novice and advanced users.
+This feature builds upon our existing command-line assistant to not only provide interactive help and wizard-based configuration, but also incorporate an ASCII preview mode for rapid, text-based visualisation of plots. The addition of ASCII preview allows users to quickly see a rudimentary, terminal-friendly representation of their plot before committing to full generation or export. This enhancement supports our mission to provide accessible, real-time visual feedback and make plotting both intuitive and engaging.
 
 ## Implementation Details
-- **Interactive Wizard Integration:** Enhance the existing help system to include an interactive mode triggered by a new flag (e.g., `--assist`). In this mode, users are walked through configuring plots using prompts and on-screen instructions.
-- **Contextual Assistance:** Merge static help (triggered by `--help`) with dynamic assistance where suggestions and parameter validations are provided in real-time based on user input. The system will detect and respond to invalid inputs with guided corrections.
-- **Wizard Flow:** Design a sequential interactive flow that covers plot selection, numeric parameter input (leveraging the robust numeric validation from CORE_ENGINE), and an overview of export options. Use clear messaging to encourage best practices outlined in README and CONTRIBUTING guidelines.
-- **Integration:** Update the main CLI module (`src/lib/main.js`) to incorporate the wizard mode seamlessly. Ensure that the interactive prompts do not conflict with existing parameter parsing logic.
-- **Testing:** Extend unit tests to simulate interactive CLI sessions and verify that the wizard properly validates inputs, handles errors with custom callbacks, and provides clear instructions as per the mission of the library.
+- **Enhanced Interactive Wizard:**
+  - Extend the existing CLI wizard mode triggered by the `--assist` flag to include context-sensitive guidance on plot configuration.
+  - Integrate advanced numeric validation and real-time error corrections as per our current Zod-based parsing logic.
+
+- **ASCII Preview Mode:**
+  - Introduce a new CLI flag (e.g., `--preview`) that, when combined with a valid plot command, renders a simplified ASCII art version of the plot in the terminal.
+  - Develop a lightweight module that translates plot parameters into an ASCII art representation, suitable for quick visual feedback.
+  - Ensure consistency with supported plot types and reuse the core plotting logic where applicable.
+
+- **Integration:**
+  - Modify the main CLI module (`src/lib/main.js`) to conditionally trigger ASCII preview when the preview flag is present.
+  - Maintain backward compatibility with current help and configuration workflows.
+  - Update configuration and logging to support both interactive and preview modes.
+
+- **Testing:**
+  - Extend unit tests to simulate interactive CLI sessions, including tests for the new ASCII preview mode.
+  - Verify that the ASCII preview accurately reflects plot parameters and that error handling remains robust in preview scenarios.
 
 ## Benefits
-- **Improved User Engagement:** Offers a guided experience maximizing user comprehension when configuring plots, reducing the learning curve.
-- **Consistency:** Consolidates help and interactive validation into one unified assistant, maintaining consistency with the library's core functionalities.
-- **Maintains Mission Alignment:** Supports the mission to "be the go-to plot library" by ensuring accessibility and ease-of-use via both automated help and interactive configuration.
+- **Rapid Feedback:** Users can quickly inspect a textual representation of their plot without waiting for a full graphical output.
+- **Improved Usability:** The interactive wizard now offers both detailed guidance and immediate visual cues, enhancing overall user engagement.
+- **Consistency:** By merging interactive help and ASCII preview in a single CLI feature, users benefit from a unified and efficient command-line interface.
+- **Enhanced Accessibility:** Terminal-based previews provide an additional layer of accessibility for environments where full graphical outputs are not available.
