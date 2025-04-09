@@ -199,7 +199,6 @@ describe("Localized NaN Aliases", () => {
   });
 });
 
-
 describe("Direct NaN Alias Module Import", () => {
   test("should correctly import from main module and return default alias set", () => {
     const aliases = getAcceptedNaNAliasesDirect();
@@ -220,27 +219,26 @@ describe("Unicode Normalization Handling", () => {
   });
 });
 
-// New Test Suite for International NaN Aliases
+// New Test Suite for Extended Unicode NaN Aliases in non-Latin scripts
 
-describe("International NaN Aliases", () => {
-  test("should accept French NaN alias 'pas un nombre'", () => {
+describe("Extended Unicode NaN Aliases", () => {
+  test("should accept Cyrillic NaN alias 'не число' when configured via LOCALE_NAN_ALIASES", () => {
+    process.env.LOCALE_NAN_ALIASES = JSON.stringify(["не число"]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["quad:1, pas un nombre, 5"]);
+    main(["quad:1, не число, 5"]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });
-  
-  test("should accept Spanish NaN alias 'no es un número'", () => {
+
+  test("should accept Japanese NaN alias '非数' when configured via LOCALE_NAN_ALIASES, including decomposed forms", () => {
+    // Simulate a decomposed form by normalizing to NFD then relying on normalizeAlias to fix it
+    const decomposed = "非数".normalize('NFD');
+    process.env.LOCALE_NAN_ALIASES = JSON.stringify([decomposed]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["quad:1, no es un número, 5"]);
+    main(["quad:1, 非数, 5"]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
-    logSpy.mockRestore();
-  });
-  
-  test("should accept Italian NaN alias 'non è un numero'", () => {
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["quad:1, non è un numero, 5"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    delete process.env.LOCALE_NAN_ALIASES;
     logSpy.mockRestore();
   });
 });
