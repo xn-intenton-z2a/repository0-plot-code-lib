@@ -1,64 +1,49 @@
 # ACCESS_LAYER
 
 ## Overview
-This update refines the ACCESS_LAYER module by ensuring complete and consistent diagnostics support across the CLI and the web API, and now extends the functionality to enhance the interactive CLI experience. In addition to comprehensive diagnostics (system configuration, dependency information, and runtime metrics) in both human-readable and JSON formats, this update adds a new interactive session enhancement: command history logging and retrieval. This addition empowers users by recording their interactive inputs and allowing retrieval of past commands, thereby streamlining iterative explorations and debugging.
+This feature consolidates diagnostics, interactive session enhancements, and an integrated tutorial mode into a unified CLI and API experience. It centralizes interactive user guidance including command history logging and a step-by-step walkthrough for new users, while maintaining robust diagnostics for both CLI and web endpoints.
 
 ## Key Objectives
-- **CLI Diagnostics Integration:**
-  - Update the CLI parser (in `src/lib/main.js`) to detect a `--diagnostics` flag early in the argument evaluation.
-  - When provided, output detailed system configuration, environment variables, dependency versions (from package.json), and runtime diagnostics, with options for both human-friendly and JSON-formatted outputs.
-
-- **Web API Diagnostics Endpoint:**
-  - Extend the Express-based web interface to include a dedicated `GET /diagnostics` endpoint that uses shared diagnostic logic, ensuring consistency across CLI and API outputs.
-
-- **Interactive Session Enhancements:**
-  - **Command History Logging:** When the interactive mode (`--interactive`) is activated, capture user input commands along with timestamps and store them in a history file (e.g. `.plot_history`).
-  - **History Retrieval:** Introduce a new flag (`--history`) that, when used, reads and displays the recorded interactive session commands, allowing users to review or re-run previous inputs.
-  - **Robust File Handling and Security:** Ensure that the history file is managed securely, with proper error handling and file access validations.
-
-- **Consistent Logging and Error Handling:**
-  - Integrate robust error handling and logging for both CLI and API components, covering diagnostics and interactive history functionalities. 
+- **Unified CLI Experience:** Enhance the CLI to support multiple modes including diagnostics (--diagnostics), interactive session (--interactive), and an onboarding tutorial (--tutorial).
+- **Robust Diagnostics:** Continue to provide detailed system configuration, runtime metrics, and dependency information in both human-readable and JSON formats via CLI and a dedicated web API endpoint (/diagnostics).
+- **Interactive Session Enhancements:** Implement command history logging with secure file handling, along with a command retrieval feature (--history), enabling users to review past interactions.
+- **Onboarding Tutorial Mode:** Integrate a guided tutorial that activates with the --tutorial flag. This mode will present a welcome message, step-by-step instructions on plot generation, usage of diagnostics, interactive mode, and text output options, ensuring a smooth onboarding process.
 
 ## Design & Implementation
 ### CLI Parser Enhancements (src/lib/main.js)
-- Extend the CLI argument parser to handle the new `--history` flag in addition to existing flags (`--diagnostics`, `--interactive`, `--serve`).
-- When `--interactive` is invoked, record each user input into a designated history file with proper timestamps.
-- When `--history` is detected, read from the history file and output the recorded commands in a user-friendly format.
+- **Diagnostics Flag:** Process the --diagnostics flag to display detailed system and runtime diagnostics in both formatted text and JSON.
+- **Interactive Mode:** When --interactive is passed, activate the interactive session with logging of user commands, including timestamping and secure storage in a history file.
+- **Tutorial Mode:** Detect the --tutorial flag to launch an interactive onboarding guide that walks the user through various functionalities, including generating plots, using diagnostics, and understanding CLI flags. The tutorial will prompt for confirmations and provide sample command executions.
 
-### HTTP API Updates
-- Retain the existing `GET /diagnostics` endpoint in the Express server setup to mirror CLI diagnostics, ensuring unified error handling and logging practices.
+### Web API Integration
+- **GET /diagnostics Endpoint:** Maintain the existing diagnostics endpoint to serve the same data as the CLI diagnostics output, ensuring consistency.
 
 ### Testing and Documentation
-- Update unit tests (e.g. in `tests/unit/main.test.js`) to include scenarios for:
-  - Invoking diagnostics via the `--diagnostics` flag.
-  - Activating interactive mode and verifying that user inputs are logged.
-  - Retrieving history with the `--history` flag and confirming the output.
-- Revise both the README.md and CONTRIBUTING.md files to document the new interactive session enhancements, including usage examples:
-  - Starting interactive mode and providing inputs will now record commands.
-  - Reviewing past commands via `node src/lib/main.js --history`.
+- **Testing:** Expand unit tests to cover scenarios for diagnostics, interactive session logging (including history retrieval), and the new tutorial mode. This includes tests for correct flag parsing and guided interactions.
+- **Documentation:** Update README.md and CONTRIBUTING.md to include detailed instructions and examples for using the tutorial mode alongside diagnostics and interactive features.
 
 ## Usage Examples
-- **CLI Diagnostics:**
+- **Diagnostics:**
   ```bash
   node src/lib/main.js --diagnostics
   ```
-
-- **Interactive CLI Mode with History Logging:**
+- **Interactive Session:**
   ```bash
   node src/lib/main.js --interactive
   ```
-  After using interactive mode, retrieve command history with:
+  To retrieve command history:
   ```bash
   node src/lib/main.js --history
   ```
-
+- **Tutorial Mode:**
+  ```bash
+  node src/lib/main.js --tutorial
+  ```
 - **Web Diagnostics Endpoint:**
   ```bash
   node src/lib/main.js --serve
   ```
-  Then access diagnostics at:
+  Then access via:
   ```bash
   curl http://localhost:3000/diagnostics
   ```
-
-This updated ACCESS_LAYER feature enhances the repository's resilience by coupling robust diagnostics with interactive command history, thereby supporting both immediate troubleshooting and iterative user experimentation.
