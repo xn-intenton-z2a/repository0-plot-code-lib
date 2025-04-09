@@ -61,28 +61,6 @@ describe("Handling 'NaN' as a valid token", () => {
   });
 });
 
-describe("Advanced Plotting Numeric Conversion", () => {
-  test("should convert 'NaN' token to string \"NaN\" in advanced mode for testPlot", () => {
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Override testPlot to capture the params
-    const originalTestPlot = mainModule.advancedPlots.testPlot;
-    let receivedParams;
-    mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
-    
-    // Call main with advanced flag, using testPlot as the plot type
-    main(["--advanced", "testPlot", "1,NaN,5"]);
-    
-    expect(receivedParams).toHaveLength(3);
-    expect(receivedParams[0]).toBe(1);
-    expect(receivedParams[1]).toBe("NaN");
-    expect(receivedParams[2]).toBe(5);
-
-    // Restore original testPlot function
-    mainModule.advancedPlots.testPlot = originalTestPlot;
-    logSpy.mockRestore();
-  });
-});
-
 describe("Regex-based Numeric Conversion Edge Cases", () => {
   test("should trim extra whitespace and handle lower/upper case 'NaN'", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
@@ -216,6 +194,30 @@ describe("Advanced Plotting - Scatter Matrix", () => {
     expect(receivedParams[5]).toBe(1);
 
     mainModule.advancedPlots.scatterMatrix = originalScatterMatrix;
+    logSpy.mockRestore();
+  });
+});
+
+describe("Trailing Commas Handling", () => {
+  test("should ignore trailing commas in non-advanced mode", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // The input has a trailing comma which should be ignored
+    main(["quad:1,2,3,"]);
+    // Expected numeric array should be [1,2,3]
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('["quad",[1,2,3]]'));
+    logSpy.mockRestore();
+  });
+
+  test("should ignore extra consecutive commas in advanced mode", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const originalTestPlot = mainModule.advancedPlots.testPlot;
+    let receivedParams;
+    mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
+    // Extra comma between numbers
+    main(["--advanced", "testPlot", "1,,NaN,5,,"]);
+    // Expected: empty tokens ignored -> [1, "NaN", 5]
+    expect(receivedParams).toEqual([1, "NaN", 5]);
+    mainModule.advancedPlots.testPlot = originalTestPlot;
     logSpy.mockRestore();
   });
 });
