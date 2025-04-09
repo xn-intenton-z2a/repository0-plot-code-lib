@@ -1,19 +1,22 @@
 {
-  "openIssues": 74,
+  "openIssues": 73,
   "issuesClosedLastHour": 4,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Updated main.js to inline the NaN alias utility and modified tests and README accordingly to resolve the missing module error. (fixes #1251)",
-      "ageMinutes": 6
-    }
-  ],
-  "diffMinutes": 4,
-  "diffMinutesMain": 4,
-  "commitsLastHour": 6,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 7,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "04:55",
+      "message": "Maintain CORE_ENGINE"
+    },
+    {
+      "time": "04:51",
+      "message": "Updated main.js to inline the NaN alias utility and modified tes..."
+    },
     {
       "time": "04:45",
       "message": "Maintain CORE_ENGINE"
@@ -25,27 +28,14 @@
     {
       "time": "04:18",
       "message": "Maintain WEB_INTERFACE"
-    },
-    {
-      "time": "04:04",
-      "message": "Maintain PLUGIN_SYSTEM"
-    },
-    {
-      "time": "04:01",
-      "message": "Emit a warning when LOCALE_NAN_ALIASES contains invalid JSON and..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1251",
-        "minutesSinceLastCommit": 7
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 6,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T04:50:18.760Z"
+  "generatedAt": "2025-04-09T04:56:04.572Z"
 }
