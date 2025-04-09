@@ -1,34 +1,6 @@
 // File: src/lib/main.js
 
-// Helper function to normalize an alias by trimming and converting to lower case
-function normalizeAlias(alias) {
-  return alias.trim().toLowerCase();
-}
-
-export function resolveNaNAliases() {
-  const strict = process.env.STRICT_NAN_MODE === "true";
-  if (strict) {
-    // In strict mode, only the canonical alias 'nan' is accepted
-    return ["nan"];
-  }
-
-  if (process.env.LOCALE_NAN_OVERRIDE) {
-    // LOCALE_NAN_OVERRIDE fully defines the NaN aliases; legacy LOCALE_NAN_ALIASES is deprecated and ignored
-    return process.env.LOCALE_NAN_OVERRIDE.split(/[;,]/)
-      .map(normalizeAlias)
-      .filter(alias => alias.length > 0);
-  }
-
-  // Default aliases when no override is provided
-  const defaultAliases = ["nan", "notanumber", "undefined"].map(normalizeAlias);
-  return defaultAliases;
-}
-
 export function main(args) {
-  // Resolve and log NaN aliases for diagnostic purposes
-  const naNAliases = resolveNaNAliases();
-  console.log("NaN Aliases:", naNAliases);
-
   if (args.includes("--help") || args.length === 0) {
     console.log("Usage: node src/lib/main.js [outputFile] [plotSpec]");
     console.log("   or: node src/lib/main.js --interactive");

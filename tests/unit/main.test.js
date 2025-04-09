@@ -1,5 +1,5 @@
 import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
-import { main, resolveNaNAliases } from '@src/lib/main.js';
+import { main } from '@src/lib/main.js';
 
 // Restore original process.argv if needed
 
@@ -53,59 +53,5 @@ describe('CLI Argument Parsing', () => {
   test('shows error on invalid arguments', () => {
     main(['onlyOneArg']);
     expect(errorSpy).toHaveBeenCalledWith('Invalid arguments. Use --help for usage information.');
-  });
-});
-
-// Tests for the NaN alias resolution functionality
-
-describe('NaN Alias Resolution', () => {
-  test('Strict mode returns only canonical "nan"', () => {
-    process.env.STRICT_NAN_MODE = 'true';
-    delete process.env.LOCALE_NAN_OVERRIDE;
-    delete process.env.LOCALE_NAN_ALIASES;
-    const aliases = resolveNaNAliases();
-    expect(aliases).toEqual(['nan']);
-  });
-
-  test('Legacy LOCALE_NAN_ALIASES is ignored and defaults are used in non-strict mode', () => {
-    delete process.env.STRICT_NAN_MODE;
-    process.env.LOCALE_NAN_ALIASES = 'NotANumber,  NaNValue ';
-    delete process.env.LOCALE_NAN_OVERRIDE;
-    const aliases = resolveNaNAliases();
-    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined'].sort());
-  });
-
-  test('Locale override replaces defaults completely', () => {
-    process.env.LOCALE_NAN_OVERRIDE = 'override1, override2';
-    process.env.STRICT_NAN_MODE = 'false';
-    process.env.LOCALE_NAN_ALIASES = 'should, be, ignored';
-    const aliases = resolveNaNAliases();
-    expect(aliases.sort()).toEqual(['override1', 'override2'].sort());
-  });
-
-  test('Legacy settings with irregular spacing and capitalization are ignored', () => {
-    delete process.env.STRICT_NAN_MODE;
-    process.env.LOCALE_NAN_ALIASES = ' NaN , nAnAlias , CUSTOM  ';
-    delete process.env.LOCALE_NAN_OVERRIDE;
-    const aliases = resolveNaNAliases();
-    // Expect defaults since LOCALE_NAN_ALIASES is deprecated
-    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined'].sort());
-  });
-
-  test('Legacy settings with semicolon delimiters are ignored', () => {
-    delete process.env.STRICT_NAN_MODE;
-    process.env.LOCALE_NAN_ALIASES = ' NaN ; nAnAlias ; CUSTOM ';
-    delete process.env.LOCALE_NAN_OVERRIDE;
-    const aliases = resolveNaNAliases();
-    // Expect defaults since LOCALE_NAN_ALIASES is deprecated
-    expect(aliases.sort()).toEqual(['nan', 'notanumber', 'undefined'].sort());
-  });
-
-  test('handles semicolon delimiters in LOCALE_NAN_OVERRIDE', () => {
-    process.env.LOCALE_NAN_OVERRIDE = ' override1 ; override2 ';
-    process.env.STRICT_NAN_MODE = 'false';
-    process.env.LOCALE_NAN_ALIASES = 'should, be, ignored';
-    const aliases = resolveNaNAliases();
-    expect(aliases.sort()).toEqual(['override1', 'override2'].sort());
   });
 });
