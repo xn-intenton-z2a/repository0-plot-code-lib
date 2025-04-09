@@ -4,7 +4,7 @@
 // Updated tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
-import { main, getAcceptedNaNAliases, parseNumericParams, advancedPlots } from "../../src/lib/main.js";
+import { main, getAcceptedNaNAliases, parseNumericParams, advancedPlots, parseJSONConfig } from "../../src/lib/main.js";
 import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/lib/main.js";
 
 // Helper function to check if an element is NaN
@@ -316,3 +316,23 @@ describe("Batch Plotting Commands", () => {
     exitSpy.mockRestore();
   });
 });
+
+// New Test Suite for JSON Configuration Parsing
+
+describe("JSON Configuration Parsing", () => {
+  test("should successfully parse valid nested JSON configuration for an advanced command", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const jsonConfig = '{"data": [1,2,3], "config": {"title": "Test Box", "colors": ["red", "blue"]}}';
+    main(["--advanced", "boxPlot", jsonConfig]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Advanced Plot: Box Plot'));
+    logSpy.mockRestore();
+  });
+
+  test("should exit with descriptive error for invalid JSON configuration", () => {
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const malformedJson = '{"data": [1,2,3], "config": {"title": "Test Box", "colors": ["red", "blue"]}';
+    expect(() => main(["--advanced", "boxPlot", malformedJson])).toThrow(/process.exit: 1/);
+    exitSpy.mockRestore();
+  });
+});
+

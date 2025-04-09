@@ -24,12 +24,12 @@ This release includes improvements in numeric parameter handling. The core numer
 
 5. Leverage Zod for input validation and transformation, supporting scientific notation and locale-specific formatting (e.g., thousands separators) based on environment configurations (`ENABLE_THOUSANDS_SEPARATOR` and `NUMERIC_LOCALE`).
 
-6. **New Feature: JSON-Based Parameter Configuration**
+6. **New Feature: JSON-Based Parameter Configuration with Nested Support**
 
-   Advanced plot functions now accept JSON configuration for complex parameter setups. When using the `--advanced` flag (or colon-separated non-advanced mode), if the parameter string begins with a `{` and ends with a `}`, it is parsed as JSON. This allows passing options such as labels, colors, and other settings. For example:
+   Advanced plot functions now accept JSON configuration for complex parameter setups. The JSON parsing logic has been refactored into a dedicated function that uses Zod for validating nested configurations. This improves error reporting with more descriptive messages (e.g., missing commas, unmatched brackets, etc.) for invalid JSON inputs. For example:
 
    ```bash
-   node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "title": "My Box Plot", "color": "blue"}'
+   node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "config": {"title": "My Box Plot", "color": "blue"}}'
    ```
 
 7. **Batch Plotting Commands**
@@ -62,8 +62,8 @@ Multiple plotting commands can now be executed in a single CLI invocation, with 
 # Using numeric parameters
 node src/lib/main.js --advanced testPlot " 1, NaN ; 5  , -10, 10, 1;"
 
-# Using JSON configuration
-node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "title": "My Box Plot", "color": "blue"}'
+# Using JSON configuration with nested parameters
+node src/lib/main.js --advanced boxPlot '{"data": [1, 2, 3, 4], "config": {"title": "My Box Plot", "color": "blue"}}'
 ```
 
 ### CLI Usage in Non-Advanced Mode
