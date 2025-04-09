@@ -12,17 +12,17 @@ This release includes improvements in numeric parameter handling. The core numer
 
 3. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`).
 
-4. Process all tokens using Unicode normalization (NFC) combined with locale-aware lowercasing (using `toLocaleLowerCase`), trimming, and normalization. Numeric parameters are split by commas or semicolons when present, preserving multi-word NaN aliases, and fallback to splitting by whitespace if no comma or semicolon is found. This ensures that visually equivalent Unicode representations and multi-word aliases are recognized as valid.
+4. Process all tokens using a new unified normalization function that applies Unicode normalization (NFC), locale-aware lowercasing, and trimming. This refactoring, using a dedicated `DEFAULT_NAN_ALIASES` constant and `normalizeAlias` helper function, improves maintainability and readability.
 
-5. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases. The integration of Zod helps standardize and simplify this validation logic.
+5. Process numeric parameters by splitting on commas, semicolons, or whitespace as appropriate, without compromising strict validation of numeric inputs.
 
-6. Gracefully ignore empty tokens resulting from extra delimiters (including trailing delimiters and multiple consecutive commas, semicolons, or spaces), enhancing usability without compromising strict validation of numeric inputs.
+6. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and suggests the accepted aliases. The integration of Zod helps standardize and simplify this validation logic.
 
-7. Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.
+7. Gracefully ignore empty tokens resulting from extra delimiters (including trailing delimiters and multiple consecutive commas, semicolons, or spaces), enhancing usability.
 
-8. Note on JSON Serialization: Numeric tokens recognized as NaN (including custom aliases via `LOCALE_NAN_ALIASES`) are converted to the native value `Number.NaN`. When serialized using JSON.stringify, these values become `null`. Users expecting a literal 'NaN' string in outputs should implement custom serialization logic or handle null values appropriately.
+8. Improve performance and maintainability by leveraging Zod's schema-based validation, making the code more declarative and robust against edge case errors.
 
-**New Feature: JSON-Based Parameter Configuration**
+9. New Feature: JSON-Based Parameter Configuration
 
 Advanced plot functions now also accept a JSON configuration for more complex parameter setups. When using the `--advanced` flag (or in colon-separated non-advanced mode), if the parameter string starts with a `{` and ends with a `}`, it will be parsed as JSON. This allows you to pass additional options such as labels, colors, and other plot options. For example:
 
@@ -67,7 +67,7 @@ Normalized token 'na' to native NaN
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization with locale-aware lowercasing, trailing delimiters, and JSON configuration):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, semicolons, mixed delimiters, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization, trailing delimiters, and JSON configuration):
 
 ```bash
 # Example with advanced plotting using numeric parameters
@@ -93,8 +93,6 @@ Plotting box plot with params: { data: [1, 2, 3, 4], title: 'My Box Plot', color
 
 ### Advanced Plotting: Contour Plot
 
-To render a contour plot, use the `--advanced` flag with the contourPlot option:
-
 ```bash
 node src/lib/main.js --advanced contourPlot "1; NaN  5, -10, 10"
 ```
@@ -107,8 +105,6 @@ Plotting contour plot with params: [ 1, NaN, 5, -10, 10 ]
 ```
 
 ### Advanced Plotting: Scatter Matrix
-
-For scatter matrix plots, use the `--advanced` flag with the scatterMatrix option:
 
 ```bash
 node src/lib/main.js --advanced scatterMatrix "1, NaN, 5, -10, 10, 1"
@@ -168,7 +164,7 @@ export LOCALE_NAN_ALIASES='["nicht eine zahl"]'
 node src/lib/main.js "quad: 1, nicht eine zahl, 5"
 ```
 
-Additionally, to completely override the default NaN aliases, set the `LOCALE_NAN_OVERRIDE` environment variable (to any truthy value). This ensures that only the aliases specified in `LOCALE_NAN_ALIASES` are recognized as NaN.
+Additionally, to completely override the default NaN aliases, set the environment variable `LOCALE_NAN_OVERRIDE` (to any truthy value). This ensures that only the aliases specified in `LOCALE_NAN_ALIASES` are recognized as NaN.
 
 ## Custom Error Handling
 

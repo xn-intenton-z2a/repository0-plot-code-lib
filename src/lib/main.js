@@ -10,9 +10,22 @@ function errorExit(message) {
   process.exit(1);
 }
 
+// Default NaN aliases constant
+const DEFAULT_NAN_ALIASES = new Set(["nan", "not a number", "notanumber", "na", "not-a-number"]);
+
+// Helper function for normalizing aliases
+function normalizeAlias(alias) {
+  return alias.toLocaleLowerCase().trim().normalize("NFC");
+}
+
 // Utility function to get accepted NaN aliases
 function getAcceptedNaNAliases() {
-  const defaultAliases = new Set(["nan", "not a number", "notanumber", "na", "not-a-number"]);
+  // Normalize default aliases
+  const defaultAliases = new Set();
+  for (const alias of DEFAULT_NAN_ALIASES) {
+    defaultAliases.add(normalizeAlias(alias));
+  }
+
   if (process.env.LOCALE_NAN_ALIASES) {
     try {
       const customAliases = JSON.parse(process.env.LOCALE_NAN_ALIASES);
@@ -20,18 +33,15 @@ function getAcceptedNaNAliases() {
         console.warn("Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
         return defaultAliases;
       }
-      const normalized = new Set(
-        customAliases.map(alias => alias.toLocaleLowerCase().trim().normalize("NFC"))
-      );
-      // Check if override flag is set; if so, use only the custom aliases
+      const normalizedCustom = new Set(customAliases.map(a => normalizeAlias(a)));
       if (process.env.LOCALE_NAN_OVERRIDE) {
-        return normalized;
+        return normalizedCustom;
       } else {
         // Merge default aliases with custom ones
         for (const alias of defaultAliases) {
-          normalized.add(alias);
+          normalizedCustom.add(alias);
         }
-        return normalized;
+        return normalizedCustom;
       }
     } catch (err) {
       console.warn("Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
@@ -44,8 +54,6 @@ function getAcceptedNaNAliases() {
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation using Zod schema validation.
 // Now leveraging Zod for declarative input transformation and validation to improve robustness and clarity.
 // Added an optional errorHandler callback parameter to allow customizable error processing instead of calling errorExit directly.
-// Note: Numeric tokens that match accepted NaN aliases are converted to native Number.NaN. When using JSON.stringify,
-// Number.NaN becomes null. This behavior is important to consider when logging or serializing output.
 function parseNumericParams(paramStr, errorHandler) {
   let tokens;
   // If the string contains a comma or semicolon, use them as delimiters. Otherwise, split on whitespace.
@@ -61,7 +69,7 @@ function parseNumericParams(paramStr, errorHandler) {
 
   // Zod schema for validating and transforming each token
   const tokenSchema = z.string().transform(token => {
-    const normToken = token.toLocaleLowerCase().trim().normalize("NFC");
+    const normToken = normalizeAlias(token);
     if (normToken === "n/a") {
       throw new Error(`Invalid numeric parameter '${token.trim()}'. Near-miss token 'n/a' is not accepted. Did you mean one of the accepted tokens: ${Array.from(getAcceptedNaNAliases()).join(", ")} ?`);
     }
@@ -97,7 +105,6 @@ function parseNumericParams(paramStr, errorHandler) {
 
 // Inlined advanced plotting implementations
 const advancedPlots = {
-  // Each function now supports both numeric array parameters and JSON configuration objects.
   spiral: function (params) {
     console.log("Plotting spiral with params:", params);
   },
