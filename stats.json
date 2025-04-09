@@ -1,14 +1,22 @@
 {
   "openIssues": 100,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 2,
-  "diffMinutesMain": 2,
-  "commitsLastHour": 8,
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 10,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "09:07",
+      "message": "Improve international NaN alias handling normalization and error..."
+    },
+    {
+      "time": "09:06",
+      "message": "Maintain CLI_ASSIST"
+    },
     {
       "time": "08:57",
       "message": "Improve NaN parsing by normalizing international aliases and str..."
@@ -20,14 +28,6 @@
     {
       "time": "08:44",
       "message": "Expand NaN alias internationalization support by adding default ..."
-    },
-    {
-      "time": "08:43",
-      "message": "Maintain CLI_ASSIST"
-    },
-    {
-      "time": "08:28",
-      "message": "Refactored numeric parameter parsing for stricter near-miss toke..."
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-09T08:59:51.007Z"
+  "generatedAt": "2025-04-09T09:08:44.563Z"
 }
