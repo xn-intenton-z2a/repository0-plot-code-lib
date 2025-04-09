@@ -1,51 +1,43 @@
 # ACCESS_LAYER
 
 ## Overview
-This feature unifies the CLI and web API access along with enhanced interactive functionality and diagnostics. In addition to supporting interactive mode with command history and web-based endpoints, this update explicitly adds a diagnostics mode to output detailed system and configuration information, thereby meeting both user experience and maintenance requirements.
+This feature unifies CLI and web API access with centralized, structured logging. It merges the previously separate ACCESS_LAYER and LOG_MANAGER functionalities into a single module that handles interactive mode, web serving, diagnostics output (including system configuration and environmental details), and detailed logging across all modes. This integration simplifies the codebase, reduces redundancy, and improves maintainability while ensuring robust error handling and diagnostic support.
 
 ## Key Objectives
-- **Unified Interface:** Maintain a single module to handle interactive CLI, web API requests, and diagnostics output.
-- **Interactive Mode Enhancements:** Retain command history functionality, ensuring that previous commands are saved to a local history file, and allow easy retrieval in subsequent sessions.
-- **Diagnostics Mode:** Add a dedicated branch that triggers when the `--diagnostics` flag is provided. This mode outputs detailed system information including version numbers, environment variables, dependency versions, and configuration details to assist in troubleshooting and health checks.
-- **Seamless Mode Switching:** Enhance the CLI parser to detect and route flags `--interactive`, `--serve`, and now `--diagnostics`, with comprehensive error handling and shared logging across modes.
-- **Documentation & Testing:** Update usage guides and unit tests to cover diagnostics functionality alongside interactive and web API modes.
+- **Unified Interface:** Provide a single module that routes CLI commands, web API requests, and diagnostics/logging outputs.
+- **Interactive Mode Enhancements:** Retain interactive CLI support with command history and user prompts.
+- **Diagnostics Mode:** When the `--diagnostics` flag is used, output detailed system, dependency, and configuration information along with comprehensive log details to assist in troubleshooting.
+- **Centralized Logging:** Integrate structured logging (supporting INFO, WARN, ERROR, DEBUG) into all access modes. Logs will be available in both human-readable and JSON formats, consolidating the functionalities of the previous LOG_MANAGER.
+- **Seamless Mode Switching:** Enhance flag handling and CLI parsing to reliably distinguish between `--interactive`, `--serve`, and `--diagnostics`, ensuring that appropriate logging is executed for each mode.
+- **Robust Testing & Documentation:** Update unit tests and documentation to reflect the merged logging capabilities and unified access behavior, ensuring consistent output and error handling.
 
 ## Design & Implementation
 ### Mode Detection and Routing
-- **Flag Handling:** Update the CLI parser in `src/lib/main.js` to detect the `--diagnostics` flag in addition to `--interactive` and `--serve`.
-- **Routing Enhancements:**
-  - If `--diagnostics` is detected, execute a diagnostics function that compiles and prints system configuration, dependency versions, environment variables, and version info.
-  - Ensure that the diagnostics branch logs any errors or misconfigurations robustly.
+- Update the CLI parser (in `src/lib/main.js`) to detect `--interactive`, `--serve`, and `--diagnostics` flags. Ensure that diagnostics mode invokes both system introspection and logging routines.
+- Modularize routing logic to delegate logging responsibilities internally, avoiding dependency on a separate logging module.
 
-### Enhanced Interactive Mode
-- **Command History:** Ensure that the logic to record and retrieve previous commands remains intact, stored in a history file in the user’s home directory.
-- **User Feedback:** Notify users when entering diagnostics mode if additional configuration details are available.
+### Integrated Logging
+- Embed the structured logging functionality directly into this module, offering configurable log levels and multiple output formats (plain text and JSON).
+- Ensure all modes (interactive, web, and diagnostics) use the same logging methods for consistency. The logging functions will handle errors, warnings, and debug messages uniformly across the application.
 
-### Diagnostics Mode
-- **Implementation:**
-  - Create a diagnostics handler function that collects information from the environment, Node version, dependency versions, and configuration details.
-  - Integrate this function call in the main CLI routing when the `--diagnostics` flag is provided.
-- **Testing:** Write new unit tests to verify that upon passing `--diagnostics`, the expected system and configuration information is output.
+### Implementation Details
+- **Flag Handling:** Extend the main CLI function to capture and properly route flags. Diagnostics mode will trigger extra logging and system information routines.
+- **Logging Functions:** Consolidate log functions (previously in LOG_MANAGER) into this module, exposing methods such as `logInfo()`, `logWarn()`, and `logError()`. These functions are also used for routing messages in web mode.
+- **Error Handling:** Ensure comprehensive error capture and logging, especially around the transition between different access modes.
+- **Testing & Documentation:** Augment test cases to validate that merging the logging functionality does not break existing interactive, web, and plotting features. Update README and CONTRIBUTING documents to describe the consolidated interface.
 
 ## Usage Examples
-- **Interactive Mode with Command History:**
+- **Interactive Mode:**
   ```bash
   node src/lib/main.js --interactive
-  # Enters interactive mode with support for command history.
   ```
-- **Web Interface Access:**
+- **Web Interface:**
   ```bash
   node src/lib/main.js --serve
-  # Starts the web-based plotting interface.
   ```
-- **Diagnostics Mode:**
+- **Diagnostics Mode with Logging:**
   ```bash
   node src/lib/main.js --diagnostics
-  # Outputs detailed diagnostics for troubleshooting the system configuration.
   ```
 
-## Future Considerations
-- Extend diagnostics to include more granular health checks as new system dependencies evolve.
-- Enhance the interactive mode with additional command search or filtering capabilities within the history feature.
-
-This update not only consolidates and clarifies all access routes within the application but also directly addresses the gap in diagnostics functionality, ensuring the repository remains robust, maintainable, and user-friendly.
+This unified ACCESS_LAYER not only streamlines user access and diagnostics but also embodies a robust, centralized logging mechanism ensuring consistency and easier maintenance.
