@@ -22,7 +22,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 4. Process numeric parameters by intelligently splitting on commas, semicolons, or whitespace while gracefully ignoring extra delimiters, trailing commas, and multiple consecutive separators.
 
-5. Provide detailed error messages when encountering invalid numeric inputs. The integration of Zod standardizes and simplifies this validation logic. In strict mode (enabled via `STRICT_NAN_MODE`), only the canonical 'NaN' token is accepted, and all alternative aliases (such as "na" or "not a number") are rejected.
+5. Provide refined error messages when encountering invalid numeric inputs. In strict mode (enabled via `STRICT_NAN_MODE`), only the canonical 'NaN' token is accepted, and all alternative aliases (such as "na" or "not a number") are rejected with a clear error message that lists the accepted alias.
 
 6. **New Feature: JSON-Based Parameter Configuration**
 
