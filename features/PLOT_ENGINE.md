@@ -1,62 +1,54 @@
 # PLOT_ENGINE
 
-The PLOT_ENGINE remains the core plotting module, now enhanced with additional statistical visualizations to better fulfill our mission of being the go-to plot library for formulae visualisations. This update consolidates the plotting capabilities, ensuring the module remains robust, extensible, and streamlined for both command-line and web-based usage.
-
 ## Overview
 
-The updated PLOT_ENGINE now supports:
+The PLOT_ENGINE is the core plotting module of the repository, responsible for converting a wide range of mathematical functions into visual plots. It supports multiple modes of operation including command-line, interactive REPL, and a web-based interface. In addition to the traditional functionalities such as generating quadratic, linear, sine, cosine, exponential, and logarithmic plots, the PLOT_ENGINE now incorporates advanced statistical visualization and interactive plotting capabilities to enhance user experience and analytical insights.
 
-- **Plot Generation:** Conversion of a wide range of mathematical functions into visual plots. Beyond the existing support for quadratic, linear, sine, cosine, exponential, and logarithmic plots, the engine has been extended with:
-  - **Tangent Plots:** Visualization of tangent functions.
-  - **Polar Plots:** Radial and angular representations for polar equations.
-  - **Parametric Plots:** Support for functions described by parametric equations.
-  - **Inverse Function Plots:** Graphs representing inverse relationships.
-  - **Cumulative Average & Gradient Visualization:** Display of running averages and detailed gradient heatmaps.
-  - **Box Plot & Violin Plot:** New statistical plot types for representing data distributions to enhance the analytical capabilities of the module.
+## Key Objectives
 
-- **Mode Integration:**
-  - **CLI Mode:** Generate plots directly via command-line with options for file output and summary results.
-  - **Interactive Mode:** Real-time user input prompting and immediate feedback.
-  - **Web Interface:** An Express-based HTTP API for dynamic plotting requests.
+- **Comprehensive Plot Generation:** Support for standard mathematical functions and extended plot types including tangent, polar, parametric, inverse function plots, cumulative averages, gradient visualizations, box plots, and violin plots.
+- **Multi-Modal Operation:** Enable plot generation through direct CLI commands, an enhanced interactive REPL for real-time formula input and evaluation, and an Express-based web interface.
+- **Advanced Data Analysis:** Incorporate analytical methods such as area under the curve calculation, derivative estimation via finite differences, and additional statistical metrics.
+- **Robust Error Handling & Diagnostics:** Consistent logging and error diagnostics to aid in troubleshooting and ensuring stable operation across all modes.
 
-- **Advanced Analysis & Transformations:**
-  - **Area Under Curve (AUC):** Computed using the trapezoidal rule.
-  - **Derivative Calculation:** Estimation via finite differences, now enhanced with gradient visualizations.
-  - **Statistical Metrics:** Calculation of average, standard deviation, median, and mode, supplemented with box and violin plots for distribution insights.
-  - **Data Transformations:** Operations including rotation, reflection, scaling, inversion, and smoothing (moving average).
+## Design & Implementation
 
-- **Robust Error Handling:** Detailed, consistent error messages ensuring graceful exits and clear diagnostics in response to invalid inputs.
+### CLI and File-based Plot Generation
 
-## Design
+- **Command-line Arguments:** The first argument specifies the output type (e.g., file or specific format), and subsequent arguments provide the plot specification (e.g., formula and range). Additional flags such as `--help` display usage instructions.
+- **Formula Evaluation:** Utilizes the mathjs library for precise computation over defined ranges, followed by constructing visual outputs in multiple formats such as SVG, ASCII, CSV, JSON, Markdown, and HTML.
 
-### Input Parsing
+### Enhanced Interactive REPL
 
-- **Command-line Arguments:** The first argument specifies the output type (file or option), and subsequent arguments define the mathematical formula (e.g., `quad:1,0,0,-10,10,1`). Additional flags such as `--interactive` or `--serve` modify the operation mode.
+- **Interactive Mode Revamp:** Upgraded interactive mode now functions as a full-fledged REPL that prompts the user for input, evaluates mathematical expressions in real-time, and displays immediate plot previews or analytical summaries.
+- **Real-time Feedback:** Users receive instantaneous confirmation of parsed formulas and can iteratively refine their input with dynamic error checking and suggestions, enriching the user experience.
+- **Seamless Integration:** The REPL seamlessly ties into the underlying plotting engine, ensuring that all CLI functionalities (e.g., alias resolution and diagnostic logging) are maintained.
 
-### Plot Computation & Construction
+### Web Interface
 
-- **Formula Evaluation:** Leveraging the mathjs library to process mathematical expressions across defined ranges.
-- **Plot Construction:** Building visual outputs in multiple formats (SVG, ASCII, CSV, JSON, Markdown, HTML) based on evaluated data.
-- **Extended Statistical Plots:** Addition of box plots and violin plots to visually summarise statistical properties of the dataset.
+- **Express-based Endpoint:** Implements an HTTP API endpoint that allows clients to request plots dynamically using standard query parameters, facilitating integration with web applications and further automation.
+- **Scalable Deployment:** Designed to operate in both development and production environments with minimal configuration through environment variables.
 
-### Output Generation
+### Testing & Quality Assurance
 
-- The module generates outputs containing both the visual plot and associated analytical results.
-- Detailed output formatting is applied to ensure clarity and utility in both CLI and web contexts.
+- **Comprehensive Unit Testing:** Utilizes vitest to cover all aspects of plot generation, REPL interactions, HTTP request handling, and error diagnostics.
+- **Integration with NAN_HANDLER:** Maintains the consistency and configurability provided by the NAN_HANDLER for alias resolution, ensuring valid numerical handling throughout plot computations.
 
 ## Usage
 
-### CLI Plot Generation
+### CLI Quickstart
 
 ```bash
 node src/lib/main.js output.svg "quad:1,0,0,-10,10,1"
 ```
 
-### Interactive CLI
+### Enhanced Interactive REPL
 
 ```bash
 node src/lib/main.js --interactive
 ```
+
+- The REPL will prompt for formulas interactively and provide immediate textual or visual feedback.
 
 ### Web Interface
 
@@ -64,8 +56,6 @@ node src/lib/main.js --interactive
 node src/lib/main.js --serve
 ```
 
-## Integration & Maintenance
+- Access the web interface at http://localhost:3000 to generate plots via HTTP requests.
 
-- **Self-Contained Module:** The PLOT_ENGINE is designed for deployment as a single repository module.
-- **Testing & Quality Assurance:** Comprehensive unit tests (using vitest) cover plotting, statistical computation, and error handling.
-- **Contribution Guidelines:** Developers are encouraged to adhere to the repository style guidelines and ensure that any new functionality is accompanied by appropriate tests and documentation updates.
+By enhancing the PLOT_ENGINE with an interactive REPL along with extended plotting capabilities and detailed error diagnostics, the repository continues to fulfill its mission of being the go-to tool for formula visualisations.
