@@ -12,6 +12,7 @@ This release includes improvements in numeric parameter handling. The core numer
    - German: "nicht eine zahl"
    - French: "pas un nombre"
    - Spanish: "no es un número"
+   - Italian: "non è un numero"
 
    Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a unified warning message is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases." When the environment variable `LOCALE_NAN_OVERRIDE` is set (to any truthy value), only the provided aliases will be used.
 
@@ -70,7 +71,7 @@ This release includes improvements in numeric parameter handling. The core numer
    ```bash
    export ENABLE_THOUSANDS_SEPARATOR=true
    export NUMERIC_LOCALE=eu
-   node src/lib/main.js "quad: 1.234,56, NaN, 7.890"
+   node src/lib/main.js "quad: 1.234,56, NaN, 7,890"
    ```
 
 ## Examples
@@ -137,9 +138,10 @@ The parser now natively recognizes international representations of NaN. For exa
 ```bash
 node src/lib/main.js "quad: 1, pas un nombre, 5"
 node src/lib/main.js "quad: 1, no es un número, 5"
+node src/lib/main.js "quad: 1, non è un numero, 5"
 ```
 
-Both commands will interpret the international alias as a NaN value.
+All commands will interpret the international aliases as a NaN value.
 
 ### Locale-Specific Number Formatting
 
@@ -158,12 +160,12 @@ For European:
 ```bash
 export ENABLE_THOUSANDS_SEPARATOR=true
 export NUMERIC_LOCALE=eu
-node src/lib/main.js "quad: 1.234,56, NaN, 7.890"
+node src/lib/main.js "quad: 1.234,56, NaN, 7,890"
 ```
 
 ## Localization Support
 
-Customize accepted NaN aliases by setting the `LOCALE_NAN_ALIASES` environment variable. For example, to accept the German alias "nicht eine zahl", the French alias "pas un nombre", or the Spanish alias "no es un número":
+Customize accepted NaN aliases by setting the `LOCALE_NAN_ALIASES` environment variable. For example, to accept the German alias "nicht eine zahl", the French alias "pas un nombre", the Spanish alias "no es un número", or the Italian alias "non è un numero":
 
 ```bash
 export LOCALE_NAN_ALIASES='["nicht eine zahl"]'

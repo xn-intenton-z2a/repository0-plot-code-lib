@@ -187,6 +187,7 @@ describe("Localized NaN Aliases", () => {
     expect(aliases.has("nicht eine zahl")).toBe(true);
     expect(aliases.has("pas un nombre")).toBe(true);
     expect(aliases.has("no es un número")).toBe(true);
+    expect(aliases.has("non è un numero")).toBe(true);
   });
 
   test("should parse and normalize LOCALE_NAN_ALIASES if valid", () => {
@@ -220,6 +221,7 @@ describe("Unicode Normalization Handling", () => {
 });
 
 // New Test Suite for International NaN Aliases
+
 describe("International NaN Aliases", () => {
   test("should accept French NaN alias 'pas un nombre'", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -231,6 +233,13 @@ describe("International NaN Aliases", () => {
   test("should accept Spanish NaN alias 'no es un número'", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:1, no es un número, 5"]);
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
+    logSpy.mockRestore();
+  });
+  
+  test("should accept Italian NaN alias 'non è un numero'", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["quad:1, non è un numero, 5"]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     logSpy.mockRestore();
   });
@@ -255,7 +264,6 @@ describe("Locale-Specific Number Formatting", () => {
     process.env.NUMERIC_LOCALE = "en";
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad: 1,234.56, NaN, 7,890"]);
-    // Expect that the parsed numbers are 1234.56, NaN, 7890
     logSpy.mockRestore();
     delete process.env.ENABLE_THOUSANDS_SEPARATOR;
     delete process.env.NUMERIC_LOCALE;
@@ -266,7 +274,6 @@ describe("Locale-Specific Number Formatting", () => {
     process.env.NUMERIC_LOCALE = "eu";
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad: 1.234,56, NaN, 7.890"]);
-    // Expect that the parsed numbers are 1234.56, NaN, 7890
     logSpy.mockRestore();
     delete process.env.ENABLE_THOUSANDS_SEPARATOR;
     delete process.env.NUMERIC_LOCALE;
