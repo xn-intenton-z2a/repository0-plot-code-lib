@@ -1,42 +1,55 @@
 # CLI_INTERFACE Feature Specification
 
 ## Overview
-This unified feature replaces the separate CLI_PARSER and DOCUMENTATION features. It provides a robust command-line interface that not only parses and validates arguments with support for shorthand aliases and auto-completion but also delivers integrated, comprehensive help and usage documentation. This consolidation simplifies CLI-related development and maintenance, while ensuring consistent user guidance aligned with our mission to be a go-to plot library for formula visualisations.
+This feature unifies and enhances our command-line interface by consolidating argument parsing, integrated documentation, auto-completion, and simulation (dry-run) capabilities. It now supports not only detailed parsing and help but also a simulation mode that previews actions without execution. This consolidation simplifies maintenance, improves usability, and fully aligns with our mission to provide a go-to plot library for formula visualisations.
 
-## CLI Argument Parsing and Auto-Completion
+## Implementation Details
+### CLI Argument Parsing and Auto-Completion
 - **Argument Mapping:**
-  - Parses full-length flags (e.g., `--plot`, `--diagnostics`, `--export`, `--log`, `--json-log`, `--help`) as well as shorthand aliases (e.g., `-p`, `-d`, `-e`, `-l`, `-j`, `-h`).
-  - Utilizes a configuration object to translate aliases into their full counterparts before delegating to feature-specific handlers (such as PLOT_ENGINE, DIAGNOSTICS, HTTP_API, and LOGGING).
-  - Ensures robust validation and provides descriptive error messages for unrecognized or conflicting flags.
+  - Parses full-length flags (e.g., `--plot`, `--diagnostics`, `--export`, `--log`, `--json-log`, `--help`, `--dry-run`) along with shorthand aliases (e.g., `-p`, `-d`, `-e`, `-l`, `-j`, `-h`, `-r`).
+  - Utilizes a configuration object to translate aliases into full commands before dispatching them to the respective feature handlers (such as PLOT_ENGINE, DIAGNOSTICS, HTTP_API, and LOGGING).
+  - Ensures robust validation with descriptive error messages for unrecognized or conflicting flags.
 
 - **Auto-Completion Subsystem:**
-  - Generates shell scripts for bash, zsh, and fish to enable auto-completion of CLI commands and flags.
-  - Includes both full and shorthand flag suggestions, streamlining command input for improved usability.
+  - Generates shell-specific scripts (bash, zsh, fish) to enable auto-completion of CLI commands and flags.
+  - Provides suggestions for both full and shorthand flags, streamlining command usage.
 
-## Integrated Documentation and Help
+### Integrated Documentation and Help
 - **Dynamic Help Output:**
-  - Consolidates help documentation for all CLI commands and flags, presenting detailed descriptions, usage examples, and troubleshooting tips.
-  - Activated via the `--help` flag (or `-h`), the help message covers all aspects of the CLI, including argument parsing behavior, auto-completion installation procedures, and usage instructions for underlying features like HTTP_API and PLOT_ENGINE.
+  - Consolidates help documentation for all CLI commands and flags, including descriptions, usage examples, and troubleshooting tips.
+  - Activated via `--help` (or `-h`), the help command covers argument parsing, auto-completion installation, and usage instructions for integrated features such as HTTP_API, PLOT_ENGINE, DIAGNOSTICS, and LOGGING.
+  - Synchronizes with repository documentation (README.md, CONTRIBUTING.md) for consistency.
 
-- **Synchronization with Repository Documentation:**
-  - Ensures that the CLI help remains in sync with the repository’s README.md, CONTRIBUTING.md, and other documentation files.
-  - Provides guidance on updating documentation alongside CLI changes in accordance with contribution guidelines.
+### Dry Run Simulation Integration
+- **Simulation Mode:**
+  - Incorporates the `--dry-run` (or shorthand `-r`) flag into the CLI, enabling a simulation mode where commands are parsed and validated without triggering any side effects such as file, network, or state changes.
+  - Outputs a detailed, non-invasive report of the actions that would be performed (e.g., plotting parameters, diagnostics checks, API calls), including any potential warnings for malformed inputs.
+  - Supports combined usage with other flags (e.g., `--plot`, `--diagnostics`) and respects the overall command flow while ensuring that no external operations are executed.
+
+### Error Handling and Defaults
+- Validates and parses all incoming arguments with clear error reporting.
+- Ensures that simulation mode coexists with standard operations in a reversible and non-invasive manner.
 
 ## Testing and Quality Assurance
 - **Unit and Integration Tests:**
-  - Tests that simulate a variety of CLI inputs (full-length and shorthand) to ensure accurate mapping and parsing.
-  - Auto-completion script generation tests to verify output correctness for different shell environments.
-  - Help output tests to validate that the dynamic documentation accurately reflects the current feature set.
+  - Simulate a variety of CLI inputs (both full-length and shorthand) to verify accurate argument mapping and parsing.
+  - Automatically generate and validate auto-completion scripts for different shells.
+  - Test dynamic help output for accuracy and consistency with repository documentation.
+  - Verify that the `--dry-run` mode successfully outputs a detailed summary report without performing any external operations.
 
 ## Usage Examples
 - **Standard CLI Usage:**
   - Run: `node src/lib/main.js --plot "sin(x)" --log`
   - Shorthand: `node src/lib/main.js -p "sin(x)" -l`
 
-- **Auto-Completion:**
-  - Generate auto-completion script: `node src/lib/main.js --generate-completion`
+- **Dry Run Simulation:**
+  - Run: `node src/lib/main.js --plot "sin(x)" --dry-run`
+  - Expected output: A report summarizing that a plot of "sin(x)" would be generated along with parameter details, without actual execution.
+
+- **Auto-Completion Generation:**
+  - Run: `node src/lib/main.js --generate-completion`
 
 - **Help Display:**
-  - Display dynamic help documentation: `node src/lib/main.js --help`
+  - Run: `node src/lib/main.js --help`
 
-This consolidated CLI_INTERFACE feature enhances the overall developer and user experience by merging command parsing with integrated documentation, fostering a more maintainable and user-friendly CLI environment.
+This consolidated CLI interface enhances both developer and user experiences by streamlining command processing and providing a safe simulation mode for testing purposes.
