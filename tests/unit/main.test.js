@@ -5,6 +5,8 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main } from "../../src/lib/main.js";
+import { getAcceptedNaNAliases } from "../../src/lib/nanAliases.js";
+
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -248,5 +250,26 @@ describe("Invalid LOCALE_NAN_ALIASES Handling", () => {
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining("Invalid configuration for LOCALE_NAN_ALIASES"));
     delete process.env.LOCALE_NAN_ALIASES;
     warnSpy.mockRestore();
+  });
+});
+
+describe("NaN Alias Utility Module", () => {
+  test("should return default aliases when LOCALE_NAN_ALIASES is not set", () => {
+    delete process.env.LOCALE_NAN_ALIASES;
+    const aliases = getAcceptedNaNAliases();
+    expect(aliases.has("nan")).toBe(true);
+    expect(aliases.has("not a number")).toBe(true);
+    expect(aliases.has("notanumber")).toBe(true);
+    expect(aliases.has("na")).toBe(true);
+    expect(aliases.has("not-a-number")).toBe(true);
+  });
+
+  test("should parse and normalize LOCALE_NAN_ALIASES if valid", () => {
+    process.env.LOCALE_NAN_ALIASES = JSON.stringify(["Nicht Eine Zahl", "NaN"]);
+    // Clear cached value
+    const aliases = getAcceptedNaNAliases();
+    expect(aliases.has("nicht eine zahl")).toBe(true);
+    expect(aliases.has("nan")).toBe(true);
+    delete process.env.LOCALE_NAN_ALIASES;
   });
 });

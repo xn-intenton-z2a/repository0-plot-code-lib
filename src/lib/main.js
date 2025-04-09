@@ -3,35 +3,11 @@
 ///////////////////////////////
 
 import { fileURLToPath } from "url";
+import { getAcceptedNaNAliases } from "./nanAliases.js";
 
 function errorExit(message) {
   console.error(message);
   process.exit(1);
-}
-
-// Default NaN aliases in lower case with normalized spacing
-const defaultNaNAliases = [
-  "nan",
-  "not a number",
-  "notanumber",
-  "na",
-  "not-a-number"
-];
-
-// Helper function to fetch accepted NaN aliases from environment variable or fallback to default.
-function getAcceptedNaNAliases() {
-  try {
-    if (process.env.LOCALE_NAN_ALIASES) {
-      const parsed = JSON.parse(process.env.LOCALE_NAN_ALIASES);
-      if (Array.isArray(parsed)) {
-        // Normalize and return as a set
-        return new Set(parsed.map(token => token.toLowerCase().replace(/\s+/g, ' ').trim()));
-      }
-    }
-  } catch (e) {
-    console.warn("Warning: Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases.");
-  }
-  return new Set(defaultNaNAliases);
 }
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.

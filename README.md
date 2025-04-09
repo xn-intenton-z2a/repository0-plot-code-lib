@@ -14,6 +14,10 @@ This release includes improvements in numeric parameter handling. The core numer
 
 4. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
 
+**Refactoring Note:**
+
+The logic for parsing and normalizing NaN aliases has been modularized into its own utility module (`src/lib/nanAliases.js`). This promotes better code organization and reusability.
+
 Additionally, debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
 
 ## Debug Logging for Numeric Conversion
@@ -136,6 +140,10 @@ This feature ensures that numeric validation can adapt to various regional forma
 - Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
 - The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
+
+## Utility Module
+
+The normalization of NaN aliases has been refactored into its own utility module at `src/lib/nanAliases.js` for improved modularity and maintainability.
 
 ## License
 
