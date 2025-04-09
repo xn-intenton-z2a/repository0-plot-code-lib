@@ -11,6 +11,7 @@ function errorExit(message) {
 
 // Enhanced implementation of numeric parameter conversion utility using regex validation
 // Now supports alternative NaN aliases: "nan", "not a number", "notanumber", and "na" (case-insensitive, whitespace-tolerant).
+// All recognized NaN tokens are uniformly converted to the string "NaN" for consistency across CLI and advanced mode.
 // Adds conditional debug logging if DEBUG_NUMERIC environment variable is set.
 function parseNumericParams(paramStr) {
   const tokens = paramStr.split(",");
@@ -26,22 +27,14 @@ function parseNumericParams(paramStr) {
     const lower = trimmed.toLowerCase();
     if (lower === "nan" || lower === "not a number" || lower === "notanumber" || lower === "na") {
       if (process.env.DEBUG_NUMERIC) {
-        console.debug(`Normalized token '${trimmed}' to native NaN`);
+        console.debug(`Normalized token '${trimmed}' to "NaN"`);
       }
-      result.push(NaN);
+      result.push("NaN");
     } else {
       result.push(Number(trimmed));
     }
   }
   return result;
-}
-
-// Custom replacer to correctly display native NaN values instead of null
-function replacer(key, value) {
-  if (typeof value === "number" && isNaN(value)) {
-    return "NaN";
-  }
-  return value;
 }
 
 export function main(args = []) {
@@ -115,7 +108,7 @@ export function main(args = []) {
     return arg;
   });
 
-  console.log(`Run with: ${JSON.stringify(finalArgs, replacer)}`);
+  console.log(`Run with: ${JSON.stringify(finalArgs)}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

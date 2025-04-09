@@ -7,10 +7,10 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 This release includes improvements in numeric parameter handling. The core numeric conversion logic is now directly implemented in the main module with enhanced regex-based validation. Both the CLI and the web interface use this logic to:
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), the following alternative aliases are now accepted: "not a number", "notanumber", and "na".
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value, with optional debug logging when enabled.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
 3. Provide detailed error messages when encountering invalid numeric inputs.
 
-This approach ensures consistent behavior across advanced and non-advanced mode operations, simplifying future maintenance and enhancements.
+This approach ensures that both the CLI output and the advanced plotting functions work with a consistent representation for NaN.
 
 ## Debug Logging for Numeric Conversion
 
@@ -24,7 +24,7 @@ node src/lib/main.js "quad: 1 , na, 5"
 This will log messages like:
 
 ```
-Normalized token 'na' to native NaN
+Normalized token 'na' to "NaN"
 ```
 
 ## Examples
@@ -41,7 +41,7 @@ node src/lib/main.js --advanced testPlot " 1, NaN , 5, -10, 10, 1"
 **Expected Console Output:**
 ```
 Advanced Plot: Test Plot
-Test Plot with params: [ 1, NaN, 5 ]
+Test Plot with params: [ 1, "NaN", 5 ]
 ```
 
 ### CLI Usage in Non-Advanced Mode
@@ -54,10 +54,10 @@ node src/lib/main.js "quad: 1 , 2.14e-3 , not a number , -3.5E+2"
 
 **Expected Console Output:**
 ```
-Run with: ["quad", [1, 0.00214, "NaN", -350]]
+Run with: ["quad",[1,2.14e-3,"NaN",-350]]
 ```
 
-_Note: The replacer function in the code converts any native NaN values to the string "NaN" when printing as JSON._
+_Note: The unified representation ensures that NaN, regardless of the mode, is represented as the string "NaN"._
 
 ### Web Interface Usage
 
@@ -86,9 +86,9 @@ curl -X POST http://localhost:3000/plot -d "plotType=spiral&params=1, not anumbe
 ## Additional Details
 
 - Valid numeric inputs include integers, decimals, and numbers in scientific notation (e.g., `1e4`, `2.14e-3`, `-3.5E+2`).
-- Various representations of NaN ("NaN", "not a number", "notanumber", "na") are accepted and converted to the native JavaScript NaN value.
+- Various representations of NaN ("NaN", "not a number", "notanumber", "na") are accepted and converted to the string "NaN" to ensure a consistent interface.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
-- The CLI and web interface provide consistent behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
+- The CLI and web interface now provide a unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
 
 ## License
 
