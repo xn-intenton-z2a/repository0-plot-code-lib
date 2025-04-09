@@ -18,14 +18,18 @@ function getAcceptedNaNAliases() {
     return cachedNaNAliases;
   }
   const defaultAliases = ["nan", "not a number", "notanumber", "na", "not-a-number"];
-  let aliases = new Set(defaultAliases);
+  let aliases = new Set();
+  // Normalize default aliases using lowercase, trim and Unicode NFC normalization
+  for (const token of defaultAliases) {
+    aliases.add(token.toLowerCase().trim().normalize('NFC'));
+  }
   if (process.env.LOCALE_NAN_ALIASES) {
     try {
       const configured = JSON.parse(process.env.LOCALE_NAN_ALIASES);
       if (Array.isArray(configured)) {
-        // Extend default aliases with locale specific ones
+        // Extend default aliases with locale specific ones normalized to NFC
         for (const token of configured) {
-          aliases.add(token.toLowerCase().trim());
+          aliases.add(token.toLowerCase().trim().normalize('NFC'));
         }
       } else {
         console.warn("Invalid configuration for LOCALE_NAN_ALIASES: expected array, using default aliases.");
@@ -41,7 +45,7 @@ function getAcceptedNaNAliases() {
 }
 
 // Optimized implementation of numeric parameter conversion utility with consolidated NaN validation.
-// Enhanced to ensure unified handling of NaN aliases (with caching) and improved error messaging for near-miss tokens.
+// Enhanced to ensure unified handling of NaN aliases (with caching), Unicode normalization (NFC), and improved error messaging for near-miss tokens.
 function parseNumericParams(paramStr) {
   const acceptedNaNAliases = getAcceptedNaNAliases();
   const tokens = paramStr.split(",");
@@ -55,8 +59,8 @@ function parseNumericParams(paramStr) {
     // Skip empty tokens (including those from trailing or consecutive commas)
     if (trimmed === "") continue;
 
-    // Normalize token for consistent alias checking
-    const normToken = trimmed.toLowerCase().replace(/\s+/g, ' ').trim();
+    // Normalize token for consistent alias checking: lowercase, collapse whitespace, trim and Unicode NFC
+    const normToken = trimmed.toLowerCase().replace(/\s+/g, ' ').trim().normalize('NFC');
 
     // Reject near-miss tokens like "n/a" with a clear suggestion
     if (normToken === "n/a") {

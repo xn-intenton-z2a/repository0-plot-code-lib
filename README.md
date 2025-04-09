@@ -10,11 +10,13 @@ This release includes improvements in numeric parameter handling. The core numer
 
 2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the string "NaN" for a unified representation across advanced and non-advanced modes.
 
-3. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and provides suggestions for acceptable alternatives.
+3. Process all tokens and aliases using Unicode normalization (NFC) in addition to lower-casing and trimming, ensuring that visually equivalent Unicode representations are recognized as valid.
 
-4. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
+4. Provide detailed error messages when encountering invalid numeric inputs. In particular, near-miss tokens like "n/a" now trigger an error message that clearly states the token is invalid and provides suggestions for acceptable alternatives.
 
-5. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable for every numeric conversion.
+5. Gracefully ignore empty tokens resulting from extra commas (including trailing commas), enhancing usability without compromising strict validation of numeric inputs.
+
+6. Improve performance by caching the set of accepted NaN aliases when no locale-specific configuration is provided, avoiding redundant parsing of the environment variable for every numeric conversion.
 
 **Refactoring Note:**
 
@@ -41,7 +43,7 @@ Normalized token 'na' to "NaN"
 
 ### CLI Usage with Advanced Plotting
 
-Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, and trailing commas):
+Run the following command to see advanced plotting in action with robust numeric conversion (including handling of spaces, scientific notation, various NaN aliases, localized aliases via `LOCALE_NAN_ALIASES`, Unicode normalization, and trailing commas):
 
 ```bash
 # Example with advanced plotting using the --advanced flag
@@ -142,6 +144,7 @@ This feature ensures that numeric validation can adapt to various regional forma
 - Empty tokens resulting from extra commas (including trailing commas) are now gracefully ignored.
 - Debug logging can be enabled via `DEBUG_NUMERIC` to track NaN normalization.
 - Caching of accepted NaN aliases is applied when no locale-specific configuration is provided to optimize performance.
+- Unicode normalization (NFC) is applied to all numeric tokens and locale-specific aliases to handle visually equivalent representations.
 - The CLI and web interface now provide unified behavior in handling numeric parameters, ensuring a robust and user-friendly experience.
 
 ## Utility Module
