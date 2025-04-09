@@ -13,7 +13,8 @@ function errorExit(message) {
 
 // Inline implementation of NaN alias normalization with caching
 function getAcceptedNaNAliases() {
-  if (cachedNaNAliases !== null) {
+  // If LOCALE_NAN_ALIASES is not set, use cached value if available
+  if (!process.env.LOCALE_NAN_ALIASES && cachedNaNAliases !== null) {
     return cachedNaNAliases;
   }
   const defaultAliases = ["nan", "not a number", "notanumber", "na", "not-a-number"];
@@ -22,15 +23,20 @@ function getAcceptedNaNAliases() {
     try {
       const configured = JSON.parse(process.env.LOCALE_NAN_ALIASES);
       if (Array.isArray(configured)) {
-        aliases = new Set(configured.map(str => str.toLowerCase().trim()));
+        // Extend default aliases with locale specific ones
+        for (const token of configured) {
+          aliases.add(token.toLowerCase().trim());
+        }
       } else {
         console.warn("Invalid configuration for LOCALE_NAN_ALIASES: expected array, using default aliases.");
       }
     } catch (e) {
       console.warn("Invalid configuration for LOCALE_NAN_ALIASES: unable to parse JSON, using default aliases.");
     }
+  } else {
+    // Only cache if LOCALE_NAN_ALIASES is not provided
+    cachedNaNAliases = aliases;
   }
-  cachedNaNAliases = aliases;
   return aliases;
 }
 
