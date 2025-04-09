@@ -5,7 +5,8 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main, getAcceptedNaNAliases, parseNumericParams } from "../../src/lib/main.js";
-import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/lib/nanAlias.js";
+// Updated direct import: now getAcceptedNaNAliases is imported from main.js instead of nanAlias.js
+import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/lib/main.js";
 
 // Helper function to check if an element is NaN
 const isNativeNaN = (x) => typeof x === 'number' && Number.isNaN(x);
@@ -295,7 +296,7 @@ describe("NaN Alias Utility Module", () => {
 });
 
 describe("Direct NaN Alias Module Import", () => {
-  test("should correctly import from nanAlias module and return default alias set", () => {
+  test("should correctly import from main module and return default alias set", () => {
     const aliases = getAcceptedNaNAliasesDirect();
     expect(aliases.has("nan")).toBe(true);
   });

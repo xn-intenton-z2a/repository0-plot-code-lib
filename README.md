@@ -8,7 +8,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 1. Validate numeric tokens (integer, decimal, scientific notation) and support multiple indicators for Not-a-Number values. In addition to the traditional token 'NaN' (case insensitive, whitespace-tolerant), a configurable set of alternative aliases are accepted. By default, the following aliases are supported: "nan", "not a number", "notanumber", "na", and "not-a-number". Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided JSON is invalid, a warning will be emitted and the default set will be used.
 
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (Number.NaN) for a unified representation across advanced and non-advanced modes.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching the accepted NaN indicators to the native NaN value (`Number.NaN`) for a unified representation across advanced and non-advanced modes.
 
 3. Process all tokens and aliases using Unicode normalization (NFC) in addition to lower-casing and trimming, ensuring that visually equivalent Unicode representations are recognized as valid.
 
@@ -20,7 +20,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
 **Refactoring Note:**
 
-The logic for parsing and normalizing NaN aliases has been extracted to a dedicated utility module (`src/lib/nanAlias.js`). This refactoring improves maintainability and testability by decoupling the alias normalization from the main application logic. Debug logging can be enabled via the environment variable `DEBUG_NUMERIC` to trace when NaN aliases are normalized.
+The logic for parsing and normalizing NaN aliases is now incorporated within the main module (`src/lib/main.js`), simplifying module management and resolution.
 
 ## Debug Logging for Numeric Conversion
 
@@ -138,7 +138,7 @@ This feature ensures that numeric validation can adapt to various regional forma
 
 ## Utility Module
 
-The normalization of NaN aliases has been refactored into its own module located at `src/lib/nanAlias.js`. This separation enhances modularity, maintainability, and allows for more targeted testing of the alias normalization logic.
+All logic for parsing and normalizing NaN aliases is now incorporated within the main module (`src/lib/main.js`), simplifying module resolution and reducing file dependencies.
 
 ## License
 
