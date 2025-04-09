@@ -50,7 +50,7 @@ function parseNumericParams(paramStr) {
     const lowerToken = trimmed.toLowerCase();
     // Check for near-miss tokens such as "n/a" by removing all spaces
     if (lowerToken.replace(/\s/g, '') === "n/a") {
-      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")}?”);
+      errorExit(`Invalid numeric parameter '${trimmed}'. Near-miss tokens like 'n/a' are not accepted. Did you mean one of the accepted tokens: ${Array.from(acceptedNaNAliases).join(", ")}?`);
     }
     
     // Normalize token for alias checking by replacing multiple spaces with a single space
