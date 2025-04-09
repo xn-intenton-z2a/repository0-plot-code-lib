@@ -16,7 +16,7 @@ This release includes improvements in numeric parameter handling. The core numer
 
    Developers can provide locale-specific aliases via the environment variable `LOCALE_NAN_ALIASES` (as a JSON array) to override or extend the default set. If the provided configuration is invalid (either due to invalid JSON or not being an array), a warning is emitted: "Invalid configuration for LOCALE_NAN_ALIASES. Using default NaN aliases." When the environment variable `LOCALE_NAN_OVERRIDE` is set, only the provided aliases will be used.
 
-2. Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native `NaN` value. Note that when these values are serialized using `JSON.stringify`, they appear as `null`.
+2. Convert numeric string tokens to native JavaScript numbers, converting any token matching an accepted NaN alias to the native `NaN` value. Note that when these values are serialized using `JSON.stringify`, they appear as `null` (per JSON specification).
 
 3. Process all tokens using a unified normalization function that applies trimming, NFC Unicode normalization, and locale-aware lowercasing. This ensures consistent handling of both precomposed and decomposed Unicode forms, including extended support for non-Latin scripts.
 
@@ -135,6 +135,10 @@ The optional error handling callback in `parseNumericParams` enables custom erro
 ## Utility Module
 
 All numeric parsing and NaN normalization logic is encapsulated in the main module (`src/lib/main.js`), supporting maintainability and modularity.
+
+## Note on JSON Serialization
+
+When converting numeric values to JSON (e.g., via `JSON.stringify`), native NaN values are serialized as `null`, as per the JSON standard.
 
 ## License
 
