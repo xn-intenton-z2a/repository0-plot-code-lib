@@ -33,10 +33,22 @@ function isValidThemeConfig(config) {
   return true;
 }
 
-// Enhanced logError function to concatenate messages for accurate logging
+// Enhanced logError function to log the actual error's stack trace when an Error object is passed
 function logError(chalkError, ...args) {
-  const message = [chalkError("Error:"), ...args, "\nStack trace:", new Error().stack].join(" ");
-  console.error(message);
+  let errorObj = null;
+  const messageParts = args.map(arg => {
+    if (arg instanceof Error && !errorObj) {
+      errorObj = arg;
+      return arg.message;
+    }
+    return arg;
+  });
+  const baseMessage = [chalkError("Error:"), ...messageParts].join(" ");
+  if (errorObj && errorObj.stack) {
+    console.error(baseMessage + "\nStack trace: " + errorObj.stack);
+  } else {
+    console.error(baseMessage);
+  }
 }
 
 /**

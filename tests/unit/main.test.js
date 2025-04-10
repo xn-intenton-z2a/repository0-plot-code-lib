@@ -147,7 +147,8 @@ describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in non-verbose mode", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--number=abc"])).toThrow("Invalid numeric value: abc");
+    expect(() => main(["--number=abc"]))
+      .toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
     expect(errorOutput).not.toContain("Stack trace:");
@@ -156,7 +157,8 @@ describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in verbose mode", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--number=abc", "--verbose"])).toThrow("Invalid numeric value: abc");
+    expect(() => main(["--number=abc", "--verbose"]))
+      .toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
     expect(errorOutput).toContain("Stack trace:");
