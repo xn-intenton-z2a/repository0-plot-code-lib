@@ -14,6 +14,7 @@ describe("Main Module Import", () => {
   });
 });
 
+
 describe("Default Demo Output", () => {
   test("should display usage message when no arguments provided", () => {
     let logOutput = "";
@@ -32,6 +33,7 @@ describe("Default Demo Output", () => {
     expect(logOutput).toContain("arg2");
   });
 });
+
 
 describe("Error Handling", () => {
   test("should log concise error message in non-verbose mode", () => {
@@ -57,6 +59,7 @@ describe("Error Handling", () => {
   });
 });
 
+
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
@@ -70,6 +73,7 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
+
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -98,6 +102,7 @@ describe("Custom Color Theme Configuration", () => {
   });
 });
 
+
 describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -116,6 +121,7 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
     expect(errorOutput).toContain("Using fallback theme");
   });
 });
+
 
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");

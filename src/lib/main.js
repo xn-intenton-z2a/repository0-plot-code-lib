@@ -60,7 +60,7 @@ function getThemeColors() {
         run: applyChalkChain(config.run, customChalk)
       };
     } catch (e) {
-      console.error(chalk.red(`Custom CLI theme configuration error: ${e.message} Using fallback theme.`));
+      console.error(chalk.red(`Custom CLI theme configuration error [${customConfigPath}]: ${e.message}. Please ensure the file is valid JSON and contains the required keys: error, usage, info, run. Using fallback theme.`));
     }
   }
   const theme = process.env.CLI_COLOR_SCHEME || "default";

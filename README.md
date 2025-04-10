@@ -83,7 +83,7 @@ For example, a custom configuration file could look like this:
 }
 ```
 
-If the custom configuration file is invalid (either malformed JSON or missing required keys), the CLI will log a clear error message indicating the issue and fall back to the default theme.
+If the custom configuration file is invalid (either malformed JSON or missing required keys), the CLI will log an enhanced error message indicating the file path, the specific error, and recommendations to correct the JSON format or schema. It will then fall back to the default theme.
 
 ---
 
