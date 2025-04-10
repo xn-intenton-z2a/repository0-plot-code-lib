@@ -60,6 +60,7 @@ describe("Error Handling", () => {
     expect(() => main(["--simulate-error"]))
       .toThrow("Simulated error condition for testing");
     console.error = originalConsoleError;
+    // Removed expectation for numeric validation as simulate error does not follow that path
     expect(errorOutput).toContain("Error: Simulated error condition for testing");
     expect(errorOutput).not.toContain("Stack trace:");
     expect(errorOutput).not.toContain("Error in main function execution:");

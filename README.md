@@ -43,15 +43,15 @@ Usage: repository0-plot-code-lib <arguments>
 The CLI supports numeric validation via the `--number=VALUE` flag. The validation unifies error messaging as follows:
 
 - The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted to a valid number).
-- In non-verbose mode, if an invalid value is provided, it logs an error message like:
+- In non-verbose mode, if an invalid value is provided, the CLI logs an error message like:
 
-  ```
+  ```bash
   Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
   ```
 
 - In verbose mode (using the `--verbose` flag or setting `LOG_LEVEL=debug`), the error is logged along with a full stack trace:
 
-  ```
+  ```bash
   Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
   Stack trace: <full stack trace here>
   ```
@@ -80,7 +80,7 @@ or
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output an error as detailed above, depending on the verbose setting.
+The CLI will output an error as detailed above, ensuring the error message consistently includes the invalid input and, in verbose mode, the additional stack trace.
 
 ### Automatic Error Reporting
 
