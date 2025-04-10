@@ -193,15 +193,14 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
     throw new Error(`Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.`);
   }
 
-  // Regular expression to check valid numeric formats including digits, optional thousand separators (commas or underscores),
-  // optional decimal parts, and scientific notation
-  const validNumericRegex = /^[+-]?(\d+(?:[_,]\d+)*)(?:\.(\d+(?:[_,]\d+)*))?(?:[eE][+-]?\d+(?:[_,]\d+)*)?$/;
+  // Regular expression updated to allow mixed underscores and commas as thousand separators
+  const validNumericRegex = /^[+-]?(\d[\d,_]*)(\.\d[\d,_]*)?([eE][+-]?\d[\d,_]*)?$/;
   if (!validNumericRegex.test(trimmed)) {
     throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
   }
 
   // Normalize by removing underscores and commas before conversion
-  const normalized = trimmed.replace(/[_,]/g, '');
+  const normalized = trimmed.replace(/[,_]/g, '');
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
     throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
