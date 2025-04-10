@@ -1,42 +1,39 @@
-# ACTIVITY_MANAGER Feature Specification (Enhanced with Unified Logging, Telemetry, History, and Dashboard)
+# ACTIVITY_MANAGER Feature Specification (Enhanced with Diagnostics)
 
 ## Overview
-The ACTIVITY_MANAGER feature consolidates error logging, usage telemetry, and command history management into a single unified module. This enhancement not only streamlines diagnostic and tracking functionalities but also integrates a lightweight web dashboard to provide real-time insights into system events, user actions, and performance metrics. By merging the capabilities of the previous MONITORING and HISTORY_MANAGER features, ACTIVITY_MANAGER delivers comprehensive activity tracking aligned with our mission to be the go-to plot library for formula visualisations.
+This feature consolidates error logging, usage telemetry, and command history management into a unified module. In addition to its core responsibilities of tracking user actions, system events, and performance metrics via a lightweight web dashboard, this update integrates a comprehensive diagnostics mode. The diagnostics mode aggregates key runtime and environmental data—including configuration validations, cache status, and system health metrics—to aid in troubleshooting. This enhancement further strengthens our mission to be the go-to plot library for formula visualisations by providing proactive insights and detailed operational reports.
 
 ## Implementation Details
-- **Single Source File:** Implement as a dedicated module (e.g., `src/lib/activityManager.js`) that replaces the existing MONITORING and HISTORY_MANAGER modules.
+### Unified Logging and Telemetry
+- **Central Logging:** Capture errors, warnings, and informational events from CLI commands, HTTP endpoints, and background tasks.
+- **Usage Analytics:** Collect telemetry data such as command frequency, performance metrics (e.g., plot generation timings), and operational statistics.
+- **CLI Integration:** Provide CLI flags like `--view-logs` and `--usage-stats` to facilitate on-demand review of logs and metrics.
 
-- **Unified Logging and Telemetry:**
-  - Capture errors, warnings, and informational events from CLI commands, HTTP endpoints, and background tasks.
-  - Collect usage data including command frequency, performance metrics (e.g., plot generation timings), and other operational statistics.
-  - Provide CLI flags such as `--view-logs` and `--usage-stats` to inspect recent logs and telemetry data.
+### Command History Management
+- **History Tracking:** Log all command executions with detailed metadata (timestamps, parameters, tags) into a persistent JSON-based history file.
+- **Recycle Bin Mechanism:** Implement a soft-deletion feature enabling command history recovery through a CLI flag (e.g., `--undo-history <record_id>`).
 
-- **Command History Management:**
-  - Record and store command executions into a JSON-based history log with support for detailed metadata (timestamps, parameters, tags).
-  - Include a recycle bin mechanism for non-permanent deletion and enabling undo actions via CLI commands (e.g., `--undo-history <record_id>`).
+### Web Dashboard Integration
+- **Dashboard Server:** Launch an Express-based HTTP server exposing a `/dashboard` endpoint that displays real-time logs, usage statistics, and history data.
+- **Interactive Controls:** Enable functionalities such as log filtering, manual clearance, and history restoration directly from the dashboard.
 
-- **Web Dashboard Integration:**
-  - Launch a lightweight HTTP server (leveraging Express) to expose a dashboard endpoint (e.g., `/dashboard`).
-  - The dashboard displays real-time metrics, error logs, and command history, offering filtering and search capabilities.
-  - Optionally, allow dashboard actions such as manual log clearance or history restoration.
-
-- **Configuration and Validation:**
-  - Utilize JSON configuration files and environment variables for setting log levels, retention periods, and dashboard parameters.
-  - Validate data integrity using libraries such as zod to ensure robust operation.
+### System Diagnostics Integration
+- **Diagnostics Mode:** Introduce a new `--diagnostics` CLI flag that triggers a comprehensive system check. This mode aggregates information from various modules including configuration status, cache inspection (from PLOT_ENGINE and CONFIG_MANAGER), and environmental parameters.
+- **Aggregated Report:** Generate a detailed diagnostics report that includes:
+  - Current configuration summaries and validation status.
+  - Cache status overview with active entries and their TTL values.
+  - System health metrics and environment settings as defined in the tool configuration.
+- **Seamless Integration:** Ensure the diagnostics report is accessible both through CLI output and via the web dashboard, offering a centralized view for troubleshooting and maintenance.
 
 ## Testing and Documentation
-- **Unit and Integration Tests:**
-  - Develop tests simulating error conditions, telemetry data collection, and history management operations.
-  - Test the web dashboard endpoints to ensure correct data presentation and responsiveness.
-
-- **Documentation Updates:**
-  - Update README.md and CONTRIBUTING.md with usage examples for the unified logging, telemetry, history, and dashboard functionalities.
-  - Provide troubleshooting guidelines and API references for all new CLI flags and HTTP endpoints.
+- **Unit and Integration Tests:** Develop tests that simulate error conditions, validate telemetry and history records, and verify the accuracy of diagnostics information.
+- **Dashboard Testing:** Test HTTP endpoints for proper data presentation, filtering capabilities, and interactive actions.
+- **Documentation Updates:** Update README.md and CONTRIBUTING.md with detailed usage examples, particularly covering the new `--diagnostics` flag and its expected outputs. Include troubleshooting guidelines for potential configuration and environment issues.
 
 ## Benefits
-- **Centralized Monitoring:** Combines all activity tracking features into a single module, reducing maintenance overhead and improving diagnostic efficiency.
-- **Real-time Insights:** The integrated web dashboard provides immediate access to performance metrics and system logs, facilitating proactive problem detection.
-- **Enhanced Data Safety:** The recycle bin and undo functionalities ensure that command history remains secure and recoverable, minimizing accidental data loss.
+- **Centralized Monitoring:** Merges previously separate components (error logging, telemetry, and history management) into one robust feature.
+- **Enhanced Troubleshooting:** The new diagnostics mode offers comprehensive insights into system performance and environmental conditions, enabling rapid issue identification and resolution.
+- **Real-time Insights:** The integrated web dashboard and CLI flags provide immediate visibility into system health and operational metrics.
 
 ## Summary
-ACTIVITY_MANAGER represents a strategic consolidation of previously separate monitoring and history management capabilities. By merging these aspects and introducing a real-time dashboard, the feature delivers a powerful, unified approach to activity tracking that enhances user experience and aligns perfectly with our mission.
+This enhanced ACTIVITY_MANAGER feature not only unifies logging, telemetry, and command history but also introduces a diagnostics mode that delivers an aggregated overview of system status and configuration health. By streamlining monitoring and troubleshooting, this update significantly improves operational reliability and aligns with our mission of delivering a powerful, user-friendly plot library.
