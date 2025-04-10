@@ -187,8 +187,9 @@ export function main(args) {
         // Normalize extended number formats: remove underscores and commas
         const normalized = numStr.replace(/[_,]/g, '');
         const parsed = Number(normalized);
-        // Reject literal 'NaN' (case-insensitive) or if parsed is not a valid number
-        if (numStr.toLowerCase() === 'nan' || Number.isNaN(parsed)) {
+        if (numStr.toLowerCase() === 'nan') {
+          errorLogMsg = `Invalid numeric value for argument '${arg}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'. Note: 'NaN' is explicitly rejected because it does not represent a number.`;
+        } else if (Number.isNaN(parsed)) {
           errorLogMsg = `Invalid numeric value for argument '${arg}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
         }
       }
