@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -82,8 +82,8 @@ describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", async () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
     process.env.CLI_COLOR_SCHEME = "dark";
-    const logOutput = await captureConsole('log', async () => { await main([]); });
-    expect(logOutput).toContain("\u001b[1m"); 
+    const logOutput = await captureConsole('log', async () => { await main(["arg"]); });
+    expect(logOutput).toContain("\u001b[1m");
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
@@ -106,7 +106,7 @@ describe("Custom Color Theme Configuration", () => {
   });
 
   test("should use custom theme from cli-theme.json", async () => {
-    const logOutput = await captureConsole('log', async () => { await main([]); });
+    const logOutput = await captureConsole('log', async () => { await main(["arg"]); });
     expect(logOutput).toContain("\x1B[4m");
   });
 });
@@ -123,7 +123,7 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   test("should log clear error message and fallback to default theme for invalid JSON", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    await main([]);
+    await main(["arg"]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Custom CLI theme configuration error");
     expect(errorOutput).toContain("Using fallback theme");
@@ -142,7 +142,7 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   test("should log clear error message and fallback to default theme for invalid schema", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    await main([]);
+    await main(["arg"]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Custom CLI theme configuration error");
     expect(errorOutput).toContain("Using fallback theme");
@@ -253,7 +253,7 @@ describe("Global Configuration Schema Validation", () => {
     fs.writeFileSync(globalConfigPath, '{ malformed json');
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    await main([]);
+    await main(["arg"]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Global config error");
   });
@@ -262,7 +262,7 @@ describe("Global Configuration Schema Validation", () => {
     fs.writeFileSync(globalConfigPath, JSON.stringify({ defaultArgs: "not-an-array" }));
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    await main([]);
+    await main(["arg"]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Global config validation error");
   });
@@ -337,5 +337,47 @@ describe("--show-config Option", () => {
     expect(parsedOutput.LOG_LEVEL).toBe("debug");
     fs.unlinkSync(configPath);
     delete process.env.CLI_COLOR_SCHEME;
+  });
+});
+
+describe("Dynamic CLI Theme Flag", () => {
+  test("should apply dark theme when '--theme=dark' flag is passed", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--theme=dark", "arg1"]); });
+    // Check for bold formatting, specific to dark theme
+    expect(logOutput).toContain("\u001b[1m");
+  });
+
+  test("should apply light theme when '--theme=light' flag is passed", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--theme=light", "arg1"]); });
+    // Chalk.magenta typically uses ANSI code \u001b[35m for usage
+    expect(logOutput).toContain("\u001b[35m");
+  });
+
+  test("should apply default theme when '--theme=default' flag is passed", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--theme=default", "arg1"]); });
+    // Default theme uses chalk.yellow for usage: ANSI code \u001b[33m
+    expect(logOutput).toContain("\u001b[33m");
+  });
+});
+
+describe("CLI Flag over Custom Config", () => {
+  const configPath = path.join(process.cwd(), "cli-theme.json");
+  const customConfig = {
+    error: "bold.red",
+    usage: "underline.blue",
+    info: "italic.green",
+    run: "inverse.cyan"
+  };
+  beforeAll(() => {
+    fs.writeFileSync(configPath, JSON.stringify(customConfig));
+  });
+  afterAll(() => {
+    fs.unlinkSync(configPath);
+  });
+  
+  test("should override custom config when --theme flag is provided", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--theme=light", "arg1"]); });
+    // For light theme, usage should be chalk.magenta which produces ANSI code \u001b[35m
+    expect(logOutput).toContain("\u001b[35m");
   });
 });

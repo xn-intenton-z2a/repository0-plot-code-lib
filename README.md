@@ -40,6 +40,22 @@ If no arguments are provided, the CLI will display a colored usage message. Howe
 Usage: repository0-plot-code-lib <arguments>
 ```
 
+### Dynamic Theme Switching
+
+A new CLI flag has been introduced to dynamically switch the color theme at runtime. Use the `--theme=<value>` flag to override the default theme selection, environment variables, or custom configuration files (`cli-theme.json`). Supported values are:
+
+- `default`
+- `dark`
+- `light`
+
+For example:
+
+```bash
+repository0-plot-code-lib --theme=dark arg1 arg2
+```
+
+This flag will take precedence over any theme specified in the environment variable `CLI_COLOR_SCHEME` or in the `cli-theme.json` custom configuration file.
+
 ### Numeric Argument Validation
 
 The CLI supports numeric validation via the `--number=VALUE` flag. The following number formats are supported:

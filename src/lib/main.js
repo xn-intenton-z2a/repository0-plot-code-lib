@@ -61,9 +61,45 @@ function logError(chalkError, ...args) {
 }
 
 /**
- * Returns the current CLI theme color functions based on a custom configuration file or the CLI_COLOR_SCHEME environment variable.
+ * Returns the current CLI theme color functions based on a provided theme override, a custom configuration file, or the CLI_COLOR_SCHEME environment variable.
  */
-function getThemeColors() {
+function getThemeColors(themeOverride = null) {
+  if (themeOverride) {
+    switch (themeOverride) {
+      case "dark": {
+        const forcedChalk = new Chalk({ level: 3 });
+        return {
+          error: forcedChalk.bold.red,
+          usage: forcedChalk.bold.blue,
+          info: forcedChalk.bold.green,
+          run: forcedChalk.bold.cyan
+        };
+      }
+      case "light":
+        return {
+          error: chalk.red,
+          usage: chalk.magenta,
+          info: chalk.blue,
+          run: chalk.yellow
+        };
+      case "default":
+        return {
+          error: chalk.red,
+          usage: chalk.yellow,
+          info: chalk.green,
+          run: chalk.cyan
+        };
+      default:
+        console.error(chalk.red(`Unknown theme override '${themeOverride}'. Falling back to default theme.`));
+        return {
+          error: chalk.red,
+          usage: chalk.yellow,
+          info: chalk.green,
+          run: chalk.cyan
+        };
+    }
+  }
+
   const customConfigPath = path.join(process.cwd(), "cli-theme.json");
   if (existsSync(customConfigPath)) {
     try {
@@ -87,7 +123,6 @@ function getThemeColors() {
   const theme = process.env.CLI_COLOR_SCHEME || "default";
   switch (theme) {
     case "dark": {
-      // Force chalk to use ANSI escape codes by creating a new instance with level 3
       const forcedChalk = new Chalk({ level: 3 });
       return {
         error: forcedChalk.bold.red,
@@ -189,6 +224,18 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
+  // Extract and remove any theme override flag from args
+  let themeOverride = null;
+  if (args && args.length > 0) {
+    args = args.filter(arg => {
+      if (arg.startsWith('--theme=')) {
+        themeOverride = arg.slice('--theme='.length);
+        return false;
+      }
+      return true;
+    });
+  }
+
   // Check if the '--show-config' flag is present
   if (args && args.includes('--show-config')) {
     const globalConfig = getGlobalConfig();
@@ -213,7 +260,7 @@ export async function main(args) {
   // Set error reporting URL from global config or environment variable
   const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
 
-  const themeColors = getThemeColors();
+  const themeColors = getThemeColors(themeOverride);
   // Determine verbose mode via command line flag only
   const verboseMode = args && args.includes("--verbose");
 
