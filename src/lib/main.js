@@ -60,127 +60,47 @@ function logError(chalkError, ...args) {
   }
 }
 
-/**
- * Returns the current CLI theme color functions based on a provided theme override, a custom configuration file, or the CLI_COLOR_SCHEME environment variable.
- */
-function getThemeColors(themeOverride = null) {
-  if (themeOverride) {
-    const forcedChalk = new Chalk({ level: 3 });
-    switch (themeOverride) {
-      case "dark":
-        return {
-          error: forcedChalk.bold.red,
-          usage: forcedChalk.bold.blue,
-          info: forcedChalk.bold.green,
-          run: forcedChalk.bold.cyan
-        };
-      case "light":
-        return {
-          error: forcedChalk.red,
-          usage: forcedChalk.magenta,
-          info: forcedChalk.blue,
-          run: forcedChalk.yellow
-        };
-      case "default":
-        return {
-          error: forcedChalk.red,
-          usage: forcedChalk.yellow,
-          info: forcedChalk.green,
-          run: forcedChalk.cyan
-        };
-      default:
-        console.error(forcedChalk.red(`Unknown theme override '${themeOverride}'. Falling back to default theme.`));
-        return {
-          error: forcedChalk.red,
-          usage: forcedChalk.yellow,
-          info: forcedChalk.green,
-          run: forcedChalk.cyan
-        };
-    }
-  }
+// New helper function to normalize numeric strings to account for locale-aware separators
+function normalizeNumberString(numStr) {
+  let trimmed = numStr.trim();
+  // Count occurrences of various thousand separators
+  // We remove underscores, commas, and spaces for sure
+  trimmed = trimmed.replace(/[_ ,]/g, '');
 
-  const customConfigPath = path.join(process.cwd(), "cli-theme.json");
-  if (existsSync(customConfigPath)) {
-    try {
-      const configContent = readFileSync(customConfigPath, "utf-8");
-      const config = JSON.parse(configContent);
-      if (!isValidThemeConfig(config)) {
-        throw new Error("Invalid custom CLI theme configuration: expected keys 'error', 'usage', 'info', and 'run' with non-empty string values.");
-      }
-      // Use a forced chalk instance with ANSI level 3 for custom themes
-      const customChalk = new Chalk({ level: 3 });
-      return {
-        error: applyChalkChain(config.error, customChalk),
-        usage: applyChalkChain(config.usage, customChalk),
-        info: applyChalkChain(config.info, customChalk),
-        run: applyChalkChain(config.run, customChalk)
-      };
-    } catch (e) {
-      console.error(chalk.red(`Custom CLI theme configuration error [${customConfigPath}]: ${e.message}. Please ensure the file is valid JSON and contains the required keys: error, usage, info, run. Using fallback theme.`));
-    }
-  }
-  const theme = process.env.CLI_COLOR_SCHEME || "default";
-  if (theme === "dark") {
-    const forcedChalk = new Chalk({ level: 3 });
-    return {
-      error: forcedChalk.bold.red,
-      usage: forcedChalk.bold.blue,
-      info: forcedChalk.bold.green,
-      run: forcedChalk.bold.cyan
-    };
-  } else if (theme === "light") {
-    const forcedChalk = new Chalk({ level: 3 });
-    return {
-      error: forcedChalk.red,
-      usage: forcedChalk.magenta,
-      info: forcedChalk.blue,
-      run: forcedChalk.yellow
-    };
-  } else {
-    const forcedChalk = new Chalk({ level: 3 });
-    return {
-      error: forcedChalk.red,
-      usage: forcedChalk.yellow,
-      info: forcedChalk.green,
-      run: forcedChalk.cyan
-    };
-  }
-}
-
-// Function to get global configuration from .repository0plotconfig.json with schema validation
-function getGlobalConfig() {
-  const configPaths = [];
-  const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
-  configPaths.push(cwdConfigPath);
-  const homeDir = process.env.HOME || process.env.USERPROFILE;
-  if (homeDir) {
-    configPaths.push(path.join(homeDir, ".repository0plotconfig.json"));
-  }
-  let mergedConfig = {};
-  for (const configPath of configPaths) {
-    if (existsSync(configPath)) {
-      try {
-        const content = readFileSync(configPath, "utf-8");
-        const json = JSON.parse(content);
-        mergedConfig = { ...mergedConfig, ...json };
-      } catch (err) {
-        console.error(chalk.red(`Global config error [${configPath}]: ${err.message}. Ignoring this config.`));
+  // Handle periods carefully: if there are multiple periods, assume the last one is the decimal separator
+  const periodMatches = numStr.match(/\./g);
+  if (periodMatches && periodMatches.length > 1) {
+    const lastIndex = numStr.lastIndexOf('.');
+    const integerPart = numStr.slice(0, lastIndex).replace(/[_, .]/g, '');
+    const fractionalPart = numStr.slice(lastIndex + 1).replace(/[_, ]/g, '');
+    return integerPart + '.' + fractionalPart;
+  } else if (periodMatches && periodMatches.length === 1) {
+    // If exactly one period exists, determine if it is used as a thousands separator
+    // Split based on period in the original string
+    const parts = numStr.split('.');
+    if (parts.length === 2) {
+      const integerPartRaw = parts[0];
+      const fractionalPartRaw = parts[1];
+      // Remove other separators from integer part
+      const integerPartClean = integerPartRaw.replace(/[_ ,]/g, '');
+      // If the fractional part has exactly 3 digits and the integer part is non-empty and looks like a group,
+      // assume period was a thousands separator
+      if (fractionalPartRaw.replace(/[_ ,]/g, '').length === 3 && integerPartClean.length > 0) {
+        return integerPartClean + fractionalPartRaw.replace(/[_ ,]/g, '');
+      } else {
+        // Otherwise, treat period as decimal point
+        return integerPartClean + '.' + fractionalPartRaw.replace(/[_ ,]/g, '');
       }
     }
   }
-  // Validate merged configuration using zod schema
-  const result = globalConfigSchema.safeParse(mergedConfig);
-  if (!result.success) {
-    console.error(chalk.red(`Global config validation error: ${result.error}. Using default configuration.`));
-    return {};
-  }
-  return result.data;
+  return trimmed;
 }
 
 /**
  * Consolidated validation function for numeric CLI arguments.
- * This function uses a robust regular expression to validate the number format, supporting standard numbers, scientific notation,
- * and numbers with underscores or commas as thousands separators. It throws detailed errors that are handled in the main catch block.
+ * This function uses a robust approach to validate number format, supporting scientific notation,
+ * numbers with underscores, commas, spaces and periods as thousands separators.
+ * It throws detailed errors that are handled in the main catch block.
  * @param {string} numStr - The numeric string from CLI argument.
  * @param {boolean} verboseMode - Flag indicating verbose mode.
  * @param {object} themeColors - Theme color functions for logging.
@@ -193,14 +113,8 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
     throw new Error(`Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.`);
   }
 
-  // Regular expression updated to allow mixed underscores and commas as thousand separators
-  const validNumericRegex = /^[+-]?(\d[\d,_]*)(\.\d[\d,_]*)?([eE][+-]?\d[\d,_]*)?$/;
-  if (!validNumericRegex.test(trimmed)) {
-    throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
-  }
-
-  // Normalize by removing underscores and commas before conversion
-  const normalized = trimmed.replace(/[,_]/g, '');
+  // Normalize the numeric string using the new locale-aware function
+  const normalized = normalizeNumberString(trimmed);
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
     throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
@@ -333,6 +247,121 @@ export async function main(args) {
 
     throw error;
   }
+}
+
+// Returns the current CLI theme color functions based on a provided theme override, a custom configuration file, or the CLI_COLOR_SCHEME environment variable.
+function getThemeColors(themeOverride = null) {
+  if (themeOverride) {
+    const forcedChalk = new Chalk({ level: 3 });
+    switch (themeOverride) {
+      case "dark":
+        return {
+          error: forcedChalk.bold.red,
+          usage: forcedChalk.bold.blue,
+          info: forcedChalk.bold.green,
+          run: forcedChalk.bold.cyan
+        };
+      case "light":
+        return {
+          error: forcedChalk.red,
+          usage: forcedChalk.magenta,
+          info: forcedChalk.blue,
+          run: forcedChalk.yellow
+        };
+      case "default":
+        return {
+          error: forcedChalk.red,
+          usage: forcedChalk.yellow,
+          info: forcedChalk.green,
+          run: forcedChalk.cyan
+        };
+      default:
+        console.error(forcedChalk.red(`Unknown theme override '${themeOverride}'. Falling back to default theme.`));
+        return {
+          error: forcedChalk.red,
+          usage: forcedChalk.yellow,
+          info: forcedChalk.green,
+          run: forcedChalk.cyan
+        };
+    }
+  }
+
+  const customConfigPath = path.join(process.cwd(), "cli-theme.json");
+  if (existsSync(customConfigPath)) {
+    try {
+      const configContent = readFileSync(customConfigPath, "utf-8");
+      const config = JSON.parse(configContent);
+      if (!isValidThemeConfig(config)) {
+        throw new Error("Invalid custom CLI theme configuration: expected keys 'error', 'usage', 'info', and 'run' with non-empty string values.");
+      }
+      // Use a forced chalk instance with ANSI level 3 for custom themes
+      const customChalk = new Chalk({ level: 3 });
+      return {
+        error: applyChalkChain(config.error, customChalk),
+        usage: applyChalkChain(config.usage, customChalk),
+        info: applyChalkChain(config.info, customChalk),
+        run: applyChalkChain(config.run, customChalk)
+      };
+    } catch (e) {
+      console.error(chalk.red(`Custom CLI theme configuration error [${customConfigPath}]: ${e.message}. Please ensure the file is valid JSON and contains the required keys: error, usage, info, run. Using fallback theme.`));
+    }
+  }
+  const theme = process.env.CLI_COLOR_SCHEME || "default";
+  if (theme === "dark") {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.bold.red,
+      usage: forcedChalk.bold.blue,
+      info: forcedChalk.bold.green,
+      run: forcedChalk.bold.cyan
+    };
+  } else if (theme === "light") {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.red,
+      usage: forcedChalk.magenta,
+      info: forcedChalk.blue,
+      run: forcedChalk.yellow
+    };
+  } else {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.red,
+      usage: forcedChalk.yellow,
+      info: forcedChalk.green,
+      run: forcedChalk.cyan
+    };
+  }
+}
+
+// Function to get global configuration from .repository0plotconfig.json with schema validation
+function getGlobalConfig() {
+  const configPaths = [];
+  const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  configPaths.push(cwdConfigPath);
+  const homeDir = process.env.HOME || process.env.USERPROFILE;
+  if (homeDir) {
+    configPaths.push(path.join(homeDir, ".repository0plotconfig.json"));
+  }
+  let mergedConfig = {};
+  for (const configPath of configPaths) {
+    if (existsSync(configPath)) {
+      try {
+        const content = readFileSync(configPath, "utf-8");
+        const json = JSON.parse(content);
+        mergedConfig = { ...mergedConfig, ...json };
+      } catch (err) {
+        console.error(chalk.red(`Global config error [${configPath}]: ${err.message}. Ignoring this config.`));
+      }
+    }
+  }
+  // Validate merged configuration using zod schema
+  const result = globalConfigSchema.safeParse(mergedConfig);
+  if (!result.success) {
+    console.error(chalk.red(`Global config validation error: ${result.error}. Using default configuration.`));
+    return {};
+  }
+  return result.data;
 }
 
 // If the script is executed directly from the CLI, invoke main with command line arguments

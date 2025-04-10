@@ -76,7 +76,6 @@ describe("Error Handling", () => {
   });
 });
 
-
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", async () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
@@ -86,7 +85,6 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
-
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -111,7 +109,6 @@ describe("Custom Color Theme Configuration", () => {
   });
 });
 
-
 describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -131,7 +128,6 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   });
 });
 
-
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -150,7 +146,6 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
     expect(errorOutput).toContain("Using fallback theme");
   });
 });
-
 
 describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in non-verbose mode", async () => {
@@ -212,8 +207,17 @@ describe("Numeric Argument Validation", () => {
     const logOutput = await captureConsole('log', async () => { await main(["--number=1,_000", "arg"]); });
     expect(logOutput).toContain("arg");
   });
-});
 
+  test("should accept numbers with spaces as thousands separator", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1 000", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+
+  test("should accept numbers with period as thousands separator when appropriate", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1.000", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+});
 
 describe("Global Configuration Support", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -244,7 +248,6 @@ describe("Global Configuration Support", () => {
   });
 });
 
-
 describe("Global Configuration Schema Validation", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
 
@@ -272,7 +275,6 @@ describe("Global Configuration Schema Validation", () => {
     expect(errorOutput).toContain("Global config validation error");
   });
 });
-
 
 describe("Automatic Error Reporting", () => {
   let originalFetch;
@@ -325,7 +327,6 @@ describe("Automatic Error Reporting", () => {
   });
 });
 
-
 describe("--show-config Option", () => {
   test("should output effective global configuration as formatted JSON and not process further arguments", async () => {
     const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -347,7 +348,6 @@ describe("--show-config Option", () => {
   });
 });
 
-
 describe("Dynamic CLI Theme Flag", () => {
   test("should apply dark theme when '--theme=dark' flag is passed", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["--theme=dark", "arg1"]); });
@@ -364,7 +364,6 @@ describe("Dynamic CLI Theme Flag", () => {
     expect(logOutput).toContain("\u001b[33m");
   });
 });
-
 
 describe("CLI Flag over Custom Config", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
