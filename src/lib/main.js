@@ -3,6 +3,7 @@
 
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
+import { logError } from "./logger.js";
 
 /**
  * Returns the current CLI theme color functions based on the CLI_COLOR_SCHEME environment variable.
@@ -35,18 +36,6 @@ function getThemeColors() {
         run: chalk.cyan,
       };
   }
-}
-
-/**
- * Logs detailed error information with colored output.
- * @param {Function} errorColor - Function to apply error color
- * @param {string} message - The error context message.
- * @param {Error} error - The error object.
- */
-function logError(errorColor, message, error) {
-  console.error(errorColor(message));
-  console.error(errorColor(`Error message: ${error.message}`));
-  console.error(errorColor(`Stack trace: ${error.stack}`));
 }
 
 /**

@@ -52,6 +52,8 @@ or
 LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 ```
 
+Additionally, error logging has been centralized into a dedicated logger module located at `src/lib/logger.js` to streamline and improve maintainability of log outputs.
+
 ## Configurable Color Themes
 
 You can customize the CLI output color theme by setting the environment variable `CLI_COLOR_SCHEME`. The available themes are:
