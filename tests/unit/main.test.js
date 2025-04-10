@@ -159,7 +159,7 @@ describe("Numeric Argument Validation", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     await expect(main(["--number=abc"]))
-      .rejects.toThrow("Invalid numeric value: abc");
+      .rejects.toThrow("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).not.toContain("Stack trace:");
@@ -169,7 +169,7 @@ describe("Numeric Argument Validation", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     await expect(main(["--number=abc", "--verbose"]))
-      .rejects.toThrow("Invalid numeric value: abc");
+      .rejects.toThrow("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).toContain("Stack trace:");
@@ -179,7 +179,7 @@ describe("Numeric Argument Validation", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     await expect(main(["--number=NaN"]))
-      .rejects.toThrow("Invalid numeric value: NaN");
+      .rejects.toThrow("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).not.toContain("Stack trace:");
@@ -189,7 +189,7 @@ describe("Numeric Argument Validation", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     await expect(main(["--number=NaN", "--verbose"]))
-      .rejects.toThrow("Invalid numeric value: NaN");
+      .rejects.toThrow("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).toContain("Stack trace:");
