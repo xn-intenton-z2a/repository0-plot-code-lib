@@ -1,7 +1,7 @@
-# HTTP_API Feature Specification
+# HTTP_API Feature Specification (Enhanced with Health Checks)
 
 ## Overview
-This feature introduces a lightweight HTTP API server to provide programmatic access to the plotting library’s core functionalities. By offering HTTP endpoints, users and integrated systems can generate plots, retrieve history records, and perform dry-run simulations remotely. This API complements the CLI interface and library usage, aligning with our mission to be the go-to plot library for formula visualisations.
+This feature introduces a lightweight HTTP API server that provides programmatic access to the plotting library’s core functionalities. Users and integrated systems can generate plots, retrieve history records, perform dry-run simulations, and now check the system health via a dedicated endpoint. This API complements the CLI interface and library usage, aligning with our mission to be the go-to plot library for formula visualisations.
 
 ## Implementation Details
 ### Express Server Setup
@@ -17,19 +17,22 @@ This feature introduces a lightweight HTTP API server to provide programmatic ac
   - Returns the computed plot and diagnostic details in JSON format.
 - **GET /history**
   - Integrates with the HISTORY_MANAGER to fetch and filter plot history records.
+- **Health Check Endpoint - GET /health**
+  - Returns a JSON response with status information including current uptime, memory usage, and general service health.
+  - Designed to support container orchestration readiness and monitoring tools.
 - **Additional Endpoints:**
-  - Endpoints for dry-run simulation, clearing history, and more can be added as needed to mirror CLI functionalities.
+  - Endpoints for dry-run simulation, clearing history, and other functionalities can be added as needed to mirror CLI operations.
 
 ### Integration & Validation
-- **Reuse Validation Logic:** Incorporate the robust argument and payload validation (originally in ARG_VALIDATION, now merged into CLI_INTERFACE) using Zod schemas to ensure correct parameter formats.
-- **Error Handling:** Return clear HTTP error statuses and messages for invalid inputs, following consistent messaging as in the CLI.
-- **Logging & Monitoring:** Integrate with the SYSTEM_MONITORING feature to log API usage and errors.
+- **Reuse Validation Logic:** Incorporate robust argument and payload validation (using Zod schemas) ensuring correct parameter formats across endpoints.
+- **Error Handling:** Return clear HTTP error statuses and messages for invalid inputs using consistent messaging as used in the CLI.
+- **Logging & Monitoring:** Integrate with the SYSTEM_MONITORING feature to log API usage and errors, including health check diagnostic logs.
 
 ## Testing and Documentation
-- **Tests:** Add unit and integration tests for each endpoint using existing test frameworks (e.g., vitest) to verify expected behavior and error handling.
-- **Documentation Updates:** Update README.md and CONTRIBUTING.md with detailed API usage examples, endpoint descriptions, and deployment instructions.
+- **Tests:** Add unit and integration tests for each endpoint, including the new health check endpoint, using existing frameworks (e.g., vitest) to validate expected behavior and error handling.
+- **Documentation Updates:** Update README.md and CONTRIBUTING.md with detailed API usage examples, endpoint descriptions (including the new `/health` endpoint), and deployment instructions.
 
 ## Benefits
-- **Programmatic Access:** Enables external systems to trigger plotting operations seamlessly via HTTP, promoting automation and integration.
-- **Consistency:** Provides a unified interface with similar validation, logging, and error management as the CLI, enhancing user experience across interfaces.
-- **Flexibility:** Serves as an alternative access layer, increasing the versatility of the repository by making its core functionalities available as a service.
+- **Programmatic Access:** Enables external systems to trigger plotting operations and monitor system health seamlessly via HTTP.
+- **Operational Insight:** The dedicated health check endpoint provides vital runtime diagnostics, supporting automated monitoring and orchestration deployments.
+- **Consistency:** Ensures uniform validation, logging, and error management across CLI and API interfaces, enhancing overall user experience.
