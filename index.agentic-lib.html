@@ -90,27 +90,16 @@ Stack trace: &lt;full stack trace here&gt;
 }
 </code></pre>
 <p class="md-github">When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="advanced-error-handling" href="#advanced-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Error Handling</h3>
-<p class="md-github">The CLI includes robust error handling with configurable logging levels. By default, errors are thrown as exceptions, allowing consuming code or the dedicated CLI wrapper to decide on process termination. To enable detailed logging (which includes a full stack trace and additional context), you can either:</p>
-<ul class="md-github">
-<li class="md-github">Use the command line flag: <code class="md-github">--verbose</code></li>
-<li class="md-github">Set the environment variable: <code class="md-github">LOG_LEVEL=debug</code></li>
-</ul>
-<p class="md-github">For example:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --simulate-error --verbose
-</code></pre>
-<p class="md-github">or</p>
-<pre class="md-github"><code class="md-github language-bash">LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
-</code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration-file-support" href="#global-configuration-file-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration File Support</h3>
 <p class="md-github">A new feature allows you to set persistent default options without having to specify them every time you run the CLI.</p>
-<p class="md-github">The CLI will look for a global configuration file named <code class="md-github">.repository0plotconfig.json</code> in the current working directory and in your home directory (using the <code class="md-github">HOME</code> or <code class="md-github">USERPROFILE</code> environment variable). This file supports the following options:</p>
+<p class="md-github">The CLI will look for a global configuration file named <code class="md-github">.repository0plotconfig.json</code> in the current working directory and in your home directory (using the <code class="md-github">HOME</code> or <code class="md-github">USERPROFILE</code> environment variable). This file now enforces a strict schema. Supported configuration keys are:</p>
 <ul class="md-github">
-<li class="md-github"><code class="md-github">CLI_COLOR_SCHEME</code>: Set a default color theme (e.g., &quot;dark&quot;, &quot;light&quot;, or &quot;default&quot;).</li>
-<li class="md-github"><code class="md-github">LOG_LEVEL</code>: Set a default logging level (e.g., &quot;debug&quot;).</li>
-<li class="md-github"><code class="md-github">ERROR_REPORTING_URL</code>: Set the URL for automatic error report submissions.</li>
-<li class="md-github"><code class="md-github">defaultArgs</code>: An array of default command line arguments to be used when no arguments are provided.</li>
+<li class="md-github"><code class="md-github">CLI_COLOR_SCHEME</code> (string, e.g., &quot;dark&quot;, &quot;light&quot;, or &quot;default&quot;)</li>
+<li class="md-github"><code class="md-github">LOG_LEVEL</code> (string, e.g., &quot;debug&quot;, &quot;info&quot;, etc.)</li>
+<li class="md-github"><code class="md-github">ERROR_REPORTING_URL</code> (string, must be a valid URL)</li>
+<li class="md-github"><code class="md-github">defaultArgs</code> (array of strings)</li>
 </ul>
+<p class="md-github">If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings, ensuring robust and predictable behavior.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="example-repository0plotconfigjson-file" href="#example-repository0plotconfigjson-file"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example <code class="md-github">.repository0plotconfig.json</code> file:</h4>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
@@ -126,7 +115,7 @@ Stack trace: &lt;full stack trace here&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T17:59:33.826Z</p>
+    <p>Generated on 2025-04-10T18:10:28.606Z</p>
   </footer>
 </body>
 </html>
