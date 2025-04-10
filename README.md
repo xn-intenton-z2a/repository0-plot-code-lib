@@ -49,22 +49,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 
 The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted into a valid number after removing underscores and commas).
 
-Note: The literal 'NaN' (in any case, e.g., 'NaN', 'nan', 'NAN') is explicitly rejected as it does not represent a valid number in this CLI.
-
-If an invalid numeric value is provided, the CLI outputs a standardized error message. For example, if a non-numeric value is provided:
-
-```bash
-Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
-```
-
-If an invalid numeric value is provided in verbose mode, the error is logged along with a full stack trace:
-
-```bash
-Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
-Stack trace: <full stack trace here>
-```
-
-In addition to using the `--verbose` flag, setting the `LOG_LEVEL` environment variable to `debug` will also enable detailed error reporting with stack traces.
+Note: The literal 'NaN' (in any case) is explicitly rejected as it does not represent a valid number in this CLI. If a literal 'NaN' is provided, the CLI will output a clear error message. In non-verbose mode, it will display the instructive error without a stack trace. In verbose mode or when `LOG_LEVEL` is set to `debug`, a full stack trace is included for debugging purposes.
 
 For example:
 
@@ -75,18 +60,21 @@ repository0-plot-code-lib --number=42
 If an invalid numeric value is provided:
 
 ```bash
-repository0-plot-code-lib --number=abc
-```
-
-or
-
-```bash
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output the standardized error message and exit with code 1.
+The CLI will output:
 
-*Note: The internal numeric argument validation logic has been refactored into a consolidated function to improve maintainability, while preserving all documented behaviors.*
+```bash
+Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
+```
+
+In verbose mode:
+
+```bash
+Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
+Stack trace: <full stack trace here>
+```
 
 ### Automatic Error Reporting
 
@@ -108,8 +96,6 @@ Example configuration snippet:
 }
 ```
 
-When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence.
-
 ### Global Configuration File Support
 
 A new feature allows you to set persistent default options without having to specify them every time you run the CLI.
@@ -121,7 +107,7 @@ The CLI will look for a global configuration file named `.repository0plotconfig.
 - `ERROR_REPORTING_URL` (string, must be a valid URL)
 - `defaultArgs` (array of strings)
 
-If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings, ensuring robust and predictable behavior.
+If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings.
 
 Additionally, you can use the new `--show-config` flag to display the effective global configuration being applied by the CLI. This outputs a formatted JSON showing the merged configuration from config files and environment variables.
 
@@ -135,8 +121,6 @@ Additionally, you can use the new `--show-config` flag to display the effective 
   "defaultArgs": ["defaultArg1", "defaultArg2"]
 }
 ```
-
-When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence.
 
 ---
 
