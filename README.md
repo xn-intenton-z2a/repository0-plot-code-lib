@@ -83,7 +83,7 @@ For example, a custom configuration file could look like this:
 }
 ```
 
-When `cli-theme.json` is present, the CLI will use your custom color configuration.
+If the custom configuration file is invalid (either malformed JSON or missing required keys), the CLI will log a clear error message indicating the issue and fall back to the default theme.
 
 ---
 

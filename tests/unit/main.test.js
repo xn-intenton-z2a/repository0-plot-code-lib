@@ -93,7 +93,46 @@ describe("Custom Color Theme Configuration", () => {
     console.log = (msg) => { logOutput += msg; };
     main([]);
     console.log = originalConsoleLog;
-    // ANSI code for underline is typically \x1B[4m
+    // ANSI code for underline is typically \x1B[4m in many terminals
     expect(logOutput).toContain("\x1B[4m");
+  });
+});
+
+describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
+  const configPath = path.join(process.cwd(), "cli-theme.json");
+  beforeAll(() => {
+    fs.writeFileSync(configPath, '{ invalid json');
+  });
+  afterAll(() => {
+    fs.unlinkSync(configPath);
+  });
+
+  test("should log clear error message and fallback to default theme for invalid JSON", () => {
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    main([]);
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Custom CLI theme configuration error");
+    expect(errorOutput).toContain("Using fallback theme");
+  });
+});
+
+describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
+  const configPath = path.join(process.cwd(), "cli-theme.json");
+  beforeAll(() => {
+    // Valid JSON but missing required keys
+    fs.writeFileSync(configPath, JSON.stringify({ wrongKey: "bold.red" }));
+  });
+  afterAll(() => {
+    fs.unlinkSync(configPath);
+  });
+
+  test("should log clear error message and fallback to default theme for invalid schema", () => {
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    main([]);
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Custom CLI theme configuration error");
+    expect(errorOutput).toContain("Using fallback theme");
   });
 });
