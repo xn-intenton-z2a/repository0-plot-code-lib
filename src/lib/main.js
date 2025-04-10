@@ -4,6 +4,12 @@
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
 
+// Enhanced logError function to concatenate messages for accurate logging
+function logError(chalkError, ...args) {
+  const message = [chalkError("Error:"), ...args, "\nStack trace:", new Error().stack].join(' ');
+  console.error(message);
+}
+
 /**
  * Returns the current CLI theme color functions based on the CLI_COLOR_SCHEME environment variable.
  */
@@ -17,7 +23,7 @@ function getThemeColors() {
         error: forcedChalk.bold.red,
         usage: forcedChalk.bold.blue,
         info: forcedChalk.bold.green,
-        run: forcedChalk.bold.cyan,
+        run: forcedChalk.bold.cyan
       };
     }
     case "light":
@@ -25,28 +31,16 @@ function getThemeColors() {
         error: chalk.red,
         usage: chalk.magenta,
         info: chalk.blue,
-        run: chalk.yellow,
+        run: chalk.yellow
       };
     default:
       return {
         error: chalk.red,
         usage: chalk.yellow,
         info: chalk.green,
-        run: chalk.cyan,
+        run: chalk.cyan
       };
   }
-}
-
-/**
- * Logs detailed error information with colored output.
- * @param {Function} errorColor - Function to apply error color
- * @param {string} message - The error context message.
- * @param {Error} error - The error object.
- */
-function logError(errorColor, message, error) {
-  console.error(errorColor(message));
-  console.error(errorColor(`Error message: ${error.message}`));
-  console.error(errorColor(`Stack trace: ${error.stack}`));
 }
 
 /**
