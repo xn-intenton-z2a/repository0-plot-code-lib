@@ -184,8 +184,8 @@ export function main(args) {
       if (numStr === "") {
         errorLogMsg = "Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.";
       } else {
-        // Normalize extended number formats: remove underscores
-        const normalized = numStr.replace(/_/g, '');
+        // Normalize extended number formats: remove underscores and commas
+        const normalized = numStr.replace(/[_,]/g, '');
         const parsed = Number(normalized);
         // Reject literal 'NaN' (case-insensitive) or if parsed is not a valid number
         if (numStr.toLowerCase() === 'nan' || Number.isNaN(parsed)) {

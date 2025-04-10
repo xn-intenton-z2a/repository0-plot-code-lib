@@ -78,7 +78,6 @@ describe("Error Handling", () => {
   });
 });
 
-
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
@@ -88,7 +87,6 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
-
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -113,7 +111,6 @@ describe("Custom Color Theme Configuration", () => {
   });
 });
 
-
 describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -133,7 +130,6 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   });
 });
 
-
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -152,7 +148,6 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
     expect(errorOutput).toContain("Using fallback theme");
   });
 });
-
 
 describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in non-verbose mode", () => {
@@ -204,8 +199,17 @@ describe("Numeric Argument Validation", () => {
     const logOutput = captureConsole('log', () => { main(["--number=1_000", "arg"]); });
     expect(logOutput).toContain("arg");
   });
-});
 
+  test("should accept numbers with commas", () => {
+    const logOutput = captureConsole('log', () => { main(["--number=1,000", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+
+  test("should accept numbers with both underscores and commas", () => {
+    const logOutput = captureConsole('log', () => { main(["--number=1,_000", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+});
 
 describe("Global Configuration Support", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -236,7 +240,6 @@ describe("Global Configuration Support", () => {
   });
 });
 
-
 describe("Global Configuration Schema Validation", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
 
@@ -265,7 +268,6 @@ describe("Global Configuration Schema Validation", () => {
     expect(errorOutput).toContain("Global config validation error");
   });
 });
-
 
 describe("Automatic Error Reporting", () => {
   let originalFetch;
