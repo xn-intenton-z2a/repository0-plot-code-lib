@@ -180,15 +180,14 @@ export function main(args) {
   for (const arg of args) {
     if (arg.startsWith(numberFlagPrefix)) {
       const numValue = arg.slice(numberFlagPrefix.length);
-      const parsed = Number(numValue);
-      if (numValue.trim() === "" || Number.isNaN(parsed)) {
-        const message = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
+      if (numValue.trim() === "" || Number.isNaN(Number(numValue))) {
+        const errorLogMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
         if (verboseMode) {
-          const errorInstance = new Error(message);
-          logError(themeColors.error, errorInstance);
+          logError(themeColors.error, new Error(errorLogMsg));
         } else {
-          console.error(themeColors.error(message));
+          console.error(themeColors.error(errorLogMsg));
         }
+        // Consistently exit with code 1 for invalid numeric input
         throw new Error(`Invalid numeric value: ${numValue}`);
       }
     }
