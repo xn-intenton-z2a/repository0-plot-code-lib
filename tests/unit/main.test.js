@@ -1,9 +1,12 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect, beforeAll, afterAll } from "vitest";
 import { main } from "@src/lib/main.js";
+import fs from "fs";
+import path from "path";
 
 // Backup original console functions
 const originalConsoleError = console.error;
 const originalConsoleLog = console.log;
+
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -65,5 +68,32 @@ describe("Color Theme Configuration", () => {
     // Check for ANSI bold escape code (typically \u001b[1m for bold in dark theme)
     expect(logOutput).toContain("\u001b[1m"); 
     process.env.CLI_COLOR_SCHEME = originalEnv;
+  });
+});
+
+describe("Custom Color Theme Configuration", () => {
+  const configPath = path.join(process.cwd(), "cli-theme.json");
+  const customConfig = {
+    error: "bold.red",
+    usage: "underline.blue",
+    info: "italic.green",
+    run: "inverse.cyan"
+  };
+  
+  beforeAll(() => {
+    fs.writeFileSync(configPath, JSON.stringify(customConfig));
+  });
+  
+  afterAll(() => {
+    fs.unlinkSync(configPath);
+  });
+
+  test("should use custom theme from cli-theme.json", () => {
+    let logOutput = "";
+    console.log = (msg) => { logOutput += msg; };
+    main([]);
+    console.log = originalConsoleLog;
+    // ANSI code for underline is typically \x1B[4m
+    expect(logOutput).toContain("\x1B[4m");
   });
 });

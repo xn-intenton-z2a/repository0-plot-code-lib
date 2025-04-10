@@ -68,6 +68,23 @@ For example, to run the CLI with the dark theme:
 CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
 ```
 
+## Custom Color Theme Configuration
+
+In addition to using preset themes via the `CLI_COLOR_SCHEME` environment variable, you can override the default theme by providing a custom configuration file named `cli-theme.json` in the working directory. This JSON file should define the theme colors for the following keys: `error`, `usage`, `info`, and `run`. The values should be dot-separated strings representing chalk methods.
+
+For example, a custom configuration file could look like this:
+
+```json
+{
+  "error": "bold.red",
+  "usage": "underline.blue",
+  "info": "italic.green",
+  "run": "inverse.cyan"
+}
+```
+
+When `cli-theme.json` is present, the CLI will use your custom color configuration.
+
 ---
 
 ## License
