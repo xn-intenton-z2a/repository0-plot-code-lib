@@ -165,7 +165,7 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
     }
     throw new Error(`Invalid numeric value: ${numStr}`);
   }
-  if (numStr.toLowerCase() === 'nan') {
+  if (numStr.trim().toLowerCase() === 'nan') {
     const msg = `Invalid numeric value for argument '--number=${numStr}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.`;
     if (detailed) {
       logError(themeColors.error, new Error(msg));
