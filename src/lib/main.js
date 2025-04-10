@@ -2,7 +2,7 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
-import chalk from "chalk";
+import chalk, { Chalk } from "chalk";
 
 /**
  * Returns the current CLI theme color functions based on the CLI_COLOR_SCHEME environment variable.
@@ -10,13 +10,16 @@ import chalk from "chalk";
 function getThemeColors() {
   const theme = process.env.CLI_COLOR_SCHEME || "default";
   switch (theme) {
-    case "dark":
+    case "dark": {
+      // Force chalk to use ANSI escape codes by creating a new instance with level 3
+      const forcedChalk = new Chalk({ level: 3 });
       return {
-        error: chalk.bold.red,
-        usage: chalk.bold.blue,
-        info: chalk.bold.green,
-        run: chalk.bold.cyan,
+        error: forcedChalk.bold.red,
+        usage: forcedChalk.bold.blue,
+        info: forcedChalk.bold.green,
+        run: forcedChalk.bold.cyan,
       };
+    }
     case "light":
       return {
         error: chalk.red,
