@@ -1,7 +1,7 @@
-# PLOT_ENGINE Feature Specification
+# PLOT_ENGINE Feature Specification (Enhanced with Plot Caching)
 
 ## Overview
-This feature combines core plotting capabilities with multiple output modalities. It evaluates mathematical expressions and generates clear, colorized ASCII plots while also offering enhanced export options. In this update, the feature is expanded to support plot templates. These templates allow users to save, list, and reuse pre-defined plotting configurations. This further reinforces our mission to be the go-to plot library for formula visualisations by providing both visual output and reusable configuration management in a single, unified interface.
+This feature combines core plotting capabilities with multiple output modalities. It evaluates mathematical expressions and generates clear, colorized ASCII plots, while offering enhanced export options. In this update, the feature is expanded to support plot templates and an integrated caching mechanism. The caching feature improves performance by storing computed plot data, reducing recomputation for repeated requests. This reinforces our mission of being the go-to plot library for formula visualisations by providing both visual output and efficient configuration management in a single, unified interface.
 
 ## Implementation Details
 ### CLI Integration
@@ -23,29 +23,37 @@ This feature combines core plotting capabilities with multiple output modalities
 
 ### Plot Templates
 - **Template Storage:** Implement a mechanism to store plot templates in a JSON file (e.g., `templates.json`). Each template will include all necessary parameters such as formula, interval, step, color, and export options.
-- **Saving Templates:** When a user invokes the `--save-template <name>` flag along with current plotting parameters, validate and store the template in the JSON file. Ensure robust error handling for file I/O operations.
+- **Saving Templates:** When a user invokes the `--save-template <name>` flag along with current plotting parameters, validate and store the template in the JSON file with robust error handling for file I/O operations.
 - **Listing and Loading:** The `--list-templates` flag will read from `templates.json` and display available template names. The `--use-template <name>` flag will load the corresponding template and merge its parameters with any additional CLI inputs.
 - **CLI Feedback:** Provide clear success or error messages when saving, listing, or using templates.
 
+### Caching Mechanism
+- **Purpose:** Introduce an in-memory cache to store computed plot data, reducing recalculation when the same plotting parameters are provided in subsequent requests.
+- **Implementation:**
+  - Utilize a lightweight caching structure (e.g., a JavaScript `Map`) keyed by a hash of the plot parameters (formula, interval, step, color).
+  - Optionally, introduce a Time-To-Live (TTL) mechanism for cache entries to ensure fresh data and manage memory usage.
+  - Before invoking the computation logic, check if a cache entry exists for the given parameters. If found, return the cached plot; otherwise, compute and store the result in the cache.
+- **Integration:** Ensure the caching mechanism integrates seamlessly with both direct CLI invocations and template-based plot generations.
+
 ### Error Handling and Validation
 - Validate mathematical expressions and CLI parameters, providing precise error messages for any malformed input.
-- For template operations, handle file read/write errors gracefully and revert to default behaviors if necessary.
+- For template operations and caching, handle file read/write errors and cache misses gracefully, reverting to default behaviours if necessary.
 
 ## Testing and Documentation
 ### Unit and Integration Tests
 - Develop tests to simulate CLI commands including combinations of `--plot`, `--export`, `--json-out`, and new template flags (`--save-template`, `--list-templates`, `--use-template`).
 - Verify that plot templates are correctly saved to, retrieved from, and merged with runtime parameters.
+- Implement tests covering the caching logic to ensure that repeated calls with identical parameters retrieve plots from the cache instead of triggering redundant computations.
 
 ### Documentation
-- Update the README.md, CONTRIBUTING.md, and any relevant documentation files with clear usage examples for the new plot templates features.
-- Include examples demonstrating how to save a template, list available templates, and reuse a template to generate a plot.
+- Update the README.md, CONTRIBUTING.md, and any relevant documentation with clear usage examples for the new plot caching mechanism.
+- Include examples demonstrating how caching improves performance during re-run operations, along with troubleshooting guidelines for cache-related issues.
 
 ## Usage Examples
-- **Generating a Plot with Templates:**
+- **Generating a Plot with Templates and Caching:**
   - Save a template: `node src/lib/main.js --plot "sin(x)" --interval -10,10 --step 0.5 --save-template basicSin`
   - List templates: `node src/lib/main.js --list-templates`
-  - Use a template: `node src/lib/main.js --use-template basicSin --json-out`
-
+  - Use a template with caching: `node src/lib/main.js --use-template basicSin --json-out`
 - **Combined Operations:**
   - Command: `node src/lib/main.js --plot "x^2" --color --export output.txt --json-out`
-  - When using a template, loaded parameters are merged with any additional flags provided at runtime, offering flexibility in plot generation.
+  - Subsequent identical commands should utilize the cached result, reducing computation time.
