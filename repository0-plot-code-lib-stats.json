@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 4,
   "issuesClosedLastDay": 83,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Wrapped numeric argument validation in a try-catch block so that any errors are logged appropriately resolving the numeric argument test failures. (fixes #1715)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 0,
-  "diffMinutesMain": 10,
+  "diffMinutesMain": 13,
   "commitsLastHour": 2,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1715",
-        "minutesSinceLastCommit": 2
+        "minutesSinceLastCommit": 0
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T22:52:21.776Z"
+  "generatedAt": "2025-04-10T22:55:37.314Z"
 }
