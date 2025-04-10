@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Fixed test file by importing afterEach to resolve ReferenceError. (fixes #1698)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
   "diffMinutes": 0,
-  "diffMinutesMain": 29,
+  "diffMinutesMain": 30,
   "commitsLastHour": 3,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -43,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1698",
-        "minutesSinceLastCommit": 1
+        "minutesSinceLastCommit": 2
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T20:55:25.023Z"
+  "generatedAt": "2025-04-10T20:56:20.544Z"
 }
