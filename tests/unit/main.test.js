@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -210,6 +210,16 @@ describe("Numeric Argument Validation", () => {
 
   test("should accept numbers with both underscores and commas", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["--number=1,_000", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+
+  test("should accept numbers with spaces as thousands separator", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1 000", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+
+  test("should accept numbers with period as thousands separator when appropriate", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1.000", "arg"]); });
     expect(logOutput).toContain("arg");
   });
 });
