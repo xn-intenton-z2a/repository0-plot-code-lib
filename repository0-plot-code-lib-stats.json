@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 4,
   "issuesClosedLastDay": 85,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Updated numeric validation regex to allow mixed underscores and commas as thousand separators. (fixes #1717)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 0,
-  "diffMinutesMain": 18,
+  "diffMinutesMain": 21,
   "commitsLastHour": 2,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1717",
-        "minutesSinceLastCommit": 5
+        "minutesSinceLastCommit": 0
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T23:15:37.692Z"
+  "generatedAt": "2025-04-10T23:18:38.061Z"
 }
