@@ -93,13 +93,34 @@ function getThemeColors() {
 }
 
 /**
- * Main function that executes CLI logic with advanced error handling and colored output.
+ * Main function that executes CLI logic with advanced error handling, colored output, and numeric argument validation.
  * @param {string[]} args - Command line arguments.
  */
 export function main(args) {
   const themeColors = getThemeColors();
   // Determine verbose mode via command line flag or environment variable
   const verboseMode = (args && args.includes("--verbose")) || process.env.LOG_LEVEL === "debug";
+
+  // Numeric argument validation: process flags of the form --number=<value>
+  const numberFlagPrefix = "--number=";
+  for (const arg of args) {
+    if (arg.startsWith(numberFlagPrefix)) {
+      const numValue = arg.slice(numberFlagPrefix.length);
+      const parsed = Number(numValue);
+      if (numValue.trim() === "" || isNaN(parsed)) {
+        if (verboseMode) {
+          logError(themeColors.error, `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`);
+        } else {
+          console.error(themeColors.error(`Error: Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`));
+        }
+        if (process.env.NODE_ENV === "test") {
+          throw new Error(`Invalid numeric value: ${numValue}`);
+        } else {
+          process.exit(1);
+        }
+      }
+    }
+  }
 
   try {
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)

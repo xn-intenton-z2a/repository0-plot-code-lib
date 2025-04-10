@@ -33,9 +33,29 @@ If no arguments are provided, the CLI will display a colored usage message:
 Usage: repository0-plot-code-lib <arguments>
 ```
 
+### Numeric Argument Validation
+
+The CLI supports numeric validation via the `--number=VALUE` flag. If the provided VALUE cannot be converted to a valid number, the CLI will display a clear error message using the configured error theme and exit gracefully. For example:
+
+```bash
+repository0-plot-code-lib --number=42
+```
+
+If an invalid numeric value is provided:
+
+```bash
+repository0-plot-code-lib --number=abc
+```
+
+The CLI will output an error like:
+
+```
+Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
+```
+
 ## Advanced Error Handling
 
-The CLI now includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:
+The CLI includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:
 
 - Use the command line flag: `--verbose`
 - Set the environment variable: `LOG_LEVEL=debug`

@@ -7,7 +7,6 @@ import path from "path";
 const originalConsoleError = console.error;
 const originalConsoleLog = console.log;
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(main).not.toBeNull();
@@ -140,5 +139,26 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Custom CLI theme configuration error");
     expect(errorOutput).toContain("Using fallback theme");
+  });
+});
+
+
+describe("Numeric Argument Validation", () => {
+  test("should throw error for invalid numeric input in non-verbose mode", () => {
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    expect(() => main(["--number=abc"])).toThrow("Invalid numeric value: abc");
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
+    expect(errorOutput).not.toContain("Stack trace:");
+  });
+
+  test("should throw error for invalid numeric input in verbose mode", () => {
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    expect(() => main(["--number=abc", "--verbose"])).toThrow("Invalid numeric value: abc");
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
+    expect(errorOutput).toContain("Stack trace:");
   });
 });
