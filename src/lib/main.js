@@ -188,7 +188,7 @@ export function main(args) {
         const normalized = numStr.replace(/[_,]/g, '');
         const parsed = Number(normalized);
         if (numStr.toLowerCase() === 'nan') {
-          errorLogMsg = `Invalid numeric value for argument '${arg}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'. Note: 'NaN' is explicitly rejected because it does not represent a number.`;
+          errorLogMsg = `Invalid numeric value for argument '${arg}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.`;
         } else if (Number.isNaN(parsed)) {
           errorLogMsg = `Invalid numeric value for argument '${arg}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
         }

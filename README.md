@@ -49,19 +49,15 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 
 The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted into a valid number after removing underscores and commas).
 
+Note: The literal 'NaN' (in any case, e.g., 'NaN', 'nan', 'NAN') is explicitly rejected as it does not represent a valid number in this CLI.
+
 If an invalid numeric value is provided, the CLI outputs a standardized error message. For example, if a non-numeric value is provided:
 
 ```bash
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
 ```
 
-Note: The literal 'NaN' is explicitly rejected because it does not represent any valid number. For example:
-
-```bash
-Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
-```
-
-In verbose mode (using the `--verbose` flag), the error is logged along with a full stack trace:
+If an invalid numeric value is provided in verbose mode, the error is logged along with a full stack trace:
 
 ```bash
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
@@ -81,6 +77,7 @@ If an invalid numeric value is provided:
 ```bash
 repository0-plot-code-lib --number=abc
 ```
+
 or
 
 ```bash
