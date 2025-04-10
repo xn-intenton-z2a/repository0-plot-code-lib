@@ -56,10 +56,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with underscores for readability (e.g., <code class="md-github">1_000</code>)</li>
 <li class="md-github">Numbers with commas as thousand separators (e.g., <code class="md-github">1,000</code>)</li>
 </ul>
-<p class="md-github">The CLI uses strict regex matching to validate numeric values. This ensures that any non-numeric input—including empty values, any variation of the literal 'NaN', or incorrectly formatted numbers—is uniformly rejected with a clear error message:</p>
-<pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
-</code></pre>
-<p class="md-github">In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the CLI will also print a full stack trace to aid in debugging.</p>
+<p class="md-github">The CLI validates numeric values by normalizing the input (trimming whitespace and removing underscores and commas) and then attempting a numeric conversion. If the conversion fails, a clear error message is provided. In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the error message includes a full stack trace to aid in debugging.</p>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
@@ -77,7 +74,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github"><strong class="md-github">timestamp</strong>: The ISO timestamp when the error occurred.</li>
 <li class="md-github"><strong class="md-github">envContext</strong>: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).</li>
 </ul>
-<p class="md-github">The CLI now awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.</p>
+<p class="md-github">The CLI awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.</p>
 <p class="md-github">Example configuration snippet:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
@@ -88,7 +85,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration-file-support" href="#global-configuration-file-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration File Support</h3>
 <p class="md-github">A new feature allows you to set persistent default options without having to specify them every time you run the CLI.</p>
-<p class="md-github">The CLI will look for a global configuration file named <code class="md-github">.repository0plotconfig.json</code> in the current working directory and in your home directory (using the <code class="md-github">HOME</code> or <code class="md-github">USERPROFILE</code> environment variable). This file now enforces a strict schema. Supported configuration keys are:</p>
+<p class="md-github">The CLI will look for a global configuration file named <code class="md-github">.repository0plotconfig.json</code> in the current working directory and in your home directory (using the <code class="md-github">HOME</code> or <code class="md-github">USERPROFILE</code> environment variable). This file enforces a strict schema. Supported configuration keys are:</p>
 <ul class="md-github">
 <li class="md-github"><code class="md-github">CLI_COLOR_SCHEME</code> (string, e.g., &quot;dark&quot;, &quot;light&quot;, or &quot;default&quot;)</li>
 <li class="md-github"><code class="md-github">LOG_LEVEL</code> (string, e.g., &quot;debug&quot;, &quot;info&quot;, etc.)</li>
@@ -111,7 +108,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T21:58:35.245Z</p>
+    <p>Generated on 2025-04-10T21:59:17.328Z</p>
   </footer>
 </body>
 </html>
