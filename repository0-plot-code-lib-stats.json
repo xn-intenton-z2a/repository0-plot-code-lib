@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Wrapped numeric argument validation in a try-catch block so that any errors are logged appropriately resolving the numeric argument test failures. (fixes #1715)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 13,
+  "diffMinutes": 0,
+  "diffMinutesMain": 14,
   "commitsLastHour": 2,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T22:55:50.188Z"
+  "generatedAt": "2025-04-10T22:56:35.151Z"
 }
