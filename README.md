@@ -35,7 +35,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 ## Advanced Error Handling
 
-The CLI now includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes the full stack trace), you can either:
+The CLI now includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:
 
 - Use the command line flag: `--verbose`
 - Set the environment variable: `LOG_LEVEL=debug`
@@ -52,7 +52,7 @@ or
 LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 ```
 
-Additionally, error logging has been centralized into a dedicated logger module located at `src/lib/logger.js` to streamline and improve maintainability of log outputs.
+Note: Error logging is handled inline within the main module to simplify dependencies.
 
 ## Configurable Color Themes
 

@@ -3,7 +3,11 @@
 
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
-import { logError } from "./logger.js";
+
+// Inlined logError function to remove external dependency
+function logError(chalkError, ...args) {
+  console.error(chalkError("Error:"), ...args, "\nStack trace:", new Error().stack);
+}
 
 /**
  * Returns the current CLI theme color functions based on the CLI_COLOR_SCHEME environment variable.
@@ -18,7 +22,7 @@ function getThemeColors() {
         error: forcedChalk.bold.red,
         usage: forcedChalk.bold.blue,
         info: forcedChalk.bold.green,
-        run: forcedChalk.bold.cyan,
+        run: forcedChalk.bold.cyan
       };
     }
     case "light":
@@ -26,14 +30,14 @@ function getThemeColors() {
         error: chalk.red,
         usage: chalk.magenta,
         info: chalk.blue,
-        run: chalk.yellow,
+        run: chalk.yellow
       };
     default:
       return {
         error: chalk.red,
         usage: chalk.yellow,
         info: chalk.green,
-        run: chalk.cyan,
+        run: chalk.cyan
       };
   }
 }
