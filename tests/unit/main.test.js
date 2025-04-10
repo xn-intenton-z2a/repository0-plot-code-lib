@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -18,6 +18,20 @@ function withEnv(newEnv, fn) {
   }
 }
 
+// Helper to capture console output
+function captureConsole(method, fn) {
+  const output = [];
+  const original = console[method];
+  console[method] = (msg) => output.push(msg);
+  try {
+    fn();
+  } finally {
+    console[method] = original;
+  }
+  return output.join("\n");
+}
+
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(main).not.toBeNull();
@@ -26,18 +40,12 @@ describe("Main Module Import", () => {
 
 describe("Default Demo Output", () => {
   test("should display usage message when no arguments provided and no defaultArgs in global config", () => {
-    let logOutput = "";
-    console.log = (msg) => { logOutput += msg; };
-    main([]);
-    console.log = originalConsoleLog;
+    const logOutput = captureConsole('log', () => { main([]); });
     expect(logOutput).toContain("No arguments provided");
   });
 
   test("should output arguments when provided", () => {
-    let logOutput = "";
-    console.log = (msg) => { logOutput += msg; };
-    main(["arg1", "arg2"]);
-    console.log = originalConsoleLog;
+    const logOutput = captureConsole('log', () => { main(["arg1", "arg2"]); });
     expect(logOutput).toContain("arg1");
     expect(logOutput).toContain("arg2");
   });
@@ -71,11 +79,7 @@ describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
     process.env.CLI_COLOR_SCHEME = "dark";
-    let logOutput = "";
-    console.log = (msg) => { logOutput += msg; };
-    main([]);
-    console.log = originalConsoleLog;
-    // Check for ANSI bold escape code (typically \u001b[1m for bold in dark theme)
+    const logOutput = captureConsole('log', () => { main([]); });
     expect(logOutput).toContain("\u001b[1m"); 
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
@@ -99,10 +103,7 @@ describe("Custom Color Theme Configuration", () => {
   });
 
   test("should use custom theme from cli-theme.json", () => {
-    let logOutput = "";
-    console.log = (msg) => { logOutput += msg; };
-    main([]);
-    console.log = originalConsoleLog;
+    const logOutput = captureConsole('log', () => { main([]); });
     // ANSI code for underline is typically \x1B[4m in many terminals
     expect(logOutput).toContain("\x1B[4m");
   });
@@ -186,21 +187,62 @@ describe("Global Configuration Support", () => {
   });
 
   test("should use global configuration defaultArgs when no CLI arguments are provided", () => {
-    let logOutput = "";
-    console.log = (msg) => { logOutput += msg; };
-    main([]);
-    console.log = originalConsoleLog;
-    // Check that the message indicates use of defaultArgs and that globalArg1 appears
+    const logOutput = captureConsole('log', () => { main([]); });
     expect(logOutput).toContain("Using default arguments from global configuration.");
     expect(logOutput).toContain("globalArg1");
   });
 
   test("should override global defaultArgs when CLI arguments are provided", () => {
-    let logOutput = "";
-    console.log = (msg) => { logOutput += msg; };
-    main(["cliArg1"]);
-    console.log = originalConsoleLog;
+    const logOutput = captureConsole('log', () => { main(["cliArg1"]); });
     expect(logOutput).toContain("cliArg1");
     expect(logOutput).not.toContain("globalArg1");
+  });
+});
+
+describe("Automatic Error Reporting", () => {
+  let originalFetch;
+  beforeAll(() => {
+    originalFetch = global.fetch;
+  });
+
+  afterAll(() => {
+    global.fetch = originalFetch;
+  });
+
+  test("should submit error report when ERROR_REPORTING_URL is defined", async () => {
+    const fetchMock = vi.fn(() => Promise.resolve({ ok: true }));
+    global.fetch = fetchMock;
+    process.env.ERROR_REPORTING_URL = "http://example.com/report";
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    try {
+      main(["--simulate-error", "--verbose"]);
+    } catch (e) {
+      // Expected error
+    }
+    // Allow asynchronous fetch to complete
+    await new Promise(r => setTimeout(r, 50));
+    expect(fetchMock).toHaveBeenCalled();
+    const callArgs = fetchMock.mock.calls[0];
+    expect(callArgs[0]).toBe("http://example.com/report");
+    const options = callArgs[1];
+    expect(options.method).toBe("POST");
+    const payload = JSON.parse(options.body);
+    expect(payload).toHaveProperty('errorMessage', 'Simulated error condition for testing');
+    expect(payload).toHaveProperty('cliArgs');
+    expect(payload.cliArgs).toContain("--simulate-error");
+    delete process.env.ERROR_REPORTING_URL;
+    console.error = originalConsoleError;
+  });
+
+  test("should not attempt error reporting when ERROR_REPORTING_URL is not defined", () => {
+    const fetchSpy = vi.fn();
+    global.fetch = fetchSpy;
+    try {
+      main(["--simulate-error"]);
+    } catch (e) {
+      // Expected error
+    }
+    expect(fetchSpy).not.toHaveBeenCalled();
   });
 });
