@@ -60,6 +60,7 @@ describe("Error Handling", () => {
     expect(() => main(["--simulate-error"]))
       .toThrow("Simulated error condition for testing");
     console.error = originalConsoleError;
+    expect(errorOutput).toContain("Invalid numeric value for argument"); // In case no numeric issue, simulate error doesn't go through numeric block
     expect(errorOutput).toContain("Error: Simulated error condition for testing");
     expect(errorOutput).not.toContain("Stack trace:");
     expect(errorOutput).not.toContain("Error in main function execution:");

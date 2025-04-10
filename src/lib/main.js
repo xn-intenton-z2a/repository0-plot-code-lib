@@ -167,15 +167,14 @@ export function main(args) {
       const numValue = arg.slice(numberFlagPrefix.length);
       const parsed = Number(numValue);
       if (numValue.trim() === "" || Number.isNaN(parsed)) {
-        const unifiedMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
-        const throwMsg = `Invalid numeric value: ${numValue}`;
+        const message = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
         if (verboseMode) {
-          const errorInstance = new Error(unifiedMsg);
+          const errorInstance = new Error(message);
           logError(themeColors.error, errorInstance);
         } else {
-          console.error(themeColors.error(`Error: ${unifiedMsg}`));
+          console.error(themeColors.error(message));
         }
-        throw new Error(throwMsg);
+        throw new Error(`Invalid numeric value: ${numValue}`);
       }
     }
   }
