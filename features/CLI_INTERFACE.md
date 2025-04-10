@@ -1,40 +1,39 @@
-# CLI_INTERFACE Feature Specification (Enhanced with Guided Wizard, Command Preview, Auto-Completion, and Demo Mode)
+# CLI_INTERFACE Feature Specification (Enhanced with Guided Wizard, Command Preview, Auto-Completion, Demo Mode, and Formula Assistance)
 
 ## Overview
-This feature refines the existing CLI interface by integrating an enhanced interactive wizard, detailed command preview, a new auto-completion mechanism, and an interactive demo mode. The demo mode provides first-time users with an engaging walkthrough of the tool’s core plotting functionalities. The feature aims to simplify plotting command configuration, reduce input errors, and onboard new users quickly, all while aligning with our mission to be the go-to plot library for formula visualisations.
+This feature refines the existing CLI interface by combining interactive plotting command configuration with real-time formula assistance. In addition to a guided wizard, detailed command preview, and robust auto-completion, this updated CLI now integrates expression tracing, auto-correction, and a chat module powered by the OpenAI API. This consolidation improves onboarding, reduces input errors, and provides on-demand formula help—all in a single user-friendly command line tool that reinforces our mission to be the go-to plot library for formula visualisations.
 
-## Enhanced Interactive Wizard and Command Preview
-- **Interactive Guidance:** Provides step-by-step prompts for parameters such as formulas, intervals, and output options. Inline help and documentation references are available throughout.
-- **Command Preview:** Displays a full preview of the final command, allowing users to confirm, edit, or cancel before execution to minimize errors.
+## Interactive Guidance and Command Preview
+- **Step-by-Step Prompts:** Offers detailed guidance for entering formulas, intervals, steps, and output options with inline help and documentation references.
+- **Command Preview:** Displays a final command preview, allowing users to review, edit, or cancel before execution to reduce configuration mistakes.
 
 ## Auto-Completion Enhancement
-- **Dynamic Suggestions:** Implements auto-completion for command options and flags using Node.js readline interface. As users type, the system suggests valid commands, flags, and parameter values based on a predefined set and past command history.
-- **Context Awareness:** Integrates with the history manager to provide relevant suggestions tailored to frequent user inputs and common plotting scenarios.
-- **Seamless Integration:** Works in both guided interactive sessions and non-interactive scenarios to ensure a smooth and user-friendly experience.
+- **Dynamic Suggestions:** Implements auto-completion for command options and flags using the Node.js readline interface, enriched by past command history.
+- **Context Awareness:** Provides intelligent suggestions based on common plotting scenarios and recent usage patterns.
 
 ## Demo Mode
-- **Purpose:** Offers a guided demonstration session that walks new users through key plotting commands and features.
-- **Activation:** A new CLI flag `--demo` triggers the demo mode, automatically executing a series of illustrative commands and showing their outputs.
-- **Walkthrough:** The demo mode includes:
-  - A brief introduction to the plotting capabilities.
-  - Step-by-step command execution with explanations for each plotting parameter and sub-feature.
-  - An interactive Q&A prompt where users can ask for further clarification during the demo.
-- **Benefits:** Reduces the learning curve, improves initial user engagement, and provides a quick reference for regular usage.
+- **Interactive Walkthrough:** A new CLI flag (`--demo`) triggers a guided demonstration showing key plotting commands, configuration steps, and output explanations.
+- **First-Time User Engagement:** Designed to lower the learning curve and showcase the tool's core capabilities interactively.
+
+## Formula Assistance Integration
+- **Expression Tracing:** The CLI now supports a `--trace` flag to output detailed evaluation logs covering parsing, unit conversion, and intermediate calculations.
+- **Auto-Correction:** With the `--autocorrect` flag, the tool suggests and previews corrections for common formula errors before execution.
+- **Chat-Based Help:** Activating the `--chat` flag launches an interactive session that leverages the OpenAI API to provide real-time suggestions, debugging tips, and alternative formulations. This chat module is fully integrated into the CLI, offering both blocking sessions and optional hints during command input.
 
 ## Implementation Details
-- **CLI Parsing:** Extend the existing argument parser to handle the new `--demo` flag alongside enhancements for auto-completion and command preview.
-- **User Input Handling:** Leverage Node.js libraries (e.g., readline) to capture real-time input and provide suggestions as well as guide the demo walkthrough without disrupting the existing CLI flow.
-- **Configuration and Customization:** Allow users to adjust auto-completion sensitivity, demo verbosity, and source of suggestions via command-line flags and configuration files.
-- **Documentation:** Update CLI help texts, README.md, and CONTRIBUTING guidelines to include instructions and examples for using the enhanced CLI features, particularly the new demo mode.
+- **CLI Parser Enhancements:** Extend the existing argument parser to accommodate new flags (`--trace`, `--autocorrect`, and `--chat`) without disrupting current workflows.
+- **Real-Time Input Handling:** Use Node.js libraries (e.g., readline) to capture user input, provide auto-completion, and trigger context-aware help during interactive sessions.
+- **Integrated Chat Module:** Implement a lightweight module interfacing with the OpenAI API. Environment variables (via dotenv) store API keys, ensuring secure and configurable usage.
+- **Documentation Updates:** Update README.md and CONTRIBUTING.md with comprehensive examples covering the enhanced interactive wizard and formula assistance features.
 
 ## Testing and Quality Assurance
-- **Unit and Integration Tests:** Develop tests simulating user input scenarios to verify that auto-complete suggestions, interactive wizard prompts, command previews, and demo mode guidance are accurate and context-aware.
-- **User Feedback Loop:** Monitor usage and iteration on the demo mode to ensure it effectively lowers the barrier for new users while reinforcing tool capabilities.
+- **Unit and Integration Tests:** Develop tests that simulate interactive sessions, verifying auto-complete accuracy, correct flag handling for tracing and auto-correction, and proper responses from the chat integration (by mocking API calls).
+- **User Feedback Loop:** Monitor interactive sessions to refine guidance, command preview accuracy, and chat responsiveness.
 
 ## Benefits
-- **Enhanced Usability:** Combined with interactive wizard, command preview, and auto-completion, the new demo mode provides an immediate, hands-on introduction for new users.
-- **Error Reduction:** Real-time suggestions and a guided demo reduce the likelihood of typos and misconfigurations, improving overall reliability.
-- **Streamlined Onboarding:** The demo mode offers an engaging first-run experience that quickly conveys the power and simplicity of the plotting library, solidifying its position as the go-to tool for formula visualisations.
+- **Enhanced Usability:** Consolidates interactive plotting and real-time formula help into a single, intuitive CLI experience.
+- **Error Reduction:** Guided prompts, command previews, and auto-correction support reduce input errors and misconfigurations.
+- **Immediate Support:** On-demand chat assistance empowers users with context-aware debugging and alternative suggestions, making the tool more accessible to both new and experienced users.
 
 ## Summary
-By augmenting the CLI interface with a demo mode in addition to the existing features, we deliver a more guided, error-resistant, and engaging user experience. These improvements make the CLI more accessible to newcomers and more efficient for experienced users, in full support of our mission.
+By merging formula assistance capabilities into the CLI interface, this updated feature streamlines user interaction and consolidates functionality. The enhanced interface supports guided command entry, dynamic auto-completion, interactive demos, and on-demand help—all aligned with our mission to be the go-to plot library for formula visualisations.
