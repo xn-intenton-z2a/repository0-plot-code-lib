@@ -119,17 +119,17 @@ export function main(args) {
     if (arg.startsWith(numberFlagPrefix)) {
       const numValue = arg.slice(numberFlagPrefix.length);
       const parsed = Number(numValue);
-      if (numValue.trim() === "" || isNaN(parsed)) {
-        const detailedMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
-        const simpleMsg = `Invalid numeric value: ${numValue}`;
+      if (numValue.trim() === "" || Number.isNaN(parsed)) {
+        const unifiedMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
+        const throwMsg = `Invalid numeric value: ${numValue}`;
         if (verboseMode) {
-          const errorInstance = new Error(detailedMsg);
+          const errorInstance = new Error(unifiedMsg);
           logError(themeColors.error, errorInstance);
         } else {
-          console.error(themeColors.error(`Error: ${detailedMsg}`));
+          console.error(themeColors.error(`Error: ${unifiedMsg}`));
         }
         if (process.env.NODE_ENV === "test") {
-          throw new Error(simpleMsg);
+          throw new Error(throwMsg);
         } else {
           process.exit(1);
         }
