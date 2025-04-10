@@ -18,13 +18,13 @@ function withEnv(newEnv, fn) {
   }
 }
 
-// Helper to capture console output
-function captureConsole(method, fn) {
+// Async helper to capture console output
+async function captureConsole(method, fn) {
   const output = [];
   const original = console[method];
   console[method] = (msg) => output.push(msg);
   try {
-    fn();
+    await fn();
   } finally {
     console[method] = original;
   }
@@ -40,13 +40,13 @@ describe("Main Module Import", () => {
 
 
 describe("Default Demo Output", () => {
-  test("should display usage message when no arguments provided and no defaultArgs in global config", () => {
-    const logOutput = captureConsole('log', () => { main([]); });
+  test("should display usage message when no arguments provided and no defaultArgs in global config", async () => {
+    const logOutput = await captureConsole('log', async () => { await main([]); });
     expect(logOutput).toContain("No arguments provided");
   });
 
-  test("should output arguments when provided", () => {
-    const logOutput = captureConsole('log', () => { main(["arg1", "arg2"]); });
+  test("should output arguments when provided", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["arg1", "arg2"]); });
     expect(logOutput).toContain("arg1");
     expect(logOutput).toContain("arg2");
   });
@@ -54,22 +54,20 @@ describe("Default Demo Output", () => {
 
 
 describe("Error Handling", () => {
-  test("should log concise error message in non-verbose mode", () => {
+  test("should log concise error message in non-verbose mode", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--simulate-error"]))
-      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+    await expect(main(["--simulate-error"])).rejects.toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Error: Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
     expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 
-  test("should log detailed error in verbose mode", () => {
+  test("should log detailed error in verbose mode", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--simulate-error", "--verbose"]))
-      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+    await expect(main(["--simulate-error", "--verbose"])).rejects.toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Error in main function execution:");
     expect(errorOutput).toContain("Stack trace:");
@@ -79,10 +77,10 @@ describe("Error Handling", () => {
 });
 
 describe("Color Theme Configuration", () => {
-  test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
+  test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", async () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
     process.env.CLI_COLOR_SCHEME = "dark";
-    const logOutput = captureConsole('log', () => { main([]); });
+    const logOutput = await captureConsole('log', async () => { await main([]); });
     expect(logOutput).toContain("\u001b[1m"); 
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
@@ -105,8 +103,8 @@ describe("Custom Color Theme Configuration", () => {
     fs.unlinkSync(configPath);
   });
 
-  test("should use custom theme from cli-theme.json", () => {
-    const logOutput = captureConsole('log', () => { main([]); });
+  test("should use custom theme from cli-theme.json", async () => {
+    const logOutput = await captureConsole('log', async () => { await main([]); });
     expect(logOutput).toContain("\x1B[4m");
   });
 });
@@ -120,10 +118,10 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
     fs.unlinkSync(configPath);
   });
 
-  test("should log clear error message and fallback to default theme for invalid JSON", () => {
+  test("should log clear error message and fallback to default theme for invalid JSON", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    main([]);
+    await main([]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Custom CLI theme configuration error");
     expect(errorOutput).toContain("Using fallback theme");
@@ -139,10 +137,10 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
     fs.unlinkSync(configPath);
   });
 
-  test("should log clear error message and fallback to default theme for invalid schema", () => {
+  test("should log clear error message and fallback to default theme for invalid schema", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    main([]);
+    await main([]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Custom CLI theme configuration error");
     expect(errorOutput).toContain("Using fallback theme");
@@ -150,63 +148,59 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
 });
 
 describe("Numeric Argument Validation", () => {
-  test("should throw error for invalid numeric input in non-verbose mode", () => {
+  test("should throw error for invalid numeric input in non-verbose mode", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--number=abc"]))
-      .toThrow("Invalid numeric value: abc");
+    await expect(main(["--number=abc"])).rejects.toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).not.toContain("Stack trace:");
   });
 
-  test("should throw error for invalid numeric input in verbose mode", () => {
+  test("should throw error for invalid numeric input in verbose mode", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--number=abc", "--verbose"]))
-      .toThrow("Invalid numeric value: abc");
+    await expect(main(["--number=abc", "--verbose"])).rejects.toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).toContain("Stack trace:");
   });
 
-  test("should throw error for '--number=NaN' in non-verbose mode", () => {
+  test("should throw error for '--number=NaN' in non-verbose mode", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--number=NaN"]))
-      .toThrow("Invalid numeric value: NaN");
+    await expect(main(["--number=NaN"])).rejects.toThrow("Invalid numeric value: NaN");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).not.toContain("Stack trace:");
   });
 
-  test("should throw error for '--number=NaN' in verbose mode", () => {
+  test("should throw error for '--number=NaN' in verbose mode", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    expect(() => main(["--number=NaN", "--verbose"]))
-      .toThrow("Invalid numeric value: NaN");
+    await expect(main(["--number=NaN", "--verbose"])).rejects.toThrow("Invalid numeric value: NaN");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).toContain("Stack trace:");
   });
 
-  test("should accept scientific notation", () => {
-    const logOutput = captureConsole('log', () => { main(["--number=1e3", "arg"]); });
+  test("should accept scientific notation", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1e3", "arg"]); });
     expect(logOutput).toContain("arg");
   });
 
-  test("should accept numbers with underscores", () => {
-    const logOutput = captureConsole('log', () => { main(["--number=1_000", "arg"]); });
+  test("should accept numbers with underscores", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1_000", "arg"]); });
     expect(logOutput).toContain("arg");
   });
 
-  test("should accept numbers with commas", () => {
-    const logOutput = captureConsole('log', () => { main(["--number=1,000", "arg"]); });
+  test("should accept numbers with commas", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1,000", "arg"]); });
     expect(logOutput).toContain("arg");
   });
 
-  test("should accept numbers with both underscores and commas", () => {
-    const logOutput = captureConsole('log', () => { main(["--number=1,_000", "arg"]); });
+  test("should accept numbers with both underscores and commas", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["--number=1,_000", "arg"]); });
     expect(logOutput).toContain("arg");
   });
 });
@@ -227,14 +221,14 @@ describe("Global Configuration Support", () => {
     fs.unlinkSync(globalConfigPath);
   });
 
-  test("should use global configuration defaultArgs when no CLI arguments are provided", () => {
-    const logOutput = captureConsole('log', () => { main([]); });
+  test("should use global configuration defaultArgs when no CLI arguments are provided", async () => {
+    const logOutput = await captureConsole('log', async () => { await main([]); });
     expect(logOutput).toContain("Using default arguments from global configuration.");
     expect(logOutput).toContain("globalArg1");
   });
 
-  test("should override global defaultArgs when CLI arguments are provided", () => {
-    const logOutput = captureConsole('log', () => { main(["cliArg1"]); });
+  test("should override global defaultArgs when CLI arguments are provided", async () => {
+    const logOutput = await captureConsole('log', async () => { await main(["cliArg1"]); });
     expect(logOutput).toContain("cliArg1");
     expect(logOutput).not.toContain("globalArg1");
   });
@@ -249,20 +243,20 @@ describe("Global Configuration Schema Validation", () => {
     }
   });
 
-  test("should log error and fallback when global config JSON is malformed", () => {
+  test("should log error and fallback when global config JSON is malformed", async () => {
     fs.writeFileSync(globalConfigPath, '{ malformed json');
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    main([]);
+    await main([]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Global config error");
   });
 
-  test("should log error and fallback when global config does not adhere to schema", () => {
+  test("should log error and fallback when global config does not adhere to schema", async () => {
     fs.writeFileSync(globalConfigPath, JSON.stringify({ defaultArgs: "not-an-array" }));
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    main([]);
+    await main([]);
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Global config validation error");
   });
@@ -284,11 +278,8 @@ describe("Automatic Error Reporting", () => {
     process.env.ERROR_REPORTING_URL = "http://example.com/report";
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
-    try {
-      main(["--simulate-error", "--verbose"]);
-    } catch (e) {
-      // Expected error
-    }
+    await expect(main(["--simulate-error", "--verbose"])).rejects.toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+    // Allow some time for the async reporting
     await new Promise(r => setTimeout(r, 50));
     expect(fetchMock).toHaveBeenCalled();
     const callArgs = fetchMock.mock.calls[0];
@@ -312,20 +303,16 @@ describe("Automatic Error Reporting", () => {
     console.error = originalConsoleError;
   });
 
-  test("should not attempt error reporting when ERROR_REPORTING_URL is not defined", () => {
+  test("should not attempt error reporting when ERROR_REPORTING_URL is not defined", async () => {
     const fetchSpy = vi.fn();
     global.fetch = fetchSpy;
-    try {
-      main(["--simulate-error"]);
-    } catch (e) {
-      // Expected error
-    }
+    await expect(main(["--simulate-error"])).rejects.toThrow();
     expect(fetchSpy).not.toHaveBeenCalled();
   });
 });
 
 describe("--show-config Option", () => {
-  test("should output effective global configuration as formatted JSON and not process further arguments", () => {
+  test("should output effective global configuration as formatted JSON and not process further arguments", async () => {
     const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
     const globalConfigJson = {
       CLI_COLOR_SCHEME: "light",
@@ -335,7 +322,7 @@ describe("--show-config Option", () => {
     };
     fs.writeFileSync(configPath, JSON.stringify(globalConfigJson));
     process.env.CLI_COLOR_SCHEME = "dark";
-    const output = captureConsole('log', () => { main(["--show-config", "another-arg"]); });
+    const output = await captureConsole('log', async () => { await main(["--show-config", "another-arg"]); });
     let parsedOutput;
     expect(() => { parsedOutput = JSON.parse(output); }).not.toThrow();
     expect(parsedOutput.CLI_COLOR_SCHEME).toBe("dark");

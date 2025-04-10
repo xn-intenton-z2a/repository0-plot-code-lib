@@ -199,7 +199,7 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
  * Main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, and global configuration support.
  * @param {string[]} args - Command line arguments.
  */
-export function main(args) {
+export async function main(args) {
   // Check if the '--show-config' flag is present
   if (args && args.includes('--show-config')) {
     const globalConfig = getGlobalConfig();
@@ -288,22 +288,20 @@ export function main(args) {
           HOME: process.env.HOME || process.env.USERPROFILE || 'undefined'
         }
       };
-      // Use Node 20's built-in fetch
-      fetch(errorReportingUrl, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      })
-        .then(response => {
-          if (response.ok) {
-            console.log(themeColors.info("Error report submitted successfully."));
-          } else {
-            console.error(themeColors.error(`Failed to submit error report. Status: ${response.status}`));
-          }
-        })
-        .catch(err => {
-          console.error(themeColors.error("Failed to submit error report:"), err);
+      try {
+        const response = await fetch(errorReportingUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
         });
+        if (response.ok) {
+          console.log(themeColors.info("Error report submitted successfully."));
+        } else {
+          console.error(themeColors.error(`Failed to submit error report. Status: ${response.status}`));
+        }
+      } catch (err) {
+        console.error(themeColors.error("Failed to submit error report:"), err);
+      }
     }
 
     throw error;
@@ -313,9 +311,11 @@ export function main(args) {
 // If the script is executed directly from the CLI, invoke main with command line arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  try {
-    main(args);
-  } catch (error) {
-    process.exit(1);
-  }
+  (async () => {
+    try {
+      await main(args);
+    } catch (error) {
+      process.exit(1);
+    }
+  })();
 }

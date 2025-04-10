@@ -15,12 +15,14 @@ Import the main function and pass arguments as an array. Note that in the event 
 ```js
 import { main } from '@src/lib/main.js';
 
-try {
-  main(['arg1', 'arg2']);
-} catch (error) {
-  // Handle error accordingly
-  console.error('An error occurred:', error);
-}
+(async () => {
+  try {
+    await main(['arg1', 'arg2']);
+  } catch (error) {
+    // Handle error accordingly
+    console.error('An error occurred:', error);
+  }
+})();
 ```
 
 ### Command Line Interface (CLI)
@@ -79,6 +81,8 @@ When an error occurs, the CLI supports automatic error report submission. If the
 - **libraryVersion**: The current version of the library (sourced from package.json).
 - **timestamp**: The ISO timestamp when the error occurred.
 - **envContext**: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).
+
+The CLI now awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.
 
 Example configuration snippet:
 
