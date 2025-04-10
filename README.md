@@ -49,13 +49,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with underscores for readability (e.g., `1_000`)
 - Numbers with commas as thousand separators (e.g., `1,000`)
 
-The CLI uses strict regex matching to validate numeric values. This ensures that any non-numeric input—including empty values, any variation of the literal 'NaN', or incorrectly formatted numbers—is uniformly rejected with a clear error message:
-
-```bash
-Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
-```
-
-In verbose mode (or when `LOG_LEVEL` is set to `debug`), the CLI will also print a full stack trace to aid in debugging.
+The CLI validates numeric values by normalizing the input (trimming whitespace and removing underscores and commas) and then attempting a numeric conversion. If the conversion fails, a clear error message is provided. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace to aid in debugging.
 
 For example:
 
@@ -82,7 +76,7 @@ When an error occurs, the CLI supports automatic error report submission. If the
 - **timestamp**: The ISO timestamp when the error occurred.
 - **envContext**: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).
 
-The CLI now awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.
+The CLI awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.
 
 Example configuration snippet:
 
@@ -99,7 +93,7 @@ Example configuration snippet:
 
 A new feature allows you to set persistent default options without having to specify them every time you run the CLI.
 
-The CLI will look for a global configuration file named `.repository0plotconfig.json` in the current working directory and in your home directory (using the `HOME` or `USERPROFILE` environment variable). This file now enforces a strict schema. Supported configuration keys are:
+The CLI will look for a global configuration file named `.repository0plotconfig.json` in the current working directory and in your home directory (using the `HOME` or `USERPROFILE` environment variable). This file enforces a strict schema. Supported configuration keys are:
 
 - `CLI_COLOR_SCHEME` (string, e.g., "dark", "light", or "default")
 - `LOG_LEVEL` (string, e.g., "debug", "info", etc.)

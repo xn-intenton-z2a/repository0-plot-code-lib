@@ -168,20 +168,8 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
 
   // Normalize by removing underscores and commas
   const normalized = trimmedValue.replace(/[_,]/g, '');
-  
-  // Use a strict regex to validate the numeric format (supports integers, decimals, and scientific notation)
-  const numRegex = /^[-+]?((\d+(\.\d*)?)|(\.\d+))([eE][-+]?\d+)?$/;
-  if (!numRegex.test(normalized)) {
-    const msg = `Invalid numeric value for argument '--number=${trimmedValue}': '${trimmedValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
-    if (detailed) {
-      logError(themeColors.error, new Error(msg));
-    } else {
-      console.error(themeColors.error(msg));
-    }
-    throw new Error(`Invalid numeric value: ${trimmedValue}`);
-  }
-  
-  // Finally, parse the number
+
+  // Directly parse the number and validate
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
     const msg = `Invalid numeric value for argument '--number=${trimmedValue}': '${trimmedValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
@@ -192,6 +180,7 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
     }
     throw new Error(`Invalid numeric value: ${trimmedValue}`);
   }
+
   return parsed;
 }
 
