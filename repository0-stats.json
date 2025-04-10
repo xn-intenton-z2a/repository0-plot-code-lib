@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Archived the decision on NaN directives and documented it in both source and README as per guidelines. (fixes #1222)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 8,
+  "diffMinutes": 0,
+  "diffMinutesMain": 9,
   "commitsLastHour": 2,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T19:56:53.849Z"
+  "generatedAt": "2025-04-10T19:57:35.207Z"
 }
