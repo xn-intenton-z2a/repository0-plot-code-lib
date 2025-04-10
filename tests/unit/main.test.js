@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
