@@ -57,6 +57,9 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">If an invalid numeric value is provided, the CLI outputs a standardized error message. For example, if a non-numeric value is provided:</p>
 <pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
 </code></pre>
+<p class="md-github">Note: The literal 'NaN' is explicitly rejected because it does not represent any valid number. For example:</p>
+<pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
+</code></pre>
 <p class="md-github">In verbose mode (using the <code class="md-github">--verbose</code> flag), the error is logged along with a full stack trace:</p>
 <pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
 Stack trace: &lt;full stack trace here&gt;
@@ -114,7 +117,7 @@ Stack trace: &lt;full stack trace here&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T19:06:40.491Z</p>
+    <p>Generated on 2025-04-10T19:07:10.123Z</p>
   </footer>
 </body>
 </html>
