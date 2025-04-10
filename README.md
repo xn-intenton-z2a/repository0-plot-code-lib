@@ -29,7 +29,7 @@ repository0-plot-code-lib arg1 arg2
 If no arguments are provided, the CLI will display a colored usage message:
 
 ```
-(No arguments provided message in yellow)
+(No arguments provided message in colored output)
 Usage: repository0-plot-code-lib <arguments>
 ```
 
@@ -52,7 +52,19 @@ or
 LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 ```
 
-This detailed logging is especially useful for troubleshooting and debugging. In non-verbose mode, only a succinct error message is displayed.
+## Configurable Color Themes
+
+You can customize the CLI output color theme by setting the environment variable `CLI_COLOR_SCHEME`. The available themes are:
+
+- **default**: Uses standard colors (red for errors, yellow for usage, green for info, and cyan for run messages).
+- **dark**: Uses bold colors (bold red for errors, bold blue for usage, bold green for info, and bold cyan for run messages).
+- **light**: Uses alternative colors (red for errors, magenta for usage, blue for info, and yellow for run messages).
+
+For example, to run the CLI with the dark theme:
+
+```bash
+CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
+```
 
 ---
 

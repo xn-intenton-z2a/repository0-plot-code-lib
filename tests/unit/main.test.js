@@ -53,3 +53,17 @@ describe("Error Handling", () => {
     expect(errorOutput).toContain("Simulated error condition for testing");
   });
 });
+
+describe("Color Theme Configuration", () => {
+  test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
+    const originalEnv = process.env.CLI_COLOR_SCHEME;
+    process.env.CLI_COLOR_SCHEME = "dark";
+    let logOutput = "";
+    console.log = (msg) => { logOutput += msg; };
+    main([]);
+    console.log = originalConsoleLog;
+    // Check for ANSI bold escape code (typically \u001b[1m for bold in dark theme)
+    expect(logOutput).toContain("\u001b[1m"); 
+    process.env.CLI_COLOR_SCHEME = originalEnv;
+  });
+});
