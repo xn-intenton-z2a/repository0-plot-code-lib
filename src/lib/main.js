@@ -179,7 +179,8 @@ function getGlobalConfig() {
 
 /**
  * Consolidated validation function for numeric CLI arguments.
- * Validates the number format and throws detailed errors that are handled in the main catch block.
+ * This function uses a robust regular expression to validate the number format, supporting standard numbers, scientific notation,
+ * and numbers with underscores or commas as thousands separators. It throws detailed errors that are handled in the main catch block.
  * @param {string} numStr - The numeric string from CLI argument.
  * @param {boolean} verboseMode - Flag indicating verbose mode.
  * @param {object} themeColors - Theme color functions for logging.
@@ -187,18 +188,23 @@ function getGlobalConfig() {
  * @throws {Error} if the numeric value is invalid.
  */
 function validateNumericArg(numStr, verboseMode, themeColors) {
-  const trimmedValue = numStr.trim();
-  if (trimmedValue === "") {
+  const trimmed = numStr.trim();
+  if (trimmed === "") {
     throw new Error(`Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.`);
   }
 
-  // Normalize by removing underscores and commas
-  const normalized = trimmedValue.replace(/[_,]/g, '');
+  // Regular expression to check valid numeric formats including digits, optional thousand separators (commas or underscores),
+  // optional decimal parts, and scientific notation
+  const validNumericRegex = /^[+-]?(\d+(?:[_,]\d+)*)(?:\.(\d+(?:[_,]\d+)*))?(?:[eE][+-]?\d+(?:[_,]\d+)*)?$/;
+  if (!validNumericRegex.test(trimmed)) {
+    throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
+  }
 
-  // Directly parse the number and validate
+  // Normalize by removing underscores and commas before conversion
+  const normalized = trimmed.replace(/[_,]/g, '');
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
-    throw new Error(`Invalid numeric value for argument '--number=${trimmedValue}': '${trimmedValue}' is not a valid number. Please provide a valid number such as '--number=42'.`);
+    throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
   }
 
   return parsed;
