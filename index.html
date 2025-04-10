@@ -67,7 +67,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with underscores for readability (e.g., <code class="md-github">1_000</code>)</li>
 <li class="md-github">Numbers with commas as thousand separators (e.g., <code class="md-github">1,000</code>)</li>
 </ul>
-<p class="md-github">The CLI validates numeric values by normalizing the input (trimming whitespace and removing underscores and commas) and then attempting a numeric conversion. If the conversion fails, a clear error message is provided. In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the error message includes a full stack trace to aid in debugging.</p>
+<p class="md-github">The numeric validation has been optimized using a robust regular expression that ensures the input adheres to valid numerical formats. Upon validation, any underscores or commas are removed before conversion. If the conversion fails, a clear error message is provided. In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the error message includes a full stack trace to aid in debugging.</p>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
@@ -119,7 +119,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T23:18:55.667Z</p>
+    <p>Generated on 2025-04-10T23:19:55.410Z</p>
   </footer>
 </body>
 </html>
