@@ -26,10 +26,10 @@ Run the CLI directly:
 repository0-plot-code-lib arg1 arg2
 ```
 
-If no arguments are provided, the CLI will display a colored usage message:
+If no arguments are provided, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.
 
 ```
-(No arguments provided message in colored output)
+(No arguments provided message in colored output, or default arguments if configured)
 Usage: repository0-plot-code-lib <arguments>
 ```
 
@@ -51,9 +51,9 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The validatio
   Stack trace: <full stack trace here>
   ```
 
-In addition, during testing (NODE_ENV set to "test"), the CLI throws an error with the message:
+During testing (when NODE_ENV is set to "test"), the CLI throws an error with the message:
 
-```
+```bash
 Invalid numeric value: abc
 ```
 
@@ -112,22 +112,27 @@ For example, to run the CLI with the dark theme:
 CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
 ```
 
-### Custom Color Theme Configuration
+### Global Configuration File Support
 
-In addition to using preset themes via the `CLI_COLOR_SCHEME` environment variable, you can override the default theme by providing a custom configuration file named `cli-theme.json` in the working directory. This JSON file should define the theme colors for the following keys: `error`, `usage`, `info`, and `run`. The values should be dot-separated strings representing chalk methods.
+A new feature allows you to set persistent default options without having to specify them every time you run the CLI.
 
-For example, a custom configuration file could look like this:
+The CLI will look for a global configuration file named `.repository0plotconfig.json` in the current working directory and in your home directory (using the `HOME` or `USERPROFILE` environment variable). This file supports the following options:
+
+- `CLI_COLOR_SCHEME`: Set a default color theme (e.g., "dark", "light", or "default").
+- `LOG_LEVEL`: Set a default logging level (e.g., "debug").
+- `defaultArgs`: An array of default command line arguments to be used when no arguments are provided.
+
+#### Example `.repository0plotconfig.json` file:
 
 ```json
 {
-  "error": "bold.red",
-  "usage": "underline.blue",
-  "info": "italic.green",
-  "run": "inverse.cyan"
+  "CLI_COLOR_SCHEME": "dark",
+  "LOG_LEVEL": "debug",
+  "defaultArgs": ["defaultArg1", "defaultArg2"]
 }
 ```
 
-If the custom configuration file is invalid (either malformed JSON or missing required keys), the CLI will log an enhanced error message indicating the file path, the specific error, and recommendations to correct the JSON format or schema. It will then fall back to the default theme.
+When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.
 
 ---
 

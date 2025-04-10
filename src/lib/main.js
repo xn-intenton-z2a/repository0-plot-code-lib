@@ -104,14 +104,59 @@ function getThemeColors() {
   }
 }
 
+// Function to get global configuration from .repository0plotconfig.json
+function getGlobalConfig() {
+  const configPaths = [];
+  const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  configPaths.push(cwdConfigPath);
+  const homeDir = process.env.HOME || process.env.USERPROFILE;
+  if (homeDir) {
+    configPaths.push(path.join(homeDir, ".repository0plotconfig.json"));
+  }
+  let globalConfig = {};
+  for (const configPath of configPaths) {
+    if (existsSync(configPath)) {
+      try {
+        const content = readFileSync(configPath, "utf-8");
+        const json = JSON.parse(content);
+        globalConfig = { ...globalConfig, ...json };
+      } catch (err) {
+        console.error(chalk.red(`Global config error [${configPath}]: ${err.message}. Ignoring this config.`));
+      }
+    }
+  }
+  return globalConfig;
+}
+
 /**
- * Main function that executes CLI logic with advanced error handling, colored output, and numeric argument validation.
+ * Main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, and global configuration support.
  * @param {string[]} args - Command line arguments.
  */
 export function main(args) {
+  // Merge global config settings
+  const globalConfig = getGlobalConfig();
+
+  // Set environment variables from global config if not already set
+  if (!process.env.CLI_COLOR_SCHEME && globalConfig.CLI_COLOR_SCHEME) {
+    process.env.CLI_COLOR_SCHEME = globalConfig.CLI_COLOR_SCHEME;
+  }
+  if (!process.env.LOG_LEVEL && globalConfig.LOG_LEVEL) {
+    process.env.LOG_LEVEL = globalConfig.LOG_LEVEL;
+  }
+
   const themeColors = getThemeColors();
   // Determine verbose mode via command line flag or environment variable
   const verboseMode = (args && args.includes("--verbose")) || process.env.LOG_LEVEL === "debug";
+
+  // If no args provided but global config has defaultArgs, use them
+  if ((!args || args.length === 0) && globalConfig.defaultArgs && Array.isArray(globalConfig.defaultArgs) && globalConfig.defaultArgs.length > 0) {
+    console.log(themeColors.info("Using default arguments from global configuration."));
+    args = globalConfig.defaultArgs;
+  } else if (!args || args.length === 0) {
+    console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
+    console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
+    return;
+  }
 
   // Numeric argument validation: process flags of the form --number=<value>
   const numberFlagPrefix = "--number=";
@@ -141,13 +186,6 @@ export function main(args) {
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
     if (args && args.includes("--simulate-error")) {
       throw new Error("Simulated error condition for testing");
-    }
-
-    // If no arguments are provided, display usage message with colors
-    if (!args || args.length === 0) {
-      console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
-      console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
-      return;
     }
 
     console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
