@@ -153,37 +153,37 @@ function getGlobalConfig() {
  * @throws {Error} if the numeric value is invalid.
  */
 function validateNumericArg(numStr, verboseMode, themeColors) {
-  // Determine if detailed logging is enabled via --verbose or LOG_LEVEL=debug
+  const trimmedValue = numStr.trim();
   const detailed = verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug');
 
-  if (numStr.trim() === "") {
+  if (trimmedValue === "") {
     const msg = "Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.";
     if (detailed) {
       logError(themeColors.error, new Error(msg));
     } else {
       console.error(themeColors.error(msg));
     }
-    throw new Error(`Invalid numeric value: ${numStr}`);
+    throw new Error(`Invalid numeric value: ${trimmedValue}`);
   }
-  if (numStr.trim().toLowerCase() === 'nan') {
-    const msg = `Invalid numeric value for argument '--number=${numStr}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.`;
+  if (trimmedValue.toLowerCase() === 'nan') {
+    const msg = `Invalid numeric value for argument '--number=${trimmedValue}': '${trimmedValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
     if (detailed) {
       logError(themeColors.error, new Error(msg));
     } else {
       console.error(themeColors.error(msg));
     }
-    throw new Error(`Invalid numeric value: ${numStr}`);
+    throw new Error(`Invalid numeric value: ${trimmedValue}`);
   }
-  const normalized = numStr.replace(/[_,]/g, '');
+  const normalized = trimmedValue.replace(/[_,]/g, '');
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
-    const msg = `Invalid numeric value for argument '--number=${numStr}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
+    const msg = `Invalid numeric value for argument '--number=${trimmedValue}': '${trimmedValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
     if (detailed) {
       logError(themeColors.error, new Error(msg));
     } else {
       console.error(themeColors.error(msg));
     }
-    throw new Error(`Invalid numeric value: ${numStr}`);
+    throw new Error(`Invalid numeric value: ${trimmedValue}`);
   }
   return parsed;
 }
@@ -235,7 +235,7 @@ export function main(args) {
   const numberFlagPrefix = "--number=";
   for (const arg of args) {
     if (arg.startsWith(numberFlagPrefix)) {
-      const numStr = arg.slice(numberFlagPrefix.length).trim();
+      const numStr = arg.slice(numberFlagPrefix.length);
       validateNumericArg(numStr, verboseMode, themeColors);
     }
   }

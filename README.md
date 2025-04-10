@@ -47,9 +47,9 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with underscores for readability (e.g., `1_000`)
 - Numbers with commas as thousand separators (e.g., `1,000`)
 
-The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted into a valid number after removing underscores and commas).
+The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN' - in any case variation, or any input that cannot be converted into a valid number after removing underscores and commas).
 
-Note: The literal 'NaN' (in any case) is explicitly rejected as it does not represent a valid number in this CLI. If a literal 'NaN' is provided, the CLI will output a clear error message. In non-verbose mode, it will display the instructive error without a stack trace. In verbose mode or when `LOG_LEVEL` is set to `debug`, a full stack trace is included for debugging purposes.
+Note: Any case variation of 'NaN' (e.g., 'NaN', 'nan', 'NAN') is explicitly rejected as it does not represent a valid number. If a literal 'NaN' is provided, the CLI will output a clear error message. In non-verbose mode, it will display an instructive error without a stack trace. In verbose mode or when `LOG_LEVEL` is set to `debug`, a full stack trace is included for debugging purposes.
 
 For example:
 
