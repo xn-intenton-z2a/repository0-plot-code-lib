@@ -61,9 +61,44 @@ function logError(chalkError, ...args) {
 }
 
 /**
- * Returns the current CLI theme color functions based on a custom configuration file or the CLI_COLOR_SCHEME environment variable.
+ * Returns the current CLI theme color functions based on a provided theme override, a custom configuration file, or the CLI_COLOR_SCHEME environment variable.
  */
-function getThemeColors() {
+function getThemeColors(themeOverride = null) {
+  if (themeOverride) {
+    const forcedChalk = new Chalk({ level: 3 });
+    switch (themeOverride) {
+      case "dark":
+        return {
+          error: forcedChalk.bold.red,
+          usage: forcedChalk.bold.blue,
+          info: forcedChalk.bold.green,
+          run: forcedChalk.bold.cyan
+        };
+      case "light":
+        return {
+          error: forcedChalk.red,
+          usage: forcedChalk.magenta,
+          info: forcedChalk.blue,
+          run: forcedChalk.yellow
+        };
+      case "default":
+        return {
+          error: forcedChalk.red,
+          usage: forcedChalk.yellow,
+          info: forcedChalk.green,
+          run: forcedChalk.cyan
+        };
+      default:
+        console.error(forcedChalk.red(`Unknown theme override '${themeOverride}'. Falling back to default theme.`));
+        return {
+          error: forcedChalk.red,
+          usage: forcedChalk.yellow,
+          info: forcedChalk.green,
+          run: forcedChalk.cyan
+        };
+    }
+  }
+
   const customConfigPath = path.join(process.cwd(), "cli-theme.json");
   if (existsSync(customConfigPath)) {
     try {
@@ -85,31 +120,30 @@ function getThemeColors() {
     }
   }
   const theme = process.env.CLI_COLOR_SCHEME || "default";
-  switch (theme) {
-    case "dark": {
-      // Force chalk to use ANSI escape codes by creating a new instance with level 3
-      const forcedChalk = new Chalk({ level: 3 });
-      return {
-        error: forcedChalk.bold.red,
-        usage: forcedChalk.bold.blue,
-        info: forcedChalk.bold.green,
-        run: forcedChalk.bold.cyan
-      };
-    }
-    case "light":
-      return {
-        error: chalk.red,
-        usage: chalk.magenta,
-        info: chalk.blue,
-        run: chalk.yellow
-      };
-    default:
-      return {
-        error: chalk.red,
-        usage: chalk.yellow,
-        info: chalk.green,
-        run: chalk.cyan
-      };
+  if (theme === "dark") {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.bold.red,
+      usage: forcedChalk.bold.blue,
+      info: forcedChalk.bold.green,
+      run: forcedChalk.bold.cyan
+    };
+  } else if (theme === "light") {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.red,
+      usage: forcedChalk.magenta,
+      info: forcedChalk.blue,
+      run: forcedChalk.yellow
+    };
+  } else {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.red,
+      usage: forcedChalk.yellow,
+      info: forcedChalk.green,
+      run: forcedChalk.cyan
+    };
   }
 }
 
@@ -189,6 +223,18 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
+  // Extract and remove any theme override flag from args
+  let themeOverride = null;
+  if (args && args.length > 0) {
+    args = args.filter(arg => {
+      if (arg.startsWith('--theme=')) {
+        themeOverride = arg.slice('--theme='.length);
+        return false;
+      }
+      return true;
+    });
+  }
+
   // Check if the '--show-config' flag is present
   if (args && args.includes('--show-config')) {
     const globalConfig = getGlobalConfig();
@@ -213,7 +259,7 @@ export async function main(args) {
   // Set error reporting URL from global config or environment variable
   const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
 
-  const themeColors = getThemeColors();
+  const themeColors = getThemeColors(themeOverride);
   // Determine verbose mode via command line flag only
   const verboseMode = args && args.includes("--verbose");
 
@@ -242,7 +288,8 @@ export async function main(args) {
       throw new Error("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     }
 
-    console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
+    // Use usage for the prefix styling instead of info to meet theme expectations
+    console.log(themeColors.usage("Run with: ") + themeColors.run(JSON.stringify(args)));
   } catch (error) {
     if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
       logError(themeColors.error, "Error in main function execution:", error);
