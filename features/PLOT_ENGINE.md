@@ -1,7 +1,7 @@
-# PLOT_ENGINE Feature Specification (Enhanced with Data Import, Unit Conversion, Cache Inspection, Template Management, and SVG EXPORT)
+# PLOT_ENGINE Feature Specification (Enhanced with Data Import, Unit Conversion, Cache Inspection, Template Management, SVG EXPORT, and Interactive Preview)
 
 ## Overview
-This feature provides the core plotting capabilities for evaluating mathematical expressions and generating clear visual representations, including ASCII plots and scalable vector graphics (SVG) exports. In this update, the feature is extended to support data import from external files alongside the existing functionalities. This integration enables users to load data from CSV or JSON files and combine it with computed formula data to create enriched visualisations, all while preserving the robust unit conversion, caching, and template management mechanisms.
+This feature provides the core plotting capabilities for evaluating mathematical expressions and generating clear visual representations, including ASCII plots and scalable vector graphics (SVG) exports. In this update, the feature is extended to support data import from external files alongside the existing functionalities. Additionally, a new interactive preview mode has been integrated to allow users to quickly visualize their plots before generating full outputs. This expansion enhances flexibility and user feedback while preserving robust unit conversion, caching, and template management mechanisms.
 
 ## Implementation Details
 ### Expression Evaluation and Data Import
@@ -13,7 +13,7 @@ This feature provides the core plotting capabilities for evaluating mathematical
   - Includes error handling and default fallbacks in case of parsing issues or invalid data formats.
 
 ### ASCII Plotting and SVG Export
-- **ASCII Plotting:** Maps computed or imported data onto an ASCII grid, offering optional color enhancements for clear terminal visualisation.
+- **ASCII Plotting:** Maps computed or imported data onto an ASCII grid, offering optional color enhancements for clear terminal visualization.
 - **Export Options:**
   - Supports export in ASCII or JSON formats via the `--export` flag.
   - **SVG Export Capability:** A dedicated CLI flag (`--export-svg`) enables users to generate high-quality SVG files, ideal for digital publications and presentations.
@@ -30,16 +30,27 @@ This feature provides the core plotting capabilities for evaluating mathematical
 - **Unit Conversion:** Integrates conversion flags (`--input-unit` and `--output-unit`) into the data processing pipeline to standardize units across formula evaluation and imported data.
 - **Template Management:**
   - Allows users to save current plotting configurations—including formulas, data import settings, unit preferences, and visual styles—as reusable templates stored in a JSON file.
-  - Facilitates listing available templates with a `--list-templates` flag and reloading via `--apply-template <template_name>` for quick reinitialisation.
+  - Facilitates listing available templates with a `--list-templates` flag and reloading via `--apply-template <template_name>` for quick reinitialization.
+
+### Interactive Plot Preview
+- **Preview Mode:**
+  - Introduces a new CLI flag (`--preview`) that provides an immediate, simplified ASCII preview of the plot based on current parameters.
+  - Allows users to quickly assess the plot layout and data representation before proceeding with full rendering or export.
+  - Integrates with existing caching and configuration systems to ensure that the preview accurately reflects both computed and imported data.
+  - Provides inline feedback and suggestions for adjustments, enhancing user experience during iterative plot development.
 
 ## Testing and Documentation
-- **Unit and Integration Tests:** Tests simulate scenarios combining formula evaluation with imported data, ensuring that both sources are correctly parsed, merged, and rendered. Other tests cover cache functionality, unit conversion accuracy, and SVG export standards.
-- **Documentation Updates:** README.md and CONTRIBUTING.md are updated with comprehensive usage examples covering data import, combined plotting workflows, and troubleshooting guidelines for different data formats and error conditions.
+- **Unit and Integration Tests:**
+  - Tests simulate scenarios combining formula evaluation with imported data, ensuring that both sources are correctly parsed, merged, and rendered.
+  - Additional tests validate that the interactive preview correctly reflects changes in real-time and integrates seamlessly with other plotting functionalities.
+  - Other tests cover cache functionality, unit conversion accuracy, and SVG export standards.
+- **Documentation Updates:** README.md and CONTRIBUTING.md are updated with comprehensive usage examples covering data import, combined plotting workflows, interactive preview usage, and troubleshooting guidelines for different data formats and error conditions.
 
 ## Benefits
 - **Enhanced Flexibility:** Users can augment or replace computed data with externally sourced datasets, broadening the scope of visualisations and analysis.
 - **Improved Output Quality:** The SVG export option paired with rich data inputs allows for high-quality, publication-ready graphics.
-- **Streamlined Workflows:** Integration of data import within the core plotting engine reduces the need for multiple tools and simplifies the overall plotting process.
+- **Interactive User Feedback:** The new preview mode lets users quickly visualize and iterate on their plots, improving workflow efficiency and reducing errors.
+- **Streamlined Workflows:** Integration of data import, interactive preview, and core plotting in a single module reduces the need for multiple tools and simplifies the overall plotting process.
 
 ## Summary
-The enhanced PLOT_ENGINE feature now consolidates core plotting, unit conversion, caching, and template management with a new data import capability. This expansion not only increases the versatility of the plotting tool but also supports a wider range of use cases—from mathematical function visualisation to real-world data analysis—fully aligning with our mission to be the go-to plot library for formula visualisations.
+The enhanced PLOT_ENGINE feature now consolidates core plotting, unit conversion, caching, and template management with a new data import capability and an interactive preview mode. This expansion not only increases the versatility of the plotting tool but also supports a wider range of use cases—from mathematical function visualisation to real-world data analysis—fully aligning with our mission to be the go-to plot library for formula visualisations.
