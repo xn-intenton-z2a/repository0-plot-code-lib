@@ -1,38 +1,36 @@
-# CLI_API Feature Specification (Unified with HELP_SYSTEM and TUTORIAL_MODE)
+# CLI_API Feature Specification (Unified with HELP_SYSTEM, TUTORIAL_MODE, and QUICK_TIPS)
 
 ## Overview
-This feature unifies command line interactions, an optional HTTP API, an integrated help system, and now an interactive tutorial mode. The addition of Tutorial Mode provides a guided, step-by-step walkthrough for new users, reducing the learning curve and aligning with our mission to be the go-to plot library for formula visualisations.
+The CLI_API feature bridges command line interactions with an optional HTTP API, while also integrating a dynamic help system and interactive tutorial mode. In this update, we enhance the help and tutorial components by incorporating context-aware quick tips and an offline fallback for guidance. This ensures that both novice and experienced users have immediate access to relevant information, reinforcing our mission to be the go-to plot library for formula visualisations.
 
 ## Unified CLI and Help Integration
-- **Interactive CLI:** Offers step-by-step prompts, auto-completion, and command previews for efficient operation. The CLI integrates a context-sensitive help mode dynamically displaying usage instructions for current subcommands.
-- **Dynamic Help System:** Automatically extracts usage examples and documentation from source comments and related markdown files. Help is available via common flags (`--help` or `-h`), providing tailored output based on the user's context (e.g., plotting, configuration, scheduling).
-- **JSON Filtering:** Incorporates a `--jq` flag to enable jq-like filtering of JSON outputs, streamlining data processing.
+- **Interactive CLI:** Provides intelligent, step-by-step prompts, auto-completion, and preview suggestions that streamline user workflows. The CLI now also features inline quick tips triggered by context-sensitive hints to aid users in real-time.
+- **Dynamic Help System:** Automatically extracts and displays usage examples and documentation from source comments and markdown files. Enhanced with a fallback offline help mode that offers precompiled guidance when online documentation or API lookups are unavailable.
+- **JSON Filtering:** Retains the `--jq` flag functionality for jq-like JSON output filtering, ensuring integration with various data processing pipelines.
 
 ## Integrated HTTP API Mode
-- **API Activation:** A dedicated CLI flag (`--api`) launches an Express-based HTTP server.
-- **RESTful Endpoints:** Provides endpoints such as `/plot`, `/config`, `/logs`, `/help`, and now `/tutorial`, which mirrors the CLI tutorial functionality for remote users.
-- **Shared Logic:** Both CLI and HTTP API modes share core processing logic, ensuring consistent behavior, robust error handling, and unified configuration management across platforms.
+- **API Activation:** A dedicated CLI flag (`--api`) now launches an Express-based HTTP server that provides RESTful endpoints including `/plot`, `/config`, `/logs`, `/help`, and `/tutorial`.
+- **Consistency Across Platforms:** All endpoints share core processing logic, making sure that CLI and HTTP API interactions offer the same level of robustness and error handling.
 
-## Tutorial Mode
-- **Guided Walkthrough:** Introduces a new CLI flag (`--tutorial`) that launches an interactive walkthrough. This guided mode leads new users through key functionalities such as configuration setup, plotting commands, automation tasks, and usage of the chat assistant.
-- **Step-by-Step Instructions:** The tutorial provides concise explanations, inline code examples, and interactive prompts that encourage hands-on exploration of the tool's capabilities.
-- **Multimodal Access:** Accessible both via the CLI and the HTTP API (through the `/tutorial` endpoint), ensuring that both local and remote users benefit from guided onboarding.
-- **Seamless Integration:** Integrates with existing help and configuration systems to offer contextual guidance and real-time tips during the tutorial session.
+## Tutorial Mode and Quick Tips
+- **Interactive Tutorial:** The `--tutorial` flag launches a guided walkthrough that explains key functionalities—configuration setup, plotting commands, automation tasks, and AI-powered assistance. This mode now features inline quick tips that highlight common pitfalls and best practices.
+- **Quick Tips Integration:** Context-aware hints are integrated into both the CLI and HTTP API. These quick tips help users understand complex commands and provide troubleshooting advice in real-time.
+- **Offline Fallback:** In scenarios where dynamic online assistance is unavailable, a precompiled set of help instructions ensures uninterrupted user support.
 
 ## Implementation Details
-- **CLI Enhancements:** Update the CLI parser to recognize the new `--tutorial` flag, triggering the tutorial workflow.
-- **HTTP Endpoint:** Add a new endpoint `/tutorial` that serves structured tutorial steps along with sample responses.
-- **Modular Design:** The tutorial mode is developed as a modular component, ensuring it can be maintained and updated independently while reusing common CLI and API logic.
-- **Testing:** Develop unit and integration tests simulating tutorial sessions to validate flow, user input handling, and proper guidance through all major functionalities.
+- **CLI Enhancements:** The CLI parser is updated to recognize new commands and flags. Quick tips are rendered based on the current context using a lightweight decision engine.
+- **HTTP Endpoint Extensions:** The `/help` and `/tutorial` endpoints now return structured JSON content that includes both detailed instructions and quick tip summaries.
+- **Modular Design:** The feature is designed modularly, allowing independent updates to the help system and tutorial mode without impacting the core CLI/API logic.
+- **Testing:** New unit and integration tests have been developed to simulate tutorial sessions, verify quick tip accuracy, and validate offline fallback behavior.
 
 ## Testing and Documentation
-- **Unit and Integration Tests:** Ensure coverage for interactive tutorial sessions, verifying that prompts, responses, and transitions between tutorial steps work as expected in both CLI and HTTP modes.
-- **Documentation Updates:** Update README.md and CONTRIBUTING.md to include comprehensive usage examples and troubleshooting guidelines for the Tutorial Mode, making it accessible for new users.
+- **Unit and Integration Tests:** Comprehensive tests cover interactive tutorials, context-sensitive quick tips, and API endpoint behaviors. Tests ensure that both online and offline guidance systems operate seamlessly.
+- **Documentation Updates:** README.md and CONTRIBUTING.md are updated with extensive usage examples, including CLI commands, HTTP API invocations, and troubleshooting guidelines.
 
 ## Benefits
-- **Onboarding Efficiency:** Reduces the learning curve for new users by offering a clear, interactive, and guided introduction to the tool.
-- **Enhanced User Support:** Provides immediate, context-aware assistance, improving user confidence and reducing support requests.
-- **Seamless User Experience:** Integrates with existing CLI and HTTP functionalities to maintain a unified interface across all modes of operation.
+- **Enhanced Onboarding:** The interactive tutorial and quick tips significantly reduce the learning curve for new users, providing a smoother start-to-finish experience.
+- **Robust User Support:** Immediate, context-aware guidance and offline help ensure that users always have access to essential information and troubleshooting tips.
+- **Unified Experience:** By merging CLI and HTTP API help functionalities into a cohesive unit, the feature simplifies user interaction and maintains consistency across different modes of operation.
 
 ## Summary
-The updated CLI_API feature now incorporates a robust Tutorial Mode alongside its unified CLI, HTTP API, and help functionalities. This enhancement aligns with our mission by offering an intuitive, guided onboarding process that simplifies tool adoption and enhances the overall user experience.
+This enhanced CLI_API feature not only streamlines command line and HTTP API interactions but also elevates user support through integrated, context-aware quick tips and an offline fallback help system. These improvements align with our mission of being the go-to plot library, delivering both powerful functionality and a superior user experience.
