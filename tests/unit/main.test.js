@@ -78,6 +78,7 @@ describe("Error Handling", () => {
   });
 });
 
+
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", async () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
@@ -87,6 +88,7 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
+
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -107,7 +109,7 @@ describe("Custom Color Theme Configuration", () => {
 
   test("should use custom theme from cli-theme.json", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["arg"]); });
-    expect(logOutput).toContain("\x1B[4m");
+    expect(logOutput).toContain("\u001b[4m");
   });
 });
 

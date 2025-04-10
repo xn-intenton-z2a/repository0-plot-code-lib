@@ -289,7 +289,8 @@ export async function main(args) {
       throw new Error("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     }
 
-    console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
+    // Use usage for the prefix styling instead of info to meet theme expectations
+    console.log(themeColors.usage("Run with: ") + themeColors.run(JSON.stringify(args)));
   } catch (error) {
     if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
       logError(themeColors.error, "Error in main function execution:", error);
