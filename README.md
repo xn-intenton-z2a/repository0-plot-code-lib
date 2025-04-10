@@ -67,7 +67,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-The numeric validation has been optimized using a robust approach that normalizes the input by removing locale-specific thousand separators before conversion. In cases where the period might serve as a thousands separator rather than a decimal point (for instance, when exactly three digits follow the period), the period is removed. Otherwise, it is treated as a decimal point. If the conversion fails, a clear error message is provided. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace to aid in debugging.
+The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. **Note:** Inputs explicitly equal to "NaN" (case-insensitive) are rejected with a clear error message.
 
 For example:
 
@@ -81,7 +81,7 @@ If an invalid numeric value is provided:
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output a clear error message, with additional stack trace details in verbose mode.
+The CLI will output a concise error message. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace for debugging.
 
 ### Automatic Error Reporting
 

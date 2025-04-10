@@ -112,6 +112,10 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
   if (trimmed === "") {
     throw new Error(`Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.`);
   }
+  // Explicitly reject inputs that are 'NaN' in any letter case
+  if (/^nan$/i.test(trimmed)) {
+    throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
+  }
 
   // Normalize the numeric string using the new locale-aware function
   const normalized = normalizeNumberString(trimmed);
