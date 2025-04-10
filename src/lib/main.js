@@ -143,6 +143,8 @@ export function main(args) {
   if (!process.env.LOG_LEVEL && globalConfig.LOG_LEVEL) {
     process.env.LOG_LEVEL = globalConfig.LOG_LEVEL;
   }
+  // Set error reporting URL from global config or environment variable
+  const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
 
   const themeColors = getThemeColors();
   // Determine verbose mode via command line flag or environment variable
@@ -194,6 +196,33 @@ export function main(args) {
       logError(themeColors.error, "Error in main function execution:", error);
     } else {
       console.error(themeColors.error(`Error: ${error.message}`));
+    }
+
+    // Automatic error reporting
+    if (errorReportingUrl) {
+      // Prepare error details
+      const payload = {
+        errorMessage: error.message,
+        stackTrace: error.stack || "",
+        cliArgs: args,
+        environment: { NODE_ENV: process.env.NODE_ENV }
+      };
+      // Use Node 20's built-in fetch
+      fetch(errorReportingUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      })
+        .then(response => {
+          if (response.ok) {
+            console.log(themeColors.info("Error report submitted successfully."));
+          } else {
+            console.error(themeColors.error(`Failed to submit error report. Status: ${response.status}`));
+          }
+        })
+        .catch(err => {
+          console.error(themeColors.error("Failed to submit error report:"), err);
+        });
     }
 
     // In test environment, rethrow error for assertions
