@@ -1,23 +1,22 @@
-# FORMULA_HINTS Feature Specification
+# FORMULA_HINTS Feature Specification (Enhanced with Context-Aware Suggestions)
 
 ## Overview
-This feature introduces a smart formula validation and suggestion mechanism. When users input a mathematical formula that fails to parse or returns an error, the system analyzes the input to provide corrective suggestions. This feature enhances the usability of the plotting library by reducing errors and helping users discover correct syntax and common formulas.
+This enhancement refines the smart formula validation and suggestion mechanism to provide context-aware corrections. In addition to intercepting and analyzing formula parse errors, the updated FORMULA_HINTS feature leverages user history and custom function definitions to offer more relevant and precise suggestions. This improvement reinforces our mission by reducing user errors and aiding exploration of correct mathematical syntax.
 
-## Implementation Details
-### Integration with Existing Parsers
-- **Error Interception:** Hook into the formula evaluation process (using mathjs) to catch parsing errors or unrecognized tokens.
-- **Suggestion Engine:** Implement a lightweight suggestion engine that compares the input formula against a list of valid function names (e.g., sin, cos, tan, log, etc.) and common patterns. Use string similarity metrics (like Levenshtein distance) to propose alternatives.
-- **Feedback Mechanism:** When a formula is invalid, return a clear error message along with one or two suggestions for a corrected formula.
+## Enhanced Suggestion Engine
+- **Context-Aware Analysis:** In addition to using string similarity measures (e.g., Levenshtein distance), the engine now references the HISTORY_MANAGER to incorporate commonly corrected formulas. Frequently used functions and user-specific patterns are considered when generating suggestions.
+- **Custom Function Support:** Allows users to extend the set of valid function names by supplying custom definitions through a configuration file or directly via CLI flags. The suggestion engine respects these additions during its validation process.
+- **Dynamic Feedback:** Suggestions include links to documentation excerpts and examples, enabling users to further educate themselves on correct syntax and potential pitfalls.
 
-### CLI and Library Support
-- **CLI Integration:** Enhance the CLI interface (in `src/lib/main.js`) to display suggestion messages when an invalid formula is provided. This ensures immediate feedback during interactive sessions and dry-run simulations.
-- **Library API:** Expose a helper function (e.g., `validateFormula(formula)`) that can be imported into user projects to pre-validate and suggest corrections prior to plotting. This function will seamlessly integrate with existing validation logic in the plotting engine.
-
-### Testing and Documentation
-- **Unit Tests:** Create tests to validate the suggestion logic for various invalid inputs. Ensure that for typos or minor errors, the most relevant suggestions are provided.
-- **Documentation:** Update README.md and CONTRIBUTING.md with examples on how to use the formula hints feature. Provide examples of common mistakes and their recommended corrections.
+## Integration with Existing Systems
+- **CLI and Library API:** The enhanced suggestion mechanism remains integrated with the CLI interface (via `src/lib/main.js`) and exposed as a library function (`validateFormula(formula)`). Error messages now include a context summary extracted from recent history and previous corrections.
+- **Testing & Adaptability:** Extensive unit tests are incorporated to simulate a range of input errors, ensuring that the additional context improves suggestion accuracy. Tests include scenarios with both default and custom function sets.
+- **Documentation:** Updates are made to README.md and CONTRIBUTING.md to present detailed usage examples, configuration instructions for custom functions, and troubleshooting tips for users.
 
 ## Benefits
-- **User Assistance:** Reduces frustration by immediately suggesting fixes for common input errors.
-- **Improved Success Rate:** Enhances the likelihood of successful plot generations by proactively catching formula mistakes.
-- **Educational Value:** Educates users on proper syntax and common functions, reinforcing the mission to be the go-to plot library for formula visualisations.
+- **Improved Accuracy:** By analyzing user history and custom configurations, suggestions become more tailored and relevant.
+- **Reduced User Frustration:** More actionable error messages and examples assist users in quickly correcting their formulas.
+- **Educational Value:** Integrated links to documentation and usage examples enhance user understanding and promote best practices in formula entry.
+
+## Summary
+This update to FORMULA_HINTS consolidates the error detection and suggestion process by introducing context-aware capabilities and custom function support. It remains fully integrated with both the CLI and library APIs, ensuring an improved and user-friendly plotting experience.
