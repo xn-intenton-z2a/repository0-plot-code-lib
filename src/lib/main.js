@@ -65,37 +65,36 @@ function logError(chalkError, ...args) {
  */
 function getThemeColors(themeOverride = null) {
   if (themeOverride) {
+    const forcedChalk = new Chalk({ level: 3 });
     switch (themeOverride) {
-      case "dark": {
-        const forcedChalk = new Chalk({ level: 3 });
+      case "dark":
         return {
           error: forcedChalk.bold.red,
           usage: forcedChalk.bold.blue,
           info: forcedChalk.bold.green,
           run: forcedChalk.bold.cyan
         };
-      }
       case "light":
         return {
-          error: chalk.red,
-          usage: chalk.magenta,
-          info: chalk.blue,
-          run: chalk.yellow
+          error: forcedChalk.red,
+          usage: forcedChalk.magenta,
+          info: forcedChalk.blue,
+          run: forcedChalk.yellow
         };
       case "default":
         return {
-          error: chalk.red,
-          usage: chalk.yellow,
-          info: chalk.green,
-          run: chalk.cyan
+          error: forcedChalk.red,
+          usage: forcedChalk.yellow,
+          info: forcedChalk.green,
+          run: forcedChalk.cyan
         };
       default:
-        console.error(chalk.red(`Unknown theme override '${themeOverride}'. Falling back to default theme.`));
+        console.error(forcedChalk.red(`Unknown theme override '${themeOverride}'. Falling back to default theme.`));
         return {
-          error: chalk.red,
-          usage: chalk.yellow,
-          info: chalk.green,
-          run: chalk.cyan
+          error: forcedChalk.red,
+          usage: forcedChalk.yellow,
+          info: forcedChalk.green,
+          run: forcedChalk.cyan
         };
     }
   }
@@ -121,30 +120,30 @@ function getThemeColors(themeOverride = null) {
     }
   }
   const theme = process.env.CLI_COLOR_SCHEME || "default";
-  switch (theme) {
-    case "dark": {
-      const forcedChalk = new Chalk({ level: 3 });
-      return {
-        error: forcedChalk.bold.red,
-        usage: forcedChalk.bold.blue,
-        info: forcedChalk.bold.green,
-        run: forcedChalk.bold.cyan
-      };
-    }
-    case "light":
-      return {
-        error: chalk.red,
-        usage: chalk.magenta,
-        info: chalk.blue,
-        run: chalk.yellow
-      };
-    default:
-      return {
-        error: chalk.red,
-        usage: chalk.yellow,
-        info: chalk.green,
-        run: chalk.cyan
-      };
+  if (theme === "dark") {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.bold.red,
+      usage: forcedChalk.bold.blue,
+      info: forcedChalk.bold.green,
+      run: forcedChalk.bold.cyan
+    };
+  } else if (theme === "light") {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.red,
+      usage: forcedChalk.magenta,
+      info: forcedChalk.blue,
+      run: forcedChalk.yellow
+    };
+  } else {
+    const forcedChalk = new Chalk({ level: 3 });
+    return {
+      error: forcedChalk.red,
+      usage: forcedChalk.yellow,
+      info: forcedChalk.green,
+      run: forcedChalk.cyan
+    };
   }
 }
 
