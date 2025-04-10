@@ -193,6 +193,17 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
  * @param {string[]} args - Command line arguments.
  */
 export function main(args) {
+  // Check if the '--show-config' flag is present
+  if (args && args.includes('--show-config')) {
+    const globalConfig = getGlobalConfig();
+    // Merge environment overrides
+    if (process.env.CLI_COLOR_SCHEME) globalConfig.CLI_COLOR_SCHEME = process.env.CLI_COLOR_SCHEME;
+    if (process.env.LOG_LEVEL) globalConfig.LOG_LEVEL = process.env.LOG_LEVEL;
+    if (process.env.ERROR_REPORTING_URL) globalConfig.ERROR_REPORTING_URL = process.env.ERROR_REPORTING_URL;
+    console.log(JSON.stringify(globalConfig, null, 2));
+    return;
+  }
+
   // Merge global config settings
   const globalConfig = getGlobalConfig();
 
