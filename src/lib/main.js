@@ -180,14 +180,18 @@ export function main(args) {
   for (const arg of args) {
     if (arg.startsWith(numberFlagPrefix)) {
       const numValue = arg.slice(numberFlagPrefix.length);
-      if (numValue.trim() === "" || Number.isNaN(Number(numValue))) {
-        const errorLogMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
+      let errorLogMsg = "";
+      if (numValue.trim() === "") {
+        errorLogMsg = "Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.";
+      } else if (Number.isNaN(Number(numValue))) {
+        errorLogMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
+      }
+      if (errorLogMsg) {
         if (verboseMode) {
           logError(themeColors.error, new Error(errorLogMsg));
         } else {
           console.error(themeColors.error(errorLogMsg));
         }
-        // Consistently exit with code 1 for invalid numeric input
         throw new Error(`Invalid numeric value: ${numValue}`);
       }
     }
