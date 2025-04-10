@@ -6,13 +6,13 @@ import chalk, { Chalk } from "chalk";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 
-// Helper function to apply a chalk chain from a dot-separated config string.
-function applyChalkChain(chain) {
+// Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
+function applyChalkChain(chain, chalkInstance = chalk) {
   if (typeof chain !== "string" || chain.trim() === "") {
-    return chalk;
+    return chalkInstance;
   }
   const chainParts = chain.split(".");
-  let chained = chalk;
+  let chained = chalkInstance;
   chainParts.forEach((part) => {
     if (typeof chained[part] === 'function') {
       chained = chained[part];
@@ -36,11 +36,13 @@ function getThemeColors() {
     try {
       const configContent = readFileSync(customConfigPath, "utf-8");
       const config = JSON.parse(configContent);
+      // Use a forced chalk instance with ANSI level 3 for custom themes
+      const customChalk = new Chalk({ level: 3 });
       return {
-        error: applyChalkChain(config.error),
-        usage: applyChalkChain(config.usage),
-        info: applyChalkChain(config.info),
-        run: applyChalkChain(config.run)
+        error: applyChalkChain(config.error, customChalk),
+        usage: applyChalkChain(config.usage, customChalk),
+        info: applyChalkChain(config.info, customChalk),
+        run: applyChalkChain(config.run, customChalk)
       };
     } catch (e) {
       console.error(chalk.red("Failed to parse custom CLI theme configuration. Using fallback theme."));
