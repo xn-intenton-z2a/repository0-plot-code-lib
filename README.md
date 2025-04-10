@@ -45,8 +45,9 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Standard numbers (e.g., `42`)
 - Scientific notation (e.g., `1e3`)
 - Numbers with underscores for readability (e.g., `1_000`)
+- Numbers with commas as thousand separators (e.g., `1,000`)
 
-The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted into a valid number after removing underscores).
+The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted into a valid number after removing underscores and commas).
 
 If an invalid numeric value is provided, the CLI outputs a standardized error message. For example, if a non-numeric value is provided:
 
