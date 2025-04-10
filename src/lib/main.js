@@ -145,7 +145,7 @@ function getGlobalConfig() {
 
 /**
  * Consolidated validation function for numeric CLI arguments.
- * Validates the number format and logs detailed errors in verbose mode.
+ * Validates the number format and logs detailed errors in verbose mode or when LOG_LEVEL is set to debug.
  * @param {string} numStr - The numeric string from CLI argument.
  * @param {boolean} verboseMode - Flag indicating verbose mode.
  * @param {object} themeColors - Theme color functions for logging.
@@ -153,9 +153,12 @@ function getGlobalConfig() {
  * @throws {Error} if the numeric value is invalid.
  */
 function validateNumericArg(numStr, verboseMode, themeColors) {
+  // Determine if detailed logging is enabled via --verbose or LOG_LEVEL=debug
+  const detailed = verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug');
+
   if (numStr.trim() === "") {
     const msg = "Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.";
-    if (verboseMode) {
+    if (detailed) {
       logError(themeColors.error, new Error(msg));
     } else {
       console.error(themeColors.error(msg));
@@ -164,7 +167,7 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
   }
   if (numStr.toLowerCase() === 'nan') {
     const msg = `Invalid numeric value for argument '--number=${numStr}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.`;
-    if (verboseMode) {
+    if (detailed) {
       logError(themeColors.error, new Error(msg));
     } else {
       console.error(themeColors.error(msg));
@@ -175,7 +178,7 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
     const msg = `Invalid numeric value for argument '--number=${numStr}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
-    if (verboseMode) {
+    if (detailed) {
       logError(themeColors.error, new Error(msg));
     } else {
       console.error(themeColors.error(msg));
@@ -234,14 +237,14 @@ export function main(args) {
 
     console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
   } catch (error) {
-    if (verboseMode) {
+    if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
       logError(themeColors.error, "Error in main function execution:", error);
     } else {
       console.error(themeColors.error(`Error: ${error.message}`));
     }
 
     // Automatic error reporting only in verbose mode
-    if (verboseMode && errorReportingUrl) {
+    if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
       // Prepare error details
       const payload = {
         errorMessage: error.message,

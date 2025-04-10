@@ -64,7 +64,7 @@ Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid n
 Stack trace: <full stack trace here>
 ```
 
-Additionally, if an empty numeric input is provided (e.g., `--number=`), the CLI will display a clear error message and exit with code 1.
+In addition to using the `--verbose` flag, setting the `LOG_LEVEL` environment variable to `debug` will also enable detailed error reporting with stack traces.
 
 For example:
 
