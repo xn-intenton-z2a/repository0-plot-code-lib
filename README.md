@@ -43,7 +43,9 @@ Usage: repository0-plot-code-lib <arguments>
 The CLI supports numeric validation via the `--number=VALUE` flag. The validation unifies error messaging as follows:
 
 - The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted to a valid number).
-- If an invalid numeric value is provided, the CLI outputs a standardized error message:
+- If an invalid numeric value is provided, the CLI outputs a standardized error message.
+
+For example, if a non-numeric value is provided, the output will be:
 
 ```bash
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
@@ -56,7 +58,7 @@ Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid n
 Stack trace: <full stack trace here>
 ```
 
-On detecting an invalid numeric argument, the CLI will exit immediately with exit code 1.
+Additionally, if an empty numeric input is provided (e.g., `--number=`), the CLI will produce a clear error message indicating that no value was provided, and will similarly exit with code 1.
 
 For example:
 
