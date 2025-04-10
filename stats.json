@@ -4,11 +4,15 @@
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 7,
-  "diffMinutesMain": 7,
+  "diffMinutes": 1,
+  "diffMinutesMain": 1,
   "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "16:43",
+      "message": "Refactored main error handling to throw errors instead of callin..."
+    },
     {
       "time": "16:27",
       "message": "Add unit tests for numeric argument validation edge case --numbe..."
@@ -24,10 +28,6 @@
     {
       "time": "15:52",
       "message": "Unified numeric argument error messaging for invalid inputs. (fi..."
-    },
-    {
-      "time": "15:40",
-      "message": "Updated README to clarify numeric argument validation for non-nu..."
     }
   ],
   "branches": {
@@ -37,5 +37,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T16:35:10.185Z"
+  "generatedAt": "2025-04-10T16:45:08.887Z"
 }
