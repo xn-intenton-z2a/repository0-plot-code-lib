@@ -1,7 +1,7 @@
-# PLOT_ENGINE Feature Specification (Enhanced with Data Import, Unit Conversion, Cache Inspection, Template Management, SVG EXPORT, Interactive Preview, Live Update Preview, and REPL Mode)
+# PLOT_ENGINE Feature Specification (Enhanced with Data Import, Unit Conversion, Cache Inspection, Template Management, SVG EXPORT, Interactive Preview, Live Update Preview, REPL Mode, and Data Filtering)
 
 ## Overview
-This feature provides the core plotting capabilities for evaluating mathematical expressions and generating clear visual representations, including ASCII plots and scalable vector graphics (SVG) exports. In this update, the feature is extended to support data import from external files alongside the existing functionalities. Additionally, a new interactive preview mode has been integrated that includes a dynamic live update preview and an interactive REPL mode. These enhancements improve flexibility, provide immediate user feedback, and streamline the iterative development of formulas and configurations while preserving robust unit conversion, caching, and template management mechanisms.
+This feature provides the core plotting capabilities for evaluating mathematical expressions and generating clear visual representations, including ASCII plots and scalable vector graphics (SVG) exports. In this update, the feature is extended to support data import from external files alongside the existing functionalities. Additionally, new interactive preview modes have been integrated that include a dynamic live update preview and an interactive REPL mode. A new section on data filtering and transformation has been added to empower users to preprocess imported datasets. These enhancements improve flexibility, provide immediate user feedback, and streamline the iterative development of formulas and configurations while preserving robust unit conversion, caching, and template management mechanisms.
 
 ## Implementation Details
 ### Expression Evaluation and Data Import
@@ -51,18 +51,30 @@ This feature provides the core plotting capabilities for evaluating mathematical
   - Enhances the user experience with history tracking, command suggestions, and inline documentation to facilitate rapid prototyping and troubleshooting of plotting commands.
   - Ensures that the REPL seamlessly integrates with existing caching, unit conversion, and configuration management, preserving consistency across all interactions.
 
+### Data Filtering and Transformation
+- **Overview:** Adds support for preprocessing imported data by applying user-defined filters and transformations to tailor datasets before plotting.
+- **Filtering Options:**
+  - Introduces a new CLI flag (e.g., `--filter <expression>`) that allows users to specify filtering criteria for the imported data.
+  - Supports simple expressions to filter records based on conditions (e.g., numerical thresholds, string matching).
+- **Transformation Pipeline:**
+  - Enables users to apply JavaScript-based transformation functions via a flag (e.g., `--transform <js_expression>`) to modify data fields in-line.
+  - Validates and provides real-time feedback on the transformation expressions to prevent errors and ensure meaningful output.
+- **Integration:**
+  - Seamlessly integrates with the existing data import pipeline so that filtering and transformations can be applied to both computed and externally sourced data.
+  - Ensures that subsequent processing (plotting, caching, export) works with the transformed dataset.
+
 ## Testing and Documentation
 - **Unit and Integration Tests:**
-  - Tests simulate scenarios combining formula evaluation with imported data, ensuring that both sources are correctly parsed, merged, and rendered.
+  - Tests simulate scenarios combining formula evaluation with imported data, ensuring that both data sources are correctly parsed, filtered, transformed, merged, and rendered.
   - Additional tests validate that the interactive preview, live update preview, and REPL mode correctly reflect user inputs in real time and integrate seamlessly with other plotting functionalities.
-  - Other tests cover cache functionality, unit conversion accuracy, and SVG export standards.
-- **Documentation Updates:** README.md and CONTRIBUTING.md are updated with comprehensive usage examples covering data import, combined plotting workflows, interactive preview usage, live update functionality, and the REPL mode with guidelines for command usage and troubleshooting.
+  - Further tests cover cache functionality, unit conversion accuracy, and SVG export standards.
+- **Documentation Updates:** README.md and CONTRIBUTING.md are updated with comprehensive usage examples covering data import, data filtering, combined plotting workflows, interactive preview usage, live update functionality, and the REPL mode with guidelines for command usage and troubleshooting.
 
 ## Benefits
-- **Enhanced Flexibility:** Users can augment or replace computed data with externally sourced datasets, broadening the scope of visualisations and analysis.
-- **Improved Output Quality:** The SVG export option paired with rich data inputs allows for high-quality, publication-ready graphics.
+- **Enhanced Flexibility:** Users can augment or replace computed data with externally sourced datasets and further tailor the data using filtering and transformation options before plotting.
+- **Improved Output Quality:** The SVG export option paired with rich data inputs and preprocessing capabilities allows for high-quality, publication-ready graphics.
 - **Interactive User Feedback:** The integrated preview modes and the new REPL mode let users quickly visualize, iteratively modify, and experiment with their plots, improving workflow efficiency and reducing errors.
 - **Seamless Live Updates:** The live update enhancement provides an immediate, responsive plotting experience, reinforcing the repository’s mission to be the go-to plot library for formula visualisations.
 
 ## Summary
-The enhanced PLOT_ENGINE feature now consolidates core plotting functions—including formula evaluation, unit conversion, caching, and template management—with new capabilities for data import, interactive plot previews, live update previews, and an interactive REPL mode. This expansion significantly increases the versatility and responsiveness of the plotting tool, aligning it with our mission to deliver a powerful yet user-friendly CLI library for formula visualisations.
+The enhanced PLOT_ENGINE feature now consolidates core plotting functions—including formula evaluation, unit conversion, caching, and template management—with new capabilities for data import, interactive plot previews, live update previews, an interactive REPL mode, and comprehensive data filtering and transformation. This expansion significantly increases the versatility and responsiveness of the plotting tool, aligning it with our mission to deliver a powerful yet user-friendly CLI library for formula visualisations.
