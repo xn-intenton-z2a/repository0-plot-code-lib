@@ -197,6 +197,19 @@ describe("Numeric Argument Validation", () => {
 });
 
 
+describe("Extended Numeric Formats", () => {
+  test("should accept scientific notation", () => {
+    const logOutput = captureConsole('log', () => { main(["--number=1e3", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+
+  test("should accept numbers with underscores", () => {
+    const logOutput = captureConsole('log', () => { main(["--number=1_000", "arg"]); });
+    expect(logOutput).toContain("arg");
+  });
+});
+
+
 describe("Global Configuration Support", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
   const globalConfig = {
