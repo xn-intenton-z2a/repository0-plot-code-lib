@@ -40,12 +40,15 @@ Usage: repository0-plot-code-lib <arguments>
 
 ### Numeric Argument Validation
 
-The CLI supports numeric validation via the `--number=VALUE` flag. The validation unifies error messaging as follows:
+The CLI supports numeric validation via the `--number=VALUE` flag. The following number formats are supported:
 
-- The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted to a valid number).
-- If an invalid numeric value is provided, the CLI outputs a standardized error message.
+- Standard numbers (e.g., `42`)
+- Scientific notation (e.g., `1e3`)
+- Numbers with underscores for readability (e.g., `1_000`)
 
-For example, if a non-numeric value is provided, the output will be:
+The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted into a valid number after removing underscores).
+
+If an invalid numeric value is provided, the CLI outputs a standardized error message. For example, if a non-numeric value is provided:
 
 ```bash
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
@@ -58,7 +61,7 @@ Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid n
 Stack trace: <full stack trace here>
 ```
 
-Additionally, if an empty numeric input is provided (e.g., `--number=`), the CLI will produce a clear error message indicating that no value was provided, and will similarly exit with code 1.
+Additionally, if an empty numeric input is provided (e.g., `--number=`), the CLI will display a clear error message and exit with code 1.
 
 For example:
 
@@ -71,7 +74,6 @@ If an invalid numeric value is provided:
 ```bash
 repository0-plot-code-lib --number=abc
 ```
-
 or
 
 ```bash
@@ -82,7 +84,7 @@ The CLI will output the standardized error message and exit with code 1.
 
 ### Automatic Error Reporting
 
-When an error occurs, the CLI now supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with the following error details:
+When an error occurs, the CLI supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with the following error details:
 
 - **errorMessage**: The error message.
 - **stackTrace**: The error's stack trace (if available).
@@ -100,7 +102,7 @@ Example configuration snippet:
 }
 ```
 
-When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.
+When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence.
 
 ### Global Configuration File Support
 
@@ -126,7 +128,7 @@ If the configuration file does not adhere to this schema, the CLI will log a cle
 }
 ```
 
-When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.
+When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence.
 
 ---
 

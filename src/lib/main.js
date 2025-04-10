@@ -179,12 +179,18 @@ export function main(args) {
   const numberFlagPrefix = "--number=";
   for (const arg of args) {
     if (arg.startsWith(numberFlagPrefix)) {
-      const numValue = arg.slice(numberFlagPrefix.length);
+      const numStr = arg.slice(numberFlagPrefix.length).trim();
       let errorLogMsg = "";
-      if (numValue.trim() === "") {
+      if (numStr === "") {
         errorLogMsg = "Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.";
-      } else if (Number.isNaN(Number(numValue))) {
-        errorLogMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
+      } else {
+        // Normalize extended number formats: remove underscores
+        const normalized = numStr.replace(/_/g, '');
+        const parsed = Number(normalized);
+        // Reject literal 'NaN' (case-insensitive) or if parsed is not a valid number
+        if (numStr.toLowerCase() === 'nan' || Number.isNaN(parsed)) {
+          errorLogMsg = `Invalid numeric value for argument '${arg}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
+        }
       }
       if (errorLogMsg) {
         if (verboseMode) {
@@ -192,7 +198,7 @@ export function main(args) {
         } else {
           console.error(themeColors.error(errorLogMsg));
         }
-        throw new Error(`Invalid numeric value: ${numValue}`);
+        throw new Error(`Invalid numeric value: ${numStr}`);
       }
     }
   }
