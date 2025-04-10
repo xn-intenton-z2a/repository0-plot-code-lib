@@ -182,7 +182,7 @@ export function main(args) {
   try {
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
     if (args && args.includes("--simulate-error")) {
-      throw new Error("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+      throw new Error("Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
     }
 
     console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
@@ -193,8 +193,8 @@ export function main(args) {
       console.error(themeColors.error(`Error: ${error.message}`));
     }
 
-    // Automatic error reporting
-    if (errorReportingUrl) {
+    // Automatic error reporting only in verbose mode
+    if (verboseMode && errorReportingUrl) {
       // Prepare error details
       const payload = {
         errorMessage: error.message,
