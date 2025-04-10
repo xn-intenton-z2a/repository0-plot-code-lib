@@ -102,7 +102,7 @@ Example configuration snippet:
 }
 ```
 
-When an error is encountered (for example, using the `--simulate-error` flag), the CLI will send the error report to the specified URL and log a confirmation message upon a successful submission.
+When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.
 
 ### Advanced Error Handling
 

@@ -58,9 +58,9 @@ describe("Error Handling", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     expect(() => main(["--simulate-error"]))
-      .toThrow("Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
+      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Error: Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
+    expect(errorOutput).toContain("Error: Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
     expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
@@ -69,11 +69,11 @@ describe("Error Handling", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     expect(() => main(["--simulate-error", "--verbose"]))
-      .toThrow("Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
+      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Error in main function execution:");
     expect(errorOutput).toContain("Stack trace:");
-    expect(errorOutput).toContain("Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
+    expect(errorOutput).toContain("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 });
@@ -255,7 +255,7 @@ describe("Automatic Error Reporting", () => {
     const options = callArgs[1];
     expect(options.method).toBe("POST");
     const payload = JSON.parse(options.body);
-    expect(payload).toHaveProperty('errorMessage', 'Simulated error condition for testing. Please provide a valid number such as "--number=42"');
+    expect(payload).toHaveProperty('errorMessage', "Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(payload).toHaveProperty('cliArgs');
     expect(payload.cliArgs).toContain("--simulate-error");
     delete process.env.ERROR_REPORTING_URL;

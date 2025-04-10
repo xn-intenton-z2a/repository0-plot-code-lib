@@ -182,7 +182,7 @@ export function main(args) {
   try {
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
     if (args && args.includes("--simulate-error")) {
-      throw new Error('Simulated error condition for testing. Please provide a valid number such as "--number=42"');
+      throw new Error("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     }
 
     console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
