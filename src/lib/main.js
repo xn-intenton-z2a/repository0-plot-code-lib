@@ -165,7 +165,11 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
     }
     throw new Error(`Invalid numeric value: ${trimmedValue}`);
   }
-  if (trimmedValue.toLowerCase() === 'nan') {
+  
+  // Normalize by removing underscores and commas
+  const normalized = trimmedValue.replace(/[_,]/g, '');
+  // Consolidated check for any variation of 'nan'
+  if (normalized.toLowerCase() === 'nan') {
     const msg = `Invalid numeric value for argument '--number=${trimmedValue}': '${trimmedValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
     if (detailed) {
       logError(themeColors.error, new Error(msg));
@@ -174,7 +178,7 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
     }
     throw new Error(`Invalid numeric value: ${trimmedValue}`);
   }
-  const normalized = trimmedValue.replace(/[_,]/g, '');
+  
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
     const msg = `Invalid numeric value for argument '--number=${trimmedValue}': '${trimmedValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
