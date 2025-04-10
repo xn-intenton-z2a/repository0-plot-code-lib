@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -343,19 +343,16 @@ describe("--show-config Option", () => {
 describe("Dynamic CLI Theme Flag", () => {
   test("should apply dark theme when '--theme=dark' flag is passed", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["--theme=dark", "arg1"]); });
-    // Check for bold formatting, specific to dark theme
     expect(logOutput).toContain("\u001b[1m");
   });
 
   test("should apply light theme when '--theme=light' flag is passed", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["--theme=light", "arg1"]); });
-    // Chalk.magenta typically uses ANSI code \u001b[35m for usage
     expect(logOutput).toContain("\u001b[35m");
   });
 
   test("should apply default theme when '--theme=default' flag is passed", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["--theme=default", "arg1"]); });
-    // Default theme uses chalk.yellow for usage: ANSI code \u001b[33m
     expect(logOutput).toContain("\u001b[33m");
   });
 });
@@ -377,7 +374,6 @@ describe("CLI Flag over Custom Config", () => {
   
   test("should override custom config when --theme flag is provided", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["--theme=light", "arg1"]); });
-    // For light theme, usage should be chalk.magenta which produces ANSI code \u001b[35m
     expect(logOutput).toContain("\u001b[35m");
   });
 });
