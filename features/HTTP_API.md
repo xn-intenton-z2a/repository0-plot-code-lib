@@ -1,12 +1,12 @@
 # HTTP_API Feature Specification
 
 ## Overview
-This feature integrates an HTTP API layer into the repository using Express. It exposes the core plotting functionality of the PLOT_ENGINE with enhanced endpoint validation, error handling, and an auto-generated documentation endpoint. This extension not only broadens the utility of our library by making it accessible via HTTP, but also reinforces our mission of being the go-to plot library and the jq of formula visualisations.
+This feature integrates an HTTP API layer into the repository using Express. It exposes the core plotting functionality of the PLOT_ENGINE with enhanced endpoint validation, error handling, and auto-generated documentation. In this update, additional support for CORS and security enhancements is introduced to make the API more accessible and robust for modern web clients, aligning with our mission of being the go-to plot library for formula visualisations.
 
 ## Endpoint Design and Validation
 - **Server Setup:**
   - Create an Express-based server to handle HTTP requests.
-  - Implement routes such as `/plot` which accepts both GET and POST methods.
+  - Implement routes such as `/plot` which accept both GET and POST methods.
 - **Input Handling with zod:**
   - Use the zod validation library to validate incoming query parameters or JSON bodies, ensuring that required fields (formula, interval, and step) are provided in the correct format.
   - Provide clear error messages if validation fails.
@@ -15,11 +15,19 @@ This feature integrates an HTTP API layer into the repository using Express. It 
   - **POST /plot:** Accepts a JSON body containing the same fields.
   - On valid input, delegate processing to the underlying PLOT_ENGINE to generate the ASCII plot.
 
+## CORS and Security Enhancements
+- **CORS Middleware Integration:**
+  - Implement middleware using the `cors` package or custom headers to support Cross-Origin Resource Sharing (CORS), allowing the API to be safely accessed from web-based clients.
+  - Automatically handle preflight OPTIONS requests to improve integration with front-end applications.
+- **Enhanced Security Measures:**
+  - Enforce HTTP security headers (such as Content-Security-Policy, X-Content-Type-Options, etc.) to protect against common web vulnerabilities.
+  - Validate and sanitize all input data using zod and built-in Express security best practices.
+
 ## API Documentation Endpoint
 - **Documentation Route:**
   - Introduce a new endpoint `/docs` that serves auto-generated API documentation.
-  - The `/docs` endpoint should return either JSON or plain HTML (based on a query parameter like `?format=json`), summarizing available routes (`/plot`, `/docs`) along with parameter details and usage examples.
-  - This helps both end-users and developers quickly reference usage details without consulting external documents.
+  - The `/docs` endpoint should return documentation in JSON or plain HTML (based on a query parameter like `?format=json`), summarizing available routes (`/plot`, `/docs`) along with parameter details and usage examples.
+  - This assists both end-users and developers in quickly referencing usage details without consulting external documents.
 
 ## Error Handling and Defaults
 - **Validation Errors:**
@@ -28,20 +36,15 @@ This feature integrates an HTTP API layer into the repository using Express. It 
 - **Fallback Defaults:**
   - Apply default values for parameters (e.g., interval: [-10, 10], a standard step size) when necessary.
 
-## Security, Logging, and Rate Limiting
-- **Structured Logging:**
-  - Integrate with the LOGGING feature to log HTTP request parameters and errors in a consistent format (plain text or JSON based on configuration).
-- **Basic Rate Limiting Middleware:**
-  - Implement a simple in-memory rate limiting mechanism to restrict incoming requests (e.g., a maximum number of requests per IP address per minute).
-  - The middleware should be placed early in the request pipeline. When the rate limit is exceeded, return an HTTP 429 status code along with a descriptive error message.
-  - This ensures that the API remains robust against abuse while maintaining performance for legitimate users.
-
 ## Testing and Documentation
-- **Unit and Integration Tests:**
-  - Develop tests simulating both GET and POST requests to `/plot` and verify that the `/docs` endpoint correctly serves documentation in both JSON and HTML formats.
-  - Include tests to simulate rate limit conditions and ensure that requests exceeding the threshold receive the correct HTTP 429 response.
-- **Documentation Updates:**
-  - Update the README.md and DOCUMENTATION.md with detailed usage examples for both the API endpoints and rate limiting behavior.
+### Unit and Integration Tests
+- Develop tests simulating both GET and POST requests to `/plot` and verify that the `/docs` endpoint correctly serves documentation in both JSON and HTML formats.
+- Include tests to verify that CORS headers are correctly set and that preflight OPTIONS requests are handled as expected.
+- Simulate rate limit conditions and validate that requests exceeding thresholds receive the appropriate HTTP 429 response.
+
+### Documentation Updates
+- Update the README.md and DOCUMENTATION.md with detailed usage examples for API endpoints, including security considerations and CORS integration.
+- Provide troubleshooting guidelines for common issues such as CORS misconfigurations or header-related errors.
 
 ## Usage Examples
 - **Plot Request (GET):**
@@ -51,5 +54,7 @@ This feature integrates an HTTP API layer into the repository using Express. It 
   - Body: { "formula": "x^2", "interval": "-10,10", "step": 1 }
 - **API Documentation Access:**
   - URL: http://localhost:3000/docs or http://localhost:3000/docs?format=json
+- **Preflight and CORS Verification:**
+  - Preflight OPTIONS request sent automatically by browsers will receive the appropriate CORS headers, ensuring smooth integration with front-end applications.
 - **Rate Limiting Activation:**
   - Upon exceeding the defined request threshold, the API returns an HTTP 429 response with a message such as "Too Many Requests – please try again later."
