@@ -9,10 +9,10 @@
   "prDetails": [
     {
       "title": "Refined error messaging for literal NaN numeric input by trimming whitespace and ensuring clarity for users. (fixes #1693)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
+  "diffMinutes": 0,
   "diffMinutesMain": 5,
   "commitsLastHour": 5,
   "commitsLastDay": 100,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T20:24:56.620Z"
+  "generatedAt": "2025-04-10T20:25:36.264Z"
 }
