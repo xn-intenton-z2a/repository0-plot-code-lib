@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -299,6 +299,15 @@ describe("Automatic Error Reporting", () => {
     expect(payload).toHaveProperty('errorMessage', "Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(payload).toHaveProperty('cliArgs');
     expect(payload.cliArgs).toContain("--simulate-error");
+    expect(payload).toHaveProperty('libraryVersion');
+    expect(typeof payload.libraryVersion).toBe('string');
+    expect(payload).toHaveProperty('timestamp');
+    expect(typeof payload.timestamp).toBe('string');
+    expect(payload).toHaveProperty('envContext');
+    expect(payload.envContext).toHaveProperty('NODE_ENV');
+    expect(payload.envContext).toHaveProperty('CLI_COLOR_SCHEME');
+    expect(payload.envContext).toHaveProperty('LOG_LEVEL');
+    expect(payload.envContext).toHaveProperty('HOME');
     delete process.env.ERROR_REPORTING_URL;
     console.error = originalConsoleError;
   });
