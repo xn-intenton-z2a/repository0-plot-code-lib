@@ -50,15 +50,16 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">The CLI supports numeric validation via the <code class="md-github">--number=VALUE</code> flag. The validation unifies error messaging as follows:</p>
 <ul class="md-github">
 <li class="md-github">The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted to a valid number).</li>
-<li class="md-github">If an invalid numeric value is provided, the CLI outputs a standardized error message:</li>
+<li class="md-github">If an invalid numeric value is provided, the CLI outputs a standardized error message.</li>
 </ul>
+<p class="md-github">For example, if a non-numeric value is provided, the output will be:</p>
 <pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
 </code></pre>
 <p class="md-github">In verbose mode (using the <code class="md-github">--verbose</code> flag), the error is logged along with a full stack trace:</p>
 <pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
 Stack trace: &lt;full stack trace here&gt;
 </code></pre>
-<p class="md-github">On detecting an invalid numeric argument, the CLI will exit immediately with exit code 1.</p>
+<p class="md-github">Additionally, if an empty numeric input is provided (e.g., <code class="md-github">--number=</code>), the CLI will produce a clear error message indicating that no value was provided, and will similarly exit with code 1.</p>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
@@ -111,7 +112,7 @@ Stack trace: &lt;full stack trace here&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T18:21:50.921Z</p>
+    <p>Generated on 2025-04-10T18:34:34.306Z</p>
   </footer>
 </body>
 </html>
