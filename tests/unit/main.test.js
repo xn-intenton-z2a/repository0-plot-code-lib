@@ -7,6 +7,16 @@ import path from "path";
 const originalConsoleError = console.error;
 const originalConsoleLog = console.log;
 
+// Helper function to restore environment variables
+function withEnv(newEnv, fn) {
+  const oldEnv = { ...process.env };
+  Object.assign(process.env, newEnv);
+  try {
+    fn();
+  } finally {
+    process.env = oldEnv;
+  }
+}
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -14,9 +24,8 @@ describe("Main Module Import", () => {
   });
 });
 
-
 describe("Default Demo Output", () => {
-  test("should display usage message when no arguments provided", () => {
+  test("should display usage message when no arguments provided and no defaultArgs in global config", () => {
     let logOutput = "";
     console.log = (msg) => { logOutput += msg; };
     main([]);
@@ -33,7 +42,6 @@ describe("Default Demo Output", () => {
     expect(logOutput).toContain("arg2");
   });
 });
-
 
 describe("Error Handling", () => {
   test("should log concise error message in non-verbose mode", () => {
@@ -59,7 +67,6 @@ describe("Error Handling", () => {
   });
 });
 
-
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
@@ -73,7 +80,6 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
-
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -102,7 +108,6 @@ describe("Custom Color Theme Configuration", () => {
   });
 });
 
-
 describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -121,7 +126,6 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
     expect(errorOutput).toContain("Using fallback theme");
   });
 });
-
 
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -143,7 +147,6 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   });
 });
 
-
 describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in non-verbose mode", () => {
     let errorOutput = "";
@@ -163,5 +166,41 @@ describe("Numeric Argument Validation", () => {
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
     expect(errorOutput).toContain("Stack trace:");
+  });
+});
+
+describe("Global Configuration Support", () => {
+  const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  const globalConfig = {
+    CLI_COLOR_SCHEME: "dark",
+    LOG_LEVEL: "debug",
+    defaultArgs: ["globalArg1", "globalArg2"]
+  };
+
+  beforeAll(() => {
+    fs.writeFileSync(globalConfigPath, JSON.stringify(globalConfig));
+  });
+
+  afterAll(() => {
+    fs.unlinkSync(globalConfigPath);
+  });
+
+  test("should use global configuration defaultArgs when no CLI arguments are provided", () => {
+    let logOutput = "";
+    console.log = (msg) => { logOutput += msg; };
+    main([]);
+    console.log = originalConsoleLog;
+    // Check that the message indicates use of defaultArgs and that globalArg1 appears
+    expect(logOutput).toContain("Using default arguments from global configuration.");
+    expect(logOutput).toContain("globalArg1");
+  });
+
+  test("should override global defaultArgs when CLI arguments are provided", () => {
+    let logOutput = "";
+    console.log = (msg) => { logOutput += msg; };
+    main(["cliArg1"]);
+    console.log = originalConsoleLog;
+    expect(logOutput).toContain("cliArg1");
+    expect(logOutput).not.toContain("globalArg1");
   });
 });
