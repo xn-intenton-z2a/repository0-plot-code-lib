@@ -20,6 +20,9 @@ function logError(message, error) {
  * @param {string[]} args - Command line arguments.
  */
 export function main(args) {
+  // Determine verbose mode either via command line flag or environment variable
+  const verboseMode = (args && args.includes("--verbose")) || process.env.LOG_LEVEL === "debug";
+
   try {
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
     if (args && args.includes("--simulate-error")) {
@@ -35,7 +38,12 @@ export function main(args) {
 
     console.log(chalk.green("Run with: ") + chalk.cyan(JSON.stringify(args)));
   } catch (error) {
-    logError("Error in main function execution:", error);
+    if (verboseMode) {
+      logError("Error in main function execution:", error);
+    } else {
+      console.error(chalk.red(`Error: ${error.message}`));
+    }
+
     // In test environment, rethrow error for assertions
     if (process.env.NODE_ENV === "test") {
       throw error;

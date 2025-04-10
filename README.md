@@ -35,13 +35,24 @@ Usage: repository0-plot-code-lib <arguments>
 
 ## Advanced Error Handling
 
-The CLI now includes robust error handling with colored output. If an unexpected error occurs during execution, a detailed error message along with a stack trace will be logged in red. For testing or diagnostic purposes, you can trigger a simulated error using the `--simulate-error` flag:
+The CLI now includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes the full stack trace), you can either:
+
+- Use the command line flag: `--verbose`
+- Set the environment variable: `LOG_LEVEL=debug`
+
+For example:
 
 ```bash
-repository0-plot-code-lib --simulate-error
+repository0-plot-code-lib --simulate-error --verbose
 ```
 
-This feature is designed to assist both users and developers in troubleshooting issues effectively.
+or
+
+```bash
+LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
+```
+
+This detailed logging is especially useful for troubleshooting and debugging. In non-verbose mode, only a succinct error message is displayed.
 
 ---
 
