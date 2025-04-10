@@ -1,55 +1,45 @@
-# PLOT_ENGINE Feature Specification (Enhanced with Unit Conversion, Cache Inspection, Template Management, and SVG EXPORT)
+# PLOT_ENGINE Feature Specification (Enhanced with Data Import, Unit Conversion, Cache Inspection, Template Management, and SVG EXPORT)
 
 ## Overview
-This feature provides the core plotting capabilities for evaluating mathematical expressions, generating clear colorized ASCII plots, and exporting data in multiple formats. In this update, we enhance the core functionality with comprehensive unit conversion support, cache inspection, a robust template management system, and a new SVG export capability. These integrations streamline repeated plotting operations and elevate export quality, fully aligning with our mission of being the go-to plot library for formula visualisations.
+This feature provides the core plotting capabilities for evaluating mathematical expressions and generating clear visual representations, including ASCII plots and scalable vector graphics (SVG) exports. In this update, the feature is extended to support data import from external files alongside the existing functionalities. This integration enables users to load data from CSV or JSON files and combine it with computed formula data to create enriched visualisations, all while preserving the robust unit conversion, caching, and template management mechanisms.
 
-## Plot Generation and Output
-- **Expression Evaluation:** Utilizes mathjs to parse and compute data points over a specified interval with a given step size.
-- **ASCII Plotting:** Maps computed data onto an ASCII grid with optional color enhancements for clear visualization.
-- **Export Options:** 
-  - Supports file export through a designated flag (e.g., `--export`) for ASCII or JSON output.
-  - **SVG Export Capability:** A newly integrated option allows users to export plots in scalable vector graphics (SVG) format by using a dedicated CLI flag (`--export-svg`). This enhances output quality for inclusion in digital documents and presentations without sacrificing simplicity or performance.
+## Implementation Details
+### Expression Evaluation and Data Import
+- **Expression Evaluation:** Utilizes mathjs to parse and compute data points over a specified interval using a given formula, interval, and step size.
+- **Data Import Integration:**
+  - Introduces a new CLI flag (e.g., `--import-data <filepath>`) that allows users to provide a path to a CSV or JSON file containing external data.
+  - Implements lightweight parsers for CSV and JSON formats to load and validate imported data.
+  - Offers options to either overlay the imported data on computed results or replace them entirely, depending on user preference.
+  - Includes error handling and default fallbacks in case of parsing issues or invalid data formats.
 
-## Integrated Caching and Inspection
+### ASCII Plotting and SVG Export
+- **ASCII Plotting:** Maps computed or imported data onto an ASCII grid, offering optional color enhancements for clear terminal visualisation.
+- **Export Options:**
+  - Supports export in ASCII or JSON formats via the `--export` flag.
+  - **SVG Export Capability:** A dedicated CLI flag (`--export-svg`) enables users to generate high-quality SVG files, ideal for digital publications and presentations.
+  - Provides configuration options for output dimensions and styling to suit diverse publishing needs.
+
+### Integrated Caching and Inspection
 - **Caching Mechanism:**
-  - Implements an in-memory cache using a JavaScript Map keyed by a hash computed from parameters (formula, interval, step, and color).
-  - Each cache entry is assigned a Time-To-Live (TTL) to ensure automatic invalidation of stale plot data.
-  - Includes a manual flush option via the `--clear-cache` flag.
-- **Cache Inspection:**
-  - A dedicated `--inspect-cache` CLI flag triggers cache introspection, listing active cache keys along with metadata and TTL values.
-  - Supports an interactive mode (`--interactive`) for selective deletion or flushing of cache entries.
+  - Uses an in-memory cache (via a JavaScript Map) keyed by a hash of parameters (formula, interval, step, color, and data import details).
+  - Assigns Time-To-Live (TTL) values to cache entries to ensure automatic invalidation of stale data.
+  - Offers a manual flush option with the `--clear-cache` flag.
+- **Cache Inspection:** Implements a CLI flag (`--inspect-cache`) that lists active cache keys along with metadata and TTL values, with an interactive mode for selective management.
 
-## Unit Conversion Integration
-- **Parameter Pre-processing:**
-  - Merges unit conversion functionality directly into the plotting engine via flags like `--input-unit` and `--output-unit` to standardize units for intervals, step sizes, and angles.
-  - Automatically detects common functions requiring conversion (e.g., `sin`, `cos`, `tan`) and applies conversions as needed.
-  - Outputs informative error messages for unsupported or mismatched unit combinations.
-
-## Template Management
-- **Template Saving and Reuse:**
-  - Enables users to save the current plotting configuration (including formula, interval, step, color, and unit settings) as reusable templates stored in a JSON configuration file.
-  - Allows listing available templates with a `--list-templates` flag and application via `--apply-template <template_name>` to quickly reinitialize plotting parameters.
-- **Template Editing:**
-  - Supports basic editing of saved templates with command-line flags or via direct modifications of the JSON file, including versioning or timestamp metadata to manage updates.
-
-## SVG Export Integration
-- **SVG Export Capability:**
-  - Introduces a new export format that allows users to generate high-quality SVG files of their plots. 
-  - Activated with the CLI flag `--export-svg`, the feature leverages minimal dependencies to convert computed plot data into a scalable vector graphic.
-  - Provides configuration options for output dimensions and styling to suit various publishing needs.
+### Unit Conversion and Template Management
+- **Unit Conversion:** Integrates conversion flags (`--input-unit` and `--output-unit`) into the data processing pipeline to standardize units across formula evaluation and imported data.
+- **Template Management:**
+  - Allows users to save current plotting configurations—including formulas, data import settings, unit preferences, and visual styles—as reusable templates stored in a JSON file.
+  - Facilitates listing available templates with a `--list-templates` flag and reloading via `--apply-template <template_name>` for quick reinitialisation.
 
 ## Testing and Documentation
-- **Unit and Integration Tests:**
-  - Ensure proper expression evaluation, cache functionality (including TTL expiration and manual flush), and unit conversions are accurate.
-  - Validate the new SVG export option by verifying that the output adheres to SVG standards and reflects user-specified configurations.
-- **Documentation Updates:**
-  - Update README.md and CONTRIBUTING.md with usage examples combining plotting, unit conversion, template management, and SVG export options.
-  - Provide troubleshooting guidelines and code snippets demonstrating common scenarios using the SVG export feature.
+- **Unit and Integration Tests:** Tests simulate scenarios combining formula evaluation with imported data, ensuring that both sources are correctly parsed, merged, and rendered. Other tests cover cache functionality, unit conversion accuracy, and SVG export standards.
+- **Documentation Updates:** README.md and CONTRIBUTING.md are updated with comprehensive usage examples covering data import, combined plotting workflows, and troubleshooting guidelines for different data formats and error conditions.
 
 ## Benefits
-- **Comprehensive Functionality:** Consolidates core plotting logic, unit conversion, cache inspection, template management, and now a professional-grade SVG export capability into a single cohesive module.
-- **Enhanced Output Quality:** The SVG export option offers a high-quality, scalable alternative to ASCII and JSON outputs, ideal for digital publications and detailed presentations.
-- **Diagnostics and Efficiency:** Integrated caching and template management improve performance and streamline repeated workflows, making the tool both robust and user-friendly.
+- **Enhanced Flexibility:** Users can augment or replace computed data with externally sourced datasets, broadening the scope of visualisations and analysis.
+- **Improved Output Quality:** The SVG export option paired with rich data inputs allows for high-quality, publication-ready graphics.
+- **Streamlined Workflows:** Integration of data import within the core plotting engine reduces the need for multiple tools and simplifies the overall plotting process.
 
 ## Summary
-The enhanced PLOT_ENGINE feature now not only consolidates core plotting, unit conversion, cache inspection, and template management, but also introduces a robust SVG export capability. This update broadens the export options from simple ASCII and JSON outputs to include high-quality, scalable SVG files, thereby providing a valuable tool for both technical and presentation purposes.
+The enhanced PLOT_ENGINE feature now consolidates core plotting, unit conversion, caching, and template management with a new data import capability. This expansion not only increases the versatility of the plotting tool but also supports a wider range of use cases—from mathematical function visualisation to real-world data analysis—fully aligning with our mission to be the go-to plot library for formula visualisations.
