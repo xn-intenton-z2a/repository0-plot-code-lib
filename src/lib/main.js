@@ -21,6 +21,18 @@ function applyChalkChain(chain, chalkInstance = chalk) {
   return chained;
 }
 
+// Helper function to validate the custom theme configuration
+function isValidThemeConfig(config) {
+  const requiredKeys = ['error', 'usage', 'info', 'run'];
+  if (typeof config !== 'object' || config === null) return false;
+  for (const key of requiredKeys) {
+    if (typeof config[key] !== 'string' || config[key].trim() === '') {
+      return false;
+    }
+  }
+  return true;
+}
+
 // Enhanced logError function to concatenate messages for accurate logging
 function logError(chalkError, ...args) {
   const message = [chalkError("Error:"), ...args, "\nStack trace:", new Error().stack].join(" ");
@@ -36,6 +48,9 @@ function getThemeColors() {
     try {
       const configContent = readFileSync(customConfigPath, "utf-8");
       const config = JSON.parse(configContent);
+      if (!isValidThemeConfig(config)) {
+        throw new Error("Invalid custom CLI theme configuration: expected keys 'error', 'usage', 'info', and 'run' with non-empty string values.");
+      }
       // Use a forced chalk instance with ANSI level 3 for custom themes
       const customChalk = new Chalk({ level: 3 });
       return {
@@ -45,7 +60,7 @@ function getThemeColors() {
         run: applyChalkChain(config.run, customChalk)
       };
     } catch (e) {
-      console.error(chalk.red("Failed to parse custom CLI theme configuration. Using fallback theme."));
+      console.error(chalk.red(`Custom CLI theme configuration error: ${e.message} Using fallback theme.`));
     }
   }
   const theme = process.env.CLI_COLOR_SCHEME || "default";
