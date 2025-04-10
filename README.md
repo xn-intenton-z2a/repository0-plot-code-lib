@@ -6,7 +6,7 @@
 
 ## Usage
 
-You can use the library either as a JavaScript module or via the CLI.
+You can use the library either as a JavaScript module or via the CLI. The CLI output is enhanced with ANSI colors to improve message clarity.
 
 ### As a JS Library
 
@@ -26,16 +26,16 @@ Run the CLI directly:
 repository0-plot-code-lib arg1 arg2
 ```
 
-If no arguments are provided, the CLI will display a usage message:
+If no arguments are provided, the CLI will display a colored usage message:
 
 ```
-No arguments provided. Please provide valid arguments.
+(No arguments provided message in yellow)
 Usage: repository0-plot-code-lib <arguments>
 ```
 
 ## Advanced Error Handling
 
-The CLI now includes robust error handling. If an unexpected error occurs during execution, a detailed error message along with a stack trace will be logged. For testing or diagnostic purposes, you can trigger a simulated error using the `--simulate-error` flag:
+The CLI now includes robust error handling with colored output. If an unexpected error occurs during execution, a detailed error message along with a stack trace will be logged in red. For testing or diagnostic purposes, you can trigger a simulated error using the `--simulate-error` flag:
 
 ```bash
 repository0-plot-code-lib --simulate-error

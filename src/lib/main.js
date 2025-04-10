@@ -2,20 +2,21 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
+import chalk from "chalk";
 
 /**
- * Logs detailed error information.
+ * Logs detailed error information with colored output.
  * @param {string} message - The error context message.
  * @param {Error} error - The error object.
  */
 function logError(message, error) {
-  console.error(message);
-  console.error(`Error message: ${error.message}`);
-  console.error(`Stack trace: ${error.stack}`);
+  console.error(chalk.red(message));
+  console.error(chalk.red(`Error message: ${error.message}`));
+  console.error(chalk.red(`Stack trace: ${error.stack}`));
 }
 
 /**
- * Main function that executes CLI logic with advanced error handling.
+ * Main function that executes CLI logic with advanced error handling and colored output.
  * @param {string[]} args - Command line arguments.
  */
 export function main(args) {
@@ -25,13 +26,14 @@ export function main(args) {
       throw new Error("Simulated error condition for testing");
     }
 
-    // If no arguments are provided, display usage message instead of abrupt exit
+    // If no arguments are provided, display usage message with colors
     if (!args || args.length === 0) {
-      console.log("No arguments provided. Please provide valid arguments.\nUsage: repository0-plot-code-lib <arguments>");
+      console.log(chalk.yellow("No arguments provided. Please provide valid arguments."));
+      console.log(chalk.yellow("Usage: repository0-plot-code-lib <arguments>"));
       return;
     }
 
-    console.log(`Run with: ${JSON.stringify(args)}`);
+    console.log(chalk.green("Run with: ") + chalk.cyan(JSON.stringify(args)));
   } catch (error) {
     logError("Error in main function execution:", error);
     // In test environment, rethrow error for assertions
