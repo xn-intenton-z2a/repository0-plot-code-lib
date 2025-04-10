@@ -65,7 +65,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with underscores for readability (e.g., `1_000`)
 - Numbers with commas as thousand separators (e.g., `1,000`)
 
-The CLI validates numeric values by normalizing the input (trimming whitespace and removing underscores and commas) and then attempting a numeric conversion. If the conversion fails, a clear error message is provided. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace to aid in debugging.
+The numeric validation has been optimized using a robust regular expression that ensures the input adheres to valid numerical formats. Upon validation, any underscores or commas are removed before conversion. If the conversion fails, a clear error message is provided. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace to aid in debugging.
 
 For example:
 
