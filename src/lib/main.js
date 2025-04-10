@@ -8,10 +8,10 @@ import path from "path";
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
 function applyChalkChain(chain, chalkInstance = chalk) {
-  if (typeof chain !== "string" || chain.trim() === "") {
+  if (typeof chain !== 'string' || chain.trim() === '') {
     return chalkInstance;
   }
-  const chainParts = chain.split(".");
+  const chainParts = chain.split('.');
   let chained = chalkInstance;
   chainParts.forEach((part) => {
     if (typeof chained[part] === 'function') {
@@ -120,10 +120,12 @@ export function main(args) {
       const numValue = arg.slice(numberFlagPrefix.length);
       const parsed = Number(numValue);
       if (numValue.trim() === "" || isNaN(parsed)) {
+        const errorMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
         if (verboseMode) {
-          logError(themeColors.error, `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`);
+          const errorInstance = new Error(errorMsg);
+          logError(themeColors.error, errorInstance);
         } else {
-          console.error(themeColors.error(`Error: Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`));
+          console.error(themeColors.error(`Error: ${errorMsg}`));
         }
         if (process.env.NODE_ENV === "test") {
           throw new Error(`Invalid numeric value: ${numValue}`);

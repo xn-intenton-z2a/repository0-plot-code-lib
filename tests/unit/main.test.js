@@ -7,6 +7,7 @@ import path from "path";
 const originalConsoleError = console.error;
 const originalConsoleLog = console.log;
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(main).not.toBeNull();
