@@ -57,7 +57,7 @@ Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid n
 Note: The literal 'NaN' is explicitly rejected because it does not represent any valid number. For example:
 
 ```bash
-Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. 'NaN' cannot be interpreted as a numeric value. Please provide a valid number such as '--number=42'.
+Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
 ```
 
 In verbose mode (using the `--verbose` flag), the error is logged along with a full stack trace:

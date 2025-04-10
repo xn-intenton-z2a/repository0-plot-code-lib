@@ -189,7 +189,7 @@ export function main(args) {
         const parsed = Number(normalized);
         // Reject literal 'NaN' (case-insensitive) or if parsed is not a valid number
         if (numStr.toLowerCase() === 'nan' || Number.isNaN(parsed)) {
-          errorLogMsg = `Invalid numeric value for argument '${arg}': '${numStr}' is not a valid number. 'NaN' cannot be interpreted as a numeric value. Please provide a valid number such as '--number=42'.`;
+          errorLogMsg = `Invalid numeric value for argument '${arg}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
         }
       }
       if (errorLogMsg) {
