@@ -104,35 +104,18 @@ Example configuration snippet:
 
 When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.
 
-### Advanced Error Handling
-
-The CLI includes robust error handling with configurable logging levels. By default, errors are thrown as exceptions, allowing consuming code or the dedicated CLI wrapper to decide on process termination. To enable detailed logging (which includes a full stack trace and additional context), you can either:
-
-- Use the command line flag: `--verbose`
-- Set the environment variable: `LOG_LEVEL=debug`
-
-For example:
-
-```bash
-repository0-plot-code-lib --simulate-error --verbose
-```
-
-or
-
-```bash
-LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
-```
-
 ### Global Configuration File Support
 
 A new feature allows you to set persistent default options without having to specify them every time you run the CLI.
 
-The CLI will look for a global configuration file named `.repository0plotconfig.json` in the current working directory and in your home directory (using the `HOME` or `USERPROFILE` environment variable). This file supports the following options:
+The CLI will look for a global configuration file named `.repository0plotconfig.json` in the current working directory and in your home directory (using the `HOME` or `USERPROFILE` environment variable). This file now enforces a strict schema. Supported configuration keys are:
 
-- `CLI_COLOR_SCHEME`: Set a default color theme (e.g., "dark", "light", or "default").
-- `LOG_LEVEL`: Set a default logging level (e.g., "debug").
-- `ERROR_REPORTING_URL`: Set the URL for automatic error report submissions.
-- `defaultArgs`: An array of default command line arguments to be used when no arguments are provided.
+- `CLI_COLOR_SCHEME` (string, e.g., "dark", "light", or "default")
+- `LOG_LEVEL` (string, e.g., "debug", "info", etc.)
+- `ERROR_REPORTING_URL` (string, must be a valid URL)
+- `defaultArgs` (array of strings)
+
+If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings, ensuring robust and predictable behavior.
 
 #### Example `.repository0plotconfig.json` file:
 
