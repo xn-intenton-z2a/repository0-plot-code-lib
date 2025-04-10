@@ -144,6 +144,48 @@ function getGlobalConfig() {
 }
 
 /**
+ * Consolidated validation function for numeric CLI arguments.
+ * Validates the number format and logs detailed errors in verbose mode.
+ * @param {string} numStr - The numeric string from CLI argument.
+ * @param {boolean} verboseMode - Flag indicating verbose mode.
+ * @param {object} themeColors - Theme color functions for logging.
+ * @returns {number} - Parsed valid number.
+ * @throws {Error} if the numeric value is invalid.
+ */
+function validateNumericArg(numStr, verboseMode, themeColors) {
+  if (numStr.trim() === "") {
+    const msg = "Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.";
+    if (verboseMode) {
+      logError(themeColors.error, new Error(msg));
+    } else {
+      console.error(themeColors.error(msg));
+    }
+    throw new Error(`Invalid numeric value: ${numStr}`);
+  }
+  if (numStr.toLowerCase() === 'nan') {
+    const msg = `Invalid numeric value for argument '--number=${numStr}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.`;
+    if (verboseMode) {
+      logError(themeColors.error, new Error(msg));
+    } else {
+      console.error(themeColors.error(msg));
+    }
+    throw new Error(`Invalid numeric value: ${numStr}`);
+  }
+  const normalized = numStr.replace(/[_,]/g, '');
+  const parsed = Number(normalized);
+  if (Number.isNaN(parsed)) {
+    const msg = `Invalid numeric value for argument '--number=${numStr}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
+    if (verboseMode) {
+      logError(themeColors.error, new Error(msg));
+    } else {
+      console.error(themeColors.error(msg));
+    }
+    throw new Error(`Invalid numeric value: ${numStr}`);
+  }
+  return parsed;
+}
+
+/**
  * Main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, and global configuration support.
  * @param {string[]} args - Command line arguments.
  */
@@ -175,32 +217,12 @@ export function main(args) {
     return;
   }
 
-  // Numeric argument validation: process flags of the form --number=<value>
+  // Consolidated numeric argument validation using validateNumericArg
   const numberFlagPrefix = "--number=";
   for (const arg of args) {
     if (arg.startsWith(numberFlagPrefix)) {
       const numStr = arg.slice(numberFlagPrefix.length).trim();
-      let errorLogMsg = "";
-      if (numStr === "") {
-        errorLogMsg = "Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.";
-      } else {
-        // Normalize extended number formats: remove underscores and commas
-        const normalized = numStr.replace(/[_,]/g, '');
-        const parsed = Number(normalized);
-        if (numStr.toLowerCase() === 'nan') {
-          errorLogMsg = `Invalid numeric value for argument '${arg}': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.`;
-        } else if (Number.isNaN(parsed)) {
-          errorLogMsg = `Invalid numeric value for argument '${arg}': '${numStr}' is not a valid number. Please provide a valid number such as '--number=42'.`;
-        }
-      }
-      if (errorLogMsg) {
-        if (verboseMode) {
-          logError(themeColors.error, new Error(errorLogMsg));
-        } else {
-          console.error(themeColors.error(errorLogMsg));
-        }
-        throw new Error(`Invalid numeric value: ${numStr}`);
-      }
+      validateNumericArg(numStr, verboseMode, themeColors);
     }
   }
 

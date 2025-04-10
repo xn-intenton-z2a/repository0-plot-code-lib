@@ -86,6 +86,8 @@ repository0-plot-code-lib --number=NaN
 
 The CLI will output the standardized error message and exit with code 1.
 
+*Note: The internal numeric argument validation logic has been refactored into a consolidated function to improve maintainability, while preserving all documented behaviors.*
+
 ### Automatic Error Reporting
 
 When an error occurs, the CLI supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with the following error details:
