@@ -1,31 +1,40 @@
-# CLI_INTERFACE Feature Specification (Enhanced with Guided Wizard, Command Preview, and Auto-Completion)
+# CLI_INTERFACE Feature Specification (Enhanced with Guided Wizard, Command Preview, Auto-Completion, and Demo Mode)
 
 ## Overview
-This update refines the existing CLI interface by integrating an enhanced interactive wizard, detailed command preview, and a new auto-completion mechanism. The feature aims to further simplify plotting command configuration and reduce input errors by dynamically suggesting command options and arguments based on context and user history.
+This feature refines the existing CLI interface by integrating an enhanced interactive wizard, detailed command preview, a new auto-completion mechanism, and an interactive demo mode. The demo mode provides first-time users with an engaging walkthrough of the tool’s core plotting functionalities. The feature aims to simplify plotting command configuration, reduce input errors, and onboard new users quickly, all while aligning with our mission to be the go-to plot library for formula visualisations.
 
 ## Enhanced Interactive Wizard and Command Preview
-- **Interactive Guidance:** Continues to provide step-by-step prompts for parameters such as formulas, intervals, and output options, with inline help and documentation references.
-- **Command Preview:** Displays a full preview of the final command, allowing users to confirm, edit, or cancel before execution, minimizing chances of error.
+- **Interactive Guidance:** Provides step-by-step prompts for parameters such as formulas, intervals, and output options. Inline help and documentation references are available throughout.
+- **Command Preview:** Displays a full preview of the final command, allowing users to confirm, edit, or cancel before execution to minimize errors.
 
 ## Auto-Completion Enhancement
-- **Dynamic Suggestions:** Implements auto-completion for command options and flags using the Node.js readline interface. As users type, the system suggests valid commands, flags, and parameter values based on a predefined set and past command history.
+- **Dynamic Suggestions:** Implements auto-completion for command options and flags using Node.js readline interface. As users type, the system suggests valid commands, flags, and parameter values based on a predefined set and past command history.
 - **Context Awareness:** Integrates with the history manager to provide relevant suggestions tailored to frequent user inputs and common plotting scenarios.
-- **Seamless Integration:** Works in conjunction with the interactive wizard mode to offer both guided input and on-the-fly completions in non-interactive sessions, ensuring a smooth user experience.
+- **Seamless Integration:** Works in both guided interactive sessions and non-interactive scenarios to ensure a smooth and user-friendly experience.
+
+## Demo Mode
+- **Purpose:** Offers a guided demonstration session that walks new users through key plotting commands and features.
+- **Activation:** A new CLI flag `--demo` triggers the demo mode, automatically executing a series of illustrative commands and showing their outputs.
+- **Walkthrough:** The demo mode includes:
+  - A brief introduction to the plotting capabilities.
+  - Step-by-step command execution with explanations for each plotting parameter and sub-feature.
+  - An interactive Q&A prompt where users can ask for further clarification during the demo.
+- **Benefits:** Reduces the learning curve, improves initial user engagement, and provides a quick reference for regular usage.
 
 ## Implementation Details
-- **CLI Parsing:** Extend the existing argument parser to include an auto-completion module that intercepts partial input and retrieves suggestions.
-- **User Input Handling:** Leverage Node.js libraries (such as readline) to capture real-time input and provide suggestions without disrupting the existing CLI flow.
-- **Configuration and Customization:** Allow users to configure auto-completion sensitivity and source (default commands vs. history-based) via command-line flags and configuration files.
-- **Documentation:** Update CLI help texts and the README/CONTRIBUTING guidelines to include instructions and examples for using the auto-completion feature.
+- **CLI Parsing:** Extend the existing argument parser to handle the new `--demo` flag alongside enhancements for auto-completion and command preview.
+- **User Input Handling:** Leverage Node.js libraries (e.g., readline) to capture real-time input and provide suggestions as well as guide the demo walkthrough without disrupting the existing CLI flow.
+- **Configuration and Customization:** Allow users to adjust auto-completion sensitivity, demo verbosity, and source of suggestions via command-line flags and configuration files.
+- **Documentation:** Update CLI help texts, README.md, and CONTRIBUTING guidelines to include instructions and examples for using the enhanced CLI features, particularly the new demo mode.
 
 ## Testing and Quality Assurance
-- **Unit and Integration Tests:** Develop tests simulating user input scenarios to verify that auto-complete suggestions are accurate and context-aware, and that they integrate smoothly with the interactive wizard.
-- **User Feedback Loop:** Monitor usage to ensure the suggestions improve over time based on user interactions, with iterative refinements confirmed by regression tests.
+- **Unit and Integration Tests:** Develop tests simulating user input scenarios to verify that auto-complete suggestions, interactive wizard prompts, command previews, and demo mode guidance are accurate and context-aware.
+- **User Feedback Loop:** Monitor usage and iteration on the demo mode to ensure it effectively lowers the barrier for new users while reinforcing tool capabilities.
 
 ## Benefits
-- **Enhanced Usability:** The auto-completion feature further lowers the barrier to entry for new users and speeds up command construction for experienced users.
-- **Error Reduction:** Real-time suggestions decrease the likelihood of typos or unsupported flag usage, improving the overall reliability of command execution.
-- **Streamlined Workflow:** Combined with the interactive wizard and command preview, the new enhancements provide a cohesive and intuitive CLI experience aligned with our mission of being the go-to plot library for formula visualisations.
+- **Enhanced Usability:** Combined with interactive wizard, command preview, and auto-completion, the new demo mode provides an immediate, hands-on introduction for new users.
+- **Error Reduction:** Real-time suggestions and a guided demo reduce the likelihood of typos and misconfigurations, improving overall reliability.
+- **Streamlined Onboarding:** The demo mode offers an engaging first-run experience that quickly conveys the power and simplicity of the plotting library, solidifying its position as the go-to tool for formula visualisations.
 
 ## Summary
-By augmenting the CLI interface with auto-completion, we offer users a more guided and error-resistant command assembly process. These improvements integrate seamlessly with the existing interactive wizard mode and command preview features, reinforcing a user-friendly and robust experience for both casual and power users.
+By augmenting the CLI interface with a demo mode in addition to the existing features, we deliver a more guided, error-resistant, and engaging user experience. These improvements make the CLI more accessible to newcomers and more efficient for experienced users, in full support of our mission.
