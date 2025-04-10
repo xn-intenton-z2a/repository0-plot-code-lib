@@ -1,26 +1,31 @@
-# CLI_INTERFACE Feature Specification (Enhanced with Guided Wizard and Command Preview)
+# CLI_INTERFACE Feature Specification (Enhanced with Guided Wizard, Command Preview, and Auto-Completion)
 
 ## Overview
-This update refines the existing CLI_INTERFACE feature with an enhanced interactive wizard mode and detailed command preview functionality. It continues to consolidate argument parsing, integrated documentation, version information display, dry-run simulation, and API access. The enhancements focus on improving usability for both beginners and seasoned users by providing a more guided, step-by-step plotting command configuration and validation process.
+This update refines the existing CLI interface by integrating an enhanced interactive wizard, detailed command preview, and a new auto-completion mechanism. The feature aims to further simplify plotting command configuration and reduce input errors by dynamically suggesting command options and arguments based on context and user history.
 
-## Enhanced Interactive Wizard Mode
-- **Improved User Guidance:** Utilizes a series of interactive prompts (e.g., using a lightweight Node.js prompting library) to guide users through specifying plot parameters such as the formula, interval, step size, output options, and tagging. This helps users construct valid commands and reduces learning curves.
-- **Command Preview & Confirmation:** After collecting inputs, the wizard displays a full preview of the final command, highlighting how individual options translate into the CLI invocation. Users can confirm, edit, or cancel the command, ensuring clarity and control before execution.
-- **Contextual Help Integration:** Each prompt includes inline help and links to documentation (as described in README.md and CONTRIBUTING.md) so that users can better understand the available options and the impact on the plotting process.
+## Enhanced Interactive Wizard and Command Preview
+- **Interactive Guidance:** Continues to provide step-by-step prompts for parameters such as formulas, intervals, and output options, with inline help and documentation references.
+- **Command Preview:** Displays a full preview of the final command, allowing users to confirm, edit, or cancel before execution, minimizing chances of error.
 
-## Comprehensive CLI Features
-- **Unified Argument Parsing:** Supports full-length flags and their shorthand aliases for plot generation, dry-run simulation, diagnostics, and log output. The CLI now also interprets corrections and suggestions from the interactive wizard.
-- **Integrated Documentation and Dynamic Help:** Detailed, dynamic help output is available through the `--help` flag, consolidating guidance for all commands and interactive inputs.
-- **Version and Library API Exposure:** Users can view version details via the `--version` flag and import the main CLI functionality as a library function in other Node.js projects.
+## Auto-Completion Enhancement
+- **Dynamic Suggestions:** Implements auto-completion for command options and flags using the Node.js readline interface. As users type, the system suggests valid commands, flags, and parameter values based on a predefined set and past command history.
+- **Context Awareness:** Integrates with the history manager to provide relevant suggestions tailored to frequent user inputs and common plotting scenarios.
+- **Seamless Integration:** Works in conjunction with the interactive wizard mode to offer both guided input and on-the-fly completions in non-interactive sessions, ensuring a smooth user experience.
+
+## Implementation Details
+- **CLI Parsing:** Extend the existing argument parser to include an auto-completion module that intercepts partial input and retrieves suggestions.
+- **User Input Handling:** Leverage Node.js libraries (such as readline) to capture real-time input and provide suggestions without disrupting the existing CLI flow.
+- **Configuration and Customization:** Allow users to configure auto-completion sensitivity and source (default commands vs. history-based) via command-line flags and configuration files.
+- **Documentation:** Update CLI help texts and the README/CONTRIBUTING guidelines to include instructions and examples for using the auto-completion feature.
 
 ## Testing and Quality Assurance
-- **Interactive Workflow Tests:** New unit and integration tests simulate user input for the interactive wizard, verifying the accurate gathering of plot parameters and the correct display of the preview command.
-- **Documentation Updates:** All changes are documented in the README.md and CONTRIBUTING.md files, including examples of the enhanced wizard mode with command preview.
+- **Unit and Integration Tests:** Develop tests simulating user input scenarios to verify that auto-complete suggestions are accurate and context-aware, and that they integrate smoothly with the interactive wizard.
+- **User Feedback Loop:** Monitor usage to ensure the suggestions improve over time based on user interactions, with iterative refinements confirmed by regression tests.
 
 ## Benefits
-- **Lowered Barrier for New Users:** The guided wizard ensures even those unfamiliar with command-line interfaces can construct valid plotting commands easily.
-- **Increased Confidence:** The command preview and confirmation step minimizes errors by allowing users to verify the final command configuration before execution.
-- **Enhanced Usability:** Merges the benefits of interactive guidance with traditional CLI operations, maintaining consistency across both non-interactive and interactive sessions.
+- **Enhanced Usability:** The auto-completion feature further lowers the barrier to entry for new users and speeds up command construction for experienced users.
+- **Error Reduction:** Real-time suggestions decrease the likelihood of typos or unsupported flag usage, improving the overall reliability of command execution.
+- **Streamlined Workflow:** Combined with the interactive wizard and command preview, the new enhancements provide a cohesive and intuitive CLI experience aligned with our mission of being the go-to plot library for formula visualisations.
 
 ## Summary
-The enhanced CLI_INTERFACE feature significantly improves user experience by integrating a detailed interactive wizard mode and command preview functionality. This refinement not only makes the plotting tool more accessible to beginners but also streamlines command execution for advanced users, ensuring the repository remains aligned with our mission to be the go-to plot library for formula visualisations.
+By augmenting the CLI interface with auto-completion, we offer users a more guided and error-resistant command assembly process. These improvements integrate seamlessly with the existing interactive wizard mode and command preview features, reinforcing a user-friendly and robust experience for both casual and power users.
