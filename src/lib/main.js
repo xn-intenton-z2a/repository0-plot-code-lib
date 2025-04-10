@@ -12,7 +12,8 @@ const globalConfigSchema = z.object({
   CLI_COLOR_SCHEME: z.string().optional(),
   LOG_LEVEL: z.string().optional(),
   ERROR_REPORTING_URL: z.string().url().optional(),
-  defaultArgs: z.array(z.string()).optional()
+  defaultArgs: z.array(z.string()).optional(),
+  FALLBACK_NUMBER: z.string().optional()
 });
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
@@ -63,8 +64,7 @@ function logError(chalkError, ...args) {
 // New helper function to normalize numeric strings to account for locale-aware separators
 function normalizeNumberString(numStr) {
   let trimmed = numStr.trim();
-  // Count occurrences of various thousand separators
-  // We remove underscores, commas, and spaces for sure
+  // Remove underscores, commas, and spaces
   trimmed = trimmed.replace(/[_ ,]/g, '');
 
   // Handle periods carefully: if there are multiple periods, assume the last one is the decimal separator
@@ -75,20 +75,14 @@ function normalizeNumberString(numStr) {
     const fractionalPart = numStr.slice(lastIndex + 1).replace(/[_, ]/g, '');
     return integerPart + '.' + fractionalPart;
   } else if (periodMatches && periodMatches.length === 1) {
-    // If exactly one period exists, determine if it is used as a thousands separator
-    // Split based on period in the original string
     const parts = numStr.split('.');
     if (parts.length === 2) {
       const integerPartRaw = parts[0];
       const fractionalPartRaw = parts[1];
-      // Remove other separators from integer part
       const integerPartClean = integerPartRaw.replace(/[_ ,]/g, '');
-      // If the fractional part has exactly 3 digits and the integer part is non-empty and looks like a group,
-      // assume period was a thousands separator
       if (fractionalPartRaw.replace(/[_ ,]/g, '').length === 3 && integerPartClean.length > 0) {
         return integerPartClean + fractionalPartRaw.replace(/[_ ,]/g, '');
       } else {
-        // Otherwise, treat period as decimal point
         return integerPartClean + '.' + fractionalPartRaw.replace(/[_ ,]/g, '');
       }
     }
@@ -98,32 +92,45 @@ function normalizeNumberString(numStr) {
 
 /**
  * Consolidated validation function for numeric CLI arguments.
- * This function uses a robust approach to validate number format, supporting scientific notation,
- * numbers with underscores, commas, spaces and periods as thousands separators.
- * It throws detailed errors that are handled in the main catch block.
+ * This function uses a robust approach to validate number format, including support for scientific notation,
+ * locale-aware thousand separators, and a fallback mechanism if provided.
  * @param {string} numStr - The numeric string from CLI argument.
  * @param {boolean} verboseMode - Flag indicating verbose mode.
  * @param {object} themeColors - Theme color functions for logging.
- * @returns {number} - Parsed valid number.
- * @throws {Error} if the numeric value is invalid.
+ * @param {string|undefined} fallbackValue - Optional fallback numeric value to use if validation fails.
+ * @returns {number} - Parsed valid number or the fallback if applicable.
+ * @throws {Error} if the numeric value is invalid and no valid fallback is provided.
  */
-function validateNumericArg(numStr, verboseMode, themeColors) {
+function validateNumericArg(numStr, verboseMode, themeColors, fallbackValue) {
   const trimmed = numStr.trim();
   if (trimmed === "") {
     throw new Error(`Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.`);
   }
-  // Explicitly reject inputs that are 'NaN' in any letter case
   if (/^nan$/i.test(trimmed)) {
+    if (fallbackValue !== undefined && fallbackValue !== null) {
+      console.warn(themeColors.info(`Invalid numeric value '${trimmed}' provided for argument '--number'. Using fallback value ${fallbackValue}.`));
+      const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
+      if (Number.isNaN(fallbackParsed)) {
+        throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
+      }
+      return fallbackParsed;
+    }
     throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
   }
 
-  // Normalize the numeric string using the new locale-aware function
   const normalized = normalizeNumberString(trimmed);
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
+    if (fallbackValue !== undefined && fallbackValue !== null) {
+      console.warn(themeColors.info(`Invalid numeric input '${trimmed}'. Using fallback value ${fallbackValue}.`));
+      const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
+      if (Number.isNaN(fallbackParsed)) {
+        throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
+      }
+      return fallbackParsed;
+    }
     throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
   }
-
   return parsed;
 }
 
@@ -132,6 +139,21 @@ function validateNumericArg(numStr, verboseMode, themeColors) {
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
+  // Process new fallback flag
+  let fallbackNumber = undefined;
+  if (args && args.length > 0) {
+    args = args.filter(arg => {
+      if (arg.startsWith('--fallback-number=')) {
+        fallbackNumber = arg.slice('--fallback-number='.length);
+        return false;
+      }
+      return true;
+    });
+  }
+  if (!fallbackNumber && process.env.FALLBACK_NUMBER) {
+    fallbackNumber = process.env.FALLBACK_NUMBER;
+  }
+
   // Extract and remove any theme override flag from args
   let themeOverride = null;
   if (args && args.length > 0) {
@@ -151,6 +173,7 @@ export async function main(args) {
     if (process.env.CLI_COLOR_SCHEME) globalConfig.CLI_COLOR_SCHEME = process.env.CLI_COLOR_SCHEME;
     if (process.env.LOG_LEVEL) globalConfig.LOG_LEVEL = process.env.LOG_LEVEL;
     if (process.env.ERROR_REPORTING_URL) globalConfig.ERROR_REPORTING_URL = process.env.ERROR_REPORTING_URL;
+    if (process.env.FALLBACK_NUMBER) globalConfig.FALLBACK_NUMBER = process.env.FALLBACK_NUMBER;
     console.log(JSON.stringify(globalConfig, null, 2));
     return;
   }
@@ -188,7 +211,8 @@ export async function main(args) {
     for (const arg of args) {
       if (arg.startsWith(numberFlagPrefix)) {
         const numStr = arg.slice(numberFlagPrefix.length);
-        validateNumericArg(numStr, verboseMode, themeColors);
+        // Validate numeric argument with fallback if provided
+        validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber);
       }
     }
 
@@ -208,7 +232,6 @@ export async function main(args) {
 
     // Automatic error reporting only in verbose mode
     if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
-      // Gather library version from package.json
       let libraryVersion = 'unknown';
       try {
         const pkgPath = path.join(process.cwd(), 'package.json');
@@ -298,7 +321,6 @@ function getThemeColors(themeOverride = null) {
       if (!isValidThemeConfig(config)) {
         throw new Error("Invalid custom CLI theme configuration: expected keys 'error', 'usage', 'info', and 'run' with non-empty string values.");
       }
-      // Use a forced chalk instance with ANSI level 3 for custom themes
       const customChalk = new Chalk({ level: 3 });
       return {
         error: applyChalkChain(config.error, customChalk),
@@ -359,7 +381,6 @@ function getGlobalConfig() {
       }
     }
   }
-  // Validate merged configuration using zod schema
   const result = globalConfigSchema.safeParse(mergedConfig);
   if (!result.success) {
     console.error(chalk.red(`Global config validation error: ${result.error}. Using default configuration.`));

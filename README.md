@@ -69,13 +69,21 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 
 The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. **Note:** Inputs explicitly equal to "NaN" (case-insensitive) are rejected with a clear error message.
 
+Additionally, if an invalid numeric input is provided and a fallback value is specified via the `--fallback-number` flag or the environment variable `FALLBACK_NUMBER`, the CLI will log a warning and automatically use the fallback value.
+
 For example:
 
 ```bash
 repository0-plot-code-lib --number=42
 ```
 
-If an invalid numeric value is provided:
+Or using a fallback:
+
+```bash
+repository0-plot-code-lib --number=NaN --fallback-number=100
+```
+
+If an invalid numeric value is provided and no fallback is defined:
 
 ```bash
 repository0-plot-code-lib --number=NaN
@@ -117,6 +125,7 @@ The CLI will look for a global configuration file named `.repository0plotconfig.
 - `LOG_LEVEL` (string, e.g., "debug", "info", etc.)
 - `ERROR_REPORTING_URL` (string, must be a valid URL)
 - `defaultArgs` (array of strings)
+- `FALLBACK_NUMBER` (string, representing a numeric fallback value)
 
 If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings.
 
@@ -129,7 +138,8 @@ Additionally, you can use the new `--show-config` flag to display the effective 
   "CLI_COLOR_SCHEME": "dark",
   "LOG_LEVEL": "debug",
   "ERROR_REPORTING_URL": "http://example.com/report",
-  "defaultArgs": ["defaultArg1", "defaultArg2"]
+  "defaultArgs": ["defaultArg1", "defaultArg2"],
+  "FALLBACK_NUMBER": "100"
 }
 ```
 

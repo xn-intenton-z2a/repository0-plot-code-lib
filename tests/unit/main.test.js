@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -31,13 +31,11 @@ async function captureConsole(method, fn) {
   return output.join("\n");
 }
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(main).not.toBeNull();
   });
 });
-
 
 describe("Default Demo Output", () => {
   test("should display usage message when no arguments provided and no defaultArgs in global config", async () => {
@@ -51,7 +49,6 @@ describe("Default Demo Output", () => {
     expect(logOutput).toContain("arg2");
   });
 });
-
 
 describe("Error Handling", () => {
   test("should log concise error message in non-verbose mode", async () => {
@@ -168,7 +165,7 @@ describe("Numeric Argument Validation", () => {
     expect(errorOutput).toContain("Stack trace:");
   });
 
-  test("should throw error for '--number=NaN' in non-verbose mode", async () => {
+  test("should throw error for '--number=NaN' in non-verbose mode when no fallback is provided", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     await expect(main(["--number=NaN"]))
@@ -178,7 +175,7 @@ describe("Numeric Argument Validation", () => {
     expect(errorOutput).not.toContain("Stack trace:");
   });
 
-  test("should throw error for '--number=NaN' in verbose mode", async () => {
+  test("should throw error for '--number=NaN' in verbose mode when no fallback is provided", async () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     await expect(main(["--number=NaN", "--verbose"]))
@@ -216,6 +213,32 @@ describe("Numeric Argument Validation", () => {
   test("should accept numbers with period as thousands separator when appropriate", async () => {
     const logOutput = await captureConsole('log', async () => { await main(["--number=1.000", "arg"]); });
     expect(logOutput).toContain("arg");
+  });
+});
+
+describe("Fallback Numeric Argument Validation", () => {
+  test("should use fallback value when invalid numeric input is provided in non-verbose mode", async () => {
+    const logOutput = await captureConsole('log', async () => {
+      await main(["--number=NaN", "--fallback-number=123", "arg"]);
+    });
+    expect(logOutput).toContain("Using fallback value 123");
+    expect(logOutput).toContain("arg");
+  });
+
+  test("should use fallback value when invalid numeric input is provided in verbose mode", async () => {
+    const logOutput = await captureConsole('log', async () => {
+      await main(["--number=NaN", "--fallback-number=456", "--verbose", "arg"]);
+    });
+    expect(logOutput).toContain("Using fallback value 456");
+    expect(logOutput).toContain("arg");
+  });
+
+  test("should throw an error if fallback value itself is invalid", async () => {
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    await expect(main(["--number=NaN", "--fallback-number=abc"]))
+      .rejects.toThrow("Fallback value 'abc' is not a valid number.");
+    console.error = originalConsoleError;
   });
 });
 
@@ -294,7 +317,6 @@ describe("Automatic Error Reporting", () => {
     console.error = (msg) => { errorOutput += msg + "\n"; };
     await expect(main(["--simulate-error", "--verbose"]))
       .rejects.toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
-    // Allow some time for the async reporting
     await new Promise(r => setTimeout(r, 50));
     expect(fetchMock).toHaveBeenCalled();
     const callArgs = fetchMock.mock.calls[0];
