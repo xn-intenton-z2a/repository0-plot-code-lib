@@ -78,12 +78,14 @@ Stack trace: <full stack trace here>
 
 ### Automatic Error Reporting
 
-When an error occurs, the CLI supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with the following error details:
+When an error occurs, the CLI supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with extended error details including:
 
 - **errorMessage**: The error message.
 - **stackTrace**: The error's stack trace (if available).
 - **cliArgs**: The CLI arguments provided.
-- **environment**: Relevant environment details (e.g., NODE_ENV).
+- **libraryVersion**: The current version of the library (sourced from package.json).
+- **timestamp**: The ISO timestamp when the error occurred.
+- **envContext**: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).
 
 Example configuration snippet:
 

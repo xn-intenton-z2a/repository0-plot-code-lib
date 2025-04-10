@@ -260,12 +260,30 @@ export function main(args) {
 
     // Automatic error reporting only in verbose mode
     if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
-      // Prepare error details
+      // Gather library version from package.json
+      let libraryVersion = 'unknown';
+      try {
+        const pkgPath = path.join(process.cwd(), 'package.json');
+        if (existsSync(pkgPath)) {
+          const pkgContent = readFileSync(pkgPath, 'utf-8');
+          const pkg = JSON.parse(pkgContent);
+          libraryVersion = pkg.version || 'unknown';
+        }
+      } catch (e) {
+        // Leave libraryVersion as 'unknown'
+      }
       const payload = {
         errorMessage: error.message,
         stackTrace: error.stack || "",
         cliArgs: args,
-        environment: { NODE_ENV: process.env.NODE_ENV }
+        libraryVersion,
+        timestamp: new Date().toISOString(),
+        envContext: {
+          NODE_ENV: process.env.NODE_ENV || 'undefined',
+          CLI_COLOR_SCHEME: process.env.CLI_COLOR_SCHEME || 'undefined',
+          LOG_LEVEL: process.env.LOG_LEVEL || 'undefined',
+          HOME: process.env.HOME || process.env.USERPROFILE || 'undefined'
+        }
       };
       // Use Node 20's built-in fetch
       fetch(errorReportingUrl, {
