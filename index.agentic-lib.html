@@ -72,6 +72,23 @@ Stack trace: &lt;full stack trace here&gt;
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
 </code></pre>
 <p class="md-github">The CLI will output an error as detailed above, depending on the verbose setting.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting" href="#automatic-error-reporting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting</h3>
+<p class="md-github">When an error occurs, the CLI now supports automatic error report submission. If the configuration parameter <code class="md-github">ERROR_REPORTING_URL</code> is defined (either in the global configuration file <code class="md-github">.repository0plotconfig.json</code> or via the environment variable), the CLI will automatically submit a POST request with the following error details:</p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">errorMessage</strong>: The error message.</li>
+<li class="md-github"><strong class="md-github">stackTrace</strong>: The error's stack trace (if available).</li>
+<li class="md-github"><strong class="md-github">cliArgs</strong>: The CLI arguments provided.</li>
+<li class="md-github"><strong class="md-github">environment</strong>: Relevant environment details (e.g., NODE_ENV).</li>
+</ul>
+<p class="md-github">Example configuration snippet:</p>
+<pre class="md-github"><code class="md-github language-json">{
+  &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
+  &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
+  &quot;LOG_LEVEL&quot;: &quot;debug&quot;,
+  &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;]
+}
+</code></pre>
+<p class="md-github">When an error is encountered (for example, using the <code class="md-github">--simulate-error</code> flag), the CLI will send the error report to the specified URL and log a confirmation message upon a successful submission.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="advanced-error-handling" href="#advanced-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Error Handling</h3>
 <p class="md-github">The CLI includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:</p>
 <ul class="md-github">
@@ -85,28 +102,20 @@ Stack trace: &lt;full stack trace here&gt;
 <pre class="md-github"><code class="md-github language-bash">LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 </code></pre>
 <p class="md-github">Note: The error logging now utilizes the actual error object's stack trace for more accurate debugging information when an Error is passed to the logger.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="configurable-color-themes" href="#configurable-color-themes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configurable Color Themes</h3>
-<p class="md-github">You can customize the CLI output color theme by setting the environment variable <code class="md-github">CLI_COLOR_SCHEME</code>. The available themes are:</p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">default</strong>: Uses standard colors (red for errors, yellow for usage, green for info, and cyan for run messages).</li>
-<li class="md-github"><strong class="md-github">dark</strong>: Uses bold colors (bold red for errors, bold blue for usage, bold green for info, and bold cyan for run messages).</li>
-<li class="md-github"><strong class="md-github">light</strong>: Uses alternative colors (red for errors, magenta for usage, blue for info, and yellow for run messages).</li>
-</ul>
-<p class="md-github">For example, to run the CLI with the dark theme:</p>
-<pre class="md-github"><code class="md-github language-bash">CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
-</code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration-file-support" href="#global-configuration-file-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration File Support</h3>
 <p class="md-github">A new feature allows you to set persistent default options without having to specify them every time you run the CLI.</p>
 <p class="md-github">The CLI will look for a global configuration file named <code class="md-github">.repository0plotconfig.json</code> in the current working directory and in your home directory (using the <code class="md-github">HOME</code> or <code class="md-github">USERPROFILE</code> environment variable). This file supports the following options:</p>
 <ul class="md-github">
 <li class="md-github"><code class="md-github">CLI_COLOR_SCHEME</code>: Set a default color theme (e.g., &quot;dark&quot;, &quot;light&quot;, or &quot;default&quot;).</li>
 <li class="md-github"><code class="md-github">LOG_LEVEL</code>: Set a default logging level (e.g., &quot;debug&quot;).</li>
+<li class="md-github"><code class="md-github">ERROR_REPORTING_URL</code>: Set the URL for automatic error report submissions.</li>
 <li class="md-github"><code class="md-github">defaultArgs</code>: An array of default command line arguments to be used when no arguments are provided.</li>
 </ul>
 <h4 class="md-github"><a class="md-github__anchor" name="example-repository0plotconfigjson-file" href="#example-repository0plotconfigjson-file"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example <code class="md-github">.repository0plotconfig.json</code> file:</h4>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
   &quot;LOG_LEVEL&quot;: &quot;debug&quot;,
+  &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
   &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;]
 }
 </code></pre>
@@ -117,7 +126,7 @@ Stack trace: &lt;full stack trace here&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T16:11:07.299Z</p>
+    <p>Generated on 2025-04-10T16:22:44.916Z</p>
   </footer>
 </body>
 </html>
