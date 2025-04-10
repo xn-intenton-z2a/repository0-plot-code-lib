@@ -35,7 +35,17 @@ Usage: repository0-plot-code-lib <arguments>
 
 ### Numeric Argument Validation
 
-The CLI supports numeric validation via the `--number=VALUE` flag. If the provided VALUE cannot be converted to a valid number, the CLI will display a clear error message using the configured error theme and exit gracefully. For example:
+The CLI supports numeric validation via the `--number=VALUE` flag. If the provided VALUE cannot be converted to a valid number (for example, if you pass a non-numeric string such as "abc" or "NaN"), the CLI will:
+
+- In non-verbose mode: display an error message like:
+
+  ```
+  Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.
+  ```
+
+- In verbose mode (using the `--verbose` flag or setting `LOG_LEVEL=debug`): display additional debugging information including a full stack trace.
+
+For example:
 
 ```bash
 repository0-plot-code-lib --number=42
@@ -47,15 +57,21 @@ If an invalid numeric value is provided:
 repository0-plot-code-lib --number=abc
 ```
 
+or
+
+```bash
+repository0-plot-code-lib --number=NaN
+```
+
 The CLI will output an error like:
 
 ```
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
 ```
 
-In verbose mode, additional debugging information including a full stack trace is provided.
+in non-verbose mode, and in verbose mode, additional details including the stack trace will be included.
 
-## Advanced Error Handling
+### Advanced Error Handling
 
 The CLI includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:
 
@@ -76,7 +92,7 @@ LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 
 Note: The error logging now utilizes the actual error object's stack trace for more accurate debugging information when an Error is passed to the logger.
 
-## Configurable Color Themes
+### Configurable Color Themes
 
 You can customize the CLI output color theme by setting the environment variable `CLI_COLOR_SCHEME`. The available themes are:
 
@@ -90,7 +106,7 @@ For example, to run the CLI with the dark theme:
 CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
 ```
 
-## Custom Color Theme Configuration
+### Custom Color Theme Configuration
 
 In addition to using preset themes via the `CLI_COLOR_SCHEME` environment variable, you can override the default theme by providing a custom configuration file named `cli-theme.json` in the working directory. This JSON file should define the theme colors for the following keys: `error`, `usage`, `info`, and `run`. The values should be dot-separated strings representing chalk methods.
 
