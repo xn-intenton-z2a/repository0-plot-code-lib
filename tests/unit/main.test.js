@@ -38,6 +38,7 @@ describe("Main Module Import", () => {
   });
 });
 
+
 describe("Default Demo Output", () => {
   test("should display usage message when no arguments provided and no defaultArgs in global config", () => {
     const logOutput = captureConsole('log', () => { main([]); });
@@ -50,6 +51,7 @@ describe("Default Demo Output", () => {
     expect(logOutput).toContain("arg2");
   });
 });
+
 
 describe("Error Handling", () => {
   test("should log concise error message in non-verbose mode", () => {
@@ -75,6 +77,7 @@ describe("Error Handling", () => {
   });
 });
 
+
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
     const originalEnv = process.env.CLI_COLOR_SCHEME;
@@ -84,6 +87,7 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
+
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -109,6 +113,7 @@ describe("Custom Color Theme Configuration", () => {
   });
 });
 
+
 describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -127,6 +132,7 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
     expect(errorOutput).toContain("Using fallback theme");
   });
 });
+
 
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -148,6 +154,7 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   });
 });
 
+
 describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in non-verbose mode", () => {
     let errorOutput = "";
@@ -168,7 +175,28 @@ describe("Numeric Argument Validation", () => {
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
     expect(errorOutput).toContain("Stack trace:");
   });
+
+  test("should throw error for '--number=NaN' in non-verbose mode", () => {
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    expect(() => main(["--number=NaN"]))
+      .toThrow("Invalid numeric value: NaN");
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.");
+    expect(errorOutput).not.toContain("Stack trace:");
+  });
+
+  test("should throw error for '--number=NaN' in verbose mode", () => {
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    expect(() => main(["--number=NaN", "--verbose"]))
+      .toThrow("Invalid numeric value: NaN");
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.");
+    expect(errorOutput).toContain("Stack trace:");
+  });
 });
+
 
 describe("Global Configuration Support", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -198,6 +226,7 @@ describe("Global Configuration Support", () => {
     expect(logOutput).not.toContain("globalArg1");
   });
 });
+
 
 describe("Automatic Error Reporting", () => {
   let originalFetch;

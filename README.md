@@ -37,7 +37,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 The CLI supports numeric validation via the `--number=VALUE` flag. The validation unifies error messaging as follows:
 
-- The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, or the literal 'NaN').
+- The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted to a valid number).
 - In non-verbose mode, if an invalid value is provided, it logs an error message like:
 
   ```
