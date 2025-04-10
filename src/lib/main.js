@@ -2,17 +2,51 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
-import chalk from "chalk";
+import chalk, { Chalk } from "chalk";
+
+/**
+ * Returns the current CLI theme color functions based on the CLI_COLOR_SCHEME environment variable.
+ */
+function getThemeColors() {
+  const theme = process.env.CLI_COLOR_SCHEME || "default";
+  switch (theme) {
+    case "dark": {
+      // Force chalk to use ANSI escape codes by creating a new instance with level 3
+      const forcedChalk = new Chalk({ level: 3 });
+      return {
+        error: forcedChalk.bold.red,
+        usage: forcedChalk.bold.blue,
+        info: forcedChalk.bold.green,
+        run: forcedChalk.bold.cyan,
+      };
+    }
+    case "light":
+      return {
+        error: chalk.red,
+        usage: chalk.magenta,
+        info: chalk.blue,
+        run: chalk.yellow,
+      };
+    default:
+      return {
+        error: chalk.red,
+        usage: chalk.yellow,
+        info: chalk.green,
+        run: chalk.cyan,
+      };
+  }
+}
 
 /**
  * Logs detailed error information with colored output.
+ * @param {Function} errorColor - Function to apply error color
  * @param {string} message - The error context message.
  * @param {Error} error - The error object.
  */
-function logError(message, error) {
-  console.error(chalk.red(message));
-  console.error(chalk.red(`Error message: ${error.message}`));
-  console.error(chalk.red(`Stack trace: ${error.stack}`));
+function logError(errorColor, message, error) {
+  console.error(errorColor(message));
+  console.error(errorColor(`Error message: ${error.message}`));
+  console.error(errorColor(`Stack trace: ${error.stack}`));
 }
 
 /**
@@ -20,6 +54,7 @@ function logError(message, error) {
  * @param {string[]} args - Command line arguments.
  */
 export function main(args) {
+  const themeColors = getThemeColors();
   // Determine verbose mode either via command line flag or environment variable
   const verboseMode = (args && args.includes("--verbose")) || process.env.LOG_LEVEL === "debug";
 
@@ -31,17 +66,17 @@ export function main(args) {
 
     // If no arguments are provided, display usage message with colors
     if (!args || args.length === 0) {
-      console.log(chalk.yellow("No arguments provided. Please provide valid arguments."));
-      console.log(chalk.yellow("Usage: repository0-plot-code-lib <arguments>"));
+      console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
+      console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
       return;
     }
 
-    console.log(chalk.green("Run with: ") + chalk.cyan(JSON.stringify(args)));
+    console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
   } catch (error) {
     if (verboseMode) {
-      logError("Error in main function execution:", error);
+      logError(themeColors.error, "Error in main function execution:", error);
     } else {
-      console.error(chalk.red(`Error: ${error.message}`));
+      console.error(themeColors.error(`Error: ${error.message}`));
     }
 
     // In test environment, rethrow error for assertions
