@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 71,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 2,
-  "diffMinutesMain": 10,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Refactored numeric argument validation to streamline NaN handling and error messaging. (fixes #1701)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 11,
   "commitsLastHour": 3,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -34,11 +39,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1701",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T21:06:48.251Z"
+  "generatedAt": "2025-04-10T21:08:42.642Z"
 }
