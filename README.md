@@ -53,6 +53,8 @@ The CLI will output an error like:
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
 ```
 
+In verbose mode, additional debugging information including a full stack trace is provided.
+
 ## Advanced Error Handling
 
 The CLI includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:

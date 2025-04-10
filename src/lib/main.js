@@ -120,15 +120,16 @@ export function main(args) {
       const numValue = arg.slice(numberFlagPrefix.length);
       const parsed = Number(numValue);
       if (numValue.trim() === "" || isNaN(parsed)) {
-        const errorMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
+        const detailedMsg = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
+        const simpleMsg = `Invalid numeric value: ${numValue}`;
         if (verboseMode) {
-          const errorInstance = new Error(errorMsg);
+          const errorInstance = new Error(detailedMsg);
           logError(themeColors.error, errorInstance);
         } else {
-          console.error(themeColors.error(`Error: ${errorMsg}`));
+          console.error(themeColors.error(`Error: ${detailedMsg}`));
         }
         if (process.env.NODE_ENV === "test") {
-          throw new Error(`Invalid numeric value: ${numValue}`);
+          throw new Error(simpleMsg);
         } else {
           process.exit(1);
         }
