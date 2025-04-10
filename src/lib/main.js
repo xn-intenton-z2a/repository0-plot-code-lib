@@ -175,11 +175,7 @@ export function main(args) {
         } else {
           console.error(themeColors.error(`Error: ${unifiedMsg}`));
         }
-        if (process.env.NODE_ENV === "test") {
-          throw new Error(throwMsg);
-        } else {
-          process.exit(1);
-        }
+        throw new Error(throwMsg);
       }
     }
   }
@@ -225,17 +221,16 @@ export function main(args) {
         });
     }
 
-    // In test environment, rethrow error for assertions
-    if (process.env.NODE_ENV === "test") {
-      throw error;
-    } else {
-      process.exit(1);
-    }
+    throw error;
   }
 }
 
 // If the script is executed directly from the CLI, invoke main with command line arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  try {
+    main(args);
+  } catch (error) {
+    process.exit(1);
+  }
 }
