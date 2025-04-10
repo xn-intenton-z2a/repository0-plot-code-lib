@@ -37,8 +37,8 @@ main(['arg1', 'arg2']);
 <p class="md-github">Run the CLI directly:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib arg1 arg2
 </code></pre>
-<p class="md-github">If no arguments are provided, the CLI will display a colored usage message:</p>
-<pre class="md-github"><code class="md-github">(No arguments provided message in colored output)
+<p class="md-github">If no arguments are provided, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.</p>
+<pre class="md-github"><code class="md-github">(No arguments provided message in colored output, or default arguments if configured)
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="numeric-argument-validation" href="#numeric-argument-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Numeric Argument Validation</h3>
@@ -59,8 +59,8 @@ Stack trace: &lt;full stack trace here&gt;
 </code></pre>
 </li>
 </ul>
-<p class="md-github">In addition, during testing (NODE_ENV set to &quot;test&quot;), the CLI throws an error with the message:</p>
-<pre class="md-github"><code class="md-github">Invalid numeric value: abc
+<p class="md-github">During testing (when NODE_ENV is set to &quot;test&quot;), the CLI throws an error with the message:</p>
+<pre class="md-github"><code class="md-github language-bash">Invalid numeric value: abc
 </code></pre>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
@@ -95,24 +95,29 @@ Stack trace: &lt;full stack trace here&gt;
 <p class="md-github">For example, to run the CLI with the dark theme:</p>
 <pre class="md-github"><code class="md-github language-bash">CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="custom-color-theme-configuration" href="#custom-color-theme-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Color Theme Configuration</h3>
-<p class="md-github">In addition to using preset themes via the <code class="md-github">CLI_COLOR_SCHEME</code> environment variable, you can override the default theme by providing a custom configuration file named <code class="md-github">cli-theme.json</code> in the working directory. This JSON file should define the theme colors for the following keys: <code class="md-github">error</code>, <code class="md-github">usage</code>, <code class="md-github">info</code>, and <code class="md-github">run</code>. The values should be dot-separated strings representing chalk methods.</p>
-<p class="md-github">For example, a custom configuration file could look like this:</p>
+<h3 class="md-github"><a class="md-github__anchor" name="global-configuration-file-support" href="#global-configuration-file-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration File Support</h3>
+<p class="md-github">A new feature allows you to set persistent default options without having to specify them every time you run the CLI.</p>
+<p class="md-github">The CLI will look for a global configuration file named <code class="md-github">.repository0plotconfig.json</code> in the current working directory and in your home directory (using the <code class="md-github">HOME</code> or <code class="md-github">USERPROFILE</code> environment variable). This file supports the following options:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">CLI_COLOR_SCHEME</code>: Set a default color theme (e.g., &quot;dark&quot;, &quot;light&quot;, or &quot;default&quot;).</li>
+<li class="md-github"><code class="md-github">LOG_LEVEL</code>: Set a default logging level (e.g., &quot;debug&quot;).</li>
+<li class="md-github"><code class="md-github">defaultArgs</code>: An array of default command line arguments to be used when no arguments are provided.</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="example-repository0plotconfigjson-file" href="#example-repository0plotconfigjson-file"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example <code class="md-github">.repository0plotconfig.json</code> file:</h4>
 <pre class="md-github"><code class="md-github language-json">{
-  &quot;error&quot;: &quot;bold.red&quot;,
-  &quot;usage&quot;: &quot;underline.blue&quot;,
-  &quot;info&quot;: &quot;italic.green&quot;,
-  &quot;run&quot;: &quot;inverse.cyan&quot;
+  &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
+  &quot;LOG_LEVEL&quot;: &quot;debug&quot;,
+  &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;]
 }
 </code></pre>
-<p class="md-github">If the custom configuration file is invalid (either malformed JSON or missing required keys), the CLI will log an enhanced error message indicating the file path, the specific error, and recommendations to correct the JSON format or schema. It will then fall back to the default theme.</p>
+<p class="md-github">When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T15:55:30.022Z</p>
+    <p>Generated on 2025-04-10T16:01:55.380Z</p>
   </footer>
 </body>
 </html>
