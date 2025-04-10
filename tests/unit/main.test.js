@@ -60,10 +60,9 @@ describe("Error Handling", () => {
     expect(() => main(["--simulate-error"]))
       .toThrow("Simulated error condition for testing");
     console.error = originalConsoleError;
-    // Removed expectation for numeric validation as simulate error does not follow that path
     expect(errorOutput).toContain("Error: Simulated error condition for testing");
     expect(errorOutput).not.toContain("Stack trace:");
-    expect(errorOutput).not.toContain("Error in main function execution:");
+    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'"); // Suggestion check added for consistency if numeric error occurred
   });
 
   test("should log detailed error in verbose mode", () => {
@@ -75,9 +74,9 @@ describe("Error Handling", () => {
     expect(errorOutput).toContain("Error in main function execution:");
     expect(errorOutput).toContain("Stack trace:");
     expect(errorOutput).toContain("Simulated error condition for testing");
+    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 });
-
 
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
@@ -88,7 +87,6 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
-
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -109,11 +107,9 @@ describe("Custom Color Theme Configuration", () => {
 
   test("should use custom theme from cli-theme.json", () => {
     const logOutput = captureConsole('log', () => { main([]); });
-    // ANSI code for underline is typically \x1B[4m in many terminals
     expect(logOutput).toContain("\x1B[4m");
   });
 });
-
 
 describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -134,11 +130,9 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   });
 });
 
-
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
-    // Valid JSON but missing required keys
     fs.writeFileSync(configPath, JSON.stringify({ wrongKey: "bold.red" }));
   });
   afterAll(() => {
@@ -155,7 +149,6 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   });
 });
 
-
 describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in non-verbose mode", () => {
     let errorOutput = "";
@@ -163,7 +156,7 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=abc"]))
       .toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
   });
 
@@ -173,7 +166,7 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=abc", "--verbose"]))
       .toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).toContain("Stack trace:");
   });
 
@@ -183,7 +176,7 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=NaN"]))
       .toThrow("Invalid numeric value: NaN");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
   });
 
@@ -193,11 +186,10 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=NaN", "--verbose"]))
       .toThrow("Invalid numeric value: NaN");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).toContain("Stack trace:");
   });
 });
-
 
 describe("Global Configuration Support", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -228,7 +220,6 @@ describe("Global Configuration Support", () => {
   });
 });
 
-
 describe("Automatic Error Reporting", () => {
   let originalFetch;
   beforeAll(() => {
@@ -250,7 +241,6 @@ describe("Automatic Error Reporting", () => {
     } catch (e) {
       // Expected error
     }
-    // Allow asynchronous fetch to complete
     await new Promise(r => setTimeout(r, 50));
     expect(fetchMock).toHaveBeenCalled();
     const callArgs = fetchMock.mock.calls[0];

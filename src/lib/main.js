@@ -167,7 +167,7 @@ export function main(args) {
       const numValue = arg.slice(numberFlagPrefix.length);
       const parsed = Number(numValue);
       if (numValue.trim() === "" || Number.isNaN(parsed)) {
-        const message = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number.`;
+        const message = `Invalid numeric value for argument '${arg}': '${numValue}' is not a valid number. Please provide a valid number such as '--number=42'.`;
         if (verboseMode) {
           const errorInstance = new Error(message);
           logError(themeColors.error, errorInstance);
