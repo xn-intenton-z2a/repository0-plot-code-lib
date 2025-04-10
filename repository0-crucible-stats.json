@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Refactored NaN conversion logic to consistently handle Unicode variants and all CLI flags --native-nan --strict-nan --debug-nan --custom-nan as per regenerated specifications. (fixes #1219)",
-      "ageMinutes": 1
+      "ageMinutes": 2
     }
   ],
   "diffMinutes": 0,
-  "diffMinutesMain": 9,
+  "diffMinutesMain": 10,
   "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -43,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1219",
-        "minutesSinceLastCommit": 2
+        "minutesSinceLastCommit": 3
       }
     ]
   },
-  "averagePRAge": 1,
+  "averagePRAge": 2,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T19:12:18.374Z"
+  "generatedAt": "2025-04-10T19:13:34.429Z"
 }
