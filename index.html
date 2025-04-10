@@ -54,21 +54,17 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with underscores for readability (e.g., <code class="md-github">1_000</code>)</li>
 <li class="md-github">Numbers with commas as thousand separators (e.g., <code class="md-github">1,000</code>)</li>
 </ul>
-<p class="md-github">The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN' - in any case variation, or any input that cannot be converted into a valid number after removing underscores and commas).</p>
-<p class="md-github">Note: Any case variation of 'NaN' (e.g., 'NaN', 'nan', 'NAN') is explicitly rejected as it does not represent a valid number. If a literal 'NaN' is provided, the CLI will output a clear error message. In non-verbose mode, it will display an instructive error without a stack trace. In verbose mode or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>, a full stack trace is included for debugging purposes.</p>
+<p class="md-github">The CLI uses strict regex matching to validate numeric values. This ensures that any non-numeric input—including empty values, any variation of the literal 'NaN', or incorrectly formatted numbers—is uniformly rejected with a clear error message:</p>
+<pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
+</code></pre>
+<p class="md-github">In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the CLI will also print a full stack trace to aid in debugging.</p>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
 <p class="md-github">If an invalid numeric value is provided:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
 </code></pre>
-<p class="md-github">The CLI will output:</p>
-<pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
-</code></pre>
-<p class="md-github">In verbose mode:</p>
-<pre class="md-github"><code class="md-github language-bash">Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
-Stack trace: &lt;full stack trace here&gt;
-</code></pre>
+<p class="md-github">The CLI will output a clear error message, with additional stack trace details in verbose mode.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting" href="#automatic-error-reporting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting</h3>
 <p class="md-github">When an error occurs, the CLI supports automatic error report submission. If the configuration parameter <code class="md-github">ERROR_REPORTING_URL</code> is defined (either in the global configuration file <code class="md-github">.repository0plotconfig.json</code> or via the environment variable), the CLI will automatically submit a POST request with extended error details including:</p>
 <ul class="md-github">
@@ -112,7 +108,7 @@ Stack trace: &lt;full stack trace here&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T21:46:42.497Z</p>
+    <p>Generated on 2025-04-10T21:47:43.015Z</p>
   </footer>
 </body>
 </html>
