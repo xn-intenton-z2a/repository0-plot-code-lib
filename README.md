@@ -43,18 +43,18 @@ Usage: repository0-plot-code-lib <arguments>
 The CLI supports numeric validation via the `--number=VALUE` flag. The validation unifies error messaging as follows:
 
 - The CLI checks for any invalid numeric input (empty strings, non-numeric values such as alphabetic strings, the literal 'NaN', or any input that cannot be converted to a valid number).
-- In non-verbose mode, if an invalid value is provided, the CLI logs an error message like:
+- If an invalid numeric value is provided, the CLI outputs an error indicating the invalid input and also suggests the proper format. For example:
 
-  ```bash
-  Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
-  ```
+```bash
+Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
+```
 
-- In verbose mode (using the `--verbose` flag or setting `LOG_LEVEL=debug`), the error is logged along with a full stack trace:
+- In verbose mode (using the `--verbose` flag), the error is logged along with a full stack trace:
 
-  ```bash
-  Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
-  Stack trace: <full stack trace here>
-  ```
+```bash
+Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
+Stack trace: <full stack trace here>
+```
 
 During testing (when NODE_ENV is set to "test"), the CLI will throw an error with the message:
 
@@ -80,7 +80,7 @@ or
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output an error as detailed above, ensuring the error message consistently includes the invalid input and, in verbose mode, the additional stack trace.
+The CLI will output an error as detailed above, ensuring the error message consistently includes the invalid input and, in verbose mode, the additional stack trace along with a suggestion for the correct format.
 
 ### Automatic Error Reporting
 
@@ -102,7 +102,7 @@ Example configuration snippet:
 }
 ```
 
-When an error is encountered (for example, using the `--simulate-error` flag), the CLI will send the error report to the specified URL and log a confirmation message upon a successful submission.
+When present, these settings will be merged with environment variables and command line arguments, with command line arguments taking precedence. This provides a convenient way to configure persistent defaults for your CLI usage.
 
 ### Advanced Error Handling
 

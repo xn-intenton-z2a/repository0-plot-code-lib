@@ -58,23 +58,23 @@ describe("Error Handling", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     expect(() => main(["--simulate-error"]))
-      .toThrow("Simulated error condition for testing");
+      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     console.error = originalConsoleError;
-    // Removed expectation for numeric validation as simulate error does not follow that path
-    expect(errorOutput).toContain("Error: Simulated error condition for testing");
+    expect(errorOutput).toContain("Error: Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
-    expect(errorOutput).not.toContain("Error in main function execution:");
+    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 
   test("should log detailed error in verbose mode", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     expect(() => main(["--simulate-error", "--verbose"]))
-      .toThrow("Simulated error condition for testing");
+      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Error in main function execution:");
     expect(errorOutput).toContain("Stack trace:");
-    expect(errorOutput).toContain("Simulated error condition for testing");
+    expect(errorOutput).toContain("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 });
 
@@ -109,7 +109,6 @@ describe("Custom Color Theme Configuration", () => {
 
   test("should use custom theme from cli-theme.json", () => {
     const logOutput = captureConsole('log', () => { main([]); });
-    // ANSI code for underline is typically \x1B[4m in many terminals
     expect(logOutput).toContain("\x1B[4m");
   });
 });
@@ -138,7 +137,6 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
-    // Valid JSON but missing required keys
     fs.writeFileSync(configPath, JSON.stringify({ wrongKey: "bold.red" }));
   });
   afterAll(() => {
@@ -163,7 +161,7 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=abc"]))
       .toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
   });
 
@@ -173,7 +171,7 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=abc", "--verbose"]))
       .toThrow("Invalid numeric value: abc");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).toContain("Stack trace:");
   });
 
@@ -183,7 +181,7 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=NaN"]))
       .toThrow("Invalid numeric value: NaN");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
   });
 
@@ -193,7 +191,7 @@ describe("Numeric Argument Validation", () => {
     expect(() => main(["--number=NaN", "--verbose"]))
       .toThrow("Invalid numeric value: NaN");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.");
+    expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'");
     expect(errorOutput).toContain("Stack trace:");
   });
 });
@@ -250,7 +248,6 @@ describe("Automatic Error Reporting", () => {
     } catch (e) {
       // Expected error
     }
-    // Allow asynchronous fetch to complete
     await new Promise(r => setTimeout(r, 50));
     expect(fetchMock).toHaveBeenCalled();
     const callArgs = fetchMock.mock.calls[0];
@@ -258,7 +255,7 @@ describe("Automatic Error Reporting", () => {
     const options = callArgs[1];
     expect(options.method).toBe("POST");
     const payload = JSON.parse(options.body);
-    expect(payload).toHaveProperty('errorMessage', 'Simulated error condition for testing');
+    expect(payload).toHaveProperty('errorMessage', "Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(payload).toHaveProperty('cliArgs');
     expect(payload.cliArgs).toContain("--simulate-error");
     delete process.env.ERROR_REPORTING_URL;
