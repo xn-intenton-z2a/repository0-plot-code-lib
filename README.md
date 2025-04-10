@@ -10,17 +10,22 @@ You can use the library either as a JavaScript module or via the CLI. The CLI ou
 
 ### As a JS Library
 
-Import the main function and pass arguments as an array:
+Import the main function and pass arguments as an array. Note that in the event of errors, the function will throw exceptions rather than exiting the process. This allows the consuming code to handle errors as needed.
 
 ```js
 import { main } from '@src/lib/main.js';
 
-main(['arg1', 'arg2']);
+try {
+  main(['arg1', 'arg2']);
+} catch (error) {
+  // Handle error accordingly
+  console.error('An error occurred:', error);
+}
 ```
 
 ### Command Line Interface (CLI)
 
-Run the CLI directly:
+Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main function and exits the process, ensuring proper CLI behavior.
 
 ```bash
 repository0-plot-code-lib arg1 arg2
@@ -51,7 +56,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The validatio
   Stack trace: <full stack trace here>
   ```
 
-During testing (when NODE_ENV is set to "test"), the CLI throws an error with the message:
+During testing (when NODE_ENV is set to "test"), the CLI will throw an error with the message:
 
 ```bash
 Invalid numeric value: abc
@@ -101,7 +106,7 @@ When an error is encountered (for example, using the `--simulate-error` flag), t
 
 ### Advanced Error Handling
 
-The CLI includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:
+The CLI includes robust error handling with configurable logging levels. By default, errors are thrown as exceptions, allowing consuming code or the dedicated CLI wrapper to decide on process termination. To enable detailed logging (which includes a full stack trace and additional context), you can either:
 
 - Use the command line flag: `--verbose`
 - Set the environment variable: `LOG_LEVEL=debug`
@@ -117,8 +122,6 @@ or
 ```bash
 LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 ```
-
-Note: The error logging now utilizes the actual error object's stack trace for more accurate debugging information when an Error is passed to the logger.
 
 ### Global Configuration File Support
 
