@@ -1,36 +1,41 @@
-# SYSTEM_MONITORING Feature Specification
+# SYSTEM_MONITORING Feature Specification (Enhanced with Unified Error Handling)
 
 ## Overview
-The SYSTEM_MONITORING feature consolidates our system health diagnostics and logging capabilities into a single, unified monitoring module. By merging the functionalities of the previous DIAGNOSTICS and LOGGING features, this update delivers comprehensive runtime insights including performance metrics, health checks, and robust log management with rotation. This alignment not only streamlines our CLI but also reinforces our mission of being the go-to plot library for formula visualisations.
+This feature consolidates our system health diagnostics, performance monitoring, and now unified error handling into a single, cohesive module. The updated SYSTEM_MONITORING provides comprehensive runtime insights including performance metrics, health checks, and centralized error management. This enhancement reinforces our mission to be the go-to plot library by ensuring that both planned operations and unexpected failures are logged and diagnosed in a consistent manner across CLI, HTTP API, and internal library usage.
 
 ## Implementation Details
 ### Unified CLI Flag Integration
-- Introduce a unified flag (e.g., `--monitor`) in the main CLI (`src/lib/main.js`) to trigger the system monitoring routine.
-- Ensure that using the flag does not interfere with standard execution modes (plotting, API, etc.).
+- Introduce a unified flag (e.g., `--monitor`) in the main CLI (`src/lib/main.js`) to trigger the monitoring routine.
+- The routine now also traps and logs unhandled errors during execution, without interfering with core plotting or API functionalities.
 
 ### Health Checks & Performance Metrics
 - **Environment Diagnostics:** Automatically retrieve key environment details (Node version, dependency versions, etc.).
-- **Component Validation:** Evaluate critical components (PLOT_ENGINE, HTTP_API) by running test expressions and endpoint self-checks.
-- **Performance Timers:** Utilize high-resolution timers (e.g., `process.hrtime`) to measure execution time and track resource usage (CPU, memory).
+- **Component Validation:** Evaluate critical components (PLOT_ENGINE, HTTP_API) by running self-checks and sample expressions or endpoint calls.
+- **Performance Timers:** Use high-resolution timers to measure execution time and track resource usage such as CPU and memory.
 - **Automated Recommendations:** Analyze collected metrics to detect misconfigurations or performance bottlenecks and provide actionable guidance.
 
-### Configurable Logging with Rotation
-- **Runtime Logging:** Support logging through a unified API (`logEvent(level, message, options?)`) that can output in plain text or JSON format (activated via `--json-log`).
-- **Log Rotation:** Monitor log file sizes (using `LOG_MAX_SIZE`) and automatically archive logs (by renaming with timestamps) when thresholds are exceeded.
-- **Error Handling:** Ensure that file I/O errors during logging or rotation are managed gracefully without interrupting system monitoring.
+### Unified Error Handling
+- **Centralized Error Capture:** Integrate a centralized error handling mechanism that intercepts errors in both synchronous and asynchronous operations. 
+- **HTTP API Middleware:** Implement error-handling middleware for the Express server to log errors, return clear HTTP status codes, and include diagnostic details when appropriate.
+- **CLI Integration:** Wrap CLI command dispatch with try/catch blocks to capture unexpected errors, log them using the unified logging API, and output helpful messages.
+- **Consistent Messaging:** Standardize error messages across CLI and HTTP endpoints, using descriptive messages and incorporating stack traces in debug mode.
 
-### Output and Reporting
-- **Consolidated Report:** Generate a detailed report that combines diagnostic health checks, performance metrics, and recent log entries.
-- **Documentation Updates:** Revise README.md and CONTRIBUTING.md to include usage examples for the `--monitor` flag and instructions on configuring log rotation and log formats.
+### Configurable Logging with Rotation
+- **Runtime Logging:** Support logging through a unified API (`logEvent(level, message, options?)`) that outputs in plain text or JSON format (activated via `--json-log`).
+- **Log Rotation:** Monitor log file sizes and automatically archive logs with timestamped filenames when size thresholds are exceeded.
+- **Seamless Integration:** Ensure that error events and performance metrics are captured under the same logging strategy, facilitating unified monitoring.
 
 ## Testing and Documentation
-- Develop unit and integration tests that simulate the `--monitor` flag, verifying the accuracy and formatting of both diagnostic data and log rotation behavior.
-- Update auto-completion scripts and CLI help output to reflect the new unified monitoring flag.
+- **Unit and Integration Tests:** Develop tests that simulate error scenarios to ensure that the error handling mechanism correctly captures and logs exceptions. Also, validate that the monitoring flag outputs consolidated diagnostics, including health checks, performance metrics, and logged errors.
+- **Documentation Updates:** Update README.md and CONTRIBUTING.md with examples of how to use the `--monitor` flag, interpret diagnostic reports, and configure log rotation and error logging.
 
 ## Usage Examples
-- **Unified System Monitoring:**
+- **Standard System Monitoring:**
   - Command: `node src/lib/main.js --monitor`
-  - Expected Output: A consolidated report including environment diagnostics, performance metrics, and recent log events.
-- **JSON Log Formatting with Rotation:**
+  - Expected Output: A consolidated report including environment diagnostics, performance metrics, and any errors captured during execution.
+- **JSON Log Output and Error Reporting:**
   - Command: `node src/lib/main.js --monitor --json-log`
-  - Expected Behavior: Log entries are output in JSON format and log rotation is triggered when the file size exceeds the specified limit.
+  - Expected Behavior: Log entries output in JSON format with detailed error information, and automatic log rotation triggered on size thresholds.
+
+## Summary
+By enhancing SYSTEM_MONITORING with unified error handling, the repository now offers a robust diagnostics module that ensures reliability and ease-of-debugging across both local and remote operations. This update strengthens our platform's resilience and aligns with our mission to be the go-to plotting library for formula visualisations.
