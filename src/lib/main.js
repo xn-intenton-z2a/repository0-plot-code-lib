@@ -5,6 +5,15 @@ import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
+import { z } from "zod";  // imported zod for schema validation
+
+// Define global configuration schema using zod
+const globalConfigSchema = z.object({
+  CLI_COLOR_SCHEME: z.string().optional(),
+  LOG_LEVEL: z.string().optional(),
+  ERROR_REPORTING_URL: z.string().url().optional(),
+  defaultArgs: z.array(z.string()).optional()
+});
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
 function applyChalkChain(chain, chalkInstance = chalk) {
@@ -104,7 +113,7 @@ function getThemeColors() {
   }
 }
 
-// Function to get global configuration from .repository0plotconfig.json
+// Function to get global configuration from .repository0plotconfig.json with schema validation
 function getGlobalConfig() {
   const configPaths = [];
   const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -113,19 +122,25 @@ function getGlobalConfig() {
   if (homeDir) {
     configPaths.push(path.join(homeDir, ".repository0plotconfig.json"));
   }
-  let globalConfig = {};
+  let mergedConfig = {};
   for (const configPath of configPaths) {
     if (existsSync(configPath)) {
       try {
         const content = readFileSync(configPath, "utf-8");
         const json = JSON.parse(content);
-        globalConfig = { ...globalConfig, ...json };
+        mergedConfig = { ...mergedConfig, ...json };
       } catch (err) {
         console.error(chalk.red(`Global config error [${configPath}]: ${err.message}. Ignoring this config.`));
       }
     }
   }
-  return globalConfig;
+  // Validate merged configuration using zod schema
+  const result = globalConfigSchema.safeParse(mergedConfig);
+  if (!result.success) {
+    console.error(chalk.red(`Global config validation error: ${result.error}. Using default configuration.`));
+    return {};
+  }
+  return result.data;
 }
 
 /**

@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -223,6 +223,36 @@ describe("Global Configuration Support", () => {
     const logOutput = captureConsole('log', () => { main(["cliArg1"]); });
     expect(logOutput).toContain("cliArg1");
     expect(logOutput).not.toContain("globalArg1");
+  });
+});
+
+
+describe("Global Configuration Schema Validation", () => {
+  const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
+
+  afterEach(() => {
+    if (fs.existsSync(globalConfigPath)) {
+      fs.unlinkSync(globalConfigPath);
+    }
+  });
+
+  test("should log error and fallback when global config JSON is malformed", () => {
+    fs.writeFileSync(globalConfigPath, '{ malformed json');
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    main([]);
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Global config error");
+  });
+
+  test("should log error and fallback when global config does not adhere to schema", () => {
+    // defaultArgs should be an array, but providing a string to trigger schema error
+    fs.writeFileSync(globalConfigPath, JSON.stringify({ defaultArgs: "not-an-array" }));
+    let errorOutput = "";
+    console.error = (msg) => { errorOutput += msg + "\n"; };
+    main([]);
+    console.error = originalConsoleError;
+    expect(errorOutput).toContain("Global config validation error");
   });
 });
 
