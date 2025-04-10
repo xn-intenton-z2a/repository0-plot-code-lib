@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Refactored NaN conversion logic for consistent CLI behavior and streamlined debug logging. (fixes #1213)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 10,
+  "diffMinutes": 0,
+  "diffMinutesMain": 11,
   "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-10T19:24:40.723Z"
+  "generatedAt": "2025-04-10T19:25:23.217Z"
 }
