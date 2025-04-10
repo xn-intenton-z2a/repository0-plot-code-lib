@@ -4,9 +4,10 @@
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
 
-// Inlined logError function to remove external dependency
+// Enhanced logError function to concatenate messages for accurate logging
 function logError(chalkError, ...args) {
-  console.error(chalkError("Error:"), ...args, "\nStack trace:", new Error().stack);
+  const message = [chalkError("Error:"), ...args, "\nStack trace:", new Error().stack].join(' ');
+  console.error(message);
 }
 
 /**
