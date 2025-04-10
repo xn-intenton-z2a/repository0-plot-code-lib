@@ -49,7 +49,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The validatio
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
 ```
 
-- In verbose mode (using the `--verbose` flag or setting `LOG_LEVEL=debug`), the error is logged along with a full stack trace:
+- In verbose mode (using the `--verbose` flag), the error is logged along with a full stack trace:
 
 ```bash
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.

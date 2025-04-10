@@ -58,9 +58,9 @@ describe("Error Handling", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     expect(() => main(["--simulate-error"]))
-      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+      .toThrow("Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Error: Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+    expect(errorOutput).toContain("Error: Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
     expect(errorOutput).not.toContain("Stack trace:");
     expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
@@ -69,14 +69,15 @@ describe("Error Handling", () => {
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
     expect(() => main(["--simulate-error", "--verbose"]))
-      .toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+      .toThrow("Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Error in main function execution:");
     expect(errorOutput).toContain("Stack trace:");
-    expect(errorOutput).toContain("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+    expect(errorOutput).toContain("Simulated error condition for testing. Please provide a valid number such as \"--number=42\"");
     expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 });
+
 
 describe("Color Theme Configuration", () => {
   test("should apply dark theme when CLI_COLOR_SCHEME is set to dark", () => {
@@ -87,6 +88,7 @@ describe("Color Theme Configuration", () => {
     process.env.CLI_COLOR_SCHEME = originalEnv;
   });
 });
+
 
 describe("Custom Color Theme Configuration", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
@@ -111,6 +113,7 @@ describe("Custom Color Theme Configuration", () => {
   });
 });
 
+
 describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -130,6 +133,7 @@ describe("Invalid Custom Theme Configuration - Invalid JSON", () => {
   });
 });
 
+
 describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
   const configPath = path.join(process.cwd(), "cli-theme.json");
   beforeAll(() => {
@@ -148,6 +152,7 @@ describe("Invalid Custom Theme Configuration - Invalid Schema", () => {
     expect(errorOutput).toContain("Using fallback theme");
   });
 });
+
 
 describe("Numeric Argument Validation", () => {
   test("should throw error for invalid numeric input in non-verbose mode", () => {
@@ -191,6 +196,7 @@ describe("Numeric Argument Validation", () => {
   });
 });
 
+
 describe("Global Configuration Support", () => {
   const globalConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
   const globalConfig = {
@@ -219,6 +225,7 @@ describe("Global Configuration Support", () => {
     expect(logOutput).not.toContain("globalArg1");
   });
 });
+
 
 describe("Automatic Error Reporting", () => {
   let originalFetch;

@@ -147,8 +147,8 @@ export function main(args) {
   const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
 
   const themeColors = getThemeColors();
-  // Determine verbose mode via command line flag or environment variable
-  const verboseMode = (args && args.includes("--verbose")) || process.env.LOG_LEVEL === "debug";
+  // Determine verbose mode via command line flag only
+  const verboseMode = args && args.includes("--verbose");
 
   // If no args provided but global config has defaultArgs, use them
   if ((!args || args.length === 0) && globalConfig.defaultArgs && Array.isArray(globalConfig.defaultArgs) && globalConfig.defaultArgs.length > 0) {
@@ -182,7 +182,7 @@ export function main(args) {
   try {
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
     if (args && args.includes("--simulate-error")) {
-      throw new Error("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+      throw new Error('Simulated error condition for testing. Please provide a valid number such as "--number=42"');
     }
 
     console.log(themeColors.info("Run with: ") + themeColors.run(JSON.stringify(args)));
