@@ -62,7 +62,7 @@ describe("Error Handling", () => {
     console.error = originalConsoleError;
     expect(errorOutput).toContain("Error: Simulated error condition for testing");
     expect(errorOutput).not.toContain("Stack trace:");
-    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'"); // Suggestion check added for consistency if numeric error occurred
+    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 
   test("should log detailed error in verbose mode", () => {
@@ -248,7 +248,7 @@ describe("Automatic Error Reporting", () => {
     const options = callArgs[1];
     expect(options.method).toBe("POST");
     const payload = JSON.parse(options.body);
-    expect(payload).toHaveProperty('errorMessage', 'Simulated error condition for testing');
+    expect(payload).toHaveProperty('errorMessage', 'Simulated error condition for testing. Please provide a valid number such as "--number=42"');
     expect(payload).toHaveProperty('cliArgs');
     expect(payload.cliArgs).toContain("--simulate-error");
     delete process.env.ERROR_REPORTING_URL;
