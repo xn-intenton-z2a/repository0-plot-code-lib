@@ -3,17 +3,51 @@
 
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
+import { existsSync, readFileSync } from "fs";
+import path from "path";
+
+// Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
+function applyChalkChain(chain, chalkInstance = chalk) {
+  if (typeof chain !== "string" || chain.trim() === "") {
+    return chalkInstance;
+  }
+  const chainParts = chain.split(".");
+  let chained = chalkInstance;
+  chainParts.forEach((part) => {
+    if (typeof chained[part] === 'function') {
+      chained = chained[part];
+    }
+  });
+  return chained;
+}
 
 // Enhanced logError function to concatenate messages for accurate logging
 function logError(chalkError, ...args) {
-  const message = [chalkError("Error:"), ...args, "\nStack trace:", new Error().stack].join(' ');
+  const message = [chalkError("Error:"), ...args, "\nStack trace:", new Error().stack].join(" ");
   console.error(message);
 }
 
 /**
- * Returns the current CLI theme color functions based on the CLI_COLOR_SCHEME environment variable.
+ * Returns the current CLI theme color functions based on a custom configuration file or the CLI_COLOR_SCHEME environment variable.
  */
 function getThemeColors() {
+  const customConfigPath = path.join(process.cwd(), "cli-theme.json");
+  if (existsSync(customConfigPath)) {
+    try {
+      const configContent = readFileSync(customConfigPath, "utf-8");
+      const config = JSON.parse(configContent);
+      // Use a forced chalk instance with ANSI level 3 for custom themes
+      const customChalk = new Chalk({ level: 3 });
+      return {
+        error: applyChalkChain(config.error, customChalk),
+        usage: applyChalkChain(config.usage, customChalk),
+        info: applyChalkChain(config.info, customChalk),
+        run: applyChalkChain(config.run, customChalk)
+      };
+    } catch (e) {
+      console.error(chalk.red("Failed to parse custom CLI theme configuration. Using fallback theme."));
+    }
+  }
   const theme = process.env.CLI_COLOR_SCHEME || "default";
   switch (theme) {
     case "dark": {
@@ -49,7 +83,7 @@ function getThemeColors() {
  */
 export function main(args) {
   const themeColors = getThemeColors();
-  // Determine verbose mode either via command line flag or environment variable
+  // Determine verbose mode via command line flag or environment variable
   const verboseMode = (args && args.includes("--verbose")) || process.env.LOG_LEVEL === "debug";
 
   try {
