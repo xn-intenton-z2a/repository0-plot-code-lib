@@ -38,7 +38,7 @@ main(['arg1', 'arg2']);
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib arg1 arg2
 </code></pre>
 <p class="md-github">If no arguments are provided, the CLI will display a colored usage message:</p>
-<pre class="md-github"><code class="md-github">(No arguments provided message in yellow)
+<pre class="md-github"><code class="md-github">(No arguments provided message in colored output)
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="advanced-error-handling" href="#advanced-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Error Handling</h2>
@@ -53,14 +53,23 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">or</p>
 <pre class="md-github"><code class="md-github language-bash">LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 </code></pre>
-<p class="md-github">This detailed logging is especially useful for troubleshooting and debugging. In non-verbose mode, only a succinct error message is displayed.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="configurable-color-themes" href="#configurable-color-themes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configurable Color Themes</h2>
+<p class="md-github">You can customize the CLI output color theme by setting the environment variable <code class="md-github">CLI_COLOR_SCHEME</code>. The available themes are:</p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">default</strong>: Uses standard colors (red for errors, yellow for usage, green for info, and cyan for run messages).</li>
+<li class="md-github"><strong class="md-github">dark</strong>: Uses bold colors (bold red for errors, bold blue for usage, bold green for info, and bold cyan for run messages).</li>
+<li class="md-github"><strong class="md-github">light</strong>: Uses alternative colors (red for errors, magenta for usage, blue for info, and yellow for run messages).</li>
+</ul>
+<p class="md-github">For example, to run the CLI with the dark theme:</p>
+<pre class="md-github"><code class="md-github language-bash">CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
+</code></pre>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T13:48:33.277Z</p>
+    <p>Generated on 2025-04-10T13:54:47.163Z</p>
   </footer>
 </body>
 </html>
