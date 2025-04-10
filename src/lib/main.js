@@ -24,13 +24,13 @@ export function main(args) {
     if (args && args.includes("--simulate-error")) {
       throw new Error("Simulated error condition for testing");
     }
-    
+
     // If no arguments are provided, display usage message instead of abrupt exit
     if (!args || args.length === 0) {
       console.log("No arguments provided. Please provide valid arguments.\nUsage: repository0-plot-code-lib <arguments>");
       return;
     }
-    
+
     console.log(`Run with: ${JSON.stringify(args)}`);
   } catch (error) {
     logError("Error in main function execution:", error);
@@ -43,15 +43,8 @@ export function main(args) {
   }
 }
 
-// If the script is executed directly from the CLI, wrap execution in a try-catch block
+// If the script is executed directly from the CLI, invoke main with command line arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  try {
-    const args = process.argv.slice(2);
-    main(args);
-  } catch (error) {
-    console.error("Unhandled error in CLI execution:");
-    console.error(`Error message: ${error.message}`);
-    console.error(`Stack trace: ${error.stack}`);
-    process.exit(1);
-  }
+  const args = process.argv.slice(2);
+  main(args);
 }
