@@ -54,6 +54,12 @@ If an invalid numeric value is provided, the CLI outputs a standardized error me
 Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number. Please provide a valid number such as '--number=42'.
 ```
 
+Note: The literal 'NaN' is explicitly rejected because it does not represent any valid number. For example:
+
+```bash
+Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.
+```
+
 In verbose mode (using the `--verbose` flag), the error is logged along with a full stack trace:
 
 ```bash

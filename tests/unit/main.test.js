@@ -194,10 +194,7 @@ describe("Numeric Argument Validation", () => {
     expect(errorOutput).toContain("Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number. Please provide a valid number such as '--number=42'.");
     expect(errorOutput).toContain("Stack trace:");
   });
-});
 
-
-describe("Extended Numeric Formats", () => {
   test("should accept scientific notation", () => {
     const logOutput = captureConsole('log', () => { main(["--number=1e3", "arg"]); });
     expect(logOutput).toContain("arg");
