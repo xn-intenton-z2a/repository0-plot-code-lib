@@ -259,23 +259,21 @@ export async function main(args) {
     return;
   }
 
-  // Consolidated numeric argument validation using validateNumericArg
-  const numberFlagPrefix = "--number=";
-  for (const arg of args) {
-    if (arg.startsWith(numberFlagPrefix)) {
-      const numStr = arg.slice(numberFlagPrefix.length);
-      // This may throw an error which will be caught in the main catch block
-      validateNumericArg(numStr, verboseMode, themeColors);
-    }
-  }
-
   try {
+    // Consolidated numeric argument validation using validateNumericArg
+    const numberFlagPrefix = "--number=";
+    for (const arg of args) {
+      if (arg.startsWith(numberFlagPrefix)) {
+        const numStr = arg.slice(numberFlagPrefix.length);
+        validateNumericArg(numStr, verboseMode, themeColors);
+      }
+    }
+
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
     if (args && args.includes("--simulate-error")) {
       throw new Error("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     }
 
-    // Use usage for the prefix styling instead of info to meet theme expectations
     console.log(themeColors.usage("Run with: ") + themeColors.run(JSON.stringify(args)));
   } catch (error) {
     if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {

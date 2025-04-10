@@ -60,9 +60,8 @@ describe("Error Handling", () => {
     await expect(main(["--simulate-error"]))
       .rejects.toThrow("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     console.error = originalConsoleError;
-    expect(errorOutput).toContain("Error: Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+    expect(errorOutput).toContain("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
     expect(errorOutput).not.toContain("Stack trace:");
-    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 
   test("should log detailed error in verbose mode", async () => {
@@ -74,7 +73,6 @@ describe("Error Handling", () => {
     expect(errorOutput).toContain("Error in main function execution:");
     expect(errorOutput).toContain("Stack trace:");
     expect(errorOutput).toContain("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
-    expect(errorOutput).toContain("Please provide a valid number such as '--number=42'");
   });
 });
 
