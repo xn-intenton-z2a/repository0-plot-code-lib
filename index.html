@@ -42,17 +42,31 @@ main(['arg1', 'arg2']);
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="numeric-argument-validation" href="#numeric-argument-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Numeric Argument Validation</h3>
-<p class="md-github">The CLI supports numeric validation via the <code class="md-github">--number=VALUE</code> flag. If the provided VALUE cannot be converted to a valid number, the CLI will display a clear error message using the configured error theme and exit gracefully. For example:</p>
+<p class="md-github">The CLI supports numeric validation via the <code class="md-github">--number=VALUE</code> flag. If the provided VALUE cannot be converted to a valid number (for example, if you pass a non-numeric string such as &quot;abc&quot; or &quot;NaN&quot;), the CLI will:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">In non-verbose mode: display an error message like:</p>
+<pre class="md-github"><code class="md-github">Error: Invalid numeric value for argument '--number=NaN': 'NaN' is not a valid number.
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github">In verbose mode (using the <code class="md-github">--verbose</code> flag or setting <code class="md-github">LOG_LEVEL=debug</code>): display additional debugging information including a full stack trace.</p>
+</li>
+</ul>
+<p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
 <p class="md-github">If an invalid numeric value is provided:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=abc
 </code></pre>
+<p class="md-github">or</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
+</code></pre>
 <p class="md-github">The CLI will output an error like:</p>
 <pre class="md-github"><code class="md-github">Error: Invalid numeric value for argument '--number=abc': 'abc' is not a valid number.
 </code></pre>
-<p class="md-github">In verbose mode, additional debugging information including a full stack trace is provided.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="advanced-error-handling" href="#advanced-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Error Handling</h2>
+<p class="md-github">in non-verbose mode, and in verbose mode, additional details including the stack trace will be included.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="advanced-error-handling" href="#advanced-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Error Handling</h3>
 <p class="md-github">The CLI includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes a full stack trace and additional context), you can either:</p>
 <ul class="md-github">
 <li class="md-github">Use the command line flag: <code class="md-github">--verbose</code></li>
@@ -65,7 +79,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <pre class="md-github"><code class="md-github language-bash">LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 </code></pre>
 <p class="md-github">Note: The error logging now utilizes the actual error object's stack trace for more accurate debugging information when an Error is passed to the logger.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="configurable-color-themes" href="#configurable-color-themes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configurable Color Themes</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="configurable-color-themes" href="#configurable-color-themes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configurable Color Themes</h3>
 <p class="md-github">You can customize the CLI output color theme by setting the environment variable <code class="md-github">CLI_COLOR_SCHEME</code>. The available themes are:</p>
 <ul class="md-github">
 <li class="md-github"><strong class="md-github">default</strong>: Uses standard colors (red for errors, yellow for usage, green for info, and cyan for run messages).</li>
@@ -75,7 +89,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">For example, to run the CLI with the dark theme:</p>
 <pre class="md-github"><code class="md-github language-bash">CLI_COLOR_SCHEME=dark repository0-plot-code-lib arg1 arg2
 </code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="custom-color-theme-configuration" href="#custom-color-theme-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Color Theme Configuration</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="custom-color-theme-configuration" href="#custom-color-theme-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Color Theme Configuration</h3>
 <p class="md-github">In addition to using preset themes via the <code class="md-github">CLI_COLOR_SCHEME</code> environment variable, you can override the default theme by providing a custom configuration file named <code class="md-github">cli-theme.json</code> in the working directory. This JSON file should define the theme colors for the following keys: <code class="md-github">error</code>, <code class="md-github">usage</code>, <code class="md-github">info</code>, and <code class="md-github">run</code>. The values should be dot-separated strings representing chalk methods.</p>
 <p class="md-github">For example, a custom configuration file could look like this:</p>
 <pre class="md-github"><code class="md-github language-json">{
@@ -92,7 +106,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T15:36:03.541Z</p>
+    <p>Generated on 2025-04-10T15:43:43.451Z</p>
   </footer>
 </body>
 </html>
