@@ -42,17 +42,25 @@ main(['arg1', 'arg2']);
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <h2 class="md-github"><a class="md-github__anchor" name="advanced-error-handling" href="#advanced-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Error Handling</h2>
-<p class="md-github">The CLI now includes robust error handling with colored output. If an unexpected error occurs during execution, a detailed error message along with a stack trace will be logged in red. For testing or diagnostic purposes, you can trigger a simulated error using the <code class="md-github">--simulate-error</code> flag:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --simulate-error
+<p class="md-github">The CLI now includes robust error handling with configurable logging levels. By default, errors are logged concisely, showing only the error message. To enable detailed logging (which includes the full stack trace), you can either:</p>
+<ul class="md-github">
+<li class="md-github">Use the command line flag: <code class="md-github">--verbose</code></li>
+<li class="md-github">Set the environment variable: <code class="md-github">LOG_LEVEL=debug</code></li>
+</ul>
+<p class="md-github">For example:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --simulate-error --verbose
 </code></pre>
-<p class="md-github">This feature is designed to assist both users and developers in troubleshooting issues effectively.</p>
+<p class="md-github">or</p>
+<pre class="md-github"><code class="md-github language-bash">LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
+</code></pre>
+<p class="md-github">This detailed logging is especially useful for troubleshooting and debugging. In non-verbose mode, only a succinct error message is displayed.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-10T13:30:15.647Z</p>
+    <p>Generated on 2025-04-10T13:41:39.648Z</p>
   </footer>
 </body>
 </html>
