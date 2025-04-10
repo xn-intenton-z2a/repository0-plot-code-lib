@@ -72,7 +72,7 @@ or
 LOG_LEVEL=debug repository0-plot-code-lib --simulate-error
 ```
 
-Note: Error logging is handled inline within the main module to simplify dependencies.
+Note: The error logging now utilizes the actual error object's stack trace for more accurate debugging information when an Error is passed to the logger.
 
 ## Configurable Color Themes
 
