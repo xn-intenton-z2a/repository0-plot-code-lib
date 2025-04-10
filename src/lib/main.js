@@ -10,8 +10,8 @@ import { fileURLToPath } from "url";
  */
 function logError(message, error) {
   console.error(message);
-  console.error("Error message:", error.message);
-  console.error("Stack trace:", error.stack);
+  console.error(`Error message: ${error.message}`);
+  console.error(`Stack trace: ${error.stack}`);
 }
 
 /**
@@ -50,7 +50,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     main(args);
   } catch (error) {
     console.error("Unhandled error in CLI execution:");
-    console.error(error.stack);
+    console.error(`Error message: ${error.message}`);
+    console.error(`Stack trace: ${error.stack}`);
     process.exit(1);
   }
 }
