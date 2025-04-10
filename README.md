@@ -123,6 +123,8 @@ The CLI will look for a global configuration file named `.repository0plotconfig.
 
 If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings, ensuring robust and predictable behavior.
 
+Additionally, you can use the new `--show-config` flag to display the effective global configuration being applied by the CLI. This outputs a formatted JSON showing the merged configuration from config files and environment variables.
+
 #### Example `.repository0plotconfig.json` file:
 
 ```json

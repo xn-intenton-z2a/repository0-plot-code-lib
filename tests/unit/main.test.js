@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeAll, afterAll, afterEach, vi } from "vitest";
+import { describe, test, expect, beforeAll, afterAll, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 import path from "path";
@@ -313,5 +313,27 @@ describe("Automatic Error Reporting", () => {
       // Expected error
     }
     expect(fetchSpy).not.toHaveBeenCalled();
+  });
+});
+
+describe("--show-config Option", () => {
+  test("should output effective global configuration as formatted JSON and not process further arguments", () => {
+    const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+    const globalConfigJson = {
+      CLI_COLOR_SCHEME: "light",
+      LOG_LEVEL: "debug",
+      ERROR_REPORTING_URL: "http://example.com/report",
+      defaultArgs: ["default1"]
+    };
+    fs.writeFileSync(configPath, JSON.stringify(globalConfigJson));
+    // Override one environment variable to test merging
+    process.env.CLI_COLOR_SCHEME = "dark";
+    const output = captureConsole('log', () => { main(["--show-config", "another-arg"]); });
+    let parsedOutput;
+    expect(() => { parsedOutput = JSON.parse(output); }).not.toThrow();
+    expect(parsedOutput.CLI_COLOR_SCHEME).toBe("dark");
+    expect(parsedOutput.LOG_LEVEL).toBe("debug");
+    fs.unlinkSync(configPath);
+    delete process.env.CLI_COLOR_SCHEME;
   });
 });
