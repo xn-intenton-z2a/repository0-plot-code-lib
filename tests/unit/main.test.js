@@ -259,7 +259,6 @@ describe("Global Configuration Schema Validation", () => {
   });
 
   test("should log error and fallback when global config does not adhere to schema", () => {
-    // defaultArgs should be an array, but providing a string to trigger schema error
     fs.writeFileSync(globalConfigPath, JSON.stringify({ defaultArgs: "not-an-array" }));
     let errorOutput = "";
     console.error = (msg) => { errorOutput += msg + "\n"; };
@@ -326,7 +325,6 @@ describe("--show-config Option", () => {
       defaultArgs: ["default1"]
     };
     fs.writeFileSync(configPath, JSON.stringify(globalConfigJson));
-    // Override one environment variable to test merging
     process.env.CLI_COLOR_SCHEME = "dark";
     const output = captureConsole('log', () => { main(["--show-config", "another-arg"]); });
     let parsedOutput;
