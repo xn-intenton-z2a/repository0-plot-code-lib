@@ -5,8 +5,13 @@
   "openIssues": 100,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Fixed NaN variant detection to handle signed NaN variants correctly in both fallback and strict modes. (fixes #1887)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 0,
   "diffMinutesMain": 17,
   "commitsLastHour": 5,
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1887",
-        "minutesSinceLastCommit": 0
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T20:08:36.247Z"
+  "generatedAt": "2025-04-11T20:09:05.252Z"
 }
