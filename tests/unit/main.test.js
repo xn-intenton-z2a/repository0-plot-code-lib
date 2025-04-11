@@ -573,8 +573,6 @@ describe("CLI Flag to Suppress NaN Fallback Warnings", () => {
   });
 });
 
-// New Test Suite for Reset Warning Cache Between Batches
-
 describe("Reset Warning Cache Between Batches", () => {
   test("warnings are re-logged after cache reset", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
@@ -592,8 +590,6 @@ describe("Reset Warning Cache Between Batches", () => {
     warnSpy.mockRestore();
   });
 });
-
-// New Tests for Locale-Aware Numeric Output Formatting
 
 describe("Locale-Aware Numeric Output Formatting", () => {
   test("formats number correctly for en-US locale", () => {
