@@ -67,7 +67,7 @@ function logError(chalkError, ...args) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case) are processed uniformly. When the input (after trimming) matches 'nan' in any casing, it is handled by either accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input.
+// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case) are processed uniformly. When the input (after trimming) matches 'nan' in any casing, it is handled by either accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input along with guidance on acceptable formats.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   const lowerTrimmed = trimmedInput.toLowerCase();
@@ -78,7 +78,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}' provided. Acceptable formats include standard numbers (e.g., 42), scientific notation (e.g., 1e3), and numbers with underscores/comma separators (e.g., 1_000, 1,000). Provide a valid number or use '--fallback-number'. Original input (normalized: '${normalized}').`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -89,7 +89,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}' provided. Acceptable formats include standard numbers (e.g., 42), scientific notation (e.g., 1e3), and numbers with underscores/comma separators (e.g., 1_000, 1,000). Provide a valid number or use '--fallback-number'. Original input (normalized: '${normalized}').`);
     err.originalInput = trimmedInput;
     throw err;
   }
