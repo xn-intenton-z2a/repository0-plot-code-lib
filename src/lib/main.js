@@ -95,7 +95,7 @@ function normalizeNumberString(numStr) {
 /**
  * Consolidated validation function for numeric CLI arguments.
  * This function uses a robust approach to validate number format, including support for scientific notation,
- * locale-aware thousand separators, and a fallback mechanism if provided.
+ * locale-aware thousand separators, and a fallback mechanism if provided. It also provides enhanced error context.
  * @param {string} numStr - The numeric string from CLI argument.
  * @param {boolean} verboseMode - Flag indicating verbose mode.
  * @param {object} themeColors - Theme color functions for logging.
@@ -110,29 +110,32 @@ function validateNumericArg(numStr, verboseMode, themeColors, fallbackValue) {
   }
   // Check if input equals 'NaN' (case-insensitive)
   if (/^nan$/i.test(trimmed)) {
+    const normalized = normalizeNumberString(trimmed);
+    const contextDetails = `Original input: ${numStr}, Normalized input: ${normalized}, Fallback: ${fallbackValue || "none"}`;
     if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.log(themeColors.info(`Invalid numeric input '${trimmed}' for '--number'. Applying fallback value: ${fallbackValue}.`));
+      console.log(themeColors.info(`Invalid numeric input '${trimmed}' for '--number'. ${contextDetails}. Applying fallback value: ${fallbackValue}.`));
       const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
       if (Number.isNaN(fallbackParsed)) {
-        throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
+        throw new Error(`Fallback value '${fallbackValue}' is not a valid number. ${contextDetails}`);
       }
       return fallbackParsed;
     }
-    throw new Error("Invalid numeric input 'NaN' for '--number'. Please provide a valid number (e.g., '--number=42').");
+    throw new Error(`Invalid numeric input '${trimmed}'. ${contextDetails}. Please provide a valid number (e.g., '--number=42').`);
   }
 
   const normalized = normalizeNumberString(trimmed);
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
+    const contextDetails = `Original input: ${numStr}, Normalized input: ${normalized}, Fallback: ${fallbackValue || "none"}`;
     if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.log(themeColors.info(`Invalid numeric input '${trimmed}' for '--number'. Applying fallback value: ${fallbackValue}.`));
+      console.log(themeColors.info(`Invalid numeric input '${trimmed}' for '--number'. ${contextDetails}. Applying fallback value: ${fallbackValue}.`));
       const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
       if (Number.isNaN(fallbackParsed)) {
-        throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
+        throw new Error(`Fallback value '${fallbackValue}' is not a valid number. ${contextDetails}`);
       }
       return fallbackParsed;
     }
-    throw new Error(`Invalid numeric input '${trimmed}' for '--number'. Please provide a valid number (e.g., '--number=42').`);
+    throw new Error(`Invalid numeric input '${trimmed}'. ${contextDetails}. Please provide a valid number (e.g., '--number=42').`);
   }
   return parsed;
 }
