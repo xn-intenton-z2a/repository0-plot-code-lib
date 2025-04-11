@@ -74,7 +74,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Unified Fallback Mechanism, Case-Insensitive and Explicit NaN Handling:**
+**Unified Fallback Mechanism and Standardized NaN Handling:**
 
 The CLI's numeric input processing now handles any input matching 'NaN' (in any casing) uniformly. When an input matches 'NaN':
 
@@ -126,11 +126,11 @@ export PRESERVE_DECIMAL=true
 repository0-plot-code-lib --number=1,234.56
 ```
 
-When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`). Note: In CSV files with preserve-decimal enabled and using default comma delimiter, a regex-based parser is used for enhanced parsing.
+When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`).
 
 ### CSV Data Import
 
-The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. In addition, a new flag `--csv-delimiter=<delimiter>` allows you to specify a custom delimiter for parsing CSV data. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by the chosen delimiter and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators by default or preserved as decimal points when enabled).
+The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. Additionally, a new flag `--csv-delimiter=<delimiter>` allows you to specify a custom delimiter for parsing CSV data. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by the chosen delimiter and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators by default or preserved as decimal points when enabled).
 
 **Note:** Cells containing the literal `NaN` (in any capitalization) are handled consistently as described above.
 
