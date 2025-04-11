@@ -145,7 +145,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
     }
     return Number(fallbackNumber);
   }
-  let errorMsg = `Invalid numeric input '${originalInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
+  let errorMsg = `Invalid numeric input '${originalInput}' (Locale: ${config.LOCALE || "en-US"}). Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
     errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
   }
@@ -232,7 +232,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
 
   if (isNaNVariant(cleanedInput, additionalVariants)) {
     if (strict) {
-      let errorMsg = `Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`;
+      let errorMsg = `Strict mode: Invalid numeric input '${cleanedInput}' (Locale: ${config.LOCALE || "en-US"}). Normalized input: '${normalized}'.`;
       if (cleanedInput.startsWith('+') || cleanedInput.startsWith('-')) {
         errorMsg += " Signed NaN variants are not allowed in strict mode.";
       }
@@ -248,7 +248,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (strict) {
-      throw new Error(`Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`);
+      throw new Error(`Strict mode: Invalid numeric input '${cleanedInput}' (Locale: ${config.LOCALE || "en-US"}). Normalized input: '${normalized}'.`);
     }
     return fallbackHandler(cleanedInput, normalized, fallbackNumber, additionalVariants, config, logger);
   }

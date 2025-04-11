@@ -549,18 +549,14 @@ describe("Case Sensitive NaN Handling", () => {
   test("when CASE_SENSITIVE_NAN is true, 'NaN' is recognized but 'nan' is not", () => {
     fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true }));
     const themeColors = { info: msg => msg, error: msg => msg };
-    // 'NaN' should be treated as NaN variant and thus fallback applied when not allowed
     expect(validateNumericArg("NaN", false, themeColors, "100")).toBe(100);
-    // 'nan' should NOT be recognized as NaN variant (case sensitive), so Number('nan') returns NaN triggering fallback
     expect(validateNumericArg("nan", false, themeColors, "200")).toBe(200);
   });
 
   test("when CASE_SENSITIVE_NAN is true, custom variants respect case sensitivity", () => {
     fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true, additionalNaNValues: ["FooBar"] }));
     const themeColors = { info: msg => msg, error: msg => msg };
-    // 'FooBar' matches exactly, so recognized
     expect(validateNumericArg("FooBar", false, themeColors, "300")).toBe(300);
-    // 'foobar' does not match exactly, so fallback through Number('foobar') -> NaN
     expect(validateNumericArg("foobar", false, themeColors, "400")).toBe(400);
   });
 });
@@ -568,7 +564,6 @@ describe("Case Sensitive NaN Handling", () => {
 // New test for Debug Trace Mode
 describe("Debug Trace Mode", () => {
   test("should output debug trace structured JSON when --debug-trace flag is used", async () => {
-    // Run main with a number flag so that execution proceeds normally
     await main(["--debug-trace", "--number=42"]);
     const debugOutput = consoleOutput.filter(line => line.includes('"debugTrace"'));
     expect(debugOutput.length).toBeGreaterThan(0);

@@ -105,6 +105,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 - All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard Unicode whitespace) are processed via unified functions that apply locale-aware normalization. When an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged detailing the original input, its normalized form, the fallback value used, any custom NaN variants in effect, and the locale used for normalization. Duplicate NaN fallback warnings are now consolidated to improve log clarity in batch processing scenarios.
 - **Signed NaN Variants:** In strict mode, signed NaN variants (e.g. '+NaN' and '-NaN') will trigger an error explicitly stating that such inputs are not allowed. In non-strict mode, they are treated as NaN variants and the configured fallback value is used if explicit NaN values are not permitted.
 - To enforce strict validation without fallback, use the `--strict-numeric` flag.
+- Enhanced error messages now include locale information to aid in international troubleshooting.
 
 ### Custom NaN Variants
 
@@ -121,11 +122,11 @@ Example configuration:
 
 ### Locale-Aware Numeric Parsing
 
-A new configuration option, `LOCALE`, allows numbers to be parsed correctly based on locale.
-- For en-US (default): commas are treated as thousand separators and the period as a decimal point.
-- For de-DE: periods are thousand separators and commas are used as decimal points (with conversion applied if preserving decimals).
+The numeric parsing functions have been enhanced to better support different locale formats. For example:
+- In **en-US** (default): commas are treated as thousand separators and the period as a decimal point.
+- In **de-DE**: periods are thousand separators and commas are used as decimal points (with conversion applied when preserving decimals).
 
-Set the locale in your configuration file or via the `LOCALE` environment variable:
+The parser now also provides improved error messages that include the current locale, assisting in debugging and ensuring proper parsing in international contexts. Set the locale in your configuration file or via the `LOCALE` environment variable:
 
 ```json
 {
@@ -199,7 +200,7 @@ The new `--debug-trace` flag activates a detailed execution trace that outputs s
 - Numeric input processing details
 - Final execution state and any error handling actions
 
-This mode is invaluable for troubleshooting and provides enhanced visibility into the CLI operations without interfering with normal usage.
+This mode is invaluable for troubleshooting in international contexts, as it now also logs locale-specific details.
 
 ---
 
