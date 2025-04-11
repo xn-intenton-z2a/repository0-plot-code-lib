@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 34,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Adjusted main.js to process STDIN input before checking for empty CLI args fixing the failing STDIN tests. (fixes #1745)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 36,
   "commitsLastHour": 3,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1745",
-        "minutesSinceLastCommit": 11
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T04:30:52.871Z"
+  "generatedAt": "2025-04-11T04:33:32.060Z"
 }
