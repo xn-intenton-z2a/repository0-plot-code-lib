@@ -199,7 +199,11 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   // If the input string is recognized as a NaN variant
   if (isNaNVariant(cleanedInput, additionalVariants)) {
     if (strict) {
-      throw new Error(`Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`);
+      let errorMsg = `Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`;
+      if (cleanedInput.startsWith('+') || cleanedInput.startsWith('-')) {
+        errorMsg += " Signed NaN variants are not allowed in strict mode.";
+      }
+      throw new Error(errorMsg);
     }
     if (allowNaN) {
       return NaN;

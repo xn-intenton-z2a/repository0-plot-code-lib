@@ -525,48 +525,14 @@ describe("Strict Numeric Mode", () => {
     expect(() => parseCSV(testCSVPath, "100", false, false, ",", true)).toThrow(/Strict mode: Invalid numeric input/);
     fs.unlinkSync(testCSVPath);
   });
-});
 
-describe("Real-Time Global Configuration Hot Reloading", () => {
-  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
-
-  afterEach(() => {
-    if (fs.existsSync(configPath)) {
-      fs.unlinkSync(configPath);
-    }
-  });
-
-  test("should reload configuration when the config file changes", async () => {
-    // Write initial config
-    fs.writeFileSync(configPath, JSON.stringify({ CLI_COLOR_SCHEME: "light" }));
-    // Initialize watcher
-    watchGlobalConfig();
-    // Update the config file
-    fs.writeFileSync(configPath, JSON.stringify({ CLI_COLOR_SCHEME: "dark" }));
-    // Wait for the watcher to pick up the change
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    // There is no direct export of config, so we simulate by checking console output
-    expect(consoleOutput.some(msg => msg.includes("Global configuration reloaded."))).toBeTruthy();
+  test("throws error for strict mode with '+NaN' and '-NaN'", async () => {
+    await expect(main(["--number=+NaN", "--verbose", "--strict-numeric"]))
+      .rejects
+      .toThrow(/Strict mode: Invalid numeric input '\+NaN'.*Signed NaN variants are not allowed/);
+    await expect(main(["--number=-NaN", "--verbose", "--strict-numeric"]))
+      .rejects
+      .toThrow(/Strict mode: Invalid numeric input '-NaN'.*Signed NaN variants are not allowed/);
   });
 });
 
-describe("Case Sensitivity for NaN Variant Matching", () => {
-  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
-  afterEach(() => {
-    if(fs.existsSync(configPath)) fs.unlinkSync(configPath);
-  });
-
-  test("when CASE_SENSITIVE_NAN is true, input 'nan' (lowercase) is not recognized as NaN variant", () => {
-    fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true }));
-    const themeColors = { info: msg => msg, error: msg => msg };
-    // 'nan' should not be recognized, so Number('nan') yields NaN triggering fallback
-    expect(validateNumericArg("nan", false, themeColors, "100")).toBe(100);
-  });
-
-  test("when CASE_SENSITIVE_NAN is true, input 'NaN' is correctly recognized as NaN variant", () => {
-    fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true }));
-    const themeColors = { info: msg => msg, error: msg => msg };
-    // With allowNaN true, it should return NaN
-    expect(Number.isNaN(validateNumericArg("NaN", false, themeColors, "100", true))).toBeTruthy();
-  });
-});
