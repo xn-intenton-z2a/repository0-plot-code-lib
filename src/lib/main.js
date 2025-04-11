@@ -65,7 +65,9 @@ function logError(chalkError, ...args) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// Handles case-insensitive 'NaN' values, applies fallback if provided, and respects the --allow-nan flag.
+// This function unifies handling of the case-insensitive string 'NaN'.
+// If allowNaN is true, any variant of 'NaN' is accepted as JavaScript’s NaN.
+// Otherwise, if a fallback value is provided, it is used instead. If neither condition is met, a clear error is thrown.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   const lowerTrimmed = trimmedInput.toLowerCase();
