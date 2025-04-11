@@ -40,6 +40,8 @@ export function resetGlobalConfigCache() {
 export function resetFallbackWarningCache() {
   // Instead of clearing the existing Map, reinitialize it to ensure complete reset
   warnedNaNWarnings = new Map();
+  // Also reset the CLI flag to ensure warnings are not suppressed across batches
+  cliSuppressNanWarnings = false;
 }
 
 // Loads the global configuration from available config files
