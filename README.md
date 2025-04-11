@@ -66,6 +66,10 @@ Usage: repository0-plot-code-lib <arguments>
   
   Use the `--debug-trace` flag to activate extended debug mode. When enabled, the CLI will output detailed structured JSON logs of the entire processing pipeline including argument parsing, configuration merging, CSV processing, numeric input normalization, and final execution state. This detailed trace is intended for troubleshooting and log analysis without interfering with normal CLI output.
 
+- **--suppress-nan-warnings**
+  
+  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. This flag allows users to quickly toggle off these warnings at runtime without modifying configuration files or environment variables.
+
 - **CASE_SENSITIVE_NAN Configuration**
 
   A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such.
@@ -198,6 +202,10 @@ The new `--debug-trace` flag activates a detailed execution trace that outputs s
 - Final execution state and any error handling actions
 
 This mode is invaluable for troubleshooting and provides enhanced visibility into the CLI operations without interfering with normal usage.
+
+### Suppressing NaN Fallback Warnings
+
+A new CLI flag `--suppress-nan-warnings` is provided to disable the structured JSON warnings that are logged when a NaN variant triggers the fallback mechanism. Use this flag to quickly suppress these warnings at runtime without adjusting configuration files or environment variables.
 
 ---
 
