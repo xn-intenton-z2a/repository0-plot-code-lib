@@ -279,6 +279,7 @@ describe("Numeric Parser Utility", () => {
     expect(logObj).toHaveProperty("normalized");
     expect(logObj).toHaveProperty("fallbackValue", "999");
     expect(logObj).toHaveProperty("customNaNVariants");
+    expect(logObj).toHaveProperty("locale", "en-US");
     warnSpy.mockRestore();
   });
 

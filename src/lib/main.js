@@ -188,6 +188,7 @@ function logError(chalkError, ...args) {
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn, strict = false) {
   const trimmedInput = inputStr.trim();
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
+  const config = getGlobalConfig();
 
   // If the input string is recognized as a NaN variant
   if (isNaNVariant(trimmedInput, additionalVariants)) {
@@ -204,9 +205,9 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
         originalInput: trimmedInput,
         normalized: normalized,
         fallbackValue: fallbackNumber,
-        customNaNVariants: additionalVariants
+        customNaNVariants: additionalVariants,
+        locale: config.LOCALE || "en-US"
       });
-      const config = getGlobalConfig();
       if (!config.DISABLE_FALLBACK_WARNINGS) {
         logger(logMessage);
       }
@@ -231,9 +232,9 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
         originalInput: trimmedInput,
         normalized: normalized,
         fallbackValue: fallbackNumber,
-        customNaNVariants: additionalVariants
+        customNaNVariants: additionalVariants,
+        locale: config.LOCALE || "en-US"
       });
-      const config = getGlobalConfig();
       if (!config.DISABLE_FALLBACK_WARNINGS) {
         logger(logMessage);
       }
