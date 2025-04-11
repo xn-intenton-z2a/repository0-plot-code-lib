@@ -66,7 +66,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --theme=dark arg1 arg2
 </code></pre>
 <p class="md-github">This flag will take precedence over any theme specified in the environment variable <code class="md-github">CLI_COLOR_SCHEME</code> or in the <code class="md-github">cli-theme.json</code> custom configuration file.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="numeric-argument-validation" href="#numeric-argument-validation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Numeric Argument Validation</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="numeric-argument-validation--standardized-nan-handling" href="#numeric-argument-validation--standardized-nan-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Numeric Argument Validation &amp; Standardized NaN Handling</h3>
 <p class="md-github">The CLI supports numeric validation via the <code class="md-github">--number=VALUE</code> flag. The following number formats are supported:</p>
 <ul class="md-github">
 <li class="md-github">Standard numbers (e.g., <code class="md-github">42</code>)</li>
@@ -77,11 +77,11 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
 <p class="md-github"><strong class="md-github">Unified 'NaN' Handling and Fallback Mechanism:</strong></p>
-<p class="md-github">All numeric inputs are processed using a consolidated logic that handles the case-insensitive string <code class="md-github">NaN</code>. When an input matches <code class="md-github">NaN</code> (in any casing):</p>
+<p class="md-github">All numeric inputs are processed using a consolidated logic that treats any case variant of <code class="md-github">NaN</code> (e.g., <code class="md-github">NaN</code>, <code class="md-github">nan</code>, <code class="md-github">NAN</code>) uniformly. When an input matches <code class="md-github">NaN</code> (in any casing):</p>
 <ol class="md-github">
 <li class="md-github">If the <code class="md-github">--allow-nan</code> flag is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), the value is accepted as JavaScript’s <code class="md-github">NaN</code>.</li>
-<li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used uniformly for all case variants of <code class="md-github">NaN</code>.</li>
-<li class="md-github">Otherwise, a standardized error is thrown, including both the original input and its normalized form.</li>
+<li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used uniformly.</li>
+<li class="md-github">Otherwise, a standardized error is thrown, including both the original input and its normalized form, to help in debugging.</li>
 </ol>
 <p class="md-github">For example, to allow explicit NaN:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
@@ -89,7 +89,6 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">Or with a fallback when not allowed:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --fallback-number=100
 </code></pre>
-<p class="md-github">Ensure that if no valid fallback is provided and the <code class="md-github">--allow-nan</code> flag is not set, a clear error is displayed.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="decimal-point-parsing" href="#decimal-point-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decimal Point Parsing</h3>
 <p class="md-github">A new configuration option controls whether periods in numeric inputs are preserved as decimal points. By default, periods are removed as thousand separators for backward compatibility. To preserve decimals, use the CLI flag <code class="md-github">--preserve-decimal</code> or set the environment variable <code class="md-github">PRESERVE_DECIMAL=true</code>.</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --preserve-decimal --number=1,234.56
@@ -135,7 +134,7 @@ repository0-plot-code-lib --number=1,234.56
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T07:07:30.911Z</p>
+    <p>Generated on 2025-04-11T07:08:16.503Z</p>
   </footer>
 </body>
 </html>
