@@ -74,33 +74,36 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Enhancement:** The numeric validation logic has been refactored into the main module. The functions `normalizeNumberString` and `validateNumericArg` now perform a case-insensitive check for the literal 'NaN'. If an input exactly matches 'NaN' (in any casing) and no fallback is provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, an error is thrown with a clear message. 
+**Dual Fallback Mechanism:**
 
-For example:
+When processing numeric inputs that match the literal `NaN` (case-insensitive), the CLI first checks if a fallback value is provided via the `--fallback-number` flag. If not provided, it then falls back to the `FALLBACK_NUMBER` environment variable. If neither is provided, an error is thrown with a clear message.
 
-```bash
-repository0-plot-code-lib --number=42
-```
-
-Or using a fallback:
+For example, using an explicit fallback flag:
 
 ```bash
 repository0-plot-code-lib --number=NaN --fallback-number=100
 ```
 
-If an invalid numeric value is provided without a valid fallback:
+Or relying on an environment variable fallback (ensure `FALLBACK_NUMBER` is set in your environment or global config):
+
+```bash
+export FALLBACK_NUMBER=100
+repository0-plot-code-lib --number=NaN
+```
+
+If no valid fallback is provided:
 
 ```bash
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output a concise error message with enhanced context to aid debugging. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the full stack trace is included in the logs and error reports.
+The CLI will output an error indicating that a valid number is required.
 
 ### CSV Data Import
 
 The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
 
-**Enhancement:** If a cell in the CSV file or STDIN input contains the literal `NaN` (in any capitalization), the importer will use the fallback number provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, instead of throwing an error. If no fallback is provided, an error is raised.
+**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization), the importer applies the fallback mechanism as described above.
 
 For example, from a file:
 
@@ -114,7 +117,7 @@ Or piping data via STDIN:
 echo "1,2,3\n4,5,6" | repository0-plot-code-lib --fallback-number=100
 ```
 
-The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme. This data can be used for plotting or further processing.
+The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme.
 
 ### Automatic Error Reporting
 
@@ -129,7 +132,7 @@ When an error occurs, the CLI supports automatic error report submission. If the
 
 The CLI awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.
 
-Example configuration snippet:
+#### Example Global Configuration File (.repository0plotconfig.json):
 
 ```json
 {
@@ -155,19 +158,7 @@ The CLI will look for a global configuration file named `.repository0plotconfig.
 
 If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings.
 
-Additionally, you can use the new `--show-config` flag to display the effective global configuration being applied by the CLI. This outputs a formatted JSON showing the merged configuration from config files and environment variables.
-
-#### Example `.repository0plotconfig.json` file:
-
-```json
-{
-  "CLI_COLOR_SCHEME": "dark",
-  "LOG_LEVEL": "debug",
-  "ERROR_REPORTING_URL": "http://example.com/report",
-  "defaultArgs": ["defaultArg1", "defaultArg2"],
-  "FALLBACK_NUMBER": "100"
-}
-```
+You can also use the new `--show-config` flag to display the effective global configuration being applied by the CLI. This outputs a formatted JSON showing the merged configuration from config files and environment variables.
 
 ---
 
