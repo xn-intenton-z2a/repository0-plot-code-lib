@@ -143,7 +143,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
         normalized,
         fallbackValue: fallbackNumber.toString().trim(),
         customNaNVariants: additionalVariants,
-        locale
+        locale: locale
       });
       if (!warnedNaNWarnings.has(key)) {
         const logMessage = formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale);

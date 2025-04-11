@@ -585,9 +585,10 @@ describe("Reset Warning Cache Between Batches", () => {
     expect(warnSpy).toHaveBeenCalledTimes(1);
     // Simulate end of batch by resetting cache
     resetFallbackWarningCache();
+    warnSpy.mockClear();
     // Second batch: should log warning again
     validateNumericArg("NaN", false, themeColors, "100");
-    expect(warnSpy).toHaveBeenCalledTimes(2);
+    expect(warnSpy).toHaveBeenCalledTimes(1);
     warnSpy.mockRestore();
   });
 });

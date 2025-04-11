@@ -85,7 +85,7 @@ The library now automatically resets the NaN fallback warning cache at the end o
 A new utility function, `formatNumberOutput`, has been added to format numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:
 
 - In **en-US**: `formatNumberOutput(1234.56)` returns "1,234.56".
-- In **de-DE**: `formatNumberOutput(1234.56)` returns "1.234,56".
+- In **de-DE**: the same number is formatted as "1.234,56".
 
 You can pass additional options conforming to the Intl.NumberFormat API to customize the output further.
 
@@ -211,7 +211,3 @@ The `--debug-trace` flag activates a detailed execution trace that outputs struc
 ---
 
 *Note:* The warning messages for NaN fallbacks have been refactored for a standardized format across both CLI numeric arguments and CSV inputs. The fallback warning cache is automatically reset between batch processes to ensure that warnings are logged for each new batch.
-
-## License
-
-MIT
