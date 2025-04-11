@@ -64,15 +64,15 @@ Usage: repository0-plot-code-lib <arguments>
 
 - **--debug-trace**
   
-  Use the `--debug-trace` flag to activate extended debug mode. When enabled, the CLI will output detailed structured JSON logs of the entire processing pipeline including argument parsing, configuration merging, CSV processing, numeric input normalization, and final execution state. This detailed trace is intended for troubleshooting and log analysis without interfering with normal CLI output.
+  Use the `--debug-trace` flag to activate extended debug mode. When enabled, the CLI outputs detailed structured JSON logs of the internal processing pipeline including argument parsing, configuration merging, CSV processing, and numeric input normalization. This is useful for troubleshooting without interfering with normal output.
 
 - **--suppress-nan-warnings**
   
-  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same NaN input in batch processing are consolidated to improve log clarity.
+  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same input in batch processing are consolidated to improve log clarity.
 
 - **CASE_SENSITIVE_NAN Configuration**
 
-  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including any custom variants) will be treated as such. For example, if enabled, an input of "nan" (all lowercase) would not be treated as a NaN variant, whereas "NaN" would be recognized.
+  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled, only inputs that exactly match the defined NaN variants (including custom variants) will be treated as such. For example, if enabled, an input of "nan" (lowercase) would not be treated as a NaN variant, whereas "NaN" would be recognized.
 
   Example configuration:
 
@@ -84,7 +84,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 ### File-based Logging
 
-You can log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file in addition to being printed to the console.
+You can log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file as well as printed to the console.
 
 #### Examples:
 
@@ -102,14 +102,13 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Unified 'NaN' Handling & Structured Logging
 
-- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard Unicode whitespace) are processed via unified functions that apply locale-aware normalization. When an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged detailing the original input, its normalized form, the fallback value used, any custom NaN variants in effect, and the locale used for normalization. Duplicate NaN fallback warnings are now consolidated to improve log clarity in batch processing scenarios.
-- **Signed NaN Variants:** In strict mode, signed NaN variants (e.g. '+NaN' and '-NaN') will trigger an error explicitly stating that such inputs are not allowed. In non-strict mode, they are treated as NaN variants and the configured fallback value is used if explicit NaN values are not permitted.
-- To enforce strict validation without fallback, use the `--strict-numeric` flag.
-- Enhanced error messages now include locale information to aid in international troubleshooting.
+- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard whitespace) are processed using unified functions that apply locale-aware normalization and consistent fallback logic.
+- When a NaN variant is detected and explicit NaN values are disallowed, a structured JSON warning is logged. This warning includes the original input (trimmed), its normalized form, the applied fallback value, any custom NaN variants, and the locale in use.
+- **Signed NaN Variants:** In strict mode, signed variants such as '+NaN' and '-NaN' trigger an explicit error. In non-strict mode, they are treated as NaN variants and the fallback value is applied if needed.
 
 ### Custom NaN Variants
 
-You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace (including non-standard whitespace). The `CASE_SENSITIVE_NAN` option lets you decide if the matching should be case sensitive.
+You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace. The `CASE_SENSITIVE_NAN` option lets you decide if the matching should be case sensitive.
 
 Example configuration:
 
@@ -122,11 +121,11 @@ Example configuration:
 
 ### Locale-Aware Numeric Parsing
 
-The numeric parsing functions have been enhanced to better support different locale formats. For example:
-- In **en-US** (default): commas are treated as thousand separators and the period as a decimal point.
-- In **de-DE**: periods are thousand separators and commas are used as decimal points (with conversion applied when preserving decimals).
+The numeric parsing functions support different locale formats. For example:
+- In **en-US**: commas are treated as thousand separators and the period as a decimal point.
+- In **de-DE**: periods are thousand separators and commas are decimal points (with conversion applied when preserving decimals).
 
-The parser now also provides improved error messages that include the current locale, assisting in debugging and ensuring proper parsing in international contexts. Set the locale in your configuration file or via the `LOCALE` environment variable:
+Set the locale in your configuration file or via the `LOCALE` environment variable:
 
 ```json
 {
@@ -136,7 +135,7 @@ The parser now also provides improved error messages that include the current lo
 
 ### Global Configuration
 
-Use the .repository0plotconfig.json file to set global parameters such as error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, CASE_SENSITIVE_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).
+Use the .repository0plotconfig.json file to set global parameters such as the error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, CASE_SENSITIVE_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).
 
 Example:
 
@@ -158,7 +157,7 @@ Example:
 
 ### Decimal Preservation
 
-To preserve decimal points, use the `--preserve-decimal` flag or set the appropriate environment variable.
+To preserve decimal points in numeric parsing, use the `--preserve-decimal` flag or set the appropriate environment variable.
 
 ```bash
 repository0-plot-code-lib --preserve-decimal --number=1,234.56
@@ -184,23 +183,15 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Automatic Error Reporting with Retry
 
-When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is set) that includes error details, CLI arguments, library version, and more. Configurable retry delays and max attempts ensure robust error reporting.
+When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is set) including error details, CLI arguments, library version, and more. Configurable retry delays and maximum attempts ensure robust error reporting.
 
 ### Real-Time Global Configuration Hot Reloading
 
-By using the new `--watch-config` flag, the CLI will monitor the .repository0plotconfig.json file in real time. Changes to the configuration (such as updating the CLI color scheme or fallback number) are automatically applied, enhancing adaptability without requiring a restart.
+By using the `--watch-config` flag, the CLI monitors the .repository0plotconfig.json file in real time. Changes to the configuration are automatically applied, enhancing adaptability without requiring a restart.
 
 ### Extended Debug Trace Mode
 
-The new `--debug-trace` flag activates a detailed execution trace that outputs structured JSON logs of the internal processing pipeline. This includes:
-
-- Argument parsing details
-- Merged global configuration state
-- CSV processing steps including auto-detected delimiters and parsed data
-- Numeric input processing details
-- Final execution state and any error handling actions
-
-This mode is invaluable for troubleshooting in international contexts, as it now also logs locale-specific details.
+The `--debug-trace` flag activates a detailed execution trace that outputs structured JSON logs of the internal processing pipeline for troubleshooting and log analysis.
 
 ---
 
