@@ -20,7 +20,7 @@ const globalConfigSchema = z.object({
   ERROR_MAX_ATTEMPTS: z.string().optional(),
   ALLOW_NAN: z.boolean().optional(),
   additionalNaNValues: z.array(z.string()).optional(),
-  DISABLE_FALLBACK_WARNINGS: z.boolean().optional() // New configurable option to suppress fallback warnings
+  DISABLE_FALLBACK_WARNINGS: z.boolean().optional() // Option to suppress fallback warnings
 });
 
 // Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants
@@ -29,29 +29,28 @@ function isNaNVariant(str, additionalVariants = []) {
   const normalized = trimmed.toLowerCase();
   // Check default NaN variants using case-insensitive regex
   const defaultNaN = /^[+-]?nan$/i.test(trimmed);
-  // Normalize additional variants to compare uniformly
+  // Normalize additional variants for uniform comparison
   const cleanedAdditional = additionalVariants.map(v => v.trim().toLowerCase());
   const customNaN = cleanedAdditional.includes(normalized);
   return defaultNaN || customNaN;
 }
 
-// Updated helper function: normalizeNumberString to remove thousand separators etc. based on locale
+// Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
 export function normalizeNumberString(inputStr, preserveDecimal = false) {
   const globalConfig = getGlobalConfig();
   const locale = process.env.LOCALE || globalConfig.LOCALE || "en-US";
   let result = inputStr.replace(/[_\s]+/g, "");
 
   if (locale === "de-DE") {
-    // In de-DE: period is used as thousand separator and comma as decimal separator
+    // For de-DE: period as thousand separator, comma as decimal separator
     if (preserveDecimal) {
-      // Remove thousand separators (periods) and convert decimal comma to period
       result = result.replace(/\./g, "");
       result = result.replace(/,/g, ".");
     } else {
       result = result.replace(/[\.,]/g, "");
     }
   } else {
-    // Default en-US: comma is thousand separator and period is decimal point
+    // Default en-US: comma as thousand separator, period as decimal point
     if (preserveDecimal) {
       result = result.replace(/,+/g, "");
     } else {
@@ -88,7 +87,7 @@ function isValidThemeConfig(config) {
   return true;
 }
 
-// Enhanced logError function to log the actual error's stack trace when an Error object is passed
+// Enhanced logError function logs the actual error's stack trace when an Error object is passed
 function logError(chalkError, ...args) {
   let errorObj = null;
   const messageParts = args.map(arg => {
@@ -107,11 +106,12 @@ function logError(chalkError, ...args) {
 }
 
 // Unified function to process numeric input with fallback and consistent warning logging
+// This function applies locale-aware normalization, detects both built-in and custom NaN variants, and logs a structured JSON warning if a fallback is applied.
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn, strict = false) {
   const trimmedInput = inputStr.trim();
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
 
-  // If the input string is a recognized NaN variant
+  // If the input string is recognized as a NaN variant
   if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (strict) {
       throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'.`);
@@ -119,12 +119,12 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      const normalizedForLogging = trimmedInput; // use the trimmed original input for logging
+      // Prepare structured warning message with detailed context
       const logMessage = JSON.stringify({
         level: "warn",
         event: "NaNFallback",
         originalInput: trimmedInput,
-        normalized: normalizedForLogging,
+        normalized: normalized,
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants
       });
@@ -134,7 +134,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       }
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
@@ -147,12 +147,11 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'.`);
     }
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      const normalizedForLogging = trimmedInput;
       const logMessage = JSON.stringify({
         level: "warn",
         event: "NaNFallback",
         originalInput: trimmedInput,
-        normalized: normalizedForLogging,
+        normalized: normalized,
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants
       });
@@ -162,7 +161,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       }
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
@@ -171,22 +170,20 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   return num;
 }
 
-// Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// This function delegates to processNumberInputUnified for standardized behavior.
+// Consolidated numeric parsing function that processes numeric inputs uniformly
 export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
   const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
   return processNumberInputUnified(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
 }
 
-// CSV Importer function integrated into main.js
-// Reads a CSV file and returns an array of arrays of numbers, handling unified NaN parsing and fallback behavior.
+// CSV Importer: Reads a CSV file and returns an array of arrays of numbers using unified numeric parsing
 export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',', strict = false) {
   const content = readFileSync(filePath, "utf-8");
   return parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal, delimiter, strict);
 }
 
-// New helper function to auto-detect CSV delimiter based on the first line of content
+// Helper to auto-detect CSV delimiter based on the first line of content
 function autoDetectDelimiter(content) {
   const delimiters = [',', ';', '|', '\t'];
   const firstLine = content.split("\n")[0];
@@ -202,7 +199,7 @@ function autoDetectDelimiter(content) {
   return selected;
 }
 
-// New helper function to parse CSV from a string with an optional custom delimiter
+// Parses CSV content from a string with an optional custom delimiter
 function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',', strict = false) {
   if (!delimiter || delimiter === '') {
     delimiter = autoDetectDelimiter(content);
@@ -213,7 +210,7 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
   const rows = content.trim().split("\n");
   return rows.map(row => {
     let cells = [];
-    // Use regex branch only if preserveDecimal is true and using comma as delimiter
+    // If preserveDecimal is enabled and delimiter is a comma, attempt regex matching
     if (preserveDecimal && delimiter === ',') {
       const matches = row.match(/(?:[+-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][+-]?\d+)?)/gi);
       if (matches === null) {
@@ -221,15 +218,13 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
       }
       cells = matches;
     } else {
-      // Split and trim each cell to ensure consistent numeric parsing including NaN variants
       cells = row.split(delimiter).map(cell => cell.trim());
     }
     return cells.map(cell => parseNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal, strict));
   });
 }
 
-// Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
-// It uses processNumberInputUnified for consistent behavior.
+// Enhanced validateNumericArg applies fallback mechanism and logs a warning for invalid numeric CLI input
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
   const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
@@ -237,15 +232,8 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
 }
 
 /**
- * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import (from file or STDIN) and global configuration support.
- *
- * Note on Unified 'NaN' Handling:
- * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed via processNumberInputUnified.
- * - When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats
- * - If a fallback value is provided, it is applied and a standardized warning is logged including the normalized input and recognized custom NaN variants if configured.
- * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
- *
- * The new flag --strict-numeric enforces strict numeric validation by rejecting any NaN input without applying fallback.
+ * Main function executing CLI logic with advanced error handling, colored output, numeric validation, CSV import, and global configuration support.
+ * Enhanced inline documentation and structured logging for NaN handling have been applied.
  *
  * @param {string[]} args - Command line arguments.
  */
@@ -253,10 +241,10 @@ export async function main(args) {
   let fallbackNumber = undefined;
   let allowNaN = false;
   let preserveDecimal = false;
-  let csvDelimiter = ''; // default to empty to trigger auto-detection
+  let csvDelimiter = ''; // default to auto-detect
   let strictNumeric = false;
 
-  // Process flags for fallback, allow-nan, preserve-decimal, csv-delimiter, and strict-numeric
+  // Process flags
   if (args && args.length > 0) {
     args = args.filter(arg => {
       if (arg.startsWith('--fallback-number=')) {
@@ -289,7 +277,7 @@ export async function main(args) {
     allowNaN = true;
   }
 
-  // Process theme flag to override color scheme if provided
+  // Process theme override
   let themeFlag = null;
   args = args.filter(arg => {
     if (arg.startsWith('--theme=')) {
@@ -302,7 +290,7 @@ export async function main(args) {
     process.env.CLI_COLOR_SCHEME = themeFlag;
   }
 
-  // Process file-based logging flag
+  // File-based logging
   let logFilePath = null;
   args = args.filter(arg => {
     if (arg.startsWith('--log-file=')) {
@@ -324,10 +312,9 @@ export async function main(args) {
     };
   }
 
-  // Check if the '--show-config' flag is present
+  // Show global configuration if flag provided
   if (args && args.includes('--show-config')) {
     const globalConfig = getGlobalConfig();
-    // Merge environment overrides
     if (process.env.CLI_COLOR_SCHEME) globalConfig.CLI_COLOR_SCHEME = process.env.CLI_COLOR_SCHEME;
     if (process.env.LOG_LEVEL) globalConfig.LOG_LEVEL = process.env.LOG_LEVEL;
     if (process.env.ERROR_REPORTING_URL) globalConfig.ERROR_REPORTING_URL = process.env.ERROR_REPORTING_URL;
@@ -337,26 +324,22 @@ export async function main(args) {
     return;
   }
 
-  // Merge global config settings
+  // Merge global configuration
   const globalConfig = getGlobalConfig();
 
-  // Override allowNaN if ALLOW_NAN is configured in global config
   if (globalConfig.ALLOW_NAN !== undefined) {
     allowNaN = globalConfig.ALLOW_NAN;
   }
 
-  // Set environment variables from global config if not already set
   if (!process.env.CLI_COLOR_SCHEME && globalConfig.CLI_COLOR_SCHEME) {
     process.env.CLI_COLOR_SCHEME = globalConfig.CLI_COLOR_SCHEME;
   }
   if (!process.env.LOG_LEVEL && globalConfig.LOG_LEVEL) {
     process.env.LOG_LEVEL = globalConfig.LOG_LEVEL;
   }
-  // Set error reporting URL from global config or environment variable
   const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
 
   const themeColors = getThemeColors();
-  // Determine verbose mode via command line flag only
   const verboseMode = args && args.includes("--verbose");
 
   // Extract CSV file flag
@@ -371,7 +354,7 @@ export async function main(args) {
     });
   }
 
-  // If CSV file flag provided, process CSV file
+  // Process CSV file or STDIN
   if (csvFilePath) {
     try {
       const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
@@ -381,7 +364,6 @@ export async function main(args) {
       throw csvError;
     }
   } else if (globalThis.__TEST_STDIN__ || (process.stdin && process.stdin.isTTY === false)) {
-    // Process STDIN input if available
     const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
     let pipedData = "";
     await (async () => {
@@ -402,17 +384,15 @@ export async function main(args) {
   }
 
   try {
-    // Consolidated numeric argument validation using validateNumericArg
     const numberFlagPrefix = "--number=";
     for (const arg of args) {
       if (arg.startsWith(numberFlagPrefix)) {
         const numStr = arg.slice(numberFlagPrefix.length);
-        // Validate numeric argument with fallback if provided, pass strictNumeric flag
         validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal, strictNumeric);
       }
     }
 
-    // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
+    // Simulate an error if requested
     if (args && args.includes("--simulate-error")) {
       throw new Error("Simulated error condition for testing. Please provide a valid number (e.g., '--number=42').");
     }
@@ -426,7 +406,6 @@ export async function main(args) {
       console.error(themeColors.error(msg));
     }
 
-    // Automatic error reporting only in verbose mode with errorReportingUrl
     if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
       let libraryVersion = 'unknown';
       try {
@@ -436,9 +415,7 @@ export async function main(args) {
           const pkg = JSON.parse(pkgContent);
           libraryVersion = pkg.version || 'unknown';
         }
-      } catch (e) {
-        // Leave libraryVersion as 'unknown'
-      }
+      } catch (e) {}
       const payload = {
         errorMessage: error.message,
         stackTrace: error.stack || "",
@@ -454,7 +431,6 @@ export async function main(args) {
         },
         originalNumericInput: error.originalInput || null
       };
-      // Use the new automatic retry submission function
       await submitErrorReport(payload, errorReportingUrl, themeColors);
     }
 
@@ -462,7 +438,7 @@ export async function main(args) {
   }
 }
 
-// New function to submit error reports with automatic retry and exponential backoff
+// Function to submit error reports with automatic retry
 export async function submitErrorReport(payload, url, themeColors) {
   let retryDelays;
   let maxAttempts;
@@ -510,7 +486,7 @@ export async function submitErrorReport(payload, url, themeColors) {
   console.error(themeColors.error("All attempts to submit error report have failed."));
 }
 
-// Returns the current CLI theme color functions based on a provided theme override, a custom configuration file, or the CLI_COLOR_SCHEME environment variable.
+// Returns CLI theme color functions based on override or defaults
 function getThemeColors() {
   const themeOverride = process.env.CLI_COLOR_SCHEME || "default";
   if (themeOverride === "dark") {
@@ -540,7 +516,7 @@ function getThemeColors() {
   }
 }
 
-// Function to get global configuration from .repository0plotconfig.json with schema validation
+// Function to retrieve global configuration with schema validation
 function getGlobalConfig() {
   const configPaths = [];
   const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -569,7 +545,7 @@ function getGlobalConfig() {
   return result.data;
 }
 
-// If the script is executed directly from the CLI, invoke main with command line arguments
+// If executed directly from the CLI, call main with process arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   (async () => {
