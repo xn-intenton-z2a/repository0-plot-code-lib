@@ -17,27 +17,24 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
 
 (async () => {
   try {
-    // Example of running the main function with unified 'NaN' handling
-    // This example demonstrates how NaN variants (e.g., 'NaN', '+NaN', '-NaN') are processed uniformly.
-    // When an invalid numeric input is provided without permitting explicit NaN values, a fallback value is used (if provided) with a clear error message.
+    // Example: Running the main function with unified 'NaN' handling.
+    // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed.
+    // When explicit NaN is not allowed and no valid fallback is provided, an error is thrown.
+    // To accept NaN values, add the '--allow-nan' flag.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
     const data = parseCSV('path/to/data.csv');
     console.log(data);
     
-    // Numeric parsing utilities are available directly from the main module
-    // normalizeNumberString removes formatting characters. When preserveDecimal is enabled, decimals are retained.
+    // Numeric parsing utilities
     console.log(normalizeNumberString('1,000'));
     console.log(validateNumericArg('2_000', false, { info: msg => msg, error: msg => msg }));
 
-    // Scientific Notation Support:
-    // The library now supports numeric inputs in scientific notation. For example:
-    // '1e3' is parsed as 1000 and '1.2e-3' is parsed as 0.0012. Extra formatting characters in the coefficient are stripped.
+    // Scientific Notation Support
     console.log(normalizeNumberString('1,000e3', false)); // outputs "1000e3"
     console.log(validateNumericArg('1.2e-3', false, { info: msg => msg, error: msg => msg }, undefined, false, true));
   } catch (error) {
-    // Handle error accordingly
     console.error('An error occurred:', error);
   }
 })();
@@ -51,7 +48,7 @@ Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main 
 repository0-plot-code-lib arg1 arg2
 ```
 
-If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message.
+If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message:
 
 ```
 (No arguments provided message in colored output, or default arguments if configured)
@@ -60,78 +57,14 @@ Usage: repository0-plot-code-lib <arguments>
 
 ### Unified 'NaN' Handling
 
-All numeric inputs, including signed variants, are now handled in a robust and consistent manner. Enhanced error messages clearly instruct users when an explicit NaN value is encountered. To correct this:
-- Use the `--allow-nan` flag to accept NaN inputs.
-- Or provide a fallback value using `--fallback-number`.
+- All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN', and inputs with extra spaces, are processed in a unified manner.
+- If explicit NaN values are not allowed (default), providing them will trigger the fallback mechanism if a valid fallback is given.
+- Use the `--allow-nan` flag to explicitly accept NaN inputs.
+- Detailed error messages will inform you of the fallback usage or the need for the '--allow-nan' flag.
 
-#### Global Configuration for NaN Handling
+### Global Configuration for NaN Handling
 
-A new global configuration property, `ALLOW_NAN`, can be set in your `.repository0plotconfig.json` file to control explicit NaN inputs. When set to `true`, explicit NaN values are accepted; when `false`, they are disallowed unless overridden by CLI flags or environment variables.
-
-#### Example Usage:
-
-Allowing explicit NaN via CLI override:
-
-```bash
-repository0-plot-code-lib --number=NaN --allow-nan
-```
-
-Using a fallback for NaN input:
-
-```bash
-repository0-plot-code-lib --number=NaN --fallback-number=100
-```
-
-And via global configuration:
-
-```json
-{
-  "ERROR_REPORTING_URL": "http://example.com/report",
-  "CLI_COLOR_SCHEME": "dark",
-  "LOG_LEVEL": "debug",
-  "defaultArgs": ["defaultArg1", "defaultArg2"],
-  "FALLBACK_NUMBER": "100",
-  "ERROR_RETRY_DELAYS": "500,1000,2000",
-  "ERROR_MAX_ATTEMPTS": "3",
-  "ALLOW_NAN": true
-}
-```
-
-### Decimal Point Parsing
-
-A configuration option controls whether periods in numeric inputs are preserved as decimal points. To preserve decimals, use the `--preserve-decimal` flag or set `PRESERVE_DECIMAL=true`:
-
-```bash
-repository0-plot-code-lib --preserve-decimal --number=1,234.56
-```
-
-When enabled, underscores, commas, and spaces are removed while periods are retained (e.g., `1,234.56` becomes `1234.56`).
-
-### CSV Data Import
-
-Import numeric data from a CSV file using the `--csv-file=<path>` flag or via STDIN if no file is specified. The CLI supports a custom delimiter via the `--csv-delimiter=<delimiter>` flag. If no delimiter is provided, the tool auto-detects one.
-
-For example, with a semicolon delimiter:
-
-```bash
-repository0-plot-code-lib --csv-file=path/to/data.csv --csv-delimiter=";" --fallback-number=100
-```
-
-Or piping data via STDIN:
-
-```bash
-echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100
-```
-
-The imported CSV data is parsed into an array of arrays of numbers and printed using the current CLI theme.
-
-### Automatic Error Reporting with Configurable Retry
-
-When an error occurs, the CLI automatically submits an error report (if `ERROR_REPORTING_URL` is defined). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and more.
-
-An automatic retry mechanism is implemented. You can configure retry delays and the maximum number of attempts via `ERROR_RETRY_DELAYS` and `ERROR_MAX_ATTEMPTS` (set in the global configuration or as environment variables).
-
-For example:
+Set the `ALLOW_NAN` property in your `.repository0plotconfig.json` to control how NaN inputs are handled globally. For example:
 
 ```json
 {
@@ -146,20 +79,37 @@ For example:
 }
 ```
 
-### Global Configuration File Support
+### Decimal Point Parsing
 
-Set persistent default options in a global configuration file named `.repository0plotconfig.json` located in the current working directory or your home directory. Supported keys include:
+To preserve decimal points in numeric inputs, use the `--preserve-decimal` flag or set `PRESERVE_DECIMAL=true` in your environment.
 
-- `CLI_COLOR_SCHEME`
-- `LOG_LEVEL`
-- `ERROR_REPORTING_URL`
-- `defaultArgs`
-- `FALLBACK_NUMBER`
-- `ERROR_RETRY_DELAYS`
-- `ERROR_MAX_ATTEMPTS`
-- `ALLOW_NAN`
+```bash
+repository0-plot-code-lib --preserve-decimal --number=1,234.56
+```
 
-Use the `--show-config` flag to display the effective configuration.
+### CSV Data Import
+
+Import numeric data from a CSV file using the `--csv-file=<path>` flag or through STDIN. A custom delimiter can be specified with `--csv-delimiter=<delimiter>`. If omitted, the tool auto-detects the delimiter.
+
+#### Examples:
+
+Using a semicolon delimiter:
+
+```bash
+repository0-plot-code-lib --csv-file=path/to/data.csv --csv-delimiter=";" --fallback-number=100
+```
+
+Piping data via STDIN:
+
+```bash
+echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100
+```
+
+### Automatic Error Reporting with Configurable Retry
+
+When an error occurs, the CLI automatically submits an error report (if `ERROR_REPORTING_URL` is set). The report includes error details, CLI arguments, library version, timestamp, and more.
+
+A retry mechanism is in place, configurable via `ERROR_RETRY_DELAYS` and `ERROR_MAX_ATTEMPTS` in your configuration or environment variables.
 
 ---
 

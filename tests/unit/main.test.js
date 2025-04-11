@@ -47,7 +47,6 @@ describe("CSV Importer with default comma delimiter", () => {
   });
 
   test("should handle different numeric formats", () => {
-    // 1_000 -> 1000, 2,000 -> 2000, 3 000 -> 3000, and 5.000 interpreted as 5000 due to thousand separator handling
     const csvContent = "1_000,2,3_000\n4,5,5.000";
     fs.writeFileSync(testCSVPath, csvContent);
     const data = parseCSV(testCSVPath);
@@ -125,7 +124,6 @@ describe("CSV Importer Auto-Detection", () => {
   test("should auto-detect comma delimiter", () => {
     const csvContent = "1,2,3\n4,5,6";
     fs.writeFileSync(testCSVPath, csvContent);
-    // Pass empty string as delimiter to trigger auto-detection
     const data = parseCSV(testCSVPath, undefined, false, false, '');
     expect(data).toEqual([[1, 2, 3], [4, 5, 6]]);
     fs.unlinkSync(testCSVPath);
@@ -374,7 +372,6 @@ describe("Configurable Error Reporting Retry", () => {
   });
 });
 
-// New tests for Global Config ALLOW_NAN Setting
 describe("Global Config ALLOW_NAN Setting", () => {
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
 
@@ -396,5 +393,13 @@ describe("Global Config ALLOW_NAN Setting", () => {
     await expect(main(["--number=NaN", "--fallback-number=100", "--verbose"]))
       .resolves
       .toBeUndefined();
+  });
+});
+
+// Additional test for handling whitespace variations around NaN
+describe("Whitespace variant of NaN handling", () => {
+  test("should apply fallback for input with spaces around NaN", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("  NaN  ", false, themeColors, "500")).toBe(500);
   });
 });
