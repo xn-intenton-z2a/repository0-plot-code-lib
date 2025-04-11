@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Enhance NaN input normalization and fallback messaging in numeric parsing functions. (fixes #1854)",
-      "ageMinutes": 1
+      "ageMinutes": 2
     }
   ],
   "diffMinutes": 0,
-  "diffMinutesMain": 21,
+  "diffMinutesMain": 22,
   "commitsLastHour": 3,
   "commitsLastDay": 93,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 1,
+  "averagePRAge": 2,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T16:31:10.914Z"
+  "generatedAt": "2025-04-11T16:32:05.524Z"
 }
