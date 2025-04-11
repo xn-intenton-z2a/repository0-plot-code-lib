@@ -40,7 +40,7 @@ Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main 
 repository0-plot-code-lib arg1 arg2
 ```
 
-If no arguments are provided, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.
+If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.
 
 ```
 (No arguments provided message in colored output, or default arguments if configured)

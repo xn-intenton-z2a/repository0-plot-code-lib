@@ -197,10 +197,28 @@ export async function main(args) {
   // Determine verbose mode via command line flag only
   const verboseMode = args && args.includes("--verbose");
 
-  // If no args provided but global config has defaultArgs, use them
-  if ((!args || args.length === 0) && globalConfig.defaultArgs && Array.isArray(globalConfig.defaultArgs) && globalConfig.defaultArgs.length > 0) {
-    console.log(themeColors.info("Using default arguments from global configuration."));
-    args = globalConfig.defaultArgs;
+  // If CSV file flag provided, process CSV file
+  if (csvFilePath) {
+    try {
+      const csvData = parseCSV(csvFilePath, fallbackNumber);
+      console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
+    } catch (csvError) {
+      logError(themeColors.error, "Error importing CSV data:", csvError);
+      throw csvError;
+    }
+  } else if (globalThis.__TEST_STDIN__ || (process.stdin && process.stdin.isTTY === false)) {
+    // Process STDIN input if available
+    const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
+    let pipedData = "";
+    for await (const chunk of inputStream) {
+      pipedData += chunk;
+    }
+    if (pipedData.trim()) {
+      const csvData = parseCSVFromString(pipedData, fallbackNumber);
+      console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
+    } else {
+      throw new Error("CSV input is empty.");
+    }
   } else if (!args || args.length === 0) {
     console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
     console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
@@ -208,32 +226,6 @@ export async function main(args) {
   }
 
   try {
-    // Process CSV file import if flag is provided
-    if (csvFilePath) {
-      try {
-        const csvData = parseCSV(csvFilePath, fallbackNumber);
-        console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
-      } catch (csvError) {
-        logError(themeColors.error, "Error importing CSV data:", csvError);
-        throw csvError;
-      }
-    } else {
-      // Use test override for stdin if provided
-      const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
-      if (inputStream.isTTY === false) {
-        let pipedData = "";
-        for await (const chunk of inputStream) {
-          pipedData += chunk;
-        }
-        if (pipedData.trim()) {
-          const csvData = parseCSVFromString(pipedData, fallbackNumber);
-          console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
-        } else {
-          throw new Error("CSV input is empty.");
-        }
-      }
-    }
-
     // Consolidated numeric argument validation using validateNumericArg
     const numberFlagPrefix = "--number=";
     for (const arg of args) {
