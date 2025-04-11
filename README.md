@@ -74,7 +74,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Enhancement:** The numeric validation logic has been refactored into the main module. The functions `normalizeNumberString` and `validateNumericArg` now serve as a single source of truth for numeric parsing. This change immediately rejects inputs equating to "NaN" (case-insensitive) before normalization and applies a fallback if provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable. 
+**Enhancement:** The numeric validation logic has been refactored into the main module. The functions `normalizeNumberString` and `validateNumericArg` now perform a case-insensitive check for the literal 'NaN'. If an input exactly matches 'NaN' (in any casing) and no fallback is provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, an error is thrown with a clear message. 
 
 For example:
 

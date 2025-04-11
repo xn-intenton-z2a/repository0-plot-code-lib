@@ -99,6 +99,15 @@ export function normalizeNumberString(str) {
 }
 
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber) {
+  // Implement case-insensitive check for 'NaN' before normalization
+  if (numStr.trim().toLowerCase() === 'nan') {
+    if (fallbackNumber !== undefined) {
+      return Number(fallbackNumber);
+    } else {
+      throw new Error(`Invalid numeric input '${numStr}'. Please provide a valid number or use --fallback-number flag.`);
+    }
+  }
+
   const normalized = normalizeNumberString(numStr);
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
