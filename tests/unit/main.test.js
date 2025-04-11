@@ -111,6 +111,43 @@ describe("CSV Importer with custom delimiter", () => {
   });
 });
 
+describe("CSV Importer Auto-Detection", () => {
+  const testCSVPath = path.join(process.cwd(), "test_auto.csv");
+
+  test("should auto-detect comma delimiter", () => {
+    const csvContent = "1,2,3\n4,5,6";
+    fs.writeFileSync(testCSVPath, csvContent);
+    // Pass empty string as delimiter to trigger auto-detection
+    const data = parseCSV(testCSVPath, undefined, false, false, '');
+    expect(data).toEqual([[1, 2, 3], [4, 5, 6]]);
+    fs.unlinkSync(testCSVPath);
+  });
+
+  test("should auto-detect semicolon delimiter", () => {
+    const csvContent = "7;8;9\n10;11;12";
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, undefined, false, false, '');
+    expect(data).toEqual([[7, 8, 9], [10, 11, 12]]);
+    fs.unlinkSync(testCSVPath);
+  });
+
+  test("should auto-detect pipe delimiter", () => {
+    const csvContent = "13|14|15\n16|17|18";
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, undefined, false, false, '');
+    expect(data).toEqual([[13, 14, 15], [16, 17, 18]]);
+    fs.unlinkSync(testCSVPath);
+  });
+
+  test("should auto-detect tab delimiter", () => {
+    const csvContent = "19\t20\t21\n22\t23\t24";
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, undefined, false, false, '');
+    expect(data).toEqual([[19, 20, 21], [22, 23, 24]]);
+    fs.unlinkSync(testCSVPath);
+  });
+});
+
 describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback and not allowed", async () => {
     await expect(main(["--number=NaN", "--verbose"]))

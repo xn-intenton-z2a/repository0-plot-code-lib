@@ -113,7 +113,7 @@ When enabled, underscores, commas, and spaces are removed, but periods are retai
 
 ### CSV Data Import
 
-The CLI supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. Additionally, the `--csv-delimiter=<delimiter>` flag allows you to specify a custom delimiter. The CSV importer processes each cell using the unified numeric parsing logic, ensuring consistent handling of numbers and `NaN` values as described above.
+The CLI supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. Additionally, the `--csv-delimiter=<delimiter>` flag allows you to specify a custom delimiter. If no delimiter is specified, the tool will automatically detect the delimiter based on the CSV content. Supported delimiters include comma, semicolon, pipe, and tab.
 
 For example, from a file with a semicolon delimiter:
 

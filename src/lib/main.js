@@ -71,6 +71,22 @@ function logError(chalkError, ...args) {
   }
 }
 
+// New helper function to auto-detect CSV delimiter based on the first line of the content
+function autoDetectDelimiter(content) {
+  const firstLine = content.trim().split("\n")[0];
+  const candidates = [',', ';', '|', '\t'];
+  let bestDelimiter = ',';
+  let maxCount = 0;
+  for (const delim of candidates) {
+    const count = firstLine.split(delim).length - 1;
+    if (count > maxCount) {
+      maxCount = count;
+      bestDelimiter = delim;
+    }
+  }
+  return bestDelimiter;
+}
+
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
 // Standardized NaN Input Handling: All variants of 'NaN' (regardless of case, including signed variants like +NaN or -NaN)
 // are processed uniformly. When the input matches 'NaN' (after trimming and removing any leading '+' or '-'), it is handled by either
@@ -113,13 +129,16 @@ export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDec
 
 // New helper function to parse CSV from a string with an optional custom delimiter
 function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',') {
+  if (!delimiter || delimiter === '') {
+    delimiter = autoDetectDelimiter(content);
+  }
   if (content.trim() === "") {
     throw new Error("CSV file is empty.");
   }
   const rows = content.trim().split("\n");
   return rows.map(row => {
     let cells = [];
-    // Use regex branch only if preserveDecimal is true and using default comma delimiter
+    // Use regex branch only if preserveDecimal is true and using comma as delimiter
     if (preserveDecimal && delimiter === ',') {
       const matches = row.match(/(?:[+-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?)/gi);
       if (matches === null) {
@@ -156,7 +175,7 @@ export async function main(args) {
   let fallbackNumber = undefined;
   let allowNaN = false;
   let preserveDecimal = false;
-  let csvDelimiter = ',';
+  let csvDelimiter = ''; // default to empty to trigger auto-detection
 
   // Process flags for fallback, allow-nan, preserve-decimal and csv-delimiter
   if (args && args.length > 0) {
