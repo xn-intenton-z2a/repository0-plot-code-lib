@@ -244,6 +244,15 @@ describe("Numeric Parser Utility", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("1,234.56", false, themeColors, undefined, false, true)).toBe(1234.56);
   });
+
+  test("logs warning when fallback is applied", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const result = validateNumericArg("nan", false, themeColors, "999");
+    expect(result).toBe(999);
+    expect(warnSpy).toHaveBeenCalled();
+    warnSpy.mockRestore();
+  });
 });
 
 describe("CSV STDIN Importer", () => {
