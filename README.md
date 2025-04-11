@@ -62,6 +62,10 @@ Usage: repository0-plot-code-lib <arguments>
   
   Use the `--watch-config` flag to enable real-time reloading of the global configuration file (.repository0plotconfig.json). When this flag is set, any changes to the config file will automatically update the CLI's settings (such as CLI color scheme, fallback number, ALLOW_NAN, etc.) on the fly, without needing to restart the process.
 
+- **--debug-trace**
+  
+  Use the `--debug-trace` flag to activate extended debug mode. When enabled, the CLI will output detailed structured JSON logs of the entire processing pipeline including argument parsing, configuration merging, CSV processing, numeric input normalization, and final execution state. This detailed trace is intended for troubleshooting and log analysis without interfering with normal CLI output.
+
 - **CASE_SENSITIVE_NAN Configuration**
 
   A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such.
@@ -183,13 +187,17 @@ When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is
 
 By using the new `--watch-config` flag, the CLI will monitor the .repository0plotconfig.json file in real time. Changes to the configuration (such as updating the CLI color scheme or fallback number) are automatically applied, enhancing adaptability without requiring a restart.
 
-Example:
+### Extended Debug Trace Mode
 
-```bash
-repository0-plot-code-lib --watch-config --number=42
-```
+The new `--debug-trace` flag activates a detailed execution trace that outputs structured JSON logs of the internal processing pipeline. This includes:
 
-After modifying .repository0plotconfig.json while the CLI is running, you should see a message indicating that the configuration was reloaded, and subsequent CLI outputs will reflect the updated settings.
+- Argument parsing details
+- Merged global configuration state
+- CSV processing steps including auto-detected delimiters and parsed data
+- Numeric input processing details
+- Final execution state and any error handling actions
+
+This mode is invaluable for troubleshooting and provides enhanced visibility into the CLI operations without interfering with normal usage.
 
 ---
 

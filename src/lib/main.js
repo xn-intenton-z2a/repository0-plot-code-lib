@@ -297,17 +297,29 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
 /**
  * Main function executing CLI logic with advanced error handling, colored output, numeric validation, CSV import, and global configuration support.
  * Enhanced inline documentation and structured logging for NaN handling have been applied.
- *
+ * 
+ * Added Debug Trace mode (--debug-trace) to output detailed structured JSON logs of the internal processing pipeline.
+ * 
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
+  // Debug Trace setup
+  let debugTrace = false;
+  let debugData = {};
+  
+  if (args && args.includes('--debug-trace')) {
+    debugTrace = true;
+    // Remove the debug flag from arguments
+    args = args.filter(arg => arg !== '--debug-trace');
+  }
+
+  // Process flags
   let fallbackNumber = undefined;
   let allowNaN = false;
   let preserveDecimal = false;
   let csvDelimiter = ''; // default to auto-detect
   let strictNumeric = false;
 
-  // Process flags
   if (args && args.length > 0) {
     args = args.filter(arg => {
       if (arg.startsWith('--fallback-number=')) {
@@ -379,6 +391,20 @@ export async function main(args) {
     };
   }
 
+  // Record argument parsing debug info
+  if (debugTrace) {
+    debugData.argParsing = {
+      fallbackNumber,
+      allowNaN,
+      preserveDecimal,
+      csvDelimiter,
+      strictNumeric,
+      themeFlag,
+      logFilePath,
+      remainingArgs: args
+    };
+  }
+
   // Activate global configuration hot reloading if requested
   if (args.includes('--watch-config')) {
     watchGlobalConfig();
@@ -398,6 +424,9 @@ export async function main(args) {
 
   // Merge global configuration
   const globalConfig = getGlobalConfig();
+  if (debugTrace) {
+    debugData.configMerge = globalConfig;
+  }
 
   if (globalConfig.ALLOW_NAN !== undefined) {
     allowNaN = globalConfig.ALLOW_NAN;
@@ -431,8 +460,18 @@ export async function main(args) {
     try {
       const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
       console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
+      if (debugTrace) {
+        debugData.csvProcessing = {
+          file: csvFilePath,
+          delimiterUsed: csvDelimiter || autoDetectDelimiter(readFileSync(csvFilePath, 'utf-8')),
+          data: csvData
+        };
+      }
     } catch (csvError) {
       logError(themeColors.error, "Error importing CSV data:", csvError);
+      if (debugTrace) {
+        debugData.csvProcessing = { error: csvError.message };
+      }
       throw csvError;
     }
   } else if (globalThis.__TEST_STDIN__ || (process.stdin && process.stdin.isTTY === false)) {
@@ -445,6 +484,13 @@ export async function main(args) {
       if (pipedData.trim()) {
         const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
         console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
+        if (debugTrace) {
+          debugData.csvProcessing = {
+            source: "STDIN",
+            delimiterUsed: csvDelimiter || autoDetectDelimiter(pipedData),
+            data: csvData
+          };
+        }
       } else {
         throw new Error("CSV input is empty.");
       }
@@ -452,16 +498,25 @@ export async function main(args) {
   } else if (!args || args.length === 0) {
     console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
     console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
+    if (debugTrace) {
+      debugData.executionState = { message: "No arguments provided." };
+      console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
+    }
     return;
   }
 
   try {
     const numberFlagPrefix = "--number=";
+    const numericDebug = [];
     for (const arg of args) {
       if (arg.startsWith(numberFlagPrefix)) {
         const numStr = arg.slice(numberFlagPrefix.length);
-        validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal, strictNumeric);
+        const result = validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal, strictNumeric);
+        numericDebug.push({ input: numStr, result });
       }
+    }
+    if (debugTrace) {
+      debugData.numericProcessing = numericDebug;
     }
 
     // Simulate an error if requested
@@ -470,12 +525,21 @@ export async function main(args) {
     }
 
     console.log(themeColors.usage("Run with: ") + themeColors.run(JSON.stringify(args)));
+    if (debugTrace) {
+      debugData.executionState = { status: "Completed Successfully", finalArgs: args };
+      console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
+    }
   } catch (error) {
     if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
       logError(themeColors.error, "Error in main function execution:", error);
     } else {
       const msg = error.message.startsWith("Invalid numeric input") ? error.message : "Error: " + error.message;
       console.error(themeColors.error(msg));
+    }
+
+    if (debugTrace) {
+      debugData.executionState = { error: error.message };
+      console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
     }
 
     if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {

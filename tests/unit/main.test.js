@@ -535,3 +535,18 @@ describe("Strict Numeric Mode", () => {
       .toThrow(/Strict mode: Invalid numeric input '-NaN'.*Signed NaN variants are not allowed/);
   });
 });
+
+// New test for Debug Trace Mode
+describe("Debug Trace Mode", () => {
+  test("should output debug trace structured JSON when --debug-trace flag is used", async () => {
+    // Run main with a number flag so that execution proceeds normally
+    await main(["--debug-trace", "--number=42"]);
+    const debugOutput = consoleOutput.filter(line => line.includes('"debugTrace"'));
+    expect(debugOutput.length).toBeGreaterThan(0);
+    debugOutput.forEach(line => {
+      const parsed = JSON.parse(line);
+      expect(parsed).toHaveProperty('debugTrace');
+      expect(parsed.debugTrace).toHaveProperty('argParsing');
+    });
+  });
+});
