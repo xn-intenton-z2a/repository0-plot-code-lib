@@ -273,7 +273,7 @@ describe("Numeric Parser Utility", () => {
     expect(logObj).toHaveProperty("level", "warn");
     expect(logObj).toHaveProperty("event", "NaNFallback");
     expect(logObj).toHaveProperty("originalInput", "nan");
-    expect(logObj).toHaveProperty("normalized");
+    expect(logObj).toHaveProperty("normalized", "nan");
     expect(logObj).toHaveProperty("fallbackValue", "999");
     expect(logObj).toHaveProperty("customNaNVariants");
     warnSpy.mockRestore();
