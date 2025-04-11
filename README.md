@@ -53,12 +53,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 ### Unified 'NaN' Handling
 
-The CLI and library employ a unified approach for numeric input parsing, especially for handling various representations of 'NaN':
-
-- Variants such as `NaN`, `nan`, `+NaN`, and `-NaN` are processed uniformly.
-- Use the `--allow-nan` flag (or set the `ALLOW_EXPLICIT_NAN` environment variable to true) to accept these values as JavaScript's `NaN`.
-- If explicit `NaN` is not allowed and a fallback is provided via `--fallback-number` (or the `FALLBACK_NUMBER` environment variable), the fallback value is applied.
-- Otherwise, a detailed error message is thrown with guidance on acceptable formats.
+All numeric inputs, including signed variants, now follow a consistent handling approach across CSV, CLI, and environment variables. Variants such as `NaN`, `nan`, `+NaN`, and `-NaN` are normalized using a unified function. Invalid inputs produce detailed error messages guiding the user on acceptable formats and fallback behavior.
 
 #### Example Usage:
 

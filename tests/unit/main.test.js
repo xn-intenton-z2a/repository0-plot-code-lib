@@ -25,6 +25,9 @@ afterEach(() => {
   // Clear environment variables that might affect tests
   delete process.env.ERROR_RETRY_DELAYS;
   delete process.env.ERROR_MAX_ATTEMPTS;
+  delete process.env.FALLBACK_NUMBER;
+  delete process.env.ALLOW_EXPLICIT_NAN;
+  delete process.env.PRESERVE_DECIMAL;
 });
 
 describe("CSV Importer with default comma delimiter", () => {
