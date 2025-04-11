@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 10,
+  "issuesClosedLastHour": 12,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refined NaN detection fallback warnings and standardized error messaging in numeric parsing. (fixes #1823)",
-      "ageMinutes": 0
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 0,
-  "diffMinutesMain": 12,
-  "commitsLastHour": 5,
-  "commitsLastDay": 96,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 6,
+  "commitsLastDay": 97,
   "lastFiveCommitMessages": [
+    {
+      "time": "12:28",
+      "message": "Refined NaN detection fallback warnings and standardized error m..."
+    },
     {
       "time": "12:16",
       "message": "Add file-based logging support via --log-file flag for dual logg..."
@@ -32,23 +31,14 @@
     {
       "time": "11:49",
       "message": "Enhanced unified NaN fallback and error messaging for CLI and CS..."
-    },
-    {
-      "time": "11:39",
-      "message": "Standardize NaN input handling improving fallback consistency an..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1823",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T12:28:33.840Z"
+  "generatedAt": "2025-04-11T12:29:42.478Z"
 }
