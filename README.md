@@ -70,7 +70,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 - **--debug-trace**
   
-  Use the `--debug-trace` flag to activate extended debug mode. When enabled, the CLI outputs detailed structured JSON logs of the internal processing pipeline for troubleshooting without interfering with normal output.
+  Use the `--debug-trace` flag to activate extended debug mode. When enabled, the CLI outputs detailed structured JSON logs of the internal processing pipeline for troubleshooting and log analysis.
 
 - **--suppress-nan-warnings**
   
@@ -114,6 +114,8 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 - **Warning Consolidation:** Multiple occurrences of the same invalid input with the same fallback configuration trigger only one warning within a single batch, avoiding log clutter.
 - **Automatic Cache Reset:** After each batch process, the warning cache is reset, ensuring that warnings are not permanently suppressed across separate executions.
 - **Signed NaN Variants:** In strict mode, signed variants such as '+NaN' and '-NaN' trigger an explicit error. In non-strict mode, they are treated as NaN variants and the fallback value is applied if needed.
+
+*Performance Optimization:* NaN variant detection functions have been refactored to reduce redundant Unicode normalization and case conversions, ensuring efficient processing even for large CSV files or numerous CLI inputs.
 
 ### Custom NaN Variants
 
@@ -211,5 +213,3 @@ The `--debug-trace` flag activates a detailed execution trace that outputs struc
 ---
 
 *Note:* The warning messages for NaN fallbacks have been refactored for a standardized format across both CLI numeric arguments and CSV inputs. The fallback warning cache is automatically reset between batch processes to ensure that warnings are logged for each new batch.
-
-*Enhancement:* Unicode whitespace normalization has been improved to robustly handle complex and locale-specific inputs.

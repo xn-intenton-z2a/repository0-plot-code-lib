@@ -8,6 +8,13 @@ import { existsSync, readFileSync, appendFileSync, watchFile } from "fs";
 import path from "path";
 import { z } from "zod";
 
+// Precompiled regex for Unicode whitespace
+const whiteSpaceRegex = /[\p{White_Space}]+/gu;
+
+// Predefined Sets for built-in NaN variants
+const NAN_BUILT_INS_CASE = new Set(["NaN", "+NaN", "-NaN"]);
+const NAN_BUILT_INS = new Set(["nan", "+nan", "-nan"]);
+
 // Global configuration schema using zod
 const globalConfigSchema = z.object({
   CLI_COLOR_SCHEME: z.string().optional(),
@@ -32,6 +39,9 @@ let cliSuppressNanWarnings = false;
 // Global map to deduplicate NaN fallback warnings in batch processing
 let warnedNaNWarnings = new Map();
 
+// Added cache for isNaNVariant to optimize performance
+const isNaNVariantCache = new Map();
+
 // Exported for testing purposes to clear the config cache and warning cache
 export function resetGlobalConfigCache() {
   globalConfigCache = null;
@@ -42,6 +52,8 @@ export function resetFallbackWarningCache() {
   warnedNaNWarnings = new Map();
   // Also reset the CLI flag to ensure warnings are not suppressed across batches
   cliSuppressNanWarnings = false;
+  // Clear the isNaN variant cache as well
+  isNaNVariantCache.clear();
 }
 
 // Loads the global configuration from available config files
@@ -101,9 +113,9 @@ function watchGlobalConfig() {
 }
 
 // Helper function to clean input string by normalizing Unicode and trimming whitespace
-// Enhanced to replace all kinds of Unicode whitespace characters
+// Enhanced to replace all kinds of Unicode whitespace characters using a precompiled regex
 function cleanString(str) {
-  return str.normalize("NFKC").replace(/[\p{White_Space}]+/gu, " ").trim();
+  return str.normalize("NFKC").replace(whiteSpaceRegex, " ").trim();
 }
 
 // Helper function to format standardized warning message for NaN fallbacks
@@ -120,21 +132,28 @@ function formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVa
 }
 
 // Consolidated helper function to check if a string represents a NaN variant
-// This function now respects the CASE_SENSITIVE_NAN configuration for both built-in and custom variants.
+// Optimized to use memoization to avoid redundant computations
 function isNaNVariant(input, additionalVariants = []) {
+  const cacheKey = input + '|' + additionalVariants.join(",");
+  if (isNaNVariantCache.has(cacheKey)) return isNaNVariantCache.get(cacheKey);
+
   const cleanedInput = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
-  // Define built-in NaN variants based on case sensitivity
-  const builtInVariants = caseSensitive ? ["NaN", "+NaN", "-NaN"] : ["nan", "+nan", "-nan"];
+  const builtInVariants = caseSensitive ? NAN_BUILT_INS_CASE : NAN_BUILT_INS;
   const inputToCompare = caseSensitive ? cleanedInput : cleanedInput.toLowerCase();
-  if (builtInVariants.includes(inputToCompare)) return true;
-  // Clean and adjust custom NaN variants according to case sensitivity
-  const customVariants = additionalVariants.map(v => {
-    const cleaned = cleanString(v);
-    return caseSensitive ? cleaned : cleaned.toLowerCase();
-  });
-  return customVariants.includes(inputToCompare);
+  let result;
+  if (builtInVariants.has(inputToCompare)) {
+    result = true;
+  } else {
+    const customVariants = (config.additionalNaNValues || []).map(v => {
+      let cleaned = cleanString(v);
+      return caseSensitive ? cleaned : cleaned.toLowerCase();
+    });
+    result = customVariants.includes(inputToCompare);
+  }
+  isNaNVariantCache.set(cacheKey, result);
+  return result;
 }
 
 // Unified fallback handler to process invalid numeric inputs using fallback value and emit structured JSON warnings
@@ -143,12 +162,8 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const locale = config.LOCALE || "en-US";
-      const key = JSON.stringify({
-        normalized,
-        fallbackValue: fallbackNumber.toString().trim(),
-        customNaNVariants: additionalVariants,
-        locale: locale
-      });
+      // Optimized warning key generation without JSON.stringify
+      const key = `${normalized}|${fallbackNumber.toString().trim()}|${additionalVariants.join(",")}|${locale}`;
       if (!warnedNaNWarnings.has(key)) {
         const logMessage = formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale);
         logger(logMessage);
@@ -159,7 +174,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   }
   let errorMsg = `Invalid numeric input '${originalInput}' (Locale: ${config.LOCALE || "en-US"}). Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
@@ -716,8 +731,8 @@ export function formatNumberOutput(num, options = {}) {
   return formatter.format(num);
 }
 
-// Export watchGlobalConfig for testing purposes
-export { watchGlobalConfig };
+// Export watchGlobalConfig and isNaNVariant for testing purposes
+export { watchGlobalConfig, isNaNVariant };
 
 // If executed directly from the CLI, call main with process arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

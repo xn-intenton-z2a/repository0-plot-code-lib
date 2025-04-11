@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
-import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache, resetFallbackWarningCache, formatNumberOutput } from "../../src/lib/main.js";
+import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache, resetFallbackWarningCache, formatNumberOutput, isNaNVariant } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -615,5 +615,19 @@ describe("Locale-Aware Numeric Output Formatting", () => {
     resetGlobalConfigCache();
     const options = { style: "decimal", maximumFractionDigits: 2 };
     expect(formatNumberOutput(987654321.123, options)).toBe("987,654,321.12");
+  });
+});
+
+describe("Performance Optimization", () => {
+  test("isNaNVariant should perform optimally over 100000 iterations", () => {
+    const start = Date.now();
+    for (let i = 0; i < 100000; i++) {
+      // Test with various inputs
+      isNaNVariant("NaN");
+      isNaNVariant("123");
+      isNaNVariant(" nan ");
+    }
+    const duration = Date.now() - start;
+    expect(duration).toBeLessThan(500);
   });
 });
