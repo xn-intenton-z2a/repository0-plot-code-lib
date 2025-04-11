@@ -2,21 +2,20 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-crucible",
   "engine": "schedule-3",
-  "openIssues": 77,
-  "issuesClosedLastHour": 4,
+  "openIssues": 75,
+  "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Optimized NaN conversion for bulk CLI arguments by caching normalized inputs. (fixes #1272)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 14,
-  "commitsLastHour": 2,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 1,
+  "commitsLastHour": 3,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "04:46",
+      "message": "Optimized NaN conversion for bulk CLI arguments by caching norma..."
+    },
     {
       "time": "04:31",
       "message": "Enhanced diagnostic logging in processNaNConversion for improved..."
@@ -32,23 +31,14 @@
     {
       "time": "01:52",
       "message": "Reordered the refresh-config and dump-config flags in main to en..."
-    },
-    {
-      "time": "22:24",
-      "message": "Refactored NaN configuration resolution to enforce clear precede..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1272",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T04:45:38.618Z"
+  "generatedAt": "2025-04-11T04:48:39.488Z"
 }
