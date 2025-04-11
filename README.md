@@ -19,8 +19,8 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
   try {
     // Example: Running the main function with unified 'NaN' handling.
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed.
-    // When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown.
-    // If a fallback value is provided, it is applied and a warning is logged with a streamlined message.
+    // When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with detailed guidance including allowed formats.
+    // If a fallback value is provided, it is applied and a warning is logged with a streamlined message mentioning valid numeric input formats.
     // Additional custom NaN variants can be configured via a global configuration file (.repository0plotconfig.json).
     await main(['--number=NaN', '--fallback-number=100']);
 
@@ -77,9 +77,9 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 ### Unified 'NaN' Handling
 
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a standardized manner with enhanced normalization.
-- When explicit NaN values are not allowed (default), providing them triggers a fallback mechanism (if a valid fallback is given) and logs a concise warning message.
+- When explicit NaN values are not allowed (default), providing them triggers a fallback mechanism (if a valid fallback is given) and logs a concise warning message. The error messages now also include guidance on valid input formats and list any custom NaN variants configured via your global configuration.
 - To explicitly accept NaN inputs, use the `--allow-nan` flag.
-- Additionally, if the literal 'NaN' (or its variants) is provided without allowance, the error message will now include guidance on acceptable inputs (e.g., 42, 1e3, 1_000, or 1,000).
+- Additionally, if the literal 'NaN' (or its variants) is provided without allowance, the error message will include instructions such as acceptable formats (e.g., 42, 1e3, 1_000, or 1,000).
 
 ### Custom NaN Variants
 
@@ -91,7 +91,7 @@ You can define additional string values to be recognized as NaN using the global
 }
 ```
 
-This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs.
+This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The error messages will include these custom variants when informing about valid input formats.
 
 ### Global Configuration for NaN Handling
 
