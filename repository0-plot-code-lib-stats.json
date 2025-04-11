@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Fixed test file by importing beforeEach and afterEach from vitest. (fixes #1730)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
   "diffMinutes": 0,
-  "diffMinutesMain": 39,
+  "diffMinutesMain": 40,
   "commitsLastHour": 1,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T01:47:50.365Z"
+  "generatedAt": "2025-04-11T01:48:42.052Z"
 }
