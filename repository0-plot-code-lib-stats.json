@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 2,
   "issuesClosedLastDay": 97,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 1,
-  "diffMinutesMain": 36,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Fixed test file by importing beforeEach and afterEach from vitest. (fixes #1730)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 0,
+  "diffMinutesMain": 39,
   "commitsLastHour": 1,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1730",
-        "minutesSinceLastCommit": 32
+        "minutesSinceLastCommit": 0
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T01:44:27.632Z"
+  "generatedAt": "2025-04-11T01:47:48.067Z"
 }
