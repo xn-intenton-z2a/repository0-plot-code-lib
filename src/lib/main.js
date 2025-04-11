@@ -288,7 +288,7 @@ export async function main(args) {
       console.error(themeColors.error(msg));
     }
 
-    // Automatic error reporting only in verbose mode
+    // Automatic error reporting only in verbose mode with errorReportingUrl
     if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
       let libraryVersion = 'unknown';
       try {
@@ -315,24 +315,39 @@ export async function main(args) {
         },
         originalNumericInput: error.originalInput || null
       };
-      try {
-        const response = await fetch(errorReportingUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
-        });
-        if (response.ok) {
-          console.log(themeColors.info("Error report submitted successfully."));
-        } else {
-          console.error(themeColors.error(`Failed to submit error report. Status: ${response.status}`));
-        }
-      } catch (err) {
-        console.error(themeColors.error("Failed to submit error report:"), err);
-      }
+      // Use the new automatic retry submission function
+      await submitErrorReport(payload, errorReportingUrl, themeColors);
     }
 
     throw error;
   }
+}
+
+// New function to submit error reports with automatic retry and exponential backoff
+export async function submitErrorReport(payload, url, themeColors) {
+  const delays = [500, 1000, 2000];
+  const maxAttempts = delays.length;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+      if (response.ok) {
+        console.log(themeColors.info(`Error report submitted successfully on attempt ${attempt + 1}.`));
+        return;
+      } else {
+        console.error(themeColors.error(`Failed to submit error report on attempt ${attempt + 1}. Status: ${response.status}`));
+      }
+    } catch (err) {
+      console.error(themeColors.error(`Failed to submit error report on attempt ${attempt + 1}. Error: ${err.message}`));
+    }
+    if (attempt < maxAttempts - 1) {
+      await new Promise(resolve => setTimeout(resolve, delays[attempt]));
+    }
+  }
+  console.error(themeColors.error("All attempts to submit error report have failed."));
 }
 
 // Returns the current CLI theme color functions based on a provided theme override, a custom configuration file, or the CLI_COLOR_SCHEME environment variable.

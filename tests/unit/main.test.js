@@ -1,5 +1,5 @@
-import { beforeEach, afterEach, describe, test, expect } from "vitest";
-import { parseCSV, normalizeNumberString, validateNumericArg, main } from "../../src/lib/main.js";
+import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
+import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -21,6 +21,7 @@ afterEach(() => {
   console.log = originalConsoleLog;
   console.error = originalConsoleError;
   delete globalThis.__TEST_STDIN__;
+  vi.restoreAllMocks();
 });
 
 describe("CSV Importer with default comma delimiter", () => {
@@ -219,5 +220,49 @@ describe("CSV STDIN Importer", () => {
     await expect(main(["--fallback-number=0"]))
       .rejects
       .toThrow(/CSV input is empty/);
+  });
+});
+
+describe("Error Reporting Retry Mechanism", () => {
+  let originalFetch;
+  
+  beforeEach(() => {
+    originalFetch = global.fetch;
+  });
+  
+  afterEach(() => {
+    global.fetch = originalFetch;
+  });
+
+  test("submits error report successfully on first attempt", async () => {
+    const fakeResponse = { ok: true };
+    global.fetch = vi.fn().mockResolvedValue(fakeResponse);
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const payload = { errorMessage: 'Test error' };
+    await submitErrorReport(payload, 'http://example.com/report', themeColors);
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+  });
+
+  test("retries and succeeds on a subsequent attempt", async () => {
+    const fakeFailResponse = { ok: false, status: 500 };
+    const fakeSuccessResponse = { ok: true };
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(fakeFailResponse)
+      .mockResolvedValueOnce(fakeFailResponse)
+      .mockResolvedValueOnce(fakeSuccessResponse);
+    global.fetch = fetchMock;
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const payload = { errorMessage: 'Test error' };
+    await submitErrorReport(payload, 'http://example.com/report', themeColors);
+    expect(global.fetch).toHaveBeenCalledTimes(3);
+  });
+
+  test("fails after exhausting all retry attempts", async () => {
+    const fakeFailResponse = { ok: false, status: 500 };
+    global.fetch = vi.fn().mockResolvedValue(fakeFailResponse);
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const payload = { errorMessage: 'Test error' };
+    await submitErrorReport(payload, 'http://example.com/report', themeColors);
+    expect(global.fetch).toHaveBeenCalledTimes(3);
   });
 });
