@@ -79,7 +79,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 ### Unified 'NaN' Handling & Structured Logging
 
 - All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) are processed via unified functions that apply locale-aware normalization.
-- If an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged with details such as the original input, its normalized form, the fallback value used, and any custom NaN variants.
+- If an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged with details such as the original input (after trimming), its normalized form, the fallback value used, and any custom NaN variants.
 - To enforce strict validation without fallback, use the `--strict-numeric` flag.
 
 ### Custom NaN Variants
@@ -160,6 +160,11 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 ### Automatic Error Reporting with Retry
 
 When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is set) that includes error details, CLI arguments, library version, and more. Configurable retry delays and max attempts ensure robust error reporting.
+
+### Enhancements in this Release
+
+- Improved whitespace handling: inputs with excess whitespace are uniformly trimmed before processing.
+- Custom NaN variants: recognition and error messages now clearly list all custom NaN variants defined in the global configuration.
 
 ---
 
