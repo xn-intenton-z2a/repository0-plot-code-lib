@@ -5,18 +5,17 @@
   "openIssues": 100,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refactored numeric parsing to enhance locale-aware error messages and robust NaN variant handling in CSV imports. (fixes #1889)",
-      "ageMinutes": 2
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 0,
-  "diffMinutesMain": 14,
+  "diffMinutesMain": 0,
   "commitsLastHour": 5,
-  "commitsLastDay": 99,
+  "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "21:27",
+      "message": "Refactored numeric parsing to enhance locale-aware error message..."
+    },
     {
       "time": "21:12",
       "message": "Enhanced NaN variant recognition to respect CASE_SENSITIVE_NAN c..."
@@ -32,23 +31,14 @@
     {
       "time": "20:39",
       "message": "Add CLI flag --suppress-nan-warnings to disable NaN fallback war..."
-    },
-    {
-      "time": "20:27",
-      "message": "Added --debug-trace flag for extended CLI execution trace and up..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1889",
-        "minutesSinceLastCommit": 3
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 2,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T21:27:02.687Z"
+  "generatedAt": "2025-04-11T21:27:58.219Z"
 }
