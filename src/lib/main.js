@@ -66,26 +66,27 @@ function logError(chalkError, ...args) {
 
 // Unified function to process numeric inputs with fallback handling and explicit NaN acceptance
 function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
-  if (inputStr.trim().toLowerCase() === 'nan') {
+  const trimmedInput = inputStr.trim();
+  if (trimmedInput.toLowerCase() === 'nan') {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     } else {
-      const normalized = normalizeNumberString(inputStr);
-      const err = new Error(`Invalid numeric input '${inputStr}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
-      err.originalInput = inputStr;
+      const normalized = normalizeNumberString(trimmedInput);
+      const err = new Error(`Invalid numeric input '${trimmedInput}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
+      err.originalInput = trimmedInput;
       throw err;
     }
   }
-  const normalized = normalizeNumberString(inputStr);
+  const normalized = normalizeNumberString(trimmedInput);
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${inputStr}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
-    err.originalInput = inputStr;
+    const err = new Error(`Invalid numeric input '${trimmedInput}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
+    err.originalInput = trimmedInput;
     throw err;
   }
   return num;
