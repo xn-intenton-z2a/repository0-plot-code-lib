@@ -26,8 +26,8 @@ function isNaNVariant(str, additionalVariants = []) {
   const trimmed = str.trim();
   // Check default NaN variants using regex
   const defaultNaN = /^[+-]?nan$/i.test(trimmed);
-  // Check if the trimmed string matches any additional custom NaN variant (case-insensitive)
-  const customNaN = additionalVariants.some(av => trimmed.toLowerCase() === av.toLowerCase());
+  // Check if the trimmed string matches any additional custom NaN variant (case-insensitive, expecting lower-case values)
+  const customNaN = additionalVariants.some(av => trimmed.toLowerCase() === av);
   return defaultNaN || customNaN;
 }
 
@@ -128,7 +128,8 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
 // This function now delegates to processNumberInputUnified for standardized behavior.
 export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const config = getGlobalConfig();
-  const additionalVariants = config.additionalNaNValues || [];
+  // Normalize custom NaN variants to lower-case and trim them for consistent comparison
+  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
   return processNumberInputUnified(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn);
 }
 
@@ -185,7 +186,8 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 // It uses processNumberInputUnified for consistent behavior.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const config = getGlobalConfig();
-  const additionalVariants = config.additionalNaNValues || [];
+  // Normalize custom NaN variants
+  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
   // Use console.warn for fallback warnings to ensure warnings are logged in tests
   return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn);
 }
