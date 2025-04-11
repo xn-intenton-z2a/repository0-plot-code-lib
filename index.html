@@ -77,10 +77,11 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
 <p class="md-github"><strong class="md-github">Unified Fallback Mechanism and Explicit NaN Handling:</strong></p>
-<p class="md-github">When processing numeric inputs that match the literal <code class="md-github">NaN</code> (in any casing), the CLI now uses a centralized logic that:</p>
+<p class="md-github">The CLI now uses a unified approach for numeric input parsing. When an input (case-insensitive) matches <code class="md-github">NaN</code>:</p>
 <ol class="md-github">
-<li class="md-github">If the user explicitly specifies a numeric argument as <code class="md-github">NaN</code> and the flag <code class="md-github">--allow-nan</code> is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), then the input is accepted and converted to JavaScript’s <code class="md-github">NaN</code>.</li>
-<li class="md-github">If the <code class="md-github">--allow-nan</code> flag is not provided, a fallback value is used if available via the <code class="md-github">--fallback-number</code> flag or <code class="md-github">FALLBACK_NUMBER</code> environment variable; otherwise, a standardized error message is thrown which includes the original input and its normalized form for easier debugging.</li>
+<li class="md-github">If the <code class="md-github">--allow-nan</code> flag is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), the value is accepted as JavaScript’s <code class="md-github">NaN</code>.</li>
+<li class="md-github">If the flag is not provided, and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used.</li>
+<li class="md-github">Otherwise, a standardized error is thrown that includes both the original input and its normalized form for easier debugging.</li>
 </ol>
 <p class="md-github">For example, using an explicit allow flag:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
@@ -145,7 +146,7 @@ repository0-plot-code-lib --number=NaN
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T05:26:40.340Z</p>
+    <p>Generated on 2025-04-11T05:27:27.080Z</p>
   </footer>
 </body>
 </html>
