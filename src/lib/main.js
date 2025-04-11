@@ -103,15 +103,19 @@ function cleanString(str) {
 }
 
 // Consolidated helper function to check if a string represents a NaN variant
+// This function now respects the CASE_SENSITIVE_NAN configuration for both built-in and custom variants.
 function isNaNVariant(input, additionalVariants = []) {
-  const cleaned = cleanString(input);
+  const cleanedInput = cleanString(input);
   const config = getGlobalConfig();
-  const caseSensitive = config.CASE_SENSITIVE_NAN === true; // if true, match exactly
-  const normalizedInput = caseSensitive ? cleaned : cleaned.toLowerCase();
-  const nanVariants = caseSensitive ? ["NaN", "+NaN", "-NaN"] : ["nan", "+nan", "-nan"];
-  if (nanVariants.includes(normalizedInput)) return true;
-  const normalizedVariants = additionalVariants.map(v => caseSensitive ? cleanString(v) : cleanString(v).toLowerCase());
-  return normalizedVariants.includes(normalizedInput);
+  const caseSensitive = config.CASE_SENSITIVE_NAN === true;
+  const builtInVariants = caseSensitive ? ["NaN", "+NaN", "-NaN"] : ["nan", "+nan", "-nan"];
+  const inputToCompare = caseSensitive ? cleanedInput : cleanedInput.toLowerCase();
+  if (builtInVariants.includes(inputToCompare)) return true;
+  const customVariants = additionalVariants.map(v => {
+    const cleaned = cleanString(v);
+    return caseSensitive ? cleaned : cleaned.toLowerCase();
+  });
+  return customVariants.includes(inputToCompare);
 }
 
 // Helper function to handle fallback logging and conversion with deduplicated warnings
