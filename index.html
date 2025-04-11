@@ -79,13 +79,12 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">To explicitly accept NaN inputs, use the <code class="md-github">--allow-nan</code> flag.</li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="custom-nan-variants" href="#custom-nan-variants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom NaN Variants</h3>
-<p class="md-github">You can define additional string values to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or an environment variable. For example, add the following to your configuration file:</p>
+<p class="md-github">You can define additional string values to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or an environment variable. Custom NaN variants are compared in a case-insensitive manner after trimming whitespace. For example, add the following to your configuration file:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;additionalNaNValues&quot;: [&quot;foo&quot;, &quot;bar&quot;]
 }
 </code></pre>
 <p class="md-github">This configuration ensures that occurrences of &quot;foo&quot; or &quot;bar&quot; in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The error and warning messages will explicitly list these custom variants.</p>
-<p class="md-github"><strong class="md-github">Note:</strong> Custom NaN variants configured in the global configuration are now fully integrated into both CLI argument parsing and CSV import flows.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration-for-nan-handling" href="#global-configuration-for-nan-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration for NaN Handling</h3>
 <p class="md-github">Set the <code class="md-github">ALLOW_NAN</code> property in your <code class="md-github">.repository0plotconfig.json</code> to control how NaN inputs are handled globally. For example:</p>
 <pre class="md-github"><code class="md-github language-json">{
@@ -121,7 +120,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T15:27:24.410Z</p>
+    <p>Generated on 2025-04-11T15:28:16.792Z</p>
   </footer>
 </body>
 </html>
