@@ -101,7 +101,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
     }
     throw Object.assign(new Error(`${errorMsg} Normalized input: '${normalized}'.`), { originalInput: trimmedInput });
   }
@@ -113,7 +113,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
     }
     throw Object.assign(new Error(`${errorMsg} Normalized input: '${normalized}'.`), { originalInput: trimmedInput });
   }
@@ -326,7 +326,7 @@ export async function main(args) {
     // Process STDIN input if available
     const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
     let pipedData = "";
-    (async () => {
+    await (async () => {
       for await (const chunk of inputStream) {
         pipedData += chunk;
       }
