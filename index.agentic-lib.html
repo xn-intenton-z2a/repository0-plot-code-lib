@@ -72,8 +72,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with spaces as thousand separators (e.g., <code class="md-github">1 000</code>)</li>
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
-<p class="md-github">The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. <strong class="md-github">Note:</strong> Inputs explicitly equal to &quot;NaN&quot; (case-insensitive) are rejected with a clear error message.</p>
-<p class="md-github">Additionally, if an invalid numeric input is provided and a fallback value is specified via the <code class="md-github">--fallback-number</code> flag or the environment variable <code class="md-github">FALLBACK_NUMBER</code>, the CLI will log a warning and automatically use the fallback value.</p>
+<p class="md-github">The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. <strong class="md-github">Note:</strong> Inputs explicitly equal to &quot;NaN&quot; (case-insensitive) are rejected with a clear error message. If a fallback value is provided via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, a clear log message indicates that the fallback value is applied.</p>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
@@ -136,7 +135,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T01:08:13.909Z</p>
+    <p>Generated on 2025-04-11T01:09:06.093Z</p>
   </footer>
 </body>
 </html>
