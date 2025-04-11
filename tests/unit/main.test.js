@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
-import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig } from "../../src/lib/main.js";
+import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -15,6 +15,8 @@ beforeEach(() => {
   consoleOutput = [];
   console.log = mockedLog;
   console.error = mockedLog;
+  // Reset global config cache to allow tests to pick up new config files
+  resetGlobalConfigCache();
 });
 
 afterEach(() => {
@@ -534,4 +536,3 @@ describe("Real-Time Global Configuration Hot Reloading", () => {
     expect(consoleOutput.some(msg => msg.includes("Global configuration reloaded."))).toBeTruthy();
   });
 });
-

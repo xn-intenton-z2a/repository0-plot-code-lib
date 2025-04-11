@@ -56,11 +56,17 @@ function loadGlobalConfig() {
 }
 
 // Returns the current global configuration, using the cached version if available
+// In test environment we reload config to allow dynamic changes
 function getGlobalConfig() {
-  if (!globalConfigCache) {
+  if (!globalConfigCache || process.env.NODE_ENV === "test") {
     globalConfigCache = loadGlobalConfig();
   }
   return globalConfigCache;
+}
+
+// Exported for testing purposes to clear the config cache
+export function resetGlobalConfigCache() {
+  globalConfigCache = null;
 }
 
 // Sets up a watcher on the local global configuration file to enable hot reloading
