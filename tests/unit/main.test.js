@@ -20,6 +20,8 @@ beforeEach(() => {
 afterEach(() => {
   console.log = originalConsoleLog;
   console.error = originalConsoleError;
+  // Remove test stdin override if set
+  delete globalThis.__TEST_STDIN__;
 });
 
 
@@ -115,22 +117,14 @@ describe("Numeric Parser Utility", () => {
 });
 
 describe("CSV STDIN Importer", () => {
-  let originalStdin;
-  beforeEach(() => {
-    originalStdin = process.stdin;
-  });
-
-  afterEach(() => {
-    process.stdin = originalStdin;
-  });
-
   test("should correctly import CSV data from STDIN", async () => {
     const csvData = "10,20,30\n40,50,60";
     // Create a Readable stream from the csvData
     const stdinStream = Readable.from(csvData);
-    // Simulate non-TTY
+    // Simulate non-TTY by setting isTTY property to false
     stdinStream.isTTY = false;
-    process.stdin = stdinStream;
+    // Use globalThis.__TEST_STDIN__ override instead of process.stdin
+    globalThis.__TEST_STDIN__ = stdinStream;
 
     // Call main with fallback for numeric parsing not needed in this case
     await main(["--fallback-number=0"]);
@@ -144,7 +138,7 @@ describe("CSV STDIN Importer", () => {
     const csvData = "   ";
     const stdinStream = Readable.from(csvData);
     stdinStream.isTTY = false;
-    process.stdin = stdinStream;
+    globalThis.__TEST_STDIN__ = stdinStream;
 
     await expect(main(["--fallback-number=0"]))
       .rejects

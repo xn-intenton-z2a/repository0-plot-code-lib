@@ -75,7 +75,7 @@ export function parseCSV(filePath, fallbackNumber) {
 // New helper function to parse CSV from a string
 function parseCSVFromString(content, fallbackNumber) {
   if (content.trim() === "") {
-    throw new Error("CSV input is empty.");
+    throw new Error("CSV file is empty.");
   }
   const rows = content.trim().split("\n");
   return rows.map(row => {
@@ -217,19 +217,20 @@ export async function main(args) {
         logError(themeColors.error, "Error importing CSV data:", csvError);
         throw csvError;
       }
-    } else if (!process.stdin.isTTY) { // If no file provided, check for piped STDIN
-      try {
+    } else {
+      // Use test override for stdin if provided
+      const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
+      if (inputStream.isTTY === false) {
         let pipedData = "";
-        for await (const chunk of process.stdin) {
+        for await (const chunk of inputStream) {
           pipedData += chunk;
         }
         if (pipedData.trim()) {
           const csvData = parseCSVFromString(pipedData, fallbackNumber);
           console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
+        } else {
+          throw new Error("CSV input is empty.");
         }
-      } catch (csvError) {
-        logError(themeColors.error, "Error importing CSV data from STDIN:", csvError);
-        throw csvError;
       }
     }
 
