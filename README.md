@@ -68,11 +68,11 @@ Usage: repository0-plot-code-lib <arguments>
 
 - **--suppress-nan-warnings**
   
-  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same NaN input in batch processing are consolidated into a single log entry to maintain log clarity.
+  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same NaN input in batch processing are consolidated to improve log clarity.
 
 - **CASE_SENSITIVE_NAN Configuration**
 
-  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such. For example, if enabled, an input of "nan" (all lowercase) would not be treated as a NaN variant, whereas "NaN" would be recognized. This provides finer control over numeric parsing behaviors.
+  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including any custom variants) will be treated as such. For example, if enabled, an input of "nan" (all lowercase) would not be treated as a NaN variant, whereas "NaN" would be recognized.
 
   Example configuration:
 
@@ -108,7 +108,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Custom NaN Variants
 
-You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace (including non-standard whitespace). The new `CASE_SENSITIVE_NAN` option lets you decide if the matching should be case sensitive.
+You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace (including non-standard whitespace). The `CASE_SENSITIVE_NAN` option lets you decide if the matching should be case sensitive.
 
 Example configuration:
 
