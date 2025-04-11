@@ -5,8 +5,13 @@
   "openIssues": 100,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Refactored NaN parsing fallback logic for consistent structured warnings and unified configuration handling. (fixes #1901)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 0,
   "diffMinutesMain": 6,
   "commitsLastHour": 5,
@@ -45,5 +50,5 @@
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T21:33:58.323Z"
+  "generatedAt": "2025-04-11T21:34:08.638Z"
 }
