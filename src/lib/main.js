@@ -38,7 +38,10 @@ export function resetGlobalConfigCache() {
 }
 
 export function resetFallbackWarningCache() {
-  warnedNaNWarnings.clear();
+  // Instead of clearing the existing Map, reinitialize it to ensure complete reset
+  warnedNaNWarnings = new Map();
+  // Also reset the CLI flag to ensure warnings are not suppressed across batches
+  cliSuppressNanWarnings = false;
 }
 
 // Loads the global configuration from available config files
@@ -143,7 +146,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
         normalized,
         fallbackValue: fallbackNumber.toString().trim(),
         customNaNVariants: additionalVariants,
-        locale
+        locale: locale
       });
       if (!warnedNaNWarnings.has(key)) {
         const logMessage = formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale);
@@ -276,7 +279,10 @@ export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, pr
 // CSV Importer: Reads a CSV file and returns an array of arrays of numbers using unified numeric parsing
 export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',', strict = false) {
   const content = readFileSync(filePath, "utf-8");
-  return parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal, delimiter, strict);
+  const data = parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal, delimiter, strict);
+  // Reset warning cache after processing a CSV batch
+  resetFallbackWarningCache();
+  return data;
 }
 
 // Helper to auto-detect CSV delimiter based on the first line of content
@@ -341,271 +347,278 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
-  let debugTrace = false;
-  let debugData = {};
+  try {
+    let debugTrace = false;
+    let debugData = {};
 
-  if (args && args.includes('--debug-trace')) {
-    debugTrace = true;
-    args = args.filter(arg => arg !== '--debug-trace');
-  }
+    if (args && args.includes('--debug-trace')) {
+      debugTrace = true;
+      args = args.filter(arg => arg !== '--debug-trace');
+    }
 
-  if (args && args.length > 0) {
+    if (args && args.length > 0) {
+      args = args.filter(arg => {
+        if (arg === '--suppress-nan-warnings') {
+          cliSuppressNanWarnings = true;
+          return false;
+        }
+        return true;
+      });
+    }
+
+    let fallbackNumber = undefined;
+    let allowNaN = false;
+    let preserveDecimal = false;
+    let csvDelimiter = '';
+    let strictNumeric = false;
+
+    if (args && args.length > 0) {
+      args = args.filter(arg => {
+        if (arg.startsWith('--fallback-number=')) {
+          fallbackNumber = arg.slice('--fallback-number='.length);
+          return false;
+        }
+        if (arg === '--allow-nan') {
+          allowNaN = true;
+          return false;
+        }
+        if (arg === '--preserve-decimal') {
+          preserveDecimal = true;
+          return false;
+        }
+        if (arg.startsWith('--csv-delimiter=')) {
+          csvDelimiter = arg.slice('--csv-delimiter='.length);
+          return false;
+        }
+        if (arg === '--strict-numeric') {
+          strictNumeric = true;
+          return false;
+        }
+        if (arg === '--watch-config') {
+          return false;
+        }
+        return true;
+      });
+    }
+    if (!fallbackNumber && process.env.FALLBACK_NUMBER) {
+      fallbackNumber = process.env.FALLBACK_NUMBER;
+    }
+    if (!allowNaN && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === 'true') {
+      allowNaN = true;
+    }
+
+    let themeFlag = null;
     args = args.filter(arg => {
-      if (arg === '--suppress-nan-warnings') {
-        cliSuppressNanWarnings = true;
+      if (arg.startsWith('--theme=')) {
+        themeFlag = arg.slice('--theme='.length);
         return false;
       }
       return true;
     });
-  }
+    if (themeFlag) {
+      process.env.CLI_COLOR_SCHEME = themeFlag;
+    }
 
-  let fallbackNumber = undefined;
-  let allowNaN = false;
-  let preserveDecimal = false;
-  let csvDelimiter = '';
-  let strictNumeric = false;
-
-  if (args && args.length > 0) {
+    let logFilePath = null;
     args = args.filter(arg => {
-      if (arg.startsWith('--fallback-number=')) {
-        fallbackNumber = arg.slice('--fallback-number='.length);
-        return false;
-      }
-      if (arg === '--allow-nan') {
-        allowNaN = true;
-        return false;
-      }
-      if (arg === '--preserve-decimal') {
-        preserveDecimal = true;
-        return false;
-      }
-      if (arg.startsWith('--csv-delimiter=')) {
-        csvDelimiter = arg.slice('--csv-delimiter='.length);
-        return false;
-      }
-      if (arg === '--strict-numeric') {
-        strictNumeric = true;
-        return false;
-      }
-      if (arg === '--watch-config') {
+      if (arg.startsWith('--log-file=')) {
+        logFilePath = arg.slice('--log-file='.length);
         return false;
       }
       return true;
     });
-  }
-  if (!fallbackNumber && process.env.FALLBACK_NUMBER) {
-    fallbackNumber = process.env.FALLBACK_NUMBER;
-  }
-  if (!allowNaN && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === 'true') {
-    allowNaN = true;
-  }
-
-  let themeFlag = null;
-  args = args.filter(arg => {
-    if (arg.startsWith('--theme=')) {
-      themeFlag = arg.slice('--theme='.length);
-      return false;
+    if (logFilePath) {
+      const originalConsoleLog = console.log;
+      const originalConsoleError = console.error;
+      console.log = (...args) => {
+        originalConsoleLog(...args);
+        appendFileSync(logFilePath, args.join(" ") + "\n", { flag: "a" });
+      };
+      console.error = (...args) => {
+        originalConsoleError(...args);
+        appendFileSync(logFilePath, args.join(" ") + "\n", { flag: "a" });
+      };
     }
-    return true;
-  });
-  if (themeFlag) {
-    process.env.CLI_COLOR_SCHEME = themeFlag;
-  }
 
-  let logFilePath = null;
-  args = args.filter(arg => {
-    if (arg.startsWith('--log-file=')) {
-      logFilePath = arg.slice('--log-file='.length);
-      return false;
+    if (debugTrace) {
+      debugData.argParsing = {
+        fallbackNumber,
+        allowNaN,
+        preserveDecimal,
+        csvDelimiter,
+        strictNumeric,
+        themeFlag,
+        logFilePath,
+        remainingArgs: args
+      };
     }
-    return true;
-  });
-  if (logFilePath) {
-    const originalConsoleLog = console.log;
-    const originalConsoleError = console.error;
-    console.log = (...args) => {
-      originalConsoleLog(...args);
-      appendFileSync(logFilePath, args.join(" ") + "\n", { flag: "a" });
-    };
-    console.error = (...args) => {
-      originalConsoleError(...args);
-      appendFileSync(logFilePath, args.join(" ") + "\n", { flag: "a" });
-    };
-  }
 
-  if (debugTrace) {
-    debugData.argParsing = {
-      fallbackNumber,
-      allowNaN,
-      preserveDecimal,
-      csvDelimiter,
-      strictNumeric,
-      themeFlag,
-      logFilePath,
-      remainingArgs: args
-    };
-  }
+    if (args.includes('--watch-config')) {
+      watchGlobalConfig();
+    }
 
-  if (args.includes('--watch-config')) {
-    watchGlobalConfig();
-  }
+    if (args && args.includes('--show-config')) {
+      const globalConfig = getGlobalConfig();
+      if (process.env.CLI_COLOR_SCHEME) globalConfig.CLI_COLOR_SCHEME = process.env.CLI_COLOR_SCHEME;
+      if (process.env.LOG_LEVEL) globalConfig.LOG_LEVEL = process.env.LOG_LEVEL;
+      if (process.env.ERROR_REPORTING_URL) globalConfig.ERROR_REPORTING_URL = process.env.ERROR_REPORTING_URL;
+      if (process.env.FALLBACK_NUMBER) globalConfig.FALLBACK_NUMBER = process.env.FALLBACK_NUMBER;
+      if (process.env.LOCALE) globalConfig.LOCALE = process.env.LOCALE;
+      console.log(JSON.stringify(globalConfig, null, 2));
+      return;
+    }
 
-  if (args && args.includes('--show-config')) {
     const globalConfig = getGlobalConfig();
-    if (process.env.CLI_COLOR_SCHEME) globalConfig.CLI_COLOR_SCHEME = process.env.CLI_COLOR_SCHEME;
-    if (process.env.LOG_LEVEL) globalConfig.LOG_LEVEL = process.env.LOG_LEVEL;
-    if (process.env.ERROR_REPORTING_URL) globalConfig.ERROR_REPORTING_URL = process.env.ERROR_REPORTING_URL;
-    if (process.env.FALLBACK_NUMBER) globalConfig.FALLBACK_NUMBER = process.env.FALLBACK_NUMBER;
-    if (process.env.LOCALE) globalConfig.LOCALE = process.env.LOCALE;
-    console.log(JSON.stringify(globalConfig, null, 2));
-    return;
-  }
-
-  const globalConfig = getGlobalConfig();
-  if (debugTrace) {
-    debugData.configMerge = globalConfig;
-  }
-
-  if (globalConfig.ALLOW_NAN !== undefined) {
-    allowNaN = globalConfig.ALLOW_NAN;
-  }
-
-  if (!process.env.CLI_COLOR_SCHEME && globalConfig.CLI_COLOR_SCHEME) {
-    process.env.CLI_COLOR_SCHEME = globalConfig.CLI_COLOR_SCHEME;
-  }
-  if (!process.env.LOG_LEVEL && globalConfig.LOG_LEVEL) {
-    process.env.LOG_LEVEL = globalConfig.LOG_LEVEL;
-  }
-  const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
-
-  const themeColors = getThemeColors();
-  const verboseMode = args && args.includes("--verbose");
-
-  let csvFilePath = null;
-  if (args && args.length > 0) {
-    args = args.filter(arg => {
-      if (arg.startsWith('--csv-file=')) {
-        csvFilePath = arg.slice('--csv-file='.length);
-        return false;
-      }
-      return true;
-    });
-  }
-
-  if (csvFilePath) {
-    try {
-      const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
-      console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
-      if (debugTrace) {
-        debugData.csvProcessing = {
-          file: csvFilePath,
-          delimiterUsed: csvDelimiter || autoDetectDelimiter(readFileSync(csvFilePath, 'utf-8')),
-          data: csvData
-        };
-      }
-    } catch (csvError) {
-      logError(themeColors.error, "Error importing CSV data:", csvError);
-      if (debugTrace) {
-        debugData.csvProcessing = { error: csvError.message };
-      }
-      throw csvError;
+    if (debugTrace) {
+      debugData.configMerge = globalConfig;
     }
-  } else if (globalThis.__TEST_STDIN__ || (process.stdin && process.stdin.isTTY === false)) {
-    const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
-    let pipedData = "";
-    await (async () => {
-      for await (const chunk of inputStream) {
-        pipedData += chunk;
-      }
-      if (pipedData.trim()) {
-        const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
-        console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
+
+    if (globalConfig.ALLOW_NAN !== undefined) {
+      allowNaN = globalConfig.ALLOW_NAN;
+    }
+
+    if (!process.env.CLI_COLOR_SCHEME && globalConfig.CLI_COLOR_SCHEME) {
+      process.env.CLI_COLOR_SCHEME = globalConfig.CLI_COLOR_SCHEME;
+    }
+    if (!process.env.LOG_LEVEL && globalConfig.LOG_LEVEL) {
+      process.env.LOG_LEVEL = globalConfig.LOG_LEVEL;
+    }
+    const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
+
+    const themeColors = getThemeColors();
+    const verboseMode = args && args.includes("--verbose");
+
+    let csvFilePath = null;
+    if (args && args.length > 0) {
+      args = args.filter(arg => {
+        if (arg.startsWith('--csv-file=')) {
+          csvFilePath = arg.slice('--csv-file='.length);
+          return false;
+        }
+        return true;
+      });
+    }
+
+    if (csvFilePath) {
+      try {
+        const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
+        console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
         if (debugTrace) {
           debugData.csvProcessing = {
-            source: "STDIN",
-            delimiterUsed: csvDelimiter || autoDetectDelimiter(pipedData),
+            file: csvFilePath,
+            delimiterUsed: csvDelimiter || autoDetectDelimiter(readFileSync(csvFilePath, 'utf-8')),
             data: csvData
           };
         }
-      } else {
-        throw new Error("CSV input is empty.");
-      }
-    })();
-  } else if (!args || args.length === 0) {
-    console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
-    console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
-    if (debugTrace) {
-      debugData.executionState = { message: "No arguments provided." };
-      console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
-    }
-    return;
-  }
-
-  try {
-    const numberFlagPrefix = "--number=";
-    const numericDebug = [];
-    for (const arg of args) {
-      if (arg.startsWith(numberFlagPrefix)) {
-        const numStr = arg.slice(numberFlagPrefix.length);
-        const result = validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal, strictNumeric);
-        numericDebug.push({ input: numStr, result });
-      }
-    }
-    if (debugTrace) {
-      debugData.numericProcessing = numericDebug;
-    }
-
-    if (args && args.includes("--simulate-error")) {
-      throw new Error("Simulated error condition for testing. Please provide a valid number (e.g., '--number=42').");
-    }
-
-    console.log(themeColors.usage("Run with: ") + themeColors.run(JSON.stringify(args)));
-    if (debugTrace) {
-      debugData.executionState = { status: "Completed Successfully", finalArgs: args };
-      console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
-    }
-  } catch (error) {
-    if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
-      logError(themeColors.error, "Error in main function execution:", error);
-    } else {
-      const msg = error.message.startsWith("Invalid numeric input") ? error.message : "Error: " + error.message;
-      console.error(themeColors.error(msg));
-    }
-
-    if (debugTrace) {
-      debugData.executionState = { error: error.message };
-      console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
-    }
-
-    if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
-      let libraryVersion = 'unknown';
-      try {
-        const pkgPath = path.join(process.cwd(), 'package.json');
-        if (existsSync(pkgPath)) {
-          const pkgContent = readFileSync(pkgPath, 'utf-8');
-          const pkg = JSON.parse(pkgContent);
-          libraryVersion = pkg.version || 'unknown';
+      } catch (csvError) {
+        logError(themeColors.error, "Error importing CSV data:", csvError);
+        if (debugTrace) {
+          debugData.csvProcessing = { error: csvError.message };
         }
-      } catch (e) {}
-      const payload = {
-        errorMessage: error.message,
-        stackTrace: error.stack || "",
-        cliArgs: args,
-        libraryVersion,
-        timestamp: new Date().toISOString(),
-        envContext: {
-          NODE_ENV: process.env.NODE_ENV || 'undefined',
-          CLI_COLOR_SCHEME: process.env.CLI_COLOR_SCHEME || 'undefined',
-          LOG_LEVEL: process.env.LOG_LEVEL || 'undefined',
-          HOME: process.env.HOME || process.env.USERPROFILE || 'undefined',
-          LOCALE: process.env.LOCALE || 'undefined'
-        },
-        originalNumericInput: error.originalInput || null
-      };
-      await submitErrorReport(payload, errorReportingUrl, themeColors);
+        throw csvError;
+      }
+    } else if (globalThis.__TEST_STDIN__ || (process.stdin && process.stdin.isTTY === false)) {
+      const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
+      let pipedData = "";
+      await (async () => {
+        for await (const chunk of inputStream) {
+          pipedData += chunk;
+        }
+        if (pipedData.trim()) {
+          const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
+          console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
+          if (debugTrace) {
+            debugData.csvProcessing = {
+              source: "STDIN",
+              delimiterUsed: csvDelimiter || autoDetectDelimiter(pipedData),
+              data: csvData
+            };
+          }
+        } else {
+          throw new Error("CSV input is empty.");
+        }
+      })();
+    } else if (!args || args.length === 0) {
+      console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
+      console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
+      if (debugTrace) {
+        debugData.executionState = { message: "No arguments provided." };
+        console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
+      }
+      return;
     }
 
-    throw error;
+    try {
+      const numberFlagPrefix = "--number=";
+      const numericDebug = [];
+      for (const arg of args) {
+        if (arg.startsWith(numberFlagPrefix)) {
+          const numStr = arg.slice(numberFlagPrefix.length);
+          const result = validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal, strictNumeric);
+          numericDebug.push({ input: numStr, result });
+        }
+      }
+      if (debugTrace) {
+        debugData.numericProcessing = numericDebug;
+      }
+
+      if (args && args.includes("--simulate-error")) {
+        throw new Error("Simulated error condition for testing. Please provide a valid number (e.g., '--number=42').");
+      }
+
+      console.log(themeColors.usage("Run with: ") + themeColors.run(JSON.stringify(args)));
+      if (debugTrace) {
+        debugData.executionState = { status: "Completed Successfully", finalArgs: args };
+        console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
+      }
+    } catch (error) {
+      if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
+        logError(themeColors.error, "Error in main function execution:", error);
+      } else {
+        const msg = error.message.startsWith("Invalid numeric input") ? error.message : "Error: " + error.message;
+        console.error(themeColors.error(msg));
+      }
+
+      if (debugTrace) {
+        debugData.executionState = { error: error.message };
+        console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
+      }
+
+      if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
+        let libraryVersion = 'unknown';
+        try {
+          const pkgPath = path.join(process.cwd(), 'package.json');
+          if (existsSync(pkgPath)) {
+            const pkgContent = readFileSync(pkgPath, 'utf-8');
+            const pkg = JSON.parse(pkgContent);
+            libraryVersion = pkg.version || 'unknown';
+          }
+        } catch (e) {}
+        const payload = {
+          errorMessage: error.message,
+          stackTrace: error.stack || "",
+          cliArgs: args,
+          libraryVersion,
+          timestamp: new Date().toISOString(),
+          envContext: {
+            NODE_ENV: process.env.NODE_ENV || 'undefined',
+            CLI_COLOR_SCHEME: process.env.CLI_COLOR_SCHEME || 'undefined',
+            LOG_LEVEL: process.env.LOG_LEVEL || 'undefined',
+            HOME: process.env.HOME || process.env.USERPROFILE || 'undefined',
+            LOCALE: process.env.LOCALE || 'undefined'
+          },
+          originalNumericInput: error.originalInput || null
+        };
+        await submitErrorReport(payload, errorReportingUrl, themeColors);
+      }
+
+      throw error;
+    }
+  } catch (err) {
+    throw err;
+  } finally {
+    // Reset the fallback warning cache after each batch execution
+    resetFallbackWarningCache();
   }
 }
 
