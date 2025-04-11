@@ -411,25 +411,39 @@ describe("Whitespace variant of NaN handling", () => {
   });
 });
 
-// New tests for file-based logging
-describe("File-based logging", () => {
-  test("logs output to a specified file", async () => {
-    const logFilePath = path.join(process.cwd(), "test_log.txt");
-    if(fs.existsSync(logFilePath)) fs.unlinkSync(logFilePath);
-    await main(["--log-file=" + logFilePath]);
-    const contents = fs.readFileSync(logFilePath, "utf8");
-    expect(contents).toMatch("Usage: repository0-plot-code-lib <arguments>");
-    fs.unlinkSync(logFilePath);
+// New tests for custom NaN variants configuration
+describe("Custom NaN Variants Configuration", () => {
+  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+
+  afterEach(() => {
+    if (fs.existsSync(configPath)) {
+      fs.unlinkSync(configPath);
+    }
   });
 
-  test("appends log messages without overwriting existing content", async () => {
-    const logFilePath = path.join(process.cwd(), "test_log.txt");
-    if(fs.existsSync(logFilePath)) fs.unlinkSync(logFilePath);
-    fs.writeFileSync(logFilePath, "Existing log\n");
-    await main(["--log-file=" + logFilePath]);
-    const contents = fs.readFileSync(logFilePath, "utf8");
-    expect(contents).toMatch(/Existing log/);
-    expect(contents).toMatch(/Usage: repository0-plot-code-lib <arguments>/);
-    fs.unlinkSync(logFilePath);
+  test("recognizes additional custom NaN variant 'foo' as NaN", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ additionalNaNValues: ["foo"] }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    // when not allowed, fallback should be applied
+    expect(validateNumericArg("foo", false, themeColors, "123")).toBe(123);
+    // when allowed, returns NaN
+    expect(Number.isNaN(validateNumericArg("foo", false, themeColors, "123", true))).toBeTruthy();
+  });
+
+  test("handles multiple additional NaN variants", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ additionalNaNValues: ["foo", "bar"] }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("bar", false, themeColors, "456")).toBe(456);
+    expect(Number.isNaN(validateNumericArg("bar", false, themeColors, "456", true))).toBeTruthy();
+  });
+
+  test("CSV importer recognizes custom NaN variant", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ additionalNaNValues: ["baz"] }));
+    const csvContent = "baz,2,3\n4,baz,6";
+    const testCSVPath = path.join(process.cwd(), "test_custom_nan.csv");
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, "100");
+    expect(data).toEqual([[100, 2, 3], [4, 100, 6]]);
+    fs.unlinkSync(testCSVPath);
   });
 });

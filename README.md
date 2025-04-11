@@ -21,6 +21,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed.
     // When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown.
     // If a fallback value is provided, it is applied and a warning is logged with a streamlined message.
+    // Additional custom NaN variants can be configured via a global configuration file (.repository0plotconfig.json).
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -78,6 +79,18 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a standardized manner.
 - When explicit NaN values are not allowed (default), providing them triggers a fallback mechanism (if a valid fallback is given) and logs a single, streamlined warning message.
 - To explicitly accept NaN inputs, use the `--allow-nan` flag.
+
+### Custom NaN Variants
+
+You can define additional string values to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or an environment variable. For example, add the following to your configuration file:
+
+```json
+{
+  "additionalNaNValues": ["foo", "bar"]
+}
+```
+
+This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs.
 
 ### Global Configuration for NaN Handling
 
