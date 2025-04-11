@@ -108,6 +108,19 @@ function validateNumericArg(numStr, verboseMode, themeColors, fallbackValue) {
   if (trimmed === "") {
     throw new Error("No numeric value provided for '--number'. Please provide a valid number (e.g., '--number=42').");
   }
+  // Early rejection of input that is exactly 'NaN' (case-insensitive)
+  if (trimmed.toLowerCase() === 'nan') {
+    if (fallbackValue !== undefined && fallbackValue !== null) {
+      console.log(themeColors.info("Invalid numeric input 'NaN'. Applying fallback value: " + fallbackValue));
+      const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
+      if (Number.isNaN(fallbackParsed)) {
+        throw new Error(`Fallback value '${fallbackValue}' is not a valid number. Fallback provided for input 'NaN'.`);
+      }
+      return fallbackParsed;
+    }
+    throw new Error("Invalid numeric input 'NaN'. Please provide a valid number (e.g., '--number=42').");
+  }
+
   const normalized = normalizeNumberString(trimmed);
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
