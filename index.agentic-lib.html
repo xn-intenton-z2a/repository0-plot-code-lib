@@ -70,10 +70,14 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
 <p class="md-github">The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. <strong class="md-github">Note:</strong> Inputs explicitly equal to &quot;NaN&quot; (case-insensitive) are rejected with a clear error message.</p>
+<p class="md-github">Additionally, if an invalid numeric input is provided and a fallback value is specified via the <code class="md-github">--fallback-number</code> flag or the environment variable <code class="md-github">FALLBACK_NUMBER</code>, the CLI will log a warning and automatically use the fallback value.</p>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
-<p class="md-github">If an invalid numeric value is provided:</p>
+<p class="md-github">Or using a fallback:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --fallback-number=100
+</code></pre>
+<p class="md-github">If an invalid numeric value is provided and no fallback is defined:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
 </code></pre>
 <p class="md-github">The CLI will output a concise error message. In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the error message includes a full stack trace for debugging.</p>
@@ -104,6 +108,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github"><code class="md-github">LOG_LEVEL</code> (string, e.g., &quot;debug&quot;, &quot;info&quot;, etc.)</li>
 <li class="md-github"><code class="md-github">ERROR_REPORTING_URL</code> (string, must be a valid URL)</li>
 <li class="md-github"><code class="md-github">defaultArgs</code> (array of strings)</li>
+<li class="md-github"><code class="md-github">FALLBACK_NUMBER</code> (string, representing a numeric fallback value)</li>
 </ul>
 <p class="md-github">If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings.</p>
 <p class="md-github">Additionally, you can use the new <code class="md-github">--show-config</code> flag to display the effective global configuration being applied by the CLI. This outputs a formatted JSON showing the merged configuration from config files and environment variables.</p>
@@ -112,7 +117,8 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
   &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
   &quot;LOG_LEVEL&quot;: &quot;debug&quot;,
   &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
-  &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;]
+  &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;],
+  &quot;FALLBACK_NUMBER&quot;: &quot;100&quot;
 }
 </code></pre>
 <hr class="md-github">
@@ -121,7 +127,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T00:15:56.373Z</p>
+    <p>Generated on 2025-04-11T00:16:44.739Z</p>
   </footer>
 </body>
 </html>
