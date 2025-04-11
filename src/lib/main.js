@@ -161,10 +161,17 @@ export function normalizeNumberString(str, preserveDecimal = false) {
   return preserveDecimal ? str.replace(/[_\s,]+/g, '') : str.replace(/[_\s,\.]+/g, '');
 }
 
-// Updated validateNumericArg function to apply a fallback mechanism for invalid numeric CLI input.
+// Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
-  if (isNaNVariant(numStr) && allowNaN) {
-    return NaN;
+  if (isNaNVariant(numStr)) {
+    if (allowNaN) {
+      return NaN;
+    } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
+      console.warn(themeColors.error(`Warning: Input '${numStr}' is not a valid number. Using fallback value ${fallbackNumber}.`));
+      return Number(fallbackNumber);
+    } else {
+      throw new Error(`Invalid numeric input '${numStr}'. Acceptable formats include numbers (e.g., 42, 1e3, 1_000) or valid 'NaN' variants. No fallback provided.`);
+    }
   }
   try {
     return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);

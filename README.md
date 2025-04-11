@@ -20,7 +20,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // Example of running the main function with unified 'NaN' handling
     // This example demonstrates how NaN variants (e.g., 'NaN', '+NaN', '-NaN') are processed.
     // When an invalid numeric input is provided without allowing NaN, if a fallback is provided via '--fallback-number' or the global configuration,
-    // the fallback value will be used and a warning will be logged. Otherwise, an error is thrown.
+    // the fallback value will be used (with a warning logged) and a warning will be issued. Otherwise, an error is thrown.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
