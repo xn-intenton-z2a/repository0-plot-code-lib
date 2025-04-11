@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Refactored CSV importer to trim cell values for consistent NaN handling across CSV and CLI inputs. (fixes #1788)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 13,
+  "diffMinutes": 0,
+  "diffMinutesMain": 14,
   "commitsLastHour": 6,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -43,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1788",
-        "minutesSinceLastCommit": 1
+        "minutesSinceLastCommit": 2
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T08:27:02.499Z"
+  "generatedAt": "2025-04-11T08:27:47.708Z"
 }
