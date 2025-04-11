@@ -72,12 +72,26 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Use the <code class="md-github">--allow-nan</code> flag to accept NaN inputs.</li>
 <li class="md-github">Or provide a fallback value using <code class="md-github">--fallback-number</code>.</li>
 </ul>
+<h4 class="md-github"><a class="md-github__anchor" name="global-configuration-for-nan-handling" href="#global-configuration-for-nan-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration for NaN Handling</h4>
+<p class="md-github">A new global configuration property, <code class="md-github">ALLOW_NAN</code>, can be set in your <code class="md-github">.repository0plotconfig.json</code> file to control explicit NaN inputs. When set to <code class="md-github">true</code>, explicit NaN values are accepted; when <code class="md-github">false</code>, they are disallowed unless overridden by CLI flags or environment variables.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="example-usage" href="#example-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Usage:</h4>
-<p class="md-github">Allowing explicit NaN:</p>
+<p class="md-github">Allowing explicit NaN via CLI override:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
 </code></pre>
 <p class="md-github">Using a fallback for NaN input:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --fallback-number=100
+</code></pre>
+<p class="md-github">And via global configuration:</p>
+<pre class="md-github"><code class="md-github language-json">{
+  &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
+  &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
+  &quot;LOG_LEVEL&quot;: &quot;debug&quot;,
+  &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;],
+  &quot;FALLBACK_NUMBER&quot;: &quot;100&quot;,
+  &quot;ERROR_RETRY_DELAYS&quot;: &quot;500,1000,2000&quot;,
+  &quot;ERROR_MAX_ATTEMPTS&quot;: &quot;3&quot;,
+  &quot;ALLOW_NAN&quot;: true
+}
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="decimal-point-parsing" href="#decimal-point-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decimal Point Parsing</h3>
 <p class="md-github">A configuration option controls whether periods in numeric inputs are preserved as decimal points. To preserve decimals, use the <code class="md-github">--preserve-decimal</code> flag or set <code class="md-github">PRESERVE_DECIMAL=true</code>:</p>
@@ -104,7 +118,8 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
   &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;],
   &quot;FALLBACK_NUMBER&quot;: &quot;100&quot;,
   &quot;ERROR_RETRY_DELAYS&quot;: &quot;500,1000,2000&quot;,
-  &quot;ERROR_MAX_ATTEMPTS&quot;: &quot;3&quot;
+  &quot;ERROR_MAX_ATTEMPTS&quot;: &quot;3&quot;,
+  &quot;ALLOW_NAN&quot;: false
 }
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration-file-support" href="#global-configuration-file-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration File Support</h3>
@@ -117,6 +132,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github"><code class="md-github">FALLBACK_NUMBER</code></li>
 <li class="md-github"><code class="md-github">ERROR_RETRY_DELAYS</code></li>
 <li class="md-github"><code class="md-github">ERROR_MAX_ATTEMPTS</code></li>
+<li class="md-github"><code class="md-github">ALLOW_NAN</code></li>
 </ul>
 <p class="md-github">Use the <code class="md-github">--show-config</code> flag to display the effective configuration.</p>
 <hr class="md-github">
@@ -125,7 +141,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T11:03:58.730Z</p>
+    <p>Generated on 2025-04-11T11:05:01.892Z</p>
   </footer>
 </body>
 </html>
