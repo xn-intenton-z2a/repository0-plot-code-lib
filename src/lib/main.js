@@ -72,7 +72,7 @@ function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
     } else if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     } else {
-      const err = new Error(`Invalid numeric input '${inputStr}'. No fallback provided. Expected a valid number, but got '${inputStr}'.`);
+      const err = new Error(`Invalid numeric input '${inputStr}'. No fallback provided. Expected a valid number.`);
       err.originalInput = inputStr;
       throw err;
     }
@@ -83,7 +83,7 @@ function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
     if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${inputStr}'. Input after normalization '${normalized}' resulted in NaN. Please provide a valid number or use --fallback-number flag.`);
+    const err = new Error(`Invalid numeric input '${inputStr}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
     err.originalInput = inputStr;
     throw err;
   }

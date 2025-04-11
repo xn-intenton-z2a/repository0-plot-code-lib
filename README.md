@@ -79,7 +79,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 When processing numeric inputs that match the literal `NaN` (in any casing), the CLI now uses a centralized logic that:
 
 1. If the user explicitly specifies a numeric argument as `NaN` and the flag `--allow-nan` is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), then the input is accepted and converted to JavaScript’s `NaN`.
-2. If the `--allow-nan` flag is not provided, a fallback value is used if available via the `--fallback-number` flag or `FALLBACK_NUMBER` environment variable; otherwise, an error is thrown with enhanced logging that includes the original input value for easier debugging.
+2. If the `--allow-nan` flag is not provided, a fallback value is used if available via the `--fallback-number` flag or `FALLBACK_NUMBER` environment variable; otherwise, a standardized error message is thrown which includes the original input and its normalized form for easier debugging.
 
 For example, using an explicit allow flag:
 
@@ -106,13 +106,13 @@ If no valid fallback is provided and the `--allow-nan` flag is not set:
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output a standardized error message indicating that a valid number is required, and the error report (in verbose mode) will include the original numeric input that was received.
+The CLI will output a standardized error message indicating that a valid number is required.
 
 ### CSV Data Import
 
 The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
 
-**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization) and the `--allow-nan` flag or `ALLOW_EXPLICIT_NAN` is enabled, the importer accepts it as JavaScript’s `NaN`; otherwise, it applies the fallback mechanism.
+**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization) and the `--allow-nan` flag or `ALLOW_EXPLICIT_NAN` is enabled, the importer accepts it as JavaScript’s `NaN`; otherwise, it applies the fallback mechanism and throws a standardized error if no fallback is provided.
 
 For example, from a file:
 
