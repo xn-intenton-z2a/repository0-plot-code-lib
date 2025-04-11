@@ -77,11 +77,11 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
 <p class="md-github"><strong class="md-github">Unified 'NaN' Handling and Fallback Mechanism:</strong></p>
-<p class="md-github">All numeric inputs are processed using a consolidated logic that treats any case variant of <code class="md-github">NaN</code> (e.g., <code class="md-github">NaN</code>, <code class="md-github">nan</code>, <code class="md-github">NAN</code>) uniformly. When an input matches <code class="md-github">NaN</code> (in any casing):</p>
+<p class="md-github">All numeric inputs are processed using a consolidated logic that treats any case variant of <code class="md-github">NaN</code> (e.g., <code class="md-github">NaN</code>, <code class="md-github">nan</code>, <code class="md-github">NAN</code>, as well as signed variants like <code class="md-github">+NaN</code> and <code class="md-github">-NaN</code>) uniformly. When an input matches <code class="md-github">NaN</code> (after stripping any leading '+' or '-')):</p>
 <ol class="md-github">
 <li class="md-github">If the <code class="md-github">--allow-nan</code> flag is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), the value is accepted as JavaScript’s <code class="md-github">NaN</code>.</li>
 <li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used uniformly.</li>
-<li class="md-github">Otherwise, a detailed error message is thrown. This error message now includes guidance on acceptable numeric formats (e.g., 42, 1e3, 1_000, 1,000) and instructs the user to either provide a valid number or use the <code class="md-github">--fallback-number</code> flag.</li>
+<li class="md-github">Otherwise, a detailed error message is thrown. This error message includes guidance on acceptable numeric formats (e.g., 42, 1e3, 1_000, 1,000) and instructs the user to either provide a valid number or use the <code class="md-github">--fallback-number</code> flag.</li>
 </ol>
 <p class="md-github">For example, to allow explicit NaN:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
@@ -144,7 +144,7 @@ repository0-plot-code-lib --number=1,234.56
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T07:58:02.315Z</p>
+    <p>Generated on 2025-04-11T07:58:46.944Z</p>
   </footer>
 </body>
 </html>
