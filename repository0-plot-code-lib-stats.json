@@ -3,13 +3,18 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 4,
+  "issuesClosedLastHour": 2,
   "issuesClosedLastDay": 93,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 21,
-  "commitsLastHour": 2,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Integrated CSV importer function into main.js and updated test import paths to resolve module not found errors. (fixes #1725)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 24,
+  "commitsLastHour": 1,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
     {
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1725",
-        "minutesSinceLastCommit": 4
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T00:37:37.957Z"
+  "generatedAt": "2025-04-11T00:40:33.815Z"
 }
