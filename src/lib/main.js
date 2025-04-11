@@ -17,13 +17,17 @@ const globalConfigSchema = z.object({
   FALLBACK_NUMBER: z.string().optional(),
   ERROR_RETRY_DELAYS: z.union([z.string(), z.array(z.number())]).optional(),
   ERROR_MAX_ATTEMPTS: z.string().optional(),
-  ALLOW_NAN: z.boolean().optional()
+  ALLOW_NAN: z.boolean().optional(),
+  additionalNaNValues: z.array(z.string()).optional()
 });
 
-// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants)
-function isNaNVariant(str) {
-  // Robust regex to handle variants like 'NaN', ' nan ', '+NaN', '-NaN' with any surrounding whitespace
-  return /^[+-]?\s*nan\s*$/i.test(str);
+// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants
+function isNaNVariant(str, additionalVariants = []) {
+  // Check default NaN variants using regex
+  const defaultNaN = /^[+-]?\s*nan\s*$/i.test(str);
+  // Check if the trimmed string matches any additional custom NaN variant (case-insensitive)
+  const customNaN = additionalVariants.some(av => str.trim().toLowerCase() === av.toLowerCase());
+  return defaultNaN || customNaN;
 }
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
@@ -89,12 +93,15 @@ function autoDetectDelimiter(content) {
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
 // This function normalizes all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) for consistent handling.
+// It now supports additional custom NaN variants if configured via global configuration.
 // If allowNaN is true, these values are accepted as JavaScript's NaN.
 // If allowNaN is false and a fallback is provided, the fallback value is applied silently.
 // Otherwise, a detailed error is thrown including the original and normalized input with instructions.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
-  if (isNaNVariant(trimmedInput)) {
+  const config = getGlobalConfig();
+  const additionalVariants = config.additionalNaNValues || [];
+  if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
@@ -173,7 +180,9 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 // Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
 // Provides a consistent error message instructing the use of '--allow-nan' flag when appropriate.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
-  if (isNaNVariant(numStr)) {
+  const config = getGlobalConfig();
+  const additionalVariants = config.additionalNaNValues || [];
+  if (isNaNVariant(numStr, additionalVariants)) {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
@@ -200,6 +209,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (with potential whitespace) are uniformly processed.
  * - When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with clear instructions.
  * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message.
+ * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
  *
  * @param {string[]} args - Command line arguments.
  */
