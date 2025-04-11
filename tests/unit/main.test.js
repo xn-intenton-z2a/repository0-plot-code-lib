@@ -22,6 +22,9 @@ afterEach(() => {
   console.error = originalConsoleError;
   delete globalThis.__TEST_STDIN__;
   vi.restoreAllMocks();
+  // Clear environment variables that might affect tests
+  delete process.env.ERROR_RETRY_DELAYS;
+  delete process.env.ERROR_MAX_ATTEMPTS;
 });
 
 describe("CSV Importer with default comma delimiter", () => {
@@ -87,7 +90,6 @@ describe("CSV Importer with default comma delimiter", () => {
     fs.unlinkSync(testCSVPath);
   });
 });
-
 
 describe("CSV Importer with custom delimiter", () => {
   const testCSVPath = path.join(process.cwd(), "test_semicolon.csv");
@@ -265,5 +267,28 @@ describe("Error Reporting Retry Mechanism", () => {
     const payload = { errorMessage: 'Test error' };
     await submitErrorReport(payload, 'http://example.com/report', themeColors);
     expect(global.fetch).toHaveBeenCalledTimes(3);
+  });
+});
+
+describe("Configurable Error Reporting Retry", () => {
+  let originalFetch;
+  beforeEach(() => {
+    originalFetch = global.fetch;
+  });
+  afterEach(() => {
+    global.fetch = originalFetch;
+    delete process.env.ERROR_RETRY_DELAYS;
+    delete process.env.ERROR_MAX_ATTEMPTS;
+  });
+  
+  test("uses configurable retry delays and max attempts from environment variables", async () => {
+    process.env.ERROR_RETRY_DELAYS = "100,200";
+    process.env.ERROR_MAX_ATTEMPTS = "2";
+    const fakeFailResponse = { ok: false, status: 500 };
+    global.fetch = vi.fn().mockResolvedValue(fakeFailResponse);
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const payload = { errorMessage: 'Configurable test error' };
+    await submitErrorReport(payload, 'http://example.com/report', themeColors);
+    expect(global.fetch).toHaveBeenCalledTimes(2);
   });
 });

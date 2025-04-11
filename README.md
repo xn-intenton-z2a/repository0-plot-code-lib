@@ -82,8 +82,6 @@ All numeric inputs are processed using a consolidated logic that treats any case
 2. If the flag is not provided and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used uniformly.
 3. Otherwise, a clear and detailed error is thrown, including both the original and normalized input.
 
-The library now consistently processes inputs representing `NaN` in all numeric contexts.
-
 For example, to allow explicit NaN:
 
 ```bash
@@ -131,11 +129,16 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme.
 
-### Automatic Error Reporting with Retry Mechanism
+### Automatic Error Reporting with Configurable Retry Mechanism
 
 When an error occurs, the CLI automatically submits an error report if the `ERROR_REPORTING_URL` is defined (either in the global configuration file or as an environment variable). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and relevant environment variables, as well as the original numeric input if applicable.
 
-A new automatic retry mechanism has been implemented for error report submission. If the initial POST request fails (e.g., because of transient network issues), the CLI will automatically retry up to 3 times using exponential backoff delays (500ms, 1000ms, and 2000ms). Log messages will indicate each attempt and the final outcome if all retries fail.
+A new automatic retry mechanism has been implemented for error report submission. The retry delays and maximum number of retry attempts are now configurable via the configuration option `ERROR_RETRY_DELAYS` and `ERROR_MAX_ATTEMPTS` (set either in the global configuration file or as environment variables). For example:
+
+- Set `ERROR_RETRY_DELAYS` to a comma-separated list of delays in milliseconds (e.g., `500,1000,2000`).
+- Set `ERROR_MAX_ATTEMPTS` to the maximum number of retry attempts. If not provided, the system defaults to using the length of the retry delays array.
+
+If the initial POST request fails (e.g., because of transient network issues), the CLI will automatically retry using the specified delays. Log messages will indicate each attempt and the final outcome if all retries fail.
 
 #### Example Global Configuration File (.repository0plotconfig.json):
 
@@ -145,7 +148,9 @@ A new automatic retry mechanism has been implemented for error report submission
   "CLI_COLOR_SCHEME": "dark",
   "LOG_LEVEL": "debug",
   "defaultArgs": ["defaultArg1", "defaultArg2"],
-  "FALLBACK_NUMBER": "100"
+  "FALLBACK_NUMBER": "100",
+  "ERROR_RETRY_DELAYS": "500,1000,2000",
+  "ERROR_MAX_ATTEMPTS": "3"
 }
 ```
 
@@ -158,6 +163,8 @@ You can set persistent default options in a global configuration file named `.re
 - `ERROR_REPORTING_URL` (must be a valid URL)
 - `defaultArgs` (array of strings)
 - `FALLBACK_NUMBER` (string representing a numeric fallback value)
+- `ERROR_RETRY_DELAYS` (comma-separated string or array of numbers for retry delays in milliseconds)
+- `ERROR_MAX_ATTEMPTS` (string representing the maximum number of retry attempts)
 
 Use the `--show-config` flag to display the effective global configuration.
 

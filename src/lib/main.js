@@ -16,7 +16,9 @@ const globalConfigSchema = z.object({
   LOG_LEVEL: z.string().optional(),
   ERROR_REPORTING_URL: z.string().url().optional(),
   defaultArgs: z.array(z.string()).optional(),
-  FALLBACK_NUMBER: z.string().optional()
+  FALLBACK_NUMBER: z.string().optional(),
+  ERROR_RETRY_DELAYS: z.union([z.string(), z.array(z.number())]).optional(),
+  ERROR_MAX_ATTEMPTS: z.string().optional()
 });
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
@@ -325,8 +327,28 @@ export async function main(args) {
 
 // New function to submit error reports with automatic retry and exponential backoff
 export async function submitErrorReport(payload, url, themeColors) {
-  const delays = [500, 1000, 2000];
-  const maxAttempts = delays.length;
+  let retryDelays;
+  let maxAttempts;
+  const config = getGlobalConfig();
+  if (process.env.ERROR_RETRY_DELAYS) {
+    retryDelays = process.env.ERROR_RETRY_DELAYS.split(',').map(s => Number(s.trim()));
+  } else if (config.ERROR_RETRY_DELAYS) {
+    if (Array.isArray(config.ERROR_RETRY_DELAYS)) {
+      retryDelays = config.ERROR_RETRY_DELAYS;
+    } else if (typeof config.ERROR_RETRY_DELAYS === "string") {
+      retryDelays = config.ERROR_RETRY_DELAYS.split(',').map(s => Number(s.trim()));
+    }
+  } else {
+    retryDelays = [500, 1000, 2000];
+  }
+  if (process.env.ERROR_MAX_ATTEMPTS) {
+    maxAttempts = Number(process.env.ERROR_MAX_ATTEMPTS);
+  } else if (config.ERROR_MAX_ATTEMPTS) {
+    maxAttempts = Number(config.ERROR_MAX_ATTEMPTS);
+  } else {
+    maxAttempts = retryDelays.length;
+  }
+
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     try {
       const response = await fetch(url, {
@@ -344,7 +366,8 @@ export async function submitErrorReport(payload, url, themeColors) {
       console.error(themeColors.error(`Failed to submit error report on attempt ${attempt + 1}. Error: ${err.message}`));
     }
     if (attempt < maxAttempts - 1) {
-      await new Promise(resolve => setTimeout(resolve, delays[attempt]));
+      let delay = retryDelays[attempt] !== undefined ? retryDelays[attempt] : retryDelays[retryDelays.length - 1];
+      await new Promise(resolve => setTimeout(resolve, delay));
     }
   }
   console.error(themeColors.error("All attempts to submit error report have failed."));
