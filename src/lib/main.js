@@ -88,33 +88,38 @@ function watchGlobalConfig() {
   }
 }
 
-// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants and configurable case-sensitivity
+// Helper function to clean input string by normalizing Unicode and trimming whitespace
+function cleanString(str) {
+  return str.normalize("NFKC").trim();
+}
+
+// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants and configurable case-sensitivity.
 function isNaNVariant(str, additionalVariants = []) {
-  const trimmed = str.trim();
+  const cleaned = cleanString(str);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
   let defaultNaN;
   if (caseSensitive) {
-    defaultNaN = /^[+\-]?NaN$/.test(trimmed);
+    defaultNaN = /^[+\-]?NaN$/.test(cleaned);
   } else {
-    const normalizedInput = trimmed.toLowerCase();
+    const normalizedInput = cleaned.toLowerCase();
     defaultNaN = /^[+\-]?nan$/.test(normalizedInput);
   }
   if (defaultNaN) {
     return true;
   }
   if (caseSensitive) {
-    return additionalVariants.map(v => v.trim()).includes(trimmed);
+    return additionalVariants.map(v => cleanString(v)).includes(cleaned);
   } else {
-    const normalizedInput = trimmed.toLowerCase();
-    return additionalVariants.map(v => v.trim().toLowerCase()).includes(normalizedInput);
+    const normalizedInput = cleaned.toLowerCase();
+    return additionalVariants.map(v => cleanString(v).toLowerCase()).includes(normalizedInput);
   }
 }
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
 export function normalizeNumberString(inputStr, preserveDecimal = false) {
-  // Trim whitespace before processing
-  inputStr = inputStr.trim();
+  // Normalize Unicode whitespace before processing
+  inputStr = cleanString(inputStr);
   const globalConfig = getGlobalConfig();
   const locale = process.env.LOCALE || globalConfig.LOCALE || "en-US";
   let result = inputStr.replace(/[_\s]+/g, "");
@@ -186,14 +191,14 @@ function logError(chalkError, ...args) {
 // Unified function to process numeric input with fallback and consistent warning logging
 // This function applies locale-aware normalization, detects both built-in and custom NaN variants, and logs a structured JSON warning if a fallback is applied.
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn, strict = false) {
-  const trimmedInput = inputStr.trim();
-  const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
+  const cleanedInput = cleanString(inputStr);
+  const normalized = normalizeNumberString(cleanedInput, preserveDecimal);
   const config = getGlobalConfig();
 
   // If the input string is recognized as a NaN variant
-  if (isNaNVariant(trimmedInput, additionalVariants)) {
+  if (isNaNVariant(cleanedInput, additionalVariants)) {
     if (strict) {
-      throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'.`);
+      throw new Error(`Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`);
     }
     if (allowNaN) {
       return NaN;
@@ -202,7 +207,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       const logMessage = JSON.stringify({
         level: "warn",
         event: "NaNFallback",
-        originalInput: trimmedInput,
+        originalInput: cleanedInput,
         normalized: normalized,
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants,
@@ -213,23 +218,23 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       }
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
+    let errorMsg = `Invalid numeric input '${cleanedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
     }
-    throw Object.assign(new Error(errorMsg), { originalInput: trimmedInput });
+    throw Object.assign(new Error(errorMsg), { originalInput: cleanedInput });
   }
 
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (strict) {
-      throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'.`);
+      throw new Error(`Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`);
     }
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       const logMessage = JSON.stringify({
         level: "warn",
         event: "NaNFallback",
-        originalInput: trimmedInput,
+        originalInput: cleanedInput,
         normalized: normalized,
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants,
@@ -240,11 +245,11 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       }
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
+    let errorMsg = `Invalid numeric input '${cleanedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
     }
-    throw Object.assign(new Error(errorMsg), { originalInput: trimmedInput });
+    throw Object.assign(new Error(errorMsg), { originalInput: cleanedInput });
   }
   return num;
 }
@@ -291,7 +296,7 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
     let cells = [];
     // If preserveDecimal is enabled and delimiter is a comma, attempt regex matching
     if (preserveDecimal && delimiter === ',') {
-      const matches = row.match(/(?:[+-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][+-]?\d+)?)/gi);
+      const matches = row.match(/(?:[+\-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][+\-]?\d+)?)/gi);
       if (matches === null) {
         throw new Error("No numeric data found in row.");
       }
