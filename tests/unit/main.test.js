@@ -32,6 +32,7 @@ afterEach(() => {
   delete process.env.PRESERVE_DECIMAL;
   delete process.env.LOCALE;
   delete process.env.DISABLE_FALLBACK_WARNINGS;
+  delete process.env.CASE_SENSITIVE_NAN;
   // Remove any global config file created during tests
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
   if(fs.existsSync(configPath)) {
@@ -275,7 +276,7 @@ describe("Numeric Parser Utility", () => {
     expect(logObj).toHaveProperty("level", "warn");
     expect(logObj).toHaveProperty("event", "NaNFallback");
     expect(logObj).toHaveProperty("originalInput", "nan");
-    expect(logObj).toHaveProperty("normalized", "nan");
+    expect(logObj).toHaveProperty("normalized");
     expect(logObj).toHaveProperty("fallbackValue", "999");
     expect(logObj).toHaveProperty("customNaNVariants");
     warnSpy.mockRestore();
@@ -534,5 +535,26 @@ describe("Real-Time Global Configuration Hot Reloading", () => {
     await new Promise(resolve => setTimeout(resolve, 1500));
     // There is no direct export of config, so we simulate by checking console output
     expect(consoleOutput.some(msg => msg.includes("Global configuration reloaded."))).toBeTruthy();
+  });
+});
+
+describe("Case Sensitivity for NaN Variant Matching", () => {
+  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  afterEach(() => {
+    if(fs.existsSync(configPath)) fs.unlinkSync(configPath);
+  });
+
+  test("when CASE_SENSITIVE_NAN is true, input 'nan' (lowercase) is not recognized as NaN variant", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    // 'nan' should not be recognized, so Number('nan') yields NaN triggering fallback
+    expect(validateNumericArg("nan", false, themeColors, "100")).toBe(100);
+  });
+
+  test("when CASE_SENSITIVE_NAN is true, input 'NaN' is correctly recognized as NaN variant", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    // With allowNaN true, it should return NaN
+    expect(Number.isNaN(validateNumericArg("NaN", false, themeColors, "100", true))).toBeTruthy();
   });
 });

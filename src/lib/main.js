@@ -20,7 +20,8 @@ const globalConfigSchema = z.object({
   ERROR_MAX_ATTEMPTS: z.string().optional(),
   ALLOW_NAN: z.boolean().optional(),
   additionalNaNValues: z.array(z.string()).optional(),
-  DISABLE_FALLBACK_WARNINGS: z.boolean().optional() // Option to suppress fallback warnings
+  DISABLE_FALLBACK_WARNINGS: z.boolean().optional(),
+  CASE_SENSITIVE_NAN: z.boolean().optional() // New config: case sensitive NaN matching
 });
 
 // Global configuration cache for hot reloading
@@ -87,15 +88,23 @@ function watchGlobalConfig() {
   }
 }
 
-// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants
+// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants and configurable case-sensitivity
 function isNaNVariant(str, additionalVariants = []) {
   const trimmed = str.trim();
-  const normalized = trimmed.toLowerCase();
-  // Check default NaN variants using regex (handles optional + or - signs)
-  const defaultNaN = /^[+-]?nan$/i.test(trimmed);
-  // Normalize additional variants for uniform comparison
-  const cleanedAdditional = additionalVariants.map(v => v.trim().toLowerCase());
-  return defaultNaN || cleanedAdditional.includes(normalized);
+  const config = getGlobalConfig();
+  const caseSensitive = config.CASE_SENSITIVE_NAN === true;
+  if (caseSensitive) {
+    // Case-sensitive check: only exact matches for 'NaN' with optional + or -
+    const defaultNaN = /^[+-]?NaN$/.test(trimmed);
+    return defaultNaN || additionalVariants.includes(trimmed);
+  } else {
+    const normalized = trimmed.toLowerCase();
+    // Check default NaN variants using regex (handles optional + or - signs)
+    const defaultNaN = /^[+-]?nan$/i.test(trimmed);
+    // Normalize additional variants for uniform comparison
+    const cleanedAdditional = additionalVariants.map(v => v.trim().toLowerCase());
+    return defaultNaN || cleanedAdditional.includes(normalized);
+  }
 }
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
@@ -238,7 +247,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
 // Consolidated numeric parsing function that processes numeric inputs uniformly
 export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
-  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
+  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim());
   return processNumberInputUnified(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
 }
 
@@ -292,7 +301,7 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 // Enhanced validateNumericArg applies fallback mechanism and logs a warning for invalid numeric CLI input
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
-  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
+  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim());
   return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
 }
 

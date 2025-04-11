@@ -54,13 +54,29 @@ If no arguments are provided and no STDIN or CSV file is detected, the CLI will 
 Usage: repository0-plot-code-lib <arguments>
 ```
 
-#### New Flag: --strict-numeric
+#### New Flags:
 
-Use the new `--strict-numeric` flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will trigger an error without falling back.
+- **--strict-numeric**
+  
+  Use the `--strict-numeric` flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will trigger an error without falling back.
 
-#### New Flag: --watch-config
+- **--watch-config**
+  
+  Use the `--watch-config` flag to enable real-time reloading of the global configuration file (.repository0plotconfig.json). When this flag is set, any changes to the config file will automatically update the CLI's settings (such as CLI color scheme, fallback number, ALLOW_NAN, etc.) on the fly, without needing to restart the process.
 
-Use the `--watch-config` flag to enable real-time reloading of the global configuration file (.repository0plotconfig.json). When this flag is set, any changes to the config file will automatically update the CLI's settings (such as CLI color scheme, fallback number, ALLOW_NAN, etc.) on the fly, without needing to restart the process.
+- **CASE_SENSITIVE_NAN Configuration**
+
+  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such.
+
+  Example configuration:
+
+  ```json
+  {
+    "CASE_SENSITIVE_NAN": true
+  }
+  ```
+
+  With this setting enabled, an input of "nan" (all lowercase) would not be treated as a NaN variant, whereas "NaN" would be recognized.
 
 ### File-based Logging
 
@@ -88,17 +104,16 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Custom NaN Variants
 
-You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared case-insensitively after trimming whitespace.
+You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace. The new `CASE_SENSITIVE_NAN` option lets you decide if the matching should be case sensitive.
 
 Example configuration:
 
 ```json
 {
-  "additionalNaNValues": ["foo", "bar"]
+  "additionalNaNValues": ["foo", "bar"],
+  "CASE_SENSITIVE_NAN": false
 }
 ```
-
-This ensures that "foo" or "bar" are treated as NaN, following the same fallback and logging mechanisms as standard NaN inputs.
 
 ### Locale-Aware Numeric Parsing
 
@@ -116,7 +131,7 @@ Set the locale in your configuration file or via the `LOCALE` environment variab
 
 ### Global Configuration
 
-Use the .repository0plotconfig.json file to set global parameters such as error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).
+Use the .repository0plotconfig.json file to set global parameters such as error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, CASE_SENSITIVE_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).
 
 Example:
 
@@ -131,7 +146,8 @@ Example:
   "ERROR_MAX_ATTEMPTS": "3",
   "ALLOW_NAN": false,
   "LOCALE": "en-US",
-  "DISABLE_FALLBACK_WARNINGS": true
+  "DISABLE_FALLBACK_WARNINGS": true,
+  "CASE_SENSITIVE_NAN": false
 }
 ```
 
