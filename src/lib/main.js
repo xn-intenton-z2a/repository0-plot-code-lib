@@ -67,6 +67,7 @@ function logError(chalkError, ...args) {
 // Unified function to process numeric inputs with fallback handling and explicit NaN acceptance
 function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
   const trimmedInput = inputStr.trim();
+  // Convert to lower case to handle any variation of 'NaN'
   if (trimmedInput.toLowerCase() === 'nan') {
     if (allowNaN) {
       return NaN;

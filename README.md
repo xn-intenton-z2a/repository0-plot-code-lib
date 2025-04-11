@@ -74,7 +74,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Unified Fallback Mechanism and Explicit NaN Handling:**
+**Unified Fallback Mechanism, Case-Insensitive and Explicit NaN Handling:**
 
 The CLI's numeric input processing now handles any input matching 'NaN' (in any casing) uniformly. When an input matches 'NaN':
 
@@ -107,7 +107,7 @@ If no valid fallback is provided and the `--allow-nan` flag is not set:
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output a standardized error message indicating that a valid number is required.
+The CLI will output a standardized error message indicating that a valid number is required. This behavior is case-insensitive, so inputs like `nan`, `NAN`, or `NaN` are all treated equivalently.
 
 ### CSV Data Import
 

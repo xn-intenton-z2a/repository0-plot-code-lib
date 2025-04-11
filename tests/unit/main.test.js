@@ -24,7 +24,6 @@ afterEach(() => {
   delete globalThis.__TEST_STDIN__;
 });
 
-
 describe("CSV Importer", () => {
   const testCSVPath = path.join(process.cwd(), "test.csv");
 
@@ -58,10 +57,18 @@ describe("CSV Importer", () => {
     fs.unlinkSync(testCSVPath);
   });
 
-  test("should throw error for CSV 'NaN' cell when no fallback provided and not allowed", () => {
-    const csvContent = "NaN,2,3";
+  // Additional tests for case-insensitive 'NaN' handling in CSV importer
+  test("should throw error for CSV cell 'nan' (lowercase) when no fallback provided and not allowed", () => {
+    const csvContent = "nan,2,3";
     fs.writeFileSync(testCSVPath, csvContent);
-    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'NaN'/);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'nan'/);
+    fs.unlinkSync(testCSVPath);
+  });
+
+  test("should throw error for CSV cell 'NAN' (uppercase) when no fallback provided and not allowed", () => {
+    const csvContent = "NAN,2,3";
+    fs.writeFileSync(testCSVPath, csvContent);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'NAN'/);
     fs.unlinkSync(testCSVPath);
   });
 
@@ -73,7 +80,6 @@ describe("CSV Importer", () => {
     fs.unlinkSync(testCSVPath);
   });
 });
-
 
 describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback and not allowed", async () => {
@@ -95,7 +101,7 @@ describe("Numeric argument validation error reporting", () => {
     expect(validateNumericArg("NaN", false, themeColors, "300")).toBe(300);
   });
 
-  test("throws error for 'NaN' without fallback when not allowed and includes originalInput", () => {
+  test("throws error for 'nan' without fallback when not allowed and includes originalInput", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     try {
       validateNumericArg("nan", false, themeColors, undefined);
@@ -111,7 +117,6 @@ describe("Numeric argument validation error reporting", () => {
     }
   });
 });
-
 
 describe("Explicit NaN Acceptance", () => {
   test("validateNumericArg returns NaN for explicit 'NaN' input when allowed", () => {
@@ -135,7 +140,6 @@ describe("Explicit NaN Acceptance", () => {
   });
 });
 
-
 describe("Numeric Parser Utility", () => {
   test("normalizeNumberString should remove underscores, commas, spaces, and periods", () => {
     expect(normalizeNumberString("1_000")).toBe("1000");
@@ -149,7 +153,6 @@ describe("Numeric Parser Utility", () => {
     expect(validateNumericArg("2_000", false, themeColors, undefined)).toBe(2000);
   });
 });
-
 
 describe("CSV STDIN Importer", () => {
   test("should correctly import CSV data from STDIN", async () => {
