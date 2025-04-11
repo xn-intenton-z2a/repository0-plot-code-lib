@@ -9,10 +9,10 @@
   "prDetails": [
     {
       "title": "Improved custom NaN variants detection and enhanced fallback warning messages for numeric parsing. (fixes #1859)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
+  "diffMinutes": 0,
   "diffMinutesMain": 11,
   "commitsLastHour": 3,
   "commitsLastDay": 93,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T16:43:54.935Z"
+  "generatedAt": "2025-04-11T16:44:35.280Z"
 }
