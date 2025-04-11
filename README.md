@@ -58,7 +58,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 ### Unified 'NaN' Handling
 
-- All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a unified manner.
+- All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a unified manner. The library now uses a robust regular expression to detect all NaN variants consistently.
 - When explicit NaN values are not allowed (default), providing them will trigger a fallback mechanism if a valid fallback is given; a warning is logged indicating the fallback.
 - To explicitly accept NaN inputs, use the `--allow-nan` flag.
 

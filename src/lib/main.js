@@ -22,7 +22,8 @@ const globalConfigSchema = z.object({
 
 // Helper function to determine if a string represents a NaN variant (including signed and whitespace variants)
 function isNaNVariant(str) {
-  return str.trim().replace(/^[+-]/, '').toLowerCase() === 'nan';
+  // Using a robust regex to handle variants like 'NaN', ' nan ', '+NaN', '-NaN', with any surrounding whitespace
+  return /^(?:[+-]?\s*nan\s*)$/i.test(str);
 }
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
