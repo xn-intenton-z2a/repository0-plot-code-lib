@@ -178,16 +178,17 @@ export async function main(args) {
     preserveDecimal = true;
   }
 
-  // Extract CSV file flag
-  let csvFilePath = null;
-  if (args && args.length > 0) {
-    args = args.filter(arg => {
-      if (arg.startsWith('--csv-file=')) {
-        csvFilePath = arg.slice('--csv-file='.length);
-        return false;
-      }
-      return true;
-    });
+  // Process theme flag to override color scheme if provided
+  let themeFlag = null;
+  args = args.filter(arg => {
+    if (arg.startsWith('--theme=')) {
+      themeFlag = arg.slice('--theme='.length);
+      return false;
+    }
+    return true;
+  });
+  if (themeFlag) {
+    process.env.CLI_COLOR_SCHEME = themeFlag;
   }
 
   // Check if the '--show-config' flag is present
@@ -218,6 +219,18 @@ export async function main(args) {
   const themeColors = getThemeColors();
   // Determine verbose mode via command line flag only
   const verboseMode = args && args.includes("--verbose");
+
+  // Extract CSV file flag
+  let csvFilePath = null;
+  if (args && args.length > 0) {
+    args = args.filter(arg => {
+      if (arg.startsWith('--csv-file=')) {
+        csvFilePath = arg.slice('--csv-file='.length);
+        return false;
+      }
+      return true;
+    });
+  }
 
   // If CSV file flag provided, process CSV file
   if (csvFilePath) {
