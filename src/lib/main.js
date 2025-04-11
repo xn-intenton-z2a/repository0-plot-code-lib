@@ -163,6 +163,14 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 
 // Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
+  if (isNaNVariant(numStr)) {
+    if (allowNaN) {
+      return NaN;
+    } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
+      console.warn(themeColors.error(`Warning: invalid numeric input '${numStr}'. Using fallback value ${fallbackNumber}.`));
+      return Number(fallbackNumber);
+    }
+  }
   try {
     return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
   } catch (error) {
