@@ -111,6 +111,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   const trimmedInput = inputStr.trim();
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
 
+  // If the input string is a recognized NaN variant
   if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (strict) {
       throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'.`);
@@ -118,11 +119,12 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
+      const normalizedForLogging = trimmedInput; // use the trimmed original input for logging
       const logMessage = JSON.stringify({
         level: "warn",
         event: "NaNFallback",
         originalInput: trimmedInput,
-        normalized: normalized,
+        normalized: normalizedForLogging,
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants
       });
@@ -136,20 +138,21 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
-    throw Object.assign(new Error(`${errorMsg} Normalized input: '${normalized}'.`), { originalInput: trimmedInput });
+    throw Object.assign(new Error(`${errorMsg} Normalized input: '${trimmedInput}'.`), { originalInput: trimmedInput });
   }
-  
+
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (strict) {
       throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'.`);
     }
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
+      const normalizedForLogging = trimmedInput;
       const logMessage = JSON.stringify({
         level: "warn",
         event: "NaNFallback",
         originalInput: trimmedInput,
-        normalized: normalized,
+        normalized: normalizedForLogging,
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants
       });
@@ -163,7 +166,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
-    throw Object.assign(new Error(`${errorMsg} Normalized input: '${normalized}'.`), { originalInput: trimmedInput });
+    throw Object.assign(new Error(`${errorMsg} Normalized input: '${trimmedInput}'.`), { originalInput: trimmedInput });
   }
   return num;
 }
@@ -238,7 +241,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  *
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed via processNumberInputUnified.
- * - When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats.
+ * - When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats
  * - If a fallback value is provided, it is applied and a standardized warning is logged including the normalized input and recognized custom NaN variants if configured.
  * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
  *

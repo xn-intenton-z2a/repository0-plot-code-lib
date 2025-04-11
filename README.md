@@ -19,8 +19,8 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
   try {
     // Example: Running the main function with unified 'NaN' handling.
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed using a consolidated fallback mechanism.
-    // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance including the normalized value and recognized custom NaN variants.
-    // If a fallback value is provided, it is applied and a structured JSON warning is logged containing the original input, normalized value, fallback value, and any custom NaN variants.
+    // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance including the normalized input and recognized custom NaN variants.
+    // If a fallback value is provided, it is applied and a structured JSON warning is logged containing the original input, normalized value (based on the trimmed input), fallback value, and any custom NaN variants.
     // Use the --strict-numeric flag to enforce strict numeric validation, which rejects any NaN input without applying fallback.
     await main(['--number=NaN', '--fallback-number=100']);
 
@@ -82,6 +82,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed via a unified function that normalizes the input and applies a consistent fallback logic.
 - When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a structured warning in JSON format (unless in strict mode).
+- The normalized value in the fallback logging is based on the trimmed input, preserving the original casing, ensuring clear and consistent logging.
 - To enforce strict input validation without fallback, use the `--strict-numeric` flag.
 
 ### Custom NaN Variants
