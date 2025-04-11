@@ -79,7 +79,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 When processing numeric inputs that match the literal `NaN` (in any casing), the CLI now uses a centralized logic that:
 
 1. If the user explicitly specifies a numeric argument as `NaN` and the flag `--allow-nan` is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), then the input is accepted and converted to JavaScript’s `NaN`.
-2. If the `--allow-nan` flag is not provided, a fallback value is used if available via the `--fallback-number` flag or `FALLBACK_NUMBER` environment variable; otherwise, an error is thrown.
+2. If the `--allow-nan` flag is not provided, a fallback value is used if available via the `--fallback-number` flag or `FALLBACK_NUMBER` environment variable; otherwise, an error is thrown with enhanced logging that includes the original input value for easier debugging.
 
 For example, using an explicit allow flag:
 
@@ -106,7 +106,7 @@ If no valid fallback is provided and the `--allow-nan` flag is not set:
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output a standardized error message indicating that a valid number is required.
+The CLI will output a standardized error message indicating that a valid number is required, and the error report (in verbose mode) will include the original numeric input that was received.
 
 ### CSV Data Import
 
@@ -138,6 +138,7 @@ When an error occurs, the CLI supports automatic error report submission. If the
 - **libraryVersion**: The current version of the library (sourced from package.json).
 - **timestamp**: The ISO timestamp when the error occurred.
 - **envContext**: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).
+- **originalNumericInput**: The original numeric input that triggered the error, if available.
 
 The CLI awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.
 
