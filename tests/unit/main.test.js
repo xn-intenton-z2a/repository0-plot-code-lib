@@ -59,7 +59,7 @@ describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback", async () => {
     await expect(main(["--number=NaN", "--verbose"]))
       .rejects
-      .toThrow(/Original input: NaN, Normalized input: NaN, Fallback: none/);
+      .toThrow(/Invalid numeric input 'NaN'. Please provide a valid number/);
   });
 
   test("applies fallback when '--number=NaN' provided with fallback", async () => {
