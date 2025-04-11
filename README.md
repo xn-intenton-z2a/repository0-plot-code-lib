@@ -17,7 +17,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
 
 (async () => {
   try {
-    // Example: Running the main function with unified 'NaN' handling. Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra or non-standard whitespace) are processed via a consolidated fallback mechanism. Custom NaN variants and case sensitivity (configurable via the global config) are handled uniformly across CSV imports and CLI numeric validation.
+    // Example: Running the main function with unified 'NaN' handling. Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra or non-standard whitespace) are processed via a consolidated fallback mechanism. In strict mode, signed NaN variants (e.g. '+NaN', '-NaN') trigger an error, while in non-strict mode the fallback value is applied.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function with auto-detection or custom delimiters
@@ -56,7 +56,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 - **--strict-numeric**
   
-  Use the `--strict-numeric` flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will trigger an error without falling back.
+  Use the `--strict-numeric` flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants and signed variants like '+NaN' or '-NaN') will trigger an error without falling back.
 
 - **--watch-config**
   
@@ -97,6 +97,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 ### Unified 'NaN' Handling & Structured Logging
 
 - All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard Unicode whitespace) are processed via unified functions that apply locale-aware normalization. When an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged detailing the original input, its normalized form, the fallback value used, any custom NaN variants in effect, and the locale used for normalization.
+- **Signed NaN Variants:** In strict mode, signed NaN variants (e.g. '+NaN' and '-NaN') will trigger an error explicitly stating that such inputs are not allowed. In non-strict mode, they are treated as NaN variants and the configured fallback value is used if explicit NaN values are not permitted.
 - To enforce strict validation without fallback, use the `--strict-numeric` flag.
 
 ### Custom NaN Variants
