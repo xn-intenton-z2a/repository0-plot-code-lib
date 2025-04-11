@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 6,
+  "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Improved Unicode whitespace normalization for NaN variant handling in numeric parsing functions. (fixes #1914)",
-      "ageMinutes": 0
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 0,
-  "diffMinutesMain": 9,
-  "commitsLastHour": 4,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "23:01",
+      "message": "Improved Unicode whitespace normalization for NaN variant handli..."
+    },
     {
       "time": "22:51",
       "message": "Updated resetFallbackWarningCache to also reset cliSuppressNanWa..."
@@ -32,23 +31,14 @@
     {
       "time": "22:04",
       "message": "Standardized NaN fallback warning message formatting across nume..."
-    },
-    {
-      "time": "22:00",
-      "message": "Update from agentic-lib"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1914",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T23:01:03.054Z"
+  "generatedAt": "2025-04-11T23:02:06.532Z"
 }
