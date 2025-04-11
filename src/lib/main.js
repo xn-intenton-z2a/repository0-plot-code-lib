@@ -72,7 +72,8 @@ function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
     } else if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     } else {
-      const err = new Error(`Invalid numeric input '${inputStr}'. No fallback provided. Expected a valid number.`);
+      const normalized = normalizeNumberString(inputStr);
+      const err = new Error(`Invalid numeric input '${inputStr}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
       err.originalInput = inputStr;
       throw err;
     }
