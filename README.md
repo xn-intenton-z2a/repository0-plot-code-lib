@@ -129,9 +129,11 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme.
 
-### Automatic Error Reporting
+### Automatic Error Reporting with Retry Mechanism
 
-When an error occurs, the CLI can automatically submit an error report if the `ERROR_REPORTING_URL` is defined (either in the global configuration file or as an environment variable). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and relevant environment variables, as well as the original numeric input if applicable.
+When an error occurs, the CLI automatically submits an error report if the `ERROR_REPORTING_URL` is defined (either in the global configuration file or as an environment variable). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and relevant environment variables, as well as the original numeric input if applicable.
+
+A new automatic retry mechanism has been implemented for error report submission. If the initial POST request fails (e.g., because of transient network issues), the CLI will automatically retry up to 3 times using exponential backoff delays (500ms, 1000ms, and 2000ms). Log messages will indicate each attempt and the final outcome if all retries fail.
 
 #### Example Global Configuration File (.repository0plotconfig.json):
 
