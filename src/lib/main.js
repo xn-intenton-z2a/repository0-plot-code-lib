@@ -118,24 +118,26 @@ function isNaNVariant(input, additionalVariants = []) {
   return customVariants.includes(inputToCompare);
 }
 
-// Helper function to handle fallback logging and conversion with deduplicated warnings
+// Unified fallback handler to process invalid numeric inputs using fallback value and emit structured JSON warnings
 function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVariants, config, logger) {
+  // Use cleaned version of the original input for consistent logging
+  const cleanedInput = cleanString(originalInput);
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const locale = config.LOCALE || "en-US";
       const key = JSON.stringify({
-        originalInput,
+        originalInput: cleanedInput,
         fallbackNumber: fallbackNumber.toString().trim(),
-        additionalVariants,
+        customNaNVariants: additionalVariants,
         locale
       });
       if (!warnedNaNWarnings.has(key)) {
         const logMessage = JSON.stringify({
           level: "warn",
           event: "NaNFallback",
-          originalInput,
+          originalInput: cleanedInput,
           normalized,
-          fallbackValue: fallbackNumber,
+          fallbackValue: fallbackNumber.toString().trim(),
           customNaNVariants: additionalVariants,
           locale
         });
@@ -147,7 +149,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   }
   let errorMsg = `Invalid numeric input '${originalInput}' (Locale: ${config.LOCALE || "en-US"}). Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
