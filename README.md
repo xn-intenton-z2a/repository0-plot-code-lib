@@ -81,7 +81,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Custom NaN Variants
 
-You can define additional string values to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or an environment variable. For example, add the following to your configuration file:
+You can define additional string values to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or an environment variable. Custom NaN variants are compared in a case-insensitive manner after trimming whitespace. For example, add the following to your configuration file:
 
 ```json
 {
@@ -90,8 +90,6 @@ You can define additional string values to be recognized as NaN using the global
 ```
 
 This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The error and warning messages will explicitly list these custom variants.
-
-**Note:** Custom NaN variants configured in the global configuration are now fully integrated into both CLI argument parsing and CSV import flows.
 
 ### Global Configuration for NaN Handling
 
