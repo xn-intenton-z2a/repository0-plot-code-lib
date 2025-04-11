@@ -26,6 +26,8 @@ const globalConfigSchema = z.object({
 
 // Global configuration cache for hot reloading
 let globalConfigCache = null;
+// Global flag for CLI to suppress NaN fallback warnings
+let cliSuppressNanWarnings = false;
 
 // Loads the global configuration from available config files
 function loadGlobalConfig() {
@@ -108,7 +110,7 @@ function isNaNVariant(input, additionalVariants = []) {
 // Helper function to handle fallback logging and conversion
 function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVariants, config, logger) {
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-    if (!config.DISABLE_FALLBACK_WARNINGS) {
+    if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const logMessage = JSON.stringify({
         level: "warn",
         event: "NaNFallback",
@@ -124,7 +126,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   }
   let errorMsg = `Invalid numeric input '${originalInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
@@ -306,11 +308,22 @@ export async function main(args) {
   // Debug Trace setup
   let debugTrace = false;
   let debugData = {};
-  
+
   if (args && args.includes('--debug-trace')) {
     debugTrace = true;
     // Remove the debug flag from arguments
     args = args.filter(arg => arg !== '--debug-trace');
+  }
+
+  // Process CLI flag to suppress NaN fallback warnings
+  if (args && args.length > 0) {
+    args = args.filter(arg => {
+      if (arg === '--suppress-nan-warnings') {
+        cliSuppressNanWarnings = true;
+        return false;
+      }
+      return true;
+    });
   }
 
   // Process flags

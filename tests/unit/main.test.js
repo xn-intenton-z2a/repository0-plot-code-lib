@@ -550,3 +550,12 @@ describe("Debug Trace Mode", () => {
     });
   });
 });
+
+// New test for CLI flag to suppress NaN fallback warnings
+describe("CLI Flag to Suppress NaN Fallback Warnings", () => {
+  test("should suppress NaN fallback warnings when --suppress-nan-warnings flag is used", async () => {
+    await main(["--suppress-nan-warnings", "--number=NaN", "--fallback-number=100", "--verbose"]);
+    const hasWarn = consoleOutput.some(msg => msg.includes("NaNFallback"));
+    expect(hasWarn).toBeFalsy();
+  });
+});
