@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
-import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache } from "../../src/lib/main.js";
+import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache, resetFallbackWarningCache } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -15,8 +15,9 @@ beforeEach(() => {
   consoleOutput = [];
   console.log = mockedLog;
   console.error = mockedLog;
-  // Reset global config cache to allow tests to pick up new config files
+  // Reset global config cache and fallback warning cache to allow tests to pick up new config files and clear warning deduplication
   resetGlobalConfigCache();
+  resetFallbackWarningCache();
 });
 
 afterEach(() => {
@@ -97,6 +98,7 @@ describe("CSV Importer with default comma delimiter", () => {
     const csvContent = "NaN,2,3\n4,NaN,6";
     fs.writeFileSync(testCSVPath, csvContent);
     const data = parseCSV(testCSVPath, "100");
+    // Deduplicated fallback warning should log only once per unique input per fallback
     expect(data).toEqual([[100, 2, 3], [4, 100, 6]]);
     fs.unlinkSync(testCSVPath);
   });
@@ -265,7 +267,8 @@ describe("Numeric Parser Utility", () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const result = validateNumericArg("nan", false, themeColors, "999");
     expect(result).toBe(999);
-    expect(warnSpy).toHaveBeenCalled();
+    // Expect only one warning logged for the same input
+    expect(warnSpy).toHaveBeenCalledTimes(1);
     const logArg = warnSpy.mock.calls[0][0];
     let logObj;
     try {
@@ -536,7 +539,7 @@ describe("Strict Numeric Mode", () => {
   });
 });
 
-// New test suite for CASE_SENSITIVE_NAN behavior
+// New test for CASE_SENSITIVE_NAN behavior
 describe("Case Sensitive NaN Handling", () => {
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
   afterEach(() => {
