@@ -264,7 +264,6 @@ describe("Numeric Parser Utility", () => {
     warnSpy.mockRestore();
   });
 
-  // Scientific notation tests
   test("normalizeNumberString handles scientific notation with preserveDecimal false", () => {
     expect(normalizeNumberString("1,000e3", false)).toBe("1000e3");
   });
@@ -445,5 +444,15 @@ describe("Custom NaN Variants Configuration", () => {
     const data = parseCSV(testCSVPath, "100");
     expect(data).toEqual([[100, 2, 3], [4, 100, 6]]);
     fs.unlinkSync(testCSVPath);
+  });
+
+  test("includes custom NaN variants in error message when fallback not provided", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ additionalNaNValues: ["foo", "bar"] }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    try {
+      validateNumericArg("foo", false, themeColors);
+    } catch (err) {
+      expect(err.message).toMatch(/Custom NaN variants recognized: \[foo, bar\]/);
+    }
   });
 });

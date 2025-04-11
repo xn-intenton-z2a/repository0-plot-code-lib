@@ -97,7 +97,7 @@ function autoDetectDelimiter(content) {
 // It now supports additional custom NaN variants if configured via global configuration.
 // If allowNaN is true, these values are accepted as JavaScript's NaN.
 // If allowNaN is false and a fallback is provided, the fallback value is applied silently.
-// Otherwise, a detailed error is thrown including the original and normalized input with instructions.
+// Otherwise, a detailed error is thrown including the original and normalized input with instructions and allowed formats.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   const config = getGlobalConfig();
@@ -108,8 +108,12 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     } else {
+      let allowedFormats = "provide a valid numeric input such as 42, 1e3, 1_000, or 1,000";
+      if (additionalVariants.length > 0) {
+        allowedFormats += `. Custom NaN variants recognized: [${additionalVariants.join(", ")}]`;
+      }
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (or its variant) is not acceptable. Please provide a valid numeric input such as 42, 1e3, or formatted numbers like 1_000 or 1,000. Normalized input: '${normalized}'.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to ${allowedFormats}. Normalized input: '${normalized}'.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -120,7 +124,11 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (or its variant) is not acceptable. Please provide a valid numeric input such as 42, 1e3, or formatted numbers like 1_000 or 1,000. Normalized input: '${normalized}'.`);
+    let allowedFormats = "provide a valid numeric input such as 42, 1e3, 1_000, or 1,000";
+    if (additionalVariants.length > 0) {
+      allowedFormats += `. Custom NaN variants recognized: [${additionalVariants.join(", ")}]`;
+    }
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to ${allowedFormats}. Normalized input: '${normalized}'.`);
     err.originalInput = trimmedInput;
     throw err;
   }
@@ -187,7 +195,11 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      console.warn(themeColors.error(`Warning: Invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}.`));
+      let allowedFormats = "provide a valid numeric input such as 42, 1e3, 1_000, or 1,000";
+      if (additionalVariants.length > 0) {
+        allowedFormats += `. Custom NaN variants recognized: [${additionalVariants.join(", ")}]`;
+      }
+      console.warn(themeColors.error(`Warning: Invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}. Expected to ${allowedFormats}.`));
       return Number(fallbackNumber);
     }
   }
@@ -208,8 +220,8 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  *
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed.
- * - When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with clear instructions.
- * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message.
+ * - When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats.
+ * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message including expected input formats.
  * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
  *
  * @param {string[]} args - Command line arguments.
