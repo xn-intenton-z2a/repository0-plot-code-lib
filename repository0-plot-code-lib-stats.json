@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Refactored numeric parsing to enforce consistent NaN handling and unified fallback behavior across CSV and CLI. (fixes #1790)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
   "diffMinutes": 0,
-  "diffMinutesMain": 13,
+  "diffMinutesMain": 14,
   "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T08:42:04.161Z"
+  "generatedAt": "2025-04-11T08:42:48.413Z"
 }
