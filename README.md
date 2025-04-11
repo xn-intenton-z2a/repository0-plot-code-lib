@@ -64,9 +64,13 @@ All numeric inputs, including signed variants, are now handled in a robust and c
 - Use the `--allow-nan` flag to accept NaN inputs.
 - Or provide a fallback value using `--fallback-number`.
 
+#### Global Configuration for NaN Handling
+
+A new global configuration property, `ALLOW_NAN`, can be set in your `.repository0plotconfig.json` file to control explicit NaN inputs. When set to `true`, explicit NaN values are accepted; when `false`, they are disallowed unless overridden by CLI flags or environment variables.
+
 #### Example Usage:
 
-Allowing explicit NaN:
+Allowing explicit NaN via CLI override:
 
 ```bash
 repository0-plot-code-lib --number=NaN --allow-nan
@@ -76,6 +80,21 @@ Using a fallback for NaN input:
 
 ```bash
 repository0-plot-code-lib --number=NaN --fallback-number=100
+```
+
+And via global configuration:
+
+```json
+{
+  "ERROR_REPORTING_URL": "http://example.com/report",
+  "CLI_COLOR_SCHEME": "dark",
+  "LOG_LEVEL": "debug",
+  "defaultArgs": ["defaultArg1", "defaultArg2"],
+  "FALLBACK_NUMBER": "100",
+  "ERROR_RETRY_DELAYS": "500,1000,2000",
+  "ERROR_MAX_ATTEMPTS": "3",
+  "ALLOW_NAN": true
+}
 ```
 
 ### Decimal Point Parsing
@@ -122,7 +141,8 @@ For example:
   "defaultArgs": ["defaultArg1", "defaultArg2"],
   "FALLBACK_NUMBER": "100",
   "ERROR_RETRY_DELAYS": "500,1000,2000",
-  "ERROR_MAX_ATTEMPTS": "3"
+  "ERROR_MAX_ATTEMPTS": "3",
+  "ALLOW_NAN": false
 }
 ```
 
@@ -137,6 +157,7 @@ Set persistent default options in a global configuration file named `.repository
 - `FALLBACK_NUMBER`
 - `ERROR_RETRY_DELAYS`
 - `ERROR_MAX_ATTEMPTS`
+- `ALLOW_NAN`
 
 Use the `--show-config` flag to display the effective configuration.
 

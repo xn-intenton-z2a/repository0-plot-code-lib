@@ -18,7 +18,8 @@ const globalConfigSchema = z.object({
   defaultArgs: z.array(z.string()).optional(),
   FALLBACK_NUMBER: z.string().optional(),
   ERROR_RETRY_DELAYS: z.union([z.string(), z.array(z.number())]).optional(),
-  ERROR_MAX_ATTEMPTS: z.string().optional()
+  ERROR_MAX_ATTEMPTS: z.string().optional(),
+  ALLOW_NAN: z.boolean().optional()
 });
 
 // Helper function to determine if a string represents a NaN variant (including signed variants)
@@ -238,9 +239,6 @@ export async function main(args) {
   if (!allowNaN && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === 'true') {
     allowNaN = true;
   }
-  if (!preserveDecimal && process.env.PRESERVE_DECIMAL && process.env.PRESERVE_DECIMAL.toLowerCase() === 'true') {
-    preserveDecimal = true;
-  }
 
   // Process theme flag to override color scheme if provided
   let themeFlag = null;
@@ -269,6 +267,11 @@ export async function main(args) {
 
   // Merge global config settings
   const globalConfig = getGlobalConfig();
+
+  // Override allowNaN if ALLOW_NAN is configured in global config
+  if (globalConfig.ALLOW_NAN !== undefined) {
+    allowNaN = globalConfig.ALLOW_NAN;
+  }
 
   // Set environment variables from global config if not already set
   if (!process.env.CLI_COLOR_SCHEME && globalConfig.CLI_COLOR_SCHEME) {
