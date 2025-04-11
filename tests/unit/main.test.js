@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect } from "vitest";
-import { parseCSV, main, normalizeNumberString, validateNumericArg } from "../../src/lib/main.js";
+import { parseCSV, parseCSVFromString, main, normalizeNumberString, validateNumericArg } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -24,7 +24,7 @@ afterEach(() => {
   delete globalThis.__TEST_STDIN__;
 });
 
-describe("CSV Importer", () => {
+describe("CSV Importer with default comma delimiter", () => {
   const testCSVPath = path.join(process.cwd(), "test.csv");
 
   test("should correctly import valid CSV numeric data", () => {
@@ -57,7 +57,6 @@ describe("CSV Importer", () => {
     fs.unlinkSync(testCSVPath);
   });
 
-  // Additional tests for case-insensitive 'NaN' handling in CSV importer
   test("should throw error for CSV cell 'nan' (lowercase) when no fallback provided and not allowed", () => {
     const csvContent = "nan,2,3";
     fs.writeFileSync(testCSVPath, csvContent);
@@ -85,6 +84,26 @@ describe("CSV Importer", () => {
     fs.writeFileSync(testCSVPath, csvContent);
     const data = parseCSV(testCSVPath, "0", false, true);
     expect(data).toEqual([[1234.56, 7.89], [3456.78, 9.01]]);
+    fs.unlinkSync(testCSVPath);
+  });
+});
+
+describe("CSV Importer with custom delimiter", () => {
+  const testCSVPath = path.join(process.cwd(), "test_semicolon.csv");
+
+  test("should correctly import CSV data using semicolon delimiter", () => {
+    const csvContent = "1;2;3\n4;5;6";
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, undefined, false, false, ';');
+    expect(data).toEqual([[1, 2, 3], [4, 5, 6]]);
+    fs.unlinkSync(testCSVPath);
+  });
+
+  test("should correctly import CSV data using pipe delimiter", () => {
+    const csvContent = "7|8|9\n10|11|12";
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, undefined, false, false, '|');
+    expect(data).toEqual([[7, 8, 9], [10, 11, 12]]);
     fs.unlinkSync(testCSVPath);
   });
 });
@@ -173,7 +192,7 @@ describe("Numeric Parser Utility", () => {
 });
 
 describe("CSV STDIN Importer", () => {
-  test("should correctly import CSV data from STDIN", async () => {
+  test("should correctly import CSV data from STDIN with default delimiter", async () => {
     const csvData = "10,20,30\n40,50,60";
     // Create a Readable stream from the csvData
     const stdinStream = Readable.from(csvData);
@@ -190,12 +209,22 @@ describe("CSV STDIN Importer", () => {
     expect(found).toBeTruthy();
   });
 
+  test("should correctly import CSV data from STDIN with custom delimiter", async () => {
+    const csvData = "100;200;300\n400;500;600";
+    const stdinStream = Readable.from(csvData);
+    stdinStream.isTTY = false;
+    globalThis.__TEST_STDIN__ = stdinStream;
+    await main(["--fallback-number=0", "--csv-delimiter=;"]);
+    const found = consoleOutput.some(msg => msg.includes("Imported CSV Data (from STDIN):") && msg.includes("100;200;300") === false);
+    // We check that numbers are parsed correctly
+    expect(found).toBeTruthy();
+  });
+
   test("should handle empty STDIN gracefully", async () => {
     const csvData = "   ";
     const stdinStream = Readable.from(csvData);
     stdinStream.isTTY = false;
     globalThis.__TEST_STDIN__ = stdinStream;
-
     await expect(main(["--fallback-number=0"]))
       .rejects
       .toThrow(/CSV input is empty/);

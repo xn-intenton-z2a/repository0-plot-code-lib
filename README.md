@@ -126,24 +126,24 @@ export PRESERVE_DECIMAL=true
 repository0-plot-code-lib --number=1,234.56
 ```
 
-When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`). Note: In CSV files with preserve-decimal enabled, the importer uses a regex-based parser to correctly capture numbers with thousand separators.
+When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`). Note: In CSV files with preserve-decimal enabled and using default comma delimiter, a regex-based parser is used for enhanced parsing.
 
 ### CSV Data Import
 
-The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators by default or preserved as decimal points when enabled).
+The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. In addition, a new flag `--csv-delimiter=<delimiter>` allows you to specify a custom delimiter for parsing CSV data. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by the chosen delimiter and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators by default or preserved as decimal points when enabled).
 
 **Note:** Cells containing the literal `NaN` (in any capitalization) are handled consistently as described above.
 
-For example, from a file:
+For example, from a file with a semicolon delimiter:
 
 ```bash
-repository0-plot-code-lib --csv-file=path/to/data.csv --fallback-number=100
+repository0-plot-code-lib --csv-file=path/to/data.csv --csv-delimiter=";" --fallback-number=100
 ```
 
-Or piping data via STDIN:
+Or piping data via STDIN with a custom delimiter:
 
 ```bash
-echo "1,2,3\n4,5,6" | repository0-plot-code-lib --fallback-number=100
+echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100
 ```
 
 The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme.
