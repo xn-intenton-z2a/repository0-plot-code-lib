@@ -9,7 +9,7 @@
   "prDetails": [
     {
       "title": "Refactored numeric parsing to enhance locale-aware error messages and robust NaN variant handling in CSV imports. (fixes #1889)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
   "diffMinutes": 0,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T21:25:30.353Z"
+  "generatedAt": "2025-04-11T21:25:43.545Z"
 }
