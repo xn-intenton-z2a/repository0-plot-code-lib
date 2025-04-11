@@ -13,7 +13,7 @@ You can use the library either as a JavaScript module or via the CLI. The CLI ou
 Import the main function and pass arguments as an array. Note that in the event of errors, the function will throw exceptions rather than exiting the process. This allows the consuming code to handle errors as needed.
 
 ```js
-import { main, parseCSV } from '@src/lib/main.js';
+import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/lib/main.js';
 
 (async () => {
   try {
@@ -21,14 +21,16 @@ import { main, parseCSV } from '@src/lib/main.js';
     // You can also use the integrated CSV importer function
     const data = parseCSV('path/to/data.csv');
     console.log(data);
+    
+    // Numeric parsing utilities are available directly from the main module
+    console.log(normalizeNumberString('1,000'));
+    console.log(validateNumericArg('2_000', false, { info: msg => msg, error: msg => msg }));
   } catch (error) {
     // Handle error accordingly
     console.error('An error occurred:', error);
   }
 })();
 ```
-
-Additionally, the numeric parsing utilities have been refactored into a separate module. You can import and use these directly from `src/lib/numericParser.js` if needed.
 
 ### Command Line Interface (CLI)
 
@@ -72,7 +74,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Enhancement:** The numeric validation logic has been refactored into a shared utility module (`src/lib/numericParser.js`) to ensure consistent handling of edge cases. The functions `normalizeNumberString` and `validateNumericArg` now serve as a single source of truth for numeric parsing. This change immediately rejects inputs equating to "NaN" (case-insensitive) before normalization and applies a fallback if provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable. 
+**Enhancement:** The numeric validation logic has been refactored into the main module. The functions `normalizeNumberString` and `validateNumericArg` now serve as a single source of truth for numeric parsing. This change immediately rejects inputs equating to "NaN" (case-insensitive) before normalization and applies a fallback if provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable. 
 
 For example:
 
@@ -126,7 +128,8 @@ Example configuration snippet:
   "ERROR_REPORTING_URL": "http://example.com/report",
   "CLI_COLOR_SCHEME": "dark",
   "LOG_LEVEL": "debug",
-  "defaultArgs": ["defaultArg1", "defaultArg2"]
+  "defaultArgs": ["defaultArg1", "defaultArg2"],
+  "FALLBACK_NUMBER": "100"
 }
 ```
 

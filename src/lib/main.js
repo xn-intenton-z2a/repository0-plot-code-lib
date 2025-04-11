@@ -7,9 +7,8 @@ import chalk, { Chalk } from "chalk";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { z } from "zod";
-import { normalizeNumberString, validateNumericArg } from "./numericParser.js";
 
-// Removed import of csvImporter; CSV importer functionality is now integrated into this file
+// Removed import of numericParser; numeric parsing utilities are now integrated into this file
 
 // Define global configuration schema using zod
 const globalConfigSchema = z.object({
@@ -83,6 +82,24 @@ export function parseCSV(filePath) {
       return num;
     });
   });
+}
+
+// Numeric parsing utilities integrated directly in this file
+export function normalizeNumberString(str) {
+  // Remove underscores, commas, spaces, and periods used as thousand separators
+  return str.replace(/[_\s,\.]+/g, '');
+}
+
+export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber) {
+  const normalized = normalizeNumberString(numStr);
+  const parsed = Number(normalized);
+  if (Number.isNaN(parsed)) {
+    if (fallbackNumber !== undefined) {
+      return Number(fallbackNumber);
+    }
+    throw new Error(`Invalid numeric input '${numStr}'. Please provide a valid number.`);
+  }
+  return parsed;
 }
 
 /**

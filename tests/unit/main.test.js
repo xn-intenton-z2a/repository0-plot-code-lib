@@ -1,6 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect } from "vitest";
-import { parseCSV, main } from "../../src/lib/main.js";
-import { normalizeNumberString, validateNumericArg } from "../../src/lib/numericParser.js";
+import { parseCSV, main, normalizeNumberString, validateNumericArg } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 
@@ -57,6 +56,7 @@ describe("CSV Importer", () => {
   });
 });
 
+
 describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback", async () => {
     await expect(main(["--number=NaN", "--verbose"]))
@@ -71,11 +71,13 @@ describe("Numeric argument validation error reporting", () => {
   });
 });
 
+
 describe("Numeric Parser Utility", () => {
-  test("normalizeNumberString should remove underscores, commas, and spaces", () => {
+  test("normalizeNumberString should remove underscores, commas, spaces, and periods", () => {
     expect(normalizeNumberString("1_000")).toBe("1000");
     expect(normalizeNumberString("1,000")).toBe("1000");
     expect(normalizeNumberString("1 000")).toBe("1000");
+    expect(normalizeNumberString("1.000")).toBe("1000");
   });
   
   test("validateNumericArg returns valid number for proper input", () => {
