@@ -17,12 +17,16 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
 
 (async () => {
   try {
-    await main(['arg1', 'arg2']);
+    // Example of running the main function with unified 'NaN' handling
+    // This example demonstrates how NaN variants (e.g., 'NaN', '+NaN', '-NaN') are processed.
+    await main(['--number=NaN', '--fallback-number=100']);
+
     // Use the integrated CSV importer function
     const data = parseCSV('path/to/data.csv');
     console.log(data);
     
     // Numeric parsing utilities are available directly from the main module
+    // normalizeNumberString removes formatting characters. When preserveDecimal is enabled, decimals are retained.
     console.log(normalizeNumberString('1,000'));
     console.log(validateNumericArg('2_000', false, { info: msg => msg, error: msg => msg }));
   } catch (error) {
@@ -40,53 +44,31 @@ Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main 
 repository0-plot-code-lib arg1 arg2
 ```
 
-If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message. You can also set default arguments in a global configuration file.
+If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message.
 
 ```
 (No arguments provided message in colored output, or default arguments if configured)
 Usage: repository0-plot-code-lib <arguments>
 ```
 
-### Dynamic Theme Switching
+### Unified 'NaN' Handling
 
-A new CLI flag allows you to dynamically switch the color theme at runtime. Use the `--theme=<value>` flag to override any default configuration. Supported values are:
+The CLI and library employ a unified approach for numeric input parsing, especially for handling various representations of 'NaN':
 
-- `default`
-- `dark`
-- `light`
+- Variants such as `NaN`, `nan`, `+NaN`, and `-NaN` are processed uniformly.
+- Use the `--allow-nan` flag (or set the `ALLOW_EXPLICIT_NAN` environment variable to true) to accept these values as JavaScript's `NaN`.
+- If explicit `NaN` is not allowed and a fallback is provided via `--fallback-number` (or the `FALLBACK_NUMBER` environment variable), the fallback value is applied.
+- Otherwise, a detailed error message is thrown with guidance on acceptable formats.
 
-For example:
+#### Example Usage:
 
-```bash
-repository0-plot-code-lib --theme=dark arg1 arg2
-```
-
-### Numeric Argument Validation & Unified NaN Handling
-
-The CLI supports numeric validation via the `--number=VALUE` flag. Supported number formats include:
-
-- Standard numbers (e.g., `42`)
-- Scientific notation (e.g., `1e3`)
-- Numbers with underscores (e.g., `1_000`)
-- Numbers with commas as thousand separators (e.g., `1,000`)
-- Numbers with spaces as thousand separators (e.g., `1 000`)
-- When using periods, they are treated based on the configuration (see below).
-
-**Unified 'NaN' Handling and Fallback Mechanism:**
-
-All numeric inputs are processed using a consolidated logic that treats all variants of `NaN` (e.g., `NaN`, `nan`, `NAN`, `+NaN`, `-NaN`) uniformly. The rules are:
-
-1. If the `--allow-nan` flag (or environment variable `ALLOW_EXPLICIT_NAN`) is set, the input is accepted as JavaScript's `NaN`.
-2. If not allowed and a fallback value is provided via `--fallback-number` or the `FALLBACK_NUMBER` environment variable, the fallback is applied uniformly.
-3. Otherwise, a detailed error message is thrown that includes the normalized input and guidance on acceptable formats.
-
-For example, to allow explicit NaN:
+Allowing explicit NaN:
 
 ```bash
 repository0-plot-code-lib --number=NaN --allow-nan
 ```
 
-Or with a fallback when not allowed:
+Using a fallback for NaN input:
 
 ```bash
 repository0-plot-code-lib --number=NaN --fallback-number=100

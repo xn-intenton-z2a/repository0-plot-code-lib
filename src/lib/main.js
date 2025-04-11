@@ -88,10 +88,11 @@ function autoDetectDelimiter(content) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case, including signed variants like +NaN or -NaN)
-// are processed uniformly. When the input matches 'NaN' (after trimming and removing any leading '+' or '-'), it is handled by either
-// accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input
-// along with guidance on acceptable formats.
+// Unified Numeric Parsing:
+// 1. All variants of 'NaN' such as 'NaN', 'nan', '+NaN', '-NaN' are normalized using isNaNVariant.
+// 2. If allowNaN is true, these values are accepted as JavaScript's NaN.
+// 3. If allowNaN is false and a fallback is provided, the fallback value is applied.
+// 4. Otherwise, a detailed error is thrown including the original and normalized input along with guidance.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   if (isNaNVariant(trimmedInput)) {
@@ -170,6 +171,11 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
 
 /**
  * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import (from file or STDIN) and global configuration support.
+ *
+ * Note on Unified 'NaN' Handling:
+ * Numeric inputs are normalized to handle all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN') uniformly.
+ * Depending on the '--allow-nan' flag (or ALLOW_EXPLICIT_NAN environment variable) and the presence of a fallback value, the input is processed accordingly.
+ *
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
