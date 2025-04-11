@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Refined error messaging for --numberNaN inputs with detailed guidance on acceptable numeric formats. (fixes #1723)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 9,
+  "diffMinutes": 0,
+  "diffMinutesMain": 10,
   "commitsLastHour": 6,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T07:47:49.503Z"
+  "generatedAt": "2025-04-11T07:48:31.681Z"
 }
