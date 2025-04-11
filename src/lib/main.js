@@ -114,8 +114,16 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      const customMsg = additionalVariants.length ? ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].` : "";
-      logger(`Warning: Non-numeric input '${trimmedInput}' detected (normalized as '${normalized}'). Fallback value ${fallbackNumber} applied.${customMsg}`);
+      // Emit structured JSON log message for NaN fallback event
+      const logMessage = JSON.stringify({
+        level: "warn",
+        event: "NaNFallback",
+        originalInput: trimmedInput,
+        normalized: normalized,
+        fallbackValue: fallbackNumber,
+        customNaNVariants: additionalVariants
+      });
+      logger(logMessage);
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
@@ -127,8 +135,15 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      const customMsg = additionalVariants.length ? ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].` : "";
-      logger(`Warning: Non-numeric input '${trimmedInput}' resulted in NaN after normalization ('${normalized}'). Fallback value ${fallbackNumber} applied.${customMsg}`);
+      const logMessage = JSON.stringify({
+        level: "warn",
+        event: "NaNFallback",
+        originalInput: trimmedInput,
+        normalized: normalized,
+        fallbackValue: fallbackNumber,
+        customNaNVariants: additionalVariants
+      });
+      logger(logMessage);
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;

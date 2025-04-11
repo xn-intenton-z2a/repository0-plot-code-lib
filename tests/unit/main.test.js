@@ -256,12 +256,25 @@ describe("Numeric Parser Utility", () => {
     expect(validateNumericArg("1,234.56", false, themeColors, undefined, false, true)).toBe(1234.56);
   });
 
-  test("logs warning when fallback is applied", () => {
-    const themeColors = { info: msg => msg, error: console.warn };
+  test("logs structured warning when fallback is applied", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const result = validateNumericArg("nan", false, themeColors, "999");
     expect(result).toBe(999);
     expect(warnSpy).toHaveBeenCalled();
+    const logArg = warnSpy.mock.calls[0][0];
+    let logObj;
+    try {
+      logObj = JSON.parse(logArg);
+    } catch(e) {
+      throw new Error("Log message is not valid JSON");
+    }
+    expect(logObj).toHaveProperty("level", "warn");
+    expect(logObj).toHaveProperty("event", "NaNFallback");
+    expect(logObj).toHaveProperty("originalInput", "nan");
+    expect(logObj).toHaveProperty("normalized");
+    expect(logObj).toHaveProperty("fallbackValue", "999");
+    expect(logObj).toHaveProperty("customNaNVariants");
     warnSpy.mockRestore();
   });
 

@@ -20,7 +20,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // Example: Running the main function with unified 'NaN' handling.
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed using a consolidated fallback mechanism.
     // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance including the normalized value and recognized custom NaN variants.
-    // If a fallback value is provided, it is applied and a standardized warning is logged that explicitly lists the recognized custom NaN variants (if any).
+    // If a fallback value is provided, it is applied and a structured JSON warning is logged containing the original input, normalized value, fallback value, and any custom NaN variants.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -73,12 +73,18 @@ Piping data and logging to file:
 echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100 --log-file=./cli.log
 ```
 
-### Unified 'NaN' Handling
+### Unified 'NaN' Handling & Structured Logging
 
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed via a unified function that normalizes the input and applies a consistent fallback logic.
-- When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a standardized warning message that includes the normalized input and explicitly lists any recognized custom NaN variants in a standardized format.
+- When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a structured warning.
+- The structured log is emitted in JSON format and includes the following fields:
+  - level
+  - event (set to "NaNFallback")
+  - originalInput
+  - normalized
+  - fallbackValue
+  - customNaNVariants
 - To explicitly accept NaN inputs, use the `--allow-nan` flag.
-- This release enhances the normalization logic by consistently converting inputs to lowercase and trimming whitespace so that all variants are uniformly handled.
 
 ### Custom NaN Variants
 
@@ -90,7 +96,7 @@ You can define additional string values to be recognized as NaN using the global
 }
 ```
 
-This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The warning messages now explicitly list recognized custom NaN variants in a standardized format when a fallback value is applied.
+This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The structured log messages will include these custom NaN variants when a fallback is applied.
 
 ### Locale-Aware Numeric Parsing
 
