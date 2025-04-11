@@ -63,7 +63,7 @@ repository0-plot-code-lib --theme=dark arg1 arg2
 
 This flag will take precedence over any theme specified in the environment variable `CLI_COLOR_SCHEME` or in the `cli-theme.json` custom configuration file.
 
-### Numeric Argument Validation
+### Numeric Argument Validation & Standardized NaN Handling
 
 The CLI supports numeric validation via the `--number=VALUE` flag. The following number formats are supported:
 
@@ -76,11 +76,11 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 
 **Unified 'NaN' Handling and Fallback Mechanism:**
 
-All numeric inputs are processed using a consolidated logic that handles the case-insensitive string `NaN`. When an input matches `NaN` (in any casing):
+All numeric inputs are processed using a consolidated logic that treats any case variant of `NaN` (e.g., `NaN`, `nan`, `NAN`) uniformly. When an input matches `NaN` (in any casing):
 
 1. If the `--allow-nan` flag is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), the value is accepted as JavaScript’s `NaN`.
-2. If the flag is not provided and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used uniformly for all case variants of `NaN`.
-3. Otherwise, a standardized error is thrown, including both the original input and its normalized form.
+2. If the flag is not provided and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used uniformly.
+3. Otherwise, a standardized error is thrown, including both the original input and its normalized form, to help in debugging.
 
 For example, to allow explicit NaN:
 
@@ -93,8 +93,6 @@ Or with a fallback when not allowed:
 ```bash
 repository0-plot-code-lib --number=NaN --fallback-number=100
 ```
-
-Ensure that if no valid fallback is provided and the `--allow-nan` flag is not set, a clear error is displayed.
 
 ### Decimal Point Parsing
 
