@@ -188,14 +188,22 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
 
   // If the input is a NaN variant and not allowed, log a warning if a fallback is provided.
   if (isNaNVariant(numStr.trim(), additionalVariants) && !allowNaN && fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-    console.warn(themeColors.error(`Warning: Detected invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}.`));
+    let warnMsg = `Warning: Detected invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}.`;
+    if (additionalVariants.length > 0) {
+      warnMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+    }
+    console.warn(themeColors.error(warnMsg));
   }
 
   try {
     return processNumberInput(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants);
   } catch (error) {
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      console.warn(themeColors.error(`Warning: ${error.message} Using fallback value ${fallbackNumber}.`));
+      let warnMsg = `Warning: ${error.message} Using fallback value ${fallbackNumber}.`;
+      if (additionalVariants.length > 0) {
+        warnMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+      }
+      console.warn(themeColors.error(warnMsg));
       return Number(fallbackNumber);
     } else {
       throw error;
@@ -209,7 +217,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed via processNumberInput.
  * - When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats.
- * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message including expected input formats.
+ * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message including expected input formats and recognized custom NaN variants if configured.
  * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
  *
  * @param {string[]} args - Command line arguments.
