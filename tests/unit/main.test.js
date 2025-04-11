@@ -76,13 +76,26 @@ describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback", async () => {
     await expect(main(["--number=NaN", "--verbose"]))
       .rejects
-      .toThrow(/Invalid numeric input 'NaN'. Please provide a valid number/);
+      .toThrow(/Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag/);
   });
 
   test("applies fallback when '--number=NaN' provided with fallback", async () => {
     await expect(main(["--number=NaN", "--fallback-number=100", "--verbose"]))
       .resolves
       .toBeUndefined();
+  });
+
+  test("handles different casings of 'NaN' with fallback", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("nan", false, themeColors, "100")).toBe(100);
+    expect(validateNumericArg("NAN", false, themeColors, "200")).toBe(200);
+    expect(validateNumericArg("NaN", false, themeColors, "300")).toBe(300);
+  });
+
+  test("throws error for different casings of 'NaN' without fallback", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(() => validateNumericArg("nan", false, themeColors, undefined)).toThrow(/Invalid numeric input 'nan'/);
+    expect(() => validateNumericArg("NAN", false, themeColors, undefined)).toThrow(/Invalid numeric input 'NAN'/);
   });
 });
 
@@ -98,10 +111,5 @@ describe("Numeric Parser Utility", () => {
   test("validateNumericArg returns valid number for proper input", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("2_000", false, themeColors, undefined)).toBe(2000);
-  });
-  
-  test("validateNumericArg applies fallback for 'NaN'", () => {
-    const themeColors = { info: msg => msg, error: msg => msg };
-    expect(validateNumericArg("NaN", false, themeColors, "100")).toBe(100);
   });
 });
