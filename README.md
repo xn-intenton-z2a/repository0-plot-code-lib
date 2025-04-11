@@ -13,11 +13,14 @@ You can use the library either as a JavaScript module or via the CLI. The CLI ou
 Import the main function and pass arguments as an array. Note that in the event of errors, the function will throw exceptions rather than exiting the process. This allows the consuming code to handle errors as needed.
 
 ```js
-import { main } from '@src/lib/main.js';
+import { main, parseCSV } from '@src/lib/main.js';
 
 (async () => {
   try {
     await main(['arg1', 'arg2']);
+    // You can also use the integrated CSV importer function
+    const data = parseCSV('path/to/data.csv');
+    console.log(data);
   } catch (error) {
     // Handle error accordingly
     console.error('An error occurred:', error);
@@ -90,6 +93,18 @@ repository0-plot-code-lib --number=NaN
 ```
 
 The CLI will output a concise error message. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace for debugging.
+
+### CSV Data Import
+
+The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag. The CSV importer functionality has been integrated into the main module. The CSV file should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
+
+For example:
+
+```bash
+repository0-plot-code-lib --csv-file=path/to/data.csv
+```
+
+The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme. This data can be used for plotting or further processing.
 
 ### Automatic Error Reporting
 
