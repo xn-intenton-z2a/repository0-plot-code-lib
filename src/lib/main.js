@@ -93,28 +93,41 @@ function cleanString(str) {
   return str.normalize("NFKC").trim();
 }
 
-// Helper function to check if a cleaned string matches the default NaN pattern
-function isDefaultNaNVariant(str, caseSensitive) {
-  // Uses a regex to match an optional sign followed by 'NaN'
-  // If not case sensitive, converts the string to lowercase
-  const pattern = caseSensitive ? /^[+\-]?NaN$/ : /^[+\-]?nan$/;
-  return pattern.test(caseSensitive ? str : str.toLowerCase());
-}
-
-// Refactored helper function to determine if a string represents a NaN variant
-// It first cleans the input, then checks against the default NaN pattern and any custom variants provided
+// Consolidated helper function to check if a string represents a NaN variant
 function isNaNVariant(input, additionalVariants = []) {
   const cleaned = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
+  const canonicalInput = caseSensitive ? cleaned : cleaned.toLowerCase();
+  // Check against default NaN variant
+  if (canonicalInput === (caseSensitive ? "NaN" : "nan")) return true;
+  // Check against custom variants after normalization
+  const normalizedVariants = additionalVariants.map(v => caseSensitive ? cleanString(v) : cleanString(v).toLowerCase());
+  return normalizedVariants.includes(canonicalInput);
+}
 
-  // Check if the cleaned input matches the default NaN variant
-  if (isDefaultNaNVariant(cleaned, caseSensitive)) return true;
-
-  // Normalize the input and custom variants for consistent comparison
-  const normalizeForComparison = (s) => caseSensitive ? cleanString(s) : cleanString(s).toLowerCase();
-  const normalizedInput = normalizeForComparison(cleaned);
-  return additionalVariants.map(normalizeForComparison).includes(normalizedInput);
+// Helper function to handle fallback logging and conversion
+function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVariants, config, logger) {
+  if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
+    if (!config.DISABLE_FALLBACK_WARNINGS) {
+      const logMessage = JSON.stringify({
+        level: "warn",
+        event: "NaNFallback",
+        originalInput,
+        normalized,
+        fallbackValue: fallbackNumber,
+        customNaNVariants: additionalVariants,
+        locale: config.LOCALE || "en-US"
+      });
+      logger(logMessage);
+    }
+    return Number(fallbackNumber);
+  }
+  let errorMsg = `Invalid numeric input '${originalInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
+  if (additionalVariants.length > 0) {
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
+  }
+  throw Object.assign(new Error(errorMsg), { originalInput });
 }
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
@@ -196,7 +209,6 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   const normalized = normalizeNumberString(cleanedInput, preserveDecimal);
   const config = getGlobalConfig();
 
-  // If the input string is recognized as a NaN variant
   if (isNaNVariant(cleanedInput, additionalVariants)) {
     if (strict) {
       let errorMsg = `Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`;
@@ -207,27 +219,9 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     }
     if (allowNaN) {
       return NaN;
-    } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      // Prepare structured warning message with detailed context
-      const logMessage = JSON.stringify({
-        level: "warn",
-        event: "NaNFallback",
-        originalInput: cleanedInput,
-        normalized: normalized,
-        fallbackValue: fallbackNumber,
-        customNaNVariants: additionalVariants,
-        locale: config.LOCALE || "en-US"
-      });
-      if (!config.DISABLE_FALLBACK_WARNINGS) {
-        logger(logMessage);
-      }
-      return Number(fallbackNumber);
+    } else {
+      return fallbackHandler(cleanedInput, normalized, fallbackNumber, additionalVariants, config, logger);
     }
-    let errorMsg = `Invalid numeric input '${cleanedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
-    if (additionalVariants.length > 0) {
-      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
-    }
-    throw Object.assign(new Error(errorMsg), { originalInput: cleanedInput });
   }
 
   const num = Number(normalized);
@@ -235,26 +229,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     if (strict) {
       throw new Error(`Strict mode: Invalid numeric input '${cleanedInput}'. Normalized input: '${normalized}'.`);
     }
-    if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      const logMessage = JSON.stringify({
-        level: "warn",
-        event: "NaNFallback",
-        originalInput: cleanedInput,
-        normalized: normalized,
-        fallbackValue: fallbackNumber,
-        customNaNVariants: additionalVariants,
-        locale: config.LOCALE || "en-US"
-      });
-      if (!config.DISABLE_FALLBACK_WARNINGS) {
-        logger(logMessage);
-      }
-      return Number(fallbackNumber);
-    }
-    let errorMsg = `Invalid numeric input '${cleanedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
-    if (additionalVariants.length > 0) {
-      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
-    }
-    throw Object.assign(new Error(errorMsg), { originalInput: cleanedInput });
+    return fallbackHandler(cleanedInput, normalized, fallbackNumber, additionalVariants, config, logger);
   }
   return num;
 }

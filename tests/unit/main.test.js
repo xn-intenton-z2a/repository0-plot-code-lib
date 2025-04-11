@@ -535,4 +535,3 @@ describe("Strict Numeric Mode", () => {
       .toThrow(/Strict mode: Invalid numeric input '-NaN'.*Signed NaN variants are not allowed/);
   });
 });
-
