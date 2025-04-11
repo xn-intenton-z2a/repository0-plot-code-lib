@@ -76,11 +76,11 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 
 **Unified Fallback Mechanism and Explicit NaN Handling:**
 
-The CLI now uses a unified approach for numeric input parsing. When an input (case-insensitive) matches `NaN`:
+The CLI's numeric input processing now handles any input matching 'NaN' (in any casing) uniformly. When an input matches 'NaN':
 
 1. If the `--allow-nan` flag is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), the value is accepted as JavaScript’s `NaN`.
 2. If the flag is not provided, and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used.
-3. Otherwise, a standardized error is thrown that includes both the original input and its normalized form for easier debugging.
+3. Otherwise, a standardized error is thrown including both the original input and its normalized form.
 
 For example, using an explicit allow flag:
 
@@ -113,7 +113,7 @@ The CLI will output a standardized error message indicating that a valid number 
 
 The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
 
-**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization) and the `--allow-nan` flag or `ALLOW_EXPLICIT_NAN` is enabled, the importer accepts it as JavaScript’s `NaN`; otherwise, it applies the fallback mechanism and throws a standardized error if no fallback is provided.
+**Note:** Cells containing the literal `NaN` (in any capitalization) are handled consistently as described above.
 
 For example, from a file:
 
