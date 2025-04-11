@@ -31,6 +31,12 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // normalizeNumberString removes formatting characters. When preserveDecimal is enabled, decimals are retained.
     console.log(normalizeNumberString('1,000'));
     console.log(validateNumericArg('2_000', false, { info: msg => msg, error: msg => msg }));
+
+    // Scientific Notation Support:
+    // The library now supports numeric inputs in scientific notation. For example:
+    // '1e3' is parsed as 1000 and '1.2e-3' is parsed as 0.0012. Extra formatting characters in the coefficient are stripped.
+    console.log(normalizeNumberString('1,000e3', false)); // outputs "1000e3"
+    console.log(validateNumericArg('1.2e-3', false, { info: msg => msg, error: msg => msg }, undefined, false, true));
   } catch (error) {
     // Handle error accordingly
     console.error('An error occurred:', error);
