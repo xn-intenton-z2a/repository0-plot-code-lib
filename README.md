@@ -70,9 +70,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. **Note:** Inputs explicitly equal to "NaN" (case-insensitive) are rejected with a clear error message.
-
-Additionally, if an invalid numeric input is provided and a fallback value is specified via the `--fallback-number` flag or the environment variable `FALLBACK_NUMBER`, the CLI will log a warning and automatically use the fallback value.
+The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. **Note:** Inputs explicitly equal to "NaN" (case-insensitive) are rejected with a clear error message. If a fallback value is provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, a clear log message indicates that the fallback value is applied.
 
 For example:
 
