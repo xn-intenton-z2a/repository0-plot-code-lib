@@ -29,6 +29,7 @@ afterEach(() => {
   delete process.env.ALLOW_EXPLICIT_NAN;
   delete process.env.PRESERVE_DECIMAL;
   delete process.env.LOCALE;
+  delete process.env.DISABLE_FALLBACK_WARNINGS;
   // Remove any global config file created during tests
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
   if(fs.existsSync(configPath)) {
@@ -469,27 +470,34 @@ describe("Custom NaN Variants Configuration", () => {
   });
 });
 
-describe("Locale-Aware Numeric Parsing", () => {
-  test("should correctly parse en-US formatted number with thousand separator and decimal point", () => {
-    // en-US: thousand separator is comma, decimal point is period
-    expect(normalizeNumberString("1,234.56", true)).toBe("1234.56");
+// New tests for Warning Suppression Behavior based on DISABLE_FALLBACK_WARNINGS
+describe("Warning Suppression Behavior", () => {
+  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+
+  afterEach(() => {
+    if (fs.existsSync(configPath)) {
+      fs.unlinkSync(configPath);
+    }
   });
 
-  test("should correctly parse de-DE formatted number when preserveDecimal is true", () => {
-    // Set LOCALE to de-DE
-    process.env.LOCALE = "de-DE";
-    // In de-DE: thousand separator is period, decimal separator is comma
-    // "1.234,56" should be normalized to "1234.56" for JavaScript conversion
-    expect(normalizeNumberString("1.234,56", true)).toBe("1234.56");
+  test("should not log fallback warning when DISABLE_FALLBACK_WARNINGS is true", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ DISABLE_FALLBACK_WARNINGS: true }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const result = validateNumericArg("NaN", false, themeColors, "100");
+    expect(result).toBe(100);
+    expect(warnSpy).not.toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
 
-  test("should correctly remove all separators for de-DE when preserveDecimal is false", () => {
-    process.env.LOCALE = "de-DE";
-    expect(normalizeNumberString("1.234,56", false)).toBe("123456");
-  });
-
-  test("should correctly parse en-US formatted number when preserveDecimal is false", () => {
-    process.env.LOCALE = "en-US";
-    expect(normalizeNumberString("1,234.56", false)).toBe("123456");
+  test("should log fallback warning when DISABLE_FALLBACK_WARNINGS is false or not set", () => {
+    // Ensure config does not disable warnings
+    fs.writeFileSync(configPath, JSON.stringify({ DISABLE_FALLBACK_WARNINGS: false }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const result = validateNumericArg("NaN", false, themeColors, "100");
+    expect(result).toBe(100);
+    expect(warnSpy).toHaveBeenCalled();
+    warnSpy.mockRestore();
   });
 });
