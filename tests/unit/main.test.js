@@ -184,13 +184,13 @@ describe("Numeric argument validation error reporting", () => {
   test("throws error for 'nan' without fallback when not allowed and includes originalInput", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     try {
-      validateNumericArg("nan", false, themeColors, undefined);
+      validateNumericArg("nan", false, themeColors);
     } catch (err) {
       expect(err.message).toMatch(/Invalid numeric input 'nan'/i);
       expect(err.originalInput).toBe("nan");
     }
     try {
-      validateNumericArg("NAN", false, themeColors, undefined);
+      validateNumericArg("NAN", false, themeColors);
     } catch (err) {
       expect(err.message).toMatch(/Invalid numeric input 'NAN'/i);
       expect(err.originalInput).toBe("NAN");
