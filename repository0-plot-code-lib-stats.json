@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refactored isNaNVariant helper for improved readability and robustness. (fixes #1884)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 8,
-  "commitsLastHour": 6,
-  "commitsLastDay": 98,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 7,
+  "commitsLastDay": 99,
   "lastFiveCommitMessages": [
+    {
+      "time": "19:41",
+      "message": "Refactored isNaNVariant helper for improved readability and robu..."
+    },
     {
       "time": "19:33",
       "message": "Extend NaN variant recognition to support Unicode and non-standa..."
@@ -32,23 +31,14 @@
     {
       "time": "19:02",
       "message": "Update from agentic-lib"
-    },
-    {
-      "time": "19:00",
-      "message": "Update from agentic-lib"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1884",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T19:41:34.810Z"
+  "generatedAt": "2025-04-11T19:42:28.064Z"
 }
