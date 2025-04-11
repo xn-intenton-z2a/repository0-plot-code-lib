@@ -113,9 +113,9 @@ function processNumberInput(inputStr, fallbackNumber, allowNaN = false, preserve
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ")}].`;
+      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
     const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
     const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
@@ -130,7 +130,7 @@ function processNumberInput(inputStr, fallbackNumber, allowNaN = false, preserve
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ")}].`;
+      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
     const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
     err.originalInput = trimmedInput;
