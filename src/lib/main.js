@@ -109,7 +109,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized: '${normalized}'.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (or its variant) is not acceptable. Please provide a valid numeric input such as 42, 1e3, or formatted numbers like 1_000 or 1,000. Normalized input: '${normalized}'.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -120,7 +120,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized: '${normalized}'.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (or its variant) is not acceptable. Please provide a valid numeric input such as 42, 1e3, or formatted numbers like 1_000 or 1,000. Normalized input: '${normalized}'.`);
     err.originalInput = trimmedInput;
     throw err;
   }
@@ -207,7 +207,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import (from file or STDIN) and global configuration support.
  *
  * Note on Unified 'NaN' Handling:
- * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (with potential whitespace) are uniformly processed.
+ * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed.
  * - When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with clear instructions.
  * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message.
  * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).

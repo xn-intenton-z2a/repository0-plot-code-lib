@@ -79,6 +79,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a standardized manner with enhanced normalization.
 - When explicit NaN values are not allowed (default), providing them triggers a fallback mechanism (if a valid fallback is given) and logs a concise warning message.
 - To explicitly accept NaN inputs, use the `--allow-nan` flag.
+- Additionally, if the literal 'NaN' (or its variants) is provided without allowance, the error message will now include guidance on acceptable inputs (e.g., 42, 1e3, 1_000, or 1,000).
 
 ### Custom NaN Variants
 
