@@ -34,9 +34,8 @@
 (async () =&gt; {
   try {
     // Example of running the main function with unified 'NaN' handling
-    // This example demonstrates how NaN variants (e.g., 'NaN', '+NaN', '-NaN') are processed.
-    // When an invalid numeric input is provided without permitting explicit NaN values, if a fallback is provided via '--fallback-number' or the global configuration,
-    // the fallback value will be used (with a warning logged). Otherwise, an error is thrown. Consider enabling '--allow-nan' if you wish to accept NaN values.
+    // This example demonstrates how NaN variants (e.g., 'NaN', '+NaN', '-NaN') are processed uniformly.
+    // When an invalid numeric input is provided without permitting explicit NaN values, a fallback value is used (if provided) with a clear error message.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -68,8 +67,11 @@
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="unified-nan-handling" href="#unified-nan-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Unified 'NaN' Handling</h3>
-<p class="md-github">All numeric inputs, including signed variants, follow a consistent handling approach across CSV, CLI, and environment variables. Variants such as <code class="md-github">NaN</code>, <code class="md-github">nan</code>, <code class="md-github">+NaN</code>, and <code class="md-github">-NaN</code> are normalized using a unified function.</p>
-<p class="md-github">When an invalid numeric input is provided without permitting explicit NaN values, consider providing a fallback value using <code class="md-github">--fallback-number</code>. If no fallback is provided, an error is thrown with guidance on either enabling explicit NaN acceptance using <code class="md-github">--allow-nan</code> or supplying a valid fallback.</p>
+<p class="md-github">All numeric inputs, including signed variants, are now handled in a robust and consistent manner. Enhanced error messages clearly instruct users when an explicit NaN value is encountered. To correct this:</p>
+<ul class="md-github">
+<li class="md-github">Use the <code class="md-github">--allow-nan</code> flag to accept NaN inputs.</li>
+<li class="md-github">Or provide a fallback value using <code class="md-github">--fallback-number</code>.</li>
+</ul>
 <h4 class="md-github"><a class="md-github__anchor" name="example-usage" href="#example-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Usage:</h4>
 <p class="md-github">Allowing explicit NaN:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
@@ -123,7 +125,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T10:44:14.396Z</p>
+    <p>Generated on 2025-04-11T10:44:57.377Z</p>
   </footer>
 </body>
 </html>

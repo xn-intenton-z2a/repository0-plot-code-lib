@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refined NaN parsing error messages and consolidated fallback mechanism for unified numeric input handling. (fixes #1806)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 6,
-  "commitsLastHour": 4,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "10:44",
+      "message": "Refined NaN parsing error messages and consolidated fallback mec..."
+    },
     {
       "time": "10:37",
       "message": "Standardized error messages and handling for signed NaN variants..."
@@ -32,23 +31,14 @@
     {
       "time": "09:49",
       "message": "Updated validateNumericArg to log a warning when a fallback is a..."
-    },
-    {
-      "time": "09:11",
-      "message": "Unified NaN handling across CSV CLI and environment inputs and e..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1806",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T10:43:55.582Z"
+  "generatedAt": "2025-04-11T10:44:46.653Z"
 }
