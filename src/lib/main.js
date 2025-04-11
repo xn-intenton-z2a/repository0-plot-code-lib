@@ -101,8 +101,9 @@ function watchGlobalConfig() {
 }
 
 // Helper function to clean input string by normalizing Unicode and trimming whitespace
+// Enhanced to replace all kinds of Unicode whitespace characters
 function cleanString(str) {
-  return str.normalize("NFKC").trim();
+  return str.normalize("NFKC").replace(/[\p{White_Space}]+/gu, " ").trim();
 }
 
 // Helper function to format standardized warning message for NaN fallbacks
@@ -168,7 +169,8 @@ export function normalizeNumberString(inputStr, preserveDecimal = false) {
   inputStr = cleanString(inputStr);
   const globalConfig = getGlobalConfig();
   const locale = process.env.LOCALE || globalConfig.LOCALE || "en-US";
-  let result = inputStr.replace(/[_\s]+/g, "");
+  // Replace underscores and all Unicode whitespace characters
+  let result = inputStr.replace(/[_\p{White_Space}]+/gu, "");
 
   if (locale === "de-DE") {
     if (preserveDecimal) {
