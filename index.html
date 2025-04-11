@@ -33,14 +33,12 @@
 
 (async () =&gt; {
   try {
-    // Example: Running the main function with unified 'NaN' handling.
-    // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed using a consolidated fallback mechanism.
-    // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance including the normalized input and recognized custom NaN variants.
-    // If a fallback value is provided, it is applied and a structured JSON warning is logged containing the original input, normalized value (based on the trimmed input), fallback value, and any custom NaN variants.
-    // Use the --strict-numeric flag to enforce strict numeric validation, which rejects any NaN input without applying fallback.
+    // Example: Running the main function with unified 'NaN' handling. The improved numeric parsing functions now feature enhanced logging.
+    // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are processed using a consolidated fallback mechanism that logs structured JSON warnings.
+    // To enforce strict numeric validation (rejecting any NaN input), use the --strict-numeric flag.
     await main(['--number=NaN', '--fallback-number=100']);
 
-    // Use the integrated CSV importer function
+    // Use the integrated CSV importer function with auto-detection or custom delimiters
     const data = parseCSV('path/to/data.csv');
     console.log(data);
     
@@ -49,7 +47,7 @@
     console.log(validateNumericArg('2_000', false, { info: msg =&gt; msg, error: msg =&gt; msg }));
 
     // Scientific Notation Support
-    console.log(normalizeNumberString('1,000e3', false)); // outputs &quot;1000e3&quot;
+    console.log(normalizeNumberString('1,000e3', false));
     console.log(validateNumericArg('1.2e-3', false, { info: msg =&gt; msg, error: msg =&gt; msg }, undefined, false, true));
   } catch (error) {
     console.error('An error occurred:', error);
@@ -65,43 +63,44 @@
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <h4 class="md-github"><a class="md-github__anchor" name="new-flag---strict-numeric" href="#new-flag---strict-numeric"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Flag: --strict-numeric</h4>
-<p class="md-github">The new <code class="md-github">--strict-numeric</code> flag enforces strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will immediately trigger an error instead of falling back to a provided value. This is useful when precise numeric validation is required.</p>
+<p class="md-github">Use the new <code class="md-github">--strict-numeric</code> flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will trigger an error without falling back.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="file-based-logging" href="#file-based-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File-based Logging</h3>
-<p class="md-github">A new feature allows you to log all CLI output to a file by specifying the <code class="md-github">--log-file=&lt;path&gt;</code> flag. When provided, all logs (information, warnings, errors, and debug messages) will be appended to the specified log file in addition to being printed to the console. If the log file does not exist, it will be created. If it exists, new log entries are appended.</p>
+<p class="md-github">You can log all CLI output to a file by specifying the <code class="md-github">--log-file=&lt;path&gt;</code> flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file in addition to being printed to the console.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h4>
-<p class="md-github">Using file-based logging with the CLI:</p>
+<p class="md-github">Logging CLI output to a file:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --log-file=./cli.log arg1 arg2
 </code></pre>
-<p class="md-github">Piping data and logging to file:</p>
+<p class="md-github">Piping data and logging to a file:</p>
 <pre class="md-github"><code class="md-github language-bash">echo &quot;1;2;3\n4;5;6&quot; | repository0-plot-code-lib --csv-delimiter=&quot;;&quot; --fallback-number=100 --log-file=./cli.log
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="unified-nan-handling--structured-logging" href="#unified-nan-handling--structured-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Unified 'NaN' Handling &amp; Structured Logging</h3>
 <ul class="md-github">
-<li class="md-github">All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed via a unified function that normalizes the input and applies a consistent fallback logic.</li>
-<li class="md-github">When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a structured warning in JSON format (unless in strict mode).</li>
-<li class="md-github">The normalized value in the fallback logging is based on the trimmed input, preserving the original casing, ensuring clear and consistent logging.</li>
-<li class="md-github">To enforce strict input validation without fallback, use the <code class="md-github">--strict-numeric</code> flag.</li>
+<li class="md-github">All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) are processed via unified functions that apply locale-aware normalization.</li>
+<li class="md-github">If an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged with details such as the original input, its normalized form, the fallback value used, and any custom NaN variants.</li>
+<li class="md-github">To enforce strict validation without fallback, use the <code class="md-github">--strict-numeric</code> flag.</li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="custom-nan-variants" href="#custom-nan-variants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom NaN Variants</h3>
-<p class="md-github">You can define additional string values to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or an environment variable. Custom NaN variants are compared in a case-insensitive manner after trimming whitespace. For example, add the following to your configuration file:</p>
+<p class="md-github">You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared case-insensitively after trimming whitespace.</p>
+<p class="md-github">Example configuration:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;additionalNaNValues&quot;: [&quot;foo&quot;, &quot;bar&quot;]
 }
 </code></pre>
-<p class="md-github">This configuration ensures that occurrences of &quot;foo&quot; or &quot;bar&quot; in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The structured log messages will include these custom NaN variants when a fallback is applied.</p>
+<p class="md-github">This ensures that &quot;foo&quot; or &quot;bar&quot; are treated as NaN, following the same fallback and logging mechanisms as standard NaN inputs.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="locale-aware-numeric-parsing" href="#locale-aware-numeric-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locale-Aware Numeric Parsing</h3>
-<p class="md-github">A new configuration option, <code class="md-github">LOCALE</code>, allows the library to correctly parse numeric inputs according to locale-specific formatting rules.</p>
+<p class="md-github">A new configuration option, <code class="md-github">LOCALE</code>, allows numbers to be parsed correctly based on locale.</p>
 <ul class="md-github">
-<li class="md-github">For en-US (default): commas are treated as thousand separators and the period as the decimal point.</li>
-<li class="md-github">For de-DE: periods are treated as thousand separators and commas as the decimal separator. When preserving decimals, the comma is converted to a period for proper numeric conversion.</li>
+<li class="md-github">For en-US (default): commas are treated as thousand separators and the period as a decimal point.</li>
+<li class="md-github">For de-DE: periods are thousand separators and commas are used as decimal points (with conversion applied if preserving decimals).</li>
 </ul>
-<p class="md-github">You can specify the locale in the global configuration file or via the environment variable <code class="md-github">LOCALE</code>:</p>
+<p class="md-github">Set the locale in your configuration file or via the <code class="md-github">LOCALE</code> environment variable:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;LOCALE&quot;: &quot;de-DE&quot;
 }
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="global-configuration-for-nan-and-locale-handling" href="#global-configuration-for-nan-and-locale-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration for NaN and Locale Handling</h3>
-<p class="md-github">Set the <code class="md-github">ALLOW_NAN</code> property in your .repository0plotconfig.json to control how NaN inputs are handled globally, and the <code class="md-github">LOCALE</code> option to adjust numeric parsing. You can also now control whether fallback warnings are logged by setting the <code class="md-github">DISABLE_FALLBACK_WARNINGS</code> flag.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="global-configuration" href="#global-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration</h3>
+<p class="md-github">Use the .repository0plotconfig.json file to set global parameters such as error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).</p>
+<p class="md-github">Example:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
   &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
@@ -115,28 +114,28 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
   &quot;DISABLE_FALLBACK_WARNINGS&quot;: true
 }
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="decimal-point-parsing" href="#decimal-point-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decimal Point Parsing</h3>
-<p class="md-github">To preserve decimal points in numeric inputs, use the <code class="md-github">--preserve-decimal</code> flag or set <code class="md-github">PRESERVE_DECIMAL=true</code> in your environment.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="decimal-preservation" href="#decimal-preservation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decimal Preservation</h3>
+<p class="md-github">To preserve decimal points, use the <code class="md-github">--preserve-decimal</code> flag or set the appropriate environment variable.</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --preserve-decimal --number=1,234.56
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="csv-data-import" href="#csv-data-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Data Import</h3>
-<p class="md-github">Import numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag or through STDIN. A custom delimiter can be specified with <code class="md-github">--csv-delimiter=&lt;delimiter&gt;</code>. If omitted, the tool auto-detects the delimiter.</p>
-<h4 class="md-github"><a class="md-github__anchor" name="examples-1" href="#examples-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h4>
+<p class="md-github">Import numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag or through STDIN. A custom delimiter can be set with <code class="md-github">--csv-delimiter=&lt;delimiter&gt;</code>. If omitted, the tool auto-detects the delimiter.</p>
+<p class="md-github">Examples:</p>
 <p class="md-github">Using a semicolon delimiter:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --csv-file=path/to/data.csv --csv-delimiter=&quot;;&quot; --fallback-number=100
 </code></pre>
-<p class="md-github">Piping data via STDIN:</p>
+<p class="md-github">Piping CSV data via STDIN:</p>
 <pre class="md-github"><code class="md-github language-bash">echo &quot;1;2;3\n4;5;6&quot; | repository0-plot-code-lib --csv-delimiter=&quot;;&quot; --fallback-number=100
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting-with-configurable-retry" href="#automatic-error-reporting-with-configurable-retry"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting with Configurable Retry</h3>
-<p class="md-github">When an error occurs, the CLI automatically submits an error report (if <code class="md-github">ERROR_REPORTING_URL</code> is set). The report includes error details, CLI arguments, library version, timestamp, and more. A retry mechanism (configurable via <code class="md-github">ERROR_RETRY_DELAYS</code> and <code class="md-github">ERROR_MAX_ATTEMPTS</code>) ensures robust error reporting.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting-with-retry" href="#automatic-error-reporting-with-retry"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting with Retry</h3>
+<p class="md-github">When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is set) that includes error details, CLI arguments, library version, and more. Configurable retry delays and max attempts ensure robust error reporting.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T17:50:21.899Z</p>
+    <p>Generated on 2025-04-11T17:51:21.654Z</p>
   </footer>
 </body>
 </html>
