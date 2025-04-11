@@ -102,7 +102,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'. Explicit NaN values are not permitted. Provide '--allow-nan' or a valid fallback.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or provide a valid fallback.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -113,7 +113,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'. Explicit NaN values are not permitted. No valid fallback provided.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or supply a valid fallback.`);
     err.originalInput = trimmedInput;
     throw err;
   }
@@ -200,6 +200,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * Note on Unified 'NaN' Handling:
  * Numeric inputs are normalized to handle all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN') uniformly.
  * When an invalid numeric input is provided without permitting explicit NaN values, provide a fallback using '--fallback-number' or enable '--allow-nan'.
+ * Enhanced error messages now clearly guide the user to enable '--allow-nan' or supply a valid fallback.
  *
  * @param {string[]} args - Command line arguments.
  */
