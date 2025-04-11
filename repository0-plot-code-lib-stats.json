@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Clarify handling of signed NaN variants in numeric parsing and update docstests accordingly. (fixes #1872)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 8,
+  "diffMinutes": 0,
+  "diffMinutesMain": 9,
   "commitsLastHour": 6,
   "commitsLastDay": 98,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T19:50:26.039Z"
+  "generatedAt": "2025-04-11T19:51:09.597Z"
 }
