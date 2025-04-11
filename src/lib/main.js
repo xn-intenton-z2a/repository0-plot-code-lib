@@ -102,6 +102,19 @@ function cleanString(str) {
   return str.normalize("NFKC").trim();
 }
 
+// Helper function to format standardized warning message for NaN fallbacks
+function formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale) {
+  return JSON.stringify({
+    level: "warn",
+    event: "NaNFallback",
+    originalInput: cleanedInput,
+    normalized: normalized,
+    fallbackValue: fallbackNumber.toString().trim(),
+    customNaNVariants: additionalVariants,
+    locale: locale
+  });
+}
+
 // Consolidated helper function to check if a string represents a NaN variant
 // This function now respects the CASE_SENSITIVE_NAN configuration for both built-in and custom variants.
 function isNaNVariant(input, additionalVariants = []) {
@@ -122,12 +135,10 @@ function isNaNVariant(input, additionalVariants = []) {
 
 // Unified fallback handler to process invalid numeric inputs using fallback value and emit structured JSON warnings
 function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVariants, config, logger) {
-  // Use cleaned version of the original input for consistent logging
   const cleanedInput = cleanString(originalInput);
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const locale = config.LOCALE || "en-US";
-      // Use normalized value in key to consolidate duplicate warnings
       const key = JSON.stringify({
         normalized,
         fallbackValue: fallbackNumber.toString().trim(),
@@ -135,15 +146,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
         locale
       });
       if (!warnedNaNWarnings.has(key)) {
-        const logMessage = JSON.stringify({
-          level: "warn",
-          event: "NaNFallback",
-          originalInput: cleanedInput,
-          normalized,
-          fallbackValue: fallbackNumber.toString().trim(),
-          customNaNVariants: additionalVariants,
-          locale
-        });
+        const logMessage = formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale);
         logger(logMessage);
         warnedNaNWarnings.set(key, true);
       }
@@ -159,14 +162,12 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
 export function normalizeNumberString(inputStr, preserveDecimal = false) {
-  // Normalize Unicode whitespace before processing
   inputStr = cleanString(inputStr);
   const globalConfig = getGlobalConfig();
   const locale = process.env.LOCALE || globalConfig.LOCALE || "en-US";
   let result = inputStr.replace(/[_\s]+/g, "");
 
   if (locale === "de-DE") {
-    // For de-DE: period as thousand separator, comma as decimal separator
     if (preserveDecimal) {
       result = result.replace(/\./g, "");
       result = result.replace(/,/g, ".");
@@ -174,7 +175,6 @@ export function normalizeNumberString(inputStr, preserveDecimal = false) {
       result = result.replace(/[\.,]/g, "");
     }
   } else {
-    // Default en-US: comma as thousand separator, period as decimal point
     if (preserveDecimal) {
       result = result.replace(/,+/g, "");
     } else {
@@ -306,7 +306,6 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
   const rows = content.trim().split("\n");
   return rows.map(row => {
     let cells = [];
-    // If preserveDecimal is enabled and delimiter is a comma, attempt regex matching
     if (preserveDecimal && delimiter === ',') {
       const matches = row.match(/(?:[+\-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][+\-]?\d+)?)/gi);
       if (matches === null) {
@@ -342,17 +341,14 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
-  // Debug Trace setup
   let debugTrace = false;
   let debugData = {};
 
   if (args && args.includes('--debug-trace')) {
     debugTrace = true;
-    // Remove the debug flag from arguments
     args = args.filter(arg => arg !== '--debug-trace');
   }
 
-  // Process CLI flag to suppress NaN fallback warnings
   if (args && args.length > 0) {
     args = args.filter(arg => {
       if (arg === '--suppress-nan-warnings') {
@@ -363,11 +359,10 @@ export async function main(args) {
     });
   }
 
-  // Process flags
   let fallbackNumber = undefined;
   let allowNaN = false;
   let preserveDecimal = false;
-  let csvDelimiter = ''; // default to auto-detect
+  let csvDelimiter = '';
   let strictNumeric = false;
 
   if (args && args.length > 0) {
@@ -393,7 +388,6 @@ export async function main(args) {
         return false;
       }
       if (arg === '--watch-config') {
-        // Handled separately below
         return false;
       }
       return true;
@@ -406,7 +400,6 @@ export async function main(args) {
     allowNaN = true;
   }
 
-  // Process theme override
   let themeFlag = null;
   args = args.filter(arg => {
     if (arg.startsWith('--theme=')) {
@@ -419,7 +412,6 @@ export async function main(args) {
     process.env.CLI_COLOR_SCHEME = themeFlag;
   }
 
-  // File-based logging
   let logFilePath = null;
   args = args.filter(arg => {
     if (arg.startsWith('--log-file=')) {
@@ -441,7 +433,6 @@ export async function main(args) {
     };
   }
 
-  // Record argument parsing debug info
   if (debugTrace) {
     debugData.argParsing = {
       fallbackNumber,
@@ -455,12 +446,10 @@ export async function main(args) {
     };
   }
 
-  // Activate global configuration hot reloading if requested
   if (args.includes('--watch-config')) {
     watchGlobalConfig();
   }
 
-  // Show global configuration if flag provided
   if (args && args.includes('--show-config')) {
     const globalConfig = getGlobalConfig();
     if (process.env.CLI_COLOR_SCHEME) globalConfig.CLI_COLOR_SCHEME = process.env.CLI_COLOR_SCHEME;
@@ -472,7 +461,6 @@ export async function main(args) {
     return;
   }
 
-  // Merge global configuration
   const globalConfig = getGlobalConfig();
   if (debugTrace) {
     debugData.configMerge = globalConfig;
@@ -493,7 +481,6 @@ export async function main(args) {
   const themeColors = getThemeColors();
   const verboseMode = args && args.includes("--verbose");
 
-  // Extract CSV file flag
   let csvFilePath = null;
   if (args && args.length > 0) {
     args = args.filter(arg => {
@@ -505,7 +492,6 @@ export async function main(args) {
     });
   }
 
-  // Process CSV file or STDIN
   if (csvFilePath) {
     try {
       const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
@@ -569,7 +555,6 @@ export async function main(args) {
       debugData.numericProcessing = numericDebug;
     }
 
-    // Simulate an error if requested
     if (args && args.includes("--simulate-error")) {
       throw new Error("Simulated error condition for testing. Please provide a valid number (e.g., '--number=42').");
     }

@@ -15,7 +15,6 @@ beforeEach(() => {
   consoleOutput = [];
   console.log = mockedLog;
   console.error = mockedLog;
-  // Reset global config cache and fallback warning cache to allow tests to pick up new config files and clear warning deduplication
   resetGlobalConfigCache();
   resetFallbackWarningCache();
 });
@@ -25,7 +24,6 @@ afterEach(() => {
   console.error = originalConsoleError;
   delete globalThis.__TEST_STDIN__;
   vi.restoreAllMocks();
-  // Clear environment variables that might affect tests
   delete process.env.ERROR_RETRY_DELAYS;
   delete process.env.ERROR_MAX_ATTEMPTS;
   delete process.env.FALLBACK_NUMBER;
@@ -34,12 +32,10 @@ afterEach(() => {
   delete process.env.LOCALE;
   delete process.env.DISABLE_FALLBACK_WARNINGS;
   delete process.env.CASE_SENSITIVE_NAN;
-  // Remove any global config file created during tests
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
   if(fs.existsSync(configPath)) {
     fs.unlinkSync(configPath);
   }
-  // Remove test log file if exists
   const testLogFile = path.join(process.cwd(), "test_log.txt");
   if(fs.existsSync(testLogFile)) {
     fs.unlinkSync(testLogFile);
@@ -98,7 +94,6 @@ describe("CSV Importer with default comma delimiter", () => {
     const csvContent = "NaN,2,3\n4,NaN,6";
     fs.writeFileSync(testCSVPath, csvContent);
     const data = parseCSV(testCSVPath, "100");
-    // Deduplicated fallback warning should log only once per unique input per fallback
     expect(data).toEqual([[100, 2, 3], [4, 100, 6]]);
     fs.unlinkSync(testCSVPath);
   });
@@ -267,7 +262,6 @@ describe("Numeric Parser Utility", () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const result = validateNumericArg("nan", false, themeColors, "999");
     expect(result).toBe(999);
-    // Expect only one warning logged for the same input
     expect(warnSpy).toHaveBeenCalledTimes(1);
     const logArg = warnSpy.mock.calls[0][0];
     let logObj;
@@ -301,7 +295,6 @@ describe("Numeric Parser Utility", () => {
   });
 
   test("normalizeNumberString removes non-standard Unicode whitespace", () => {
-    // Using non-breaking space (\u00A0) between digits
     expect(normalizeNumberString("1\u00A0,000", false)).toBe("1000");
   });
 });
@@ -435,7 +428,6 @@ describe("Whitespace variant of NaN handling", () => {
 
   test("applies fallback for input with non-standard whitespace around NaN", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
-    // Use non-breaking space and full-width space
     expect(validateNumericArg("\u00A0NaN\u3000", false, themeColors, "600")).toBe(600);
   });
 });
@@ -539,7 +531,6 @@ describe("Strict Numeric Mode", () => {
   });
 });
 
-// New test for CASE_SENSITIVE_NAN behavior
 describe("Case Sensitive NaN Handling", () => {
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
   afterEach(() => {
@@ -561,7 +552,6 @@ describe("Case Sensitive NaN Handling", () => {
   });
 });
 
-// New test for Debug Trace Mode
 describe("Debug Trace Mode", () => {
   test("should output debug trace structured JSON when --debug-trace flag is used", async () => {
     await main(["--debug-trace", "--number=42"]);
@@ -575,7 +565,6 @@ describe("Debug Trace Mode", () => {
   });
 });
 
-// New test for CLI flag to suppress NaN fallback warnings
 describe("CLI Flag to Suppress NaN Fallback Warnings", () => {
   test("should suppress NaN fallback warnings when --suppress-nan-warnings flag is used", async () => {
     await main(["--suppress-nan-warnings", "--number=NaN", "--fallback-number=100", "--verbose"]);
