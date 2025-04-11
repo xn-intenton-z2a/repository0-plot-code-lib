@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 91,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 34,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Updated fallback numeric argument warnings to use console.log instead of console.warn for proper test output capture. (fixes #1719)",
+      "ageMinutes": 1
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 37,
   "commitsLastHour": 3,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1719",
-        "minutesSinceLastCommit": 17
+        "minutesSinceLastCommit": 1
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T00:12:17.344Z"
+  "generatedAt": "2025-04-11T00:15:40.151Z"
 }
