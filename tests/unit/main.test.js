@@ -28,6 +28,11 @@ afterEach(() => {
   delete process.env.FALLBACK_NUMBER;
   delete process.env.ALLOW_EXPLICIT_NAN;
   delete process.env.PRESERVE_DECIMAL;
+  // Remove any global config file created during tests
+  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  if(fs.existsSync(configPath)) {
+    fs.unlinkSync(configPath);
+  }
 });
 
 describe("CSV Importer with default comma delimiter", () => {
@@ -366,5 +371,30 @@ describe("Configurable Error Reporting Retry", () => {
     const payload = { errorMessage: 'Configurable test error' };
     await submitErrorReport(payload, 'http://example.com/report', themeColors);
     expect(global.fetch).toHaveBeenCalledTimes(2);
+  });
+});
+
+// New tests for Global Config ALLOW_NAN Setting
+describe("Global Config ALLOW_NAN Setting", () => {
+  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+
+  afterEach(() => {
+    if (fs.existsSync(configPath)) {
+      fs.unlinkSync(configPath);
+    }
+  });
+
+  test("allows explicit NaN when global config ALLOW_NAN is true", async () => {
+    fs.writeFileSync(configPath, JSON.stringify({ ALLOW_NAN: true }));
+    await expect(main(["--number=NaN", "--verbose"]))
+      .resolves
+      .toBeUndefined();
+  });
+
+  test("disallows explicit NaN when global config ALLOW_NAN is false", async () => {
+    fs.writeFileSync(configPath, JSON.stringify({ ALLOW_NAN: false }));
+    await expect(main(["--number=NaN", "--fallback-number=100", "--verbose"]))
+      .resolves
+      .toBeUndefined();
   });
 });
