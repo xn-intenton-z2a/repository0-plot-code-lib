@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 3,
-  "diffMinutesMain": 27,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Implemented --strict-numeric flag for strict numeric validation and updated CLI and CSV parsing behavior. (fixes #1864)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 29,
   "commitsLastHour": 4,
   "commitsLastDay": 95,
   "lastFiveCommitMessages": [
@@ -34,11 +39,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1864",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T17:27:03.027Z"
+  "generatedAt": "2025-04-11T17:29:21.575Z"
 }
