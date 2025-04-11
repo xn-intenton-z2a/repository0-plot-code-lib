@@ -102,7 +102,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. Expected formats: 42, 1e3, 1_000, 1,000. Normalized input: '${normalized}'. Provide a valid number or use '--fallback-number'.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. Acceptable formats include numbers (e.g., 42, 1e3, 1_000) or valid 'NaN' variants. Normalized input: '${normalized}'. No fallback provided.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -113,7 +113,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. Expected formats: 42, 1e3, 1_000, 1,000. Normalized input: '${normalized}'. Provide a valid number or use '--fallback-number'.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. Acceptable formats include numbers (e.g., 42, 1e3, 1_000) or valid 'NaN' variants. Normalized input: '${normalized}'. No fallback provided.`);
     err.originalInput = trimmedInput;
     throw err;
   }
