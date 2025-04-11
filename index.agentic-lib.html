@@ -37,6 +37,7 @@
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed using a consolidated fallback mechanism.
     // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance including the normalized value and recognized custom NaN variants.
     // If a fallback value is provided, it is applied and a structured JSON warning is logged containing the original input, normalized value, fallback value, and any custom NaN variants.
+    // Use the --strict-numeric flag to enforce strict numeric validation, which rejects any NaN input without applying fallback.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -63,6 +64,8 @@
 <pre class="md-github"><code class="md-github">(No arguments provided message in colored output, or default arguments if configured)
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="new-flag---strict-numeric" href="#new-flag---strict-numeric"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Flag: --strict-numeric</h4>
+<p class="md-github">The new <code class="md-github">--strict-numeric</code> flag enforces strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will immediately trigger an error instead of falling back to a provided value. This is useful when precise numeric validation is required.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="file-based-logging" href="#file-based-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File-based Logging</h3>
 <p class="md-github">A new feature allows you to log all CLI output to a file by specifying the <code class="md-github">--log-file=&lt;path&gt;</code> flag. When provided, all logs (information, warnings, errors, and debug messages) will be appended to the specified log file in addition to being printed to the console. If the log file does not exist, it will be created. If it exists, new log entries are appended.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h4>
@@ -75,18 +78,8 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <h3 class="md-github"><a class="md-github__anchor" name="unified-nan-handling--structured-logging" href="#unified-nan-handling--structured-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Unified 'NaN' Handling &amp; Structured Logging</h3>
 <ul class="md-github">
 <li class="md-github">All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed via a unified function that normalizes the input and applies a consistent fallback logic.</li>
-<li class="md-github">When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a structured warning.</li>
-<li class="md-github">The structured log is emitted in JSON format and includes the following fields:
-<ul class="md-github">
-<li class="md-github">level</li>
-<li class="md-github">event (set to &quot;NaNFallback&quot;)</li>
-<li class="md-github">originalInput</li>
-<li class="md-github">normalized</li>
-<li class="md-github">fallbackValue</li>
-<li class="md-github">customNaNVariants</li>
-</ul>
-</li>
-<li class="md-github">To explicitly accept NaN inputs, use the <code class="md-github">--allow-nan</code> flag.</li>
+<li class="md-github">When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a structured warning in JSON format (unless in strict mode).</li>
+<li class="md-github">To enforce strict input validation without fallback, use the <code class="md-github">--strict-numeric</code> flag.</li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="custom-nan-variants" href="#custom-nan-variants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom NaN Variants</h3>
 <p class="md-github">You can define additional string values to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or an environment variable. Custom NaN variants are compared in a case-insensitive manner after trimming whitespace. For example, add the following to your configuration file:</p>
@@ -142,7 +135,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T17:29:33.596Z</p>
+    <p>Generated on 2025-04-11T17:30:29.077Z</p>
   </footer>
 </body>
 </html>
