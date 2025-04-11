@@ -72,7 +72,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 - **CASE_SENSITIVE_NAN Configuration**
 
-  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such.
+  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such. For example, if enabled, an input of "nan" (all lowercase) would not be treated as a NaN variant, whereas "NaN" would be recognized. This provides finer control over numeric parsing behaviors.
 
   Example configuration:
 
@@ -81,8 +81,6 @@ Usage: repository0-plot-code-lib <arguments>
     "CASE_SENSITIVE_NAN": true
   }
   ```
-
-  With this setting enabled, an input of "nan" (all lowercase) would not be treated as a NaN variant, whereas "NaN" would be recognized.
 
 ### File-based Logging
 
