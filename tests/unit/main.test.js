@@ -634,3 +634,48 @@ describe("Performance Optimization", () => {
     expect(duration).toBeLessThan(500);
   });
 });
+
+// --- New Integration Tests for Extended NaN Handling ---
+
+describe("Integration Tests for Extended NaN Handling", () => {
+  test("handles NaN input with extra and unusual whitespace", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const input = "\u2003  NaN \u3000";
+    expect(validateNumericArg(input, false, themeColors, "777")).toBe(777);
+  });
+
+  test("handles mixed case NaN input with custom NaN variant without CASE_SENSITIVE_NAN", () => {
+    const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+    fs.writeFileSync(configPath, JSON.stringify({ additionalNaNValues: ["CustomNaN"] }));
+    resetGlobalConfigCache();
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("customnan", false, themeColors, "888")).toBe(888);
+    fs.unlinkSync(configPath);
+  });
+
+  test("integration: CLI and CSV importer in one batch produce deduplicated warnings", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const val1 = validateNumericArg("NaN", false, themeColors, "111");
+    const val2 = validateNumericArg("NaN", false, themeColors, "111");
+    expect(val1).toBe(111);
+    expect(val2).toBe(111);
+    resetFallbackWarningCache();
+    const val3 = validateNumericArg("NaN", false, themeColors, "222");
+    expect(val3).toBe(222);
+  });
+
+  test("CSV importer handles multiple NaN occurrences with extra whitespace", () => {
+    const csvContent = "  NaN  ,  42  \n\u2003NaN\u3000,  100";
+    const testCSVPath = path.join(process.cwd(), "test_integration.csv");
+    fs.writeFileSync(testCSVPath, csvContent);
+    const result = parseCSV(testCSVPath, "555");
+    expect(result).toEqual([[555, 42], [555, 100]]);
+    fs.unlinkSync(testCSVPath);
+  });
+
+  test("in strict mode, unusual whitespace NaN input throws error", () => {
+     const themeColors = { info: msg => msg, error: msg => msg };
+     expect(() => validateNumericArg("\u2003 NaN \u3000", false, themeColors, "100", false, false, true))
+         .toThrow(/Strict mode: Invalid numeric input/);
+  });
+});

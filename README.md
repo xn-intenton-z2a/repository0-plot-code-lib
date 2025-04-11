@@ -89,6 +89,16 @@ A new utility function, `formatNumberOutput`, has been added to format numbers f
 
 You can pass additional options conforming to the Intl.NumberFormat API to customize the output further.
 
+#### Integration Tests for Extended NaN Handling
+
+The test suite has been extended with comprehensive integration tests to validate edge case behaviors including: 
+- Handling of inputs with extra/unusual Unicode whitespace
+- Mixed case inputs in conjunction with custom NaN variants
+- Deduplication of warnings within a batch and reset between batches
+- Strict mode validation that disallows any NaN variant including unusual spaced inputs
+
+These tests can be run using the existing vitest framework.
+
 #### File-based Logging
 
 You can log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file as well as printed to the console.
