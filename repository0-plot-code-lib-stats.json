@@ -5,12 +5,17 @@
   "openIssues": 100,
   "issuesClosedLastHour": 4,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 14,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Integrate custom NaN variants handling into numeric parsing functions for both CLI and CSV importer flows. (fixes #1844)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 19,
   "commitsLastHour": 2,
-  "commitsLastDay": 96,
+  "commitsLastDay": 95,
   "lastFiveCommitMessages": [
     {
       "time": "14:41",
@@ -34,11 +39,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1844",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T14:56:31.491Z"
+  "generatedAt": "2025-04-11T15:01:10.170Z"
 }
