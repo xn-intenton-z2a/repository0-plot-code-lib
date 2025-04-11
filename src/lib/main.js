@@ -64,10 +64,12 @@ function logError(chalkError, ...args) {
   }
 }
 
-// Unified function to process numeric inputs with fallback handling for variants of 'NaN'
-function processNumericInput(inputStr, fallbackNumber) {
+// Unified function to process numeric inputs with fallback handling and explicit NaN acceptance
+function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
   if (inputStr.trim().toLowerCase() === 'nan') {
-    if (fallbackNumber !== undefined) {
+    if (allowNaN) {
+      return NaN;
+    } else if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     } else {
       throw new Error(`Invalid numeric input '${inputStr}'. Please provide a valid number or use --fallback-number flag.`);
@@ -86,21 +88,20 @@ function processNumericInput(inputStr, fallbackNumber) {
 
 // CSV Importer function integrated into main.js
 // This function reads a CSV file and returns an array of arrays of numbers.
-// Enhanced to apply a fallback for cells containing a case-insensitive 'NaN'.
-// Dual fallback mechanism: if a cell is 'NaN' (any casing), the CLI first checks for an explicit --fallback-number flag, then falls back to the FALLBACK_NUMBER environment variable if available.
-export function parseCSV(filePath, fallbackNumber) {
+// Enhanced to apply a fallback for cells containing a case-insensitive 'NaN' and to accept explicit NaN values if allowed.
+export function parseCSV(filePath, fallbackNumber, allowNaN = false) {
   const content = readFileSync(filePath, "utf-8");
-  return parseCSVFromString(content, fallbackNumber);
+  return parseCSVFromString(content, fallbackNumber, allowNaN);
 }
 
 // New helper function to parse CSV from a string
-function parseCSVFromString(content, fallbackNumber) {
+function parseCSVFromString(content, fallbackNumber, allowNaN = false) {
   if (content.trim() === "") {
     throw new Error("CSV file is empty.");
   }
   const rows = content.trim().split("\n");
   return rows.map(row => {
-    return row.split(",").map(cell => processNumericInput(cell, fallbackNumber));
+    return row.split(",").map(cell => processNumericInput(cell, fallbackNumber, allowNaN));
   });
 }
 
@@ -110,9 +111,9 @@ export function normalizeNumberString(str) {
   return str.replace(/[_\s,\.]+/g, '');
 }
 
-export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber) {
-  // Consolidated numeric parsing with unified fallback logic
-  return processNumericInput(numStr, fallbackNumber);
+export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false) {
+  // Consolidated numeric parsing with unified fallback logic and explicit NaN flag
+  return processNumericInput(numStr, fallbackNumber, allowNaN);
 }
 
 /**
@@ -120,12 +121,18 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
-  // Process new fallback flag
   let fallbackNumber = undefined;
+  let allowNaN = false;
+
+  // Process flags for fallback and allow-nan
   if (args && args.length > 0) {
     args = args.filter(arg => {
       if (arg.startsWith('--fallback-number=')) {
         fallbackNumber = arg.slice('--fallback-number='.length);
+        return false;
+      }
+      if (arg === '--allow-nan') {
+        allowNaN = true;
         return false;
       }
       return true;
@@ -134,20 +141,11 @@ export async function main(args) {
   if (!fallbackNumber && process.env.FALLBACK_NUMBER) {
     fallbackNumber = process.env.FALLBACK_NUMBER;
   }
-
-  // Extract and remove any theme override flag from args
-  let themeOverride = null;
-  if (args && args.length > 0) {
-    args = args.filter(arg => {
-      if (arg.startsWith('--theme=')) {
-        themeOverride = arg.slice('--theme='.length);
-        return false;
-      }
-      return true;
-    });
+  if (!allowNaN && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === 'true') {
+    allowNaN = true;
   }
 
-  // Extract and remove CSV file flag
+  // Extract CSV file flag
   let csvFilePath = null;
   if (args && args.length > 0) {
     args = args.filter(arg => {
@@ -184,14 +182,14 @@ export async function main(args) {
   // Set error reporting URL from global config or environment variable
   const errorReportingUrl = process.env.ERROR_REPORTING_URL || globalConfig.ERROR_REPORTING_URL;
 
-  const themeColors = getThemeColors(themeOverride);
+  const themeColors = getThemeColors();
   // Determine verbose mode via command line flag only
   const verboseMode = args && args.includes("--verbose");
 
   // If CSV file flag provided, process CSV file
   if (csvFilePath) {
     try {
-      const csvData = parseCSV(csvFilePath, fallbackNumber);
+      const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN);
       console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
     } catch (csvError) {
       logError(themeColors.error, "Error importing CSV data:", csvError);
@@ -205,7 +203,7 @@ export async function main(args) {
       pipedData += chunk;
     }
     if (pipedData.trim()) {
-      const csvData = parseCSVFromString(pipedData, fallbackNumber);
+      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN);
       console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
     } else {
       throw new Error("CSV input is empty.");
@@ -222,8 +220,8 @@ export async function main(args) {
     for (const arg of args) {
       if (arg.startsWith(numberFlagPrefix)) {
         const numStr = arg.slice(numberFlagPrefix.length);
-        // Validate numeric argument with fallback if provided
-        validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber);
+        // Validate numeric argument with fallback if provided and using allowNaN flag
+        validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN);
       }
     }
 
@@ -288,63 +286,9 @@ export async function main(args) {
 }
 
 // Returns the current CLI theme color functions based on a provided theme override, a custom configuration file, or the CLI_COLOR_SCHEME environment variable.
-function getThemeColors(themeOverride = null) {
-  if (themeOverride) {
-    const forcedChalk = new Chalk({ level: 3 });
-    switch (themeOverride) {
-      case "dark":
-        return {
-          error: forcedChalk.bold.red,
-          usage: forcedChalk.bold.blue,
-          info: forcedChalk.bold.green,
-          run: forcedChalk.bold.cyan
-        };
-      case "light":
-        return {
-          error: forcedChalk.red,
-          usage: forcedChalk.magenta,
-          info: forcedChalk.blue,
-          run: forcedChalk.yellow
-        };
-      case "default":
-        return {
-          error: forcedChalk.red,
-          usage: forcedChalk.yellow,
-          info: forcedChalk.green,
-          run: forcedChalk.cyan
-        };
-      default:
-        console.error(forcedChalk.red(`Unknown theme override '${themeOverride}'. Falling back to default theme.`));
-        return {
-          error: forcedChalk.red,
-          usage: forcedChalk.yellow,
-          info: forcedChalk.green,
-          run: forcedChalk.cyan
-        };
-    }
-  }
-
-  const customConfigPath = path.join(process.cwd(), "cli-theme.json");
-  if (existsSync(customConfigPath)) {
-    try {
-      const configContent = readFileSync(customConfigPath, "utf-8");
-      const config = JSON.parse(configContent);
-      if (!isValidThemeConfig(config)) {
-        throw new Error("Invalid custom CLI theme configuration: expected keys 'error', 'usage', 'info', and 'run' with non-empty string values.");
-      }
-      const customChalk = new Chalk({ level: 3 });
-      return {
-        error: applyChalkChain(config.error, customChalk),
-        usage: applyChalkChain(config.usage, customChalk),
-        info: applyChalkChain(config.info, customChalk),
-        run: applyChalkChain(config.run, customChalk)
-      };
-    } catch (e) {
-      console.error(chalk.red(`Custom CLI theme configuration error [${customConfigPath}]: ${e.message}. Please ensure the file is valid JSON and contains the required keys: error, usage, info, run. Using fallback theme.`));
-    }
-  }
-  const theme = process.env.CLI_COLOR_SCHEME || "default";
-  if (theme === "dark") {
+function getThemeColors() {
+  const themeOverride = process.env.CLI_COLOR_SCHEME || "default";
+  if (themeOverride === "dark") {
     const forcedChalk = new Chalk({ level: 3 });
     return {
       error: forcedChalk.bold.red,
@@ -352,7 +296,7 @@ function getThemeColors(themeOverride = null) {
       info: forcedChalk.bold.green,
       run: forcedChalk.bold.cyan
     };
-  } else if (theme === "light") {
+  } else if (themeOverride === "light") {
     const forcedChalk = new Chalk({ level: 3 });
     return {
       error: forcedChalk.red,

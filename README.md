@@ -74,40 +74,45 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Unified Fallback Mechanism:**
+**Unified Fallback Mechanism and Explicit NaN Handling:**
 
-When processing numeric inputs that match the literal `NaN` (case-insensitive), the CLI now uses a centralized logic that first checks for a fallback value provided via the `--fallback-number` flag, then the `FALLBACK_NUMBER` environment variable. If neither is provided, an error is thrown with the message:
+When processing numeric inputs that match the literal `NaN` (in any casing), the CLI now uses a centralized logic that:
 
+1. If the user explicitly specifies a numeric argument as `NaN` and the flag `--allow-nan` is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), then the input is accepted and converted to JavaScript’s `NaN`.
+2. If the `--allow-nan` flag is not provided, a fallback value is used if available via the `--fallback-number` flag or `FALLBACK_NUMBER` environment variable; otherwise, an error is thrown.
+
+For example, using an explicit allow flag:
+
+```bash
+repository0-plot-code-lib --number=NaN --allow-nan
 ```
-Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag.
-```
 
-For example, using an explicit fallback flag:
+Or with a fallback when not allowed:
 
 ```bash
 repository0-plot-code-lib --number=NaN --fallback-number=100
 ```
 
-Or relying on an environment variable fallback (ensure `FALLBACK_NUMBER` is set in your environment or global config):
+Or relying on an environment variable for fallback (ensure `FALLBACK_NUMBER` is set):
 
 ```bash
 export FALLBACK_NUMBER=100
 repository0-plot-code-lib --number=NaN
 ```
 
-If no valid fallback is provided:
+If no valid fallback is provided and the `--allow-nan` flag is not set:
 
 ```bash
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output the standardized error message indicating that a valid number is required.
+The CLI will output a standardized error message indicating that a valid number is required.
 
 ### CSV Data Import
 
 The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
 
-**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization), the importer applies the same fallback mechanism as described above.
+**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization) and the `--allow-nan` flag or `ALLOW_EXPLICIT_NAN` is enabled, the importer accepts it as JavaScript’s `NaN`; otherwise, it applies the fallback mechanism.
 
 For example, from a file:
 
