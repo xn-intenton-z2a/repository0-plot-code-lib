@@ -76,24 +76,29 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with spaces as thousand separators (e.g., <code class="md-github">1 000</code>)</li>
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
-<p class="md-github"><strong class="md-github">Unified Fallback Mechanism:</strong></p>
-<p class="md-github">When processing numeric inputs that match the literal <code class="md-github">NaN</code> (case-insensitive), the CLI now uses a centralized logic that first checks for a fallback value provided via the <code class="md-github">--fallback-number</code> flag, then the <code class="md-github">FALLBACK_NUMBER</code> environment variable. If neither is provided, an error is thrown with the message:</p>
-<pre class="md-github"><code class="md-github">Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag.
+<p class="md-github"><strong class="md-github">Unified Fallback Mechanism and Explicit NaN Handling:</strong></p>
+<p class="md-github">When processing numeric inputs that match the literal <code class="md-github">NaN</code> (in any casing), the CLI now uses a centralized logic that:</p>
+<ol class="md-github">
+<li class="md-github">If the user explicitly specifies a numeric argument as <code class="md-github">NaN</code> and the flag <code class="md-github">--allow-nan</code> is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), then the input is accepted and converted to JavaScript’s <code class="md-github">NaN</code>.</li>
+<li class="md-github">If the <code class="md-github">--allow-nan</code> flag is not provided, a fallback value is used if available via the <code class="md-github">--fallback-number</code> flag or <code class="md-github">FALLBACK_NUMBER</code> environment variable; otherwise, an error is thrown.</li>
+</ol>
+<p class="md-github">For example, using an explicit allow flag:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
 </code></pre>
-<p class="md-github">For example, using an explicit fallback flag:</p>
+<p class="md-github">Or with a fallback when not allowed:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --fallback-number=100
 </code></pre>
-<p class="md-github">Or relying on an environment variable fallback (ensure <code class="md-github">FALLBACK_NUMBER</code> is set in your environment or global config):</p>
+<p class="md-github">Or relying on an environment variable for fallback (ensure <code class="md-github">FALLBACK_NUMBER</code> is set):</p>
 <pre class="md-github"><code class="md-github language-bash">export FALLBACK_NUMBER=100
 repository0-plot-code-lib --number=NaN
 </code></pre>
-<p class="md-github">If no valid fallback is provided:</p>
+<p class="md-github">If no valid fallback is provided and the <code class="md-github">--allow-nan</code> flag is not set:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
 </code></pre>
-<p class="md-github">The CLI will output the standardized error message indicating that a valid number is required.</p>
+<p class="md-github">The CLI will output a standardized error message indicating that a valid number is required.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="csv-data-import" href="#csv-data-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Data Import</h3>
 <p class="md-github">The CLI now supports importing numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).</p>
-<p class="md-github"><strong class="md-github">Note:</strong> If a cell in the CSV contains the literal <code class="md-github">NaN</code> (in any capitalization), the importer applies the same fallback mechanism as described above.</p>
+<p class="md-github"><strong class="md-github">Note:</strong> If a cell in the CSV contains the literal <code class="md-github">NaN</code> (in any capitalization) and the <code class="md-github">--allow-nan</code> flag or <code class="md-github">ALLOW_EXPLICIT_NAN</code> is enabled, the importer accepts it as JavaScript’s <code class="md-github">NaN</code>; otherwise, it applies the fallback mechanism.</p>
 <p class="md-github">For example, from a file:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --csv-file=path/to/data.csv --fallback-number=100
 </code></pre>
@@ -139,7 +144,7 @@ repository0-plot-code-lib --number=NaN
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T05:03:18.626Z</p>
+    <p>Generated on 2025-04-11T05:03:43.484Z</p>
   </footer>
 </body>
 </html>
