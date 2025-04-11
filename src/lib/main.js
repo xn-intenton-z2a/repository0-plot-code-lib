@@ -38,7 +38,8 @@ export function resetGlobalConfigCache() {
 }
 
 export function resetFallbackWarningCache() {
-  warnedNaNWarnings.clear();
+  // Instead of clearing the existing Map, reinitialize it to ensure complete reset
+  warnedNaNWarnings = new Map();
 }
 
 // Loads the global configuration from available config files
