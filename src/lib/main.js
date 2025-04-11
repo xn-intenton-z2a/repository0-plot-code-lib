@@ -39,6 +39,9 @@ let cliSuppressNanWarnings = false;
 // Global map to deduplicate NaN fallback warnings in batch processing
 let warnedNaNWarnings = new Map();
 
+// Added cache for isNaNVariant to optimize performance
+const isNaNVariantCache = new Map();
+
 // Exported for testing purposes to clear the config cache and warning cache
 export function resetGlobalConfigCache() {
   globalConfigCache = null;
@@ -49,6 +52,8 @@ export function resetFallbackWarningCache() {
   warnedNaNWarnings = new Map();
   // Also reset the CLI flag to ensure warnings are not suppressed across batches
   cliSuppressNanWarnings = false;
+  // Clear the isNaN variant cache as well
+  isNaNVariantCache.clear();
 }
 
 // Loads the global configuration from available config files
@@ -127,19 +132,28 @@ function formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVa
 }
 
 // Consolidated helper function to check if a string represents a NaN variant
-// Optimized to use precomputed Sets and avoid redundant case conversions
+// Optimized to use memoization to avoid redundant computations
 function isNaNVariant(input, additionalVariants = []) {
+  const cacheKey = input + '|' + additionalVariants.join(",");
+  if (isNaNVariantCache.has(cacheKey)) return isNaNVariantCache.get(cacheKey);
+
   const cleanedInput = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
   const builtInVariants = caseSensitive ? NAN_BUILT_INS_CASE : NAN_BUILT_INS;
   const inputToCompare = caseSensitive ? cleanedInput : cleanedInput.toLowerCase();
-  if (builtInVariants.has(inputToCompare)) return true;
-  const customVariants = (config.additionalNaNValues || []).map(v => {
-    let cleaned = cleanString(v);
-    return caseSensitive ? cleaned : cleaned.toLowerCase();
-  });
-  return customVariants.includes(inputToCompare);
+  let result;
+  if (builtInVariants.has(inputToCompare)) {
+    result = true;
+  } else {
+    const customVariants = (config.additionalNaNValues || []).map(v => {
+      let cleaned = cleanString(v);
+      return caseSensitive ? cleaned : cleaned.toLowerCase();
+    });
+    result = customVariants.includes(inputToCompare);
+  }
+  isNaNVariantCache.set(cacheKey, result);
+  return result;
 }
 
 // Unified fallback handler to process invalid numeric inputs using fallback value and emit structured JSON warnings
