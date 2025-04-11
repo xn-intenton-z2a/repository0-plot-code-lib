@@ -5,12 +5,17 @@
   "openIssues": 100,
   "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Added missing autoDetectDelimiter function in main.js and updated test case to use console.warn for error logging to satisfy warning logging expectations. (fixes #1846)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 1,
-  "diffMinutesMain": 14,
+  "diffMinutesMain": 18,
   "commitsLastHour": 3,
-  "commitsLastDay": 95,
+  "commitsLastDay": 94,
   "lastFiveCommitMessages": [
     {
       "time": "15:01",
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1846",
-        "minutesSinceLastCommit": 8
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T15:16:00.056Z"
+  "generatedAt": "2025-04-11T15:20:28.827Z"
 }
