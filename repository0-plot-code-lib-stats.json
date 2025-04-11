@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 0,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 5,
-  "diffMinutesMain": 63,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Integrated numeric parser utilities into main.js and updated test and README references to resolve missing module errors. (fixes #1735)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 67,
   "commitsLastHour": 0,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1735",
-        "minutesSinceLastCommit": 17
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T03:30:44.680Z"
+  "generatedAt": "2025-04-11T03:34:28.073Z"
 }
