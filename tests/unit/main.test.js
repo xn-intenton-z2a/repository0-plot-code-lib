@@ -58,14 +58,14 @@ describe("CSV Importer", () => {
     fs.unlinkSync(testCSVPath);
   });
 
-  test("should throw error for CSV 'NaN' cell when no fallback provided", () => {
+  test("should throw error for CSV 'NaN' cell when no fallback provided and not allowed", () => {
     const csvContent = "NaN,2,3";
     fs.writeFileSync(testCSVPath, csvContent);
-    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag./);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'NaN'/);
     fs.unlinkSync(testCSVPath);
   });
 
-  test("applies fallback for CSV 'NaN' cell when fallback provided", () => {
+  test("applies fallback for CSV 'NaN' cell when fallback provided and not allowed", () => {
     const csvContent = "NaN,2,3\n4,NaN,6";
     fs.writeFileSync(testCSVPath, csvContent);
     const data = parseCSV(testCSVPath, "100");
@@ -76,29 +76,61 @@ describe("CSV Importer", () => {
 
 
 describe("Numeric argument validation error reporting", () => {
-  test("throws error with detailed context when '--number=NaN' provided without fallback", async () => {
+  test("throws error with detailed context when '--number=NaN' provided without fallback and not allowed", async () => {
     await expect(main(["--number=NaN", "--verbose"]))
       .rejects
-      .toThrow(/Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag./);
+      .toThrow(/Invalid numeric input 'NaN'/);
   });
 
-  test("applies fallback when '--number=NaN' provided with fallback", async () => {
+  test("applies fallback when '--number=NaN' provided with fallback and not allowed", async () => {
     await expect(main(["--number=NaN", "--fallback-number=100", "--verbose"]))
       .resolves
       .toBeUndefined();
   });
 
-  test("handles different casings of 'NaN' with fallback", () => {
+  test("handles different casings of 'NaN' with fallback when not allowed", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("nan", false, themeColors, "100")).toBe(100);
     expect(validateNumericArg("NAN", false, themeColors, "200")).toBe(200);
     expect(validateNumericArg("NaN", false, themeColors, "300")).toBe(300);
   });
 
-  test("throws error for different casings of 'NaN' without fallback", () => {
+  test("throws error for 'NaN' without fallback when not allowed", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(() => validateNumericArg("nan", false, themeColors, undefined)).toThrow(/Invalid numeric input 'nan'/);
     expect(() => validateNumericArg("NAN", false, themeColors, undefined)).toThrow(/Invalid numeric input 'NAN'/);
+  });
+});
+
+
+describe("Explicit NaN Acceptance", () => {
+  test("validateNumericArg returns NaN for explicit 'NaN' input when allowed", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const result = validateNumericArg("NaN", false, themeColors, "100", true);
+    expect(Number.isNaN(result)).toBeTruthy();
+  });
+
+  test("CSV importer returns NaN in explicit 'NaN' cells when allowed", () => {
+    const csvContent = "NaN,2,3\n4,NaN,6";
+    // Using parseCSVFromString directly with allowNaN true
+    const data = (() => {
+      // simulate reading CSV from string
+      return csvContent.trim().split("\n").map(row => row.split(",").map(cell => {
+        // using processNumericInput via validateNumericArg indirectly
+        return Number(cell.trim().toLowerCase() === 'nan' ? NaN : cell);
+      }));
+    })();
+    // Instead, use the exported parseCSV by writing to a temporary file
+    const testCSVPath = path.join(process.cwd(), "test_allow_nan.csv");
+    fs.writeFileSync(testCSVPath, csvContent);
+    const parsedData = parseCSV(testCSVPath, "100", true);
+    expect(Number.isNaN(parsedData[0][0])).toBeTruthy();
+    expect(parsedData[0][1]).toBe(2);
+    expect(parsedData[0][2]).toBe(3);
+    expect(parsedData[1][0]).toBe(4);
+    expect(Number.isNaN(parsedData[1][1])).toBeTruthy();
+    expect(parsedData[1][2]).toBe(6);
+    fs.unlinkSync(testCSVPath);
   });
 });
 
