@@ -29,11 +29,14 @@
 <p class="md-github">You can use the library either as a JavaScript module or via the CLI. The CLI output is enhanced with ANSI colors to improve message clarity.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="as-a-js-library" href="#as-a-js-library"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>As a JS Library</h3>
 <p class="md-github">Import the main function and pass arguments as an array. Note that in the event of errors, the function will throw exceptions rather than exiting the process. This allows the consuming code to handle errors as needed.</p>
-<pre class="md-github"><code class="md-github language-js">import { main } from '@src/lib/main.js';
+<pre class="md-github"><code class="md-github language-js">import { main, parseCSV } from '@src/lib/main.js';
 
 (async () =&gt; {
   try {
     await main(['arg1', 'arg2']);
+    // You can also use the integrated CSV importer function
+    const data = parseCSV('path/to/data.csv');
+    console.log(data);
   } catch (error) {
     // Handle error accordingly
     console.error('An error occurred:', error);
@@ -81,6 +84,12 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
 </code></pre>
 <p class="md-github">The CLI will output a concise error message. In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the error message includes a full stack trace for debugging.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="csv-data-import" href="#csv-data-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Data Import</h3>
+<p class="md-github">The CLI now supports importing numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag. The CSV importer functionality has been integrated into the main module. The CSV file should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).</p>
+<p class="md-github">For example:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --csv-file=path/to/data.csv
+</code></pre>
+<p class="md-github">The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme. This data can be used for plotting or further processing.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting" href="#automatic-error-reporting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting</h3>
 <p class="md-github">When an error occurs, the CLI supports automatic error report submission. If the configuration parameter <code class="md-github">ERROR_REPORTING_URL</code> is defined (either in the global configuration file <code class="md-github">.repository0plotconfig.json</code> or via the environment variable), the CLI will automatically submit a POST request with extended error details including:</p>
 <ul class="md-github">
@@ -127,7 +136,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T00:41:01.493Z</p>
+    <p>Generated on 2025-04-11T00:41:40.386Z</p>
   </footer>
 </body>
 </html>
