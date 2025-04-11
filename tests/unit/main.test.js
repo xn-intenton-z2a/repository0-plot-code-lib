@@ -456,7 +456,6 @@ describe("Custom NaN Variants Configuration", () => {
   });
 });
 
-// New tests for locale-aware numeric parsing
 describe("Locale-Aware Numeric Parsing", () => {
   test("should correctly parse en-US formatted number with thousand separator and decimal point", () => {
     // en-US: thousand separator is comma, decimal point is period
