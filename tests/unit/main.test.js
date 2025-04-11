@@ -28,6 +28,7 @@ afterEach(() => {
   delete process.env.FALLBACK_NUMBER;
   delete process.env.ALLOW_EXPLICIT_NAN;
   delete process.env.PRESERVE_DECIMAL;
+  delete process.env.LOCALE;
   // Remove any global config file created during tests
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
   if(fs.existsSync(configPath)) {
@@ -233,14 +234,14 @@ describe("Explicit NaN Acceptance and Signed NaN Variants", () => {
 });
 
 describe("Numeric Parser Utility", () => {
-  test("normalizeNumberString should remove underscores, commas, spaces, and periods when preserveDecimal is false", () => {
+  test("normalizeNumberString should remove underscores, commas, spaces, and periods when preserveDecimal is false (en-US)", () => {
     expect(normalizeNumberString("1_000", false)).toBe("1000");
     expect(normalizeNumberString("1,000", false)).toBe("1000");
     expect(normalizeNumberString("1 000", false)).toBe("1000");
     expect(normalizeNumberString("1.000", false)).toBe("1000");
   });
   
-  test("normalizeNumberString should preserve decimal point when preserveDecimal is true", () => {
+  test("normalizeNumberString should preserve decimal point when preserveDecimal is enabled (en-US)", () => {
     expect(normalizeNumberString("1,234.56", true)).toBe("1234.56");
     expect(normalizeNumberString("1_234.56", true)).toBe("1234.56");
   });
@@ -250,7 +251,7 @@ describe("Numeric Parser Utility", () => {
     expect(validateNumericArg("2_000", false, themeColors, undefined, false, false)).toBe(2000);
   });
 
-  test("validateNumericArg returns a decimal number when preserveDecimal is enabled", () => {
+  test("validateNumericArg returns a decimal number when preserveDecimal is enabled (en-US)", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("1,234.56", false, themeColors, undefined, false, true)).toBe(1234.56);
   });
@@ -264,15 +265,15 @@ describe("Numeric Parser Utility", () => {
     warnSpy.mockRestore();
   });
 
-  test("normalizeNumberString handles scientific notation with preserveDecimal false", () => {
+  test("normalizeNumberString handles scientific notation with preserveDecimal false (en-US)", () => {
     expect(normalizeNumberString("1,000e3", false)).toBe("1000e3");
   });
 
-  test("normalizeNumberString handles scientific notation with preserveDecimal true", () => {
+  test("normalizeNumberString handles scientific notation with preserveDecimal true (en-US)", () => {
     expect(normalizeNumberString("1,000.00e-2", true)).toBe("1000.00e-2");
   });
 
-  test("validateNumericArg returns valid number for scientific notation inputs", () => {
+  test("validateNumericArg returns valid number for scientific notation inputs (en-US)", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("1e3", false, themeColors, undefined, false, false)).toBe(1000);
     expect(validateNumericArg("1.2e-3", false, themeColors, undefined, false, true)).toBeCloseTo(0.0012);
@@ -452,5 +453,31 @@ describe("Custom NaN Variants Configuration", () => {
     } catch (err) {
       expect(err.message).toMatch(/Recognized custom NaN variants: \[foo, bar\]/);
     }
+  });
+});
+
+// New tests for locale-aware numeric parsing
+describe("Locale-Aware Numeric Parsing", () => {
+  test("should correctly parse en-US formatted number with thousand separator and decimal point", () => {
+    // en-US: thousand separator is comma, decimal point is period
+    expect(normalizeNumberString("1,234.56", true)).toBe("1234.56");
+  });
+
+  test("should correctly parse de-DE formatted number when preserveDecimal is true", () => {
+    // Set LOCALE to de-DE
+    process.env.LOCALE = "de-DE";
+    // In de-DE: thousand separator is period, decimal separator is comma
+    // "1.234,56" should be normalized to "1234.56" for JavaScript conversion
+    expect(normalizeNumberString("1.234,56", true)).toBe("1234.56");
+  });
+
+  test("should correctly remove all separators for de-DE when preserveDecimal is false", () => {
+    process.env.LOCALE = "de-DE";
+    expect(normalizeNumberString("1.234,56", false)).toBe("123456");
+  });
+
+  test("should correctly parse en-US formatted number when preserveDecimal is false", () => {
+    process.env.LOCALE = "en-US";
+    expect(normalizeNumberString("1,234.56", false)).toBe("123456");
   });
 });
