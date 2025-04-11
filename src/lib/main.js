@@ -21,7 +21,7 @@ const globalConfigSchema = z.object({
   ALLOW_NAN: z.boolean().optional(),
   additionalNaNValues: z.array(z.string()).optional(),
   DISABLE_FALLBACK_WARNINGS: z.boolean().optional(),
-  CASE_SENSITIVE_NAN: z.boolean().optional() // New config: case sensitive NaN matching
+  CASE_SENSITIVE_NAN: z.boolean().optional() // New config: case sensitive NaN matching. When true, only inputs that exactly match "NaN", "+NaN", "-NaN" will be recognized as NaN variants.
 });
 
 // Global configuration cache for hot reloading
@@ -99,7 +99,7 @@ function cleanString(str) {
 function isNaNVariant(input, additionalVariants = []) {
   const cleaned = cleanString(input);
   const config = getGlobalConfig();
-  const caseSensitive = config.CASE_SENSITIVE_NAN === true;
+  const caseSensitive = config.CASE_SENSITIVE_NAN === true; // if true, match exactly
   const normalizedInput = caseSensitive ? cleaned : cleaned.toLowerCase();
   const nanVariants = caseSensitive ? ["NaN", "+NaN", "-NaN"] : ["nan", "+nan", "-nan"];
   if (nanVariants.includes(normalizedInput)) return true;

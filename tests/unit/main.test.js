@@ -536,6 +536,32 @@ describe("Strict Numeric Mode", () => {
   });
 });
 
+// New test suite for CASE_SENSITIVE_NAN behavior
+describe("Case Sensitive NaN Handling", () => {
+  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  afterEach(() => {
+    if(fs.existsSync(configPath)) fs.unlinkSync(configPath);
+  });
+
+  test("when CASE_SENSITIVE_NAN is true, 'NaN' is recognized but 'nan' is not", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    // 'NaN' should be treated as NaN variant and thus fallback applied when not allowed
+    expect(validateNumericArg("NaN", false, themeColors, "100")).toBe(100);
+    // 'nan' should NOT be recognized as NaN variant (case sensitive), so Number('nan') returns NaN triggering fallback
+    expect(validateNumericArg("nan", false, themeColors, "200")).toBe(200);
+  });
+
+  test("when CASE_SENSITIVE_NAN is true, custom variants respect case sensitivity", () => {
+    fs.writeFileSync(configPath, JSON.stringify({ CASE_SENSITIVE_NAN: true, additionalNaNValues: ["FooBar"] }));
+    const themeColors = { info: msg => msg, error: msg => msg };
+    // 'FooBar' matches exactly, so recognized
+    expect(validateNumericArg("FooBar", false, themeColors, "300")).toBe(300);
+    // 'foobar' does not match exactly, so fallback through Number('foobar') -> NaN
+    expect(validateNumericArg("foobar", false, themeColors, "400")).toBe(400);
+  });
+});
+
 // New test for Debug Trace Mode
 describe("Debug Trace Mode", () => {
   test("should output debug trace structured JSON when --debug-trace flag is used", async () => {
