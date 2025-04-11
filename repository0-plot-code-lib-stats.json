@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Add CLI flag --suppress-nan-warnings to disable NaN fallback warnings (fixes #1894)",
-      "ageMinutes": 0
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 0,
-  "diffMinutesMain": 12,
-  "commitsLastHour": 4,
-  "commitsLastDay": 97,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 5,
+  "commitsLastDay": 98,
   "lastFiveCommitMessages": [
+    {
+      "time": "20:39",
+      "message": "Add CLI flag --suppress-nan-warnings to disable NaN fallback war..."
+    },
     {
       "time": "20:27",
       "message": "Added --debug-trace flag for extended CLI execution trace and up..."
@@ -32,23 +31,14 @@
     {
       "time": "19:41",
       "message": "Refactored isNaNVariant helper for improved readability and robu..."
-    },
-    {
-      "time": "19:33",
-      "message": "Extend NaN variant recognition to support Unicode and non-standa..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1894",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T20:39:16.248Z"
+  "generatedAt": "2025-04-11T20:40:13.670Z"
 }

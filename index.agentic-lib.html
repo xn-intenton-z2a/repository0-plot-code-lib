@@ -75,6 +75,10 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">Use the <code class="md-github">--debug-trace</code> flag to activate extended debug mode. When enabled, the CLI will output detailed structured JSON logs of the entire processing pipeline including argument parsing, configuration merging, CSV processing, numeric input normalization, and final execution state. This detailed trace is intended for troubleshooting and log analysis without interfering with normal CLI output.</p>
 </li>
 <li class="md-github">
+<p class="md-github"><strong class="md-github">--suppress-nan-warnings</strong></p>
+<p class="md-github">Use the <code class="md-github">--suppress-nan-warnings</code> flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. This flag allows users to quickly toggle off these warnings at runtime without modifying configuration files or environment variables.</p>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">CASE_SENSITIVE_NAN Configuration</strong></p>
 <p class="md-github">A new global configuration option, <code class="md-github">CASE_SENSITIVE_NAN</code>, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such.</p>
 <p class="md-github">Example configuration:</p>
@@ -163,13 +167,15 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Final execution state and any error handling actions</li>
 </ul>
 <p class="md-github">This mode is invaluable for troubleshooting and provides enhanced visibility into the CLI operations without interfering with normal usage.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="suppressing-nan-fallback-warnings" href="#suppressing-nan-fallback-warnings"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Suppressing NaN Fallback Warnings</h3>
+<p class="md-github">A new CLI flag <code class="md-github">--suppress-nan-warnings</code> is provided to disable the structured JSON warnings that are logged when a NaN variant triggers the fallback mechanism. Use this flag to quickly suppress these warnings at runtime without adjusting configuration files or environment variables.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T20:39:36.526Z</p>
+    <p>Generated on 2025-04-11T20:40:31.092Z</p>
   </footer>
 </body>
 </html>
