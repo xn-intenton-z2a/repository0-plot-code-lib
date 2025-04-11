@@ -5,18 +5,17 @@
   "openIssues": 100,
   "issuesClosedLastHour": 12,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Optimized NaN variant normalization and fallback handling with improved error messages (fixes #1797)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 10,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
   "commitsLastHour": 6,
-  "commitsLastDay": 97,
+  "commitsLastDay": 98,
   "lastFiveCommitMessages": [
+    {
+      "time": "12:39",
+      "message": "Optimized NaN variant normalization and fallback handling with i..."
+    },
     {
       "time": "12:28",
       "message": "Refined NaN detection fallback warnings and standardized error m..."
@@ -32,23 +31,14 @@
     {
       "time": "11:59",
       "message": "Refactored numeric input parsing for clearer error messages and ..."
-    },
-    {
-      "time": "11:49",
-      "message": "Enhanced unified NaN fallback and error messaging for CLI and CS..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1797",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T12:38:57.957Z"
+  "generatedAt": "2025-04-11T12:40:10.774Z"
 }
