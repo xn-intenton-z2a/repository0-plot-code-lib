@@ -106,32 +106,33 @@ function normalizeNumberString(numStr) {
 function validateNumericArg(numStr, verboseMode, themeColors, fallbackValue) {
   const trimmed = numStr.trim();
   if (trimmed === "") {
-    throw new Error(`Invalid numeric value for argument '--number=': no value provided. Please provide a valid number such as '--number=42'.`);
+    throw new Error("No numeric value provided for '--number'. Please provide a valid number (e.g., '--number=42').");
   }
+  // Check if input equals 'NaN' (case-insensitive)
   if (/^nan$/i.test(trimmed)) {
     if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.log(themeColors.info(`Invalid numeric value '${trimmed}' provided for argument '--number'. Using fallback value ${fallbackValue}.`));
+      console.log(themeColors.info(`Invalid numeric input '${trimmed}' for '--number'. Applying fallback value: ${fallbackValue}.`));
       const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
       if (Number.isNaN(fallbackParsed)) {
         throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
       }
       return fallbackParsed;
     }
-    throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
+    throw new Error("Invalid numeric input 'NaN' for '--number'. Please provide a valid number (e.g., '--number=42').");
   }
 
   const normalized = normalizeNumberString(trimmed);
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
     if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.log(themeColors.info(`Invalid numeric input '${trimmed}'. Using fallback value ${fallbackValue}.`));
+      console.log(themeColors.info(`Invalid numeric input '${trimmed}' for '--number'. Applying fallback value: ${fallbackValue}.`));
       const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
       if (Number.isNaN(fallbackParsed)) {
         throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
       }
       return fallbackParsed;
     }
-    throw new Error(`Invalid numeric value for argument '--number=${trimmed}': '${trimmed}' is not a valid number. Please provide a valid number such as '--number=42'.`);
+    throw new Error(`Invalid numeric input '${trimmed}' for '--number'. Please provide a valid number (e.g., '--number=42').`);
   }
   return parsed;
 }
@@ -243,7 +244,7 @@ export async function main(args) {
 
     // Simulate an error if '--simulate-error' flag is provided (for testing purposes)
     if (args && args.includes("--simulate-error")) {
-      throw new Error("Simulated error condition for testing. Please provide a valid number such as '--number=42'");
+      throw new Error("Simulated error condition for testing. Please provide a valid number (e.g., '--number=42').");
     }
 
     console.log(themeColors.usage("Run with: ") + themeColors.run(JSON.stringify(args)));
@@ -251,7 +252,7 @@ export async function main(args) {
     if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
       logError(themeColors.error, "Error in main function execution:", error);
     } else {
-      const msg = error.message.startsWith("Invalid numeric value for argument") ? error.message : "Error: " + error.message;
+      const msg = error.message.startsWith("Invalid numeric input") ? error.message : "Error: " + error.message;
       console.error(themeColors.error(msg));
     }
 
