@@ -9,7 +9,7 @@
   "prDetails": [
     {
       "title": "Updated isNaNVariant to correctly handle CASE_SENSITIVE_NAN configuration. (fixes #1879)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
   "diffMinutes": 0,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T19:08:42.023Z"
+  "generatedAt": "2025-04-11T19:08:59.251Z"
 }
