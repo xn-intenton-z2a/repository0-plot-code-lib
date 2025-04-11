@@ -71,6 +71,10 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">Use the <code class="md-github">--watch-config</code> flag to enable real-time reloading of the global configuration file (.repository0plotconfig.json). When this flag is set, any changes to the config file will automatically update the CLI's settings (such as CLI color scheme, fallback number, ALLOW_NAN, etc.) on the fly, without needing to restart the process.</p>
 </li>
 <li class="md-github">
+<p class="md-github"><strong class="md-github">--debug-trace</strong></p>
+<p class="md-github">Use the <code class="md-github">--debug-trace</code> flag to activate extended debug mode. When enabled, the CLI will output detailed structured JSON logs of the entire processing pipeline including argument parsing, configuration merging, CSV processing, numeric input normalization, and final execution state. This detailed trace is intended for troubleshooting and log analysis without interfering with normal CLI output.</p>
+</li>
+<li class="md-github">
 <p class="md-github"><strong class="md-github">CASE_SENSITIVE_NAN Configuration</strong></p>
 <p class="md-github">A new global configuration option, <code class="md-github">CASE_SENSITIVE_NAN</code>, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such.</p>
 <p class="md-github">Example configuration:</p>
@@ -149,17 +153,23 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is set) that includes error details, CLI arguments, library version, and more. Configurable retry delays and max attempts ensure robust error reporting.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="real-time-global-configuration-hot-reloading" href="#real-time-global-configuration-hot-reloading"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Real-Time Global Configuration Hot Reloading</h3>
 <p class="md-github">By using the new <code class="md-github">--watch-config</code> flag, the CLI will monitor the .repository0plotconfig.json file in real time. Changes to the configuration (such as updating the CLI color scheme or fallback number) are automatically applied, enhancing adaptability without requiring a restart.</p>
-<p class="md-github">Example:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --watch-config --number=42
-</code></pre>
-<p class="md-github">After modifying .repository0plotconfig.json while the CLI is running, you should see a message indicating that the configuration was reloaded, and subsequent CLI outputs will reflect the updated settings.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="extended-debug-trace-mode" href="#extended-debug-trace-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Extended Debug Trace Mode</h3>
+<p class="md-github">The new <code class="md-github">--debug-trace</code> flag activates a detailed execution trace that outputs structured JSON logs of the internal processing pipeline. This includes:</p>
+<ul class="md-github">
+<li class="md-github">Argument parsing details</li>
+<li class="md-github">Merged global configuration state</li>
+<li class="md-github">CSV processing steps including auto-detected delimiters and parsed data</li>
+<li class="md-github">Numeric input processing details</li>
+<li class="md-github">Final execution state and any error handling actions</li>
+</ul>
+<p class="md-github">This mode is invaluable for troubleshooting and provides enhanced visibility into the CLI operations without interfering with normal usage.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T20:27:21.736Z</p>
+    <p>Generated on 2025-04-11T20:28:08.554Z</p>
   </footer>
 </body>
 </html>
