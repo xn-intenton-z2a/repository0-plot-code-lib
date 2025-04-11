@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Improve NaN variant handling with configurable case sensitivity and custom variants (fixes #1903)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 0,
-  "diffMinutesMain": 5,
+  "diffMinutesMain": 9,
   "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -34,11 +39,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1903",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T21:40:38.415Z"
+  "generatedAt": "2025-04-11T21:44:09.268Z"
 }
