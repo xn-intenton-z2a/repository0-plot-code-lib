@@ -617,3 +617,18 @@ describe("Locale-Aware Numeric Output Formatting", () => {
     expect(formatNumberOutput(987654321.123, options)).toBe("987,654,321.12");
   });
 });
+
+// Performance Optimization Test for NaN Variant Detection
+describe("Performance Optimization", () => {
+  test("isNaNVariant should perform optimally over 100000 iterations", () => {
+    const start = Date.now();
+    for (let i = 0; i < 100000; i++) {
+      // Test with various inputs
+      isNaNVariant("NaN");
+      isNaNVariant("123");
+      isNaNVariant(" nan ");
+    }
+    const duration = Date.now() - start;
+    expect(duration).toBeLessThan(500);
+  });
+});

@@ -8,6 +8,13 @@ import { existsSync, readFileSync, appendFileSync, watchFile } from "fs";
 import path from "path";
 import { z } from "zod";
 
+// Precompiled regex for Unicode whitespace
+const whiteSpaceRegex = /[\p{White_Space}]+/gu;
+
+// Predefined Sets for built-in NaN variants
+const NAN_BUILT_INS_CASE = new Set(["NaN", "+NaN", "-NaN"]);
+const NAN_BUILT_INS = new Set(["nan", "+nan", "-nan"]);
+
 // Global configuration schema using zod
 const globalConfigSchema = z.object({
   CLI_COLOR_SCHEME: z.string().optional(),
@@ -101,9 +108,9 @@ function watchGlobalConfig() {
 }
 
 // Helper function to clean input string by normalizing Unicode and trimming whitespace
-// Enhanced to replace all kinds of Unicode whitespace characters
+// Enhanced to replace all kinds of Unicode whitespace characters using a precompiled regex
 function cleanString(str) {
-  return str.normalize("NFKC").replace(/[\p{White_Space}]+/gu, " ").trim();
+  return str.normalize("NFKC").replace(whiteSpaceRegex, " ").trim();
 }
 
 // Helper function to format standardized warning message for NaN fallbacks
@@ -120,18 +127,16 @@ function formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVa
 }
 
 // Consolidated helper function to check if a string represents a NaN variant
-// This function now respects the CASE_SENSITIVE_NAN configuration for both built-in and custom variants.
+// Optimized to use precomputed Sets and avoid redundant case conversions
 function isNaNVariant(input, additionalVariants = []) {
   const cleanedInput = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
-  // Define built-in NaN variants based on case sensitivity
-  const builtInVariants = caseSensitive ? ["NaN", "+NaN", "-NaN"] : ["nan", "+nan", "-nan"];
+  const builtInVariants = caseSensitive ? NAN_BUILT_INS_CASE : NAN_BUILT_INS;
   const inputToCompare = caseSensitive ? cleanedInput : cleanedInput.toLowerCase();
-  if (builtInVariants.includes(inputToCompare)) return true;
-  // Clean and adjust custom NaN variants according to case sensitivity
-  const customVariants = additionalVariants.map(v => {
-    const cleaned = cleanString(v);
+  if (builtInVariants.has(inputToCompare)) return true;
+  const customVariants = (config.additionalNaNValues || []).map(v => {
+    let cleaned = cleanString(v);
     return caseSensitive ? cleaned : cleaned.toLowerCase();
   });
   return customVariants.includes(inputToCompare);
@@ -143,12 +148,8 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const locale = config.LOCALE || "en-US";
-      const key = JSON.stringify({
-        normalized,
-        fallbackValue: fallbackNumber.toString().trim(),
-        customNaNVariants: additionalVariants,
-        locale: locale
-      });
+      // Optimized warning key generation without JSON.stringify
+      const key = `${normalized}|${fallbackNumber.toString().trim()}|${additionalVariants.join(",")}|${locale}`;
       if (!warnedNaNWarnings.has(key)) {
         const logMessage = formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale);
         logger(logMessage);
