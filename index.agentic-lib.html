@@ -80,7 +80,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">All numeric inputs are processed using a consolidated logic that handles the case-insensitive string <code class="md-github">NaN</code>. When an input matches <code class="md-github">NaN</code> (in any casing):</p>
 <ol class="md-github">
 <li class="md-github">If the <code class="md-github">--allow-nan</code> flag is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), the value is accepted as JavaScript’s <code class="md-github">NaN</code>.</li>
-<li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used.</li>
+<li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used uniformly for all case variants of <code class="md-github">NaN</code>.</li>
 <li class="md-github">Otherwise, a standardized error is thrown, including both the original input and its normalized form.</li>
 </ol>
 <p class="md-github">For example, to allow explicit NaN:</p>
@@ -135,7 +135,7 @@ repository0-plot-code-lib --number=1,234.56
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T07:00:38.660Z</p>
+    <p>Generated on 2025-04-11T07:01:17.158Z</p>
   </footer>
 </body>
 </html>
