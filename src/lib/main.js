@@ -93,27 +93,28 @@ function cleanString(str) {
   return str.normalize("NFKC").trim();
 }
 
-// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants and configurable case-sensitivity.
-function isNaNVariant(str, additionalVariants = []) {
-  const cleaned = cleanString(str);
+// Helper function to check if a cleaned string matches the default NaN pattern
+function isDefaultNaNVariant(str, caseSensitive) {
+  // Uses a regex to match an optional sign followed by 'NaN'
+  // If not case sensitive, converts the string to lowercase
+  const pattern = caseSensitive ? /^[+\-]?NaN$/ : /^[+\-]?nan$/;
+  return pattern.test(caseSensitive ? str : str.toLowerCase());
+}
+
+// Refactored helper function to determine if a string represents a NaN variant
+// It first cleans the input, then checks against the default NaN pattern and any custom variants provided
+function isNaNVariant(input, additionalVariants = []) {
+  const cleaned = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
-  let defaultNaN;
-  if (caseSensitive) {
-    defaultNaN = /^[+\-]?NaN$/.test(cleaned);
-  } else {
-    const normalizedInput = cleaned.toLowerCase();
-    defaultNaN = /^[+\-]?nan$/.test(normalizedInput);
-  }
-  if (defaultNaN) {
-    return true;
-  }
-  if (caseSensitive) {
-    return additionalVariants.map(v => cleanString(v)).includes(cleaned);
-  } else {
-    const normalizedInput = cleaned.toLowerCase();
-    return additionalVariants.map(v => cleanString(v).toLowerCase()).includes(normalizedInput);
-  }
+
+  // Check if the cleaned input matches the default NaN variant
+  if (isDefaultNaNVariant(cleaned, caseSensitive)) return true;
+
+  // Normalize the input and custom variants for consistent comparison
+  const normalizeForComparison = (s) => caseSensitive ? cleanString(s) : cleanString(s).toLowerCase();
+  const normalizedInput = normalizeForComparison(cleaned);
+  return additionalVariants.map(normalizeForComparison).includes(normalizedInput);
 }
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
