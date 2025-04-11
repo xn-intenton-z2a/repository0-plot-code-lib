@@ -92,31 +92,24 @@ function autoDetectDelimiter(content) {
   return bestDelimiter;
 }
 
-// Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// This function normalizes all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) for consistent handling.
-// It now supports additional custom NaN variants if configured via global configuration.
-// If allowNaN is true, these values are accepted as JavaScript's NaN.
-// If allowNaN is false and a fallback is provided, the fallback value is applied silently.
-// Otherwise, a detailed error is thrown including the original and normalized input with instructions and allowed formats.
-function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
+// New helper function to process numeric input uniformly.
+// It checks if the input string represents a NaN variant, applies fallback if necessary, and returns the numeric value.
+function processNumberInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = []) {
   const trimmedInput = inputStr.trim();
-  const config = getGlobalConfig();
-  const additionalVariants = config.additionalNaNValues || [];
   if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
-    } else {
-      let errorMsg = `Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
-      if (additionalVariants.length > 0) {
-        errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].`;
-      }
-      const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
-      err.originalInput = trimmedInput;
-      throw err;
     }
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
+    if (additionalVariants.length > 0) {
+      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].`;
+    }
+    const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
+    const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
+    err.originalInput = trimmedInput;
+    throw err;
   }
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
   const num = Number(normalized);
@@ -124,7 +117,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].`;
     }
@@ -133,6 +126,14 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     throw err;
   }
   return num;
+}
+
+// Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
+// This function now delegates to processNumberInput for standardized behavior.
+export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
+  const config = getGlobalConfig();
+  const additionalVariants = config.additionalNaNValues || [];
+  return processNumberInput(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants);
 }
 
 // CSV Importer function integrated into main.js
@@ -168,40 +169,13 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
   });
 }
 
-// Numeric parsing utilities integrated directly in this file
-export function normalizeNumberString(str, preserveDecimal = false) {
-  const trimmed = str.trim();
-  // Check if the string contains scientific notation
-  if (/e/i.test(trimmed)) {
-    const index = trimmed.search(/e/i);
-    const coefficient = trimmed.slice(0, index);
-    const exponent = trimmed.slice(index + 1);
-    const normalizedCoefficient = preserveDecimal
-      ? coefficient.replace(/[_\s,]+/g, '')
-      : coefficient.replace(/[_\s,.]+/g, '');
-    const normalizedExponent = exponent.replace(/[_\s,]+/g, '');
-    return normalizedCoefficient + 'e' + normalizedExponent;
-  } else {
-    return preserveDecimal ? trimmed.replace(/[_\s,]+/g, '') : trimmed.replace(/[_\s,.]+/g, '');
-  }
-}
-
 // Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
-// Provides a consistent error message instructing the use of '--allow-nan' flag when appropriate.
+// It uses processNumberInput for consistent behavior.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const config = getGlobalConfig();
   const additionalVariants = config.additionalNaNValues || [];
-  if (isNaNVariant(numStr, additionalVariants)) {
-    if (allowNaN) {
-      return NaN;
-    } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      const warnMsg = `Warning: Invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.${additionalVariants.length > 0 ? ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].` : ''}`;
-      console.warn(themeColors.error(warnMsg));
-      return Number(fallbackNumber);
-    }
-  }
   try {
-    return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
+    return processNumberInput(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants);
   } catch (error) {
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       console.warn(themeColors.error(`Warning: ${error.message} Using fallback value ${fallbackNumber}.`));
@@ -216,7 +190,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import (from file or STDIN) and global configuration support.
  *
  * Note on Unified 'NaN' Handling:
- * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed.
+ * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed via processNumberInput.
  * - When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats.
  * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message including expected input formats.
  * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
@@ -356,7 +330,7 @@ export async function main(args) {
       pipedData += chunk;
     }
     if (pipedData.trim()) {
-      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter);
+      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNan, preserveDecimal, csvDelimiter);
       console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
     } else {
       throw new Error("CSV input is empty.");
