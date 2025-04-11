@@ -127,9 +127,10 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const locale = config.LOCALE || "en-US";
+      // Use normalized value in key to consolidate duplicate warnings
       const key = JSON.stringify({
-        originalInput: cleanedInput,
-        fallbackNumber: fallbackNumber.toString().trim(),
+        normalized,
+        fallbackValue: fallbackNumber.toString().trim(),
         customNaNVariants: additionalVariants,
         locale
       });
@@ -262,8 +263,13 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
 // Consolidated numeric parsing function that processes numeric inputs uniformly
 export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
-  // Use cleanString for consistent processing of custom NaN variants
-  const additionalVariants = (config.additionalNaNValues || []).map(v => cleanString(v));
+  const additionalVariants = (config.additionalNaNValues || []).map(v => {
+    let cleaned = cleanString(v);
+    if (!config.CASE_SENSITIVE_NAN) {
+      cleaned = cleaned.toLowerCase();
+    }
+    return cleaned;
+  });
   return processNumberInputUnified(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
 }
 
@@ -317,7 +323,13 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 // Enhanced validateNumericArg applies fallback mechanism and logs a warning for invalid numeric CLI input
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
-  const additionalVariants = (config.additionalNaNValues || []).map(v => cleanString(v));
+  const additionalVariants = (config.additionalNaNValues || []).map(v => {
+    let cleaned = cleanString(v);
+    if (!config.CASE_SENSITIVE_NAN) {
+      cleaned = cleaned.toLowerCase();
+    }
+    return cleaned;
+  });
   return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
 }
 

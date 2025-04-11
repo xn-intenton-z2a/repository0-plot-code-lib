@@ -104,6 +104,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 - All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard whitespace) are processed using unified functions that apply locale-aware normalization and consistent fallback logic.
 - When a NaN variant is detected and explicit NaN values are disallowed, a structured JSON warning is logged. This warning includes the original input (trimmed), its normalized form, the applied fallback value, any custom NaN variants, and the locale in use.
+- **Warning Consolidation:** Multiple occurrences of the same invalid input with the same fallback configuration trigger only one warning, avoiding log clutter.
 - **Signed NaN Variants:** In strict mode, signed variants such as '+NaN' and '-NaN' trigger an explicit error. In non-strict mode, they are treated as NaN variants and the fallback value is applied if needed.
 
 ### Custom NaN Variants
