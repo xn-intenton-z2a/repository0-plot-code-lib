@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
-import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport } from "../../src/lib/main.js";
+import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -511,3 +511,27 @@ describe("Strict Numeric Mode", () => {
     fs.unlinkSync(testCSVPath);
   });
 });
+
+describe("Real-Time Global Configuration Hot Reloading", () => {
+  const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
+
+  afterEach(() => {
+    if (fs.existsSync(configPath)) {
+      fs.unlinkSync(configPath);
+    }
+  });
+
+  test("should reload configuration when the config file changes", async () => {
+    // Write initial config
+    fs.writeFileSync(configPath, JSON.stringify({ CLI_COLOR_SCHEME: "light" }));
+    // Initialize watcher
+    watchGlobalConfig();
+    // Update the config file
+    fs.writeFileSync(configPath, JSON.stringify({ CLI_COLOR_SCHEME: "dark" }));
+    // Wait for the watcher to pick up the change
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    // There is no direct export of config, so we simulate by checking console output
+    expect(consoleOutput.some(msg => msg.includes("Global configuration reloaded."))).toBeTruthy();
+  });
+});
+
