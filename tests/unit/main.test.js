@@ -33,7 +33,14 @@ afterEach(() => {
   if(fs.existsSync(configPath)) {
     fs.unlinkSync(configPath);
   }
+  // Remove test log file if exists
+  const testLogFile = path.join(process.cwd(), "test_log.txt");
+  if(fs.existsSync(testLogFile)) {
+    fs.unlinkSync(testLogFile);
+  }
 });
+
+// Existing tests for CSV importer and numeric parsing
 
 describe("CSV Importer with default comma delimiter", () => {
   const testCSVPath = path.join(process.cwd(), "test.csv");
@@ -401,5 +408,28 @@ describe("Whitespace variant of NaN handling", () => {
   test("should apply fallback for input with spaces around NaN", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("  NaN  ", false, themeColors, "500")).toBe(500);
+  });
+});
+
+// New tests for file-based logging
+describe("File-based logging", () => {
+  test("logs output to a specified file", async () => {
+    const logFilePath = path.join(process.cwd(), "test_log.txt");
+    if(fs.existsSync(logFilePath)) fs.unlinkSync(logFilePath);
+    await main(["--log-file=" + logFilePath]);
+    const contents = fs.readFileSync(logFilePath, "utf8");
+    expect(contents).toMatch("Usage: repository0-plot-code-lib <arguments>");
+    fs.unlinkSync(logFilePath);
+  });
+
+  test("appends log messages without overwriting existing content", async () => {
+    const logFilePath = path.join(process.cwd(), "test_log.txt");
+    if(fs.existsSync(logFilePath)) fs.unlinkSync(logFilePath);
+    fs.writeFileSync(logFilePath, "Existing log\n");
+    await main(["--log-file=" + logFilePath]);
+    const contents = fs.readFileSync(logFilePath, "utf8");
+    expect(contents).toMatch(/Existing log/);
+    expect(contents).toMatch(/Usage: repository0-plot-code-lib <arguments>/);
+    fs.unlinkSync(logFilePath);
   });
 });

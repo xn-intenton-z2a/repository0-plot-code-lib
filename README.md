@@ -56,6 +56,24 @@ If no arguments are provided and no STDIN or CSV file is detected, the CLI will 
 Usage: repository0-plot-code-lib <arguments>
 ```
 
+### File-based Logging
+
+A new feature allows you to log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (information, warnings, errors, and debug messages) will be appended to the specified log file in addition to being printed to the console. If the log file does not exist, it will be created. If it exists, new log entries are appended.
+
+#### Examples:
+
+Using file-based logging with the CLI:
+
+```bash
+repository0-plot-code-lib --log-file=./cli.log arg1 arg2
+```
+
+Piping data and logging to file:
+
+```bash
+echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100 --log-file=./cli.log
+```
+
 ### Unified 'NaN' Handling
 
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a unified manner. The library now uses a robust regular expression to detect all NaN variants consistently.

@@ -4,7 +4,7 @@
 
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
-import { existsSync, readFileSync } from "fs";
+import { existsSync, readFileSync, appendFileSync } from "fs";
 import path from "path";
 import { z } from "zod";
 
@@ -249,6 +249,28 @@ export async function main(args) {
   });
   if (themeFlag) {
     process.env.CLI_COLOR_SCHEME = themeFlag;
+  }
+
+  // Process file-based logging flag
+  let logFilePath = null;
+  args = args.filter(arg => {
+    if (arg.startsWith('--log-file=')) {
+      logFilePath = arg.slice('--log-file='.length);
+      return false;
+    }
+    return true;
+  });
+  if (logFilePath) {
+    const originalConsoleLog = console.log;
+    const originalConsoleError = console.error;
+    console.log = (...args) => {
+      originalConsoleLog(...args);
+      appendFileSync(logFilePath, args.join(" ") + "\n", { flag: "a" });
+    };
+    console.error = (...args) => {
+      originalConsoleError(...args);
+      appendFileSync(logFilePath, args.join(" ") + "\n", { flag: "a" });
+    };
   }
 
   // Check if the '--show-config' flag is present
