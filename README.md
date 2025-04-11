@@ -28,6 +28,8 @@ import { main, parseCSV } from '@src/lib/main.js';
 })();
 ```
 
+Additionally, the numeric parsing utilities have been refactored into a separate module. You can import and use these directly from `src/lib/numericParser.js` if needed.
+
 ### Command Line Interface (CLI)
 
 Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main function and exits the process, ensuring proper CLI behavior.
@@ -70,7 +72,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Enhancement:** The numeric validation now immediately rejects inputs equating to "NaN" (case-insensitive) before any normalization is performed. If a fallback is provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, it will be applied; otherwise, a clear error message is produced. 
+**Enhancement:** The numeric validation logic has been refactored into a shared utility module (`src/lib/numericParser.js`) to ensure consistent handling of edge cases. The functions `normalizeNumberString` and `validateNumericArg` now serve as a single source of truth for numeric parsing. This change immediately rejects inputs equating to "NaN" (case-insensitive) before normalization and applies a fallback if provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable. 
 
 For example:
 
