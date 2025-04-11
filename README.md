@@ -80,7 +80,7 @@ All numeric inputs are processed using a consolidated logic that treats any case
 
 1. If the `--allow-nan` flag is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), the value is accepted as JavaScript’s `NaN`.
 2. If the flag is not provided and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used uniformly.
-3. Otherwise, a clear and detailed error is thrown, including both the original and normalized input.
+3. Otherwise, a detailed error message is thrown. This error message now includes guidance on acceptable numeric formats (e.g., 42, 1e3, 1_000, 1,000) and instructs the user to either provide a valid number or use the `--fallback-number` flag.
 
 For example, to allow explicit NaN:
 
@@ -133,7 +133,7 @@ The imported CSV data will be parsed into an array of arrays of numbers and prin
 
 When an error occurs, the CLI automatically submits an error report if the `ERROR_REPORTING_URL` is defined (either in the global configuration file or as an environment variable). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and relevant environment variables, as well as the original numeric input if applicable.
 
-A new automatic retry mechanism has been implemented for error report submission. The retry delays and maximum number of retry attempts are now configurable via the configuration option `ERROR_RETRY_DELAYS` and `ERROR_MAX_ATTEMPTS` (set either in the global configuration file or as environment variables). For example:
+A new automatic retry mechanism has been implemented for error report submission. The retry delays and maximum number of retry attempts are now configurable via the configuration options `ERROR_RETRY_DELAYS` and `ERROR_MAX_ATTEMPTS` (set either in the global configuration file or as environment variables). For example:
 
 - Set `ERROR_RETRY_DELAYS` to a comma-separated list of delays in milliseconds (e.g., `500,1000,2000`).
 - Set `ERROR_MAX_ATTEMPTS` to the maximum number of retry attempts. If not provided, the system defaults to using the length of the retry delays array.

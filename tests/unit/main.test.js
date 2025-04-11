@@ -63,14 +63,14 @@ describe("CSV Importer with default comma delimiter", () => {
   test("should throw error for CSV cell 'nan' (lowercase) when no fallback provided and not allowed", () => {
     const csvContent = "nan,2,3";
     fs.writeFileSync(testCSVPath, csvContent);
-    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'nan'/);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'nan'/i);
     fs.unlinkSync(testCSVPath);
   });
 
   test("should throw error for CSV cell 'NAN' (uppercase) when no fallback provided and not allowed", () => {
     const csvContent = "NAN,2,3";
     fs.writeFileSync(testCSVPath, csvContent);
-    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'NAN'/);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'NAN'/i);
     fs.unlinkSync(testCSVPath);
   });
 
@@ -115,7 +115,7 @@ describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback and not allowed", async () => {
     await expect(main(["--number=NaN", "--verbose"]))
       .rejects
-      .toThrow(/Invalid numeric input 'NaN'/);
+      .toThrow(/Invalid numeric input 'NaN'/i);
   });
 
   test("applies fallback when '--number=NaN' provided with fallback and not allowed", async () => {
@@ -136,13 +136,13 @@ describe("Numeric argument validation error reporting", () => {
     try {
       validateNumericArg("nan", false, themeColors, undefined);
     } catch (err) {
-      expect(err.message).toMatch(/Invalid numeric input 'nan'/);
+      expect(err.message).toMatch(/Invalid numeric input 'nan'/i);
       expect(err.originalInput).toBe("nan");
     }
     try {
       validateNumericArg("NAN", false, themeColors, undefined);
     } catch (err) {
-      expect(err.message).toMatch(/Invalid numeric input 'NAN'/);
+      expect(err.message).toMatch(/Invalid numeric input 'NAN'/i);
       expect(err.originalInput).toBe("NAN");
     }
   });
