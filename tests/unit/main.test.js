@@ -54,6 +54,21 @@ describe("CSV Importer", () => {
     expect(() => parseCSV(testCSVPath)).toThrow(/Non-numeric value encountered in CSV/);
     fs.unlinkSync(testCSVPath);
   });
+
+  test("should throw error for CSV 'NaN' cell when no fallback provided", () => {
+    const csvContent = "NaN,2,3";
+    fs.writeFileSync(testCSVPath, csvContent);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Non-numeric value encountered in CSV/);
+    fs.unlinkSync(testCSVPath);
+  });
+
+  test("applies fallback for CSV 'NaN' cell when fallback provided", () => {
+    const csvContent = "NaN,2,3\n4,NaN,6";
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, "100");
+    expect(data).toEqual([[100, 2, 3], [4, 100, 6]]);
+    fs.unlinkSync(testCSVPath);
+  });
 });
 
 

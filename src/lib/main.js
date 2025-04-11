@@ -66,7 +66,8 @@ function logError(chalkError, ...args) {
 
 // CSV Importer function integrated into main.js
 // This function reads a CSV file and returns an array of arrays of numbers.
-export function parseCSV(filePath) {
+// Enhanced to apply a fallback for cells containing a case-insensitive 'NaN' if fallbackNumber is provided.
+export function parseCSV(filePath, fallbackNumber) {
   const content = readFileSync(filePath, "utf-8");
   if (content.trim() === "") {
     throw new Error("CSV file is empty.");
@@ -75,6 +76,13 @@ export function parseCSV(filePath) {
   return rows.map(row => {
     return row.split(",").map(cell => {
       const normalized = normalizeNumberString(cell);
+      if (normalized.toLowerCase() === 'nan') {
+        if (fallbackNumber !== undefined) {
+          return Number(fallbackNumber);
+        } else {
+          throw new Error(`Non-numeric value encountered in CSV: ${cell}`);
+        }
+      }
       const num = Number(normalized);
       if (Number.isNaN(num)) {
         throw new Error(`Non-numeric value encountered in CSV: ${cell}`);
@@ -189,7 +197,7 @@ export async function main(args) {
     // Process CSV file import if flag is provided
     if (csvFilePath) {
       try {
-        const csvData = parseCSV(csvFilePath);
+        const csvData = parseCSV(csvFilePath, fallbackNumber);
         console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
       } catch (csvError) {
         logError(themeColors.error, "Error importing CSV data:", csvError);
