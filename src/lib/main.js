@@ -69,8 +69,13 @@ function logError(chalkError, ...args) {
 // Enhanced to apply a fallback for cells containing a case-insensitive 'NaN' if fallbackNumber is provided.
 export function parseCSV(filePath, fallbackNumber) {
   const content = readFileSync(filePath, "utf-8");
+  return parseCSVFromString(content, fallbackNumber);
+}
+
+// New helper function to parse CSV from a string
+function parseCSVFromString(content, fallbackNumber) {
   if (content.trim() === "") {
-    throw new Error("CSV file is empty.");
+    throw new Error("CSV input is empty.");
   }
   const rows = content.trim().split("\n");
   return rows.map(row => {
@@ -120,7 +125,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
 }
 
 /**
- * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import and global configuration support.
+ * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import (from file or STDIN) and global configuration support.
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
@@ -210,6 +215,20 @@ export async function main(args) {
         console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
       } catch (csvError) {
         logError(themeColors.error, "Error importing CSV data:", csvError);
+        throw csvError;
+      }
+    } else if (!process.stdin.isTTY) { // If no file provided, check for piped STDIN
+      try {
+        let pipedData = "";
+        for await (const chunk of process.stdin) {
+          pipedData += chunk;
+        }
+        if (pipedData.trim()) {
+          const csvData = parseCSVFromString(pipedData, fallbackNumber);
+          console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
+        }
+      } catch (csvError) {
+        logError(themeColors.error, "Error importing CSV data from STDIN:", csvError);
         throw csvError;
       }
     }
