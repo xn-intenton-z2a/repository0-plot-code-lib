@@ -23,10 +23,11 @@ const globalConfigSchema = z.object({
 
 // Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants
 function isNaNVariant(str, additionalVariants = []) {
+  const trimmed = str.trim();
   // Check default NaN variants using regex
-  const defaultNaN = /^[+-]?\s*nan\s*$/i.test(str);
+  const defaultNaN = /^[+-]?nan$/i.test(trimmed);
   // Check if the trimmed string matches any additional custom NaN variant (case-insensitive)
-  const customNaN = additionalVariants.some(av => str.trim().toLowerCase() === av.toLowerCase());
+  const customNaN = additionalVariants.some(av => trimmed.toLowerCase() === av.toLowerCase());
   return defaultNaN || customNaN;
 }
 
