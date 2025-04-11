@@ -234,7 +234,7 @@ describe("Numeric Parser Utility", () => {
     expect(normalizeNumberString("1,234.56", true)).toBe("1234.56");
     expect(normalizeNumberString("1_234.56", true)).toBe("1234.56");
   });
-  
+
   test("validateNumericArg returns valid number for proper input without preserveDecimal", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("2_000", false, themeColors, undefined, false, false)).toBe(2000);
@@ -252,6 +252,21 @@ describe("Numeric Parser Utility", () => {
     expect(result).toBe(999);
     expect(warnSpy).toHaveBeenCalled();
     warnSpy.mockRestore();
+  });
+
+  // Scientific notation tests
+  test("normalizeNumberString handles scientific notation with preserveDecimal false", () => {
+    expect(normalizeNumberString("1,000e3", false)).toBe("1000e3");
+  });
+
+  test("normalizeNumberString handles scientific notation with preserveDecimal true", () => {
+    expect(normalizeNumberString("1,000.00e-2", true)).toBe("1000.00e-2");
+  });
+
+  test("validateNumericArg returns valid number for scientific notation inputs", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("1e3", false, themeColors, undefined, false, false)).toBe(1000);
+    expect(validateNumericArg("1.2e-3", false, themeColors, undefined, false, true)).toBeCloseTo(0.0012);
   });
 });
 

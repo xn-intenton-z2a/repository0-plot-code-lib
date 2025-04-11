@@ -141,7 +141,7 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
     let cells = [];
     // Use regex branch only if preserveDecimal is true and using comma as delimiter
     if (preserveDecimal && delimiter === ',') {
-      const matches = row.match(/(?:[+-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?)/gi);
+      const matches = row.match(/(?:[+-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][+-]?\d+)?)/gi);
       if (matches === null) {
         throw new Error("No numeric data found in row.");
       }
@@ -156,9 +156,20 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 
 // Numeric parsing utilities integrated directly in this file
 export function normalizeNumberString(str, preserveDecimal = false) {
-  // If preserveDecimal is true, remove underscores, commas, and spaces, but keep periods.
-  // Otherwise, remove underscores, commas, spaces, and periods (treating them as thousand separators).
-  return preserveDecimal ? str.replace(/[_\s,]+/g, '') : str.replace(/[_\s,\.]+/g, '');
+  const trimmed = str.trim();
+  // Check if the string contains scientific notation
+  if (/e/i.test(trimmed)) {
+    const index = trimmed.search(/e/i);
+    const coefficient = trimmed.slice(0, index);
+    const exponent = trimmed.slice(index + 1);
+    const normalizedCoefficient = preserveDecimal
+      ? coefficient.replace(/[_\s,]+/g, '')
+      : coefficient.replace(/[_\s,\.]+/g, '');
+    const normalizedExponent = exponent.replace(/[_\s,]+/g, '');
+    return normalizedCoefficient + 'e' + normalizedExponent;
+  } else {
+    return preserveDecimal ? trimmed.replace(/[_\s,]+/g, '') : trimmed.replace(/[_\s,\.]+/g, '');
+  }
 }
 
 // Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
