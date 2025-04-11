@@ -70,7 +70,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. **Note:** Inputs explicitly equal to "NaN" (case-insensitive) are rejected with a clear error message that now includes detailed context information (original input, normalized input, and fallback value if provided). If a fallback value is provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, a clear log message indicates that the fallback value is applied.
+The numeric validation function now consolidates the handling of invalid inputs—including those explicitly provided as "NaN"—into a single, unified process. The input is normalized by removing locale-specific thousand separators before conversion. **Note:** If an invalid numeric value is provided and no fallback is defined (via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable), the CLI will output a detailed error message showing the original input, normalized input, and fallback value (if any).
 
 For example:
 
@@ -84,7 +84,7 @@ Or using a fallback:
 repository0-plot-code-lib --number=NaN --fallback-number=100
 ```
 
-If an invalid numeric value is provided and no fallback is defined:
+If an invalid numeric value is provided without a valid fallback:
 
 ```bash
 repository0-plot-code-lib --number=NaN
