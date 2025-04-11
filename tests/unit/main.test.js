@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect } from "vitest";
-import { parseCSV, main } from "../../src/lib/main.js";
+import { parseCSV, main, normalizeNumberString, validateNumericArg } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 
@@ -20,6 +20,7 @@ afterEach(() => {
   console.log = originalConsoleLog;
   console.error = originalConsoleError;
 });
+
 
 describe("CSV Importer", () => {
   const testCSVPath = path.join(process.cwd(), "test.csv");
@@ -55,6 +56,7 @@ describe("CSV Importer", () => {
   });
 });
 
+
 describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback", async () => {
     await expect(main(["--number=NaN", "--verbose"]))
@@ -66,5 +68,25 @@ describe("Numeric argument validation error reporting", () => {
     await expect(main(["--number=NaN", "--fallback-number=100", "--verbose"]))
       .resolves
       .toBeUndefined();
+  });
+});
+
+
+describe("Numeric Parser Utility", () => {
+  test("normalizeNumberString should remove underscores, commas, spaces, and periods", () => {
+    expect(normalizeNumberString("1_000")).toBe("1000");
+    expect(normalizeNumberString("1,000")).toBe("1000");
+    expect(normalizeNumberString("1 000")).toBe("1000");
+    expect(normalizeNumberString("1.000")).toBe("1000");
+  });
+  
+  test("validateNumericArg returns valid number for proper input", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("2_000", false, themeColors, undefined)).toBe(2000);
+  });
+  
+  test("validateNumericArg applies fallback for 'NaN'", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("NaN", false, themeColors, "100")).toBe(100);
   });
 });

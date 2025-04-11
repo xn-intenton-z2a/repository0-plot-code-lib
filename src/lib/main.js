@@ -1,13 +1,14 @@
 #!/usr/bin/env node
+/* File: src/lib/main.js */
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
-import { z } from "zod";  // imported zod for schema validation
+import { z } from "zod";
 
-// Removed import of csvImporter; CSV importer functionality is now integrated into this file
+// Removed import of numericParser; numeric parsing utilities are now integrated into this file
 
 // Define global configuration schema using zod
 const globalConfigSchema = z.object({
@@ -63,83 +64,46 @@ function logError(chalkError, ...args) {
   }
 }
 
-// New helper function to normalize numeric strings to account for locale-aware separators
-function normalizeNumberString(numStr) {
-  let trimmed = numStr.trim();
-  // Remove underscores, commas, and spaces
-  trimmed = trimmed.replace(/[_ ,]/g, '');
-
-  // Handle periods carefully: if there are multiple periods, assume the last one is the decimal separator
-  const periodMatches = numStr.match(/\./g);
-  if (periodMatches && periodMatches.length > 1) {
-    const lastIndex = numStr.lastIndexOf('.');
-    const integerPart = numStr.slice(0, lastIndex).replace(/[_, .]/g, '');
-    const fractionalPart = numStr.slice(lastIndex + 1).replace(/[_, ]/g, '');
-    return integerPart + '.' + fractionalPart;
-  } else if (periodMatches && periodMatches.length === 1) {
-    const parts = numStr.split('.');
-    if (parts.length === 2) {
-      const integerPartRaw = parts[0];
-      const fractionalPartRaw = parts[1];
-      const integerPartClean = integerPartRaw.replace(/[_ ,]/g, '');
-      if (fractionalPartRaw.replace(/[_ ,]/g, '').length === 3 && integerPartClean.length > 0) {
-        return integerPartClean + fractionalPartRaw.replace(/[_ ,]/g, '');
-      } else {
-        return integerPartClean + '.' + fractionalPartRaw.replace(/[_ ,]/g, '');
-      }
-    }
+// CSV Importer function integrated into main.js
+// This function reads a CSV file and returns an array of arrays of numbers.
+export function parseCSV(filePath) {
+  const content = readFileSync(filePath, "utf-8");
+  if (content.trim() === "") {
+    throw new Error("CSV file is empty.");
   }
-  return trimmed;
+  const rows = content.trim().split("\n");
+  return rows.map(row => {
+    return row.split(",").map(cell => {
+      const normalized = normalizeNumberString(cell);
+      const num = Number(normalized);
+      if (Number.isNaN(num)) {
+        throw new Error(`Non-numeric value encountered in CSV: ${cell}`);
+      }
+      return num;
+    });
+  });
 }
 
-/**
- * Consolidated validation function for numeric CLI arguments.
- * This function uses a robust approach to validate number format, including support for scientific notation,
- * locale-aware thousand separators, and a fallback mechanism if provided. It also provides enhanced error context.
- * @param {string} numStr - The numeric string from CLI argument.
- * @param {boolean} verboseMode - Flag indicating verbose mode.
- * @param {object} themeColors - Theme color functions for logging.
- * @param {string|undefined} fallbackValue - Optional fallback numeric value to use if validation fails.
- * @returns {number} - Parsed valid number or the fallback if applicable.
- * @throws {Error} if the numeric value is invalid and no valid fallback is provided.
- */
-function validateNumericArg(numStr, verboseMode, themeColors, fallbackValue) {
-  const trimmed = numStr.trim();
-  if (trimmed === "") {
-    throw new Error("No numeric value provided for '--number'. Please provide a valid number (e.g., '--number=42').");
-  }
-  // Early rejection of input that is exactly 'NaN' (case-insensitive)
-  if (trimmed.toLowerCase() === 'nan') {
-    if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.log(themeColors.info("Invalid numeric input 'NaN'. Applying fallback value: " + fallbackValue));
-      const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
-      if (Number.isNaN(fallbackParsed)) {
-        throw new Error(`Fallback value '${fallbackValue}' is not a valid number. Fallback provided for input 'NaN'.`);
-      }
-      return fallbackParsed;
-    }
-    throw new Error("Invalid numeric input 'NaN'. Please provide a valid number (e.g., '--number=42').");
-  }
+// Numeric parsing utilities integrated directly in this file
+export function normalizeNumberString(str) {
+  // Remove underscores, commas, spaces, and periods used as thousand separators
+  return str.replace(/[_\s,\.]+/g, '');
+}
 
-  const normalized = normalizeNumberString(trimmed);
+export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber) {
+  const normalized = normalizeNumberString(numStr);
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
-    const contextDetails = `Original input: ${numStr}, Normalized input: ${normalized}, Fallback: ${fallbackValue || "none"}`;
-    if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.log(themeColors.info(`Invalid numeric input '${trimmed}' for '--number'. ${contextDetails}. Applying fallback value: ${fallbackValue}.`));
-      const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
-      if (Number.isNaN(fallbackParsed)) {
-        throw new Error(`Fallback value '${fallbackValue}' is not a valid number. ${contextDetails}`);
-      }
-      return fallbackParsed;
+    if (fallbackNumber !== undefined) {
+      return Number(fallbackNumber);
     }
-    throw new Error(`Invalid numeric input '${trimmed}'. ${contextDetails}. Please provide a valid number (e.g., '--number=42').`);
+    throw new Error(`Invalid numeric input '${numStr}'. Please provide a valid number.`);
   }
   return parsed;
 }
 
 /**
- * Main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import and global configuration support.
+ * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import and global configuration support.
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
@@ -414,26 +378,6 @@ function getGlobalConfig() {
     return {};
   }
   return result.data;
-}
-
-// CSV Importer function integrated into main.js
-// This function reads a CSV file and returns an array of arrays of numbers.
-export function parseCSV(filePath) {
-  const content = readFileSync(filePath, "utf-8");
-  if (content.trim() === "") {
-    throw new Error("CSV file is empty.");
-  }
-  const rows = content.trim().split("\n");
-  return rows.map(row => {
-    return row.split(",").map(cell => {
-      const normalized = normalizeNumberString(cell);
-      const num = Number(normalized);
-      if (Number.isNaN(num)) {
-        throw new Error(`Non-numeric value encountered in CSV: ${cell}`);
-      }
-      return num;
-    });
-  });
 }
 
 // If the script is executed directly from the CLI, invoke main with command line arguments
