@@ -146,7 +146,8 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
       }
       cells = matches;
     } else {
-      cells = row.split(delimiter);
+      // Split and trim each cell to ensure consistent numeric parsing including NaN variants
+      cells = row.split(delimiter).map(cell => cell.trim());
     }
     return cells.map(cell => parseNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal));
   });
