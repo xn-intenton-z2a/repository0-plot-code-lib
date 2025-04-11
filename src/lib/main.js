@@ -132,7 +132,10 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 }
 
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
-  // Consolidated numeric parsing with unified fallback logic and explicit NaN flag
+  // If '--allow-nan' flag is set (allowNaN is true) and the input represents NaN, return NaN immediately
+  if (numStr.trim().toLowerCase() === 'nan' && allowNaN) {
+    return NaN;
+  }
   return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
 }
 
