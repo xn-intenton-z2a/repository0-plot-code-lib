@@ -66,7 +66,8 @@ function logError(chalkError, ...args) {
 
 // CSV Importer function integrated into main.js
 // This function reads a CSV file and returns an array of arrays of numbers.
-// Enhanced to apply a fallback for cells containing a case-insensitive 'NaN' if fallbackNumber is provided.
+// Enhanced to apply a fallback for cells containing a case-insensitive 'NaN'.
+// Dual fallback mechanism: if a cell is 'NaN' (any casing), the CLI first checks for an explicit --fallback-number flag, then falls back to the FALLBACK_NUMBER environment variable if available.
 export function parseCSV(filePath, fallbackNumber) {
   const content = readFileSync(filePath, "utf-8");
   return parseCSVFromString(content, fallbackNumber);
@@ -104,7 +105,8 @@ export function normalizeNumberString(str) {
 }
 
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber) {
-  // Implement case-insensitive check for 'NaN' before normalization
+  // Numeric parsing fallback mechanism: if the input exactly matches 'NaN' (case-insensitive),
+  // an explicit --fallback-number flag is checked first followed by the FALLBACK_NUMBER environment variable if no explicit fallback is provided.
   if (numStr.trim().toLowerCase() === 'nan') {
     if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
