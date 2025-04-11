@@ -452,7 +452,7 @@ describe("Custom NaN Variants Configuration", () => {
     try {
       validateNumericArg("foo", false, themeColors);
     } catch (err) {
-      expect(err.message).toMatch(/Custom NaN variants recognized: \[foo, bar\]/);
+      expect(err.message).toMatch(/Recognized custom NaN variants: \[foo, bar\]/);
     }
   });
 });
