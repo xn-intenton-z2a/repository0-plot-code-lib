@@ -76,7 +76,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 
 **Unified 'NaN' Handling and Fallback Mechanism:**
 
-All numeric inputs are processed using a consolidated logic that treats any case variant of `NaN` (e.g., `NaN`, `nan`, `NAN`, as well as signed variants like `+NaN` and `-NaN`) uniformly. When an input matches `NaN` (after stripping any leading '+' or '-')):
+All numeric inputs are processed using a consolidated logic that treats any case variant of `NaN` (e.g., `NaN`, `nan`, `NAN`, as well as signed variants like `+NaN` and `-NaN`) uniformly. In addition, all variants of 'NaN' are now handled identically:
 
 1. If the `--allow-nan` flag is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), the value is accepted as JavaScript’s `NaN`.
 2. If the flag is not provided and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used uniformly.

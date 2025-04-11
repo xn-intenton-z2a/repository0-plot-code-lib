@@ -21,6 +21,11 @@ const globalConfigSchema = z.object({
   ERROR_MAX_ATTEMPTS: z.string().optional()
 });
 
+// Helper function to determine if a string represents a NaN variant (including signed variants)
+function isNaNVariant(str) {
+  return str.trim().replace(/^[+-]/, '').toLowerCase() === 'nan';
+}
+
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
 function applyChalkChain(chain, chalkInstance = chalk) {
   if (typeof chain !== 'string' || chain.trim() === '') {
@@ -67,12 +72,13 @@ function logError(chalkError, ...args) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case, including signed variants like +NaN or -NaN) are processed uniformly. When the input (after trimming and removing any leading '+' or '-') matches 'nan', it is handled by either accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input along with guidance on acceptable formats.
+// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case, including signed variants like +NaN or -NaN)
+// are processed uniformly. When the input matches 'NaN' (after trimming and removing any leading '+' or '-'), it is handled by either
+// accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input
+// along with guidance on acceptable formats.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
-  // Remove leading '+' or '-' for NaN check
-  const unsign = trimmedInput.replace(/^[+-]/, '');
-  if (unsign.toLowerCase() === 'nan') {
+  if (isNaNVariant(trimmedInput)) {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
@@ -135,8 +141,8 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 }
 
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
-  // If '--allow-nan' flag is set (allowNaN is true) and the input represents NaN (including signed variants), return NaN immediately
-  if (numStr.trim().replace(/^[+-]/, '').toLowerCase() === 'nan' && allowNaN) {
+  // Use unified check for NaN variants using isNaNVariant
+  if (isNaNVariant(numStr) && allowNaN) {
     return NaN;
   }
   return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
