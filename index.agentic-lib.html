@@ -62,10 +62,27 @@
 <pre class="md-github"><code class="md-github">(No arguments provided message in colored output, or default arguments if configured)
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
-<h4 class="md-github"><a class="md-github__anchor" name="new-flag---strict-numeric" href="#new-flag---strict-numeric"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Flag: --strict-numeric</h4>
-<p class="md-github">Use the new <code class="md-github">--strict-numeric</code> flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will trigger an error without falling back.</p>
-<h4 class="md-github"><a class="md-github__anchor" name="new-flag---watch-config" href="#new-flag---watch-config"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Flag: --watch-config</h4>
+<h4 class="md-github"><a class="md-github__anchor" name="new-flags" href="#new-flags"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>New Flags:</h4>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">--strict-numeric</strong></p>
+<p class="md-github">Use the <code class="md-github">--strict-numeric</code> flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will trigger an error without falling back.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">--watch-config</strong></p>
 <p class="md-github">Use the <code class="md-github">--watch-config</code> flag to enable real-time reloading of the global configuration file (.repository0plotconfig.json). When this flag is set, any changes to the config file will automatically update the CLI's settings (such as CLI color scheme, fallback number, ALLOW_NAN, etc.) on the fly, without needing to restart the process.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">CASE_SENSITIVE_NAN Configuration</strong></p>
+<p class="md-github">A new global configuration option, <code class="md-github">CASE_SENSITIVE_NAN</code>, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such.</p>
+<p class="md-github">Example configuration:</p>
+<pre class="md-github"><code class="md-github language-json">{
+  &quot;CASE_SENSITIVE_NAN&quot;: true
+}
+</code></pre>
+<p class="md-github">With this setting enabled, an input of &quot;nan&quot; (all lowercase) would not be treated as a NaN variant, whereas &quot;NaN&quot; would be recognized.</p>
+</li>
+</ul>
 <h3 class="md-github"><a class="md-github__anchor" name="file-based-logging" href="#file-based-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File-based Logging</h3>
 <p class="md-github">You can log all CLI output to a file by specifying the <code class="md-github">--log-file=&lt;path&gt;</code> flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file in addition to being printed to the console.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h4>
@@ -82,13 +99,13 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">To enforce strict validation without fallback, use the <code class="md-github">--strict-numeric</code> flag.</li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="custom-nan-variants" href="#custom-nan-variants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom NaN Variants</h3>
-<p class="md-github">You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared case-insensitively after trimming whitespace.</p>
+<p class="md-github">You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace. The new <code class="md-github">CASE_SENSITIVE_NAN</code> option lets you decide if the matching should be case sensitive.</p>
 <p class="md-github">Example configuration:</p>
 <pre class="md-github"><code class="md-github language-json">{
-  &quot;additionalNaNValues&quot;: [&quot;foo&quot;, &quot;bar&quot;]
+  &quot;additionalNaNValues&quot;: [&quot;foo&quot;, &quot;bar&quot;],
+  &quot;CASE_SENSITIVE_NAN&quot;: false
 }
 </code></pre>
-<p class="md-github">This ensures that &quot;foo&quot; or &quot;bar&quot; are treated as NaN, following the same fallback and logging mechanisms as standard NaN inputs.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="locale-aware-numeric-parsing" href="#locale-aware-numeric-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locale-Aware Numeric Parsing</h3>
 <p class="md-github">A new configuration option, <code class="md-github">LOCALE</code>, allows numbers to be parsed correctly based on locale.</p>
 <ul class="md-github">
@@ -101,7 +118,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 }
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration" href="#global-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration</h3>
-<p class="md-github">Use the .repository0plotconfig.json file to set global parameters such as error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).</p>
+<p class="md-github">Use the .repository0plotconfig.json file to set global parameters such as error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, CASE_SENSITIVE_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).</p>
 <p class="md-github">Example:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
@@ -113,7 +130,8 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
   &quot;ERROR_MAX_ATTEMPTS&quot;: &quot;3&quot;,
   &quot;ALLOW_NAN&quot;: false,
   &quot;LOCALE&quot;: &quot;en-US&quot;,
-  &quot;DISABLE_FALLBACK_WARNINGS&quot;: true
+  &quot;DISABLE_FALLBACK_WARNINGS&quot;: true,
+  &quot;CASE_SENSITIVE_NAN&quot;: false
 }
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="decimal-preservation" href="#decimal-preservation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decimal Preservation</h3>
@@ -143,7 +161,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T18:36:35.484Z</p>
+    <p>Generated on 2025-04-11T19:02:59.392Z</p>
   </footer>
 </body>
 </html>
