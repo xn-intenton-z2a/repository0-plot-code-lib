@@ -96,28 +96,28 @@ function processNumericInput(inputStr, fallbackNumber, allowNaN = false, preserv
 // CSV Importer function integrated into main.js
 // This function reads a CSV file and returns an array of arrays of numbers.
 // Enhanced to apply a fallback for cells containing a case-insensitive 'NaN' and to accept explicit NaN values if allowed.
-export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDecimal = false) {
+export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',') {
   const content = readFileSync(filePath, "utf-8");
-  return parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal);
+  return parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal, delimiter);
 }
 
-// New helper function to parse CSV from a string
-function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveDecimal = false) {
+// New helper function to parse CSV from a string with an optional custom delimiter
+function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',') {
   if (content.trim() === "") {
     throw new Error("CSV file is empty.");
   }
   const rows = content.trim().split("\n");
   return rows.map(row => {
     let cells = [];
-    if (preserveDecimal) {
-      // Use regex to match numbers including those with thousand separators or the literal NaN
+    // Use regex branch only if preserveDecimal is true and using default comma delimiter
+    if (preserveDecimal && delimiter === ',') {
       const matches = row.match(/(?:NaN|-?\d+(?:,\d{3})*(?:\.\d+)?)/gi);
       if (matches === null) {
         throw new Error("No numeric data found in row.");
       }
       cells = matches;
     } else {
-      cells = row.split(",");
+      cells = row.split(delimiter);
     }
     return cells.map(cell => processNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal));
   });
@@ -143,8 +143,9 @@ export async function main(args) {
   let fallbackNumber = undefined;
   let allowNaN = false;
   let preserveDecimal = false;
+  let csvDelimiter = ',';
 
-  // Process flags for fallback, allow-nan, and preserve-decimal
+  // Process flags for fallback, allow-nan, preserve-decimal and csv-delimiter
   if (args && args.length > 0) {
     args = args.filter(arg => {
       if (arg.startsWith('--fallback-number=')) {
@@ -157,6 +158,10 @@ export async function main(args) {
       }
       if (arg === '--preserve-decimal') {
         preserveDecimal = true;
+        return false;
+      }
+      if (arg.startsWith('--csv-delimiter=')) {
+        csvDelimiter = arg.slice('--csv-delimiter='.length);
         return false;
       }
       return true;
@@ -216,7 +221,7 @@ export async function main(args) {
   // If CSV file flag provided, process CSV file
   if (csvFilePath) {
     try {
-      const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal);
+      const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter);
       console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
     } catch (csvError) {
       logError(themeColors.error, "Error importing CSV data:", csvError);
@@ -230,7 +235,7 @@ export async function main(args) {
       pipedData += chunk;
     }
     if (pipedData.trim()) {
-      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal);
+      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter);
       console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
     } else {
       throw new Error("CSV input is empty.");
