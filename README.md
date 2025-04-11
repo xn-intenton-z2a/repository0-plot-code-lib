@@ -91,9 +91,24 @@ You can define additional string values to be recognized as NaN using the global
 
 This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The warning messages will explicitly list these custom variants when applied.
 
-### Global Configuration for NaN Handling
+### Locale-Aware Numeric Parsing
 
-Set the `ALLOW_NAN` property in your `.repository0plotconfig.json` to control how NaN inputs are handled globally. For example:
+A new configuration option, `LOCALE`, allows the library to correctly parse numeric inputs according to locale-specific formatting rules.
+
+- For en-US (default): commas are treated as thousand separators and the period as the decimal point.
+- For de-DE: periods are treated as thousand separators and commas as the decimal separator. When preserving decimals, the comma is converted to a period for proper numeric conversion.
+
+You can specify the locale in the global configuration file or via the environment variable `LOCALE`:
+
+```json
+{
+  "LOCALE": "de-DE"
+}
+```
+
+### Global Configuration for NaN and Locale Handling
+
+Set the `ALLOW_NAN` property in your `.repository0plotconfig.json` to control how NaN inputs are handled globally, and the `LOCALE` option to adjust numeric parsing.
 
 ```json
 {
@@ -104,7 +119,8 @@ Set the `ALLOW_NAN` property in your `.repository0plotconfig.json` to control ho
   "FALLBACK_NUMBER": "100",
   "ERROR_RETRY_DELAYS": "500,1000,2000",
   "ERROR_MAX_ATTEMPTS": "3",
-  "ALLOW_NAN": false
+  "ALLOW_NAN": false,
+  "LOCALE": "en-US"
 }
 ```
 

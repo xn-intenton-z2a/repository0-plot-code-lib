@@ -13,6 +13,7 @@ const globalConfigSchema = z.object({
   CLI_COLOR_SCHEME: z.string().optional(),
   LOG_LEVEL: z.string().optional(),
   ERROR_REPORTING_URL: z.string().url().optional(),
+  LOCALE: z.string().optional(),
   defaultArgs: z.array(z.string()).optional(),
   FALLBACK_NUMBER: z.string().optional(),
   ERROR_RETRY_DELAYS: z.union([z.string(), z.array(z.number())]).optional(),
@@ -31,15 +32,30 @@ function isNaNVariant(str, additionalVariants = []) {
   return defaultNaN || customNaN;
 }
 
-// New helper function: normalizeNumberString to remove thousand separators etc.
+// Updated helper function: normalizeNumberString to remove thousand separators etc. based on locale
 export function normalizeNumberString(inputStr, preserveDecimal = false) {
-  if (preserveDecimal) {
-    // Remove underscores, commas, and spaces but preserve periods (decimal points) and scientific notation parts
-    return inputStr.replace(/[_\s,]+/g, "");
+  const globalConfig = getGlobalConfig();
+  const locale = process.env.LOCALE || globalConfig.LOCALE || "en-US";
+  let result = inputStr.replace(/[_\s]+/g, "");
+
+  if (locale === "de-DE") {
+    // In de-DE: period is used as thousand separator and comma as decimal separator
+    if (preserveDecimal) {
+      // Remove thousand separators (periods) and convert decimal comma to period
+      result = result.replace(/\./g, "");
+      result = result.replace(/,/g, ".");
+    } else {
+      result = result.replace(/[\.,]/g, "");
+    }
   } else {
-    // Remove underscores, commas, spaces and periods
-    return inputStr.replace(/[_\s,\.]+/g, "");
+    // Default en-US: comma is thousand separator and period is decimal point
+    if (preserveDecimal) {
+      result = result.replace(/,+/g, "");
+    } else {
+      result = result.replace(/[,\.]+/g, "");
+    }
   }
+  return result;
 }
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
@@ -87,8 +103,7 @@ function logError(chalkError, ...args) {
   }
 }
 
-// NEW: Unified function to process numeric input with fallback and consistent warning logging
-// Finalized integration of custom NaN variants for consistent numeric parsing across CSV and CLI arguments
+// Unified function to process numeric input with fallback and consistent warning logging
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn) {
   const trimmedInput = inputStr.trim();
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
@@ -275,6 +290,7 @@ export async function main(args) {
     if (process.env.LOG_LEVEL) globalConfig.LOG_LEVEL = process.env.LOG_LEVEL;
     if (process.env.ERROR_REPORTING_URL) globalConfig.ERROR_REPORTING_URL = process.env.ERROR_REPORTING_URL;
     if (process.env.FALLBACK_NUMBER) globalConfig.FALLBACK_NUMBER = process.env.FALLBACK_NUMBER;
+    if (process.env.LOCALE) globalConfig.LOCALE = process.env.LOCALE;
     console.log(JSON.stringify(globalConfig, null, 2));
     return;
   }
@@ -391,7 +407,8 @@ export async function main(args) {
           NODE_ENV: process.env.NODE_ENV || 'undefined',
           CLI_COLOR_SCHEME: process.env.CLI_COLOR_SCHEME || 'undefined',
           LOG_LEVEL: process.env.LOG_LEVEL || 'undefined',
-          HOME: process.env.HOME || process.env.USERPROFILE || 'undefined'
+          HOME: process.env.HOME || process.env.USERPROFILE || 'undefined',
+          LOCALE: process.env.LOCALE || 'undefined'
         },
         originalNumericInput: error.originalInput || null
       };
