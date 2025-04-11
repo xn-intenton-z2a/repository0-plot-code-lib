@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
-  "diffMinutes": 4,
-  "diffMinutesMain": 15,
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Fixed caching issues in getGlobalConfig and added a resetGlobalConfigCache export updated tests to call resetGlobalConfigCache to pick up changes in global config. (fixes #1873)",
+      "ageMinutes": 0
+    }
+  ],
+  "diffMinutes": 1,
+  "diffMinutesMain": 20,
   "commitsLastHour": 4,
   "commitsLastDay": 96,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1873",
-        "minutesSinceLastCommit": 8
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T18:16:35.547Z"
+  "generatedAt": "2025-04-11T18:21:30.487Z"
 }
