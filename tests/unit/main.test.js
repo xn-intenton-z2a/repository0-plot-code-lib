@@ -54,14 +54,14 @@ describe("CSV Importer", () => {
   test("should throw error for non-numeric values", () => {
     const csvContent = "1, two,3";
     fs.writeFileSync(testCSVPath, csvContent);
-    expect(() => parseCSV(testCSVPath)).toThrow(/Non-numeric value encountered in CSV/);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input/);
     fs.unlinkSync(testCSVPath);
   });
 
   test("should throw error for CSV 'NaN' cell when no fallback provided", () => {
     const csvContent = "NaN,2,3";
     fs.writeFileSync(testCSVPath, csvContent);
-    expect(() => parseCSV(testCSVPath)).toThrow(/Non-numeric value encountered in CSV/);
+    expect(() => parseCSV(testCSVPath)).toThrow(/Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag./);
     fs.unlinkSync(testCSVPath);
   });
 
@@ -79,7 +79,7 @@ describe("Numeric argument validation error reporting", () => {
   test("throws error with detailed context when '--number=NaN' provided without fallback", async () => {
     await expect(main(["--number=NaN", "--verbose"]))
       .rejects
-      .toThrow(/Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag/);
+      .toThrow(/Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag./);
   });
 
   test("applies fallback when '--number=NaN' provided with fallback", async () => {
@@ -102,6 +102,7 @@ describe("Numeric argument validation error reporting", () => {
   });
 });
 
+
 describe("Numeric Parser Utility", () => {
   test("normalizeNumberString should remove underscores, commas, spaces, and periods", () => {
     expect(normalizeNumberString("1_000")).toBe("1000");
@@ -115,6 +116,7 @@ describe("Numeric Parser Utility", () => {
     expect(validateNumericArg("2_000", false, themeColors, undefined)).toBe(2000);
   });
 });
+
 
 describe("CSV STDIN Importer", () => {
   test("should correctly import CSV data from STDIN", async () => {

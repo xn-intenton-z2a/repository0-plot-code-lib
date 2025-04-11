@@ -64,6 +64,26 @@ function logError(chalkError, ...args) {
   }
 }
 
+// Unified function to process numeric inputs with fallback handling for variants of 'NaN'
+function processNumericInput(inputStr, fallbackNumber) {
+  if (inputStr.trim().toLowerCase() === 'nan') {
+    if (fallbackNumber !== undefined) {
+      return Number(fallbackNumber);
+    } else {
+      throw new Error(`Invalid numeric input '${inputStr}'. Please provide a valid number or use --fallback-number flag.`);
+    }
+  }
+  const normalized = normalizeNumberString(inputStr);
+  const num = Number(normalized);
+  if (Number.isNaN(num)) {
+    if (fallbackNumber !== undefined) {
+      return Number(fallbackNumber);
+    }
+    throw new Error(`Invalid numeric input '${inputStr}'. Please provide a valid number or use --fallback-number flag.`);
+  }
+  return num;
+}
+
 // CSV Importer function integrated into main.js
 // This function reads a CSV file and returns an array of arrays of numbers.
 // Enhanced to apply a fallback for cells containing a case-insensitive 'NaN'.
@@ -80,21 +100,7 @@ function parseCSVFromString(content, fallbackNumber) {
   }
   const rows = content.trim().split("\n");
   return rows.map(row => {
-    return row.split(",").map(cell => {
-      const normalized = normalizeNumberString(cell);
-      if (normalized.toLowerCase() === 'nan') {
-        if (fallbackNumber !== undefined) {
-          return Number(fallbackNumber);
-        } else {
-          throw new Error(`Non-numeric value encountered in CSV: ${cell}`);
-        }
-      }
-      const num = Number(normalized);
-      if (Number.isNaN(num)) {
-        throw new Error(`Non-numeric value encountered in CSV: ${cell}`);
-      }
-      return num;
-    });
+    return row.split(",").map(cell => processNumericInput(cell, fallbackNumber));
   });
 }
 
@@ -105,25 +111,8 @@ export function normalizeNumberString(str) {
 }
 
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber) {
-  // Numeric parsing fallback mechanism: if the input exactly matches 'NaN' (case-insensitive),
-  // an explicit --fallback-number flag is checked first followed by the FALLBACK_NUMBER environment variable if no explicit fallback is provided.
-  if (numStr.trim().toLowerCase() === 'nan') {
-    if (fallbackNumber !== undefined) {
-      return Number(fallbackNumber);
-    } else {
-      throw new Error(`Invalid numeric input '${numStr}'. Please provide a valid number or use --fallback-number flag.`);
-    }
-  }
-
-  const normalized = normalizeNumberString(numStr);
-  const parsed = Number(normalized);
-  if (Number.isNaN(parsed)) {
-    if (fallbackNumber !== undefined) {
-      return Number(fallbackNumber);
-    }
-    throw new Error(`Invalid numeric input '${numStr}'. Please provide a valid number.`);
-  }
-  return parsed;
+  // Consolidated numeric parsing with unified fallback logic
+  return processNumericInput(numStr, fallbackNumber);
 }
 
 /**

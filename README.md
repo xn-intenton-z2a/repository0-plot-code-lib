@@ -74,9 +74,13 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Dual Fallback Mechanism:**
+**Unified Fallback Mechanism:**
 
-When processing numeric inputs that match the literal `NaN` (case-insensitive), the CLI first checks if a fallback value is provided via the `--fallback-number` flag. If not provided, it then falls back to the `FALLBACK_NUMBER` environment variable. If neither is provided, an error is thrown with a clear message.
+When processing numeric inputs that match the literal `NaN` (case-insensitive), the CLI now uses a centralized logic that first checks for a fallback value provided via the `--fallback-number` flag, then the `FALLBACK_NUMBER` environment variable. If neither is provided, an error is thrown with the message:
+
+```
+Invalid numeric input 'NaN'. Please provide a valid number or use --fallback-number flag.
+```
 
 For example, using an explicit fallback flag:
 
@@ -97,13 +101,13 @@ If no valid fallback is provided:
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output an error indicating that a valid number is required.
+The CLI will output the standardized error message indicating that a valid number is required.
 
 ### CSV Data Import
 
 The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
 
-**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization), the importer applies the fallback mechanism as described above.
+**Note:** If a cell in the CSV contains the literal `NaN` (in any capitalization), the importer applies the same fallback mechanism as described above.
 
 For example, from a file:
 
