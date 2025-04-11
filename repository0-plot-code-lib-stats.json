@@ -12,7 +12,7 @@
       "ageMinutes": 0
     }
   ],
-  "diffMinutes": 0,
+  "diffMinutes": 1,
   "diffMinutesMain": 39,
   "commitsLastHour": 1,
   "commitsLastDay": 100,
@@ -43,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1730",
-        "minutesSinceLastCommit": 0
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T01:47:48.067Z"
+  "generatedAt": "2025-04-11T01:47:53.431Z"
 }
