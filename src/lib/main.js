@@ -100,6 +100,8 @@ function isNaNVariant(str, additionalVariants = []) {
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
 export function normalizeNumberString(inputStr, preserveDecimal = false) {
+  // Trim whitespace before processing
+  inputStr = inputStr.trim();
   const globalConfig = getGlobalConfig();
   const locale = process.env.LOCALE || globalConfig.LOCALE || "en-US";
   let result = inputStr.replace(/[_\s]+/g, "");
@@ -199,7 +201,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
     }
     throw Object.assign(new Error(errorMsg), { originalInput: trimmedInput });
   }
@@ -226,7 +228,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+      errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
     }
     throw Object.assign(new Error(errorMsg), { originalInput: trimmedInput });
   }
