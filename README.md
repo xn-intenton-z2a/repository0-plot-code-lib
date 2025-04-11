@@ -109,9 +109,28 @@ repository0-plot-code-lib --number=NaN
 
 The CLI will output a standardized error message indicating that a valid number is required. This behavior is case-insensitive, so inputs like `nan`, `NAN`, or `NaN` are all treated equivalently.
 
+### Decimal Point Parsing
+
+A new configuration option has been introduced to control how periods are treated within numeric inputs. By default, periods are removed as thousand separators to ensure backward compatibility. However, if you want to parse decimal numbers correctly, you can enable decimal preservation:
+
+- Use the CLI flag `--preserve-decimal`:
+
+```bash
+repository0-plot-code-lib --preserve-decimal --number=1,234.56
+```
+
+- Or set the environment variable `PRESERVE_DECIMAL=true` before running the CLI:
+
+```bash
+export PRESERVE_DECIMAL=true
+repository0-plot-code-lib --number=1,234.56
+```
+
+When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`).
+
 ### CSV Data Import
 
-The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
+The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators by default or preserved as decimal points when enabled).
 
 **Note:** Cells containing the literal `NaN` (in any capitalization) are handled consistently as described above.
 

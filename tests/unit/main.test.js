@@ -79,6 +79,14 @@ describe("CSV Importer", () => {
     expect(data).toEqual([[100, 2, 3], [4, 100, 6]]);
     fs.unlinkSync(testCSVPath);
   });
+
+  test("CSV importer preserves decimal when --preserve-decimal is set", () => {
+    const csvContent = "1,234.56,7.89\n3,456.78,9.01";
+    fs.writeFileSync(testCSVPath, csvContent);
+    const data = parseCSV(testCSVPath, "0", false, true);
+    expect(data).toEqual([[1234.56, 7.89], [3456.78, 9.01]]);
+    fs.unlinkSync(testCSVPath);
+  });
 });
 
 describe("Numeric argument validation error reporting", () => {
@@ -141,16 +149,26 @@ describe("Explicit NaN Acceptance", () => {
 });
 
 describe("Numeric Parser Utility", () => {
-  test("normalizeNumberString should remove underscores, commas, spaces, and periods", () => {
-    expect(normalizeNumberString("1_000")).toBe("1000");
-    expect(normalizeNumberString("1,000")).toBe("1000");
-    expect(normalizeNumberString("1 000")).toBe("1000");
-    expect(normalizeNumberString("1.000")).toBe("1000");
+  test("normalizeNumberString should remove underscores, commas, spaces, and periods when preserveDecimal is false", () => {
+    expect(normalizeNumberString("1_000", false)).toBe("1000");
+    expect(normalizeNumberString("1,000", false)).toBe("1000");
+    expect(normalizeNumberString("1 000", false)).toBe("1000");
+    expect(normalizeNumberString("1.000", false)).toBe("1000");
   });
   
-  test("validateNumericArg returns valid number for proper input", () => {
+  test("normalizeNumberString should preserve decimal point when preserveDecimal is true", () => {
+    expect(normalizeNumberString("1,234.56", true)).toBe("1234.56");
+    expect(normalizeNumberString("1_234.56", true)).toBe("1234.56");
+  });
+  
+  test("validateNumericArg returns valid number for proper input without preserveDecimal", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
-    expect(validateNumericArg("2_000", false, themeColors, undefined)).toBe(2000);
+    expect(validateNumericArg("2_000", false, themeColors, undefined, false, false)).toBe(2000);
+  });
+
+  test("validateNumericArg returns a decimal number when preserveDecimal is enabled", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("1,234.56", false, themeColors, undefined, false, true)).toBe(1234.56);
   });
 });
 
