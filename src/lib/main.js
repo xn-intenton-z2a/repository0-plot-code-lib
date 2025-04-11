@@ -155,7 +155,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   }
   let errorMsg = `Invalid numeric input '${originalInput}' (Locale: ${config.LOCALE || "en-US"}). Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
@@ -696,7 +696,7 @@ function getThemeColors() {
  */
 export function formatNumberOutput(num, options = {}) {
   const config = getGlobalConfig();
-  const locale = config.LOCALE || 'en-US';
+  const locale = process.env.LOCALE || config.LOCALE || 'en-US';
   const formatter = new Intl.NumberFormat(locale, options);
   return formatter.format(num);
 }
