@@ -80,7 +80,9 @@ All numeric inputs are processed using a consolidated logic that treats any case
 
 1. If the `--allow-nan` flag is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), the value is accepted as JavaScript’s `NaN`.
 2. If the flag is not provided and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used uniformly.
-3. Otherwise, a standardized error is thrown, including both the original input and its normalized form, to help in debugging.
+3. Otherwise, a clear and detailed error is thrown, including both the original and normalized input.
+
+The library now consistently processes inputs representing `NaN` in all numeric contexts.
 
 For example, to allow explicit NaN:
 

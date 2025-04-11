@@ -72,7 +72,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
   if (lowerTrimmed === 'nan') {
     if (allowNaN) {
       return NaN;
-    } else if (fallbackNumber !== undefined) {
+    } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
@@ -84,7 +84,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
   const num = Number(normalized);
   if (Number.isNaN(num)) {
-    if (fallbackNumber !== undefined) {
+    if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
     const err = new Error(`Invalid numeric input '${trimmedInput}' (normalized: '${normalized}'). No fallback provided. Expected a valid number.`);
