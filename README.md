@@ -68,7 +68,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 - **--suppress-nan-warnings**
   
-  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. This flag allows users to quickly toggle off these warnings at runtime without modifying configuration files or environment variables.
+  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same NaN input in batch processing are consolidated into a single log entry to maintain log clarity.
 
 - **CASE_SENSITIVE_NAN Configuration**
 
@@ -102,7 +102,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Unified 'NaN' Handling & Structured Logging
 
-- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard Unicode whitespace) are processed via unified functions that apply locale-aware normalization. When an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged detailing the original input, its normalized form, the fallback value used, any custom NaN variants in effect, and the locale used for normalization. The logging of fallback warnings has been consolidated to avoid redundant messages.
+- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard Unicode whitespace) are processed via unified functions that apply locale-aware normalization. When an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged detailing the original input, its normalized form, the fallback value used, any custom NaN variants in effect, and the locale used for normalization. Duplicate NaN fallback warnings are now consolidated to improve log clarity in batch processing scenarios.
 - **Signed NaN Variants:** In strict mode, signed NaN variants (e.g. '+NaN' and '-NaN') will trigger an error explicitly stating that such inputs are not allowed. In non-strict mode, they are treated as NaN variants and the configured fallback value is used if explicit NaN values are not permitted.
 - To enforce strict validation without fallback, use the `--strict-numeric` flag.
 
@@ -200,10 +200,6 @@ The new `--debug-trace` flag activates a detailed execution trace that outputs s
 - Final execution state and any error handling actions
 
 This mode is invaluable for troubleshooting and provides enhanced visibility into the CLI operations without interfering with normal usage.
-
-### Suppressing NaN Fallback Warnings
-
-A new CLI flag `--suppress-nan-warnings` is provided to disable the structured JSON warnings that are logged when a NaN variant triggers the fallback mechanism. Use this flag to quickly suppress these warnings at runtime without adjusting configuration files or environment variables.
 
 ---
 

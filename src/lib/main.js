@@ -21,13 +21,25 @@ const globalConfigSchema = z.object({
   ALLOW_NAN: z.boolean().optional(),
   additionalNaNValues: z.array(z.string()).optional(),
   DISABLE_FALLBACK_WARNINGS: z.boolean().optional(),
-  CASE_SENSITIVE_NAN: z.boolean().optional() // New config: case sensitive NaN matching. When true, only inputs that exactly match "NaN", "+NaN", "-NaN" will be recognized as NaN variants.
+  CASE_SENSITIVE_NAN: z.boolean().optional() // New config: case sensitive NaN matching
 });
 
 // Global configuration cache for hot reloading
 let globalConfigCache = null;
 // Global flag for CLI to suppress NaN fallback warnings
 let cliSuppressNanWarnings = false;
+
+// Global map to deduplicate NaN fallback warnings in batch processing
+let warnedNaNWarnings = new Map();
+
+// Exported for testing purposes to clear the config cache and warning cache
+export function resetGlobalConfigCache() {
+  globalConfigCache = null;
+}
+
+export function resetFallbackWarningCache() {
+  warnedNaNWarnings.clear();
+}
 
 // Loads the global configuration from available config files
 function loadGlobalConfig() {
@@ -67,11 +79,6 @@ function getGlobalConfig() {
   return globalConfigCache;
 }
 
-// Exported for testing purposes to clear the config cache
-export function resetGlobalConfigCache() {
-  globalConfigCache = null;
-}
-
 // Sets up a watcher on the local global configuration file to enable hot reloading
 function watchGlobalConfig() {
   const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
@@ -107,26 +114,36 @@ function isNaNVariant(input, additionalVariants = []) {
   return normalizedVariants.includes(normalizedInput);
 }
 
-// Helper function to handle fallback logging and conversion
+// Helper function to handle fallback logging and conversion with deduplicated warnings
 function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVariants, config, logger) {
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
-      const logMessage = JSON.stringify({
-        level: "warn",
-        event: "NaNFallback",
+      const locale = config.LOCALE || "en-US";
+      const key = JSON.stringify({
         originalInput,
-        normalized,
-        fallbackValue: fallbackNumber,
-        customNaNVariants: additionalVariants,
-        locale: config.LOCALE || "en-US"
+        fallbackNumber: fallbackNumber.toString().trim(),
+        additionalVariants,
+        locale
       });
-      logger(logMessage);
+      if (!warnedNaNWarnings.has(key)) {
+        const logMessage = JSON.stringify({
+          level: "warn",
+          event: "NaNFallback",
+          originalInput,
+          normalized,
+          fallbackValue: fallbackNumber,
+          customNaNVariants: additionalVariants,
+          locale
+        });
+        logger(logMessage);
+        warnedNaNWarnings.set(key, true);
+      }
     }
     return Number(fallbackNumber);
   }
   let errorMsg = `Invalid numeric input '${originalInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
@@ -204,7 +221,6 @@ function logError(chalkError, ...args) {
 }
 
 // Unified function to process numeric input with fallback and consistent warning logging
-// This function applies locale-aware normalization, detects both built-in and custom NaN variants, and logs a structured JSON warning if a fallback is applied.
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn, strict = false) {
   const cleanedInput = cleanString(inputStr);
   const normalized = normalizeNumberString(cleanedInput, preserveDecimal);
