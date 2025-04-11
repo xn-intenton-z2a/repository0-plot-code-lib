@@ -59,9 +59,7 @@ Usage: repository0-plot-code-lib <arguments>
 
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a unified manner.
 - If explicit NaN values are not allowed (default), providing them will trigger a fallback mechanism if a valid fallback is given.
-- This update standardizes fallback consistency and improves clarity of error messages for explicit NaN inputs. 
-- Use the `--allow-nan` flag to explicitly accept NaN inputs.
-- Detailed error messages will advise on fallback usage or enabling explicit NaN handling.
+- Error messages now explicitly instruct users to use the `--allow-nan` flag or provide a valid fallback value if explicit NaN values are not permitted.
 
 ### Global Configuration for NaN Handling
 
