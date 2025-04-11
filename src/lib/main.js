@@ -100,7 +100,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or provide a valid fallback.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized result: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or provide a valid fallback.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -111,7 +111,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or supply a valid fallback.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized result: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or supply a valid fallback.`);
     err.originalInput = trimmedInput;
     throw err;
   }
