@@ -51,7 +51,7 @@
 <p class="md-github">Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main function and exits the process, ensuring proper CLI behavior.</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib arg1 arg2
 </code></pre>
-<p class="md-github">If no arguments are provided, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.</p>
+<p class="md-github">If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.</p>
 <pre class="md-github"><code class="md-github">(No arguments provided message in colored output, or default arguments if configured)
 Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
@@ -88,10 +88,13 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <p class="md-github">The CLI will output a concise error message with enhanced context to aid debugging. In verbose mode (or when <code class="md-github">LOG_LEVEL</code> is set to <code class="md-github">debug</code>), the full stack trace is included in the logs and error reports.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="csv-data-import" href="#csv-data-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Data Import</h3>
-<p class="md-github">The CLI now supports importing numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag. The CSV importer functionality has been integrated into the main module. The CSV file should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).</p>
-<p class="md-github"><strong class="md-github">Enhancement:</strong> If a cell in the CSV file contains the literal <code class="md-github">NaN</code> (in any capitalization), the importer will use the fallback number provided via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, instead of throwing an error. If no fallback is provided, an error is raised.</p>
-<p class="md-github">For example:</p>
+<p class="md-github">The CLI now supports importing numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).</p>
+<p class="md-github"><strong class="md-github">Enhancement:</strong> If a cell in the CSV file or STDIN input contains the literal <code class="md-github">NaN</code> (in any capitalization), the importer will use the fallback number provided via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, instead of throwing an error. If no fallback is provided, an error is raised.</p>
+<p class="md-github">For example, from a file:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --csv-file=path/to/data.csv --fallback-number=100
+</code></pre>
+<p class="md-github">Or piping data via STDIN:</p>
+<pre class="md-github"><code class="md-github language-bash">echo &quot;1,2,3\n4,5,6&quot; | repository0-plot-code-lib --fallback-number=100
 </code></pre>
 <p class="md-github">The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme. This data can be used for plotting or further processing.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting" href="#automatic-error-reporting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting</h3>
@@ -141,7 +144,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T04:33:47.582Z</p>
+    <p>Generated on 2025-04-11T04:34:52.657Z</p>
   </footer>
 </body>
 </html>
