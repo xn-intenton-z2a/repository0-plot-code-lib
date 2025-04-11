@@ -115,7 +115,7 @@ function processNumberInput(inputStr, fallbackNumber, allowNaN = false, preserve
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].`;
+      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ")}].`;
     }
     const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
     const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
@@ -130,7 +130,7 @@ function processNumberInput(inputStr, fallbackNumber, allowNaN = false, preserve
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
-      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].`;
+      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ")}].`;
     }
     const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
     err.originalInput = trimmedInput;
@@ -185,6 +185,12 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const config = getGlobalConfig();
   const additionalVariants = config.additionalNaNValues || [];
+
+  // If the input is a NaN variant and not allowed, log a warning if a fallback is provided.
+  if (isNaNVariant(numStr.trim(), additionalVariants) && !allowNaN && fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
+    console.warn(themeColors.error(`Warning: Detected invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}.`));
+  }
+
   try {
     return processNumberInput(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants);
   } catch (error) {

@@ -20,7 +20,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // Example: Running the main function with unified 'NaN' handling.
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed after recent refactoring.
     // When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with detailed guidance including allowed formats.
-    // If a fallback value is provided, it is applied and a warning is logged mentioning valid numeric input formats.
+    // If a fallback value is provided, it is applied, and a warning is logged mentioning that the fallback is in use.
     // Additional custom NaN variants can be configured via a global configuration file (.repository0plotconfig.json).
     await main(['--number=NaN', '--fallback-number=100']);
 
