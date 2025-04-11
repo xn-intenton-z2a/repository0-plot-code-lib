@@ -328,11 +328,9 @@ describe("CSV STDIN Importer", () => {
 
 describe("Error Reporting Retry Mechanism", () => {
   let originalFetch;
-  
   beforeEach(() => {
     originalFetch = global.fetch;
   });
-  
   afterEach(() => {
     global.fetch = originalFetch;
   });
@@ -417,7 +415,6 @@ describe("Global Config ALLOW_NAN Setting", () => {
   });
 });
 
-// Additional test for handling whitespace variations around NaN
 describe("Whitespace variant of NaN handling", () => {
   test("should apply fallback for input with spaces around NaN", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
@@ -425,7 +422,6 @@ describe("Whitespace variant of NaN handling", () => {
   });
 });
 
-// New tests for custom NaN variants configuration
 describe("Custom NaN Variants Configuration", () => {
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
 
@@ -470,7 +466,6 @@ describe("Custom NaN Variants Configuration", () => {
   });
 });
 
-// New tests for Warning Suppression Behavior based on DISABLE_FALLBACK_WARNINGS
 describe("Warning Suppression Behavior", () => {
   const configPath = path.join(process.cwd(), ".repository0plotconfig.json");
 
@@ -491,7 +486,6 @@ describe("Warning Suppression Behavior", () => {
   });
 
   test("should log fallback warning when DISABLE_FALLBACK_WARNINGS is false or not set", () => {
-    // Ensure config does not disable warnings
     fs.writeFileSync(configPath, JSON.stringify({ DISABLE_FALLBACK_WARNINGS: false }));
     const themeColors = { info: msg => msg, error: msg => msg };
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
@@ -502,7 +496,6 @@ describe("Warning Suppression Behavior", () => {
   });
 });
 
-// New tests for Strict Numeric Mode
 describe("Strict Numeric Mode", () => {
   test("throws error for strict mode with '--number=NaN'", async () => {
     await expect(main(["--number=NaN", "--verbose", "--strict-numeric"]))
