@@ -501,3 +501,20 @@ describe("Warning Suppression Behavior", () => {
     warnSpy.mockRestore();
   });
 });
+
+// New tests for Strict Numeric Mode
+describe("Strict Numeric Mode", () => {
+  test("throws error for strict mode with '--number=NaN'", async () => {
+    await expect(main(["--number=NaN", "--verbose", "--strict-numeric"]))
+      .rejects
+      .toThrow(/Strict mode: Invalid numeric input/);
+  });
+
+  test("CSV importer throws error in strict mode when encountering NaN", () => {
+    const csvContent = "NaN,2,3";
+    const testCSVPath = path.join(process.cwd(), "test_strict.csv");
+    fs.writeFileSync(testCSVPath, csvContent);
+    expect(() => parseCSV(testCSVPath, "100", false, false, ",", true)).toThrow(/Strict mode: Invalid numeric input/);
+    fs.unlinkSync(testCSVPath);
+  });
+});
