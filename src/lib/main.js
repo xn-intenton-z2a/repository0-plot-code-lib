@@ -93,16 +93,22 @@ function isNaNVariant(str, additionalVariants = []) {
   const trimmed = str.trim();
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
-  // Normalize input for comparison based on case sensitivity
-  const normalizedInput = caseSensitive ? trimmed : trimmed.toLowerCase();
-  // Check default NaN variant using regex
-  const defaultNaN = /^[+-]?nan$/.test(normalizedInput);
+  let defaultNaN;
+  if (caseSensitive) {
+    defaultNaN = /^[+\-]?NaN$/.test(trimmed);
+  } else {
+    const normalizedInput = trimmed.toLowerCase();
+    defaultNaN = /^[+\-]?nan$/.test(normalizedInput);
+  }
   if (defaultNaN) {
     return true;
   }
-  // Normalize additional variants for uniform comparison
-  const normAdditional = additionalVariants.map(v => caseSensitive ? v.trim() : v.trim().toLowerCase());
-  return normAdditional.includes(normalizedInput);
+  if (caseSensitive) {
+    return additionalVariants.map(v => v.trim()).includes(trimmed);
+  } else {
+    const normalizedInput = trimmed.toLowerCase();
+    return additionalVariants.map(v => v.trim().toLowerCase()).includes(normalizedInput);
+  }
 }
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
