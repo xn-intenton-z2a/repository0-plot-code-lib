@@ -98,12 +98,11 @@ function isNaNVariant(input, additionalVariants = []) {
   const cleaned = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
-  const canonicalInput = caseSensitive ? cleaned : cleaned.toLowerCase();
-  // Check against default NaN variant
-  if (canonicalInput === (caseSensitive ? "NaN" : "nan")) return true;
-  // Check against custom variants after normalization
+  const normalizedInput = caseSensitive ? cleaned : cleaned.toLowerCase();
+  const nanVariants = caseSensitive ? ["NaN", "+NaN", "-NaN"] : ["nan", "+nan", "-nan"];
+  if (nanVariants.includes(normalizedInput)) return true;
   const normalizedVariants = additionalVariants.map(v => caseSensitive ? cleanString(v) : cleanString(v).toLowerCase());
-  return normalizedVariants.includes(canonicalInput);
+  return normalizedVariants.includes(normalizedInput);
 }
 
 // Helper function to handle fallback logging and conversion
