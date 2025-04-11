@@ -115,7 +115,7 @@ You can specify the locale in the global configuration file or via the environme
 
 ### Global Configuration for NaN and Locale Handling
 
-Set the `ALLOW_NAN` property in your `.repository0plotconfig.json` to control how NaN inputs are handled globally, and the `LOCALE` option to adjust numeric parsing.
+Set the `ALLOW_NAN` property in your .repository0plotconfig.json to control how NaN inputs are handled globally, and the `LOCALE` option to adjust numeric parsing. You can also now control whether fallback warnings are logged by setting the `DISABLE_FALLBACK_WARNINGS` flag.
 
 ```json
 {
@@ -127,7 +127,8 @@ Set the `ALLOW_NAN` property in your `.repository0plotconfig.json` to control ho
   "ERROR_RETRY_DELAYS": "500,1000,2000",
   "ERROR_MAX_ATTEMPTS": "3",
   "ALLOW_NAN": false,
-  "LOCALE": "en-US"
+  "LOCALE": "en-US",
+  "DISABLE_FALLBACK_WARNINGS": true
 }
 ```
 

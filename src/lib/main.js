@@ -19,7 +19,8 @@ const globalConfigSchema = z.object({
   ERROR_RETRY_DELAYS: z.union([z.string(), z.array(z.number())]).optional(),
   ERROR_MAX_ATTEMPTS: z.string().optional(),
   ALLOW_NAN: z.boolean().optional(),
-  additionalNaNValues: z.array(z.string()).optional()
+  additionalNaNValues: z.array(z.string()).optional(),
+  DISABLE_FALLBACK_WARNINGS: z.boolean().optional() // New configurable option to suppress fallback warnings
 });
 
 // Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants
@@ -109,7 +110,7 @@ function logError(chalkError, ...args) {
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn) {
   const trimmedInput = inputStr.trim();
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-  // Check for custom NaN variants uniformly
+
   if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (allowNaN) {
       return NaN;
@@ -123,7 +124,10 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants
       });
-      logger(logMessage);
+      const config = getGlobalConfig();
+      if (!config.DISABLE_FALLBACK_WARNINGS) {
+        logger(logMessage);
+      }
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
@@ -143,7 +147,10 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
         fallbackValue: fallbackNumber,
         customNaNVariants: additionalVariants
       });
-      logger(logMessage);
+      const config = getGlobalConfig();
+      if (!config.DISABLE_FALLBACK_WARNINGS) {
+        logger(logMessage);
+      }
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
