@@ -148,11 +148,23 @@ describe("Numeric argument validation error reporting", () => {
   });
 });
 
-describe("Explicit NaN Acceptance", () => {
+describe("Explicit NaN Acceptance and Signed NaN Variants", () => {
   test("validateNumericArg returns NaN for explicit 'NaN' input when allowed", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     const result = validateNumericArg("NaN", false, themeColors, "100", true);
     expect(Number.isNaN(result)).toBeTruthy();
+  });
+
+  test("validateNumericArg returns fallback for signed variants '+NaN' and '-NaN' when not allowed", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(validateNumericArg("+NaN", false, themeColors, "100")).toBe(100);
+    expect(validateNumericArg("-NaN", false, themeColors, "200")).toBe(200);
+  });
+
+  test("validateNumericArg returns NaN for signed variants when allowed", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    expect(Number.isNaN(validateNumericArg("+NaN", false, themeColors, "100", true))).toBeTruthy();
+    expect(Number.isNaN(validateNumericArg("-NaN", false, themeColors, "200", true))).toBeTruthy();
   });
 
   test("CSV importer returns NaN in explicit 'NaN' cells when allowed", () => {
