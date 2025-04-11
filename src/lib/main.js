@@ -1,5 +1,5 @@
-/* File: src/lib/main.js */
 #!/usr/bin/env node
+/* File: src/lib/main.js */
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
