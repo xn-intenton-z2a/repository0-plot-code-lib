@@ -65,10 +65,11 @@ function logError(chalkError, ...args) {
 }
 
 // Unified function to process numeric inputs with fallback handling and explicit NaN acceptance
+// This function standardizes the handling of 'NaN' inputs (case-insensitive) across CSV and CLI numeric arguments.
 function processNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = process.env.PRESERVE_DECIMAL && process.env.PRESERVE_DECIMAL.toLowerCase() === 'true') {
   const trimmedInput = inputStr.trim();
-  // Convert to lower case to handle any variation of 'NaN'
-  if (trimmedInput.toLowerCase() === 'nan') {
+  const lowerTrimmed = trimmedInput.toLowerCase();
+  if (lowerTrimmed === 'nan') {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined) {
