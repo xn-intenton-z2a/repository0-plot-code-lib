@@ -9,7 +9,7 @@
   "prDetails": [
     {
       "title": "Added global config option ALLOW_NAN to control explicit NaN inputs. (fixes #1808)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
   "diffMinutes": 0,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T11:03:37.107Z"
+  "generatedAt": "2025-04-11T11:03:44.587Z"
 }
