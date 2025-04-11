@@ -67,11 +67,12 @@ function logError(chalkError, ...args) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case) are processed uniformly. When the input (after trimming) matches 'nan' in any casing, it is handled by either accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input along with guidance on acceptable formats.
+// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case, including signed variants like +NaN or -NaN) are processed uniformly. When the input (after trimming and removing any leading '+' or '-') matches 'nan', it is handled by either accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input along with guidance on acceptable formats.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
-  const lowerTrimmed = trimmedInput.toLowerCase();
-  if (lowerTrimmed === 'nan') {
+  // Remove leading '+' or '-' for NaN check
+  const unsign = trimmedInput.replace(/^[+-]/, '');
+  if (unsign.toLowerCase() === 'nan') {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
@@ -114,7 +115,7 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
     let cells = [];
     // Use regex branch only if preserveDecimal is true and using default comma delimiter
     if (preserveDecimal && delimiter === ',') {
-      const matches = row.match(/(?:NaN|-?\d+(?:,\d{3})*(?:\.\d+)?)/gi);
+      const matches = row.match(/(?:[+-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?)/gi);
       if (matches === null) {
         throw new Error("No numeric data found in row.");
       }
@@ -134,8 +135,8 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 }
 
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
-  // If '--allow-nan' flag is set (allowNaN is true) and the input represents NaN, return NaN immediately
-  if (numStr.trim().toLowerCase() === 'nan' && allowNaN) {
+  // If '--allow-nan' flag is set (allowNaN is true) and the input represents NaN (including signed variants), return NaN immediately
+  if (numStr.trim().replace(/^[+-]/, '').toLowerCase() === 'nan' && allowNaN) {
     return NaN;
   }
   return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
