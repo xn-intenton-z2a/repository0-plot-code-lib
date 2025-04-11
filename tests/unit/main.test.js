@@ -95,10 +95,20 @@ describe("Numeric argument validation error reporting", () => {
     expect(validateNumericArg("NaN", false, themeColors, "300")).toBe(300);
   });
 
-  test("throws error for 'NaN' without fallback when not allowed", () => {
+  test("throws error for 'NaN' without fallback when not allowed and includes originalInput", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
-    expect(() => validateNumericArg("nan", false, themeColors, undefined)).toThrow(/Invalid numeric input 'nan'/);
-    expect(() => validateNumericArg("NAN", false, themeColors, undefined)).toThrow(/Invalid numeric input 'NAN'/);
+    try {
+      validateNumericArg("nan", false, themeColors, undefined);
+    } catch (err) {
+      expect(err.message).toMatch(/Invalid numeric input 'nan'/);
+      expect(err.originalInput).toBe("nan");
+    }
+    try {
+      validateNumericArg("NAN", false, themeColors, undefined);
+    } catch (err) {
+      expect(err.message).toMatch(/Invalid numeric input 'NAN'/);
+      expect(err.originalInput).toBe("NAN");
+    }
   });
 });
 
@@ -112,15 +122,6 @@ describe("Explicit NaN Acceptance", () => {
 
   test("CSV importer returns NaN in explicit 'NaN' cells when allowed", () => {
     const csvContent = "NaN,2,3\n4,NaN,6";
-    // Using parseCSVFromString directly with allowNaN true
-    const data = (() => {
-      // simulate reading CSV from string
-      return csvContent.trim().split("\n").map(row => row.split(",").map(cell => {
-        // using processNumericInput via validateNumericArg indirectly
-        return Number(cell.trim().toLowerCase() === 'nan' ? NaN : cell);
-      }));
-    })();
-    // Instead, use the exported parseCSV by writing to a temporary file
     const testCSVPath = path.join(process.cwd(), "test_allow_nan.csv");
     fs.writeFileSync(testCSVPath, csvContent);
     const parsedData = parseCSV(testCSVPath, "100", true);

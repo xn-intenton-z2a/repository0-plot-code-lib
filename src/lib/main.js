@@ -72,7 +72,9 @@ function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
     } else if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     } else {
-      throw new Error(`Invalid numeric input '${inputStr}'. Please provide a valid number or use --fallback-number flag.`);
+      const err = new Error(`Invalid numeric input '${inputStr}'. No fallback provided. Expected a valid number, but got '${inputStr}'.`);
+      err.originalInput = inputStr;
+      throw err;
     }
   }
   const normalized = normalizeNumberString(inputStr);
@@ -81,7 +83,9 @@ function processNumericInput(inputStr, fallbackNumber, allowNaN = false) {
     if (fallbackNumber !== undefined) {
       return Number(fallbackNumber);
     }
-    throw new Error(`Invalid numeric input '${inputStr}'. Please provide a valid number or use --fallback-number flag.`);
+    const err = new Error(`Invalid numeric input '${inputStr}'. Input after normalization '${normalized}' resulted in NaN. Please provide a valid number or use --fallback-number flag.`);
+    err.originalInput = inputStr;
+    throw err;
   }
   return num;
 }
@@ -263,7 +267,8 @@ export async function main(args) {
           CLI_COLOR_SCHEME: process.env.CLI_COLOR_SCHEME || 'undefined',
           LOG_LEVEL: process.env.LOG_LEVEL || 'undefined',
           HOME: process.env.HOME || process.env.USERPROFILE || 'undefined'
-        }
+        },
+        originalNumericInput: error.originalInput || null
       };
       try {
         const response = await fetch(errorReportingUrl, {
