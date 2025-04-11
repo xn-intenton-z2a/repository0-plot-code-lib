@@ -40,7 +40,7 @@ Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main 
 repository0-plot-code-lib arg1 arg2
 ```
 
-If no arguments are provided, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.
+If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message. However, you can set default arguments in a global configuration file to be used when no CLI arguments are provided.
 
 ```
 (No arguments provided message in colored output, or default arguments if configured)
@@ -98,14 +98,20 @@ The CLI will output a concise error message with enhanced context to aid debuggi
 
 ### CSV Data Import
 
-The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag. The CSV importer functionality has been integrated into the main module. The CSV file should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
+The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
 
-**Enhancement:** If a cell in the CSV file contains the literal `NaN` (in any capitalization), the importer will use the fallback number provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, instead of throwing an error. If no fallback is provided, an error is raised.
+**Enhancement:** If a cell in the CSV file or STDIN input contains the literal `NaN` (in any capitalization), the importer will use the fallback number provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, instead of throwing an error. If no fallback is provided, an error is raised.
 
-For example:
+For example, from a file:
 
 ```bash
 repository0-plot-code-lib --csv-file=path/to/data.csv --fallback-number=100
+```
+
+Or piping data via STDIN:
+
+```bash
+echo "1,2,3\n4,5,6" | repository0-plot-code-lib --fallback-number=100
 ```
 
 The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme. This data can be used for plotting or further processing.
