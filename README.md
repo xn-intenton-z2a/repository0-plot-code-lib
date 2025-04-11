@@ -17,7 +17,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
 
 (async () => {
   try {
-    // Example: Running the main function with unified 'NaN' handling. Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are processed via a consolidated fallback mechanism. Custom NaN variants and case sensitivity are handled uniformly across CSV imports and CLI numeric validation.
+    // Example: Running the main function with unified 'NaN' handling. Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are processed via a consolidated fallback mechanism. Custom NaN variants and case sensitivity (configurable via the global config) are handled uniformly across CSV imports and CLI numeric validation.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function with auto-detection or custom delimiters
@@ -96,7 +96,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Unified 'NaN' Handling & Structured Logging
 
-- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) are processed via unified functions that apply locale-aware normalization. When an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged detailing the original input, its normalized form, the fallback value used, and any custom NaN variants in effect.
+- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) are processed via unified functions that apply locale-aware normalization. When an input is detected as a NaN variant and explicit NaN values are not allowed, a structured JSON warning is logged detailing the original input, its normalized form, the fallback value used, any custom NaN variants in effect, and the locale used for normalization.
 - To enforce strict validation without fallback, use the `--strict-numeric` flag.
 
 ### Custom NaN Variants
