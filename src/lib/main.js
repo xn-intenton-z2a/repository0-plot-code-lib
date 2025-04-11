@@ -194,7 +194,7 @@ export function normalizeNumberString(inputStr, preserveDecimal = false) {
       result = result.replace(/\./g, "");
       result = result.replace(/,/g, ".");
     } else {
-      result = result.replace(/[\.,]/g, "");
+      result = result.replace(/[.,]/g, "");
     }
   } else {
     if (preserveDecimal) {
