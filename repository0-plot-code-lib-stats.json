@@ -7,11 +7,15 @@
   "issuesClosedLastDay": 100,
   "openPRs": 0,
   "prDetails": [],
-  "diffMinutes": 3,
-  "diffMinutesMain": 15,
-  "commitsLastHour": 6,
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 7,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "22:20",
+      "message": "Update from agentic-lib"
+    },
     {
       "time": "22:04",
       "message": "Standardized NaN fallback warning message formatting across nume..."
@@ -27,10 +31,6 @@
     {
       "time": "21:44",
       "message": "Improve NaN variant handling with configurable case sensitivity ..."
-    },
-    {
-      "time": "21:34",
-      "message": "Refactored NaN parsing fallback logic for consistent structured ..."
     }
   ],
   "branches": {
@@ -38,12 +38,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1910",
-        "minutesSinceLastCommit": 6
+        "minutesSinceLastCommit": 0
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T22:19:30.206Z"
+  "generatedAt": "2025-04-11T22:20:41.023Z"
 }
