@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import { parseCSV } from "@src/lib/csvImporter.js";
+import { parseCSV } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 

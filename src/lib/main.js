@@ -6,7 +6,8 @@ import chalk, { Chalk } from "chalk";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { z } from "zod";  // imported zod for schema validation
-import { parseCSV } from "./csvImporter.js";
+
+// Removed import of csvImporter; CSV importer functionality is now integrated into this file
 
 // Define global configuration schema using zod
 const globalConfigSchema = z.object({
@@ -411,6 +412,26 @@ function getGlobalConfig() {
     return {};
   }
   return result.data;
+}
+
+// CSV Importer function integrated into main.js
+// This function reads a CSV file and returns an array of arrays of numbers.
+export function parseCSV(filePath) {
+  const content = readFileSync(filePath, "utf-8");
+  if (content.trim() === "") {
+    throw new Error("CSV file is empty.");
+  }
+  const rows = content.trim().split("\n");
+  return rows.map(row => {
+    return row.split(",").map(cell => {
+      const normalized = normalizeNumberString(cell);
+      const num = Number(normalized);
+      if (Number.isNaN(num)) {
+        throw new Error(`Non-numeric value encountered in CSV: ${cell}`);
+      }
+      return num;
+    });
+  });
 }
 
 // If the script is executed directly from the CLI, invoke main with command line arguments
