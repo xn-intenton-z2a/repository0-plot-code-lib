@@ -88,9 +88,9 @@ function autoDetectDelimiter(content) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// This function normalizes all variants of 'NaN' (eg. 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) for consistent handling.
+// This function normalizes all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) for consistent handling.
 // If allowNaN is true, these values are accepted as JavaScript's NaN.
-// If allowNaN is false and a fallback is provided, the fallback value is applied silently with clear error messaging.
+// If allowNaN is false and a fallback is provided, the fallback value is applied silently.
 // Otherwise, a detailed error is thrown including the original and normalized input with instructions.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
@@ -198,7 +198,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  *
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (with potential whitespace) are uniformly processed.
- * - When explicit NaN is not allowed and no valid fallback is provided, an error is thrown with clear instructions.
+ * - When explicit NaN is not allowed and no valid fallback is provided, an error is thrown with clear instructions (including the normalized value).
  * - If a fallback value is provided, it is applied and a warning is logged instructing users to use '--allow-nan' flag to accept NaN values.
  *
  * @param {string[]} args - Command line arguments.
