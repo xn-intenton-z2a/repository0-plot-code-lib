@@ -8,9 +8,7 @@ import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { z } from "zod";
 
-// Removed import of numericParser; numeric parsing utilities are now integrated into this file
-
-// Define global configuration schema using zod
+// Global configuration schema using zod
 const globalConfigSchema = z.object({
   CLI_COLOR_SCHEME: z.string().optional(),
   LOG_LEVEL: z.string().optional(),
@@ -22,7 +20,7 @@ const globalConfigSchema = z.object({
   ALLOW_NAN: z.boolean().optional()
 });
 
-// Helper function to determine if a string represents a NaN variant (including signed variants)
+// Helper function to determine if a string represents a NaN variant (including signed and whitespace variants)
 function isNaNVariant(str) {
   return str.trim().replace(/^[+-]/, '').toLowerCase() === 'nan';
 }
@@ -89,11 +87,10 @@ function autoDetectDelimiter(content) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// Unified Numeric Parsing:
-// 1. All variants of 'NaN' such as 'NaN', 'nan', '+NaN', '-NaN' are normalized using isNaNVariant.
-// 2. If allowNaN is true, these values are accepted as JavaScript's NaN.
-// 3. If allowNaN is false and a fallback is provided, the fallback value is applied.
-// 4. Otherwise, a detailed error is thrown including the original and normalized input along with guidance.
+// Updated to handle all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN', and whitespace differences).
+// If allowNaN is true, these values are accepted as JavaScript's NaN.
+// If allowNaN is false and a fallback is provided, the fallback value is applied.
+// Otherwise, a detailed error is thrown including the original and normalized input along with guidance.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   if (isNaNVariant(trimmedInput)) {
@@ -122,8 +119,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
 }
 
 // CSV Importer function integrated into main.js
-// This function reads a CSV file and returns an array of arrays of numbers.
-// Enhanced to apply a fallback for cells containing a case-insensitive 'NaN' and to accept explicit NaN values if allowed.
+// Reads a CSV file and returns an array of arrays of numbers, handling unified NaN parsing and fallback behavior.
 export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',') {
   const content = readFileSync(filePath, "utf-8");
   return parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal, delimiter);
@@ -174,6 +170,7 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 }
 
 // Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
+// Enhancements include detailed error messages for all NaN variants and instructions on using '--allow-nan'.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   if (isNaNVariant(numStr)) {
     if (allowNaN) {
@@ -199,9 +196,9 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * Consolidated main function that executes CLI logic with advanced error handling, colored output, numeric argument validation, CSV data import (from file or STDIN) and global configuration support.
  *
  * Note on Unified 'NaN' Handling:
- * Numeric inputs are normalized to handle all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN') uniformly.
- * When an invalid numeric input is provided without permitting explicit NaN values, provide a fallback using '--fallback-number' or enable '--allow-nan'.
- * Enhanced error messages now clearly guide the user to enable '--allow-nan' or supply a valid fallback.
+ * - All numeric inputs including 'NaN', 'nan', '+NaN', '-NaN' (with potential whitespace) are uniformly processed.
+ * - When an invalid numeric input is provided without permitting explicit NaN values, a fallback value is used if provided.
+ * - Optionally, use '--allow-nan' flag to explicitly accept NaN values.
  *
  * @param {string[]} args - Command line arguments.
  */
