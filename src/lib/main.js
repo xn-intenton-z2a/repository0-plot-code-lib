@@ -102,7 +102,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. Acceptable formats include numbers (e.g., 42, 1e3, 1_000) or valid 'NaN' variants. Normalized input: '${normalized}'. No fallback provided.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. When explicit NaN is not allowed, consider enabling '--allow-nan' or using a fallback value. Normalized input: '${normalized}'. No valid fallback provided.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -113,7 +113,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. Acceptable formats include numbers (e.g., 42, 1e3, 1_000) or valid 'NaN' variants. Normalized input: '${normalized}'. No fallback provided.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. When explicit NaN is not allowed, consider enabling '--allow-nan' or using a fallback value. Normalized input: '${normalized}'. No valid fallback provided.`);
     err.originalInput = trimmedInput;
     throw err;
   }
@@ -167,7 +167,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      console.warn(themeColors.error(`Warning: invalid numeric input '${numStr}'. Using fallback value ${fallbackNumber}.`));
+      console.warn(themeColors.error(`Warning: invalid numeric input '${numStr}'. Consider using '--allow-nan' or providing a fallback value. Using fallback value ${fallbackNumber}.`));
       return Number(fallbackNumber);
     }
   }
@@ -175,7 +175,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
     return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
   } catch (error) {
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      console.warn(themeColors.error(`Warning: ${error.message} Using fallback value ${fallbackNumber}.`));
+      console.warn(themeColors.error(`Warning: ${error.message} Consider using '--allow-nan' or providing a valid fallback. Using fallback value ${fallbackNumber}.`));
       return Number(fallbackNumber);
     } else {
       throw error;
