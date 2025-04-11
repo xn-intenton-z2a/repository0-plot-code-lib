@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
-import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache, resetFallbackWarningCache, formatNumberOutput } from "../../src/lib/main.js";
+import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache, resetFallbackWarningCache, formatNumberOutput, isNaNVariant } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -618,7 +618,6 @@ describe("Locale-Aware Numeric Output Formatting", () => {
   });
 });
 
-// Performance Optimization Test for NaN Variant Detection
 describe("Performance Optimization", () => {
   test("isNaNVariant should perform optimally over 100000 iterations", () => {
     const start = Date.now();

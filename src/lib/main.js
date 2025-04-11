@@ -160,7 +160,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   }
   let errorMsg = `Invalid numeric input '${originalInput}' (Locale: ${config.LOCALE || "en-US"}). Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
@@ -717,8 +717,8 @@ export function formatNumberOutput(num, options = {}) {
   return formatter.format(num);
 }
 
-// Export watchGlobalConfig for testing purposes
-export { watchGlobalConfig };
+// Export watchGlobalConfig and isNaNVariant for testing purposes
+export { watchGlobalConfig, isNaNVariant };
 
 // If executed directly from the CLI, call main with process arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
