@@ -89,8 +89,8 @@ function autoDetectDelimiter(content) {
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
 // This function now fully normalizes all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN' with whitespace) to ensure consistent handling.
 // If allowNaN is true, these values are accepted as JavaScript's NaN.
-// If allowNaN is false and a fallback is provided, the fallback value is applied.
-// Otherwise, a detailed error is thrown including the original and normalized input along with guidance.
+// If allowNaN is false and a fallback is provided, the fallback value is applied silently.
+// Otherwise, a detailed error is thrown including the original and normalized input with instructions.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   if (isNaNVariant(trimmedInput)) {
@@ -100,7 +100,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized value: '${normalized}'. Explicit NaN values are not permitted. Use '--allow-nan' flag or provide a valid fallback.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized: '${normalized}'. Use '--allow-nan' flag to allow NaN or provide a valid fallback.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -111,7 +111,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized value: '${normalized}'. Explicit NaN values are not permitted. Use '--allow-nan' flag or supply a valid fallback.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized: '${normalized}'. Use '--allow-nan' flag to allow NaN or supply a valid fallback.`);
     err.originalInput = trimmedInput;
     throw err;
   }
@@ -170,13 +170,13 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 }
 
 // Updated validateNumericArg function to apply a fallback mechanism and log a warning for invalid numeric CLI input.
-// Enhancements include detailed error messages for all NaN variants and instructions on using '--allow-nan'.
+// Provides a consistent error message instructing the use of '--allow-nan' flag or a valid fallback value.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   if (isNaNVariant(numStr)) {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      console.warn(themeColors.error(`Warning: Invalid numeric input '${numStr}'. Explicit NaN values are not permitted. Using fallback value ${fallbackNumber}. Use '--allow-nan' flag or provide a valid fallback.`));
+      console.warn(themeColors.error(`Warning: Invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}. Use '--allow-nan' flag to allow NaN.`));
       return Number(fallbackNumber);
     }
   }
@@ -197,8 +197,8 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  *
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (with potential whitespace) are uniformly processed.
- * - When an invalid numeric input is provided without permitting explicit NaN values, a fallback value is used if provided.
- * - Use '--allow-nan' flag to explicitly accept NaN inputs.
+ * - When explicit NaN is not allowed and no valid fallback is provided, an error is thrown with clear instructions.
+ * - To accept NaN inputs, add the '--allow-nan' flag.
  *
  * @param {string[]} args - Command line arguments.
  */
@@ -330,7 +330,7 @@ export async function main(args) {
     for (const arg of args) {
       if (arg.startsWith(numberFlagPrefix)) {
         const numStr = arg.slice(numberFlagPrefix.length);
-        // Validate numeric argument with fallback if provided and using allowNan flag and preserveDecimal option
+        // Validate numeric argument with fallback if provided and using allowNaN flag and preserveDecimal option
         validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal);
       }
     }
