@@ -4,7 +4,7 @@
 
 import { fileURLToPath } from "url";
 import chalk, { Chalk } from "chalk";
-import { existsSync, readFileSync, appendFileSync } from "fs";
+import { existsSync, readFileSync, appendFileSync, watchFile } from "fs";
 import path from "path";
 import { z } from "zod";
 
@@ -22,6 +22,70 @@ const globalConfigSchema = z.object({
   additionalNaNValues: z.array(z.string()).optional(),
   DISABLE_FALLBACK_WARNINGS: z.boolean().optional() // Option to suppress fallback warnings
 });
+
+// Global configuration cache for hot reloading
+let globalConfigCache = null;
+
+// Loads the global configuration from available config files
+function loadGlobalConfig() {
+  const configPaths = [];
+  const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  configPaths.push(cwdConfigPath);
+  const homeDir = process.env.HOME || process.env.USERPROFILE;
+  if (homeDir) {
+    configPaths.push(path.join(homeDir, ".repository0plotconfig.json"));
+  }
+  let mergedConfig = {};
+  for (const configPath of configPaths) {
+    if (existsSync(configPath)) {
+      try {
+        const content = readFileSync(configPath, "utf-8");
+        const json = JSON.parse(content);
+        mergedConfig = { ...mergedConfig, ...json };
+      } catch (err) {
+        console.error(chalk.red(`Global config error [${configPath}]: ${err.message}. Ignoring this config.`));
+      }
+    }
+  }
+  const result = globalConfigSchema.safeParse(mergedConfig);
+  if (!result.success) {
+    console.error(chalk.red(`Global config validation error: ${result.error}. Using default configuration.`));
+    return {};
+  }
+  return result.data;
+}
+
+// Returns the current global configuration, using the cached version if available
+// In test environment we reload config to allow dynamic changes
+function getGlobalConfig() {
+  if (!globalConfigCache || process.env.NODE_ENV === "test") {
+    globalConfigCache = loadGlobalConfig();
+  }
+  return globalConfigCache;
+}
+
+// Exported for testing purposes to clear the config cache
+export function resetGlobalConfigCache() {
+  globalConfigCache = null;
+}
+
+// Sets up a watcher on the local global configuration file to enable hot reloading
+function watchGlobalConfig() {
+  const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
+  if (existsSync(cwdConfigPath)) {
+    watchFile(cwdConfigPath, { interval: 1000 }, (curr, prev) => {
+      try {
+        const newConfig = loadGlobalConfig();
+        globalConfigCache = newConfig;
+        console.log(chalk.green("Global configuration reloaded."));
+      } catch (err) {
+        console.error(chalk.red("Failed to reload global configuration: " + err.message));
+      }
+    });
+  } else {
+    console.warn(chalk.yellow("No local configuration file to watch."));
+  }
+}
 
 // Helper function to determine if a string represents a NaN variant (including signed and whitespace variants), with support for custom configured variants
 function isNaNVariant(str, additionalVariants = []) {
@@ -266,6 +330,10 @@ export async function main(args) {
         strictNumeric = true;
         return false;
       }
+      if (arg === '--watch-config') {
+        // Handled separately below
+        return false;
+      }
       return true;
     });
   }
@@ -309,6 +377,11 @@ export async function main(args) {
       originalConsoleError(...args);
       appendFileSync(logFilePath, args.join(" ") + "\n", { flag: "a" });
     };
+  }
+
+  // Activate global configuration hot reloading if requested
+  if (args.includes('--watch-config')) {
+    watchGlobalConfig();
   }
 
   // Show global configuration if flag provided
@@ -515,34 +588,8 @@ function getThemeColors() {
   }
 }
 
-// Function to retrieve global configuration with schema validation
-function getGlobalConfig() {
-  const configPaths = [];
-  const cwdConfigPath = path.join(process.cwd(), ".repository0plotconfig.json");
-  configPaths.push(cwdConfigPath);
-  const homeDir = process.env.HOME || process.env.USERPROFILE;
-  if (homeDir) {
-    configPaths.push(path.join(homeDir, ".repository0plotconfig.json"));
-  }
-  let mergedConfig = {};
-  for (const configPath of configPaths) {
-    if (existsSync(configPath)) {
-      try {
-        const content = readFileSync(configPath, "utf-8");
-        const json = JSON.parse(content);
-        mergedConfig = { ...mergedConfig, ...json };
-      } catch (err) {
-        console.error(chalk.red(`Global config error [${configPath}]: ${err.message}. Ignoring this config.`));
-      }
-    }
-  }
-  const result = globalConfigSchema.safeParse(mergedConfig);
-  if (!result.success) {
-    console.error(chalk.red(`Global config validation error: ${result.error}. Using default configuration.`));
-    return {};
-  }
-  return result.data;
-}
+// Export watchGlobalConfig for testing purposes
+export { watchGlobalConfig };
 
 // If executed directly from the CLI, call main with process arguments
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

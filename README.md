@@ -58,6 +58,10 @@ Usage: repository0-plot-code-lib <arguments>
 
 Use the new `--strict-numeric` flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will trigger an error without falling back.
 
+#### New Flag: --watch-config
+
+Use the `--watch-config` flag to enable real-time reloading of the global configuration file (.repository0plotconfig.json). When this flag is set, any changes to the config file will automatically update the CLI's settings (such as CLI color scheme, fallback number, ALLOW_NAN, etc.) on the fly, without needing to restart the process.
+
 ### File-based Logging
 
 You can log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file in addition to being printed to the console.
@@ -161,10 +165,17 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is set) that includes error details, CLI arguments, library version, and more. Configurable retry delays and max attempts ensure robust error reporting.
 
-### Enhancements in this Release
+### Real-Time Global Configuration Hot Reloading
 
-- Improved whitespace handling: inputs with excess whitespace are uniformly trimmed before processing.
-- Custom NaN variants: recognition and error messages now clearly list all custom NaN variants defined in the global configuration.
+By using the new `--watch-config` flag, the CLI will monitor the .repository0plotconfig.json file in real time. Changes to the configuration (such as updating the CLI color scheme or fallback number) are automatically applied, enhancing adaptability without requiring a restart.
+
+Example:
+
+```bash
+repository0-plot-code-lib --watch-config --number=42
+```
+
+After modifying .repository0plotconfig.json while the CLI is running, you should see a message indicating that the configuration was reloaded, and subsequent CLI outputs will reflect the updated settings.
 
 ---
 
