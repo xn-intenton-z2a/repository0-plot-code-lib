@@ -18,10 +18,9 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
 (async () => {
   try {
     // Example: Running the main function with unified 'NaN' handling.
-    // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed after recent refactoring.
-    // When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with detailed guidance including allowed formats.
-    // If a fallback value is provided, it is applied and a warning is logged mentioning that the fallback is in use.
-    // In addition, any custom NaN variants configured in the global configuration are explicitly listed in error messages and warnings.
+    // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed using a consolidated fallback mechanism.
+    // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance.
+    // If a fallback value is provided, it is applied and a consistent warning is logged including any custom NaN variants configured.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -76,8 +75,8 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Unified 'NaN' Handling
 
-- All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed in a standardized manner using improved normalization logic.
-- When explicit NaN values are not allowed, providing them triggers a fallback mechanism (if a valid fallback is given) and logs a concise warning message. The error messages include details on the normalized input and acceptable formats, and also list any custom NaN variants that are configured.
+- All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed through a unified function that normalizes the input and applies fallback logic in a consistent manner.
+- When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a concise warning message. The warning message includes details on the normalized input, acceptable formats, and any custom NaN variants configured.
 - To explicitly accept NaN inputs, use the `--allow-nan` flag.
 
 ### Custom NaN Variants
