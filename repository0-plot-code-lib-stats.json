@@ -5,10 +5,15 @@
   "openIssues": 100,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Enhanced numeric parsing to include custom NaN variants in error messages and improved fallback guidance. (fixes #1833)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 1,
-  "diffMinutesMain": 12,
+  "diffMinutesMain": 16,
   "commitsLastHour": 5,
   "commitsLastDay": 97,
   "lastFiveCommitMessages": [
@@ -34,11 +39,16 @@
     }
   ],
   "branches": {
-    "count": 0,
-    "details": []
+    "count": 1,
+    "details": [
+      {
+        "branch": "agentic-lib-issue-1833",
+        "minutesSinceLastCommit": 1
+      }
+    ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T13:30:46.753Z"
+  "generatedAt": "2025-04-11T13:34:45.430Z"
 }
