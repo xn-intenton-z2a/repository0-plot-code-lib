@@ -27,12 +27,11 @@ const globalConfigSchema = z.object({
 function isNaNVariant(str, additionalVariants = []) {
   const trimmed = str.trim();
   const normalized = trimmed.toLowerCase();
-  // Check default NaN variants using case-insensitive regex
+  // Check default NaN variants using regex (handles optional + or - signs)
   const defaultNaN = /^[+-]?nan$/i.test(trimmed);
   // Normalize additional variants for uniform comparison
   const cleanedAdditional = additionalVariants.map(v => v.trim().toLowerCase());
-  const customNaN = cleanedAdditional.includes(normalized);
-  return defaultNaN || customNaN;
+  return defaultNaN || cleanedAdditional.includes(normalized);
 }
 
 // Enhanced helper function: normalizeNumberString removes thousand separators based on locale and optionally preserves the decimal point
@@ -114,7 +113,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   // If the input string is recognized as a NaN variant
   if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (strict) {
-      throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'.`);
+      throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'.`);
     }
     if (allowNaN) {
       return NaN;
@@ -134,17 +133,17 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       }
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000.`;
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
-    throw Object.assign(new Error(`${errorMsg} Normalized input: '${trimmedInput}'.`), { originalInput: trimmedInput });
+    throw Object.assign(new Error(errorMsg), { originalInput: trimmedInput });
   }
 
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (strict) {
-      throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'.`);
+      throw new Error(`Strict mode: Invalid numeric input '${trimmedInput}'. Normalized input: '${normalized}'.`);
     }
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       const logMessage = JSON.stringify({
@@ -161,11 +160,11 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
       }
       return Number(fallbackNumber);
     }
-    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000.`;
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
-    throw Object.assign(new Error(`${errorMsg} Normalized input: '${trimmedInput}'.`), { originalInput: trimmedInput });
+    throw Object.assign(new Error(errorMsg), { originalInput: trimmedInput });
   }
   return num;
 }
