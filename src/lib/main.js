@@ -108,7 +108,18 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
   }
   const rows = content.trim().split("\n");
   return rows.map(row => {
-    return row.split(",").map(cell => processNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal));
+    let cells = [];
+    if (preserveDecimal) {
+      // Use regex to match numbers including those with thousand separators or the literal NaN
+      const matches = row.match(/(?:NaN|-?\d+(?:,\d{3})*(?:\.\d+)?)/gi);
+      if (matches === null) {
+        throw new Error("No numeric data found in row.");
+      }
+      cells = matches;
+    } else {
+      cells = row.split(",");
+    }
+    return cells.map(cell => processNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal));
   });
 }
 

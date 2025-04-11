@@ -126,7 +126,7 @@ export PRESERVE_DECIMAL=true
 repository0-plot-code-lib --number=1,234.56
 ```
 
-When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`).
+When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`). Note: In CSV files with preserve-decimal enabled, the importer uses a regex-based parser to correctly capture numbers with thousand separators.
 
 ### CSV Data Import
 
