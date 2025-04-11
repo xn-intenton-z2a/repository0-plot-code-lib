@@ -20,7 +20,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // Example of running the main function with unified 'NaN' handling
     // This example demonstrates how NaN variants (e.g., 'NaN', '+NaN', '-NaN') are processed.
     // When an invalid numeric input is provided without allowing NaN, if a fallback is provided via '--fallback-number' or the global configuration,
-    // the fallback value will be used (with a warning logged) and a warning will be issued. Otherwise, an error is thrown.
+    // the fallback value will be used (with a warning logged). Otherwise, an error is thrown. Consider enabling '--allow-nan' if you wish to accept NaN values.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -55,7 +55,9 @@ Usage: repository0-plot-code-lib <arguments>
 
 ### Unified 'NaN' Handling
 
-All numeric inputs, including signed variants, now follow a consistent handling approach across CSV, CLI, and environment variables. Variants such as `NaN`, `nan`, `+NaN`, and `-NaN` are normalized using a unified function. When an invalid numeric input is provided without allowing explicit NaN, if a fallback value is specified (either via `--fallback-number` or in the global configuration), the library will log a warning and substitute the fallback value. Without a fallback, an error is thrown.
+All numeric inputs, including signed variants, now follow a consistent handling approach across CSV, CLI, and environment variables. Variants such as `NaN`, `nan`, `+NaN`, and `-NaN` are normalized using a unified function.
+
+When an invalid numeric input is provided without enabling explicit NaN (via the `--allow-nan` flag or corresponding environment variable), consider providing a fallback value using `--fallback-number`. If no fallback is provided, an error is thrown with guidance on enabling explicit NaN or using a valid fallback.
 
 #### Example Usage:
 
