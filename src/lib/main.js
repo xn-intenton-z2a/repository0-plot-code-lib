@@ -88,6 +88,7 @@ function logError(chalkError, ...args) {
 }
 
 // NEW: Unified function to process numeric input with fallback and consistent warning logging
+// Finalized integration of custom NaN variants for consistent numeric parsing across CSV and CLI arguments
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn) {
   const trimmedInput = inputStr.trim();
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
@@ -120,10 +121,9 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// This function now delegates to processNumberInputUnified for standardized behavior.
+// This function delegates to processNumberInputUnified for standardized behavior.
 export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const config = getGlobalConfig();
-  // Normalize custom NaN variants to lower-case and trim them for consistent comparison
   const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
   return processNumberInputUnified(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn);
 }
@@ -181,7 +181,6 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 // It uses processNumberInputUnified for consistent behavior.
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const config = getGlobalConfig();
-  // Normalize custom NaN variants
   const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim().toLowerCase());
   // Use console.warn for fallback warnings to ensure warnings are logged in tests
   return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn);
@@ -193,7 +192,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed via processNumberInputUnified.
  * - When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats.
- * - If a fallback value is provided, it is applied and a warning is logged with a standardized message including the normalized input and recognized custom NaN variants if configured.
+ * - If a fallback value is provided, it is applied and a standardized warning is logged including the normalized input and recognized custom NaN variants if configured.
  * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
  *
  * @param {string[]} args - Command line arguments.
@@ -327,15 +326,17 @@ export async function main(args) {
     // Process STDIN input if available
     const inputStream = globalThis.__TEST_STDIN__ || process.stdin;
     let pipedData = "";
-    for await (const chunk of inputStream) {
-      pipedData += chunk;
-    }
-    if (pipedData.trim()) {
-      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter);
-      console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
-    } else {
-      throw new Error("CSV input is empty.");
-    }
+    (async () => {
+      for await (const chunk of inputStream) {
+        pipedData += chunk;
+      }
+      if (pipedData.trim()) {
+        const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter);
+        console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
+      } else {
+        throw new Error("CSV input is empty.");
+      }
+    })();
   } else if (!args || args.length === 0) {
     console.log(themeColors.usage("No arguments provided. Please provide valid arguments."));
     console.log(themeColors.usage("Usage: repository0-plot-code-lib <arguments>"));
