@@ -101,7 +101,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}' provided. Acceptable formats include standard numbers (e.g., 42), scientific notation (e.g., 1e3), and numbers with underscores/comma separators (e.g., 1_000, 1,000). Provide a valid number or use '--fallback-number'. Original input (normalized: '${normalized}').`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. Expected formats: 42, 1e3, 1_000, 1,000. Normalized input: '${normalized}'. Provide a valid number or use '--fallback-number'.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -112,7 +112,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}' provided. Acceptable formats include standard numbers (e.g., 42), scientific notation (e.g., 1e3), and numbers with underscores/comma separators (e.g., 1_000, 1,000). Provide a valid number or use '--fallback-number'. Original input (normalized: '${normalized}').`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. Expected formats: 42, 1e3, 1_000, 1,000. Normalized input: '${normalized}'. Provide a valid number or use '--fallback-number'.`);
     err.originalInput = trimmedInput;
     throw err;
   }
