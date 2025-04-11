@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Unified NaN handling across CSV CLI and environment inputs and enhanced numeric input error messages. (fixes #1794)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 17,
-  "commitsLastHour": 4,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 5,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "09:11",
+      "message": "Unified NaN handling across CSV CLI and environment inputs and e..."
+    },
     {
       "time": "08:54",
       "message": "Expand documentation for unified NaN handling and add CLI exampl..."
@@ -32,23 +31,14 @@
     {
       "time": "08:13",
       "message": "Enhance CSV importer with auto-detection of delimiters and updat..."
-    },
-    {
-      "time": "08:07",
-      "message": "Unified NaN parsing and fallback mechanisms across CLI and CSV i..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1794",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T09:11:15.503Z"
+  "generatedAt": "2025-04-11T09:12:18.795Z"
 }
