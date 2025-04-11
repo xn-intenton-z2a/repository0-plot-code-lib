@@ -80,7 +80,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">When processing numeric inputs that match the literal <code class="md-github">NaN</code> (in any casing), the CLI now uses a centralized logic that:</p>
 <ol class="md-github">
 <li class="md-github">If the user explicitly specifies a numeric argument as <code class="md-github">NaN</code> and the flag <code class="md-github">--allow-nan</code> is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), then the input is accepted and converted to JavaScript’s <code class="md-github">NaN</code>.</li>
-<li class="md-github">If the <code class="md-github">--allow-nan</code> flag is not provided, a fallback value is used if available via the <code class="md-github">--fallback-number</code> flag or <code class="md-github">FALLBACK_NUMBER</code> environment variable; otherwise, an error is thrown.</li>
+<li class="md-github">If the <code class="md-github">--allow-nan</code> flag is not provided, a fallback value is used if available via the <code class="md-github">--fallback-number</code> flag or <code class="md-github">FALLBACK_NUMBER</code> environment variable; otherwise, an error is thrown with enhanced logging that includes the original input value for easier debugging.</li>
 </ol>
 <p class="md-github">For example, using an explicit allow flag:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
@@ -95,7 +95,7 @@ repository0-plot-code-lib --number=NaN
 <p class="md-github">If no valid fallback is provided and the <code class="md-github">--allow-nan</code> flag is not set:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
 </code></pre>
-<p class="md-github">The CLI will output a standardized error message indicating that a valid number is required.</p>
+<p class="md-github">The CLI will output a standardized error message indicating that a valid number is required, and the error report (in verbose mode) will include the original numeric input that was received.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="csv-data-import" href="#csv-data-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Data Import</h3>
 <p class="md-github">The CLI now supports importing numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag or directly from STDIN when no file is provided. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).</p>
 <p class="md-github"><strong class="md-github">Note:</strong> If a cell in the CSV contains the literal <code class="md-github">NaN</code> (in any capitalization) and the <code class="md-github">--allow-nan</code> flag or <code class="md-github">ALLOW_EXPLICIT_NAN</code> is enabled, the importer accepts it as JavaScript’s <code class="md-github">NaN</code>; otherwise, it applies the fallback mechanism.</p>
@@ -115,6 +115,7 @@ repository0-plot-code-lib --number=NaN
 <li class="md-github"><strong class="md-github">libraryVersion</strong>: The current version of the library (sourced from package.json).</li>
 <li class="md-github"><strong class="md-github">timestamp</strong>: The ISO timestamp when the error occurred.</li>
 <li class="md-github"><strong class="md-github">envContext</strong>: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).</li>
+<li class="md-github"><strong class="md-github">originalNumericInput</strong>: The original numeric input that triggered the error, if available.</li>
 </ul>
 <p class="md-github">The CLI awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="example-global-configuration-file-repository0plotconfigjson" href="#example-global-configuration-file-repository0plotconfigjson"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Global Configuration File (.repository0plotconfig.json):</h4>
@@ -144,7 +145,7 @@ repository0-plot-code-lib --number=NaN
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T05:08:04.682Z</p>
+    <p>Generated on 2025-04-11T05:08:46.461Z</p>
   </footer>
 </body>
 </html>
