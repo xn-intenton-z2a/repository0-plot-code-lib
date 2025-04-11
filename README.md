@@ -70,7 +70,7 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. **Note:** Inputs explicitly equal to "NaN" (case-insensitive) are rejected with a clear error message. If a fallback value is provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, a clear log message indicates that the fallback value is applied.
+The numeric validation normalizes the input by removing locale-specific thousand separators before conversion. **Note:** Inputs explicitly equal to "NaN" (case-insensitive) are rejected with a clear error message that now includes detailed context information (original input, normalized input, and fallback value if provided). If a fallback value is provided via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, a clear log message indicates that the fallback value is applied.
 
 For example:
 
@@ -90,7 +90,7 @@ If an invalid numeric value is provided and no fallback is defined:
 repository0-plot-code-lib --number=NaN
 ```
 
-The CLI will output a concise error message. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace for debugging.
+The CLI will output a concise error message with enhanced context to aid debugging. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the full stack trace is included in the logs and error reports.
 
 ### CSV Data Import
 
@@ -108,7 +108,7 @@ The imported CSV data will be parsed into an array of arrays of numbers and prin
 
 When an error occurs, the CLI supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with extended error details including:
 
-- **errorMessage**: The error message.
+- **errorMessage**: The error message (which now includes detailed context for numeric validation errors).
 - **stackTrace**: The error's stack trace (if available).
 - **cliArgs**: The CLI arguments provided.
 - **libraryVersion**: The current version of the library (sourced from package.json).

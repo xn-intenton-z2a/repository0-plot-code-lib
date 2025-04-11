@@ -1,7 +1,25 @@
-import { describe, test, expect } from "vitest";
-import { parseCSV } from "../../src/lib/main.js";
+import { beforeEach, afterEach, describe, test, expect } from "vitest";
+import { parseCSV, main } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
+
+// Utility to capture console output
+let consoleOutput = [];
+const originalConsoleLog = console.log;
+const originalConsoleError = console.error;
+
+const mockedLog = output => consoleOutput.push(output);
+
+beforeEach(() => {
+  consoleOutput = [];
+  console.log = mockedLog;
+  console.error = mockedLog;
+});
+
+afterEach(() => {
+  console.log = originalConsoleLog;
+  console.error = originalConsoleError;
+});
 
 describe("CSV Importer", () => {
   const testCSVPath = path.join(process.cwd(), "test.csv");
@@ -34,5 +52,19 @@ describe("CSV Importer", () => {
     fs.writeFileSync(testCSVPath, csvContent);
     expect(() => parseCSV(testCSVPath)).toThrow(/Non-numeric value encountered in CSV/);
     fs.unlinkSync(testCSVPath);
+  });
+});
+
+describe("Numeric argument validation error reporting", () => {
+  test("throws error with detailed context when '--number=NaN' provided without fallback", async () => {
+    await expect(main(["--number=NaN", "--verbose"]))
+      .rejects
+      .toThrow(/Original input: NaN, Normalized input: NaN, Fallback: none/);
+  });
+
+  test("applies fallback when '--number=NaN' provided with fallback", async () => {
+    await expect(main(["--number=NaN", "--fallback-number=100", "--verbose"]))
+      .resolves
+      .toBeUndefined();
   });
 });
