@@ -1,5 +1,5 @@
 import { beforeEach, afterEach, describe, test, expect, vi } from "vitest";
-import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache, resetFallbackWarningCache } from "../../src/lib/main.js";
+import { parseCSV, normalizeNumberString, validateNumericArg, main, submitErrorReport, watchGlobalConfig, resetGlobalConfigCache, resetFallbackWarningCache, formatNumberOutput } from "../../src/lib/main.js";
 import fs from "fs";
 import path from "path";
 import { Readable } from 'stream';
@@ -570,5 +570,34 @@ describe("CLI Flag to Suppress NaN Fallback Warnings", () => {
     await main(["--suppress-nan-warnings", "--number=NaN", "--fallback-number=100", "--verbose"]);
     const hasWarn = consoleOutput.some(msg => msg.includes("NaNFallback"));
     expect(hasWarn).toBeFalsy();
+  });
+});
+
+// New Tests for Locale-Aware Numeric Output Formatting
+
+describe("Locale-Aware Numeric Output Formatting", () => {
+  test("formats number correctly for en-US locale", () => {
+    process.env.LOCALE = "en-US";
+    resetGlobalConfigCache();
+    expect(formatNumberOutput(1234.56)).toBe("1,234.56");
+  });
+  
+  test("formats number correctly for de-DE locale", () => {
+    process.env.LOCALE = "de-DE";
+    resetGlobalConfigCache();
+    expect(formatNumberOutput(1234.56)).toBe("1.234,56");
+  });
+
+  test("formats integer correctly", () => {
+    process.env.LOCALE = "en-US";
+    resetGlobalConfigCache();
+    expect(formatNumberOutput(1000000)).toBe("1,000,000");
+  });
+
+  test("formats large numbers with options", () => {
+    process.env.LOCALE = "en-US";
+    resetGlobalConfigCache();
+    const options = { style: "decimal", maximumFractionDigits: 2 };
+    expect(formatNumberOutput(987654321.123, options)).toBe("987,654,321.12");
   });
 });
