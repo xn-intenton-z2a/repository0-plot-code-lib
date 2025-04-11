@@ -256,7 +256,6 @@ describe("Numeric Parser Utility", () => {
   });
 
   test("logs warning when fallback is applied", () => {
-    // Override themeColors.error to use console.warn so that spy can catch it
     const themeColors = { info: msg => msg, error: console.warn };
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const result = validateNumericArg("nan", false, themeColors, "999");
@@ -424,9 +423,7 @@ describe("Custom NaN Variants Configuration", () => {
   test("recognizes additional custom NaN variant 'foo' as NaN", () => {
     fs.writeFileSync(configPath, JSON.stringify({ additionalNaNValues: ["foo"] }));
     const themeColors = { info: msg => msg, error: msg => msg };
-    // when not allowed, fallback should be applied
     expect(validateNumericArg("foo", false, themeColors, "123")).toBe(123);
-    // when allowed, returns NaN
     expect(Number.isNaN(validateNumericArg("foo", false, themeColors, "123", true))).toBeTruthy();
   });
 

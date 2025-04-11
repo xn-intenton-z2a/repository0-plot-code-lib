@@ -90,36 +90,31 @@ function logError(chalkError, ...args) {
 // NEW: Unified function to process numeric input with fallback and consistent warning logging
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn) {
   const trimmedInput = inputStr.trim();
+  const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
   if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      logger(`Warning: Detected invalid numeric input '${trimmedInput}'. Using fallback value ${fallbackNumber}.${additionalVariants.length ? " Recognized custom NaN variants: [" + additionalVariants.join(", ") + "]." : ""}`);
+      logger(`Warning: Non-numeric input '${trimmedInput}' detected (normalized as '${normalized}'). Fallback value ${fallbackNumber} applied.${additionalVariants.length ? " Recognized custom NaN variants: [" + additionalVariants.join(", ") + "]." : ""}`);
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
-    const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-    const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
-    err.originalInput = trimmedInput;
-    throw err;
+    throw Object.assign(new Error(`${errorMsg} Normalized input: '${normalized}'.`), { originalInput: trimmedInput });
   }
-  const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      logger(`Warning: Detected invalid numeric input '${trimmedInput}'. Using fallback value ${fallbackNumber}.${additionalVariants.length ? " Recognized custom NaN variants: [" + additionalVariants.join(", ") + "]." : ""}`);
+      logger(`Warning: Non-numeric input '${trimmedInput}' resulted in NaN after normalization ('${normalized}'). Fallback value ${fallbackNumber} applied.${additionalVariants.length ? " Recognized custom NaN variants: [" + additionalVariants.join(", ") + "]." : ""}`);
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
       errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
     }
-    const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
-    err.originalInput = trimmedInput;
-    throw err;
+    throw Object.assign(new Error(`${errorMsg} Normalized input: '${normalized}'.`), { originalInput: trimmedInput });
   }
   return num;
 }
@@ -197,8 +192,8 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  *
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed via processNumberInputUnified.
- * - When explicit NaN values are not allowed (default) and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats.
- * - If a fallback value is provided, it is applied and a warning is logged with a streamlined message including expected input formats and recognized custom NaN variants if configured.
+ * - When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with clear instructions and details about allowed formats.
+ * - If a fallback value is provided, it is applied and a warning is logged with a standardized message including the normalized input and recognized custom NaN variants if configured.
  * - Additional custom NaN variants can be configured via the global configuration file (.repository0plotconfig.json).
  *
  * @param {string[]} args - Command line arguments.

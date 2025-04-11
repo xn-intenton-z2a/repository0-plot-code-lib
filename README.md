@@ -19,8 +19,8 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
   try {
     // Example: Running the main function with unified 'NaN' handling.
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed using a consolidated fallback mechanism.
-    // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance.
-    // If a fallback value is provided, it is applied and a consistent warning is logged including any custom NaN variants configured.
+    // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance including the normalized value and recognized custom NaN variants.
+    // If a fallback value is provided, it is applied and a standardized warning is logged.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -75,8 +75,8 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Unified 'NaN' Handling
 
-- All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed through a unified function that normalizes the input and applies fallback logic in a consistent manner.
-- When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a concise warning message. The warning message includes details on the normalized input, acceptable formats, and any custom NaN variants configured.
+- All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed via a unified function that normalizes the input and applies a consistent fallback logic.
+- When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a standardized warning message that includes the normalized value and details on recognized custom NaN variants.
 - To explicitly accept NaN inputs, use the `--allow-nan` flag.
 
 ### Custom NaN Variants
@@ -89,7 +89,7 @@ You can define additional string values to be recognized as NaN using the global
 }
 ```
 
-This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The error and warning messages will explicitly list these custom variants.
+This configuration ensures that occurrences of "foo" or "bar" in numeric inputs are treated as NaN, following the same fallback and warning mechanisms as standard NaN inputs. The warning messages will explicitly list these custom variants when applied.
 
 ### Global Configuration for NaN Handling
 
@@ -136,9 +136,7 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 ### Automatic Error Reporting with Configurable Retry
 
-When an error occurs, the CLI automatically submits an error report (if `ERROR_REPORTING_URL` is set). The report includes error details, CLI arguments, library version, timestamp, and more.
-
-A retry mechanism is in place, configurable via `ERROR_RETRY_DELAYS` and `ERROR_MAX_ATTEMPTS` in your configuration or environment variables.
+When an error occurs, the CLI automatically submits an error report (if `ERROR_REPORTING_URL` is set). The report includes error details, CLI arguments, library version, timestamp, and more. A retry mechanism (configurable via `ERROR_RETRY_DELAYS` and `ERROR_MAX_ATTEMPTS`) ensures robust error reporting.
 
 ---
 
