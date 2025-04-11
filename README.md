@@ -76,6 +76,10 @@ Usage: repository0-plot-code-lib <arguments>
   
   Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same input in batch processing are consolidated to improve log clarity.
 
+#### Automatic Warning Cache Reset
+
+The library now automatically resets the NaN fallback warning cache at the end of each batch process (e.g. after a CSV import or CLI execution). This ensures that warnings for identical NaN inputs are logged in subsequent batches even if they were suppressed within a single batch.
+
 #### Locale-Aware Numeric Output Formatting
 
 A new utility function, `formatNumberOutput`, has been added to format numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:
@@ -107,7 +111,8 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 
 - All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard whitespace) are processed using unified functions that apply locale-aware normalization and consistent fallback logic.
 - When a NaN variant is detected and explicit NaN values are disallowed, a standardized structured JSON warning is logged. This warning includes the original input (trimmed), its normalized form, the applied fallback value, any custom NaN variants, and the locale in use.
-- **Warning Consolidation:** Multiple occurrences of the same invalid input with the same fallback configuration trigger only one warning, avoiding log clutter.
+- **Warning Consolidation:** Multiple occurrences of the same invalid input with the same fallback configuration trigger only one warning within a single batch, avoiding log clutter.
+- **Automatic Cache Reset:** After each batch process, the warning cache is reset, ensuring that warnings are not permanently suppressed across separate executions.
 - **Signed NaN Variants:** In strict mode, signed variants such as '+NaN' and '-NaN' trigger an explicit error. In non-strict mode, they are treated as NaN variants and the fallback value is applied if needed.
 
 ### Custom NaN Variants
@@ -205,7 +210,7 @@ The `--debug-trace` flag activates a detailed execution trace that outputs struc
 
 ---
 
-*Note:* The warning messages for NaN fallbacks have been refactored for a standardized format across both CLI numeric arguments and CSV inputs.
+*Note:* The warning messages for NaN fallbacks have been refactored for a standardized format across both CLI numeric arguments and CSV inputs. The fallback warning cache is automatically reset between batch processes to ensure that warnings are logged for each new batch.
 
 ## License
 

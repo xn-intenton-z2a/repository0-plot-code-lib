@@ -573,6 +573,25 @@ describe("CLI Flag to Suppress NaN Fallback Warnings", () => {
   });
 });
 
+// New Test Suite for Reset Warning Cache Between Batches
+
+describe("Reset Warning Cache Between Batches", () => {
+  test("warnings are re-logged after cache reset", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    // First batch: multiple calls in the same batch should log only once.
+    validateNumericArg("NaN", false, themeColors, "100");
+    validateNumericArg("NaN", false, themeColors, "100");
+    expect(warnSpy).toHaveBeenCalledTimes(1);
+    // Simulate end of batch by resetting cache
+    resetFallbackWarningCache();
+    // Second batch: should log warning again
+    validateNumericArg("NaN", false, themeColors, "100");
+    expect(warnSpy).toHaveBeenCalledTimes(2);
+    warnSpy.mockRestore();
+  });
+});
+
 // New Tests for Locale-Aware Numeric Output Formatting
 
 describe("Locale-Aware Numeric Output Formatting", () => {
