@@ -296,6 +296,11 @@ describe("Numeric Parser Utility", () => {
     expect(validateNumericArg("1e3", false, themeColors, undefined, false, false)).toBe(1000);
     expect(validateNumericArg("1.2e-3", false, themeColors, undefined, false, true)).toBeCloseTo(0.0012);
   });
+
+  test("normalizeNumberString removes non-standard Unicode whitespace", () => {
+    // Using non-breaking space (\u00A0) between digits
+    expect(normalizeNumberString("1\u00A0,000", false)).toBe("1000");
+  });
 });
 
 describe("CSV STDIN Importer", () => {
@@ -423,6 +428,12 @@ describe("Whitespace variant of NaN handling", () => {
   test("should apply fallback for input with spaces around NaN", () => {
     const themeColors = { info: msg => msg, error: msg => msg };
     expect(validateNumericArg("  NaN  ", false, themeColors, "500")).toBe(500);
+  });
+
+  test("applies fallback for input with non-standard whitespace around NaN", () => {
+    const themeColors = { info: msg => msg, error: msg => msg };
+    // Use non-breaking space and full-width space
+    expect(validateNumericArg("\u00A0NaN\u3000", false, themeColors, "600")).toBe(600);
   });
 });
 
