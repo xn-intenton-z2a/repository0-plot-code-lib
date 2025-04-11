@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Enhanced NaN variant recognition to respect CASE_SENSITIVE_NAN configuration consistently across CLI and CSV import. (fixes #1899)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 13,
-  "commitsLastHour": 4,
-  "commitsLastDay": 98,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 5,
+  "commitsLastDay": 99,
   "lastFiveCommitMessages": [
+    {
+      "time": "21:12",
+      "message": "Enhanced NaN variant recognition to respect CASE_SENSITIVE_NAN c..."
+    },
     {
       "time": "20:59",
       "message": "Consolidated duplicate NaN fallback warnings in batch processing..."
@@ -32,23 +31,14 @@
     {
       "time": "20:27",
       "message": "Added --debug-trace flag for extended CLI execution trace and up..."
-    },
-    {
-      "time": "20:10",
-      "message": "Fixed NaN variant detection to handle signed NaN variants correc..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1899",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T21:12:35.492Z"
+  "generatedAt": "2025-04-11T21:13:36.159Z"
 }

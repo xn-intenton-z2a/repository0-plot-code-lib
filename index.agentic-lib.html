@@ -76,11 +76,11 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">--suppress-nan-warnings</strong></p>
-<p class="md-github">Use the <code class="md-github">--suppress-nan-warnings</code> flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same NaN input in batch processing are consolidated into a single log entry to maintain log clarity.</p>
+<p class="md-github">Use the <code class="md-github">--suppress-nan-warnings</code> flag to disable the structured JSON warnings that are normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same NaN input in batch processing are consolidated to improve log clarity.</p>
 </li>
 <li class="md-github">
 <p class="md-github"><strong class="md-github">CASE_SENSITIVE_NAN Configuration</strong></p>
-<p class="md-github">A new global configuration option, <code class="md-github">CASE_SENSITIVE_NAN</code>, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including case) will be treated as such. For example, if enabled, an input of &quot;nan&quot; (all lowercase) would not be treated as a NaN variant, whereas &quot;NaN&quot; would be recognized. This provides finer control over numeric parsing behaviors.</p>
+<p class="md-github">A new global configuration option, <code class="md-github">CASE_SENSITIVE_NAN</code>, allows you to choose if matching of NaN variants should be case sensitive. When enabled (set to true in the global configuration file or environment variable), only inputs that exactly match the defined NaN variants (including any custom variants) will be treated as such. For example, if enabled, an input of &quot;nan&quot; (all lowercase) would not be treated as a NaN variant, whereas &quot;NaN&quot; would be recognized.</p>
 <p class="md-github">Example configuration:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;CASE_SENSITIVE_NAN&quot;: true
@@ -104,7 +104,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">To enforce strict validation without fallback, use the <code class="md-github">--strict-numeric</code> flag.</li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="custom-nan-variants" href="#custom-nan-variants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom NaN Variants</h3>
-<p class="md-github">You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace (including non-standard whitespace). The new <code class="md-github">CASE_SENSITIVE_NAN</code> option lets you decide if the matching should be case sensitive.</p>
+<p class="md-github">You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are compared after trimming whitespace (including non-standard whitespace). The <code class="md-github">CASE_SENSITIVE_NAN</code> option lets you decide if the matching should be case sensitive.</p>
 <p class="md-github">Example configuration:</p>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;additionalNaNValues&quot;: [&quot;foo&quot;, &quot;bar&quot;],
@@ -172,7 +172,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T21:12:52.489Z</p>
+    <p>Generated on 2025-04-11T21:13:59.547Z</p>
   </footer>
 </body>
 </html>
