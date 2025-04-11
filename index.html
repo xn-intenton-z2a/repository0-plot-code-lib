@@ -76,7 +76,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with spaces as thousand separators (e.g., <code class="md-github">1 000</code>)</li>
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
-<p class="md-github"><strong class="md-github">Enhancement:</strong> The numeric validation logic has been refactored into the main module. The functions <code class="md-github">normalizeNumberString</code> and <code class="md-github">validateNumericArg</code> now serve as a single source of truth for numeric parsing. This change immediately rejects inputs equating to &quot;NaN&quot; (case-insensitive) before normalization and applies a fallback if provided via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable.</p>
+<p class="md-github"><strong class="md-github">Enhancement:</strong> The numeric validation logic has been refactored into the main module. The functions <code class="md-github">normalizeNumberString</code> and <code class="md-github">validateNumericArg</code> now perform a case-insensitive check for the literal 'NaN'. If an input exactly matches 'NaN' (in any casing) and no fallback is provided via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, an error is thrown with a clear message.</p>
 <p class="md-github">For example:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=42
 </code></pre>
@@ -141,7 +141,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T03:56:52.511Z</p>
+    <p>Generated on 2025-04-11T03:57:28.862Z</p>
   </footer>
 </body>
 </html>
