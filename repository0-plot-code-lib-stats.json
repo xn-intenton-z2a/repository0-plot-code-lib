@@ -9,10 +9,10 @@
   "prDetails": [
     {
       "title": "Enhanced numeric parsing with improved locale awareness custom NaN variants case sensitivity and added locale in structured fallback warnings. (fixes #1880)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
+  "diffMinutes": 0,
   "diffMinutesMain": 13,
   "commitsLastHour": 5,
   "commitsLastDay": 97,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T19:22:26.620Z"
+  "generatedAt": "2025-04-11T19:23:08.354Z"
 }
