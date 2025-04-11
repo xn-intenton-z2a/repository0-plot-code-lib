@@ -13,7 +13,7 @@ You can use the library either as a JavaScript module or via the CLI. The CLI ou
 Import the main function and pass arguments as an array. In the event of errors, the function will throw exceptions allowing the consuming code to handle them appropriately.
 
 ```js
-import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/lib/main.js';
+import { main, parseCSV, normalizeNumberString, validateNumericArg, formatNumberOutput } from '@src/lib/main.js';
 
 (async () => {
   try {
@@ -31,6 +31,12 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // Scientific Notation Support
     console.log(normalizeNumberString('1,000e3', false));
     console.log(validateNumericArg('1.2e-3', false, { info: msg => msg, error: msg => msg }, undefined, false, true));
+
+    // Locale-Aware Numeric Output Formatting
+    // Format numbers based on locale. For example, in en-US: 1234.56 -> "1,234.56" and in de-DE: "1.234,56".
+    console.log(formatNumberOutput(1234.56));
+    // You can also pass options to customize formatting
+    console.log(formatNumberOutput(9876543.21, { style: 'decimal', maximumFractionDigits: 2 }));
   } catch (error) {
     console.error('An error occurred:', error);
   }
@@ -70,23 +76,20 @@ Usage: repository0-plot-code-lib <arguments>
   
   Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same input in batch processing are consolidated to improve log clarity.
 
-- **CASE_SENSITIVE_NAN Configuration**
+#### Locale-Aware Numeric Output Formatting
 
-  A new global configuration option, `CASE_SENSITIVE_NAN`, allows you to choose if matching of NaN variants should be case sensitive. When enabled (true), only inputs that exactly match the defined NaN variants (including custom NaN values) will be treated as such, ensuring precise control over which strings trigger fallback behavior. For example, with CASE_SENSITIVE_NAN set to true, an input of "NaN" is recognized as a NaN variant, while "nan" is not.
+A new utility function, `formatNumberOutput`, has been added to format numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:
 
-  Example configuration:
+- In **en-US**: `formatNumberOutput(1234.56)` returns "1,234.56".
+- In **de-DE**: `formatNumberOutput(1234.56)` returns "1.234,56".
 
-  ```json
-  {
-    "CASE_SENSITIVE_NAN": true
-  }
-  ```
+You can pass additional options conforming to the Intl.NumberFormat API to customize the output further.
 
-### File-based Logging
+#### File-based Logging
 
 You can log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file as well as printed to the console.
 
-#### Examples:
+##### Examples:
 
 Logging CLI output to a file:
 
@@ -120,11 +123,17 @@ Example configuration:
 }
 ```
 
-### Locale-Aware Numeric Parsing
+### Locale-Aware Numeric Parsing & Formatting
 
-The numeric parsing functions support different locale formats. For example:
-- In **en-US**: commas are treated as thousand separators and the period as a decimal point.
-- In **de-DE**: periods are thousand separators and commas are decimal points (with conversion applied when preserving decimals).
+The numeric parsing functions support different locale formats. In addition, the newly added `formatNumberOutput` function formats numbers for display according to the locale.
+
+- **Parsing (normalizeNumberString):**
+  - In **en-US**: commas are treated as thousand separators and the period as a decimal point.
+  - In **de-DE**: periods are thousand separators and commas are decimal points (with conversion applied when preserving decimals).
+
+- **Formatting (formatNumberOutput):**
+  - In **en-US**: numbers like 1234.56 are formatted as "1,234.56".
+  - In **de-DE**: the same number is formatted as "1.234,56".
 
 Set the locale in your configuration file or via the `LOCALE` environment variable:
 

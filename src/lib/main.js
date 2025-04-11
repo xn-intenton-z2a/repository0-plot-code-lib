@@ -687,6 +687,20 @@ function getThemeColors() {
   }
 }
 
+// New Utility Function: Format number output according to locale
+/**
+ * Format a number according to the locale.
+ * @param {number} num - The number to format.
+ * @param {object} options - Optional formatting options passed to Intl.NumberFormat.
+ * @returns {string} The locale-formatted number string.
+ */
+export function formatNumberOutput(num, options = {}) {
+  const config = getGlobalConfig();
+  const locale = config.LOCALE || 'en-US';
+  const formatter = new Intl.NumberFormat(locale, options);
+  return formatter.format(num);
+}
+
 // Export watchGlobalConfig for testing purposes
 export { watchGlobalConfig };
 
