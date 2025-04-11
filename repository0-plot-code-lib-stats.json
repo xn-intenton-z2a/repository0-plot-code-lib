@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Implemented locale-aware numeric parsing with a new LOCALE configuration option and updated tests and documentation accordingly. (fixes #1855)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 10,
+  "diffMinutes": 0,
+  "diffMinutesMain": 11,
   "commitsLastHour": 4,
   "commitsLastDay": 94,
   "lastFiveCommitMessages": [
@@ -43,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1855",
-        "minutesSinceLastCommit": 1
+        "minutesSinceLastCommit": 2
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T16:08:16.196Z"
+  "generatedAt": "2025-04-11T16:08:58.966Z"
 }
