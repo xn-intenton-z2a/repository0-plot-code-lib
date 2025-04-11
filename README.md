@@ -91,6 +91,18 @@ repository0-plot-code-lib --number=NaN
 
 The CLI will output a concise error message. In verbose mode (or when `LOG_LEVEL` is set to `debug`), the error message includes a full stack trace for debugging.
 
+### CSV Data Import
+
+The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag. The CSV file should contain numeric values separated by commas and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators).
+
+For example:
+
+```bash
+repository0-plot-code-lib --csv-file=path/to/data.csv
+```
+
+The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme. This data can be used for plotting or further processing.
+
 ### Automatic Error Reporting
 
 When an error occurs, the CLI supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with extended error details including:
