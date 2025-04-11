@@ -9,7 +9,7 @@
   "prDetails": [
     {
       "title": "Standardized NaN handling across numeric parsing functions with enhanced fallback logic. (fixes #1777)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
   "diffMinutes": 0,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T07:25:55.125Z"
+  "generatedAt": "2025-04-11T07:26:20.218Z"
 }
