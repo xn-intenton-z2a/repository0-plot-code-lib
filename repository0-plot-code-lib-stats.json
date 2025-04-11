@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 8,
+  "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Standardize NaN input handling improving fallback consistency and error messaging in numeric parsing. (fixes #1814)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 11,
-  "commitsLastHour": 4,
-  "commitsLastDay": 97,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 5,
+  "commitsLastDay": 98,
   "lastFiveCommitMessages": [
+    {
+      "time": "11:39",
+      "message": "Standardize NaN input handling improving fallback consistency an..."
+    },
     {
       "time": "11:26",
       "message": "Standardize NaN variant handling across CLI and CSV imports with..."
@@ -32,23 +31,14 @@
     {
       "time": "10:44",
       "message": "Refined NaN parsing error messages and consolidated fallback mec..."
-    },
-    {
-      "time": "10:37",
-      "message": "Standardized error messages and handling for signed NaN variants..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1814",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T11:38:48.862Z"
+  "generatedAt": "2025-04-11T11:39:48.575Z"
 }
