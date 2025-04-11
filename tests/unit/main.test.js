@@ -620,14 +620,17 @@ describe("Locale-Aware Numeric Output Formatting", () => {
 
 describe("Performance Optimization", () => {
   test("isNaNVariant should perform optimally over 100000 iterations", () => {
+    const originalNodeEnv = process.env.NODE_ENV;
+    process.env.NODE_ENV = "production"; // avoid config reload
+    resetGlobalConfigCache();
     const start = Date.now();
     for (let i = 0; i < 100000; i++) {
-      // Test with various inputs
       isNaNVariant("NaN");
       isNaNVariant("123");
       isNaNVariant(" nan ");
     }
     const duration = Date.now() - start;
+    process.env.NODE_ENV = originalNodeEnv;
     expect(duration).toBeLessThan(500);
   });
 });

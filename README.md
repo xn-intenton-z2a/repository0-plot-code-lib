@@ -212,4 +212,4 @@ The `--debug-trace` flag activates a detailed execution trace that outputs struc
 
 ---
 
-*Note:* The warning messages for NaN fallbacks have been refactored for a standardized format across both CLI numeric arguments and CSV inputs. The fallback warning cache is automatically reset between batch processes to ensure that warnings are logged for each new batch.
+*Note:* The unified NaN handling has been enhanced to include improved memoization, case-sensitive matching based on configuration, and robust warning deduplication. The cache resets after each batch to ensure clarity in logs.

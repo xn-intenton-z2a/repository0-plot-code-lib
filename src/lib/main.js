@@ -118,6 +118,15 @@ function cleanString(str) {
   return str.normalize("NFKC").replace(whiteSpaceRegex, " ").trim();
 }
 
+// New helper: retrieves custom NaN variants from configuration in a normalized form
+function getCustomNaNVariants(config) {
+  if (!config.additionalNaNValues) return [];
+  return config.additionalNaNValues.map(v => {
+    let cleaned = cleanString(v);
+    return config.CASE_SENSITIVE_NAN ? cleaned : cleaned.toLowerCase();
+  });
+}
+
 // Helper function to format standardized warning message for NaN fallbacks
 function formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale) {
   return JSON.stringify({
@@ -132,26 +141,19 @@ function formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVa
 }
 
 // Consolidated helper function to check if a string represents a NaN variant
-// Optimized to use memoization to avoid redundant computations
+// Optimized to use memoization and refined normalization including custom NaN variants
 function isNaNVariant(input, additionalVariants = []) {
-  const cacheKey = input + '|' + additionalVariants.join(",");
-  if (isNaNVariantCache.has(cacheKey)) return isNaNVariantCache.get(cacheKey);
-
-  const cleanedInput = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
-  const builtInVariants = caseSensitive ? NAN_BUILT_INS_CASE : NAN_BUILT_INS;
+  const cleanedInput = cleanString(input);
   const inputToCompare = caseSensitive ? cleanedInput : cleanedInput.toLowerCase();
-  let result;
-  if (builtInVariants.has(inputToCompare)) {
-    result = true;
-  } else {
-    const customVariants = (config.additionalNaNValues || []).map(v => {
-      let cleaned = cleanString(v);
-      return caseSensitive ? cleaned : cleaned.toLowerCase();
-    });
-    result = customVariants.includes(inputToCompare);
-  }
+  const builtInVariants = caseSensitive ? NAN_BUILT_INS_CASE : NAN_BUILT_INS;
+  // Determine effective additional variants: use passed additionalVariants if provided, else from config
+  let effectiveAdditionalVariants = additionalVariants && additionalVariants.length > 0 ? additionalVariants : getCustomNaNVariants(config);
+  const cacheKey = cleanedInput + "|" + effectiveAdditionalVariants.join(",");
+  if (isNaNVariantCache.has(cacheKey)) return isNaNVariantCache.get(cacheKey);
+
+  let result = builtInVariants.has(inputToCompare) || effectiveAdditionalVariants.includes(inputToCompare);
   isNaNVariantCache.set(cacheKey, result);
   return result;
 }
@@ -174,7 +176,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   }
   let errorMsg = `Invalid numeric input '${originalInput}' (Locale: ${config.LOCALE || "en-US"}). Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
@@ -384,7 +386,7 @@ export async function main(args) {
     }
 
     let fallbackNumber = undefined;
-    let allowNaN = false;
+    let allowNan = false;
     let preserveDecimal = false;
     let csvDelimiter = '';
     let strictNumeric = false;
@@ -396,7 +398,7 @@ export async function main(args) {
           return false;
         }
         if (arg === '--allow-nan') {
-          allowNaN = true;
+          allowNan = true;
           return false;
         }
         if (arg === '--preserve-decimal') {
@@ -420,8 +422,8 @@ export async function main(args) {
     if (!fallbackNumber && process.env.FALLBACK_NUMBER) {
       fallbackNumber = process.env.FALLBACK_NUMBER;
     }
-    if (!allowNaN && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === 'true') {
-      allowNaN = true;
+    if (!allowNan && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === 'true') {
+      allowNan = true;
     }
 
     let themeFlag = null;
@@ -460,7 +462,7 @@ export async function main(args) {
     if (debugTrace) {
       debugData.argParsing = {
         fallbackNumber,
-        allowNaN,
+        allowNan,
         preserveDecimal,
         csvDelimiter,
         strictNumeric,
@@ -491,7 +493,7 @@ export async function main(args) {
     }
 
     if (globalConfig.ALLOW_NAN !== undefined) {
-      allowNaN = globalConfig.ALLOW_NAN;
+      allowNan = globalConfig.ALLOW_NAN;
     }
 
     if (!process.env.CLI_COLOR_SCHEME && globalConfig.CLI_COLOR_SCHEME) {
@@ -518,7 +520,7 @@ export async function main(args) {
 
     if (csvFilePath) {
       try {
-        const csvData = parseCSV(csvFilePath, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
+        const csvData = parseCSV(csvFilePath, fallbackNumber, allowNan, preserveDecimal, csvDelimiter, strictNumeric);
         console.log(themeColors.info("Imported CSV Data: ") + JSON.stringify(csvData));
         if (debugTrace) {
           debugData.csvProcessing = {
@@ -542,7 +544,7 @@ export async function main(args) {
           pipedData += chunk;
         }
         if (pipedData.trim()) {
-          const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter, strictNumeric);
+          const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNan, preserveDecimal, csvDelimiter, strictNumeric);
           console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
           if (debugTrace) {
             debugData.csvProcessing = {
@@ -571,7 +573,7 @@ export async function main(args) {
       for (const arg of args) {
         if (arg.startsWith(numberFlagPrefix)) {
           const numStr = arg.slice(numberFlagPrefix.length);
-          const result = validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal, strictNumeric);
+          const result = validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNan, preserveDecimal, strictNumeric);
           numericDebug.push({ input: numStr, result });
         }
       }
