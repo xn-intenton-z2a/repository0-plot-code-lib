@@ -81,8 +81,9 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <ol class="md-github">
 <li class="md-github">If the <code class="md-github">--allow-nan</code> flag is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), the value is accepted as JavaScript’s <code class="md-github">NaN</code>.</li>
 <li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used uniformly.</li>
-<li class="md-github">Otherwise, a standardized error is thrown, including both the original input and its normalized form, to help in debugging.</li>
+<li class="md-github">Otherwise, a clear and detailed error is thrown, including both the original and normalized input.</li>
 </ol>
+<p class="md-github">The library now consistently processes inputs representing <code class="md-github">NaN</code> in all numeric contexts.</p>
 <p class="md-github">For example, to allow explicit NaN:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
 </code></pre>
@@ -135,7 +136,7 @@ repository0-plot-code-lib --number=1,234.56
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T07:27:53.520Z</p>
+    <p>Generated on 2025-04-11T07:28:57.724Z</p>
   </footer>
 </body>
 </html>
