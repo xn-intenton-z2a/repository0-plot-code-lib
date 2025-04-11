@@ -76,63 +76,40 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">Numbers with spaces as thousand separators (e.g., <code class="md-github">1 000</code>)</li>
 <li class="md-github">Numbers with periods as thousand separators when appropriate (e.g., <code class="md-github">1.000</code> interpreted as 1000 if used for grouping)</li>
 </ul>
-<p class="md-github"><strong class="md-github">Unified Fallback Mechanism and Standardized NaN Handling:</strong></p>
-<p class="md-github">The CLI's numeric input processing now handles any input matching 'NaN' (in any casing) uniformly. When an input matches 'NaN':</p>
+<p class="md-github"><strong class="md-github">Unified 'NaN' Handling and Fallback Mechanism:</strong></p>
+<p class="md-github">All numeric inputs are processed using a consolidated logic that handles the case-insensitive string <code class="md-github">NaN</code>. When an input matches <code class="md-github">NaN</code> (any casing):</p>
 <ol class="md-github">
 <li class="md-github">If the <code class="md-github">--allow-nan</code> flag is provided (or the environment variable <code class="md-github">ALLOW_EXPLICIT_NAN</code> is set to <code class="md-github">true</code>), the value is accepted as JavaScript’s <code class="md-github">NaN</code>.</li>
-<li class="md-github">If the flag is not provided, and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used.</li>
-<li class="md-github">Otherwise, a standardized error is thrown including both the original input and its normalized form.</li>
+<li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used.</li>
+<li class="md-github">Otherwise, a standardized error is thrown, including both the original input and its normalized form.</li>
 </ol>
-<p class="md-github">For example, using an explicit allow flag:</p>
+<p class="md-github">For example, to allow explicit NaN:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
 </code></pre>
 <p class="md-github">Or with a fallback when not allowed:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --fallback-number=100
 </code></pre>
-<p class="md-github">Or relying on an environment variable for fallback (ensure <code class="md-github">FALLBACK_NUMBER</code> is set):</p>
-<pre class="md-github"><code class="md-github language-bash">export FALLBACK_NUMBER=100
-repository0-plot-code-lib --number=NaN
-</code></pre>
-<p class="md-github">If no valid fallback is provided and the <code class="md-github">--allow-nan</code> flag is not set:</p>
-<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN
-</code></pre>
-<p class="md-github">The CLI will output a standardized error message indicating that a valid number is required. This behavior is case-insensitive, so inputs like <code class="md-github">nan</code>, <code class="md-github">NAN</code>, or <code class="md-github">NaN</code> are all treated equivalently.</p>
+<p class="md-github">Ensure that if no valid fallback is provided and the <code class="md-github">--allow-nan</code> flag is not set, a clear error is displayed.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="decimal-point-parsing" href="#decimal-point-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Decimal Point Parsing</h3>
-<p class="md-github">A new configuration option has been introduced to control how periods are treated within numeric inputs. By default, periods are removed as thousand separators to ensure backward compatibility. However, if you want to parse decimal numbers correctly, you can enable decimal preservation:</p>
-<ul class="md-github">
-<li class="md-github">Use the CLI flag <code class="md-github">--preserve-decimal</code>:</li>
-</ul>
+<p class="md-github">A new configuration option controls whether periods in numeric inputs are preserved as decimal points. By default, periods are removed as thousand separators for backward compatibility. To preserve decimals, use the CLI flag <code class="md-github">--preserve-decimal</code> or set the environment variable <code class="md-github">PRESERVE_DECIMAL=true</code>.</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --preserve-decimal --number=1,234.56
 </code></pre>
-<ul class="md-github">
-<li class="md-github">Or set the environment variable <code class="md-github">PRESERVE_DECIMAL=true</code> before running the CLI:</li>
-</ul>
+<p class="md-github">or</p>
 <pre class="md-github"><code class="md-github language-bash">export PRESERVE_DECIMAL=true
 repository0-plot-code-lib --number=1,234.56
 </code></pre>
-<p class="md-github">When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., <code class="md-github">1,234.56</code> becomes <code class="md-github">1234.56</code>).</p>
+<p class="md-github">When enabled, underscores, commas, and spaces are removed, but periods are retained so that decimal numbers are correctly interpreted (e.g., <code class="md-github">1,234.56</code> becomes <code class="md-github">1234.56</code>).</p>
 <h3 class="md-github"><a class="md-github__anchor" name="csv-data-import" href="#csv-data-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Data Import</h3>
-<p class="md-github">The CLI now supports importing numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag or directly from STDIN when no file is provided. Additionally, a new flag <code class="md-github">--csv-delimiter=&lt;delimiter&gt;</code> allows you to specify a custom delimiter for parsing CSV data. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by the chosen delimiter and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators by default or preserved as decimal points when enabled).</p>
-<p class="md-github"><strong class="md-github">Note:</strong> Cells containing the literal <code class="md-github">NaN</code> (in any capitalization) are handled consistently as described above.</p>
+<p class="md-github">The CLI supports importing numeric data from a CSV file using the <code class="md-github">--csv-file=&lt;path&gt;</code> flag or directly from STDIN when no file is provided. Additionally, the <code class="md-github">--csv-delimiter=&lt;delimiter&gt;</code> flag allows you to specify a custom delimiter. The CSV importer processes each cell using the unified numeric parsing logic, ensuring consistent handling of numbers and <code class="md-github">NaN</code> values as described above.</p>
 <p class="md-github">For example, from a file with a semicolon delimiter:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --csv-file=path/to/data.csv --csv-delimiter=&quot;;&quot; --fallback-number=100
 </code></pre>
-<p class="md-github">Or piping data via STDIN with a custom delimiter:</p>
+<p class="md-github">Or piping data via STDIN:</p>
 <pre class="md-github"><code class="md-github language-bash">echo &quot;1;2;3\n4;5;6&quot; | repository0-plot-code-lib --csv-delimiter=&quot;;&quot; --fallback-number=100
 </code></pre>
 <p class="md-github">The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting" href="#automatic-error-reporting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting</h3>
-<p class="md-github">When an error occurs, the CLI supports automatic error report submission. If the configuration parameter <code class="md-github">ERROR_REPORTING_URL</code> is defined (either in the global configuration file <code class="md-github">.repository0plotconfig.json</code> or via the environment variable), the CLI will automatically submit a POST request with extended error details including:</p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">errorMessage</strong>: The error message (which now includes detailed context for numeric validation errors).</li>
-<li class="md-github"><strong class="md-github">stackTrace</strong>: The error's stack trace (if available).</li>
-<li class="md-github"><strong class="md-github">cliArgs</strong>: The CLI arguments provided.</li>
-<li class="md-github"><strong class="md-github">libraryVersion</strong>: The current version of the library (sourced from package.json).</li>
-<li class="md-github"><strong class="md-github">timestamp</strong>: The ISO timestamp when the error occurred.</li>
-<li class="md-github"><strong class="md-github">envContext</strong>: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).</li>
-<li class="md-github"><strong class="md-github">originalNumericInput</strong>: The original numeric input that triggered the error, if available.</li>
-</ul>
-<p class="md-github">The CLI awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.</p>
+<p class="md-github">When an error occurs, the CLI can automatically submit an error report if the <code class="md-github">ERROR_REPORTING_URL</code> is defined (either in the global configuration file or as an environment variable). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and relevant environment variables, as well as the original numeric input if applicable.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="example-global-configuration-file-repository0plotconfigjson" href="#example-global-configuration-file-repository0plotconfigjson"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Global Configuration File (.repository0plotconfig.json):</h4>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
@@ -143,24 +120,22 @@ repository0-plot-code-lib --number=1,234.56
 }
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration-file-support" href="#global-configuration-file-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration File Support</h3>
-<p class="md-github">A new feature allows you to set persistent default options without having to specify them every time you run the CLI.</p>
-<p class="md-github">The CLI will look for a global configuration file named <code class="md-github">.repository0plotconfig.json</code> in the current working directory and in your home directory (using the <code class="md-github">HOME</code> or <code class="md-github">USERPROFILE</code> environment variable). This file enforces a strict schema. Supported configuration keys are:</p>
+<p class="md-github">You can set persistent default options in a global configuration file named <code class="md-github">.repository0plotconfig.json</code> located in the current working directory or your home directory. Supported configuration keys include:</p>
 <ul class="md-github">
-<li class="md-github"><code class="md-github">CLI_COLOR_SCHEME</code> (string, e.g., &quot;dark&quot;, &quot;light&quot;, or &quot;default&quot;)</li>
-<li class="md-github"><code class="md-github">LOG_LEVEL</code> (string, e.g., &quot;debug&quot;, &quot;info&quot;, etc.)</li>
-<li class="md-github"><code class="md-github">ERROR_REPORTING_URL</code> (string, must be a valid URL)</li>
+<li class="md-github"><code class="md-github">CLI_COLOR_SCHEME</code> (e.g., &quot;dark&quot;, &quot;light&quot;, or &quot;default&quot;)</li>
+<li class="md-github"><code class="md-github">LOG_LEVEL</code> (e.g., &quot;debug&quot;, &quot;info&quot;, etc.)</li>
+<li class="md-github"><code class="md-github">ERROR_REPORTING_URL</code> (must be a valid URL)</li>
 <li class="md-github"><code class="md-github">defaultArgs</code> (array of strings)</li>
-<li class="md-github"><code class="md-github">FALLBACK_NUMBER</code> (string, representing a numeric fallback value)</li>
+<li class="md-github"><code class="md-github">FALLBACK_NUMBER</code> (string representing a numeric fallback value)</li>
 </ul>
-<p class="md-github">If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings.</p>
-<p class="md-github">You can also use the new <code class="md-github">--show-config</code> flag to display the effective global configuration being applied by the CLI. This outputs a formatted JSON showing the merged configuration from config files and environment variables.</p>
+<p class="md-github">Use the <code class="md-github">--show-config</code> flag to display the effective global configuration.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T06:42:48.050Z</p>
+    <p>Generated on 2025-04-11T06:44:00.348Z</p>
   </footer>
 </body>
 </html>
