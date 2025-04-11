@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 12,
+  "issuesClosedLastHour": 14,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Made error reporting retry delays and max attempts configurable via environment variables and global config (fixes #1779)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 9,
-  "commitsLastHour": 6,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 7,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "07:37",
+      "message": "Made error reporting retry delays and max attempts configurable ..."
+    },
     {
       "time": "07:28",
       "message": "Standardized NaN handling across numeric parsing functions with ..."
@@ -32,23 +31,14 @@
     {
       "time": "07:00",
       "message": "Unified and streamlined NaN handling in numeric parsing and CSV ..."
-    },
-    {
-      "time": "06:52",
-      "message": "Implemented --allow-nan flag to enable explicit NaN acceptance i..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1779",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T07:37:35.711Z"
+  "generatedAt": "2025-04-11T07:38:35.239Z"
 }

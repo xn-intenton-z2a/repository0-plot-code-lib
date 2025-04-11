@@ -83,7 +83,6 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">If the flag is not provided and a fallback value is available via the <code class="md-github">--fallback-number</code> flag or the <code class="md-github">FALLBACK_NUMBER</code> environment variable, that fallback is used uniformly.</li>
 <li class="md-github">Otherwise, a clear and detailed error is thrown, including both the original and normalized input.</li>
 </ol>
-<p class="md-github">The library now consistently processes inputs representing <code class="md-github">NaN</code> in all numeric contexts.</p>
 <p class="md-github">For example, to allow explicit NaN:</p>
 <pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --number=NaN --allow-nan
 </code></pre>
@@ -108,16 +107,23 @@ repository0-plot-code-lib --number=1,234.56
 <pre class="md-github"><code class="md-github language-bash">echo &quot;1;2;3\n4;5;6&quot; | repository0-plot-code-lib --csv-delimiter=&quot;;&quot; --fallback-number=100
 </code></pre>
 <p class="md-github">The imported CSV data will be parsed into an array of arrays of numbers and printed to the console using the current CLI theme.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting-with-retry-mechanism" href="#automatic-error-reporting-with-retry-mechanism"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting with Retry Mechanism</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="automatic-error-reporting-with-configurable-retry-mechanism" href="#automatic-error-reporting-with-configurable-retry-mechanism"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Error Reporting with Configurable Retry Mechanism</h3>
 <p class="md-github">When an error occurs, the CLI automatically submits an error report if the <code class="md-github">ERROR_REPORTING_URL</code> is defined (either in the global configuration file or as an environment variable). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and relevant environment variables, as well as the original numeric input if applicable.</p>
-<p class="md-github">A new automatic retry mechanism has been implemented for error report submission. If the initial POST request fails (e.g., because of transient network issues), the CLI will automatically retry up to 3 times using exponential backoff delays (500ms, 1000ms, and 2000ms). Log messages will indicate each attempt and the final outcome if all retries fail.</p>
+<p class="md-github">A new automatic retry mechanism has been implemented for error report submission. The retry delays and maximum number of retry attempts are now configurable via the configuration option <code class="md-github">ERROR_RETRY_DELAYS</code> and <code class="md-github">ERROR_MAX_ATTEMPTS</code> (set either in the global configuration file or as environment variables). For example:</p>
+<ul class="md-github">
+<li class="md-github">Set <code class="md-github">ERROR_RETRY_DELAYS</code> to a comma-separated list of delays in milliseconds (e.g., <code class="md-github">500,1000,2000</code>).</li>
+<li class="md-github">Set <code class="md-github">ERROR_MAX_ATTEMPTS</code> to the maximum number of retry attempts. If not provided, the system defaults to using the length of the retry delays array.</li>
+</ul>
+<p class="md-github">If the initial POST request fails (e.g., because of transient network issues), the CLI will automatically retry using the specified delays. Log messages will indicate each attempt and the final outcome if all retries fail.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="example-global-configuration-file-repository0plotconfigjson" href="#example-global-configuration-file-repository0plotconfigjson"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Global Configuration File (.repository0plotconfig.json):</h4>
 <pre class="md-github"><code class="md-github language-json">{
   &quot;ERROR_REPORTING_URL&quot;: &quot;http://example.com/report&quot;,
   &quot;CLI_COLOR_SCHEME&quot;: &quot;dark&quot;,
   &quot;LOG_LEVEL&quot;: &quot;debug&quot;,
   &quot;defaultArgs&quot;: [&quot;defaultArg1&quot;, &quot;defaultArg2&quot;],
-  &quot;FALLBACK_NUMBER&quot;: &quot;100&quot;
+  &quot;FALLBACK_NUMBER&quot;: &quot;100&quot;,
+  &quot;ERROR_RETRY_DELAYS&quot;: &quot;500,1000,2000&quot;,
+  &quot;ERROR_MAX_ATTEMPTS&quot;: &quot;3&quot;
 }
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration-file-support" href="#global-configuration-file-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration File Support</h3>
@@ -128,6 +134,8 @@ repository0-plot-code-lib --number=1,234.56
 <li class="md-github"><code class="md-github">ERROR_REPORTING_URL</code> (must be a valid URL)</li>
 <li class="md-github"><code class="md-github">defaultArgs</code> (array of strings)</li>
 <li class="md-github"><code class="md-github">FALLBACK_NUMBER</code> (string representing a numeric fallback value)</li>
+<li class="md-github"><code class="md-github">ERROR_RETRY_DELAYS</code> (comma-separated string or array of numbers for retry delays in milliseconds)</li>
+<li class="md-github"><code class="md-github">ERROR_MAX_ATTEMPTS</code> (string representing the maximum number of retry attempts)</li>
 </ul>
 <p class="md-github">Use the <code class="md-github">--show-config</code> flag to display the effective global configuration.</p>
 <hr class="md-github">
@@ -136,7 +144,7 @@ repository0-plot-code-lib --number=1,234.56
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T07:37:56.038Z</p>
+    <p>Generated on 2025-04-11T07:38:52.850Z</p>
   </footer>
 </body>
 </html>
