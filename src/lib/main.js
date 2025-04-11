@@ -65,9 +65,7 @@ function logError(chalkError, ...args) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// This function unifies handling of the case-insensitive string 'NaN'.
-// If allowNaN is true, any variant of 'NaN' is accepted as JavaScript’s NaN.
-// Otherwise, if a fallback value is provided, it is used instead. If neither condition is met, a clear error is thrown.
+// Standardized NaN Input Handling: All variants of 'NaN' (regardless of case) are processed uniformly. When the input (after trimming) matches 'nan' in any casing, it is handled by either accepting explicit NaN if allowed, applying a fallback if provided, or throwing a clear error with both the original and normalized input.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   const lowerTrimmed = trimmedInput.toLowerCase();
@@ -271,7 +269,7 @@ export async function main(args) {
     for (const arg of args) {
       if (arg.startsWith(numberFlagPrefix)) {
         const numStr = arg.slice(numberFlagPrefix.length);
-        // Validate numeric argument with fallback if provided and using allowNaN flag and preserveDecimal option
+        // Validate numeric argument with fallback if provided and using allowNan flag and preserveDecimal option
         validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal);
       }
     }
