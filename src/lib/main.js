@@ -31,6 +31,17 @@ function isNaNVariant(str, additionalVariants = []) {
   return defaultNaN || customNaN;
 }
 
+// New helper function: normalizeNumberString to remove thousand separators etc.
+export function normalizeNumberString(inputStr, preserveDecimal = false) {
+  if (preserveDecimal) {
+    // Remove underscores, commas, and spaces but preserve periods (decimal points) and scientific notation parts
+    return inputStr.replace(/[_\s,]+/g, "");
+  } else {
+    // Remove underscores, commas, spaces and periods
+    return inputStr.replace(/[_\s,\.]+/g, "");
+  }
+}
+
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
 function applyChalkChain(chain, chalkInstance = chalk) {
   if (typeof chain !== 'string' || chain.trim() === '') {
@@ -330,7 +341,7 @@ export async function main(args) {
       pipedData += chunk;
     }
     if (pipedData.trim()) {
-      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNan, preserveDecimal, csvDelimiter);
+      const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNaN, preserveDecimal, csvDelimiter);
       console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
     } else {
       throw new Error("CSV input is empty.");
@@ -407,12 +418,12 @@ export async function submitErrorReport(payload, url, themeColors) {
   let maxAttempts;
   const config = getGlobalConfig();
   if (process.env.ERROR_RETRY_DELAYS) {
-    retryDelays = process.env.ERROR_RETRY_DELAYS.split(',').map(s => Number(s.trim()));
+    retryDelays = process.env.ERROR_RETRY_DELAYS.split(",").map(s => Number(s.trim()));
   } else if (config.ERROR_RETRY_DELAYS) {
     if (Array.isArray(config.ERROR_RETRY_DELAYS)) {
       retryDelays = config.ERROR_RETRY_DELAYS;
     } else if (typeof config.ERROR_RETRY_DELAYS === "string") {
-      retryDelays = config.ERROR_RETRY_DELAYS.split(',').map(s => Number(s.trim()));
+      retryDelays = config.ERROR_RETRY_DELAYS.split(",").map(s => Number(s.trim()));
     }
   } else {
     retryDelays = [500, 1000, 2000];
