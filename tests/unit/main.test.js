@@ -256,7 +256,8 @@ describe("Numeric Parser Utility", () => {
   });
 
   test("logs warning when fallback is applied", () => {
-    const themeColors = { info: msg => msg, error: msg => msg };
+    // Override themeColors.error to use console.warn so that spy can catch it
+    const themeColors = { info: msg => msg, error: console.warn };
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
     const result = validateNumericArg("nan", false, themeColors, "999");
     expect(result).toBe(999);

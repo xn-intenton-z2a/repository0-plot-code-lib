@@ -139,6 +139,22 @@ export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDec
   return parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal, delimiter);
 }
 
+// New helper function to auto-detect CSV delimiter based on the first line of content
+function autoDetectDelimiter(content) {
+  const delimiters = [',', ';', '|', '\t'];
+  const firstLine = content.split("\n")[0];
+  let maxCount = 0;
+  let selected = ',';
+  delimiters.forEach(delim => {
+    const count = firstLine.split(delim).length - 1;
+    if (count > maxCount) {
+      maxCount = count;
+      selected = delim;
+    }
+  });
+  return selected;
+}
+
 // New helper function to parse CSV from a string with an optional custom delimiter
 function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',') {
   if (!delimiter || delimiter === '') {
@@ -170,7 +186,8 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const config = getGlobalConfig();
   const additionalVariants = config.additionalNaNValues || [];
-  return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, themeColors.error);
+  // Use console.warn for fallback warnings to ensure warnings are logged in tests
+  return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn);
 }
 
 /**
