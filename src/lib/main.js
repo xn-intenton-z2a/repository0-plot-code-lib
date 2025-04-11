@@ -26,10 +26,11 @@ const globalConfigSchema = z.object({
 function isNaNVariant(str, additionalVariants = []) {
   const trimmed = str.trim();
   const normalized = trimmed.toLowerCase();
-  // Check default NaN variants using regex on normalized string
-  const defaultNaN = /^[+-]?nan$/.test(normalized);
-  // Check if the normalized string matches any additional custom NaN variant
-  const customNaN = additionalVariants.map(v => v.toLowerCase()).includes(normalized);
+  // Check default NaN variants using case-insensitive regex
+  const defaultNaN = /^[+-]?nan$/i.test(trimmed);
+  // Normalize additional variants to compare uniformly
+  const cleanedAdditional = additionalVariants.map(v => v.trim().toLowerCase());
+  const customNaN = cleanedAdditional.includes(normalized);
   return defaultNaN || customNaN;
 }
 
@@ -108,11 +109,13 @@ function logError(chalkError, ...args) {
 function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn) {
   const trimmedInput = inputStr.trim();
   const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
+  // Check for custom NaN variants uniformly
   if (isNaNVariant(trimmedInput, additionalVariants)) {
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      logger(`Warning: Non-numeric input '${trimmedInput}' detected (normalized as '${normalized}'). Fallback value ${fallbackNumber} applied.${additionalVariants.length ? " Recognized custom NaN variants: [" + additionalVariants.join(", ") + "]." : ""}`);
+      const customMsg = additionalVariants.length ? ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].` : "";
+      logger(`Warning: Non-numeric input '${trimmedInput}' detected (normalized as '${normalized}'). Fallback value ${fallbackNumber} applied.${customMsg}`);
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
@@ -124,7 +127,8 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      logger(`Warning: Non-numeric input '${trimmedInput}' resulted in NaN after normalization ('${normalized}'). Fallback value ${fallbackNumber} applied.${additionalVariants.length ? " Recognized custom NaN variants: [" + additionalVariants.join(", ") + "]." : ""}`);
+      const customMsg = additionalVariants.length ? ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].` : "";
+      logger(`Warning: Non-numeric input '${trimmedInput}' resulted in NaN after normalization ('${normalized}'). Fallback value ${fallbackNumber} applied.${customMsg}`);
       return Number(fallbackNumber);
     }
     let errorMsg = `Invalid numeric input '${trimmedInput}'. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
