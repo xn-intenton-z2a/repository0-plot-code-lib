@@ -74,15 +74,15 @@ The CLI supports numeric validation via the `--number=VALUE` flag. The following
 - Numbers with spaces as thousand separators (e.g., `1 000`)
 - Numbers with periods as thousand separators when appropriate (e.g., `1.000` interpreted as 1000 if used for grouping)
 
-**Unified Fallback Mechanism and Standardized NaN Handling:**
+**Unified 'NaN' Handling and Fallback Mechanism:**
 
-The CLI's numeric input processing now handles any input matching 'NaN' (in any casing) uniformly. When an input matches 'NaN':
+All numeric inputs are processed using a consolidated logic that handles the case-insensitive string `NaN`. When an input matches `NaN` (any casing):
 
 1. If the `--allow-nan` flag is provided (or the environment variable `ALLOW_EXPLICIT_NAN` is set to `true`), the value is accepted as JavaScript’s `NaN`.
-2. If the flag is not provided, and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used.
-3. Otherwise, a standardized error is thrown including both the original input and its normalized form.
+2. If the flag is not provided and a fallback value is available via the `--fallback-number` flag or the `FALLBACK_NUMBER` environment variable, that fallback is used.
+3. Otherwise, a standardized error is thrown, including both the original input and its normalized form.
 
-For example, using an explicit allow flag:
+For example, to allow explicit NaN:
 
 ```bash
 repository0-plot-code-lib --number=NaN --allow-nan
@@ -94,45 +94,28 @@ Or with a fallback when not allowed:
 repository0-plot-code-lib --number=NaN --fallback-number=100
 ```
 
-Or relying on an environment variable for fallback (ensure `FALLBACK_NUMBER` is set):
-
-```bash
-export FALLBACK_NUMBER=100
-repository0-plot-code-lib --number=NaN
-```
-
-If no valid fallback is provided and the `--allow-nan` flag is not set:
-
-```bash
-repository0-plot-code-lib --number=NaN
-```
-
-The CLI will output a standardized error message indicating that a valid number is required. This behavior is case-insensitive, so inputs like `nan`, `NAN`, or `NaN` are all treated equivalently.
+Ensure that if no valid fallback is provided and the `--allow-nan` flag is not set, a clear error is displayed.
 
 ### Decimal Point Parsing
 
-A new configuration option has been introduced to control how periods are treated within numeric inputs. By default, periods are removed as thousand separators to ensure backward compatibility. However, if you want to parse decimal numbers correctly, you can enable decimal preservation:
-
-- Use the CLI flag `--preserve-decimal`:
+A new configuration option controls whether periods in numeric inputs are preserved as decimal points. By default, periods are removed as thousand separators for backward compatibility. To preserve decimals, use the CLI flag `--preserve-decimal` or set the environment variable `PRESERVE_DECIMAL=true`.
 
 ```bash
 repository0-plot-code-lib --preserve-decimal --number=1,234.56
 ```
 
-- Or set the environment variable `PRESERVE_DECIMAL=true` before running the CLI:
+or
 
 ```bash
 export PRESERVE_DECIMAL=true
 repository0-plot-code-lib --number=1,234.56
 ```
 
-When enabled, numeric parsing will remove underscores, commas, and spaces, but will preserve periods so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`).
+When enabled, underscores, commas, and spaces are removed, but periods are retained so that decimal numbers are correctly interpreted (e.g., `1,234.56` becomes `1234.56`).
 
 ### CSV Data Import
 
-The CLI now supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. Additionally, a new flag `--csv-delimiter=<delimiter>` allows you to specify a custom delimiter for parsing CSV data. The CSV importer functionality has been integrated into the main module. The CSV file or input should contain numeric values separated by the chosen delimiter and newlines. Various numeric formats are supported including underscores, commas, spaces, and periods (used as thousand separators by default or preserved as decimal points when enabled).
-
-**Note:** Cells containing the literal `NaN` (in any capitalization) are handled consistently as described above.
+The CLI supports importing numeric data from a CSV file using the `--csv-file=<path>` flag or directly from STDIN when no file is provided. Additionally, the `--csv-delimiter=<delimiter>` flag allows you to specify a custom delimiter. The CSV importer processes each cell using the unified numeric parsing logic, ensuring consistent handling of numbers and `NaN` values as described above.
 
 For example, from a file with a semicolon delimiter:
 
@@ -140,7 +123,7 @@ For example, from a file with a semicolon delimiter:
 repository0-plot-code-lib --csv-file=path/to/data.csv --csv-delimiter=";" --fallback-number=100
 ```
 
-Or piping data via STDIN with a custom delimiter:
+Or piping data via STDIN:
 
 ```bash
 echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100
@@ -150,17 +133,7 @@ The imported CSV data will be parsed into an array of arrays of numbers and prin
 
 ### Automatic Error Reporting
 
-When an error occurs, the CLI supports automatic error report submission. If the configuration parameter `ERROR_REPORTING_URL` is defined (either in the global configuration file `.repository0plotconfig.json` or via the environment variable), the CLI will automatically submit a POST request with extended error details including:
-
-- **errorMessage**: The error message (which now includes detailed context for numeric validation errors).
-- **stackTrace**: The error's stack trace (if available).
-- **cliArgs**: The CLI arguments provided.
-- **libraryVersion**: The current version of the library (sourced from package.json).
-- **timestamp**: The ISO timestamp when the error occurred.
-- **envContext**: Additional environment variables that can help diagnose issues (e.g., NODE_ENV, CLI_COLOR_SCHEME, LOG_LEVEL, HOME).
-- **originalNumericInput**: The original numeric input that triggered the error, if available.
-
-The CLI awaits the completion of the error reporting process before exiting, ensuring that error reports are fully transmitted even under slow network conditions.
+When an error occurs, the CLI can automatically submit an error report if the `ERROR_REPORTING_URL` is defined (either in the global configuration file or as an environment variable). The report includes detailed information such as the error message, stack trace, CLI arguments, library version, timestamp, and relevant environment variables, as well as the original numeric input if applicable.
 
 #### Example Global Configuration File (.repository0plotconfig.json):
 
@@ -176,19 +149,15 @@ The CLI awaits the completion of the error reporting process before exiting, ens
 
 ### Global Configuration File Support
 
-A new feature allows you to set persistent default options without having to specify them every time you run the CLI.
+You can set persistent default options in a global configuration file named `.repository0plotconfig.json` located in the current working directory or your home directory. Supported configuration keys include:
 
-The CLI will look for a global configuration file named `.repository0plotconfig.json` in the current working directory and in your home directory (using the `HOME` or `USERPROFILE` environment variable). This file enforces a strict schema. Supported configuration keys are:
-
-- `CLI_COLOR_SCHEME` (string, e.g., "dark", "light", or "default")
-- `LOG_LEVEL` (string, e.g., "debug", "info", etc.)
-- `ERROR_REPORTING_URL` (string, must be a valid URL)
+- `CLI_COLOR_SCHEME` (e.g., "dark", "light", or "default")
+- `LOG_LEVEL` (e.g., "debug", "info", etc.)
+- `ERROR_REPORTING_URL` (must be a valid URL)
 - `defaultArgs` (array of strings)
-- `FALLBACK_NUMBER` (string, representing a numeric fallback value)
+- `FALLBACK_NUMBER` (string representing a numeric fallback value)
 
-If the configuration file does not adhere to this schema, the CLI will log a clear error message and revert to default settings.
-
-You can also use the new `--show-config` flag to display the effective global configuration being applied by the CLI. This outputs a formatted JSON showing the merged configuration from config files and environment variables.
+Use the `--show-config` flag to display the effective global configuration.
 
 ---
 

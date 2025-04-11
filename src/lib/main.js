@@ -64,9 +64,9 @@ function logError(chalkError, ...args) {
   }
 }
 
-// Unified function to process numeric inputs with fallback handling and explicit NaN acceptance
-// This function standardizes the handling of 'NaN' inputs (case-insensitive) across CSV and CLI numeric arguments.
-function processNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = process.env.PRESERVE_DECIMAL && process.env.PRESERVE_DECIMAL.toLowerCase() === 'true') {
+// Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
+// Handles case-insensitive 'NaN' values, applies fallback if provided, and respects the --allow-nan flag.
+function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
   const lowerTrimmed = trimmedInput.toLowerCase();
   if (lowerTrimmed === 'nan') {
@@ -120,7 +120,7 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
     } else {
       cells = row.split(delimiter);
     }
-    return cells.map(cell => processNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal));
+    return cells.map(cell => parseNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal));
   });
 }
 
@@ -133,7 +133,7 @@ export function normalizeNumberString(str, preserveDecimal = false) {
 
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   // Consolidated numeric parsing with unified fallback logic and explicit NaN flag
-  return processNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
+  return parseNumericInput(numStr, fallbackNumber, allowNaN, preserveDecimal);
 }
 
 /**
