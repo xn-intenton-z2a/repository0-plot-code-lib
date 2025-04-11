@@ -21,6 +21,7 @@ import { main, parseCSV, normalizeNumberString, validateNumericArg } from '@src/
     // Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra spaces) are uniformly processed using a consolidated fallback mechanism.
     // When explicit NaN values are not allowed and no valid fallback is provided, an error is thrown with detailed guidance including the normalized value and recognized custom NaN variants.
     // If a fallback value is provided, it is applied and a structured JSON warning is logged containing the original input, normalized value, fallback value, and any custom NaN variants.
+    // Use the --strict-numeric flag to enforce strict numeric validation, which rejects any NaN input without applying fallback.
     await main(['--number=NaN', '--fallback-number=100']);
 
     // Use the integrated CSV importer function
@@ -55,6 +56,10 @@ If no arguments are provided and no STDIN or CSV file is detected, the CLI will 
 Usage: repository0-plot-code-lib <arguments>
 ```
 
+#### New Flag: --strict-numeric
+
+The new `--strict-numeric` flag enforces strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants) will immediately trigger an error instead of falling back to a provided value. This is useful when precise numeric validation is required.
+
 ### File-based Logging
 
 A new feature allows you to log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (information, warnings, errors, and debug messages) will be appended to the specified log file in addition to being printed to the console. If the log file does not exist, it will be created. If it exists, new log entries are appended.
@@ -76,15 +81,8 @@ echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-n
 ### Unified 'NaN' Handling & Structured Logging
 
 - All numeric inputs, including variants like 'NaN', 'nan', '+NaN', '-NaN' (with extra spaces allowed), are processed via a unified function that normalizes the input and applies a consistent fallback logic.
-- When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a structured warning.
-- The structured log is emitted in JSON format and includes the following fields:
-  - level
-  - event (set to "NaNFallback")
-  - originalInput
-  - normalized
-  - fallbackValue
-  - customNaNVariants
-- To explicitly accept NaN inputs, use the `--allow-nan` flag.
+- When explicit NaN values are not allowed, providing them triggers the fallback mechanism (if a valid fallback is given) and logs a structured warning in JSON format (unless in strict mode).
+- To enforce strict input validation without fallback, use the `--strict-numeric` flag.
 
 ### Custom NaN Variants
 
