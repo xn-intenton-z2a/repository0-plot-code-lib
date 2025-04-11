@@ -108,9 +108,11 @@ function isNaNVariant(input, additionalVariants = []) {
   const cleanedInput = cleanString(input);
   const config = getGlobalConfig();
   const caseSensitive = config.CASE_SENSITIVE_NAN === true;
+  // Define built-in NaN variants based on case sensitivity
   const builtInVariants = caseSensitive ? ["NaN", "+NaN", "-NaN"] : ["nan", "+nan", "-nan"];
   const inputToCompare = caseSensitive ? cleanedInput : cleanedInput.toLowerCase();
   if (builtInVariants.includes(inputToCompare)) return true;
+  // Clean and adjust custom NaN variants according to case sensitivity
   const customVariants = additionalVariants.map(v => {
     const cleaned = cleanString(v);
     return caseSensitive ? cleaned : cleaned.toLowerCase();
@@ -260,7 +262,8 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
 // Consolidated numeric parsing function that processes numeric inputs uniformly
 export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
-  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim());
+  // Use cleanString for consistent processing of custom NaN variants
+  const additionalVariants = (config.additionalNaNValues || []).map(v => cleanString(v));
   return processNumberInputUnified(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
 }
 
@@ -314,7 +317,7 @@ function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveD
 // Enhanced validateNumericArg applies fallback mechanism and logs a warning for invalid numeric CLI input
 export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
-  const additionalVariants = (config.additionalNaNValues || []).map(v => v.trim());
+  const additionalVariants = (config.additionalNaNValues || []).map(v => cleanString(v));
   return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
 }
 
