@@ -22,8 +22,8 @@ const globalConfigSchema = z.object({
 
 // Helper function to determine if a string represents a NaN variant (including signed and whitespace variants)
 function isNaNVariant(str) {
-  // Using a robust regex to handle variants like 'NaN', ' nan ', '+NaN', '-NaN', with any surrounding whitespace
-  return /^(?:[+-]?\s*nan\s*)$/i.test(str);
+  // Robust regex to handle variants like 'NaN', ' nan ', '+NaN', '-NaN' with any surrounding whitespace
+  return /^[+-]?\s*nan\s*$/i.test(str);
 }
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
@@ -88,9 +88,9 @@ function autoDetectDelimiter(content) {
 }
 
 // Consolidated numeric parsing function to process numeric inputs uniformly across CSV and CLI arguments.
-// This function now fully normalizes all variants of 'NaN' (e.g., 'NaN', 'nan', '+NaN', '-NaN' with whitespace) to ensure consistent handling.
+// This function normalizes all variants of 'NaN' (eg. 'NaN', 'nan', '+NaN', '-NaN' with extra spaces) for consistent handling.
 // If allowNaN is true, these values are accepted as JavaScript's NaN.
-// If allowNaN is false and a fallback is provided, the fallback value is applied silently.
+// If allowNaN is false and a fallback is provided, the fallback value is applied silently with clear error messaging.
 // Otherwise, a detailed error is thrown including the original and normalized input with instructions.
 function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false) {
   const trimmedInput = inputStr.trim();
@@ -199,7 +199,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
  * Note on Unified 'NaN' Handling:
  * - All numeric inputs including variants like 'NaN', 'nan', '+NaN', '-NaN' (with potential whitespace) are uniformly processed.
  * - When explicit NaN is not allowed and no valid fallback is provided, an error is thrown with clear instructions.
- * - To accept NaN inputs, add the '--allow-nan' flag.
+ * - If a fallback value is provided, it is applied and a warning is logged instructing users to use '--allow-nan' flag to accept NaN values.
  *
  * @param {string[]} args - Command line arguments.
  */
@@ -353,7 +353,7 @@ export async function main(args) {
     for (const arg of args) {
       if (arg.startsWith(numberFlagPrefix)) {
         const numStr = arg.slice(numberFlagPrefix.length);
-        // Validate numeric argument with fallback if provided and using allowNaN flag and preserveDecimal option
+        // Validate numeric argument with fallback if provided
         validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN, preserveDecimal);
       }
     }
