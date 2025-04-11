@@ -47,6 +47,12 @@
     // normalizeNumberString removes formatting characters. When preserveDecimal is enabled, decimals are retained.
     console.log(normalizeNumberString('1,000'));
     console.log(validateNumericArg('2_000', false, { info: msg =&gt; msg, error: msg =&gt; msg }));
+
+    // Scientific Notation Support:
+    // The library now supports numeric inputs in scientific notation. For example:
+    // '1e3' is parsed as 1000 and '1.2e-3' is parsed as 0.0012. Extra formatting characters in the coefficient are stripped.
+    console.log(normalizeNumberString('1,000e3', false)); // outputs &quot;1000e3&quot;
+    console.log(validateNumericArg('1.2e-3', false, { info: msg =&gt; msg, error: msg =&gt; msg }, undefined, false, true));
   } catch (error) {
     // Handle error accordingly
     console.error('An error occurred:', error);
@@ -117,7 +123,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T10:13:19.602Z</p>
+    <p>Generated on 2025-04-11T10:14:12.752Z</p>
   </footer>
 </body>
 </html>
