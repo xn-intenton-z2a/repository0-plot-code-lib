@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 10,
+  "issuesClosedLastHour": 12,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Refactored NaN variant detection using regex for consistent fallback and error reporting. (fixes #1819)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 9,
-  "commitsLastHour": 5,
-  "commitsLastDay": 96,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 6,
+  "commitsLastDay": 97,
   "lastFiveCommitMessages": [
+    {
+      "time": "12:08",
+      "message": "Refactored NaN variant detection using regex for consistent fall..."
+    },
     {
       "time": "11:59",
       "message": "Refactored numeric input parsing for clearer error messages and ..."
@@ -32,23 +31,14 @@
     {
       "time": "11:26",
       "message": "Standardize NaN variant handling across CLI and CSV imports with..."
-    },
-    {
-      "time": "11:14",
-      "message": "Enhance documentation and tests for unified NaN handling in CLI ..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1819",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T12:08:24.418Z"
+  "generatedAt": "2025-04-11T12:09:29.482Z"
 }
