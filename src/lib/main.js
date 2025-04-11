@@ -108,7 +108,7 @@ function validateNumericArg(numStr, verboseMode, themeColors, fallbackValue) {
   }
   if (/^nan$/i.test(trimmed)) {
     if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.warn(themeColors.info(`Invalid numeric value '${trimmed}' provided for argument '--number'. Using fallback value ${fallbackValue}.`));
+      console.log(themeColors.info(`Invalid numeric value '${trimmed}' provided for argument '--number'. Using fallback value ${fallbackValue}.`));
       const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
       if (Number.isNaN(fallbackParsed)) {
         throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
@@ -122,7 +122,7 @@ function validateNumericArg(numStr, verboseMode, themeColors, fallbackValue) {
   const parsed = Number(normalized);
   if (Number.isNaN(parsed)) {
     if (fallbackValue !== undefined && fallbackValue !== null) {
-      console.warn(themeColors.info(`Invalid numeric input '${trimmed}'. Using fallback value ${fallbackValue}.`));
+      console.log(themeColors.info(`Invalid numeric input '${trimmed}'. Using fallback value ${fallbackValue}.`));
       const fallbackParsed = Number(normalizeNumberString(String(fallbackValue)));
       if (Number.isNaN(fallbackParsed)) {
         throw new Error(`Fallback value '${fallbackValue}' is not a valid number.`);
