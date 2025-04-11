@@ -5,8 +5,13 @@
   "openIssues": 100,
   "issuesClosedLastHour": 10,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Updated formatNumberOutput to use process.env.LOCALE alongside global config so that locale-specific formatting for de-DE works correctly. (fixes #1910)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 0,
   "diffMinutesMain": 0,
   "commitsLastHour": 7,
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1910",
-        "minutesSinceLastCommit": 0
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T22:20:41.023Z"
+  "generatedAt": "2025-04-11T22:21:10.442Z"
 }
