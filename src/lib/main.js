@@ -108,12 +108,12 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     } else {
-      let allowedFormats = "provide a valid numeric input such as 42, 1e3, 1_000, or 1,000";
+      let errorMsg = `Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
       if (additionalVariants.length > 0) {
-        allowedFormats += `. Custom NaN variants recognized: [${additionalVariants.join(", ")}]`;
+        errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].`;
       }
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to ${allowedFormats}. Normalized input: '${normalized}'.`);
+      const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -124,11 +124,11 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    let allowedFormats = "provide a valid numeric input such as 42, 1e3, 1_000, or 1,000";
+    let errorMsg = `Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.`;
     if (additionalVariants.length > 0) {
-      allowedFormats += `. Custom NaN variants recognized: [${additionalVariants.join(", ")}]`;
+      errorMsg += ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].`;
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. The literal 'NaN' (and its variants) is not acceptable. Expected to ${allowedFormats}. Normalized input: '${normalized}'.`);
+    const err = new Error(`${errorMsg} Normalized input: '${normalized}'.`);
     err.originalInput = trimmedInput;
     throw err;
   }
@@ -195,11 +195,8 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      let allowedFormats = "provide a valid numeric input such as 42, 1e3, 1_000, or 1,000";
-      if (additionalVariants.length > 0) {
-        allowedFormats += `. Custom NaN variants recognized: [${additionalVariants.join(", ")}]`;
-      }
-      console.warn(themeColors.error(`Warning: Invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}. Expected to ${allowedFormats}.`));
+      const warnMsg = `Warning: Invalid numeric input '${numStr.trim()}'. Using fallback value ${fallbackNumber}. Expected to provide a valid numeric input such as 42, 1e3, 1_000, or 1,000.${additionalVariants.length > 0 ? ` Custom NaN variants recognized: [${additionalVariants.join(", ") }].` : ''}`;
+      console.warn(themeColors.error(warnMsg));
       return Number(fallbackNumber);
     }
   }
