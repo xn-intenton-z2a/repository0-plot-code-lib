@@ -9,10 +9,10 @@
   "prDetails": [
     {
       "title": "Enhanced tests to ensure case-insensitive handling of NaN inputs in numeric parsing and CSV importing (fixes #1742)",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 1,
+  "diffMinutes": 0,
   "diffMinutesMain": 11,
   "commitsLastHour": 6,
   "commitsLastDay": 100,
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T05:51:29.929Z"
+  "generatedAt": "2025-04-11T05:51:59.660Z"
 }
