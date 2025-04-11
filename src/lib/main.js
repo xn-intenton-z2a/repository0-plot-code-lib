@@ -100,7 +100,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
       return Number(fallbackNumber);
     } else {
       const normalized = normalizeNumberString(trimmedInput, preserveDecimal);
-      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized result: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or provide a valid fallback.`);
+      const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized value: '${normalized}'. Explicit NaN values are not permitted. Use '--allow-nan' flag or provide a valid fallback.`);
       err.originalInput = trimmedInput;
       throw err;
     }
@@ -111,7 +111,7 @@ function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveD
     if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
       return Number(fallbackNumber);
     }
-    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized result: '${normalized}'. Explicit NaN values are not permitted. Enable '--allow-nan' flag or supply a valid fallback.`);
+    const err = new Error(`Invalid numeric input '${trimmedInput}'. Normalized value: '${normalized}'. Explicit NaN values are not permitted. Use '--allow-nan' flag or supply a valid fallback.`);
     err.originalInput = trimmedInput;
     throw err;
   }
@@ -161,11 +161,11 @@ export function normalizeNumberString(str, preserveDecimal = false) {
     const exponent = trimmed.slice(index + 1);
     const normalizedCoefficient = preserveDecimal
       ? coefficient.replace(/[_\s,]+/g, '')
-      : coefficient.replace(/[_\s,\.]+/g, '');
+      : coefficient.replace(/[_\s,.]+/g, '');
     const normalizedExponent = exponent.replace(/[_\s,]+/g, '');
     return normalizedCoefficient + 'e' + normalizedExponent;
   } else {
-    return preserveDecimal ? trimmed.replace(/[_\s,]+/g, '') : trimmed.replace(/[_\s,\.]+/g, '');
+    return preserveDecimal ? trimmed.replace(/[_\s,]+/g, '') : trimmed.replace(/[_\s,.]+/g, '');
   }
 }
 
@@ -176,7 +176,7 @@ export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNum
     if (allowNaN) {
       return NaN;
     } else if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
-      console.warn(themeColors.error(`Warning: Invalid numeric input '${numStr}'. Explicit NaN values are not permitted. Using fallback value ${fallbackNumber}.`));
+      console.warn(themeColors.error(`Warning: Invalid numeric input '${numStr}'. Explicit NaN values are not permitted. Using fallback value ${fallbackNumber}. Use '--allow-nan' flag or provide a valid fallback.`));
       return Number(fallbackNumber);
     }
   }
