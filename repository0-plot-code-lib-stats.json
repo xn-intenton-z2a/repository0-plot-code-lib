@@ -2,13 +2,18 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
-  "openIssues": 20,
+  "openIssues": 21,
   "issuesClosedLastHour": 4,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Added error handling for literal NaN expressions in CLI input. (fixes #1978)",
+      "ageMinutes": 1
+    }
+  ],
   "diffMinutes": 0,
-  "diffMinutesMain": 12,
+  "diffMinutesMain": 14,
   "commitsLastHour": 2,
   "commitsLastDay": 92,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1978",
-        "minutesSinceLastCommit": 0
+        "minutesSinceLastCommit": 1
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-12T09:23:51.712Z"
+  "generatedAt": "2025-04-12T09:25:15.715Z"
 }
