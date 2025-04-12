@@ -269,16 +269,14 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
   const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
 
-  const polylinePoints = svgPoints.map(p => `${p}`).join(" ");
   const polylineStroke = darkMode ? "cyan" : "blue";
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
 
   // Generate interactive circles with event handlers for tooltips
-  const circles = svgPoints.map(p => `<circle cx="${p.split(",")[0]}" cy="${p.split(",")[1]}" r="3" fill="red" onmousemove="showTooltip(evt, ${Number(p.split(",")[0]) / 50}, ${Number(p.split(",")[1]) / 50})" onmouseout="hideTooltip()" />`).join("\n");
+  const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="red" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
 
-  const tooltipFill = darkMode ? "white" : "black";
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circles}\n</g>\n    <g class="legend">\n${/* Legend generation */ ""}\n</g>\n    <text id="svg-tooltip" style="display:none; fill:${tooltipFill}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints.map(p => p.scaledX + "," + p.scaledY).join(" ")}" fill="none" stroke="${polylineStroke}" stroke-width="2"/>\n    <g class="points">\n${circles}\n</g>\n    <text id="svg-tooltip" style="display:none; fill:${darkMode ? "white" : "black"}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -309,7 +307,7 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
 
   const margin = 20;
   const tickCount = 5;
-  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"]; 
+  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"];
   const series = [];
   let allValidPoints = [];
 
@@ -445,7 +443,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   const margin = 20;
   const tickCount = 5;
-  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"]; 
+  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"];
   const series = [];
   let allValidPoints = [];
 
@@ -482,6 +480,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   const yRange = maxYTrans - minYTrans || 1;
 
   let polylines = "";
+  let circlesGroup = "";
   series.forEach((serie, index) => {
     if (serie.points.length > 0) {
       const svgPoints = serie.points.map(({ x, y }) => {
@@ -492,7 +491,8 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
         return `${scaledX},${scaledY}`;
       }).join(" ");
       const color = colors[index % colors.length];
-      polylines += `<polyline points="${svgPoints}" fill="none" stroke="${color}" stroke-width="2"/>\n`;
+      polylines += `<polyline points="${svgPoints}" fill="none" stroke="${color}" stroke-width="2"/>
+`;
     }
   });
 
