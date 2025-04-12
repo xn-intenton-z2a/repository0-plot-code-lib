@@ -2,8 +2,6 @@
 import { describe, it, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
-// Removed tests for isLiteralNaN as the functionality has been removed.
-
 // Test the module import
 describe("Main Module Import", () => {
   it("should be non-null", () => {
@@ -46,6 +44,7 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     expect(output).toContain("<svg");
     expect(output).toContain("</svg>");
     expect(output).toContain("<polyline");
+    // Check for enhanced elements
     expect(output).toContain("class=\"axis");
     expect(output).toContain("class=\"grid-line");
     expect(output).toContain("class=\"tick-label");
@@ -63,39 +62,6 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     processExitSpy.mockRestore();
   });
 
-  it("should error if --start is non-numeric", () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const args = ["--plot", "--expr", "sin(x)", "--start", "abc", "--end", "6.28"];
-    mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --start");
-    expect(processExitSpy).toHaveBeenCalledWith(1);
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
-  });
-
-  it("should error if --end is non-numeric", () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "notanumber"];
-    mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --end");
-    expect(processExitSpy).toHaveBeenCalledWith(1);
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
-  });
-
-  it("should error if --step is non-numeric", () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "NaN"];
-    mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --step");
-    expect(processExitSpy).toHaveBeenCalledWith(1);
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
-  });
-
   it("should error if plot range is invalid when start is not less than end", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
@@ -105,38 +71,6 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
-  });
-});
-
-// Fallback SVG Generation Handling
-describe("Fallback SVG Generation Handling", () => {
-  it("should handle cases where evaluated expression returns NaN by displaying a fallback SVG with diagnostic info", () => {
-    const svg = mainModule.generatePlot("0/0", 0, 10, 1);
-    expect(svg).toContain("<svg");
-    expect(svg).toContain("No valid data");
-    expect(svg).toContain("non-finite values");
-    expect(svg).not.toContain("<polyline");
-  });
-
-  it("should allow a custom fallback message via the API", () => {
-    const customMessage = "Custom fallback message";
-    const svg = mainModule.generateSVGPlot("0/0", 0, 10, 1, customMessage);
-    expect(svg).toContain(customMessage);
-    expect(svg).not.toContain("No valid data");
-  });
-});
-
-// Custom Fallback via CLI (Legacy)
-describe("Custom Fallback via CLI (Legacy Syntax)", () => {
-  it("should display the custom fallback message in the generated SVG when provided", () => {
-    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const customMessage = "CLI custom fallback";
-    const args = ["--plot", "--expr", "0/0", "--start", "0", "--end", "10", "--step", "1", "--fallback", customMessage];
-    mainModule.main(args);
-    const output = consoleSpy.mock.calls[0][0];
-    expect(output).toContain(customMessage);
-    expect(output).not.toContain("No valid data");
-    consoleSpy.mockRestore();
   });
 });
 

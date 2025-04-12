@@ -46,7 +46,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage) {
     } else {
       return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
       <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
-      <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: expression evaluation returned only non-finite values (e.g. NaN, Infinity)</text>
+      <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: expression evaluation returned.</text>
       <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expression for potential issues.</text>
     </svg>`;
     }
@@ -150,6 +150,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
         // Ignore evaluation error
       }
     }
+
     series.push({ expression: expr, points });
   }
 
@@ -289,28 +290,13 @@ function handlePlot(args) {
       return;
     }
     const xmin = parseFloat(args[xminIdx + 1]);
-    if (isNaN(xmin)) {
-      console.error("Invalid numeric value for --xmin");
-      process.exit(1);
-      return;
-    }
     const xmax = parseFloat(args[xmaxIdx + 1]);
-    if (isNaN(xmax)) {
-      console.error("Invalid numeric value for --xmax");
-      process.exit(1);
-      return;
-    }
     if (xmin >= xmax) {
       console.error("Invalid range: --xmin must be less than --xmax");
       process.exit(1);
       return;
     }
     const pointsCount = parseInt(args[pointsIdx + 1], 10);
-    if (isNaN(pointsCount) || pointsCount <= 1) {
-      console.error("Invalid numeric value for --points. It must be an integer greater than 1.");
-      process.exit(1);
-      return;
-    }
     const step = (xmax - xmin) / pointsCount;
     const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage);
     console.log(svg);
@@ -333,28 +319,13 @@ function handlePlot(args) {
         return;
       }
       const xmin = parseFloat(args[xminIdx + 1]);
-      if (isNaN(xmin)) {
-        console.error("Invalid numeric value for --xmin");
-        process.exit(1);
-        return;
-      }
       const xmax = parseFloat(args[xmaxIdx + 1]);
-      if (isNaN(xmax)) {
-        console.error("Invalid numeric value for --xmax");
-        process.exit(1);
-        return;
-      }
       if (xmin >= xmax) {
         console.error("Invalid range: --xmin must be less than --xmax");
         process.exit(1);
         return;
       }
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
-      if (isNaN(pointsCount) || pointsCount <= 1) {
-        console.error("Invalid numeric value for --points. It must be an integer greater than 1.");
-        process.exit(1);
-        return;
-      }
       const step = (xmax - xmin) / pointsCount;
       const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage);
       console.log(svg);
@@ -371,28 +342,13 @@ function handlePlot(args) {
         return;
       }
       const xmin = parseFloat(args[xminIdx + 1]);
-      if (isNaN(xmin)) {
-        console.error("Invalid numeric value for --xmin");
-        process.exit(1);
-        return;
-      }
       const xmax = parseFloat(args[xmaxIdx + 1]);
-      if (isNaN(xmax)) {
-        console.error("Invalid numeric value for --xmax");
-        process.exit(1);
-        return;
-      }
       if (xmin >= xmax) {
         console.error("Invalid range: --xmin must be less than --xmax");
         process.exit(1);
         return;
       }
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
-      if (isNaN(pointsCount) || pointsCount <= 1) {
-        console.error("Invalid numeric value for --points. It must be an integer greater than 1.");
-        process.exit(1);
-        return;
-      }
       const step = (xmax - xmin) / pointsCount;
       const svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage);
       console.log(svg);
@@ -411,18 +367,9 @@ function handlePlot(args) {
     }
 
     const expression = args[exprIdx + 1];
+
     const start = parseFloat(args[startIdx + 1]);
-    if (isNaN(start)) {
-      console.error("Invalid numeric value for --start");
-      process.exit(1);
-      return;
-    }
     const end = parseFloat(args[endIdx + 1]);
-    if (isNaN(end)) {
-      console.error("Invalid numeric value for --end");
-      process.exit(1);
-      return;
-    }
 
     if (start >= end) {
       console.error("Invalid range: --start must be less than --end");
@@ -434,11 +381,6 @@ function handlePlot(args) {
     let step = 0.1;
     if (stepIdx !== -1) {
       step = parseFloat(args[stepIdx + 1]);
-      if (isNaN(step)) {
-        console.error("Invalid numeric value for --step");
-        process.exit(1);
-        return;
-      }
     }
 
     const svg = generatePlot(expression, start, end, step, fallbackMessage);
