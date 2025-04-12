@@ -39,7 +39,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
 
 /* ------------------------------------------------------------------------- */
 
-// New File: src/lib/plot.js
+/* New File: src/lib/plot.js */
 
 // This module implements a basic generatePlot function returning an SVG string.
 
