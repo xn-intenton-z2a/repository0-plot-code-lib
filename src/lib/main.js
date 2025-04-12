@@ -14,17 +14,29 @@ export function generatePlot(expression, start, end, step) {
   for (let x = start; x <= end; x += step) {
     // Evaluate y for each x
     const y = compiled.evaluate({ x });
-    points.push({ x, y });
+    // Only include points with valid numeric y values
+    if (!Number.isNaN(y)) {
+      points.push({ x, y });
+    }
+  }
+
+  // If no valid points are generated, return an SVG with an error message
+  if (points.length === 0) {
+    return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
+      <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data</text>
+    </svg>`;
   }
 
   // Define SVG viewport dimensions
   const svgWidth = 500;
   const svgHeight = 300;
 
-  // Determine the boundaries for scaling
-  const minX = start;
-  const maxX = end;
+  // Determine the boundaries for scaling using valid points
+  const xValues = points.map(point => point.x);
   const yValues = points.map(point => point.y);
+  const minX = Math.min(...xValues);
+  const maxX = Math.max(...xValues);
   const minY = Math.min(...yValues);
   const maxY = Math.max(...yValues);
 
