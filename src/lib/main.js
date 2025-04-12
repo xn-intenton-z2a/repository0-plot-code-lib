@@ -8,6 +8,30 @@ import { compile } from "mathjs";
 const svgCache = new Map();
 
 /**
+ * Helper function to create a fallback SVG when no valid data points are generated.
+ * This ensures consistency in the output and prioritizes a custom fallback message if provided.
+ * 
+ * @param {string} [fallbackMessage] - Optional custom fallback message
+ * @param {number} svgWidth - Width of the SVG
+ * @param {number} svgHeight - Height of the SVG
+ * @returns {string} - SVG fallback string
+ */
+function createFallbackSVG(fallbackMessage, svgWidth, svgHeight) {
+  if (fallbackMessage) {
+    return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
+  <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">${fallbackMessage}</text>
+</svg>`;
+  } else {
+    return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
+  <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: expression evaluation returned.</text>
+  <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expression for potential issues.</text>
+</svg>`;
+  }
+}
+
+/**
  * Generates an SVG plot for a given mathematical expression over a specific range.
  * Optionally, a custom fallback message can be provided to display when no valid data points are found.
  * Additionally, optional logarithmic scaling can be applied to the x and/or y axes.
@@ -46,25 +70,13 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
         points.push({ x, y });
       }
     } catch (_err) {
-      // Ignoring evaluation error
+      // Ignore evaluation errors
     }
   }
 
-  // If no valid points, return fallback SVG with diagnostic details
+  // If no valid points, return fallback SVG
   if (points.length === 0) {
-    let fallbackSVG;
-    if (fallbackMessage) {
-      fallbackSVG = `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
-      <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">${fallbackMessage}</text>
-    </svg>`;
-    } else {
-      fallbackSVG = `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
-      <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
-      <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: expression evaluation returned.</text>
-      <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expression for potential issues.</text>
-    </svg>`;
-    }
+    const fallbackSVG = createFallbackSVG(fallbackMessage, svgWidth, svgHeight);
     svgCache.set(cacheKey, fallbackSVG);
     return fallbackSVG;
   }
@@ -114,7 +126,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
       const scaledX = ((xTickValue - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
       gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
       tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="black" />\n`;
-      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${!logScaleX ? xTickValue.toFixed(2) : ''}</text>\n`;
+      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${xTickValue.toFixed(2)}</text>\n`;
     }
   }
 
@@ -158,9 +170,6 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
   return svgContent;
 }
 
-// Alias generateSVGPlot to generatePlot for new API usage
-export const generateSVGPlot = generatePlot;
-
 /**
  * Generates an SVG plot for multiple mathematical expressions. Each expression is plotted as a distinct polyline with a unique color and a legend is added.
  * Additionally, optional logarithmic scaling can be applied to the axes.
@@ -203,7 +212,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
           allValidPoints.push({ x, y });
         }
       } catch (_err) {
-        // Ignore evaluation error
+        // Ignore evaluation errors
       }
     }
     series.push({ expression: expr, points });
@@ -211,19 +220,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   // If no valid points for any expression, return fallback SVG
   if (allValidPoints.length === 0) {
-    let fallbackSVG;
-    if (fallbackMessage) {
-      fallbackSVG = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
-        <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">${fallbackMessage}</text>
-      </svg>`;
-    } else {
-      fallbackSVG = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-        <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
-        <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: all expressions returned non-finite values.</text>
-        <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expressions for potential issues.</text>
-      </svg>`;
-    }
+    const fallbackSVG = createFallbackSVG(fallbackMessage, svgWidth, svgHeight);
     svgCache.set(cacheKey, fallbackSVG);
     return fallbackSVG;
   }
@@ -279,7 +276,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
       const scaledX = ((xTickValue - minXTrans) / (maxXTrans - minXTrans || 1)) * (svgWidth - 2 * margin) + margin;
       gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
       tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="black" />\n`;
-      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${!logScaleX ? xTickValue.toFixed(2) : ''}</text>\n`;
+      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${xTickValue.toFixed(2)}</text>\n`;
     }
   }
 
@@ -331,6 +328,9 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   svgCache.set(cacheKey, svgContent);
   return svgContent;
 }
+
+// Alias generateSVGPlot to generatePlot for new API usage
+export const generateSVGPlot = generatePlot;
 
 // CLI related helper functions
 function showHelp() {

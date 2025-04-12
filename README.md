@@ -84,7 +84,7 @@ For multi-function plotting via the API:
 
 ---
 
-The plotting functions now use robust filtering with a try/catch mechanism to ignore non-finite values and intermittent evaluation errors. In addition, enhanced plot elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output, improving the visual quality and interpretability of the plots.
+The plotting functions now implement consistent fallback handling: when no valid data points are generated, a fallback SVG is returned. Custom fallback messages provided are prioritized over default messages. Enhanced elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output.
 
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.
 

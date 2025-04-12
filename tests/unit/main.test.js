@@ -189,7 +189,6 @@ describe("New SVG CLI Multi-Plot Generation", () => {
   });
 });
 
-// New Tests for SVG Caching
 describe("SVG Plot Caching", () => {
   it("should return identical SVG output for repeated calls of generateSVGPlot with same parameters", () => {
     const svg1 = mainModule.generateSVGPlot("sin(x)", -10, 10, 0.5, "Cache test");
@@ -205,11 +204,9 @@ describe("SVG Plot Caching", () => {
   });
 });
 
-// Tests for Logarithmic Scale Axes
 describe("Logarithmic Scale Axes", () => {
   it("should generate a valid SVG plot with log scale on x-axis", () => {
     const svg = mainModule.generateSVGPlot("log(x)", 1, 100, 1, "", true, false);
-    // Expect tick labels to be powers of 10
     expect(svg).toMatch(/10\.00/);
     expect(svg).toContain("<polyline");
   });
