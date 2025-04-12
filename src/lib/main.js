@@ -24,9 +24,27 @@ export function main(args = []) {
 
     const expression = args[exprIdx + 1];
     const start = parseFloat(args[startIdx + 1]);
+    if (isNaN(start)) {
+      console.error("Invalid numeric value for --start");
+      process.exit(1);
+      return;
+    }
     const end = parseFloat(args[endIdx + 1]);
+    if (isNaN(end)) {
+      console.error("Invalid numeric value for --end");
+      process.exit(1);
+      return;
+    }
     const stepIdx = args.indexOf("--step");
-    const step = stepIdx !== -1 ? parseFloat(args[stepIdx + 1]) : 0.1;
+    let step = 0.1;
+    if (stepIdx !== -1) {
+      step = parseFloat(args[stepIdx + 1]);
+      if (isNaN(step)) {
+        console.error("Invalid numeric value for --step");
+        process.exit(1);
+        return;
+      }
+    }
 
     try {
       const svg = generatePlot(expression, start, end, step);

@@ -40,4 +40,37 @@ describe("Plot Generation", () => {
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
   });
+
+  it("should error if --start is non-numeric", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const args = ["--plot", "--expr", "sin(x)", "--start", "abc", "--end", "6.28"];
+    main(args);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --start");
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
+
+  it("should error if --end is non-numeric", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "notanumber"];
+    main(args);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --end");
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
+
+  it("should error if --step is non-numeric", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "NaN"];
+    main(args);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --step");
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
 });
