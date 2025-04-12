@@ -149,7 +149,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
 
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints}" fill="none" stroke="${polylineStroke}" stroke-width="2"/>\n  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints}" fill="none" stroke="${polylineStroke}" stroke-width="2"${""} ${""}${""}${""} >${""}</polyline>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -276,7 +276,10 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
   // Generate interactive circles with event handlers for tooltips
   const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="red" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
 
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints.map(p => p.scaledX + "," + p.scaledY).join(" ")}" fill="none" stroke="${polylineStroke}" stroke-width="2"/>\n    <g class="points">\n${circles}\n</g>\n    <text id="svg-tooltip" style="display:none; fill:${darkMode ? "white" : "black"}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
+  // Include animation tag if animation is enabled
+  const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
+
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints.map(p => p.scaledX + "," + p.scaledY).join(" ")}" fill="none" stroke="${polylineStroke}" stroke-width="2">${animationTag}</polyline>\n    <g class="points">\n${circles}\n</g>\n    <text id="svg-tooltip" style="display:none; fill:${darkMode ? "white" : "black"}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -488,11 +491,14 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
         const ty = logScaleY ? Math.log10(y) : y;
         const scaledX = ((tx - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
         const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
-        return `${scaledX},${scaledY}`;
-      }).join(" ");
+        return { scaledX, scaledY, originalX: x, originalY: y };
+      });
+      const pointsStr = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
       const color = colors[index % colors.length];
-      polylines += `<polyline points="${svgPoints}" fill="none" stroke="${color}" stroke-width="2"/>
-`;
+      const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
+      polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2">${animationTag}</polyline>\n`;
+      const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
+      circlesGroup += circles + "\n";
     }
   });
 
