@@ -1,6 +1,7 @@
 /* File: src/lib/main.js */
 
 import { fileURLToPath } from "url";
+import pkg from "../../package.json" assert { type: "json" };
 
 // Inline implementation of generatePlot to avoid missing module errors
 export function generatePlot(expression, start, end, step) {
@@ -11,6 +12,31 @@ export function generatePlot(expression, start, end, step) {
 }
 
 export function main(args = []) {
+  // Handle help flag
+  if (args.includes("--help") || args.includes("-h")) {
+    console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.
+    
+Usage: node src/lib/main.js [options]
+
+Options:
+  -h, --help       display help information
+  -v, --version    display version information
+  --diagnostics    enable diagnostics mode
+  --plot           generate a plot with parameters
+  --expr <expression>  expression (required with --plot)
+  --start <number>     start value (required with --plot)
+  --end <number>       end value (required with --plot)
+  --step <number>      step value (optional, default 0.1)
+`);
+    return;
+  }
+
+  // Handle version flag
+  if (args.includes("--version") || args.includes("-v")) {
+    console.log(pkg.version);
+    return;
+  }
+
   // Diagnostics mode: if '--diagnostics' flag is provided, output detailed execution context
   if (args.includes("--diagnostics")) {
     console.log("Diagnostics Mode Enabled");
@@ -28,7 +54,7 @@ export function main(args = []) {
     if (exprIdx === -1 || startIdx === -1 || endIdx === -1) {
       console.error("Missing required parameters for plotting: --expr, --start, --end");
       process.exit(1);
-      return; // Ensure no further execution in testing environments
+      return;
     }
 
     const expression = args[exprIdx + 1];
