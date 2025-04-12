@@ -8,7 +8,7 @@ import { generateSVGPlot } from "./plotSVG.js";
 export function generatePlot(expression, start, end, step) {
   const compiled = compile(expression);
   const points = [];
-  
+
   for (let x = start; x <= end; x += step) {
     try {
       const y = compiled.evaluate({ x });
@@ -195,6 +195,7 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
+
 /* File: src/lib/plotSVG.js */
 
 import { compile } from "mathjs";
@@ -202,9 +203,9 @@ import { compile } from "mathjs";
 export function generateSVGPlot(expression, xmin, xmax, pointsCount) {
   const compiled = compile(expression);
   const points = [];
-  
+
   const step = (xmax - xmin) / (pointsCount - 1);
-  
+
   for (let i = 0; i < pointsCount; i++) {
     const x = xmin + i * step;
     try {
