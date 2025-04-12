@@ -150,7 +150,8 @@ function isNaNVariant(input, additionalVariants = []) {
   const builtInVariants = caseSensitive ? NAN_BUILT_INS_CASE : NAN_BUILT_INS;
   // Determine effective additional variants: use passed additionalVariants if provided, else from config
   let effectiveAdditionalVariants = additionalVariants && additionalVariants.length > 0 ? additionalVariants : getCustomNaNVariants(config);
-  const cacheKey = cleanedInput + "|" + effectiveAdditionalVariants.join(",");
+  // Updated cache key to also include case sensitivity flag
+  const cacheKey = `${cleanedInput}|${effectiveAdditionalVariants.join(",")}|${caseSensitive ? "cs" : "ci"}`;
   if (isNaNVariantCache.has(cacheKey)) return isNaNVariantCache.get(cacheKey);
 
   let result = builtInVariants.has(inputToCompare) || effectiveAdditionalVariants.includes(inputToCompare);
@@ -164,7 +165,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const locale = config.LOCALE || "en-US";
-      // Optimized warning key generation without JSON.stringify
+      // Deduplication key includes normalized input, fallbackNumber, additionalVariants and locale
       const key = `${normalized}|${fallbackNumber.toString().trim()}|${additionalVariants.join(",")}|${locale}`;
       if (!warnedNaNWarnings.has(key)) {
         const logMessage = formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVariants, locale);
