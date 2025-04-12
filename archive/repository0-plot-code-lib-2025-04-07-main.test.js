@@ -22,12 +22,13 @@ function captureOutput(func) {
   return { logs, errors };
 }
 
-
 describe("Main CLI Functionality", () => {
   let exitSpy;
 
   beforeEach(() => {
-    exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error("process.exit:" + code); });
+    exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error("process.exit:" + code);
+    });
   });
 
   afterEach(() => {
@@ -77,7 +78,9 @@ describe("Main CLI Functionality", () => {
 
   test("should generate expression plot with valid function and range parameters", () => {
     const { logs } = captureOutput(() => main(["output.svg", "expr:Math.sin(x)*x:-10,10,0.5"]));
-    expect(logs[0]).toMatch(/Generating expression plot to output.svg with function 'Math.sin\(x\)\*x' and range parameters -10,10,0.5/);
+    expect(logs[0]).toMatch(
+      /Generating expression plot to output.svg with function 'Math.sin\(x\)\*x' and range parameters -10,10,0.5/,
+    );
   });
 
   test("should error on invalid plot command format", () => {
@@ -93,8 +96,8 @@ describe("Main CLI Functionality", () => {
     } catch (e) {
       captured = e.captured || { logs: [], errors: [] };
     }
-    expect(captured.errors.some(error => error.includes('not a finite number'))).toBe(true);
-    expect(captured.errors.some(error => error.includes('Replace any instance of literal'))).toBe(true);
+    expect(captured.errors.some((error) => error.includes("not a finite number"))).toBe(true);
+    expect(captured.errors.some((error) => error.includes("Replace any instance of literal"))).toBe(true);
   });
 
   test("should error on invalid mathematical expression in quad command", () => {
@@ -131,7 +134,9 @@ describe("Main CLI Functionality", () => {
       throw new Error("Expected error not thrown");
     } catch (e) {
       expect(e.message).toContain("process.exit:1");
-      expect(e.diagnostic.suggestion).toMatch(/Replace any instance of literal 'NaN' or non-finite expressions with a valid finite number \(e.g., 0\)/);
+      expect(e.diagnostic.suggestion).toMatch(
+        /Replace any instance of literal 'NaN' or non-finite expressions with a valid finite number \(e.g., 0\)/,
+      );
     }
   });
 });

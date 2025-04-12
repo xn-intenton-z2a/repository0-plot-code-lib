@@ -28,7 +28,7 @@ const globalConfigSchema = z.object({
   ALLOW_NAN: z.boolean().optional(),
   additionalNaNValues: z.array(z.string()).optional(),
   DISABLE_FALLBACK_WARNINGS: z.boolean().optional(),
-  CASE_SENSITIVE_NAN: z.boolean().optional() // New config: case sensitive NaN matching
+  CASE_SENSITIVE_NAN: z.boolean().optional(), // New config: case sensitive NaN matching
 });
 
 // Global configuration cache for hot reloading
@@ -121,8 +121,8 @@ function cleanString(str) {
 // New helper: retrieves custom NaN variants from configuration in a normalized form
 function getCustomNaNVariants(config) {
   if (!config.additionalNaNValues) return [];
-  return config.additionalNaNValues.map(v => {
-    let cleaned = cleanString(v);
+  return config.additionalNaNValues.map((v) => {
+    const cleaned = cleanString(v);
     return config.CASE_SENSITIVE_NAN ? cleaned : cleaned.toLowerCase();
   });
 }
@@ -136,7 +136,7 @@ function formatNaNWarning(cleanedInput, normalized, fallbackNumber, additionalVa
     normalized: normalized,
     fallbackValue: fallbackNumber.toString().trim(),
     customNaNVariants: additionalVariants,
-    locale: locale
+    locale: locale,
   });
 }
 
@@ -149,11 +149,12 @@ function isNaNVariant(input, additionalVariants = []) {
   const inputToCompare = caseSensitive ? cleanedInput : cleanedInput.toLowerCase();
   const builtInVariants = caseSensitive ? NAN_BUILT_INS_CASE : NAN_BUILT_INS;
   // Determine effective additional variants: use passed additionalVariants if provided, else from config
-  let effectiveAdditionalVariants = additionalVariants && additionalVariants.length > 0 ? additionalVariants : getCustomNaNVariants(config);
+  const effectiveAdditionalVariants =
+    additionalVariants && additionalVariants.length > 0 ? additionalVariants : getCustomNaNVariants(config);
   const cacheKey = cleanedInput + "|" + effectiveAdditionalVariants.join(",");
   if (isNaNVariantCache.has(cacheKey)) return isNaNVariantCache.get(cacheKey);
 
-  let result = builtInVariants.has(inputToCompare) || effectiveAdditionalVariants.includes(inputToCompare);
+  const result = builtInVariants.has(inputToCompare) || effectiveAdditionalVariants.includes(inputToCompare);
   isNaNVariantCache.set(cacheKey, result);
   return result;
 }
@@ -161,7 +162,7 @@ function isNaNVariant(input, additionalVariants = []) {
 // Unified fallback handler to process invalid numeric inputs using fallback value and emit structured JSON warnings
 function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVariants, config, logger) {
   const cleanedInput = cleanString(originalInput);
-  if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== '') {
+  if (fallbackNumber !== undefined && fallbackNumber !== null && fallbackNumber.toString().trim() !== "") {
     if (!config.DISABLE_FALLBACK_WARNINGS && !cliSuppressNanWarnings) {
       const locale = config.LOCALE || "en-US";
       // Optimized warning key generation without JSON.stringify
@@ -176,7 +177,7 @@ function fallbackHandler(originalInput, normalized, fallbackNumber, additionalVa
   }
   let errorMsg = `Invalid numeric input '${originalInput}' (Locale: ${config.LOCALE || "en-US"}). Expected a valid numeric value such as 42, 1e3, 1_000, or 1,000. Normalized input: '${normalized}'.`;
   if (additionalVariants.length > 0) {
-    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ") }].`;
+    errorMsg += ` Recognized custom NaN variants: [${additionalVariants.join(", ")}].`;
   }
   throw Object.assign(new Error(errorMsg), { originalInput });
 }
@@ -208,13 +209,13 @@ export function normalizeNumberString(inputStr, preserveDecimal = false) {
 
 // Helper function to apply a chalk chain from a dot-separated config string, optionally using a provided chalk instance.
 function applyChalkChain(chain, chalkInstance = chalk) {
-  if (typeof chain !== 'string' || chain.trim() === '') {
+  if (typeof chain !== "string" || chain.trim() === "") {
     return chalkInstance;
   }
-  const chainParts = chain.split('.');
+  const chainParts = chain.split(".");
   let chained = chalkInstance;
   chainParts.forEach((part) => {
-    if (typeof chained[part] === 'function') {
+    if (typeof chained[part] === "function") {
       chained = chained[part];
     }
   });
@@ -223,10 +224,10 @@ function applyChalkChain(chain, chalkInstance = chalk) {
 
 // Helper function to validate the custom theme configuration
 function isValidThemeConfig(config) {
-  const requiredKeys = ['error', 'usage', 'info', 'run'];
-  if (typeof config !== 'object' || config === null) return false;
+  const requiredKeys = ["error", "usage", "info", "run"];
+  if (typeof config !== "object" || config === null) return false;
   for (const key of requiredKeys) {
-    if (typeof config[key] !== 'string' || config[key].trim() === '') {
+    if (typeof config[key] !== "string" || config[key].trim() === "") {
       return false;
     }
   }
@@ -236,7 +237,7 @@ function isValidThemeConfig(config) {
 // Enhanced logError function logs the actual error's stack trace when an Error object is passed
 function logError(chalkError, ...args) {
   let errorObj = null;
-  const messageParts = args.map(arg => {
+  const messageParts = args.map((arg) => {
     if (arg instanceof Error && !errorObj) {
       errorObj = arg;
       return arg.message;
@@ -252,7 +253,15 @@ function logError(chalkError, ...args) {
 }
 
 // Unified function to process numeric input with fallback and consistent warning logging
-function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, additionalVariants = [], logger = console.warn, strict = false) {
+function processNumberInputUnified(
+  inputStr,
+  fallbackNumber,
+  allowNaN = false,
+  preserveDecimal = false,
+  additionalVariants = [],
+  logger = console.warn,
+  strict = false,
+) {
   const cleanedInput = cleanString(inputStr);
   const normalized = normalizeNumberString(cleanedInput, preserveDecimal);
   const config = getGlobalConfig();
@@ -260,7 +269,7 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   if (isNaNVariant(cleanedInput, additionalVariants)) {
     if (strict) {
       let errorMsg = `Strict mode: Invalid numeric input '${cleanedInput}' (Locale: ${config.LOCALE || "en-US"}). Normalized input: '${normalized}'.`;
-      if (cleanedInput.startsWith('+') || cleanedInput.startsWith('-')) {
+      if (cleanedInput.startsWith("+") || cleanedInput.startsWith("-")) {
         errorMsg += " Signed NaN variants are not allowed in strict mode.";
       }
       throw new Error(errorMsg);
@@ -275,7 +284,9 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
   const num = Number(normalized);
   if (Number.isNaN(num)) {
     if (strict) {
-      throw new Error(`Strict mode: Invalid numeric input '${cleanedInput}' (Locale: ${config.LOCALE || "en-US"}). Normalized input: '${normalized}'.`);
+      throw new Error(
+        `Strict mode: Invalid numeric input '${cleanedInput}' (Locale: ${config.LOCALE || "en-US"}). Normalized input: '${normalized}'.`,
+      );
     }
     return fallbackHandler(cleanedInput, normalized, fallbackNumber, additionalVariants, config, logger);
   }
@@ -285,18 +296,33 @@ function processNumberInputUnified(inputStr, fallbackNumber, allowNaN = false, p
 // Consolidated numeric parsing function that processes numeric inputs uniformly
 export function parseNumericInput(inputStr, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
   const config = getGlobalConfig();
-  const additionalVariants = (config.additionalNaNValues || []).map(v => {
+  const additionalVariants = (config.additionalNaNValues || []).map((v) => {
     let cleaned = cleanString(v);
     if (!config.CASE_SENSITIVE_NAN) {
       cleaned = cleaned.toLowerCase();
     }
     return cleaned;
   });
-  return processNumberInputUnified(inputStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
+  return processNumberInputUnified(
+    inputStr,
+    fallbackNumber,
+    allowNaN,
+    preserveDecimal,
+    additionalVariants,
+    console.warn,
+    strict,
+  );
 }
 
 // CSV Importer: Reads a CSV file and returns an array of arrays of numbers using unified numeric parsing
-export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',', strict = false) {
+export function parseCSV(
+  filePath,
+  fallbackNumber,
+  allowNaN = false,
+  preserveDecimal = false,
+  delimiter = ",",
+  strict = false,
+) {
   const content = readFileSync(filePath, "utf-8");
   const data = parseCSVFromString(content, fallbackNumber, allowNaN, preserveDecimal, delimiter, strict);
   // Reset warning cache after processing a CSV batch
@@ -306,11 +332,11 @@ export function parseCSV(filePath, fallbackNumber, allowNaN = false, preserveDec
 
 // Helper to auto-detect CSV delimiter based on the first line of content
 function autoDetectDelimiter(content) {
-  const delimiters = [',', ';', '|', '\t'];
+  const delimiters = [",", ";", "|", "\t"];
   const firstLine = content.split("\n")[0];
   let maxCount = 0;
-  let selected = ',';
-  delimiters.forEach(delim => {
+  let selected = ",";
+  delimiters.forEach((delim) => {
     const count = firstLine.split(delim).length - 1;
     if (count > maxCount) {
       maxCount = count;
@@ -321,63 +347,86 @@ function autoDetectDelimiter(content) {
 }
 
 // Parses CSV content from a string with an optional custom delimiter
-function parseCSVFromString(content, fallbackNumber, allowNaN = false, preserveDecimal = false, delimiter = ',', strict = false) {
-  if (!delimiter || delimiter === '') {
+function parseCSVFromString(
+  content,
+  fallbackNumber,
+  allowNaN = false,
+  preserveDecimal = false,
+  delimiter = ",",
+  strict = false,
+) {
+  if (!delimiter || delimiter === "") {
     delimiter = autoDetectDelimiter(content);
   }
   if (content.trim() === "") {
     throw new Error("CSV file is empty.");
   }
   const rows = content.trim().split("\n");
-  return rows.map(row => {
+  return rows.map((row) => {
     let cells = [];
-    if (preserveDecimal && delimiter === ',') {
+    if (preserveDecimal && delimiter === ",") {
       const matches = row.match(/(?:[+\-]?NaN|-?\d+(?:,\d{3})*(?:\.\d+)?(?:[eE][+\-]?\d+)?)/gi);
       if (matches === null) {
         throw new Error("No numeric data found in row.");
       }
       cells = matches;
     } else {
-      cells = row.split(delimiter).map(cell => cell.trim());
+      cells = row.split(delimiter).map((cell) => cell.trim());
     }
-    return cells.map(cell => parseNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal, strict));
+    return cells.map((cell) => parseNumericInput(cell, fallbackNumber, allowNaN, preserveDecimal, strict));
   });
 }
 
 // Enhanced validateNumericArg applies fallback mechanism and logs a warning for invalid numeric CLI input
-export function validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNaN = false, preserveDecimal = false, strict = false) {
+export function validateNumericArg(
+  numStr,
+  verboseMode,
+  themeColors,
+  fallbackNumber,
+  allowNaN = false,
+  preserveDecimal = false,
+  strict = false,
+) {
   const config = getGlobalConfig();
-  const additionalVariants = (config.additionalNaNValues || []).map(v => {
+  const additionalVariants = (config.additionalNaNValues || []).map((v) => {
     let cleaned = cleanString(v);
     if (!config.CASE_SENSITIVE_NAN) {
       cleaned = cleaned.toLowerCase();
     }
     return cleaned;
   });
-  return processNumberInputUnified(numStr, fallbackNumber, allowNaN, preserveDecimal, additionalVariants, console.warn, strict);
+  return processNumberInputUnified(
+    numStr,
+    fallbackNumber,
+    allowNaN,
+    preserveDecimal,
+    additionalVariants,
+    console.warn,
+    strict,
+  );
 }
 
 /**
  * Main function executing CLI logic with advanced error handling, colored output, numeric validation, CSV import, and global configuration support.
  * Enhanced inline documentation and structured logging for NaN handling have been applied.
- * 
+ *
  * Added Debug Trace mode (--debug-trace) to output detailed structured JSON logs of the internal processing pipeline.
- * 
+ *
  * @param {string[]} args - Command line arguments.
  */
 export async function main(args) {
   try {
     let debugTrace = false;
-    let debugData = {};
+    const debugData = {};
 
-    if (args && args.includes('--debug-trace')) {
+    if (args && args.includes("--debug-trace")) {
       debugTrace = true;
-      args = args.filter(arg => arg !== '--debug-trace');
+      args = args.filter((arg) => arg !== "--debug-trace");
     }
 
     if (args && args.length > 0) {
-      args = args.filter(arg => {
-        if (arg === '--suppress-nan-warnings') {
+      args = args.filter((arg) => {
+        if (arg === "--suppress-nan-warnings") {
           cliSuppressNanWarnings = true;
           return false;
         }
@@ -388,32 +437,32 @@ export async function main(args) {
     let fallbackNumber = undefined;
     let allowNan = false;
     let preserveDecimal = false;
-    let csvDelimiter = '';
+    let csvDelimiter = "";
     let strictNumeric = false;
 
     if (args && args.length > 0) {
-      args = args.filter(arg => {
-        if (arg.startsWith('--fallback-number=')) {
-          fallbackNumber = arg.slice('--fallback-number='.length);
+      args = args.filter((arg) => {
+        if (arg.startsWith("--fallback-number=")) {
+          fallbackNumber = arg.slice("--fallback-number=".length);
           return false;
         }
-        if (arg === '--allow-nan') {
+        if (arg === "--allow-nan") {
           allowNan = true;
           return false;
         }
-        if (arg === '--preserve-decimal') {
+        if (arg === "--preserve-decimal") {
           preserveDecimal = true;
           return false;
         }
-        if (arg.startsWith('--csv-delimiter=')) {
-          csvDelimiter = arg.slice('--csv-delimiter='.length);
+        if (arg.startsWith("--csv-delimiter=")) {
+          csvDelimiter = arg.slice("--csv-delimiter=".length);
           return false;
         }
-        if (arg === '--strict-numeric') {
+        if (arg === "--strict-numeric") {
           strictNumeric = true;
           return false;
         }
-        if (arg === '--watch-config') {
+        if (arg === "--watch-config") {
           return false;
         }
         return true;
@@ -422,14 +471,14 @@ export async function main(args) {
     if (!fallbackNumber && process.env.FALLBACK_NUMBER) {
       fallbackNumber = process.env.FALLBACK_NUMBER;
     }
-    if (!allowNan && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === 'true') {
+    if (!allowNan && process.env.ALLOW_EXPLICIT_NAN && process.env.ALLOW_EXPLICIT_NAN.toLowerCase() === "true") {
       allowNan = true;
     }
 
     let themeFlag = null;
-    args = args.filter(arg => {
-      if (arg.startsWith('--theme=')) {
-        themeFlag = arg.slice('--theme='.length);
+    args = args.filter((arg) => {
+      if (arg.startsWith("--theme=")) {
+        themeFlag = arg.slice("--theme=".length);
         return false;
       }
       return true;
@@ -439,9 +488,9 @@ export async function main(args) {
     }
 
     let logFilePath = null;
-    args = args.filter(arg => {
-      if (arg.startsWith('--log-file=')) {
-        logFilePath = arg.slice('--log-file='.length);
+    args = args.filter((arg) => {
+      if (arg.startsWith("--log-file=")) {
+        logFilePath = arg.slice("--log-file=".length);
         return false;
       }
       return true;
@@ -468,15 +517,15 @@ export async function main(args) {
         strictNumeric,
         themeFlag,
         logFilePath,
-        remainingArgs: args
+        remainingArgs: args,
       };
     }
 
-    if (args.includes('--watch-config')) {
+    if (args.includes("--watch-config")) {
       watchGlobalConfig();
     }
 
-    if (args && args.includes('--show-config')) {
+    if (args && args.includes("--show-config")) {
       const globalConfig = getGlobalConfig();
       if (process.env.CLI_COLOR_SCHEME) globalConfig.CLI_COLOR_SCHEME = process.env.CLI_COLOR_SCHEME;
       if (process.env.LOG_LEVEL) globalConfig.LOG_LEVEL = process.env.LOG_LEVEL;
@@ -509,9 +558,9 @@ export async function main(args) {
 
     let csvFilePath = null;
     if (args && args.length > 0) {
-      args = args.filter(arg => {
-        if (arg.startsWith('--csv-file=')) {
-          csvFilePath = arg.slice('--csv-file='.length);
+      args = args.filter((arg) => {
+        if (arg.startsWith("--csv-file=")) {
+          csvFilePath = arg.slice("--csv-file=".length);
           return false;
         }
         return true;
@@ -525,8 +574,8 @@ export async function main(args) {
         if (debugTrace) {
           debugData.csvProcessing = {
             file: csvFilePath,
-            delimiterUsed: csvDelimiter || autoDetectDelimiter(readFileSync(csvFilePath, 'utf-8')),
-            data: csvData
+            delimiterUsed: csvDelimiter || autoDetectDelimiter(readFileSync(csvFilePath, "utf-8")),
+            data: csvData,
           };
         }
       } catch (csvError) {
@@ -544,13 +593,20 @@ export async function main(args) {
           pipedData += chunk;
         }
         if (pipedData.trim()) {
-          const csvData = parseCSVFromString(pipedData, fallbackNumber, allowNan, preserveDecimal, csvDelimiter, strictNumeric);
+          const csvData = parseCSVFromString(
+            pipedData,
+            fallbackNumber,
+            allowNan,
+            preserveDecimal,
+            csvDelimiter,
+            strictNumeric,
+          );
           console.log(themeColors.info("Imported CSV Data (from STDIN): ") + JSON.stringify(csvData));
           if (debugTrace) {
             debugData.csvProcessing = {
               source: "STDIN",
               delimiterUsed: csvDelimiter || autoDetectDelimiter(pipedData),
-              data: csvData
+              data: csvData,
             };
           }
         } else {
@@ -573,7 +629,15 @@ export async function main(args) {
       for (const arg of args) {
         if (arg.startsWith(numberFlagPrefix)) {
           const numStr = arg.slice(numberFlagPrefix.length);
-          const result = validateNumericArg(numStr, verboseMode, themeColors, fallbackNumber, allowNan, preserveDecimal, strictNumeric);
+          const result = validateNumericArg(
+            numStr,
+            verboseMode,
+            themeColors,
+            fallbackNumber,
+            allowNan,
+            preserveDecimal,
+            strictNumeric,
+          );
           numericDebug.push({ input: numStr, result });
         }
       }
@@ -591,7 +655,7 @@ export async function main(args) {
         console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
       }
     } catch (error) {
-      if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) {
+      if (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === "debug")) {
         logError(themeColors.error, "Error in main function execution:", error);
       } else {
         const msg = error.message.startsWith("Invalid numeric input") ? error.message : "Error: " + error.message;
@@ -603,14 +667,17 @@ export async function main(args) {
         console.log(JSON.stringify({ debugTrace: debugData }, null, 2));
       }
 
-      if ((verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === 'debug')) && errorReportingUrl) {
-        let libraryVersion = 'unknown';
+      if (
+        (verboseMode || (process.env.LOG_LEVEL && process.env.LOG_LEVEL.toLowerCase() === "debug")) &&
+        errorReportingUrl
+      ) {
+        let libraryVersion = "unknown";
         try {
-          const pkgPath = path.join(process.cwd(), 'package.json');
+          const pkgPath = path.join(process.cwd(), "package.json");
           if (existsSync(pkgPath)) {
-            const pkgContent = readFileSync(pkgPath, 'utf-8');
+            const pkgContent = readFileSync(pkgPath, "utf-8");
             const pkg = JSON.parse(pkgContent);
-            libraryVersion = pkg.version || 'unknown';
+            libraryVersion = pkg.version || "unknown";
           }
         } catch (e) {}
         const payload = {
@@ -620,13 +687,13 @@ export async function main(args) {
           libraryVersion,
           timestamp: new Date().toISOString(),
           envContext: {
-            NODE_ENV: process.env.NODE_ENV || 'undefined',
-            CLI_COLOR_SCHEME: process.env.CLI_COLOR_SCHEME || 'undefined',
-            LOG_LEVEL: process.env.LOG_LEVEL || 'undefined',
-            HOME: process.env.HOME || process.env.USERPROFILE || 'undefined',
-            LOCALE: process.env.LOCALE || 'undefined'
+            NODE_ENV: process.env.NODE_ENV || "undefined",
+            CLI_COLOR_SCHEME: process.env.CLI_COLOR_SCHEME || "undefined",
+            LOG_LEVEL: process.env.LOG_LEVEL || "undefined",
+            HOME: process.env.HOME || process.env.USERPROFILE || "undefined",
+            LOCALE: process.env.LOCALE || "undefined",
           },
-          originalNumericInput: error.originalInput || null
+          originalNumericInput: error.originalInput || null,
         };
         await submitErrorReport(payload, errorReportingUrl, themeColors);
       }
@@ -647,12 +714,12 @@ export async function submitErrorReport(payload, url, themeColors) {
   let maxAttempts;
   const config = getGlobalConfig();
   if (process.env.ERROR_RETRY_DELAYS) {
-    retryDelays = process.env.ERROR_RETRY_DELAYS.split(",").map(s => Number(s.trim()));
+    retryDelays = process.env.ERROR_RETRY_DELAYS.split(",").map((s) => Number(s.trim()));
   } else if (config.ERROR_RETRY_DELAYS) {
     if (Array.isArray(config.ERROR_RETRY_DELAYS)) {
       retryDelays = config.ERROR_RETRY_DELAYS;
     } else if (typeof config.ERROR_RETRY_DELAYS === "string") {
-      retryDelays = config.ERROR_RETRY_DELAYS.split(",").map(s => Number(s.trim()));
+      retryDelays = config.ERROR_RETRY_DELAYS.split(",").map((s) => Number(s.trim()));
     }
   } else {
     retryDelays = [500, 1000, 2000];
@@ -670,20 +737,24 @@ export async function submitErrorReport(payload, url, themeColors) {
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify(payload),
       });
       if (response.ok) {
         console.log(themeColors.info(`Error report submitted successfully on attempt ${attempt + 1}.`));
         return;
       } else {
-        console.error(themeColors.error(`Failed to submit error report on attempt ${attempt + 1}. Status: ${response.status}`));
+        console.error(
+          themeColors.error(`Failed to submit error report on attempt ${attempt + 1}. Status: ${response.status}`),
+        );
       }
     } catch (err) {
-      console.error(themeColors.error(`Failed to submit error report on attempt ${attempt + 1}. Error: ${err.message}`));
+      console.error(
+        themeColors.error(`Failed to submit error report on attempt ${attempt + 1}. Error: ${err.message}`),
+      );
     }
     if (attempt < maxAttempts - 1) {
-      let delay = retryDelays[attempt] !== undefined ? retryDelays[attempt] : retryDelays[retryDelays.length - 1];
-      await new Promise(resolve => setTimeout(resolve, delay));
+      const delay = retryDelays[attempt] !== undefined ? retryDelays[attempt] : retryDelays[retryDelays.length - 1];
+      await new Promise((resolve) => setTimeout(resolve, delay));
     }
   }
   console.error(themeColors.error("All attempts to submit error report have failed."));
@@ -698,7 +769,7 @@ function getThemeColors() {
       error: forcedChalk.bold.red,
       usage: forcedChalk.bold.blue,
       info: forcedChalk.bold.green,
-      run: forcedChalk.bold.cyan
+      run: forcedChalk.bold.cyan,
     };
   } else if (themeOverride === "light") {
     const forcedChalk = new Chalk({ level: 3 });
@@ -706,7 +777,7 @@ function getThemeColors() {
       error: forcedChalk.red,
       usage: forcedChalk.magenta,
       info: forcedChalk.blue,
-      run: forcedChalk.yellow
+      run: forcedChalk.yellow,
     };
   } else {
     const forcedChalk = new Chalk({ level: 3 });
@@ -714,7 +785,7 @@ function getThemeColors() {
       error: forcedChalk.red,
       usage: forcedChalk.yellow,
       info: forcedChalk.green,
-      run: forcedChalk.cyan
+      run: forcedChalk.cyan,
     };
   }
 }
@@ -728,7 +799,7 @@ function getThemeColors() {
  */
 export function formatNumberOutput(num, options = {}) {
   const config = getGlobalConfig();
-  const locale = process.env.LOCALE || config.LOCALE || 'en-US';
+  const locale = process.env.LOCALE || config.LOCALE || "en-US";
   const formatter = new Intl.NumberFormat(locale, options);
   return formatter.format(num);
 }

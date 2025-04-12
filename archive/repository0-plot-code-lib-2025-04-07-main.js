@@ -11,16 +11,18 @@ import express from "express";
 import readline from "readline";
 
 // Helper: Standardized error throwing for invalid numeric evaluations
-function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = '') {
+function throwInvalidNumberError(index, rawValue, evaluated, extraInfo = "") {
   const trimmedValue = rawValue.trim();
-  const err = new Error(`Parameter ${index} error: The expression '${trimmedValue}' (raw: '${rawValue}') evaluated to ${evaluated}, which is not a finite number. Please provide a valid finite number (e.g., 0).`);
+  const err = new Error(
+    `Parameter ${index} error: The expression '${trimmedValue}' (raw: '${rawValue}') evaluated to ${evaluated}, which is not a finite number. Please provide a valid finite number (e.g., 0).`,
+  );
   err.code = 1;
   err.diagnostic = {
     index,
     rawValue,
     trimmedValue,
     evaluated,
-    suggestion: "Replace any instance of literal 'NaN' or non-finite expressions with a valid finite number (e.g., 0)."
+    suggestion: "Replace any instance of literal 'NaN' or non-finite expressions with a valid finite number (e.g., 0).",
   };
   throw err;
 }
@@ -31,7 +33,7 @@ function evaluateParameter(p, index) {
   const trimmedValue = p.trim();
   // Immediate rejection if parameter exactly equals 'NaN' in any casing
   if (/^nan$/i.test(trimmedValue)) {
-    throwInvalidNumberError(index, p, 'NaN');
+    throwInvalidNumberError(index, p, "NaN");
   }
   let evaluated;
   try {
@@ -53,7 +55,7 @@ function evaluateParameter(p, index) {
       rawValue: p,
       trimmedValue,
       error: evaluationError.message,
-      suggestion: refinedSuggestion
+      suggestion: refinedSuggestion,
     };
     throw err;
   }
@@ -67,7 +69,9 @@ function evaluateParameter(p, index) {
 // Helper function to process parameters for commands expecting numeric expressions
 function processParams(params, expectedCount) {
   if (params.length !== expectedCount) {
-    const err = new Error(`Invalid parameter count: Expected ${expectedCount} numeric parameters separated by commas, but got ${params.length}.`);
+    const err = new Error(
+      `Invalid parameter count: Expected ${expectedCount} numeric parameters separated by commas, but got ${params.length}.`,
+    );
     err.code = 1;
     err.diagnostic = { provided: params.length, expected: expectedCount };
     throw err;
@@ -84,7 +88,7 @@ const commandHandlers = {
       action: () => {
         console.log(`Generating quad plot to ${output} with parameters ${evaluatedParams.join(",")}`);
         // Placeholder for actual quad plot generation logic
-      }
+      },
     };
   },
   linear: (output, paramString) => {
@@ -94,7 +98,7 @@ const commandHandlers = {
       action: () => {
         console.log(`Generating linear plot to ${output} with parameters ${evaluatedParams.join(",")}`);
         // Placeholder for actual linear plot generation logic
-      }
+      },
     };
   },
   expr: (output, paramString) => {
@@ -113,11 +117,13 @@ const commandHandlers = {
     const evaluatedRangeParams = processParams(rangeParams, 3);
     return {
       action: () => {
-        console.log(`Generating expression plot to ${output} with function '${funcExpr}' and range parameters ${evaluatedRangeParams.join(",")}`);
+        console.log(
+          `Generating expression plot to ${output} with function '${funcExpr}' and range parameters ${evaluatedRangeParams.join(",")}`,
+        );
         // Placeholder for actual expression plot generation logic
-      }
+      },
     };
-  }
+  },
 };
 
 // Refactored argument parser
@@ -125,19 +131,19 @@ function parseArguments(args) {
   // Check for modes activated by flags
   if (args.length === 0 || args.includes("--interactive")) {
     return {
-      action: interactiveMode
+      action: interactiveMode,
     };
   } else if (args.includes("--serve")) {
     return {
-      action: webServerMode
+      action: webServerMode,
     };
   } else if (args.includes("--ascii")) {
     return {
-      action: asciiMode
+      action: asciiMode,
     };
   } else if (args.includes("--diagnostics")) {
     return {
-      action: diagnosticsMode
+      action: diagnosticsMode,
     };
   } else if (args.length >= 2) {
     const output = args[0];
@@ -172,7 +178,7 @@ function interactiveMode() {
   console.log("Starting interactive mode...");
   const rl = readline.createInterface({
     input: process.stdin,
-    output: process.stdout
+    output: process.stdout,
   });
   rl.question("Enter your plot command: ", (answer) => {
     try {
@@ -225,7 +231,7 @@ export function main(args) {
     }
     const exitCode = error.code || 1;
     // In test environment, throw an error that includes diagnostic info, else exit
-    if (process.env.NODE_ENV === 'test') {
+    if (process.env.NODE_ENV === "test") {
       const exitError = new Error(`process.exit:${exitCode}`);
       exitError.diagnostic = error.diagnostic;
       throw exitError;

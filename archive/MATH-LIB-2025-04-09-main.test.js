@@ -1,14 +1,20 @@
-///////////////////////////////
+// /////////////////////////////
 // File: tests/unit/main.test.js
-///////////////////////////////
+// /////////////////////////////
 // Updated tests/unit/main.test.js
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
-import { main, getAcceptedNaNAliases, parseNumericParams, advancedPlots, parseJSONConfig } from "../../src/lib/main.js";
-import { getAcceptedNaNAliases as getAcceptedNaNAliasesDirect } from "../../src/lib/main.js";
+import {
+  main,
+  getAcceptedNaNAliases,
+  parseNumericParams,
+  advancedPlots,
+  parseJSONConfig,
+  getAcceptedNaNAliases as getAcceptedNaNAliasesDirect,
+} from "../../src/lib/main.js";
 
 // Helper function to check if an element is NaN
-const isNativeNaN = (x) => typeof x === 'number' && Number.isNaN(x);
+const isNativeNaN = (x) => typeof x === "number" && Number.isNaN(x);
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -25,7 +31,9 @@ describe("Default Demo Output", () => {
 
 describe("Invalid Numeric Input Handling", () => {
   test("should output error and exit when an invalid numeric parameter is provided", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error(`process.exit: ${code}`);
+    });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const invalidArg = "quad:1,0,abc,-10,10,1";
 
@@ -55,7 +63,7 @@ describe("Handling 'NaN' as a valid token", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const argWithNaN = "quad:1,NaN,5";
-    
+
     expect(() => main([argWithNaN])).not.toThrow();
     expect(errorSpy).not.toHaveBeenCalled();
     expect(exitSpy).not.toHaveBeenCalled();
@@ -70,7 +78,7 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad:  1 ,  NaN  ,   5  , -10 , 10,  1";
-    
+
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
@@ -80,7 +88,9 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
   });
 
   test("should exit on malformed numeric input with extra non-numeric characters", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error(`process.exit: ${code}`);
+    });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const badArg = "quad:1, 2x, 3";
 
@@ -95,7 +105,7 @@ describe("Regex-based Numeric Conversion Edge Cases", () => {
     const exitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const arg = "quad: 1e4 , 2.14e-3 , NaN , -3.5E+2";
-    
+
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main([arg]);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
@@ -140,7 +150,9 @@ describe("Trailing Commas and Extra Delimiters Handling", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const originalTestPlot = mainModule.advancedPlots.testPlot;
     let receivedParams;
-    mainModule.advancedPlots.testPlot = function(params) { receivedParams = params; };
+    mainModule.advancedPlots.testPlot = function (params) {
+      receivedParams = params;
+    };
     main(["--advanced", "testPlot", "1,,NaN,5,,"]);
     expect(receivedParams).toEqual([1, Number.NaN, 5]);
     mainModule.advancedPlots.testPlot = originalTestPlot;
@@ -199,7 +211,7 @@ describe("Direct NaN Alias Module Import", () => {
 
 describe("Unicode Normalization Handling", () => {
   test("should handle decomposed Unicode forms of NaN aliases provided via LOCALE_NAN_ALIASES", () => {
-    const decomposedAlias = "nicht eine zahl".normalize('NFD');
+    const decomposedAlias = "nicht eine zahl".normalize("NFD");
     process.env.LOCALE_NAN_ALIASES = JSON.stringify([decomposedAlias]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:1, nicht eine zahl ,5"]);
@@ -222,7 +234,7 @@ describe("Extended Unicode NaN Aliases", () => {
   });
 
   test("should accept Japanese NaN alias '非数' when configured via LOCALE_NAN_ALIASES, including decomposed forms", () => {
-    const decomposed = "非数".normalize('NFD');
+    const decomposed = "非数".normalize("NFD");
     process.env.LOCALE_NAN_ALIASES = JSON.stringify([decomposed]);
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["quad:1, 非数, 5"]);
@@ -237,7 +249,9 @@ describe("Extended Unicode NaN Aliases", () => {
 describe("Custom Error Handling Callback", () => {
   test("should invoke custom error handler with correct error message", () => {
     let capturedMessage = "";
-    const customHandler = (msg) => { capturedMessage = msg; };
+    const customHandler = (msg) => {
+      capturedMessage = msg;
+    };
     expect(() => parseNumericParams("1,abc,5", customHandler)).toThrow();
     expect(capturedMessage).toContain("Invalid numeric parameter 'abc'");
   });
@@ -281,7 +295,9 @@ describe("Strict NaN Mode", () => {
 
   test("should reject alternative NaN alias when strict mode is enabled", () => {
     process.env.STRICT_NAN_MODE = "true";
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error(`process.exit: ${code}`);
+    });
     const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     expect(() => main(["quad: 1, na, 5"]).toThrow()).toThrow(/process.exit: 1/);
     expect(errorSpy).toHaveBeenCalledWith(expect.stringContaining("Invalid numeric parameter 'na'"));
@@ -296,7 +312,7 @@ describe("Strict NaN Mode", () => {
 describe("Batch Plotting Commands", () => {
   test("should process multiple non-advanced commands in one invocation", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["quad: 1,2,3,4", "chart:{\"data\":[10,20,30],\"label\":\"Test\"}"]);
+    main(["quad: 1,2,3,4", 'chart:{"data":[10,20,30],"label":"Test"}']);
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"chart"'));
     logSpy.mockRestore();
@@ -305,13 +321,15 @@ describe("Batch Plotting Commands", () => {
   test("should process a mix of advanced and non-advanced commands", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--advanced", "testPlot", "1,NaN,5", "quad: 1,2,3"]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Advanced Plot: Test Plot'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("Advanced Plot: Test Plot"));
     expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('"quad"'));
     logSpy.mockRestore();
   });
 
   test("should error if advanced command is missing arguments", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error(`process.exit: ${code}`);
+    });
     expect(() => main(["--advanced", "boxPlot"]).toThrow()).toThrow();
     exitSpy.mockRestore();
   });
@@ -324,12 +342,14 @@ describe("JSON Configuration Parsing", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const jsonConfig = '{"data": [1,2,3], "config": {"title": "Test Box", "colors": ["red", "blue"]}}';
     main(["--advanced", "boxPlot", jsonConfig]);
-    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining('Advanced Plot: Box Plot'));
+    expect(logSpy).toHaveBeenCalledWith(expect.stringContaining("Advanced Plot: Box Plot"));
     logSpy.mockRestore();
   });
 
   test("should exit with descriptive error for invalid JSON configuration", () => {
-    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => { throw new Error(`process.exit: ${code}`); });
+    const exitSpy = vi.spyOn(process, "exit").mockImplementation((code) => {
+      throw new Error(`process.exit: ${code}`);
+    });
     const malformedJson = '{"data": [1,2,3], "config": {"title": "Test Box", "colors": ["red", "blue"]}';
     expect(() => main(["--advanced", "boxPlot", malformedJson])).toThrow(/process.exit: 1/);
     exitSpy.mockRestore();
