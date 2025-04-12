@@ -31,7 +31,7 @@
 <p class="md-github">When no arguments are provided, a default demo plot (plotting sin(x) from 0 to 6.28) is generated and written to output.svg.</p>
 <p class="md-github">Example for standard execution (outputs to file output.svg by default):</p>
 <p class="md-github">$ node src/lib/main.js --plot --expr &quot;sin(x)&quot; --start 0 --end 6.28 --step 0.1</p>
-<p class="md-github">Example for specifying custom SVG dimensions, dark mode, and a custom output file (e.g., PNG or PDF):</p>
+<p class="md-github">Example for specifying custom SVG dimensions, dark mode, and a custom output file (e.g., PNG, JPEG, or PDF):</p>
 <p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --darkmode --file output.png [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
 <h4 class="md-github"><a class="md-github__anchor" name="enhanced-interactive-mode" href="#enhanced-interactive-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Interactive Mode</h4>
 <p class="md-github">A new interactive plotting mode is available. When the <code class="md-github">--interactive</code> flag is provided along with plotting parameters, the tool generates an SVG with tooltips on hover and basic zoom/pan functionality. Data points display their coordinates when hovered over. Dark mode can also be enabled using the <code class="md-github">--darkmode</code> flag.</p>
@@ -84,9 +84,15 @@ const expressions = [&quot;sin(x)&quot;, &quot;cos(x)&quot;];
 const svgInteractive = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, false, false, 600, 400, false, true);
 console.log(svgInteractive);</p>
 <hr class="md-github">
-<p class="md-github"><strong class="md-github">PNG and PDF Conversion:</strong></p>
-<p class="md-github">If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format using the 'sharp' library. Similarly, if the file ends with .pdf, it uses a headless browser (via Puppeteer) to convert the SVG into a PDF file. This allows seamless generation of both PNG and PDF outputs from mathematical plots. The PDF conversion now includes no-sandbox options to improve compatibility in various environments.</p>
-<p class="md-github"><strong class="md-github">File Output:</strong> By default, the CLI writes the SVG output to a file named &quot;output.svg&quot;. This can be overridden using the --file flag with the desired filename (e.g., output.png, output.pdf).</p>
+<p class="md-github"><strong class="md-github">PNG, JPEG, and PDF Conversion:</strong></p>
+<p class="md-github">If the output file specified with the --file flag ends with .png, .jpg, .jpeg, or .pdf, the tool automatically converts the generated SVG using the respective conversion process:</p>
+<ul class="md-github">
+<li class="md-github">PNG conversion uses the 'sharp' library to produce PNG images.</li>
+<li class="md-github">JPEG conversion uses the 'sharp' library to produce JPEG images (now supported).</li>
+<li class="md-github">PDF conversion uses Puppeteer to produce PDF documents.</li>
+</ul>
+<p class="md-github">This allows seamless generation of PNG, JPEG, and PDF outputs from mathematical plots. The PDF conversion now includes no-sandbox options to improve compatibility in various environments.</p>
+<p class="md-github"><strong class="md-github">File Output:</strong> By default, the CLI writes the SVG output to a file named &quot;output.svg&quot;. This can be overridden using the --file flag with the desired filename (e.g., output.png, output.jpg, output.pdf).</p>
 <p class="md-github"><strong class="md-github">Custom Dimensions:</strong></p>
 <p class="md-github">Users can now customize the output SVG dimensions using the new --width and --height options, which default to 500 and 300 respectively if not specified.</p>
 <p class="md-github"><strong class="md-github">Dark Mode:</strong></p>
@@ -99,7 +105,7 @@ console.log(svgInteractive);</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T22:39:45.525Z</p>
+    <p>Generated on 2025-04-12T22:50:06.086Z</p>
   </footer>
 </body>
 </html>
