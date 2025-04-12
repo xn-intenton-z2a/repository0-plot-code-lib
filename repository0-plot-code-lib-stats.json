@@ -10,8 +10,8 @@
   "openPRs": 0,
   "averagePRAge": 0,
   "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 2,
+  "diffMinutes": 2,
+  "diffMinutesMain": 5,
   "commitsLastHour": 5,
   "commitsLastDay": 99,
   "lastFiveCommitMessages": [
@@ -28,5 +28,5 @@
   },
   "testStatusOnBranch": "PASS",
   "testsLastPassedMinutes": 15,
-  "statsGeneratedAt": "2025-04-12T18:05:24.606Z"
+  "statsGeneratedAt": "2025-04-12T18:08:14.564Z"
 }
