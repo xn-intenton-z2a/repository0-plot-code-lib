@@ -3,7 +3,7 @@
 import { fileURLToPath } from "url";
 import pkg from "../../package.json" with { type: "json" };
 import { compile } from "mathjs";
-import fs from "fs";  
+import fs from "fs";
 
 // In-memory cache for SVG outputs
 const svgCache = new Map();
@@ -495,6 +495,14 @@ function handlePlot(args) {
 }
 
 export function main(args = []) {
+  if (args.length === 0) {
+    // Default demo: generate a sample SVG plot using legacy parameters
+    const fileName = "output.svg";
+    const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
+    fs.writeFileSync(fileName, svg, "utf-8");
+    console.log(svg);
+    return;
+  }
   if (args.includes("--help") || args.includes("-h")) {
     showHelp();
     return;

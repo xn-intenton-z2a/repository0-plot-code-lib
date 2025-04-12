@@ -10,6 +10,8 @@ Invoke directly via the command line using Node:
 
   node src/lib/main.js [arguments]
 
+When no arguments are provided, a default demo plot (plotting sin(x) from 0 to 6.28) is generated and written to output.svg.
+
 Example for standard execution (outputs to file output.svg by default):
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
@@ -89,7 +91,3 @@ The plotting functions now implement consistent fallback handling: when no valid
 **File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png).
 
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.
-
-## License
-
-MIT
