@@ -221,7 +221,7 @@ describe("Invalid Expression Handling", () => {
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "NaN", "--start", "0", "--end", "10"];
     mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not a valid mathematical expression");
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
@@ -232,7 +232,7 @@ describe("Invalid Expression Handling", () => {
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "NaN", "--xmin", "0", "--xmax", "10", "--points", "10"];
     mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not a valid mathematical expression");
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
