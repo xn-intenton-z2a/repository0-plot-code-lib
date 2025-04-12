@@ -85,24 +85,28 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <p class="md-github">Use the <code class="md-github">--suppress-nan-warnings</code> flag to disable the structured JSON warnings normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same input in batch processing are consolidated to improve log clarity.</p>
 </li>
 </ul>
+<h4 class="md-github"><a class="md-github__anchor" name="enhanced-unified-nan-handling" href="#enhanced-unified-nan-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Unified 'NaN' Handling</h4>
+<p class="md-github">The library now features enhanced unified handling for NaN inputs. This improvement ensures that various forms of 'NaN' (including different casings, extra/unusual Unicode whitespace, and signed variants) are processed consistently across both CLI arguments and CSV imports. Custom NaN variants respect the CASE_SENSITIVE_NAN flag, and warning messages are deduplicated within each batch execution.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="automatic-warning-cache-reset" href="#automatic-warning-cache-reset"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Automatic Warning Cache Reset</h4>
-<p class="md-github">The library now automatically resets the NaN fallback warning cache at the end of each batch process (e.g. after a CSV import or CLI execution). This ensures that warnings for identical NaN inputs are logged in subsequent batches even if they were suppressed within a single batch.</p>
+<p class="md-github">The library automatically resets the NaN fallback warning cache at the end of each batch process. This ensures that warnings for identical NaN inputs are logged in subsequent batches even if they were suppressed within a single batch.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="locale-aware-numeric-output-formatting" href="#locale-aware-numeric-output-formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locale-Aware Numeric Output Formatting</h4>
-<p class="md-github">A new utility function, <code class="md-github">formatNumberOutput</code>, has been added to format numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:</p>
+<p class="md-github">A new utility function, <code class="md-github">formatNumberOutput</code>, formats numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:</p>
 <ul class="md-github">
 <li class="md-github">In <strong class="md-github">en-US</strong>: <code class="md-github">formatNumberOutput(1234.56)</code> returns &quot;1,234.56&quot;.</li>
 <li class="md-github">In <strong class="md-github">de-DE</strong>: the same number is formatted as &quot;1.234,56&quot;.</li>
 </ul>
 <p class="md-github">You can pass additional options conforming to the Intl.NumberFormat API to customize the output further.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="integration-tests-for-extended-nan-handling" href="#integration-tests-for-extended-nan-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration Tests for Extended NaN Handling</h4>
-<p class="md-github">The test suite has been extended with comprehensive integration tests to validate edge case behaviors including:</p>
+<p class="md-github">The test suite now includes comprehensive integration tests to validate edge case behaviors such as:</p>
 <ul class="md-github">
-<li class="md-github">Handling of inputs with extra/unusual Unicode whitespace</li>
+<li class="md-github">Handling inputs with extra/unusual Unicode whitespace</li>
 <li class="md-github">Mixed case inputs in conjunction with custom NaN variants</li>
 <li class="md-github">Deduplication of warnings within a batch and reset between batches</li>
 <li class="md-github">Strict mode validation that disallows any NaN variant including unusual spaced inputs</li>
 </ul>
-<p class="md-github">These tests can be run using the existing vitest framework.</p>
+<p class="md-github">Run tests using the vitest framework:</p>
+<pre class="md-github"><code class="md-github language-bash">npm test
+</code></pre>
 <h4 class="md-github"><a class="md-github__anchor" name="file-based-logging" href="#file-based-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File-based Logging</h4>
 <p class="md-github">You can log all CLI output to a file by specifying the <code class="md-github">--log-file=&lt;path&gt;</code> flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file as well as printed to the console.</p>
 <h5 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h5>
@@ -111,46 +115,6 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 </code></pre>
 <p class="md-github">Piping data and logging to a file:</p>
 <pre class="md-github"><code class="md-github language-bash">echo &quot;1;2;3\n4;5;6&quot; | repository0-plot-code-lib --csv-delimiter=&quot;;&quot; --fallback-number=100 --log-file=./cli.log
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="unified-nan-handling--structured-logging" href="#unified-nan-handling--structured-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Unified 'NaN' Handling &amp; Structured Logging</h3>
-<ul class="md-github">
-<li class="md-github">All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard whitespace) are processed using unified functions that apply enhanced Unicode whitespace normalization and consistent fallback logic.</li>
-<li class="md-github">When a NaN variant is detected and explicit NaN values are disallowed, a standardized structured JSON warning is logged. This warning includes the original input (trimmed), its normalized form, the applied fallback value, any custom NaN variants, and the locale in use.</li>
-<li class="md-github"><strong class="md-github">Warning Consolidation:</strong> Multiple occurrences of the same invalid input with the same fallback configuration trigger only one warning within a single batch, avoiding log clutter.</li>
-<li class="md-github"><strong class="md-github">Automatic Cache Reset:</strong> After each batch process, the warning cache is reset, ensuring that warnings are not permanently suppressed across separate executions.</li>
-<li class="md-github"><strong class="md-github">Signed NaN Variants:</strong> In strict mode, signed variants such as '+NaN' and '-NaN' trigger an explicit error. In non-strict mode, they are treated as NaN variants and the fallback value is applied if needed.</li>
-</ul>
-<p class="md-github"><em class="md-github">Performance Optimization:</em> NaN variant detection functions have been refactored to reduce redundant Unicode normalization and case conversions, ensuring efficient processing even for large CSV files or numerous CLI inputs.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="custom-nan-variants" href="#custom-nan-variants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom NaN Variants</h3>
-<p class="md-github">You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are cleaned using consistent normalization. When CASE_SENSITIVE_NAN is enabled, custom variants must exactly match the input.</p>
-<p class="md-github">Example configuration:</p>
-<pre class="md-github"><code class="md-github language-json">{
-  &quot;additionalNaNValues&quot;: [&quot;foo&quot;, &quot;bar&quot;],
-  &quot;CASE_SENSITIVE_NAN&quot;: false
-}
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="locale-aware-numeric-parsing--formatting" href="#locale-aware-numeric-parsing--formatting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Locale-Aware Numeric Parsing &amp; Formatting</h3>
-<p class="md-github">The numeric parsing functions support different locale formats. In addition, the newly added <code class="md-github">formatNumberOutput</code> function formats numbers for display according to the locale.</p>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Parsing (normalizeNumberString):</strong></p>
-<ul class="md-github">
-<li class="md-github">In <strong class="md-github">en-US</strong>: commas are treated as thousand separators and the period as a decimal point.</li>
-<li class="md-github">In <strong class="md-github">de-DE</strong>: periods are thousand separators and commas are decimal points (with conversion applied when preserving decimals).</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Formatting (formatNumberOutput):</strong></p>
-<ul class="md-github">
-<li class="md-github">In <strong class="md-github">en-US</strong>: numbers like 1234.56 are formatted as &quot;1,234.56&quot;.</li>
-<li class="md-github">In <strong class="md-github">de-DE</strong>: the same number is formatted as &quot;1.234,56&quot;.</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Set the locale in your configuration file or via the <code class="md-github">LOCALE</code> environment variable:</p>
-<pre class="md-github"><code class="md-github language-json">{
-  &quot;LOCALE&quot;: &quot;de-DE&quot;
-}
 </code></pre>
 <h3 class="md-github"><a class="md-github__anchor" name="global-configuration" href="#global-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Global Configuration</h3>
 <p class="md-github">Use the .repository0plotconfig.json file to set global parameters such as the error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, CASE_SENSITIVE_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).</p>
@@ -193,7 +157,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T00:19:01.491Z</p>
+    <p>Generated on 2025-04-12T00:19:55.748Z</p>
   </footer>
 </body>
 </html>
