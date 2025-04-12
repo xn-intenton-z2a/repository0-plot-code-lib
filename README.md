@@ -18,7 +18,7 @@ Example for enhanced plot generation:
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
-This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation now robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG with a "No valid data" message is returned. Additionally, if any numeric parameter (--start, --end, --step) is invalid, the CLI logs an appropriate error and exits immediately without generating a fallback SVG.
+This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG with a "No valid data" message and additional diagnostic information is returned, indicating that the expression evaluation resulted in exclusively non-finite values. Additionally, if any numeric parameter (--start, --end, --step) is invalid, the CLI logs an appropriate error and exits immediately without generating a fallback SVG.
 
 Example for diagnostics mode:
 
@@ -54,7 +54,7 @@ For direct SVG plot generation, import the generatePlot function from the main m
   const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
   console.log(svg);
 
-The generatePlot function uses robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG with a 'No valid data' message is returned.
+The generatePlot function uses robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG with a 'No valid data' message along with diagnostic information is returned, indicating that the expression evaluation returned only non-finite values.
 
 ---
 
