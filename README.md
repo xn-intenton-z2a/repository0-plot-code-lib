@@ -10,9 +10,13 @@ Invoke directly via the command line:
 
   repository0-plot-code-lib [arguments]
 
-Example:
+Example for standard execution:
 
   $ repository0-plot-code-lib arg1 arg2
+
+Example for plot generation:
+
+  $ repository0-plot-code-lib --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
 ### Library
 
@@ -21,10 +25,14 @@ Import the main function in your project:
   import { main } from '@src/lib/main.js';
   main(['your', 'args']);
 
+For direct SVG plot generation, import the generatePlot function:
+
+  import { generatePlot } from '@src/lib/plot.js';
+  const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
+  console.log(svg);
+
 ---
 
 ## License
 
 MIT
-
----
