@@ -32,6 +32,11 @@ Example using the new flag for multi-function plotting:
 
 Note: If a literal 'NaN' is provided as the expression (ignoring case and whitespace), the tool will now generate a fallback SVG output rather than terminating abruptly. You can optionally provide a custom fallback message using the --fallback flag.
 
+The generated SVG plots now come with enhanced visual features including:
+- A horizontal x-axis (at the bottom) and a vertical y-axis (on the left).
+- Tick marks along each axis with numerical labels.
+- Light grid lines corresponding to the tick marks across the plot area.
+
 Example for diagnostics mode:
 
   $ node src/lib/main.js --diagnostics
@@ -83,7 +88,7 @@ Example usage:
 
 ---
 
-The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. When multiple expressions are provided, each is rendered with a distinct color and a legend is added to differentiate between them. If no valid points are found for an expression (or for all), a fallback SVG is returned that includes diagnostic details indicating the issue.
+The plotting functions now use robust filtering with a try/catch mechanism to ignore non-finite values and intermittent evaluation errors. In addition, enhanced plot elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output, improving the visual quality and interpretability of the plots.
 
 ## License
 

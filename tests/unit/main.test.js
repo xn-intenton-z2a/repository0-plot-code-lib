@@ -50,7 +50,7 @@ describe("Diagnostics Mode", () => {
 
 // Plot Generation (Legacy CLI Syntax)
 describe("Plot Generation (Legacy CLI Syntax)", () => {
-  it("should generate a valid SVG plot with a polyline element", () => {
+  it("should generate a valid SVG plot with a polyline element and enhanced axes, grid, and ticks", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "0.1"];
     mainModule.main(args);
@@ -59,6 +59,10 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     expect(output).toContain("<svg");
     expect(output).toContain("</svg>");
     expect(output).toContain("<polyline");
+    // Check for enhanced elements
+    expect(output).toContain("class=\"axis");
+    expect(output).toContain("class=\"grid-line");
+    expect(output).toContain("class=\"tick-label");
     consoleSpy.mockRestore();
   });
 
@@ -204,10 +208,11 @@ describe("Version Flag", () => {
 import { generateSVGPlot, generateMultiPlot } from "@src/lib/main.js";
 
 describe("SVG Plot Generation Module", () => {
-  it("should generate a valid SVG with polyline for a valid expression", () => {
+  it("should generate a valid SVG with polyline and enhanced axes for a valid expression", () => {
     const svg = generateSVGPlot("sin(x)", -10, 10, 0.4);
     expect(svg).toContain("<svg");
     expect(svg).toContain("<polyline");
+    expect(svg).toContain("class=\"axis");
   });
 
   it("should return fallback SVG when no valid data points are generated", () => {
@@ -218,12 +223,14 @@ describe("SVG Plot Generation Module", () => {
 });
 
 describe("Multi-Function Plot Generation via API", () => {
-  it("should generate an SVG with multiple polylines and a legend for valid expressions", () => {
+  it("should generate an SVG with multiple polylines, enhanced axes, grid lines, and a legend for valid expressions", () => {
     const expressions = ["sin(x)", "cos(x)"];
     const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
     expect(svg).toContain("<svg");
     expect(svg).toContain("<polyline");
     expect(svg).toContain("<g class=\"legend\"");
+    expect(svg).toContain("class=\"axis");
+    expect(svg).toContain("class=\"grid-line");
     expect(svg).toContain("sin(x)");
     expect(svg).toContain("cos(x)");
   });

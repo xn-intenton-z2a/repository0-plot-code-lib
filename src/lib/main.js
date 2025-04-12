@@ -16,7 +16,9 @@ export function isLiteralNaN(expression) {
 /**
  * Generates an SVG plot for a given mathematical expression over a specific range.
  * Optionally, a custom fallback message can be provided to display when no valid data points are found.
- * 
+ *
+ * The plot now includes enhanced visual features: x and y axis lines, tick marks with numeric labels, and grid lines.
+ *
  * @param {string} expression - The mathematical expression to evaluate.
  * @param {number} start - The starting value of x.
  * @param {number} end - The ending value of x.
@@ -26,7 +28,11 @@ export function isLiteralNaN(expression) {
  */
 export function generatePlot(expression, start, end, step, fallbackMessage) {
   let points = [];
-  
+  const margin = 20;
+  const svgWidth = 500;
+  const svgHeight = 300;
+  const tickCount = 5;
+
   // Check for literal 'NaN'. If true, skip evaluation to trigger fallback SVG.
   if (isLiteralNaN(expression)) {
     console.warn("Literal 'NaN' input detected, generating fallback SVG output.");
@@ -60,29 +66,59 @@ export function generatePlot(expression, start, end, step, fallbackMessage) {
     }
   }
 
-  const svgWidth = 500;
-  const svgHeight = 300;
-
+  // Calculate data bounds
   const xValues = points.map(point => point.x);
   const yValues = points.map(point => point.y);
   const minX = Math.min(...xValues);
   const maxX = Math.max(...xValues);
   const minY = Math.min(...yValues);
   const maxY = Math.max(...yValues);
-
   const xRange = maxX - minX || 1;
   const yRange = maxY - minY || 1;
 
+  // Build polyline for the data points
   const svgPoints = points
     .map(({ x, y }) => {
-      const scaledX = ((x - minX) / xRange) * (svgWidth - 40) + 20;
-      const scaledY = svgHeight - (((y - minY) / yRange) * (svgHeight - 40) + 20);
+      const scaledX = ((x - minX) / xRange) * (svgWidth - 2 * margin) + margin;
+      const scaledY = svgHeight - (((y - minY) / yRange) * (svgHeight - 2 * margin) + margin);
       return `${scaledX},${scaledY}`;
     })
     .join(" ");
 
+  // Create grid lines, axis lines and tick marks with labels
+  let gridLines = "";
+  let tickMarks = "";
+
+  // X-axis ticks and grid lines
+  const xTickInterval = xRange / tickCount;
+  for (let i = 0; i <= tickCount; i++) {
+    const xTickValue = minX + i * xTickInterval;
+    const scaledX = ((xTickValue - minX) / xRange) * (svgWidth - 2 * margin) + margin;
+    gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+    tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="black" />\n`;
+    tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${xTickValue.toFixed(2)}</text>\n`;
+  }
+
+  // Y-axis ticks and grid lines
+  const yTickInterval = yRange / tickCount;
+  for (let i = 0; i <= tickCount; i++) {
+    const yTickValue = minY + i * yTickInterval;
+    const scaledY = svgHeight - (((yTickValue - minY) / yRange) * (svgHeight - 2 * margin) + margin);
+    gridLines += `<line class="grid-line" x1="${margin}" y1="${scaledY}" x2="${svgWidth - margin}" y2="${scaledY}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+    tickMarks += `<line class="tick-mark" x1="${margin - 5}" y1="${scaledY}" x2="${margin}" y2="${scaledY}" stroke="black" />\n`;
+    tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10">${yTickValue.toFixed(2)}</text>\n`;
+  }
+
+  // Axis lines
+  const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
+  const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
+
+  // Build the final SVG content
   const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
+    <g class="grid">\n${gridLines}</g>
+    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>
+    <g class="ticks">\n${tickMarks}</g>
     <polyline points="${svgPoints}" fill="none" stroke="blue" stroke-width="2"/>
   </svg>`;
 
@@ -95,6 +131,8 @@ export const generateSVGPlot = generatePlot;
 /**
  * Generates an SVG plot for multiple mathematical expressions. Each expression is plotted as a distinct polyline with a unique color and a legend is added.
  * 
+ * The generated multi-plot now also includes enhanced axes, tick marks with numeric labels, and grid lines for clarity.
+ * 
  * @param {string[]} expressions - Array of mathematical expressions to evaluate.
  * @param {number} start - The starting x value.
  * @param {number} end - The ending x value.
@@ -105,6 +143,8 @@ export const generateSVGPlot = generatePlot;
 export function generateMultiPlot(expressions, start, end, step, fallbackMessage) {
   const svgWidth = 500;
   const svgHeight = 300;
+  const margin = 20;
+  const tickCount = 5;
   const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"];
   const series = [];
   let allValidPoints = [];
@@ -114,7 +154,6 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
     let points = [];
     if (isLiteralNaN(expr)) {
       console.warn(`Literal 'NaN' provided in expression '${expr}', generating fallback for this expression.`);
-      // Leave points empty to trigger fallback later
     } else {
       const compiled = compile(expr);
       for (let x = start; x <= end; x += step) {
@@ -156,12 +195,12 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   const yRange = maxY - minY || 1;
 
   // Generate polyline elements for each series
-  let polylines = '';
+  let polylines = "";
   series.forEach((serie, index) => {
     if (serie.points.length > 0) {
       const svgPoints = serie.points.map(({ x, y }) => {
-        const scaledX = ((x - start) / xRange) * (svgWidth - 40) + 20;
-        const scaledY = svgHeight - (((y - minY) / yRange) * (svgHeight - 40) + 20);
+        const scaledX = ((x - start) / xRange) * (svgWidth - 2 * margin) + margin;
+        const scaledY = svgHeight - (((y - minY) / yRange) * (svgHeight - 2 * margin) + margin);
         return `${scaledX},${scaledY}`;
       }).join(' ');
       const color = colors[index % colors.length];
@@ -170,24 +209,48 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
     }
   });
 
-  // Build legend for each expression
-  let legendItems = '';
-  const legendX = svgWidth - 110;
-  let legendY = 20;
-  series.forEach((serie, index) => {
-    const color = colors[index % colors.length];
-    legendItems += `<rect x="${legendX}" y="${legendY - 12}" width="10" height="10" fill="${color}" />
-`;
-    legendItems += `<text x="${legendX + 15}" y="${legendY - 2}" font-size="10" fill="black">${serie.expression}</text>
-`;
-    legendY += 15;
-  });
+  // Create grid lines, axes and tick marks based on overall data range
+  let gridLines = "";
+  let tickMarks = "";
 
+  // X-axis ticks and grid lines
+  const xTickInterval = xRange / tickCount;
+  for (let i = 0; i <= tickCount; i++) {
+    const xTickValue = start + i * xTickInterval;
+    const scaledX = ((xTickValue - start) / xRange) * (svgWidth - 2 * margin) + margin;
+    gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+    tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="black" />\n`;
+    tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${xTickValue.toFixed(2)}</text>\n`;
+  }
+
+  // Y-axis ticks and grid lines
+  const yTickInterval = yRange / tickCount;
+  for (let i = 0; i <= tickCount; i++) {
+    const yTickValue = minY + i * yTickInterval;
+    const scaledY = svgHeight - (((yTickValue - minY) / yRange) * (svgHeight - 2 * margin) + margin);
+    gridLines += `<line class="grid-line" x1="${margin}" y1="${scaledY}" x2="${svgWidth - margin}" y2="${scaledY}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+    tickMarks += `<line class="tick-mark" x1="${margin - 5}" y1="${scaledY}" x2="${margin}" y2="${scaledY}" stroke="black" />\n`;
+    tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10">${yTickValue.toFixed(2)}</text>\n`;
+  }
+
+  // Axis lines
+  const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
+  const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
+
+  // Build the final SVG content
   const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black" />
+    <g class="grid">\n${gridLines}</g>
+    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>
+    <g class="ticks">\n${tickMarks}</g>
     ${polylines}
     <g class="legend">
-      ${legendItems}
+      ${series.map((serie, index) => {
+        const color = colors[index % colors.length];
+        const legendX = svgWidth - 110;
+        const legendY = 20 + index * 15;
+        return `<rect x="${legendX}" y="${legendY - 12}" width="10" height="10" fill="${color}" />\n<text x="${legendX + 15}" y="${legendY - 2}" font-size="10" fill="black">${serie.expression}</text>`;
+      }).join("\n")}
     </g>
   </svg>`;
 
