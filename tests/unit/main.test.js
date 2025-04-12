@@ -164,14 +164,14 @@ describe("SVG Plot Generation Module", () => {
   });
 });
 
-// Additional tests for new CLI flag using the new syntax
+// Updated tests for new CLI flag using the new syntax
 
 describe("New SVG CLI Plot Generation", () => {
   it("should generate a valid SVG using new CLI parameters", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--plot", "cos(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100"];
-    // Using main from mainModule
-    import('@src/lib/main.js').then(mod => mod.main(args));
+    // Using mainModule.main directly
+    mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("<polyline");
@@ -182,7 +182,7 @@ describe("New SVG CLI Plot Generation", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "cos(x)", "--xmin", "0", "--points", "100"]; // missing --xmax
-    import('@src/lib/main.js').then(mod => mod.main(args));
+    mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for SVG plotting: --xmin, --xmax, --points");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
