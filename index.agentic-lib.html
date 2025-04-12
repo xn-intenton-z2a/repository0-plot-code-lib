@@ -34,8 +34,8 @@
 <p class="md-github">$ node src/lib/main.js --plot --expr &quot;sin(x)&quot; --start 0 --end 6.28 --step 0.1 [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
 <p class="md-github">Example for enhanced SVG plot generation using the new CLI syntax:</p>
 <p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
-<p class="md-github">Note: If the literal expression 'NaN' (case-insensitive) is provided via the CLI, the tool will report an error with detailed diagnostics. The error message will explain that 'NaN' is not acceptable because it violates valid mathematical evaluation rules and will suggest providing a valid expression or using the --fallback flag to supply a custom message.</p>
-<p class="md-github">The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN, Infinity, etc.). If no valid data points are found, a fallback SVG is returned that includes diagnostic information to aid in debugging. The fallback message can be customized using the --fallback flag in the CLI.</p>
+<p class="md-github">Note: If the literal expression 'NaN' (case-insensitive, and with any surrounding whitespace) is provided via the CLI, the tool will report an error with detailed diagnostics. The error message will explain that 'NaN' is not acceptable because it violates valid mathematical evaluation rules and will suggest providing a valid expression or using the --fallback flag to supply a custom message.</p>
+<p class="md-github">The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN, Infinity, etc.). If no valid points are found, a fallback SVG is returned that includes diagnostic details indicating that the expression evaluation resulted in non-finite values. The fallback message can be customized using the --fallback flag in the CLI.</p>
 <p class="md-github">Example for diagnostics mode:</p>
 <p class="md-github">$ node src/lib/main.js --diagnostics</p>
 <p class="md-github">Example for displaying help:</p>
@@ -56,14 +56,19 @@ console.log(svg);</p>
 <p class="md-github">import { generateSVGPlot } from '@src/lib/main.js';
 const svg = generateSVGPlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;);
 console.log(svg);</p>
-<p class="md-github">The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG is returned that includes diagnostic details indicating that the expression evaluation resulted in non-finite values (e.g. NaN, Infinity). The fallback message can be customized to display a specific error or diagnostic message.</p>
+<h4 class="md-github"><a class="md-github__anchor" name="utility-function-isliteralnan" href="#utility-function-isliteralnan"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Function: isLiteralNaN</h4>
+<p class="md-github">The library now includes a dedicated utility function to check if an input expression is a literal 'NaN' (ignoring case and whitespace). This ensures consistent rejection of invalid expressions across both CLI and API usage.</p>
+<p class="md-github">Example usage:</p>
+<p class="md-github">import { isLiteralNaN } from '@src/lib/main.js';
+console.log(isLiteralNaN(' NaN ')); // true</p>
 <hr class="md-github">
+<p class="md-github">The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG is returned that includes diagnostic details indicating the issue.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T09:57:49.882Z</p>
+    <p>Generated on 2025-04-12T09:58:40.828Z</p>
   </footer>
 </body>
 </html>
