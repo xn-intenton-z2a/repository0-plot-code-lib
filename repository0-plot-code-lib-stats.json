@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "chore: formatting fixes",
-      "ageMinutes": 0
+      "ageMinutes": 1
     }
   ],
-  "diffMinutes": 0,
-  "diffMinutesMain": 8,
+  "diffMinutes": 1,
+  "diffMinutesMain": 9,
   "commitsLastHour": 2,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
@@ -43,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-formatting",
-        "minutesSinceLastCommit": 0
+        "minutesSinceLastCommit": 2
       }
     ]
   },
-  "averagePRAge": 0,
+  "averagePRAge": 1,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-12T03:24:58.072Z"
+  "generatedAt": "2025-04-12T03:26:28.240Z"
 }
