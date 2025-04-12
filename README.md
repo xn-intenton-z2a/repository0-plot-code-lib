@@ -20,15 +20,17 @@ Example for specifying custom SVG dimensions and a custom output file (e.g., PNG
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --file output.png [--fallback "Custom fallback message for non-finite values"]
 
-Examples for enhanced SVG plot generation using the new CLI syntax:
+#### Enhanced Interactive Mode
 
-For a single expression:
+A new interactive plotting mode is available. When the `--interactive` flag is provided along with plotting parameters, the tool generates an SVG with tooltips on hover and basic zoom/pan functionality. Data points display their coordinates when hovered over.
 
-  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 [--width 600 --height 400] [--fallback "Custom fallback message for non-finite values"]
+For a single interactive plot:
 
-For multi-function plotting with a comma-separated list using the new CLI syntax:
+  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --interactive [--fallback "Custom fallback message"]
 
-  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 [--width 600 --height 400] [--fallback "Custom fallback message"]
+For interactive multi-function plotting with a comma-separated list:
+
+  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 --interactive [--width 600 --height 400] [--fallback "Custom fallback message"]
 
 Additional flags for logarithmic scaling can be used to transform the axes:
 
@@ -74,12 +76,18 @@ For direct SVG plot generation using the new API (with optional logarithmic scal
   const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message", true, false, 600, 400);
   console.log(svg);
 
-For multi-function plotting via the API:
+For interactive SVG plot generation via the API:
 
-  import { generateMultiPlot } from '@src/lib/main.js';
+  import { generateInteractivePlot } from '@src/lib/main.js';
+  // Generates an interactive SVG with tooltips and zoom/pan features
+  const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400);
+  console.log(svg);
+
+For multi-function interactive plotting via the API:
+
+  import { generateInteractiveMultiPlot } from '@src/lib/main.js';
   const expressions = ["sin(x)", "cos(x)"];
-  // Log scale on both axes with default dimensions
-  const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, "", true, true);
+  const svg = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, "", false, false);
   console.log(svg);
 
 ---
@@ -93,5 +101,9 @@ If the output file specified with the --file flag ends with .png, the tool autom
 **Custom Dimensions:**
 
 Users can now customize the output SVG dimensions using the new --width and --height options, which default to 500 and 300 respectively if not specified.
+
+**Interactive Mode:**
+
+Interactive SVG plots include tooltips that show data point coordinates on hover, as well as basic zooming and panning functionalities via mouse events. This enhances the user experience for exploring plotted data.
 
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.

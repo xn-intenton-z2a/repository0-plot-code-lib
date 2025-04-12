@@ -5,7 +5,7 @@ import fs from "fs";
 
 // Cleanup output files if they exist
 afterEach(() => {
-  const files = ["output.svg", "test_output.png", "custom_dimensions.svg"];
+  const files = ["output.svg", "test_output.png", "custom_dimensions.svg", "interactive.svg"];
   files.forEach(file => {
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
@@ -125,7 +125,7 @@ describe("Version Flag", () => {
 });
 
 // New SVG CLI Plot Generation
-import { generateSVGPlot, generateMultiPlot } from "@src/lib/main.js";
+import { generateSVGPlot, generateMultiPlot, generateInteractivePlot, generateInteractiveMultiPlot } from "@src/lib/main.js";
 
 describe("SVG Plot Generation Module", () => {
   it("should generate a valid SVG with polyline and enhanced axes for a valid expression", () => {
@@ -262,5 +262,34 @@ describe("Custom Dimensions Feature", () => {
     const svg = mainModule.generateSVGPlot("sin(x)", 0, 10, 0.5);
     expect(svg).toContain('width="500"');
     expect(svg).toContain('height="300"');
+  });
+});
+
+describe("Interactive Plot Features", () => {
+  it("should generate an interactive SVG containing tooltip elements and embedded script", () => {
+    const svg = mainModule.generateInteractivePlot("sin(x)", 0, 6.28, 0.1);
+    expect(svg).toContain("id=\"svg-tooltip\"");
+    expect(svg).toContain("onmousemove=");
+    expect(svg).toContain("<script");
+  });
+
+  it("should generate an interactive multi-plot SVG containing tooltip elements and embedded script", () => {
+    const expressions = ["sin(x)", "cos(x)"];
+    const svg = mainModule.generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1);
+    expect(svg).toContain("id=\"svg-tooltip\"");
+    expect(svg).toContain("onmousemove=");
+    expect(svg).toContain("<script");
+    expect(svg).toContain("sin(x)");
+    expect(svg).toContain("cos(x)");
+  });
+
+  it("should produce interactive SVG when --interactive flag is used via CLI", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--interactive"];
+    await mainModule.main(args);
+    const output = consoleSpy.mock.calls[0][0];
+    expect(output).toContain("id=\"svg-tooltip\"");
+    expect(output).toContain("<script");
+    consoleSpy.mockRestore();
   });
 });
