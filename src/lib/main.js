@@ -1,7 +1,7 @@
 /* File: src/lib/main.js */
 
 import { fileURLToPath } from "url";
-import pkg from "../../package.json" with { type: "json" };
+import pkg from "../../package.json" assert { type: "json" };
 import { compile } from "mathjs";
 import fs from "fs";
 
@@ -327,7 +327,7 @@ ${tickMarks}</g>
         return `<rect x="${legendX}" y="${legendY - 12}" width="10" height="10" fill="${color}" />\n<text x="${legendX + 15}" y="${legendY - 2}" font-size="10" fill="black">${serie.expression}</text>`;
       }).join("\n")}
     </g>
-  </svg>";
+  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -350,8 +350,8 @@ Options:
                       --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]
   --plots             generate a multi-plot with multiple comma-separated expressions.
   --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values
-  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires positive x values)
-  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires positive y values)
+  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)
+  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)
   --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png).
 `);
 }
