@@ -140,6 +140,12 @@ describe("Handling NaN in Plot Generation", () => {
     const svg = mainModule.generateSVGPlot("NaN", 0, 10, 1, customMessage);
     expect(svg).toContain(customMessage);
   });
+  
+  it("should generate fallback SVG when literal 'NaN' is provided without fallback", () => {
+    const svg = mainModule.generateSVGPlot("NaN", 0, 10, 1);
+    expect(svg).toContain("No valid data");
+    expect(svg).not.toContain("<polyline");
+  });
 });
 
 // Custom Fallback via CLI (Legacy)
