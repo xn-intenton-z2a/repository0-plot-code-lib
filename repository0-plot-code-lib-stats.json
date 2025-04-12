@@ -3,20 +3,19 @@
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
   "openIssues": 100,
-  "issuesClosedLastHour": 6,
+  "issuesClosedLastHour": 8,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Expanded integration tests for comprehensive NaN input handling across CLI and CSV importer. (fixes #1922)",
-      "ageMinutes": 0
-    }
-  ],
-  "diffMinutes": 1,
-  "diffMinutesMain": 10,
-  "commitsLastHour": 5,
+  "openPRs": 0,
+  "prDetails": [],
+  "diffMinutes": 0,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 6,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "23:59",
+      "message": "Expanded integration tests for comprehensive NaN input handling ..."
+    },
     {
       "time": "23:48",
       "message": "Optimized performance test by temporarily overriding NODE_ENV to..."
@@ -32,23 +31,14 @@
     {
       "time": "23:26",
       "message": "Update from agentic-lib"
-    },
-    {
-      "time": "23:01",
-      "message": "Improved Unicode whitespace normalization for NaN variant handli..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1922",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-11T23:58:59.072Z"
+  "generatedAt": "2025-04-11T23:59:54.016Z"
 }

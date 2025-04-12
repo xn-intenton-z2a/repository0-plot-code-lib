@@ -94,6 +94,15 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 <li class="md-github">In <strong class="md-github">de-DE</strong>: the same number is formatted as &quot;1.234,56&quot;.</li>
 </ul>
 <p class="md-github">You can pass additional options conforming to the Intl.NumberFormat API to customize the output further.</p>
+<h4 class="md-github"><a class="md-github__anchor" name="integration-tests-for-extended-nan-handling" href="#integration-tests-for-extended-nan-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration Tests for Extended NaN Handling</h4>
+<p class="md-github">The test suite has been extended with comprehensive integration tests to validate edge case behaviors including:</p>
+<ul class="md-github">
+<li class="md-github">Handling of inputs with extra/unusual Unicode whitespace</li>
+<li class="md-github">Mixed case inputs in conjunction with custom NaN variants</li>
+<li class="md-github">Deduplication of warnings within a batch and reset between batches</li>
+<li class="md-github">Strict mode validation that disallows any NaN variant including unusual spaced inputs</li>
+</ul>
+<p class="md-github">These tests can be run using the existing vitest framework.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="file-based-logging" href="#file-based-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>File-based Logging</h4>
 <p class="md-github">You can log all CLI output to a file by specifying the <code class="md-github">--log-file=&lt;path&gt;</code> flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file as well as printed to the console.</p>
 <h5 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples:</h5>
@@ -184,7 +193,7 @@ Usage: repository0-plot-code-lib &lt;arguments&gt;
 
   </section>
   <footer>
-    <p>Generated on 2025-04-11T23:59:21.196Z</p>
+    <p>Generated on 2025-04-12T00:00:10.663Z</p>
   </footer>
 </body>
 </html>
