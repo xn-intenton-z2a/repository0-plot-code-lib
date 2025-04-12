@@ -30,7 +30,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage) {
     }
   }
 
-  // If no valid points, return fallback SVG
+  // If no valid points, return fallback SVG with diagnostic details
   if (points.length === 0) {
     if (fallbackMessage) {
       return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
@@ -40,8 +40,8 @@ export function generatePlot(expression, start, end, step, fallbackMessage) {
     } else {
       return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
       <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
-      <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data</text>
-      <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Expression evaluation returned only non-finite values</text>
+      <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: expression evaluation returned only non-finite values (e.g. NaN, Infinity)</text>
+      <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expression for potential issues.</text>
     </svg>`;
     }
   }
