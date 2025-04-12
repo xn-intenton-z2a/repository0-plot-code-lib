@@ -2,21 +2,20 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
-  "openIssues": 21,
-  "issuesClosedLastHour": 4,
+  "openIssues": 19,
+  "issuesClosedLastHour": 6,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Added error handling for literal NaN expressions in CLI input. (fixes #1978)",
-      "ageMinutes": 1
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 0,
-  "diffMinutesMain": 14,
-  "commitsLastHour": 2,
-  "commitsLastDay": 92,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 3,
+  "commitsLastDay": 93,
   "lastFiveCommitMessages": [
+    {
+      "time": "09:26",
+      "message": "Added error handling for literal NaN expressions in CLI input. (..."
+    },
     {
       "time": "09:11",
       "message": "Added customizable fallback messaging for non-finite evaluations..."
@@ -32,23 +31,14 @@
     {
       "time": "05:37",
       "message": "Replace deprecated JSON import assert syntax with the modern wit..."
-    },
-    {
-      "time": "05:25",
-      "message": "Enhance fallback SVG with additional diagnostic info for non-fin..."
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-1978",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
-  "averagePRAge": 1,
+  "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-12T09:25:15.715Z"
+  "generatedAt": "2025-04-12T09:26:30.447Z"
 }
