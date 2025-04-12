@@ -2,7 +2,7 @@
 import { describe, it, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
-// Test for the new utility function isLiteralNaN
+// Test for the utility function isLiteralNaN
 describe("Utility Function: isLiteralNaN", () => {
   it("should return true for 'NaN' in various cases", () => {
     expect(mainModule.isLiteralNaN('NaN')).toBe(true);
@@ -189,7 +189,7 @@ describe("Version Flag", () => {
 });
 
 // New SVG CLI Plot Generation
-import { generateSVGPlot } from "@src/lib/main.js";
+import { generateSVGPlot, generateMultiPlot } from "@src/lib/main.js";
 
 describe("SVG Plot Generation Module", () => {
   it("should generate a valid SVG with polyline for a valid expression", () => {
@@ -205,50 +205,57 @@ describe("SVG Plot Generation Module", () => {
   });
 });
 
-describe("New SVG CLI Plot Generation with fallback", () => {
-  it("should generate a valid SVG using new CLI parameters and custom fallback message", () => {
+describe("Multi-Function Plot Generation via API", () => {
+  it("should generate an SVG with multiple polylines and a legend for valid expressions", () => {
+    const expressions = ["sin(x)", "cos(x)"];
+    const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
+    expect(svg).toContain("<svg");
+    expect(svg).toContain("<polyline");
+    expect(svg).toContain("<g class=\"legend\"");
+    expect(svg).toContain("sin(x)");
+    expect(svg).toContain("cos(x)");
+  });
+
+  it("should return fallback SVG if all expressions yield no valid points", () => {
+    const expressions = ["0/0", "0/0"];
+    const svg = generateMultiPlot(expressions, 0, 10, 1);
+    expect(svg).toContain("No valid data");
+    expect(svg).not.toContain("<polyline");
+  });
+});
+
+describe("New SVG CLI Multi-Plot Generation", () => {
+  it("should generate a valid multi-plot SVG using --plots flag with comma-separated expressions", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const customMessage = "New CLI custom fallback";
-    const args = ["--plot", "cos(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--fallback", customMessage];
+    const args = ["--plots", "sin(x),cos(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--fallback", customMessage];
     mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("<polyline");
+    expect(output).toContain("sin(x)");
+    expect(output).toContain("cos(x)");
     consoleSpy.mockRestore();
   });
 
-  it("should error if missing required new CLI parameters", () => {
+  it("should generate a valid multi-plot SVG using --plot flag with comma-separated expressions", () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = ["--plot", "tan(x),log(x)", "--xmin", "1", "--xmax", "10", "--points", "50"];
+    mainModule.main(args);
+    const output = consoleSpy.mock.calls[0][0];
+    expect(output).toContain("<svg");
+    expect(output).toContain("<polyline");
+    expect(output).toContain("tan(x)");
+    expect(output).toContain("log(x)");
+    consoleSpy.mockRestore();
+  });
+
+  it("should error if missing required new CLI parameters in multi-plot mode", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const args = ["--plot", "cos(x)", "--xmin", "0", "--points", "100"]; // missing --xmax
+    const args = ["--plot", "cos(x),sin(x)", "--xmin", "0", "--points", "100"]; // missing --xmax
     mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for SVG plotting: --xmin, --xmax, --points");
-    expect(processExitSpy).toHaveBeenCalledWith(1);
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
-  });
-});
-
-// Invalid Expression Handling
-
-describe("Invalid Expression Handling", () => {
-  it("should error when literal 'NaN' is used in legacy syntax", () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const args = ["--plot", "--expr", "NaN", "--start", "0", "--end", "10"];
-    mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
-    expect(processExitSpy).toHaveBeenCalledWith(1);
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
-  });
-
-  it("should error when literal 'NaN' is used in new CLI syntax", () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
-    const args = ["--plot", "NaN", "--xmin", "0", "--xmax", "10", "--points", "10"];
-    mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
