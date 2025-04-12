@@ -169,10 +169,11 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
  * @param {number} [svgWidth=500] - Width of the output SVG.
  * @param {number} [svgHeight=300] - Height of the output SVG.
  * @param {boolean} [darkMode=false] - If true, apply dark mode theming to the SVG.
+ * @param {boolean} [animate=false] - If true, animate the plot drawing with a smooth transition.
  * @returns {string} - Interactive SVG string.
  */
-export function generateInteractivePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false) {
-  const cacheKey = JSON.stringify(["generateInteractivePlot", expression, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode]);
+export function generateInteractivePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false, animate = false) {
+  const cacheKey = JSON.stringify(["generateInteractivePlot", expression, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode, animate]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -277,7 +278,8 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
   const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="red" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
 
   const tooltipFill = darkMode ? "white" : "black";
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${polylinePoints}" fill="none" stroke="${polylineStroke}" stroke-width="2"/>\n    <g class="interactive-points">\n${circles}</g>\n    <text id="svg-tooltip" style="display:none; fill:${tooltipFill}; font-size:12px; pointer-events:none;" />\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n      var svg = document.getElementsByTagName('svg')[0];\n      if(!svg.getAttribute('viewBox')) {\n        svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height'));\n      }\n      var isPanning = false, startPoint = {x:0, y:0}, startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      svg.addEventListener('mousedown', function(evt) {\n        isPanning = true;\n        startPoint = {x: evt.clientX, y: evt.clientY};\n        startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      });\n      svg.addEventListener('mousemove', function(evt) {\n        if(isPanning) {\n          var dx = evt.clientX - startPoint.x;\n          var dy = evt.clientY - startPoint.y;\n          svg.setAttribute('viewBox', (startViewBox[0] - dx) + ' ' + (startViewBox[1] - dy) + ' ' + startViewBox[2] + ' ' + startViewBox[3]);\n        }\n      });\n      svg.addEventListener('mouseup', function() { isPanning = false; });\n      svg.addEventListener('wheel', function(evt) {\n        evt.preventDefault();\n        var vb = svg.getAttribute('viewBox').split(' ').map(Number);\n        var scale = (evt.deltaY > 0) ? 1.1 : 0.9;\n        svg.setAttribute('viewBox', vb[0] + ' ' + vb[1] + ' ' + (vb[2] * scale) + ' ' + (vb[3] * scale));\n      });\n    ]]></script>\n  </svg>`;
+  const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${polylinePoints}" fill="none" stroke="${polylineStroke}" stroke-width="2">${animationTag}</polyline>\n    <g class="interactive-points">\n${circles}</g>\n    <text id="svg-tooltip" style="display:none; fill:${tooltipFill}; font-size:12px; pointer-events:none;" />\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n      var svg = document.getElementsByTagName('svg')[0];\n      if(!svg.getAttribute('viewBox')) {\n        svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height'));\n      }\n      var isPanning = false, startPoint = {x:0, y:0}, startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      svg.addEventListener('mousedown', function(evt) {\n        isPanning = true;\n        startPoint = {x: evt.clientX, y: evt.clientY};\n        startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      });\n      svg.addEventListener('mousemove', function(evt) {\n        if(isPanning) {\n          var dx = evt.clientX - startPoint.x;\n          var dy = evt.clientY - startPoint.y;\n          svg.setAttribute('viewBox', (startViewBox[0] - dx) + ' ' + (startViewBox[1] - dy) + ' ' + startViewBox[2] + ' ' + startViewBox[3]);\n        }\n      });\n      svg.addEventListener('mouseup', function() { isPanning = false; });\n      svg.addEventListener('wheel', function(evt) {\n        evt.preventDefault();\n        var vb = svg.getAttribute('viewBox').split(' ').map(Number);\n        var scale = (evt.deltaY > 0) ? 1.1 : 0.9;\n        svg.setAttribute('viewBox', vb[0] + ' ' + vb[1] + ' ' + (vb[2] * scale) + ' ' + (vb[3] * scale));\n      });\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -297,10 +299,11 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
  * @param {number} [svgWidth=500] - SVG width.
  * @param {number} [svgHeight=300] - SVG height.
  * @param {boolean} [darkMode=false] - If true, apply dark mode theming to the SVG.
+ * @param {boolean} [animate=false] - If true, animate the drawing of plot lines.
  * @returns {string} - Interactive multi-plot SVG string.
  */
-export function generateInteractiveMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false) {
-  const cacheKey = JSON.stringify(["generateInteractiveMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode]);
+export function generateInteractiveMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false, animate = false) {
+  const cacheKey = JSON.stringify(["generateInteractiveMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode, animate]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -356,7 +359,8 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
       });
       const pointsStr = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
       const color = colors[index % colors.length];
-      polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2"/>\n`;
+      const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
+      polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2">${animationTag}</polyline>\n`;
       const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
       circlesGroup += circles + "\n";
     }
@@ -414,169 +418,16 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
   const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
 
-  const polylineStroke = darkMode ? "cyan" : "blue";
-  const backgroundFill = darkMode ? "#1e1e1e" : "white";
-  const backgroundStroke = darkMode ? "white" : "black";
-
-  let legend = `<g class="legend">\n`;
-  series.forEach((serie, index) => {
+  const legend = `<g class="legend">\n` + series.map((serie, index) => {
     const color = colors[index % colors.length];
     const legendX = svgWidth - 110;
     const legendY = 20 + index * 15;
-    legend += `<rect x=\"${legendX}\" y=\"${legendY - 12}\" width=\"10\" height=\"10\" fill=\"${color}\" />\n`;
-    legend += `<text x=\"${legendX + 15}\" y=\"${legendY - 2}\" font-size=\"10\" fill=\"${labelFill}\">${serie.expression}</text>`;
-  });
-  legend += `\n</g>\n`;
-
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circlesGroup}</g>\n    <g class="legend">\n${legend}</g>\n    <text id="svg-tooltip" style="display:none; fill:${labelFill}; font-size:12px; pointer-events:none;" />\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n      var svg = document.getElementsByTagName('svg')[0];\n      if(!svg.getAttribute('viewBox')) {\n        svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height'));\n      }\n      var isPanning = false, startPoint = {x:0, y:0}, startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      svg.addEventListener('mousedown', function(evt) {\n        isPanning = true;\n        startPoint = {x: evt.clientX, y: evt.clientY};\n        startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      });\n      svg.addEventListener('mousemove', function(evt) {\n        if(isPanning) {\n          var dx = evt.clientX - startPoint.x;\n          var dy = evt.clientY - startPoint.y;\n          svg.setAttribute('viewBox', (startViewBox[0] - dx) + ' ' + (startViewBox[1] - dy) + ' ' + startViewBox[2] + ' ' + startViewBox[3]);\n        }\n      });\n      svg.addEventListener('mouseup', function() { isPanning = false; });\n      svg.addEventListener('wheel', function(evt) {\n        evt.preventDefault();\n        var vb = svg.getAttribute('viewBox').split(' ').map(Number);\n        var scale = (evt.deltaY > 0) ? 1.1 : 0.9;\n        svg.setAttribute('viewBox', vb[0] + ' ' + vb[1] + ' ' + (vb[2] * scale) + ' ' + (vb[3] * scale));\n      });\n    ]]></script>\n  </svg>`;
-
-  svgCache.set(cacheKey, svgContent);
-  return svgContent;
-}
-
-/**
- * Generates an SVG multi-plot for multiple mathematical expressions without interactive features.
- * Each expression is plotted with distinct colors and a legend is displayed.
- * 
- * @param {string[]} expressions - Array of math expressions.
- * @param {number} start - Starting x value.
- * @param {number} end - Ending x value.
- * @param {number} step - Increment step for x.
- * @param {string} [fallbackMessage] - Fallback message if expressions yield no valid points.
- * @param {boolean} [logScaleX=false] - Apply log scale on x-axis.
- * @param {boolean} [logScaleY=false] - Apply log scale on y-axis.
- * @param {number} [svgWidth=500] - SVG width.
- * @param {number} [svgHeight=300] - SVG height.
- * @param {boolean} [darkMode=false] - If true, apply dark mode theming to the SVG.
- * @returns {string} - Non-interactive multi-plot SVG string.
- */
-export function generateMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false) {
-  const cacheKey = JSON.stringify(["generateMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode]);
-  if (svgCache.has(cacheKey)) {
-    return svgCache.get(cacheKey);
-  }
-
-  const margin = 20;
-  const tickCount = 5;
-  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"]; 
-  const series = [];
-  let allValidPoints = [];
-
-  expressions.forEach(expr => {
-    let points = [];
-    const compiled = compile(expr);
-    for (let x = start; x <= end; x += step) {
-      try {
-        const y = compiled.evaluate({ x });
-        if (Number.isFinite(y)) {
-          if (logScaleX && x <= 0) return;
-          if (logScaleY && y <= 0) return;
-          points.push({ x, y });
-          allValidPoints.push({ x, y });
-        }
-      } catch (_err) {}
-    }
-    series.push({ expression: expr, points });
-  });
-
-  if (allValidPoints.length === 0) {
-    const fallbackSVG = createFallbackSVG(fallbackMessage, svgWidth, svgHeight, darkMode);
-    svgCache.set(cacheKey, fallbackSVG);
-    return fallbackSVG;
-  }
-
-  const transformedXValues = allValidPoints.map(p => logScaleX ? Math.log10(p.x) : p.x);
-  const transformedYValues = allValidPoints.map(p => logScaleY ? Math.log10(p.y) : p.y);
-  const minXTrans = Math.min(...transformedXValues);
-  const maxXTrans = Math.max(...transformedXValues);
-  const minYTrans = Math.min(...transformedYValues);
-  const maxYTrans = Math.max(...transformedYValues);
-  const xRange = maxXTrans - minXTrans || 1;
-  const yRange = maxYTrans - minYTrans || 1;
-
-  let polylines = "";
-  series.forEach((serie, index) => {
-    if (serie.points.length > 0) {
-      const pointsStr = serie.points.map(({ x, y }) => {
-        const tx = logScaleX ? Math.log10(x) : x;
-        const ty = logScaleY ? Math.log10(y) : y;
-        const scaledX = ((tx - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
-        const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
-        return `${scaledX},${scaledY}`;
-      }).join(" ");
-      const color = colors[index % colors.length];
-      polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2"/>\n`;
-    }
-  });
-
-  let gridLines = "";
-  let tickMarks = "";
-  const gridStroke = darkMode ? "gray" : "lightgray";
-  const tickStroke = darkMode ? "white" : "black";
-  const labelFill = darkMode ? "white" : "black";
-
-  if (logScaleX) {
-    const minExp = Math.floor(minXTrans);
-    const maxExp = Math.ceil(maxXTrans);
-    for (let exp = minExp; exp <= maxExp; exp++) {
-      const tickValue = Math.pow(10, exp);
-      const scaledX = ((exp - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
-      gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="${gridStroke}" stroke-dasharray="2,2" />\n`;
-      tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="${tickStroke}" />\n`;
-      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10" fill="${labelFill}">${tickValue.toFixed(2)}</text>\n`;
-    }
-  } else {
-    const xTickInterval = (maxXTrans - minXTrans) / tickCount;
-    for (let i = 0; i <= tickCount; i++) {
-      const xTickValue = minXTrans + i * xTickInterval;
-      const scaledX = ((xTickValue - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
-      gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="${gridStroke}" stroke-dasharray="2,2" />\n`;
-      tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="${tickStroke}" />\n`;
-      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10" fill="${labelFill}">${xTickValue.toFixed(2)}</text>\n`;
-    }
-  }
-
-  if (logScaleY) {
-    const minExp = Math.floor(minYTrans);
-    const maxExp = Math.ceil(maxYTrans);
-    for (let exp = minExp; exp <= maxExp; exp++) {
-      const tickValue = Math.pow(10, exp);
-      const scaledY = svgHeight - (((exp - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
-      gridLines += `<line class="grid-line" x1="${margin}" y1="${scaledY}" x2="${svgWidth - margin}" y2="${scaledY}" stroke="${gridStroke}" stroke-dasharray="2,2" />\n`;
-      tickMarks += `<line class="tick-mark" x1="${margin - 5}" y1="${scaledY}" x2="${margin}" y2="${scaledY}" stroke="${tickStroke}" />\n`;
-      tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10" fill="${labelFill}">${tickValue.toFixed(2)}</text>\n`;
-    }
-  } else {
-    const yTickInterval = (maxYTrans - minYTrans) / tickCount;
-    for (let i = 0; i <= tickCount; i++) {
-      const yTickValue = minYTrans + i * yTickInterval;
-      const scaledY = svgHeight - (((yTickValue - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
-      gridLines += `<line class="grid-line" x1="${margin}" y1="${scaledY}" x2="${svgWidth - margin}" y2="${scaledY}" stroke="${gridStroke}" stroke-dasharray="2,2" />\n`;
-      tickMarks += `<line class="tick-mark" x1="${margin - 5}" y1="${scaledY}" x2="${margin}" y2="${scaledY}" stroke="${tickStroke}" />\n`;
-      tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10" fill="${labelFill}">${yTickValue.toFixed(2)}</text>\n`;
-    }
-  }
-
-  const axisStroke = darkMode ? "white" : "black";
-  const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
-  const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
-
-  const legend = (() => {
-    let leg = `<g class="legend">\n`;
-    series.forEach((serie, index) => {
-      const color = colors[index % colors.length];
-      const legendX = svgWidth - 110;
-      const legendY = 20 + index * 15;
-      leg += `<rect x=\"${legendX}\" y=\"${legendY - 12}\" width=\"10\" height=\"10\" fill=\"${color}\" />\n`;
-      leg += `<text x=\"${legendX + 15}\" y=\"${legendY - 2}\" font-size=\"10\" fill=\"${labelFill}\">${serie.expression}</text>`;
-    });
-    leg += `\n</g>\n`;
-    return leg;
-  })();
+    return `<rect x=\"${legendX}\" y=\"${legendY - 12}\" width=\"10\" height=\"10\" fill=\"${color}\" />\n<text x=\"${legendX + 15}\" y=\"${legendY - 2}\" font-size=\"10\" fill=\"${labelFill}\">${serie.expression}</text>`;
+  }).join('') + `\n</g>\n`;
 
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="legend">\n${legend}</g>\n  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circlesGroup}</g>\n    <g class="legend">\n${legend}</g>\n    <text id="svg-tooltip" style="display:none; fill:${labelFill}; font-size:12px; pointer-events:none;" />\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n      var svg = document.getElementsByTagName('svg')[0];\n      if(!svg.getAttribute('viewBox')) {\n        svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height'));\n      }\n      var isPanning = false, startPoint = {x:0, y:0}, startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      svg.addEventListener('mousedown', function(evt) {\n        isPanning = true;\n        startPoint = {x: evt.clientX, y: evt.clientY};\n        startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      });\n      svg.addEventListener('mousemove', function(evt) {\n        if(isPanning) {\n          var dx = evt.clientX - startPoint.x;\n          var dy = evt.clientY - startPoint.y;\n          svg.setAttribute('viewBox', (startViewBox[0] - dx) + ' ' + (startViewBox[1] - dy) + ' ' + startViewBox[2] + ' ' + startViewBox[3]);\n        }\n      });\n      svg.addEventListener('mouseup', function() { isPanning = false; });\n      svg.addEventListener('wheel', function(evt) {\n        evt.preventDefault();\n        var vb = svg.getAttribute('viewBox').split(' ').map(Number);\n        var scale = (evt.deltaY > 0) ? 1.1 : 0.9;\n        svg.setAttribute('viewBox', vb[0] + ' ' + vb[1] + ' ' + (vb[2] * scale) + ' ' + (vb[3] * scale));\n      });\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -634,7 +485,7 @@ function writeOutput(fileName, svg) {
 }
 
 function showHelp() {
-  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf).\n`);
+  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --animate           (optional) enable animated transitions for interactive plots\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf).\n`);
 }
 
 function showVersion() {
@@ -674,6 +525,7 @@ async function handlePlot(args) {
 
   const interactive = args.includes("--interactive");
   const darkMode = args.includes("--darkmode");
+  const animate = args.includes("--animate");
 
   const plotsFlagIdx = args.indexOf("--plots");
   if (plotsFlagIdx !== -1 && args.length > plotsFlagIdx + 1) {
@@ -698,7 +550,7 @@ async function handlePlot(args) {
     const step = (xmax - xmin) / pointsCount;
     let svg;
     if (interactive) {
-      svg = generateInteractiveMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
+      svg = generateInteractiveMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
     } else {
       svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
     }
@@ -730,7 +582,7 @@ async function handlePlot(args) {
       const step = (xmax - xmin) / pointsCount;
       let svg;
       if (interactive) {
-        svg = generateInteractiveMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
+        svg = generateInteractiveMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
       } else {
         svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
       }
@@ -757,7 +609,7 @@ async function handlePlot(args) {
       const step = (xmax - xmin) / pointsCount;
       let svg;
       if (interactive) {
-        svg = generateInteractivePlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
+        svg = generateInteractivePlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
       } else {
         svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
       }
@@ -793,7 +645,7 @@ async function handlePlot(args) {
 
     let svg;
     if (interactive) {
-      svg = generateInteractivePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
+      svg = generateInteractivePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
     } else {
       svg = generatePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
     }

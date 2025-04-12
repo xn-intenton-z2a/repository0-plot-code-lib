@@ -20,19 +20,21 @@ Example for specifying custom SVG dimensions, dark mode, and a custom output fil
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --darkmode --file output.png [--fallback "Custom fallback message for non-finite values"]
 
-If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format. Similarly, if the file ends with .pdf, it converts the SVG to a PDF file using headless browser rendering. Note: PDF conversion now uses no-sandbox options to ensure compatibility in environments with limited sandbox capabilities.
-
 #### Enhanced Interactive Mode
 
 A new interactive plotting mode is available. When the `--interactive` flag is provided along with plotting parameters, the tool generates an SVG with tooltips on hover and basic zoom/pan functionality. Data points display their coordinates when hovered over. Dark mode can also be enabled using the `--darkmode` flag.
 
-For a single interactive plot:
+**Animated Transitions:**
 
-  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --interactive [--darkmode] [--fallback "Custom fallback message"]
+When the new `--animate` flag is also provided for interactive plots, the plot lines are drawn with smooth animated transitions, enhancing the visual experience during rendering.
 
-For interactive multi-function plotting with a comma-separated list:
+For a single interactive plot with animation:
 
-  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 --interactive [--width 600 --height 400] [--darkmode] [--fallback "Custom fallback message"]
+  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --interactive --animate [--darkmode] [--fallback "Custom fallback message"]
+
+For interactive multi-function plotting with a comma-separated list and animation:
+
+  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 --interactive --animate [--width 600 --height 400] [--darkmode] [--fallback "Custom fallback message"]
 
 Additional flags for logarithmic scaling can be used to transform the axes:
 
@@ -81,8 +83,8 @@ For direct SVG plot generation using the new API (with optional logarithmic scal
 For interactive SVG plot generation via the API:
 
   import { generateInteractivePlot } from '@src/lib/main.js';
-  // Generates an interactive SVG with tooltips, zoom/pan features, and dark mode
-  const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400, true);
+  // Generates an interactive SVG with tooltips, zoom/pan features, dark mode, and animated transitions if desired
+  const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400, true, true);
   console.log(svg);
 
 For non-interactive multi-function plotting via the API:
@@ -96,7 +98,7 @@ For interactive multi-function plotting via the API:
 
   import { generateInteractiveMultiPlot } from '@src/lib/main.js';
   const expressions = ["sin(x)", "cos(x)"];
-  const svgInteractive = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, "", false, false);
+  const svgInteractive = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, "", false, false, 600, 400, false, true);
   console.log(svgInteractive);
 
 ---
@@ -118,5 +120,9 @@ The new --darkmode flag (or darkMode parameter in the API) applies dark theme st
 **Interactive Mode:**
 
 Interactive SVG plots include tooltips that show data point coordinates on hover, as well as basic zooming and panning functionalities via mouse events. This enhances the user experience for exploring plotted data.
+
+**Animated Transitions:**
+
+When the --animate flag is used with interactive plots, a smooth drawing animation is applied to the plot lines, adding a dynamic visual effect.
 
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.
