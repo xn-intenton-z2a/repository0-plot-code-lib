@@ -24,7 +24,6 @@ describe("Diagnostics Mode", () => {
     const args = ["--diagnostics", "--plot", "--expr", "sin(x)"];
     main(args);
     expect(consoleSpy).toHaveBeenCalledWith("Diagnostics Mode Enabled");
-    // Check for diagnostics details
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Parsed Arguments:"), args);
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Node.js Version:"), process.version);
     consoleSpy.mockRestore();
@@ -96,5 +95,41 @@ describe("Plot Generation", () => {
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
+  });
+});
+
+describe("Help Flag", () => {
+  it("should output help information when --help is provided", () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--help"]);
+    const output = consoleSpy.mock.calls.flat().join(" ");
+    expect(output).toContain("Usage:");
+    expect(output).toContain("display help information");
+    consoleSpy.mockRestore();
+  });
+
+  it("should output help information when -h is provided", () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["-h"]);
+    const output = consoleSpy.mock.calls.flat().join(" ");
+    expect(output).toContain("Usage:");
+    expect(output).toContain("display help information");
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("Version Flag", () => {
+  it("should output version information when --version is provided", () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--version"]);
+    expect(consoleSpy).toHaveBeenCalledWith("0.8.2");
+    consoleSpy.mockRestore();
+  });
+
+  it("should output version information when -v is provided", () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["-v"]);
+    expect(consoleSpy).toHaveBeenCalledWith("0.8.2");
+    consoleSpy.mockRestore();
   });
 });
