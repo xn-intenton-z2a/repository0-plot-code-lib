@@ -9,11 +9,11 @@
   "prDetails": [
     {
       "title": "Added enhanced SVG features axes tick marks labels and grid lines to improve plot readability. (fixes #1975)",
-      "ageMinutes": 7
+      "ageMinutes": 8
     }
   ],
   "diffMinutes": 0,
-  "diffMinutesMain": 3,
+  "diffMinutesMain": 4,
   "commitsLastHour": 7,
   "commitsLastDay": 97,
   "lastFiveCommitMessages": [
@@ -47,8 +47,8 @@
       }
     ]
   },
-  "averagePRAge": 7,
+  "averagePRAge": 8,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-12T11:05:13.286Z"
+  "generatedAt": "2025-04-12T11:05:58.022Z"
 }
