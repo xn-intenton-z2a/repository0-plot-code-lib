@@ -86,4 +86,15 @@ describe("Plot Generation", () => {
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
   });
+
+  it("should error if plot range is invalid when start is not less than end", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const args = ["--plot", "--expr", "sin(x)", "--start", "6.28", "--end", "0"];
+    main(args);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid range: --start must be less than --end");
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
 });
