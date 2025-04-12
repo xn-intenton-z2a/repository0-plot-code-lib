@@ -25,17 +25,22 @@ export function isLiteralNaN(expression) {
  * @returns {string} - SVG string representing the plot or fallback message.
  */
 export function generatePlot(expression, start, end, step, fallbackMessage) {
-  const compiled = compile(expression);
-  const points = [];
-
-  for (let x = start; x <= end; x += step) {
-    try {
-      const y = compiled.evaluate({ x });
-      if (Number.isFinite(y)) {
-        points.push({ x, y });
+  let points = [];
+  
+  // Check for literal 'NaN'. If true, skip evaluation to trigger fallback SVG.
+  if (isLiteralNaN(expression)) {
+    console.warn("Literal 'NaN' input detected, generating fallback SVG output.");
+  } else {
+    const compiled = compile(expression);
+    for (let x = start; x <= end; x += step) {
+      try {
+        const y = compiled.evaluate({ x });
+        if (Number.isFinite(y)) {
+          points.push({ x, y });
+        }
+      } catch (_err) {
+        // Ignoring evaluation error
       }
-    } catch (_err) {
-      // Ignoring evaluation error
     }
   }
 
@@ -106,22 +111,22 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   // Process each expression
   for (const expr of expressions) {
-    if (isLiteralNaN(expr) && !fallbackMessage) {
-      console.error(`Invalid expression: '${expr}' is not acceptable. Please provide a valid mathematical expression.`);
-      process.exit(1);
-      return;
-    }
-    const compiled = compile(expr);
-    const points = [];
-    for (let x = start; x <= end; x += step) {
-      try {
-        const y = compiled.evaluate({ x });
-        if (Number.isFinite(y)) {
-          points.push({ x, y });
-          allValidPoints.push({ x, y });
+    let points = [];
+    if (isLiteralNaN(expr)) {
+      console.warn(`Literal 'NaN' provided in expression '${expr}', generating fallback for this expression.`);
+      // Leave points empty to trigger fallback later
+    } else {
+      const compiled = compile(expr);
+      for (let x = start; x <= end; x += step) {
+        try {
+          const y = compiled.evaluate({ x });
+          if (Number.isFinite(y)) {
+            points.push({ x, y });
+            allValidPoints.push({ x, y });
+          }
+        } catch (_err) {
+          // Ignore evaluation error
         }
-      } catch (_err) {
-        // Ignore evaluation error
       }
     }
     series.push({ expression: expr, points });
@@ -312,10 +317,8 @@ function handlePlot(args) {
     } else {
       // Single expression case using new CLI syntax
       const expression = nextArg;
-      if (isLiteralNaN(expression) && !fallbackMessage) {
-        console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
-        process.exit(1);
-        return;
+      if (isLiteralNaN(expression)) {
+        console.warn("Literal 'NaN' provided in expression, generating fallback SVG output.");
       }
       const xminIdx = args.indexOf("--xmin");
       const xmaxIdx = args.indexOf("--xmax");
@@ -366,10 +369,8 @@ function handlePlot(args) {
     }
 
     const expression = args[exprIdx + 1];
-    if (isLiteralNaN(expression) && !fallbackMessage) {
-      console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
-      process.exit(1);
-      return;
+    if (isLiteralNaN(expression)) {
+      console.warn("Literal 'NaN' provided in expression, generating fallback SVG output.");
     }
 
     const start = parseFloat(args[startIdx + 1]);

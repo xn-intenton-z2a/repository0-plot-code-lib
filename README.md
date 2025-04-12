@@ -30,6 +30,8 @@ Example using the new flag for multi-function plotting:
 
   $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 [--fallback "Custom fallback message"]
 
+Note: If a literal 'NaN' is provided as the expression (ignoring case and whitespace), the tool will now generate a fallback SVG output rather than terminating abruptly. You can optionally provide a custom fallback message using the --fallback flag.
+
 Example for diagnostics mode:
 
   $ node src/lib/main.js --diagnostics
@@ -72,7 +74,7 @@ For multi-function plotting via the API:
 
 #### Utility Function: isLiteralNaN
 
-The library now includes a dedicated utility function to check if an input expression is a literal 'NaN' (ignoring case and whitespace). Note, when a literal 'NaN' is provided, it will trigger an error unless a custom fallback message is supplied using the --fallback flag. This ensures that users can override the strict rejection if desired.
+The library now includes a dedicated utility function to check if an input expression is a literal 'NaN' (ignoring case and whitespace). When a literal 'NaN' is provided as the expression, the system will generate a fallback SVG output rather than terminating the process.
 
 Example usage:
 
