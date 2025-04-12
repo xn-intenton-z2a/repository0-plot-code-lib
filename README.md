@@ -83,15 +83,15 @@ For interactive SVG plot generation via the API:
   const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400);
   console.log(svg);
 
-For multi-function plotting via the API:
+For non-interactive multi-function plotting via the API:
 
-  // Non-interactive multi-plot
   import { generateMultiPlot } from '@src/lib/main.js';
   const expressions = ["sin(x)", "cos(x)"];
   const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, "", false, false);
   console.log(svg);
 
-  // Interactive multi-plot
+For interactive multi-function plotting via the API:
+
   import { generateInteractiveMultiPlot } from '@src/lib/main.js';
   const expressions = ["sin(x)", "cos(x)"];
   const svgInteractive = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, "", false, false);

@@ -423,6 +423,145 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
   return svgContent;
 }
 
+/**
+ * Generates an SVG multi-plot for multiple mathematical expressions without interactive features.
+ * Each expression is plotted with distinct colors and a legend is displayed.
+ * 
+ * @param {string[]} expressions - Array of math expressions.
+ * @param {number} start - Starting x value.
+ * @param {number} end - Ending x value.
+ * @param {number} step - Increment step for x.
+ * @param {string} [fallbackMessage] - Fallback message if expressions yield no valid points.
+ * @param {boolean} [logScaleX=false] - Apply log scale on x-axis.
+ * @param {boolean} [logScaleY=false] - Apply log scale on y-axis.
+ * @param {number} [svgWidth=500] - SVG width.
+ * @param {number} [svgHeight=300] - SVG height.
+ * @returns {string} - Non-interactive multi-plot SVG string.
+ */
+export function generateMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300) {
+  const cacheKey = JSON.stringify(["generateMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight]);
+  if (svgCache.has(cacheKey)) {
+    return svgCache.get(cacheKey);
+  }
+
+  const margin = 20;
+  const tickCount = 5;
+  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"];
+  const series = [];
+  let allValidPoints = [];
+
+  expressions.forEach(expr => {
+    let points = [];
+    const compiled = compile(expr);
+    for (let x = start; x <= end; x += step) {
+      try {
+        const y = compiled.evaluate({ x });
+        if (Number.isFinite(y)) {
+          if (logScaleX && x <= 0) return;
+          if (logScaleY && y <= 0) return;
+          points.push({ x, y });
+          allValidPoints.push({ x, y });
+        }
+      } catch (_err) {}
+    }
+    series.push({ expression: expr, points });
+  });
+
+  if (allValidPoints.length === 0) {
+    const fallbackSVG = createFallbackSVG(fallbackMessage, svgWidth, svgHeight);
+    svgCache.set(cacheKey, fallbackSVG);
+    return fallbackSVG;
+  }
+
+  const transformedXValues = allValidPoints.map(p => logScaleX ? Math.log10(p.x) : p.x);
+  const transformedYValues = allValidPoints.map(p => logScaleY ? Math.log10(p.y) : p.y);
+  const minXTrans = Math.min(...transformedXValues);
+  const maxXTrans = Math.max(...transformedXValues);
+  const minYTrans = Math.min(...transformedYValues);
+  const maxYTrans = Math.max(...transformedYValues);
+  const xRange = maxXTrans - minXTrans || 1;
+  const yRange = maxYTrans - minYTrans || 1;
+
+  let polylines = "";
+  series.forEach((serie, index) => {
+    if (serie.points.length > 0) {
+      const pointsStr = serie.points.map(({ x, y }) => {
+        const tx = logScaleX ? Math.log10(x) : x;
+        const ty = logScaleY ? Math.log10(y) : y;
+        const scaledX = ((tx - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
+        const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
+        return `${scaledX},${scaledY}`;
+      }).join(" ");
+      const color = colors[index % colors.length];
+      polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2"/>\n`;
+    }
+  });
+
+  let gridLines = "";
+  let tickMarks = "";
+
+  if (logScaleX) {
+    const minExp = Math.floor(minXTrans);
+    const maxExp = Math.ceil(maxXTrans);
+    for (let exp = minExp; exp <= maxExp; exp++) {
+      const tickValue = Math.pow(10, exp);
+      const scaledX = ((exp - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
+      gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+      tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="black" />\n`;
+      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${tickValue.toFixed(2)}</text>\n`;
+    }
+  } else {
+    const xTickInterval = (maxXTrans - minXTrans) / tickCount;
+    for (let i = 0; i <= tickCount; i++) {
+      const xTickValue = minXTrans + i * xTickInterval;
+      const scaledX = ((xTickValue - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
+      gridLines += `<line class="grid-line" x1="${scaledX}" y1="${margin}" x2="${scaledX}" y2="${svgHeight - margin}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+      tickMarks += `<line class="tick-mark" x1="${scaledX}" y1="${svgHeight - margin}" x2="${scaledX}" y2="${svgHeight - margin + 5}" stroke="black" />\n`;
+      tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${xTickValue.toFixed(2)}</text>\n`;
+    }
+  }
+
+  if (logScaleY) {
+    const minExp = Math.floor(minYTrans);
+    const maxExp = Math.ceil(maxYTrans);
+    for (let exp = minExp; exp <= maxExp; exp++) {
+      const tickValue = Math.pow(10, exp);
+      const scaledY = svgHeight - (((exp - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
+      gridLines += `<line class="grid-line" x1="${margin}" y1="${scaledY}" x2="${svgWidth - margin}" y2="${scaledY}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+      tickMarks += `<line class="tick-mark" x1="${margin - 5}" y1="${scaledY}" x2="${margin}" y2="${scaledY}" stroke="black" />\n`;
+      tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10">${tickValue.toFixed(2)}</text>\n`;
+    }
+  } else {
+    const yTickInterval = (maxYTrans - minYTrans) / tickCount;
+    for (let i = 0; i <= tickCount; i++) {
+      const yTickValue = minYTrans + i * yTickInterval;
+      const scaledY = svgHeight - (((yTickValue - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
+      gridLines += `<line class="grid-line" x1="${margin}" y1="${scaledY}" x2="${svgWidth - margin}" y2="${scaledY}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
+      tickMarks += `<line class="tick-mark" x1="${margin - 5}" y1="${scaledY}" x2="${margin}" y2="${scaledY}" stroke="black" />\n`;
+      tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10">${yTickValue.toFixed(2)}</text>\n`;
+    }
+  }
+
+  const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
+  const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
+
+  // Generate legend
+  let legend = `<g class="legend">\n`;
+  series.forEach((serie, index) => {
+    const color = colors[index % colors.length];
+    const legendX = svgWidth - 110;
+    const legendY = 20 + index * 15;
+    legend += `<rect x="${legendX}" y="${legendY - 12}" width="10" height="10" fill="${color}" />\n`;
+    legend += `<text x="${legendX + 15}" y="${legendY - 2}" font-size="10" fill="black">${serie.expression}</text>`;
+  });
+  legend += `\n</g>\n`;
+
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="legend">\n${legend}</g>\n  </svg>`;
+
+  svgCache.set(cacheKey, svgContent);
+  return svgContent;
+}
+
 // Alias generateSVGPlot to generatePlot for new API usage
 export const generateSVGPlot = generatePlot;
 
