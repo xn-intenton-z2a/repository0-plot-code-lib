@@ -2,48 +2,33 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
+  "lastActivityName": "Tests",
+  "lastActivityBranchName": "main",
   "openIssues": 7,
   "issuesClosedLastHour": 0,
   "issuesClosedLastDay": 100,
   "openPRs": 0,
+  "averagePRAge": 0,
   "prDetails": [],
-  "diffMinutes": 0,
-  "diffMinutesMain": 0,
-  "commitsLastHour": 3,
-  "commitsLastDay": 96,
+  "diffMinutes": 1,
+  "diffMinutesMain": 5,
+  "commitsLastHour": 9,
+  "commitsLastDay": 98,
   "lastFiveCommitMessages": [
-    {
-      "time": "16:20",
-      "message": "Update from agentic-lib"
-    },
-    {
-      "time": "16:18",
-      "message": "Update from agentic-lib"
-    },
-    {
-      "time": "16:13",
-      "message": "Update from agentic-lib"
-    },
-    {
-      "time": "15:18",
-      "message": "Added dark mode support to SVG plots with the new --darkmode fla..."
-    },
-    {
-      "time": "14:34",
-      "message": "Fixed PDF conversion in the CLI tool by adding no-sandbox option..."
-    }
+    "[17:04] - Add SVG plot generation library with CLI and multi-plot support\n...",
+    "[16:59] - Update from agentic-lib",
+    "[16:55] - Update from agentic-lib",
+    "[16:46] - Update from agentic-lib",
+    "[16:37] - Update from agentic-lib"
   ],
   "branches": {
     "count": 1,
     "details": [
-      {
-        "branch": "agentic-lib-issue-2019",
-        "minutesSinceLastCommit": 44
-      }
-    ]
+      "[1m] agentic-lib-issue-2019"
+    ],
+    "averageBranchAge": 1
   },
-  "averagePRAge": 0,
-  "testStatus": "PASS",
+  "testStatusOnBranch": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-12T16:21:17.119Z"
+  "statsGeneratedAt": "2025-04-12T17:09:57.619Z"
 }
