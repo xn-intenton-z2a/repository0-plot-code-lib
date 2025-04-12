@@ -1,5 +1,4 @@
 /* File: src/lib/main.js */
-// src/lib/main.js
 
 import { fileURLToPath } from "url";
 import { generatePlot } from "./plot.js";
@@ -38,13 +37,11 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
-/*
-New File: src/lib/plot.js
--------------------------
-A new module that implements a basic generatePlot function returning an SVG string.
-*/
+/* ------------------------------------------------------------------------- */
 
-// File: src/lib/plot.js
+// New File: src/lib/plot.js
+
+// This module implements a basic generatePlot function returning an SVG string.
 
 export function generatePlot(expression, start, end, step) {
   // Generate a series of points.
