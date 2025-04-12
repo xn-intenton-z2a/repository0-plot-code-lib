@@ -22,7 +22,8 @@ export function generatePlot(expression, start, end, step) {
   if (points.length === 0) {
     return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
       <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
-      <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data</text>
+      <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data</text>
+      <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Expression evaluation returned only non-finite values</text>
     </svg>`;
   }
 

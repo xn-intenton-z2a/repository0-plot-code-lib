@@ -99,10 +99,11 @@ describe("Plot Generation", () => {
 });
 
 describe("Handling NaN in Plot Generation", () => {
-  it("should handle cases where evaluated expression returns NaN by displaying a fallback SVG", () => {
+  it("should handle cases where evaluated expression returns NaN by displaying a fallback SVG with diagnostic info", () => {
     const svg = mainModule.generatePlot("0/0", 0, 10, 1);
     expect(svg).toContain("<svg");
     expect(svg).toContain("No valid data");
+    expect(svg).toContain("non-finite values");
     expect(svg).not.toContain("<polyline");
   });
 });
