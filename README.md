@@ -53,8 +53,8 @@ For direct SVG plot generation using the legacy API:
 
 For direct SVG plot generation using the new API:
 
-  import { generateSVGPlot } from '@src/lib/plotSVG.js';
-  const svg = generateSVGPlot("sin(x)", -10, 10, 100);
+  import { generateSVGPlot } from '@src/lib/main.js';
+  const svg = generateSVGPlot("sin(x)", -10, 10, 0.4);
   console.log(svg);
 
 The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG with a 'No valid data' message along with diagnostic information is returned.

@@ -3,7 +3,6 @@
 import { fileURLToPath } from "url";
 import pkg from "../../package.json" with { type: "json" };
 import { compile } from "mathjs";
-import { generateSVGPlot } from "./plotSVG.js";
 
 export function generatePlot(expression, start, end, step) {
   const compiled = compile(expression);
@@ -56,6 +55,9 @@ export function generatePlot(expression, start, end, step) {
 
   return svgContent;
 }
+
+// Alias generateSVGPlot to generatePlot for new API usage
+export const generateSVGPlot = generatePlot;
 
 function showHelp() {
   console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.
@@ -120,7 +122,8 @@ function handlePlot(args) {
       process.exit(1);
       return;
     }
-    const svg = generateSVGPlot(expression, xmin, xmax, pointsCount);
+    // For new CLI syntax, use generateSVGPlot (alias for generatePlot)
+    const svg = generateSVGPlot(expression, xmin, xmax, (xmax - xmin) / pointsCount);
     console.log(svg);
   } else {
     // Legacy syntax using --expr, --start, --end, and optional --step
