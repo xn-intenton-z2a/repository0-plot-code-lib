@@ -21,12 +21,7 @@ function createFallbackSVG(fallbackMessage, svgWidth, svgHeight) {
   // Use a default multi-line fallback message if none is provided
   const message = fallbackMessage ? fallbackMessage : "No valid data points.\nPlease check the input expression.";
   const lines = message.split("\n");
-  return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-  <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
-  <text x="${svgWidth / 2}" y="${svgHeight / 2}" text-anchor="middle" fill="red" font-size="14" font-family="Arial">
-    ${lines.map((line, index) => `<tspan x="${svgWidth / 2}" dy="${index === 0 ? 0 : 20}">${line}</tspan>`).join('')}
-  </text>
-</svg>`;
+  return `<svg width=\"${svgWidth}\" height=\"${svgHeight}\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"0\" y=\"0\" width=\"${svgWidth}\" height=\"${svgHeight}\" fill=\"white\" stroke=\"black\"/>\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" fill=\"red\" font-size=\"14\" font-family=\"Arial\">\n    ${lines.map((line, index) => `<tspan x=\"${svgWidth / 2}\" dy=\"${index === 0 ? 0 : 20}\">${line}</tspan>`).join('')}\n  </text>\n</svg>`;
 }
 
 /**
@@ -43,20 +38,19 @@ function createFallbackSVG(fallbackMessage, svgWidth, svgHeight) {
  * @param {string} [fallbackMessage] - Optional custom fallback message for non-finite evaluations.
  * @param {boolean} [logScaleX=false] - If true, apply logarithmic scaling on the x-axis (requires x > 0).
  * @param {boolean} [logScaleY=false] - If true, apply logarithmic scaling on the y-axis (requires y > 0).
+ * @param {number} [svgWidth=500] - Width of the output SVG.
+ * @param {number} [svgHeight=300] - Height of the output SVG.
  * @returns {string} - SVG string representing the plot or fallback message.
  */
-export function generatePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false) {
+export function generatePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300) {
   // Create a cache key based on the function arguments
-  const cacheKey = JSON.stringify(["generatePlot", expression, start, end, step, fallbackMessage, logScaleX, logScaleY]);
+  const cacheKey = JSON.stringify(["generatePlot", expression, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
 
   let points = [];
   const margin = 20;
-  const svgWidth = 500;
-  const svgHeight = 300;
-  
   const compiled = compile(expression);
   for (let x = start; x <= end; x += step) {
     try {
@@ -156,17 +150,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
 
   // Build the final SVG content
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
-    <g class="grid">
-${gridLines}</g>
-    <g class="axes">
-${xAxisLine}
-${yAxisLine}</g>
-    <g class="ticks">
-${tickMarks}</g>
-    <polyline points="${svgPoints}" fill="none" stroke="blue" stroke-width="2"/>
-  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints}" fill="none" stroke="blue" stroke-width="2"/>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -183,17 +167,16 @@ ${tickMarks}</g>
  * @param {string} [fallbackMessage] - Optional fallback message if an expression yields no valid points.
  * @param {boolean} [logScaleX=false] - If true, apply logarithmic scaling on the x-axis (requires x > 0).
  * @param {boolean} [logScaleY=false] - If true, apply logarithmic scaling on the y-axis (requires y > 0).
+ * @param {number} [svgWidth=500] - Width of the output SVG.
+ * @param {number} [svgHeight=300] - Height of the output SVG.
  * @returns {string} - SVG string representing the multi-plot or fallback SVG if no valid data points are found for any expression.
  */
-export function generateMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false) {
-  // Create a cache key based on the arguments
-  const cacheKey = JSON.stringify(["generateMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY]);
+export function generateMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300) {
+  const cacheKey = JSON.stringify(["generateMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
 
-  const svgWidth = 500;
-  const svgHeight = 300;
   const margin = 20;
   const tickCount = 5;
   const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"];
@@ -249,8 +232,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
         return `${scaledX},${scaledY}`;
       }).join(' ');
       const color = colors[index % colors.length];
-      polylines += `<polyline points="${svgPoints}" fill="none" stroke="${color}" stroke-width="2"/>
-`;
+      polylines += `<polyline points="${svgPoints}" fill="none" stroke="${color}" stroke-width="2"/>\n`;
     }
   });
 
@@ -309,25 +291,13 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
 
   // Build the final SVG content
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black" />
-    <g class="grid">
-${gridLines}</g>
-    <g class="axes">
-${xAxisLine}
-${yAxisLine}</g>
-    <g class="ticks">
-${tickMarks}</g>
-    ${polylines}
-    <g class="legend">
-      ${series.map((serie, index) => {
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black" />\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="legend">\n      ${series.map((serie, index) => {
         const color = colors[index % colors.length];
         const legendX = svgWidth - 110;
         const legendY = 20 + index * 15;
         return `<rect x="${legendX}" y="${legendY - 12}" width="10" height="10" fill="${color}" />\n<text x="${legendX + 15}" y="${legendY - 2}" font-size="10" fill="black">${serie.expression}</text>`;
       }).join("\n")}
-    </g>
-  </svg>`;
+    </g>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -370,6 +340,8 @@ Options:
   --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values
   --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)
   --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)
+  --width             (optional) specify the width of the output SVG (default is 500)
+  --height            (optional) specify the height of the output SVG (default is 300)
   --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png).
 `);
 }
@@ -387,6 +359,18 @@ function showDiagnostics(args) {
 
 // Modified handlePlot to be async to support PNG conversion
 async function handlePlot(args) {
+  // determine custom dimensions if provided
+  let width = 500;
+  let height = 300;
+  const widthIdx = args.indexOf("--width");
+  if (widthIdx !== -1 && args.length > widthIdx + 1) {
+    width = parseInt(args[widthIdx + 1], 10);
+  }
+  const heightIdx = args.indexOf("--height");
+  if (heightIdx !== -1 && args.length > heightIdx + 1) {
+    height = parseInt(args[heightIdx + 1], 10);
+  }
+
   // Determine output file name
   const fileIdx = args.indexOf("--file");
   const fileName = (fileIdx !== -1 && args.length > fileIdx + 1) ? args[fileIdx + 1] : "output.svg";
@@ -424,7 +408,7 @@ async function handlePlot(args) {
     }
     const pointsCount = parseInt(args[pointsIdx + 1], 10);
     const step = (xmax - xmin) / pointsCount;
-    const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
+    const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height);
     await writeOutput(fileName, svg);
     return;
   }
@@ -453,7 +437,7 @@ async function handlePlot(args) {
       }
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
       const step = (xmax - xmin) / pointsCount;
-      const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
+      const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height);
       await writeOutput(fileName, svg);
       return;
     } else {
@@ -476,7 +460,7 @@ async function handlePlot(args) {
       }
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
       const step = (xmax - xmin) / pointsCount;
-      const svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
+      const svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height);
       await writeOutput(fileName, svg);
       return;
     }
@@ -509,7 +493,7 @@ async function handlePlot(args) {
       step = parseFloat(args[stepIdx + 1]);
     }
 
-    const svg = generatePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY);
+    const svg = generatePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY, width, height);
     await writeOutput(fileName, svg);
   }
 }
@@ -518,7 +502,7 @@ export async function main(args = []) {
   if (args.length === 0) {
     // Default demo: generate a sample SVG plot using legacy parameters
     const fileName = "output.svg";
-    const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
+    const svg = generatePlot("sin(x)", 0, 6.28, 0.1, undefined, false, false);
     await writeOutput(fileName, svg);
     return;
   }
