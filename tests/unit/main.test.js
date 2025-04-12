@@ -247,7 +247,7 @@ describe("Logarithmic Scale Axes", () => {
 
 describe("PNG Conversion Feature", () => {
   it("should generate a PNG file when --file option ends with .png", async () => {
-    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--file", "test_output.png"];
+    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--file", "test_output.png"]; 
     await mainModule.main(args);
     expect(fs.existsSync("test_output.png")).toBe(true);
     const fileBuffer = fs.readFileSync("test_output.png");
@@ -258,7 +258,7 @@ describe("PNG Conversion Feature", () => {
 
 describe("PDF Conversion Feature", () => {
   it("should generate a PDF file when --file option ends with .pdf", async () => {
-    const args = ["--plot", "sin(x)", "--xmin", "-10", "--xmax", "10", "--points", "100", "--file", "output.pdf"];
+    const args = ["--plot", "sin(x)", "--xmin", "-10", "--xmax", "10", "--points", "100", "--file", "output.pdf"]; 
     await mainModule.main(args);
     expect(fs.existsSync("output.pdf")).toBe(true);
     const fileBuffer = fs.readFileSync("output.pdf");
@@ -269,11 +269,10 @@ describe("PDF Conversion Feature", () => {
 
 describe("JPEG Conversion Feature", () => {
   it("should generate a JPEG file when --file option ends with .jpg", async () => {
-    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--file", "test_output.jpg"];
+    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--file", "test_output.jpg"]; 
     await mainModule.main(args);
     expect(fs.existsSync("test_output.jpg")).toBe(true);
     const fileBuffer = fs.readFileSync("test_output.jpg");
-    // JPEG files usually start with 0xFF, 0xD8, 0xFF
     expect(fileBuffer[0]).toBe(0xFF);
     expect(fileBuffer[1]).toBe(0xD8);
     expect(fileBuffer[2]).toBe(0xFF);

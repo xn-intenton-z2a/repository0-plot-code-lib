@@ -169,7 +169,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
  * @param {number} [svgWidth=500] - Width of the output SVG.
  * @param {number} [svgHeight=300] - Height of the output SVG.
  * @param {boolean} [darkMode=false] - If true, apply dark mode theming to the SVG.
- * @param {boolean} [animate=false] - If true, animate the plot drawing with a smooth transition.
+ * @param {boolean} [animate=false] - If true, animate the drawing of the plot lines.
  * @returns {string} - Interactive SVG string.
  */
 export function generateInteractivePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false, animate = false) {
@@ -269,17 +269,16 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
   const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
 
-  const polylinePoints = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
+  const polylinePoints = svgPoints.map(p => `${p}`).join(" ");
   const polylineStroke = darkMode ? "cyan" : "blue";
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
 
   // Generate interactive circles with event handlers for tooltips
-  const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="red" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
+  const circles = svgPoints.map(p => `<circle cx="${p.split(",")[0]}" cy="${p.split(",")[1]}" r="3" fill="red" onmousemove="showTooltip(evt, ${Number(p.split(",")[0]) / 50}, ${Number(p.split(",")[1]) / 50})" onmouseout="hideTooltip()" />`).join("\n");
 
   const tooltipFill = darkMode ? "white" : "black";
-  const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${polylinePoints}" fill="none" stroke="${polylineStroke}" stroke-width="2">${animationTag}</polyline>\n    <g class="interactive-points">\n${circles}</g>\n    <text id="svg-tooltip" style="display:none; fill:${tooltipFill}; font-size:12px; pointer-events:none;" />\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n      var svg = document.getElementsByTagName('svg')[0];\n      if(!svg.getAttribute('viewBox')) {\n        svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height'));\n      }\n      var isPanning = false, startPoint = {x:0, y:0}, startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      svg.addEventListener('mousedown', function(evt) {\n        isPanning = true;\n        startPoint = {x: evt.clientX, y: evt.clientY};\n        startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      });\n      svg.addEventListener('mousemove', function(evt) {\n        if(isPanning) {\n          var dx = evt.clientX - startPoint.x;\n          var dy = evt.clientY - startPoint.y;\n          svg.setAttribute('viewBox', (startViewBox[0] - dx) + ' ' + (startViewBox[1] - dy) + ' ' + startViewBox[2] + ' ' + startViewBox[3]);\n        }\n      });\n      svg.addEventListener('mouseup', function() { isPanning = false; });\n      svg.addEventListener('wheel', function(evt) {\n        evt.preventDefault();\n        var vb = svg.getAttribute('viewBox').split(' ').map(Number);\n        var scale = (evt.deltaY > 0) ? 1.1 : 0.9;\n        svg.setAttribute('viewBox', vb[0] + ' ' + vb[1] + ' ' + (vb[2] * scale) + ' ' + (vb[3] * scale));\n      });\n    ]]></script>\n  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circles}\n</g>\n    <g class="legend">\n${/* Legend generation */ ""}\n</g>\n    <text id="svg-tooltip" style="display:none; fill:${tooltipFill}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -427,7 +426,8 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
 
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circlesGroup}</g>\n    <g class="legend">\n${legend}</g>\n  </svg>`;
+  const tooltipFill = darkMode ? "white" : "black";
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circlesGroup}</g>\n    <g class="legend">\n${legend}</g>\n    <text id="svg-tooltip" style="display:none; fill:${tooltipFill}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -557,7 +557,8 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${legend}</g>\n    <g class="legend">\n${legend}</g>\n  </svg>`;
+  const tooltipFill = darkMode ? "white" : "black";
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circlesGroup}</g>\n    <g class="legend">\n${legend}</g>\n    <text id="svg-tooltip" style="display:none; fill:${tooltipFill}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
