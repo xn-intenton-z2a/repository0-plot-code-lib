@@ -7,7 +7,7 @@ import { compile } from "mathjs";
 export function generatePlot(expression, start, end, step) {
   const compiled = compile(expression);
   const points = [];
-  
+
   for (let x = start; x <= end; x += step) {
     try {
       const y = compiled.evaluate({ x });
@@ -56,20 +56,20 @@ export function generatePlot(expression, start, end, step) {
   return svgContent;
 }
 
+// Alias generateSVGPlot to generatePlot for new API usage
+export const generateSVGPlot = generatePlot;
+
 function showHelp() {
   console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.
     
 Usage: node src/lib/main.js [options]
 
 Options:
-  -h, --help       display help information
-  -v, --version    display version information
-  --diagnostics    enable diagnostics mode
-  --plot           generate a plot with parameters
-  --expr <expression>  expression (required with --plot)
-  --start <number>     start value (required with --plot)
-  --end <number>       end value (required with --plot)
-  --step <number>      step value (optional, default 0.1)
+  -h, --help          display help information
+  -v, --version       display version information
+  --diagnostics       enable diagnostics mode
+  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:
+                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1>
 `);
 }
 
@@ -85,49 +85,92 @@ function showDiagnostics(args) {
 }
 
 function handlePlot(args) {
-  const exprIdx = args.indexOf("--expr");
-  const startIdx = args.indexOf("--start");
-  const endIdx = args.indexOf("--end");
-
-  if (exprIdx === -1 || startIdx === -1 || endIdx === -1) {
-    console.error("Missing required parameters for plotting: --expr, --start, --end");
-    process.exit(1);
-    return;
-  }
-
-  const expression = args[exprIdx + 1];
-  const start = parseFloat(args[startIdx + 1]);
-  if (isNaN(start)) {
-    console.error("Invalid numeric value for --start");
-    process.exit(1);
-    return;
-  }
-  const end = parseFloat(args[endIdx + 1]);
-  if (isNaN(end)) {
-    console.error("Invalid numeric value for --end");
-    process.exit(1);
-    return;
-  }
-
-  if (start >= end) {
-    console.error("Invalid range: --start must be less than --end");
-    process.exit(1);
-    return;
-  }
-
-  const stepIdx = args.indexOf("--step");
-  let step = 0.1;
-  if (stepIdx !== -1) {
-    step = parseFloat(args[stepIdx + 1]);
-    if (isNaN(step)) {
-      console.error("Invalid numeric value for --step");
+  // Determine if using new CLI syntax: --plot <expression> --xmin ...
+  const plotIndex = args.indexOf("--plot");
+  const nextArg = args[plotIndex + 1];
+  if (nextArg && !nextArg.startsWith("--")) {
+    // New syntax for SVG plot generation
+    const expression = nextArg;
+    const xminIdx = args.indexOf("--xmin");
+    const xmaxIdx = args.indexOf("--xmax");
+    const pointsIdx = args.indexOf("--points");
+    if (xminIdx === -1 || xmaxIdx === -1 || pointsIdx === -1) {
+      console.error("Missing required parameters for SVG plotting: --xmin, --xmax, --points");
       process.exit(1);
       return;
     }
-  }
+    const xmin = parseFloat(args[xminIdx + 1]);
+    if (isNaN(xmin)) {
+      console.error("Invalid numeric value for --xmin");
+      process.exit(1);
+      return;
+    }
+    const xmax = parseFloat(args[xmaxIdx + 1]);
+    if (isNaN(xmax)) {
+      console.error("Invalid numeric value for --xmax");
+      process.exit(1);
+      return;
+    }
+    if (xmin >= xmax) {
+      console.error("Invalid range: --xmin must be less than --xmax");
+      process.exit(1);
+      return;
+    }
+    const pointsCount = parseInt(args[pointsIdx + 1], 10);
+    if (isNaN(pointsCount) || pointsCount <= 1) {
+      console.error("Invalid numeric value for --points. It must be an integer greater than 1.");
+      process.exit(1);
+      return;
+    }
+    // For new CLI syntax, use generateSVGPlot (alias for generatePlot)
+    const svg = generateSVGPlot(expression, xmin, xmax, (xmax - xmin) / pointsCount);
+    console.log(svg);
+  } else {
+    // Legacy syntax using --expr, --start, --end, and optional --step
+    const exprIdx = args.indexOf("--expr");
+    const startIdx = args.indexOf("--start");
+    const endIdx = args.indexOf("--end");
 
-  const svg = generatePlot(expression, start, end, step);
-  console.log(svg);
+    if (exprIdx === -1 || startIdx === -1 || endIdx === -1) {
+      console.error("Missing required parameters for plotting: --expr, --start, --end");
+      process.exit(1);
+      return;
+    }
+
+    const expression = args[exprIdx + 1];
+    const start = parseFloat(args[startIdx + 1]);
+    if (isNaN(start)) {
+      console.error("Invalid numeric value for --start");
+      process.exit(1);
+      return;
+    }
+    const end = parseFloat(args[endIdx + 1]);
+    if (isNaN(end)) {
+      console.error("Invalid numeric value for --end");
+      process.exit(1);
+      return;
+    }
+
+    if (start >= end) {
+      console.error("Invalid range: --start must be less than --end");
+      process.exit(1);
+      return;
+    }
+
+    const stepIdx = args.indexOf("--step");
+    let step = 0.1;
+    if (stepIdx !== -1) {
+      step = parseFloat(args[stepIdx + 1]);
+      if (isNaN(step)) {
+        console.error("Invalid numeric value for --step");
+        process.exit(1);
+        return;
+      }
+    }
+
+    const svg = generatePlot(expression, start, end, step);
+    console.log(svg);
+  }
 }
 
 export function main(args = []) {
