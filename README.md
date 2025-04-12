@@ -16,23 +16,23 @@ Example for standard execution (outputs to file output.svg by default):
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
-Example for specifying custom SVG dimensions and a custom output file (e.g., PNG or PDF):
+Example for specifying custom SVG dimensions, dark mode, and a custom output file (e.g., PNG or PDF):
 
-  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --file output.png [--fallback "Custom fallback message for non-finite values"]
+  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --darkmode --file output.png [--fallback "Custom fallback message for non-finite values"]
 
 If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format. Similarly, if the file ends with .pdf, it converts the SVG to a PDF file using headless browser rendering. Note: PDF conversion now uses no-sandbox options to ensure compatibility in environments with limited sandbox capabilities.
 
 #### Enhanced Interactive Mode
 
-A new interactive plotting mode is available. When the `--interactive` flag is provided along with plotting parameters, the tool generates an SVG with tooltips on hover and basic zoom/pan functionality. Data points display their coordinates when hovered over.
+A new interactive plotting mode is available. When the `--interactive` flag is provided along with plotting parameters, the tool generates an SVG with tooltips on hover and basic zoom/pan functionality. Data points display their coordinates when hovered over. Dark mode can also be enabled using the `--darkmode` flag.
 
 For a single interactive plot:
 
-  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --interactive [--fallback "Custom fallback message"]
+  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --interactive [--darkmode] [--fallback "Custom fallback message"]
 
 For interactive multi-function plotting with a comma-separated list:
 
-  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 --interactive [--width 600 --height 400] [--fallback "Custom fallback message"]
+  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 --interactive [--width 600 --height 400] [--darkmode] [--fallback "Custom fallback message"]
 
 Additional flags for logarithmic scaling can be used to transform the axes:
 
@@ -71,18 +71,18 @@ For direct SVG plot generation using the legacy API:
   const svg = generatePlot("sin(x)", 0, 6.28, 0.1, "Custom fallback message");
   console.log(svg);
 
-For direct SVG plot generation using the new API (with optional logarithmic scaling and custom dimensions):
+For direct SVG plot generation using the new API (with optional logarithmic scaling, custom dimensions, and dark mode support):
 
   import { generateSVGPlot } from '@src/lib/main.js';
-  // Log scale on x-axis with custom dimensions
-  const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message", true, false, 600, 400);
+  // Dark mode enabled with log scale on x-axis and custom dimensions
+  const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message", true, false, 600, 400, true);
   console.log(svg);
 
 For interactive SVG plot generation via the API:
 
   import { generateInteractivePlot } from '@src/lib/main.js';
-  // Generates an interactive SVG with tooltips and zoom/pan features
-  const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400);
+  // Generates an interactive SVG with tooltips, zoom/pan features, and dark mode
+  const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400, true);
   console.log(svg);
 
 For non-interactive multi-function plotting via the API:
@@ -110,6 +110,10 @@ If the output file specified with the --file flag ends with .png, the tool autom
 **Custom Dimensions:**
 
 Users can now customize the output SVG dimensions using the new --width and --height options, which default to 500 and 300 respectively if not specified.
+
+**Dark Mode:**
+
+The new --darkmode flag (or darkMode parameter in the API) applies dark theme styling to the output SVG. This includes a dark background (#1e1e1e), light-colored axis lines, grid lines, tick marks, and text for improved visibility in dark environments.
 
 **Interactive Mode:**
 
