@@ -6,17 +6,17 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-Invoke directly via the command line:
+Invoke directly via the command line using Node:
 
-  repository0-plot-code-lib [arguments]
+  node src/lib/main.js [arguments]
 
 Example for standard execution:
 
-  $ repository0-plot-code-lib arg1 arg2
+  $ node src/lib/main.js arg1 arg2
 
 Example for plot generation:
 
-  $ repository0-plot-code-lib --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
+  $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
 ### Library
 
