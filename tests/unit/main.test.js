@@ -3,12 +3,14 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
 
-// Cleanup output file if exists
+// Cleanup output files if they exist
 afterEach(() => {
-  const defaultFile = "output.svg";
-  if (fs.existsSync(defaultFile)) {
-    fs.unlinkSync(defaultFile);
-  }
+  const files = ["output.svg", "test_output.png"];
+  files.forEach(file => {
+    if (fs.existsSync(file)) {
+      fs.unlinkSync(file);
+    }
+  });
 });
 
 // Test the module import
@@ -20,10 +22,10 @@ describe("Main Module Import", () => {
 
 // Test default output
 describe("Default Demo Output", () => {
-  it("should write an SVG file and output its content", () => {
+  it("should write an SVG file and output its content", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     process.argv = ["node", "src/lib/main.js"];
-    mainModule.main([]);
+    await mainModule.main([]);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("</svg>");
@@ -33,10 +35,10 @@ describe("Default Demo Output", () => {
 
 // Diagnostics mode
 describe("Diagnostics Mode", () => {
-  it("should output diagnostics information when --diagnostics flag is provided", () => {
+  it("should output diagnostics information when --diagnostics flag is provided", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--diagnostics", "--plot", "--expr", "sin(x)"];
-    mainModule.main(args);
+    await mainModule.main(args);
     expect(consoleSpy).toHaveBeenCalledWith("Diagnostics Mode Enabled");
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Parsed Arguments:"), args);
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Node.js Version:"), process.version);
@@ -46,10 +48,10 @@ describe("Diagnostics Mode", () => {
 
 // Plot Generation (Legacy CLI Syntax)
 describe("Plot Generation (Legacy CLI Syntax)", () => {
-  it("should generate a valid SVG plot with a polyline element and enhanced axes, grid, and ticks", () => {
+  it("should generate a valid SVG plot with a polyline element and enhanced axes, grid, and ticks", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "0.1"];
-    mainModule.main(args);
+    await mainModule.main(args);
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
@@ -62,22 +64,22 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     consoleSpy.mockRestore();
   });
 
-  it("should error if missing required plot parameters", () => {
+  it("should error if missing required plot parameters", async () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)"];
-    mainModule.main(args);
+    await mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for plotting: --expr, --start, --end");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
   });
 
-  it("should error if plot range is invalid when start is not less than end", () => {
+  it("should error if plot range is invalid when start is not less than end", async () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "6.28", "--end", "0"];
-    mainModule.main(args);
+    await mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid range: --start must be less than --end");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
@@ -155,7 +157,7 @@ describe("Multi-Function Plot Generation via API", () => {
   });
 
   it("should return fallback SVG if all expressions yield no valid points", () => {
-    const expressions = ["0/0", "0/0"];
+    const expressions = ["0/0", "0/0"]; 
     const svg = generateMultiPlot(expressions, 0, 10, 1);
     expect(svg).toContain("No valid data");
     expect(svg).not.toContain("<polyline");
@@ -163,11 +165,11 @@ describe("Multi-Function Plot Generation via API", () => {
 });
 
 describe("New SVG CLI Multi-Plot Generation", () => {
-  it("should generate a valid multi-plot SVG using --plots flag with comma-separated expressions", () => {
+  it("should generate a valid multi-plot SVG using --plots flag with comma-separated expressions", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const customMessage = "New CLI custom fallback";
     const args = ["--plots", "sin(x),cos(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--fallback", customMessage];
-    mainModule.main(args);
+    await mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("<polyline");
@@ -176,10 +178,10 @@ describe("New SVG CLI Multi-Plot Generation", () => {
     consoleSpy.mockRestore();
   });
 
-  it("should generate a valid multi-plot SVG using --plot flag with comma-separated expressions", () => {
+  it("should generate a valid multi-plot SVG using --plot flag with comma-separated expressions", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--plot", "tan(x),log(x)", "--xmin", "1", "--xmax", "10", "--points", "50"];
-    mainModule.main(args);
+    await mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("<polyline");
@@ -188,11 +190,11 @@ describe("New SVG CLI Multi-Plot Generation", () => {
     consoleSpy.mockRestore();
   });
 
-  it("should error if missing required new CLI parameters in multi-plot mode", () => {
+  it("should error if missing required new CLI parameters in multi-plot mode", async () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "cos(x),sin(x)", "--xmin", "0", "--points", "100"]; // missing --xmax
-    mainModule.main(args);
+    await mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for SVG plotting: --xmin, --xmax, --points");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
@@ -232,5 +234,17 @@ describe("Logarithmic Scale Axes", () => {
     const svg = mainModule.generateSVGPlot("x", 1, 100, 1, "", true, true);
     expect(svg).toMatch(/10\.00/);
     expect(svg).toContain("<polyline");
+  });
+});
+
+describe("PNG Conversion Feature", () => {
+  it("should generate a PNG file when --file option ends with .png", async () => {
+    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--file", "test_output.png"];
+    await mainModule.main(args);
+    expect(fs.existsSync("test_output.png")).toBe(true);
+    const fileBuffer = fs.readFileSync("test_output.png");
+    // PNG files start with the following 8-byte signature: 89 50 4E 47 0D 0A 1A 0A
+    const pngSignature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+    expect(fileBuffer.slice(0, 8)).toEqual(pngSignature);
   });
 });

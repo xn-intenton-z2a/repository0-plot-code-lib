@@ -336,6 +336,24 @@ ${tickMarks}</g>
 // Alias generateSVGPlot to generatePlot for new API usage
 export const generateSVGPlot = generatePlot;
 
+// Helper function to write output, converting SVG to PNG if needed
+async function writeOutput(fileName, svg) {
+  if (fileName.toLowerCase().endsWith('.png')) {
+    try {
+      const { default: sharp } = await import('sharp');
+      const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
+      fs.writeFileSync(fileName, pngBuffer);
+      console.log("PNG file generated successfully.");
+    } catch (err) {
+      console.error("Error during SVG to PNG conversion:", err.message);
+      process.exit(1);
+    }
+  } else {
+    fs.writeFileSync(fileName, svg, "utf-8");
+    console.log(svg);
+  }
+}
+
 // CLI related helper functions
 function showHelp() {
   console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.
@@ -367,7 +385,8 @@ function showDiagnostics(args) {
   console.log("Current Working Directory:", process.cwd());
 }
 
-function handlePlot(args) {
+// Modified handlePlot to be async to support PNG conversion
+async function handlePlot(args) {
   // Determine output file name
   const fileIdx = args.indexOf("--file");
   const fileName = (fileIdx !== -1 && args.length > fileIdx + 1) ? args[fileIdx + 1] : "output.svg";
@@ -406,8 +425,7 @@ function handlePlot(args) {
     const pointsCount = parseInt(args[pointsIdx + 1], 10);
     const step = (xmax - xmin) / pointsCount;
     const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
-    fs.writeFileSync(fileName, svg, "utf-8");
-    console.log(svg);
+    await writeOutput(fileName, svg);
     return;
   }
 
@@ -436,8 +454,7 @@ function handlePlot(args) {
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
       const step = (xmax - xmin) / pointsCount;
       const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
-      fs.writeFileSync(fileName, svg, "utf-8");
-      console.log(svg);
+      await writeOutput(fileName, svg);
       return;
     } else {
       // Single expression case using new CLI syntax
@@ -460,8 +477,7 @@ function handlePlot(args) {
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
       const step = (xmax - xmin) / pointsCount;
       const svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
-      fs.writeFileSync(fileName, svg, "utf-8");
-      console.log(svg);
+      await writeOutput(fileName, svg);
       return;
     }
   } else {
@@ -494,18 +510,16 @@ function handlePlot(args) {
     }
 
     const svg = generatePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY);
-    fs.writeFileSync(fileName, svg, "utf-8");
-    console.log(svg);
+    await writeOutput(fileName, svg);
   }
 }
 
-export function main(args = []) {
+export async function main(args = []) {
   if (args.length === 0) {
     // Default demo: generate a sample SVG plot using legacy parameters
     const fileName = "output.svg";
     const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
-    fs.writeFileSync(fileName, svg, "utf-8");
-    console.log(svg);
+    await writeOutput(fileName, svg);
     return;
   }
   if (args.includes("--help") || args.includes("-h")) {
@@ -521,7 +535,7 @@ export function main(args = []) {
     return;
   }
   if (args.includes("--plot") || args.includes("--plots")) {
-    handlePlot(args);
+    await handlePlot(args);
     return;
   }
   console.log(`Run with: ${JSON.stringify(args)}`);
@@ -529,5 +543,8 @@ export function main(args = []) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  main(args).catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 }

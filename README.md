@@ -20,6 +20,8 @@ Example for specifying a custom output file (e.g., PNG):
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --file output.png [--fallback "Custom fallback message for non-finite values"]
 
+When the output filename ends with .png, the library automatically converts the generated SVG into a PNG image using the 'sharp' library.
+
 Example for enhanced SVG plot generation using the new CLI syntax (single expression):
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 [--fallback "Custom fallback message for non-finite values"]
@@ -86,7 +88,9 @@ For multi-function plotting via the API:
 
 ---
 
-The plotting functions now implement an enhanced fallback handling mechanism. If no valid data points are generated, a fallback SVG is rendered with a consistent style using multi-line text (via <tspan> elements) for better readability. Custom fallback messages, when provided, are displayed centered within the SVG.
+**PNG Conversion:**
+
+If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format using the 'sharp' library. This allows seamless generation of PNG images from mathematical plots.
 
 **File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png).
 
