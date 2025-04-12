@@ -10,8 +10,8 @@
   "openPRs": 0,
   "averagePRAge": 0,
   "prDetails": [],
-  "diffMinutes": 2,
-  "diffMinutesMain": 24,
+  "diffMinutes": 0,
+  "diffMinutesMain": 25,
   "commitsLastHour": 1,
   "commitsLastDay": 95,
   "lastFiveCommitMessages": [
@@ -24,11 +24,11 @@
   "branches": {
     "count": 1,
     "details": [
-      "[10m] agentic-lib-issue-2027"
+      "[12m] agentic-lib-issue-2027"
     ],
-    "averageBranchAge": 10
+    "averageBranchAge": 12
   },
   "testStatusOnBranch": "PASS",
   "testsLastPassedMinutes": 15,
-  "statsGeneratedAt": "2025-04-12T19:04:26.584Z"
+  "statsGeneratedAt": "2025-04-12T19:05:35.556Z"
 }
