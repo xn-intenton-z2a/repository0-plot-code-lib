@@ -5,15 +5,6 @@ import pkg from "../../package.json" with { type: "json" };
 import { compile } from "mathjs";
 
 /**
- * Checks if the provided expression is a literal 'NaN', ignoring case and surrounding whitespace.
- * @param {string} expression - The expression to check.
- * @returns {boolean} - Returns true if expression is a literal 'NaN', otherwise false.
- */
-export function isLiteralNaN(expression) {
-  return expression.trim().toLowerCase() === 'nan';
-}
-
-/**
  * Generates an SVG plot for a given mathematical expression over a specific range.
  * Optionally, a custom fallback message can be provided to display when no valid data points are found.
  *
@@ -33,20 +24,15 @@ export function generatePlot(expression, start, end, step, fallbackMessage) {
   const svgHeight = 300;
   const tickCount = 5;
 
-  // Check for literal 'NaN'. If true, skip evaluation to trigger fallback SVG.
-  if (isLiteralNaN(expression)) {
-    console.warn("Literal 'NaN' input detected, generating fallback SVG output.");
-  } else {
-    const compiled = compile(expression);
-    for (let x = start; x <= end; x += step) {
-      try {
-        const y = compiled.evaluate({ x });
-        if (Number.isFinite(y)) {
-          points.push({ x, y });
-        }
-      } catch (_err) {
-        // Ignoring evaluation error
+  const compiled = compile(expression);
+  for (let x = start; x <= end; x += step) {
+    try {
+      const y = compiled.evaluate({ x });
+      if (Number.isFinite(y)) {
+        points.push({ x, y });
       }
+    } catch (_err) {
+      // Ignoring evaluation error
     }
   }
 
@@ -152,20 +138,16 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   // Process each expression
   for (const expr of expressions) {
     let points = [];
-    if (isLiteralNaN(expr)) {
-      console.warn(`Literal 'NaN' provided in expression '${expr}', generating fallback for this expression.`);
-    } else {
-      const compiled = compile(expr);
-      for (let x = start; x <= end; x += step) {
-        try {
-          const y = compiled.evaluate({ x });
-          if (Number.isFinite(y)) {
-            points.push({ x, y });
-            allValidPoints.push({ x, y });
-          }
-        } catch (_err) {
-          // Ignore evaluation error
+    const compiled = compile(expr);
+    for (let x = start; x <= end; x += step) {
+      try {
+        const y = compiled.evaluate({ x });
+        if (Number.isFinite(y)) {
+          points.push({ x, y });
+          allValidPoints.push({ x, y });
         }
+      } catch (_err) {
+        // Ignore evaluation error
       }
     }
     series.push({ expression: expr, points });
@@ -380,9 +362,6 @@ function handlePlot(args) {
     } else {
       // Single expression case using new CLI syntax
       const expression = nextArg;
-      if (isLiteralNaN(expression)) {
-        console.warn("Literal 'NaN' provided in expression, generating fallback SVG output.");
-      }
       const xminIdx = args.indexOf("--xmin");
       const xmaxIdx = args.indexOf("--xmax");
       const pointsIdx = args.indexOf("--points");
@@ -432,10 +411,6 @@ function handlePlot(args) {
     }
 
     const expression = args[exprIdx + 1];
-    if (isLiteralNaN(expression)) {
-      console.warn("Literal 'NaN' provided in expression, generating fallback SVG output.");
-    }
-
     const start = parseFloat(args[startIdx + 1]);
     if (isNaN(start)) {
       console.error("Invalid numeric value for --start");

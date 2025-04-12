@@ -30,9 +30,9 @@ Example using the new flag for multi-function plotting:
 
   $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 [--fallback "Custom fallback message"]
 
-Note: If a literal 'NaN' is provided as the expression (ignoring case and whitespace), the tool will now generate a fallback SVG output rather than terminating abruptly. You can optionally provide a custom fallback message using the --fallback flag.
+Note: If the expression evaluation yields only non-finite values, the tool will generate a fallback SVG output. You can optionally provide a custom fallback message using the --fallback flag.
 
-The generated SVG plots now come with enhanced visual features including:
+The generated SVG plots come with enhanced visual features including:
 - A horizontal x-axis (at the bottom) and a vertical y-axis (on the left).
 - Tick marks along each axis with numerical labels.
 - Light grid lines corresponding to the tick marks across the plot area.
@@ -76,19 +76,6 @@ For multi-function plotting via the API:
   const expressions = ["sin(x)", "cos(x)"];
   const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
   console.log(svg);
-
-#### Utility Function: isLiteralNaN
-
-The library now includes a dedicated utility function to check if an input expression is a literal 'NaN' (ignoring case and whitespace). When a literal 'NaN' is provided as the expression, the system will generate a fallback SVG output rather than terminating the process.
-
-Example usage:
-
-  import { isLiteralNaN } from '@src/lib/main.js';
-  console.log(isLiteralNaN(' NaN ')); // true
-
----
-
-The plotting functions now use robust filtering with a try/catch mechanism to ignore non-finite values and intermittent evaluation errors. In addition, enhanced plot elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output, improving the visual quality and interpretability of the plots.
 
 ## License
 
