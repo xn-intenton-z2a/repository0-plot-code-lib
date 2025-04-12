@@ -18,13 +18,17 @@ Example for enhanced plot generation using legacy parameters:
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1 [--fallback "Custom fallback message for non-finite values"]
 
-Example for enhanced SVG plot generation using the new CLI syntax:
+Example for enhanced SVG plot generation using the new CLI syntax (single expression):
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 [--fallback "Custom fallback message for non-finite values"]
 
-Note: If the literal expression 'NaN' (case-insensitive, and with any surrounding whitespace) is provided via the CLI, the tool will report an error with detailed diagnostics. The error message will explain that 'NaN' is not acceptable because it violates valid mathematical evaluation rules and will suggest providing a valid expression or using the --fallback flag to supply a custom message.
+Example for multi-function plotting using a comma-separated list with the new CLI syntax:
 
-The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN, Infinity, etc.). If no valid points are found, a fallback SVG is returned that includes diagnostic details indicating that the expression evaluation resulted in non-finite values. The fallback message can be customized using the --fallback flag in the CLI.
+  $ node src/lib/main.js --plot "sin(x),cos(x)" --xmin 0 --xmax 6.28 --points 100 [--fallback "Custom fallback message"]
+
+Example using the new flag for multi-function plotting:
+
+  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 [--fallback "Custom fallback message"]
 
 Example for diagnostics mode:
 
@@ -59,6 +63,13 @@ For direct SVG plot generation using the new API:
   const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message");
   console.log(svg);
 
+For multi-function plotting via the API:
+
+  import { generateMultiPlot } from '@src/lib/main.js';
+  const expressions = ["sin(x)", "cos(x)"];
+  const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
+  console.log(svg);
+
 #### Utility Function: isLiteralNaN
 
 The library now includes a dedicated utility function to check if an input expression is a literal 'NaN' (ignoring case and whitespace). This ensures consistent rejection of invalid expressions across both CLI and API usage.
@@ -70,7 +81,7 @@ Example usage:
 
 ---
 
-The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG is returned that includes diagnostic details indicating the issue.
+The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. When multiple expressions are provided, each is rendered with a distinct color and a legend is added to differentiate between them. If no valid points are found for an expression (or for all), a fallback SVG is returned that includes diagnostic details indicating the issue.
 
 ## License
 
