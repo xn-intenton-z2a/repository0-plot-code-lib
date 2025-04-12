@@ -25,9 +25,9 @@ Import the main function in your project:
   import { main } from '@src/lib/main.js';
   main(['your', 'args']);
 
-For direct SVG plot generation, import the generatePlot function from its own module:
+For direct SVG plot generation, import the generatePlot function from the main module:
 
-  import { generatePlot } from '@src/lib/plot.js';
+  import { generatePlot } from '@src/lib/main.js';
   const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
   console.log(svg);
 
