@@ -18,7 +18,7 @@ Example for enhanced plot generation:
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
-This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve.
+This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation now gracefully filters out any points that evaluate to NaN. If no valid data points are available, the output SVG will display a "No valid data" message.
 
 Example for diagnostics mode:
 
@@ -54,7 +54,7 @@ For direct SVG plot generation, import the generatePlot function from the main m
   const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
   console.log(svg);
 
-This function now evaluates the mathematical expression using the mathjs library, computes a series of (x, y) points, scales them to fit within the SVG viewport, and renders a polyline representing the curve.
+The generatePlot function now evaluates the mathematical expression using the mathjs library, computes a series of (x, y) points while filtering out any points that produce NaN, scales them to fit within the SVG viewport, and renders a polyline representing the curve. If no valid data points are computed, a fallback SVG with a 'No valid data' message is returned.
 
 ---
 

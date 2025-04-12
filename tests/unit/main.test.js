@@ -99,6 +99,17 @@ describe("Plot Generation", () => {
   });
 });
 
+describe("Handling NaN in Plot Generation", () => {
+  it("should handle cases where evaluated expression returns NaN by displaying a fallback SVG", () => {
+    // Using an expression that always returns NaN (0/0)
+    const svg = generatePlot("0/0", 0, 10, 1);
+    expect(svg).toContain("<svg");
+    expect(svg).toContain("No valid data");
+    // Ensure that polyline is not rendered
+    expect(svg).not.toContain("<polyline");
+  });
+});
+
 describe("Help Flag", () => {
   it("should output help information when --help is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
