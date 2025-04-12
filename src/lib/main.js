@@ -4,6 +4,9 @@ import { fileURLToPath } from "url";
 import pkg from "../../package.json" with { type: "json" };
 import { compile } from "mathjs";
 
+// In-memory cache for SVG outputs
+const svgCache = new Map();
+
 /**
  * Generates an SVG plot for a given mathematical expression over a specific range.
  * Optionally, a custom fallback message can be provided to display when no valid data points are found.
@@ -18,6 +21,12 @@ import { compile } from "mathjs";
  * @returns {string} - SVG string representing the plot or fallback message.
  */
 export function generatePlot(expression, start, end, step, fallbackMessage) {
+  // Create a cache key based on the function arguments
+  const cacheKey = JSON.stringify(["generatePlot", expression, start, end, step, fallbackMessage]);
+  if (svgCache.has(cacheKey)) {
+    return svgCache.get(cacheKey);
+  }
+
   let points = [];
   const margin = 20;
   const svgWidth = 500;
@@ -38,18 +47,21 @@ export function generatePlot(expression, start, end, step, fallbackMessage) {
 
   // If no valid points, return fallback SVG with diagnostic details
   if (points.length === 0) {
+    let fallbackSVG;
     if (fallbackMessage) {
-      return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+      fallbackSVG = `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
       <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
       <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">${fallbackMessage}</text>
     </svg>`;
     } else {
-      return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+      fallbackSVG = `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
       <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
       <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: expression evaluation returned.</text>
       <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expression for potential issues.</text>
     </svg>`;
     }
+    svgCache.set(cacheKey, fallbackSVG);
+    return fallbackSVG;
   }
 
   // Calculate data bounds
@@ -108,6 +120,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage) {
     <polyline points="${svgPoints}" fill="none" stroke="blue" stroke-width="2"/>
   </svg>`;
 
+  svgCache.set(cacheKey, svgContent);
   return svgContent;
 }
 
@@ -127,6 +140,12 @@ export const generateSVGPlot = generatePlot;
  * @returns {string} - SVG string representing the multi-plot or fallback SVG if no valid data points are found for any expression.
  */
 export function generateMultiPlot(expressions, start, end, step, fallbackMessage) {
+  // Create a cache key based on the arguments
+  const cacheKey = JSON.stringify(["generateMultiPlot", expressions, start, end, step, fallbackMessage]);
+  if (svgCache.has(cacheKey)) {
+    return svgCache.get(cacheKey);
+  }
+
   const svgWidth = 500;
   const svgHeight = 300;
   const margin = 20;
@@ -156,18 +175,21 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   // If no valid points for any expression, return fallback SVG
   if (allValidPoints.length === 0) {
+    let fallbackSVG;
     if (fallbackMessage) {
-      return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+      fallbackSVG = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
         <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">${fallbackMessage}</text>
       </svg>`;
     } else {
-      return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+      fallbackSVG = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
         <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
         <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: all expressions returned non-finite values.</text>
         <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expressions for potential issues.</text>
       </svg>`;
     }
+    svgCache.set(cacheKey, fallbackSVG);
+    return fallbackSVG;
   }
 
   // Determine overall y range from all valid points; x range is defined by start and end
@@ -237,6 +259,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
     </g>
   </svg>`;
 
+  svgCache.set(cacheKey, svgContent);
   return svgContent;
 }
 

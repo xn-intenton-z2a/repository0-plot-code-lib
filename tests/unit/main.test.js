@@ -188,3 +188,19 @@ describe("New SVG CLI Multi-Plot Generation", () => {
     processExitSpy.mockRestore();
   });
 });
+
+// New Tests for SVG Caching
+describe("SVG Plot Caching", () => {
+  it("should return identical SVG output for repeated calls of generateSVGPlot with same parameters", () => {
+    const svg1 = mainModule.generateSVGPlot("sin(x)", -10, 10, 0.5, "Cache test");
+    const svg2 = mainModule.generateSVGPlot("sin(x)", -10, 10, 0.5, "Cache test");
+    expect(svg1).toBe(svg2);
+  });
+
+  it("should return identical SVG output for repeated calls of generateMultiPlot with same parameters", () => {
+    const exprs = ["sin(x)", "cos(x)"];
+    const svg1 = mainModule.generateMultiPlot(exprs, 0, 6.28, 0.1, "Cache multi test");
+    const svg2 = mainModule.generateMultiPlot(exprs, 0, 6.28, 0.1, "Cache multi test");
+    expect(svg1).toBe(svg2);
+  });
+});

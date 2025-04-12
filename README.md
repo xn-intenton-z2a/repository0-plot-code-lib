@@ -35,6 +35,8 @@ The generated SVG plots now come with enhanced visual features including:
 - Tick marks along each axis with numerical labels.
 - Light grid lines corresponding to the tick marks across the plot area.
 
+Additionally, this release implements an in-memory caching mechanism for SVG outputs. Repeated calls with the same input parameters will return a cached SVG, improving performance by reducing redundant computations.
+
 Example for diagnostics mode:
 
   $ node src/lib/main.js --diagnostics
@@ -78,6 +80,8 @@ For multi-function plotting via the API:
 ---
 
 The plotting functions now use robust filtering with a try/catch mechanism to ignore non-finite values and intermittent evaluation errors. In addition, enhanced plot elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output, improving the visual quality and interpretability of the plots.
+
+**Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.
 
 ## License
 
