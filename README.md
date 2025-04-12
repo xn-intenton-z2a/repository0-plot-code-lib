@@ -16,7 +16,7 @@ Example for standard execution (outputs to file output.svg by default):
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
-Example for specifying custom SVG dimensions, dark mode, and a custom output file (e.g., PNG or PDF):
+Example for specifying custom SVG dimensions, dark mode, and a custom output file (e.g., PNG, JPEG, or PDF):
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --darkmode --file output.png [--fallback "Custom fallback message for non-finite values"]
 
@@ -103,11 +103,17 @@ For interactive multi-function plotting via the API:
 
 ---
 
-**PNG and PDF Conversion:**
+**PNG, JPEG, and PDF Conversion:**
 
-If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format using the 'sharp' library. Similarly, if the file ends with .pdf, it uses a headless browser (via Puppeteer) to convert the SVG into a PDF file. This allows seamless generation of both PNG and PDF outputs from mathematical plots. The PDF conversion now includes no-sandbox options to improve compatibility in various environments.
+If the output file specified with the --file flag ends with .png, .jpg, .jpeg, or .pdf, the tool automatically converts the generated SVG using the respective conversion process: 
 
-**File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png, output.pdf).
+- PNG conversion uses the 'sharp' library to produce PNG images.
+- JPEG conversion uses the 'sharp' library to produce JPEG images (now supported).
+- PDF conversion uses Puppeteer to produce PDF documents.
+
+This allows seamless generation of PNG, JPEG, and PDF outputs from mathematical plots. The PDF conversion now includes no-sandbox options to improve compatibility in various environments.
+
+**File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png, output.jpg, output.pdf).
 
 **Custom Dimensions:**
 

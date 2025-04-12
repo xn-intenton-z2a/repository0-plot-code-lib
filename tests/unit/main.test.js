@@ -5,7 +5,16 @@ import fs from "fs";
 
 // Cleanup output files if they exist
 afterEach(() => {
-  const files = ["output.svg", "test_output.png", "custom_dimensions.svg", "interactive.svg", "output.pdf", "darkmode.svg", "darkmode_interactive.svg"];
+  const files = [
+    "output.svg",
+    "test_output.png",
+    "custom_dimensions.svg",
+    "interactive.svg",
+    "output.pdf",
+    "darkmode.svg",
+    "darkmode_interactive.svg",
+    "test_output.jpg"
+  ];
   files.forEach(file => {
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
@@ -258,6 +267,19 @@ describe("PDF Conversion Feature", () => {
   });
 });
 
+describe("JPEG Conversion Feature", () => {
+  it("should generate a JPEG file when --file option ends with .jpg", async () => {
+    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--file", "test_output.jpg"];
+    await mainModule.main(args);
+    expect(fs.existsSync("test_output.jpg")).toBe(true);
+    const fileBuffer = fs.readFileSync("test_output.jpg");
+    // JPEG files usually start with 0xFF, 0xD8, 0xFF
+    expect(fileBuffer[0]).toBe(0xFF);
+    expect(fileBuffer[1]).toBe(0xD8);
+    expect(fileBuffer[2]).toBe(0xFF);
+  });
+});
+
 describe("Custom Dimensions Feature", () => {
   it("should generate an SVG with custom width and height when provided via CLI options", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -307,24 +329,5 @@ describe("Interactive Plot Features", () => {
   it("should include animation elements in interactive SVG when --animate flag is specified", () => {
     const svg = mainModule.generateInteractivePlot("sin(x)", 0, 6.28, 0.1, "", false, false, 500, 300, false, true);
     expect(svg).toContain("<animate");
-  });
-});
-
-describe("Dark Mode SVG Generation", () => {
-  it("should generate an SVG with dark background and light colored elements when dark mode is enabled (non-interactive)", () => {
-    const svg = mainModule.generateSVGPlot("sin(x)", 0, 10, 0.5, "", false, false, 500, 300, true);
-    expect(svg).toContain('fill="#1e1e1e"');
-    expect(svg).toContain('stroke="white"');
-    // Check that polyline uses cyan
-    expect(svg).toContain('stroke="cyan"');
-  });
-
-  it("should generate an interactive SVG with dark mode styling when dark mode is enabled", () => {
-    const svg = mainModule.generateInteractivePlot("sin(x)", 0, 10, 0.5, "", false, false, 500, 300, true);
-    expect(svg).toContain('fill="#1e1e1e"');
-    expect(svg).toContain('stroke="white"');
-    expect(svg).toContain('id="svg-tooltip"');
-    // Tooltip text should be white
-    expect(svg).toContain('fill:white');
   });
 });

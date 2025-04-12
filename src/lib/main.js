@@ -427,7 +427,7 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
 
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circlesGroup}</g>\n    <g class="legend">\n${legend}</g>\n    <text id="svg-tooltip" style="display:none; fill:${labelFill}; font-size:12px; pointer-events:none;" />\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n      var svg = document.getElementsByTagName('svg')[0];\n      if(!svg.getAttribute('viewBox')) {\n        svg.setAttribute('viewBox', '0 0 ' + svg.getAttribute('width') + ' ' + svg.getAttribute('height'));\n      }\n      var isPanning = false, startPoint = {x:0, y:0}, startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      svg.addEventListener('mousedown', function(evt) {\n        isPanning = true;\n        startPoint = {x: evt.clientX, y: evt.clientY};\n        startViewBox = svg.getAttribute('viewBox').split(' ').map(Number);\n      });\n      svg.addEventListener('mousemove', function(evt) {\n        if(isPanning) {\n          var dx = evt.clientX - startPoint.x;\n          var dy = evt.clientY - startPoint.y;\n          svg.setAttribute('viewBox', (startViewBox[0] - dx) + ' ' + (startViewBox[1] - dy) + ' ' + startViewBox[2] + ' ' + startViewBox[3]);\n        }\n      });\n      svg.addEventListener('mouseup', function() { isPanning = false; });\n      svg.addEventListener('wheel', function(evt) {\n        evt.preventDefault();\n        var vb = svg.getAttribute('viewBox').split(' ').map(Number);\n        var scale = (evt.deltaY > 0) ? 1.1 : 0.9;\n        svg.setAttribute('viewBox', vb[0] + ' ' + vb[1] + ' ' + (vb[2] * scale) + ' ' + (vb[3] * scale));\n      });\n    ]]></script>\n  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="points">\n${circlesGroup}</g>\n    <g class="legend">\n${legend}</g>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -603,6 +603,20 @@ function writeOutput(fileName, svg) {
         console.error("Error loading puppeteer:", err.message);
         reject(err);
       });
+    } else if (lowerFile.endsWith('.jpg') || lowerFile.endsWith('.jpeg')) {
+      import('sharp').then(({ default: sharp }) => {
+        sharp(Buffer.from(svg)).jpeg().toBuffer().then(jpegBuffer => {
+          fs.writeFileSync(fileName, jpegBuffer);
+          console.log("JPEG file generated successfully.");
+          resolve();
+        }).catch(err => {
+          console.error("Error during SVG to JPEG conversion:", err.message);
+          reject(err);
+        });
+      }).catch(err => {
+        console.error("Error loading sharp:", err.message);
+        reject(err);
+      });
     } else {
       fs.writeFileSync(fileName, svg, "utf-8");
       console.log(svg);
@@ -612,7 +626,7 @@ function writeOutput(fileName, svg) {
 }
 
 function showHelp() {
-  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --animate           (optional) enable animated transitions for interactive plots\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf)\n`);
+  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --animate           (optional) enable animated transitions for interactive plots\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf, output.jpg)\n`);
 }
 
 function showVersion() {
