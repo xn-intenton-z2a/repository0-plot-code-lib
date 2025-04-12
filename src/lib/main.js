@@ -301,7 +301,7 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
 
   const margin = 20;
   const tickCount = 5;
-  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"];
+  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"]; 
   const series = [];
   let allValidPoints = [];
 
@@ -446,7 +446,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   const margin = 20;
   const tickCount = 5;
-  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"];
+  const colors = ["blue", "red", "green", "orange", "purple", "magenta", "cyan"]; 
   const series = [];
   let allValidPoints = [];
 
@@ -577,13 +577,19 @@ function writeOutput(fileName, svg) {
           resolve();
         }).catch(err => {
           console.error("Error during SVG to PNG conversion:", err.message);
-          process.exit(1);
+          reject(err);
         });
+      }).catch(err => {
+        console.error("Error loading sharp:", err.message);
+        reject(err);
       });
     } else if (lowerFile.endsWith('.pdf')) {
       import('puppeteer').then(async ({ default: puppeteer }) => {
         try {
-          const browser = await puppeteer.launch();
+          const browser = await puppeteer.launch({
+            args: ['--no-sandbox', '--disable-setuid-sandbox'],
+            headless: "new"
+          });
           const page = await browser.newPage();
           const htmlContent = `<html><body>${svg}</body></html>`;
           await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
@@ -593,11 +599,11 @@ function writeOutput(fileName, svg) {
           resolve();
         } catch (e) {
           console.error("Error during SVG to PDF conversion:", e.message);
-          process.exit(1);
+          reject(e);
         }
       }).catch(err => {
         console.error("Error loading puppeteer:", err.message);
-        process.exit(1);
+        reject(err);
       });
     } else {
       fs.writeFileSync(fileName, svg, "utf-8");

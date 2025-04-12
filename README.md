@@ -20,7 +20,7 @@ Example for specifying custom SVG dimensions and a custom output file (e.g., PNG
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --file output.png [--fallback "Custom fallback message for non-finite values"]
 
-If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format. Similarly, if the file ends with .pdf, it converts the SVG to a PDF file using headless browser rendering.
+If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format. Similarly, if the file ends with .pdf, it converts the SVG to a PDF file using headless browser rendering. Note: PDF conversion now uses no-sandbox options to ensure compatibility in environments with limited sandbox capabilities.
 
 #### Enhanced Interactive Mode
 
@@ -103,7 +103,7 @@ For interactive multi-function plotting via the API:
 
 **PNG and PDF Conversion:**
 
-If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format using the 'sharp' library. Similarly, if the file ends with .pdf, it uses a headless browser (via Puppeteer) to convert the SVG into a PDF file. This allows seamless generation of both PNG and PDF outputs from mathematical plots.
+If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format using the 'sharp' library. Similarly, if the file ends with .pdf, it uses a headless browser (via Puppeteer) to convert the SVG into a PDF file. This allows seamless generation of both PNG and PDF outputs from mathematical plots. The PDF conversion now includes no-sandbox options to improve compatibility in various environments.
 
 **File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png, output.pdf).
 
