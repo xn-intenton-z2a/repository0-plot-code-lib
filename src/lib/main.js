@@ -119,7 +119,7 @@ function handlePlot(args) {
     // New syntax for SVG plot generation
     const expression = nextArg;
     if (expression.trim().toLowerCase() === 'nan') {
-      console.error("Invalid expression: 'NaN' is not a valid mathematical expression");
+      console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
       process.exit(1);
       return;
     }
@@ -171,7 +171,7 @@ function handlePlot(args) {
 
     const expression = args[exprIdx + 1];
     if (expression.trim().toLowerCase() === 'nan') {
-      console.error("Invalid expression: 'NaN' is not a valid mathematical expression");
+      console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
       process.exit(1);
       return;
     }
