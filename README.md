@@ -76,13 +76,17 @@ Usage: repository0-plot-code-lib <arguments>
   
   Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same input in batch processing are consolidated to improve log clarity.
 
+#### Enhanced Unified 'NaN' Handling
+
+The library now features enhanced unified handling for NaN inputs. This improvement ensures that various forms of 'NaN' (including different casings, extra/unusual Unicode whitespace, and signed variants) are processed consistently across both CLI arguments and CSV imports. Custom NaN variants respect the CASE_SENSITIVE_NAN flag, and warning messages are deduplicated within each batch execution.
+
 #### Automatic Warning Cache Reset
 
-The library now automatically resets the NaN fallback warning cache at the end of each batch process (e.g. after a CSV import or CLI execution). This ensures that warnings for identical NaN inputs are logged in subsequent batches even if they were suppressed within a single batch.
+The library automatically resets the NaN fallback warning cache at the end of each batch process. This ensures that warnings for identical NaN inputs are logged in subsequent batches even if they were suppressed within a single batch.
 
 #### Locale-Aware Numeric Output Formatting
 
-A new utility function, `formatNumberOutput`, has been added to format numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:
+A new utility function, `formatNumberOutput`, formats numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:
 
 - In **en-US**: `formatNumberOutput(1234.56)` returns "1,234.56".
 - In **de-DE**: the same number is formatted as "1.234,56".
@@ -91,13 +95,17 @@ You can pass additional options conforming to the Intl.NumberFormat API to custo
 
 #### Integration Tests for Extended NaN Handling
 
-The test suite has been extended with comprehensive integration tests to validate edge case behaviors including: 
-- Handling of inputs with extra/unusual Unicode whitespace
+The test suite now includes comprehensive integration tests to validate edge case behaviors such as:
+- Handling inputs with extra/unusual Unicode whitespace
 - Mixed case inputs in conjunction with custom NaN variants
 - Deduplication of warnings within a batch and reset between batches
 - Strict mode validation that disallows any NaN variant including unusual spaced inputs
 
-These tests can be run using the existing vitest framework.
+Run tests using the vitest framework:
+
+```bash
+npm test
+```
 
 #### File-based Logging
 
@@ -115,49 +123,6 @@ Piping data and logging to a file:
 
 ```bash
 echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100 --log-file=./cli.log
-```
-
-### Unified 'NaN' Handling & Structured Logging
-
-- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard whitespace) are processed using unified functions that apply enhanced Unicode whitespace normalization and consistent fallback logic.
-- When a NaN variant is detected and explicit NaN values are disallowed, a standardized structured JSON warning is logged. This warning includes the original input (trimmed), its normalized form, the applied fallback value, any custom NaN variants, and the locale in use.
-- **Warning Consolidation:** Multiple occurrences of the same invalid input with the same fallback configuration trigger only one warning within a single batch, avoiding log clutter.
-- **Automatic Cache Reset:** After each batch process, the warning cache is reset, ensuring that warnings are not permanently suppressed across separate executions.
-- **Signed NaN Variants:** In strict mode, signed variants such as '+NaN' and '-NaN' trigger an explicit error. In non-strict mode, they are treated as NaN variants and the fallback value is applied if needed.
-
-*Performance Optimization:* NaN variant detection functions have been refactored to reduce redundant Unicode normalization and case conversions, ensuring efficient processing even for large CSV files or numerous CLI inputs.
-
-### Custom NaN Variants
-
-You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are cleaned using consistent normalization. When CASE_SENSITIVE_NAN is enabled, custom variants must exactly match the input.
-
-Example configuration:
-
-```json
-{
-  "additionalNaNValues": ["foo", "bar"],
-  "CASE_SENSITIVE_NAN": false
-}
-```
-
-### Locale-Aware Numeric Parsing & Formatting
-
-The numeric parsing functions support different locale formats. In addition, the newly added `formatNumberOutput` function formats numbers for display according to the locale.
-
-- **Parsing (normalizeNumberString):**
-  - In **en-US**: commas are treated as thousand separators and the period as a decimal point.
-  - In **de-DE**: periods are thousand separators and commas are decimal points (with conversion applied when preserving decimals).
-
-- **Formatting (formatNumberOutput):**
-  - In **en-US**: numbers like 1234.56 are formatted as "1,234.56".
-  - In **de-DE**: the same number is formatted as "1.234,56".
-
-Set the locale in your configuration file or via the `LOCALE` environment variable:
-
-```json
-{
-  "LOCALE": "de-DE"
-}
 ```
 
 ### Global Configuration
