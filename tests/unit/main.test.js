@@ -2,6 +2,21 @@
 import { describe, it, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
+// Test for the new utility function isLiteralNaN
+describe("Utility Function: isLiteralNaN", () => {
+  it("should return true for 'NaN' in various cases", () => {
+    expect(mainModule.isLiteralNaN('NaN')).toBe(true);
+    expect(mainModule.isLiteralNaN('nan')).toBe(true);
+    expect(mainModule.isLiteralNaN(' NAN ')).toBe(true);
+    expect(mainModule.isLiteralNaN('\tNaN\n')).toBe(true);
+  });
+  it("should return false for non-NaN strings", () => {
+    expect(mainModule.isLiteralNaN('Infinity')).toBe(false);
+    expect(mainModule.isLiteralNaN('sin(x)')).toBe(false);
+    expect(mainModule.isLiteralNaN('')).toBe(false);
+  });
+});
+
 // Test the module import
 describe("Main Module Import", () => {
   it("should be non-null", () => {
@@ -215,6 +230,7 @@ describe("New SVG CLI Plot Generation with fallback", () => {
 });
 
 // Invalid Expression Handling
+
 describe("Invalid Expression Handling", () => {
   it("should error when literal 'NaN' is used in legacy syntax", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
