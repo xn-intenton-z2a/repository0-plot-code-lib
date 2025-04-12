@@ -5,7 +5,7 @@ import fs from "fs";
 
 // Cleanup output files if they exist
 afterEach(() => {
-  const files = ["output.svg", "test_output.png"];
+  const files = ["output.svg", "test_output.png", "custom_dimensions.svg"];
   files.forEach(file => {
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
@@ -57,7 +57,6 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     expect(output).toContain("<svg");
     expect(output).toContain("</svg>");
     expect(output).toContain("<polyline");
-    // Check for enhanced elements
     expect(output).toContain("class=\"axis");
     expect(output).toContain("class=\"grid-line");
     expect(output).toContain("class=\"tick-label");
@@ -243,8 +242,25 @@ describe("PNG Conversion Feature", () => {
     await mainModule.main(args);
     expect(fs.existsSync("test_output.png")).toBe(true);
     const fileBuffer = fs.readFileSync("test_output.png");
-    // PNG files start with the following 8-byte signature: 89 50 4E 47 0D 0A 1A 0A
     const pngSignature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
     expect(fileBuffer.slice(0, 8)).toEqual(pngSignature);
+  });
+});
+
+describe("Custom Dimensions Feature", () => {
+  it("should generate an SVG with custom width and height when provided via CLI options", async () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--width", "600", "--height", "400"];
+    await mainModule.main(args);
+    const output = consoleSpy.mock.calls[0][0];
+    expect(output).toContain('width="600"');
+    expect(output).toContain('height="400"');
+    consoleSpy.mockRestore();
+  });
+
+  it("should generate SVG with default dimensions when no custom dimensions are provided", () => {
+    const svg = mainModule.generateSVGPlot("sin(x)", 0, 10, 0.5);
+    expect(svg).toContain('width="500"');
+    expect(svg).toContain('height="300"');
   });
 });
