@@ -86,7 +86,7 @@ For multi-function plotting via the API:
 
 ---
 
-The plotting functions now implement consistent fallback handling: when no valid data points are generated, a fallback SVG is returned. Custom fallback messages provided are prioritized over default messages. Enhanced elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output.
+The plotting functions now implement an enhanced fallback handling mechanism. If no valid data points are generated, a fallback SVG is rendered with a consistent style using multi-line text (via <tspan> elements) for better readability. Custom fallback messages, when provided, are displayed centered within the SVG.
 
 **File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png).
 
