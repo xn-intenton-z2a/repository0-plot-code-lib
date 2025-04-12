@@ -118,6 +118,11 @@ function handlePlot(args) {
   if (nextArg && !nextArg.startsWith("--")) {
     // New syntax for SVG plot generation
     const expression = nextArg;
+    if (expression.trim().toLowerCase() === 'nan') {
+      console.error("Invalid expression: 'NaN' is not a valid mathematical expression");
+      process.exit(1);
+      return;
+    }
     const xminIdx = args.indexOf("--xmin");
     const xmaxIdx = args.indexOf("--xmax");
     const pointsIdx = args.indexOf("--points");
@@ -165,6 +170,12 @@ function handlePlot(args) {
     }
 
     const expression = args[exprIdx + 1];
+    if (expression.trim().toLowerCase() === 'nan') {
+      console.error("Invalid expression: 'NaN' is not a valid mathematical expression");
+      process.exit(1);
+      return;
+    }
+
     const start = parseFloat(args[startIdx + 1]);
     if (isNaN(start)) {
       console.error("Invalid numeric value for --start");

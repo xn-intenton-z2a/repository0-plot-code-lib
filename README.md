@@ -22,7 +22,9 @@ Example for enhanced SVG plot generation using the new CLI syntax:
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 [--fallback "Custom fallback message for non-finite values"]
 
-The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG is returned. By default, it displays a message indicating that no valid data was found; however, you can customize this message using the --fallback flag in the CLI.
+Note: If the literal expression 'NaN' (case-insensitive) is provided via the CLI, the tool will immediately report an error and terminate, as this is considered an invalid mathematical expression.
+
+The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid points are found, a fallback SVG is returned. The fallback message can be customized using the --fallback flag in the CLI.
 
 Example for diagnostics mode:
 

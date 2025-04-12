@@ -199,8 +199,6 @@ describe("New SVG CLI Plot Generation with fallback", () => {
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("<polyline");
-    // if data is valid, polyline is present, custom fallback won't be used
-    // so we test by forcing a fallback scenario
     consoleSpy.mockRestore();
   });
 
@@ -210,6 +208,31 @@ describe("New SVG CLI Plot Generation with fallback", () => {
     const args = ["--plot", "cos(x)", "--xmin", "0", "--points", "100"]; // missing --xmax
     mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for SVG plotting: --xmin, --xmax, --points");
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
+});
+
+// Invalid Expression Handling
+describe("Invalid Expression Handling", () => {
+  it("should error when literal 'NaN' is used in legacy syntax", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const args = ["--plot", "--expr", "NaN", "--start", "0", "--end", "10"];
+    mainModule.main(args);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not a valid mathematical expression");
+    expect(processExitSpy).toHaveBeenCalledWith(1);
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
+
+  it("should error when literal 'NaN' is used in new CLI syntax", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
+    const args = ["--plot", "NaN", "--xmin", "0", "--xmax", "10", "--points", "10"];
+    mainModule.main(args);
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid expression: 'NaN' is not a valid mathematical expression");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
