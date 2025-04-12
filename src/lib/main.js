@@ -106,9 +106,10 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   // Process each expression
   for (const expr of expressions) {
-    if (isLiteralNaN(expr)) {
+    if (isLiteralNaN(expr) && !fallbackMessage) {
       console.error(`Invalid expression: '${expr}' is not acceptable. Please provide a valid mathematical expression.`);
       process.exit(1);
+      return;
     }
     const compiled = compile(expr);
     const points = [];
@@ -311,7 +312,7 @@ function handlePlot(args) {
     } else {
       // Single expression case using new CLI syntax
       const expression = nextArg;
-      if (isLiteralNaN(expression)) {
+      if (isLiteralNaN(expression) && !fallbackMessage) {
         console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
         process.exit(1);
         return;
@@ -365,7 +366,7 @@ function handlePlot(args) {
     }
 
     const expression = args[exprIdx + 1];
-    if (isLiteralNaN(expression)) {
+    if (isLiteralNaN(expression) && !fallbackMessage) {
       console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
       process.exit(1);
       return;

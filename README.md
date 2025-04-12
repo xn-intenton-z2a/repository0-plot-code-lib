@@ -72,7 +72,7 @@ For multi-function plotting via the API:
 
 #### Utility Function: isLiteralNaN
 
-The library now includes a dedicated utility function to check if an input expression is a literal 'NaN' (ignoring case and whitespace). This ensures consistent rejection of invalid expressions across both CLI and API usage.
+The library now includes a dedicated utility function to check if an input expression is a literal 'NaN' (ignoring case and whitespace). Note, when a literal 'NaN' is provided, it will trigger an error unless a custom fallback message is supplied using the --fallback flag. This ensures that users can override the strict rejection if desired.
 
 Example usage:
 
