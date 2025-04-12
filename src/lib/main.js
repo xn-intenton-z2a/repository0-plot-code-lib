@@ -5,6 +5,15 @@ import pkg from "../../package.json" with { type: "json" };
 import { compile } from "mathjs";
 
 /**
+ * Checks if the provided expression is a literal 'NaN', ignoring case and surrounding whitespace.
+ * @param {string} expression - The expression to check.
+ * @returns {boolean} - Returns true if expression is a literal 'NaN', otherwise false.
+ */
+export function isLiteralNaN(expression) {
+  return expression.trim().toLowerCase() === 'nan';
+}
+
+/**
  * Generates an SVG plot for a given mathematical expression over a specific range.
  * Optionally, a custom fallback message can be provided to display when no valid data points are found.
  * 
@@ -118,7 +127,7 @@ function handlePlot(args) {
   if (nextArg && !nextArg.startsWith("--")) {
     // New syntax for SVG plot generation
     const expression = nextArg;
-    if (expression.trim().toLowerCase() === 'nan') {
+    if (isLiteralNaN(expression)) {
       console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
       process.exit(1);
       return;
@@ -170,7 +179,7 @@ function handlePlot(args) {
     }
 
     const expression = args[exprIdx + 1];
-    if (expression.trim().toLowerCase() === 'nan') {
+    if (isLiteralNaN(expression)) {
       console.error("Invalid expression: 'NaN' is not acceptable. This literal violates valid mathematical evaluation rules; please provide a valid mathematical expression. Optionally, use --fallback to display a custom message.");
       process.exit(1);
       return;
