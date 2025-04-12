@@ -2,13 +2,18 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
-  "openIssues": 20,
+  "openIssues": 21,
   "issuesClosedLastHour": 0,
   "issuesClosedLastDay": 100,
-  "openPRs": 0,
-  "prDetails": [],
+  "openPRs": 1,
+  "prDetails": [
+    {
+      "title": "Updated tests to call mainModule.main synchronously for new SVG CLI parameters to fix asynchronous import issues in tests. (fixes #1933)",
+      "ageMinutes": 0
+    }
+  ],
   "diffMinutes": 0,
-  "diffMinutesMain": 138,
+  "diffMinutesMain": 139,
   "commitsLastHour": 0,
   "commitsLastDay": 91,
   "lastFiveCommitMessages": [
@@ -38,12 +43,12 @@
     "details": [
       {
         "branch": "agentic-lib-issue-1933",
-        "minutesSinceLastCommit": 0
+        "minutesSinceLastCommit": 1
       }
     ]
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-12T08:55:57.671Z"
+  "generatedAt": "2025-04-12T08:57:13.695Z"
 }
