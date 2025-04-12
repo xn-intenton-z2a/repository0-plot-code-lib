@@ -145,7 +145,7 @@ describe("SVG Plot Generation Module", () => {
 describe("Multi-Function Plot Generation via API", () => {
   it("should generate an SVG with multiple polylines, enhanced axes, grid lines, and a legend for valid expressions", () => {
     const expressions = ["sin(x)", "cos(x)"];
-    const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
+    const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, "", false, false);
     expect(svg).toContain("<svg");
     expect(svg).toContain("<polyline");
     expect(svg).toContain("<g class=\"legend\"");
@@ -302,6 +302,11 @@ describe("Interactive Plot Features", () => {
     expect(output).toContain("id=\"svg-tooltip\"");
     expect(output).toContain("<script");
     consoleSpy.mockRestore();
+  });
+
+  it("should include animation elements in interactive SVG when --animate flag is specified", () => {
+    const svg = mainModule.generateInteractivePlot("sin(x)", 0, 6.28, 0.1, "", false, false, 500, 300, false, true);
+    expect(svg).toContain("<animate");
   });
 });
 
