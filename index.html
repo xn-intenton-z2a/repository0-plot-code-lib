@@ -33,13 +33,14 @@
 <p class="md-github">$ node src/lib/main.js --plot --expr &quot;sin(x)&quot; --start 0 --end 6.28 --step 0.1</p>
 <p class="md-github">Example for specifying custom SVG dimensions, dark mode, and a custom output file (e.g., PNG or PDF):</p>
 <p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --darkmode --file output.png [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
-<p class="md-github">If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format. Similarly, if the file ends with .pdf, it converts the SVG to a PDF file using headless browser rendering. Note: PDF conversion now uses no-sandbox options to ensure compatibility in environments with limited sandbox capabilities.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="enhanced-interactive-mode" href="#enhanced-interactive-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Interactive Mode</h4>
 <p class="md-github">A new interactive plotting mode is available. When the <code class="md-github">--interactive</code> flag is provided along with plotting parameters, the tool generates an SVG with tooltips on hover and basic zoom/pan functionality. Data points display their coordinates when hovered over. Dark mode can also be enabled using the <code class="md-github">--darkmode</code> flag.</p>
-<p class="md-github">For a single interactive plot:</p>
-<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --interactive [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
-<p class="md-github">For interactive multi-function plotting with a comma-separated list:</p>
-<p class="md-github">$ node src/lib/main.js --plots &quot;tan(x),log(x)&quot; --xmin 1 --xmax 10 --points 50 --interactive [--width 600 --height 400] [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
+<p class="md-github"><strong class="md-github">Animated Transitions:</strong></p>
+<p class="md-github">When the new <code class="md-github">--animate</code> flag is also provided for interactive plots, the plot lines are drawn with smooth animated transitions, enhancing the visual experience during rendering.</p>
+<p class="md-github">For a single interactive plot with animation:</p>
+<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --interactive --animate [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
+<p class="md-github">For interactive multi-function plotting with a comma-separated list and animation:</p>
+<p class="md-github">$ node src/lib/main.js --plots &quot;tan(x),log(x)&quot; --xmin 1 --xmax 10 --points 50 --interactive --animate [--width 600 --height 400] [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
 <p class="md-github">Additional flags for logarithmic scaling can be used to transform the axes:</p>
 <p class="md-github">--logscale-x        Apply logarithmic scale to the x-axis (requires positive x values)
 --logscale-y        Apply logarithmic scale to the y-axis (requires positive y values)</p>
@@ -69,8 +70,8 @@ const svg = generateSVGPlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallb
 console.log(svg);</p>
 <p class="md-github">For interactive SVG plot generation via the API:</p>
 <p class="md-github">import { generateInteractivePlot } from '@src/lib/main.js';
-// Generates an interactive SVG with tooltips, zoom/pan features, and dark mode
-const svg = generateInteractivePlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;, false, false, 600, 400, true);
+// Generates an interactive SVG with tooltips, zoom/pan features, dark mode, and animated transitions if desired
+const svg = generateInteractivePlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;, false, false, 600, 400, true, true);
 console.log(svg);</p>
 <p class="md-github">For non-interactive multi-function plotting via the API:</p>
 <p class="md-github">import { generateMultiPlot } from '@src/lib/main.js';
@@ -80,7 +81,7 @@ console.log(svg);</p>
 <p class="md-github">For interactive multi-function plotting via the API:</p>
 <p class="md-github">import { generateInteractiveMultiPlot } from '@src/lib/main.js';
 const expressions = [&quot;sin(x)&quot;, &quot;cos(x)&quot;];
-const svgInteractive = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, false, false);
+const svgInteractive = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, false, false, 600, 400, false, true);
 console.log(svgInteractive);</p>
 <hr class="md-github">
 <p class="md-github"><strong class="md-github">PNG and PDF Conversion:</strong></p>
@@ -92,11 +93,13 @@ console.log(svgInteractive);</p>
 <p class="md-github">The new --darkmode flag (or darkMode parameter in the API) applies dark theme styling to the output SVG. This includes a dark background (#1e1e1e), light-colored axis lines, grid lines, tick marks, and text for improved visibility in dark environments.</p>
 <p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
 <p class="md-github">Interactive SVG plots include tooltips that show data point coordinates on hover, as well as basic zooming and panning functionalities via mouse events. This enhances the user experience for exploring plotted data.</p>
+<p class="md-github"><strong class="md-github">Animated Transitions:</strong></p>
+<p class="md-github">When the --animate flag is used with interactive plots, a smooth drawing animation is applied to the plot lines, adding a dynamic visual effect.</p>
 <p class="md-github"><strong class="md-github">Caching:</strong> This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T17:19:56.666Z</p>
+    <p>Generated on 2025-04-12T17:21:29.057Z</p>
   </footer>
 </body>
 </html>
