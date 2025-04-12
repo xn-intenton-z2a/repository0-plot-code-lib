@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
+"_Be a go-to plot library with a CLI, be the jq of formulae visualisations._"
 
 ## Usage
 
@@ -10,15 +10,35 @@ Invoke directly via the command line using Node:
 
   node src/lib/main.js [arguments]
 
-Example for standard execution:
+When no arguments are provided, a default demo plot (plotting sin(x) from 0 to 6.28) is generated and written to output.svg.
 
-  $ node src/lib/main.js arg1 arg2
-
-Example for enhanced plot generation:
+Example for standard execution (outputs to file output.svg by default):
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
-This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG with a "No valid data" message and additional diagnostic information is returned, indicating that the expression evaluation resulted in exclusively non-finite values. Additionally, if any numeric parameter (--start, --end, --step) is invalid, the CLI logs an appropriate error and exits immediately without generating a fallback SVG.
+Example for specifying custom SVG dimensions and a custom output file (e.g., PNG):
+
+  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --file output.png [--fallback "Custom fallback message for non-finite values"]
+
+Examples for enhanced SVG plot generation using the new CLI syntax:
+
+For a single expression:
+
+  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 [--width 600 --height 400] [--fallback "Custom fallback message for non-finite values"]
+
+For multi-function plotting with a comma-separated list using the new CLI syntax:
+
+  $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 [--width 600 --height 400] [--fallback "Custom fallback message"]
+
+Additional flags for logarithmic scaling can be used to transform the axes:
+
+  --logscale-x        Apply logarithmic scale to the x-axis (requires positive x values)
+  --logscale-y        Apply logarithmic scale to the y-axis (requires positive y values)
+
+Example with log scale:
+
+  $ node src/lib/main.js --plot "log(x)" --xmin 1 --xmax 100 --points 100 --logscale-x
+  $ node src/lib/main.js --plot "x" --xmin 1 --xmax 100 --points 100 --logscale-y
 
 Example for diagnostics mode:
 
@@ -34,13 +54,6 @@ Example for displaying version:
   $ node src/lib/main.js --version
   $ node src/lib/main.js -v
 
-Note:
-- If any required parameters (--expr, --start, --end) are missing when using --plot, the process will log an error and terminate with exit code 1.
-- All numeric parameters (--start, --end, and --step if provided) must be valid numbers. If a non-numeric value is provided, an appropriate error is emitted and the process exits with code 1 immediately.
-- The plot range must be valid: the value provided for --start must be less than the value provided for --end.
-- When using --diagnostics, the CLI outputs detailed execution context including parsed arguments, Node.js version, and the current working directory.
-- Use --help or -h to display this usage guide and --version or -v to display the tool version.
-
 ### Library
 
 Import the main function in your project:
@@ -48,16 +61,37 @@ Import the main function in your project:
   import { main } from '@src/lib/main.js';
   main(['your', 'args']);
 
-For direct SVG plot generation, import the generatePlot function from the main module:
+For direct SVG plot generation using the legacy API:
 
   import { generatePlot } from '@src/lib/main.js';
-  const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
+  const svg = generatePlot("sin(x)", 0, 6.28, 0.1, "Custom fallback message");
   console.log(svg);
 
-The generatePlot function uses robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG with a 'No valid data' message along with diagnostic information is returned, indicating that the expression evaluation returned only non-finite values.
+For direct SVG plot generation using the new API (with optional logarithmic scaling and custom dimensions):
+
+  import { generateSVGPlot } from '@src/lib/main.js';
+  // Log scale on x-axis with custom dimensions
+  const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message", true, false, 600, 400);
+  console.log(svg);
+
+For multi-function plotting via the API:
+
+  import { generateMultiPlot } from '@src/lib/main.js';
+  const expressions = ["sin(x)", "cos(x)"];
+  // Log scale on both axes with default dimensions
+  const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, "", true, true);
+  console.log(svg);
 
 ---
 
-## License
+**PNG Conversion:**
 
-MIT
+If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format using the 'sharp' library. This allows seamless generation of PNG images from mathematical plots.
+
+**File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png).
+
+**Custom Dimensions:**
+
+Users can now customize the output SVG dimensions using the new --width and --height options, which default to 500 and 300 respectively if not specified.
+
+**Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.

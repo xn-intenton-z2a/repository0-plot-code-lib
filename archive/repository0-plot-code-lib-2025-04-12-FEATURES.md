@@ -945,36 +945,51 @@ features/PLOTTING.md
 # PLOTTING
 
 ## Overview
-This feature introduces basic plotting functionality to the repository, aligning with our mission to be a go-to plot library with a CLI. Users will be able to input mathematical expressions via the CLI and obtain plots rendered as SVG files as well as textual previews in the terminal.
+This feature provides robust plotting capabilities via a CLI and as a library. In addition to evaluating mathematical expressions and rendering them to SVG, this update introduces customizable styling options to allow users more control over the visual output from the plots.
+
+## CLI Integration
+- **Legacy and New Syntax:** Continue supporting both legacy (--expr, --start, --end, --step) and new syntax (--plot with expression, --xmin, --xmax, --points).
+- **New Styling Flags:**
+  - `--color`: Specify the line color (e.g., `blue`, `#FF0000`).
+  - `--linestyle`: Specify the line style (e.g., `solid`, `dashed`).
+  - `--linewidth`: Specify the line width (e.g., `2`).
+- These flags can be used with single or multiple expression plotting modes.
+
+## Plot Styling Options
+This update allows users to override default styling provided in the plot generation:
+
+- **Color Selection:** By default, single plots are rendered in blue and multi-plots use a sequence of preset colors. The `--color` flag will allow users to specify a custom color for a specific plot, overriding the default palette.
+
+- **Line Style and Width:** The `--linestyle` flag can be used to determine if the line appears as a solid or dashed line. The `--linewidth` flag allows fine-tuning of the stroke thickness.
+
+These enhancements not only improve the aesthetic control but also help in generating publication-ready plots, aligning with our mission to be the go-to plot library.
 
 ## Implementation
-- **CLI Integration:** Extend the main CLI (in src/lib/main.js) to accept a new flag `--plot` followed by a mathematical expression (e.g., "sin(x)"). Optionally, support additional flags:
-  - `--range`: Specify the domain as a comma-separated pair (default: -10,10).
-  - `--output`: File path for saving the generated SVG (if omitted, a console preview is provided).
-- **Plot Generation:**
-  - Use the `mathjs` library to parse and evaluate the input expression over the specified range.
-  - Compute data points by sampling the function at regular intervals.
-  - Generate an SVG file plotting these points. Basic styling and axes should be included.
-- **User Feedback:** Utilize `chalk` for colored output in the terminal, showcasing either error messages or a confirmation with a textual preview of the plot layout.
-- **Error Handling:** Validate input expressions and range, providing clear error messages and usage hints if invalid input is detected.
+- **CLI Changes:** Update the CLI parser in `src/lib/main.js` to recognize and handle the additional styling flags. Validate and pass these parameters to the plot generation functions.
+
+- **SVG Generation Enhancements:**
+  - Modify the `generatePlot`, `generateSVGPlot`, and `generateMultiPlot` functions to incorporate the new styling options. 
+  - For dashed lines, add SVG styling (e.g., `stroke-dasharray`).
+
+- **Error Handling:** Ensure that invalid styling parameters are caught and that fallback defaults are used when necessary.
 
 ## Usage Examples
-- **Generate a plot and view preview:**
-  ```bash
-  node src/lib/main.js --plot "sin(x)"
-  ```
-- **Generate a plot with a specific range and save to SVG:**
-  ```bash
-  node src/lib/main.js --plot "sin(x)" --range "-6.28,6.28" --output "plot.svg"
-  ```
+
+**Single Plot with Custom Styling:**
+```bash
+node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --color "#FF5733" --linestyle dashed --linewidth 3
+```
+
+**Multi-Plot with Styling Options:**
+```bash
+node src/lib/main.js --plots "sin(x),cos(x)" --xmin 0 --xmax 6.28 --points 100 --color "red,green" --linestyle solid,dashed --linewidth 2,3
+```
 
 ## Testing & Documentation
-- **Unit Tests:** Add new tests in tests/unit/main.test.js to verify:
-  - Correct parsing of command-line arguments.
-  - Evaluation of the mathematical expression across the given range.
-  - Proper SVG generation and file output when the `--output` flag is used.
-- **Documentation:** Update README.md with detailed usage instructions, examples, and screenshots of generated plots. Ensure that the feature complies with guidelines detailed in CONTRIBUTING.md.
+- **Tests:** Add unit tests in `tests/unit/main.test.js` to evaluate the new styling parameters. Ensure that SVG outputs correctly reflect custom colors, line styles, and widths.
+
+- **Documentation:** Update the README.md and CONTRIBUTING.md files to include examples and usage details for the new styling options.
 
 ## Future Considerations
-- Expand plotting capabilities to support multiple functions, customizable styling, and interactive modes.
-- Modularize the plotting functionality further if the feature grows in complexity.
+- Further enhancements may include more advanced styling such as marker shapes, grid lines, and even export formats beyond SVG.
+- Modularize styling options into a separate component if the feature set grows further.
