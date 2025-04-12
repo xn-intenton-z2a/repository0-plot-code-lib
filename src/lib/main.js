@@ -195,9 +195,8 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   main(args);
 }
 
-
-/* ===================================================== */
-/* New File: src/lib/plotSVG.js */
+/* ======================================================================== */
+/* File: src/lib/plotSVG.js */
 
 import { compile } from "mathjs";
 
