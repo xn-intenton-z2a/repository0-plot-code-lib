@@ -30,12 +30,15 @@ Example using the new flag for multi-function plotting:
 
   $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 [--fallback "Custom fallback message"]
 
-The generated SVG plots now come with enhanced visual features including:
-- A horizontal x-axis (at the bottom) and a vertical y-axis (on the left).
-- Tick marks along each axis with numerical labels.
-- Light grid lines corresponding to the tick marks across the plot area.
+Additional flags for logarithmic scaling can be used to transform the axes:
 
-Additionally, this release implements an in-memory caching mechanism for SVG outputs. Repeated calls with the same input parameters will return a cached SVG, improving performance by reducing redundant computations.
+  --logscale-x        Apply logarithmic scale to the x-axis (requires positive x values)
+  --logscale-y        Apply logarithmic scale to the y-axis (requires positive y values)
+
+Example with log scale:
+
+  $ node src/lib/main.js --plot "log(x)" --xmin 1 --xmax 100 --points 100 --logscale-x
+  $ node src/lib/main.js --plot "x" --xmin 1 --xmax 100 --points 100 --logscale-y
 
 Example for diagnostics mode:
 
@@ -64,17 +67,19 @@ For direct SVG plot generation using the legacy API:
   const svg = generatePlot("sin(x)", 0, 6.28, 0.1, "Custom fallback message");
   console.log(svg);
 
-For direct SVG plot generation using the new API:
+For direct SVG plot generation using the new API (with optional logarithmic scaling):
 
   import { generateSVGPlot } from '@src/lib/main.js';
-  const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message");
+  // Log scale on x-axis
+  const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message", true, false);
   console.log(svg);
 
 For multi-function plotting via the API:
 
   import { generateMultiPlot } from '@src/lib/main.js';
   const expressions = ["sin(x)", "cos(x)"];
-  const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
+  // Log scale on both axes
+  const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, "", true, true);
   console.log(svg);
 
 ---
