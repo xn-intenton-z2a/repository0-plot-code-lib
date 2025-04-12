@@ -2,15 +2,51 @@
 
 import { fileURLToPath } from "url";
 import { createRequire } from "module";
+import { compile } from "mathjs";
 const require = createRequire(import.meta.url);
 const pkg = require("../../package.json");
 
-// Inline implementation of generatePlot to avoid missing module errors
+// Enhanced implementation of generatePlot to compute and render an SVG line plot
 export function generatePlot(expression, start, end, step) {
-  // Rudimentary implementation: returns a simple SVG with plot details
-  return `<svg xmlns="http://www.w3.org/2000/svg">
-    <text x="10" y="20">Plot: ${expression}, start: ${start}, end: ${end}, step: ${step}</text>
+  // Compile the mathematical expression using mathjs
+  const compiled = compile(expression);
+  let points = [];
+  for (let x = start; x <= end; x += step) {
+    // Evaluate y for each x
+    const y = compiled.evaluate({ x });
+    points.push({ x, y });
+  }
+
+  // Define SVG viewport dimensions
+  const svgWidth = 500;
+  const svgHeight = 300;
+
+  // Determine the boundaries for scaling
+  const minX = start;
+  const maxX = end;
+  const yValues = points.map(point => point.y);
+  const minY = Math.min(...yValues);
+  const maxY = Math.max(...yValues);
+
+  // Prevent division by zero
+  const xRange = maxX - minX || 1;
+  const yRange = maxY - minY || 1;
+
+  // Map points into SVG coordinates (with margins of 20 units)
+  const svgPoints = points.map(({ x, y }) => {
+    const scaledX = ((x - minX) / xRange) * (svgWidth - 40) + 20;
+    // Invert y axis since SVG y increases from top to bottom
+    const scaledY = svgHeight - (((y - minY) / yRange) * (svgHeight - 40) + 20);
+    return `${scaledX},${scaledY}`;
+  }).join(" ");
+
+  // Construct the SVG content with a polyline element for the plot line
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
+    <polyline points="${svgPoints}" fill="none" stroke="blue" stroke-width="2"/>
   </svg>`;
+
+  return svgContent;
 }
 
 export function main(args = []) {

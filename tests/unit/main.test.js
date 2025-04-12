@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
-import { main } from "@src/lib/main.js";
+import { main, generatePlot } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
   it("should be non-null", () => {
@@ -31,7 +31,7 @@ describe("Diagnostics Mode", () => {
 });
 
 describe("Plot Generation", () => {
-  it("should generate a valid SVG plot", () => {
+  it("should generate a valid SVG plot with a polyline element", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "0.1"];
     main(args);
@@ -39,6 +39,7 @@ describe("Plot Generation", () => {
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("</svg>");
+    expect(output).toContain("<polyline");
     consoleSpy.mockRestore();
   });
 
