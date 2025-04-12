@@ -38,13 +38,6 @@ Example for displaying version:
   $ node src/lib/main.js --version
   $ node src/lib/main.js -v
 
-Note:
-- When using the legacy plotting syntax, required parameters are: --expr, --start, --end (and optionally --step).
-- When using the new SVG plotting syntax, parameters are: the expression immediately following --plot, along with --xmin, --xmax, and --points (an integer greater than 1).
-- In both cases, numeric parameters must be valid numbers. Otherwise, the tool emits an error and exits.
-- The plot range must be valid: the start value must be less than the end value.
-- When using --diagnostics, the CLI outputs detailed execution context including parsed arguments, Node.js version, and the current working directory.
-
 ### Library
 
 Import the main function in your project:
