@@ -11,6 +11,15 @@ export function generatePlot(expression, start, end, step) {
 }
 
 export function main(args = []) {
+  // Diagnostics mode: if '--diagnostics' flag is provided, output detailed execution context
+  if (args.includes("--diagnostics")) {
+    console.log("Diagnostics Mode Enabled");
+    console.log("Parsed Arguments:", args);
+    console.log("Node.js Version:", process.version);
+    console.log("Current Working Directory:", process.cwd());
+    return;
+  }
+  
   if (args.includes("--plot")) {
     const exprIdx = args.indexOf("--expr");
     const startIdx = args.indexOf("--start");
