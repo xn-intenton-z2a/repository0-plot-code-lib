@@ -568,7 +568,8 @@ export const generateSVGPlot = generatePlot;
 // CLI related helper functions
 function writeOutput(fileName, svg) {
   return new Promise((resolve, reject) => {
-    if (fileName.toLowerCase().endsWith('.png')) {
+    const lowerFile = fileName.toLowerCase();
+    if (lowerFile.endsWith('.png')) {
       import('sharp').then(({ default: sharp }) => {
         sharp(Buffer.from(svg)).png().toBuffer().then(pngBuffer => {
           fs.writeFileSync(fileName, pngBuffer);
@@ -579,6 +580,25 @@ function writeOutput(fileName, svg) {
           process.exit(1);
         });
       });
+    } else if (lowerFile.endsWith('.pdf')) {
+      import('puppeteer').then(async ({ default: puppeteer }) => {
+        try {
+          const browser = await puppeteer.launch();
+          const page = await browser.newPage();
+          const htmlContent = `<html><body>${svg}</body></html>`;
+          await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+          await page.pdf({ path: fileName, printBackground: true });
+          await browser.close();
+          console.log("PDF file generated successfully.");
+          resolve();
+        } catch (e) {
+          console.error("Error during SVG to PDF conversion:", e.message);
+          process.exit(1);
+        }
+      }).catch(err => {
+        console.error("Error loading puppeteer:", err.message);
+        process.exit(1);
+      });
     } else {
       fs.writeFileSync(fileName, svg, "utf-8");
       console.log(svg);
@@ -588,7 +608,7 @@ function writeOutput(fileName, svg) {
 }
 
 function showHelp() {
-  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png).\n`);
+  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf).\n`);
 }
 
 function showVersion() {

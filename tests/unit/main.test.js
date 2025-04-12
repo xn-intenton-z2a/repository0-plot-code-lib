@@ -5,7 +5,7 @@ import fs from "fs";
 
 // Cleanup output files if they exist
 afterEach(() => {
-  const files = ["output.svg", "test_output.png", "custom_dimensions.svg", "interactive.svg"];
+  const files = ["output.svg", "test_output.png", "custom_dimensions.svg", "interactive.svg", "output.pdf"];
   files.forEach(file => {
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
@@ -244,6 +244,18 @@ describe("PNG Conversion Feature", () => {
     const fileBuffer = fs.readFileSync("test_output.png");
     const pngSignature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
     expect(fileBuffer.slice(0, 8)).toEqual(pngSignature);
+  });
+});
+
+describe("PDF Conversion Feature", () => {
+  it("should generate a PDF file when --file option ends with .pdf", async () => {
+    const args = ["--plot", "sin(x)", "--xmin", "-10", "--xmax", "10", "--points", "100", "--file", "output.pdf"];
+    await mainModule.main(args);
+    expect(fs.existsSync("output.pdf")).toBe(true);
+    const fileBuffer = fs.readFileSync("output.pdf");
+    // PDF files start with "%PDF-"
+    const pdfSignature = "%PDF-";
+    expect(fileBuffer.slice(0, 5).toString()).toEqual(pdfSignature);
   });
 });
 
