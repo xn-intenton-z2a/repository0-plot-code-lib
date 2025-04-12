@@ -1,6 +1,6 @@
 # repository0-plot-code-lib
 
-_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
+"_Be a go-to plot library with a CLI, be the jq of formulae visualisations._"
 
 ## Usage
 
@@ -24,7 +24,7 @@ Example for enhanced SVG plot generation using the new CLI syntax:
 
 Note: If the literal expression 'NaN' (case-insensitive) is provided via the CLI, the tool will report an error with detailed diagnostics. The error message will explain that 'NaN' is not acceptable because it violates valid mathematical evaluation rules and will suggest providing a valid expression or using the --fallback flag to supply a custom message.
 
-The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid points are found, a fallback SVG is returned. The fallback message can be customized using the --fallback flag in the CLI.
+The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN, Infinity, etc.). If no valid data points are found, a fallback SVG is returned that includes diagnostic information to aid in debugging. The fallback message can be customized using the --fallback flag in the CLI.
 
 Example for diagnostics mode:
 
@@ -59,7 +59,7 @@ For direct SVG plot generation using the new API:
   const svg = generateSVGPlot("sin(x)", -10, 10, 0.4, "Custom fallback message");
   console.log(svg);
 
-The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG is returned. The fallback message can be customized to display a specific error or diagnostic message.
+The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG is returned that includes diagnostic details indicating that the expression evaluation resulted in non-finite values (e.g. NaN, Infinity). The fallback message can be customized to display a specific error or diagnostic message.
 
 ---
 
