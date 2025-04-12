@@ -1,7 +1,8 @@
 /* File: src/lib/main.js */
 
-import { fileURLToPath } from "url";
-import pkg from "../../package.json" assert { type: "json" };
+import { fileURLToPath, createRequire } from "url";
+const require = createRequire(import.meta.url);
+const pkg = require("../../package.json");
 
 // Inline implementation of generatePlot to avoid missing module errors
 export function generatePlot(expression, start, end, step) {
@@ -101,6 +102,7 @@ Options:
   }
 }
 
+import { fileURLToPath as _fileURLToPath } from "url";
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
   main(args);
