@@ -2,20 +2,7 @@
 import { describe, it, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
-// Test for the utility function isLiteralNaN
-describe("Utility Function: isLiteralNaN", () => {
-  it("should return true for 'NaN' in various cases", () => {
-    expect(mainModule.isLiteralNaN('NaN')).toBe(true);
-    expect(mainModule.isLiteralNaN('nan')).toBe(true);
-    expect(mainModule.isLiteralNaN(' NAN ')).toBe(true);
-    expect(mainModule.isLiteralNaN('\tNaN\n')).toBe(true);
-  });
-  it("should return false for non-NaN strings", () => {
-    expect(mainModule.isLiteralNaN('Infinity')).toBe(false);
-    expect(mainModule.isLiteralNaN('sin(x)')).toBe(false);
-    expect(mainModule.isLiteralNaN('')).toBe(false);
-  });
-});
+// Removed tests for isLiteralNaN as the functionality has been removed.
 
 // Test the module import
 describe("Main Module Import", () => {
@@ -59,7 +46,6 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     expect(output).toContain("<svg");
     expect(output).toContain("</svg>");
     expect(output).toContain("<polyline");
-    // Check for enhanced elements
     expect(output).toContain("class=\"axis");
     expect(output).toContain("class=\"grid-line");
     expect(output).toContain("class=\"tick-label");
@@ -122,8 +108,8 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
   });
 });
 
-// Handling NaN in Plot Generation
-describe("Handling NaN in Plot Generation", () => {
+// Fallback SVG Generation Handling
+describe("Fallback SVG Generation Handling", () => {
   it("should handle cases where evaluated expression returns NaN by displaying a fallback SVG with diagnostic info", () => {
     const svg = mainModule.generatePlot("0/0", 0, 10, 1);
     expect(svg).toContain("<svg");
@@ -138,26 +124,14 @@ describe("Handling NaN in Plot Generation", () => {
     expect(svg).toContain(customMessage);
     expect(svg).not.toContain("No valid data");
   });
-
-  it("should generate fallback SVG when literal 'NaN' is provided with fallback", () => {
-    const customMessage = "Fallback for literal NaN";
-    const svg = mainModule.generateSVGPlot("NaN", 0, 10, 1, customMessage);
-    expect(svg).toContain(customMessage);
-  });
-  
-  it("should generate fallback SVG when literal 'NaN' is provided without fallback", () => {
-    const svg = mainModule.generateSVGPlot("NaN", 0, 10, 1);
-    expect(svg).toContain("No valid data");
-    expect(svg).not.toContain("<polyline");
-  });
 });
 
 // Custom Fallback via CLI (Legacy)
-describe("Custom Fallback Message via CLI (Legacy Syntax)", () => {
-  it("should display the custom fallback message in the generated SVG when provided, even for literal 'NaN'", () => {
+describe("Custom Fallback via CLI (Legacy Syntax)", () => {
+  it("should display the custom fallback message in the generated SVG when provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const customMessage = "CLI custom fallback";
-    const args = ["--plot", "--expr", "NaN", "--start", "0", "--end", "10", "--step", "1", "--fallback", customMessage];
+    const args = ["--plot", "--expr", "0/0", "--start", "0", "--end", "10", "--step", "1", "--fallback", customMessage];
     mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain(customMessage);
