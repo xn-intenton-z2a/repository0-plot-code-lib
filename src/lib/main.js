@@ -7,16 +7,23 @@ const require = createRequire(import.meta.url);
 const pkg = require("../../package.json");
 
 // Enhanced implementation of generatePlot to compute and render an SVG line plot
+// This version includes robust filtering of non-finite values (including NaN) and gracefully skips over evaluation errors
 export function generatePlot(expression, start, end, step) {
   // Compile the mathematical expression using mathjs
   const compiled = compile(expression);
   let points = [];
+  
+  // Iterate over the range while gracefully handling evaluation errors
   for (let x = start; x <= end; x += step) {
-    // Evaluate y for each x
-    const y = compiled.evaluate({ x });
-    // Only include points with valid numeric and finite y values
-    if (typeof y === 'number' && Number.isFinite(y)) {
-      points.push({ x, y });
+    try {
+      const y = compiled.evaluate({ x });
+      // Only include points with valid numeric and finite y values
+      if (Number.isFinite(y)) {
+        points.push({ x, y });
+      }
+    } catch (err) {
+      // If evaluation fails for a given x, skip the point and continue
+      continue;
     }
   }
 
