@@ -2,21 +2,20 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
-  "openIssues": 6,
-  "issuesClosedLastHour": 23,
+  "openIssues": 4,
+  "issuesClosedLastHour": 25,
   "issuesClosedLastDay": 100,
-  "openPRs": 1,
-  "prDetails": [
-    {
-      "title": "Add logarithmic scaling option for SVG axes in plot functions. (fixes #2004)",
-      "ageMinutes": 0
-    }
-  ],
+  "openPRs": 0,
+  "prDetails": [],
   "diffMinutes": 0,
-  "diffMinutesMain": 5,
-  "commitsLastHour": 11,
+  "diffMinutesMain": 0,
+  "commitsLastHour": 12,
   "commitsLastDay": 100,
   "lastFiveCommitMessages": [
+    {
+      "time": "11:40",
+      "message": "Add logarithmic scaling option for SVG axes in plot functions. (..."
+    },
     {
       "time": "11:35",
       "message": "Maintain OWL_ENDPOINTS"
@@ -32,23 +31,14 @@
     {
       "time": "11:21",
       "message": "Removed all NaN-related checks and documentation to meet issue r..."
-    },
-    {
-      "time": "11:13",
-      "message": "Update from agentic-lib"
     }
   ],
   "branches": {
-    "count": 1,
-    "details": [
-      {
-        "branch": "agentic-lib-issue-2004",
-        "minutesSinceLastCommit": 1
-      }
-    ]
+    "count": 0,
+    "details": []
   },
   "averagePRAge": 0,
   "testStatus": "PASS",
   "testsLastPassedMinutes": 15,
-  "generatedAt": "2025-04-12T11:40:11.873Z"
+  "generatedAt": "2025-04-12T11:40:41.614Z"
 }

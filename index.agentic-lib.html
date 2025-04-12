@@ -38,13 +38,12 @@
 <p class="md-github">$ node src/lib/main.js --plot &quot;sin(x),cos(x)&quot; --xmin 0 --xmax 6.28 --points 100 [--fallback &quot;Custom fallback message&quot;]</p>
 <p class="md-github">Example using the new flag for multi-function plotting:</p>
 <p class="md-github">$ node src/lib/main.js --plots &quot;tan(x),log(x)&quot; --xmin 1 --xmax 10 --points 50 [--fallback &quot;Custom fallback message&quot;]</p>
-<p class="md-github">The generated SVG plots now come with enhanced visual features including:</p>
-<ul class="md-github">
-<li class="md-github">A horizontal x-axis (at the bottom) and a vertical y-axis (on the left).</li>
-<li class="md-github">Tick marks along each axis with numerical labels.</li>
-<li class="md-github">Light grid lines corresponding to the tick marks across the plot area.</li>
-</ul>
-<p class="md-github">Additionally, this release implements an in-memory caching mechanism for SVG outputs. Repeated calls with the same input parameters will return a cached SVG, improving performance by reducing redundant computations.</p>
+<p class="md-github">Additional flags for logarithmic scaling can be used to transform the axes:</p>
+<p class="md-github">--logscale-x        Apply logarithmic scale to the x-axis (requires positive x values)
+--logscale-y        Apply logarithmic scale to the y-axis (requires positive y values)</p>
+<p class="md-github">Example with log scale:</p>
+<p class="md-github">$ node src/lib/main.js --plot &quot;log(x)&quot; --xmin 1 --xmax 100 --points 100 --logscale-x
+$ node src/lib/main.js --plot &quot;x&quot; --xmin 1 --xmax 100 --points 100 --logscale-y</p>
 <p class="md-github">Example for diagnostics mode:</p>
 <p class="md-github">$ node src/lib/main.js --diagnostics</p>
 <p class="md-github">Example for displaying help:</p>
@@ -61,14 +60,16 @@ main(['your', 'args']);</p>
 <p class="md-github">import { generatePlot } from '@src/lib/main.js';
 const svg = generatePlot(&quot;sin(x)&quot;, 0, 6.28, 0.1, &quot;Custom fallback message&quot;);
 console.log(svg);</p>
-<p class="md-github">For direct SVG plot generation using the new API:</p>
+<p class="md-github">For direct SVG plot generation using the new API (with optional logarithmic scaling):</p>
 <p class="md-github">import { generateSVGPlot } from '@src/lib/main.js';
-const svg = generateSVGPlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;);
+// Log scale on x-axis
+const svg = generateSVGPlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;, true, false);
 console.log(svg);</p>
 <p class="md-github">For multi-function plotting via the API:</p>
 <p class="md-github">import { generateMultiPlot } from '@src/lib/main.js';
 const expressions = [&quot;sin(x)&quot;, &quot;cos(x)&quot;];
-const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
+// Log scale on both axes
+const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, true, true);
 console.log(svg);</p>
 <hr class="md-github">
 <p class="md-github">The plotting functions now use robust filtering with a try/catch mechanism to ignore non-finite values and intermittent evaluation errors. In addition, enhanced plot elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output, improving the visual quality and interpretability of the plots.</p>
@@ -78,7 +79,7 @@ console.log(svg);</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T11:40:35.034Z</p>
+    <p>Generated on 2025-04-12T11:40:58.977Z</p>
   </footer>
 </body>
 </html>
