@@ -44,6 +44,14 @@ export function main(args = []) {
       process.exit(1);
       return;
     }
+    
+    // Validate that start is less than end
+    if (start >= end) {
+      console.error("Invalid range: --start must be less than --end");
+      process.exit(1);
+      return;
+    }
+
     const stepIdx = args.indexOf("--step");
     let step = 0.1;
     if (stepIdx !== -1) {
