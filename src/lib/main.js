@@ -4,7 +4,18 @@ import { fileURLToPath } from "url";
 import pkg from "../../package.json" with { type: "json" };
 import { compile } from "mathjs";
 
-export function generatePlot(expression, start, end, step) {
+/**
+ * Generates an SVG plot for a given mathematical expression over a specific range.
+ * Optionally, a custom fallback message can be provided to display when no valid data points are found.
+ * 
+ * @param {string} expression - The mathematical expression to evaluate.
+ * @param {number} start - The starting value of x.
+ * @param {number} end - The ending value of x.
+ * @param {number} step - The increment step for x.
+ * @param {string} [fallbackMessage] - Optional custom fallback message for non-finite evaluations.
+ * @returns {string} - SVG string representing the plot or fallback message.
+ */
+export function generatePlot(expression, start, end, step, fallbackMessage) {
   const compiled = compile(expression);
   const points = [];
 
@@ -19,12 +30,20 @@ export function generatePlot(expression, start, end, step) {
     }
   }
 
+  // If no valid points, return fallback SVG
   if (points.length === 0) {
-    return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+    if (fallbackMessage) {
+      return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
+      <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">${fallbackMessage}</text>
+    </svg>`;
+    } else {
+      return `<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
       <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
       <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data</text>
       <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Expression evaluation returned only non-finite values</text>
     </svg>`;
+    }
   }
 
   const svgWidth = 500;
@@ -69,7 +88,8 @@ Options:
   -v, --version       display version information
   --diagnostics       enable diagnostics mode
   --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:
-                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1>
+                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]
+  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values
 `);
 }
 
@@ -85,6 +105,13 @@ function showDiagnostics(args) {
 }
 
 function handlePlot(args) {
+  // Check for custom fallback message flag
+  let fallbackMessage;
+  const fallbackIdx = args.indexOf("--fallback");
+  if (fallbackIdx !== -1 && args.length > fallbackIdx + 1) {
+    fallbackMessage = args[fallbackIdx + 1];
+  }
+
   // Determine if using new CLI syntax: --plot <expression> --xmin ...
   const plotIndex = args.indexOf("--plot");
   const nextArg = args[plotIndex + 1];
@@ -122,8 +149,8 @@ function handlePlot(args) {
       process.exit(1);
       return;
     }
-    // For new CLI syntax, use generateSVGPlot (alias for generatePlot)
-    const svg = generateSVGPlot(expression, xmin, xmax, (xmax - xmin) / pointsCount);
+    // For new CLI syntax, use generateSVGPlot (alias for generatePlot) with fallbackMessage if provided
+    const svg = generateSVGPlot(expression, xmin, xmax, (xmax - xmin) / pointsCount, fallbackMessage);
     console.log(svg);
   } else {
     // Legacy syntax using --expr, --start, --end, and optional --step
@@ -168,7 +195,7 @@ function handlePlot(args) {
       }
     }
 
-    const svg = generatePlot(expression, start, end, step);
+    const svg = generatePlot(expression, start, end, step, fallbackMessage);
     console.log(svg);
   }
 }
