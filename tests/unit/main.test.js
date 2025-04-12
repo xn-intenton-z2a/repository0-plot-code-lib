@@ -196,11 +196,33 @@ describe("SVG Plot Caching", () => {
     const svg2 = mainModule.generateSVGPlot("sin(x)", -10, 10, 0.5, "Cache test");
     expect(svg1).toBe(svg2);
   });
-
+  
   it("should return identical SVG output for repeated calls of generateMultiPlot with same parameters", () => {
     const exprs = ["sin(x)", "cos(x)"];
     const svg1 = mainModule.generateMultiPlot(exprs, 0, 6.28, 0.1, "Cache multi test");
     const svg2 = mainModule.generateMultiPlot(exprs, 0, 6.28, 0.1, "Cache multi test");
     expect(svg1).toBe(svg2);
+  });
+});
+
+// Tests for Logarithmic Scale Axes
+describe("Logarithmic Scale Axes", () => {
+  it("should generate a valid SVG plot with log scale on x-axis", () => {
+    const svg = mainModule.generateSVGPlot("log(x)", 1, 100, 1, "", true, false);
+    // Expect tick labels to be powers of 10
+    expect(svg).toMatch(/10\.00/);
+    expect(svg).toContain("<polyline");
+  });
+
+  it("should generate a valid SVG plot with log scale on y-axis", () => {
+    const svg = mainModule.generateSVGPlot("x", 1, 100, 1, "", false, true);
+    expect(svg).toMatch(/10\.00/);
+    expect(svg).toContain("<polyline");
+  });
+
+  it("should generate a valid SVG plot with log scale on both axes", () => {
+    const svg = mainModule.generateSVGPlot("x", 1, 100, 1, "", true, true);
+    expect(svg).toMatch(/10\.00/);
+    expect(svg).toContain("<polyline");
   });
 });
