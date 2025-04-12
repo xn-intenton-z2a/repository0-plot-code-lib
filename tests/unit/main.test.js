@@ -21,13 +21,7 @@ describe("Default Demo Output", () => {
 describe("Plot Generation", () => {
   it("should generate a valid SVG plot", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = [
-      "--plot",
-      "--expr", "sin(x)",
-      "--start", "0",
-      "--end", "6.28",
-      "--step", "0.1"
-    ];
+    const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "0.1"];
     main(args);
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
