@@ -5,7 +5,7 @@ import fs from "fs";
 
 // Cleanup output files if they exist
 afterEach(() => {
-  const files = ["output.svg", "test_output.png", "custom_dimensions.svg", "interactive.svg", "output.pdf"];
+  const files = ["output.svg", "test_output.png", "custom_dimensions.svg", "interactive.svg", "output.pdf", "darkmode.svg", "darkmode_interactive.svg"];
   files.forEach(file => {
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
@@ -253,7 +253,6 @@ describe("PDF Conversion Feature", () => {
     await mainModule.main(args);
     expect(fs.existsSync("output.pdf")).toBe(true);
     const fileBuffer = fs.readFileSync("output.pdf");
-    // PDF files start with "%PDF-"
     const pdfSignature = "%PDF-";
     expect(fileBuffer.slice(0, 5).toString()).toEqual(pdfSignature);
   });
@@ -303,5 +302,24 @@ describe("Interactive Plot Features", () => {
     expect(output).toContain("id=\"svg-tooltip\"");
     expect(output).toContain("<script");
     consoleSpy.mockRestore();
+  });
+});
+
+describe("Dark Mode SVG Generation", () => {
+  it("should generate an SVG with dark background and light colored elements when dark mode is enabled (non-interactive)", () => {
+    const svg = mainModule.generateSVGPlot("sin(x)", 0, 10, 0.5, "", false, false, 500, 300, true);
+    expect(svg).toContain('fill="#1e1e1e"');
+    expect(svg).toContain('stroke="white"');
+    // Check that polyline uses cyan
+    expect(svg).toContain('stroke="cyan"');
+  });
+
+  it("should generate an interactive SVG with dark mode styling when dark mode is enabled", () => {
+    const svg = mainModule.generateInteractivePlot("sin(x)", 0, 10, 0.5, "", false, false, 500, 300, true);
+    expect(svg).toContain('fill="#1e1e1e"');
+    expect(svg).toContain('stroke="white"');
+    expect(svg).toContain('id="svg-tooltip"');
+    // Tooltip text should be white
+    expect(svg).toContain('fill:white');
   });
 });
