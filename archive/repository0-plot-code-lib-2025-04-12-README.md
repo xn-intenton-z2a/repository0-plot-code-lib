@@ -1,0 +1,225 @@
+# repository0-plot-code-lib
+
+"_Be a go-to plot library with a CLI, be the jq of formulae visualisations._"
+
+---
+
+## Usage
+
+You can use the library either as a JavaScript module or via the CLI. The CLI output is enhanced with ANSI colors to improve message clarity.
+
+### As a JS Library
+
+Import the main function and pass arguments as an array. In the event of errors, the function will throw exceptions allowing the consuming code to handle them appropriately.
+
+```js
+import { main, parseCSV, normalizeNumberString, validateNumericArg, formatNumberOutput } from '@src/lib/main.js';
+
+(async () => {
+  try {
+    // Example: Running the main function with unified 'NaN' handling. Numeric inputs such as 'NaN', 'nan', '+NaN', '-NaN' (even with extra or non-standard whitespace) are processed via a consolidated fallback mechanism. In strict mode, signed NaN variants (e.g. '+NaN', '-NaN') trigger an error, while in non-strict mode the fallback value is applied.
+    await main(['--number=NaN', '--fallback-number=100']);
+
+    // Use the integrated CSV importer function with auto-detection or custom delimiters
+    const data = parseCSV('path/to/data.csv');
+    console.log(data);
+    
+    // Numeric parsing utilities
+    console.log(normalizeNumberString('1,000'));
+    console.log(validateNumericArg('2_000', false, { info: msg => msg, error: msg => msg }));
+
+    // Scientific Notation Support
+    console.log(normalizeNumberString('1,000e3', false));
+    console.log(validateNumericArg('1.2e-3', false, { info: msg => msg, error: msg => msg }, undefined, false, true));
+
+    // Locale-Aware Numeric Output Formatting
+    // Format numbers based on locale. For example, in en-US: 1234.56 -> "1,234.56" and in de-DE: "1.234,56".
+    console.log(formatNumberOutput(1234.56));
+    // You can also pass options to customize formatting
+    console.log(formatNumberOutput(9876543.21, { style: 'decimal', maximumFractionDigits: 2 }));
+  } catch (error) {
+    console.error('An error occurred:', error);
+  }
+})();
+```
+
+### Command Line Interface (CLI)
+
+Run the CLI directly. A dedicated CLI wrapper catches errors thrown by the main function and exits the process to ensure proper CLI behavior.
+
+```bash
+repository0-plot-code-lib arg1 arg2
+```
+
+If no arguments are provided and no STDIN or CSV file is detected, the CLI will display a colored usage message:
+
+```
+(No arguments provided message in colored output, or default arguments if configured)
+Usage: repository0-plot-code-lib <arguments>
+```
+
+#### New Flags:
+
+- **--strict-numeric**
+  
+  Use the `--strict-numeric` flag to enforce strict numeric input validation. When enabled, any input recognized as a NaN variant (including custom variants and signed variants like '+NaN' or '-NaN') will trigger an error without falling back.
+
+- **--watch-config**
+  
+  Use the `--watch-config` flag to enable real-time reloading of the global configuration file (.repository0plotconfig.json). When this flag is set, any changes to the config file will automatically update the CLI's settings (such as CLI color scheme, fallback number, ALLOW_NAN, etc.) on the fly, without needing to restart the process.
+
+- **--debug-trace**
+  
+  Use the `--debug-trace` flag to activate extended debug mode. When enabled, the CLI outputs detailed structured JSON logs of the internal processing pipeline for troubleshooting and log analysis.
+
+- **--suppress-nan-warnings**
+  
+  Use the `--suppress-nan-warnings` flag to disable the structured JSON warnings normally logged when a NaN variant is encountered and a fallback value is applied. Duplicate warnings for the same input in batch processing are consolidated to improve log clarity.
+
+#### Automatic Warning Cache Reset
+
+The library now automatically resets the NaN fallback warning cache at the end of each batch process (e.g. after a CSV import or CLI execution). This ensures that warnings for identical NaN inputs are logged in subsequent batches even if they were suppressed within a single batch.
+
+#### Locale-Aware Numeric Output Formatting
+
+A new utility function, `formatNumberOutput`, has been added to format numbers for display according to the current locale (specified in your global configuration or environment via LOCALE). For instance:
+
+- In **en-US**: `formatNumberOutput(1234.56)` returns "1,234.56".
+- In **de-DE**: the same number is formatted as "1.234,56".
+
+You can pass additional options conforming to the Intl.NumberFormat API to customize the output further.
+
+#### Integration Tests for Extended NaN Handling
+
+The test suite has been extended with comprehensive integration tests to validate edge case behaviors including: 
+- Handling of inputs with extra/unusual Unicode whitespace
+- Mixed case inputs in conjunction with custom NaN variants
+- Deduplication of warnings within a batch and reset between batches
+- Strict mode validation that disallows any NaN variant including unusual spaced inputs
+
+These tests can be run using the existing vitest framework.
+
+#### File-based Logging
+
+You can log all CLI output to a file by specifying the `--log-file=<path>` flag. When provided, all logs (info, warnings, errors, and debug messages) will be appended to the specified file as well as printed to the console.
+
+##### Examples:
+
+Logging CLI output to a file:
+
+```bash
+repository0-plot-code-lib --log-file=./cli.log arg1 arg2
+```
+
+Piping data and logging to a file:
+
+```bash
+echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100 --log-file=./cli.log
+```
+
+### Unified 'NaN' Handling & Structured Logging
+
+- All numeric inputs (including variants like 'NaN', 'nan', '+NaN', '-NaN' with extra or non-standard whitespace) are processed using unified functions that apply enhanced Unicode whitespace normalization and consistent fallback logic.
+- When a NaN variant is detected and explicit NaN values are disallowed, a standardized structured JSON warning is logged. This warning includes the original input (trimmed), its normalized form, the applied fallback value, any custom NaN variants, and the locale in use.
+- **Warning Consolidation:** Multiple occurrences of the same invalid input with the same fallback configuration trigger only one warning within a single batch, avoiding log clutter.
+- **Automatic Cache Reset:** After each batch process, the warning cache is reset, ensuring that warnings are not permanently suppressed across separate executions.
+- **Signed NaN Variants:** In strict mode, signed variants such as '+NaN' and '-NaN' trigger an explicit error. In non-strict mode, they are treated as NaN variants and the fallback value is applied if needed.
+
+*Performance Optimization:* NaN variant detection functions have been refactored to reduce redundant Unicode normalization and case conversions, ensuring efficient processing even for large CSV files or numerous CLI inputs.
+
+### Custom NaN Variants
+
+You can define additional strings to be recognized as NaN using the global configuration file (.repository0plotconfig.json) or environment variables. Custom variants are cleaned using consistent normalization. When CASE_SENSITIVE_NAN is enabled, custom variants must exactly match the input.
+
+Example configuration:
+
+```json
+{
+  "additionalNaNValues": ["foo", "bar"],
+  "CASE_SENSITIVE_NAN": false
+}
+```
+
+### Locale-Aware Numeric Parsing & Formatting
+
+The numeric parsing functions support different locale formats. In addition, the newly added `formatNumberOutput` function formats numbers for display according to the locale.
+
+- **Parsing (normalizeNumberString):**
+  - In **en-US**: commas are treated as thousand separators and the period as a decimal point.
+  - In **de-DE**: periods are thousand separators and commas are decimal points (with conversion applied when preserving decimals).
+
+- **Formatting (formatNumberOutput):**
+  - In **en-US**: numbers like 1234.56 are formatted as "1,234.56".
+  - In **de-DE**: the same number is formatted as "1.234,56".
+
+Set the locale in your configuration file or via the `LOCALE` environment variable:
+
+```json
+{
+  "LOCALE": "de-DE"
+}
+```
+
+### Global Configuration
+
+Use the .repository0plotconfig.json file to set global parameters such as the error reporting URL, CLI color scheme, fallback number, retry delays, ALLOW_NAN, CASE_SENSITIVE_NAN, and warning suppression (DISABLE_FALLBACK_WARNINGS).
+
+Example:
+
+```json
+{
+  "ERROR_REPORTING_URL": "http://example.com/report",
+  "CLI_COLOR_SCHEME": "dark",
+  "LOG_LEVEL": "debug",
+  "defaultArgs": ["defaultArg1", "defaultArg2"],
+  "FALLBACK_NUMBER": "100",
+  "ERROR_RETRY_DELAYS": "500,1000,2000",
+  "ERROR_MAX_ATTEMPTS": "3",
+  "ALLOW_NAN": false,
+  "LOCALE": "en-US",
+  "DISABLE_FALLBACK_WARNINGS": true,
+  "CASE_SENSITIVE_NAN": false
+}
+```
+
+### Decimal Preservation
+
+To preserve decimal points in numeric parsing, use the `--preserve-decimal` flag or set the appropriate environment variable.
+
+```bash
+repository0-plot-code-lib --preserve-decimal --number=1,234.56
+```
+
+### CSV Data Import
+
+Import numeric data from a CSV file using the `--csv-file=<path>` flag or through STDIN. A custom delimiter can be set with `--csv-delimiter=<delimiter>`. If omitted, the tool auto-detects the delimiter.
+
+Examples:
+
+Using a semicolon delimiter:
+
+```bash
+repository0-plot-code-lib --csv-file=path/to/data.csv --csv-delimiter=";" --fallback-number=100
+```
+
+Piping CSV data via STDIN:
+
+```bash
+echo "1;2;3\n4;5;6" | repository0-plot-code-lib --csv-delimiter=";" --fallback-number=100
+```
+
+### Automatic Error Reporting with Retry
+
+When an error occurs, the CLI submits an error report (if ERROR_REPORTING_URL is set) including error details, CLI arguments, library version, and more. Configurable retry delays and maximum attempts ensure robust error reporting.
+
+### Real-Time Global Configuration Hot Reloading
+
+By using the `--watch-config` flag, the CLI monitors the .repository0plotconfig.json file in real time. Changes to the configuration are automatically applied, enhancing adaptability without requiring a restart.
+
+### Extended Debug Trace Mode
+
+The `--debug-trace` flag activates a detailed execution trace that outputs structured JSON logs of the internal processing pipeline for troubleshooting and log analysis.
+
+---
+
+*Note:* The unified NaN handling has been enhanced to include improved memoization, case-sensitive matching based on configuration, and robust warning deduplication. The cache resets after each batch to ensure clarity in logs.
