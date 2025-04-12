@@ -3,6 +3,7 @@
 import { fileURLToPath } from "url";
 import pkg from "../../package.json" with { type: "json" };
 import { compile } from "mathjs";
+import fs from "fs";
 
 // In-memory cache for SVG outputs
 const svgCache = new Map();
@@ -227,7 +228,9 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   // Determine overall transformed ranges
   const transformedXValues = allValidPoints.map(p => logScaleX ? Math.log10(p.x) : p.x);
-  const xRange = (Math.max(...transformedXValues) - Math.min(...transformedXValues)) || 1;
+  const minXTrans = Math.min(...transformedXValues);
+  const maxXTrans = Math.max(...transformedXValues);
+  const xRange = (maxXTrans - minXTrans) || 1;
   const transformedYValues = allValidPoints.map(p => logScaleY ? Math.log10(p.y) : p.y);
   const minYTrans = Math.min(...transformedYValues);
   const maxYTrans = Math.max(...transformedYValues);
@@ -240,7 +243,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
       const svgPoints = serie.points.map(({ x, y }) => {
         const tx = logScaleX ? Math.log10(x) : x;
         const ty = logScaleY ? Math.log10(y) : y;
-        const scaledX = ((tx - Math.min(...transformedXValues)) / xRange) * (svgWidth - 2 * margin) + margin;
+        const scaledX = ((tx - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
         const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
         return `${scaledX},${scaledY}`;
       }).join(' ');
@@ -256,8 +259,6 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 
   // X-axis ticks and grid lines
   if (logScaleX) {
-    const minXTrans = Math.min(...transformedXValues);
-    const maxXTrans = Math.max(...transformedXValues);
     const minExp = Math.floor(minXTrans);
     const maxExp = Math.ceil(maxXTrans);
     for (let exp = minExp; exp <= maxExp; exp++) {
@@ -268,8 +269,6 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
       tickMarks += `<text class="tick-label" x="${scaledX}" y="${svgHeight - margin + 15}" text-anchor="middle" font-size="10">${tickValue.toFixed(2)}</text>\n`;
     }
   } else {
-    const minXTrans = Math.min(...transformedXValues);
-    const maxXTrans = Math.max(...transformedXValues);
     const xTickInterval = (maxXTrans - minXTrans) / tickCount;
     for (let i = 0; i <= tickCount; i++) {
       const xTickValue = minXTrans + i * xTickInterval;
@@ -292,8 +291,8 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
       tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10">${tickValue.toFixed(2)}</text>\n`;
     }
   } else {
-    const minYTransCalc = Math.min(...transformedYValues);
-    const maxYTransCalc = Math.max(...transformedYValues);
+    const minYTransCalc = minYTrans;
+    const maxYTransCalc = maxYTrans;
     const yTickInterval = (maxYTransCalc - minYTransCalc) / tickCount;
     for (let i = 0; i <= tickCount; i++) {
       const yTickValue = minYTransCalc + i * yTickInterval;
@@ -348,6 +347,7 @@ Options:
   --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values
   --logscale-x        (optional) apply logarithmic scale to the x-axis (requires positive x values)
   --logscale-y        (optional) apply logarithmic scale to the y-axis (requires positive y values)
+  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png).
 `);
 }
 
@@ -363,6 +363,10 @@ function showDiagnostics(args) {
 }
 
 function handlePlot(args) {
+  // Determine output file name
+  const fileIdx = args.indexOf("--file");
+  const fileName = (fileIdx !== -1 && args.length > fileIdx + 1) ? args[fileIdx + 1] : "output.svg";
+
   // Check for custom fallback message flag
   let fallbackMessage;
   const fallbackIdx = args.indexOf("--fallback");
@@ -397,6 +401,7 @@ function handlePlot(args) {
     const pointsCount = parseInt(args[pointsIdx + 1], 10);
     const step = (xmax - xmin) / pointsCount;
     const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
+    fs.writeFileSync(fileName, svg, "utf-8");
     console.log(svg);
     return;
   }
@@ -426,6 +431,7 @@ function handlePlot(args) {
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
       const step = (xmax - xmin) / pointsCount;
       const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
+      fs.writeFileSync(fileName, svg, "utf-8");
       console.log(svg);
       return;
     } else {
@@ -449,6 +455,7 @@ function handlePlot(args) {
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
       const step = (xmax - xmin) / pointsCount;
       const svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY);
+      fs.writeFileSync(fileName, svg, "utf-8");
       console.log(svg);
       return;
     }
@@ -482,11 +489,20 @@ function handlePlot(args) {
     }
 
     const svg = generatePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY);
+    fs.writeFileSync(fileName, svg, "utf-8");
     console.log(svg);
   }
 }
 
 export function main(args = []) {
+  if (args.length === 0) {
+    // Default demo: generate a sample SVG plot using legacy parameters
+    const fileName = "output.svg";
+    const svg = generatePlot("sin(x)", 0, 6.28, 0.1);
+    fs.writeFileSync(fileName, svg, "utf-8");
+    console.log(svg);
+    return;
+  }
   if (args.includes("--help") || args.includes("-h")) {
     showHelp();
     return;

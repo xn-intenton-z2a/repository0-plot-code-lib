@@ -10,13 +10,15 @@ Invoke directly via the command line using Node:
 
   node src/lib/main.js [arguments]
 
-Example for standard execution:
+When no arguments are provided, a default demo plot (plotting sin(x) from 0 to 6.28) is generated and written to output.svg.
 
-  $ node src/lib/main.js arg1 arg2
+Example for standard execution (outputs to file output.svg by default):
 
-Example for enhanced plot generation using legacy parameters:
+  $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
-  $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1 [--fallback "Custom fallback message for non-finite values"]
+Example for specifying a custom output file (e.g., PNG):
+
+  $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --file output.png [--fallback "Custom fallback message for non-finite values"]
 
 Example for enhanced SVG plot generation using the new CLI syntax (single expression):
 
@@ -86,8 +88,6 @@ For multi-function plotting via the API:
 
 The plotting functions now implement consistent fallback handling: when no valid data points are generated, a fallback SVG is returned. Custom fallback messages provided are prioritized over default messages. Enhanced elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output.
 
+**File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png).
+
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.
-
-## License
-
-MIT

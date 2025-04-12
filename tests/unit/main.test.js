@@ -1,6 +1,15 @@
 /* File: tests/unit/main.test.js */
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import * as mainModule from "@src/lib/main.js";
+import fs from "fs";
+
+// Cleanup output file if exists
+afterEach(() => {
+  const defaultFile = "output.svg";
+  if (fs.existsSync(defaultFile)) {
+    fs.unlinkSync(defaultFile);
+  }
+});
 
 // Test the module import
 describe("Main Module Import", () => {
@@ -11,11 +20,13 @@ describe("Main Module Import", () => {
 
 // Test default output
 describe("Default Demo Output", () => {
-  it("should terminate without error", () => {
+  it("should write an SVG file and output its content", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     process.argv = ["node", "src/lib/main.js"];
     mainModule.main([]);
-    expect(consoleSpy).toHaveBeenCalled();
+    const output = consoleSpy.mock.calls[0][0];
+    expect(output).toContain("<svg");
+    expect(output).toContain("</svg>");
     consoleSpy.mockRestore();
   });
 });
