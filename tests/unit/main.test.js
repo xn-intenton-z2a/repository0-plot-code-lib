@@ -179,7 +179,7 @@ describe("New SVG CLI Multi-Plot Generation", () => {
 
   it("should generate a valid multi-plot SVG using --plot flag with comma-separated expressions", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = ["--plot", "tan(x),log(x)", "--xmin", "1", "--xmax", "10", "--points", "50"];
+    const args = ["--plot", "tan(x),log(x)", "--xmin", "1", "--xmax", "10", "--points", "50"]; 
     await mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
