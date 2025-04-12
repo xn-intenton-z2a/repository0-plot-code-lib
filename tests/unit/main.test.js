@@ -1,5 +1,5 @@
 /* File: tests/unit/main.test.js */
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
 
