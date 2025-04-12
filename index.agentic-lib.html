@@ -31,10 +31,10 @@
 <p class="md-github">Example for standard execution:</p>
 <p class="md-github">$ node src/lib/main.js arg1 arg2</p>
 <p class="md-github">Example for enhanced plot generation using legacy parameters:</p>
-<p class="md-github">$ node src/lib/main.js --plot --expr &quot;sin(x)&quot; --start 0 --end 6.28 --step 0.1</p>
+<p class="md-github">$ node src/lib/main.js --plot --expr &quot;sin(x)&quot; --start 0 --end 6.28 --step 0.1 [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
 <p class="md-github">Example for enhanced SVG plot generation using the new CLI syntax:</p>
-<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100</p>
-<p class="md-github">This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG with a &quot;No valid data&quot; message along with diagnostic information is returned, indicating that the expression evaluation resulted in exclusively non-finite values. Additionally, if any numeric parameter is invalid, the CLI logs an appropriate error and exits immediately without generating a fallback SVG.</p>
+<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
+<p class="md-github">The enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG is returned. By default, it displays a message indicating that no valid data was found; however, you can customize this message using the --fallback flag in the CLI.</p>
 <p class="md-github">Example for diagnostics mode:</p>
 <p class="md-github">$ node src/lib/main.js --diagnostics</p>
 <p class="md-github">Example for displaying help:</p>
@@ -49,20 +49,20 @@ $ node src/lib/main.js -v</p>
 main(['your', 'args']);</p>
 <p class="md-github">For direct SVG plot generation using the legacy API:</p>
 <p class="md-github">import { generatePlot } from '@src/lib/main.js';
-const svg = generatePlot(&quot;sin(x)&quot;, 0, 6.28, 0.1);
+const svg = generatePlot(&quot;sin(x)&quot;, 0, 6.28, 0.1, &quot;Custom fallback message&quot;);
 console.log(svg);</p>
 <p class="md-github">For direct SVG plot generation using the new API:</p>
 <p class="md-github">import { generateSVGPlot } from '@src/lib/main.js';
-const svg = generateSVGPlot(&quot;sin(x)&quot;, -10, 10, 0.4);
+const svg = generateSVGPlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;);
 console.log(svg);</p>
-<p class="md-github">The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG with a 'No valid data' message along with diagnostic information is returned.</p>
+<p class="md-github">The plotting functions use robust filtering with a try/catch mechanism to ignore non-finite values and any intermittent evaluation errors. This ensures that only valid data points are used for generating the SVG plot. If no valid points are found, a fallback SVG is returned. The fallback message can be customized to display a specific error or diagnostic message.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T09:10:13.590Z</p>
+    <p>Generated on 2025-04-12T09:11:46.902Z</p>
   </footer>
 </body>
 </html>
