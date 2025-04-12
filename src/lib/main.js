@@ -91,6 +91,7 @@ function handlePlot(args) {
   if (exprIdx === -1 || startIdx === -1 || endIdx === -1) {
     console.error("Missing required parameters for plotting: --expr, --start, --end");
     process.exit(1);
+    return;
   }
 
   const expression = args[exprIdx + 1];
@@ -98,16 +99,19 @@ function handlePlot(args) {
   if (isNaN(start)) {
     console.error("Invalid numeric value for --start");
     process.exit(1);
+    return;
   }
   const end = parseFloat(args[endIdx + 1]);
   if (isNaN(end)) {
     console.error("Invalid numeric value for --end");
     process.exit(1);
+    return;
   }
 
   if (start >= end) {
     console.error("Invalid range: --start must be less than --end");
     process.exit(1);
+    return;
   }
 
   const stepIdx = args.indexOf("--step");
@@ -117,16 +121,12 @@ function handlePlot(args) {
     if (isNaN(step)) {
       console.error("Invalid numeric value for --step");
       process.exit(1);
+      return;
     }
   }
 
-  try {
-    const svg = generatePlot(expression, start, end, step);
-    console.log(svg);
-  } catch (e) {
-    console.error("Error generating plot:", e.message);
-    process.exit(1);
-  }
+  const svg = generatePlot(expression, start, end, step);
+  console.log(svg);
 }
 
 export function main(args = []) {
