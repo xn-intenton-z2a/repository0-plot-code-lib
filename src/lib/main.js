@@ -1,10 +1,42 @@
-#!/usr/bin/env node
-// src/lib/main.js
+/* File: src/lib/main.js */
 
 import { fileURLToPath } from "url";
 
+// Inline implementation of generatePlot to avoid missing module errors
+export function generatePlot(expression, start, end, step) {
+  // Rudimentary implementation: returns a simple SVG with plot details
+  return `<svg xmlns="http://www.w3.org/2000/svg">
+    <text x="10" y="20">Plot: ${expression}, start: ${start}, end: ${end}, step: ${step}</text>
+  </svg>`;
+}
+
 export function main(args = []) {
-  console.log(`Run with: ${JSON.stringify(args)}`);
+  if (args.includes("--plot")) {
+    const exprIdx = args.indexOf("--expr");
+    const startIdx = args.indexOf("--start");
+    const endIdx = args.indexOf("--end");
+
+    if (exprIdx === -1 || startIdx === -1 || endIdx === -1) {
+      console.error("Missing required parameters for plotting: --expr, --start, --end");
+      process.exit(1);
+    }
+
+    const expression = args[exprIdx + 1];
+    const start = parseFloat(args[startIdx + 1]);
+    const end = parseFloat(args[endIdx + 1]);
+    const stepIdx = args.indexOf("--step");
+    const step = stepIdx !== -1 ? parseFloat(args[stepIdx + 1]) : 0.1;
+
+    try {
+      const svg = generatePlot(expression, start, end, step);
+      console.log(svg);
+    } catch (e) {
+      console.error("Error generating plot:", e.message);
+      process.exit(1);
+    }
+  } else {
+    console.log(`Run with: ${JSON.stringify(args)}`);
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
