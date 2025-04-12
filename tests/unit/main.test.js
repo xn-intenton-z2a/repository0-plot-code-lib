@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
-import { main, generatePlot } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
   it("should be non-null", () => {
@@ -12,7 +11,7 @@ describe("Default Demo Output", () => {
   it("should terminate without error", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     process.argv = ["node", "src/lib/main.js"];
-    main([]);
+    mainModule.main([]);
     expect(consoleSpy).toHaveBeenCalled();
     consoleSpy.mockRestore();
   });
@@ -22,7 +21,7 @@ describe("Diagnostics Mode", () => {
   it("should output diagnostics information when --diagnostics flag is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--diagnostics", "--plot", "--expr", "sin(x)"];
-    main(args);
+    mainModule.main(args);
     expect(consoleSpy).toHaveBeenCalledWith("Diagnostics Mode Enabled");
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Parsed Arguments:"), args);
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Node.js Version:"), process.version);
@@ -34,7 +33,7 @@ describe("Plot Generation", () => {
   it("should generate a valid SVG plot with a polyline element", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "0.1"];
-    main(args);
+    mainModule.main(args);
     expect(consoleSpy).toHaveBeenCalled();
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
@@ -47,7 +46,7 @@ describe("Plot Generation", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)"];
-    main(args);
+    mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for plotting: --expr, --start, --end");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
@@ -58,7 +57,7 @@ describe("Plot Generation", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "abc", "--end", "6.28"];
-    main(args);
+    mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --start");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
@@ -69,7 +68,7 @@ describe("Plot Generation", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "notanumber"];
-    main(args);
+    mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --end");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
@@ -80,7 +79,7 @@ describe("Plot Generation", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "0", "--end", "6.28", "--step", "NaN"];
-    main(args);
+    mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid numeric value for --step");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
@@ -91,7 +90,7 @@ describe("Plot Generation", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)", "--start", "6.28", "--end", "0"];
-    main(args);
+    mainModule.main(args);
     expect(consoleErrorSpy).toHaveBeenCalledWith("Invalid range: --start must be less than --end");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
@@ -101,11 +100,9 @@ describe("Plot Generation", () => {
 
 describe("Handling NaN in Plot Generation", () => {
   it("should handle cases where evaluated expression returns NaN by displaying a fallback SVG", () => {
-    // Using an expression that always returns NaN (0/0)
-    const svg = generatePlot("0/0", 0, 10, 1);
+    const svg = mainModule.generatePlot("0/0", 0, 10, 1);
     expect(svg).toContain("<svg");
     expect(svg).toContain("No valid data");
-    // Ensure that polyline is not rendered
     expect(svg).not.toContain("<polyline");
   });
 });
@@ -113,7 +110,7 @@ describe("Handling NaN in Plot Generation", () => {
 describe("Help Flag", () => {
   it("should output help information when --help is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["--help"]);
+    mainModule.main(["--help"]);
     const output = consoleSpy.mock.calls.flat().join(" ");
     expect(output).toContain("Usage:");
     expect(output).toContain("display help information");
@@ -122,7 +119,7 @@ describe("Help Flag", () => {
 
   it("should output help information when -h is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["-h"]);
+    mainModule.main(["-h"]);
     const output = consoleSpy.mock.calls.flat().join(" ");
     expect(output).toContain("Usage:");
     expect(output).toContain("display help information");
@@ -133,14 +130,14 @@ describe("Help Flag", () => {
 describe("Version Flag", () => {
   it("should output version information when --version is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["--version"]);
+    mainModule.main(["--version"]);
     expect(consoleSpy).toHaveBeenCalledWith("0.8.2");
     consoleSpy.mockRestore();
   });
 
   it("should output version information when -v is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["-v"]);
+    mainModule.main(["-v"]);
     expect(consoleSpy).toHaveBeenCalledWith("0.8.2");
     consoleSpy.mockRestore();
   });
