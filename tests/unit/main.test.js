@@ -18,6 +18,19 @@ describe("Default Demo Output", () => {
   });
 });
 
+describe("Diagnostics Mode", () => {
+  it("should output diagnostics information when --diagnostics flag is provided", () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = ["--diagnostics", "--plot", "--expr", "sin(x)"];
+    main(args);
+    expect(consoleSpy).toHaveBeenCalledWith("Diagnostics Mode Enabled");
+    // Check for diagnostics details
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Parsed Arguments:"), args);
+    expect(consoleSpy).toHaveBeenCalledWith(expect.stringContaining("Node.js Version:"), process.version);
+    consoleSpy.mockRestore();
+  });
+});
+
 describe("Plot Generation", () => {
   it("should generate a valid SVG plot", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
