@@ -73,13 +73,13 @@ const expressions = [&quot;sin(x)&quot;, &quot;cos(x)&quot;];
 const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, true, true);
 console.log(svg);</p>
 <hr class="md-github">
-<p class="md-github">The plotting functions now implement consistent fallback handling: when no valid data points are generated, a fallback SVG is returned. Custom fallback messages provided are prioritized over default messages. Enhanced elements such as axes, tick marks with numeric labels, and grid lines are automatically added to the SVG output.</p>
+<p class="md-github">The plotting functions now implement an enhanced fallback handling mechanism. If no valid data points are generated, a fallback SVG is rendered with a consistent style using multi-line text (via <tspan> elements) for better readability. Custom fallback messages, when provided, are displayed centered within the SVG.</p>
 <p class="md-github"><strong class="md-github">File Output:</strong> By default, the CLI writes the SVG output to a file named &quot;output.svg&quot;. This can be overridden using the --file flag with the desired filename (e.g., output.png).</p>
 <p class="md-github"><strong class="md-github">Caching:</strong> This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T12:19:57.636Z</p>
+    <p>Generated on 2025-04-12T12:21:34.062Z</p>
   </footer>
 </body>
 </html>
