@@ -1,7 +1,7 @@
 /* File: src/lib/main.js */
 
 import { fileURLToPath } from "url";
-import pkg from "../../package.json" with { type: "json" };
+import pkg from "../../package.json" assert { type: "json" };
 import { compile } from "mathjs";
 import fs from "fs";
 
@@ -18,18 +18,15 @@ const svgCache = new Map();
  * @returns {string} - SVG fallback string
  */
 function createFallbackSVG(fallbackMessage, svgWidth, svgHeight) {
-  if (fallbackMessage) {
-    return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+  // Use a default multi-line fallback message if none is provided
+  const message = fallbackMessage ? fallbackMessage : "No valid data points.\nPlease check the input expression.";
+  const lines = message.split("\n");
+  return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
   <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
-  <text x="50%" y="50%" alignment-baseline="middle" text-anchor="middle" fill="red">${fallbackMessage}</text>
+  <text x="${svgWidth / 2}" y="${svgHeight / 2}" text-anchor="middle" fill="red" font-size="14" font-family="Arial">
+    ${lines.map((line, index) => `<tspan x="${svgWidth / 2}" dy="${index === 0 ? 0 : 20}">${line}</tspan>`).join('')}
+  </text>
 </svg>`;
-  } else {
-    return `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-  <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
-  <text x="50%" y="45%" alignment-baseline="middle" text-anchor="middle" fill="red">No valid data: expression evaluation returned.</text>
-  <text x="50%" y="55%" alignment-baseline="middle" text-anchor="middle" fill="red">Check the input expression for potential issues.</text>
-</svg>`;
-  }
 }
 
 /**
@@ -161,9 +158,13 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
   // Build the final SVG content
   const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black"/>
-    <g class="grid">\n${gridLines}</g>
-    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>
-    <g class="ticks">\n${tickMarks}</g>
+    <g class="grid">
+${gridLines}</g>
+    <g class="axes">
+${xAxisLine}
+${yAxisLine}</g>
+    <g class="ticks">
+${tickMarks}</g>
     <polyline points="${svgPoints}" fill="none" stroke="blue" stroke-width="2"/>
   </svg>`;
 
@@ -310,9 +311,13 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   // Build the final SVG content
   const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">
     <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black" />
-    <g class="grid">\n${gridLines}</g>
-    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>
-    <g class="ticks">\n${tickMarks}</g>
+    <g class="grid">
+${gridLines}</g>
+    <g class="axes">
+${xAxisLine}
+${yAxisLine}</g>
+    <g class="ticks">
+${tickMarks}</g>
     ${polylines}
     <g class="legend">
       ${series.map((serie, index) => {
@@ -345,8 +350,8 @@ Options:
                       --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]
   --plots             generate a multi-plot with multiple comma-separated expressions.
   --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values
-  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires positive x values)
-  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires positive y values)
+  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)
+  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)
   --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png).
 `);
 }
