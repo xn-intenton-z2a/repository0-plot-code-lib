@@ -1,6 +1,7 @@
 /* File: src/lib/main.js */
 
-import { fileURLToPath, createRequire } from "url";
+import { fileURLToPath } from "url";
+import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const pkg = require("../../package.json");
 
