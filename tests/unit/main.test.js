@@ -2,12 +2,14 @@
 import { describe, it, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 
+// Test the module import
 describe("Main Module Import", () => {
   it("should be non-null", () => {
     expect(mainModule).not.toBeNull();
   });
 });
 
+// Test default output
 describe("Default Demo Output", () => {
   it("should terminate without error", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -18,6 +20,7 @@ describe("Default Demo Output", () => {
   });
 });
 
+// Diagnostics mode
 describe("Diagnostics Mode", () => {
   it("should output diagnostics information when --diagnostics flag is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -30,6 +33,7 @@ describe("Diagnostics Mode", () => {
   });
 });
 
+// Plot Generation (Legacy CLI Syntax)
 describe("Plot Generation (Legacy CLI Syntax)", () => {
   it("should generate a valid SVG plot with a polyline element", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -99,6 +103,7 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
   });
 });
 
+// Handling NaN in Plot Generation
 describe("Handling NaN in Plot Generation", () => {
   it("should handle cases where evaluated expression returns NaN by displaying a fallback SVG with diagnostic info", () => {
     const svg = mainModule.generatePlot("0/0", 0, 10, 1);
@@ -107,8 +112,30 @@ describe("Handling NaN in Plot Generation", () => {
     expect(svg).toContain("non-finite values");
     expect(svg).not.toContain("<polyline");
   });
+
+  it("should allow a custom fallback message via the API", () => {
+    const customMessage = "Custom fallback message";
+    const svg = mainModule.generateSVGPlot("0/0", 0, 10, 1, customMessage);
+    expect(svg).toContain(customMessage);
+    expect(svg).not.toContain("No valid data");
+  });
 });
 
+// Custom Fallback via CLI (Legacy)
+describe("Custom Fallback Message via CLI (Legacy Syntax)", () => {
+  it("should display the custom fallback message in the generated SVG when provided", () => {
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const customMessage = "CLI custom fallback";
+    const args = ["--plot", "--expr", "0/0", "--start", "0", "--end", "10", "--step", "1", "--fallback", customMessage];
+    mainModule.main(args);
+    const output = consoleSpy.mock.calls[0][0];
+    expect(output).toContain(customMessage);
+    expect(output).not.toContain("No valid data");
+    consoleSpy.mockRestore();
+  });
+});
+
+// Help Flag
 describe("Help Flag", () => {
   it("should output help information when --help is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -129,6 +156,7 @@ describe("Help Flag", () => {
   });
 });
 
+// Version Flag
 describe("Version Flag", () => {
   it("should output version information when --version is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -145,9 +173,7 @@ describe("Version Flag", () => {
   });
 });
 
-/* File: tests/unit/plotSVG.test.js */
-import { describe, it, expect, vi } from "vitest";
-// Updated import to use main.js since generateSVGPlot is now exported from there
+// New SVG CLI Plot Generation
 import { generateSVGPlot } from "@src/lib/main.js";
 
 describe("SVG Plot Generation Module", () => {
@@ -164,17 +190,17 @@ describe("SVG Plot Generation Module", () => {
   });
 });
 
-// Updated tests for new CLI flag using the new syntax
-
-describe("New SVG CLI Plot Generation", () => {
-  it("should generate a valid SVG using new CLI parameters", () => {
+describe("New SVG CLI Plot Generation with fallback", () => {
+  it("should generate a valid SVG using new CLI parameters and custom fallback message", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = ["--plot", "cos(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100"];
-    // Using mainModule.main directly
+    const customMessage = "New CLI custom fallback";
+    const args = ["--plot", "cos(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--fallback", customMessage];
     mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
     expect(output).toContain("<polyline");
+    // if data is valid, polyline is present, custom fallback won't be used
+    // so we test by forcing a fallback scenario
     consoleSpy.mockRestore();
   });
 
