@@ -14,8 +14,8 @@ export function generatePlot(expression, start, end, step) {
   for (let x = start; x <= end; x += step) {
     // Evaluate y for each x
     const y = compiled.evaluate({ x });
-    // Only include points with valid numeric y values
-    if (!Number.isNaN(y)) {
+    // Only include points with valid numeric and finite y values
+    if (typeof y === 'number' && Number.isFinite(y)) {
       points.push({ x, y });
     }
   }
