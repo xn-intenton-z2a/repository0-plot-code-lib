@@ -17,7 +17,7 @@ on:
         default: 'house choice'
   schedule:
     #- cron: '0 0 */28 * *' # schedule-1
-    #- cron: '0 0 */7 * *' # schedule-3
+    - cron: '0 0 */7 * *' # schedule-3
     - cron: '0 4 * * *' # schedule-3
 
 jobs:
