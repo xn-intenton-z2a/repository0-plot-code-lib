@@ -19,6 +19,7 @@ export function main(args = []) {
     if (exprIdx === -1 || startIdx === -1 || endIdx === -1) {
       console.error("Missing required parameters for plotting: --expr, --start, --end");
       process.exit(1);
+      return; // Ensure no further execution in testing environments
     }
 
     const expression = args[exprIdx + 1];

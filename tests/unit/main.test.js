@@ -41,7 +41,7 @@ describe("Plot Generation", () => {
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "--expr", "sin(x)"];
     main(args);
-    expect(consoleErrorSpy).toHaveBeenCalled();
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for plotting: --expr, --start, --end");
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();

@@ -18,6 +18,8 @@ Example for plot generation:
 
   $ node src/lib/main.js --plot --expr "sin(x)" --start 0 --end 6.28 --step 0.1
 
+Note: If any required parameters (--expr, --start, --end) are missing when using --plot, the process will log an error and terminate with exit code 1.
+
 ### Library
 
 Import the main function in your project:
