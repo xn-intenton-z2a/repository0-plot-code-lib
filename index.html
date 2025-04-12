@@ -33,6 +33,7 @@
 <p class="md-github">$ node src/lib/main.js --plot --expr &quot;sin(x)&quot; --start 0 --end 6.28 --step 0.1</p>
 <p class="md-github">Example for specifying a custom output file (e.g., PNG):</p>
 <p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --file output.png [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
+<p class="md-github">When the output filename ends with .png, the library automatically converts the generated SVG into a PNG image using the 'sharp' library.</p>
 <p class="md-github">Example for enhanced SVG plot generation using the new CLI syntax (single expression):</p>
 <p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
 <p class="md-github">Example for multi-function plotting using a comma-separated list with the new CLI syntax:</p>
@@ -73,13 +74,14 @@ const expressions = [&quot;sin(x)&quot;, &quot;cos(x)&quot;];
 const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, true, true);
 console.log(svg);</p>
 <hr class="md-github">
-<p class="md-github">The plotting functions now implement an enhanced fallback handling mechanism. If no valid data points are generated, a fallback SVG is rendered with a consistent style using multi-line text (via <tspan> elements) for better readability. Custom fallback messages, when provided, are displayed centered within the SVG.</p>
+<p class="md-github"><strong class="md-github">PNG Conversion:</strong></p>
+<p class="md-github">If the output file specified with the --file flag ends with .png, the tool automatically converts the generated SVG to PNG format using the 'sharp' library. This allows seamless generation of PNG images from mathematical plots.</p>
 <p class="md-github"><strong class="md-github">File Output:</strong> By default, the CLI writes the SVG output to a file named &quot;output.svg&quot;. This can be overridden using the --file flag with the desired filename (e.g., output.png).</p>
 <p class="md-github"><strong class="md-github">Caching:</strong> This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-12T12:30:02.858Z</p>
+    <p>Generated on 2025-04-12T12:31:36.230Z</p>
   </footer>
 </body>
 </html>
