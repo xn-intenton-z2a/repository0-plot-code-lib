@@ -145,7 +145,6 @@ describe("Version Flag", () => {
   });
 });
 
-
 /* File: tests/unit/plotSVG.test.js */
 import { describe, it, expect } from "vitest";
 import { generateSVGPlot } from "@src/lib/plotSVG.js";

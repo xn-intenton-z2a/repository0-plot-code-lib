@@ -22,7 +22,7 @@ Example for enhanced SVG plot generation using the new CLI syntax:
 
   $ node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100
 
-This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG with a "No valid data" message and additional diagnostic information is returned, indicating that the expression evaluation resulted in exclusively non-finite values. Additionally, if any numeric parameter is invalid, the CLI logs an appropriate error and exits immediately without generating a fallback SVG.
+This enhanced feature evaluates the provided mathematical expression over a given range and produces a dynamic SVG plot containing a polyline that represents the computed curve. The implementation robustly filters out any points that are non-finite (including NaN). If no valid data points are available, a fallback SVG with a "No valid data" message along with diagnostic information is returned, indicating that the expression evaluation resulted in exclusively non-finite values. Additionally, if any numeric parameter is invalid, the CLI logs an appropriate error and exits immediately without generating a fallback SVG.
 
 Example for diagnostics mode:
 
