@@ -23,97 +23,15 @@
   </header>
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
-<p class="md-github">&quot;<em class="md-github">Be a go-to plot library with a CLI, be the jq of formulae visualisations.</em>&quot;</p>
-<h2 class="md-github"><a class="md-github__anchor" name="usage" href="#usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="cli" href="#cli"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI</h3>
-<p class="md-github">Invoke directly via the command line using Node:</p>
-<p class="md-github">node src/lib/main.js [arguments]</p>
-<p class="md-github">When no arguments are provided, a default demo plot (plotting sin(x) from 0 to 6.28) is generated and written to output.svg.</p>
-<p class="md-github">Example for standard execution (outputs to file output.svg by default):</p>
-<p class="md-github">$ node src/lib/main.js --plot --expr &quot;sin(x)&quot; --start 0 --end 6.28 --step 0.1</p>
-<p class="md-github">Example for specifying custom SVG dimensions, dark mode, and a custom output file (e.g., PNG, JPEG, or PDF):</p>
-<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --width 600 --height 400 --darkmode --file output.png [--fallback &quot;Custom fallback message for non-finite values&quot;]</p>
-<h4 class="md-github"><a class="md-github__anchor" name="enhanced-interactive-mode" href="#enhanced-interactive-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enhanced Interactive Mode</h4>
-<p class="md-github">A new interactive plotting mode is available. When the <code class="md-github">--interactive</code> flag is provided along with plotting parameters, the tool generates an SVG with tooltips on hover and basic zoom/pan functionality. Data points display their coordinates when hovered over. Dark mode can also be enabled using the <code class="md-github">--darkmode</code> flag.</p>
-<p class="md-github"><strong class="md-github">Animated Transitions:</strong></p>
-<p class="md-github">When the new <code class="md-github">--animate</code> flag is also provided for interactive plots, the plot lines are drawn with smooth animated transitions, enhancing the visual experience during rendering.</p>
-<p class="md-github">For a single interactive plot with animation:</p>
-<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --interactive --animate [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
-<p class="md-github">For interactive multi-function plotting with a comma-separated list and animation:</p>
-<p class="md-github">$ node src/lib/main.js --plots &quot;tan(x),log(x)&quot; --xmin 1 --xmax 10 --points 50 --interactive --animate [--width 600 --height 400] [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
-<p class="md-github"><strong class="md-github">Export Plot Data as CSV:</strong></p>
-<p class="md-github">A new CLI flag <code class="md-github">--export-csv</code> allows users to export the computed data points from a plot to a CSV file. By default, if no filename is specified, the output file is <code class="md-github">output.csv</code>. The CSV includes a header <code class="md-github">expression,x,y</code> followed by the data rows for each evaluated point. This feature works with both single and multi plot modes.</p>
-<p class="md-github">Example:</p>
-<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin 0 --xmax 6.28 --points 100 --export-csv</p>
-<p class="md-github">Or with a custom filename:</p>
-<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin 0 --xmax 6.28 --points 100 --export-csv data_points.csv</p>
-<p class="md-github">Additional flags for logarithmic scaling can be used to transform the axes:</p>
-<p class="md-github">--logscale-x        Apply logarithmic scale to the x-axis (requires positive x values)
---logscale-y        Apply logarithmic scale to the y-axis (requires positive y values)</p>
-<p class="md-github">Example with log scale:</p>
-<p class="md-github">$ node src/lib/main.js --plot &quot;log(x)&quot; --xmin 1 --xmax 100 --points 100 --logscale-x
-$ node src/lib/main.js --plot &quot;x&quot; --xmin 1 --xmax 100 --points 100 --logscale-y</p>
-<p class="md-github">Example for diagnostics mode:</p>
-<p class="md-github">$ node src/lib/main.js --diagnostics</p>
-<p class="md-github">Example for displaying help:</p>
-<p class="md-github">$ node src/lib/main.js --help
-$ node src/lib/main.js -h</p>
-<p class="md-github">Example for displaying version:</p>
-<p class="md-github">$ node src/lib/main.js --version
-$ node src/lib/main.js -v</p>
-<h3 class="md-github"><a class="md-github__anchor" name="library" href="#library"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Library</h3>
-<p class="md-github">Import the main function in your project:</p>
-<p class="md-github">import { main } from '@src/lib/main.js';
-main(['your', 'args']);</p>
-<p class="md-github">For direct SVG plot generation using the legacy API:</p>
-<p class="md-github">import { generatePlot } from '@src/lib/main.js';
-const svg = generatePlot(&quot;sin(x)&quot;, 0, 6.28, 0.1, &quot;Custom fallback message&quot;);
-console.log(svg);</p>
-<p class="md-github">For direct SVG plot generation using the new API (with optional logarithmic scaling, custom dimensions, and dark mode support):</p>
-<p class="md-github">import { generateSVGPlot } from '@src/lib/main.js';
-// Dark mode enabled with log scale on x-axis and custom dimensions
-const svg = generateSVGPlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;, true, false, 600, 400, true);
-console.log(svg);</p>
-<p class="md-github">For interactive SVG plot generation via the API:</p>
-<p class="md-github">import { generateInteractivePlot } from '@src/lib/main.js';
-// Generates an interactive SVG with tooltips, zoom/pan features, dark mode, and animated transitions if desired
-const svg = generateInteractivePlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;, false, false, 600, 400, false, true);
-console.log(svg);</p>
-<p class="md-github">For non-interactive multi-function plotting via the API:</p>
-<p class="md-github">import { generateMultiPlot } from '@src/lib/main.js';
-const expressions = [&quot;sin(x)&quot;, &quot;cos(x)&quot;];
-const svg = generateMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, false, false);
-console.log(svg);</p>
-<p class="md-github">For interactive multi-function plotting via the API:</p>
-<p class="md-github">import { generateInteractiveMultiPlot } from '@src/lib/main.js';
-const expressions = [&quot;sin(x)&quot;, &quot;cos(x)&quot;];
-const svgInteractive = generateInteractiveMultiPlot(expressions, 0, 6.28, 0.1, &quot;&quot;, false, false, 600, 400, false, true);
-console.log(svgInteractive);</p>
+<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
 <hr class="md-github">
-<p class="md-github"><strong class="md-github">PNG, JPEG, and PDF Conversion:</strong></p>
-<p class="md-github">If the output file specified with the --file flag ends with .png, .jpg, .jpeg, or .pdf, the tool automatically converts the generated SVG using the respective conversion process:</p>
-<ul class="md-github">
-<li class="md-github">PNG conversion uses the 'sharp' library to produce PNG images.</li>
-<li class="md-github">JPEG conversion uses the 'sharp' library to produce JPEG images (now supported).</li>
-<li class="md-github">PDF conversion uses Puppeteer to produce PDF documents.</li>
-</ul>
-<p class="md-github">This allows seamless generation of PNG, JPEG, and PDF outputs from mathematical plots. The PDF conversion now includes increased timeout settings to ensure compatibility.</p>
-<p class="md-github"><strong class="md-github">File Output:</strong> By default, the CLI writes the SVG output to a file named &quot;output.svg&quot;. This can be overridden using the --file flag with the desired filename (e.g., output.png, output.jpg, output.pdf).</p>
-<p class="md-github"><strong class="md-github">Custom Dimensions:</strong></p>
-<p class="md-github">Users can now customize the output SVG dimensions using the new --width and --height options, which default to 500 and 300 respectively if not specified.</p>
-<p class="md-github"><strong class="md-github">Dark Mode:</strong></p>
-<p class="md-github">The new --darkmode flag (or darkMode parameter in the API) applies dark theme styling to the output SVG. This includes a dark background (#1e1e1e), light-colored axis lines, grid lines, tick marks, and text for improved visibility in dark environments.</p>
-<p class="md-github"><strong class="md-github">Interactive Mode:</strong></p>
-<p class="md-github">Interactive SVG plots include tooltips that show data point coordinates on hover, as well as basic zooming and panning functionalities via mouse events. This enhances the user experience for exploring plotted data.</p>
-<p class="md-github"><strong class="md-github">Animated Transitions:</strong></p>
-<p class="md-github">When the --animate flag is used with interactive plots, a smooth drawing animation is applied to the plot lines, adding a dynamic visual effect.</p>
-<p class="md-github"><strong class="md-github">CSV Export:</strong></p>
-<p class="md-github">With the new --export-csv flag, users can export the computed data points (x and y values) to a CSV file. The CSV file starts with a header &quot;expression,x,y&quot; and includes the data points generated from the mathematical expression. If no filename is specified after the flag, the default output filename is output.csv.</p>
-<p class="md-github"><strong class="md-github">Caching:</strong> This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p class="md-github">MIT</p>
+<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-04-13T19:26:24.358Z</p>
+    <p>Generated on 2025-04-13T19:27:14.457Z</p>
   </footer>
 </body>
 </html>
