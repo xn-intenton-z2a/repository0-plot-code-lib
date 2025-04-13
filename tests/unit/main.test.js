@@ -3,7 +3,6 @@ import { describe, it, expect, vi, afterEach } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
 
-// Cleanup output files if they exist
 afterEach(() => {
   const files = [
     "output.svg",
@@ -23,14 +22,12 @@ afterEach(() => {
   });
 });
 
-// Test the module import
 describe("Main Module Import", () => {
   it("should be non-null", () => {
     expect(mainModule).not.toBeNull();
   });
 });
 
-// Test default output
 describe("Default Demo Output", () => {
   it("should write an SVG file and output its content", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -43,7 +40,6 @@ describe("Default Demo Output", () => {
   });
 });
 
-// Diagnostics mode
 describe("Diagnostics Mode", () => {
   it("should output diagnostics information when --diagnostics flag is provided", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -56,7 +52,6 @@ describe("Diagnostics Mode", () => {
   });
 });
 
-// Plot Generation (Legacy CLI Syntax)
 describe("Plot Generation (Legacy CLI Syntax)", () => {
   it("should generate a valid SVG plot with a polyline element and enhanced axes, grid, and ticks", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -96,7 +91,6 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
   });
 });
 
-// Help Flag
 describe("Help Flag", () => {
   it("should output help information when --help is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -117,7 +111,6 @@ describe("Help Flag", () => {
   });
 });
 
-// Version Flag
 describe("Version Flag", () => {
   it("should output version information when --version is provided", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -134,7 +127,6 @@ describe("Version Flag", () => {
   });
 });
 
-// New SVG CLI Plot Generation
 import { generateSVGPlot, generateMultiPlot, generateInteractivePlot, generateInteractiveMultiPlot } from "@src/lib/main.js";
 
 describe("SVG Plot Generation Module", () => {
@@ -339,7 +331,6 @@ describe("CSV Export Feature", () => {
     expect(fs.existsSync("test_output.csv")).toBe(true);
     const csvContent = fs.readFileSync("test_output.csv", "utf-8");
     expect(csvContent.split("\n")[0]).toBe("expression,x,y");
-    // Verify that there are at least 100 data rows
     const rows = csvContent.split("\n");
     expect(rows.length).toBeGreaterThanOrEqual(101);
   });
