@@ -4,17 +4,19 @@
   "engine": "schedule-3",
   "lastActivityName": "Issue Worker",
   "lastActivityBranchName": "main",
-  "nextIssue": "[2039] Migrate JSON Import Syntax: Replace Deprecated 'assert' with 'with' for JSON Files automated, feature",
-  "openIssues": 9,
+  "nextIssue": "[2039] Migrate JSON Import Syntax: Replace Deprecated 'assert' with 'with' for JSON Files automated, feature, issue-worker-14425519556",
+  "openIssues": 10,
   "issuesClosedLastHour": 1,
-  "issuesClosedLastDay": 96,
-  "openPRs": 0,
-  "averagePRAge": 0,
-  "prDetails": [],
-  "diffMinutes": 5,
-  "diffMinutesMain": 35,
+  "issuesClosedLastDay": 94,
+  "openPRs": 1,
+  "averagePRAge": 10,
+  "prDetails": [
+    "[10m] Updated JSON import to use new with syntax instead of deprecated assert syntax. (fixes #2039)"
+  ],
+  "diffMinutes": 10,
+  "diffMinutesMain": 46,
   "commitsLastHour": 1,
-  "commitsLastDay": 83,
+  "commitsLastDay": 82,
   "lastFiveCommitMessages": [
     "[03:00] - Increased PDF conversion timeout in page.setContent to prevent P...",
     "[01:51] - Added --export-csv CLI option to export computed plot data to CS...",
@@ -25,14 +27,14 @@
   "branches": {
     "count": 1,
     "details": [
-      "[5m] agentic-lib-issue-2039"
+      "[16m] agentic-lib-issue-2039"
     ],
     "branchIssueDetails": [
       "[2039] Migrate JSON Import Syntax: Replace Deprecated 'assert' with 'with' for JSON Files automated, feature, issue-worker-14425519556"
     ],
-    "averageBranchAge": 5
+    "averageBranchAge": 16
   },
   "testStatusOnBranch": "PASS",
   "testsLastPassedMinutes": 15,
-  "statsGeneratedAt": "2025-04-13T03:36:43.270Z"
+  "statsGeneratedAt": "2025-04-13T03:47:44.798Z"
 }
