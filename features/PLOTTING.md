@@ -1,51 +1,26 @@
 # PLOTTING
 
 ## Overview
-This feature provides robust plotting capabilities via a CLI and as a library. In addition to evaluating mathematical expressions and rendering them to SVG, this update introduces customizable styling options to allow users more control over the visual output from the plots.
+This feature provides robust plotting capabilities both as a CLI tool and as a library. It supports evaluating mathematical expressions and rendering them to SVG with enhanced styling options including custom color, line style, and line width. In addition, this update extends the plotting functionality to support file format conversion (PNG, JPEG, PDF) and CSV export of computed data points to meet diverse visualization and data analysis requirements.
 
-## CLI Integration
-- **Legacy and New Syntax:** Continue supporting both legacy (--expr, --start, --end, --step) and new syntax (--plot with expression, --xmin, --xmax, --points).
-- **New Styling Flags:**
-  - `--color`: Specify the line color (e.g., `blue`, `#FF0000`).
-  - `--linestyle`: Specify the line style (e.g., `solid`, `dashed`).
-  - `--linewidth`: Specify the line width (e.g., `2`).
-- These flags can be used with single or multiple expression plotting modes.
+## CLI Integration & Usage
+- **Legacy and New Syntax Support:** Continue supporting both the legacy parameters (`--expr`, `--start`, `--end`, `--step`) and new syntax (`--plot` with parameters like `--xmin`, `--xmax`, `--points`).
+- **Styling Flags:** Users may specify `--color`, `--linestyle`, and `--linewidth` to customize plot appearance.
+- **Interactive Mode:** With the `--interactive` flag, the generated SVG includes hover tooltips, zoom/pan capabilities, and optional animated transitions (enabled via `--animate`).
+- **File Conversion:** Using the `--file` flag with extensions such as `.png`, `.jpg`, or `.pdf`, the tool automatically converts the generated SVG plot to the specified format using libraries like Sharp and Puppeteer.
+- **CSV Export:** The new `--export-csv` flag allows users to export the computed data points (with a header of `expression,x,y`) to a CSV file, facilitating further analysis.
 
-## Plot Styling Options
-This update allows users to override default styling provided in the plot generation:
-
-- **Color Selection:** By default, single plots are rendered in blue and multi-plots use a sequence of preset colors. The `--color` flag will allow users to specify a custom color for a specific plot, overriding the default palette.
-
-- **Line Style and Width:** The `--linestyle` flag can be used to determine if the line appears as a solid or dashed line. The `--linewidth` flag allows fine-tuning of the stroke thickness.
-
-These enhancements not only improve the aesthetic control but also help in generating publication-ready plots, aligning with our mission to be the go-to plot library.
+## Plot Styling and Export Options
+- **Custom Styling:** The plot can be rendered with default or user-specified colors, line styles (solid or dashed), and stroke widths for publication-ready visuals.
+- **File Conversion Integration:** The implementation leverages integrated libraries to produce high-quality PNG, JPEG, or PDF outputs directly from the generated SVG content.
+- **Data Export:** Exported CSV files include expression details along with the corresponding x and y data points calculated during plot generation, offering an additional layer of utility.
 
 ## Implementation
-- **CLI Changes:** Update the CLI parser in `src/lib/main.js` to recognize and handle the additional styling flags. Validate and pass these parameters to the plot generation functions.
-
-- **SVG Generation Enhancements:**
-  - Modify the `generatePlot`, `generateSVGPlot`, and `generateMultiPlot` functions to incorporate the new styling options. 
-  - For dashed lines, add SVG styling (e.g., `stroke-dasharray`).
-
-- **Error Handling:** Ensure that invalid styling parameters are caught and that fallback defaults are used when necessary.
-
-## Usage Examples
-
-**Single Plot with Custom Styling:**
-```bash
-node src/lib/main.js --plot "sin(x)" --xmin -10 --xmax 10 --points 100 --color "#FF5733" --linestyle dashed --linewidth 3
-```
-
-**Multi-Plot with Styling Options:**
-```bash
-node src/lib/main.js --plots "sin(x),cos(x)" --xmin 0 --xmax 6.28 --points 100 --color "red,green" --linestyle solid,dashed --linewidth 2,3
-```
-
-## Testing & Documentation
-- **Tests:** Add unit tests in `tests/unit/main.test.js` to evaluate the new styling parameters. Ensure that SVG outputs correctly reflect custom colors, line styles, and widths.
-
-- **Documentation:** Update the README.md and CONTRIBUTING.md files to include examples and usage details for the new styling options.
+- **CLI Parser Updates:** Enhance the existing CLI parser to validate and pass new file conversion and CSV export parameters to the plotting functions.
+- **SVG and Conversion Functions:** Update the plotting functions in `src/lib/main.js` so that the same core SVG rendering logic supports optional conversion to different output formats, while preserving caching for performance.
+- **Robust Error Handling:** Validate user inputs for range, file extensions, and CSV export requirements; fallback gracefully to default values if necessary.
 
 ## Future Considerations
-- Further enhancements may include more advanced styling such as marker shapes, grid lines, and even export formats beyond SVG.
-- Modularize styling options into a separate component if the feature set grows further.
+- Further modularization of export functions could be implemented, allowing additional formats or automated optimizations.
+- Enhanced logging and diagnostics may be added to monitor conversion performance and CSV export success.
+- Consider expanding the interactive mode with additional tooltips customization or export options directly via the HTTP API.
