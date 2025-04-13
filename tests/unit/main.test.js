@@ -13,9 +13,9 @@ describe("Main Module Import", () => {
 });
 
 describe("Default Demo Output", () => {
-  test("should terminate without error", () => {
+  test("should terminate without error", async () => {
     process.argv = ["node", "src/lib/main.js"];
-    main();
+    await main();
   });
 });
 
@@ -29,8 +29,8 @@ describe("PNG Output", () => {
   });
 
   test("should generate a valid PNG file", async () => {
-    main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--file", outputFile]);
-    // Wait for the asynchronous PNG generation
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--file", outputFile]);
+    // Wait for the asynchronous PNG generation if needed
     await delay(500);
     expect(fs.existsSync(outputFile)).toBe(true);
 
@@ -42,11 +42,11 @@ describe("PNG Output", () => {
 });
 
 describe("SVG Output with Y-Range Scaling", () => {
-  test("should generate SVG with correctly scaled cy positions", () => {
+  test("should generate SVG with correctly scaled cy positions", async () => {
     let outputContent = "";
     const originalLog = console.log;
     console.log = (msg) => { outputContent += msg; };
-    main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1"]);
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1"]);
     console.log = originalLog;
     expect(outputContent).toContain('<svg');
     
@@ -66,11 +66,11 @@ describe("SVG Output with Y-Range Scaling", () => {
 });
 
 describe("Custom Dimensions Output", () => {
-  test("should generate SVG with custom width, height, and padding", () => {
+  test("should generate SVG with custom width, height, and padding", async () => {
     let outputContent = "";
     const originalLog = console.log;
     console.log = (msg) => { outputContent += msg; };
-    main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--width", "600", "--height", "400", "--padding", "30"]);
+    await main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--width", "600", "--height", "400", "--padding", "30"]);
     console.log = originalLog;
     expect(outputContent).toContain('<svg');
     // Check that the SVG has custom width and height attributes
