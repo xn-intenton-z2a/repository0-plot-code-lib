@@ -41,6 +41,12 @@
 <p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin -10 --xmax 10 --points 100 --interactive --animate [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
 <p class="md-github">For interactive multi-function plotting with a comma-separated list and animation:</p>
 <p class="md-github">$ node src/lib/main.js --plots &quot;tan(x),log(x)&quot; --xmin 1 --xmax 10 --points 50 --interactive --animate [--width 600 --height 400] [--darkmode] [--fallback &quot;Custom fallback message&quot;]</p>
+<p class="md-github"><strong class="md-github">Export Plot Data as CSV:</strong></p>
+<p class="md-github">A new CLI flag <code class="md-github">--export-csv</code> allows users to export the computed data points from a plot to a CSV file. By default, if no filename is specified, the output file is <code class="md-github">output.csv</code>. The CSV includes a header <code class="md-github">expression,x,y</code> followed by the data rows for each evaluated point. This feature works with both single and multi plot modes.</p>
+<p class="md-github">Example:</p>
+<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin 0 --xmax 6.28 --points 100 --export-csv</p>
+<p class="md-github">Or with a custom filename:</p>
+<p class="md-github">$ node src/lib/main.js --plot &quot;sin(x)&quot; --xmin 0 --xmax 6.28 --points 100 --export-csv data_points.csv</p>
 <p class="md-github">Additional flags for logarithmic scaling can be used to transform the axes:</p>
 <p class="md-github">--logscale-x        Apply logarithmic scale to the x-axis (requires positive x values)
 --logscale-y        Apply logarithmic scale to the y-axis (requires positive y values)</p>
@@ -71,7 +77,7 @@ console.log(svg);</p>
 <p class="md-github">For interactive SVG plot generation via the API:</p>
 <p class="md-github">import { generateInteractivePlot } from '@src/lib/main.js';
 // Generates an interactive SVG with tooltips, zoom/pan features, dark mode, and animated transitions if desired
-const svg = generateInteractivePlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;, false, false, 600, 400, true, true);
+const svg = generateInteractivePlot(&quot;sin(x)&quot;, -10, 10, 0.4, &quot;Custom fallback message&quot;, false, false, 600, 400, false, true);
 console.log(svg);</p>
 <p class="md-github">For non-interactive multi-function plotting via the API:</p>
 <p class="md-github">import { generateMultiPlot } from '@src/lib/main.js';
@@ -101,11 +107,13 @@ console.log(svgInteractive);</p>
 <p class="md-github">Interactive SVG plots include tooltips that show data point coordinates on hover, as well as basic zooming and panning functionalities via mouse events. This enhances the user experience for exploring plotted data.</p>
 <p class="md-github"><strong class="md-github">Animated Transitions:</strong></p>
 <p class="md-github">When the --animate flag is used with interactive plots, a smooth drawing animation is applied to the plot lines, adding a dynamic visual effect.</p>
+<p class="md-github"><strong class="md-github">CSV Export:</strong></p>
+<p class="md-github">With the new --export-csv flag, users can export the computed data points (x and y values) to a CSV file. The CSV file starts with a header &quot;expression,x,y&quot; and includes the data points generated from the mathematical expression. If no filename is specified after the flag, the default output filename is output.csv.</p>
 <p class="md-github"><strong class="md-github">Caching:</strong> This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-13T01:55:02.001Z</p>
+    <p>Generated on 2025-04-13T01:56:43.000Z</p>
   </footer>
 </body>
 </html>
