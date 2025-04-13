@@ -6,7 +6,9 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## CLI Usage
 
-Generate plots directly from the command line. The tool now supports scaling for both x and y ranges as well as custom SVG dimensions and padding. Provide the range in the format:
+Generate plots directly from the command line. The tool now supports scaling for both x and y ranges as well as custom SVG dimensions and padding.
+
+Provide the range in the format:
 
   --range "x=start:end,y=min:max"
 
@@ -16,11 +18,11 @@ You can also customize the SVG output dimensions and padding using the following
   --height [number]   Override the default SVG height (default: 300)
   --padding [number]  Override the default padding used for scaling (default: 20)
 
-For example, to create a PNG plot with dynamically scaled y coordinates and custom SVG dimensions, run:
+For example, to create an SVG plot with dynamically scaled y coordinates and custom dimensions, run:
 
-> node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --width 600 --height 400 --padding 30
+> node src/lib/main.js --expression "y=sin(x)" --range "x=-3:3,y=-1:1" --file output.svg
 
-This command computes time series data based on the specified expression and both x and y ranges, renders an SVG plot with y-axis scaling (mapping yMin to the bottom and yMax to the top of the plot), converts it to PNG using sharp, and writes the resulting image to the specified file.
+This command computes time series data based on the specified expression and both x and y ranges, renders an SVG plot featuring a polyline connecting the data points (with circles marking each point), and writes the resulting SVG to the specified file.
 
 If the --file argument is omitted, the SVG content is directly output to the console.
 
