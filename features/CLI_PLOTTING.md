@@ -1,28 +1,42 @@
 # CLI_PLOTTING
 
-This feature enhances the CLI tool to accept and process command line arguments for generating plots from mathematical expressions. It directly aligns with our mission of transforming expressions and ranges into visual plots, offering users a more interactive experience via the command line.
+This update refines the existing CLI plotting feature to provide a more interactive command-line experience while simulating plot generation using dummy SVG output. The feature now fully parses and processes command line arguments and integrates with the mathjs library to compute function values over a specified range.
 
 ## Feature Description
 
-- Parse command line arguments for options like `--expression`, `--range`, and `--file`.
-- If an `--expression` and `--range` are provided, the tool will use the `mathjs` library to evaluate the expression over the specified range, simulating a plot generation by producing dummy SVG content.
-- If a `--file` option is provided, the tool will log a message indicating that the generated plot would be saved to the given file (actual file operations will be simulated through logs, as file creation is not modified in this feature).
-- Provide default behavior when no plotting arguments are provided, maintaining backward compatibility.
+- **Argument Parsing:**
+  - Process command-line arguments: `--expression`, `--range`, and `--file`.
+  - Validate input formats and provide default behaviors if arguments are missing.
+
+- **Plot Simulation:**
+  - When both `--expression` and `--range` options are provided, evaluate the expression over the range using mathjs.
+  - Generate a dummy SVG plot output (simulate plot generation) and log the SVG content for visualization.
+  - If the `--file` option is provided, log a message indicating that the dummy SVG would be saved to the specified filename.
+
+- **Backward Compatibility:**
+  - If no plot-related arguments are provided, log the arguments as currently done to ensure backward compatibility.
 
 ## Implementation Details
 
-- **Source Code:** Update `src/lib/main.js` to include a simple command line argument parser that extracts parameters for `--expression`, `--range`, and `--file`.
-- **Dummy Plot Generation:** Use `mathjs` to perform basic evaluations and generate a placeholder SVG (or similar) output. This allows the feature to stay self-contained and simple.
-- **Testing:** Extend the existing tests in `tests/unit/main.test.js` to cover new argument scenarios ensuring the CLI processes inputs without error and provides appropriate log outputs.
-- **Documentation:** Enhance the `README.md` file to include usage examples and descriptions for the new CLI options. This will help users understand how to utilize the new feature.
+- **Source Code Changes:**
+  - Update `src/lib/main.js` to include a command line parser which extracts `--expression`, `--range`, and `--file` parameters.
+  - Use mathjs to perform basic evaluation of the provided expression across the specified range. The actual SVG content will be a placeholder string.
+  - Log appropriate messages to simulate saving output when `--file` is specified.
 
-## Testing & Documentation
+- **Testing:**
+  - Extend existing tests in `tests/unit/main.test.js` to cover scenarios with valid and missing command line arguments. 
+  - Verify that the dummy SVG generation and file logging behave as expected.
 
-- Ensure that running `npm test` confirms that both default and argument-driven executions complete without errors.
-- Update `README.md` to include examples like:
+- **Documentation:**
+  - Enhance the `README.md` file to include usage examples, such as:
+    ```bash
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
+    ```
+  - Update documentation to detail behavior when arguments are omitted, ensuring clarity for all users.
 
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
-```
+## Testing & Deployment
 
-This new feature is contained within the existing repository structure, updating only the allowed files to provide a refined CLI plotting capability as per our project mission.
+- Ensure `npm test` passes all tests including the new cases.
+- Confirm that running the CLI with appropriate arguments logs the expected dummy SVG output and file saving simulation.
+
+This refinement strengthens the CLI capability in line with our mission of transforming mathematical expressions into visual plots, providing a robust and interactive user experience.
