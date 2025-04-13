@@ -149,7 +149,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
 
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints}" fill="none" stroke="${polylineStroke}" stroke-width="2"${""} ${""}${""}${""} >${""}</polyline>\n  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints}" fill="none" stroke="${polylineStroke}" stroke-width="2" >\n    </polyline>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -359,7 +359,7 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
       });
       const pointsStr = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
       const color = colors[index % colors.length];
-      const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
+      const animationTag = ""; // Non-interactive multi-plot does not support animation
       polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2">${animationTag}</polyline>\n`;
       const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
       circlesGroup += circles + "\n";
@@ -495,7 +495,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
       });
       const pointsStr = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
       const color = colors[index % colors.length];
-      const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
+      const animationTag = ""; // Non-interactive mode: no animation
       polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2">${animationTag}</polyline>\n`;
       const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
       circlesGroup += circles + "\n";

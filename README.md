@@ -132,4 +132,3 @@ Interactive SVG plots include tooltips that show data point coordinates on hover
 When the --animate flag is used with interactive plots, a smooth drawing animation is applied to the plot lines, adding a dynamic visual effect.
 
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.
-
