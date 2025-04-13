@@ -3,3 +3,5 @@ schedule: schedule-3
 featuresWipLimit: 2
 featureDevelopmentIssuesWipLimit: 6
 maintenanceIssuesWipLimit: 2
+attemptsPerBranch: 4
+attemptsPerIssue: 2
