@@ -35,20 +35,31 @@ export function main(args = process.argv.slice(2)) {
 
   // Compute time series data if expression and range are provided
   let dataPoints = [];
+  let xRange = null;
+  let yRange = null; // new y-range support
+
   if (expressionArg && rangeArg) {
     // Expect range format: "x=start:end,y=min:max"
     const rangeParts = rangeArg.split(",");
-    let xRange = null;
     for (const part of rangeParts) {
-      if (part.trim().startsWith("x=")) {
-        const xVals = part.trim().substring(2).split(":");
+      const trimmed = part.trim();
+      if (trimmed.startsWith("x=")) {
+        const xVals = trimmed.substring(2).split(":");
         if (xVals.length === 2) {
           const start = parseFloat(xVals[0]);
           const end = parseFloat(xVals[1]);
           xRange = [start, end];
         }
+      } else if (trimmed.startsWith("y=")) {
+        const yVals = trimmed.substring(2).split(":");
+        if (yVals.length === 2) {
+          const yMin = parseFloat(yVals[0]);
+          const yMax = parseFloat(yVals[1]);
+          yRange = [yMin, yMax];
+        }
       }
     }
+
     if (xRange) {
       // Assume expression format: "y=sin(x)" etc.
       const expr = expressionArg.split('=')[1];
@@ -62,12 +73,33 @@ export function main(args = process.argv.slice(2)) {
     }
   }
 
+  // Define SVG dimensions and padding
+  const svgWidth = 500;
+  const svgHeight = 300;
+  const padding = 20;
+
+  // Compute y coordinate for each data point
+  dataPoints = dataPoints.map(point => {
+    let cy;
+    if (yRange) {
+      const [yMin, yMax] = yRange;
+      // Normalize point.y according to provided y-range
+      const normalY = (point.y - yMin) / (yMax - yMin);
+      // Invert y-axis: yMin -> bottom, yMax -> top
+      cy = padding + (1 - normalY) * (svgHeight - 2 * padding);
+    } else {
+      // Fallback scaling
+      cy = 150 - point.y * 40;
+    }
+    return { ...point, cy };
+  });
+
   // Create an SVG plot using an inlined ejs template
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">
   <rect width="100%" height="100%" fill="white"/>
   <text x="10" y="20" fill="black">Plot: <%= expression %></text>
   <% data.forEach(function(point) { %>
-    <circle cx="<%= 50 + point.x * 40 %>" cy="<%= 150 - point.y * 40 %>" r="3" fill="red"/>
+    <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="red"/>
   <% }) %>
 </svg>`;
 
