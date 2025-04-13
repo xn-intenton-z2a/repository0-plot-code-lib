@@ -8,7 +8,7 @@ import { compile } from "mathjs";
 import sharp from "sharp";
 import ejs from "ejs";
 
-export function main(args = process.argv.slice(2)) {
+export async function main(args = process.argv.slice(2)) {
   // Simple argument parser
   let expressionArg = null;
   let rangeArg = null;
@@ -125,17 +125,13 @@ export function main(args = process.argv.slice(2)) {
       fs.writeFileSync(fileArg, svgContent);
       console.log(`SVG plot written to ${fileArg}`);
     } else if (ext === "png") {
-      // Convert SVG to PNG using sharp
-      sharp(Buffer.from(svgContent))
-        .png()
-        .toBuffer()
-        .then(dataBuffer => {
-          fs.writeFileSync(fileArg, dataBuffer);
-          console.log(`PNG plot written to ${fileArg}`);
-        })
-        .catch(err => {
-          console.error("Error converting SVG to PNG:", err);
-        });
+      try {
+        const dataBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+        fs.writeFileSync(fileArg, dataBuffer);
+        console.log(`PNG plot written to ${fileArg}`);
+      } catch (err) {
+        console.error("Error converting SVG to PNG:", err);
+      }
     } else {
       console.error("Unsupported file extension. Please use .svg or .png");
     }
@@ -146,5 +142,8 @@ export function main(args = process.argv.slice(2)) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  main(args).catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 }
