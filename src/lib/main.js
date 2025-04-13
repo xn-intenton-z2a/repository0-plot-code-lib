@@ -13,6 +13,9 @@ export function main(args = process.argv.slice(2)) {
   let expressionArg = null;
   let rangeArg = null;
   let fileArg = null;
+  let widthArg = null;
+  let heightArg = null;
+  let paddingArg = null;
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--expression" && i + 1 < args.length) {
@@ -24,6 +27,15 @@ export function main(args = process.argv.slice(2)) {
     } else if (args[i] === "--file" && i + 1 < args.length) {
       fileArg = args[i + 1];
       i++;
+    } else if (args[i] === "--width" && i + 1 < args.length) {
+      widthArg = parseInt(args[i + 1], 10);
+      i++;
+    } else if (args[i] === "--height" && i + 1 < args.length) {
+      heightArg = parseInt(args[i + 1], 10);
+      i++;
+    } else if (args[i] === "--padding" && i + 1 < args.length) {
+      paddingArg = parseInt(args[i + 1], 10);
+      i++;
     }
   }
 
@@ -32,6 +44,11 @@ export function main(args = process.argv.slice(2)) {
     console.log(`Run with: ${JSON.stringify(args)}`);
     return;
   }
+
+  // Set default dimensions and allow overrides
+  let svgWidth = widthArg || 500;
+  let svgHeight = heightArg || 300;
+  let padding = paddingArg || 20;
 
   // Compute time series data if expression and range are provided
   let dataPoints = [];
@@ -73,11 +90,6 @@ export function main(args = process.argv.slice(2)) {
     }
   }
 
-  // Define SVG dimensions and padding
-  const svgWidth = 500;
-  const svgHeight = 300;
-  const padding = 20;
-
   // Compute y coordinate for each data point
   dataPoints = dataPoints.map(point => {
     let cy;
@@ -89,13 +101,13 @@ export function main(args = process.argv.slice(2)) {
       cy = padding + (1 - normalY) * (svgHeight - 2 * padding);
     } else {
       // Fallback scaling
-      cy = 150 - point.y * 40;
+      cy = svgHeight / 2 - point.y * 40;
     }
     return { ...point, cy };
   });
 
-  // Create an SVG plot using an inlined ejs template
-  const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="300">
+  // Create an SVG plot using an inlined ejs template with dynamic dimensions
+  const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
   <text x="10" y="20" fill="black">Plot: <%= expression %></text>
   <% data.forEach(function(point) { %>
@@ -103,7 +115,7 @@ export function main(args = process.argv.slice(2)) {
   <% }) %>
 </svg>`;
 
-  const svgContent = ejs.render(svgTemplate, { expression: expressionArg || "N/A", data: dataPoints });
+  const svgContent = ejs.render(svgTemplate, { expression: expressionArg || "N/A", data: dataPoints, svgWidth, svgHeight });
 
   // Process file output if --file is provided
   if (fileArg) {

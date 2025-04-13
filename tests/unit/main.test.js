@@ -64,3 +64,17 @@ describe("SVG Output with Y-Range Scaling", () => {
     expect(Math.min(...cyValues)).toBeLessThan(50);
   });
 });
+
+describe("Custom Dimensions Output", () => {
+  test("should generate SVG with custom width, height, and padding", () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--width", "600", "--height", "400", "--padding", "30"]);
+    console.log = originalLog;
+    expect(outputContent).toContain('<svg');
+    // Check that the SVG has custom width and height attributes
+    expect(outputContent).toContain('width="600"');
+    expect(outputContent).toContain('height="400"');
+  });
+});
