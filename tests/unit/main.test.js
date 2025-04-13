@@ -40,3 +40,27 @@ describe("PNG Output", () => {
     expect(buffer.slice(0, 8).equals(pngHeader)).toBe(true);
   });
 });
+
+describe("SVG Output with Y-Range Scaling", () => {
+  test("should generate SVG with correctly scaled cy positions", () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1"]);
+    console.log = originalLog;
+    expect(outputContent).toContain('<svg');
+    
+    // Extract all cy values from the SVG
+    const regex = /cy=\"([\d.]+)\"/g;
+    let match;
+    const cyValues = [];
+    while ((match = regex.exec(outputContent)) !== null) {
+      cyValues.push(parseFloat(match[1]));
+    }
+
+    expect(cyValues.length).toBeGreaterThan(0);
+    // For y=-1, expected cy ~280 (bottom) and for y=1, expected cy ~20 (top) given padding 20 and svgHeight 300
+    expect(Math.max(...cyValues)).toBeGreaterThan(250);
+    expect(Math.min(...cyValues)).toBeLessThan(50);
+  });
+});
