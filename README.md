@@ -148,3 +148,11 @@ When the --animate flag is used with interactive plots, a smooth drawing animati
 With the new --export-csv flag, users can export the computed data points (x and y values) to a CSV file. The CSV file starts with a header "expression,x,y" and includes the data points generated from the mathematical expression. If no filename is specified after the flag, the default output filename is output.csv.
 
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.
+
+**Note on JSON Import Syntax:**
+
+This version uses the new JSON import syntax:
+
+  import pkg from "../../package.json" with { type: "json" };
+
+This replaces the deprecated 'assert' syntax and future-proofs the project for upcoming Node.js changes.
