@@ -1,30 +1,33 @@
-# CLI_PLOTTING
+# Overview
 
-## Overview
-This update refines the existing CLI plotting functionality by implementing robust command-line parameter parsing and integrating the mathjs library to process mathematical expressions into a dummy SVG plot. It ensures the tool behaves predictably under both valid and fallback input scenarios, aligning with our mission of being the go-to CLI for formula visualisations.
+This feature refines and fully implements the CLI plotting functionality. The tool will now robustly parse command-line inputs for mathematical expressions, range parameters, and an optional file output. It will evaluate the given expression over a defined range using mathjs and generate a dummy SVG plot. If no plotting parameters are provided, the tool will log the input arguments to maintain backward compatibility.
 
-## Source Code Changes
-- Modify `src/lib/main.js` to:
-  - Parse command-line arguments for `--expression`, `--range`, and `--file` using a modern parsing approach.
-  - Evaluate the mathematical expression using mathjs over the provided range. 
-  - Generate a dummy SVG output based on the computed values.
-  - Simulate file-saving operations when the `--file` parameter is passed. 
-  - Maintain backward compatibility by logging input arguments if plotting parameters are absent.
+# Source Code Changes
 
-## Testing
-- Update `tests/unit/main.test.js` to add test cases for:
-  - Valid usage with proper `--expression` and `--range` that results in a dummy SVG output.
-  - Presence of the `--file` parameter triggering a simulated file save log message.
-  - Scenarios where arguments are missing or incomplete, ensuring graceful handling of defaults.
+- Update `src/lib/main.js` to:
+  - Use a modern command-line argument parsing approach (via Node's built-in processing or a lightweight library) to capture options: `--expression`, `--range`, and `--file`.
+  - Validate inputs and, when provided, pass the `expression` and `range` to mathjs for evaluation.
+  - Generate a dummy SVG output that simulates a plot of computed values.
+  - If the `--file` parameter is specified, simulate a file save operation by logging an appropriate message.
+  - Retain backward compatibility by logging the raw input if the new parameters are missing.
 
-## Documentation
-- Update `README.md` to include modern usage examples:
-```bash
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
-```
-- Provide detailed documentation on both the new interactive plotting functionality and the fallback behavior.
+# Testing
 
-## Dependencies
-- Confirm that all required libraries, notably mathjs, are correctly listed in `package.json`.
+- Update `tests/unit/main.test.js` to include:
+  - Test cases for valid input scenarios where a proper `--expression` and `--range` are supplied, expecting a dummy SVG output.
+  - Test cases that confirm the simulation of a file save when a `--file` parameter is provided.
+  - Tests for scenarios with missing or incomplete arguments to ensure graceful fallback behavior.
 
-This refined feature will ensure that the CLI tool meets user needs for both interactive plotting and robust command-line input handling within a single repository setup.
+# Documentation
+
+- Update `README.md` to document new usage examples, clearly explaining the following:
+  - How to pass a mathematical expression (e.g., `y=sin(x)`) and range (e.g., `x=-1:1,y=-1:1`).
+  - The expected dummy SVG output behavior.
+  - Instructions for using the `--file` parameter to simulate saving the plot to a file.
+
+# Dependencies
+
+- Ensure that `mathjs` is correctly referenced in `package.json` for expression evaluation.
+- Validate that no new dependencies are introduced outside of those already allowed.
+
+This updated CLI plotting feature aligns with our mission and provides a clear, maintainable approach to visualizing formulas interactively via the command line.
