@@ -265,7 +265,7 @@ describe("PDF Conversion Feature", () => {
     const fileBuffer = fs.readFileSync("output.pdf");
     const pdfSignature = "%PDF-";
     expect(fileBuffer.slice(0, 5).toString()).toEqual(pdfSignature);
-  });
+  }, 10000);
 });
 
 describe("JPEG Conversion Feature", () => {

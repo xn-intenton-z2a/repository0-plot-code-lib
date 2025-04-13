@@ -581,7 +581,7 @@ function writeOutput(fileName, svg) {
           });
           const page = await browser.newPage();
           const htmlContent = `<html><body>${svg}</body></html>`;
-          await page.setContent(htmlContent, { waitUntil: 'networkidle0' });
+          await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 0 });
           await page.pdf({ path: fileName, printBackground: true });
           await browser.close();
           console.log("PDF file generated successfully.");
