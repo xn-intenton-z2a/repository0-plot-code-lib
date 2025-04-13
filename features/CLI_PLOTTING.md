@@ -1,31 +1,35 @@
 # Overview
 
-This feature refines and enhances the CLI plotting functionality of the repository. The tool processes command-line inputs for mathematical expressions, range parameters, and an optional file output to generate a dummy SVG plot or convert it to PNG using the sharp library. The improvements further enhance input validation, logging, and user feedback while ensuring backward compatibility.
+This feature refines the CLI plotting functionality to improve input validation, error handling, asynchronous file processing, and logging. It builds on the existing plotting logic by enhancing the user experience, ensuring clear error messages, and providing more robust handling of CLI arguments and file output operations. These improvements align with the mission to become the go-to plot library with a straightforward CLI interface for formula visualisations.
 
 # Technical Changes
 
-- Update the source file (`src/lib/main.js`) to:
-  - Use a modern command-line argument parsing technique to capture options: `--expression`, `--range`, and `--file`.
-  - Validate the provided range parameters (especially for x-coordinates) and expression format. Provide clear error messages when inputs are invalid.
-  - Calculate time series data based on the mathematical expression over a defined range using mathjs.
-  - Render an SVG plot via an inlined EJS template that displays the computed data points. The plot visualizes the expression by placing circular markers for each data point.
-  - Check the `--file` parameter to simulate a file save operation. If the provided file extension is `.svg`, write the SVG content directly, or if it is `.png`, convert the SVG using sharp and then write the PNG image. If the file extension is unsupported, a descriptive error message is provided.
-  - Maintain backward compatibility by logging raw input arguments if no new parameters are provided.
+- **Input Validation Enhancements:**
+  - Improve parsing of the `--range` parameter to ensure both x and y ranges are correctly formatted.
+  - Enforce clear error messages when the expression or range is missing or malformed.
+
+- **Asynchronous File Handling:**
+  - Refactor file output (particularly PNG conversion using sharp) to use async/await for clearer logic and error management.
+  - Ensure that the process correctly logs and handles any errors during file writing or conversion operations.
+
+- **Improved Logging and User Feedback:**
+  - Provide detailed console logs during each step of the plotting process (data computation, SVG rendering, file output).
+  - Ensure backward compatibility by logging raw input when no actionable parameters are provided.
+
+- **Code Refactoring:**
+  - Minor refactoring of source code in `src/lib/main.js` to improve clarity and maintainability, without altering the core functionality.
 
 # Testing
 
-- Update and extend tests in `tests/unit/main.test.js` to cover:
-  - Cases where a valid `--expression` and `--range` are provided, ensuring that a dummy SVG output is generated.
-  - Scenarios where the `--file` parameter is supplied, confirming that the file write and conversion operations perform as expected (e.g., valid PNG header).
-  - Situations with missing or incomplete arguments to test graceful fallback behavior.
-  - Cases for unsupported file extensions, ensuring the CLI reports clear error messages.
+- Update `tests/unit/main.test.js` to include additional edge cases, such as:
+  - Missing or partially provided CLI parameters, to verify graceful fallback and error messages.
+  - Validation of asynchronous file writing and proper error reporting during PNG conversion.
+  - Ensuring that the enhanced logging outputs expected messages under various scenarios.
 
 # Documentation
 
-- Update the `README.md` to include detailed usage examples, providing clear instructions for:
-  - Passing a mathematical expression (for example, `y=sin(x)`).
-  - Specifying a valid range (for example, `x=-1:1,y=-1:1`).
-  - Utilizing the `--file` parameter to output plots in either SVG or PNG format.
-  - Understanding error handling in cases of unsupported parameters or malformed input.
+- Update the `README.md` to reflect new usage examples and enhanced error handling. This includes examples with:
+  - Valid and invalid `--range` and `--expression` inputs.
+  - Detailed explanations of the asynchronous file output operations and error handling best practices.
 
-This enhancement aligns with the repository's mission to be the "go-to plot library with a CLI" and achieves focused, maintainable value by refining the current functionality without bloating the feature set.
+This refined CLI plotting feature advances the project’s value by ensuring a robust, user-friendly, and maintainable plotting tool that meets the mission of being the go-to solution for formula visualisations via CLI.
