@@ -123,7 +123,7 @@ If the output file specified with the --file flag ends with .png, .jpg, .jpeg, o
 - JPEG conversion uses the 'sharp' library to produce JPEG images (now supported).
 - PDF conversion uses Puppeteer to produce PDF documents.
 
-This allows seamless generation of PNG, JPEG, and PDF outputs from mathematical plots. The PDF conversion now includes no-sandbox options to improve compatibility in various environments.
+This allows seamless generation of PNG, JPEG, and PDF outputs from mathematical plots. The PDF conversion now includes increased timeout settings to ensure compatibility.
 
 **File Output:** By default, the CLI writes the SVG output to a file named "output.svg". This can be overridden using the --file flag with the desired filename (e.g., output.png, output.jpg, output.pdf).
 
