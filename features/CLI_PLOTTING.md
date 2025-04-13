@@ -1,33 +1,31 @@
 # Overview
 
-This feature refines and fully implements the CLI plotting functionality. The tool will now robustly parse command-line inputs for mathematical expressions, range parameters, and an optional file output. It will evaluate the given expression over a defined range using mathjs and generate a dummy SVG plot. If no plotting parameters are provided, the tool will log the input arguments to maintain backward compatibility.
+This feature refines and enhances the CLI plotting functionality of the repository. The tool processes command-line inputs for mathematical expressions, range parameters, and an optional file output to generate a dummy SVG plot or convert it to PNG using the sharp library. The improvements further enhance input validation, logging, and user feedback while ensuring backward compatibility.
 
-# Source Code Changes
+# Technical Changes
 
-- Update `src/lib/main.js` to:
-  - Use a modern command-line argument parsing approach (via Node's built-in processing or a lightweight library) to capture options: `--expression`, `--range`, and `--file`.
-  - Validate inputs and, when provided, pass the `expression` and `range` to mathjs for evaluation.
-  - Generate a dummy SVG output that simulates a plot of computed values.
-  - If the `--file` parameter is specified, simulate a file save operation by logging an appropriate message.
-  - Retain backward compatibility by logging the raw input if the new parameters are missing.
+- Update the source file (`src/lib/main.js`) to:
+  - Use a modern command-line argument parsing technique to capture options: `--expression`, `--range`, and `--file`.
+  - Validate the provided range parameters (especially for x-coordinates) and expression format. Provide clear error messages when inputs are invalid.
+  - Calculate time series data based on the mathematical expression over a defined range using mathjs.
+  - Render an SVG plot via an inlined EJS template that displays the computed data points. The plot visualizes the expression by placing circular markers for each data point.
+  - Check the `--file` parameter to simulate a file save operation. If the provided file extension is `.svg`, write the SVG content directly, or if it is `.png`, convert the SVG using sharp and then write the PNG image. If the file extension is unsupported, a descriptive error message is provided.
+  - Maintain backward compatibility by logging raw input arguments if no new parameters are provided.
 
 # Testing
 
-- Update `tests/unit/main.test.js` to include:
-  - Test cases for valid input scenarios where a proper `--expression` and `--range` are supplied, expecting a dummy SVG output.
-  - Test cases that confirm the simulation of a file save when a `--file` parameter is provided.
-  - Tests for scenarios with missing or incomplete arguments to ensure graceful fallback behavior.
+- Update and extend tests in `tests/unit/main.test.js` to cover:
+  - Cases where a valid `--expression` and `--range` are provided, ensuring that a dummy SVG output is generated.
+  - Scenarios where the `--file` parameter is supplied, confirming that the file write and conversion operations perform as expected (e.g., valid PNG header).
+  - Situations with missing or incomplete arguments to test graceful fallback behavior.
+  - Cases for unsupported file extensions, ensuring the CLI reports clear error messages.
 
 # Documentation
 
-- Update `README.md` to document new usage examples, clearly explaining the following:
-  - How to pass a mathematical expression (e.g., `y=sin(x)`) and range (e.g., `x=-1:1,y=-1:1`).
-  - The expected dummy SVG output behavior.
-  - Instructions for using the `--file` parameter to simulate saving the plot to a file.
+- Update the `README.md` to include detailed usage examples, providing clear instructions for:
+  - Passing a mathematical expression (for example, `y=sin(x)`).
+  - Specifying a valid range (for example, `x=-1:1,y=-1:1`).
+  - Utilizing the `--file` parameter to output plots in either SVG or PNG format.
+  - Understanding error handling in cases of unsupported parameters or malformed input.
 
-# Dependencies
-
-- Ensure that `mathjs` is correctly referenced in `package.json` for expression evaluation.
-- Validate that no new dependencies are introduced outside of those already allowed.
-
-This updated CLI plotting feature aligns with our mission and provides a clear, maintainable approach to visualizing formulas interactively via the command line.
+This enhancement aligns with the repository's mission to be the "go-to plot library with a CLI" and achieves focused, maintainable value by refining the current functionality without bloating the feature set.
