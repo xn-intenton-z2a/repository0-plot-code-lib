@@ -1,0 +1,174 @@
+<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+    <rect x="0" y="0" width="500" height="300" fill="white" stroke="black"/>
+    <g class="grid">
+<line class="grid-line" x1="20" y1="20" x2="20" y2="280" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="111.99999999999999" y1="20" x2="111.99999999999999" y2="280" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="203.99999999999997" y1="20" x2="203.99999999999997" y2="280" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="295.99999999999994" y1="20" x2="295.99999999999994" y2="280" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="387.99999999999994" y1="20" x2="387.99999999999994" y2="280" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="480" y1="20" x2="480" y2="280" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="20" y1="280" x2="480" y2="280" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="20" y1="228" x2="480" y2="228" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="20" y1="176" x2="480" y2="176" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="20" y1="124" x2="480" y2="124" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="20" y1="72.00000000000003" x2="480" y2="72.00000000000003" stroke="lightgray" stroke-dasharray="2,2" />
+<line class="grid-line" x1="20" y1="20" x2="480" y2="20" stroke="lightgray" stroke-dasharray="2,2" />
+</g>
+    <g class="axes">
+<line class="axis x-axis" x1="20" y1="280" x2="480" y2="280" stroke="black" stroke-width="2" />
+<line class="axis y-axis" x1="20" y1="20" x2="20" y2="280" stroke="black" stroke-width="2" /></g>
+    <g class="ticks">
+<line class="tick-mark" x1="20" y1="280" x2="20" y2="285" stroke="black" />
+<text class="tick-label" x="20" y="295" text-anchor="middle" font-size="10" fill="black">1.00</text>
+<line class="tick-mark" x1="111.99999999999999" y1="280" x2="111.99999999999999" y2="285" stroke="black" />
+<text class="tick-label" x="111.99999999999999" y="295" text-anchor="middle" font-size="10" fill="black">2.80</text>
+<line class="tick-mark" x1="203.99999999999997" y1="280" x2="203.99999999999997" y2="285" stroke="black" />
+<text class="tick-label" x="203.99999999999997" y="295" text-anchor="middle" font-size="10" fill="black">4.60</text>
+<line class="tick-mark" x1="295.99999999999994" y1="280" x2="295.99999999999994" y2="285" stroke="black" />
+<text class="tick-label" x="295.99999999999994" y="295" text-anchor="middle" font-size="10" fill="black">6.40</text>
+<line class="tick-mark" x1="387.99999999999994" y1="280" x2="387.99999999999994" y2="285" stroke="black" />
+<text class="tick-label" x="387.99999999999994" y="295" text-anchor="middle" font-size="10" fill="black">8.20</text>
+<line class="tick-mark" x1="480" y1="280" x2="480" y2="285" stroke="black" />
+<text class="tick-label" x="480" y="295" text-anchor="middle" font-size="10" fill="black">10.00</text>
+<line class="tick-mark" x1="15" y1="280" x2="20" y2="280" stroke="black" />
+<text class="tick-label" x="13" y="283" text-anchor="end" font-size="10" fill="black">-14.77</text>
+<line class="tick-mark" x1="15" y1="228" x2="20" y2="228" stroke="black" />
+<text class="tick-label" x="13" y="231" text-anchor="end" font-size="10" fill="black">2.49</text>
+<line class="tick-mark" x1="15" y1="176" x2="20" y2="176" stroke="black" />
+<text class="tick-label" x="13" y="179" text-anchor="end" font-size="10" fill="black">19.75</text>
+<line class="tick-mark" x1="15" y1="124" x2="20" y2="124" stroke="black" />
+<text class="tick-label" x="13" y="127" text-anchor="end" font-size="10" fill="black">37.00</text>
+<line class="tick-mark" x1="15" y1="72.00000000000003" x2="20" y2="72.00000000000003" stroke="black" />
+<text class="tick-label" x="13" y="75.00000000000003" text-anchor="end" font-size="10" fill="black">54.26</text>
+<line class="tick-mark" x1="15" y1="20" x2="20" y2="20" stroke="black" />
+<text class="tick-label" x="13" y="23" text-anchor="end" font-size="10" fill="black">71.52</text>
+</g>
+    <polyline points="20,230.80769543774318 29.200000000000003,228.1865972593271 38.400000000000006,221.41831959099267 47.60000000000001,137.68714676246336 56.80000000000001,255.54598539681066 66.00000000000003,244.3206135342886 75.20000000000002,240.89759681186985 84.40000000000005,239.1574082784809 93.60000000000005,238.0467852345732 102.80000000000007,237.23219611432296 112.00000000000009,236.5718471429191 121.2000000000001,235.9917495982125 130.4000000000001,235.44507611964073 139.60000000000014,234.8947276674923 148.80000000000015,234.3025805303334 158.00000000000017,233.61807372383294 167.2000000000002,232.7579721557785 176.40000000000018,231.55641000526825 185.6000000000002,229.60349582417146 194.80000000000018,225.49030805291108 204.00000000000017,208.80266045768445 213.20000000000016,280 222.40000000000015,247.42009457872075 231.60000000000016,242.11241965128772 240.80000000000015,239.83385465118442 250.00000000000014,238.5004880516092 259.2000000000001,237.57614211376585 268.4000000000001,236.85770992757048 277.60000000000014,236.2481207902241 286.80000000000007,235.69119491242884 296.0000000000001,235.1469469876705 305.2000000000001,234.57894822193435 314.4000000000001,233.94399902428154 323.6000000000001,233.17729467584613 332.80000000000007,232.16034143602903 342.00000000000006,230.62945078161943 351.20000000000005,227.82252740572076 360.40000000000003,220.16220974722796 369.6000000000001,20 378.80000000000007,253.48356671463432 388.00000000000006,243.85853760461845 397.2000000000001,240.69060202499804 406.40000000000003,239.03461297799416 415.6,237.96114852044346 424.80000000000007,237.16543514057477 434.00000000000006,236.51510981167505 443.20000000000005,235.93987369640354 452.40000000000003,235.39437166587464 461.6,234.84182898399877 470.8,234.24350485741772 480,233.54687749064536" fill="none" stroke="blue" stroke-width="2"></polyline>
+<polyline points="20,235.50054825049193 29.200000000000003,235.00181250784487 38.400000000000006,234.574021166257 47.60000000000001,234.19948155142504 56.80000000000001,233.8663916752215 66.00000000000003,233.56648450635242 75.20000000000002,233.2937435226288 84.40000000000005,233.04365337520488 93.60000000000005,232.81273860279873 102.80000000000007,232.59826695653598 112.00000000000009,232.39805151730667 121.2000000000001,232.21031458141593 130.4000000000001,232.033591530996 139.60000000000014,231.86666137290922 148.80000000000015,231.70849553280394 158.00000000000017,231.55821943350384 167.2000000000002,231.41508320904273 176.40000000000018,231.2784390655927 185.6000000000002,231.14772355728786 194.80000000000018,231.0224435496326 204.00000000000017,230.90216498649687 213.20000000000016,230.78650381446388 222.40000000000015,230.67511858567238 231.60000000000016,230.5677043798874 240.80000000000015,230.46398777316716 250.00000000000014,230.3637226440427 259.2000000000001,230.26668665529215 268.4000000000001,230.17267828477597 277.60000000000014,230.0815143056122 286.80000000000007,229.9930276364825 296.0000000000001,229.90706549868554 305.2000000000001,229.8234878288664 314.4000000000001,229.7421659060044 323.6000000000001,229.66298115886354 332.80000000000007,229.58582412616994 342.00000000000006,229.51059354663022 351.20000000000005,229.43719555980778 360.40000000000003,229.36554300203633 369.6000000000001,229.2955547841214 378.80000000000007,229.22715533968767 388.00000000000006,229.16027413476178 397.2000000000001,229.0948452306101 406.40000000000003,229.03080689303934 415.6,228.96810124235736 424.80000000000007,228.90667393901956 434.00000000000006,228.84647390068227 443.20000000000005,228.78745304697162 452.40000000000003,228.72956606877224 461.6,228.67277021926256 470.8,228.61702512428218 480,228.5622926099243" fill="none" stroke="red" stroke-width="2"></polyline>
+
+    <g class="points">
+<circle cx="20" cy="230.80769543774318" r="3" fill="blue" onmousemove="showTooltip(evt, 1, 1.5574077246549023)" onmouseout="hideTooltip()" />
+<circle cx="29.200000000000003" cy="228.1865972593271" r="3" fill="blue" onmousemove="showTooltip(evt, 1.18, 2.427266361400223)" onmouseout="hideTooltip()" />
+<circle cx="38.400000000000006" cy="221.41831959099267" r="3" fill="blue" onmousemove="showTooltip(evt, 1.3599999999999999, 4.673441202988557)" onmouseout="hideTooltip()" />
+<circle cx="47.60000000000001" cy="137.68714676246336" r="3" fill="blue" onmousemove="showTooltip(evt, 1.5399999999999998, 32.46113891285657)" onmouseout="hideTooltip()" />
+<circle cx="56.80000000000001" cy="255.54598539681066" r="3" fill="blue" onmousemove="showTooltip(evt, 1.7199999999999998, -6.652439337315417)" onmouseout="hideTooltip()" />
+<circle cx="66.00000000000003" cy="244.3206135342886" r="3" fill="blue" onmousemove="showTooltip(evt, 1.8999999999999997, -2.927097514677776)" onmouseout="hideTooltip()" />
+<circle cx="75.20000000000002" cy="240.89759681186985" r="3" fill="blue" onmousemove="showTooltip(evt, 2.0799999999999996, -1.791107766472714)" onmouseout="hideTooltip()" />
+<circle cx="84.40000000000005" cy="239.1574082784809" r="3" fill="blue" onmousemove="showTooltip(evt, 2.26, -1.2135948606996478)" onmouseout="hideTooltip()" />
+<circle cx="93.60000000000005" cy="238.0467852345732" r="3" fill="blue" onmousemove="showTooltip(evt, 2.44, -0.8450146011477924)" onmouseout="hideTooltip()" />
+<circle cx="102.80000000000007" cy="237.23219611432296" r="3" fill="blue" onmousemove="showTooltip(evt, 2.62, -0.5746785307619665)" onmouseout="hideTooltip()" />
+<circle cx="112.00000000000009" cy="236.5718471429191" r="3" fill="blue" onmousemove="showTooltip(evt, 2.8000000000000003, -0.3555298316511756)" onmouseout="hideTooltip()" />
+<circle cx="121.2000000000001" cy="235.9917495982125" r="3" fill="blue" onmousemove="showTooltip(evt, 2.9800000000000004, -0.16301401382602485)" onmouseout="hideTooltip()" />
+<circle cx="130.4000000000001" cy="235.44507611964073" r="3" fill="blue" onmousemove="showTooltip(evt, 3.1600000000000006, 0.01840942568154309)" onmouseout="hideTooltip()" />
+<circle cx="139.60000000000014" cy="234.8947276674923" r="3" fill="blue" onmousemove="showTooltip(evt, 3.3400000000000007, 0.20105247135715723)" onmouseout="hideTooltip()" />
+<circle cx="148.80000000000015" cy="234.3025805303334" r="3" fill="blue" onmousemove="showTooltip(evt, 3.520000000000001, 0.3975671634519706)" onmouseout="hideTooltip()" />
+<circle cx="158.00000000000017" cy="233.61807372383294" r="3" fill="blue" onmousemove="showTooltip(evt, 3.700000000000001, 0.6247330752245651)" onmouseout="hideTooltip()" />
+<circle cx="167.2000000000002" cy="232.7579721557785" r="3" fill="blue" onmousemove="showTooltip(evt, 3.8800000000000012, 0.9101732710979101)" onmouseout="hideTooltip()" />
+<circle cx="176.40000000000018" cy="231.55641000526825" r="3" fill="blue" onmousemove="showTooltip(evt, 4.060000000000001, 1.3089333109981474)" onmouseout="hideTooltip()" />
+<circle cx="185.6000000000002" cy="229.60349582417146" r="3" fill="blue" onmousemove="showTooltip(evt, 4.240000000000001, 1.957043054173051)" onmouseout="hideTooltip()" />
+<circle cx="194.80000000000018" cy="225.49030805291108" r="3" fill="blue" onmousemove="showTooltip(evt, 4.420000000000001, 3.3220784949851985)" onmouseout="hideTooltip()" />
+<circle cx="204.00000000000017" cy="208.80266045768445" r="3" fill="blue" onmousemove="showTooltip(evt, 4.6000000000000005, 8.860174895648116)" onmouseout="hideTooltip()" />
+<circle cx="213.20000000000016" cy="280" r="3" fill="blue" onmousemove="showTooltip(evt, 4.78, -14.76794450261024)" onmouseout="hideTooltip()" />
+<circle cx="222.40000000000015" cy="247.42009457872075" r="3" fill="blue" onmousemove="showTooltip(evt, 4.96, -3.9557161212333543)" onmouseout="hideTooltip()" />
+<circle cx="231.60000000000016" cy="242.11241965128772" r="3" fill="blue" onmousemove="showTooltip(evt, 5.14, -2.1942686048132676)" onmouseout="hideTooltip()" />
+<circle cx="240.80000000000015" cy="239.83385465118442" r="3" fill="blue" onmousemove="showTooltip(evt, 5.319999999999999, -1.4380857723475184)" onmouseout="hideTooltip()" />
+<circle cx="250.00000000000014" cy="238.5004880516092" r="3" fill="blue" onmousemove="showTooltip(evt, 5.499999999999999, -0.9955840522138868)" onmouseout="hideTooltip()" />
+<circle cx="259.2000000000001" cy="237.57614211376585" r="3" fill="blue" onmousemove="showTooltip(evt, 5.679999999999999, -0.688823205178629)" onmouseout="hideTooltip()" />
+<circle cx="268.4000000000001" cy="236.85770992757048" r="3" fill="blue" onmousemove="showTooltip(evt, 5.8599999999999985, -0.4503985451548216)" onmouseout="hideTooltip()" />
+<circle cx="277.60000000000014" cy="236.2481207902241" r="3" fill="blue" onmousemove="showTooltip(evt, 6.039999999999998, -0.24809541116564823)" onmouseout="hideTooltip()" />
+<circle cx="286.80000000000007" cy="235.69119491242884" r="3" fill="blue" onmousemove="showTooltip(evt, 6.219999999999998, -0.06326952832903968)" onmouseout="hideTooltip()" />
+<circle cx="296.0000000000001" cy="235.1469469876705" r="3" fill="blue" onmousemove="showTooltip(evt, 6.399999999999998, 0.1173489474610788)" onmouseout="hideTooltip()" />
+<circle cx="305.2000000000001" cy="234.57894822193435" r="3" fill="blue" onmousemove="showTooltip(evt, 6.579999999999997, 0.30584956758467763)" onmouseout="hideTooltip()" />
+<circle cx="314.4000000000001" cy="233.94399902428154" r="3" fill="blue" onmousemove="showTooltip(evt, 6.759999999999997, 0.5165688943237333)" onmouseout="hideTooltip()" />
+<circle cx="323.6000000000001" cy="233.17729467584613" r="3" fill="blue" onmousemove="showTooltip(evt, 6.939999999999997, 0.7710135407733291)" onmouseout="hideTooltip()" />
+<circle cx="332.80000000000007" cy="232.16034143602903" r="3" fill="blue" onmousemove="showTooltip(evt, 7.1199999999999966, 1.1085077888352632)" onmouseout="hideTooltip()" />
+<circle cx="342.00000000000006" cy="230.62945078161943" r="3" fill="blue" onmousemove="showTooltip(evt, 7.299999999999996, 1.6165614239934862)" onmouseout="hideTooltip()" />
+<circle cx="351.20000000000005" cy="227.82252740572076" r="3" fill="blue" onmousemove="showTooltip(evt, 7.479999999999996, 2.5480894992536287)" onmouseout="hideTooltip()" />
+<circle cx="360.40000000000003" cy="220.16220974722796" r="3" fill="blue" onmousemove="showTooltip(evt, 7.659999999999996, 5.090303877304642)" onmouseout="hideTooltip()" />
+<circle cx="369.6000000000001" cy="20" r="3" fill="blue" onmousemove="showTooltip(evt, 7.839999999999995, 71.51773812315624)" onmouseout="hideTooltip()" />
+<circle cx="378.80000000000007" cy="253.48356671463432" r="3" fill="blue" onmousemove="showTooltip(evt, 8.019999999999996, -5.96798855327034)" onmouseout="hideTooltip()" />
+<circle cx="388.00000000000006" cy="243.85853760461845" r="3" fill="blue" onmousemove="showTooltip(evt, 8.199999999999996, -2.773749295383452)" onmouseout="hideTooltip()" />
+<circle cx="397.2000000000001" cy="240.69060202499804" r="3" fill="blue" onmousemove="showTooltip(evt, 8.379999999999995, -1.72241281845268)" onmouseout="hideTooltip()" />
+<circle cx="406.40000000000003" cy="239.03461297799416" r="3" fill="blue" onmousemove="showTooltip(evt, 8.559999999999995, -1.1728430286775917)" onmouseout="hideTooltip()" />
+<circle cx="415.6" cy="237.96114852044346" r="3" fill="blue" onmousemove="showTooltip(evt, 8.739999999999995, -0.8165945152381243)" onmouseout="hideTooltip()" />
+<circle cx="424.80000000000007" cy="237.16543514057477" r="3" fill="blue" onmousemove="showTooltip(evt, 8.919999999999995, -0.5525226992518778)" onmouseout="hideTooltip()" />
+<circle cx="434.00000000000006" cy="236.51510981167505" r="3" fill="blue" onmousemove="showTooltip(evt, 9.099999999999994, -0.3367005264328799)" onmouseout="hideTooltip()" />
+<circle cx="443.20000000000005" cy="235.93987369640354" r="3" fill="blue" onmousemove="showTooltip(evt, 9.279999999999994, -0.14579806152058314)" onmouseout="hideTooltip()" />
+<circle cx="452.40000000000003" cy="235.39437166587464" r="3" fill="blue" onmousemove="showTooltip(evt, 9.459999999999994, 0.03523661185605286)" onmouseout="hideTooltip()" />
+<circle cx="461.6" cy="234.84182898399877" r="3" fill="blue" onmousemove="showTooltip(evt, 9.639999999999993, 0.21860785218502207)" onmouseout="hideTooltip()" />
+<circle cx="470.8" cy="234.24350485741772" r="3" fill="blue" onmousemove="showTooltip(evt, 9.819999999999993, 0.41717248946776336)" onmouseout="hideTooltip()" />
+<circle cx="480" cy="233.54687749064536" r="3" fill="blue" onmousemove="showTooltip(evt, 9.999999999999993, 0.6483608274590766)" onmouseout="hideTooltip()" />
+<circle cx="20" cy="235.50054825049193" r="3" fill="red" onmousemove="showTooltip(evt, 1, 0)" onmouseout="hideTooltip()" />
+<circle cx="29.200000000000003" cy="235.00181250784487" r="3" fill="red" onmousemove="showTooltip(evt, 1.18, 0.16551443847757333)" onmouseout="hideTooltip()" />
+<circle cx="38.400000000000006" cy="234.574021166257" r="3" fill="red" onmousemove="showTooltip(evt, 1.3599999999999999, 0.30748469974796055)" onmouseout="hideTooltip()" />
+<circle cx="47.60000000000001" cy="234.19948155142504" r="3" fill="red" onmousemove="showTooltip(evt, 1.5399999999999998, 0.43178241642553766)" onmouseout="hideTooltip()" />
+<circle cx="56.80000000000001" cy="233.8663916752215" r="3" fill="red" onmousemove="showTooltip(evt, 1.7199999999999998, 0.5423242908253616)" onmouseout="hideTooltip()" />
+<circle cx="66.00000000000003" cy="233.56648450635242" r="3" fill="red" onmousemove="showTooltip(evt, 1.8999999999999997, 0.6418538861723946)" onmouseout="hideTooltip()" />
+<circle cx="75.20000000000002" cy="233.2937435226288" r="3" fill="red" onmousemove="showTooltip(evt, 2.0799999999999996, 0.7323678937132264)" onmouseout="hideTooltip()" />
+<circle cx="84.40000000000005" cy="233.04365337520488" r="3" fill="red" onmousemove="showTooltip(evt, 2.26, 0.8153648132841944)" onmouseout="hideTooltip()" />
+<circle cx="93.60000000000005" cy="232.81273860279873" r="3" fill="red" onmousemove="showTooltip(evt, 2.44, 0.8919980393051105)" onmouseout="hideTooltip()" />
+<circle cx="102.80000000000007" cy="232.59826695653598" r="3" fill="red" onmousemove="showTooltip(evt, 2.62, 0.9631743177730056)" onmouseout="hideTooltip()" />
+<circle cx="112.00000000000009" cy="232.39805151730667" r="3" fill="red" onmousemove="showTooltip(evt, 2.8000000000000003, 1.0296194171811583)" onmouseout="hideTooltip()" />
+<circle cx="121.2000000000001" cy="232.21031458141593" r="3" fill="red" onmousemove="showTooltip(evt, 2.9800000000000004, 1.0919233005173132)" onmouseout="hideTooltip()" />
+<circle cx="130.4000000000001" cy="232.033591530996" r="3" fill="red" onmousemove="showTooltip(evt, 3.1600000000000006, 1.150572027598821)" onmouseout="hideTooltip()" />
+<circle cx="139.60000000000014" cy="231.86666137290922" r="3" fill="red" onmousemove="showTooltip(evt, 3.3400000000000007, 1.2059708069886093)" onmouseout="hideTooltip()" />
+<circle cx="148.80000000000015" cy="231.70849553280394" r="3" fill="red" onmousemove="showTooltip(evt, 3.520000000000001, 1.258460989610006)" onmouseout="hideTooltip()" />
+<circle cx="158.00000000000017" cy="231.55821943350384" r="3" fill="red" onmousemove="showTooltip(evt, 3.700000000000001, 1.3083328196501791)" onmouseout="hideTooltip()" />
+<circle cx="167.2000000000002" cy="231.41508320904273" r="3" fill="red" onmousemove="showTooltip(evt, 3.8800000000000012, 1.3558351536351825)" onmouseout="hideTooltip()" />
+<circle cx="176.40000000000018" cy="231.2784390655927" r="3" fill="red" onmousemove="showTooltip(evt, 4.060000000000001, 1.4011829736136416)" onmouseout="hideTooltip()" />
+<circle cx="185.6000000000002" cy="231.14772355728786" r="3" fill="red" onmousemove="showTooltip(evt, 4.240000000000001, 1.4445632692438666)" onmouseout="hideTooltip()" />
+<circle cx="194.80000000000018" cy="231.0224435496326" r="3" fill="red" onmousemove="showTooltip(evt, 4.420000000000001, 1.486139696089607)" onmouseout="hideTooltip()" />
+<circle cx="204.00000000000017" cy="230.90216498649687" r="3" fill="red" onmousemove="showTooltip(evt, 4.6000000000000005, 1.5260563034950494)" onmouseout="hideTooltip()" />
+<circle cx="213.20000000000016" cy="230.78650381446388" r="3" fill="red" onmousemove="showTooltip(evt, 4.78, 1.5644405465033646)" onmouseout="hideTooltip()" />
+<circle cx="222.40000000000015" cy="230.67511858567238" r="3" fill="red" onmousemove="showTooltip(evt, 4.96, 1.601405740736836)" onmouseout="hideTooltip()" />
+<circle cx="231.60000000000016" cy="230.5677043798874" r="3" fill="red" onmousemove="showTooltip(evt, 5.14, 1.6370530794670737)" onmouseout="hideTooltip()" />
+<circle cx="240.80000000000015" cy="230.46398777316716" r="3" fill="red" onmousemove="showTooltip(evt, 5.319999999999999, 1.671473303353553)" onmouseout="hideTooltip()" />
+<circle cx="250.00000000000014" cy="230.3637226440427" r="3" fill="red" onmousemove="showTooltip(evt, 5.499999999999999, 1.704748092238425)" onmouseout="hideTooltip()" />
+<circle cx="259.2000000000001" cy="230.26668665529215" r="3" fill="red" onmousemove="showTooltip(evt, 5.679999999999999, 1.7369512327330598)" onmouseout="hideTooltip()" />
+<circle cx="268.4000000000001" cy="230.17267828477597" r="3" fill="red" onmousemove="showTooltip(evt, 5.8599999999999985, 1.768149603588921)" onmouseout="hideTooltip()" />
+<circle cx="277.60000000000014" cy="230.0815143056122" r="3" fill="red" onmousemove="showTooltip(evt, 6.039999999999998, 1.7984040119467233)" onmouseout="hideTooltip()" />
+<circle cx="286.80000000000007" cy="229.9930276364825" r="3" fill="red" onmousemove="showTooltip(evt, 6.219999999999998, 1.8277699067510877)" onmouseout="hideTooltip()" />
+<circle cx="296.0000000000001" cy="229.90706549868554" r="3" fill="red" onmousemove="showTooltip(evt, 6.399999999999998, 1.8562979903656258)" onmouseout="hideTooltip()" />
+<circle cx="305.2000000000001" cy="229.8234878288664" r="3" fill="red" onmousemove="showTooltip(evt, 6.579999999999997, 1.8840347453372255)" onmouseout="hideTooltip()" />
+<circle cx="314.4000000000001" cy="229.7421659060044" r="3" fill="red" onmousemove="showTooltip(evt, 6.759999999999997, 1.9110228900548722)" onmouseout="hideTooltip()" />
+<circle cx="323.6000000000001" cy="229.66298115886354" r="3" fill="red" onmousemove="showTooltip(evt, 6.939999999999997, 1.9373017745187127)" onmouseout="hideTooltip()" />
+<circle cx="332.80000000000007" cy="229.58582412616994" r="3" fill="red" onmousemove="showTooltip(evt, 7.1199999999999966, 1.962907725423884)" onmouseout="hideTooltip()" />
+<circle cx="342.00000000000006" cy="229.51059354663022" r="3" fill="red" onmousemove="showTooltip(evt, 7.299999999999996, 1.987874348154345)" onmouseout="hideTooltip()" />
+<circle cx="351.20000000000005" cy="229.43719555980778" r="3" fill="red" onmousemove="showTooltip(evt, 7.479999999999996, 2.0122327919863854)" onmouseout="hideTooltip()" />
+<circle cx="360.40000000000003" cy="229.36554300203633" r="3" fill="red" onmousemove="showTooltip(evt, 7.659999999999996, 2.0360119837524993)" onmouseout="hideTooltip()" />
+<circle cx="369.6000000000001" cy="229.2955547841214" r="3" fill="red" onmousemove="showTooltip(evt, 7.839999999999995, 2.059238834362316)" onmouseout="hideTooltip()" />
+<circle cx="378.80000000000007" cy="229.22715533968767" r="3" fill="red" onmousemove="showTooltip(evt, 8.019999999999996, 2.0819384218784225)" onmouseout="hideTooltip()" />
+<circle cx="388.00000000000006" cy="229.16027413476178" r="3" fill="red" onmousemove="showTooltip(evt, 8.199999999999996, 2.104134154270207)" onmouseout="hideTooltip()" />
+<circle cx="397.2000000000001" cy="229.0948452306101" r="3" fill="red" onmousemove="showTooltip(evt, 8.379999999999995, 2.125847914493991)" onmouseout="hideTooltip()" />
+<circle cx="406.40000000000003" cy="229.03080689303934" r="3" fill="red" onmousemove="showTooltip(evt, 8.559999999999995, 2.14710019015365)" onmouseout="hideTooltip()" />
+<circle cx="415.6" cy="228.96810124235736" r="3" fill="red" onmousemove="showTooltip(evt, 8.739999999999995, 2.1679101896674435)" onmouseout="hideTooltip()" />
+<circle cx="424.80000000000007" cy="228.90667393901956" r="3" fill="red" onmousemove="showTooltip(evt, 8.919999999999995, 2.1882959465919174)" onmouseout="hideTooltip()" />
+<circle cx="434.00000000000006" cy="228.84647390068227" r="3" fill="red" onmousemove="showTooltip(evt, 9.099999999999994, 2.208274413522804)" onmouseout="hideTooltip()" />
+<circle cx="443.20000000000005" cy="228.78745304697162" r="3" fill="red" onmousemove="showTooltip(evt, 9.279999999999994, 2.2278615467981084)" onmouseout="hideTooltip()" />
+<circle cx="452.40000000000003" cy="228.72956606877224" r="3" fill="red" onmousemove="showTooltip(evt, 9.459999999999994, 2.247072383063786)" onmouseout="hideTooltip()" />
+<circle cx="461.6" cy="228.67277021926256" r="3" fill="red" onmousemove="showTooltip(evt, 9.639999999999993, 2.2659211086224538)" onmouseout="hideTooltip()" />
+<circle cx="470.8" cy="228.61702512428218" r="3" fill="red" onmousemove="showTooltip(evt, 9.819999999999993, 2.284421122366374)" onmouseout="hideTooltip()" />
+<circle cx="480" cy="228.5622926099243" r="3" fill="red" onmousemove="showTooltip(evt, 9.999999999999993, 2.302585092994045)" onmouseout="hideTooltip()" />
+</g>
+    <g class="legend">
+<g class="legend">
+<rect x="390" y="8" width="10" height="10" fill="blue" />
+<text x="405" y="18" font-size="10" fill="black">tan(x)</text><rect x="390" y="23" width="10" height="10" fill="red" />
+<text x="405" y="33" font-size="10" fill="black">log(x)</text>
+</g>
+</g>
+    <text id="svg-tooltip" style="display:none; fill:black; font-size:12px; pointer-events:none;"></text>
+    <script type="application/ecmascript"><![CDATA[
+      function showTooltip(evt, x, y) {
+        var tooltip = document.getElementById('svg-tooltip');
+        tooltip.setAttribute('x', evt.offsetX + 10);
+        tooltip.setAttribute('y', evt.offsetY + 10);
+        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);
+        tooltip.style.display = 'block';
+      }
+      function hideTooltip() {
+        var tooltip = document.getElementById('svg-tooltip');
+        tooltip.style.display = 'none';
+      }
+    ]]></script>
+  </svg>

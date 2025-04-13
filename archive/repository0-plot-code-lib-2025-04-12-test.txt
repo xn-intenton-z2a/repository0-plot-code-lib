@@ -1,1 +1,1 @@
-npm run start -- --plot --start 0 --end 1 --expr "sin(x)"
+node src/lib/main.js --plot "sin(x),sin(y),cos(x)" --xmin -10 --xmax 10 --points 10000 --width 600 --height 400 > output.png
