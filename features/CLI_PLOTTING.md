@@ -1,42 +1,27 @@
 # CLI_PLOTTING
 
-This update refines the existing CLI plotting feature to provide a more interactive command-line experience while simulating plot generation using dummy SVG output. The feature now fully parses and processes command line arguments and integrates with the mathjs library to compute function values over a specified range.
+This feature refines and extends the existing CLI plotting functionality to provide a fully interactive command-line experience. The implementation leverages mathjs to evaluate mathematical expressions over specified ranges and generates a dummy SVG output. Furthermore, it simulates file-saving actions when indicated by the command line parameters.
 
-## Feature Description
+# Source Code Changes
+- Update `src/lib/main.js` to include robust command-line argument parsing for `--expression`, `--range`, and `--file`.
+- Use mathjs to compute function values over the specified range. Manipulate these computed values to generate a dummy SVG string that simulates a plot.
+- When the `--file` option is provided, log a message indicating that the generated SVG plot would be saved to the given filename.
+- Maintain backward compatibility by logging input arguments when no plotting parameters are provided.
 
-- **Argument Parsing:**
-  - Process command-line arguments: `--expression`, `--range`, and `--file`.
-  - Validate input formats and provide default behaviors if arguments are missing.
+# Testing
+- Enhance `tests/unit/main.test.js` by adding tests for:
+  - Valid command usage with proper `--expression` and `--range` inputs that trigger dummy SVG generation.
+  - Scenario where `--file` is provided and a file-saving simulation is logged.
+  - Cases ensuring no error is thrown when arguments are missing or incomplete.
 
-- **Plot Simulation:**
-  - When both `--expression` and `--range` options are provided, evaluate the expression over the range using mathjs.
-  - Generate a dummy SVG plot output (simulate plot generation) and log the SVG content for visualization.
-  - If the `--file` option is provided, log a message indicating that the dummy SVG would be saved to the specified filename.
+# Documentation
+- Update `README.md` to include clear usage examples with the new CLI options:
+  ```bash
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
+  ```
+- Document the behavior for both complete and fallback argument schemes, ensuring users know what output to expect in each case.
 
-- **Backward Compatibility:**
-  - If no plot-related arguments are provided, log the arguments as currently done to ensure backward compatibility.
+# Dependencies
+- Confirm that all necessary libraries, notably mathjs, are listed in the dependencies within `package.json`.
 
-## Implementation Details
-
-- **Source Code Changes:**
-  - Update `src/lib/main.js` to include a command line parser which extracts `--expression`, `--range`, and `--file` parameters.
-  - Use mathjs to perform basic evaluation of the provided expression across the specified range. The actual SVG content will be a placeholder string.
-  - Log appropriate messages to simulate saving output when `--file` is specified.
-
-- **Testing:**
-  - Extend existing tests in `tests/unit/main.test.js` to cover scenarios with valid and missing command line arguments. 
-  - Verify that the dummy SVG generation and file logging behave as expected.
-
-- **Documentation:**
-  - Enhance the `README.md` file to include usage examples, such as:
-    ```bash
-    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
-    ```
-  - Update documentation to detail behavior when arguments are omitted, ensuring clarity for all users.
-
-## Testing & Deployment
-
-- Ensure `npm test` passes all tests including the new cases.
-- Confirm that running the CLI with appropriate arguments logs the expected dummy SVG output and file saving simulation.
-
-This refinement strengthens the CLI capability in line with our mission of transforming mathematical expressions into visual plots, providing a robust and interactive user experience.
+This extension aligns with our mission of providing a robust CLI tool for converting mathematical expressions into visual plots, enhancing usability and interactivity in a single repository setup.
