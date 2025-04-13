@@ -36,6 +36,18 @@ For interactive multi-function plotting with a comma-separated list and animatio
 
   $ node src/lib/main.js --plots "tan(x),log(x)" --xmin 1 --xmax 10 --points 50 --interactive --animate [--width 600 --height 400] [--darkmode] [--fallback "Custom fallback message"]
 
+**Export Plot Data as CSV:**
+
+A new CLI flag `--export-csv` allows users to export the computed data points from a plot to a CSV file. By default, if no filename is specified, the output file is `output.csv`. The CSV includes a header `expression,x,y` followed by the data rows for each evaluated point. This feature works with both single and multi plot modes.
+
+Example:
+
+  $ node src/lib/main.js --plot "sin(x)" --xmin 0 --xmax 6.28 --points 100 --export-csv
+
+Or with a custom filename:
+
+  $ node src/lib/main.js --plot "sin(x)" --xmin 0 --xmax 6.28 --points 100 --export-csv data_points.csv
+
 Additional flags for logarithmic scaling can be used to transform the axes:
 
   --logscale-x        Apply logarithmic scale to the x-axis (requires positive x values)
@@ -84,7 +96,7 @@ For interactive SVG plot generation via the API:
 
   import { generateInteractivePlot } from '@src/lib/main.js';
   // Generates an interactive SVG with tooltips, zoom/pan features, dark mode, and animated transitions if desired
-  const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400, true, true);
+  const svg = generateInteractivePlot("sin(x)", -10, 10, 0.4, "Custom fallback message", false, false, 600, 400, false, true);
   console.log(svg);
 
 For non-interactive multi-function plotting via the API:
@@ -130,5 +142,9 @@ Interactive SVG plots include tooltips that show data point coordinates on hover
 **Animated Transitions:**
 
 When the --animate flag is used with interactive plots, a smooth drawing animation is applied to the plot lines, adding a dynamic visual effect.
+
+**CSV Export:**
+
+With the new --export-csv flag, users can export the computed data points (x and y values) to a CSV file. The CSV file starts with a header "expression,x,y" and includes the data points generated from the mathematical expression. If no filename is specified after the flag, the default output filename is output.csv.
 
 **Caching:** This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.

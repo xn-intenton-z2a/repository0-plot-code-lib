@@ -9,6 +9,34 @@ import fs from "fs";
 const svgCache = new Map();
 
 /**
+ * Computes data points for the given mathematical expression over a range and step.
+ * Applies logarithmic scaling filters if specified.
+ * 
+ * @param {string} expression - The mathematical expression to evaluate.
+ * @param {number} start - The starting value of x.
+ * @param {number} end - The ending value of x.
+ * @param {number} step - Increment step for x.
+ * @param {boolean} [logScaleX=false] - Apply logarithmic scale on x-axis.
+ * @param {boolean} [logScaleY=false] - Apply logarithmic scale on y-axis.
+ * @returns {Array<{x: number, y: number}>} - Array of computed data points.
+ */
+function computeDataPoints(expression, start, end, step, logScaleX = false, logScaleY = false) {
+  let points = [];
+  const compiled = compile(expression);
+  for (let x = start; x <= end; x += step) {
+    try {
+      const y = compiled.evaluate({ x });
+      if (Number.isFinite(y)) {
+        if (logScaleX && x <= 0) continue;
+        if (logScaleY && y <= 0) continue;
+        points.push({ x, y });
+      }
+    } catch (_err) {}
+  }
+  return points;
+}
+
+/**
  * Helper function to create a fallback SVG when no valid data points are generated.
  * This ensures consistency in the output and prioritizes a custom fallback message if provided.
  * 
@@ -52,19 +80,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
     return svgCache.get(cacheKey);
   }
 
-  let points = [];
-  const margin = 20;
-  const compiled = compile(expression);
-  for (let x = start; x <= end; x += step) {
-    try {
-      const y = compiled.evaluate({ x });
-      if (Number.isFinite(y)) {
-        if (logScaleX && x <= 0) continue;
-        if (logScaleY && y <= 0) continue;
-        points.push({ x, y });
-      }
-    } catch (_err) {}
-  }
+  const points = computeDataPoints(expression, start, end, step, logScaleX, logScaleY);
 
   if (points.length === 0) {
     const fallbackSVG = createFallbackSVG(fallbackMessage, svgWidth, svgHeight, darkMode);
@@ -72,6 +88,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
     return fallbackSVG;
   }
 
+  const margin = 20;
   const transformedXValues = points.map(p => logScaleX ? Math.log10(p.x) : p.x);
   const transformedYValues = points.map(p => logScaleY ? Math.log10(p.y) : p.y);
   const minXTrans = Math.min(...transformedXValues);
@@ -178,26 +195,15 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
     return svgCache.get(cacheKey);
   }
 
-  let points = [];
-  const margin = 20;
-  const compiled = compile(expression);
-  for (let x = start; x <= end; x += step) {
-    try {
-      const y = compiled.evaluate({ x });
-      if (Number.isFinite(y)) {
-        if (logScaleX && x <= 0) continue;
-        if (logScaleY && y <= 0) continue;
-        points.push({ x, y });
-      }
-    } catch (_err) {}
-  }
-  
+  const points = computeDataPoints(expression, start, end, step, logScaleX, logScaleY);
+
   if (points.length === 0) {
     const fallbackSVG = createFallbackSVG(fallbackMessage, svgWidth, svgHeight, darkMode);
     svgCache.set(cacheKey, fallbackSVG);
     return fallbackSVG;
   }
 
+  const margin = 20;
   const transformedXValues = points.map(p => logScaleX ? Math.log10(p.x) : p.x);
   const transformedYValues = points.map(p => logScaleY ? Math.log10(p.y) : p.y);
   const minXTrans = Math.min(...transformedXValues);
@@ -315,19 +321,8 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
   let allValidPoints = [];
 
   expressions.forEach(expr => {
-    let points = [];
-    const compiled = compile(expr);
-    for (let x = start; x <= end; x += step) {
-      try {
-        const y = compiled.evaluate({ x });
-        if (Number.isFinite(y)) {
-          if (logScaleX && x <= 0) return;
-          if (logScaleY && y <= 0) return;
-          points.push({ x, y });
-          allValidPoints.push({ x, y });
-        }
-      } catch (_err) {}
-    }
+    const points = computeDataPoints(expr, start, end, step, logScaleX, logScaleY);
+    allValidPoints = allValidPoints.concat(points);
     series.push({ expression: expr, points });
   });
 
@@ -359,7 +354,7 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
       });
       const pointsStr = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
       const color = colors[index % colors.length];
-      const animationTag = ""; // Non-interactive multi-plot does not support animation
+      const animationTag = "";
       polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2">${animationTag}</polyline>\n`;
       const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
       circlesGroup += circles + "\n";
@@ -451,19 +446,8 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   let allValidPoints = [];
 
   expressions.forEach(expr => {
-    let points = [];
-    const compiled = compile(expr);
-    for (let x = start; x <= end; x += step) {
-      try {
-        const y = compiled.evaluate({ x });
-        if (Number.isFinite(y)) {
-          if (logScaleX && x <= 0) continue;
-          if (logScaleY && y <= 0) continue;
-          points.push({ x, y });
-          allValidPoints.push({ x, y });
-        }
-      } catch (_err) {}
-    }
+    const points = computeDataPoints(expr, start, end, step, logScaleX, logScaleY);
+    allValidPoints = allValidPoints.concat(points);
     series.push({ expression: expr, points });
   });
 
@@ -632,8 +616,28 @@ function writeOutput(fileName, svg) {
   });
 }
 
+// Export CSV helper integrated into CLI
+// This function computes data points for each expression and writes them as CSV.
+
+async function exportCSVFile(args, exprArray, xmin, xmax, step, logScaleX, logScaleY) {
+  let csvContent = "expression,x,y\n";
+  exprArray.forEach(expr => {
+    const points = computeDataPoints(expr, xmin, xmax, step, logScaleX, logScaleY);
+    points.forEach(({ x, y }) => {
+      csvContent += `${expr},${x},${y}\n`;
+    });
+  });
+  let csvFilename = "output.csv";
+  const idx = args.indexOf("--export-csv");
+  if (idx !== -1 && args.length > idx + 1 && !args[idx + 1].startsWith("--")) {
+    csvFilename = args[idx + 1];
+  }
+  fs.writeFileSync(csvFilename, csvContent, "utf-8");
+  console.log(`CSV file generated successfully at ${csvFilename}.`);
+}
+
 function showHelp() {
-  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --animate           (optional) enable animated transitions for interactive plots\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf, output.jpg)\n`);
+  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --animate           (optional) enable animated transitions for interactive plots\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf, output.jpg)\n  --export-csv        (optional) export computed plot data to a CSV file (default name is output.csv, override by providing a filename)\n`);
 }
 
 function showVersion() {
@@ -703,6 +707,9 @@ async function handlePlot(args) {
       svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
     }
     await writeOutput(fileName, svg);
+    if (args.includes("--export-csv")) {
+      await exportCSVFile(args, expressions, xmin, xmax, step, logScaleX, logScaleY);
+    }
     return;
   }
 
@@ -735,6 +742,9 @@ async function handlePlot(args) {
         svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
       }
       await writeOutput(fileName, svg);
+      if (args.includes("--export-csv")) {
+        await exportCSVFile(args, expressions, xmin, xmax, step, logScaleX, logScaleY);
+      }
       return;
     } else {
       const expression = nextArg;
@@ -762,6 +772,9 @@ async function handlePlot(args) {
         svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
       }
       await writeOutput(fileName, svg);
+      if (args.includes("--export-csv")) {
+        await exportCSVFile(args, [expression], xmin, xmax, step, logScaleX, logScaleY);
+      }
     }
   } else {
     const exprIdx = args.indexOf("--expr");
@@ -798,6 +811,9 @@ async function handlePlot(args) {
       svg = generatePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
     }
     await writeOutput(fileName, svg);
+    if (args.includes("--export-csv")) {
+      await exportCSVFile(args, [expression], start, end, step, logScaleX, logScaleY);
+    }
   }
 }
 

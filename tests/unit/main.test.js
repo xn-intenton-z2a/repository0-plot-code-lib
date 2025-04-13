@@ -13,7 +13,8 @@ afterEach(() => {
     "output.pdf",
     "darkmode.svg",
     "darkmode_interactive.svg",
-    "test_output.jpg"
+    "test_output.jpg",
+    "test_output.csv"
   ];
   files.forEach(file => {
     if (fs.existsSync(file)) {
@@ -328,5 +329,18 @@ describe("Interactive Plot Features", () => {
   it("should include animation elements in interactive SVG when --animate flag is specified", () => {
     const svg = mainModule.generateInteractivePlot("sin(x)", 0, 6.28, 0.1, "", false, false, 500, 300, false, true);
     expect(svg).toContain("<animate");
+  });
+});
+
+describe("CSV Export Feature", () => {
+  it("should generate a CSV file with header and data points when --export-csv flag is used", async () => {
+    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--export-csv", "test_output.csv"];
+    await mainModule.main(args);
+    expect(fs.existsSync("test_output.csv")).toBe(true);
+    const csvContent = fs.readFileSync("test_output.csv", "utf-8");
+    expect(csvContent.split("\n")[0]).toBe("expression,x,y");
+    // Verify that there are at least 100 data rows
+    const rows = csvContent.split("\n");
+    expect(rows.length).toBeGreaterThanOrEqual(101);
   });
 });
