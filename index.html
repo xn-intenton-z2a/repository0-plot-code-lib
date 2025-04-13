@@ -26,11 +26,15 @@
 <p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="cli-usage" href="#cli-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage</h2>
-<p class="md-github">Generate plots directly from the command line. The tool now supports scaling for both x and y ranges. Provide the range in the format:</p>
+<p class="md-github">Generate plots directly from the command line. The tool now supports scaling for both x and y ranges as well as custom SVG dimensions and padding. Provide the range in the format:</p>
 <p class="md-github">--range &quot;x=start:end,y=min:max&quot;</p>
-<p class="md-github">For example, to create a PNG plot with dynamically scaled y coordinates, run:</p>
+<p class="md-github">You can also customize the SVG output dimensions and padding using the following options:</p>
+<p class="md-github">--width [number]    Override the default SVG width (default: 500)
+--height [number]   Override the default SVG height (default: 300)
+--padding [number]  Override the default padding used for scaling (default: 20)</p>
+<p class="md-github">For example, to create a PNG plot with dynamically scaled y coordinates and custom SVG dimensions, run:</p>
 <blockquote class="md-github">
-<p class="md-github">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-1:1,y=-1:1&quot; --file output.png</p>
+<p class="md-github">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-1:1,y=-1:1&quot; --width 600 --height 400 --padding 30</p>
 </blockquote>
 <p class="md-github">This command computes time series data based on the specified expression and both x and y ranges, renders an SVG plot with y-axis scaling (mapping yMin to the bottom and yMax to the top of the plot), converts it to PNG using sharp, and writes the resulting image to the specified file.</p>
 <p class="md-github">If the --file argument is omitted, the SVG content is directly output to the console.</p>
@@ -40,7 +44,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-13T23:11:20.418Z</p>
+    <p>Generated on 2025-04-13T23:19:51.517Z</p>
   </footer>
 </body>
 </html>
