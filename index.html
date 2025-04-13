@@ -110,10 +110,14 @@ console.log(svgInteractive);</p>
 <p class="md-github"><strong class="md-github">CSV Export:</strong></p>
 <p class="md-github">With the new --export-csv flag, users can export the computed data points (x and y values) to a CSV file. The CSV file starts with a header &quot;expression,x,y&quot; and includes the data points generated from the mathematical expression. If no filename is specified after the flag, the default output filename is output.csv.</p>
 <p class="md-github"><strong class="md-github">Caching:</strong> This version also implements an in-memory caching layer. Identical plotting requests will return cached SVG output to improve performance.</p>
+<p class="md-github"><strong class="md-github">Note on JSON Import Syntax:</strong></p>
+<p class="md-github">This version uses the new JSON import syntax:</p>
+<p class="md-github">import pkg from &quot;../../package.json&quot; with { type: &quot;json&quot; };</p>
+<p class="md-github">This replaces the deprecated 'assert' syntax and future-proofs the project for upcoming Node.js changes.</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-13T12:03:41.256Z</p>
+    <p>Generated on 2025-04-13T12:04:18.815Z</p>
   </footer>
 </body>
 </html>
