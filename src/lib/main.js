@@ -39,9 +39,9 @@ export async function main(args = process.argv.slice(2)) {
     }
   }
 
-  // If no actionable arguments provided, print args and exit
-  if (!expressionArg && !rangeArg && !fileArg) {
-    console.log(`Run with: ${JSON.stringify(args)}`);
+  // Check if required parameters are provided
+  if (!expressionArg || !rangeArg) {
+    console.log(`Usage: node src/lib/main.js --expression <expression> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>]`);
     return;
   }
 
@@ -55,42 +55,62 @@ export async function main(args = process.argv.slice(2)) {
   let xRange = null;
   let yRange = null; // new y-range support
 
-  if (expressionArg && rangeArg) {
-    // Expect range format: "x=start:end,y=min:max"
-    const rangeParts = rangeArg.split(",");
-    for (const part of rangeParts) {
-      const trimmed = part.trim();
-      if (trimmed.startsWith("x=")) {
-        const xVals = trimmed.substring(2).split(":");
-        if (xVals.length === 2) {
-          const start = parseFloat(xVals[0]);
-          const end = parseFloat(xVals[1]);
-          xRange = [start, end];
-        }
-      } else if (trimmed.startsWith("y=")) {
-        const yVals = trimmed.substring(2).split(":");
-        if (yVals.length === 2) {
-          const yMin = parseFloat(yVals[0]);
-          const yMax = parseFloat(yVals[1]);
-          yRange = [yMin, yMax];
-        }
+  // Expected range format: "x=start:end,y=min:max"
+  const rangeParts = rangeArg.split(",");
+  for (const part of rangeParts) {
+    const trimmed = part.trim();
+    if (trimmed.startsWith("x=")) {
+      const xVals = trimmed.substring(2).split(":");
+      if (xVals.length === 2) {
+        const start = parseFloat(xVals[0]);
+        const end = parseFloat(xVals[1]);
+        xRange = [start, end];
       }
-    }
-
-    if (xRange) {
-      // Assume expression format: "y=sin(x)" etc.
-      const expr = expressionArg.split('=')[1];
-      const compiled = compile(expr);
-      const step = (xRange[1] - xRange[0]) / 9;
-      for (let i = 0; i < 10; i++) {
-        const x = xRange[0] + i * step;
-        const y = compiled.evaluate({ x });
-        dataPoints.push({ x, y });
+    } else if (trimmed.startsWith("y=")) {
+      const yVals = trimmed.substring(2).split(":");
+      if (yVals.length === 2) {
+        const yMin = parseFloat(yVals[0]);
+        const yMax = parseFloat(yVals[1]);
+        yRange = [yMin, yMax];
       }
     }
   }
 
-  // Compute y coordinate for each data point
+  if (!xRange) {
+    console.log('Invalid range provided. Make sure to include x range in the format "x=start:end".');
+    return;
+  }
+
+  // Evaluate the expression. Expect expression format: "y=sin(x)" etc.
+  const exprParts = expressionArg.split('=');
+  if (exprParts.length < 2) {
+    console.log('Invalid expression format. Expected format: "y=expression"');
+    return;
+  }
+  const expr = exprParts.slice(1).join('=');
+  let compiled;
+  try {
+    compiled = compile(expr);
+  } catch (err) {
+    console.error('Error compiling expression:', err);
+    return;
+  }
+
+  // Compute 10 data points along the x-range
+  const step = (xRange[1] - xRange[0]) / 9;
+  for (let i = 0; i < 10; i++) {
+    const x = xRange[0] + i * step;
+    let y;
+    try {
+      y = compiled.evaluate({ x });
+    } catch (err) {
+      console.error('Error evaluating expression at x =', x, err);
+      return;
+    }
+    dataPoints.push({ x, y });
+  }
+
+  // Compute y coordinate for each data point for plotting
   dataPoints = dataPoints.map(point => {
     let cy;
     if (yRange) {
@@ -107,15 +127,20 @@ export async function main(args = process.argv.slice(2)) {
   });
 
   // Create an SVG plot using an inlined ejs template with dynamic dimensions
+  // The SVG includes both a polyline that connects data points and circles at each point
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
   <text x="10" y="20" fill="black">Plot: <%= expression %></text>
+  <% if (data.length > 0) { %>
+    <polyline fill="none" stroke="blue" stroke-width="2" points="<%=
+      data.map(point => (50 + point.x * 40) + "," + point.cy).join(' ') %>" />
+  <% } %>
   <% data.forEach(function(point) { %>
     <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="red"/>
   <% }) %>
 </svg>`;
 
-  const svgContent = ejs.render(svgTemplate, { expression: expressionArg || "N/A", data: dataPoints, svgWidth, svgHeight });
+  const svgContent = ejs.render(svgTemplate, { expression: expressionArg, data: dataPoints, svgWidth, svgHeight });
 
   // Process file output if --file is provided
   if (fileArg) {

@@ -13,9 +13,13 @@ describe("Main Module Import", () => {
 });
 
 describe("Default Demo Output", () => {
-  test("should terminate without error", async () => {
-    process.argv = ["node", "src/lib/main.js"];
+  test("should display usage instructions when no required args are provided", async () => {
+    let outputContent = '';
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
     await main();
+    console.log = originalLog;
+    expect(outputContent).toContain('Usage:');
   });
 });
 
@@ -49,7 +53,7 @@ describe("SVG Output with Y-Range Scaling", () => {
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1"]);
     console.log = originalLog;
     expect(outputContent).toContain('<svg');
-    
+
     // Extract all cy values from the SVG
     const regex = /cy=\"([\d.]+)\"/g;
     let match;
@@ -65,16 +69,21 @@ describe("SVG Output with Y-Range Scaling", () => {
   });
 });
 
-describe("Custom Dimensions Output", () => {
-  test("should generate SVG with custom width, height, and padding", async () => {
-    let outputContent = "";
-    const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
-    await main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--width", "600", "--height", "400", "--padding", "30"]);
-    console.log = originalLog;
-    expect(outputContent).toContain('<svg');
-    // Check that the SVG has custom width and height attributes
-    expect(outputContent).toContain('width="600"');
-    expect(outputContent).toContain('height="400"');
+describe("Custom Dimensions and SVG File Output", () => {
+  const outputFile = "test_output.svg";
+
+  afterEach(() => {
+    if (fs.existsSync(outputFile)) {
+      fs.unlinkSync(outputFile);
+    }
+  });
+
+  test("should generate SVG file with custom width, height, and padding", async () => {
+    await main(["--expression", "y=cos(x)", "--range", "x=-3:3,y=-1:1", "--width", "600", "--height", "400", "--padding", "30", "--file", outputFile]);
+    expect(fs.existsSync(outputFile)).toBe(true);
+    const content = fs.readFileSync(outputFile, 'utf8');
+    expect(content).toContain('<svg');
+    expect(content).toContain('width="600"');
+    expect(content).toContain('height="400"');
   });
 });
