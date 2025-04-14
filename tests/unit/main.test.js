@@ -36,12 +36,10 @@ describe("PNG Output", () => {
 
   test("should generate a valid PNG file", async () => {
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--file", outputFile]);
-    // Wait for the asynchronous PNG generation if needed
     await delay(500);
     expect(fs.existsSync(outputFile)).toBe(true);
 
     const buffer = fs.readFileSync(outputFile);
-    // Check PNG header: 89 50 4E 47 0D 0A 1A 0A
     const pngHeader = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     expect(buffer.slice(0, 8).equals(pngHeader)).toBe(true);
   });
@@ -58,8 +56,7 @@ describe("SVG Output with Y-Range Scaling", () => {
     console.log = originalLog;
     expect(outputContent).toContain("<svg");
 
-    // Extract all cy values from the SVG
-    const regex = /cy=\"([\d.]+)\"/g;
+    const regex = /cy="([\d.]+)"/g;
     let match;
     const cyValues = [];
     while ((match = regex.exec(outputContent)) !== null) {
@@ -67,7 +64,6 @@ describe("SVG Output with Y-Range Scaling", () => {
     }
 
     expect(cyValues.length).toBeGreaterThan(0);
-    // For y=-1, expected cy ~280 (bottom) and for y=1, expected cy ~20 (top) given padding 20 and svgHeight 300
     expect(Math.max(...cyValues)).toBeGreaterThan(250);
     expect(Math.min(...cyValues)).toBeLessThan(50);
   });
@@ -95,7 +91,7 @@ describe("Custom Dimensions and SVG File Output", () => {
       "--padding",
       "30",
       "--file",
-      outputFile,
+      outputFile
     ]);
     expect(fs.existsSync(outputFile)).toBe(true);
     const content = fs.readFileSync(outputFile, "utf8");
@@ -115,8 +111,7 @@ describe("SVG Output with Configurable Data Points", () => {
     const numPoints = 20;
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--points", numPoints.toString()]);
     console.log = originalLog;
-    // Extract polyline points attribute
-    const polylineRegex = /<polyline[^>]*points=\"([^\"]+)\"/;
+    const polylineRegex = /<polyline[^>]*points="([^"]+)"/;
     const match = polylineRegex.exec(outputContent);
     expect(match).not.toBeNull();
     const pointsAttr = match[1];
@@ -134,10 +129,8 @@ describe("Multiple Expressions SVG Output", () => {
     };
     await main(["--expression", "y=sin(x),y=cos(x)", "--range", "x=0:9,y=-1:1"]);
     console.log = originalLog;
-    // Check for two polyline elements
     const polylineMatches = outputContent.match(/<polyline/g) || [];
     expect(polylineMatches.length).toBe(2);
-    // Check that distinct colors are applied by verifying stroke attributes
     expect(outputContent).toMatch(/stroke="blue"/);
     expect(outputContent).toMatch(/stroke="green"/);
   });
@@ -152,7 +145,6 @@ describe("Custom Colors CLI Option", () => {
     };
     await main(["--expression", "y=tan(x)", "--range", "x=0:5,y=-5:5", "--colors", "magenta,cyan"]);
     console.log = originalLog;
-    // Check that the custom colors appear in the SVG output
     expect(outputContent).toContain('stroke="magenta"');
     expect(outputContent).toContain('fill="magenta"');
   });
@@ -167,8 +159,7 @@ describe("Custom Line Styles CLI Option", () => {
     };
     await main(["--expression", "y=sin(x),y=cos(x)", "--range", "x=0:9,y=-1:1", "--lineStyles", "dashed,dotted"]);
     console.log = originalLog;
-    // Verify first polyline has stroke-dasharray="5,5" and second has stroke-dasharray="1,5"
-    const polylineRegex = /<polyline[^>]*stroke-dasharray=\"([^\"]+)\"/g;
+    const polylineRegex = /<polyline[^>]*stroke-dasharray="([^"]+)"/g;
     const matches = [];
     let match;
     while ((match = polylineRegex.exec(outputContent)) !== null) {
@@ -189,7 +180,6 @@ describe("Gridlines and Axis Labels", () => {
     };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--grid"]);
     console.log = originalLog;
-    // Check for gridline dash pattern
     expect(outputContent).toContain('stroke-dasharray="2,2"');
   });
 
@@ -210,7 +200,7 @@ describe("Gridlines and Axis Labels", () => {
       "--xlabel",
       xlabel,
       "--ylabel",
-      ylabel,
+      ylabel
     ]);
     console.log = originalLog;
     expect(outputContent).toContain(xlabel);
@@ -238,20 +228,17 @@ describe("Auto Y Range Detection", () => {
     let outputContent = "";
     const originalLog = console.log;
     console.log = (msg) => { outputContent += msg; };
-    // Only x range provided, y-range should be auto-detected
     await main(["--expression", "y=sin(x)", "--range", "x=0:9"]);
     console.log = originalLog;
     expect(outputContent).toContain("<svg");
 
-    // Extract all cy values from the SVG
-    const regex = /cy=\"([\d.]+)\"/g;
+    const regex = /cy="([\d.]+)"/g;
     let match;
     const cyValues = [];
     while ((match = regex.exec(outputContent)) !== null) {
       cyValues.push(parseFloat(match[1]));
     }
     expect(cyValues.length).toBeGreaterThan(0);
-    // With dynamic range for sin(x) which spans [-1,1], expect top near padding (20) and bottom near 280
     expect(Math.min(...cyValues)).toBeLessThan(50);
     expect(Math.max(...cyValues)).toBeGreaterThan(250);
   });
