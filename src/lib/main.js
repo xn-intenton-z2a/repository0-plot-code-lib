@@ -22,7 +22,8 @@ function parseCLIArgs(args) {
     grid: false,
     xlabel: null,
     ylabel: null,
-    title: null
+    title: null,
+    logYAxis: false
   };
   let i = 0;
   while (i < args.length) {
@@ -67,6 +68,9 @@ function parseCLIArgs(args) {
       case "--title":
         params.title = args[++i];
         break;
+      case "--logYAxis":
+        params.logYAxis = true;
+        break;
       default:
         break;
     }
@@ -89,12 +93,13 @@ export async function main(args = process.argv.slice(2)) {
     grid: gridArg,
     xlabel: xlabelArg,
     ylabel: ylabelArg,
-    title: titleArg
+    title: titleArg,
+    logYAxis: logYAxisArg
   } = parseCLIArgs(args);
 
   if (!expression || !range) {
     console.log(
-      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>]`
+      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis]`
     );
     return;
   }
@@ -171,13 +176,45 @@ export async function main(args = process.argv.slice(2)) {
 
   const allYValues = expressionsData.flat().map((point) => point.y);
 
+  // Handle logarithmic scaling pre-check
+  if (logYAxisArg) {
+    if (yRange) {
+      const [yMin, yMax] = yRange;
+      if (yMin <= 0 || yMax <= 0) {
+        console.error("Error: Invalid y-range for logarithmic scaling. Boundaries must be strictly positive.");
+        return;
+      }
+    } else {
+      const yMinComputed = Math.min(...allYValues);
+      if (yMinComputed <= 0) {
+        console.error("Error: Cannot apply logarithmic scaling with non-positive y values computed.");
+        return;
+      }
+    }
+  }
+
   let gridY = [];
-  if (!yRange) {
-    const yMinComputed = Math.min(...allYValues);
-    const yMaxComputed = Math.max(...allYValues);
+  // Determine y scaling values
+  let yMinVal, yMaxVal;
+  if (yRange) {
+    yMinVal = yRange[0];
+    yMaxVal = yRange[1];
+  } else {
+    yMinVal = Math.min(...allYValues);
+    yMaxVal = Math.max(...allYValues);
+  }
+
+  if (logYAxisArg) {
+    // Apply logarithmic scaling; all y values must be positive
     expressionsData.forEach((dataPoints) => {
       dataPoints.forEach((point) => {
-        point.cy = pad + (1 - (point.y - yMinComputed) / ((yMaxComputed - yMinComputed) || 1)) * (svgHeight - 2 * pad);
+        // Ensure individual y is positive
+        if (point.y <= 0) {
+          console.error("Error: Encountered non-positive y value during logarithmic scaling.");
+          return;
+        }
+        const normalized = (Math.log(point.y) - Math.log(yMinVal)) / (Math.log(yMaxVal) - Math.log(yMinVal));
+        point.cy = pad + (1 - normalized) * (svgHeight - 2 * pad);
       });
     });
     if (gridArg) {
@@ -188,18 +225,34 @@ export async function main(args = process.argv.slice(2)) {
       }
     }
   } else {
-    expressionsData.forEach((dataPoints) => {
-      dataPoints.forEach((point) => {
-        const [yMin, yMax] = yRange;
-        point.cy = pad + (1 - (point.y - yMin) / (yMax - yMin)) * (svgHeight - 2 * pad);
+    // Linear scaling
+    if (!yRange) {
+      expressionsData.forEach((dataPoints) => {
+        dataPoints.forEach((point) => {
+          point.cy = pad + (1 - (point.y - yMinVal) / ((yMaxVal - yMinVal) || 1)) * (svgHeight - 2 * pad);
+        });
       });
-    });
-    if (gridArg) {
-      const numGridLines = 5;
-      const [yMin, yMax] = yRange;
-      for (let i = 0; i < numGridLines; i++) {
-        const normalized = i / (numGridLines - 1);
-        gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
+      if (gridArg) {
+        const numGridLines = 5;
+        for (let i = 0; i < numGridLines; i++) {
+          const normalized = i / (numGridLines - 1);
+          gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
+        }
+      }
+    } else {
+      expressionsData.forEach((dataPoints) => {
+        dataPoints.forEach((point) => {
+          const [yMin, yMax] = yRange;
+          point.cy = pad + (1 - (point.y - yMin) / (yMax - yMin)) * (svgHeight - 2 * pad);
+        });
+      });
+      if (gridArg) {
+        const numGridLines = 5;
+        const [yMin, yMax] = yRange;
+        for (let i = 0; i < numGridLines; i++) {
+          const normalized = i / (numGridLines - 1);
+          gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
+        }
       }
     }
   }
