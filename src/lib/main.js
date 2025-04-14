@@ -45,7 +45,7 @@ export async function main(args = process.argv.slice(2)) {
 
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
-    console.log(`Usage: node src/lib/main.js --expression <expression> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>]`);
+    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>]`);
     return;
   }
 
@@ -54,11 +54,9 @@ export async function main(args = process.argv.slice(2)) {
   let svgHeight = heightArg || 300;
   let padding = paddingArg || 20;
 
-  // Compute time series data if expression and range are provided
-  let dataPoints = [];
+  // Parse range argument
   let xRange = null;
-  let yRange = null; // new y-range support
-
+  let yRange = null;
   // Expected range format: "x=start:end,y=min:max"
   const rangeParts = rangeArg.split(",");
   for (const part of rangeParts) {
@@ -85,73 +83,86 @@ export async function main(args = process.argv.slice(2)) {
     return;
   }
 
-  // Evaluate the expression. Expect expression format: "y=sin(x)" etc.
-  const exprParts = expressionArg.split('=');
-  if (exprParts.length < 2) {
-    console.log('Invalid expression format. Expected format: "y=expression"');
-    return;
-  }
-  const expr = exprParts.slice(1).join('=');
-  let compiled;
-  try {
-    compiled = compile(expr);
-  } catch (err) {
-    console.error('Error compiling expression:', err);
-    return;
-  }
+  // Parse multiple expressions separated by commas
+  const exprStrings = expressionArg.split(",").map(s => s.trim());
+  const colors = ['blue', 'green', 'red', 'orange', 'purple'];
+  const compiledExpressions = [];
+  const validExprStrings = [];
 
-  // Compute data points along the x-range based on provided pointsArg
-  const numPoints = pointsArg;
-  const step = (xRange[1] - xRange[0]) / (numPoints - 1);
-  for (let i = 0; i < numPoints; i++) {
-    const x = xRange[0] + i * step;
-    let y;
-    try {
-      y = compiled.evaluate({ x });
-    } catch (err) {
-      console.error('Error evaluating expression at x =', x, err);
+  for (const exprStr of exprStrings) {
+    const parts = exprStr.split('=');
+    if (parts.length < 2) {
+      console.log('Invalid expression format. Expected format: "y=expression" for each expression.');
       return;
     }
-    dataPoints.push({ x, y });
+    const expr = parts.slice(1).join('=');
+    try {
+      const compiled = compile(expr);
+      compiledExpressions.push(compiled);
+      validExprStrings.push(exprStr);
+    } catch (err) {
+      console.error('Error compiling expression:', exprStr, err);
+      return;
+    }
   }
 
-  // Compute y coordinate for each data point for plotting
-  dataPoints = dataPoints.map(point => {
-    let cy;
-    if (yRange) {
-      const [yMin, yMax] = yRange;
-      // Normalize point.y according to provided y-range
-      const normalY = (point.y - yMin) / (yMax - yMin);
-      // Invert y-axis: yMin -> bottom, yMax -> top
-      cy = padding + (1 - normalY) * (svgHeight - 2 * padding);
-    } else {
-      // Fallback scaling
-      cy = svgHeight / 2 - point.y * 40;
-    }
-    return { ...point, cy };
-  });
+  // Compute shared x values based on pointsArg
+  const numPoints = pointsArg;
+  const step = (xRange[1] - xRange[0]) / (numPoints - 1);
+  const xValues = [];
+  for (let i = 0; i < numPoints; i++) {
+    const x = xRange[0] + i * step;
+    xValues.push(x);
+  }
 
-  // Create an SVG plot using an inlined ejs template with dynamic dimensions
-  // The SVG includes both a polyline that connects data points and circles at each point
+  // For each expression, compute data points
+  const expressionsData = [];
+  for (const compiled of compiledExpressions) {
+    const dataPoints = [];
+    for (const x of xValues) {
+      let y;
+      try {
+        y = compiled.evaluate({ x });
+      } catch (err) {
+        console.error('Error evaluating expression at x =', x, err);
+        return;
+      }
+      let cy;
+      if (yRange) {
+        const [yMin, yMax] = yRange;
+        const normalY = (y - yMin) / (yMax - yMin);
+        cy = padding + (1 - normalY) * (svgHeight - 2 * padding);
+      } else {
+        cy = svgHeight / 2 - y * 40;
+      }
+      dataPoints.push({ x, y, cy });
+    }
+    expressionsData.push(dataPoints);
+  }
+
+  // Create an SVG plot using an inlined ejs template with dynamic dimensions and multiple expressions support
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
-  <text x="10" y="20" fill="black">Plot: <%= expression %></text>
-  <% if (data.length > 0) { %>
-    <polyline fill="none" stroke="blue" stroke-width="2" points="<%=
-      data.map(point => (50 + point.x * 40) + "," + point.cy).join(' ') %>" />
-  <% } %>
-  <% data.forEach(function(point) { %>
-    <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="red"/>
-  <% }) %>
+  <% expressions.forEach(function(expr, idx) { %>
+    <text x="10" y="<%= 20 + idx * 20 %>" fill="<%= colors[idx % colors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
+  <% }); %>
+  <% expressionsData.forEach(function(data, idx) { %>
+    <% if (data.length > 0) { %>
+      <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="2" points="<%=
+        data.map(point => (50 + point.x * 40) + ',' + point.cy).join(' ') %>" />
+    <% } %>
+    <% data.forEach(function(point) { %>
+      <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
+    <% }); %>
+  <% }); %>
 </svg>`;
 
-  const svgContent = ejs.render(svgTemplate, { expression: expressionArg, data: dataPoints, svgWidth, svgHeight });
+  const svgContent = ejs.render(svgTemplate, { expressions: validExprStrings, expressionsData, svgWidth, svgHeight, colors, padding });
 
   // Process file output if --file is provided
   if (fileArg) {
     const ext = fileArg.split('.').pop().toLowerCase();
     if (ext === "svg") {
-      // Write SVG file
       fs.writeFileSync(fileArg, svgContent);
       console.log(`SVG plot written to ${fileArg}`);
     } else if (ext === "png") {
