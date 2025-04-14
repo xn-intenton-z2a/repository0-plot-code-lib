@@ -19,6 +19,9 @@ export async function main(args = process.argv.slice(2)) {
   let pointsArg = 10; // default number of data points
   let colorsArg = null; // custom colors from CLI
   let lineStylesArg = null; // custom line styles from CLI
+  let gridArg = false; // flag for gridlines
+  let xlabelArg = null; // label for x-axis
+  let ylabelArg = null; // label for y-axis
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--expression" && i + 1 < args.length) {
@@ -48,12 +51,20 @@ export async function main(args = process.argv.slice(2)) {
     } else if (args[i] === "--lineStyles" && i + 1 < args.length) {
       lineStylesArg = args[i + 1].split(",").map(s => s.trim());
       i++;
+    } else if (args[i] === "--grid") {
+      gridArg = true;
+    } else if (args[i] === "--xlabel" && i + 1 < args.length) {
+      xlabelArg = args[i + 1];
+      i++;
+    } else if (args[i] === "--ylabel" && i + 1 < args.length) {
+      ylabelArg = args[i + 1];
+      i++;
     }
   }
 
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
-    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>]`);
+    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>]`);
     return;
   }
 
@@ -152,9 +163,39 @@ export async function main(args = process.argv.slice(2)) {
     expressionsData.push(dataPoints);
   }
 
+  // Calculate gridlines if grid is enabled
+  let gridX = [];
+  let gridY = [];
+  let gridXLeft = 50;
+  let gridXRight = 50;
+  if (gridArg) {
+    gridX = xValues;
+    gridXLeft = 50 + xRange[0] * 40;
+    gridXRight = 50 + xRange[1] * 40;
+    if (yRange) {
+      const numGridLines = 5;
+      const [yMin, yMax] = yRange;
+      for (let i = 0; i < numGridLines; i++) {
+        const normalized = i / (numGridLines - 1);
+        const ySVG = padding + (1 - normalized) * (svgHeight - 2 * padding);
+        gridY.push(ySVG);
+      }
+    }
+  }
+
   // Create an SVG plot using an inlined ejs template with dynamic dimensions and multiple expressions support
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
+  <% if (grid) { %>
+    <% gridX.forEach(function(x) { %>
+      <line x1="<%= 50 + x * 40 %>" y1="<%= padding %>" x2="<%= 50 + x * 40 %>" y2="<%= svgHeight - padding %>" stroke="#ccc" stroke-dasharray="2,2" />
+    <% }); %>
+    <% if (gridY.length > 0) { %>
+      <% gridY.forEach(function(y) { %>
+        <line x1="<%= gridXLeft %>" y1="<%= y %>" x2="<%= gridXRight %>" y2="<%= y %>" stroke="#ccc" stroke-dasharray="2,2" />
+      <% }); %>
+    <% } %>
+  <% } %>
   <% expressions.forEach(function(expr, idx) { %>
     <text x="10" y="<%= 20 + idx * 20 %>" fill="<%= colors[idx % colors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
   <% }); %>
@@ -171,9 +212,30 @@ export async function main(args = process.argv.slice(2)) {
       <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
     <% }); %>
   <% }); %>
+  <% if (xlabel) { %>
+    <text x="<%= svgWidth/2 %>" y="<%= svgHeight - padding/4 %>" text-anchor="middle"><%= xlabel %></text>
+  <% } %>
+  <% if (ylabel) { %>
+    <text x="<%= padding/4 %>" y="<%= svgHeight/2 %>" text-anchor="middle" transform="rotate(-90, <%= padding/4 %>, <%= svgHeight/2 %>)"><%= ylabel %></text>
+  <% } %>
 </svg>`;
 
-  const svgContent = ejs.render(svgTemplate, { expressions: validExprStrings, expressionsData, svgWidth, svgHeight, colors, padding, lineStyles });
+  const svgContent = ejs.render(svgTemplate, { 
+    expressions: validExprStrings, 
+    expressionsData, 
+    svgWidth, 
+    svgHeight, 
+    colors, 
+    padding, 
+    lineStyles,
+    grid: gridArg,
+    gridX,
+    gridY,
+    gridXLeft,
+    gridXRight,
+    xlabel: xlabelArg,
+    ylabel: ylabelArg
+  });
 
   // Process file output if --file is provided
   if (fileArg) {
