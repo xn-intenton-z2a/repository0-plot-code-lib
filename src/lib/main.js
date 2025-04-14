@@ -26,7 +26,8 @@ function parseCLIArgs(args) {
     title: null,
     logYAxis: false,
     lineWidth: 2,
-    legendPosition: null
+    legendPosition: null,
+    drawMarkers: true
   };
   let i = 0;
   while (i < args.length) {
@@ -83,6 +84,9 @@ function parseCLIArgs(args) {
       case "--legendPosition":
         params.legendPosition = args[++i].toLowerCase();
         break;
+      case "--noMarkers":
+        params.drawMarkers = false;
+        break;
       default:
         break;
     }
@@ -109,7 +113,8 @@ export async function main(args = process.argv.slice(2)) {
     title: titleArg,
     logYAxis: logYAxisArg,
     lineWidth: lineWidthArg,
-    legendPosition: legendPositionArg
+    legendPosition: legendPositionArg,
+    drawMarkers
   } = parseCLIArgs(args);
 
   const svgWidth = width || 500;
@@ -179,7 +184,7 @@ export async function main(args = process.argv.slice(2)) {
     // Original logic for expressions
     if (!expression || !range) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>]`
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers]`
       );
       return;
     }
@@ -382,9 +387,11 @@ export async function main(args = process.argv.slice(2)) {
       <% } %>
       <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="<%= lineWidth %>" <%- dash %> points="<%= data.map(point => (50 + point.x * 40) + ',' + point.cy).join(' ') %>" />
     <% } %>
-    <% data.forEach(function(point) { %>
-      <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
-    <% }); %>
+    <% if (drawMarkers) { %>
+      <% data.forEach(function(point) { %>
+        <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
+      <% }); %>
+    <% } %>
   <% }); %>
   <% if (xlabel) { %>
     <text x="<%= svgWidth/2 %>" y="<%= svgHeight - pad/4 %>" text-anchor="middle"><%= xlabel %></text>
@@ -413,7 +420,8 @@ export async function main(args = process.argv.slice(2)) {
     ylabel: ylabelArg,
     title: titleArg,
     lineWidth: lineWidthArg,
-    legendPosition: legendPositionArg || 'top'
+    legendPosition: legendPositionArg || 'top',
+    drawMarkers
   });
 
   if (fileArg) {

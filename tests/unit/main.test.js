@@ -249,7 +249,6 @@ describe("Auto Y Range Detection", () => {
   });
 });
 
-// New test for custom lineWidth
 describe("Custom Line Width CLI Option", () => {
   test("should use provided custom line width for plot lines", async () => {
     let outputContent = "";
@@ -261,7 +260,6 @@ describe("Custom Line Width CLI Option", () => {
   });
 });
 
-// New test for CSV Input Option
 describe("CSV Input Option", () => {
   const tmpDir = os.tmpdir();
   const csvFile = path.join(tmpDir, "test_data.csv");
@@ -297,7 +295,6 @@ describe("CSV Input Option", () => {
   });
 });
 
-// New test for custom legend position
 describe("Custom Legend Position CLI Option", () => {
   test("should render legend at the bottom when --legendPosition bottom is provided", async () => {
     let outputContent = "";
@@ -305,15 +302,13 @@ describe("Custom Legend Position CLI Option", () => {
     console.log = (msg) => { outputContent += msg; };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--legendPosition", "bottom"]);
     console.log = originalLog;
-    // Check for a text element with a y attribute value closer to the bottom of the SVG (svgHeight default is 300)
     const regex = /<text[^>]*y="(\d+(?:\.\d+)?)"/g;
     let match;
     const yValues = [];
     while ((match = regex.exec(outputContent)) !== null) {
       yValues.push(parseFloat(match[1]));
     }
-    // Expect at least one of the legend y values to be greater than 150 (roughly bottom half)
-    const legendY = yValues.slice(0, 3); // assume legend texts are among the first few
+    const legendY = yValues.slice(0, 3);
     expect(legendY.every(y => y > 150)).toBe(true);
   });
 
@@ -323,15 +318,24 @@ describe("Custom Legend Position CLI Option", () => {
     console.log = (msg) => { outputContent += msg; };
     await main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--legendPosition", "right"]);
     console.log = originalLog;
-    // Check for a text element with an x attribute value closer to the right of the SVG (default width is 500, so x near 500 - pad - 100, roughly 500 - 20 - 100 = 380)
     const regex = /<text[^>]*x="(\d+(?:\.\d+)?)"/g;
     let match;
     const xValues = [];
     while ((match = regex.exec(outputContent)) !== null) {
       xValues.push(parseFloat(match[1]));
     }
-    // Check that at least one x value is greater than 300
     const legendX = xValues.slice(0, 3);
     expect(legendX.every(x => x > 300)).toBe(true);
+  });
+});
+
+describe("No Markers Option", () => {
+  test("should not render circle markers when --noMarkers is provided", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--noMarkers"]);
+    console.log = originalLog;
+    expect(outputContent).not.toContain('<circle');
   });
 });
