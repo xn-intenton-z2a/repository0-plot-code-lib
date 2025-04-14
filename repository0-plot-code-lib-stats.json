@@ -2,9 +2,9 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
-  "lastActivityName": "Review Issue",
+  "lastActivityName": "Issue Worker",
   "lastActivityBranchName": "main",
-  "nextIssue": "[2101] Add Custom Marker Size Option (--markerSize) for Plot Points automated, feature, issue-worker-14451480391",
+  "nextIssue": "[2101] Add Custom Marker Size Option (--markerSize) for Plot Points automated, feature",
   "openIssues": 1,
   "issuesClosedLastHour": 2,
   "issuesClosedLastDay": 62,
@@ -34,5 +34,5 @@
   },
   "testStatusOnBranch": "PASS",
   "testsLastPassedMinutes": 15,
-  "statsGeneratedAt": "2025-04-14T17:10:50.443Z"
+  "statsGeneratedAt": "2025-04-14T17:10:56.981Z"
 }
