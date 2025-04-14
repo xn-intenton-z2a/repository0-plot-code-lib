@@ -6,7 +6,7 @@ import fs from "fs";
 // Cleanup output files if they exist
 afterEach(() => {
   const files = ["output.svg", "test_output.png", "custom_dimensions.svg"];
-  files.forEach(file => {
+  files.forEach((file) => {
     if (fs.existsSync(file)) {
       fs.unlinkSync(file);
     }
@@ -57,9 +57,9 @@ describe("Plot Generation (Legacy CLI Syntax)", () => {
     expect(output).toContain("<svg");
     expect(output).toContain("</svg>");
     expect(output).toContain("<polyline");
-    expect(output).toContain("class=\"axis");
-    expect(output).toContain("class=\"grid-line");
-    expect(output).toContain("class=\"tick-label");
+    expect(output).toContain('class="axis');
+    expect(output).toContain('class="grid-line');
+    expect(output).toContain('class="tick-label');
     consoleSpy.mockRestore();
   });
 
@@ -132,7 +132,7 @@ describe("SVG Plot Generation Module", () => {
     const svg = generateSVGPlot("sin(x)", -10, 10, 0.4);
     expect(svg).toContain("<svg");
     expect(svg).toContain("<polyline");
-    expect(svg).toContain("class=\"axis");
+    expect(svg).toContain('class="axis');
   });
 
   it("should return fallback SVG when no valid data points are generated", () => {
@@ -148,15 +148,15 @@ describe("Multi-Function Plot Generation via API", () => {
     const svg = generateMultiPlot(expressions, 0, 6.28, 0.1);
     expect(svg).toContain("<svg");
     expect(svg).toContain("<polyline");
-    expect(svg).toContain("<g class=\"legend\"");
-    expect(svg).toContain("class=\"axis");
-    expect(svg).toContain("class=\"grid-line");
+    expect(svg).toContain('<g class="legend"');
+    expect(svg).toContain('class="axis');
+    expect(svg).toContain('class="grid-line');
     expect(svg).toContain("sin(x)");
     expect(svg).toContain("cos(x)");
   });
 
   it("should return fallback SVG if all expressions yield no valid points", () => {
-    const expressions = ["0/0", "0/0"]; 
+    const expressions = ["0/0", "0/0"];
     const svg = generateMultiPlot(expressions, 0, 10, 1);
     expect(svg).toContain("No valid data");
     expect(svg).not.toContain("<polyline");
@@ -167,7 +167,18 @@ describe("New SVG CLI Multi-Plot Generation", () => {
   it("should generate a valid multi-plot SVG using --plots flag with comma-separated expressions", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const customMessage = "New CLI custom fallback";
-    const args = ["--plots", "sin(x),cos(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--fallback", customMessage];
+    const args = [
+      "--plots",
+      "sin(x),cos(x)",
+      "--xmin",
+      "0",
+      "--xmax",
+      "6.28",
+      "--points",
+      "100",
+      "--fallback",
+      customMessage,
+    ];
     await mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain("<svg");
@@ -194,7 +205,9 @@ describe("New SVG CLI Multi-Plot Generation", () => {
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => {});
     const args = ["--plot", "cos(x),sin(x)", "--xmin", "0", "--points", "100"]; // missing --xmax
     await mainModule.main(args);
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Missing required parameters for SVG plotting: --xmin, --xmax, --points");
+    expect(consoleErrorSpy).toHaveBeenCalledWith(
+      "Missing required parameters for SVG plotting: --xmin, --xmax, --points",
+    );
     expect(processExitSpy).toHaveBeenCalledWith(1);
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
@@ -207,7 +220,7 @@ describe("SVG Plot Caching", () => {
     const svg2 = mainModule.generateSVGPlot("sin(x)", -10, 10, 0.5, "Cache test");
     expect(svg1).toBe(svg2);
   });
-  
+
   it("should return identical SVG output for repeated calls of generateMultiPlot with same parameters", () => {
     const exprs = ["sin(x)", "cos(x)"];
     const svg1 = mainModule.generateMultiPlot(exprs, 0, 6.28, 0.1, "Cache multi test");
@@ -242,7 +255,7 @@ describe("PNG Conversion Feature", () => {
     await mainModule.main(args);
     expect(fs.existsSync("test_output.png")).toBe(true);
     const fileBuffer = fs.readFileSync("test_output.png");
-    const pngSignature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+    const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     expect(fileBuffer.slice(0, 8)).toEqual(pngSignature);
   });
 });
@@ -250,7 +263,20 @@ describe("PNG Conversion Feature", () => {
 describe("Custom Dimensions Feature", () => {
   it("should generate an SVG with custom width and height when provided via CLI options", async () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = ["--plot", "sin(x)", "--xmin", "0", "--xmax", "6.28", "--points", "100", "--width", "600", "--height", "400"];
+    const args = [
+      "--plot",
+      "sin(x)",
+      "--xmin",
+      "0",
+      "--xmax",
+      "6.28",
+      "--points",
+      "100",
+      "--width",
+      "600",
+      "--height",
+      "400",
+    ];
     await mainModule.main(args);
     const output = consoleSpy.mock.calls[0][0];
     expect(output).toContain('width="600"');

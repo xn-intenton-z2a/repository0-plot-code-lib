@@ -11,7 +11,7 @@ const svgCache = new Map();
 /**
  * Computes data points for the given mathematical expression over a range and step.
  * Applies logarithmic scaling filters if specified.
- * 
+ *
  * @param {string} expression - The mathematical expression to evaluate.
  * @param {number} start - The starting value of x.
  * @param {number} end - The ending value of x.
@@ -39,7 +39,7 @@ function computeDataPoints(expression, start, end, step, logScaleX = false, logS
 /**
  * Helper function to create a fallback SVG when no valid data points are generated.
  * This ensures consistency in the output and prioritizes a custom fallback message if provided.
- * 
+ *
  * @param {string} [fallbackMessage] - Optional custom fallback message
  * @param {number} svgWidth - Width of the SVG
  * @param {number} svgHeight - Height of the SVG
@@ -52,16 +52,16 @@ function createFallbackSVG(fallbackMessage, svgWidth, svgHeight, darkMode) {
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const borderColor = darkMode ? "white" : "black";
   const textFill = darkMode ? "white" : "red";
-  return `<svg width=\"${svgWidth}\" height=\"${svgHeight}\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"0\" y=\"0\" width=\"${svgWidth}\" height=\"${svgHeight}\" fill=\"${backgroundFill}\" stroke=\"${borderColor}\"/>\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" fill=\"${textFill}\" font-size=\"14\" font-family=\"Arial\">\n    ${lines.map((line, index) => `<tspan x=\"${svgWidth / 2}\" dy=\"${index === 0 ? 0 : 20}\">${line}</tspan>`).join('')}\n  </text>\n</svg>`;
+  return `<svg width=\"${svgWidth}\" height=\"${svgHeight}\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"0\" y=\"0\" width=\"${svgWidth}\" height=\"${svgHeight}\" fill=\"${backgroundFill}\" stroke=\"${borderColor}\"/>\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" fill=\"${textFill}\" font-size=\"14\" font-family=\"Arial\">\n    ${lines.map((line, index) => `<tspan x=\"${svgWidth / 2}\" dy=\"${index === 0 ? 0 : 20}\">${line}</tspan>`).join("")}\n  </text>\n</svg>`;
 }
 
 /**
  * Generates an SVG plot for a given mathematical expression over a specific range.
  * Optionally, a custom fallback message can be provided to display when no valid data points are found.
  * Additionally, optional logarithmic scaling can be applied to the x and/or y axes.
- * 
+ *
  * The plot now includes enhanced visual features: x and y axis lines, tick marks with numeric labels, and grid lines.
- * 
+ *
  * @param {string} expression - The mathematical expression to evaluate.
  * @param {number} start - The starting value of x.
  * @param {number} end - The ending value of x.
@@ -74,8 +74,31 @@ function createFallbackSVG(fallbackMessage, svgWidth, svgHeight, darkMode) {
  * @param {boolean} [darkMode=false] - If true, apply dark mode theming to the SVG.
  * @returns {string} - SVG string representing the plot or fallback message.
  */
-export function generatePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false) {
-  const cacheKey = JSON.stringify(["generatePlot", expression, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode]);
+export function generatePlot(
+  expression,
+  start,
+  end,
+  step,
+  fallbackMessage,
+  logScaleX = false,
+  logScaleY = false,
+  svgWidth = 500,
+  svgHeight = 300,
+  darkMode = false,
+) {
+  const cacheKey = JSON.stringify([
+    "generatePlot",
+    expression,
+    start,
+    end,
+    step,
+    fallbackMessage,
+    logScaleX,
+    logScaleY,
+    svgWidth,
+    svgHeight,
+    darkMode,
+  ]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -89,8 +112,8 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
   }
 
   const margin = 20;
-  const transformedXValues = points.map(p => logScaleX ? Math.log10(p.x) : p.x);
-  const transformedYValues = points.map(p => logScaleY ? Math.log10(p.y) : p.y);
+  const transformedXValues = points.map((p) => (logScaleX ? Math.log10(p.x) : p.x));
+  const transformedYValues = points.map((p) => (logScaleY ? Math.log10(p.y) : p.y));
   const minXTrans = Math.min(...transformedXValues);
   const maxXTrans = Math.max(...transformedXValues);
   const minYTrans = Math.min(...transformedYValues);
@@ -175,7 +198,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
 /**
  * Generates an interactive SVG plot for a given mathematical expression with tooltips and zoom/pan functionality.
  * The interactive features include on-hover tooltips for data points and basic zooming/panning via mouse events.
- * 
+ *
  * @param {string} expression - The mathematical expression to evaluate.
  * @param {number} start - The starting value of x.
  * @param {number} end - The ending value of x.
@@ -189,8 +212,33 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
  * @param {boolean} [animate=false] - If true, animate the drawing of the plot lines.
  * @returns {string} - Interactive SVG string.
  */
-export function generateInteractivePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false, animate = false) {
-  const cacheKey = JSON.stringify(["generateInteractivePlot", expression, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode, animate]);
+export function generateInteractivePlot(
+  expression,
+  start,
+  end,
+  step,
+  fallbackMessage,
+  logScaleX = false,
+  logScaleY = false,
+  svgWidth = 500,
+  svgHeight = 300,
+  darkMode = false,
+  animate = false,
+) {
+  const cacheKey = JSON.stringify([
+    "generateInteractivePlot",
+    expression,
+    start,
+    end,
+    step,
+    fallbackMessage,
+    logScaleX,
+    logScaleY,
+    svgWidth,
+    svgHeight,
+    darkMode,
+    animate,
+  ]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -204,8 +252,8 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
   }
 
   const margin = 20;
-  const transformedXValues = points.map(p => logScaleX ? Math.log10(p.x) : p.x);
-  const transformedYValues = points.map(p => logScaleY ? Math.log10(p.y) : p.y);
+  const transformedXValues = points.map((p) => (logScaleX ? Math.log10(p.x) : p.x));
+  const transformedYValues = points.map((p) => (logScaleY ? Math.log10(p.y) : p.y));
   const minXTrans = Math.min(...transformedXValues);
   const maxXTrans = Math.max(...transformedXValues);
   const minYTrans = Math.min(...transformedYValues);
@@ -280,12 +328,19 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
   const backgroundStroke = darkMode ? "white" : "black";
 
   // Generate interactive circles with event handlers for tooltips
-  const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="red" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
+  const circles = svgPoints
+    .map(
+      (p) =>
+        `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="red" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`,
+    )
+    .join("\n");
 
   // Include animation tag if animation is enabled
-  const animationTag = animate ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />` : "";
+  const animationTag = animate
+    ? `<animate attributeName=\"stroke-dashoffset\" from=\"1000\" to=\"0\" dur=\"1s\" fill=\"freeze\" />`
+    : "";
 
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints.map(p => p.scaledX + "," + p.scaledY).join(" ")}" fill="none" stroke="${polylineStroke}" stroke-width="2">${animationTag}</polyline>\n    <g class="points">\n${circles}\n</g>\n    <text id="svg-tooltip" style="display:none; fill:${darkMode ? "white" : "black"}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="${backgroundFill}" stroke="${backgroundStroke}"/>\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    <polyline points="${svgPoints.map((p) => p.scaledX + "," + p.scaledY).join(" ")}" fill="none" stroke="${polylineStroke}" stroke-width="2">${animationTag}</polyline>\n    <g class="points">\n${circles}\n</g>\n    <text id="svg-tooltip" style="display:none; fill:${darkMode ? "white" : "black"}; font-size:12px; pointer-events:none;"></text>\n    <script type="application/ecmascript"><![CDATA[\n      function showTooltip(evt, x, y) {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.setAttribute('x', evt.offsetX + 10);\n        tooltip.setAttribute('y', evt.offsetY + 10);\n        tooltip.textContent = 'x: ' + x.toFixed(2) + ', y: ' + y.toFixed(2);\n        tooltip.style.display = 'block';\n      }\n      function hideTooltip() {\n        var tooltip = document.getElementById('svg-tooltip');\n        tooltip.style.display = 'none';\n      }\n    ]]></script>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
   return svgContent;
@@ -294,7 +349,7 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
 /**
  * Generates an interactive SVG multi-plot for multiple mathematical expressions. Each expression is plotted with distinct colors,
  * interactive tooltips for data points, and the overall SVG supports zooming and panning.
- * 
+ *
  * @param {string[]} expressions - Array of math expressions.
  * @param {number} start - Starting x value.
  * @param {number} end - Ending x value.
@@ -308,8 +363,33 @@ export function generateInteractivePlot(expression, start, end, step, fallbackMe
  * @param {boolean} [animate=false] - If true, animate the drawing of plot lines.
  * @returns {string} - Interactive multi-plot SVG string.
  */
-export function generateInteractiveMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false, animate = false) {
-  const cacheKey = JSON.stringify(["generateInteractiveMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode, animate]);
+export function generateInteractiveMultiPlot(
+  expressions,
+  start,
+  end,
+  step,
+  fallbackMessage,
+  logScaleX = false,
+  logScaleY = false,
+  svgWidth = 500,
+  svgHeight = 300,
+  darkMode = false,
+  animate = false,
+) {
+  const cacheKey = JSON.stringify([
+    "generateInteractiveMultiPlot",
+    expressions,
+    start,
+    end,
+    step,
+    fallbackMessage,
+    logScaleX,
+    logScaleY,
+    svgWidth,
+    svgHeight,
+    darkMode,
+    animate,
+  ]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -320,7 +400,7 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
   const series = [];
   let allValidPoints = [];
 
-  expressions.forEach(expr => {
+  expressions.forEach((expr) => {
     const points = computeDataPoints(expr, start, end, step, logScaleX, logScaleY);
     allValidPoints = allValidPoints.concat(points);
     series.push({ expression: expr, points });
@@ -332,8 +412,8 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
     return fallbackSVG;
   }
 
-  const transformedXValues = allValidPoints.map(p => logScaleX ? Math.log10(p.x) : p.x);
-  const transformedYValues = allValidPoints.map(p => logScaleY ? Math.log10(p.y) : p.y);
+  const transformedXValues = allValidPoints.map((p) => (logScaleX ? Math.log10(p.x) : p.x));
+  const transformedYValues = allValidPoints.map((p) => (logScaleY ? Math.log10(p.y) : p.y));
   const minXTrans = Math.min(...transformedXValues);
   const maxXTrans = Math.max(...transformedXValues);
   const minYTrans = Math.min(...transformedYValues);
@@ -352,11 +432,16 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
         const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
         return { scaledX, scaledY, originalX: x, originalY: y };
       });
-      const pointsStr = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
+      const pointsStr = svgPoints.map((p) => `${p.scaledX},${p.scaledY}`).join(" ");
       const color = colors[index % colors.length];
       const animationTag = "";
       polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2">${animationTag}</polyline>\n`;
-      const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
+      const circles = svgPoints
+        .map(
+          (p) =>
+            `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`,
+        )
+        .join("\n");
       circlesGroup += circles + "\n";
     }
   });
@@ -413,12 +498,17 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
   const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
 
-  const legend = `<g class="legend">\n` + series.map((serie, index) => {
-    const color = colors[index % colors.length];
-    const legendX = svgWidth - 110;
-    const legendY = 20 + index * 15;
-    return `<rect x=\"${legendX}\" y=\"${legendY - 12}\" width=\"10\" height=\"10\" fill=\"${color}\" />\n<text x=\"${legendX + 15}\" y=\"${legendY - 2}\" font-size=\"10\" fill=\"${labelFill}\">${serie.expression}</text>`;
-  }).join('') + `\n</g>\n`;
+  const legend =
+    `<g class="legend">\n` +
+    series
+      .map((serie, index) => {
+        const color = colors[index % colors.length];
+        const legendX = svgWidth - 110;
+        const legendY = 20 + index * 15;
+        return `<rect x=\"${legendX}\" y=\"${legendY - 12}\" width=\"10\" height=\"10\" fill=\"${color}\" />\n<text x=\"${legendX + 15}\" y=\"${legendY - 2}\" font-size=\"10\" fill=\"${labelFill}\">${serie.expression}</text>`;
+      })
+      .join("") +
+    `\n</g>\n`;
 
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
@@ -433,8 +523,31 @@ export function generateInteractiveMultiPlot(expressions, start, end, step, fall
 export const generateSVGPlot = generatePlot;
 
 // NEW FUNCTION: generateMultiPlot (non-interactive multi-function plotting)
-export function generateMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300, darkMode = false) {
-  const cacheKey = JSON.stringify(["generateMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight, darkMode]);
+export function generateMultiPlot(
+  expressions,
+  start,
+  end,
+  step,
+  fallbackMessage,
+  logScaleX = false,
+  logScaleY = false,
+  svgWidth = 500,
+  svgHeight = 300,
+  darkMode = false,
+) {
+  const cacheKey = JSON.stringify([
+    "generateMultiPlot",
+    expressions,
+    start,
+    end,
+    step,
+    fallbackMessage,
+    logScaleX,
+    logScaleY,
+    svgWidth,
+    svgHeight,
+    darkMode,
+  ]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -445,7 +558,7 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   const series = [];
   let allValidPoints = [];
 
-  expressions.forEach(expr => {
+  expressions.forEach((expr) => {
     const points = computeDataPoints(expr, start, end, step, logScaleX, logScaleY);
     allValidPoints = allValidPoints.concat(points);
     series.push({ expression: expr, points });
@@ -457,8 +570,8 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
     return fallbackSVG;
   }
 
-  const transformedXValues = allValidPoints.map(p => logScaleX ? Math.log10(p.x) : p.x);
-  const transformedYValues = allValidPoints.map(p => logScaleY ? Math.log10(p.y) : p.y);
+  const transformedXValues = allValidPoints.map((p) => (logScaleX ? Math.log10(p.x) : p.x));
+  const transformedYValues = allValidPoints.map((p) => (logScaleY ? Math.log10(p.y) : p.y));
   const minXTrans = Math.min(...transformedXValues);
   const maxXTrans = Math.max(...transformedXValues);
   const minYTrans = Math.min(...transformedYValues);
@@ -477,11 +590,16 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
         const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
         return { scaledX, scaledY, originalX: x, originalY: y };
       });
-      const pointsStr = svgPoints.map(p => `${p.scaledX},${p.scaledY}`).join(" ");
+      const pointsStr = svgPoints.map((p) => `${p.scaledX},${p.scaledY}`).join(" ");
       const color = colors[index % colors.length];
       const animationTag = ""; // Non-interactive mode: no animation
       polylines += `<polyline points="${pointsStr}" fill="none" stroke="${color}" stroke-width="2">${animationTag}</polyline>\n`;
-      const circles = svgPoints.map(p => `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`).join("\n");
+      const circles = svgPoints
+        .map(
+          (p) =>
+            `<circle cx="${p.scaledX}" cy="${p.scaledY}" r="3" fill="${color}" onmousemove="showTooltip(evt, ${p.originalX}, ${p.originalY})" onmouseout="hideTooltip()" />`,
+        )
+        .join("\n");
       circlesGroup += circles + "\n";
     }
   });
@@ -538,12 +656,17 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   const xAxisLine = `<line class="axis x-axis" x1="${margin}" y1="${svgHeight - margin}" x2="${svgWidth - margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="${axisStroke}" stroke-width="2" />`;
 
-  const legend = `<g class="legend">\n` + series.map((serie, index) => {
-    const color = colors[index % colors.length];
-    const legendX = svgWidth - 110;
-    const legendY = 20 + index * 15;
-    return `<rect x=\"${legendX}\" y=\"${legendY - 12}\" width=\"10\" height=\"10\" fill=\"${color}\" />\n<text x=\"${legendX + 15}\" y=\"${legendY - 2}\" font-size=\"10\" fill=\"${labelFill}\">${serie.expression}</text>`;
-  }).join('') + `\n</g>\n`;
+  const legend =
+    `<g class="legend">\n` +
+    series
+      .map((serie, index) => {
+        const color = colors[index % colors.length];
+        const legendX = svgWidth - 110;
+        const legendY = 20 + index * 15;
+        return `<rect x=\"${legendX}\" y=\"${legendY - 12}\" width=\"10\" height=\"10\" fill=\"${color}\" />\n<text x=\"${legendX + 15}\" y=\"${legendY - 2}\" font-size=\"10\" fill=\"${labelFill}\">${serie.expression}</text>`;
+      })
+      .join("") +
+    `\n</g>\n`;
 
   const backgroundFill = darkMode ? "#1e1e1e" : "white";
   const backgroundStroke = darkMode ? "white" : "black";
@@ -558,56 +681,70 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
 function writeOutput(fileName, svg) {
   return new Promise((resolve, reject) => {
     const lowerFile = fileName.toLowerCase();
-    if (lowerFile.endsWith('.png')) {
-      import('sharp').then(({ default: sharp }) => {
-        sharp(Buffer.from(svg)).png().toBuffer().then(pngBuffer => {
-          fs.writeFileSync(fileName, pngBuffer);
-          console.log("PNG file generated successfully.");
-          resolve();
-        }).catch(err => {
-          console.error("Error during SVG to PNG conversion:", err.message);
+    if (lowerFile.endsWith(".png")) {
+      import("sharp")
+        .then(({ default: sharp }) => {
+          sharp(Buffer.from(svg))
+            .png()
+            .toBuffer()
+            .then((pngBuffer) => {
+              fs.writeFileSync(fileName, pngBuffer);
+              console.log("PNG file generated successfully.");
+              resolve();
+            })
+            .catch((err) => {
+              console.error("Error during SVG to PNG conversion:", err.message);
+              reject(err);
+            });
+        })
+        .catch((err) => {
+          console.error("Error loading sharp:", err.message);
           reject(err);
         });
-      }).catch(err => {
-        console.error("Error loading sharp:", err.message);
-        reject(err);
-      });
-    } else if (lowerFile.endsWith('.pdf')) {
-      import('puppeteer').then(async ({ default: puppeteer }) => {
-        try {
-          const browser = await puppeteer.launch({
-            args: ['--no-sandbox', '--disable-setuid-sandbox'],
-            headless: "new"
-          });
-          const page = await browser.newPage();
-          const htmlContent = `<html><body>${svg}</body></html>`;
-          await page.setContent(htmlContent, { waitUntil: 'networkidle0', timeout: 0 });
-          await page.pdf({ path: fileName, printBackground: true });
-          await browser.close();
-          console.log("PDF file generated successfully.");
-          resolve();
-        } catch (e) {
-          console.error("Error during SVG to PDF conversion:", e.message);
-          reject(e);
-        }
-      }).catch(err => {
-        console.error("Error loading puppeteer:", err.message);
-        reject(err);
-      });
-    } else if (lowerFile.endsWith('.jpg') || lowerFile.endsWith('.jpeg')) {
-      import('sharp').then(({ default: sharp }) => {
-        sharp(Buffer.from(svg)).jpeg().toBuffer().then(jpegBuffer => {
-          fs.writeFileSync(fileName, jpegBuffer);
-          console.log("JPEG file generated successfully.");
-          resolve();
-        }).catch(err => {
-          console.error("Error during SVG to JPEG conversion:", err.message);
+    } else if (lowerFile.endsWith(".pdf")) {
+      import("puppeteer")
+        .then(async ({ default: puppeteer }) => {
+          try {
+            const browser = await puppeteer.launch({
+              args: ["--no-sandbox", "--disable-setuid-sandbox"],
+              headless: "new",
+            });
+            const page = await browser.newPage();
+            const htmlContent = `<html><body>${svg}</body></html>`;
+            await page.setContent(htmlContent, { waitUntil: "networkidle0", timeout: 0 });
+            await page.pdf({ path: fileName, printBackground: true });
+            await browser.close();
+            console.log("PDF file generated successfully.");
+            resolve();
+          } catch (e) {
+            console.error("Error during SVG to PDF conversion:", e.message);
+            reject(e);
+          }
+        })
+        .catch((err) => {
+          console.error("Error loading puppeteer:", err.message);
           reject(err);
         });
-      }).catch(err => {
-        console.error("Error loading sharp:", err.message);
-        reject(err);
-      });
+    } else if (lowerFile.endsWith(".jpg") || lowerFile.endsWith(".jpeg")) {
+      import("sharp")
+        .then(({ default: sharp }) => {
+          sharp(Buffer.from(svg))
+            .jpeg()
+            .toBuffer()
+            .then((jpegBuffer) => {
+              fs.writeFileSync(fileName, jpegBuffer);
+              console.log("JPEG file generated successfully.");
+              resolve();
+            })
+            .catch((err) => {
+              console.error("Error during SVG to JPEG conversion:", err.message);
+              reject(err);
+            });
+        })
+        .catch((err) => {
+          console.error("Error loading sharp:", err.message);
+          reject(err);
+        });
     } else {
       fs.writeFileSync(fileName, svg, "utf-8");
       console.log(svg);
@@ -621,7 +758,7 @@ function writeOutput(fileName, svg) {
 
 async function exportCSVFile(args, exprArray, xmin, xmax, step, logScaleX, logScaleY) {
   let csvContent = "expression,x,y\n";
-  exprArray.forEach(expr => {
+  exprArray.forEach((expr) => {
     const points = computeDataPoints(expr, xmin, xmax, step, logScaleX, logScaleY);
     points.forEach(({ x, y }) => {
       csvContent += `${expr},${x},${y}\n`;
@@ -637,7 +774,9 @@ async function exportCSVFile(args, exprArray, xmin, xmax, step, logScaleX, logSc
 }
 
 function showHelp() {
-  console.log(`repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --animate           (optional) enable animated transitions for interactive plots\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf, output.jpg)\n  --export-csv        (optional) export computed plot data to a CSV file (default name is output.csv, override by providing a filename)\n`);
+  console.log(
+    `repository0-plot-code-lib: A versatile CLI tool for plotting mathematical functions.\n    \nUsage: node src/lib/main.js [options]\n\nOptions:\n  -h, --help          display help information\n  -v, --version       display version information\n  --diagnostics       enable diagnostics mode\n  --plot              generate a plot. Use either legacy parameters (--expr, --start, --end, [--step]) or the new syntax:\n                      --plot "<expression>" --xmin <number> --xmax <number> --points <integer greater than 1> [--fallback "custom message"]\n  --plots             generate a multi-plot with multiple comma-separated expressions.\n  --fallback          (optional) specify a custom fallback message for cases where expression evaluation yields non-finite values\n  --logscale-x        (optional) apply logarithmic scale to the x-axis (requires x > 0)\n  --logscale-y        (optional) apply logarithmic scale to the y-axis (requires y > 0)\n  --width             (optional) specify the width of the output SVG (default is 500)\n  --height            (optional) specify the height of the output SVG (default is 300)\n  --interactive       (optional) generate an interactive SVG with tooltips and zoom/pan functionality\n  --darkmode          (optional) enable dark mode theming for the SVG output\n  --animate           (optional) enable animated transitions for interactive plots\n  --file              (optional) specify output file name (default is output.svg). Use extension to override format (e.g., output.png, output.pdf, output.jpg)\n  --export-csv        (optional) export computed plot data to a CSV file (default name is output.csv, override by providing a filename)\n`,
+  );
 }
 
 function showVersion() {
@@ -664,7 +803,7 @@ async function handlePlot(args) {
   }
 
   const fileIdx = args.indexOf("--file");
-  const fileName = (fileIdx !== -1 && args.length > fileIdx + 1) ? args[fileIdx + 1] : "output.svg";
+  const fileName = fileIdx !== -1 && args.length > fileIdx + 1 ? args[fileIdx + 1] : "output.svg";
 
   let fallbackMessage;
   const fallbackIdx = args.indexOf("--fallback");
@@ -682,7 +821,7 @@ async function handlePlot(args) {
   const plotsFlagIdx = args.indexOf("--plots");
   if (plotsFlagIdx !== -1 && args.length > plotsFlagIdx + 1) {
     const expressionsArg = args[plotsFlagIdx + 1];
-    const expressions = expressionsArg.split(",").map(e => e.trim());
+    const expressions = expressionsArg.split(",").map((e) => e.trim());
     const xminIdx = args.indexOf("--xmin");
     const xmaxIdx = args.indexOf("--xmax");
     const pointsIdx = args.indexOf("--points");
@@ -702,9 +841,32 @@ async function handlePlot(args) {
     const step = (xmax - xmin) / pointsCount;
     let svg;
     if (interactive) {
-      svg = generateInteractiveMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
+      svg = generateInteractiveMultiPlot(
+        expressions,
+        xmin,
+        xmax,
+        step,
+        fallbackMessage,
+        logScaleX,
+        logScaleY,
+        width,
+        height,
+        darkMode,
+        animate,
+      );
     } else {
-      svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
+      svg = generateMultiPlot(
+        expressions,
+        xmin,
+        xmax,
+        step,
+        fallbackMessage,
+        logScaleX,
+        logScaleY,
+        width,
+        height,
+        darkMode,
+      );
     }
     await writeOutput(fileName, svg);
     if (args.includes("--export-csv")) {
@@ -717,7 +879,7 @@ async function handlePlot(args) {
   const nextArg = args[plotIndex + 1];
   if (nextArg && !nextArg.startsWith("--")) {
     if (nextArg.indexOf(",") !== -1) {
-      const expressions = nextArg.split(",").map(e => e.trim());
+      const expressions = nextArg.split(",").map((e) => e.trim());
       const xminIdx = args.indexOf("--xmin");
       const xmaxIdx = args.indexOf("--xmax");
       const pointsIdx = args.indexOf("--points");
@@ -737,9 +899,32 @@ async function handlePlot(args) {
       const step = (xmax - xmin) / pointsCount;
       let svg;
       if (interactive) {
-        svg = generateInteractiveMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
+        svg = generateInteractiveMultiPlot(
+          expressions,
+          xmin,
+          xmax,
+          step,
+          fallbackMessage,
+          logScaleX,
+          logScaleY,
+          width,
+          height,
+          darkMode,
+          animate,
+        );
       } else {
-        svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
+        svg = generateMultiPlot(
+          expressions,
+          xmin,
+          xmax,
+          step,
+          fallbackMessage,
+          logScaleX,
+          logScaleY,
+          width,
+          height,
+          darkMode,
+        );
       }
       await writeOutput(fileName, svg);
       if (args.includes("--export-csv")) {
@@ -767,9 +952,32 @@ async function handlePlot(args) {
       const step = (xmax - xmin) / pointsCount;
       let svg;
       if (interactive) {
-        svg = generateInteractivePlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
+        svg = generateInteractivePlot(
+          expression,
+          xmin,
+          xmax,
+          step,
+          fallbackMessage,
+          logScaleX,
+          logScaleY,
+          width,
+          height,
+          darkMode,
+          animate,
+        );
       } else {
-        svg = generateSVGPlot(expression, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
+        svg = generateSVGPlot(
+          expression,
+          xmin,
+          xmax,
+          step,
+          fallbackMessage,
+          logScaleX,
+          logScaleY,
+          width,
+          height,
+          darkMode,
+        );
       }
       await writeOutput(fileName, svg);
       if (args.includes("--export-csv")) {
@@ -806,7 +1014,19 @@ async function handlePlot(args) {
 
     let svg;
     if (interactive) {
-      svg = generateInteractivePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode, animate);
+      svg = generateInteractivePlot(
+        expression,
+        start,
+        end,
+        step,
+        fallbackMessage,
+        logScaleX,
+        logScaleY,
+        width,
+        height,
+        darkMode,
+        animate,
+      );
     } else {
       svg = generatePlot(expression, start, end, step, fallbackMessage, logScaleX, logScaleY, width, height, darkMode);
     }
@@ -845,7 +1065,7 @@ export async function main(args = []) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args).catch(err => {
+  main(args).catch((err) => {
     console.error(err);
     process.exit(1);
   });

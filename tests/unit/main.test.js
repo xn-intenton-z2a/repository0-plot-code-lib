@@ -1,7 +1,7 @@
 import { describe, test, expect, afterEach } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
-import fs from 'fs';
+import fs from "fs";
 
 // Helper to delay execution for async writes
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -14,12 +14,14 @@ describe("Main Module Import", () => {
 
 describe("Default Demo Output", () => {
   test("should display usage instructions when no required args are provided", async () => {
-    let outputContent = '';
+    let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main();
     console.log = originalLog;
-    expect(outputContent).toContain('Usage:');
+    expect(outputContent).toContain("Usage:");
   });
 });
 
@@ -49,10 +51,12 @@ describe("SVG Output with Y-Range Scaling", () => {
   test("should generate SVG with correctly scaled cy positions", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1"]);
     console.log = originalLog;
-    expect(outputContent).toContain('<svg');
+    expect(outputContent).toContain("<svg");
 
     // Extract all cy values from the SVG
     const regex = /cy=\"([\d.]+)\"/g;
@@ -79,10 +83,23 @@ describe("Custom Dimensions and SVG File Output", () => {
   });
 
   test("should generate SVG file with custom width, height, and padding", async () => {
-    await main(["--expression", "y=cos(x)", "--range", "x=-3:3,y=-1:1", "--width", "600", "--height", "400", "--padding", "30", "--file", outputFile]);
+    await main([
+      "--expression",
+      "y=cos(x)",
+      "--range",
+      "x=-3:3,y=-1:1",
+      "--width",
+      "600",
+      "--height",
+      "400",
+      "--padding",
+      "30",
+      "--file",
+      outputFile,
+    ]);
     expect(fs.existsSync(outputFile)).toBe(true);
-    const content = fs.readFileSync(outputFile, 'utf8');
-    expect(content).toContain('<svg');
+    const content = fs.readFileSync(outputFile, "utf8");
+    expect(content).toContain("<svg");
     expect(content).toContain('width="600"');
     expect(content).toContain('height="400"');
   });
@@ -92,7 +109,9 @@ describe("SVG Output with Configurable Data Points", () => {
   test("should generate SVG with the correct number of data points when --points parameter is provided", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     const numPoints = 20;
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--points", numPoints.toString()]);
     console.log = originalLog;
@@ -110,7 +129,9 @@ describe("Multiple Expressions SVG Output", () => {
   test("should generate SVG with multiple polylines and distinct colors for multiple expressions", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x),y=cos(x)", "--range", "x=0:9,y=-1:1"]);
     console.log = originalLog;
     // Check for two polyline elements
@@ -126,7 +147,9 @@ describe("Custom Colors CLI Option", () => {
   test("should use provided custom colors for plot lines and text", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=tan(x)", "--range", "x=0:5,y=-5:5", "--colors", "magenta,cyan"]);
     console.log = originalLog;
     // Check that the custom colors appear in the SVG output
@@ -139,19 +162,21 @@ describe("Custom Line Styles CLI Option", () => {
   test("should use provided custom line styles for plot lines", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x),y=cos(x)", "--range", "x=0:9,y=-1:1", "--lineStyles", "dashed,dotted"]);
     console.log = originalLog;
     // Verify first polyline has stroke-dasharray="5,5" and second has stroke-dasharray="1,5"
     const polylineRegex = /<polyline[^>]*stroke-dasharray=\"([^\"]+)\"/g;
-    let matches = [];
+    const matches = [];
     let match;
     while ((match = polylineRegex.exec(outputContent)) !== null) {
       matches.push(match[1]);
     }
     expect(matches.length).toBeGreaterThanOrEqual(2);
-    expect(matches[0]).toBe('5,5');
-    expect(matches[1]).toBe('1,5');
+    expect(matches[0]).toBe("5,5");
+    expect(matches[1]).toBe("1,5");
   });
 });
 
@@ -159,7 +184,9 @@ describe("Gridlines and Axis Labels", () => {
   test("should include gridlines when --grid is used", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--grid"]);
     console.log = originalLog;
     // Check for gridline dash pattern
@@ -169,10 +196,22 @@ describe("Gridlines and Axis Labels", () => {
   test("should render axis labels when --xlabel and --ylabel are provided", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     const xlabel = "Time (s)";
     const ylabel = "Amplitude";
-    await main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--grid", "--xlabel", xlabel, "--ylabel", ylabel]);
+    await main([
+      "--expression",
+      "y=cos(x)",
+      "--range",
+      "x=0:9,y=-1:1",
+      "--grid",
+      "--xlabel",
+      xlabel,
+      "--ylabel",
+      ylabel,
+    ]);
     console.log = originalLog;
     expect(outputContent).toContain(xlabel);
     expect(outputContent).toContain(ylabel);
@@ -183,7 +222,9 @@ describe("Plot Title Rendering", () => {
   test("should render provided title in the SVG output", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     const testTitle = "My Awesome Plot";
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--title", testTitle]);
     console.log = originalLog;
