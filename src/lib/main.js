@@ -47,10 +47,10 @@ export async function main(args = process.argv.slice(2)) {
       pointsArg = parseInt(args[i + 1], 10);
       i++;
     } else if (args[i] === "--colors" && i + 1 < args.length) {
-      colorsArg = args[i + 1].split(",").map(s => s.trim());
+      colorsArg = args[i + 1].split(",").map((s) => s.trim());
       i++;
     } else if (args[i] === "--lineStyles" && i + 1 < args.length) {
-      lineStylesArg = args[i + 1].split(",").map(s => s.trim());
+      lineStylesArg = args[i + 1].split(",").map((s) => s.trim());
       i++;
     } else if (args[i] === "--grid") {
       gridArg = true;
@@ -68,14 +68,16 @@ export async function main(args = process.argv.slice(2)) {
 
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
-    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>]`);
+    console.log(
+      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>]`,
+    );
     return;
   }
 
   // Set default dimensions and allow overrides
-  let svgWidth = widthArg || 500;
-  let svgHeight = heightArg || 300;
-  let padding = paddingArg || 20;
+  const svgWidth = widthArg || 500;
+  const svgHeight = heightArg || 300;
+  const padding = paddingArg || 20;
 
   // Parse range argument
   let xRange = null;
@@ -107,28 +109,28 @@ export async function main(args = process.argv.slice(2)) {
   }
 
   // Parse multiple expressions separated by commas
-  const exprStrings = expressionArg.split(",").map(s => s.trim());
+  const exprStrings = expressionArg.split(",").map((s) => s.trim());
   // Use custom colors if provided, else default palette
-  let colors = (colorsArg && colorsArg.length > 0) ? colorsArg : ['blue', 'green', 'red', 'orange', 'purple'];
+  const colors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
   // Use custom line styles if provided, else default to solid (empty string represents solid line)
-  let lineStyles = (lineStylesArg && lineStylesArg.length > 0) ? lineStylesArg : [];
+  const lineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
 
   const compiledExpressions = [];
   const validExprStrings = [];
 
   for (const exprStr of exprStrings) {
-    const parts = exprStr.split('=');
+    const parts = exprStr.split("=");
     if (parts.length < 2) {
       console.log('Invalid expression format. Expected format: "y=expression" for each expression.');
       return;
     }
-    const expr = parts.slice(1).join('=');
+    const expr = parts.slice(1).join("=");
     try {
       const compiled = compile(expr);
       compiledExpressions.push(compiled);
       validExprStrings.push(exprStr);
     } catch (err) {
-      console.error('Error compiling expression:', exprStr, err);
+      console.error("Error compiling expression:", exprStr, err);
       return;
     }
   }
@@ -151,7 +153,7 @@ export async function main(args = process.argv.slice(2)) {
       try {
         y = compiled.evaluate({ x });
       } catch (err) {
-        console.error('Error evaluating expression at x =', x, err);
+        console.error("Error evaluating expression at x =", x, err);
         return;
       }
       let cy;
@@ -169,7 +171,7 @@ export async function main(args = process.argv.slice(2)) {
 
   // Calculate gridlines if grid is enabled
   let gridX = [];
-  let gridY = [];
+  const gridY = [];
   let gridXLeft = 50;
   let gridXRight = 50;
   if (gridArg) {
@@ -227,13 +229,13 @@ export async function main(args = process.argv.slice(2)) {
   <% } %>
 </svg>`;
 
-  const svgContent = ejs.render(svgTemplate, { 
-    expressions: validExprStrings, 
-    expressionsData, 
-    svgWidth, 
-    svgHeight, 
-    colors, 
-    padding, 
+  const svgContent = ejs.render(svgTemplate, {
+    expressions: validExprStrings,
+    expressionsData,
+    svgWidth,
+    svgHeight,
+    colors,
+    padding,
     lineStyles,
     grid: gridArg,
     gridX,
@@ -242,12 +244,12 @@ export async function main(args = process.argv.slice(2)) {
     gridXRight,
     xlabel: xlabelArg,
     ylabel: ylabelArg,
-    title: titleArg
+    title: titleArg,
   });
 
   // Process file output if --file is provided
   if (fileArg) {
-    const ext = fileArg.split('.').pop().toLowerCase();
+    const ext = fileArg.split(".").pop().toLowerCase();
     if (ext === "svg") {
       fs.writeFileSync(fileArg, svgContent);
       console.log(`SVG plot written to ${fileArg}`);
@@ -269,7 +271,7 @@ export async function main(args = process.argv.slice(2)) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args).catch(err => {
+  main(args).catch((err) => {
     console.error(err);
     process.exit(1);
   });

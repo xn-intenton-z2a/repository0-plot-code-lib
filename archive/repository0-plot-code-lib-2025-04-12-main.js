@@ -11,7 +11,7 @@ const svgCache = new Map();
 /**
  * Helper function to create a fallback SVG when no valid data points are generated.
  * This ensures consistency in the output and prioritizes a custom fallback message if provided.
- * 
+ *
  * @param {string} [fallbackMessage] - Optional custom fallback message
  * @param {number} svgWidth - Width of the SVG
  * @param {number} svgHeight - Height of the SVG
@@ -21,16 +21,16 @@ function createFallbackSVG(fallbackMessage, svgWidth, svgHeight) {
   // Use a default multi-line fallback message if none is provided
   const message = fallbackMessage ? fallbackMessage : "No valid data points.\nPlease check the input expression.";
   const lines = message.split("\n");
-  return `<svg width=\"${svgWidth}\" height=\"${svgHeight}\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"0\" y=\"0\" width=\"${svgWidth}\" height=\"${svgHeight}\" fill=\"white\" stroke=\"black\"/>\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" fill=\"red\" font-size=\"14\" font-family=\"Arial\">\n    ${lines.map((line, index) => `<tspan x=\"${svgWidth / 2}\" dy=\"${index === 0 ? 0 : 20}\">${line}</tspan>`).join('')}\n  </text>\n</svg>`;
+  return `<svg width=\"${svgWidth}\" height=\"${svgHeight}\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect x=\"0\" y=\"0\" width=\"${svgWidth}\" height=\"${svgHeight}\" fill=\"white\" stroke=\"black\"/>\n  <text x=\"${svgWidth / 2}\" y=\"${svgHeight / 2}\" text-anchor=\"middle\" fill=\"red\" font-size=\"14\" font-family=\"Arial\">\n    ${lines.map((line, index) => `<tspan x=\"${svgWidth / 2}\" dy=\"${index === 0 ? 0 : 20}\">${line}</tspan>`).join("")}\n  </text>\n</svg>`;
 }
 
 /**
  * Generates an SVG plot for a given mathematical expression over a specific range.
  * Optionally, a custom fallback message can be provided to display when no valid data points are found.
  * Additionally, optional logarithmic scaling can be applied to the x and/or y axes.
- * 
+ *
  * The plot now includes enhanced visual features: x and y axis lines, tick marks with numeric labels, and grid lines.
- * 
+ *
  * @param {string} expression - The mathematical expression to evaluate.
  * @param {number} start - The starting value of x.
  * @param {number} end - The ending value of x.
@@ -42,9 +42,30 @@ function createFallbackSVG(fallbackMessage, svgWidth, svgHeight) {
  * @param {number} [svgHeight=300] - Height of the output SVG.
  * @returns {string} - SVG string representing the plot or fallback message.
  */
-export function generatePlot(expression, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300) {
+export function generatePlot(
+  expression,
+  start,
+  end,
+  step,
+  fallbackMessage,
+  logScaleX = false,
+  logScaleY = false,
+  svgWidth = 500,
+  svgHeight = 300,
+) {
   // Create a cache key based on the function arguments
-  const cacheKey = JSON.stringify(["generatePlot", expression, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight]);
+  const cacheKey = JSON.stringify([
+    "generatePlot",
+    expression,
+    start,
+    end,
+    step,
+    fallbackMessage,
+    logScaleX,
+    logScaleY,
+    svgWidth,
+    svgHeight,
+  ]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -74,8 +95,8 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
   }
 
   // Apply logarithmic transformation if enabled
-  const transformedXValues = points.map(p => logScaleX ? Math.log10(p.x) : p.x);
-  const transformedYValues = points.map(p => logScaleY ? Math.log10(p.y) : p.y);
+  const transformedXValues = points.map((p) => (logScaleX ? Math.log10(p.x) : p.x));
+  const transformedYValues = points.map((p) => (logScaleY ? Math.log10(p.y) : p.y));
   const minXTrans = Math.min(...transformedXValues);
   const maxXTrans = Math.max(...transformedXValues);
   const minYTrans = Math.min(...transformedYValues);
@@ -159,7 +180,7 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
 /**
  * Generates an SVG plot for multiple mathematical expressions. Each expression is plotted as a distinct polyline with a unique color and a legend is added.
  * Additionally, optional logarithmic scaling can be applied to the axes.
- * 
+ *
  * @param {string[]} expressions - Array of mathematical expressions to evaluate.
  * @param {number} start - The starting x value.
  * @param {number} end - The ending x value.
@@ -171,8 +192,29 @@ export function generatePlot(expression, start, end, step, fallbackMessage, logS
  * @param {number} [svgHeight=300] - Height of the output SVG.
  * @returns {string} - SVG string representing the multi-plot or fallback SVG if no valid data points are found for any expression.
  */
-export function generateMultiPlot(expressions, start, end, step, fallbackMessage, logScaleX = false, logScaleY = false, svgWidth = 500, svgHeight = 300) {
-  const cacheKey = JSON.stringify(["generateMultiPlot", expressions, start, end, step, fallbackMessage, logScaleX, logScaleY, svgWidth, svgHeight]);
+export function generateMultiPlot(
+  expressions,
+  start,
+  end,
+  step,
+  fallbackMessage,
+  logScaleX = false,
+  logScaleY = false,
+  svgWidth = 500,
+  svgHeight = 300,
+) {
+  const cacheKey = JSON.stringify([
+    "generateMultiPlot",
+    expressions,
+    start,
+    end,
+    step,
+    fallbackMessage,
+    logScaleX,
+    logScaleY,
+    svgWidth,
+    svgHeight,
+  ]);
   if (svgCache.has(cacheKey)) {
     return svgCache.get(cacheKey);
   }
@@ -211,26 +253,28 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   }
 
   // Determine overall transformed ranges
-  const transformedXValues = allValidPoints.map(p => logScaleX ? Math.log10(p.x) : p.x);
+  const transformedXValues = allValidPoints.map((p) => (logScaleX ? Math.log10(p.x) : p.x));
   const minXTrans = Math.min(...transformedXValues);
   const maxXTrans = Math.max(...transformedXValues);
-  const xRange = (maxXTrans - minXTrans) || 1;
-  const transformedYValues = allValidPoints.map(p => logScaleY ? Math.log10(p.y) : p.y);
+  const xRange = maxXTrans - minXTrans || 1;
+  const transformedYValues = allValidPoints.map((p) => (logScaleY ? Math.log10(p.y) : p.y));
   const minYTrans = Math.min(...transformedYValues);
   const maxYTrans = Math.max(...transformedYValues);
-  const yRange = (maxYTrans - minYTrans) || 1;
+  const yRange = maxYTrans - minYTrans || 1;
 
   // Generate polyline elements for each series
   let polylines = "";
   series.forEach((serie, index) => {
     if (serie.points.length > 0) {
-      const svgPoints = serie.points.map(({ x, y }) => {
-        const tx = logScaleX ? Math.log10(x) : x;
-        const ty = logScaleY ? Math.log10(y) : y;
-        const scaledX = ((tx - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
-        const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
-        return `${scaledX},${scaledY}`;
-      }).join(' ');
+      const svgPoints = serie.points
+        .map(({ x, y }) => {
+          const tx = logScaleX ? Math.log10(x) : x;
+          const ty = logScaleY ? Math.log10(y) : y;
+          const scaledX = ((tx - minXTrans) / xRange) * (svgWidth - 2 * margin) + margin;
+          const scaledY = svgHeight - (((ty - minYTrans) / yRange) * (svgHeight - 2 * margin) + margin);
+          return `${scaledX},${scaledY}`;
+        })
+        .join(" ");
       const color = colors[index % colors.length];
       polylines += `<polyline points="${svgPoints}" fill="none" stroke="${color}" stroke-width="2"/>\n`;
     }
@@ -279,7 +323,9 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
     const yTickInterval = (maxYTransCalc - minYTransCalc) / tickCount;
     for (let i = 0; i <= tickCount; i++) {
       const yTickValue = minYTransCalc + i * yTickInterval;
-      const scaledY = svgHeight - (((yTickValue - minYTransCalc) / (maxYTransCalc - minYTransCalc || 1)) * (svgHeight - 2 * margin) + margin);
+      const scaledY =
+        svgHeight -
+        (((yTickValue - minYTransCalc) / (maxYTransCalc - minYTransCalc || 1)) * (svgHeight - 2 * margin) + margin);
       gridLines += `<line class="grid-line" x1="${margin}" y1="${scaledY}" x2="${svgWidth - margin}" y2="${scaledY}" stroke="lightgray" stroke-dasharray="2,2" />\n`;
       tickMarks += `<line class="tick-mark" x1="${margin - 5}" y1="${scaledY}" x2="${margin}" y2="${scaledY}" stroke="black" />\n`;
       tickMarks += `<text class="tick-label" x="${margin - 7}" y="${scaledY + 3}" text-anchor="end" font-size="10">${yTickValue.toFixed(2)}</text>\n`;
@@ -291,12 +337,14 @@ export function generateMultiPlot(expressions, start, end, step, fallbackMessage
   const yAxisLine = `<line class="axis y-axis" x1="${margin}" y1="${margin}" x2="${margin}" y2="${svgHeight - margin}" stroke="black" stroke-width="2" />`;
 
   // Build the final SVG content
-  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black" />\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="legend">\n      ${series.map((serie, index) => {
-        const color = colors[index % colors.length];
-        const legendX = svgWidth - 110;
-        const legendY = 20 + index * 15;
-        return `<rect x="${legendX}" y="${legendY - 12}" width="10" height="10" fill="${color}" />\n<text x="${legendX + 15}" y="${legendY - 2}" font-size="10" fill="black">${serie.expression}</text>`;
-      }).join("\n")}
+  const svgContent = `<svg width="${svgWidth}" height="${svgHeight}" xmlns="http://www.w3.org/2000/svg">\n    <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="black" />\n    <g class="grid">\n${gridLines}</g>\n    <g class="axes">\n${xAxisLine}\n${yAxisLine}</g>\n    <g class="ticks">\n${tickMarks}</g>\n    ${polylines}\n    <g class="legend">\n      ${series
+    .map((serie, index) => {
+      const color = colors[index % colors.length];
+      const legendX = svgWidth - 110;
+      const legendY = 20 + index * 15;
+      return `<rect x="${legendX}" y="${legendY - 12}" width="10" height="10" fill="${color}" />\n<text x="${legendX + 15}" y="${legendY - 2}" font-size="10" fill="black">${serie.expression}</text>`;
+    })
+    .join("\n")}
     </g>\n  </svg>`;
 
   svgCache.set(cacheKey, svgContent);
@@ -308,9 +356,9 @@ export const generateSVGPlot = generatePlot;
 
 // Helper function to write output, converting SVG to PNG if needed
 async function writeOutput(fileName, svg) {
-  if (fileName.toLowerCase().endsWith('.png')) {
+  if (fileName.toLowerCase().endsWith(".png")) {
     try {
-      const { default: sharp } = await import('sharp');
+      const { default: sharp } = await import("sharp");
       const pngBuffer = await sharp(Buffer.from(svg)).png().toBuffer();
       fs.writeFileSync(fileName, pngBuffer);
       console.log("PNG file generated successfully.");
@@ -373,7 +421,7 @@ async function handlePlot(args) {
 
   // Determine output file name
   const fileIdx = args.indexOf("--file");
-  const fileName = (fileIdx !== -1 && args.length > fileIdx + 1) ? args[fileIdx + 1] : "output.svg";
+  const fileName = fileIdx !== -1 && args.length > fileIdx + 1 ? args[fileIdx + 1] : "output.svg";
 
   // Check for custom fallback message flag
   let fallbackMessage;
@@ -390,7 +438,7 @@ async function handlePlot(args) {
   const plotsFlagIdx = args.indexOf("--plots");
   if (plotsFlagIdx !== -1 && args.length > plotsFlagIdx + 1) {
     const expressionsArg = args[plotsFlagIdx + 1];
-    const expressions = expressionsArg.split(",").map(e => e.trim());
+    const expressions = expressionsArg.split(",").map((e) => e.trim());
     const xminIdx = args.indexOf("--xmin");
     const xmaxIdx = args.indexOf("--xmax");
     const pointsIdx = args.indexOf("--points");
@@ -419,7 +467,7 @@ async function handlePlot(args) {
   if (nextArg && !nextArg.startsWith("--")) {
     // Check if multiple expressions are provided via comma separation
     if (nextArg.indexOf(",") !== -1) {
-      const expressions = nextArg.split(",").map(e => e.trim());
+      const expressions = nextArg.split(",").map((e) => e.trim());
       const xminIdx = args.indexOf("--xmin");
       const xmaxIdx = args.indexOf("--xmax");
       const pointsIdx = args.indexOf("--points");
@@ -437,7 +485,17 @@ async function handlePlot(args) {
       }
       const pointsCount = parseInt(args[pointsIdx + 1], 10);
       const step = (xmax - xmin) / pointsCount;
-      const svg = generateMultiPlot(expressions, xmin, xmax, step, fallbackMessage, logScaleX, logScaleY, width, height);
+      const svg = generateMultiPlot(
+        expressions,
+        xmin,
+        xmax,
+        step,
+        fallbackMessage,
+        logScaleX,
+        logScaleY,
+        width,
+        height,
+      );
       await writeOutput(fileName, svg);
       return;
     } else {
@@ -527,7 +585,7 @@ export async function main(args = []) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args).catch(err => {
+  main(args).catch((err) => {
     console.error(err);
     process.exit(1);
   });
