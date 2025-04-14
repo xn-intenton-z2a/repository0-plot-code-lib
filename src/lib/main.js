@@ -29,7 +29,8 @@ function parseCLIArgs(args) {
     legendPosition: null,
     drawMarkers: true,
     bgColor: null,
-    outputJson: false
+    outputJson: false,
+    tooltip: false
   };
   let i = 0;
   while (i < args.length) {
@@ -95,6 +96,9 @@ function parseCLIArgs(args) {
       case "--json":
         params.outputJson = true;
         break;
+      case "--tooltip":
+        params.tooltip = true;
+        break;
       default:
         break;
     }
@@ -124,7 +128,8 @@ export async function main(args = process.argv.slice(2)) {
     legendPosition: legendPositionArg,
     drawMarkers,
     bgColor: bgColorArg,
-    outputJson
+    outputJson,
+    tooltip: tooltipArg
   } = parseCLIArgs(args);
 
   const svgWidth = width || 500;
@@ -194,7 +199,7 @@ export async function main(args = process.argv.slice(2)) {
     // Original logic for expressions
     if (!expression || !range) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json]`
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json]"
       );
       return;
     }
@@ -411,7 +416,11 @@ export async function main(args = process.argv.slice(2)) {
     <% } %>
     <% if (drawMarkers) { %>
       <% data.forEach(function(point) { %>
-        <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
+        <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>">
+          <% if (tooltip) { %>
+            <title>x: <%= point.x %>, y: <%= point.y %></title>
+          <% } %>
+        </circle>
       <% }); %>
     <% } %>
   <% }); %>
@@ -444,7 +453,8 @@ export async function main(args = process.argv.slice(2)) {
     lineWidth: lineWidthArg,
     legendPosition: legendPositionArg || 'top',
     drawMarkers,
-    bgColor: bgColorArg || 'white'
+    bgColor: bgColorArg || 'white',
+    tooltip: tooltipArg
   });
 
   if (fileArg) {

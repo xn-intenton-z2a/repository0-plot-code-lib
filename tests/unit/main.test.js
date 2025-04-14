@@ -387,3 +387,24 @@ describe("JSON Output Option", () => {
     fs.unlinkSync(csvFile);
   });
 });
+
+describe("Tooltip Option", () => {
+  test("should add title tag to circle markers when --tooltip is provided", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--tooltip"]);
+    console.log = originalLog;
+    // Check that each circle has a nested <title> tag with the coordinates
+    const circleRegex = /<circle[^>]*>\s*<title>([^<]+)<\/title>\s*<\/circle>/g;
+    let match;
+    let found = false;
+    while ((match = circleRegex.exec(outputContent)) !== null) {
+      if (match[1].match(/x:\s*[\d.]+,\s*y:\s*[\d.]+/)) {
+        found = true;
+        break;
+      }
+    }
+    expect(found).toBe(true);
+  });
+});
