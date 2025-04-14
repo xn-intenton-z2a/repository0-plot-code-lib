@@ -27,10 +27,10 @@
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="cli-usage" href="#cli-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage</h2>
 <p class="md-github">Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis scaling for data spanning multiple orders of magnitude, and adjustable line width for plot lines.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="expression-based-plotting" href="#expression-based-plotting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expression Based Plotting</h3>
 <p class="md-github">Provide the range in the format:</p>
 <p class="md-github">--range &quot;x=start:end[,y=min:max]&quot;</p>
-<p class="md-github">You can now omit the y-axis range. If the y range is omitted, the tool will automatically compute the appropriate range from the evaluated data.</p>
-<p class="md-github">You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, enable gridlines, axis labels, a plot title, logarithmic y-axis scaling, and line width using the following options:</p>
+<p class="md-github">If you provide an expression using --expression, the tool will evaluate the function over the specified x-range and compute y values accordingly. You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, enable gridlines, axis labels, a plot title, logarithmic y-axis scaling, and line width using the following options:</p>
 <p class="md-github">--width [number]             Override the default SVG width (default: 500)
 --height [number]            Override the default SVG height (default: 300)
 --padding [number]           Override the default padding used for scaling (default: 20)
@@ -43,6 +43,17 @@
 --ylabel [text]              Provide a label for the y-axis.
 --title [text]               Provide a title to be displayed at the top center of the plot.
 --logYAxis                 Enable logarithmic scaling for the y-axis. Note: All y values (or y-axis range) must be strictly positive.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="csv-data-input-option" href="#csv-data-input-option"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CSV Data Input Option</h3>
+<p class="md-github">In addition to the expression-based plotting, you can now supply a CSV file containing time series data using the --dataFile flag. When this flag is provided, the tool will read the CSV file and plot the data points. The CSV file should contain two columns representing x and y values, and may include a header row. For example:</p>
+<p class="md-github">contents of data.csv:</p>
+<p class="md-github">x,y
+0,0
+1,1
+2,4
+3,9</p>
+<p class="md-github">To generate a plot from this CSV file, run:</p>
+<p class="md-github">node src/lib/main.js --dataFile data.csv</p>
+<p class="md-github">When using --dataFile, any --expression and --range parameters are ignored, and the data is read directly from the CSV file. The tool will automatically compute the x and y ranges if they are not provided.</p>
 <h3 class="md-github"><a class="md-github__anchor" name="multiple-expressions" href="#multiple-expressions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple Expressions</h3>
 <p class="md-github">You can plot more than one function on a single graph by providing multiple expressions as a comma-separated list to the --expression flag. Each expression will be plotted with a distinct color and, if specified, a distinct line style.</p>
 <p class="md-github">For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, a title, logarithmic y-axis scaling, and a custom line width, run:</p>
@@ -63,7 +74,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-14T09:30:42.380Z</p>
+    <p>Generated on 2025-04-14T09:34:23.855Z</p>
   </footer>
 </body>
 </html>
