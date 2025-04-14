@@ -8,13 +8,13 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis scaling for data spanning multiple orders of magnitude, and adjustable line width for plot lines.
 
+### Expression Based Plotting
+
 Provide the range in the format:
 
   --range "x=start:end[,y=min:max]"
 
-You can now omit the y-axis range. If the y range is omitted, the tool will automatically compute the appropriate range from the evaluated data.
-
-You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, enable gridlines, axis labels, a plot title, logarithmic y-axis scaling, and line width using the following options:
+If you provide an expression using --expression, the tool will evaluate the function over the specified x-range and compute y values accordingly. You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, enable gridlines, axis labels, a plot title, logarithmic y-axis scaling, and line width using the following options:
 
   --width [number]             Override the default SVG width (default: 500)
   --height [number]            Override the default SVG height (default: 300)
@@ -28,6 +28,24 @@ You can also customize the SVG output dimensions, padding, number of data points
   --ylabel [text]              Provide a label for the y-axis.
   --title [text]               Provide a title to be displayed at the top center of the plot.
   --logYAxis                 Enable logarithmic scaling for the y-axis. Note: All y values (or y-axis range) must be strictly positive.
+
+### CSV Data Input Option
+
+In addition to the expression-based plotting, you can now supply a CSV file containing time series data using the --dataFile flag. When this flag is provided, the tool will read the CSV file and plot the data points. The CSV file should contain two columns representing x and y values, and may include a header row. For example:
+
+contents of data.csv:
+
+  x,y
+  0,0
+  1,1
+  2,4
+  3,9
+
+To generate a plot from this CSV file, run:
+
+  node src/lib/main.js --dataFile data.csv
+
+When using --dataFile, any --expression and --range parameters are ignored, and the data is read directly from the CSV file. The tool will automatically compute the x and y ranges if they are not provided.
 
 ### Multiple Expressions
 
