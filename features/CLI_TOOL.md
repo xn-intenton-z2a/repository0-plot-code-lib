@@ -1,25 +1,25 @@
 # CLI_TOOL Enhancement with Interactive Mode
 
 ## Overview
-This update refines the existing CLI_TOOL feature by adding a fully integrated interactive mode. When the user supplies the `--interactive` flag, the program will prompt the user for required inputs (such as function expression, range, and additional plotting parameters) using Node's built-in `readline` module. This enhancement simplifies usage by offering a guided prompt-based input method alongside the standard command-line flags.
+This update refines the CLI_TOOL feature by adding a fully integrated interactive mode. When the CLI is executed with the `--interactive` flag, the tool will prompt the user for essential inputs (such as the function expression, range for x and optionally y, and additional configuration parameters) using Node's built-in `readline` module. This guided input mode simplifies execution for users by prompting for missing parameters interactively, while still preserving backward compatibility with flag-based usage.
 
 ## Implementation Details
 ### Source File (`src/lib/main.js`)
-- **Interactive Mode Detection**: At the top of the main function, the code will check if `--interactive` is present among the CLI arguments.
-- **Interactive Prompting**: Using the `readline` module, the tool will sequentially prompt for key parameters such as the mathematical expression (e.g., `y=sin(x)`), range (e.g., `x=0:9[,y=-1:1]`), and other optional parameters.
-- **Argument Merging**: The answers received will be merged with existing CLI arguments so that the remaining code (which processes expressions, CSV input, and output generation) remains unchanged.
-- **Backward Compatibility**: All existing flags (e.g., `--file`, `--json`, etc.) continue to work as before.
+- **Interactive Flag Detection**: At the start of the main function, detect the `--interactive` flag among the CLI arguments.
+- **Interactive Prompting**: If the flag is present, initialize the `readline` interface to prompt the user for any missing parameters (e.g., expression, range, file output name, and other optional flags).
+- **Argument Merging**: Collect the user responses and merge them with the existing CLI arguments so that subsequent processing (function parsing, data generation, and SVG/PNG rendering) works unchanged.
+- **Fallback to CLI Arguments**: When the `--interactive` flag is not provided, maintain the existing flag-based usage.
 
 ### Test File (`tests/unit/main.test.js`)
-- **Interactive Mode Tests**: New tests will simulate interactive input by mocking the `readline` module. This will verify that when `--interactive` is provided, the tool correctly prompts for input and produces the expected output (SVG, PNG, or JSON) based on the merged arguments.
+- **Interactive Mode Test Cases**: Add tests to simulate interactive mode by mocking the `readline` module. The tests should cover cases where the user is prompted for inputs and ensure that the merged arguments produce the expected SVG/PNG output or JSON data.
 
 ### README File (`README.md`)
-- **CLI Usage Section Update**: Document the new interactive mode. This section will describe how to use the `--interactive` flag and list the prompted inputs. An example usage snippet will be added to guide users.
+- **Update Usage Documentation**: Enhance the CLI usage section to include details about the interactive mode. Document the `--interactive` flag and provide an example command that demonstrates how the tool prompts the user for input.
 
 ### Dependencies
-- No additional external dependencies are required. The existing Node.js built-in `readline` module is used for interactive prompting.
+- **No New Dependencies**: Continue using Node's built-in `readline` module; no external dependencies are introduced.
 
 ## Impact and Benefits
-- **Enhanced User Experience**: New users can enter plot parameters in a guided, interactive manner, reducing the frustration of remembering multiple command-line flags.
-- **Unified and Accessible Interface**: Integrates interactive mode within the consolidated CLI tool, maintaining backward compatibility while providing an accessible alternate input method.
-- **Consistency with Mission**: This enhancement supports the mission of making the plot library a go-to tool by simplifying initial usage and reducing the learning curve for first-time users.
+- **Improved User Experience**: New users can input plot parameters step-by-step without needing to know all the required CLI flags.
+- **Backward Compatibility**: Existing command-line usage remains unaffected, allowing advanced users to continue using flags directly.
+- **Consistency with Mission**: This enhancement aligns with our mission to be the "go-to plot library" by lowering the barrier to entry for generating plots interactively.
