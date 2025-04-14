@@ -18,6 +18,7 @@ export async function main(args = process.argv.slice(2)) {
   let paddingArg = null;
   let pointsArg = 10; // default number of data points
   let colorsArg = null; // custom colors from CLI
+  let lineStylesArg = null; // custom line styles from CLI
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--expression" && i + 1 < args.length) {
@@ -44,12 +45,15 @@ export async function main(args = process.argv.slice(2)) {
     } else if (args[i] === "--colors" && i + 1 < args.length) {
       colorsArg = args[i + 1].split(",").map(s => s.trim());
       i++;
+    } else if (args[i] === "--lineStyles" && i + 1 < args.length) {
+      lineStylesArg = args[i + 1].split(",").map(s => s.trim());
+      i++;
     }
   }
 
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
-    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>]`);
+    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>]`);
     return;
   }
 
@@ -91,6 +95,9 @@ export async function main(args = process.argv.slice(2)) {
   const exprStrings = expressionArg.split(",").map(s => s.trim());
   // Use custom colors if provided, else default palette
   let colors = (colorsArg && colorsArg.length > 0) ? colorsArg : ['blue', 'green', 'red', 'orange', 'purple'];
+  // Use custom line styles if provided, else default to solid (empty string represents solid line)
+  let lineStyles = (lineStylesArg && lineStylesArg.length > 0) ? lineStylesArg : [];
+
   const compiledExpressions = [];
   const validExprStrings = [];
 
@@ -153,8 +160,12 @@ export async function main(args = process.argv.slice(2)) {
   <% }); %>
   <% expressionsData.forEach(function(data, idx) { %>
     <% if (data.length > 0) { %>
-      <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="2" points="<%=
-        data.map(point => (50 + point.x * 40) + ',' + point.cy).join(' ') %>" />
+      <% let dash = ''; %>
+      <% if (lineStyles && lineStyles[idx]) { %>
+        <% let style = lineStyles[idx].toLowerCase(); %>
+        <% if (style === 'dashed') { dash = 'stroke-dasharray="5,5"'; } else if (style === 'dotted') { dash = 'stroke-dasharray="1,5"'; } %>
+      <% } %>
+      <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="2" <%- dash %> points="<%= data.map(point => (50 + point.x * 40) + ',' + point.cy).join(' ') %>" />
     <% } %>
     <% data.forEach(function(point) { %>
       <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
@@ -162,7 +173,7 @@ export async function main(args = process.argv.slice(2)) {
   <% }); %>
 </svg>`;
 
-  const svgContent = ejs.render(svgTemplate, { expressions: validExprStrings, expressionsData, svgWidth, svgHeight, colors, padding });
+  const svgContent = ejs.render(svgTemplate, { expressions: validExprStrings, expressionsData, svgWidth, svgHeight, colors, padding, lineStyles });
 
   // Process file output if --file is provided
   if (fileArg) {

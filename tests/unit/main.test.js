@@ -131,7 +131,26 @@ describe("Custom Colors CLI Option", () => {
     console.log = originalLog;
     // Check that the custom colors appear in the SVG output
     expect(outputContent).toContain('stroke="magenta"');
-    // Since only one expression is provided, only the first color is used. But we also test the text element.
     expect(outputContent).toContain('fill="magenta"');
+  });
+});
+
+describe("Custom Line Styles CLI Option", () => {
+  test("should use provided custom line styles for plot lines", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x),y=cos(x)", "--range", "x=0:9,y=-1:1", "--lineStyles", "dashed,dotted"]);
+    console.log = originalLog;
+    // Verify first polyline has stroke-dasharray="5,5" and second has stroke-dasharray="1,5"
+    const polylineRegex = /<polyline[^>]*stroke-dasharray="([^"]+)"/g;
+    let matches = [];
+    let match;
+    while ((match = polylineRegex.exec(outputContent)) !== null) {
+      matches.push(match[1]);
+    }
+    expect(matches.length).toBeGreaterThanOrEqual(2);
+    expect(matches[0]).toBe('5,5');
+    expect(matches[1]).toBe('1,5');
   });
 });
