@@ -339,3 +339,14 @@ describe("No Markers Option", () => {
     expect(outputContent).not.toContain('<circle');
   });
 });
+
+describe("Custom Background Color CLI Option", () => {
+  test("should set custom background color for the SVG using --bgColor", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--bgColor", "pink"]);
+    console.log = originalLog;
+    expect(outputContent).toContain('<rect width="100%" height="100%" fill="pink"');
+  });
+});

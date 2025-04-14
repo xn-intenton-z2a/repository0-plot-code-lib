@@ -6,7 +6,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## CLI Usage
 
-Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis scaling for data spanning multiple orders of magnitude, adjustable line width for plot lines, configurable legend placement, and an option to disable data point markers.
+Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis scaling for data spanning multiple orders of magnitude, adjustable line width for plot lines, configurable legend placement, an option to disable data point markers, and a custom background color for SVG plots.
 
 ### Expression Based Plotting
 
@@ -30,6 +30,7 @@ If you provide an expression using --expression, the tool will evaluate the func
   --title [text]               Provide a title to be displayed at the top center of the plot.
   --logYAxis                 Enable logarithmic scaling for the y-axis. Note: All y values (or y-axis range) must be strictly positive.
   --noMarkers                Disable rendering of data point markers in the SVG output.
+  --bgColor [color]          Set a custom background color for the SVG plot (default: white).
 
 ### CSV Data Input Option
 
@@ -53,9 +54,9 @@ When using --dataFile, any --expression and --range parameters are ignored, and 
 
 You can plot more than one function on a single graph by providing multiple expressions as a comma-separated list to the --expression flag. Each expression will be plotted with a distinct color and, if specified, a distinct line style.
 
-For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, a title, logarithmic y-axis scaling, a custom line width, configurable legend placement, and without data point markers, run:
+For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, a title, logarithmic y-axis scaling, a custom line width, configurable legend placement, without data point markers, and a custom background color, run:
 
-> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --legendPosition bottom --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis --noMarkers
+> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --legendPosition bottom --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis --noMarkers --bgColor lightyellow
 
 ### Auto Y-Axis Range
 
