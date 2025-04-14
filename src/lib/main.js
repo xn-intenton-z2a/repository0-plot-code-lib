@@ -2,9 +2,44 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
+import { writeFileSync } from "fs";
 
-export function main(args) {
-  console.log(`Run with: ${JSON.stringify(args)}`);
+/**
+ * Parses CLI arguments to extract --expression, --range, and --file options.
+ * @param {string[]} args - Array of command-line arguments
+ * @returns {object} An object with expression, range, and file if present
+ */
+function parseArgs(args) {
+  const result = {};
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+    if (arg === "--expression") {
+      result.expression = args[i + 1];
+      i++;
+    } else if (arg === "--range") {
+      result.range = args[i + 1];
+      i++;
+    } else if (arg === "--file") {
+      result.file = args[i + 1];
+      i++;
+    }
+  }
+  return result;
+}
+
+export function main(args = []) {
+  const cliOptions = parseArgs(args);
+  if (cliOptions.expression && cliOptions.range && cliOptions.file) {
+    const plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+    try {
+      writeFileSync(cliOptions.file, plotContent, "utf-8");
+      console.log(`Plot written to file ${cliOptions.file}`);
+    } catch (error) {
+      console.error(`Failed to write plot to file: ${error.message}`);
+    }
+  } else {
+    console.log(`Run with: ${JSON.stringify(args)}`);
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
