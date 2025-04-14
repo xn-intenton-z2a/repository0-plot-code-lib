@@ -30,10 +30,18 @@ function parseArgs(args) {
 export function main(args = []) {
   const cliOptions = parseArgs(args);
   if (cliOptions.expression && cliOptions.range && cliOptions.file) {
-    const plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+    let plotContent;
+    const filePath = cliOptions.file;
+    if (filePath.endsWith('.svg')) {
+      plotContent = `SVG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+    } else if (filePath.endsWith('.png')) {
+      plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+    } else {
+      plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+    }
     try {
-      writeFileSync(cliOptions.file, plotContent, "utf-8");
-      console.log(`Plot written to file ${cliOptions.file}`);
+      writeFileSync(filePath, plotContent, "utf-8");
+      console.log(`Plot written to file ${filePath}`);
     } catch (error) {
       console.error(`Failed to write plot to file: ${error.message}`);
     }
