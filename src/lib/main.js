@@ -27,7 +27,7 @@ function parseArgs(args) {
   return result;
 }
 
-export function main(args) {
+export function main(args = []) {
   const cliOptions = parseArgs(args);
   if (cliOptions.expression && cliOptions.range && cliOptions.file) {
     const plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
