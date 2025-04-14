@@ -1,63 +1,51 @@
-# CLI_PLOTTING Environment Integration
+# CLI_PLOTTING Environment Variable Integration
 
-This update enhances the existing CLI_PLOTTING feature by integrating robust support for environment variable configuration using the `dotenv` package. When CLI arguments are absent, the application will attempt to source default values from a `.env` file. This improvement supports better user configurability and aligns with the mission to provide a seamless plotting experience.
+This update refines the CLI_PLOTTING feature to further enhance user configurability by integrating environment variable support using the `dotenv` package. With this update, key plotting parameters such as SVG dimensions, padding, and the number of data points can be set via environment variables. When CLI arguments are absent, the application will fall back to default values provided in the environment, accompanied by informative logging.
 
-## Environment Variable Loading
+## Implementation Details
 
-- **Initialization:**
-  - At the very beginning of `src/lib/main.js`, import the `dotenv` package and call `dotenv.config()`.
-  - Example:
+- **Environment Initialization:**
+  - Import and initialize the `dotenv` package at the very start of the source file (`src/lib/main.js`) using:
     ```js
     import dotenv from 'dotenv';
     dotenv.config();
     ```
 
 - **Parameter Resolution:**
-  - For parameters such as `width`, `height`, `padding`, and `points`, check if the corresponding CLI argument is provided. If not, attempt to read the default value from environment variables:
-    - `SVG_WIDTH` for the width
-    - `SVG_HEIGHT` for the height
-    - `SVG_PADDING` for the padding
-    - `SVG_POINTS` for the number of data points
-  - The fallback code should parse the environmental variable (if exists) to an integer. If neither is provided, fallback to the hard-coded defaults (e.g., 500 for width, 300 for height, etc.).
-  - Example update:
+  - Update the assignment for parameters like `width`, `height`, `padding`, and `points` to check for the corresponding environment variables if the CLI argument is missing. For example:
     ```js
     const svgWidth = widthArg || (process.env.SVG_WIDTH ? parseInt(process.env.SVG_WIDTH, 10) : 500);
+    const svgHeight = heightArg || (process.env.SVG_HEIGHT ? parseInt(process.env.SVG_HEIGHT, 10) : 300);
+    const padding = paddingArg || (process.env.SVG_PADDING ? parseInt(process.env.SVG_PADDING, 10) : 20);
+    const numPoints = pointsArg || (process.env.SVG_POINTS ? parseInt(process.env.SVG_POINTS, 10) : 10);
     ```
-
-- **Logging:**
-  - Add console logging to indicate when a default value is taken from an environment variable. For example:
+  - Add console logging to indicate when a value is sourced from the environment. For instance:
     ```js
     if (!widthArg && process.env.SVG_WIDTH) {
       console.log(`Using environment SVG_WIDTH=${process.env.SVG_WIDTH}`);
     }
     ```
 
-## Integration Points
+## Testing
 
-- **Source File (`src/lib/main.js`):**
-  - Begin with environment variable initialization.
-  - Update parameter assignments to incorporate environment variable checks for `width`, `height`, `padding`, and `points`.
+- **Unit Tests:**
+  - Extend tests in `tests/unit/main.test.js` to simulate scenarios where environment variables are provided. Verify that when CLI parameters are omitted, the system uses the environment variable values.
+  - Confirm that explicit CLI arguments always override environment settings.
 
-- **Test File (`tests/unit/main.test.js`):**
-  - Extend tests to simulate scenarios with environment variables. Ensure that when CLI parameters are absent, the code correctly falls back to environment defaults. Also verify that CLI inputs override .env settings.
+## Documentation
 
-- **Documentation (`README.md`):**
-  - Update the README with a new section explaining environment variable usage. Provide examples of a `.env` file with:
+- **README.md:**
+  - Update the README with a new section describing the usage of environment variables. Provide an example `.env` file:
     ```bash
     SVG_WIDTH=600
     SVG_HEIGHT=400
     SVG_PADDING=30
     SVG_POINTS=20
     ```
+  - Document that users can now configure plotting defaults through the `.env` file in the repository root.
 
-- **Dependencies (`package.json`):**
-  - Confirm that `dotenv` is listed among dependencies to enable the feature.
+## Dependencies
 
-## How to Test
+- Ensure that `dotenv` is listed in the dependencies (as already present in `package.json`).
 
-1. Create a `.env` file in the repository root with custom default values for SVG_WIDTH, SVG_HEIGHT, SVG_PADDING, and SVG_POINTS.
-2. Run the CLI without specifying the respective parameters and verify that the output now uses the environment-sourced values (observe console logs).
-3. Run the CLI with explicit CLI parameters to verify they take precedence over environment values.
-4. Update and run unit tests to cover these new scenarios.
-
-This feature upgrade is focused and achievable within a single repository update, ensuring that the plot generation experience becomes more flexible and user-friendly.
+This update aligns with the mission of creating a flexible and user-friendly plotting tool, allowing both CLI and environment-based configurations in a single repository update.
