@@ -1,23 +1,31 @@
-# CLI_PARSER Feature Specification
+# CLI_PARSER Feature Specification (Extended)
 
 ## Overview
-This feature introduces robust command line argument parsing to the repository's main CLI tool. The functionality will allow users to supply parameters such as --expression, --range, and --file directly through the CLI. This enhancement will bring the tool closer to the mission of being a go-to plot library by interpreting user inputs to generate time series data and produce SVG/PNG visualisations.
+This update enhances the existing CLI parser by incorporating robust input validation using the zod library. In addition to parsing flags like `--expression`, `--range`, and `--file`, the parser will now validate the input formats and provide informative error messages. This aligns with our mission to deliver a reliable and user-friendly plotting tool.
 
 ## Implementation
-- Update the source file (src/lib/main.js) to parse command line arguments.
-  - If the user provides `--expression`, `--range`, and `--file`, parse their values to trigger the respective plotting functionalities.
-  - Maintain backward compatibility by continuing to print the arguments when no valid flags are provided.
-- Utilize simple in-code parsing logic to recognize flags. Optionally, use existing dependencies (such as zod for validation) to handle and validate input formats.
-- Update test cases in tests/unit/main.test.js to check that the CLI responds correctly to flag inputs and produces the expected console output.
+- **Source File (src/lib/main.js):**
+  - Integrate zod for runtime validation of CLI arguments to ensure that `--expression` is a valid mathematical expression, `--range` conforms to a valid range format, and `--file` is a proper filename with a supported extension (SVG/PNG).
+  - Enhance the CLI behavior by:
+    - Printing a detailed error message when an argument is missing or does not meet the expected format.
+    - Providing a help message when users invoke the tool with incorrect or insufficient parameters, guiding them towards correct usage.
+    - Maintaining backward compatibility by falling back to simple logging when flags are not provided.
+
+- **Test File (tests/unit/main.test.js):**
+  - Add new test cases to simulate erroneous and correct combinations of CLI flags.
+  - Validate that incorrect input produces the appropriate error messages and that correct input is accepted without regressions.
+
+- **Documentation Updates (README.md):**
+  - Revise the CLI usage section to include new examples featuring input validation and error feedback.
+  - Document expected argument formats, common error scenarios, and troubleshooting steps.
+
+## Dependencies
+- Leverage the existing dependency on zod for input validation.
+
+## Benefits
+- Enhances user experience by providing clear, immediate feedback on input errors.
+- Tightens control over data types and formats before proceeding with plot generation.
+- Reinforces the reliability of the CLI tool, ensuring user inputs are both expected and safe to process.
 
 ## Testing
-- Add scenarios in the test files to simulate passing different combinations of the flags (`--expression`, `--range`, `--file`).
-- Ensure that the input parsing logic gracefully handles missing or incomplete arguments.
-- Use the vitest framework to automate tests to guarantee no regression in CLI behavior.
-
-## Documentation
-- Update the README.md file with examples of the new CLI usage.
-  - Include sample commands, e.g.: `node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg`.
-- Document the expected input formats and possible error messages arising from invalid inputs.
-
-This feature will enhance the user experience by providing a direct, intuitive interface for interacting with the plotting library, fully aligning with the mission of turning formulae and time series data into visual plots.
+- Run `npm test` to ensure all new validations and error messages are triggered appropriately and that existing functionality remains stable.
