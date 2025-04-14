@@ -1,38 +1,41 @@
-# CLI_PLOTTING Environment Integration
+# CLI_PLOTTING with ENV
 
-This update enhances the existing CLI_PLOTTING feature by fully integrating environment variable support. The feature now loads configuration from a `.env` file at startup using the `dotenv` package. Key plotting parameters such as SVG width, height, padding, and number of data points can be set via environment variables if not provided via CLI flags.
+This update refines the existing CLI_PLOTTING feature by fully integrating support for environment variable configuration. The feature will load default plotting parameters from a `.env` file using the `dotenv` package if command-line options are not provided.
 
 ## Overview
 
-- **Environment Loading:** At the beginning of the execution in `src/lib/main.js`, the feature loads environment variables from a `.env` file. This enables users to define default values (e.g., `SVG_WIDTH`, `SVG_HEIGHT`, `SVG_PADDING`, and `SVG_POINTS`) so that they do not have to supply these options every time via the command line.
-- **Precedence:** The CLI arguments continue to take precedence over the environment variables. When a parameter is provided both via CLI and the environment, the CLI value is used.
-- **User Feedback:** Logging is updated to indicate whether a parameter was set from the environment or from the command line. This improves usability and diagnostic clarity.
+- **Environment Loading:**
+  - At startup in the source file (`src/lib/main.js`), the application will import and invoke `dotenv.config()` to load environment variables. 
+  - New environment variables include `SVG_WIDTH`, `SVG_HEIGHT`, `SVG_PADDING`, and `SVG_POINTS`. These will be used to set default plot dimensions, padding, and data point resolution when the corresponding CLI flags are not provided.
+
+- **Parameter Precedence:**
+  - Parameters provided via CLI flags still take precedence over those set in the environment. 
+  - Logging should indicate whether a parameter was set from CLI input or an environment variable, enhancing user feedback and debuggability.
 
 ## Technical Changes
 
 - **Source File (`src/lib/main.js`):**
-  - Import and invoke `dotenv.config()` at the very top of the file to ensure that environment variables are available.
-  - Modify the default assignment for width, height, padding, and points to first check if a CLI argument is provided, then check the corresponding environment variable (e.g., `process.env.SVG_WIDTH`), and finally fall back to hard-coded defaults.
-  - Add additional console logging to display the source of key configuration values (CLI vs environment).
+  - Add an import for `dotenv` and call `dotenv.config()` at the very beginning, before processing CLI arguments.
+  - Extend the logic for setting `svgWidth`, `svgHeight`, and `padding` to check for environment variables if the CLI argument is missing.
+  - Similarly, allow the `pointsArg` to default from an environment variable (`SVG_POINTS`) if not provided via CLI.
+  - Update console logging to display the source (CLI vs environment) of the configuration values.
 
 - **Test File (`tests/unit/main.test.js`):**
-  - Update tests to simulate scenarios where environment variables are set, ensuring that the defaults from the environment file are correctly applied when CLI parameters are absent.
-  - Validate that CLI parameters override environment variable settings.
+  - Include tests to simulate the cases when environment variables are set. Ensure that when CLI parameters are omitted, the application correctly retrieves defaults from the environment.
+  - Validate that CLI provided values override the environment defaults.
 
 - **Documentation (`README.md`):**
-  - Update the README to include a section on environment variable configuration. Document the supported environment variables and provide an example `.env` file setup.
+  - Update the README to include a section on using a `.env` file for configuration. Provide examples of how to set environment variables (e.g., `SVG_WIDTH=600`, `SVG_HEIGHT=400`).
+  - Document the new behavior and how it interacts with CLI flags.
 
 - **Dependencies (`package.json`):**
-  - Confirm that `dotenv` is listed as a dependency. No additional changes are needed as the package is already included.
-
-## Backward Compatibility
-
-- Existing behavior is maintained. Users not employing a `.env` file will continue using the CLI or default hard-coded settings.
-
-This feature reinforces the mission of making the tool the go-to solution for formula visualizations by adding configurability and ease-of-use for frequent users.
+  - Confirm that `dotenv` is properly listed as a dependency, ensuring backwards compatibility and ease of installation.
 
 ## How to Test
 
-- Run the CLI without parameters to trigger the usage message and verify that no environment variables are applied.
-- Create a `.env` file with custom values and run the CLI without corresponding CLI overrides, verifying that the output respects the environment settings.
-- Run tests to confirm that both CLI and environment-sourced values are correctly prioritized.
+1. Create a `.env` file with custom defaults (e.g., `SVG_WIDTH=600`, `SVG_HEIGHT=400`, `SVG_PADDING=30`, `SVG_POINTS=20`).
+2. Run the CLI without specifying the corresponding parameters and verify that the output uses the environment-sourced values.
+3. Run the CLI with explicit CLI parameters to check that these override the ones set in the `.env` file.
+4. Run unit tests to confirm that both scenarios are handled correctly.
+
+This update reinforces the mission of making the tool the go-to solution for formula visualizations by enhancing configurability and ease-of-use through environment variable support.
