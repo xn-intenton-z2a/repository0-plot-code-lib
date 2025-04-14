@@ -1,27 +1,30 @@
 # EXPRESSION_PLOT
 
-This feature extends the CLI functionality to parse and evaluate command-line arguments for generating plots from mathematical expressions. The feature adds support for the following arguments: `--expression`, `--range`, and `--file`.
+This feature enhances the current CLI functionality by fully implementing parsing and validation of command-line arguments. In addition to the basic dry-run logging already in place, the application will now:
 
-## Overview
+- Parse the following CLI arguments: `--expression`, `--range`, and `--file`.
+- Validate the presence and format of these arguments and provide clear error messages when inputs are missing or malformed.
+- Display a help/usage message if required arguments are not provided.
+- Simulate the process of generating a plot by outputting a summary detailing the input expression, range, and file name, preparing the way for future integration of an actual plotting library.
 
-The objective of this feature is to transform the current `main` function to support input of an expression, a data range, and an output file name. When provided with valid arguments, the application will parse these inputs and simulate generating a plot. In future iterations, this could be extended to perform actual plotting using SVG/PNG generation libraries.
+## Implementation Details
 
-## Implementation
+- **Source File Changes (`src/lib/main.js`):**
+  - Integrate robust argument parsing to extract values for `--expression`, `--range`, and `--file` from the command line.
+  - Implement validation and error handling for missing options; if any required argument is absent, the tool will print a usage message.
+  - Print a detailed summary of the provided arguments as a dry-run simulation of plot generation.
 
-- Update the source file `src/lib/main.js` to parse command-line arguments using a simple parameter extraction method.
-- Validate input parameters and print a summary message of received input for dry-run demonstration. If the required flags are not provided, the application should display a help message or usage instructions.
-- Modify error handling to gracefully report missing or invalid parameters.
+- **Testing (`tests/unit/main.test.js`):**
+  - Extend existing tests to include scenarios with correct and incorrect argument combinations.
+  - Validate that the application responds with appropriate messages or errors based on input.
 
-## Testing
+- **Documentation (`README.md`):**
+  - Update usage examples to reflect the enhanced CLI functionality with the newly supported arguments.
+  - Provide clear instructions on the expected input format and error handling.
 
-- Update the test file `tests/unit/main.test.js` to include tests that invoke the application with the new CLI parameters. This will ensure that the new arguments are parsed correctly and the expected output is provided.
+## Future Considerations
 
-## Documentation
+- Expansion to include actual SVG/PNG plotting based on provided mathematical expressions and range.
+- Further refine input parsing with support for more complex data formats or additional CLI options if needed.
 
-- Update the `README.md` file to include usage examples for the new command-line interface, for instance:
-
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
-```
-
-This feature aligns with the mission of providing a go-to plot library with an expressive CLI interface to generate and visualize formula-based plots.
+This enhancement aligns with our mission of making plot-code-lib the go-to CLI tool for generating visualizations from mathematical expressions, ensuring usability and robustness in the command-line interface.
