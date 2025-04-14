@@ -417,7 +417,6 @@ describe("Logarithmic X-Axis Scaling", () => {
     await main(["--expression", "y=sin(x)", "--range", "x=1:100,y=-1:1", "--logXAxis"]);
     console.log = originalLog;
     expect(outputContent).toContain("<svg");
-    // Check that the polyline points reflect logarithmic x scaling
     const polylineRegex = /<polyline[^>]*points="([^"]+)"/;
     const match = polylineRegex.exec(outputContent);
     expect(match).not.toBeNull();
@@ -426,10 +425,9 @@ describe("Logarithmic X-Axis Scaling", () => {
       const [cx, cy] = pair.split(",").map(Number);
       return cx;
     });
-    // Calculate differences between consecutive x coordinates
     const diffs = pointPairs.slice(1).map((val, i) => val - pointPairs[i]);
-    // In logarithmic scale, differences should not be uniform
-    const stdDev = Math.sqrt(diffs.map(d => Math.pow(d - (diffs.reduce((a,b)=>a+b,0)/diffs.length),2)).reduce((a,b) => a+b,0) / diffs.length);
+    const meanDiff = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+    const stdDev = Math.sqrt(diffs.map(d => Math.pow(d - meanDiff, 2)).reduce((a, b) => a + b, 0) / diffs.length);
     expect(stdDev).toBeGreaterThan(0);
   });
 

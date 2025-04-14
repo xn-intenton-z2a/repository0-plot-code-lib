@@ -141,6 +141,10 @@ export async function main(args = process.argv.slice(2)) {
   const svgHeight = height || 300;
   const pad = padding || 20;
 
+  // Define unified color and line style variables
+  let plotColors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
+  let plotLineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
+
   let expressionsData = [];
   let validExprStrings = [];
   let xRange = null;
@@ -226,10 +230,6 @@ export async function main(args = process.argv.slice(2)) {
     }
 
     const exprStrings = expression.split(",").map((s) => s.trim());
-    const defaultColors = ["blue", "green", "red", "orange", "purple"];
-    const colors = colorsArg && colorsArg.length > 0 ? colorsArg : defaultColors;
-    const lineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
-
     const compiledExpressions = [];
     for (const exprStr of exprStrings) {
       const parts = exprStr.split("=");
@@ -263,9 +263,6 @@ export async function main(args = process.argv.slice(2)) {
     for (let i = 0; i < numPoints; i++) {
       xValues.push(xRange[0] + i * step);
     }
-
-    const defaultColors = ["blue", "green", "red", "orange", "purple"];
-    const colors = colorsArg && colorsArg.length > 0 ? colorsArg : defaultColors;
 
     expressionsData = compiledExpressions.map((compiled) =>
       xValues
@@ -378,9 +375,7 @@ export async function main(args = process.argv.slice(2)) {
     gridXPositions = [];
     if (logXAxisArg) {
       for (let i = 0; i < numGridLines; i++) {
-        // Compute the x value in logarithmic scale
         const normalized = i / (numGridLines - 1);
-        // The position is based on the transformed scale
         const pos = pad + normalized * (svgWidth - 2 * pad);
         gridXPositions.push(pos);
       }
@@ -440,20 +435,20 @@ export async function main(args = process.argv.slice(2)) {
     }
   %>
   <% expressions.forEach(function(expr, idx) { %>
-    <text x="<%= legendX %>" y="<%= legendYStart + idx * 20 %>" fill="<%= colors[idx % colors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
+    <text x="<%= legendX %>" y="<%= legendYStart + idx * 20 %>" fill="<%= plotColors[idx % plotColors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
   <% }); %>
   <% expressionsData.forEach(function(data, idx) { %>
     <% if (data.length > 0) { %>
       <% let dash = ''; %>
-      <% if (lineStyles && lineStyles[idx]) { %>
-        <% let style = lineStyles[idx].toLowerCase(); %>
+      <% if (plotLineStyles && plotLineStyles[idx]) { %>
+        <% let style = plotLineStyles[idx].toLowerCase(); %>
         <% if (style === 'dashed') { dash = 'stroke-dasharray="5,5"'; } else if (style === 'dotted') { dash = 'stroke-dasharray="1,5"'; } %>
       <% } %>
-      <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="<%= lineWidth %>" <%- dash %> points="<%= data.map(point => point.cx + ',' + point.cy).join(' ') %>" />
+      <polyline fill="none" stroke="<%= plotColors[idx % plotColors.length] %>" stroke-width="<%= lineWidth %>" <%- dash %> points="<%= data.map(point => point.cx + ',' + point.cy).join(' ') %>" />
     <% } %>
     <% if (drawMarkers) { %>
       <% data.forEach(function(point) { %>
-        <circle cx="<%= point.cx %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>">
+        <circle cx="<%= point.cx %>" cy="<%= point.cy %>" r="3" fill="<%= plotColors[idx % plotColors.length] %>">
           <% if (tooltip) { %>
             <title>x: <%= point.x %>, y: <%= point.y %></title>
           <% } %>
@@ -469,16 +464,14 @@ export async function main(args = process.argv.slice(2)) {
   <% } %>
 </svg>`;
 
-  const colors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
-  
   const svgContent = ejs.render(svgTemplate, {
     expressions: validExprStrings,
     expressionsData,
     svgWidth,
     svgHeight,
-    colors,
+    plotColors,
     pad,
-    lineStyles: lineStylesArg,
+    plotLineStyles,
     grid: gridArg,
     gridXPositions,
     gridY,
