@@ -33,7 +33,10 @@ export function main(args = []) {
     let plotContent;
     const filePath = cliOptions.file;
     if (filePath.endsWith('.svg')) {
-      plotContent = `SVG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+      // Generate a minimal valid SVG content with a text element
+      plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <text x="10" y="50">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
+</svg>`;
     } else if (filePath.endsWith('.png')) {
       plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
     } else {

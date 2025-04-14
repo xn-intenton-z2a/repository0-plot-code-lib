@@ -44,7 +44,7 @@ describe("CLI Plot Generation", () => {
     }
   });
 
-  test("should generate an SVG plot file with placeholder content", () => {
+  test("should generate a valid SVG plot file with proper SVG markup", () => {
     const args = [
       "--expression", "y=sin(x)",
       "--range", "x=-1:1,y=-1:1",
@@ -61,10 +61,11 @@ describe("CLI Plot Generation", () => {
     // Verify file was created
     expect(existsSync(tempSvgOutputFile)).toBe(true);
 
-    // Read the file content and validate
+    // Read the file content and validate it is valid SVG markup
     const fileContent = readFileSync(tempSvgOutputFile, "utf-8");
-    const expectedContent = "SVG Plot generated for expression: y=sin(x) with range: x=-1:1,y=-1:1";
-    expect(fileContent).toBe(expectedContent);
+    expect(fileContent.trim().startsWith("<svg")).toBe(true);
+    const expectedText = `Plot generated for expression: y=sin(x) with range: x=-1:1,y=-1:1`;
+    expect(fileContent).toContain(expectedText);
 
     // Verify console message
     expect(output).toContain(`Plot written to file ${tempSvgOutputFile}`);
