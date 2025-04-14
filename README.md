@@ -6,7 +6,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## CLI Usage
 
-Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, and a title for enhanced readability.
+Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, and logarithmic y-axis scaling for data spanning multiple orders of magnitude.
 
 Provide the range in the format:
 
@@ -14,7 +14,7 @@ Provide the range in the format:
 
 You can now omit the y-axis range. If the y range is omitted, the tool will automatically compute the appropriate range from the evaluated data.
 
-You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, and enable gridlines, axis labels, and a plot title using the following options:
+You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, and enable gridlines, axis labels, a plot title, and logarithmic y-axis scaling using the following options:
 
   --width [number]          Override the default SVG width (default: 500)
   --height [number]         Override the default SVG height (default: 300)
@@ -26,14 +26,15 @@ You can also customize the SVG output dimensions, padding, number of data points
   --xlabel [text]           Provide a label for the x-axis.
   --ylabel [text]           Provide a label for the y-axis.
   --title [text]            Provide a title to be displayed at the top center of the plot.
+  --logYAxis               Enable logarithmic scaling for the y-axis. Note: All y values (or y-axis range) must be strictly positive.
 
 ### Multiple Expressions
 
 You can plot more than one function on a single graph by providing multiple expressions as a comma-separated list to the --expression flag. Each expression will be plotted with a distinct color and, if specified, a distinct line style.
 
-For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, and a title, run:
+For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, a title, and logarithmic y-axis scaling, run:
 
-> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot"
+> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis
 
 ### Auto Y-Axis Range
 
@@ -44,6 +45,10 @@ If you omit the y-axis range in the --range parameter, such as:
 The tool will automatically determine the y-axis range based on the evaluated data points, ensuring that your plot is scaled appropriately.
 
 If the --file argument is omitted, the SVG content is directly output to the console.
+
+## Limitations
+
+When using the --logYAxis flag, ensure that all computed y values (or the values specified in the y-range) are strictly positive. The tool will refuse to generate a logarithmically scaled plot if any y value is zero or negative.
 
 ## License
 
