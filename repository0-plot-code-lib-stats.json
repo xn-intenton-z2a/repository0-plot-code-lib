@@ -2,17 +2,19 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
-  "lastActivityName": "Apply Fix on Fail",
+  "lastActivityName": "Review Issue",
   "lastActivityBranchName": "main",
-  "nextIssue": "[2095] Add Tooltip Support for Data Points in SVG Output automated, feature, issue-worker-14447757994",
-  "openIssues": 1,
+  "nextIssue": "[2095] Add Tooltip Support for Data Points in SVG Output automated, feature, issue-worker-14447757994, apply-fix-14448115917",
+  "openIssues": 2,
   "issuesClosedLastHour": 0,
   "issuesClosedLastDay": 59,
-  "openPRs": 0,
+  "openPRs": 1,
   "averagePRAge": 0,
-  "prDetails": [],
+  "prDetails": [
+    "[0m] Used String.raw to wrap the SVG template in main.js to resolve Vite parsing issues with EJS tags. (fixes #2095)"
+  ],
   "diffMinutes": 0,
-  "diffMinutesMain": 35,
+  "diffMinutesMain": 36,
   "commitsLastHour": 1,
   "commitsLastDay": 54,
   "lastFiveCommitMessages": [
@@ -25,14 +27,14 @@
   "branches": {
     "count": 1,
     "details": [
-      "[0m] agentic-lib-issue-2095"
+      "[1m] agentic-lib-issue-2095"
     ],
     "branchIssueDetails": [
       "[2095] Add Tooltip Support for Data Points in SVG Output automated, feature, issue-worker-14447757994, apply-fix-14448115917"
     ],
-    "averageBranchAge": 0
+    "averageBranchAge": 1
   },
   "testStatusOnBranch": "PASS",
   "testsLastPassedMinutes": 15,
-  "statsGeneratedAt": "2025-04-14T14:28:12.577Z"
+  "statsGeneratedAt": "2025-04-14T14:29:27.479Z"
 }
