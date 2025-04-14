@@ -29,7 +29,8 @@ function parseCLIArgs(args) {
     legendPosition: null,
     drawMarkers: true,
     bgColor: null,
-    outputJson: false
+    outputJson: false,
+    tooltip: false
   };
   let i = 0;
   while (i < args.length) {
@@ -95,6 +96,9 @@ function parseCLIArgs(args) {
       case "--json":
         params.outputJson = true;
         break;
+      case "--tooltip":
+        params.tooltip = true;
+        break;
       default:
         break;
     }
@@ -124,7 +128,8 @@ export async function main(args = process.argv.slice(2)) {
     legendPosition: legendPositionArg,
     drawMarkers,
     bgColor: bgColorArg,
-    outputJson
+    outputJson,
+    tooltip: tooltipArg
   } = parseCLIArgs(args);
 
   const svgWidth = width || 500;
@@ -364,7 +369,7 @@ export async function main(args = process.argv.slice(2)) {
   }
 
   // EJS template with configurable legend placement
-  const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
+  const svgTemplate = String.raw`<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="<%= bgColor %>"/>
   <% if (title) { %>
     <text x="50%" y="30" text-anchor="middle" font-size="20" font-weight="bold"><%= title %></text>
@@ -411,7 +416,11 @@ export async function main(args = process.argv.slice(2)) {
     <% } %>
     <% if (drawMarkers) { %>
       <% data.forEach(function(point) { %>
-        <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
+        <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>">
+          <% if (tooltip) { %>
+            <title>x: <%= point.x %>, y: <%= point.y %></title>
+          <% } %>
+        </circle>
       <% }); %>
     <% } %>
   <% }); %>
@@ -444,7 +453,8 @@ export async function main(args = process.argv.slice(2)) {
     lineWidth: lineWidthArg,
     legendPosition: legendPositionArg || 'top',
     drawMarkers,
-    bgColor: bgColorArg || 'white'
+    bgColor: bgColorArg || 'white',
+    tooltip: tooltipArg
   });
 
   if (fileArg) {
