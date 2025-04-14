@@ -395,7 +395,6 @@ describe("Tooltip Option", () => {
     console.log = (msg) => { outputContent += msg; };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--tooltip"]);
     console.log = originalLog;
-    // Check that each circle has a nested <title> tag with the coordinates
     const circleRegex = /<circle[^>]*>\s*<title>([^<]+)<\/title>\s*<\/circle>/g;
     let match;
     let found = false;
@@ -406,5 +405,38 @@ describe("Tooltip Option", () => {
       }
     }
     expect(found).toBe(true);
+  });
+});
+
+describe("Logarithmic X-Axis Scaling", () => {
+  test("should apply logarithmic scaling to the x-axis when --logXAxis is provided with valid positive x-range", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    // Using x-range from 1 to 100 to allow logarithmic scaling
+    await main(["--expression", "y=sin(x)", "--range", "x=1:100,y=-1:1", "--logXAxis"]);
+    console.log = originalLog;
+    expect(outputContent).toContain("<svg");
+    const polylineRegex = /<polyline[^>]*points="([^"]+)"/;
+    const match = polylineRegex.exec(outputContent);
+    expect(match).not.toBeNull();
+    const pointsAttr = match[1];
+    const pointPairs = pointsAttr.trim().split(/\s+/).map(pair => {
+      const [cx, cy] = pair.split(",").map(Number);
+      return cx;
+    });
+    const diffs = pointPairs.slice(1).map((val, i) => val - pointPairs[i]);
+    const meanDiff = diffs.reduce((a, b) => a + b, 0) / diffs.length;
+    const stdDev = Math.sqrt(diffs.map(d => Math.pow(d - meanDiff, 2)).reduce((a, b) => a + b, 0) / diffs.length);
+    expect(stdDev).toBeGreaterThan(0);
+  });
+
+  test("should error out if --logXAxis is provided with non-positive x-range values", async () => {
+    let errorOutput = "";
+    const originalError = console.error;
+    console.error = (msg) => { errorOutput += msg; };
+    await main(["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--logXAxis"]);
+    console.error = originalError;
+    expect(errorOutput).toContain("Error: Invalid x-range for logarithmic scaling");
   });
 });

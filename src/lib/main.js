@@ -25,6 +25,7 @@ function parseCLIArgs(args) {
     ylabel: null,
     title: null,
     logYAxis: false,
+    logXAxis: false,
     lineWidth: 2,
     legendPosition: null,
     drawMarkers: true,
@@ -81,6 +82,9 @@ function parseCLIArgs(args) {
       case "--logYAxis":
         params.logYAxis = true;
         break;
+      case "--logXAxis":
+        params.logXAxis = true;
+        break;
       case "--lineWidth":
         params.lineWidth = parseFloat(args[++i]);
         break;
@@ -124,6 +128,7 @@ export async function main(args = process.argv.slice(2)) {
     ylabel: ylabelArg,
     title: titleArg,
     logYAxis: logYAxisArg,
+    logXAxis: logXAxisArg,
     lineWidth: lineWidthArg,
     legendPosition: legendPositionArg,
     drawMarkers,
@@ -136,13 +141,18 @@ export async function main(args = process.argv.slice(2)) {
   const svgHeight = height || 300;
   const pad = padding || 20;
 
+  // Define unified color and line style variables
+  let plotColors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
+  let plotLineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
+
   let expressionsData = [];
   let validExprStrings = [];
   let xRange = null;
   let yRange = null;
-  let gridX = [];
-  let gridXLeft = 50;
-  let gridXRight = 50;
+  let gridY = [];
+  let gridXPositions = [];
+  let gridXLeft = pad;
+  let gridXRight = svgWidth - pad;
 
   // If dataFile is provided, use CSV data input and bypass expression and range parsing
   if (dataFile) {
@@ -183,23 +193,11 @@ export async function main(args = process.argv.slice(2)) {
     yRange = [Math.min(...yValuesFromCSV), Math.max(...yValuesFromCSV)];
     expressionsData.push(pointsData);
     validExprStrings.push('CSV Data');
-
-    // If grid is enabled, generate evenly spaced x-gridlines
-    if (gridArg) {
-      const numGridLines = 5;
-      gridX = [];
-      for (let i = 0; i < numGridLines; i++) {
-        const xVal = xRange[0] + i * ((xRange[1] - xRange[0]) / (numGridLines - 1));
-        gridX.push(xVal);
-      }
-      gridXLeft = 50 + xRange[0] * 40;
-      gridXRight = 50 + xRange[1] * 40;
-    }
   } else {
     // Original logic for expressions
     if (!expression || !range) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json]`
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--logXAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json] [--tooltip]`
       );
       return;
     }
@@ -223,11 +221,15 @@ export async function main(args = process.argv.slice(2)) {
       return;
     }
 
-    const exprStrings = expression.split(",").map((s) => s.trim());
-    const defaultColors = ["blue", "green", "red", "orange", "purple"];
-    const colors = colorsArg && colorsArg.length > 0 ? colorsArg : defaultColors;
-    const lineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
+    // If logXAxis is enabled, validate xRange values
+    if (logXAxisArg) {
+      if (xRange[0] <= 0) {
+        console.error("Error: Invalid x-range for logarithmic scaling. x-range boundaries must be strictly positive.");
+        return;
+      }
+    }
 
+    const exprStrings = expression.split(",").map((s) => s.trim());
     const compiledExpressions = [];
     for (const exprStr of exprStrings) {
       const parts = exprStr.split("=");
@@ -243,6 +245,16 @@ export async function main(args = process.argv.slice(2)) {
         console.error("Error compiling expression:", exprStr, err);
         return;
       }
+    }
+
+    if (!xRange) {
+      console.log('x range not defined properly.');
+      return;
+    }
+
+    if (!yRange) {
+      // Compute y values first to determine range
+      yRange = [Infinity, -Infinity];
     }
 
     const numPoints = pointsArg;
@@ -266,17 +278,17 @@ export async function main(args = process.argv.slice(2)) {
         .filter((point) => point !== null)
     );
 
-    // If grid is enabled, use xValues for grid lines
-    if (gridArg) {
-      gridX = xValues;
-      gridXLeft = 50 + xRange[0] * 40;
-      gridXRight = 50 + xRange[1] * 40;
+    // If auto y-range detection
+    if (!yRange || yRange[0] === Infinity || yRange[1] === -Infinity) {
+      const allYValues = expressionsData.flat().map((point) => point.y);
+      yRange = [Math.min(...allYValues), Math.max(...allYValues)];
     }
   }
 
+  // Compute allYValues from expressionsData
   const allYValues = expressionsData.flat().map((point) => point.y);
 
-  // Handle logarithmic scaling pre-check
+  // Handle logarithmic Y-axis scaling pre-check
   if (logYAxisArg) {
     if (yRange) {
       const [yMin, yMax] = yRange;
@@ -293,8 +305,7 @@ export async function main(args = process.argv.slice(2)) {
     }
   }
 
-  let gridY = [];
-  // Determine y scaling values
+  // Calculate y coordinate for each point
   let yMinVal, yMaxVal;
   if (yRange) {
     yMinVal = yRange[0];
@@ -305,7 +316,6 @@ export async function main(args = process.argv.slice(2)) {
   }
 
   if (logYAxisArg) {
-    // Apply logarithmic scaling; all y values must be positive
     expressionsData.forEach((dataPoints) => {
       dataPoints.forEach((point) => {
         if (point.y <= 0) {
@@ -324,34 +334,56 @@ export async function main(args = process.argv.slice(2)) {
       }
     }
   } else {
-    // Linear scaling
-    if (!yRange) {
-      expressionsData.forEach((dataPoints) => {
-        dataPoints.forEach((point) => {
-          point.cy = pad + (1 - (point.y - yMinVal) / ((yMaxVal - yMinVal) || 1)) * (svgHeight - 2 * pad);
-        });
+    expressionsData.forEach((dataPoints) => {
+      dataPoints.forEach((point) => {
+        const normalized = (point.y - yMinVal) / ((yMaxVal - yMinVal) || 1);
+        point.cy = pad + (1 - normalized) * (svgHeight - 2 * pad);
       });
-      if (gridArg) {
-        const numGridLines = 5;
-        for (let i = 0; i < numGridLines; i++) {
-          const normalized = i / (numGridLines - 1);
-          gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
+    });
+    if (gridArg) {
+      const numGridLines = 5;
+      for (let i = 0; i < numGridLines; i++) {
+        const normalized = i / (numGridLines - 1);
+        gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
+      }
+    }
+  }
+
+  // Compute x coordinate for each point using linear or logarithmic scaling
+  if (xRange) {
+    const [xMin, xMax] = xRange;
+    expressionsData.forEach((dataPoints) => {
+      dataPoints.forEach((point) => {
+        let normalized;
+        if (logXAxisArg) {
+          if (point.x <= 0) {
+            console.error("Error: Encountered non-positive x value during logarithmic scaling.");
+            return;
+          }
+          normalized = (Math.log(point.x) - Math.log(xMin)) / (Math.log(xMax) - Math.log(xMin));
+        } else {
+          normalized = (point.x - xMin) / ((xMax - xMin) || 1);
         }
+        point.cx = pad + normalized * (svgWidth - 2 * pad);
+      });
+    });
+  }
+
+  // If grid is enabled, compute vertical grid lines (x-axis)
+  if (gridArg) {
+    const numGridLines = 5;
+    gridXPositions = [];
+    if (logXAxisArg) {
+      for (let i = 0; i < numGridLines; i++) {
+        const normalized = i / (numGridLines - 1);
+        const pos = pad + normalized * (svgWidth - 2 * pad);
+        gridXPositions.push(pos);
       }
     } else {
-      expressionsData.forEach((dataPoints) => {
-        dataPoints.forEach((point) => {
-          const [yMin, yMax] = yRange;
-          point.cy = pad + (1 - (point.y - yMin) / (yMax - yMin)) * (svgHeight - 2 * pad);
-        });
-      });
-      if (gridArg) {
-        const numGridLines = 5;
-        const [yMin, yMax] = yRange;
-        for (let i = 0; i < numGridLines; i++) {
-          const normalized = i / (numGridLines - 1);
-          gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
-        }
+      for (let i = 0; i < numGridLines; i++) {
+        const normalized = i / (numGridLines - 1);
+        const pos = pad + normalized * (svgWidth - 2 * pad);
+        gridXPositions.push(pos);
       }
     }
   }
@@ -375,8 +407,8 @@ export async function main(args = process.argv.slice(2)) {
     <text x="50%" y="30" text-anchor="middle" font-size="20" font-weight="bold"><%= title %></text>
   <% } %>
   <% if (grid) { %>
-    <% gridX.forEach(function(x) { %>
-      <line x1="<%= 50 + x * 40 %>" y1="<%= pad %>" x2="<%= 50 + x * 40 %>" y2="<%= svgHeight - pad %>" stroke="#ccc" stroke-dasharray="2,2" />
+    <% gridXPositions.forEach(function(xPos) { %>
+      <line x1="<%= xPos %>" y1="<%= pad %>" x2="<%= xPos %>" y2="<%= svgHeight - pad %>" stroke="#ccc" stroke-dasharray="2,2" />
     <% }); %>
     <% if (gridY.length > 0) { %>
       <% gridY.forEach(function(y) { %>
@@ -403,20 +435,20 @@ export async function main(args = process.argv.slice(2)) {
     }
   %>
   <% expressions.forEach(function(expr, idx) { %>
-    <text x="<%= legendX %>" y="<%= legendYStart + idx * 20 %>" fill="<%= colors[idx % colors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
+    <text x="<%= legendX %>" y="<%= legendYStart + idx * 20 %>" fill="<%= plotColors[idx % plotColors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
   <% }); %>
   <% expressionsData.forEach(function(data, idx) { %>
     <% if (data.length > 0) { %>
       <% let dash = ''; %>
-      <% if (lineStyles && lineStyles[idx]) { %>
-        <% let style = lineStyles[idx].toLowerCase(); %>
+      <% if (plotLineStyles && plotLineStyles[idx]) { %>
+        <% let style = plotLineStyles[idx].toLowerCase(); %>
         <% if (style === 'dashed') { dash = 'stroke-dasharray="5,5"'; } else if (style === 'dotted') { dash = 'stroke-dasharray="1,5"'; } %>
       <% } %>
-      <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="<%= lineWidth %>" <%- dash %> points="<%= data.map(point => (50 + point.x * 40) + ',' + point.cy).join(' ') %>" />
+      <polyline fill="none" stroke="<%= plotColors[idx % plotColors.length] %>" stroke-width="<%= lineWidth %>" <%- dash %> points="<%= data.map(point => point.cx + ',' + point.cy).join(' ') %>" />
     <% } %>
     <% if (drawMarkers) { %>
       <% data.forEach(function(point) { %>
-        <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>">
+        <circle cx="<%= point.cx %>" cy="<%= point.cy %>" r="3" fill="<%= plotColors[idx % plotColors.length] %>">
           <% if (tooltip) { %>
             <title>x: <%= point.x %>, y: <%= point.y %></title>
           <% } %>
@@ -432,18 +464,16 @@ export async function main(args = process.argv.slice(2)) {
   <% } %>
 </svg>`;
 
-  const colors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
-  
   const svgContent = ejs.render(svgTemplate, {
     expressions: validExprStrings,
     expressionsData,
     svgWidth,
     svgHeight,
-    colors,
+    plotColors,
     pad,
-    lineStyles: lineStylesArg,
+    plotLineStyles,
     grid: gridArg,
-    gridX,
+    gridXPositions,
     gridY,
     gridXLeft,
     gridXRight,
