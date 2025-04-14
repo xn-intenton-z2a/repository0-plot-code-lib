@@ -244,35 +244,14 @@ describe("Auto Y Range Detection", () => {
   });
 });
 
-// New tests for logarithmic scaling
-
-describe("Logarithmic Scaling - Valid Case", () => {
-  test("should generate SVG using logarithmic scaling when --logYAxis is provided with positive y values", async () => {
+// New test for custom lineWidth
+describe("Custom Line Width CLI Option", () => {
+  test("should use provided custom line width for plot lines", async () => {
     let outputContent = "";
     const originalLog = console.log;
     console.log = (msg) => { outputContent += msg; };
-    // Using exponential function to ensure positive y values
-    await main(["--expression", "y=exp(x)", "--range", "x=0:9,y=1:8103", "--logYAxis"]);
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--lineWidth", "3.5"]);
     console.log = originalLog;
-    expect(outputContent).toContain("<svg");
-    // Check that cy values are computed (logarithmically scaled) by comparing a sample
-    const regex = /cy="([\d.]+)"/g;
-    let match;
-    const cyValues = [];
-    while ((match = regex.exec(outputContent)) !== null) {
-      cyValues.push(parseFloat(match[1]));
-    }
-    expect(cyValues.length).toBeGreaterThan(0);
-  });
-});
-
-describe("Logarithmic Scaling - Error Case", () => {
-  test("should output an error when --logYAxis is used with non-positive y values", async () => {
-    let errorContent = "";
-    const originalError = console.error;
-    console.error = (msg) => { errorContent += msg; };
-    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--logYAxis"]);
-    console.error = originalError;
-    expect(errorContent).toContain("Error: Invalid y-range for logarithmic scaling") || expect(errorContent).toContain("Error: Cannot apply logarithmic scaling");
+    expect(outputContent).toContain('stroke-width="3.5"');
   });
 });

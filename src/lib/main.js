@@ -23,7 +23,8 @@ function parseCLIArgs(args) {
     xlabel: null,
     ylabel: null,
     title: null,
-    logYAxis: false
+    logYAxis: false,
+    lineWidth: 2
   };
   let i = 0;
   while (i < args.length) {
@@ -71,6 +72,9 @@ function parseCLIArgs(args) {
       case "--logYAxis":
         params.logYAxis = true;
         break;
+      case "--lineWidth":
+        params.lineWidth = parseFloat(args[++i]);
+        break;
       default:
         break;
     }
@@ -94,12 +98,13 @@ export async function main(args = process.argv.slice(2)) {
     xlabel: xlabelArg,
     ylabel: ylabelArg,
     title: titleArg,
-    logYAxis: logYAxisArg
+    logYAxis: logYAxisArg,
+    lineWidth: lineWidthArg
   } = parseCLIArgs(args);
 
   if (!expression || !range) {
     console.log(
-      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis]`
+      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>]`
     );
     return;
   }
@@ -291,7 +296,7 @@ export async function main(args = process.argv.slice(2)) {
         <% let style = lineStyles[idx].toLowerCase(); %>
         <% if (style === 'dashed') { dash = 'stroke-dasharray="5,5"'; } else if (style === 'dotted') { dash = 'stroke-dasharray="1,5"'; } %>
       <% } %>
-      <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="2" <%- dash %> points="<%= data.map(point => (50 + point.x * 40) + ',' + point.cy).join(' ') %>" />
+      <polyline fill="none" stroke="<%= colors[idx % colors.length] %>" stroke-width="<%= lineWidth %>" <%- dash %> points="<%= data.map(point => (50 + point.x * 40) + ',' + point.cy).join(' ') %>" />
     <% } %>
     <% data.forEach(function(point) { %>
       <circle cx="<%= 50 + point.x * 40 %>" cy="<%= point.cy %>" r="3" fill="<%= colors[idx % colors.length] %>"/>
@@ -320,7 +325,8 @@ export async function main(args = process.argv.slice(2)) {
     gridXRight,
     xlabel: xlabelArg,
     ylabel: ylabelArg,
-    title: titleArg
+    title: titleArg,
+    lineWidth: lineWidthArg
   });
 
   if (fileArg) {
