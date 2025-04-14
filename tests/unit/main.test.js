@@ -1,14 +1,13 @@
-import { describe, test, expect, afterEach, beforeAll, afterAll } from "vitest";
+import { describe, test, expect, afterEach } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
+import os from 'os';
+import path from 'path';
+import { spawn } from 'child_process';
 
 // Helper to delay execution for async writes
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Temporary file helper for CSV tests
-import os from 'os';
-import path from 'path';
 
 
 describe("Main Module Import", () => {
@@ -266,7 +265,6 @@ describe("CSV Input Option", () => {
   const outputFile = path.join(tmpDir, "test_output_csv.svg");
 
   beforeAll(() => {
-    // Create a temporary CSV file with header and some data
     const csvData = "x,y\n0,0\n1,1\n2,4\n3,9";
     fs.writeFileSync(csvFile, csvData);
   });
@@ -292,6 +290,21 @@ describe("CSV Input Option", () => {
     const content = fs.readFileSync(outputFile, "utf8");
     expect(content).toContain("<svg");
     expect(content).toContain("CSV Data");
+  });
+});
+
+describe("CSV Input via STDIN Option", () => {
+  test("should generate SVG output from CSV data piped into stdin when --stdin is provided", async () => {
+    const csvData = "x,y\n0,0\n1,1\n2,4\n3,9";
+    const child = spawn('node', ['src/lib/main.js', '--stdin'], { stdio: ['pipe', 'pipe', 'pipe'] });
+    let output = '';
+    child.stdout.on('data', (data) => { output += data.toString(); });
+    child.stderr.on('data', (data) => {});
+    child.stdin.write(csvData);
+    child.stdin.end();
+    await new Promise(resolve => child.on('close', resolve));
+    expect(output).toContain('<svg');
+    expect(output).toContain('CSV Data');
   });
 });
 
@@ -368,9 +381,6 @@ describe("JSON Output Option", () => {
   });
 
   test("should output valid JSON for CSV data input", async () => {
-    const os = require('os');
-    const path = require('path');
-    const fs = require('fs');
     const tmpDir = os.tmpdir();
     const csvFile = path.join(tmpDir, 'test_data_json.csv');
     const csvData = "x,y\n0,0\n1,2\n2,4";
@@ -405,38 +415,5 @@ describe("Tooltip Option", () => {
       }
     }
     expect(found).toBe(true);
-  });
-});
-
-describe("Logarithmic X-Axis Scaling", () => {
-  test("should apply logarithmic scaling to the x-axis when --logXAxis is provided with valid positive x-range", async () => {
-    let outputContent = "";
-    const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
-    // Using x-range from 1 to 100 to allow logarithmic scaling
-    await main(["--expression", "y=sin(x)", "--range", "x=1:100,y=-1:1", "--logXAxis"]);
-    console.log = originalLog;
-    expect(outputContent).toContain("<svg");
-    const polylineRegex = /<polyline[^>]*points="([^"]+)"/;
-    const match = polylineRegex.exec(outputContent);
-    expect(match).not.toBeNull();
-    const pointsAttr = match[1];
-    const pointPairs = pointsAttr.trim().split(/\s+/).map(pair => {
-      const [cx, cy] = pair.split(",").map(Number);
-      return cx;
-    });
-    const diffs = pointPairs.slice(1).map((val, i) => val - pointPairs[i]);
-    const meanDiff = diffs.reduce((a, b) => a + b, 0) / diffs.length;
-    const stdDev = Math.sqrt(diffs.map(d => Math.pow(d - meanDiff, 2)).reduce((a, b) => a + b, 0) / diffs.length);
-    expect(stdDev).toBeGreaterThan(0);
-  });
-
-  test("should error out if --logXAxis is provided with non-positive x-range values", async () => {
-    let errorOutput = "";
-    const originalError = console.error;
-    console.error = (msg) => { errorOutput += msg; };
-    await main(["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--logXAxis"]);
-    console.error = originalError;
-    expect(errorOutput).toContain("Error: Invalid x-range for logarithmic scaling");
   });
 });

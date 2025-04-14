@@ -14,6 +14,7 @@ function parseCLIArgs(args) {
     range: null,
     file: null,
     dataFile: null,
+    stdin: false,
     width: null,
     height: null,
     padding: null,
@@ -48,6 +49,9 @@ function parseCLIArgs(args) {
         break;
       case "--dataFile":
         params.dataFile = args[++i];
+        break;
+      case "--stdin":
+        params.stdin = true;
         break;
       case "--width":
         params.width = parseInt(args[++i], 10);
@@ -117,6 +121,7 @@ export async function main(args = process.argv.slice(2)) {
     range,
     file: fileArg,
     dataFile,
+    stdin,
     width,
     height,
     padding,
@@ -163,41 +168,28 @@ export async function main(args = process.argv.slice(2)) {
       console.error(`Error reading CSV file: ${dataFile}`, err);
       return;
     }
-    const lines = csvContent.split(/\r?\n/).filter(line => line.trim() !== '');
-    const pointsData = [];
-    let startIndex = 0;
-    // Check if header exists by trying to parse first value
-    const firstLineCols = lines[0].split(",");
-    if (isNaN(parseFloat(firstLineCols[0]))) {
-      startIndex = 1; // skip header
-    }
-    for (let i = startIndex; i < lines.length; i++) {
-      const cols = lines[i].split(",").map(s => s.trim());
-      if (cols.length < 2) continue;
-      const xVal = parseFloat(cols[0]);
-      const yVal = parseFloat(cols[1]);
-      if (isNaN(xVal) || isNaN(yVal)) {
-        console.error(`Invalid numeric data at line ${i + 1}: ${lines[i]}`);
-        return;
-      }
-      pointsData.push({ x: xVal, y: yVal });
-    }
-    if (pointsData.length === 0) {
-      console.error('No valid data points found in CSV file.');
+    processCSVData(csvContent);
+  } else if (stdin) {
+    // Read CSV data from standard input
+    let csvContent = '';
+    try {
+      csvContent = await new Promise((resolve, reject) => {
+        let data = '';
+        process.stdin.setEncoding('utf8');
+        process.stdin.on('data', chunk => data += chunk);
+        process.stdin.on('end', () => resolve(data));
+        process.stdin.on('error', err => reject(err));
+      });
+    } catch (err) {
+      console.error('Error reading from STDIN:', err);
       return;
     }
-    // Compute x and y ranges from CSV data
-    const xValuesFromCSV = pointsData.map(point => point.x);
-    const yValuesFromCSV = pointsData.map(point => point.y);
-    xRange = [Math.min(...xValuesFromCSV), Math.max(...xValuesFromCSV)];
-    yRange = [Math.min(...yValuesFromCSV), Math.max(...yValuesFromCSV)];
-    expressionsData.push(pointsData);
-    validExprStrings.push('CSV Data');
+    processCSVData(csvContent);
   } else {
-    // Original logic for expressions
-    if (!expression || !range) {
+    // Expression based plotting
+    if (!expression || (range === null || range === undefined)) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--logXAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json] [--tooltip]`
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--stdin] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--logXAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json] [--tooltip]`
       );
       return;
     }
@@ -221,7 +213,6 @@ export async function main(args = process.argv.slice(2)) {
       return;
     }
 
-    // If logXAxis is enabled, validate xRange values
     if (logXAxisArg) {
       if (xRange[0] <= 0) {
         console.error("Error: Invalid x-range for logarithmic scaling. x-range boundaries must be strictly positive.");
@@ -253,7 +244,6 @@ export async function main(args = process.argv.slice(2)) {
     }
 
     if (!yRange) {
-      // Compute y values first to determine range
       yRange = [Infinity, -Infinity];
     }
 
@@ -278,11 +268,42 @@ export async function main(args = process.argv.slice(2)) {
         .filter((point) => point !== null)
     );
 
-    // If auto y-range detection
     if (!yRange || yRange[0] === Infinity || yRange[1] === -Infinity) {
       const allYValues = expressionsData.flat().map((point) => point.y);
       yRange = [Math.min(...allYValues), Math.max(...allYValues)];
     }
+  }
+
+  // Helper function to process CSV data
+  function processCSVData(csvContent) {
+    const lines = csvContent.split(/\r?\n/).filter(line => line.trim() !== '');
+    const pointsData = [];
+    let startIndex = 0;
+    const firstLineCols = lines[0].split(",");
+    if (isNaN(parseFloat(firstLineCols[0]))) {
+      startIndex = 1; // skip header
+    }
+    for (let i = startIndex; i < lines.length; i++) {
+      const cols = lines[i].split(",").map(s => s.trim());
+      if (cols.length < 2) continue;
+      const xVal = parseFloat(cols[0]);
+      const yVal = parseFloat(cols[1]);
+      if (isNaN(xVal) || isNaN(yVal)) {
+        console.error(`Invalid numeric data at line ${i + 1}: ${lines[i]}`);
+        return;
+      }
+      pointsData.push({ x: xVal, y: yVal });
+    }
+    if (pointsData.length === 0) {
+      console.error('No valid data points found in CSV input.');
+      return;
+    }
+    const xValuesFromCSV = pointsData.map(point => point.x);
+    const yValuesFromCSV = pointsData.map(point => point.y);
+    xRange = [Math.min(...xValuesFromCSV), Math.max(...xValuesFromCSV)];
+    yRange = [Math.min(...yValuesFromCSV), Math.max(...yValuesFromCSV)];
+    expressionsData.push(pointsData);
+    validExprStrings.push('CSV Data');
   }
 
   // Compute allYValues from expressionsData
@@ -373,18 +394,10 @@ export async function main(args = process.argv.slice(2)) {
   if (gridArg) {
     const numGridLines = 5;
     gridXPositions = [];
-    if (logXAxisArg) {
-      for (let i = 0; i < numGridLines; i++) {
-        const normalized = i / (numGridLines - 1);
-        const pos = pad + normalized * (svgWidth - 2 * pad);
-        gridXPositions.push(pos);
-      }
-    } else {
-      for (let i = 0; i < numGridLines; i++) {
-        const normalized = i / (numGridLines - 1);
-        const pos = pad + normalized * (svgWidth - 2 * pad);
-        gridXPositions.push(pos);
-      }
+    for (let i = 0; i < numGridLines; i++) {
+      const normalized = i / (numGridLines - 1);
+      const pos = pad + normalized * (svgWidth - 2 * pad);
+      gridXPositions.push(pos);
     }
   }
 

@@ -60,7 +60,11 @@ To generate a plot from CSV data, run:
 
   node src/lib/main.js --dataFile data.csv
 
-When using --dataFile, any --expression and --range parameters are ignored, and the data is plotted directly, with the tool auto computing the x and y ranges if needed.
+You can also pipe CSV data via standard input using the --stdin flag (when --dataFile is not provided). For example:
+
+  cat data.csv | node src/lib/main.js --stdin
+
+In this mode, the tool reads CSV-formatted data from STDIN and processes it similar to the --dataFile option.
 
 ### Multiple Expressions
 
