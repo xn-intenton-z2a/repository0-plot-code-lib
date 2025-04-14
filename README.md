@@ -6,26 +6,27 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## CLI Usage
 
-Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, and configurable data point resolution.
+Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, and a custom color palette.
 
 Provide the range in the format:
 
   --range "x=start:end,y=min:max"
 
-You can also customize the SVG output dimensions, padding, and number of data points using the following options:
+You can also customize the SVG output dimensions, padding, number of data points, and color palette using the following options:
 
-  --width [number]    Override the default SVG width (default: 500)
-  --height [number]   Override the default SVG height (default: 300)
-  --padding [number]  Override the default padding used for scaling (default: 20)
-  --points [number]   Specify the number of data points computed along the x-range (default: 10)
+  --width [number]          Override the default SVG width (default: 500)
+  --height [number]         Override the default SVG height (default: 300)
+  --padding [number]        Override the default padding used for scaling (default: 20)
+  --points [number]         Specify the number of data points computed along the x-range (default: 10)
+  --colors [color1,color2,...]   Provide a custom comma-separated color palette (default: blue, green, red, orange, purple)
 
 ### Multiple Expressions
 
 You can plot more than one function on a single graph by providing multiple expressions as a comma-separated list to the --expression flag. Each expression will be plotted with a distinct color.
 
-For example, to create an SVG plot with two functions (sine and cosine), run:
+For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, run:
 
-> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --file output.svg
+> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan"
 
 If the --file argument is omitted, the SVG content is directly output to the console.
 
