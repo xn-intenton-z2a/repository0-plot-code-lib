@@ -350,3 +350,40 @@ describe("Custom Background Color CLI Option", () => {
     expect(outputContent).toContain('<rect width="100%" height="100%" fill="pink"');
   });
 });
+
+describe("JSON Output Option", () => {
+  test("should output valid JSON for expression based data", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--json"]);
+    console.log = originalLog;
+    let jsonData;
+    expect(() => { jsonData = JSON.parse(outputContent); }).not.toThrow();
+    expect(jsonData).toHaveProperty('expressions');
+    expect(jsonData).toHaveProperty('expressionsData');
+    expect(jsonData).toHaveProperty('xRange');
+    expect(jsonData).toHaveProperty('yRange');
+    expect(Array.isArray(jsonData.expressionsData)).toBe(true);
+  });
+
+  test("should output valid JSON for CSV data input", async () => {
+    const os = require('os');
+    const path = require('path');
+    const fs = require('fs');
+    const tmpDir = os.tmpdir();
+    const csvFile = path.join(tmpDir, 'test_data_json.csv');
+    const csvData = "x,y\n0,0\n1,2\n2,4";
+    fs.writeFileSync(csvFile, csvData);
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--dataFile", csvFile, "--json"]);
+    console.log = originalLog;
+    let jsonData;
+    expect(() => { jsonData = JSON.parse(outputContent); }).not.toThrow();
+    expect(jsonData).toHaveProperty('expressions');
+    expect(jsonData).toHaveProperty('expressionsData');
+    fs.unlinkSync(csvFile);
+  });
+});
