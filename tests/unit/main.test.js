@@ -232,3 +232,27 @@ describe("Plot Title Rendering", () => {
     expect(outputContent).toMatch(new RegExp("<text [^>]*>" + testTitle + "</text>"));
   });
 });
+
+describe("Auto Y Range Detection", () => {
+  test("should auto-compute y-range when omitted and scale cy accordingly", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    // Only x range provided, y-range should be auto-detected
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9"]);
+    console.log = originalLog;
+    expect(outputContent).toContain("<svg");
+
+    // Extract all cy values from the SVG
+    const regex = /cy=\"([\d.]+)\"/g;
+    let match;
+    const cyValues = [];
+    while ((match = regex.exec(outputContent)) !== null) {
+      cyValues.push(parseFloat(match[1]));
+    }
+    expect(cyValues.length).toBeGreaterThan(0);
+    // With dynamic range for sin(x) which spans [-1,1], expect top near padding (20) and bottom near 280
+    expect(Math.min(...cyValues)).toBeLessThan(50);
+    expect(Math.max(...cyValues)).toBeGreaterThan(250);
+  });
+});

@@ -69,7 +69,7 @@ export async function main(args = process.argv.slice(2)) {
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
     console.log(
-      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>]`,
+      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>]`
     );
     return;
   }
@@ -82,7 +82,7 @@ export async function main(args = process.argv.slice(2)) {
   // Parse range argument
   let xRange = null;
   let yRange = null;
-  // Expected range format: "x=start:end,y=min:max"
+  // Expected range formats: "x=start:end" and optionally "y=min:max"
   const rangeParts = rangeArg.split(",");
   for (const part of rangeParts) {
     const trimmed = part.trim();
@@ -144,11 +144,10 @@ export async function main(args = process.argv.slice(2)) {
     xValues.push(x);
   }
 
-  // For each expression, compute data points
-  const expressionsData = [];
-  for (const compiled of compiledExpressions) {
-    const dataPoints = [];
-    for (const x of xValues) {
+  // Compute data points for each expression and collect all y values if yRange is not provided
+  let allYValues = [];
+  const expressionsData = compiledExpressions.map(compiled => {
+    const dataPoints = xValues.map(x => {
       let y;
       try {
         y = compiled.evaluate({ x });
@@ -156,29 +155,51 @@ export async function main(args = process.argv.slice(2)) {
         console.error("Error evaluating expression at x =", x, err);
         return;
       }
-      let cy;
-      if (yRange) {
-        const [yMin, yMax] = yRange;
-        const normalY = (y - yMin) / (yMax - yMin);
-        cy = padding + (1 - normalY) * (svgHeight - 2 * padding);
-      } else {
-        cy = svgHeight / 2 - y * 40;
+      if (!yRange) {
+        allYValues.push(y);
       }
-      dataPoints.push({ x, y, cy });
-    }
-    expressionsData.push(dataPoints);
-  }
+      return { x, y };
+    });
+    return dataPoints;
+  });
 
-  // Calculate gridlines if grid is enabled
-  let gridX = [];
-  const gridY = [];
-  let gridXLeft = 50;
-  let gridXRight = 50;
-  if (gridArg) {
-    gridX = xValues;
-    gridXLeft = 50 + xRange[0] * 40;
-    gridXRight = 50 + xRange[1] * 40;
-    if (yRange) {
+  // If yRange not provided, compute dynamic range and update cy for each data point
+  let dynamicYRange = false;
+  if (!yRange) {
+    dynamicYRange = true;
+    const yMinComputed = Math.min(...allYValues);
+    const yMaxComputed = Math.max(...allYValues);
+    // Prevent division by zero
+    const yRangeSpan = yMaxComputed - yMinComputed || 1;
+
+    // Update each data point with computed cy using dynamic y range
+    expressionsData.forEach(dataPoints => {
+      dataPoints.forEach(point => {
+        point.cy = padding + (1 - (point.y - yMinComputed) / yRangeSpan) * (svgHeight - 2 * padding);
+      });
+    });
+
+    // If gridlines are enabled, update gridY based on dynamic y range
+    if (gridArg) {
+      var gridY = [];
+      const numGridLines = 5;
+      for (let i = 0; i < numGridLines; i++) {
+        const normalized = i / (numGridLines - 1);
+        const ySVG = padding + (1 - normalized) * (svgHeight - 2 * padding);
+        gridY.push(ySVG);
+      }
+    }
+  } else {
+    // Use provided yRange to compute cy
+    expressionsData.forEach(dataPoints => {
+      dataPoints.forEach(point => {
+        const [yMin, yMax] = yRange;
+        point.cy = padding + (1 - (point.y - yMin) / (yMax - yMin)) * (svgHeight - 2 * padding);
+      });
+    });
+
+    if (gridArg && yRange) {
+      var gridY = [];
       const numGridLines = 5;
       const [yMin, yMax] = yRange;
       for (let i = 0; i < numGridLines; i++) {
@@ -187,6 +208,16 @@ export async function main(args = process.argv.slice(2)) {
         gridY.push(ySVG);
       }
     }
+  }
+
+  // Calculate gridlines for x if grid is enabled
+  let gridX = [];
+  let gridXLeft = 50;
+  let gridXRight = 50;
+  if (gridArg) {
+    gridX = xValues;
+    gridXLeft = 50 + xRange[0] * 40;
+    gridXRight = 50 + xRange[1] * 40;
   }
 
   // Create an SVG plot using an inlined ejs template with dynamic dimensions and multiple expressions support
@@ -199,7 +230,7 @@ export async function main(args = process.argv.slice(2)) {
     <% gridX.forEach(function(x) { %>
       <line x1="<%= 50 + x * 40 %>" y1="<%= padding %>" x2="<%= 50 + x * 40 %>" y2="<%= svgHeight - padding %>" stroke="#ccc" stroke-dasharray="2,2" />
     <% }); %>
-    <% if (gridY.length > 0) { %>
+    <% if (gridY && gridY.length > 0) { %>
       <% gridY.forEach(function(y) { %>
         <line x1="<%= gridXLeft %>" y1="<%= y %>" x2="<%= gridXRight %>" y2="<%= y %>" stroke="#ccc" stroke-dasharray="2,2" />
       <% }); %>
@@ -239,7 +270,7 @@ export async function main(args = process.argv.slice(2)) {
     lineStyles,
     grid: gridArg,
     gridX,
-    gridY,
+    gridY: gridArg ? gridY : [],
     gridXLeft,
     gridXRight,
     xlabel: xlabelArg,
