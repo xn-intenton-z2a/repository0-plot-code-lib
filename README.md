@@ -6,7 +6,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## CLI Usage
 
-Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, configurable SVG dimensions, padding, adjustable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis and x-axis scaling, adjustable line width, configurable legend placement, an option to disable data point markers, a custom background color, tooltips for data points, and raw JSON output of plot data.
+Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, configurable SVG dimensions, padding, adjustable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis and x-axis scaling, adjustable line width, configurable legend placement, an option to disable data point markers, a custom background color, tooltips for data points, custom marker size for plot points, and raw JSON output of plot data.
 
 ### Expression Based Plotting
 
@@ -33,6 +33,7 @@ If you provide an expression using --expression, the tool will evaluate the func
   --noMarkers                Disable rendering of data point markers in the SVG output.
   --bgColor [color]          Set a custom background color for the SVG plot (default: white)
   --tooltip                  Enable tooltips on data points. When used, each data point marker in the SVG will contain a tooltip (shown on hover) displaying its (x, y) coordinate.
+  --markerSize [number]      Set a custom marker size for data point markers (default: 3)
 
 ### JSON Output Option
 
@@ -72,7 +73,7 @@ Plot more than one function by providing multiple expressions as a comma-separat
 
 Example:
 
-  node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --legendPosition bottom --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis --logXAxis --noMarkers --bgColor lightyellow --tooltip
+  node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --legendPosition bottom --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis --logXAxis --noMarkers --bgColor lightyellow --tooltip --markerSize 4
 
 ### Auto Y-Axis Range
 

@@ -417,3 +417,14 @@ describe("Tooltip Option", () => {
     expect(found).toBe(true);
   });
 });
+
+describe("Custom Marker Size CLI Option", () => {
+  test("should render circle markers with the custom marker size when --markerSize is provided", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--markerSize", "5"]);
+    console.log = originalLog;
+    expect(outputContent).toContain('r="5"');
+  });
+});

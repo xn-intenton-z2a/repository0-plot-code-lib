@@ -32,7 +32,8 @@ function parseCLIArgs(args) {
     drawMarkers: true,
     bgColor: null,
     outputJson: false,
-    tooltip: false
+    tooltip: false,
+    markerSize: 3
   };
   let i = 0;
   while (i < args.length) {
@@ -107,6 +108,9 @@ function parseCLIArgs(args) {
       case "--tooltip":
         params.tooltip = true;
         break;
+      case "--markerSize":
+        params.markerSize = parseInt(args[++i], 10);
+        break;
       default:
         break;
     }
@@ -139,7 +143,8 @@ export async function main(args = process.argv.slice(2)) {
     drawMarkers,
     bgColor: bgColorArg,
     outputJson,
-    tooltip: tooltipArg
+    tooltip: tooltipArg,
+    markerSize: markerSizeArg
   } = parseCLIArgs(args);
 
   const svgWidth = width || 500;
@@ -189,7 +194,7 @@ export async function main(args = process.argv.slice(2)) {
     // Expression based plotting
     if (!expression || (range === null || range === undefined)) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--stdin] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--logXAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json] [--tooltip]`
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--stdin] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--logXAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json] [--tooltip] [--markerSize <number>]`
       );
       return;
     }
@@ -461,7 +466,7 @@ export async function main(args = process.argv.slice(2)) {
     <% } %>
     <% if (drawMarkers) { %>
       <% data.forEach(function(point) { %>
-        <circle cx="<%= point.cx %>" cy="<%= point.cy %>" r="3" fill="<%= plotColors[idx % plotColors.length] %>">
+        <circle cx="<%= point.cx %>" cy="<%= point.cy %>" r="<%= markerSize %>" fill="<%= plotColors[idx % plotColors.length] %>">
           <% if (tooltip) { %>
             <title>x: <%= point.x %>, y: <%= point.y %></title>
           <% } %>
@@ -497,7 +502,8 @@ export async function main(args = process.argv.slice(2)) {
     legendPosition: legendPositionArg || 'top',
     drawMarkers,
     bgColor: bgColorArg || 'white',
-    tooltip: tooltipArg
+    tooltip: tooltipArg,
+    markerSize: markerSizeArg
   });
 
   if (fileArg) {
