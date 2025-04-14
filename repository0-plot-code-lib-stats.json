@@ -2,17 +2,19 @@
   "owner": "xn-intenton-z2a",
   "repo": "repository0-plot-code-lib",
   "engine": "schedule-3",
-  "lastActivityName": "Issue Worker",
+  "lastActivityName": "Review Issue",
   "lastActivityBranchName": "main",
-  "nextIssue": "[2089] Add CLI Option to Disable Markers in SVG Output automated, feature",
-  "openIssues": 1,
+  "nextIssue": "[2089] Add CLI Option to Disable Markers in SVG Output automated, feature, issue-worker-14444088999",
+  "openIssues": 2,
   "issuesClosedLastHour": 2,
   "issuesClosedLastDay": 58,
-  "openPRs": 0,
+  "openPRs": 1,
   "averagePRAge": 0,
-  "prDetails": [],
+  "prDetails": [
+    "[0m] Add --noMarkers CLI flag to disable data point markers in SVG output. (fixes #2089)"
+  ],
   "diffMinutes": 0,
-  "diffMinutesMain": 16,
+  "diffMinutesMain": 17,
   "commitsLastHour": 2,
   "commitsLastDay": 57,
   "lastFiveCommitMessages": [
@@ -25,14 +27,14 @@
   "branches": {
     "count": 1,
     "details": [
-      "[0m] agentic-lib-issue-2089"
+      "[1m] agentic-lib-issue-2089"
     ],
     "branchIssueDetails": [
       "[2089] Add CLI Option to Disable Markers in SVG Output automated, feature, issue-worker-14444088999"
     ],
-    "averageBranchAge": 0
+    "averageBranchAge": 1
   },
   "testStatusOnBranch": "PASS",
   "testsLastPassedMinutes": 15,
-  "statsGeneratedAt": "2025-04-14T11:09:57.878Z"
+  "statsGeneratedAt": "2025-04-14T11:10:48.379Z"
 }
