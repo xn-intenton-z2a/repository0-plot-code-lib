@@ -1,30 +1,41 @@
-# CLI_DIAGNOSTICS (Consolidated)
+# CLI_DIAGNOSTICS Feature Update
 
 ## Overview
-This feature consolidates the diagnostics enhancements from both the CLI_PARSER and CLI_DIAGNOSTICS features into a single, robust implementation. The unified feature provides a `--diagnostics` flag that, when activated, outputs detailed diagnostic information for troubleshooting and configuration validation. This includes Node.js version, key environment variables, and current configuration parameters. Backward compatibility is maintained for existing CLI functionalities.
+This feature updates the existing CLI_DIAGNOSTICS functionality to provide users with detailed system and configuration diagnostics. When the `--diagnostics` flag is supplied, the CLI tool will output diagnostic information such as the Node.js version, current environment variables, and the CLI arguments provided by the user, bypassing the standard plot generation. This enhancement increases the tool's usability in troubleshooting and validating system setups.
 
 ## Implementation
 - **Source File (`src/lib/main.js`):**
-  - Update the CLI arguments parsing to include and validate the `--diagnostics` flag using the `zod` library.
-  - When `--diagnostics` is detected, bypass normal plot generation and print detailed diagnostic information (e.g., Node version, environment variables snapshot, configuration details).
-  - Ensure that when non-diagnostic flags are provided (such as `--expression`, `--range`, and `--file`), the tool behaves as before.
+  - Modify the main function to check if the `--diagnostics` flag is present in the arguments.
+  - If detected, output diagnostic details including:
+    - Node.js version (`process.version`)
+    - Current environment variables (`process.env`)
+    - Parsed CLI arguments for transparency
+  - If the flag is not provided, continue with the regular plot generation flow.
 
 - **Test File (`tests/unit/main.test.js`):**
-  - Add test cases to simulate CLI invocation with the `--diagnostics` flag, verifying that the output includes diagnostic details and does not trigger errors.
-  - Maintain existing tests for plot generation, ensuring no regression in functionality.
+  - Add new test cases to simulate CLI invocation with the `--diagnostics` flag.
+  - Verify that the output contains the Node.js version, environment snapshot, and CLI argument details.
+  - Ensure that regular plot generation tests remain unaffected.
 
 - **Documentation Updates (`README.md`):**
-  - Update the CLI usage section to include a section for the `--diagnostics` flag.
-  - Provide examples and expected output for diagnostic mode.
+  - Update the CLI usage section to include a description of the `--diagnostics` flag.
+  - Provide examples showing how to invoke the diagnostics mode using:
+    ```bash
+    node src/lib/main.js --diagnostics
+    ```
 
 - **Dependencies:**
-  - Ensure the `zod` library is used correctly for CLI argument validation and that dependency versions remain compatible.
+  - Utilize the already integrated `zod` library for parsing and validating CLI arguments. No additional dependencies are required.
 
 ## Benefits
-- Offers an easy method for users to verify their system configuration and environment setup, aiding in troubleshooting and debugging.
-- Consolidates overlapping diagnostics functionality into a single, coherent feature, simplifying maintenance.
-- Supports our mission by enhancing the reliability and user-friendliness of the CLI tool.
+- Empowers users with a quick way to diagnose system configuration and runtime parameters.
+- Enhances troubleshooting by clearly presenting environment details and CLI argument parsing results.
+- Maintains backward compatibility with existing features while enriching the utility of the CLI tool.
 
 ## Testing and Validation
-- Run `npm test` to verify that both the diagnostics and plot generation functionalities work as expected.
-- Execute `npm run diagnostics` (or `node src/lib/main.js --diagnostics`) to manually observe the diagnostic output.
+- Run `npm test` to ensure both diagnostics mode and standard plot generation work as expected.
+- Manually test using the command:
+  ```bash
+  node src/lib/main.js --diagnostics
+  ```
+  to verify that diagnostic information is correctly displayed.
