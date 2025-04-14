@@ -32,7 +32,7 @@
     "express": "^4.21.2",
     "mathjs": "^14.4.0",
     "chalk": "^5.0.1",
-    "sharp": "^0.32.6"
+    "sharp": "^0.34.1"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.1.0",
