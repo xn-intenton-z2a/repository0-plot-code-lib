@@ -1,43 +1,48 @@
-# CLI_PLOTTING
-
-This feature update consolidates the plotting functionality with enhanced environment variable integration. By merging the previous ENV_INTEGRATION improvements into CLI_PLOTTING, the tool now supports seamless default parameter configuration via a `.env` file, while preserving the existing CLI argument logic.
+# CLI_PLOTTING Enhancement with ENV Integration
 
 ## Overview
 
-- **Objective:** Allow users to specify default plotting parameters (such as SVG width, height, padding, and number of data points) using environment variables through a `.env` file. CLI arguments will continue to take precedence in order to maintain backward compatibility.
-- **Benefits:** Simplifies configuration for recurring usage and improves user experience by reducing repetitive argument declarations. Clear logging is provided when environment-derived values are used.
-- **Alignment:** This update enhances our mission to be the go-to CLI plotting tool by offering flexibility and ease of customization.
+This update refines the CLI_PLOTTING feature by fully integrating environment variable support using a `.env` file. Users can now set default plotting configurations (such as SVG width, height, padding, points, etc.) via environment variables. The CLI arguments will continue to take precedence over environment variables, ensuring backward compatibility. This enhancement solidifies our mission by making the tool even more user-friendly and customizable.
 
 ## Implementation Details
 
-1. **Source File Update (`src/lib/main.js`):**
-   - Import `dotenv` at the top and initialize it to load default values from a `.env` file.
-   - Update fallback logic for parameters (`width`, `height`, `padding`, `points`) to read from `process.env` if CLI arguments are not provided. For example:
-     ```js
-     const svgWidth = width || (process.env.SVG_WIDTH ? parseInt(process.env.SVG_WIDTH, 10) : 500);
-     ```
-   - Add conditional logging to indicate when environment variables are used for parameter defaults.
+- **Source File Update (`src/lib/main.js`):**
+  - Import and initialize the `dotenv` library at the very top of the file to load environment variables from a `.env` file. For example:
+    ```js
+    import dotenv from 'dotenv';
+    dotenv.config();
+    ```
+  - Update default parameter logic to fallback on `process.env` when CLI arguments are not provided. For example, replace:
+    ```js
+    const svgWidth = width || 500;
+    ```
+    with:
+    ```js
+    const svgWidth = width || (process.env.SVG_WIDTH ? parseInt(process.env.SVG_WIDTH, 10) : 500);
+    ```
+  - Add similar fallback logic for `height`, `padding`, `points`, and any other configurable parameter.
+  - Include conditional logging to indicate when a parameter is derived from environment variables.
 
-2. **Test Updates (`tests/unit/main.test.js`):**
-   - Enhance tests to simulate scenarios where CLI arguments are omitted and environment variables are set. Ensure tests reset the environment between cases to avoid state leakage.
+- **Test File Update (`tests/unit/main.test.js`):**
+  - Add tests to simulate cases where environment variables are provided (and CLI arguments omitted) to ensure they are properly picked up and reflected in the output.
 
-3. **Documentation Update (`README.md`):**
-   - Add a new section titled "Environment Variable Configuration" that details how to set parameters in a `.env` file. Provide sample content such as:
-     ```bash
-     SVG_WIDTH=600
-     SVG_HEIGHT=400
-     SVG_PADDING=30
-     SVG_POINTS=20
-     ```
-   - Explain that environment variables serve as fallback values when no corresponding CLI argument is provided.
+- **Documentation Update (`README.md`):**
+  - Add a new section titled "Environment Variable Configuration" explaining how users can create a `.env` file with sample content:
+    ```bash
+    SVG_WIDTH=600
+    SVG_HEIGHT=400
+    SVG_PADDING=30
+    SVG_POINTS=20
+    ```
+  - Clarify that environment variables serve as the fallback for default plotting parameters if CLI arguments are missing.
 
-4. **Dependencies (`package.json`):**
-   - Ensure that the required `dotenv` dependency is included.
+- **Dependencies Update (`package.json`):**
+  - Ensure that the `dotenv` dependency (e.g., version ^16.4.7) is installed and referenced.
 
-## Impact on Existing Functionality
+## Impact and Benefits
 
-- **Backward Compatibility:** Existing CLI argument usage remains unchanged. If a parameter is provided both via CLI and environment variable, the CLI value takes precedence.
-- **User Feedback:** Console logs now provide clear feedback whenever a parameter is set using an environment variable.
-- **Testing and Documentation:** Updates ensure that behavior is verified by unit tests and documented for user clarity.
+- **User Flexibility:** Users can configure default plotting parameters without needing to always supply them as command line arguments.
+- **Backward Compatibility:** CLI arguments will continue to override environment variables if both are provided, ensuring existing behavior is maintained.
+- **Enhanced Debuggability:** Clear logging informs users when environment variables are used, improving transparency.
 
-This merge brings together the improvements from the ENV_INTEGRATION feature with the CLI_PLOTTING update, ensuring a cohesive and streamlined user experience.
+By implementing this enhancement, the CLI_PLOTTING feature becomes more robust and user-friendly by leveraging standard environment configuration practices.
