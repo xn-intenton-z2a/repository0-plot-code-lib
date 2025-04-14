@@ -121,3 +121,17 @@ describe("Multiple Expressions SVG Output", () => {
     expect(outputContent).toMatch(/stroke="green"/);
   });
 });
+
+describe("Custom Colors CLI Option", () => {
+  test("should use provided custom colors for plot lines and text", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=tan(x)", "--range", "x=0:5,y=-5:5", "--colors", "magenta,cyan"]);
+    console.log = originalLog;
+    // Check that the custom colors appear in the SVG output
+    expect(outputContent).toContain('stroke="magenta"');
+    // Since only one expression is provided, only the first color is used. But we also test the text element.
+    expect(outputContent).toContain('fill="magenta"');
+  });
+});

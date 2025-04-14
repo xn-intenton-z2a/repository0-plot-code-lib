@@ -17,6 +17,7 @@ export async function main(args = process.argv.slice(2)) {
   let heightArg = null;
   let paddingArg = null;
   let pointsArg = 10; // default number of data points
+  let colorsArg = null; // custom colors from CLI
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--expression" && i + 1 < args.length) {
@@ -40,12 +41,15 @@ export async function main(args = process.argv.slice(2)) {
     } else if (args[i] === "--points" && i + 1 < args.length) {
       pointsArg = parseInt(args[i + 1], 10);
       i++;
+    } else if (args[i] === "--colors" && i + 1 < args.length) {
+      colorsArg = args[i + 1].split(",").map(s => s.trim());
+      i++;
     }
   }
 
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
-    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>]`);
+    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>]`);
     return;
   }
 
@@ -85,7 +89,8 @@ export async function main(args = process.argv.slice(2)) {
 
   // Parse multiple expressions separated by commas
   const exprStrings = expressionArg.split(",").map(s => s.trim());
-  const colors = ['blue', 'green', 'red', 'orange', 'purple'];
+  // Use custom colors if provided, else default palette
+  let colors = (colorsArg && colorsArg.length > 0) ? colorsArg : ['blue', 'green', 'red', 'orange', 'purple'];
   const compiledExpressions = [];
   const validExprStrings = [];
 
