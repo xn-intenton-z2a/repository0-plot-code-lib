@@ -25,7 +25,8 @@ function parseCLIArgs(args) {
     ylabel: null,
     title: null,
     logYAxis: false,
-    lineWidth: 2
+    lineWidth: 2,
+    legendPosition: null
   };
   let i = 0;
   while (i < args.length) {
@@ -79,6 +80,9 @@ function parseCLIArgs(args) {
       case "--lineWidth":
         params.lineWidth = parseFloat(args[++i]);
         break;
+      case "--legendPosition":
+        params.legendPosition = args[++i].toLowerCase();
+        break;
       default:
         break;
     }
@@ -104,7 +108,8 @@ export async function main(args = process.argv.slice(2)) {
     ylabel: ylabelArg,
     title: titleArg,
     logYAxis: logYAxisArg,
-    lineWidth: lineWidthArg
+    lineWidth: lineWidthArg,
+    legendPosition: legendPositionArg
   } = parseCLIArgs(args);
 
   const svgWidth = width || 500;
@@ -174,7 +179,7 @@ export async function main(args = process.argv.slice(2)) {
     // Original logic for expressions
     if (!expression || !range) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>]`
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>]`
       );
       return;
     }
@@ -331,6 +336,7 @@ export async function main(args = process.argv.slice(2)) {
     }
   }
 
+  // EJS template with configurable legend placement
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
   <% if (title) { %>
@@ -346,8 +352,26 @@ export async function main(args = process.argv.slice(2)) {
       <% }); %>
     <% } %>
   <% } %>
+  <% // Configurable Legend Rendering %>
+  <%
+    let legendX, legendYStart;
+    const numLegends = expressions.length;
+    if (legendPosition === 'bottom') {
+      legendX = 10;
+      legendYStart = svgHeight - pad - (numLegends * 20) + 20;
+    } else if (legendPosition === 'right') {
+      legendX = svgWidth - pad - 100;
+      legendYStart = 20;
+    } else if (legendPosition === 'left') {
+      legendX = pad;
+      legendYStart = 20;
+    } else { // default top
+      legendX = 10;
+      legendYStart = 20;
+    }
+  %>
   <% expressions.forEach(function(expr, idx) { %>
-    <text x="10" y="<%= 20 + idx * 20 %>" fill="<%= colors[idx % colors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
+    <text x="<%= legendX %>" y="<%= legendYStart + idx * 20 %>" fill="<%= colors[idx % colors.length] %>">Plot <%= idx+1 %>: <%= expr %></text>
   <% }); %>
   <% expressionsData.forEach(function(data, idx) { %>
     <% if (data.length > 0) { %>
@@ -388,7 +412,8 @@ export async function main(args = process.argv.slice(2)) {
     xlabel: xlabelArg,
     ylabel: ylabelArg,
     title: titleArg,
-    lineWidth: lineWidthArg
+    lineWidth: lineWidthArg,
+    legendPosition: legendPositionArg || 'top'
   });
 
   if (fileArg) {

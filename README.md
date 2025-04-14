@@ -6,7 +6,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## CLI Usage
 
-Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis scaling for data spanning multiple orders of magnitude, and adjustable line width for plot lines.
+Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis scaling for data spanning multiple orders of magnitude, adjustable line width for plot lines, and configurable legend placement.
 
 ### Expression Based Plotting
 
@@ -14,7 +14,7 @@ Provide the range in the format:
 
   --range "x=start:end[,y=min:max]"
 
-If you provide an expression using --expression, the tool will evaluate the function over the specified x-range and compute y values accordingly. You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, enable gridlines, axis labels, a plot title, logarithmic y-axis scaling, and line width using the following options:
+If you provide an expression using --expression, the tool will evaluate the function over the specified x-range and compute y values accordingly. You can also customize the SVG output using the following options:
 
   --width [number]             Override the default SVG width (default: 500)
   --height [number]            Override the default SVG height (default: 300)
@@ -23,6 +23,7 @@ If you provide an expression using --expression, the tool will evaluate the func
   --colors [color1,color2,...] Provide a custom comma-separated color palette (default: blue, green, red, orange, purple)
   --lineStyles [style1,style2,...] Provide a custom comma-separated list of line styles (e.g., dashed, dotted) for the plotted expressions. If omitted, lines will be solid.
   --lineWidth [number]         Provide a custom stroke width for plot lines (default: 2)
+  --legendPosition [top|bottom|left|right]  Specify the legend placement in the SVG output. The default is top, which renders the legend in the top-left corner. For example, using "bottom" will position the legend near the bottom.
   --grid                     Enable drawing of gridlines in the plot (gridlines are dashed).
   --xlabel [text]              Provide a label for the x-axis.
   --ylabel [text]              Provide a label for the y-axis.
@@ -51,9 +52,9 @@ When using --dataFile, any --expression and --range parameters are ignored, and 
 
 You can plot more than one function on a single graph by providing multiple expressions as a comma-separated list to the --expression flag. Each expression will be plotted with a distinct color and, if specified, a distinct line style.
 
-For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, a title, logarithmic y-axis scaling, and a custom line width, run:
+For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, a title, logarithmic y-axis scaling, a custom line width, and a configurable legend placement, run:
 
-> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis
+> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --legendPosition bottom --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis
 
 ### Auto Y-Axis Range
 
@@ -68,6 +69,15 @@ If the --file argument is omitted, the SVG content is directly output to the con
 ## Limitations
 
 When using the --logYAxis flag, ensure that all computed y values (or the values specified in the y-range) are strictly positive. The tool will refuse to generate a logarithmically scaled plot if any y value is zero or negative.
+
+## Legend Placement
+
+The new --legendPosition option allows you to configure where the legend text appears in the SVG. Valid options are:
+
+- top: Places the legend in the top-left (default behavior).
+- bottom: Places the legend near the bottom of the SVG.
+- left: Places the legend along the left side of the SVG.
+- right: Places the legend along the right side of the SVG.
 
 ## License
 
