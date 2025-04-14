@@ -1,14 +1,14 @@
 # CLI_DIAGNOSTICS Enhancement
 
 ## Overview
-This update refines the CLI_DIAGNOSTICS feature by implementing a diagnostics mode in the CLI. When the user provides the `--diagnostics` flag, the tool will bypass the normal plotting functionality and instead output key runtime and configuration details. This diagnostic output includes the Node.js version, operating system platform, and selected environment variables. This improvement aligns with our mission by ensuring that users can quickly verify their installation and runtime environment for improved debugging and transparency.
+This feature adds a diagnostics mode to the CLI tool. When the user provides the `--diagnostics` flag, the tool will bypass the normal plotting execution and instead output key runtime information. The diagnostics output includes the Node.js version, operating system platform, and a snapshot of important environment variables loaded from the `.env` file. This feature enhances debuggability and transparency, aligning with our mission to be the go-to plot library by empowering both users and developers with quick system insights.
 
 ## Implementation Details
 
-### Source File Update (`src/lib/main.js`)
+### Source File (`src/lib/main.js`)
 - **CLI Argument Parsing:**
-  - Update the `parseCLIArgs` function to detect the `--diagnostics` flag, adding a new parameter (e.g. `diagnostics: false` by default).
-  - Example:
+  - Update the `parseCLIArgs` function to recognize the `--diagnostics` flag, setting a new parameter (e.g. `diagnostics: false` by default) to true when the flag is encountered.
+  - Example addition:
     ```js
     case "--diagnostics":
       params.diagnostics = true;
@@ -16,13 +16,12 @@ This update refines the CLI_DIAGNOSTICS feature by implementing a diagnostics mo
     ```
 
 - **Diagnostics Mode Execution:**
-  - At the start of the `main` function, check if `params.diagnostics` is true. If so, bypass all plotting and CSV data logic.
-  - Gather diagnostics information such as:
-    - Node.js version via `process.version`
-    - Operating system platform via `process.platform`
-    - A snapshot of relevant environment variables (for example, those loaded from `.env` if available).
-    - Optionally, read and parse `package.json` to list dependency versions.
-  - Log the diagnostics information in a clear and structured format and exit the program gracefully.
+  - At the beginning of the `main` function, check if `params.diagnostics` is true. If so, gather and output diagnostics information:
+    - Node.js version (`process.version`)
+    - Operating system platform (`process.platform`)
+    - Relevant environment variables (such as `SVG_WIDTH`, `SVG_HEIGHT`, etc. if available).
+    - Optionally, include versions of key dependencies from `package.json` for further insights.
+  - Output the diagnostics in a clear, well-structured format and exit the process gracefully.
   - Example snippet:
     ```js
     if (params.diagnostics) {
@@ -32,28 +31,31 @@ This update refines the CLI_DIAGNOSTICS feature by implementing a diagnostics mo
       console.log('Environment Variables:', {
         SVG_WIDTH: process.env.SVG_WIDTH,
         SVG_HEIGHT: process.env.SVG_HEIGHT,
-        // add more as needed
+        SVG_PADDING: process.env.SVG_PADDING,
+        SVG_POINTS: process.env.SVG_POINTS
       });
       process.exit(0);
     }
     ```
 
 ### Test File Update (`tests/unit/main.test.js`)
-- Add tests to simulate the use of the `--diagnostics` flag:
-  - Verify that when the flag is provided, the output contains the expected diagnostics information such as Node.js version and platform.
-  - Ensure that no plotting or file I/O operations occur during diagnostics mode.
+- Add tests to validate the diagnostics mode functionality:
+  - Simulate calling the CLI with the `--diagnostics` flag.
+  - Verify that the output contains the expected information (e.g., Node.js version, platform, and key environment variable values).
+  - Ensure that when diagnostics mode is enabled, no SVG or PNG generation or file I/O occurs.
 
-### Documentation Update (`README.md`)
-- Add a new section under CLI options explaining the diagnostics mode:
-  - Document that invoking the tool with `--diagnostics` will output diagnostic details instead of a plot.
-  - Provide example output for user clarity.
+### README Update (`README.md`)
+- Add a section under CLI options documenting the diagnostics mode:
+  - Explain that invoking the tool with `--diagnostics` outputs system and configuration information instead of a plot.
+  - Provide an example command:
+    ```bash
+    node src/lib/main.js --diagnostics
+    ```
 
 ### Dependencies Update (`package.json`)
-- Confirm that all relevant dependencies (like `dotenv` for environment variable support) remain current.
+- No new dependencies are required. Ensure the `dotenv` dependency continues to be maintained as it supports environment variable loading.
 
 ## Impact and Benefits
-- **Improved Debuggability:** Users can quickly obtain diagnostic information to troubleshoot configuration or runtime issues.
-- **Transparency:** Clear output of Node.js version, platform, and environment settings helps users understand the state of their runtime environment.
-- **User Empowerment:** Simplifies the process of verifying that the tool is properly installed and configured before attempting to generate plots.
-
-This enhancement leverages modifications in the existing source, test, and documentation to deliver a valuable diagnostic tool for both end users and developers.
+- **Improved Debuggability:** Users can quickly obtain system and configuration information to diagnose issues.
+- **Enhanced Transparency:** Detailed diagnostics output builds user confidence that the tool is correctly installed and configured.
+- **Streamlined Troubleshooting:** Developers benefit from having immediate access to key runtime information during support and development.
