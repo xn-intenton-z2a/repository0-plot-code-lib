@@ -10,9 +10,11 @@ Generate plots directly from the command line. The tool now supports scaling for
 
 Provide the range in the format:
 
-  --range "x=start:end,y=min:max"
+  --range "x=start:end[,y=min:max]"
 
-You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, and now also enable gridlines, axis labels, and a plot title using the following options:
+You can now omit the y-axis range. If the y range is omitted, the tool will automatically compute the appropriate range from the evaluated data.
+
+You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, and enable gridlines, axis labels, and a plot title using the following options:
 
   --width [number]          Override the default SVG width (default: 500)
   --height [number]         Override the default SVG height (default: 300)
@@ -32,6 +34,14 @@ You can plot more than one function on a single graph by providing multiple expr
 For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, and a title, run:
 
 > node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot"
+
+### Auto Y-Axis Range
+
+If you omit the y-axis range in the --range parameter, such as:
+
+> node src/lib/main.js --expression "y=sin(x)" --range "x=0:9" --file output.svg
+
+The tool will automatically determine the y-axis range based on the evaluated data points, ensuring that your plot is scaled appropriately.
 
 If the --file argument is omitted, the SVG content is directly output to the console.
 
