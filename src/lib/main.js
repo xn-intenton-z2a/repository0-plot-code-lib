@@ -3,121 +3,135 @@
 
 import { fileURLToPath } from "url";
 import fs from "fs";
-import path from "path";
 import { compile } from "mathjs";
 import sharp from "sharp";
 import ejs from "ejs";
 
-export async function main(args = process.argv.slice(2)) {
-  // Simple argument parser
-  let expressionArg = null;
-  let rangeArg = null;
-  let fileArg = null;
-  let widthArg = null;
-  let heightArg = null;
-  let paddingArg = null;
-  let pointsArg = 10; // default number of data points
-  let colorsArg = null; // custom colors from CLI
-  let lineStylesArg = null; // custom line styles from CLI
-  let gridArg = false; // flag for gridlines
-  let xlabelArg = null; // label for x-axis
-  let ylabelArg = null; // label for y-axis
-  let titleArg = null; // title for the plot
-
-  for (let i = 0; i < args.length; i++) {
-    if (args[i] === "--expression" && i + 1 < args.length) {
-      expressionArg = args[i + 1];
-      i++;
-    } else if (args[i] === "--range" && i + 1 < args.length) {
-      rangeArg = args[i + 1];
-      i++;
-    } else if (args[i] === "--file" && i + 1 < args.length) {
-      fileArg = args[i + 1];
-      i++;
-    } else if (args[i] === "--width" && i + 1 < args.length) {
-      widthArg = parseInt(args[i + 1], 10);
-      i++;
-    } else if (args[i] === "--height" && i + 1 < args.length) {
-      heightArg = parseInt(args[i + 1], 10);
-      i++;
-    } else if (args[i] === "--padding" && i + 1 < args.length) {
-      paddingArg = parseInt(args[i + 1], 10);
-      i++;
-    } else if (args[i] === "--points" && i + 1 < args.length) {
-      pointsArg = parseInt(args[i + 1], 10);
-      i++;
-    } else if (args[i] === "--colors" && i + 1 < args.length) {
-      colorsArg = args[i + 1].split(",").map((s) => s.trim());
-      i++;
-    } else if (args[i] === "--lineStyles" && i + 1 < args.length) {
-      lineStylesArg = args[i + 1].split(",").map((s) => s.trim());
-      i++;
-    } else if (args[i] === "--grid") {
-      gridArg = true;
-    } else if (args[i] === "--xlabel" && i + 1 < args.length) {
-      xlabelArg = args[i + 1];
-      i++;
-    } else if (args[i] === "--ylabel" && i + 1 < args.length) {
-      ylabelArg = args[i + 1];
-      i++;
-    } else if (args[i] === "--title" && i + 1 < args.length) {
-      titleArg = args[i + 1];
-      i++;
+// Helper function to parse CLI arguments
+function parseCLIArgs(args) {
+  const params = {
+    expression: null,
+    range: null,
+    file: null,
+    width: null,
+    height: null,
+    padding: null,
+    points: 10,
+    colors: null,
+    lineStyles: null,
+    grid: false,
+    xlabel: null,
+    ylabel: null,
+    title: null
+  };
+  let i = 0;
+  while (i < args.length) {
+    const arg = args[i];
+    switch (arg) {
+      case "--expression":
+        params.expression = args[++i];
+        break;
+      case "--range":
+        params.range = args[++i];
+        break;
+      case "--file":
+        params.file = args[++i];
+        break;
+      case "--width":
+        params.width = parseInt(args[++i], 10);
+        break;
+      case "--height":
+        params.height = parseInt(args[++i], 10);
+        break;
+      case "--padding":
+        params.padding = parseInt(args[++i], 10);
+        break;
+      case "--points":
+        params.points = parseInt(args[++i], 10);
+        break;
+      case "--colors":
+        params.colors = args[++i].split(",").map((s) => s.trim());
+        break;
+      case "--lineStyles":
+        params.lineStyles = args[++i].split(",").map((s) => s.trim());
+        break;
+      case "--grid":
+        params.grid = true;
+        break;
+      case "--xlabel":
+        params.xlabel = args[++i];
+        break;
+      case "--ylabel":
+        params.ylabel = args[++i];
+        break;
+      case "--title":
+        params.title = args[++i];
+        break;
+      default:
+        break;
     }
+    i++;
   }
+  return params;
+}
 
-  // Check if required parameters are provided
-  if (!expressionArg || !rangeArg) {
+export async function main(args = process.argv.slice(2)) {
+  const {
+    expression,
+    range,
+    file: fileArg,
+    width,
+    height,
+    padding,
+    points: pointsArg,
+    colors: colorsArg,
+    lineStyles: lineStylesArg,
+    grid: gridArg,
+    xlabel: xlabelArg,
+    ylabel: ylabelArg,
+    title: titleArg
+  } = parseCLIArgs(args);
+
+  if (!expression || !range) {
     console.log(
       `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>]`
     );
     return;
   }
 
-  // Set default dimensions and allow overrides
-  const svgWidth = widthArg || 500;
-  const svgHeight = heightArg || 300;
-  const padding = paddingArg || 20;
+  const svgWidth = width || 500;
+  const svgHeight = height || 300;
+  const pad = padding || 20;
 
-  // Parse range argument
   let xRange = null;
   let yRange = null;
-  // Expected range formats: "x=start:end" and optionally "y=min:max"
-  const rangeParts = rangeArg.split(",");
-  for (const part of rangeParts) {
+  range.split(",").forEach((part) => {
     const trimmed = part.trim();
     if (trimmed.startsWith("x=")) {
       const xVals = trimmed.substring(2).split(":");
       if (xVals.length === 2) {
-        const start = parseFloat(xVals[0]);
-        const end = parseFloat(xVals[1]);
-        xRange = [start, end];
+        xRange = [parseFloat(xVals[0]), parseFloat(xVals[1])];
       }
     } else if (trimmed.startsWith("y=")) {
       const yVals = trimmed.substring(2).split(":");
       if (yVals.length === 2) {
-        const yMin = parseFloat(yVals[0]);
-        const yMax = parseFloat(yVals[1]);
-        yRange = [yMin, yMax];
+        yRange = [parseFloat(yVals[0]), parseFloat(yVals[1])];
       }
     }
-  }
+  });
 
   if (!xRange) {
     console.log('Invalid range provided. Make sure to include x range in the format "x=start:end".');
     return;
   }
 
-  // Parse multiple expressions separated by commas
-  const exprStrings = expressionArg.split(",").map((s) => s.trim());
-  // Use custom colors if provided, else default palette
-  const colors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
-  // Use custom line styles if provided, else default to solid (empty string represents solid line)
+  const exprStrings = expression.split(",").map((s) => s.trim());
+  const defaultColors = ["blue", "green", "red", "orange", "purple"];
+  const colors = colorsArg && colorsArg.length > 0 ? colorsArg : defaultColors;
   const lineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
 
   const compiledExpressions = [];
   const validExprStrings = [];
-
   for (const exprStr of exprStrings) {
     const parts = exprStr.split("=");
     if (parts.length < 2) {
@@ -126,8 +140,7 @@ export async function main(args = process.argv.slice(2)) {
     }
     const expr = parts.slice(1).join("=");
     try {
-      const compiled = compile(expr);
-      compiledExpressions.push(compiled);
+      compiledExpressions.push(compile(expr));
       validExprStrings.push(exprStr);
     } catch (err) {
       console.error("Error compiling expression:", exprStr, err);
@@ -135,82 +148,62 @@ export async function main(args = process.argv.slice(2)) {
     }
   }
 
-  // Compute shared x values based on pointsArg
   const numPoints = pointsArg;
   const step = (xRange[1] - xRange[0]) / (numPoints - 1);
   const xValues = [];
   for (let i = 0; i < numPoints; i++) {
-    const x = xRange[0] + i * step;
-    xValues.push(x);
+    xValues.push(xRange[0] + i * step);
   }
 
-  // Compute data points for each expression and collect all y values if yRange is not provided
-  let allYValues = [];
-  const expressionsData = compiledExpressions.map(compiled => {
-    const dataPoints = xValues.map(x => {
-      let y;
-      try {
-        y = compiled.evaluate({ x });
-      } catch (err) {
-        console.error("Error evaluating expression at x =", x, err);
-        return;
-      }
-      if (!yRange) {
-        allYValues.push(y);
-      }
-      return { x, y };
-    });
-    return dataPoints;
-  });
+  const expressionsData = compiledExpressions.map((compiled) =>
+    xValues
+      .map((x) => {
+        try {
+          const y = compiled.evaluate({ x });
+          return { x, y };
+        } catch (error) {
+          console.error("Error evaluating expression at x =", x, error);
+          return null;
+        }
+      })
+      .filter((point) => point !== null)
+  );
 
-  // If yRange not provided, compute dynamic range and update cy for each data point
-  let dynamicYRange = false;
+  const allYValues = expressionsData.flat().map((point) => point.y);
+
+  let gridY = [];
   if (!yRange) {
-    dynamicYRange = true;
     const yMinComputed = Math.min(...allYValues);
     const yMaxComputed = Math.max(...allYValues);
-    // Prevent division by zero
-    const yRangeSpan = yMaxComputed - yMinComputed || 1;
-
-    // Update each data point with computed cy using dynamic y range
-    expressionsData.forEach(dataPoints => {
-      dataPoints.forEach(point => {
-        point.cy = padding + (1 - (point.y - yMinComputed) / yRangeSpan) * (svgHeight - 2 * padding);
+    expressionsData.forEach((dataPoints) => {
+      dataPoints.forEach((point) => {
+        point.cy = pad + (1 - (point.y - yMinComputed) / ((yMaxComputed - yMinComputed) || 1)) * (svgHeight - 2 * pad);
       });
     });
-
-    // If gridlines are enabled, update gridY based on dynamic y range
     if (gridArg) {
-      var gridY = [];
       const numGridLines = 5;
       for (let i = 0; i < numGridLines; i++) {
         const normalized = i / (numGridLines - 1);
-        const ySVG = padding + (1 - normalized) * (svgHeight - 2 * padding);
-        gridY.push(ySVG);
+        gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
       }
     }
   } else {
-    // Use provided yRange to compute cy
-    expressionsData.forEach(dataPoints => {
-      dataPoints.forEach(point => {
+    expressionsData.forEach((dataPoints) => {
+      dataPoints.forEach((point) => {
         const [yMin, yMax] = yRange;
-        point.cy = padding + (1 - (point.y - yMin) / (yMax - yMin)) * (svgHeight - 2 * padding);
+        point.cy = pad + (1 - (point.y - yMin) / (yMax - yMin)) * (svgHeight - 2 * pad);
       });
     });
-
-    if (gridArg && yRange) {
-      var gridY = [];
+    if (gridArg) {
       const numGridLines = 5;
       const [yMin, yMax] = yRange;
       for (let i = 0; i < numGridLines; i++) {
         const normalized = i / (numGridLines - 1);
-        const ySVG = padding + (1 - normalized) * (svgHeight - 2 * padding);
-        gridY.push(ySVG);
+        gridY.push(pad + (1 - normalized) * (svgHeight - 2 * pad));
       }
     }
   }
 
-  // Calculate gridlines for x if grid is enabled
   let gridX = [];
   let gridXLeft = 50;
   let gridXRight = 50;
@@ -220,7 +213,6 @@ export async function main(args = process.argv.slice(2)) {
     gridXRight = 50 + xRange[1] * 40;
   }
 
-  // Create an SVG plot using an inlined ejs template with dynamic dimensions and multiple expressions support
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
   <% if (title) { %>
@@ -228,9 +220,9 @@ export async function main(args = process.argv.slice(2)) {
   <% } %>
   <% if (grid) { %>
     <% gridX.forEach(function(x) { %>
-      <line x1="<%= 50 + x * 40 %>" y1="<%= padding %>" x2="<%= 50 + x * 40 %>" y2="<%= svgHeight - padding %>" stroke="#ccc" stroke-dasharray="2,2" />
+      <line x1="<%= 50 + x * 40 %>" y1="<%= pad %>" x2="<%= 50 + x * 40 %>" y2="<%= svgHeight - pad %>" stroke="#ccc" stroke-dasharray="2,2" />
     <% }); %>
-    <% if (gridY && gridY.length > 0) { %>
+    <% if (gridY.length > 0) { %>
       <% gridY.forEach(function(y) { %>
         <line x1="<%= gridXLeft %>" y1="<%= y %>" x2="<%= gridXRight %>" y2="<%= y %>" stroke="#ccc" stroke-dasharray="2,2" />
       <% }); %>
@@ -253,10 +245,10 @@ export async function main(args = process.argv.slice(2)) {
     <% }); %>
   <% }); %>
   <% if (xlabel) { %>
-    <text x="<%= svgWidth/2 %>" y="<%= svgHeight - padding/4 %>" text-anchor="middle"><%= xlabel %></text>
+    <text x="<%= svgWidth/2 %>" y="<%= svgHeight - pad/4 %>" text-anchor="middle"><%= xlabel %></text>
   <% } %>
   <% if (ylabel) { %>
-    <text x="<%= padding/4 %>" y="<%= svgHeight/2 %>" text-anchor="middle" transform="rotate(-90, <%= padding/4 %>, <%= svgHeight/2 %>)"><%= ylabel %></text>
+    <text x="<%= pad/4 %>" y="<%= svgHeight/2 %>" text-anchor="middle" transform="rotate(-90, <%= pad/4 %>, <%= svgHeight/2 %>)"><%= ylabel %></text>
   <% } %>
 </svg>`;
 
@@ -266,19 +258,18 @@ export async function main(args = process.argv.slice(2)) {
     svgWidth,
     svgHeight,
     colors,
-    padding,
+    pad,
     lineStyles,
     grid: gridArg,
     gridX,
-    gridY: gridArg ? gridY : [],
+    gridY,
     gridXLeft,
     gridXRight,
     xlabel: xlabelArg,
     ylabel: ylabelArg,
-    title: titleArg,
+    title: titleArg
   });
 
-  // Process file output if --file is provided
   if (fileArg) {
     const ext = fileArg.split(".").pop().toLowerCase();
     if (ext === "svg") {
