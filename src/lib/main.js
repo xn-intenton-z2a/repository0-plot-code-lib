@@ -13,6 +13,7 @@ function parseCLIArgs(args) {
     expression: null,
     range: null,
     file: null,
+    dataFile: null,
     width: null,
     height: null,
     padding: null,
@@ -38,6 +39,9 @@ function parseCLIArgs(args) {
         break;
       case "--file":
         params.file = args[++i];
+        break;
+      case "--dataFile":
+        params.dataFile = args[++i];
         break;
       case "--width":
         params.width = parseInt(args[++i], 10);
@@ -88,6 +92,7 @@ export async function main(args = process.argv.slice(2)) {
     expression,
     range,
     file: fileArg,
+    dataFile,
     width,
     height,
     padding,
@@ -102,82 +107,147 @@ export async function main(args = process.argv.slice(2)) {
     lineWidth: lineWidthArg
   } = parseCLIArgs(args);
 
-  if (!expression || !range) {
-    console.log(
-      `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>]`
-    );
-    return;
-  }
-
   const svgWidth = width || 500;
   const svgHeight = height || 300;
   const pad = padding || 20;
 
+  let expressionsData = [];
+  let validExprStrings = [];
   let xRange = null;
   let yRange = null;
-  range.split(",").forEach((part) => {
-    const trimmed = part.trim();
-    if (trimmed.startsWith("x=")) {
-      const xVals = trimmed.substring(2).split(":");
-      if (xVals.length === 2) {
-        xRange = [parseFloat(xVals[0]), parseFloat(xVals[1])];
-      }
-    } else if (trimmed.startsWith("y=")) {
-      const yVals = trimmed.substring(2).split(":");
-      if (yVals.length === 2) {
-        yRange = [parseFloat(yVals[0]), parseFloat(yVals[1])];
-      }
-    }
-  });
+  let gridX = [];
+  let gridXLeft = 50;
+  let gridXRight = 50;
 
-  if (!xRange) {
-    console.log('Invalid range provided. Make sure to include x range in the format "x=start:end".');
-    return;
-  }
-
-  const exprStrings = expression.split(",").map((s) => s.trim());
-  const defaultColors = ["blue", "green", "red", "orange", "purple"];
-  const colors = colorsArg && colorsArg.length > 0 ? colorsArg : defaultColors;
-  const lineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
-
-  const compiledExpressions = [];
-  const validExprStrings = [];
-  for (const exprStr of exprStrings) {
-    const parts = exprStr.split("=");
-    if (parts.length < 2) {
-      console.log('Invalid expression format. Expected format: "y=expression" for each expression.');
-      return;
-    }
-    const expr = parts.slice(1).join("=");
+  // If dataFile is provided, use CSV data input and bypass expression and range parsing
+  if (dataFile) {
+    let csvContent;
     try {
-      compiledExpressions.push(compile(expr));
-      validExprStrings.push(exprStr);
+      csvContent = fs.readFileSync(dataFile, "utf8");
     } catch (err) {
-      console.error("Error compiling expression:", exprStr, err);
+      console.error(`Error reading CSV file: ${dataFile}`, err);
       return;
     }
-  }
+    const lines = csvContent.split(/\r?\n/).filter(line => line.trim() !== '');
+    const pointsData = [];
+    let startIndex = 0;
+    // Check if header exists by trying to parse first value
+    const firstLineCols = lines[0].split(",");
+    if (isNaN(parseFloat(firstLineCols[0]))) {
+      startIndex = 1; // skip header
+    }
+    for (let i = startIndex; i < lines.length; i++) {
+      const cols = lines[i].split(",").map(s => s.trim());
+      if (cols.length < 2) continue;
+      const xVal = parseFloat(cols[0]);
+      const yVal = parseFloat(cols[1]);
+      if (isNaN(xVal) || isNaN(yVal)) {
+        console.error(`Invalid numeric data at line ${i + 1}: ${lines[i]}`);
+        return;
+      }
+      pointsData.push({ x: xVal, y: yVal });
+    }
+    if (pointsData.length === 0) {
+      console.error('No valid data points found in CSV file.');
+      return;
+    }
+    // Compute x and y ranges from CSV data
+    const xValuesFromCSV = pointsData.map(point => point.x);
+    const yValuesFromCSV = pointsData.map(point => point.y);
+    xRange = [Math.min(...xValuesFromCSV), Math.max(...xValuesFromCSV)];
+    yRange = [Math.min(...yValuesFromCSV), Math.max(...yValuesFromCSV)];
+    expressionsData.push(pointsData);
+    validExprStrings.push('CSV Data');
 
-  const numPoints = pointsArg;
-  const step = (xRange[1] - xRange[0]) / (numPoints - 1);
-  const xValues = [];
-  for (let i = 0; i < numPoints; i++) {
-    xValues.push(xRange[0] + i * step);
-  }
-
-  const expressionsData = compiledExpressions.map((compiled) =>
-    xValues
-      .map((x) => {
-        try {
-          const y = compiled.evaluate({ x });
-          return { x, y };
-        } catch (error) {
-          console.error("Error evaluating expression at x =", x, error);
-          return null;
+    // If grid is enabled, generate evenly spaced x-gridlines
+    if (gridArg) {
+      const numGridLines = 5;
+      gridX = [];
+      for (let i = 0; i < numGridLines; i++) {
+        const xVal = xRange[0] + i * ((xRange[1] - xRange[0]) / (numGridLines - 1));
+        gridX.push(xVal);
+      }
+      gridXLeft = 50 + xRange[0] * 40;
+      gridXRight = 50 + xRange[1] * 40;
+    }
+  } else {
+    // Original logic for expressions
+    if (!expression || !range) {
+      console.log(
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>]`
+      );
+      return;
+    }
+    range.split(",").forEach((part) => {
+      const trimmed = part.trim();
+      if (trimmed.startsWith("x=")) {
+        const xVals = trimmed.substring(2).split(":");
+        if (xVals.length === 2) {
+          xRange = [parseFloat(xVals[0]), parseFloat(xVals[1])];
         }
-      })
-      .filter((point) => point !== null)
-  );
+      } else if (trimmed.startsWith("y=")) {
+        const yVals = trimmed.substring(2).split(":");
+        if (yVals.length === 2) {
+          yRange = [parseFloat(yVals[0]), parseFloat(yVals[1])];
+        }
+      }
+    });
+
+    if (!xRange) {
+      console.log('Invalid range provided. Make sure to include x range in the format "x=start:end".');
+      return;
+    }
+
+    const exprStrings = expression.split(",").map((s) => s.trim());
+    const defaultColors = ["blue", "green", "red", "orange", "purple"];
+    const colors = colorsArg && colorsArg.length > 0 ? colorsArg : defaultColors;
+    const lineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
+
+    const compiledExpressions = [];
+    for (const exprStr of exprStrings) {
+      const parts = exprStr.split("=");
+      if (parts.length < 2) {
+        console.log('Invalid expression format. Expected format: "y=expression" for each expression.');
+        return;
+      }
+      const expr = parts.slice(1).join("=");
+      try {
+        compiledExpressions.push(compile(expr));
+        validExprStrings.push(exprStr);
+      } catch (err) {
+        console.error("Error compiling expression:", exprStr, err);
+        return;
+      }
+    }
+
+    const numPoints = pointsArg;
+    const step = (xRange[1] - xRange[0]) / (numPoints - 1);
+    const xValues = [];
+    for (let i = 0; i < numPoints; i++) {
+      xValues.push(xRange[0] + i * step);
+    }
+
+    expressionsData = compiledExpressions.map((compiled) =>
+      xValues
+        .map((x) => {
+          try {
+            const y = compiled.evaluate({ x });
+            return { x, y };
+          } catch (error) {
+            console.error("Error evaluating expression at x =", x, error);
+            return null;
+          }
+        })
+        .filter((point) => point !== null)
+    );
+
+    // If grid is enabled, use xValues for grid lines
+    if (gridArg) {
+      gridX = xValues;
+      gridXLeft = 50 + xRange[0] * 40;
+      gridXRight = 50 + xRange[1] * 40;
+    }
+  }
 
   const allYValues = expressionsData.flat().map((point) => point.y);
 
@@ -213,7 +283,6 @@ export async function main(args = process.argv.slice(2)) {
     // Apply logarithmic scaling; all y values must be positive
     expressionsData.forEach((dataPoints) => {
       dataPoints.forEach((point) => {
-        // Ensure individual y is positive
         if (point.y <= 0) {
           console.error("Error: Encountered non-positive y value during logarithmic scaling.");
           return;
@@ -262,15 +331,6 @@ export async function main(args = process.argv.slice(2)) {
     }
   }
 
-  let gridX = [];
-  let gridXLeft = 50;
-  let gridXRight = 50;
-  if (gridArg) {
-    gridX = xValues;
-    gridXLeft = 50 + xRange[0] * 40;
-    gridXRight = 50 + xRange[1] * 40;
-  }
-
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
   <% if (title) { %>
@@ -310,6 +370,8 @@ export async function main(args = process.argv.slice(2)) {
   <% } %>
 </svg>`;
 
+  const colors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
+
   const svgContent = ejs.render(svgTemplate, {
     expressions: validExprStrings,
     expressionsData,
@@ -317,7 +379,7 @@ export async function main(args = process.argv.slice(2)) {
     svgHeight,
     colors,
     pad,
-    lineStyles,
+    lineStyles: lineStylesArg,
     grid: gridArg,
     gridX,
     gridY,

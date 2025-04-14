@@ -1,10 +1,14 @@
-import { describe, test, expect, afterEach } from "vitest";
+import { describe, test, expect, afterEach, beforeAll, afterAll } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 
 // Helper to delay execution for async writes
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+// Temporary file helper for CSV tests
+import os from 'os';
+import path from 'path';
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -253,5 +257,41 @@ describe("Custom Line Width CLI Option", () => {
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--lineWidth", "3.5"]);
     console.log = originalLog;
     expect(outputContent).toContain('stroke-width="3.5"');
+  });
+});
+
+// New test for CSV Input Option
+describe("CSV Input Option", () => {
+  const tmpDir = os.tmpdir();
+  const csvFile = path.join(tmpDir, "test_data.csv");
+  const outputFile = path.join(tmpDir, "test_output_csv.svg");
+
+  beforeAll(() => {
+    // Create a temporary CSV file with header and some data
+    const csvData = "x,y\n0,0\n1,1\n2,4\n3,9";
+    fs.writeFileSync(csvFile, csvData);
+  });
+
+  afterAll(() => {
+    if (fs.existsSync(csvFile)) fs.unlinkSync(csvFile);
+    if (fs.existsSync(outputFile)) fs.unlinkSync(outputFile);
+  });
+
+  test("should generate SVG output from CSV data and ignore --expression and --range", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--dataFile", csvFile]);
+    console.log = originalLog;
+    expect(outputContent).toContain("<svg");
+    expect(outputContent).toContain("CSV Data");
+  });
+
+  test("should write SVG output to file when --file is used with --dataFile", async () => {
+    await main(["--dataFile", csvFile, "--file", outputFile]);
+    expect(fs.existsSync(outputFile)).toBe(true);
+    const content = fs.readFileSync(outputFile, "utf8");
+    expect(content).toContain("<svg");
+    expect(content).toContain("CSV Data");
   });
 });
