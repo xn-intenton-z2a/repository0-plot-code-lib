@@ -22,6 +22,7 @@ export async function main(args = process.argv.slice(2)) {
   let gridArg = false; // flag for gridlines
   let xlabelArg = null; // label for x-axis
   let ylabelArg = null; // label for y-axis
+  let titleArg = null; // title for the plot
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--expression" && i + 1 < args.length) {
@@ -59,12 +60,15 @@ export async function main(args = process.argv.slice(2)) {
     } else if (args[i] === "--ylabel" && i + 1 < args.length) {
       ylabelArg = args[i + 1];
       i++;
+    } else if (args[i] === "--title" && i + 1 < args.length) {
+      titleArg = args[i + 1];
+      i++;
     }
   }
 
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
-    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>]`);
+    console.log(`Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>]`);
     return;
   }
 
@@ -186,6 +190,9 @@ export async function main(args = process.argv.slice(2)) {
   // Create an SVG plot using an inlined ejs template with dynamic dimensions and multiple expressions support
   const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="white"/>
+  <% if (title) { %>
+    <text x="50%" y="30" text-anchor="middle" font-size="20" font-weight="bold"><%= title %></text>
+  <% } %>
   <% if (grid) { %>
     <% gridX.forEach(function(x) { %>
       <line x1="<%= 50 + x * 40 %>" y1="<%= padding %>" x2="<%= 50 + x * 40 %>" y2="<%= svgHeight - padding %>" stroke="#ccc" stroke-dasharray="2,2" />
@@ -234,7 +241,8 @@ export async function main(args = process.argv.slice(2)) {
     gridXLeft,
     gridXRight,
     xlabel: xlabelArg,
-    ylabel: ylabelArg
+    ylabel: ylabelArg,
+    title: titleArg
   });
 
   // Process file output if --file is provided
