@@ -105,3 +105,19 @@ describe("SVG Output with Configurable Data Points", () => {
     expect(pointPairs.length).toBe(numPoints);
   });
 });
+
+describe("Multiple Expressions SVG Output", () => {
+  test("should generate SVG with multiple polylines and distinct colors for multiple expressions", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x),y=cos(x)", "--range", "x=0:9,y=-1:1"]);
+    console.log = originalLog;
+    // Check for two polyline elements
+    const polylineMatches = outputContent.match(/<polyline/g) || [];
+    expect(polylineMatches.length).toBe(2);
+    // Check that distinct colors are applied by verifying stroke attributes
+    expect(outputContent).toMatch(/stroke="blue"/);
+    expect(outputContent).toMatch(/stroke="green"/);
+  });
+});
