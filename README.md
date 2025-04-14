@@ -32,5 +32,3 @@ If the --file argument is omitted, the SVG content is directly output to the con
 ## License
 
 MIT
-
----
