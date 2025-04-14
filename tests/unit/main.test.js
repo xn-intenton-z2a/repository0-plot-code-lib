@@ -143,7 +143,7 @@ describe("Custom Line Styles CLI Option", () => {
     await main(["--expression", "y=sin(x),y=cos(x)", "--range", "x=0:9,y=-1:1", "--lineStyles", "dashed,dotted"]);
     console.log = originalLog;
     // Verify first polyline has stroke-dasharray="5,5" and second has stroke-dasharray="1,5"
-    const polylineRegex = /<polyline[^>]*stroke-dasharray="([^"]+)"/g;
+    const polylineRegex = /<polyline[^>]*stroke-dasharray=\"([^\"]+)\"/g;
     let matches = [];
     let match;
     while ((match = polylineRegex.exec(outputContent)) !== null) {
@@ -152,5 +152,29 @@ describe("Custom Line Styles CLI Option", () => {
     expect(matches.length).toBeGreaterThanOrEqual(2);
     expect(matches[0]).toBe('5,5');
     expect(matches[1]).toBe('1,5');
+  });
+});
+
+describe("Gridlines and Axis Labels", () => {
+  test("should include gridlines when --grid is used", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--grid"]);
+    console.log = originalLog;
+    // Check for gridline dash pattern
+    expect(outputContent).toContain('stroke-dasharray="2,2"');
+  });
+
+  test("should render axis labels when --xlabel and --ylabel are provided", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    const xlabel = "Time (s)";
+    const ylabel = "Amplitude";
+    await main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--grid", "--xlabel", xlabel, "--ylabel", ylabel]);
+    console.log = originalLog;
+    expect(outputContent).toContain(xlabel);
+    expect(outputContent).toContain(ylabel);
   });
 });
