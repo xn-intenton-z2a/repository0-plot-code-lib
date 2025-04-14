@@ -199,7 +199,7 @@ export async function main(args = process.argv.slice(2)) {
     // Original logic for expressions
     if (!expression || !range) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json]"
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json]`
       );
       return;
     }
@@ -369,7 +369,7 @@ export async function main(args = process.argv.slice(2)) {
   }
 
   // EJS template with configurable legend placement
-  const svgTemplate = `<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
+  const svgTemplate = String.raw`<svg xmlns="http://www.w3.org/2000/svg" width="<%= svgWidth %>" height="<%= svgHeight %>">
   <rect width="100%" height="100%" fill="<%= bgColor %>"/>
   <% if (title) { %>
     <text x="50%" y="30" text-anchor="middle" font-size="20" font-weight="bold"><%= title %></text>
