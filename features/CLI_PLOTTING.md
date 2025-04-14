@@ -1,36 +1,38 @@
-# CLI_PLOTTING Feature Enhancement
+# CLI_PLOTTING Environment Integration
 
-This update to the CLI plotting functionality integrates environment-driven configuration using the dotenv package. By supporting environment variable overrides, users can pre-configure default values for SVG dimensions, padding, data points, and more without having to supply them each time on the command line.
+This update enhances the existing CLI_PLOTTING feature by fully integrating environment variable support. The feature now loads configuration from a `.env` file at startup using the `dotenv` package. Key plotting parameters such as SVG width, height, padding, and number of data points can be set via environment variables if not provided via CLI flags.
 
 ## Overview
 
-This enhancement builds on the existing CLI plotting feature by adding support for environment variables. It reads a `.env` file (if present) to set default configuration values such as SVG width (`SVG_WIDTH`), height (`SVG_HEIGHT`), padding (`SVG_PADDING`), and data points (`SVG_POINTS`). This change reduces repetitive command-line arguments and aligns with the mission of being a go-to tool for formula visualisations, offering flexibility and improved usability.
+- **Environment Loading:** At the beginning of the execution in `src/lib/main.js`, the feature loads environment variables from a `.env` file. This enables users to define default values (e.g., `SVG_WIDTH`, `SVG_HEIGHT`, `SVG_PADDING`, and `SVG_POINTS`) so that they do not have to supply these options every time via the command line.
+- **Precedence:** The CLI arguments continue to take precedence over the environment variables. When a parameter is provided both via CLI and the environment, the CLI value is used.
+- **User Feedback:** Logging is updated to indicate whether a parameter was set from the environment or from the command line. This improves usability and diagnostic clarity.
 
 ## Technical Changes
 
-- **Environment Variable Support:**
-  - Import and configure the `dotenv` package in `src/lib/main.js` to load environment variables at startup.
-  - When parsing CLI arguments, if certain parameters (e.g., width, height, padding, points) are not provided, fallback to environment variables (e.g., `process.env.SVG_WIDTH`, `process.env.SVG_HEIGHT`, etc.) before using hard-coded defaults.
+- **Source File (`src/lib/main.js`):**
+  - Import and invoke `dotenv.config()` at the very top of the file to ensure that environment variables are available.
+  - Modify the default assignment for width, height, padding, and points to first check if a CLI argument is provided, then check the corresponding environment variable (e.g., `process.env.SVG_WIDTH`), and finally fall back to hard-coded defaults.
+  - Add additional console logging to display the source of key configuration values (CLI vs environment).
 
-- **CLI Argument Handling Enhancements:**
-  - Ensure that values provided via command-line override the environment settings if both are provided.
-  - Maintain robust error handling by validating environment-sourced values similarly to CLI inputs.
+- **Test File (`tests/unit/main.test.js`):**
+  - Update tests to simulate scenarios where environment variables are set, ensuring that the defaults from the environment file are correctly applied when CLI parameters are absent.
+  - Validate that CLI parameters override environment variable settings.
 
-- **Logging and User Feedback:**
-  - Update console logging to include which configuration source (CLI vs environment) was used for key values, aiding in debugging and diagnostics.
+- **Documentation (`README.md`):**
+  - Update the README to include a section on environment variable configuration. Document the supported environment variables and provide an example `.env` file setup.
 
-## Testing
-
-- **Unit Tests:**
-  - Update tests in `tests/unit/main.test.js` to simulate scenarios where environment variables are set. Verify that default configurations are correctly read from environment variables when CLI parameters are omitted.
-  - Ensure that providing CLI options still takes precedence over environment defaults.
-
-## Documentation
-
-- **README.md Update:**
-  - Add a section detailing how users can configure default values via a `.env` file. List the configurable variables (e.g., `SVG_WIDTH`, `SVG_HEIGHT`, `SVG_PADDING`, `SVG_POINTS`).
-  - Provide examples to show how to setup a `.env` file and describe the effect on the CLI invocation.
+- **Dependencies (`package.json`):**
+  - Confirm that `dotenv` is listed as a dependency. No additional changes are needed as the package is already included.
 
 ## Backward Compatibility
 
-- Existing functionality for CLI plotting and diagnostics is maintained with the added benefit of environment configurations. Users who do not provide a `.env` file will continue to see the default values or CLI overrides as before.
+- Existing behavior is maintained. Users not employing a `.env` file will continue using the CLI or default hard-coded settings.
+
+This feature reinforces the mission of making the tool the go-to solution for formula visualizations by adding configurability and ease-of-use for frequent users.
+
+## How to Test
+
+- Run the CLI without parameters to trigger the usage message and verify that no environment variables are applied.
+- Create a `.env` file with custom values and run the CLI without corresponding CLI overrides, verifying that the output respects the environment settings.
+- Run tests to confirm that both CLI and environment-sourced values are correctly prioritized.
