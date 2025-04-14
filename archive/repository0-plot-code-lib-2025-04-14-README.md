@@ -6,15 +6,15 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## CLI Usage
 
-Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, as well as custom SVG dimensions, padding, configurable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis scaling for data spanning multiple orders of magnitude, and adjustable line width for plot lines.
+Generate plots directly from the command line. The tool now supports scaling for both x and y ranges, multiple expressions, configurable SVG dimensions, padding, adjustable data point resolution, a custom color palette, custom line styles, gridlines, axis labels, a title, logarithmic y-axis and x-axis scaling, adjustable line width, configurable legend placement, an option to disable data point markers, a custom background color, tooltips for data points, custom marker size for plot points, and raw JSON output of plot data.
+
+### Expression Based Plotting
 
 Provide the range in the format:
 
   --range "x=start:end[,y=min:max]"
 
-You can now omit the y-axis range. If the y range is omitted, the tool will automatically compute the appropriate range from the evaluated data.
-
-You can also customize the SVG output dimensions, padding, number of data points, color palette, line styles, enable gridlines, axis labels, a plot title, logarithmic y-axis scaling, and line width using the following options:
+If you provide an expression using --expression, the tool will evaluate the function over the specified x-range and compute y values accordingly. You can also customize the SVG output using the following options:
 
   --width [number]             Override the default SVG width (default: 500)
   --height [number]            Override the default SVG height (default: 300)
@@ -23,33 +23,76 @@ You can also customize the SVG output dimensions, padding, number of data points
   --colors [color1,color2,...] Provide a custom comma-separated color palette (default: blue, green, red, orange, purple)
   --lineStyles [style1,style2,...] Provide a custom comma-separated list of line styles (e.g., dashed, dotted) for the plotted expressions. If omitted, lines will be solid.
   --lineWidth [number]         Provide a custom stroke width for plot lines (default: 2)
+  --legendPosition [top|bottom|left|right]  Specify the legend placement (default: top)
   --grid                     Enable drawing of gridlines in the plot (gridlines are dashed).
   --xlabel [text]              Provide a label for the x-axis.
   --ylabel [text]              Provide a label for the y-axis.
   --title [text]               Provide a title to be displayed at the top center of the plot.
-  --logYAxis                 Enable logarithmic scaling for the y-axis. Note: All y values (or y-axis range) must be strictly positive.
+  --logYAxis                 Enable logarithmic scaling for the y-axis (all y values must be strictly positive).
+  --logXAxis                 Enable logarithmic scaling for the x-axis (all x values must be strictly positive).
+  --noMarkers                Disable rendering of data point markers in the SVG output.
+  --bgColor [color]          Set a custom background color for the SVG plot (default: white)
+  --tooltip                  Enable tooltips on data points. When used, each data point marker in the SVG will contain a tooltip (shown on hover) displaying its (x, y) coordinate.
+  --markerSize [number]      Set a custom marker size for data point markers (default: 3)
+
+### JSON Output Option
+
+Use the --json flag to output the computed plot data in JSON format instead of generating an SVG or PNG file. This option returns raw JSON data representing the evaluated expressions, including x and y values and computed positions, which can be used for further processing or debugging.
+
+Example:
+
+  node src/lib/main.js --expression "y=sin(x)" --range "x=0:9,y=-1:1" --json
+
+When --json is provided, the tool bypasses SVG/PNG generation and writes the JSON string to the console.
+
+### CSV Data Input Option
+
+In addition to expression-based plotting, you can supply a CSV file containing data using the --dataFile flag. The CSV file should have two columns (x and y) and may include a header row. For example:
+
+contents of data.csv:
+
+  x,y
+  0,0
+  1,1
+  2,4
+  3,9
+
+To generate a plot from CSV data, run:
+
+  node src/lib/main.js --dataFile data.csv
+
+You can also pipe CSV data via standard input using the --stdin flag (when --dataFile is not provided). For example:
+
+  cat data.csv | node src/lib/main.js --stdin
+
+In this mode, the tool reads CSV-formatted data from STDIN and processes it similar to the --dataFile option.
 
 ### Multiple Expressions
 
-You can plot more than one function on a single graph by providing multiple expressions as a comma-separated list to the --expression flag. Each expression will be plotted with a distinct color and, if specified, a distinct line style.
+Plot more than one function by providing multiple expressions as a comma-separated list to the --expression flag. Each expression will be plotted with a distinct color and, if specified, a distinct line style.
 
-For example, to create an SVG plot with two functions (sine and cosine) using a custom color palette, line styles, gridlines, axis labels, a title, logarithmic y-axis scaling, and a custom line width, run:
+Example:
 
-> node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis
+  node src/lib/main.js --expression "y=sin(x),y=cos(x)" --range "x=0:9,y=-1:1" --colors "magenta,cyan" --lineStyles "dashed,dotted" --lineWidth 3.5 --legendPosition bottom --grid --xlabel "Time (s)" --ylabel "Amplitude" --title "My Awesome Plot" --logYAxis --logXAxis --noMarkers --bgColor lightyellow --tooltip --markerSize 4
 
 ### Auto Y-Axis Range
 
-If you omit the y-axis range in the --range parameter, such as:
+If you omit the y-axis range (e.g., --range "x=0:9"), the tool automatically determines the appropriate y-range based on the computed data points.
 
-> node src/lib/main.js --expression "y=sin(x)" --range "x=0:9" --file output.svg
-
-The tool will automatically determine the y-axis range based on the evaluated data points, ensuring that your plot is scaled appropriately.
-
-If the --file argument is omitted, the SVG content is directly output to the console.
+If the --file argument is omitted, the SVG content is output to the console.
 
 ## Limitations
 
-When using the --logYAxis flag, ensure that all computed y values (or the values specified in the y-range) are strictly positive. The tool will refuse to generate a logarithmically scaled plot if any y value is zero or negative.
+When using the --logYAxis or --logXAxis flag, ensure that all corresponding axis values (or range boundaries) are strictly positive. The tool will not generate a logarithmically scaled plot if any value is zero or negative.
+
+## Legend Placement
+
+The --legendPosition option allows specifying where the legend text appears in the SVG. Valid options are:
+
+- top: Places the legend in the top-left (default).
+- bottom: Positions the legend near the bottom.
+- left: Aligns the legend along the left side.
+- right: Aligns the legend along the right side.
 
 ## License
 
