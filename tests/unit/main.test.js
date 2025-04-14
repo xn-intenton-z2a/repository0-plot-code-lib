@@ -178,3 +178,16 @@ describe("Gridlines and Axis Labels", () => {
     expect(outputContent).toContain(ylabel);
   });
 });
+
+describe("Plot Title Rendering", () => {
+  test("should render provided title in the SVG output", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    const testTitle = "My Awesome Plot";
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--title", testTitle]);
+    console.log = originalLog;
+    expect(outputContent).toContain(testTitle);
+    expect(outputContent).toMatch(new RegExp("<text [^>]*>" + testTitle + "</text>"));
+  });
+});
