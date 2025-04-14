@@ -87,3 +87,21 @@ describe("Custom Dimensions and SVG File Output", () => {
     expect(content).toContain('height="400"');
   });
 });
+
+describe("SVG Output with Configurable Data Points", () => {
+  test("should generate SVG with the correct number of data points when --points parameter is provided", async () => {
+    let outputContent = "";
+    const originalLog = console.log;
+    console.log = (msg) => { outputContent += msg; };
+    const numPoints = 20;
+    await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--points", numPoints.toString()]);
+    console.log = originalLog;
+    // Extract polyline points attribute
+    const polylineRegex = /<polyline[^>]*points=\"([^\"]+)\"/;
+    const match = polylineRegex.exec(outputContent);
+    expect(match).not.toBeNull();
+    const pointsAttr = match[1];
+    const pointPairs = pointsAttr.trim().split(/\s+/);
+    expect(pointPairs.length).toBe(numPoints);
+  });
+});

@@ -16,6 +16,7 @@ export async function main(args = process.argv.slice(2)) {
   let widthArg = null;
   let heightArg = null;
   let paddingArg = null;
+  let pointsArg = 10; // default number of data points
 
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--expression" && i + 1 < args.length) {
@@ -36,12 +37,15 @@ export async function main(args = process.argv.slice(2)) {
     } else if (args[i] === "--padding" && i + 1 < args.length) {
       paddingArg = parseInt(args[i + 1], 10);
       i++;
+    } else if (args[i] === "--points" && i + 1 < args.length) {
+      pointsArg = parseInt(args[i + 1], 10);
+      i++;
     }
   }
 
   // Check if required parameters are provided
   if (!expressionArg || !rangeArg) {
-    console.log(`Usage: node src/lib/main.js --expression <expression> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>]`);
+    console.log(`Usage: node src/lib/main.js --expression <expression> --range "x=start:end,y=min:max" [--file <filename>] [--width <number>] [--height <number>] [--padding <number>] [--points <number>]`);
     return;
   }
 
@@ -96,9 +100,10 @@ export async function main(args = process.argv.slice(2)) {
     return;
   }
 
-  // Compute 10 data points along the x-range
-  const step = (xRange[1] - xRange[0]) / 9;
-  for (let i = 0; i < 10; i++) {
+  // Compute data points along the x-range based on provided pointsArg
+  const numPoints = pointsArg;
+  const step = (xRange[1] - xRange[0]) / (numPoints - 1);
+  for (let i = 0; i < numPoints; i++) {
     const x = xRange[0] + i * step;
     let y;
     try {
