@@ -1,25 +1,32 @@
 # Interactive Mode Enhancement
 
 ## Overview
-This feature introduces an interactive mode for the CLI tool. When users provide the `--interactive` flag, the CLI will launch a guided prompt to collect any missing parameters, such as the mathematical expression, range, file output name, and additional configurations. This mode improves usability by allowing users to input parameters step-by-step rather than specifying all CLI flags manually.
+This feature consolidates and enhances the interactive mode functionality in the CLI tool. It merges the previously separate implementations into a unified, high-quality interactive prompt experience. The interactive mode guides the user to enter required parameters in a step-by-step manner if the `--interactive` flag is provided, ensuring both usability for beginners and backwards compatibility for advanced users.
 
 ## Implementation Details
-- **Source File (`src/lib/main.js`):**
-  - Detect the presence of the `--interactive` flag early in the argument parsing.
-  - When the flag is detected, initialize Node's built-in `readline` module to sequentially prompt the user for any required inputs (e.g., expression, range, output file name, etc.).
-  - Merge the collected input responses with any provided CLI arguments, ensuring that subsequent processing (expression compilation, data plotting, etc.) remains unaffected.
-  - Maintain backward compatibility by bypassing interactive prompts if the flag is not provided.
+- **Source File Updates (`src/lib/main.js`):**
+  - Consolidate interactive mode detection and prompt initialization into a single unified section.
+  - Once the `--interactive` flag is detected, launch a guided dialogue using Node's built-in `readline` module to prompt the user for any missing required arguments such as mathematical expression, x-range (and optional y-range), output file, and additional configurations.
+  - Merge interactive input responses with any CLI-provided parameters, preserving the original logic for expression evaluation, scaling, and output generation (SVG/PNG/JSON).
+  - Integrate input validations (e.g., ensuring x and y values are valid and positive when logarithmic mode is requested) during the interactive session.
 
-- **Test File (`tests/unit/main.test.js`):**
-  - Add tests to simulate the interactive mode behavior by mocking the `readline` module. These tests should verify that the CLI correctly launches interactive prompts and that merged arguments produce the expected SVG/PNG output or JSON data.
-  
-- **README File (`README.md`):**
-  - Update the CLI usage documentation to include details about the new interactive mode. Explain how to use the `--interactive` flag and provide example commands.
+- **Test File Updates (`tests/unit/main.test.js`):**
+  - Update and expand the interactive mode tests by simulating user inputs via mocked readline responses.
+  - Ensure that the interactive mode correctly collects input, merges parameters, and produces consistent output identical to non-interactive flag-based usage.
+
+- **README File Updates (`README.md`):**
+  - Update the CLI usage documentation to clearly describe how to utilize the `--interactive` flag.
+  - Provide examples with interactive mode and explain the step-by-step prompt flow.
 
 - **Dependencies:**
-  - This feature uses Node's built-in `readline` module, and no additional external dependencies are introduced.
+  - Use only the built-in Node.js `readline` module. No new dependencies are introduced.
 
 ## Impact and Benefits
-- **Enhanced User Experience:** New users can be guided through parameter entry, lowering the barrier to generating plots using the CLI tool.
-- **Backward Compatibility:** Advanced users who prefer CLI flags can continue using the existing interface without interaction.
-- **Alignment with Mission:** By making plotting more accessible, this feature reinforces our mission to be the "go-to plot library".
+- **User-Friendly Experience:** Provides a guided interface for users unfamiliar with CLI parameters, lowering the entry barrier.
+- **Consistency:** Unifies the interactive mode implementation, avoiding duplicate and fragmented documentation and code paths.
+- **Backward Compatibility:** Retains current CLI flag behavior when `--interactive` is not present, ensuring that advanced users can continue using the tool as before.
+- **Quality Assurance:** Enhanced tests ensure reliable interactive mode operation across all output formats (SVG, PNG, and JSON).
+
+## Future Enhancements
+- Incorporate further validations and fallback mechanisms within the interactive prompts to handle edge cases.
+- Optionally introduce a configuration store for persisting previous inputs to streamline repeated usage.
