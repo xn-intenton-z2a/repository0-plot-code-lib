@@ -1,31 +1,27 @@
-# CLI_PARSER Enhancement
+# CLI_PARSER Enhancement - Diagnostics
 
 ## Overview
-This update implements the robust input validation for the CLI of the plot library using the zod library. The existing CLI parser is extended to validate parameters for `--expression`, `--range`, and `--file` flags, ensuring that users receive clear and immediate feedback upon issuing incorrect or missing parameters. This enhancement reinforces our mission of being the go-to plot library by making the tool more reliable and user-friendly.
+This update extends the current CLI parser to include a new `--diagnostics` flag alongside the existing `--expression`, `--range`, and `--file` validations. When the diagnostics flag is provided, the tool will output system and configuration diagnostic information, such as Node version, environment variables snapshot (if applicable), and current configuration details. This offers developers and users a quick way to troubleshoot and verify their setup, aligning with our mission of reliability and user-friendliness.
 
 ## Implementation
 - **Source File (src/lib/main.js):**
-  - Integrate the zod library to define schemas for each CLI argument.
-  - Validate that:
-    - `--expression` is a valid mathematical expression.
-    - `--range` conforms to the expected range format (e.g. `x=-1:1,y=-1:1`).
-    - `--file` has a proper filename with supported extensions like SVG or PNG.
-  - On validation failure, print a detailed error message and a help message guiding users to the correct syntax.
-  - Maintain backward compatibility by defaulting to simple logging if no CLI flags are provided.
+  - Extend the input validation using the zod library to include a schema for the `--diagnostics` flag.
+  - If `--diagnostics` is detected among the CLI arguments, bypass other validations and print detailed diagnostic information (e.g., Node version, current environment variables, and any relevant configuration parameters).
+  - Maintain backward compatibility by ensuring that if no CLI flags are provided (or only non-diagnostic flags are given), the parser behaves as previously defined.
 
 - **Test File (tests/unit/main.test.js):**
-  - Add test cases covering both valid and invalid combinations of CLI flags.
-  - Validate that the error messages and help instructions are properly output when inputs fail validation.
-  - Ensure that valid input proceeds without errors.
+  - Add test cases to simulate running the CLI with the `--diagnostics` flag.
+  - Verify that the output includes key diagnostic details without triggering errors.
 
 - **Documentation Updates (README.md):**
-  - Revise the CLI usage section with updated examples demonstrating the new validation behavior. 
-  - Document the expected formats for `--expression`, `--range`, and `--file` arguments, and include troubleshooting steps for common error messages.
+  - Update the CLI usage section to include examples and usage instructions for the new `--diagnostics` flag.
+  - Document the expected behavior and output when the flag is used.
 
 ## Benefits
-- Provides robust input validation for improved user experience.
-- Reduces runtime errors by preventing invalid input from propagating through the system.
-- Reinforces the reliability of the CLI tool, furthering our mission to be a go-to plot library for formula visualizations.
+- Provides an easy way for developers and users to verify system configuration and environment setup.
+- Enhances troubleshooting capabilities by offering immediate diagnostic output when issues arise.
+- Strengthens the overall robustness and professionalism of the CLI tool, furthering our mission to be the go-to plot library for formula visualisations.
 
-## Testing
-- Run `npm test` to ensure all new validation logic is rigorously tested and that no regressions occur with existing functionality.
+## Testing and Validation
+- Run `npm test` to validate that new tests cover the diagnostics functionality.
+- Execute `npm run start -- --diagnostics` to manually observe the diagnostic output in the console.
