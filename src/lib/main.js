@@ -98,7 +98,10 @@ export async function main(args = []) {
   // Replace common math functions with JavaScript's Math equivalents
   procExpr = procExpr.replace(/sin\(/g, "Math.sin(")
                      .replace(/cos\(/g, "Math.cos(")
-                     .replace(/tan\(/g, "Math.tan(");
+                     .replace(/tan\(/g, "Math.tan(")
+                     .replace(/sqrt\(/g, "Math.sqrt(")
+                     .replace(/log\(/g, "Math.log(")
+                     .replace(/exp\(/g, "Math.exp(");
 
   let func;
   try {

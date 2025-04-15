@@ -2,6 +2,11 @@ import { describe, test, expect, vi } from "vitest";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
 
+// Helper to reset spies
+function resetSpies(spies) {
+  spies.forEach(spy => spy.mockRestore());
+}
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(main).not.toBeNull();
@@ -28,8 +33,7 @@ describe("Default main behavior", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "output.svg"]);
     expect(consoleSpy).toHaveBeenCalledWith('Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}');
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 
   test("should error and exit when missing required arguments", async () => {
@@ -41,8 +45,7 @@ describe("Default main behavior", () => {
       expect(e.message).toBe("process.exit");
     }
     expect(consoleErrorSpy).toHaveBeenCalledWith("Error: Invalid arguments.");
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
+    resetSpies([consoleErrorSpy, processExitSpy]);
   });
 
   test("should error and exit when provided malformed range", async () => {
@@ -54,8 +57,7 @@ describe("Default main behavior", () => {
       expect(e.message).toBe("process.exit");
     }
     expect(consoleErrorSpy).toHaveBeenCalledWith("Error: Invalid arguments.");
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
+    resetSpies([consoleErrorSpy, processExitSpy]);
   });
 
   test("should error and exit when file extension is incorrect", async () => {
@@ -67,8 +69,7 @@ describe("Default main behavior", () => {
       expect(e.message).toBe("process.exit");
     }
     expect(consoleErrorSpy).toHaveBeenCalledWith("Error: Invalid arguments.");
-    consoleErrorSpy.mockRestore();
-    processExitSpy.mockRestore();
+    resetSpies([consoleErrorSpy, processExitSpy]);
   });
 
   test("should generate and save an SVG plot", async () => {
@@ -79,8 +80,7 @@ describe("Default main behavior", () => {
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain("<svg");
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.svg");
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
 
@@ -100,8 +100,7 @@ describe("Evaluate functionality", () => {
     }
     expect(data).toBeInstanceOf(Array);
     expect(data.length).toBe(100);
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
 
@@ -114,8 +113,7 @@ describe("Diagnostics functionality", () => {
     expect(diagCall).toBeDefined();
     const validatedCall = consoleSpy.mock.calls.find(call => call[0].startsWith("Validated arguments:"));
     expect(validatedCall).toBeDefined();
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
 
@@ -129,8 +127,7 @@ describe("PNG Plot Generation", () => {
     expect(Buffer.isBuffer(writtenContent)).toBe(true);
     expect(writtenContent[0]).toBe(0x89);
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.png");
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
 
@@ -142,8 +139,7 @@ describe("Custom Plot Styling", () => {
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain('stroke="black"');
     expect(writtenContent).toContain('stroke-width="2"');
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 
   test("should apply custom color and stroke width when provided", async () => {
@@ -153,8 +149,7 @@ describe("Custom Plot Styling", () => {
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain('stroke="blue"');
     expect(writtenContent).toContain('stroke-width="5"');
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
 
@@ -167,8 +162,7 @@ describe("Single X-Range Format", () => {
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain("<svg");
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to xrange.svg");
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
 
@@ -185,14 +179,48 @@ describe("Explicit Y-Range Support", () => {
     expect(pointsMatch).toBeDefined();
     const pointsStr = pointsMatch[1];
     const points = pointsStr.split(" ");
-    // For expression y=2 and provided y-range -2:2, mapY(2) should be:
-    // mapY(2) = height - padding - ((2 - (-2))/(2 - (-2)))*(height - 2*padding)
-    // = 500-20 - (4/4)*(500-40) = 480 - 460 = 20
     points.forEach(point => {
       const coords = point.split(",");
       expect(Number(coords[1])).toBeCloseTo(20, 0);
     });
-    writeFileSyncSpy.mockRestore();
-    consoleSpy.mockRestore();
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+describe("Additional Math Functions", () => {
+  test("should generate and save an SVG plot for sqrt function", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Use sqrt(x) with x from 0 to 9, result between 0 and 3
+    await main(["--expression", "y=sqrt(x)", "--range", "x=0:9,y=0:3", "--file", "sqrt.svg"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<svg");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to sqrt.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+
+  test("should generate and save an SVG plot for log function", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Use log(x) with x from 1 to 10 to avoid domain error
+    await main(["--expression", "y=log(x)", "--range", "x=1:10,y=0:3", "--file", "log.svg"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<svg");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to log.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+
+  test("should generate and save an SVG plot for exp function", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Use exp(x) with x from 0 to 2, result from 1 to ~7.39
+    await main(["--expression", "y=exp(x)", "--range", "x=0:2,y=1:8", "--file", "exp.svg"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<svg");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to exp.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
