@@ -36,7 +36,7 @@ describe("Default main behavior", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
     try {
-      await main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1"]);
+      await main(["--expression", "y=sin(x)", "--range", "x=-1:-1"]);
     } catch (e) {
       expect(e.message).toBe("process.exit");
     }
@@ -90,12 +90,13 @@ describe("Evaluate functionality", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "eval.svg", "--evaluate"]);
     // Check that time series data is printed
-    const evalCall = consoleSpy.mock.calls.find(call => call[0].startsWith("Time series data:"));
+    const evalCall = consoleSpy.mock.calls.find(call => typeof call[0] === 'string' && call[0].startsWith("Time series data:"));
     expect(evalCall).toBeDefined();
-    const jsonPart = evalCall[1];
+    // Extract JSON part from the console log arguments
+    const logged = evalCall[1] || '';
     let data;
     try {
-      data = JSON.parse(jsonPart);
+      data = JSON.parse(logged);
     } catch (e) {
       data = null;
     }
@@ -111,10 +112,8 @@ describe("Diagnostics functionality", () => {
     const consoleSpy = vi.spyOn(console, "log");
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--diagnostics", "--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "diag.svg"]);
-    // Check that diagnostics information is output
     const diagCall = consoleSpy.mock.calls.find(call => call[0].includes("Diagnostics - Raw CLI arguments:"));
     expect(diagCall).toBeDefined();
-    // Also ensure validated output is printed
     const validatedCall = consoleSpy.mock.calls.find(call => call[0].startsWith("Validated arguments:"));
     expect(validatedCall).toBeDefined();
     writeFileSyncSpy.mockRestore();
@@ -157,6 +156,20 @@ describe("Custom Plot Styling", () => {
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain('stroke="blue"');
     expect(writtenContent).toContain('stroke-width="5"');
+    writeFileSyncSpy.mockRestore();
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("Single X-Range Format", () => {
+  test("should generate and save an SVG plot when only x-range is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log");
+    await main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "xrange.svg"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<svg");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to xrange.svg");
     writeFileSyncSpy.mockRestore();
     consoleSpy.mockRestore();
   });

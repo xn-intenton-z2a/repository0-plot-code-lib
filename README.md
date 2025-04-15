@@ -11,7 +11,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, and --stroke.
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan) are translated for JavaScript evaluation.
-- --range: A string specifying ranges in the format 'x=min:max,y=min:max'. If the min and max values are equal, they are adjusted to provide a workable interval.
+- --range: A string specifying the range for the x-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. If only x-range is provided, the y-axis is automatically scaled based on computed values.
 - --file: The output file name which must end with either .svg or .png. When a .png file is specified, the generated SVG plot is converted to PNG using the sharp library.
 - --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generates time series data (an array of { x, y } objects) and outputs it in JSON format in the console.
 - --diagnostics: (Optional) When provided, the CLI outputs diagnostic details including the raw parsed CLI arguments before proceeding with validation. This aids in debugging.
@@ -27,12 +27,21 @@ node src/lib/main.js --help
 # Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>
 ```
 
-Run the CLI with valid parameters (SVG plot generation):
+Run the CLI with valid parameters (SVG plot generation) using full range:
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}
+# Plot saved to output.svg
+```
+
+Run the CLI with valid parameters (SVG plot generation) using only x-range:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+# Output:
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"output.svg"}
 # Plot saved to output.svg
 ```
 
@@ -79,7 +88,7 @@ node src/lib/main.js --diagnostics --expression "y=sin(x)" --range "x=-1:-1,y=-1
 Missing a required parameter:
 
 ```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1"
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1"
 # Output: Error: Invalid arguments.
 ```
 

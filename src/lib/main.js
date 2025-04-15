@@ -26,7 +26,8 @@ function parseCliArgs(args) {
 // Define the CLI schema using zod
 const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
-  range: z.string().regex(/^([xy]=-?\d+:\-?\d+)(,([xy]=-?\d+:\-?\d+))*$/, { message: "Range must be in the format 'x=start:end,y=start:end'" }),
+  // Updated regex to allow range in the format 'x=start:end' optionally followed by ',y=start:end'
+  range: z.string().regex(/^x=-?\d+:-?\d+(?:,y=-?\d+:-?\d+)?$/, { message: "Range must be in the format 'x=start:end' or 'x=start:end,y=start:end'" }),
   file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" }),
   evaluate: z.boolean().optional(),
   color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
@@ -69,37 +70,25 @@ export async function main(args = []) {
   const strokeColor = color || "black";
   const strokeWidth = stroke || 2;
 
-  // Parse range parameter in the format 'x=min:max,y=min:max'
+  // Parse range parameter. Allow format: 'x=min:max' optionally followed by ',y=min:max'.
   const rangeParts = range.split(",");
-  let xRangePart = null;
-  let yRangePart = null;
-  rangeParts.forEach(part => {
-    if (part.startsWith("x=")) {
-      xRangePart = part.substring(2);
-    } else if (part.startsWith("y=")) {
-      yRangePart = part.substring(2);
-    }
-  });
-  if (!xRangePart || !yRangePart) {
-    console.error("Invalid range format.");
+  const xRangePart = rangeParts.find(part => part.startsWith("x="));
+  // yRange is optional and will be ignored if provided
+  // const yRangePart = rangeParts.find(part => part.startsWith("y="));
+
+  if (!xRangePart) {
+    console.error("Invalid range format. x-range is required.");
     process.exit(1);
   }
 
-  const [xMinStr, xMaxStr] = xRangePart.split(":");
-  const [yMinStr, yMaxStr] = yRangePart.split(":");
+  const [xMinStr, xMaxStr] = xRangePart.substring(2).split(":");
   let xMin = parseFloat(xMinStr);
   let xMax = parseFloat(xMaxStr);
-  let yMin = parseFloat(yMinStr);
-  let yMax = parseFloat(yMaxStr);
 
-  // Adjust degenerate ranges
+  // Adjust degenerate x range
   if (xMin === xMax) {
     xMin = xMin - 1;
     xMax = xMax + 1;
-  }
-  if (yMin === yMax) {
-    yMin = yMin - 1;
-    yMax = yMax + 1;
   }
 
   // Process expression: remove leading 'y=' if present and translate basic math functions
