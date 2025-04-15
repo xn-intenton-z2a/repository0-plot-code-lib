@@ -1,45 +1,42 @@
-# CLI UTILITIES ENHANCEMENT Update
+# CLI UTILITIES ENHANCEMENT UPDATE
 
-This update expands the current CLI utilities enhancement by integrating a new `--version` flag. In addition to the existing diagnostic and plotting functionalities, the `--version` flag offers users a quick and straightforward way to display the application version as defined in `package.json`.
+This update refines and extends the CLI utilities of the repository. In addition to the existing functionalities (diagnostics, help, plot generation, and parameter validations), this update integrates a new `--version` flag for version reporting.
 
-## Version Functionality
+## Overview
 
-- **Flag Behavior:** When the CLI is invoked with the `--version` flag, the application should immediately read the version information from `package.json` and output it in the format `Version: x.y.z`.
-- **Error Handling:** If there is an issue reading the version, the application must print an appropriate error message and gracefully exit with a non-zero status.
+- **Objective**: Enhance user experience by enabling users to quickly verify the application version from the CLI.
+- **Scope**: Modifications are limited to the source file (`src/lib/main.js`), test file (`tests/unit/main.test.js`), README (`README.md`), and dependencies if necessary. No new files or deletion of existing files will occur.
 
-## Source File Updates
+## Version Flag Functionality
 
-- **File Affected:** `src/lib/main.js`
-- **Implementation Details:**
-  - Add an early check in the argument processing to detect the presence of the `--version` flag.
-  - If detected, import the `package.json` file to retrieve the version, output the version to the console, and exit the process immediately.
-  - Ensure that this change does not interfere with other flags such as `--help`, `--diagnostics`, and plot generation.
+- **Flag Behavior**: When the CLI is run with the `--version` flag, the application will read the version information from `package.json` and output it in the format `Version: x.y.z`, then exit immediately.
+
+- **Implementation Details in Source File**:
+  - Update `src/lib/main.js` to include an early check for the `--version` flag in the CLI arguments.
+  - On detection, import and parse `package.json` to extract the version.
+  - Output the version via `console.log` and exit the process with status 0.
+  - Ensure that existing functionality (e.g., `--help`, `--diagnostics`, plotting, and evaluation) remains unaffected.
 
 ## Test File Updates
 
-- **File Affected:** `tests/unit/main.test.js`
-- **Implementation Details:**
-  - Add a new test case that simulates CLI invocation with the `--version` flag.
-  - Verify that the output begins with `Version: ` and matches a semantic version pattern using regex.
+- **File Affected**: `tests/unit/main.test.js`
+  - Add a new test case to simulate CLI invocation with the `--version` flag.
+  - Validate that the CLI outputs a string starting with `Version: ` and that the version matches a semantic versioning pattern (using regex).
 
 ## README Updates
 
-- **File Affected:** `README.md`
-- **Documentation Changes:**
-  - Update the CLI usage section to include description and examples for the new `--version` flag.
-  - Add a snippet that demonstrates: 
+- **Documentation Changes**:
+  - Update the CLI usage section to document the new `--version` flag with examples.
+  - Add a code snippet demonstrating:
+
     ```sh
     node src/lib/main.js --version
     # Expected Output: Version: x.y.z
     ```
 
-## Benefits
+## Compliance and Benefits
 
-- **Quick Version Verification:** Users can promptly check the application version, easing both debugging and version management.
-- **Improved Transparency:** Clear version output builds trust and helps ensure that the correct release of the application is in use.
-- **Unified CLI Experience:** Consolidates version management with existing diagnostic and plotting functionalities, maintaining a clean and cohesive CLI interface.
-
-## Compliance
-
-- Changes are limited to source, test, README, and dependency files as per the contribution guidelines in `CONTRIBUTING.md`.
-- The implementation aligns with the mission stated in `MISSION.md`, providing a reliable and user-friendly plot library CLI.
+- **Compliance**: The changes adhere to the guidelines in `CONTRIBUTING.md` by limiting updates to allowed files.
+- **Benefits**:
+  - **User-Friendly Version Check**: Enables users to quickly confirm the version of the application, which is useful for debugging and release verification.
+  - **Cohesive CLI Experience**: Consolidates version management along with other CLI commands, ensuring a seamless command-line interface.
