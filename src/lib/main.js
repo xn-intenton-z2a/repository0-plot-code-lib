@@ -249,8 +249,6 @@ export async function main(args = []) {
     }
   }
 
-  // Build marker circles for single expression if marker flag is provided (legacy code removed as it's integrated above)
-
   // Build complete SVG content
   const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="white"/>
