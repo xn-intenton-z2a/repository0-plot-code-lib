@@ -14,6 +14,20 @@ You can run the CLI with arguments directly:
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
 ```
 
+If you run the CLI without any arguments, a help message will be shown:
+
+```sh
+node src/lib/main.js
+# Output: No arguments provided. Use --help to see usage instructions.
+```
+
+You can also display usage information explicitly:
+
+```sh
+node src/lib/main.js --help
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath>
+```
+
 ### Programmatic
 
 You can also use the library programmatically:
@@ -33,5 +47,3 @@ main([
 ## License
 
 MIT
-
----
