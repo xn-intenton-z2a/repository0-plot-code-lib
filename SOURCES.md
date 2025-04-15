@@ -1,19 +1,24 @@
-# D3.js Documentation
-## https://d3js.org/
-D3.js is a powerful JavaScript library for producing dynamic, interactive data visualizations in web browsers. Its extensive documentation covers selections, data joins, transitions, and more, offering valuable insights for handling DOM manipulation and animations in our CLI plotting tool.
-## BSD-3-Clause
-
-# Vega-Lite Documentation
-## https://vega.github.io/vega-lite/
-Vega-Lite provides a high-level grammar for interactive graphics that simplifies the process of creating complex visualizations. Its clear and concise documentation is a strong resource for understanding declarative chart specifications, complementing our approach to plotting formula visualisations.
-## Apache-2.0
-
-# Chart.js Documentation
-## https://www.chartjs.org/docs/latest/
-Chart.js offers a simple yet flexible JavaScript charting library with extensive documentation on configuration options, chart types, and data handling. Its user-friendly guides can serve as inspiration for enhancing our CLI’s plotting and customization features.
+# Plotly.js Documentation
+## https://plotly.com/javascript/
+Plotly.js is a high-level, declarative charting library built on top of D3.js and stack.gl. Its comprehensive documentation includes a wide range of interactive chart types, examples, and API references. This resource is valuable for understanding modern data visualization techniques and can inspire enhancements for our CLI plotting tool.
 ## MIT
 
-# Zod Documentation
-## https://zod.dev/
-Zod is a TypeScript-first schema validation library that provides declarative validation and parsing. Its comprehensive documentation is especially relevant for our CLI parameter validation needs using zod, ensuring robust and maintainable input handling.
+# Math.js Documentation
+## https://mathjs.org/docs.html
+Math.js is an extensive mathematics library for JavaScript and Node.js that supports a wide range of mathematical operations, complex numbers, matrices, and symbolic computation. Its detailed documentation helps users learn how to parse and evaluate mathematical expressions, making it a relevant reference for improving expression evaluation in our plotting tool.
+## Apache-2.0
+
+# Observable Plot Documentation
+## https://observablehq.com/plot
+Observable Plot is a lightweight JavaScript library for data visualization that leverages modern web standards. Its documentation provides insightful examples and tutorials on creating interactive charts, offering creative ideas and techniques to enhance our formula visualisation outputs.
+## MIT
+
+# Vega Documentation
+## https://vega.github.io/vega/
+Vega offers a powerful visualization grammar that enables users to create, share, and explore interactive visualizations. While our project uses Vega-Lite for simpler specs, the full Vega documentation provides a deeper dive into declarative visualization design, which can help guide advanced feature development in our CLI tool.
+## Apache-2.0
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js
+Commander.js is a widely-used Node.js library for building CLI applications. Its robust documentation and examples cover command parsing, option handling, and help generation. Reviewing this resource can yield valuable insights into structuring command-line interfaces and may suggest improvements or additional features for our plotting library's CLI.
 ## MIT
