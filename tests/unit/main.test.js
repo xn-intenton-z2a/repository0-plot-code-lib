@@ -150,3 +150,37 @@ describe("CLI Input Validation", () => {
     expect(existsSync("output.txt")).toBe(false);
   });
 });
+
+describe("CLI JSON Output", () => {
+  test("should output valid JSON with plot generation information and not create a file", () => {
+    const tempJsonFile = "tempJsonOutput.svg";
+    const args = [
+      "--expression", "y=log(x)",
+      "--range", "x=1:10,y=-1:1",
+      "--file", tempJsonFile,
+      "--json"
+    ];
+    let output = "";
+    const originalLog = console.log;
+    console.log = (msg) => { output += msg; };
+    main(args);
+    console.log = originalLog;
+    
+    let parsed;
+    try {
+      parsed = JSON.parse(output);
+    } catch (e) {
+      parsed = null;
+    }
+    expect(parsed).not.toBeNull();
+    expect(parsed).toHaveProperty("message", "Plot generated");
+    expect(parsed).toHaveProperty("expression", "y=log(x)");
+    expect(parsed).toHaveProperty("range", "x=1:10,y=-1:1");
+    expect(parsed).toHaveProperty("file", tempJsonFile);
+    expect(parsed).toHaveProperty("timeSeriesData");
+    expect(Array.isArray(parsed.timeSeriesData)).toBe(true);
+    expect(parsed.timeSeriesData.length).toBe(5);
+    // Ensure no file is created when --json flag is used
+    expect(existsSync(tempJsonFile)).toBe(false);
+  });
+});
