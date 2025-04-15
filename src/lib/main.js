@@ -28,7 +28,7 @@ const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
   // Updated regex to allow range in the format 'x=start:end' optionally followed by ',y=start:end'
   range: z.string().regex(/^x=-?\d+:-?\d+(?:,y=-?\d+:-?\d+)?$/, { message: "Range must be in the format 'x=start:end' or 'x=start:end,y=start:end'" }),
-  file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" }),
+  file: z.string().regex(/\.(svg|png|csv)$/, { message: "File must end with .svg, .png, or .csv" }),
   evaluate: z.boolean().optional(),
   color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
   stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional()
@@ -133,8 +133,16 @@ export async function main(args = []) {
   const timeSeriesData = xValues.map((x, i) => ({ x, y: yValues[i] }));
 
   // If --evaluate flag provided, output the time series data as JSON
-  if (evaluate) {
+  if (evaluate && !file.endsWith(".csv")) {
     console.log("Time series data:", JSON.stringify(timeSeriesData));
+  }
+
+  // Check if output should be CSV export
+  if (file.endsWith(".csv")) {
+    const csvContent = "x,y\n" + timeSeriesData.map(({ x, y }) => `${x},${y}`).join("\n");
+    fs.writeFileSync(file, csvContent, "utf8");
+    console.log(`Time series CSV exported to ${file}`);
+    return;
   }
 
   // Determine y range boundaries
