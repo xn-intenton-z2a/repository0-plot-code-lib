@@ -277,7 +277,7 @@ describe("Custom Samples Count", () => {
     const consoleSpy = vi.spyOn(console, "log");
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "customSamples.svg", "--evaluate", "--samples", "50"]);
-    const logCall = consoleSpy.mock.calls.find(call => typeof call[0] === 'string' && call[0].startsWith("Time series data:") || (call[0] && call[0].includes("JSON exported")));
+    const logCall = consoleSpy.mock.calls.find(call => typeof call[0] === 'string' && (call[0].startsWith("Time series data:") || (call[0] && call[0].includes("JSON exported"))));
     expect(logCall).toBeDefined();
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
@@ -332,8 +332,6 @@ describe("Multiple Expressions Functionality", () => {
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
-
-// New tests for JSON output functionality when --json flag is provided with --evaluate
 
 describe("JSON Output Functionality", () => {
   test("should export evaluation data to JSON file when --json flag is provided with --evaluate", async () => {

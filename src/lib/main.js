@@ -40,7 +40,7 @@ const cliSchema = z.object({
   samples: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Samples must be a positive integer" })).optional(),
   grid: z.boolean().optional(),
   marker: z.boolean().optional(),
-  "no-legend": z.boolean().optional(),
+  noLegend: z.boolean().optional(),
   logscale: z.boolean().optional()
 });
 
