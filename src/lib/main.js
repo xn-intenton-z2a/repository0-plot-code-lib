@@ -43,12 +43,13 @@ const cliSchema = z.object({
   noLegend: z.boolean().optional(),
   logscale: z.boolean().optional(),
   gridColor: z.string().min(1, { message: "Grid color must be a non-empty string" }).optional(),
-  gridStroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Grid stroke must be a positive number" })).optional()
+  gridStroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Grid stroke must be a positive number" })).optional(),
+  title: z.string().min(1, { message: "Title must be a non-empty string" }).optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale] [--title <string>]");
     return;
   }
   if (args.length === 0) {
@@ -89,8 +90,8 @@ export async function main(args = []) {
   // Arguments are valid; log validated arguments
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
-  // Destructure parameters
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale, gridColor, gridStroke } = result.data;
+  // Destructure parameters including title
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale, gridColor, gridStroke, title } = result.data;
 
   // Process multiple expressions separated by semicolon
   const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
@@ -323,11 +324,15 @@ export async function main(args = []) {
     legendSvg = `<g id="legend">${legendItems}</g>`;
   }
 
+  // If a title is provided, create a text element
+  const titleText = title ? `<text x="${canvasWidth / 2}" y="${canvasPadding / 2}" text-anchor="middle" style="font-size:16px; fill:black;">${title}</text>` : "";
+
   // Build complete SVG content
   // If logscale is active, add a comment indicator in the SVG
   const logscaleComment = logscale ? "\n  <!-- Logarithmic scale applied -->" : "";
   const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="white"/>${logscaleComment}
+  <rect width="100%" height="100%" fill="white"/>
+  ${titleText}${logscaleComment}
   ${gridLines}
   ${legendSvg}
   ${markersSvg}

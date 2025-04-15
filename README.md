@@ -8,7 +8,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --json, --color, --stroke, --width, --height, --padding, --samples, --grid, --grid-color, --grid-stroke, --marker, --no-legend, and --logscale.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --json, --color, --stroke, --width, --height, --padding, --samples, --grid, --grid-color, --grid-stroke, --marker, --no-legend, --logscale, and now --title.
 
 - --expression: A non-empty string representing one or more mathematical expressions. For a single expression, use the format (e.g., "y=sin(x)"). For multiple expressions, separate them with a semicolon (e.g., "y=sin(x);y=cos(x)"). In each expression, if the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp, and abs) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
@@ -28,6 +28,7 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --marker: (Optional) When provided, small circle markers (with a default radius of 3) are drawn at each computed data point using the stroke color.
 - --no-legend: (Optional) When provided, the legend is disabled in multi-expression plots. By default a legend is generated if multiple expressions are provided.
 - --logscale: (Optional) When provided, the plot’s y-axis will use a logarithmic scale. This transforms y-values using the natural logarithm. Note: All y-axis values must be positive when using this option.
+- --title: (Optional) A non-empty string to add a custom title to the plot. When provided, a text element is added at the top center of the plot.
 
 #### CSV Export with Multiple Expressions
 
@@ -53,13 +54,21 @@ When the --grid flag is provided, you can customize gridline appearance using th
 - --grid-color: Specify a custom color for the gridlines (e.g., "#00FF00").
 - --grid-stroke: Specify a custom stroke width for the gridlines (e.g., 2).
 
+#### Custom Title
+
+When the --title flag is provided, the plot will include a centered title at the top. For example:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file plot.svg --title "My Custom Plot"
+```
+
 #### Valid Usage Examples
 
 Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale]
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale] [--title <string>]
 ```
 
 Run the CLI with a single expression (SVG plot generation):
@@ -122,16 +131,17 @@ node src/lib/main.js --expression "y=exp(x)" --range "x=0:2,y=1:100" --file logs
 # The generated SVG indicates that a logarithmic scale has been applied to the y-axis.
 ```
 
-Run the CLI with logarithmic y-axis scaling (error case with non-positive y-range):
+Run the CLI with a custom title:
 
 ```sh
-node src/lib/main.js --expression "y=exp(x)" --range "x=0:2,y=0:100" --file error.svg --logscale
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file plot.svg --title "My Custom Plot"
 # Output:
-# Error: When logscale is enabled, y-axis values and range must be positive.
-# Process exits without generating an output file.
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1,y=-1:1","file":"plot.svg","title":"My Custom Plot"}
+# Generating plot for expression: y=sin(x) with range: x=-1:1,y=-1:1
+# Plot saved to plot.svg
 ```
 
-### Programmatic
+#### Programmatic
 
 You can also use the library programmatically:
 
@@ -156,7 +166,8 @@ main([
   "--grid-stroke", "2",       // optional gridline stroke width
   "--marker",           // optional flag to add markers at data points
   "--no-legend",        // optional flag to disable the legend in multi-expression plots
-  "--logscale"          // optional flag to enable logarithmic scaling of the y-axis
+  "--logscale",         // optional flag to enable logarithmic scaling of the y-axis
+  "--title", "Custom Plot Title" // optional flag to add a title to the plot
 ]);
 ```
 

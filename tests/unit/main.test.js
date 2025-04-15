@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale] [--title <string>]");
     consoleSpy.mockRestore();
   });
 
@@ -392,5 +392,16 @@ describe("Custom Grid Styling Options", () => {
     expect(writtenContent).toContain('stroke-width="2"');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to customGrid.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+describe("Custom Title Option", () => {
+  test("should include custom title in SVG output when --title flag is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "title.svg", "--title", "Custom Plot Title"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain('<text');
+    expect(writtenContent).toContain('Custom Plot Title');
+    writeFileSyncSpy.mockRestore();
   });
 });
