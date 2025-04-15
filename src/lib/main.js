@@ -31,12 +31,15 @@ const cliSchema = z.object({
   file: z.string().regex(/\.(svg|png|csv)$/, { message: "File must end with .svg, .png, or .csv" }),
   evaluate: z.boolean().optional(),
   color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
-  stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional()
+  stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional(),
+  width: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Width must be a positive integer" })).optional(),
+  height: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Height must be a positive integer" })).optional(),
+  padding: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Padding must be a positive integer" })).optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>]");
     return;
   }
   if (args.length === 0) {
@@ -64,11 +67,16 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Extract parameters
-  const { expression, range, file, evaluate, color, stroke } = result.data;
+  const { expression, range, file, evaluate, color, stroke, width, height, padding } = result.data;
 
   // Determine styling options with defaults
   const strokeColor = color || "black";
   const strokeWidth = stroke || 2;
+
+  // Determine canvas dimensions and padding with defaults
+  const canvasWidth = width || 500;
+  const canvasHeight = height || 500;
+  const canvasPadding = padding || 20;
 
   // Parse range parameter. Allow format: 'x=min:max' optionally followed by ',y=min:max'.
   const rangeParts = range.split(",");
@@ -163,19 +171,17 @@ export async function main(args = []) {
   }
 
   // Setup SVG canvas dimensions
-  const width = 500;
-  const height = 500;
-  const padding = 20;
-
+  // Use custom canvasWidth, canvasHeight, and canvasPadding
+  
   // Map x and y values to canvas coordinates
-  const mapX = (x) => padding + ((x - xMin) / (xMax - xMin)) * (width - 2 * padding);
-  const mapY = (y) => height - padding - ((y - computedYMin) / (computedYMax - computedYMin)) * (height - 2 * padding);
+  const mapX = (x) => canvasPadding + ((x - xMin) / (xMax - xMin)) * (canvasWidth - 2 * canvasPadding);
+  const mapY = (y) => canvasHeight - canvasPadding - ((y - computedYMin) / (computedYMax - computedYMin)) * (canvasHeight - 2 * canvasPadding);
 
   // Create polyline points string
   const points = xValues.map((x, i) => `${mapX(x)},${mapY(yValues[i])}`).join(" ");
 
   // Build SVG content
-  const svgContent = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="white"/>
   <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>
 </svg>`;
