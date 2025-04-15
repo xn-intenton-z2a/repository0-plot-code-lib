@@ -11,7 +11,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, and --stroke.
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan) are translated for JavaScript evaluation.
-- --range: A string specifying the range for the x-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. If only x-range is provided, the y-axis is automatically scaled based on computed values.
+- --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
 - --file: The output file name which must end with either .svg or .png. When a .png file is specified, the generated SVG plot is converted to PNG using the sharp library.
 - --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generates time series data (an array of { x, y } objects) and outputs it in JSON format in the console.
 - --diagnostics: (Optional) When provided, the CLI outputs diagnostic details including the raw parsed CLI arguments before proceeding with validation. This aids in debugging.
@@ -83,6 +83,15 @@ node src/lib/main.js --diagnostics --expression "y=sin(x)" --range "x=-1:-1,y=-1
 # Plot saved to output.svg
 ```
 
+Run the CLI with an explicit y-range (overriding auto y-axis scaling):
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=-2:2" --file output.svg
+# Output:
+# Validated arguments: {"expression":"y=sin(x)","range":"x=0:10,y=-2:2","file":"output.svg"}
+# Plot saved to output.svg (with y-axis boundaries set to -2 and 2)
+```
+
 #### Invalid Usage Examples
 
 Missing a required parameter:
@@ -117,7 +126,7 @@ main([
 ]);
 ```
 
-After successfully running the CLI with valid parameters, a plot in SVG or PNG format is generated and saved to the specified file. If the --evaluate flag is provided, the computed time series data is output to the console in JSON format. When --diagnostics is enabled, raw parsed CLI argument information is displayed to assist with debugging.
+After successfully running the CLI with valid parameters, a plot in SVG or PNG format is generated and saved to the specified file. If the --evaluate flag is provided, the computed time series data is output to the console in JSON format. When --diagnostics is enabled, raw parsed CLI argument information is displayed to assist with debugging. When a y-range is explicitly provided, its boundaries are used to set the y-axis limits for the plot.
 
 ---
 
