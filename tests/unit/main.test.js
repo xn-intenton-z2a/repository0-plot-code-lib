@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]");
     consoleSpy.mockRestore();
   });
 
@@ -322,11 +322,9 @@ describe("Multiple Expressions Functionality", () => {
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "multiexpr.svg"]);
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    // Expect at least two polyline elements
     const polylineMatches = writtenContent.match(/<polyline/g);
     expect(polylineMatches).not.toBeNull();
     expect(polylineMatches.length).toBeGreaterThanOrEqual(2);
-    // Verify legend is present
     expect(writtenContent).toContain('<g id="legend">');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to multiexpr.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
@@ -340,5 +338,35 @@ describe("Multiple Expressions Functionality", () => {
     expect(writtenContent).not.toContain('<g id="legend">');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to noLegend.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+// New tests for logscale functionality
+
+describe("Logscale functionality", () => {
+  test("should generate SVG with logarithmic scaling when valid positive y-range is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Using an expression that yields only positive values: y=exp(x)
+    await main(["--expression", "y=exp(x)", "--range", "x=0:2,y=1:10", "--file", "logscale.svg", "--logscale"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    // Check for the logscale comment in the SVG output
+    expect(writtenContent).toContain("<!-- Logarithmic scale applied -->");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to logscale.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+
+  test("should error and exit when non-positive y-range is provided with --logscale", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
+    try {
+      // Provide a y-range with a non-positive lower bound
+      await main(["--expression", "y=exp(x)", "--range", "x=0:2,y=0:10", "--file", "badlog.svg", "--logscale"]);
+    } catch (e) {
+      expect(e.message).toBe("process.exit");
+    }
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: When logscale is enabled, y-axis values and range must be positive.");
+    resetSpies([consoleErrorSpy, processExitSpy]);
   });
 });

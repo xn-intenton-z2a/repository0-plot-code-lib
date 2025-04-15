@@ -8,7 +8,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, --stroke, --width, --height, --padding, --samples, --grid, --marker, and the new --no-legend flag.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, --stroke, --width, --height, --padding, --samples, --grid, --marker, --no-legend, and the new --logscale flag.
 
 - --expression: A non-empty string representing one or more mathematical expressions. For a single expression, use the format (e.g., "y=sin(x)"). For multiple expressions, separate them with a semicolon (e.g., "y=sin(x);y=cos(x)"). In each expression, if the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
@@ -24,6 +24,7 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --grid: (Optional) When provided, gridlines are drawn on the plot. The gridlines are rendered in light gray (#ddd) with a stroke width of 1.
 - --marker: (Optional) When provided, small circle markers (with a default radius of 3) are drawn at each computed data point using the stroke color.
 - --no-legend: (Optional) When provided, the legend is disabled in multi-expression plots. By default a legend is generated if multiple expressions are provided.
+- --logscale: (Optional) When provided, the plot’s y-axis will use a logarithmic scale. This transforms y-values using the natural logarithm. Note: All y-axis values must be positive when using this option.
 
 #### CSV Export with Multiple Expressions
 
@@ -35,7 +36,7 @@ Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend]
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]
 ```
 
 Run the CLI with a single expression (SVG plot generation):
@@ -90,6 +91,26 @@ node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:6,y=-1:1" --f
 # The CSV will have a header like "x,y1,y2" and corresponding data rows.
 ```
 
+Run the CLI with logarithmic y-axis scaling (valid usage):
+
+```sh
+node src/lib/main.js --expression "y=exp(x)" --range "x=0:2,y=1:100" --file logscale.svg --logscale
+# Output:
+# Validated arguments: {"expression":"y=exp(x)","range":"x=0:2,y=1:100","file":"logscale.svg","logscale":true}
+# Generating plot for expression: y=exp(x) with range: x=0:2,y=1:100
+# Plot saved to logscale.svg
+# The generated SVG indicates that a logarithmic scale has been applied to the y-axis.
+```
+
+Run the CLI with logarithmic y-axis scaling (error case with non-positive y-range):
+
+```sh
+node src/lib/main.js --expression "y=exp(x)" --range "x=0:2,y=0:100" --file error.svg --logscale
+# Output:
+# Error: When logscale is enabled, y-axis values and range must be positive.
+# Process exits without generating an output file.
+```
+
 ### Programmatic
 
 You can also use the library programmatically:
@@ -111,7 +132,8 @@ main([
   "--samples", "120", // optional custom sample count
   "--grid",            // optional flag to add gridlines
   "--marker",          // optional flag to add markers at data points
-  "--no-legend"        // optional flag to disable the legend in multi-expression plots
+  "--no-legend",       // optional flag to disable the legend in multi-expression plots
+  "--logscale"         // optional flag to enable logarithmic scaling of the y-axis
 ]);
 ```
 

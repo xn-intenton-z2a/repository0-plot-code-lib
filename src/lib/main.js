@@ -38,12 +38,13 @@ const cliSchema = z.object({
   samples: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Samples must be a positive integer" })).optional(),
   grid: z.boolean().optional(),
   marker: z.boolean().optional(),
-  noLegend: z.boolean().optional()
+  noLegend: z.boolean().optional(),
+  logscale: z.boolean().optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]");
     return;
   }
   if (args.length === 0) {
@@ -76,7 +77,7 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Destructure parameters
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend } = result.data;
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale } = result.data;
 
   // Process multiple expressions separated by semicolon
   const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
@@ -224,9 +225,22 @@ export async function main(args = []) {
     computedYMax = Math.max(...allY);
   }
 
+  // If logscale is active, ensure y-axis boundaries are positive
+  if (logscale) {
+    if (computedYMin <= 0 || computedYMax <= 0) {
+      console.error("Error: When logscale is enabled, y-axis values and range must be positive.");
+      process.exit(1);
+    }
+  }
+
   // Map x and y values to canvas coordinates
   const mapX = (x) => canvasPadding + ((x - xMin) / (xMax - xMin)) * (canvasWidth - 2 * canvasPadding);
-  const mapY = (y) => canvasHeight - canvasPadding - ((y - computedYMin) / (computedYMax - computedYMin)) * (canvasHeight - 2 * canvasPadding);
+  let mapY;
+  if (logscale) {
+    mapY = (y) => canvasHeight - canvasPadding - ((Math.log(y) - Math.log(computedYMin)) / (Math.log(computedYMax) - Math.log(computedYMin))) * (canvasHeight - 2 * canvasPadding);
+  } else {
+    mapY = (y) => canvasHeight - canvasPadding - ((y - computedYMin) / (computedYMax - computedYMin)) * (canvasHeight - 2 * canvasPadding);
+  }
 
   // Default color palette if multiple expressions and no global color provided
   const defaultPalette = ["black", "red", "blue", "green", "orange"];
@@ -284,8 +298,10 @@ export async function main(args = []) {
   }
 
   // Build complete SVG content
+  // If logscale is active, add a comment indicator in the SVG
+  const logscaleComment = logscale ? "\n  <!-- Logarithmic scale applied -->" : "";
   const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="white"/>
+  <rect width="100%" height="100%" fill="white"/>${logscaleComment}
   ${gridLines}
   ${legendSvg}
   ${markersSvg}
