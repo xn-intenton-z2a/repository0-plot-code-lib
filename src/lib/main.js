@@ -4,6 +4,7 @@
 import { fileURLToPath } from "url";
 import { writeFileSync } from "fs";
 import { z } from "zod";
+import { evaluate } from "mathjs";
 
 /**
  * Parses CLI arguments to extract --expression, --range, and --file options.
@@ -38,6 +39,43 @@ const cliOptionsSchema = z.object({
   file: z.string().regex(/\.(svg|png)$/i, "File must have .svg or .png extension"),
 });
 
+/**
+ * Generates time series data from a mathematical expression and a range string.
+ * The range string format should be "x=min:max,y=min:max".
+ * It generates 5 evenly spaced x-values between min and max of x and computes y using mathjs.
+ * @param {string} expression - The mathematical expression (e.g., "y=sin(x)")
+ * @param {string} rangeStr - The range string (e.g., "x=-1:1,y=-1:1")
+ * @returns {string} - JSON string of the computed time series data
+ */
+function generateTimeSeriesData(expression, rangeStr) {
+  const xMatch = rangeStr.match(/x=(-?\d+(?:\.\d+)?):-?\d+(?:\.\d+)?/);
+  if (!xMatch) {
+    throw new Error("Invalid range format for x values");
+  }
+  const xRangeMatch = rangeStr.match(/x=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)/);
+  if (!xRangeMatch) {
+    throw new Error("Invalid range format for x values");
+  }
+  const xMin = parseFloat(xRangeMatch[1]);
+  const xMax = parseFloat(xRangeMatch[2]);
+  const numPoints = 5;
+  const step = (xMax - xMin) / (numPoints - 1);
+  let points = [];
+  // Remove possible 'y=' part from the expression
+  let expr = expression.trim().replace(/^y\s*=\s*/, "");
+  for (let i = 0; i < numPoints; i++) {
+    const xVal = xMin + step * i;
+    let yVal;
+    try {
+      yVal = evaluate(expr, { x: xVal });
+    } catch (e) {
+      yVal = null;
+    }
+    points.push({ x: xVal, y: yVal });
+  }
+  return JSON.stringify(points);
+}
+
 export function main(args = []) {
   // If no arguments are provided, print usage information and exit.
   if (args.length === 0) {
@@ -57,15 +95,24 @@ export function main(args = []) {
 
   let plotContent;
   const filePath = cliOptions.file;
+  let timeSeriesData;
+  try {
+    timeSeriesData = generateTimeSeriesData(cliOptions.expression, cliOptions.range);
+  } catch (e) {
+    console.error(`Failed to generate time series data: ${e.message}`);
+    return;
+  }
+
   if (filePath.endsWith('.svg')) {
-    // Generate a minimal valid SVG content with a text element
+    // Generate a minimal valid SVG content with embedded time series data
     plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
-  <text x="10" y="50">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
+  <text x="10" y="20">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
+  <text x="10" y="50">Time Series Data: ${timeSeriesData}</text>
 </svg>`;
   } else if (filePath.endsWith('.png')) {
-    plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+    plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}\nTime Series Data: ${timeSeriesData}`;
   } else {
-    plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+    plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}\nTime Series Data: ${timeSeriesData}`;
   }
   try {
     writeFileSync(filePath, plotContent, "utf-8");

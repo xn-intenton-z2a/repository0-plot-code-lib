@@ -44,7 +44,7 @@ describe("CLI Plot Generation", () => {
     }
   });
 
-  test("should generate a valid SVG plot file with proper SVG markup", () => {
+  test("should generate a valid SVG plot file with proper SVG markup and embedded time series data", () => {
     const args = [
       "--expression", "y=sin(x)",
       "--range", "x=-1:1,y=-1:1",
@@ -66,12 +66,15 @@ describe("CLI Plot Generation", () => {
     expect(fileContent.trim().startsWith("<svg")).toBe(true);
     const expectedText = `Plot generated for expression: y=sin(x) with range: x=-1:1,y=-1:1`;
     expect(fileContent).toContain(expectedText);
+    // Check that time series data is embedded
+    expect(fileContent).toContain("Time Series Data:");
+    expect(fileContent).toMatch(/\{\s*"x":/);
 
     // Verify console message
     expect(output).toContain(`Plot written to file ${tempSvgOutputFile}`);
   });
 
-  test("should generate a PNG plot file with placeholder content", () => {
+  test("should generate a PNG plot file with placeholder content and embedded time series data", () => {
     const args = [
       "--expression", "y=tan(x)",
       "--range", "x=-2:2,y=-2:2",
@@ -90,8 +93,11 @@ describe("CLI Plot Generation", () => {
 
     // Read the file content and validate
     const fileContent = readFileSync(tempPngOutputFile, "utf-8");
-    const expectedContent = "PNG Plot generated for expression: y=tan(x) with range: x=-2:2,y=-2:2";
-    expect(fileContent).toBe(expectedContent);
+    const expectedContentStart = "PNG Plot generated for expression: y=tan(x) with range: x=-2:2,y=-2:2";
+    expect(fileContent).toContain(expectedContentStart);
+    // Check that time series data is appended
+    expect(fileContent).toContain("Time Series Data:");
+    expect(fileContent).toMatch(/\{\s*"x":/);
 
     // Verify console message
     expect(output).toContain(`Plot written to file ${tempPngOutputFile}`);
