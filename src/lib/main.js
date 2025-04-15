@@ -73,8 +73,7 @@ export async function main(args = []) {
   // Parse range parameter. Allow format: 'x=min:max' optionally followed by ',y=min:max'.
   const rangeParts = range.split(",");
   const xRangePart = rangeParts.find(part => part.startsWith("x="));
-  // yRange is optional and will be ignored if provided
-  // const yRangePart = rangeParts.find(part => part.startsWith("y="));
+  const yRangePart = rangeParts.find(part => part.startsWith("y="));
 
   if (!xRangePart) {
     console.error("Invalid range format. x-range is required.");
@@ -135,9 +134,22 @@ export async function main(args = []) {
     console.log("Time series data:", JSON.stringify(timeSeriesData));
   }
 
-  // Determine y range from computed values for proper scaling
-  const computedYMin = Math.min(...yValues);
-  const computedYMax = Math.max(...yValues);
+  // Determine y range boundaries
+  let computedYMin, computedYMax;
+  if (yRangePart) {
+    const [yMinStr, yMaxStr] = yRangePart.substring(2).split(":");
+    let yMinProvided = parseFloat(yMinStr);
+    let yMaxProvided = parseFloat(yMaxStr);
+    if (yMinProvided === yMaxProvided) {
+      yMinProvided = yMinProvided - 1;
+      yMaxProvided = yMaxProvided + 1;
+    }
+    computedYMin = yMinProvided;
+    computedYMax = yMaxProvided;
+  } else {
+    computedYMin = Math.min(...yValues);
+    computedYMax = Math.max(...yValues);
+  }
 
   // Setup SVG canvas dimensions
   const width = 500;
