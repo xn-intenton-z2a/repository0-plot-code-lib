@@ -27,7 +27,7 @@ function parseCliArgs(args) {
 const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
   // Updated regex to allow range in the format 'x=start:end' optionally followed by ',y=start:end'
-  range: z.string().regex(/^x=-?\d+: -?\d+(?:,y=-?\d+: -?\d+)?$|^x=-?\d+:-?\d+(?:,y=-?\d+:-?\d+)?$/, { message: "Range must be in the format 'x=start:end' or 'x=start:end,y=start:end'" }),
+  range: z.string().regex(/^x=-?\d+:-?\d+(?:,y=-?\d+:-?\d+)?$/, { message: "Range must be in the format 'x=start:end' or 'x=start:end,y=start:end'" }),
   file: z.string().regex(/\.(svg|png|csv)$/, { message: "File must end with .svg, .png, or .csv" }),
   evaluate: z.boolean().optional(),
   color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
