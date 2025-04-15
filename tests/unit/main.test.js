@@ -44,7 +44,7 @@ describe("CLI Plot Generation", () => {
     }
   });
 
-  test("should generate a valid SVG plot file with proper SVG markup and embedded time series data", () => {
+  test("should generate a valid SVG plot file with proper SVG markup, embedded time series data, and a polyline element", () => {
     const args = [
       "--expression", "y=sin(x)",
       "--range", "x=-1:1,y=-1:1",
@@ -67,8 +67,8 @@ describe("CLI Plot Generation", () => {
     const expectedText = `Plot generated for expression: y=sin(x) with range: x=-1:1,y=-1:1`;
     expect(fileContent).toContain(expectedText);
     // Check that time series data is embedded
-    expect(fileContent).toContain("Time Series Data:");
-    expect(fileContent).toMatch(/\{\s*"x":/);
+    expect(fileContent).toContain("polyline");
+    expect(fileContent).toMatch(new RegExp('<polyline\\s+points="'));
 
     // Verify console message
     expect(output).toContain(`Plot written to file ${tempSvgOutputFile}`);

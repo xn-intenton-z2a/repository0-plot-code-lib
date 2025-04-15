@@ -75,8 +75,48 @@ function generateTimeSeriesData(expression, rangeStr) {
     }
     points.push({ x: xVal, y: yVal });
   }
-  // Format JSON with indentation for better readability in output files
   return JSON.stringify(points, null, 2);
+}
+
+/**
+ * Generates a polyline for SVG plot from the mathematical expression and range.
+ * Samples 100 points over the x-range and maps computed y using y-range to SVG coordinates.
+ * @param {string} expression - The mathematical expression (e.g., "y=sin(x)")
+ * @param {string} rangeStr - The range string (e.g., "x=-1:1,y=-1:1")
+ * @param {number} width - SVG width (default 200)
+ * @param {number} height - SVG height (default 100)
+ * @returns {string} - A string representing the polyline points for SVG.
+ */
+function generateSvgPolyline(expression, rangeStr, width = 200, height = 100) {
+  const xRangeMatch = rangeStr.match(/x=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)/);
+  const yRangeMatch = rangeStr.match(/y=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)/);
+  if (!xRangeMatch || !yRangeMatch) {
+    throw new Error("Invalid range format");
+  }
+  const xMin = parseFloat(xRangeMatch[1]);
+  const xMax = parseFloat(xRangeMatch[2]);
+  const yMin = parseFloat(yRangeMatch[1]);
+  const yMax = parseFloat(yRangeMatch[2]);
+
+  const numPoints = 100;
+  const step = (xMax - xMin) / (numPoints - 1);
+  let pointsArray = [];
+  let expr = expression.trim().replace(/^y\s*=\s*/, "");
+  for (let i = 0; i < numPoints; i++) {
+    const xVal = xMin + step * i;
+    let yVal;
+    try {
+      yVal = evaluate(expr, { x: xVal });
+    } catch (e) {
+      yVal = 0;
+    }
+    // Map xVal to SVG coordinate
+    const svgX = ((xVal - xMin) / (xMax - xMin)) * width;
+    // Map yVal to SVG coordinate; invert y-axis (yMax maps to 0, yMin maps to height)
+    const svgY = (1 - ((yVal - yMin) / (yMax - yMin))) * height;
+    pointsArray.push(`${svgX},${svgY}`);
+  }
+  return pointsArray.join(" ");
 }
 
 function jsonToCSV(jsonData) {
@@ -143,10 +183,17 @@ export function main(args = []) {
   let plotContent;
   const filePath = cliOptions.file;
   if (filePath.endsWith('.svg')) {
-    // Generate a minimal valid SVG content with embedded time series data
+    // Generate a minimal valid SVG content with embedded polyline for time series data
+    let polylinePoints;
+    try {
+      polylinePoints = generateSvgPolyline(cliOptions.expression, cliOptions.range);
+    } catch (e) {
+      console.error(`Failed to generate SVG polyline: ${e.message}`);
+      return;
+    }
     plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
   <text x="10" y="20">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
-  <text x="10" y="50">Time Series Data: ${timeSeriesData}</text>
+  <polyline points="${polylinePoints}" stroke="blue" stroke-width="2" fill="none" />
 </svg>`;
   } else if (filePath.endsWith('.png')) {
     plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}\nTime Series Data: ${timeSeriesData}`;

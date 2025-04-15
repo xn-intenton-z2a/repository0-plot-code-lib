@@ -25,11 +25,9 @@ Additionally, the following flags can be provided:
 
 **Note:** If both --csv and --json flags are provided, the CSV output takes precedence.
 
-When run without any arguments, the CLI displays a usage message. For example:
+### New Behavior for SVG Outputs
 
-```bash
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
-```
+For SVG outputs, the tool now computes the time series data by sampling the provided mathematical expression over the x-range (using 100 sample points) and maps these values to the SVG coordinate space (with a default viewBox of 200 x 100). The resulting points are rendered as a polyline element with styling attributes (stroke, stroke-width, and no fill) embedded in the SVG output, in addition to the existing text element.
 
 ### Examples
 
@@ -37,6 +35,15 @@ Generate an SVG plot with embedded time series data (file output):
 
 ```bash
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
+```
+
+The resulting SVG will include both a text element and a polyline element, for example:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+  <text x="10" y="20">Plot generated for expression: y=sin(x) with range: x=-1:1,y=-1:1</text>
+  <polyline points="..." stroke="blue" stroke-width="2" fill="none" />
+</svg>
 ```
 
 Generate a PNG plot with embedded time series data (file output):
