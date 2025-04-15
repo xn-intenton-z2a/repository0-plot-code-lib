@@ -32,7 +32,12 @@ describe("Default main behavior", () => {
     const consoleSpy = vi.spyOn(console, "log");
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "output.svg"]);
+    // Check for validated message
     expect(consoleSpy).toHaveBeenCalledWith('Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}');
+    // Check for simulation message
+    expect(consoleSpy).toHaveBeenCalledWith('Generating plot for expression: y=sin(x) with range: x=-1:-1,y=-1:-1');
+    // Check for plot saved message
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to output.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 
@@ -180,7 +185,6 @@ describe("Explicit Y-Range Support", () => {
     const points = pointsStr.split(" ");
     points.forEach(point => {
       const coords = point.split(",");
-      // basic check, we can't predict exact mapping but ensure numeric values
       expect(Number(coords[0])).toBeGreaterThanOrEqual(20);
       expect(Number(coords[1])).toBeLessThanOrEqual(480);
     });
@@ -230,7 +234,6 @@ describe("CSV Export Functionality", () => {
     await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "data.csv"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    // Check if CSV has header and 101 lines (header + 100 rows)
     const lines = writtenContent.split("\n");
     expect(lines[0]).toBe("x,y");
     expect(lines.length).toBe(101);
@@ -247,8 +250,6 @@ describe("Custom Canvas Dimensions and Padding Options", () => {
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain('<svg width="800" height="600"');
-    // Optionally, check that the mapping of coordinates is affected by padding
-    // For simplicity, we check that the polyline exists
     expect(writtenContent).toContain('<polyline');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to customDimensions.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
