@@ -192,8 +192,10 @@ export function main(args = []) {
       return;
     }
     plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
-<text x="10" y="20">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
-<polyline points="${polylinePoints}" stroke="blue" stroke-width="2" fill="none" />
+  <text x="10" y="20">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
+  <polyline
+    points="${polylinePoints}"
+    stroke="blue" stroke-width="2" fill="none" />
 </svg>`;
   } else if (filePath.endsWith('.png')) {
     plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}\nTime Series Data: ${timeSeriesData}`;
