@@ -27,7 +27,7 @@ function parseCliArgs(args) {
 const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
   // Updated regex to allow range in the format 'x=start:end' optionally followed by ',y=start:end'
-  range: z.string().regex(/^x=-?\d+:-?\d+(?:,y=-?\d+:-?\d+)?$/, { message: "Range must be in the format 'x=start:end' or 'x=start:end,y=start:end'" }),
+  range: z.string().regex(/^x=-?\d+: -?\d+(?:,y=-?\d+: -?\d+)?$|^x=-?\d+:-?\d+(?:,y=-?\d+:-?\d+)?$/, { message: "Range must be in the format 'x=start:end' or 'x=start:end,y=start:end'" }),
   file: z.string().regex(/\.(svg|png|csv)$/, { message: "File must end with .svg, .png, or .csv" }),
   evaluate: z.boolean().optional(),
   color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
@@ -35,12 +35,13 @@ const cliSchema = z.object({
   width: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Width must be a positive integer" })).optional(),
   height: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Height must be a positive integer" })).optional(),
   padding: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Padding must be a positive integer" })).optional(),
-  samples: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Samples must be a positive integer" })).optional()
+  samples: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Samples must be a positive integer" })).optional(),
+  grid: z.boolean().optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid]");
     return;
   }
   if (args.length === 0) {
@@ -68,7 +69,7 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Destructure parameters
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples } = result.data;
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid } = result.data;
 
   // Simulate plot generation message
   console.log(`Generating plot for expression: ${expression} with range: ${range}`);
@@ -183,9 +184,26 @@ export async function main(args = []) {
   // Create polyline points string
   const points = xValues.map((x, i) => `${mapX(x)},${mapY(yValues[i])}`).join(" ");
 
+  // Build gridlines if --grid flag is provided and output is SVG/PNG
+  let gridLines = "";
+  if (grid) {
+    const numGrid = 5;
+    const verticalSpacing = (canvasWidth - 2 * canvasPadding) / (numGrid + 1);
+    for (let i = 1; i <= numGrid; i++) {
+      const xPos = canvasPadding + i * verticalSpacing;
+      gridLines += `<line x1="${xPos}" y1="${canvasPadding}" x2="${xPos}" y2="${canvasHeight - canvasPadding}" stroke="#ddd" stroke-width="1"/>`;
+    }
+    const horizontalSpacing = (canvasHeight - 2 * canvasPadding) / (numGrid + 1);
+    for (let i = 1; i <= numGrid; i++) {
+      const yPos = canvasPadding + i * horizontalSpacing;
+      gridLines += `<line x1="${canvasPadding}" y1="${yPos}" x2="${canvasWidth - canvasPadding}" y2="${yPos}" stroke="#ddd" stroke-width="1"/>`;
+    }
+  }
+
   // Build SVG content
   const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="white"/>
+  ${gridLines}
   <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>
 </svg>`;
 
