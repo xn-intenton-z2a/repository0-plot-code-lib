@@ -1,46 +1,53 @@
 # CLI UTILITIES ENHANCEMENT UPDATE
 
-This update refines and extends the CLI utilities of the repository. In addition to the existing functionalities (diagnostics, help, plot generation, and parameter validations), this update integrates a new `--version` flag for version reporting.
+This update refines the CLI utilities by adding two important improvements:
 
-## Overview
-
-- **Objective**: Enhance user experience by enabling users to quickly verify the application version from the CLI, while keeping all existing CLI functionalities intact.
-- **Scope**: Modifications are limited to updating the source file (`src/lib/main.js`), test file (`tests/unit/main.test.js`), README (`README.md`), and `package.json` as necessary. No new files or deletion of existing files occur.
+1. Integration of a new version flag (`--version`) that outputs the current application version as reported by `package.json`.
+2. Adoption of environment variable overrides by leveraging the `dotenv` package, allowing default configuration of CLI parameters if they are omitted from the command line.
 
 ## Version Flag Functionality
 
-- **Flag Behavior**: When the CLI is run with the `--version` flag, the application will read the version information from `package.json` and output it in the format `Version: x.y.z`, then exit with a status code of 0.
+- **Objective**: Allow users to quickly verify the current application version.
+- **Implementation**:
+  - Update the CLI entry point to check early for a `--version` flag.
+  - On detection, the program reads the version string from `package.json`, prints it in the format `Version: x.y.z`, and exits immediately.
 
-- **Implementation Details in Source File**:
-  - Update `src/lib/main.js` to include an early check: if `--version` is present in the CLI arguments, then load `package.json` and output the current version.
-  - Ensure that if `--version` is detected, the version is printed using `console.log` and the process exits immediately to avoid further processing of arguments.
-  - This check must occur before validations of other flags to provide a quick version response.
+## Environment Variable Overrides
+
+- **Objective**: Enhance configurability by allowing default CLI parameter values to be set through environment variables. This facilitates usage in different deployment environments by reducing the need for repetitive CLI parameter inputs.
+- **Requirements**:
+  - Use the already included `dotenv` dependency to load variables from a `.env` file if present. For example, variables like `PLOT_EXPRESSION`, `PLOT_RANGE`, and `PLOT_FILE` can serve as defaults for `--expression`, `--range`, and `--file` respectively.
+  - Update the logic in `src/lib/main.js` so that if a parameter is not provided on the CLI, the program checks for its corresponding environment variable.
+  - Ensure that explicit CLI parameters override any environment defaults.
 
 ## Test File Updates
 
 - **File Affected**: `tests/unit/main.test.js`
-  - Add new test cases to simulate CLI invocation with the `--version` flag.
-  - Validate that the output string starts with `Version: ` and that the version format conforms to semantic versioning (e.g. using a regex pattern such as `/^Version: \d+\.\d+\.\d+$/`).
+  - Add new test cases to simulate the scenario where a required CLI argument is omitted but provided via environment variables.
+  - Verify that the defaults loaded from the environment are correctly applied and that CLI parameters take precedence over environment values.
 
 ## README Updates
 
 - **Documentation Changes**:
-  - Update the CLI usage section in `README.md` to document the new `--version` flag with usage examples.
-  - Include a code snippet demonstrating:
+  - Update the CLI usage section to document the new environment variable override feature.
+  - Include examples demonstrating how to create and use a `.env` file for default configuration, e.g.
 
     ```sh
-    node src/lib/main.js --version
-    # Expected Output: Version: x.y.z
+    # .env file example
+    PLOT_EXPRESSION=y=cos(x)
+    PLOT_RANGE=x=0:10,y=0:5
+    PLOT_FILE=output.svg
     ```
+
+    Running the CLI without these parameters should now pick up defaults from the environment.
 
 ## Dependency and Code Integrity
 
-- Ensure that the updated CLI remains compatible with Node 20 and ESM standards.
-- Confirm that no additional libraries are needed; the existing dependencies such as `fs` can be used to read from `package.json`.
-- Maintain compliance with the guidelines outlined in `CONTRIBUTING.md`, with code quality tests ensuring all functionalities (help, plot generation, CSV export, diagnostics, and new version reporting) operate as expected.
+- **Compatibility**: Ensure that the changes remain compatible with Node 20 and ECMAScript Module (ESM) standards.
+- **Guidelines Compliance**: Follow the repository’s `CONTRIBUTING.md` for code quality and testing. The new functionality must be accompanied by appropriate unit tests and documentation updates.
 
 ## Benefits
 
-- **User-Friendly Version Check**: Quickly allows users to confirm the version of the application. Useful for debugging, support, and release verifications.
-- **Cohesive CLI Experience**: Integrates version reporting along with existing CLI commands for a comprehensive and professional CLI tool.
-- **Minimal Disruption**: Ensures that all existing CLI functionalities remain intact while adding additional value through version reporting.
+- **Flexibility**: Users can now set up their environment with default parameters, making repeated CLI usage more convenient.
+- **Enhanced User Experience**: Faster and more flexible configuration management by reading from environment variables where applicable.
+- **Consistency**: Maintains all existing CLI features (help, diagnostics, plot generation, CSV export, etc.) while adding these improvements in a minimal and cohesive manner.
