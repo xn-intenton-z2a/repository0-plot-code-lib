@@ -1,16 +1,14 @@
 import { describe, test, expect, vi } from "vitest";
-import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
-    expect(mainModule).not.toBeNull();
+    expect(main).not.toBeNull();
   });
 });
 
 describe("Default main behavior", () => {
   test("should terminate without error when no arguments provided", () => {
-    // Capture console output
     const consoleSpy = vi.spyOn(console, "log");
     main();
     expect(consoleSpy).toHaveBeenCalledWith("No arguments provided. Use --help to see usage instructions.");
@@ -24,10 +22,50 @@ describe("Default main behavior", () => {
     consoleSpy.mockRestore();
   });
 
-  test("should log provided arguments", () => {
+  test("should validate and print arguments when valid parameters are provided", () => {
     const consoleSpy = vi.spyOn(console, "log");
-    main(["--expression", "y=sin(x)"]);
-    expect(consoleSpy).toHaveBeenCalledWith('Run with: ["--expression","y=sin(x)"]');
+    main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "output.svg"]);
+    expect(consoleSpy).toHaveBeenCalledWith('Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}');
     consoleSpy.mockRestore();
+  });
+
+  test("should error and exit when missing required arguments", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
+    try {
+      // Missing --file argument
+      main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1"]);
+    } catch (e) {
+      expect(e.message).toBe("process.exit");
+    }
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: Invalid arguments.");
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
+
+  test("should error and exit when provided malformed range", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
+    try {
+      main(["--expression", "y=sin(x)", "--range", "invalid_range", "--file", "output.svg"]);
+    } catch (e) {
+      expect(e.message).toBe("process.exit");
+    }
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: Invalid arguments.");
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
+  });
+
+  test("should error and exit when file extension is incorrect", () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
+    try {
+      main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "output.txt"]);
+    } catch (e) {
+      expect(e.message).toBe("process.exit");
+    }
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: Invalid arguments.");
+    consoleErrorSpy.mockRestore();
+    processExitSpy.mockRestore();
   });
 });

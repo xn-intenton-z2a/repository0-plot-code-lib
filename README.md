@@ -8,24 +8,42 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-You can run the CLI with arguments directly:
+The CLI now requires three parameters: --expression, --range, and --file.
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
-```
+- --expression: A non-empty string representing the mathematical expression.
+- --range: A string specifying ranges in the format 'x=start:end,y=start:end'.
+- --file: The output file name which must end with either .svg or .png.
 
-If you run the CLI without any arguments, a help message will be shown:
+#### Valid Usage Examples
 
-```sh
-node src/lib/main.js
-# Output: No arguments provided. Use --help to see usage instructions.
-```
-
-You can also display usage information explicitly:
+Display help information:
 
 ```sh
 node src/lib/main.js --help
 # Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath>
+```
+
+Run the CLI with valid parameters:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
+# Output: Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}
+```
+
+#### Invalid Usage Examples
+
+Missing a required parameter:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1"
+# Output: Error: Invalid arguments.\nExpression is required and cannot be empty or File must end with .svg or .png
+```
+
+Malformed range or wrong file extension:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "invalid" --file output.txt
+# Output: Error: Invalid arguments.\nRange must be in the format 'x=start:end,y=start:end'\nFile must end with .svg or .png
 ```
 
 ### Programmatic
