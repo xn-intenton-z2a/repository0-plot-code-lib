@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid]");
     consoleSpy.mockRestore();
   });
 
@@ -32,11 +32,8 @@ describe("Default main behavior", () => {
     const consoleSpy = vi.spyOn(console, "log");
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "output.svg"]);
-    // Check for validated message
     expect(consoleSpy).toHaveBeenCalledWith('Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}');
-    // Check for simulation message
     expect(consoleSpy).toHaveBeenCalledWith('Generating plot for expression: y=sin(x) with range: x=-1:-1,y=-1:-1');
-    // Check for plot saved message
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to output.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
@@ -175,7 +172,6 @@ describe("Explicit Y-Range Support", () => {
   test("should use provided y-range boundaries in SVG output", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Using a constant expression so that y is always 2
     await main(["--expression", "y=2", "--range", "x=0:10,y=-2:2", "--file", "yrange.svg"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
@@ -235,7 +231,6 @@ describe("CSV Export Functionality", () => {
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     const lines = writtenContent.split("\n");
-    // Header plus 150 rows
     expect(lines[0]).toBe("x,y");
     expect(lines.length).toBe(151);
     expect(consoleSpy).toHaveBeenLastCalledWith("Time series CSV exported to data.csv");
@@ -272,6 +267,17 @@ describe("Custom Samples Count", () => {
       data = [];
     }
     expect(data.length).toBe(50);
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+describe("Grid functionality", () => {
+  test("should include gridlines when --grid flag is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "grid.svg", "--grid"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<line");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });

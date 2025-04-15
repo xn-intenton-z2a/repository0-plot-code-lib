@@ -8,7 +8,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, --stroke, --width, --height, --padding, and --samples.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, --stroke, --width, --height, --padding, --samples, and --grid.
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
@@ -21,6 +21,7 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --height: (Optional) A positive integer to specify the canvas height of the generated plot. Defaults to 500 if not provided.
 - --padding: (Optional) A positive integer to set the padding within the canvas, affecting the plot margins. Defaults to 20 if not provided.
 - --samples: (Optional) A positive integer specifying the number of sample points to generate the plot. Defaults to 100 if not provided.
+- --grid: (Optional) When provided, gridlines are drawn on the plot. The gridlines are rendered in light gray (#ddd) with a stroke width of 1, providing visual guides without overlapping the plot boundaries.
 
 When all required parameters are provided, the CLI will simulate plot generation by logging a message in the format:
 
@@ -36,7 +37,7 @@ Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>]
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid]
 ```
 
 Run the CLI with valid parameters (SVG plot generation) using full range:
@@ -49,12 +50,12 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file ou
 # Plot saved to output.svg
 ```
 
-Run the CLI with valid parameters (SVG plot generation) using only x-range:
+Run the CLI with valid parameters (SVG plot generation) using only x-range and enabling gridlines:
 
 ```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --grid
 # Output:
-# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"output.svg"}
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"output.svg","grid":true}
 # Generating plot for expression: y=sin(x) with range: x=-1:1
 # Plot saved to output.svg
 ```
@@ -90,12 +91,12 @@ node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file custo
 # Plot saved to custom.svg
 ```
 
-Run the CLI with custom canvas dimensions, padding, and sample count:
+Run the CLI with custom canvas dimensions, padding, sample count, and grid enabled:
 
 ```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file customDimensions.svg --width 800 --height 600 --padding 50 --samples 150
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file customDimensions.svg --width 800 --height 600 --padding 50 --samples 150 --grid
 # Output:
-# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"customDimensions.svg","width":800,"height":600,"padding":50,"samples":150}
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"customDimensions.svg","width":800,"height":600,"padding":50,"samples":150,"grid":true}
 # Generating plot for expression: y=sin(x) with range: x=-1:1
 # Plot saved to customDimensions.svg
 ```
@@ -199,7 +200,8 @@ main([
   "--width", "800",   // optional custom canvas width
   "--height", "600",  // optional custom canvas height
   "--padding", "30",  // optional custom padding
-  "--samples", "120"   // optional custom sample count
+  "--samples", "120", // optional custom sample count
+  "--grid"             // optional flag to add gridlines
 ]);
 ```
 
