@@ -24,7 +24,7 @@ function parseCliArgs(args) {
 // Define the CLI schema using zod
 const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
-  range: z.string().regex(/^([xy]=-?\d+:-?\d+)(,([xy]=-?\d+:-?\d+))*$/, { message: "Range must be in the format 'x=start:end,y=start:end'" }),
+  range: z.string().regex(/^([xy]=-?\d+:\-?\d+)(,([xy]=-?\d+:\-?\d+))*$/, { message: "Range must be in the format 'x=start:end,y=start:end'" }),
   file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" })
 });
 
