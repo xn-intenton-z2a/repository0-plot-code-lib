@@ -42,7 +42,7 @@ The resulting SVG will include both a text element and a polyline element, for e
 ```xml
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
 <text x="10" y="20">Plot generated for expression: y=sin(x) with range: x=-1:1,y=-1:1</text>
-<polyline  points="..." stroke="blue" stroke-width="2" fill="none" />
+<polyline points="..." stroke="blue" stroke-width="2" fill="none" />
 </svg>
 ```
 
