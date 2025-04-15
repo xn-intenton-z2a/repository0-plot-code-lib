@@ -289,7 +289,6 @@ describe("Marker functionality", () => {
     await main(["--expression", "y=cos(x)", "--range", "x=0:10,y=0:5", "--file", "marker.svg", "--marker"]);
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain("<circle");
-    // Optionally check that number of circles equals sample count
     const circleMatches = writtenContent.match(/<circle/g);
     expect(circleMatches).not.toBeNull();
     expect(circleMatches.length).toBeGreaterThan(0);
