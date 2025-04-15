@@ -4,6 +4,7 @@
 import { fileURLToPath } from "url";
 import { z } from "zod";
 import fs from "fs";
+import sharp from "sharp";
 
 // Function to convert CLI arguments array to an object mapping flags to values
 function parseCliArgs(args) {
@@ -30,7 +31,7 @@ const cliSchema = z.object({
   evaluate: z.boolean().optional()
 });
 
-export function main(args = []) {
+export async function main(args = []) {
   if (args.includes("--help")) {
     console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics]");
     return;
@@ -161,12 +162,26 @@ export function main(args = []) {
   <polyline points="${points}" fill="none" stroke="black" stroke-width="2"/>
 </svg>`;
 
-  // Write file to specified filename (only SVG generation is implemented; PNG support planned)
-  fs.writeFileSync(file, svgContent, "utf8");
-  console.log(`Plot saved to ${file}`);
+  // Write file depending on the extension
+  if (file.endsWith(".png")) {
+    try {
+      const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+      fs.writeFileSync(file, pngBuffer);
+      console.log(`Plot saved to ${file}`);
+    } catch (err) {
+      console.error("Error converting SVG to PNG:", err);
+      process.exit(1);
+    }
+  } else {
+    fs.writeFileSync(file, svgContent, "utf8");
+    console.log(`Plot saved to ${file}`);
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  main(args).catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 }
