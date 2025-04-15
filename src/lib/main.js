@@ -66,8 +66,11 @@ export async function main(args = []) {
   // Arguments are valid; log validated arguments
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
-  // Extract parameters
+  // Destructure parameters
   const { expression, range, file, evaluate, color, stroke, width, height, padding } = result.data;
+
+  // Simulate plot generation message
+  console.log(`Generating plot for expression: ${expression} with range: ${range}`);
 
   // Determine styling options with defaults
   const strokeColor = color || "black";
@@ -170,9 +173,6 @@ export async function main(args = []) {
     computedYMax = Math.max(...yValues);
   }
 
-  // Setup SVG canvas dimensions
-  // Use custom canvasWidth, canvasHeight, and canvasPadding
-  
   // Map x and y values to canvas coordinates
   const mapX = (x) => canvasPadding + ((x - xMin) / (xMax - xMin)) * (canvasWidth - 2 * canvasPadding);
   const mapY = (y) => canvasHeight - canvasPadding - ((y - computedYMin) / (computedYMax - computedYMin)) * (canvasHeight - 2 * canvasPadding);

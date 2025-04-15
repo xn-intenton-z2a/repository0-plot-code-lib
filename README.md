@@ -21,6 +21,14 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --height: (Optional) A positive integer to specify the canvas height of the generated plot. Defaults to 500 if not provided.
 - --padding: (Optional) A positive integer to set the padding within the canvas, affecting the plot margins. Defaults to 20 if not provided.
 
+When all required parameters are provided, the CLI will simulate plot generation by logging a message:
+
+  "Generating plot for expression: <expression> with range: <range>"
+
+followed by the actual plot output message:
+
+  "Plot saved to <file>"
+
 #### Valid Usage Examples
 
 Display help information:
@@ -36,6 +44,7 @@ Run the CLI with valid parameters (SVG plot generation) using full range:
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}
+# Generating plot for expression: y=sin(x) with range: x=-1:-1,y=-1:-1
 # Plot saved to output.svg
 ```
 
@@ -45,6 +54,7 @@ Run the CLI with valid parameters (SVG plot generation) using only x-range:
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"output.svg"}
+# Generating plot for expression: y=sin(x) with range: x=-1:1
 # Plot saved to output.svg
 ```
 
@@ -54,6 +64,7 @@ Run the CLI with evaluation to generate time series data:
 node src/lib/main.js --expression "y=sin(x)" --range "x=0:6,y=-1:1" --file eval.svg --evaluate
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=0:6,y=-1:1","file":"eval.svg","evaluate":true}
+# Generating plot for expression: y=sin(x) with range: x=0:6,y=-1:1
 # Time series data: [ { x: 0, y: 0 }, { x: 0.06, y: 0.06 }, ... 100 data points ... ]
 # Plot saved to eval.svg
 ```
@@ -64,6 +75,7 @@ Run the CLI with PNG output (PNG plot generation):
 node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file output.png
 # Output:
 # Validated arguments: {"expression":"y=cos(x)","range":"x=0:10,y=0:5","file":"output.png"}
+# Generating plot for expression: y=cos(x) with range: x=0:10,y=0:5
 # Plot saved to output.png
 ```
 
@@ -73,7 +85,8 @@ Run the CLI with custom plot styling:
 node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file custom.svg --color blue --stroke 5
 # Output:
 # Validated arguments: {"expression":"y=cos(x)","range":"x=0:10,y=0:5","file":"custom.svg","color":"blue","stroke":5}
-# Plot saved to custom.svg (with blue stroke and stroke width 5)
+# Generating plot for expression: y=cos(x) with range: x=0:10,y=0:5
+# Plot saved to custom.svg
 ```
 
 Run the CLI with custom canvas dimensions and padding:
@@ -82,7 +95,8 @@ Run the CLI with custom canvas dimensions and padding:
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file customDimensions.svg --width 800 --height 600 --padding 50
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"customDimensions.svg","width":800,"height":600,"padding":50}
-# Plot saved to customDimensions.svg (with canvas width 800, height 600, and padding 50)
+# Generating plot for expression: y=sin(x) with range: x=-1:1
+# Plot saved to customDimensions.svg
 ```
 
 Run the CLI in diagnostics mode (for debugging):
@@ -92,6 +106,7 @@ node src/lib/main.js --diagnostics --expression "y=sin(x)" --range "x=-1:-1,y=-1
 # Output:
 # Diagnostics - Raw CLI arguments: { ...raw parsed arguments... }
 # Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}
+# Generating plot for expression: y=sin(x) with range: x=-1:-1,y=-1:-1
 # Plot saved to output.svg
 ```
 
@@ -101,7 +116,8 @@ Run the CLI with an explicit y-range (overriding auto y-axis scaling):
 node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=-2:2" --file output.svg
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=0:10,y=-2:2","file":"output.svg"}
-# Plot saved to output.svg (with y-axis boundaries set to -2 and 2)
+# Generating plot for expression: y=sin(x) with range: x=0:10,y=-2:2
+# Plot saved to output.svg
 ```
 
 #### CSV Export Usage
@@ -116,6 +132,14 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6,y=-1:1" --file outpu
 # Validated arguments: {"expression":"y=sin(x)","range":"x=0:6,y=-1:1","file":"output.csv"}
 # Time series CSV exported to output.csv
 ```
+
+#### New Simulation Message
+
+Upon executing the command with the required parameters, the CLI now simulates plot generation by first logging a message in the format:
+
+  "Generating plot for expression: <expression> with range: <range>"
+
+This provides immediate feedback that the plot is being processed, followed by the final message indicating the file output.
 
 #### New Examples with Additional Math Functions
 
@@ -177,7 +201,7 @@ main([
 ]);
 ```
 
-After successfully running the CLI with valid parameters, a plot in SVG or PNG format is generated and saved to the specified file, or CSV data is exported if .csv is used. If the --evaluate flag is provided, the computed time series data is output to the console in JSON format (unless exporting to CSV). When --diagnostics is enabled, raw parsed CLI argument information is displayed to assist with debugging. When a y-range is explicitly provided, its boundaries are used to set the y-axis limits for the plot.
+After successfully running the CLI with valid parameters, a plot in SVG or PNG format is generated and saved to the specified file, or CSV data is exported if .csv is used. The simulation message confirms that the plot generation process has started.
 
 ---
 
