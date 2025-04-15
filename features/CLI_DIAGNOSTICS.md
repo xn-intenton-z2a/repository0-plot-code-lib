@@ -1,41 +1,36 @@
-# CLI_DIAGNOSTICS Feature Update
+# CLI_DIAGNOSTICS Feature Update with Version Info
 
 ## Overview
-This feature updates the existing CLI_DIAGNOSTICS functionality to provide users with detailed system and configuration diagnostics. When the `--diagnostics` flag is supplied, the CLI tool will output diagnostic information such as the Node.js version, current environment variables, and the CLI arguments provided by the user, bypassing the standard plot generation. This enhancement increases the tool's usability in troubleshooting and validating system setups.
+This update enhances the existing CLI diagnostics functionality by adding a new `--version` flag. When this flag is provided, the CLI tool will output the current version of the plot library (sourced from the package.json) along with the existing diagnostic details such as Node.js version, environment variables, and CLI arguments. This extension provides users with immediate version information, aiding in troubleshooting and ensuring compatibility.
 
 ## Implementation
 - **Source File (`src/lib/main.js`):**
-  - Modify the main function to check if the `--diagnostics` flag is present in the arguments.
-  - If detected, output diagnostic details including:
-    - Node.js version (`process.version`)
-    - Current environment variables (`process.env`)
-    - Parsed CLI arguments for transparency
-  - If the flag is not provided, continue with the regular plot generation flow.
-
+  - **Argument Parsing:** Extend the `parseArgs` function to recognize the `--version` flag and set a version indicator in the options object.
+  - **Diagnostics Update:** In the main function, before proceeding with any other actions, check if the `--version` flag is present. If so:
+    - Read the version field from `package.json` (using an appropriate synchronous file read or import method).
+    - Output the version information along with diagnostics (Node.js version, environment variables, and parsed CLI arguments).
+    - Terminate the process after printing version details.
+  
 - **Test File (`tests/unit/main.test.js`):**
-  - Add new test cases to simulate CLI invocation with the `--diagnostics` flag.
-  - Verify that the output contains the Node.js version, environment snapshot, and CLI argument details.
-  - Ensure that regular plot generation tests remain unaffected.
+  - Add new test cases that simulate CLI invocation with the `--version` flag.
+  - Verify that the output contains the package version and other relevant diagnostic details.
 
-- **Documentation Updates (`README.md`):**
-  - Update the CLI usage section to include a description of the `--diagnostics` flag.
-  - Provide examples showing how to invoke the diagnostics mode using:
+- **Documentation Updates (`README.md`):)**
+  - Update the CLI usage section to include the new `--version` flag.
+  - Provide examples showing how to invoke the version information: 
     ```bash
-    node src/lib/main.js --diagnostics
+    node src/lib/main.js --version
     ```
 
-- **Dependencies:**
-  - Utilize the already integrated `zod` library for parsing and validating CLI arguments. No additional dependencies are required.
-
 ## Benefits
-- Empowers users with a quick way to diagnose system configuration and runtime parameters.
-- Enhances troubleshooting by clearly presenting environment details and CLI argument parsing results.
-- Maintains backward compatibility with existing features while enriching the utility of the CLI tool.
+- **Enhanced Diagnostics:** Users can quickly retrieve the current version of the tool, facilitating support and troubleshooting.
+- **Improved Transparency:** By combining version info with system diagnostics, users have a comprehensive snapshot of their runtime environment.
+- **Ease of Use:** This feature makes it simpler to verify installation details, particularly useful when reporting issues or confirming updates.
 
 ## Testing and Validation
-- Run `npm test` to ensure both diagnostics mode and standard plot generation work as expected.
-- Manually test using the command:
+- Run `npm test` to ensure that both diagnostics and version info are correctly output.
+- Manually test using:
   ```bash
-  node src/lib/main.js --diagnostics
+  node src/lib/main.js --version
   ```
-  to verify that diagnostic information is correctly displayed.
+  to verify that the version information (as well as other diagnostics if needed) is displayed as expected.
