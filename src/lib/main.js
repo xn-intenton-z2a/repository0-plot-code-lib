@@ -3,6 +3,7 @@
 
 import { fileURLToPath } from "url";
 import { z } from "zod";
+import fs from "fs";
 
 // Function to convert CLI arguments array to an object mapping flags to values
 function parseCliArgs(args) {
@@ -48,8 +49,106 @@ export function main(args = []) {
     process.exit(1);
   }
 
-  // Arguments are valid; placeholder for further processing
+  // Arguments are valid; log validated arguments
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
+
+  // Extract parameters
+  const { expression, range, file } = result.data;
+
+  // Parse range parameter in the format 'x=min:max,y=min:max'
+  const rangeParts = range.split(",");
+  let xRangePart = null;
+  let yRangePart = null;
+  rangeParts.forEach(part => {
+    if (part.startsWith("x=")) {
+      xRangePart = part.substring(2);
+    } else if (part.startsWith("y=")) {
+      yRangePart = part.substring(2);
+    }
+  });
+  if (!xRangePart || !yRangePart) {
+    console.error("Invalid range format.");
+    process.exit(1);
+  }
+
+  const [xMinStr, xMaxStr] = xRangePart.split(":");
+  const [yMinStr, yMaxStr] = yRangePart.split(":");
+  let xMin = parseFloat(xMinStr);
+  let xMax = parseFloat(xMaxStr);
+  let yMin = parseFloat(yMinStr);
+  let yMax = parseFloat(yMaxStr);
+
+  // Adjust degenerate ranges
+  if (xMin === xMax) {
+    xMin = xMin - 1;
+    xMax = xMax + 1;
+  }
+  if (yMin === yMax) {
+    yMin = yMin - 1;
+    yMax = yMax + 1;
+  }
+
+  // Process expression: remove leading 'y=' if present and translate basic math functions
+  let procExpr = expression;
+  if (procExpr.startsWith("y=")) {
+    procExpr = procExpr.substring(2);
+  }
+  // Replace common math functions with JavaScript's Math equivalents
+  procExpr = procExpr.replace(/sin\(/g, "Math.sin(")
+                     .replace(/cos\(/g, "Math.cos(")
+                     .replace(/tan\(/g, "Math.tan(");
+
+  let func;
+  try {
+    func = new Function("x", "return " + procExpr);
+  } catch (err) {
+    console.error("Error creating function from expression:", err);
+    process.exit(1);
+  }
+
+  // Generate sample points
+  const samples = 100;
+  const xValues = [];
+  const yValues = [];
+  const step = (xMax - xMin) / (samples - 1);
+  for (let i = 0; i < samples; i++) {
+    const xVal = xMin + i * step;
+    let yVal;
+    try {
+      yVal = func(xVal);
+    } catch (err) {
+      console.error("Error evaluating expression at x =", xVal, err);
+      process.exit(1);
+    }
+    xValues.push(xVal);
+    yValues.push(yVal);
+  }
+
+  // Determine y range from computed values for proper scaling
+  const computedYMin = Math.min(...yValues);
+  const computedYMax = Math.max(...yValues);
+
+  // Setup SVG canvas dimensions
+  const width = 500;
+  const height = 500;
+  const padding = 20;
+
+  // Map x and y values to canvas coordinates
+  const mapX = (x) => padding + ((x - xMin) / (xMax - xMin)) * (width - 2 * padding);
+  const mapY = (y) => height - padding - ((y - computedYMin) / (computedYMax - computedYMin)) * (height - 2 * padding);
+
+  // Create polyline points string
+  const points = xValues.map((x, i) => `${mapX(x)},${mapY(yValues[i])}`).join(" ");
+
+  // Build SVG content
+  const svgContent = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <polyline points="${points}" fill="none" stroke="black" stroke-width="2"/>
+</svg>`;
+
+  // Write file to specified filename (only SVG generation is implemented; PNG support planned)
+  fs.writeFileSync(file, svgContent, "utf8");
+  console.log(`Plot saved to ${file}`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {

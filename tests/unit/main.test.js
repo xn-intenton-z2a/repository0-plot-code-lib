@@ -1,5 +1,6 @@
 import { describe, test, expect, vi } from "vitest";
 import { main } from "@src/lib/main.js";
+import fs from "fs";
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -24,8 +25,12 @@ describe("Default main behavior", () => {
 
   test("should validate and print arguments when valid parameters are provided", () => {
     const consoleSpy = vi.spyOn(console, "log");
+    // The function will also generate a file, but we focus on validated output here
+    // Spy on fs.writeFileSync so it doesn't actually create a file
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "output.svg"]);
     expect(consoleSpy).toHaveBeenCalledWith('Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}');
+    writeFileSyncSpy.mockRestore();
     consoleSpy.mockRestore();
   });
 
@@ -67,5 +72,17 @@ describe("Default main behavior", () => {
     expect(consoleErrorSpy).toHaveBeenCalledWith("Error: Invalid arguments.");
     consoleErrorSpy.mockRestore();
     processExitSpy.mockRestore();
+  });
+
+  test("should generate and save an SVG plot", () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log");
+    main(["--expression", "y=cos(x)", "--range", "x=0:10,y=0:5", "--file", "plot.svg"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<svg");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.svg");
+    writeFileSyncSpy.mockRestore();
+    consoleSpy.mockRestore();
   });
 });
