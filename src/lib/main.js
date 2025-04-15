@@ -34,12 +34,13 @@ const cliSchema = z.object({
   stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional(),
   width: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Width must be a positive integer" })).optional(),
   height: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Height must be a positive integer" })).optional(),
-  padding: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Padding must be a positive integer" })).optional()
+  padding: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Padding must be a positive integer" })).optional(),
+  samples: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Samples must be a positive integer" })).optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>]");
     return;
   }
   if (args.length === 0) {
@@ -67,7 +68,7 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Destructure parameters
-  const { expression, range, file, evaluate, color, stroke, width, height, padding } = result.data;
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples } = result.data;
 
   // Simulate plot generation message
   console.log(`Generating plot for expression: ${expression} with range: ${range}`);
@@ -122,12 +123,14 @@ export async function main(args = []) {
     process.exit(1);
   }
 
+  // Use provided samples value or default to 100
+  const totalSamples = samples || 100;
+
   // Generate sample points for plotting and time series
-  const samples = 100;
   const xValues = [];
   const yValues = [];
-  const step = (xMax - xMin) / (samples - 1);
-  for (let i = 0; i < samples; i++) {
+  const step = (xMax - xMin) / (totalSamples - 1);
+  for (let i = 0; i < totalSamples; i++) {
     const xVal = xMin + i * step;
     let yVal;
     try {
