@@ -24,7 +24,7 @@ Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>
 ```
 
 Run the CLI with valid parameters (SVG plot generation):

@@ -19,7 +19,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>");
     consoleSpy.mockRestore();
   });
 

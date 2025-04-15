@@ -35,7 +35,7 @@ const cliSchema = z.object({
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>");
     return;
   }
   if (args.length === 0) {
