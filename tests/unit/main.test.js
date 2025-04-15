@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker]");
     consoleSpy.mockRestore();
   });
 
@@ -278,6 +278,32 @@ describe("Grid functionality", () => {
     await main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "grid.svg", "--grid"]);
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain("<line");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+describe("Marker functionality", () => {
+  test("should include marker circles when --marker flag is provided in SVG output", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=cos(x)", "--range", "x=0:10,y=0:5", "--file", "marker.svg", "--marker"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<circle");
+    // Optionally check that number of circles equals sample count
+    const circleMatches = writtenContent.match(/<circle/g);
+    expect(circleMatches).not.toBeNull();
+    expect(circleMatches.length).toBeGreaterThan(0);
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to marker.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+
+  test("should not include markers in CSV export even if --marker flag is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=cos(x)", "--range", "x=0:10,y=0:5", "--file", "data.csv", "--marker"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).not.toContain("<circle");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Time series CSV exported to data.csv");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
