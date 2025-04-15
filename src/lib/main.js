@@ -3,7 +3,7 @@
 
 import { fileURLToPath } from "url";
 import { z } from "zod";
-import { writeFileSync } from "fs";
+import fs from "fs";
 
 // Function to convert CLI arguments array to an object mapping flags to values
 function parseCliArgs(args) {
@@ -147,7 +147,7 @@ export function main(args = []) {
 </svg>`;
 
   // Write file to specified filename (only SVG generation is implemented; PNG support planned)
-  writeFileSync(file, svgContent, "utf8");
+  fs.writeFileSync(file, svgContent, "utf8");
   console.log(`Plot saved to ${file}`);
 }
 
