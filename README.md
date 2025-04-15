@@ -8,11 +8,12 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. When executed with valid parameters, the CLI generates a plot in SVG format and saves it to the specified file (PNG support is planned for future releases).
+The CLI now requires three parameters: --expression, --range, and --file. An additional optional flag --evaluate can be used to compute and output time series data from the expression and range.
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan) are translated for JavaScript evaluation.
 - --range: A string specifying ranges in the format 'x=min:max,y=min:max'. If the min and max values are equal, they are adjusted to provide a workable interval.
 - --file: The output file name which must end with either .svg or .png.
+- --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generating time series data (an array of { x, y } objects) and outputs it in JSON format in the console.
 
 #### Valid Usage Examples
 
@@ -20,16 +21,26 @@ Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath>
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate]
 ```
 
-Run the CLI with valid parameters:
+Run the CLI with valid parameters (plot generation):
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}
 # Plot saved to output.svg
+```
+
+Run the CLI with evaluation to generate time series data:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6,y=-1:1" --file eval.svg --evaluate
+# Output:
+# Validated arguments: {"expression":"y=sin(x)","range":"x=0:6,y=-1:1","file":"eval.svg","evaluate":true}
+# Time series data: [ { x: 0, y: 0 }, { x: 0.06, y: 0.06 }, ... 100 data points ... ]
+# Plot saved to eval.svg
 ```
 
 #### Invalid Usage Examples
@@ -57,12 +68,13 @@ import { main } from "@src/lib/main.js";
 
 main([
   "--expression", "y=sin(x)",
-  "--range", "x=-1:-1,y=-1:-1",
-  "--file", "output.svg"
+  "--range", "x=0:6,y=-1:1",
+  "--file", "output.svg",
+  "--evaluate" // optional flag to output time series data
 ]);
 ```
 
-After successfully running the CLI with valid parameters, a plot in SVG format is generated and saved to the specified file, with a confirmation message logging the file name.
+After successfully running the CLI with valid parameters, a plot in SVG format is generated and saved to the specified file. If the --evaluate flag is provided, the computed time series data is output to the console in JSON format.
 
 ---
 

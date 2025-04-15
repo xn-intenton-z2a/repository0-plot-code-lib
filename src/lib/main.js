@@ -26,12 +26,13 @@ function parseCliArgs(args) {
 const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
   range: z.string().regex(/^([xy]=-?\d+:\-?\d+)(,([xy]=-?\d+:\-?\d+))*$/, { message: "Range must be in the format 'x=start:end,y=start:end'" }),
-  file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" })
+  file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" }),
+  evaluate: z.boolean().optional()
 });
 
 export function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath>");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate]");
     return;
   }
   if (args.length === 0) {
@@ -53,7 +54,7 @@ export function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Extract parameters
-  const { expression, range, file } = result.data;
+  const { expression, range, file, evaluate } = result.data;
 
   // Parse range parameter in the format 'x=min:max,y=min:max'
   const rangeParts = range.split(",");
@@ -106,7 +107,7 @@ export function main(args = []) {
     process.exit(1);
   }
 
-  // Generate sample points
+  // Generate sample points for plotting and time series
   const samples = 100;
   const xValues = [];
   const yValues = [];
@@ -122,6 +123,14 @@ export function main(args = []) {
     }
     xValues.push(xVal);
     yValues.push(yVal);
+  }
+
+  // Create time series data as an array of objects
+  const timeSeriesData = xValues.map((x, i) => ({ x, y: yValues[i] }));
+
+  // If --evaluate flag provided, output the time series data as JSON
+  if (evaluate) {
+    console.log("Time series data:", JSON.stringify(timeSeriesData));
   }
 
   // Determine y range from computed values for proper scaling

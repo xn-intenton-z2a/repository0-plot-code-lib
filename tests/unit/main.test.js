@@ -19,14 +19,12 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", () => {
     const consoleSpy = vi.spyOn(console, "log");
     main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath>");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate]");
     consoleSpy.mockRestore();
   });
 
   test("should validate and print arguments when valid parameters are provided", () => {
     const consoleSpy = vi.spyOn(console, "log");
-    // The function will also generate a file, but we focus on validated output here
-    // Spy on fs.writeFileSync so it doesn't actually create a file
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "output.svg"]);
     expect(consoleSpy).toHaveBeenCalledWith('Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}');
@@ -38,7 +36,6 @@ describe("Default main behavior", () => {
     const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
     try {
-      // Missing --file argument
       main(["--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1"]);
     } catch (e) {
       expect(e.message).toBe("process.exit");
@@ -82,6 +79,28 @@ describe("Default main behavior", () => {
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain("<svg");
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.svg");
+    writeFileSyncSpy.mockRestore();
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("Evaluate functionality", () => {
+  test("should output time series data when --evaluate flag is provided", () => {
+    const consoleSpy = vi.spyOn(console, "log");
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "eval.svg", "--evaluate"]);
+    // Check that time series data is printed
+    const evalCall = consoleSpy.mock.calls.find(call => call[0].startsWith("Time series data:"));
+    expect(evalCall).toBeDefined();
+    const jsonPart = evalCall[1];
+    let data;
+    try {
+      data = JSON.parse(jsonPart);
+    } catch (e) {
+      data = null;
+    }
+    expect(data).toBeInstanceOf(Array);
+    expect(data.length).toBe(100);
     writeFileSyncSpy.mockRestore();
     consoleSpy.mockRestore();
   });
