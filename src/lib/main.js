@@ -32,7 +32,7 @@ const cliSchema = z.object({
 
 export function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics]");
     return;
   }
   if (args.length === 0) {
@@ -41,6 +41,12 @@ export function main(args = []) {
   }
 
   const parsedArgs = parseCliArgs(args);
+
+  // If diagnostics flag is provided, output raw parsed arguments
+  if (parsedArgs.diagnostics) {
+    console.log("Diagnostics - Raw CLI arguments:", JSON.stringify(parsedArgs, null, 2));
+  }
+
   const result = cliSchema.safeParse(parsedArgs);
   if (!result.success) {
     console.error("Error: Invalid arguments.");

@@ -19,7 +19,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", () => {
     const consoleSpy = vi.spyOn(console, "log");
     main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics]");
     consoleSpy.mockRestore();
   });
 
@@ -101,6 +101,22 @@ describe("Evaluate functionality", () => {
     }
     expect(data).toBeInstanceOf(Array);
     expect(data.length).toBe(100);
+    writeFileSyncSpy.mockRestore();
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("Diagnostics functionality", () => {
+  test("should output diagnostic info when '--diagnostics' flag is provided", () => {
+    const consoleSpy = vi.spyOn(console, "log");
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    main(["--diagnostics", "--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "diag.svg"]);
+    // Check that diagnostics information is output
+    const diagCall = consoleSpy.mock.calls.find(call => call[0].includes("Diagnostics - Raw CLI arguments:"));
+    expect(diagCall).toBeDefined();
+    // Also ensure validated output is printed
+    const validatedCall = consoleSpy.mock.calls.find(call => call[0].startsWith("Validated arguments:"));
+    expect(validatedCall).toBeDefined();
     writeFileSyncSpy.mockRestore();
     consoleSpy.mockRestore();
   });
