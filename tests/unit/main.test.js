@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>]");
     consoleSpy.mockRestore();
   });
 
@@ -228,15 +228,16 @@ describe("Additional Math Functions", () => {
 });
 
 describe("CSV Export Functionality", () => {
-  test("should generate and save a CSV file with header and 100 data rows", async () => {
+  test("should generate and save a CSV file with header and data rows matching sample count", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "data.csv"]);
+    await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "data.csv", "--samples", "150"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     const lines = writtenContent.split("\n");
+    // Header plus 150 rows
     expect(lines[0]).toBe("x,y");
-    expect(lines.length).toBe(101);
+    expect(lines.length).toBe(151);
     expect(consoleSpy).toHaveBeenLastCalledWith("Time series CSV exported to data.csv");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
@@ -252,6 +253,25 @@ describe("Custom Canvas Dimensions and Padding Options", () => {
     expect(writtenContent).toContain('<svg width="800" height="600"');
     expect(writtenContent).toContain('<polyline');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to customDimensions.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+describe("Custom Samples Count", () => {
+  test("should override default sample count with custom --samples flag", async () => {
+    const consoleSpy = vi.spyOn(console, "log");
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "customSamples.svg", "--evaluate", "--samples", "50"]);
+    const logCall = consoleSpy.mock.calls.find(call => typeof call[0] === 'string' && call[0].startsWith("Time series data:"));
+    expect(logCall).toBeDefined();
+    const jsonStr = logCall[1] ? logCall[1].trim() : '';
+    let data;
+    try {
+      data = JSON.parse(jsonStr);
+    } catch (e) {
+      data = [];
+    }
+    expect(data.length).toBe(50);
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
