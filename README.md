@@ -8,7 +8,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, and --stroke.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, --stroke, --width, --height, and --padding.
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
@@ -17,6 +17,9 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --diagnostics: (Optional) When provided, the CLI outputs diagnostic details including the raw parsed CLI arguments before proceeding with validation. This aids in debugging.
 - --color: (Optional) A valid CSS color string (e.g., 'red', '#FF0000') used to set the stroke color of the plot. Defaults to 'black' if not provided.
 - --stroke: (Optional) A positive number representing the stroke width of the plot. Defaults to 2 if not provided.
+- --width: (Optional) A positive integer to specify the canvas width of the generated plot. Defaults to 500 if not provided.
+- --height: (Optional) A positive integer to specify the canvas height of the generated plot. Defaults to 500 if not provided.
+- --padding: (Optional) A positive integer to set the padding within the canvas, affecting the plot margins. Defaults to 20 if not provided.
 
 #### Valid Usage Examples
 
@@ -24,7 +27,7 @@ Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>]
 ```
 
 Run the CLI with valid parameters (SVG plot generation) using full range:
@@ -71,6 +74,15 @@ node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file custo
 # Output:
 # Validated arguments: {"expression":"y=cos(x)","range":"x=0:10,y=0:5","file":"custom.svg","color":"blue","stroke":5}
 # Plot saved to custom.svg (with blue stroke and stroke width 5)
+```
+
+Run the CLI with custom canvas dimensions and padding:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file customDimensions.svg --width 800 --height 600 --padding 50
+# Output:
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"customDimensions.svg","width":800,"height":600,"padding":50}
+# Plot saved to customDimensions.svg (with canvas width 800, height 600, and padding 50)
 ```
 
 Run the CLI in diagnostics mode (for debugging):
@@ -158,7 +170,10 @@ main([
   "--evaluate",        // optional flag to output time series data (when not exporting CSV)
   "--diagnostics",     // optional flag to output diagnostic information
   "--color", "green", // optional flag to set the stroke color
-  "--stroke", "3"      // optional flag to set the stroke width
+  "--stroke", "3",    // optional flag to set the stroke width
+  "--width", "800",   // optional custom canvas width
+  "--height", "600",  // optional custom canvas height
+  "--padding", "30"    // optional custom padding
 ]);
 ```
 
