@@ -89,16 +89,19 @@ describe("Default main behavior", () => {
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 
-  test("should not include legend in CSV export even if multiple expressions provided", async () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
-    try {
-      await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:6,y=-1:1", "--file", "multiexpr.csv"]);
-    } catch (e) {
-      expect(e.message).toBe("process.exit");
-    }
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: CSV export does not support multiple expressions.");
-    resetSpies([consoleErrorSpy, processExitSpy]);
+  test("should generate proper CSV export for multiple expressions", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:6,y=-1:1", "--file", "multiexpr.csv", "--samples", "10"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    const lines = writtenContent.split("\n");
+    // header should be x,y1,y2
+    expect(lines[0]).toBe("x,y1,y2");
+    // total lines should be sample count + header
+    expect(lines.length).toBe(11);
+    expect(consoleSpy).toHaveBeenLastCalledWith("Time series CSV exported to multiexpr.csv");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
 
@@ -124,7 +127,7 @@ describe("Evaluate functionality", () => {
 
 describe("Diagnostics functionality", () => {
   test("should output diagnostic info when '--diagnostics' flag is provided", async () => {
-    const consoleSpy = vi.spyOn(console, "log");
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--diagnostics", "--expression", "y=sin(x)", "--range", "x=-1:-1,y=-1:-1", "--file", "diag.svg"]);
     const diagCall = consoleSpy.mock.calls.find(call => call[0].includes("Diagnostics - Raw CLI arguments:"));
@@ -241,7 +244,7 @@ describe("Additional Math Functions", () => {
 });
 
 describe("CSV Export Functionality", () => {
-  test("should generate and save a CSV file with header and data rows matching sample count", async () => {
+  test("should generate and save a CSV file with header and data rows matching sample count for single expression", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "data.csv", "--samples", "150"]);
@@ -327,18 +330,6 @@ describe("Multiple Expressions Functionality", () => {
     expect(writtenContent).toContain('<g id="legend">');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to multiexpr.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
-  });
-
-  test("should error when multiple expressions are used with CSV export", async () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
-    try {
-      await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:6,y=-1:1", "--file", "multiexpr.csv"]);
-    } catch (e) {
-      expect(e.message).toBe("process.exit");
-    }
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: CSV export does not support multiple expressions.");
-    resetSpies([consoleErrorSpy, processExitSpy]);
   });
 
   test("should not include legend in SVG plot when --no-legend flag is provided", async () => {

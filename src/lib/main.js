@@ -81,12 +81,6 @@ export async function main(args = []) {
   // Process multiple expressions separated by semicolon
   const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
 
-  // For CSV export, we decide not to support multiple expressions
-  if (file.endsWith(".csv") && expressionsArray.length > 1) {
-    console.error("Error: CSV export does not support multiple expressions.");
-    process.exit(1);
-  }
-
   // Simulate plot generation message, show only first expression in message if multiple
   console.log(`Generating plot for expression: ${expression} with range: ${range}`);
 
@@ -173,7 +167,6 @@ export async function main(args = []) {
 
   // If --evaluate flag provided and not CSV export, output the time series data as JSON
   if (evaluate && !file.endsWith(".csv")) {
-    // If multiple expressions, output an array of time series data objects
     let outputData;
     if (functionsArray.length === 1) {
       outputData = xValues.map((x, i) => ({ x, y: yValuesArray[0][i] }));
@@ -191,8 +184,22 @@ export async function main(args = []) {
 
   // Process CSV export if applicable
   if (file.endsWith(".csv")) {
-    // In our decision, CSV export does not support multiple expressions
-    const csvContent = "x,y\n" + xValues.map((x, i) => `${x},${yValuesArray[0][i]}`).join("\n");
+    let header = "x";
+    if (functionsArray.length === 1) {
+      header += ",y";
+    } else {
+      for (let i = 0; i < functionsArray.length; i++) {
+        header += `,y${i + 1}`;
+      }
+    }
+    const csvRows = xValues.map((x, i) => {
+      let row = `${x}`;
+      for (let j = 0; j < functionsArray.length; j++) {
+        row += `,${yValuesArray[j][i]}`;
+      }
+      return row;
+    });
+    const csvContent = `${header}\n` + csvRows.join("\n");
     fs.writeFileSync(file, csvContent, "utf8");
     console.log(`Time series CSV exported to ${file}`);
     return;
