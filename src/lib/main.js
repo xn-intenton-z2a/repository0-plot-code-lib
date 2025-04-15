@@ -13,6 +13,7 @@ function parseCliArgs(args) {
     if (args[i].startsWith("--")) {
       const key = args[i].substring(2);
       if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
+        // Convert numeric values if possible
         parsed[key] = args[i + 1];
         i++;
       } else {
@@ -36,12 +37,13 @@ const cliSchema = z.object({
   height: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Height must be a positive integer" })).optional(),
   padding: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Padding must be a positive integer" })).optional(),
   samples: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Samples must be a positive integer" })).optional(),
-  grid: z.boolean().optional()
+  grid: z.boolean().optional(),
+  marker: z.boolean().optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker]");
     return;
   }
   if (args.length === 0) {
@@ -69,7 +71,7 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Destructure parameters
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid } = result.data;
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker } = result.data;
 
   // Simulate plot generation message
   console.log(`Generating plot for expression: ${expression} with range: ${range}`);
@@ -147,7 +149,7 @@ export async function main(args = []) {
   // Create time series data as an array of objects
   const timeSeriesData = xValues.map((x, i) => ({ x, y: yValues[i] }));
 
-  // If --evaluate flag provided, output the time series data as JSON
+  // If --evaluate flag provided, output the time series data as JSON (unless CSV export)
   if (evaluate && !file.endsWith(".csv")) {
     console.log("Time series data:", JSON.stringify(timeSeriesData));
   }
@@ -184,7 +186,7 @@ export async function main(args = []) {
   // Create polyline points string
   const points = xValues.map((x, i) => `${mapX(x)},${mapY(yValues[i])}`).join(" ");
 
-  // Build gridlines if --grid flag is provided and output is SVG/PNG
+  // Build gridlines if --grid flag is provided
   let gridLines = "";
   if (grid) {
     const numGrid = 5;
@@ -200,10 +202,17 @@ export async function main(args = []) {
     }
   }
 
+  // Build marker circles if --marker flag is provided (applies only to graphical outputs)
+  let markerCircles = "";
+  if (marker) {
+    markerCircles = xValues.map((x, i) => `<circle cx="${mapX(x)}" cy="${mapY(yValues[i])}" r="3" fill="${strokeColor}" />`).join("");
+  }
+
   // Build SVG content
   const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="white"/>
   ${gridLines}
+  ${markerCircles}
   <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>
 </svg>`;
 

@@ -8,7 +8,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, --stroke, --width, --height, --padding, --samples, and --grid.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, --stroke, --width, --height, --padding, --samples, --grid, and --marker.
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
@@ -22,6 +22,7 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --padding: (Optional) A positive integer to set the padding within the canvas, affecting the plot margins. Defaults to 20 if not provided.
 - --samples: (Optional) A positive integer specifying the number of sample points to generate the plot. Defaults to 100 if not provided.
 - --grid: (Optional) When provided, gridlines are drawn on the plot. The gridlines are rendered in light gray (#ddd) with a stroke width of 1, providing visual guides without overlapping the plot boundaries.
+- --marker: (Optional) When provided, small circle markers (with a default radius of 3 and using the same stroke color) are drawn at each computed data point on the SVG or PNG plot to enhance visualization.
 
 When all required parameters are provided, the CLI will simulate plot generation by logging a message in the format:
 
@@ -37,7 +38,7 @@ Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid]
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker]
 ```
 
 Run the CLI with valid parameters (SVG plot generation) using full range:
@@ -50,12 +51,12 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file ou
 # Plot saved to output.svg
 ```
 
-Run the CLI with valid parameters (SVG plot generation) using only x-range and enabling gridlines:
+Run the CLI with valid parameters (SVG plot generation) using only x-range, enabling gridlines and markers:
 
 ```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --grid
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --grid --marker
 # Output:
-# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"output.svg","grid":true}
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"output.svg","grid":true,"marker":true}
 # Generating plot for expression: y=sin(x) with range: x=-1:1
 # Plot saved to output.svg
 ```
@@ -67,7 +68,7 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6,y=-1:1" --file eval.
 # Output:
 # Validated arguments: {"expression":"y=sin(x)","range":"x=0:6,y=-1:1","file":"eval.svg","evaluate":true}
 # Generating plot for expression: y=sin(x) with range: x=0:6,y=-1:1
-# Time series data: [ { x: 0, y: 0 }, { x: 0.06, y: 0.06 }, ... 100 data points ... ]
+# Time series data: [ { x: 0, y: 0 }, ... 100 data points ... ]
 # Plot saved to eval.svg
 ```
 
@@ -91,12 +92,12 @@ node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file custo
 # Plot saved to custom.svg
 ```
 
-Run the CLI with custom canvas dimensions, padding, sample count, and grid enabled:
+Run the CLI with custom canvas dimensions, padding, sample count, grid enabled, and markers:
 
 ```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file customDimensions.svg --width 800 --height 600 --padding 50 --samples 150 --grid
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file customDimensions.svg --width 800 --height 600 --padding 50 --samples 150 --grid --marker
 # Output:
-# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"customDimensions.svg","width":800,"height":600,"padding":50,"samples":150,"grid":true}
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:1","file":"customDimensions.svg","width":800,"height":600,"padding":50,"samples":150,"grid":true,"marker":true}
 # Generating plot for expression: y=sin(x) with range: x=-1:1
 # Plot saved to customDimensions.svg
 ```
@@ -142,6 +143,10 @@ Upon executing the command with the required parameters, the CLI now simulates p
   "Generating plot for expression: <expression> with range: <range>"
 
 This provides immediate feedback that the plot is being processed, followed by the final message indicating the file output.
+
+#### New Marker Functionality
+
+When the --marker flag is provided (for SVG or PNG outputs), the CLI will draw small circle markers (radius of 3) at each computed data point using the same stroke color. This enhances the visualization by highlighting individual sample points.
 
 #### New Examples with Additional Math Functions
 
@@ -201,7 +206,8 @@ main([
   "--height", "600",  // optional custom canvas height
   "--padding", "30",  // optional custom padding
   "--samples", "120", // optional custom sample count
-  "--grid"             // optional flag to add gridlines
+  "--grid",            // optional flag to add gridlines
+  "--marker"           // optional flag to add markers at data points
 ]);
 ```
 
