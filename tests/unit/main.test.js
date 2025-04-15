@@ -19,7 +19,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]");
     consoleSpy.mockRestore();
   });
 
@@ -133,6 +133,30 @@ describe("PNG Plot Generation", () => {
     // PNG signature first byte should be 0x89
     expect(writtenContent[0]).toBe(0x89);
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.png");
+    writeFileSyncSpy.mockRestore();
+    consoleSpy.mockRestore();
+  });
+});
+
+describe("Custom Plot Styling", () => {
+  test("should use default stroke and color when not provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log");
+    await main(["--expression", "y=sin(x)", "--range", "x=0:10,y=0:5", "--file", "custom.svg"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain('stroke="black"');
+    expect(writtenContent).toContain('stroke-width="2"');
+    writeFileSyncSpy.mockRestore();
+    consoleSpy.mockRestore();
+  });
+
+  test("should apply custom color and stroke width when provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log");
+    await main(["--expression", "y=cos(x)", "--range", "x=0:10,y=0:5", "--file", "custom.svg", "--color", "blue", "--stroke", "5"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain('stroke="blue"');
+    expect(writtenContent).toContain('stroke-width="5"');
     writeFileSyncSpy.mockRestore();
     consoleSpy.mockRestore();
   });

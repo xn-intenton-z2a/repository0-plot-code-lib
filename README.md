@@ -8,13 +8,15 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate and the --diagnostics flag.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, and --stroke.
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan) are translated for JavaScript evaluation.
 - --range: A string specifying ranges in the format 'x=min:max,y=min:max'. If the min and max values are equal, they are adjusted to provide a workable interval.
 - --file: The output file name which must end with either .svg or .png. When a .png file is specified, the generated SVG plot is converted to PNG using the sharp library.
-- --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generating time series data (an array of { x, y } objects) and outputs it in JSON format in the console.
+- --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generates time series data (an array of { x, y } objects) and outputs it in JSON format in the console.
 - --diagnostics: (Optional) When provided, the CLI outputs diagnostic details including the raw parsed CLI arguments before proceeding with validation. This aids in debugging.
+- --color: (Optional) A valid CSS color string (e.g., 'red', '#FF0000') used to set the stroke color of the plot. Defaults to 'black' if not provided.
+- --stroke: (Optional) A positive number representing the stroke width of the plot. Defaults to 2 if not provided.
 
 #### Valid Usage Examples
 
@@ -22,7 +24,7 @@ Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics]
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]
 ```
 
 Run the CLI with valid parameters (SVG plot generation):
@@ -51,6 +53,15 @@ node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file outpu
 # Output:
 # Validated arguments: {"expression":"y=cos(x)","range":"x=0:10,y=0:5","file":"output.png"}
 # Plot saved to output.png
+```
+
+Run the CLI with custom plot styling:
+
+```sh
+node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file custom.svg --color blue --stroke 5
+# Output:
+# Validated arguments: {"expression":"y=cos(x)","range":"x=0:10,y=0:5","file":"custom.svg","color":"blue","stroke":5}
+# Plot saved to custom.svg (with blue stroke and stroke width 5)
 ```
 
 Run the CLI in diagnostics mode (for debugging):
@@ -90,8 +101,10 @@ main([
   "--expression", "y=sin(x)",
   "--range", "x=0:6,y=-1:1",
   "--file", "output.svg", // or use output.png for PNG output
-  "--evaluate", // optional flag to output time series data
-  "--diagnostics" // optional flag to output diagnostic information
+  "--evaluate",        // optional flag to output time series data
+  "--diagnostics",     // optional flag to output diagnostic information
+  "--color", "green", // optional flag to set the stroke color
+  "--stroke", "3"      // optional flag to set the stroke width
 ]);
 ```
 

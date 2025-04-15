@@ -28,12 +28,14 @@ const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
   range: z.string().regex(/^([xy]=-?\d+:\-?\d+)(,([xy]=-?\d+:\-?\d+))*$/, { message: "Range must be in the format 'x=start:end,y=start:end'" }),
   file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" }),
-  evaluate: z.boolean().optional()
+  evaluate: z.boolean().optional(),
+  color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
+  stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]");
     return;
   }
   if (args.length === 0) {
@@ -61,7 +63,11 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Extract parameters
-  const { expression, range, file, evaluate } = result.data;
+  const { expression, range, file, evaluate, color, stroke } = result.data;
+
+  // Determine styling options with defaults
+  const strokeColor = color || "black";
+  const strokeWidth = stroke || 2;
 
   // Parse range parameter in the format 'x=min:max,y=min:max'
   const rangeParts = range.split(",");
@@ -159,7 +165,7 @@ export async function main(args = []) {
   // Build SVG content
   const svgContent = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="white"/>
-  <polyline points="${points}" fill="none" stroke="black" stroke-width="2"/>
+  <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>
 </svg>`;
 
   // Write file depending on the extension
