@@ -306,3 +306,31 @@ describe("Marker functionality", () => {
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
+
+// Tests for Multiple Expressions
+describe("Multiple Expressions Functionality", () => {
+  test("should generate SVG with multiple polyline elements for multiple expressions", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "multiexpr.svg"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    // Expect at least two polyline elements
+    const polylineMatches = writtenContent.match(/<polyline/g);
+    expect(polylineMatches).not.toBeNull();
+    expect(polylineMatches.length).toBeGreaterThanOrEqual(2);
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to multiexpr.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+
+  test("should error when multiple expressions are used with CSV export", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
+    try {
+      await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:6,y=-1:1", "--file", "multiexpr.csv"]);
+    } catch (e) {
+      expect(e.message).toBe("process.exit");
+    }
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: CSV export does not support multiple expressions.");
+    resetSpies([consoleErrorSpy, processExitSpy]);
+  });
+});

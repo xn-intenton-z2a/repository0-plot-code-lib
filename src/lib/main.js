@@ -73,11 +73,20 @@ export async function main(args = []) {
   // Destructure parameters
   const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker } = result.data;
 
-  // Simulate plot generation message
+  // Process multiple expressions separated by semicolon
+  const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
+
+  // For CSV export, we decide not to support multiple expressions
+  if (file.endsWith(".csv") && expressionsArray.length > 1) {
+    console.error("Error: CSV export does not support multiple expressions.");
+    process.exit(1);
+  }
+
+  // Simulate plot generation message, show only first expression in message if multiple
   console.log(`Generating plot for expression: ${expression} with range: ${range}`);
 
   // Determine styling options with defaults
-  const strokeColor = color || "black";
+  const strokeColorGlobal = color || "black";
   const strokeWidth = stroke || 2;
 
   // Determine canvas dimensions and padding with defaults
@@ -105,58 +114,80 @@ export async function main(args = []) {
     xMax = xMax + 1;
   }
 
-  // Process expression: remove leading 'y=' if present and translate basic math functions
-  let procExpr = expression;
-  if (procExpr.startsWith("y=")) {
-    procExpr = procExpr.substring(2);
-  }
-  // Replace common math functions with JavaScript's Math equivalents
-  procExpr = procExpr.replace(/sin\(/g, "Math.sin(")
-                     .replace(/cos\(/g, "Math.cos(")
-                     .replace(/tan\(/g, "Math.tan(")
-                     .replace(/sqrt\(/g, "Math.sqrt(")
-                     .replace(/log\(/g, "Math.log(")
-                     .replace(/exp\(/g, "Math.exp(");
-
-  let func;
-  try {
-    func = new Function("x", "return " + procExpr);
-  } catch (err) {
-    console.error("Error creating function from expression:", err);
-    process.exit(1);
-  }
-
-  // Use provided samples value or default to 100
+  // Pre-compute x values
   const totalSamples = samples || 100;
-
-  // Generate sample points for plotting and time series
   const xValues = [];
-  const yValues = [];
   const step = (xMax - xMin) / (totalSamples - 1);
   for (let i = 0; i < totalSamples; i++) {
-    const xVal = xMin + i * step;
-    let yVal;
+    xValues.push(xMin + i * step);
+  }
+
+  // Function to process an expression string: remove leading 'y=' and replace math functions
+  function processExpression(expr) {
+    let procExpr = expr;
+    if (procExpr.startsWith("y=")) {
+      procExpr = procExpr.substring(2);
+    }
+    procExpr = procExpr.replace(/sin\(/g, "Math.sin(")
+                       .replace(/cos\(/g, "Math.cos(")
+                       .replace(/tan\(/g, "Math.tan(")
+                       .replace(/sqrt\(/g, "Math.sqrt(")
+                       .replace(/log\(/g, "Math.log(")
+                       .replace(/exp\(/g, "Math.exp(");
+    return procExpr;
+  }
+
+  // Evaluate y values for each expression
+  const functionsArray = [];
+  const yValuesArray = [];
+
+  for (const expStr of expressionsArray) {
+    const procExpr = processExpression(expStr);
+    let func;
     try {
-      yVal = func(xVal);
+      func = new Function("x", "return " + procExpr);
     } catch (err) {
-      console.error("Error evaluating expression at x =", xVal, err);
+      console.error("Error creating function from expression:", err);
       process.exit(1);
     }
-    xValues.push(xVal);
-    yValues.push(yVal);
+    functionsArray.push(func);
+    // Compute y values for this expression
+    const yVals = [];
+    for (const x of xValues) {
+      let yVal;
+      try {
+        yVal = func(x);
+      } catch (err) {
+        console.error("Error evaluating expression at x =", x, err);
+        process.exit(1);
+      }
+      yVals.push(yVal);
+    }
+    yValuesArray.push(yVals);
   }
 
-  // Create time series data as an array of objects
-  const timeSeriesData = xValues.map((x, i) => ({ x, y: yValues[i] }));
-
-  // If --evaluate flag provided, output the time series data as JSON (unless CSV export)
+  // If --evaluate flag provided and not CSV export, output the time series data as JSON
   if (evaluate && !file.endsWith(".csv")) {
-    console.log("Time series data:", JSON.stringify(timeSeriesData));
+    // If multiple expressions, output an array of time series data objects
+    let outputData;
+    if (functionsArray.length === 1) {
+      outputData = xValues.map((x, i) => ({ x, y: yValuesArray[0][i] }));
+    } else {
+      outputData = xValues.map((x, i) => {
+        const obj = { x };
+        yValuesArray.forEach((yVals, idx) => {
+          obj[`y${idx + 1}`] = yVals[i];
+        });
+        return obj;
+      });
+    }
+    console.log("Time series data:", JSON.stringify(outputData));
   }
 
-  // Check if output should be CSV export
+  // Process CSV export if applicable
   if (file.endsWith(".csv")) {
-    const csvContent = "x,y\n" + timeSeriesData.map(({ x, y }) => `${x},${y}`).join("\n");
+    // In our decision, CSV export does not support multiple expressions
+    const csvContent = "x,y\n" + xValues.map((x, i) => `${x},${yValuesArray[0][i]}`).join("\n");
     fs.writeFileSync(file, csvContent, "utf8");
     console.log(`Time series CSV exported to ${file}`);
     return;
@@ -175,16 +206,18 @@ export async function main(args = []) {
     computedYMin = yMinProvided;
     computedYMax = yMaxProvided;
   } else {
-    computedYMin = Math.min(...yValues);
-    computedYMax = Math.max(...yValues);
+    // Compute global min and max across all expressions
+    const allY = yValuesArray.flat();
+    computedYMin = Math.min(...allY);
+    computedYMax = Math.max(...allY);
   }
 
   // Map x and y values to canvas coordinates
   const mapX = (x) => canvasPadding + ((x - xMin) / (xMax - xMin)) * (canvasWidth - 2 * canvasPadding);
   const mapY = (y) => canvasHeight - canvasPadding - ((y - computedYMin) / (computedYMax - computedYMin)) * (canvasHeight - 2 * canvasPadding);
 
-  // Create polyline points string
-  const points = xValues.map((x, i) => `${mapX(x)},${mapY(yValues[i])}`).join(" ");
+  // Default color palette if multiple expressions and no global color provided
+  const defaultPalette = ["black", "red", "blue", "green", "orange"];
 
   // Build gridlines if --grid flag is provided
   let gridLines = "";
@@ -202,18 +235,28 @@ export async function main(args = []) {
     }
   }
 
-  // Build marker circles if --marker flag is provided (applies only to graphical outputs)
-  let markerCircles = "";
-  if (marker) {
-    markerCircles = xValues.map((x, i) => `<circle cx="${mapX(x)}" cy="${mapY(yValues[i])}" r="3" fill="${strokeColor}" />`).join("");
+  // Build SVG content with multiple polylines
+  let polylinesSvg = "";
+  let markersSvg = "";
+  for (let idx = 0; idx < functionsArray.length; idx++) {
+    const currentYValues = yValuesArray[idx];
+    const points = xValues.map((x, i) => `${mapX(x)},${mapY(currentYValues[i])}`).join(" ");
+    // Determine color for this polyline
+    const currentColor = color ? strokeColorGlobal : defaultPalette[idx % defaultPalette.length];
+    polylinesSvg += `<polyline points="${points}" fill="none" stroke="${currentColor}" stroke-width="${strokeWidth}"/>`;
+    if (marker) {
+      markersSvg += xValues.map((x, i) => `<circle cx="${mapX(x)}" cy="${mapY(currentYValues[i])}" r="3" fill="${currentColor}" />`).join("");
+    }
   }
 
-  // Build SVG content
+  // Build marker circles for single expression if marker flag is provided (legacy code removed as it's integrated above)
+
+  // Build complete SVG content
   const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="white"/>
   ${gridLines}
-  ${markerCircles}
-  <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>
+  ${markersSvg}
+  ${polylinesSvg}
 </svg>`;
 
   // Write file depending on the extension
