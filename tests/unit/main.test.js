@@ -184,3 +184,31 @@ describe("CLI JSON Output", () => {
     expect(existsSync(tempJsonFile)).toBe(false);
   });
 });
+
+describe("CLI CSV Output", () => {
+  test("should output valid CSV with header and 5 data rows and not create a file", () => {
+    const tempCsvFile = "tempCsvOutput.svg"; // file argument is ignored in CSV mode
+    const args = [
+      "--expression", "y=cos(x)",
+      "--range", "x=0:4,y=-1:1",
+      "--file", tempCsvFile,
+      "--csv"
+    ];
+    let output = "";
+    const originalLog = console.log;
+    console.log = (msg) => { output += msg + "\n"; };
+    main(args);
+    console.log = originalLog;
+
+    // CSV should start with header "x,y" and have 6 lines total (header + 5 data rows)
+    const lines = output.trim().split("\n");
+    expect(lines[0]).toBe("x,y");
+    expect(lines.length).toBe(6);
+    // Each data row should contain two comma separated values
+    for (let i = 1; i < lines.length; i++) {
+      expect(lines[i].split(",").length).toBe(2);
+    }
+    // Ensure no file is created when --csv flag is used
+    expect(existsSync(tempCsvFile)).toBe(false);
+  });
+});
