@@ -1,14 +1,19 @@
-# Plotly.js Documentation
-## https://plotly.com/javascript/
-Plotly.js is a high-level, declarative charting library that enables interactive plotting and data visualization. Its documentation offers valuable insights into building complex, dynamic plots and handling data interactions, which can inspire further enhancements for our CLI plotting tool.
-## MIT
+# D3.js Documentation
+## https://d3js.org/
+D3.js is a powerful JavaScript library for producing dynamic, interactive data visualizations in web browsers. Its extensive documentation covers selections, data joins, transitions, and more, offering valuable insights for handling DOM manipulation and animations in our CLI plotting tool.
+## BSD-3-Clause
 
-# Apache ECharts Documentation
-## https://echarts.apache.org/en/index.html
-Apache ECharts is a powerful visualization library that provides detailed guidance on creating interactive and responsive charts. Its extensive documentation covers performance optimizations and customization options which can benefit our approach to handling multiple expressions and real-time data visualization.
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/
+Vega-Lite provides a high-level grammar for interactive graphics that simplifies the process of creating complex visualizations. Its clear and concise documentation is a strong resource for understanding declarative chart specifications, complementing our approach to plotting formula visualisations.
 ## Apache-2.0
 
-# SVG.js Documentation
-## https://svgjs.dev/docs/3.0/
-SVG.js is a lightweight library for manipulating SVG documents. Its clear and concise documentation highlights efficient methods for creating and animating SVG elements, offering inspiration for advanced SVG generation and interactivity in our plotting library.
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js offers a simple yet flexible JavaScript charting library with extensive documentation on configuration options, chart types, and data handling. Its user-friendly guides can serve as inspiration for enhancing our CLI’s plotting and customization features.
+## MIT
+
+# Zod Documentation
+## https://zod.dev/
+Zod is a TypeScript-first schema validation library that provides declarative validation and parsing. Its comprehensive documentation is especially relevant for our CLI parameter validation needs using zod, ensuring robust and maintainable input handling.
 ## MIT
