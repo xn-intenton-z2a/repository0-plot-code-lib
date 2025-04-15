@@ -12,7 +12,7 @@ This CLI tool allows you to generate a plot from a mathematical expression and a
 - --range: The range of values for the plot. Use the format with axis assignments (e.g., "x=-1:1,y=-1:1").
 - --file: The output file path where the plot will be written. The file must have a .svg or .png extension.
 
-Additionally, a new flag has been added:
+Additionally, the following flags can be provided:
 
 - --json: If provided, the CLI will output a JSON representation of the plot generation process to stdout instead of writing the output to a file. The JSON object will include the following keys:
   - message: A success message (e.g., "Plot generated")
@@ -20,6 +20,10 @@ Additionally, a new flag has been added:
   - range: The provided range
   - file: The intended output file name
   - timeSeriesData: The computed time series data as an array of objects
+
+- --csv: If provided, the CLI will output the generated time series data in CSV format to stdout, bypassing any file writing. The CSV output includes a header line "x,y" followed by one line per data point with x and y values separated by a comma.
+
+**Note:** If both --csv and --json flags are provided, the CSV output takes precedence.
 
 When run without any arguments, the CLI displays a usage message. For example:
 
@@ -47,19 +51,21 @@ Obtain a JSON representation of the plot generation process (no file output):
 node src/lib/main.js --expression "y=tan(x)" --range "x=1:10,y=-1:1" --file output.svg --json
 ```
 
-The JSON output will look similar to:
+Obtain a CSV output of the time series data (no file output):
 
-```json
-{
-  "message": "Plot generated",
-  "expression": "y=tan(x)",
-  "range": "x=1:10,y=-1:1",
-  "file": "output.svg",
-  "timeSeriesData": [
-    { "x": 1, "y": <value> },
-    ...
-  ]
-}
+```bash
+node src/lib/main.js --expression "y=cos(x)" --range "x=0:4,y=-1:1" --file output.svg --csv
+```
+
+The CSV output will look similar to:
+
+```
+x,y
+0,0
+1,0.8414709848078965
+2,0.9092974268256817
+3,0.1411200080598672
+4,-0.7568024953079282
 ```
 
 If any of the parameters are invalid (for example, an empty expression, an improperly formatted range, or an unsupported file extension),

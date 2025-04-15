@@ -7,9 +7,9 @@ import { z } from "zod";
 import { evaluate } from "mathjs";
 
 /**
- * Parses CLI arguments to extract --expression, --range, --file, and --json options.
+ * Parses CLI arguments to extract --expression, --range, --file, --json, and --csv options.
  * @param {string[]} args - Array of command-line arguments
- * @returns {object} An object with expression, range, file, and json if present
+ * @returns {object} An object with expression, range, file, json, and csv if present
  */
 function parseArgs(args) {
   const result = {};
@@ -26,6 +26,8 @@ function parseArgs(args) {
       i++;
     } else if (arg === "--json") {
       result.json = true;
+    } else if (arg === "--csv") {
+      result.csv = true;
     }
   }
   return result;
@@ -39,7 +41,8 @@ const cliOptionsSchema = z.object({
     "Range must be in the format 'x=min:max,y=min:max'"
   ),
   file: z.string().regex(/\.(svg|png)$/i, "File must have .svg or .png extension"),
-  json: z.boolean().optional()
+  json: z.boolean().optional(),
+  csv: z.boolean().optional()
 });
 
 /**
@@ -76,10 +79,22 @@ function generateTimeSeriesData(expression, rangeStr) {
   return JSON.stringify(points, null, 2);
 }
 
+function jsonToCSV(jsonData) {
+  let data;
+  try {
+    data = JSON.parse(jsonData);
+  } catch (e) {
+    throw new Error("Invalid JSON data");
+  }
+  const header = "x,y";
+  const rows = data.map(point => `${point.x},${point.y}`);
+  return [header, ...rows].join("\n");
+}
+
 export function main(args = []) {
   // If no arguments are provided, print usage information and exit.
   if (args.length === 0) {
-    console.log("Run with: node src/lib/main.js --expression <expression> --range <range> --file <file> [--json]");
+    console.log("Run with: node src/lib/main.js --expression <expression> --range <range> --file <file> [--json] [--csv]");
     return;
   }
 
@@ -98,6 +113,17 @@ export function main(args = []) {
     timeSeriesData = generateTimeSeriesData(cliOptions.expression, cliOptions.range);
   } catch (e) {
     console.error(`Failed to generate time series data: ${e.message}`);
+    return;
+  }
+
+  // If --csv flag is provided, output CSV to stdout and bypass file writing
+  if (cliOptions.csv) {
+    try {
+      const csvOutput = jsonToCSV(timeSeriesData);
+      console.log(csvOutput);
+    } catch (e) {
+      console.error(`Failed to export CSV: ${e.message}`);
+    }
     return;
   }
 
