@@ -24,13 +24,9 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --grid: (Optional) When provided, gridlines are drawn on the plot. The gridlines are rendered in light gray (#ddd) with a stroke width of 1.
 - --marker: (Optional) When provided, small circle markers (with a default radius of 3) are drawn at each computed data point using the stroke color.
 
-When all required parameters are provided, the CLI will simulate plot generation by logging a message in the format:
+#### New Legend Feature for Multiple Expressions
 
-  "Generating plot for expression: <expression> with range: <range>"
-
-followed by the final plot output message:
-
-  "Plot saved to <file>"
+When multiple expressions are provided (separated by a semicolon) and the output is SVG or PNG, an SVG legend is generated. The legend is positioned in the top-right corner of the canvas and displays a color swatch along with the corresponding expression text for each curve, making it easier to distinguish between plots.
 
 #### Valid Usage Examples
 
@@ -51,21 +47,22 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file ou
 # Plot saved to output.svg
 ```
 
-Run the CLI with multiple expressions (SVG plot generation):
+Run the CLI with multiple expressions (SVG plot generation with legend):
 
 ```sh
-node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:10,y=-1:1" --file output.svg
+node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:10,y=-1:1" --file multi.svg
 # Output:
-# Validated arguments: {"expression":"y=sin(x);y=cos(x)","range":"x=0:10,y=-1:1","file":"output.svg"}
+# Validated arguments: {"expression":"y=sin(x);y=cos(x)","range":"x=0:10,y=-1:1","file":"multi.svg"}
 # Generating plot for expression: y=sin(x);y=cos(x) with range: x=0:10,y=-1:1
-# Plot saved to output.svg
+# Plot saved to multi.svg
+# The generated SVG includes a legend in the top-right corner showing the color swatch and label for each expression.
 ```
 
 Run the CLI with multiple expressions and custom styling:
 
 ```sh
-node src/lib/main.js --expression "y=sin(x);y=tan(x)" --range "x=0:10,y=-5:5" --file output.svg --color purple --stroke 3
-# Note: When a custom color is provided, it is applied to all expressions.
+node src/lib/main.js --expression "y=sin(x);y=tan(x)" --range "x=0:10,y=-5:5" --file multi.svg --color purple --stroke 3
+# Note: When a custom color is provided, it is applied to all curves and the legend entries will use the custom color.
 ```
 
 Run the CLI with PNG output (PNG plot generation):
@@ -95,34 +92,6 @@ node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:6,y=-1:1" --f
 # Error: CSV export does not support multiple expressions.
 ```
 
-#### New Simulation Message
-
-Upon executing the command with the required parameters, the CLI now simulates plot generation by logging a message in the format:
-
-  "Generating plot for expression: <expression> with range: <range>"
-
-This provides immediate feedback that the plot is being processed, followed by the final file output message.
-
-#### New Marker Functionality
-
-When the --marker flag is provided (for SVG or PNG outputs), the CLI draws small circle markers at each data point using the stroke color.
-
-#### New Examples with Multiple Expressions
-
-Using multiple expressions with default color palette:
-
-```sh
-node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:10,y=-1:1" --file multi.svg
-# Generates a plot with two curves, the first in black and the second in red (by default).
-```
-
-Using multiple expressions with a custom color (applied to all curves):
-
-```sh
-node src/lib/main.js --expression "y=sin(x);y=tan(x)" --range "x=0:10,y=-5:5" --file multi.svg --color green
-# Both curves will be rendered in green.
-```
-
 ### Programmatic
 
 You can also use the library programmatically:
@@ -148,9 +117,3 @@ main([
 ```
 
 After successfully running the CLI with valid parameters, a plot is generated and saved to the specified file, or CSV data is exported if .csv is used. Note that CSV export supports only a single expression.
-
----
-
-## License
-
-MIT

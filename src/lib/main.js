@@ -249,10 +249,33 @@ export async function main(args = []) {
     }
   }
 
+  // Build legend if multiple expressions and output is SVG/PNG
+  let legendSvg = "";
+  if (functionsArray.length > 1) {
+    // Position legend at top right
+    const legendX = canvasWidth - canvasPadding - 150;
+    let legendY = canvasPadding + 10;
+    const rectSize = 10;
+    const textSpacing = 5;
+    const verticalSpacing = 20;
+    let legendItems = "";
+    for (let idx = 0; idx < expressionsArray.length; idx++) {
+      const exprLabel = expressionsArray[idx];
+      const currentColor = color ? strokeColorGlobal : defaultPalette[idx % defaultPalette.length];
+      legendItems += `<g class="legend-item" transform="translate(${legendX}, ${legendY})">
+        <rect width="${rectSize}" height="${rectSize}" fill="${currentColor}" />
+        <text x="${rectSize + textSpacing}" y="${rectSize}" fill="black" font-size="12">${exprLabel}</text>
+      </g>`;
+      legendY += verticalSpacing;
+    }
+    legendSvg = `<g id="legend">${legendItems}</g>`;
+  }
+
   // Build complete SVG content
   const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
   <rect width="100%" height="100%" fill="white"/>
   ${gridLines}
+  ${legendSvg}
   ${markersSvg}
   ${polylinesSvg}
 </svg>`;

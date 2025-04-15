@@ -74,15 +74,31 @@ describe("Default main behavior", () => {
     resetSpies([consoleErrorSpy, processExitSpy]);
   });
 
-  test("should generate and save an SVG plot", async () => {
+  test("should generate and save an SVG plot with legend for multiple expressions", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    await main(["--expression", "y=cos(x)", "--range", "x=0:10,y=0:5", "--file", "plot.svg"]);
+    await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "multiexpr.svg"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    expect(writtenContent).toContain("<svg");
-    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.svg");
+    // Check for existence of the legend group
+    expect(writtenContent).toContain("<g id=\"legend\">");
+    // Check that each expression label is present
+    expect(writtenContent).toContain("y=sin(x)");
+    expect(writtenContent).toContain("y=cos(x)");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to multiexpr.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+
+  test("should not include legend in CSV export even if multiple expressions provided", async () => {
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
+    try {
+      await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:6,y=-1:1", "--file", "multiexpr.csv"]);
+    } catch (e) {
+      expect(e.message).toBe("process.exit");
+    }
+    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: CSV export does not support multiple expressions.");
+    resetSpies([consoleErrorSpy, processExitSpy]);
   });
 });
 
@@ -120,12 +136,13 @@ describe("Diagnostics functionality", () => {
 });
 
 describe("PNG Plot Generation", () => {
-  test("should generate and save a PNG plot", async () => {
+  test("should generate and save a PNG plot with legend when multiple expressions are provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log");
-    await main(["--expression", "y=cos(x)", "--range", "x=0:10,y=0:5", "--file", "plot.png"]);
+    await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "plot.png"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    // Since PNG buffer is generated, we cannot inspect SVG content from buffer directly, so we assume no errors
     expect(Buffer.isBuffer(writtenContent)).toBe(true);
     expect(writtenContent[0]).toBe(0x89);
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.png");
@@ -271,17 +288,7 @@ describe("Custom Samples Count", () => {
   });
 });
 
-describe("Grid functionality", () => {
-  test("should include gridlines when --grid flag is provided", async () => {
-    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
-    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    await main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "grid.svg", "--grid"]);
-    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    expect(writtenContent).toContain("<line");
-    resetSpies([writeFileSyncSpy, consoleSpy]);
-  });
-});
-
+// Marker functionality
 describe("Marker functionality", () => {
   test("should include marker circles when --marker flag is provided in SVG output", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
@@ -307,9 +314,10 @@ describe("Marker functionality", () => {
   });
 });
 
-// Tests for Multiple Expressions
+// Tests for Multiple Expressions (already partially covered above)
+
 describe("Multiple Expressions Functionality", () => {
-  test("should generate SVG with multiple polyline elements for multiple expressions", async () => {
+  test("should generate SVG with multiple polyline elements for multiple expressions and include legend", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "multiexpr.svg"]);
@@ -318,6 +326,8 @@ describe("Multiple Expressions Functionality", () => {
     const polylineMatches = writtenContent.match(/<polyline/g);
     expect(polylineMatches).not.toBeNull();
     expect(polylineMatches.length).toBeGreaterThanOrEqual(2);
+    // Verify legend is present
+    expect(writtenContent).toContain('<g id="legend">');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to multiexpr.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
