@@ -1,82 +1,114 @@
 # repository0-plot-code-lib
 
-"_Be a go-to plot library with a CLI, be the jq of formulae visualisations._"
+_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ---
 
-## CLI Usage
+## Usage
 
-This CLI tool allows you to generate a plot from a mathematical expression and a range of values. It requires three mandatory arguments:
+### CLI
 
-- --expression: The mathematical expression to plot. Example: "y=sin(x)".
-- --range: The range of values for the plot. Use the format with axis assignments (e.g., "x=-1:1,y=-1:1").
-- --file: The output file path where the plot will be written. The file must have a .svg or .png extension.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --color, and --stroke.
 
-Additionally, the following flags can be provided:
+- --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan) are translated for JavaScript evaluation.
+- --range: A string specifying ranges in the format 'x=min:max,y=min:max'. If the min and max values are equal, they are adjusted to provide a workable interval.
+- --file: The output file name which must end with either .svg or .png. When a .png file is specified, the generated SVG plot is converted to PNG using the sharp library.
+- --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generates time series data (an array of { x, y } objects) and outputs it in JSON format in the console.
+- --diagnostics: (Optional) When provided, the CLI outputs diagnostic details including the raw parsed CLI arguments before proceeding with validation. This aids in debugging.
+- --color: (Optional) A valid CSS color string (e.g., 'red', '#FF0000') used to set the stroke color of the plot. Defaults to 'black' if not provided.
+- --stroke: (Optional) A positive number representing the stroke width of the plot. Defaults to 2 if not provided.
 
-- --json: If provided, the CLI will output a JSON representation of the plot generation process to stdout instead of writing the output to a file. The JSON object will include the following keys:
-  - message: A success message (e.g., "Plot generated")
-  - expression: The provided mathematical expression
-  - range: The provided range
-  - file: The intended output file name
-  - timeSeriesData: The computed time series data as an array of objects
+#### Valid Usage Examples
 
-- --csv: If provided, the CLI will output the generated time series data in CSV format to stdout, bypassing any file writing. The CSV output includes a header line "x,y" followed by one line per data point with x and y values separated by a comma.
+Display help information:
 
-**Note:** If both --csv and --json flags are provided, the CSV output takes precedence.
-
-### New Behavior for SVG Outputs
-
-For SVG outputs, the tool now computes the time series data by sampling the provided mathematical expression over the x-range (using 100 sample points) and maps these values to the SVG coordinate space (with a default viewBox of 200 x 100). The resulting points are rendered as a polyline element with styling attributes (stroke, stroke-width, and no fill) embedded in the SVG output, in addition to the existing text element.
-
-### Examples
-
-Generate an SVG plot with embedded time series data (file output):
-
-```bash
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
+```sh
+node src/lib/main.js --help
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]
 ```
 
-The resulting SVG will include both a text element and a polyline element, for example:
+Run the CLI with valid parameters (SVG plot generation):
 
-```xml
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
-  <text x="10" y="20">Plot generated for expression: y=sin(x) with range: x=-1:1,y=-1:1</text>
-  <polyline points="..." stroke="blue" stroke-width="2" fill="none" />
-</svg>
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
+# Output:
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}
+# Plot saved to output.svg
 ```
 
-Generate a PNG plot with embedded time series data (file output):
+Run the CLI with evaluation to generate time series data:
 
-```bash
-node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=-2:2" --file output.png
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6,y=-1:1" --file eval.svg --evaluate
+# Output:
+# Validated arguments: {"expression":"y=sin(x)","range":"x=0:6,y=-1:1","file":"eval.svg","evaluate":true}
+# Time series data: [ { x: 0, y: 0 }, { x: 0.06, y: 0.06 }, ... 100 data points ... ]
+# Plot saved to eval.svg
 ```
 
-Obtain a JSON representation of the plot generation process (no file output):
+Run the CLI with PNG output (PNG plot generation):
 
-```bash
-node src/lib/main.js --expression "y=tan(x)" --range "x=1:10,y=-1:1" --file output.svg --json
+```sh
+node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file output.png
+# Output:
+# Validated arguments: {"expression":"y=cos(x)","range":"x=0:10,y=0:5","file":"output.png"}
+# Plot saved to output.png
 ```
 
-Obtain a CSV output of the time series data (no file output):
+Run the CLI with custom plot styling:
 
-```bash
-node src/lib/main.js --expression "y=cos(x)" --range "x=0:4,y=-1:1" --file output.svg --csv
+```sh
+node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=0:5" --file custom.svg --color blue --stroke 5
+# Output:
+# Validated arguments: {"expression":"y=cos(x)","range":"x=0:10,y=0:5","file":"custom.svg","color":"blue","stroke":5}
+# Plot saved to custom.svg (with blue stroke and stroke width 5)
 ```
 
-The CSV output will look similar to:
+Run the CLI in diagnostics mode (for debugging):
 
-```
-x,y
-0,0
-1,0.8414709848078965
-2,0.9092974268256817
-3,0.1411200080598672
-4,-0.7568024953079282
+```sh
+node src/lib/main.js --diagnostics --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg
+# Output:
+# Diagnostics - Raw CLI arguments: { ...raw parsed arguments... }
+# Validated arguments: {"expression":"y=sin(x)","range":"x=-1:-1,y=-1:-1","file":"output.svg"}
+# Plot saved to output.svg
 ```
 
-If any of the parameters are invalid (for example, an empty expression, an improperly formatted range, or an unsupported file extension),
-the tool will output an error message indicating the issue and terminate without creating a file.
+#### Invalid Usage Examples
+
+Missing a required parameter:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1"
+# Output: Error: Invalid arguments.
+```
+
+Malformed range or wrong file extension:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "invalid" --file output.txt
+# Output: Error: Invalid arguments.
+```
+
+### Programmatic
+
+You can also use the library programmatically:
+
+```js
+import { main } from "@src/lib/main.js";
+
+main([
+  "--expression", "y=sin(x)",
+  "--range", "x=0:6,y=-1:1",
+  "--file", "output.svg", // or use output.png for PNG output
+  "--evaluate",        // optional flag to output time series data
+  "--diagnostics",     // optional flag to output diagnostic information
+  "--color", "green", // optional flag to set the stroke color
+  "--stroke", "3"      // optional flag to set the stroke width
+]);
+```
+
+After successfully running the CLI with valid parameters, a plot in SVG or PNG format is generated and saved to the specified file. If the --evaluate flag is provided, the computed time series data is output to the console in JSON format. When --diagnostics is enabled, raw parsed CLI argument information is displayed to assist with debugging.
 
 ---
 

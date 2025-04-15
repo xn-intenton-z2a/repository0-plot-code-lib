@@ -2,213 +2,192 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
-import { writeFileSync } from "fs";
 import { z } from "zod";
-import { evaluate } from "mathjs";
+import fs from "fs";
+import sharp from "sharp";
 
-/**
- * Parses CLI arguments to extract --expression, --range, --file, --json, and --csv options.
- * @param {string[]} args - Array of command-line arguments
- * @returns {object} An object with expression, range, file, json, and csv if present
- */
-function parseArgs(args) {
-  const result = {};
+// Function to convert CLI arguments array to an object mapping flags to values
+function parseCliArgs(args) {
+  const parsed = {};
   for (let i = 0; i < args.length; i++) {
-    const arg = args[i];
-    if (arg === "--expression") {
-      result.expression = args[i + 1];
-      i++;
-    } else if (arg === "--range") {
-      result.range = args[i + 1];
-      i++;
-    } else if (arg === "--file") {
-      result.file = args[i + 1];
-      i++;
-    } else if (arg === "--json") {
-      result.json = true;
-    } else if (arg === "--csv") {
-      result.csv = true;
+    if (args[i].startsWith("--")) {
+      const key = args[i].substring(2);
+      if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
+        parsed[key] = args[i + 1];
+        i++;
+      } else {
+        parsed[key] = true;
+      }
     }
   }
-  return result;
+  return parsed;
 }
 
-// Define schema for CLI options using zod
-const cliOptionsSchema = z.object({
-  expression: z.string().min(1, "Expression cannot be empty"),
-  range: z.string().regex(
-    /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/,
-    "Range must be in the format 'x=min:max,y=min:max'"
-  ),
-  file: z.string().regex(/\.(svg|png)$/i, "File must have .svg or .png extension"),
-  json: z.boolean().optional(),
-  csv: z.boolean().optional()
+// Define the CLI schema using zod
+const cliSchema = z.object({
+  expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
+  range: z.string().regex(/^([xy]=-?\d+:\-?\d+)(,([xy]=-?\d+:\-?\d+))*$/, { message: "Range must be in the format 'x=start:end,y=start:end'" }),
+  file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" }),
+  evaluate: z.boolean().optional(),
+  color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
+  stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional()
 });
 
-/**
- * Generates time series data from a mathematical expression and a range string.
- * The range string format should be "x=min:max,y=min:max".
- * It generates 5 evenly spaced x-values between min and max of x and computes y using mathjs.
- * @param {string} expression - The mathematical expression (e.g., "y=sin(x)")
- * @param {string} rangeStr - The range string (e.g., "x=-1:1,y=-1:1")
- * @returns {string} - JSON string of the computed time series data
- */
-function generateTimeSeriesData(expression, rangeStr) {
-  const xRangeMatch = rangeStr.match(/x=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)/);
-  if (!xRangeMatch) {
-    throw new Error("Invalid range format for x values");
+export async function main(args = []) {
+  if (args.includes("--help")) {
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]");
+    return;
   }
-  const xMin = parseFloat(xRangeMatch[1]);
-  const xMax = parseFloat(xRangeMatch[2]);
-  const numPoints = 5;
-  const step = (xMax - xMin) / (numPoints - 1);
-  let points = [];
-  // Remove possible 'y=' part from the expression
-  let expr = expression.trim().replace(/^y\s*=\s*/, "");
-  for (let i = 0; i < numPoints; i++) {
-    const xVal = xMin + step * i;
-    let yVal;
-    try {
-      yVal = evaluate(expr, { x: xVal });
-    } catch (e) {
-      yVal = null;
-    }
-    points.push({ x: xVal, y: yVal });
-  }
-  return JSON.stringify(points, null, 2);
-}
-
-/**
- * Generates a polyline for SVG plot from the mathematical expression and range.
- * Samples 100 points over the x-range and maps computed y using y-range to SVG coordinates.
- * @param {string} expression - The mathematical expression (e.g., "y=sin(x)")
- * @param {string} rangeStr - The range string (e.g., "x=-1:1,y=-1:1")
- * @param {number} width - SVG width (default 200)
- * @param {number} height - SVG height (default 100)
- * @returns {string} - A string representing the polyline points for SVG.
- */
-function generateSvgPolyline(expression, rangeStr, width = 200, height = 100) {
-  const xRangeMatch = rangeStr.match(/x=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)/);
-  const yRangeMatch = rangeStr.match(/y=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)/);
-  if (!xRangeMatch || !yRangeMatch) {
-    throw new Error("Invalid range format");
-  }
-  const xMin = parseFloat(xRangeMatch[1]);
-  const xMax = parseFloat(xRangeMatch[2]);
-  const yMin = parseFloat(yRangeMatch[1]);
-  const yMax = parseFloat(yRangeMatch[2]);
-
-  const numPoints = 100;
-  const step = (xMax - xMin) / (numPoints - 1);
-  let pointsArray = [];
-  let expr = expression.trim().replace(/^y\s*=\s*/, "");
-  for (let i = 0; i < numPoints; i++) {
-    const xVal = xMin + step * i;
-    let yVal;
-    try {
-      yVal = evaluate(expr, { x: xVal });
-    } catch (e) {
-      yVal = 0;
-    }
-    // Map xVal to SVG coordinate
-    const svgX = ((xVal - xMin) / (xMax - xMin)) * width;
-    // Map yVal to SVG coordinate; invert y-axis (yMax maps to 0, yMin maps to height)
-    const svgY = (1 - ((yVal - yMin) / (yMax - yMin))) * height;
-    pointsArray.push(`${svgX},${svgY}`);
-  }
-  return pointsArray.join(" ");
-}
-
-function jsonToCSV(jsonData) {
-  let data;
-  try {
-    data = JSON.parse(jsonData);
-  } catch (e) {
-    throw new Error("Invalid JSON data");
-  }
-  const header = "x,y";
-  const rows = data.map(point => `${point.x},${point.y}`);
-  return [header, ...rows].join("\n");
-}
-
-export function main(args = []) {
-  // If no arguments are provided, print usage information and exit.
   if (args.length === 0) {
-    console.log("Run with: node src/lib/main.js --expression <expression> --range <range> --file <file> [--json] [--csv]");
+    console.log("No arguments provided. Use --help to see usage instructions.");
     return;
   }
 
-  const cliOptions = parseArgs(args);
+  const parsedArgs = parseCliArgs(args);
 
-  // Validate CLI options
-  try {
-    cliOptionsSchema.parse(cliOptions);
-  } catch (error) {
-    console.error(error.errors[0].message);
-    return;
+  // If diagnostics flag is provided, output raw parsed arguments
+  if (parsedArgs.diagnostics) {
+    console.log("Diagnostics - Raw CLI arguments:", JSON.stringify(parsedArgs, null, 2));
   }
 
-  let timeSeriesData;
-  try {
-    timeSeriesData = generateTimeSeriesData(cliOptions.expression, cliOptions.range);
-  } catch (e) {
-    console.error(`Failed to generate time series data: ${e.message}`);
-    return;
+  const result = cliSchema.safeParse(parsedArgs);
+  if (!result.success) {
+    console.error("Error: Invalid arguments.");
+    result.error.errors.forEach(err => {
+      console.error(err.message);
+    });
+    process.exit(1);
   }
 
-  // If --csv flag is provided, output CSV to stdout and bypass file writing
-  if (cliOptions.csv) {
-    try {
-      const csvOutput = jsonToCSV(timeSeriesData);
-      console.log(csvOutput);
-    } catch (e) {
-      console.error(`Failed to export CSV: ${e.message}`);
+  // Arguments are valid; log validated arguments
+  console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
+
+  // Extract parameters
+  const { expression, range, file, evaluate, color, stroke } = result.data;
+
+  // Determine styling options with defaults
+  const strokeColor = color || "black";
+  const strokeWidth = stroke || 2;
+
+  // Parse range parameter in the format 'x=min:max,y=min:max'
+  const rangeParts = range.split(",");
+  let xRangePart = null;
+  let yRangePart = null;
+  rangeParts.forEach(part => {
+    if (part.startsWith("x=")) {
+      xRangePart = part.substring(2);
+    } else if (part.startsWith("y=")) {
+      yRangePart = part.substring(2);
     }
-    return;
+  });
+  if (!xRangePart || !yRangePart) {
+    console.error("Invalid range format.");
+    process.exit(1);
   }
 
-  // If --json flag is provided, output JSON object to stdout and bypass file writing
-  if (cliOptions.json) {
-    const outputObj = {
-      message: "Plot generated",
-      expression: cliOptions.expression,
-      range: cliOptions.range,
-      file: cliOptions.file,
-      timeSeriesData: JSON.parse(timeSeriesData)
-    };
-    console.log(JSON.stringify(outputObj));
-    return;
+  const [xMinStr, xMaxStr] = xRangePart.split(":");
+  const [yMinStr, yMaxStr] = yRangePart.split(":");
+  let xMin = parseFloat(xMinStr);
+  let xMax = parseFloat(xMaxStr);
+  let yMin = parseFloat(yMinStr);
+  let yMax = parseFloat(yMaxStr);
+
+  // Adjust degenerate ranges
+  if (xMin === xMax) {
+    xMin = xMin - 1;
+    xMax = xMax + 1;
+  }
+  if (yMin === yMax) {
+    yMin = yMin - 1;
+    yMax = yMax + 1;
   }
 
-  let plotContent;
-  const filePath = cliOptions.file;
-  if (filePath.endsWith('.svg')) {
-    // Generate a minimal valid SVG content with embedded polyline for time series data
-    let polylinePoints;
+  // Process expression: remove leading 'y=' if present and translate basic math functions
+  let procExpr = expression;
+  if (procExpr.startsWith("y=")) {
+    procExpr = procExpr.substring(2);
+  }
+  // Replace common math functions with JavaScript's Math equivalents
+  procExpr = procExpr.replace(/sin\(/g, "Math.sin(")
+                     .replace(/cos\(/g, "Math.cos(")
+                     .replace(/tan\(/g, "Math.tan(");
+
+  let func;
+  try {
+    func = new Function("x", "return " + procExpr);
+  } catch (err) {
+    console.error("Error creating function from expression:", err);
+    process.exit(1);
+  }
+
+  // Generate sample points for plotting and time series
+  const samples = 100;
+  const xValues = [];
+  const yValues = [];
+  const step = (xMax - xMin) / (samples - 1);
+  for (let i = 0; i < samples; i++) {
+    const xVal = xMin + i * step;
+    let yVal;
     try {
-      polylinePoints = generateSvgPolyline(cliOptions.expression, cliOptions.range);
-    } catch (e) {
-      console.error(`Failed to generate SVG polyline: ${e.message}`);
-      return;
+      yVal = func(xVal);
+    } catch (err) {
+      console.error("Error evaluating expression at x =", xVal, err);
+      process.exit(1);
     }
-    plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
-  <text x="10" y="20">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
-  <polyline points="${polylinePoints}" stroke="blue" stroke-width="2" fill="none" />
+    xValues.push(xVal);
+    yValues.push(yVal);
+  }
+
+  // Create time series data as an array of objects
+  const timeSeriesData = xValues.map((x, i) => ({ x, y: yValues[i] }));
+
+  // If --evaluate flag provided, output the time series data as JSON
+  if (evaluate) {
+    console.log("Time series data:", JSON.stringify(timeSeriesData));
+  }
+
+  // Determine y range from computed values for proper scaling
+  const computedYMin = Math.min(...yValues);
+  const computedYMax = Math.max(...yValues);
+
+  // Setup SVG canvas dimensions
+  const width = 500;
+  const height = 500;
+  const padding = 20;
+
+  // Map x and y values to canvas coordinates
+  const mapX = (x) => padding + ((x - xMin) / (xMax - xMin)) * (width - 2 * padding);
+  const mapY = (y) => height - padding - ((y - computedYMin) / (computedYMax - computedYMin)) * (height - 2 * padding);
+
+  // Create polyline points string
+  const points = xValues.map((x, i) => `${mapX(x)},${mapY(yValues[i])}`).join(" ");
+
+  // Build SVG content
+  const svgContent = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="white"/>
+  <polyline points="${points}" fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"/>
 </svg>`;
-  } else if (filePath.endsWith('.png')) {
-    plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}\nTime Series Data: ${timeSeriesData}`;
+
+  // Write file depending on the extension
+  if (file.endsWith(".png")) {
+    try {
+      const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+      fs.writeFileSync(file, pngBuffer);
+      console.log(`Plot saved to ${file}`);
+    } catch (err) {
+      console.error("Error converting SVG to PNG:", err);
+      process.exit(1);
+    }
   } else {
-    plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}\nTime Series Data: ${timeSeriesData}`;
-  }
-  try {
-    writeFileSync(filePath, plotContent, "utf-8");
-    console.log(`Plot written to file ${filePath}`);
-  } catch (error) {
-    console.error(`Failed to write plot to file: ${error.message}`);
+    fs.writeFileSync(file, svgContent, "utf8");
+    console.log(`Plot saved to ${file}`);
   }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  main(args).catch(err => {
+    console.error(err);
+    process.exit(1);
+  });
 }
