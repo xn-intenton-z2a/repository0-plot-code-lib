@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--grid-dash <dash_pattern>] [--marker] [--no-legend] [--logscale] [--title <string>]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--grid-dash <dash_pattern>] [--marker] [--no-legend] [--logscale] [--title <string>] [--title-font-family <fontFamily>] [--title-font-size <fontSize>]");
     consoleSpy.mockRestore();
   });
 
@@ -145,7 +145,6 @@ describe("PNG Plot Generation", () => {
     await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "plot.png"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    // Since PNG buffer is generated, we cannot inspect SVG content from buffer directly, so we assume no errors
     expect(Buffer.isBuffer(writtenContent)).toBe(true);
     expect(writtenContent[0]).toBe(0x89);
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to plot.png");
@@ -423,6 +422,23 @@ describe("Custom Title Option", () => {
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain('<text');
     expect(writtenContent).toContain('Custom Plot Title');
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should apply custom title font styling when --title-font-family and --title-font-size are provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    await main([
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1,y=-1:1",
+      "--file", "customTitle.svg",
+      "--title", "Styled Title",
+      "--title-font-family", "Arial",
+      "--title-font-size", "24"
+    ]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain('font-size:24px');
+    expect(writtenContent).toContain('font-family:Arial');
+    expect(writtenContent).toContain('Styled Title');
     writeFileSyncSpy.mockRestore();
   });
 });
