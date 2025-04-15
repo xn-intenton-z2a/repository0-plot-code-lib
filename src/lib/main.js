@@ -3,6 +3,7 @@
 
 import { fileURLToPath } from "url";
 import { writeFileSync } from "fs";
+import { z } from "zod";
 
 /**
  * Parses CLI arguments to extract --expression, --range, and --file options.
@@ -27,29 +28,44 @@ function parseArgs(args) {
   return result;
 }
 
+// Define schema for CLI options using zod
+const cliOptionsSchema = z.object({
+  expression: z.string().min(1, "Expression cannot be empty"),
+  range: z.string().regex(
+    /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/,
+    "Range must be in the format 'x=min:max,y=min:max'"
+  ),
+  file: z.string().regex(/\.(svg|png)$/i, "File must have .svg or .png extension"),
+});
+
 export function main(args = []) {
   const cliOptions = parseArgs(args);
-  if (cliOptions.expression && cliOptions.range && cliOptions.file) {
-    let plotContent;
-    const filePath = cliOptions.file;
-    if (filePath.endsWith('.svg')) {
-      // Generate a minimal valid SVG content with a text element
-      plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
+
+  // Validate CLI options
+  try {
+    cliOptionsSchema.parse(cliOptions);
+  } catch (error) {
+    console.error(error.errors[0].message);
+    return;
+  }
+
+  let plotContent;
+  const filePath = cliOptions.file;
+  if (filePath.endsWith('.svg')) {
+    // Generate a minimal valid SVG content with a text element
+    plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
   <text x="10" y="50">Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}</text>
 </svg>`;
-    } else if (filePath.endsWith('.png')) {
-      plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
-    } else {
-      plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
-    }
-    try {
-      writeFileSync(filePath, plotContent, "utf-8");
-      console.log(`Plot written to file ${filePath}`);
-    } catch (error) {
-      console.error(`Failed to write plot to file: ${error.message}`);
-    }
+  } else if (filePath.endsWith('.png')) {
+    plotContent = `PNG Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
   } else {
-    console.log(`Run with: ${JSON.stringify(args)}`);
+    plotContent = `Plot generated for expression: ${cliOptions.expression} with range: ${cliOptions.range}`;
+  }
+  try {
+    writeFileSync(filePath, plotContent, "utf-8");
+    console.log(`Plot written to file ${filePath}`);
+  } catch (error) {
+    console.error(`Failed to write plot to file: ${error.message}`);
   }
 }
 

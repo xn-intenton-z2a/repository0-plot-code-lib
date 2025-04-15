@@ -97,3 +97,50 @@ describe("CLI Plot Generation", () => {
     expect(output).toContain(`Plot written to file ${tempPngOutputFile}`);
   });
 });
+
+describe("CLI Input Validation", () => {
+  test("should print error message for empty expression", () => {
+    const args = [
+      "--expression", "",
+      "--range", "x=-1:1,y=-1:1",
+      "--file", tempSvgOutputFile
+    ];
+    let errorOutput = "";
+    const originalError = console.error;
+    console.error = (msg) => { errorOutput += msg; };
+    main(args);
+    console.error = originalError;
+    expect(errorOutput).toContain("Expression cannot be empty");
+    expect(existsSync(tempSvgOutputFile)).toBe(false);
+  });
+
+  test("should print error message for invalid range format", () => {
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "invalid_range",
+      "--file", tempSvgOutputFile
+    ];
+    let errorOutput = "";
+    const originalError = console.error;
+    console.error = (msg) => { errorOutput += msg; };
+    main(args);
+    console.error = originalError;
+    expect(errorOutput).toContain("Range must be in the format");
+    expect(existsSync(tempSvgOutputFile)).toBe(false);
+  });
+
+  test("should print error message for invalid file extension", () => {
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1,y=-1:1",
+      "--file", "output.txt"
+    ];
+    let errorOutput = "";
+    const originalError = console.error;
+    console.error = (msg) => { errorOutput += msg; };
+    main(args);
+    console.error = originalError;
+    expect(errorOutput).toContain("File must have .svg or .png extension");
+    expect(existsSync("output.txt")).toBe(false);
+  });
+});
