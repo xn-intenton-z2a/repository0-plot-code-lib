@@ -4,7 +4,13 @@
 import { fileURLToPath } from "url";
 
 export function main(args = []) {
-  console.log(`Run with: ${JSON.stringify(args)}`);
+  if (args.includes("--help")) {
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath>");
+  } else if (args.length === 0) {
+    console.log("No arguments provided. Use --help to see usage instructions.");
+  } else {
+    console.log(`Run with: ${JSON.stringify(args)}`);
+  }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
