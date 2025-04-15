@@ -10,12 +10,15 @@ This CLI tool allows you to generate a plot from a mathematical expression and a
 
 - --expression: The mathematical expression to plot. Example: "y=sin(x)".
 - --range: The range of values for the plot. Use the format with axis assignments (e.g., "x=-1:1,y=-1:1").
-- --file: The output file path where the plot will be written.
+- --file: The output file path where the plot will be written. The file must have a .svg or .png extension.
 
-The behavior changes based on the file extension provided in the --file option:
+When run without any arguments, the CLI displays a usage message. For example:
 
-- If the file extension is .svg, the tool generates a valid SVG plot with proper SVG markup. The SVG contains a <text> element displaying the expression and range.
-- If the file extension is .png, or any other extension, the tool generates a placeholder plot text.
+```bash
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
+```
+
+The tool now validates input parameters using [zod](https://github.com/colinhacks/zod). On invalid input, it prints a clear error message and terminates without creating a file.
 
 ### Examples
 
@@ -36,14 +39,8 @@ Generate a PNG plot:
 node src/lib/main.js --expression "y=cos(x)" --range "x=0:10,y=-2:2" --file output.png
 ```
 
-### Input Validation
-
-- The CLI does not perform extensive validation on the provided inputs. Ensure that:
-  - The --expression argument is a valid mathematical expression.
-  - The --range argument strictly follows the format with axis ranges (e.g., "x=min:max,y=min:max").
-  - The --file argument is a valid file path. The output file format is determined by the file extension provided (.svg or .png).
-
-If any required argument is missing or not properly formatted, the tool will output a usage message indicating the expected format.
+If any of the parameters are invalid (for example, an empty expression, an improperly formatted range, or an unsupported file extension),
+the tool will output an error message indicating the issue.
 
 ---
 
