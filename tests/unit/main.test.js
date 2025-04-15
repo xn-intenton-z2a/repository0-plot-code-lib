@@ -314,8 +314,6 @@ describe("Marker functionality", () => {
   });
 });
 
-// Tests for Multiple Expressions (already partially covered above)
-
 describe("Multiple Expressions Functionality", () => {
   test("should generate SVG with multiple polyline elements for multiple expressions and include legend", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
