@@ -1,44 +1,48 @@
-# CLI UTILITIES ENHANCEMENT
+# CLI UTILITIES ENHANCEMENT Update
 
-This feature consolidates extra CLI flags into a single unified utility feature. It merges the existing diagnostics mode with a new version display functionality, thereby streamlining CLI feedback and debugging support.
+This update enhances the CLI utilities by implementing a new `--version` flag, while preserving the existing diagnostics and plotting functionality. The update provides a single point of truth for key runtime details including version display, diagnostics information, and plot generation.
 
 ## Overview
 
-- **Diagnostics Mode:** Continues to output key runtime information (Node.js version, dependency confirmation, and environment details) when the `--diagnostics` flag is present.
-- **Version Information:** Adds a new `--version` flag that displays the current version of the application as specified in `package.json`.
+- **Version Information:** When the `--version` flag is provided, the CLI will read the version from `package.json` and output it immediately.
+- **Diagnostics Mode:** Retains the existing `--diagnostics` flag that outputs runtime details including Node.js version, dependency confirmations, and environment information.
+- **Plot Functionality:** Continues to support plotting with validated parameters, along with an optional `--evaluate` flag for time series data output.
 
 ## Implementation Details
 
 ### Source File (`src/lib/main.js`)
 
-- Modify the CLI entry point to detect the `--version` flag. When present, read the version (by importing or reading from `package.json`) and log it, then terminate execution immediately.
-- Retain the existing diagnostics functionality triggered by the `--diagnostics` flag.
-- Ensure the new flag handling coexists gracefully with the existing parameter parsing for plotting operations.
+- Add a check for the `--version` flag before processing other CLI arguments. If present, import the version from `package.json` and log it.
 
 Example snippet:
 ```js
 if (parsedArgs.version) {
-  // Option 1: Directly import package.json if allowed, or hardcode version string from package.json
-  import pkg from '../../package.json' assert { type: 'json' };
-  console.log(`Version: ${pkg.version}`);
+  import(pkgPath).then(pkg => {
+    console.log(`Version: ${pkg.version}`);
+    process.exit(0);
+  }).catch(err => {
+    console.error('Error reading version:', err);
+    process.exit(1);
+  });
   return;
 }
 ```
 
+- Ensure that the new flag does not interfere with the existing behavior for help, diagnostics, and plotting.
+
 ### Test File (`tests/unit/main.test.js`)
 
-- Add tests to verify that invoking the CLI with `--version` outputs the version string and exits correctly.
-- Ensure that tests for the `--diagnostics` flag remain intact.
+- Add tests to simulate CLI invocation with `--version`, confirming that the output starts with "Version: " and matches a semantic version pattern.
 
 Example test case:
 ```js
 import { main } from '@src/lib/main.js';
 
-describe('CLI Utilities', () => {
-  test('should display version when --version is passed', () => {
+describe('Version Flag', () => {
+  test('should display version when --version is passed', async () => {
     const consoleSpy = vi.spyOn(console, 'log');
-    main(['--version']);
-    // Expect output to contain the version number (example expected version can be adapted based on package.json)
+    // Ensure to simulate asynchronous behavior if necessary
+    await main(['--version']);
     expect(consoleSpy).toHaveBeenCalledWith(expect.stringMatching(/^Version: \d+\.\d+\.\d+/));
     consoleSpy.mockRestore();
   });
@@ -47,16 +51,18 @@ describe('CLI Utilities', () => {
 
 ### README Updates (`README.md`)
 
-- Document the new `--version` flag under the CLI usage section:
-  - Explain that running `node src/lib/main.js --version` will output the app version.
-  - Provide an example snippet in the documentation along with the diagnostics usage.
+- Document the new `--version` flag in the CLI usage section:
+  - Explain that running `node src/lib/main.js --version` will output the application version as defined in `package.json`.
+  - Provide an example snippet demonstrating the new flag usage.
 
-### Dependencies (`package.json`)
-
-- No dependency updates are required. Ensure changes conform to Node 20 and ESM standards.
+Example documentation update:
+```sh
+node src/lib/main.js --version
+# Output: Version: x.y.z
+```
 
 ## Benefits
 
-- **Enhanced Transparency:** Users can quickly confirm the application version, aiding in debugging and compatibility verification.
-- **Unified CLI Enhancements:** Combining diagnostics and version info into one feature simplifies user commands and maintenance.
-- **Improved User Confidence:** Version output reassures users about the current release they are interacting with.
+- **Quick Version Verification:** Users and developers can easily check which version of the application is running, aiding in debugging and version control.
+- **Unified CLI Enhancements:** Consolidating diagnostics and version information streamlines the user interface and simplifies maintenance.
+- **Improved Transparency:** The immediate availability of version data builds trust and assurance that the correct release is in use.
