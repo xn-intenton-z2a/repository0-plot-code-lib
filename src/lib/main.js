@@ -44,13 +44,16 @@ const cliSchema = z.object({
   logscale: z.boolean().optional(),
   gridColor: z.string().min(1, { message: "Grid color must be a non-empty string" }).optional(),
   gridStroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Grid stroke must be a positive number" })).optional(),
+  gridDash: z.string().min(1, { message: "Grid dash pattern must be a non-empty string" }).optional(),
   title: z.string().min(1, { message: "Title must be a non-empty string" }).optional(),
-  gridDash: z.string().regex(/^\d+(,\d+)*$/, { message: "Grid dash must be a comma-separated list of positive integers" }).optional()
+  // New options for title font styling
+  titleFontFamily: z.string().min(1, { message: "Title font family must be a non-empty string" }).optional(),
+  titleFontSize: z.preprocess(arg => Number(arg), z.number().positive({ message: "Title font size must be a positive number" })).optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--grid-dash <dash_pattern>] [--marker] [--no-legend] [--logscale] [--title <string>]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--grid-dash <dash_pattern>] [--marker] [--no-legend] [--logscale] [--title <string>] [--title-font-family <fontFamily>] [--title-font-size <fontSize>]");
     return;
   }
   if (args.length === 0) {
@@ -77,6 +80,15 @@ export async function main(args = []) {
     parsedArgs.gridDash = parsedArgs['grid-dash'];
     delete parsedArgs['grid-dash'];
   }
+  // Convert dash-case flags for title font options
+  if ('title-font-family' in parsedArgs) {
+    parsedArgs.titleFontFamily = parsedArgs['title-font-family'];
+    delete parsedArgs['title-font-family'];
+  }
+  if ('title-font-size' in parsedArgs) {
+    parsedArgs.titleFontSize = parsedArgs['title-font-size'];
+    delete parsedArgs['title-font-size'];
+  }
 
   // If diagnostics flag is provided, output raw parsed arguments
   if (parsedArgs.diagnostics) {
@@ -95,8 +107,8 @@ export async function main(args = []) {
   // Arguments are valid; log validated arguments
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
-  // Destructure parameters including title and gridDash
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale, gridColor, gridStroke, gridDash, title } = result.data;
+  // Destructure parameters including new title font options
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale, gridColor, gridStroke, gridDash, title, titleFontFamily, titleFontSize } = result.data;
 
   // Process multiple expressions separated by semicolon
   const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
@@ -328,10 +340,14 @@ export async function main(args = []) {
     legendSvg = `<g id=\"legend\">${legendItems}</g>`;
   }
 
-  // If a title is provided, create a text element
-  const titleText = title ? `<text x=\"${canvasWidth / 2}\" y=\"${canvasPadding / 2}\" text-anchor=\"middle\" style=\"font-size:16px; fill:black;\">${title}</text>` : "";
+  // If a title is provided, create a text element with custom font styling if specified
+  let titleText = "";
+  if (title) {
+    const titleFontSizeVal = titleFontSize || 16;
+    const titleFontFamilyVal = titleFontFamily || "sans-serif";
+    titleText = `<text x=\"${canvasWidth/2}\" y=\"${canvasPadding/2}\" text-anchor=\"middle\" style=\"font-size:${titleFontSizeVal}px; font-family:${titleFontFamilyVal}; fill:black;\">${title}</text>`;
+  }
 
-  // Build complete SVG content
   // If logscale is active, add a comment indicator in the SVG
   const logscaleComment = logscale ? "\n  <!-- Logarithmic scale applied -->" : "";
   const svgContent = `<svg width=\"${canvasWidth}\" height=\"${canvasHeight}\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"100%\" height=\"100%\" fill=\"white\"/>\n  ${titleText}${logscaleComment}\n  ${gridLines}\n  ${legendSvg}\n  ${markersSvg}\n  ${polylinesSvg}\n</svg>`;
