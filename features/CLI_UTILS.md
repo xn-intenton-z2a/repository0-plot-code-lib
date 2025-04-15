@@ -4,39 +4,43 @@ This update refines and extends the CLI utilities of the repository. In addition
 
 ## Overview
 
-- **Objective**: Enhance user experience by enabling users to quickly verify the application version from the CLI.
-- **Scope**: Modifications are limited to the source file (`src/lib/main.js`), test file (`tests/unit/main.test.js`), README (`README.md`), and dependencies if necessary. No new files or deletion of existing files will occur.
+- **Objective**: Enhance user experience by enabling users to quickly verify the application version from the CLI, while keeping all existing CLI functionalities intact.
+- **Scope**: Modifications are limited to updating the source file (`src/lib/main.js`), test file (`tests/unit/main.test.js`), README (`README.md`), and `package.json` as necessary. No new files or deletion of existing files occur.
 
 ## Version Flag Functionality
 
-- **Flag Behavior**: When the CLI is run with the `--version` flag, the application will read the version information from `package.json` and output it in the format `Version: x.y.z`, then exit immediately.
+- **Flag Behavior**: When the CLI is run with the `--version` flag, the application will read the version information from `package.json` and output it in the format `Version: x.y.z`, then exit with a status code of 0.
 
 - **Implementation Details in Source File**:
-  - Update `src/lib/main.js` to include an early check for the `--version` flag in the CLI arguments.
-  - On detection, import and parse `package.json` to extract the version.
-  - Output the version via `console.log` and exit the process with status 0.
-  - Ensure that existing functionality (e.g., `--help`, `--diagnostics`, plotting, and evaluation) remains unaffected.
+  - Update `src/lib/main.js` to include an early check: if `--version` is present in the CLI arguments, then load `package.json` and output the current version.
+  - Ensure that if `--version` is detected, the version is printed using `console.log` and the process exits immediately to avoid further processing of arguments.
+  - This check must occur before validations of other flags to provide a quick version response.
 
 ## Test File Updates
 
 - **File Affected**: `tests/unit/main.test.js`
-  - Add a new test case to simulate CLI invocation with the `--version` flag.
-  - Validate that the CLI outputs a string starting with `Version: ` and that the version matches a semantic versioning pattern (using regex).
+  - Add new test cases to simulate CLI invocation with the `--version` flag.
+  - Validate that the output string starts with `Version: ` and that the version format conforms to semantic versioning (e.g. using a regex pattern such as `/^Version: \d+\.\d+\.\d+$/`).
 
 ## README Updates
 
 - **Documentation Changes**:
-  - Update the CLI usage section to document the new `--version` flag with examples.
-  - Add a code snippet demonstrating:
+  - Update the CLI usage section in `README.md` to document the new `--version` flag with usage examples.
+  - Include a code snippet demonstrating:
 
     ```sh
     node src/lib/main.js --version
     # Expected Output: Version: x.y.z
     ```
 
-## Compliance and Benefits
+## Dependency and Code Integrity
 
-- **Compliance**: The changes adhere to the guidelines in `CONTRIBUTING.md` by limiting updates to allowed files.
-- **Benefits**:
-  - **User-Friendly Version Check**: Enables users to quickly confirm the version of the application, which is useful for debugging and release verification.
-  - **Cohesive CLI Experience**: Consolidates version management along with other CLI commands, ensuring a seamless command-line interface.
+- Ensure that the updated CLI remains compatible with Node 20 and ESM standards.
+- Confirm that no additional libraries are needed; the existing dependencies such as `fs` can be used to read from `package.json`.
+- Maintain compliance with the guidelines outlined in `CONTRIBUTING.md`, with code quality tests ensuring all functionalities (help, plot generation, CSV export, diagnostics, and new version reporting) operate as expected.
+
+## Benefits
+
+- **User-Friendly Version Check**: Quickly allows users to confirm the version of the application. Useful for debugging, support, and release verifications.
+- **Cohesive CLI Experience**: Integrates version reporting along with existing CLI commands for a comprehensive and professional CLI tool.
+- **Minimal Disruption**: Ensures that all existing CLI functionalities remain intact while adding additional value through version reporting.
