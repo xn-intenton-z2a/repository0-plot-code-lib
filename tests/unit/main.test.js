@@ -174,7 +174,6 @@ describe("Explicit Y-Range Support", () => {
     await main(["--expression", "y=2", "--range", "x=0:10,y=-2:2", "--file", "yrange.svg"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    // Extract the points attribute from the polyline
     const pointsMatch = writtenContent.match(/<polyline[^>]*points="([^"]+)"/);
     expect(pointsMatch).toBeDefined();
     const pointsStr = pointsMatch[1];
@@ -191,7 +190,6 @@ describe("Additional Math Functions", () => {
   test("should generate and save an SVG plot for sqrt function", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Use sqrt(x) with x from 0 to 9, result between 0 and 3
     await main(["--expression", "y=sqrt(x)", "--range", "x=0:9,y=0:3", "--file", "sqrt.svg"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
@@ -203,7 +201,6 @@ describe("Additional Math Functions", () => {
   test("should generate and save an SVG plot for log function", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Use log(x) with x from 1 to 10 to avoid domain error
     await main(["--expression", "y=log(x)", "--range", "x=1:10,y=0:3", "--file", "log.svg"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
@@ -215,12 +212,27 @@ describe("Additional Math Functions", () => {
   test("should generate and save an SVG plot for exp function", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Use exp(x) with x from 0 to 2, result from 1 to ~7.39
     await main(["--expression", "y=exp(x)", "--range", "x=0:2,y=1:8", "--file", "exp.svg"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenContent).toContain("<svg");
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to exp.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+describe("CSV Export Functionality", () => {
+  test("should generate and save a CSV file with header and 100 data rows", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "data.csv"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    // Check if CSV has header and 101 lines (header + 100 rows)
+    const lines = writtenContent.split("\n");
+    expect(lines[0]).toBe("x,y");
+    expect(lines.length).toBe(101);
+    expect(consoleSpy).toHaveBeenLastCalledWith("Time series CSV exported to data.csv");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });

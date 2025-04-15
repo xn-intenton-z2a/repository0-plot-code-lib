@@ -12,8 +12,8 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 
 - --expression: A non-empty string representing the mathematical expression. If the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
-- --file: The output file name which must end with either .svg or .png. When a .png file is specified, the generated SVG plot is converted to PNG using the sharp library.
-- --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generates time series data (an array of { x, y } objects) and outputs it in JSON format in the console.
+- --file: The output file name which must end with .svg, .png, or .csv. When a .png file is specified, the generated SVG plot is converted to PNG using the sharp library. When a .csv file is specified, the computed time series data is exported in CSV format with a header of "x,y" followed by 100 rows of data.
+- --evaluate: (Optional) When provided, the CLI evaluates the given expression over the x-range, generates time series data (an array of { x, y } objects) and outputs it in JSON format in the console, except when exporting to CSV.
 - --diagnostics: (Optional) When provided, the CLI outputs diagnostic details including the raw parsed CLI arguments before proceeding with validation. This aids in debugging.
 - --color: (Optional) A valid CSS color string (e.g., 'red', '#FF0000') used to set the stroke color of the plot. Defaults to 'black' if not provided.
 - --stroke: (Optional) A positive number representing the stroke width of the plot. Defaults to 2 if not provided.
@@ -92,6 +92,19 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=-2:2" --file outp
 # Plot saved to output.svg (with y-axis boundaries set to -2 and 2)
 ```
 
+#### CSV Export Usage
+
+The CLI now supports exporting time series data in CSV format when the output file extension is .csv. The CSV file will include a header row with "x,y" and 100 rows of computed data.
+
+Example:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6,y=-1:1" --file output.csv
+# Output:
+# Validated arguments: {"expression":"y=sin(x)","range":"x=0:6,y=-1:1","file":"output.csv"}
+# Time series CSV exported to output.csv
+```
+
 #### New Examples with Additional Math Functions
 
 Using sqrt:
@@ -141,15 +154,15 @@ import { main } from "@src/lib/main.js";
 main([
   "--expression", "y=sin(x)",
   "--range", "x=0:6,y=-1:1",
-  "--file", "output.svg", // or use output.png for PNG output
-  "--evaluate",        // optional flag to output time series data
+  "--file", "output.svg", // or use output.png for PNG output or output.csv for CSV export
+  "--evaluate",        // optional flag to output time series data (when not exporting CSV)
   "--diagnostics",     // optional flag to output diagnostic information
   "--color", "green", // optional flag to set the stroke color
   "--stroke", "3"      // optional flag to set the stroke width
 ]);
 ```
 
-After successfully running the CLI with valid parameters, a plot in SVG or PNG format is generated and saved to the specified file. If the --evaluate flag is provided, the computed time series data is output to the console in JSON format. When --diagnostics is enabled, raw parsed CLI argument information is displayed to assist with debugging. When a y-range is explicitly provided, its boundaries are used to set the y-axis limits for the plot.
+After successfully running the CLI with valid parameters, a plot in SVG or PNG format is generated and saved to the specified file, or CSV data is exported if .csv is used. If the --evaluate flag is provided, the computed time series data is output to the console in JSON format (unless exporting to CSV). When --diagnostics is enabled, raw parsed CLI argument information is displayed to assist with debugging. When a y-range is explicitly provided, its boundaries are used to set the y-axis limits for the plot.
 
 ---
 
