@@ -68,7 +68,7 @@ describe("CLI Plot Generation", () => {
     expect(fileContent).toContain(expectedText);
     // Check that time series data is embedded
     expect(fileContent).toContain("polyline");
-    expect(fileContent).toMatch(new RegExp('<polyline\s+points="'));
+    expect(fileContent).toMatch(new RegExp("<polyline\s+points=\""));
 
     // Verify console message
     expect(output).toContain(`Plot written to file ${tempSvgOutputFile}`);
