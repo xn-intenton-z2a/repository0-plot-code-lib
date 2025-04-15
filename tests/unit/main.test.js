@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale] [--title <string>]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--grid-dash <dash_pattern>] [--marker] [--no-legend] [--logscale] [--title <string>]");
     consoleSpy.mockRestore();
   });
 
@@ -387,11 +387,32 @@ describe("Custom Grid Styling Options", () => {
     ]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    // Check if grid lines contain the custom color and stroke width
     expect(writtenContent).toContain('stroke="#00FF00"');
     expect(writtenContent).toContain('stroke-width="2"');
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to customGrid.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
+});
+
+describe("Dashed Gridlines Functionality", () => {
+  test("should generate grid lines with stroke-dasharray attribute when --grid-dash is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main([
+      "--expression", "y=sin(x)",
+      "--range", "x=0:10,y=-1:1",
+      "--file", "dashedGrid.svg",
+      "--grid",
+      "--grid-color", "#000",
+      "--grid-stroke", "2",
+      "--grid-dash", "5,3"
+    ]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain('stroke-dasharray="5,3"');
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to dashedGrid.svg");
+    writeFileSyncSpy.mockRestore();
+    consoleSpy.mockRestore();
   });
 });
 
