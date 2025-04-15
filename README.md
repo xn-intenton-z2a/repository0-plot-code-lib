@@ -36,14 +36,16 @@ Missing a required parameter:
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1"
-# Output: Error: Invalid arguments.\nExpression is required and cannot be empty or File must end with .svg or .png
+# Output: Error: Invalid arguments.
+# Additionally, error messages for the missing or invalid parameters will be printed.
 ```
 
 Malformed range or wrong file extension:
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "invalid" --file output.txt
-# Output: Error: Invalid arguments.\nRange must be in the format 'x=start:end,y=start:end'\nFile must end with .svg or .png
+# Output: Error: Invalid arguments.
+# Additionally, error messages for the malformed range and incorrect file extension will be printed.
 ```
 
 ### Programmatic
