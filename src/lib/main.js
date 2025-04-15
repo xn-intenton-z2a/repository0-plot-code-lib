@@ -44,12 +44,13 @@ const cliSchema = z.object({
   logscale: z.boolean().optional(),
   gridColor: z.string().min(1, { message: "Grid color must be a non-empty string" }).optional(),
   gridStroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Grid stroke must be a positive number" })).optional(),
-  title: z.string().min(1, { message: "Title must be a non-empty string" }).optional()
+  title: z.string().min(1, { message: "Title must be a non-empty string" }).optional(),
+  gridDash: z.string().regex(/^\d+(,\d+)*$/, { message: "Grid dash must be a comma-separated list of positive integers" }).optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale] [--title <string>]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--grid-dash <dash_pattern>] [--marker] [--no-legend] [--logscale] [--title <string>]");
     return;
   }
   if (args.length === 0) {
@@ -63,7 +64,7 @@ export async function main(args = []) {
     parsedArgs.noLegend = true;
     delete parsedArgs['no-legend'];
   }
-  // Convert dash-case flags for grid-color and grid-stroke
+  // Convert dash-case flags for grid-color, grid-stroke and grid-dash
   if ('grid-color' in parsedArgs) {
     parsedArgs.gridColor = parsedArgs['grid-color'];
     delete parsedArgs['grid-color'];
@@ -71,6 +72,10 @@ export async function main(args = []) {
   if ('grid-stroke' in parsedArgs) {
     parsedArgs.gridStroke = parsedArgs['grid-stroke'];
     delete parsedArgs['grid-stroke'];
+  }
+  if ('grid-dash' in parsedArgs) {
+    parsedArgs.gridDash = parsedArgs['grid-dash'];
+    delete parsedArgs['grid-dash'];
   }
 
   // If diagnostics flag is provided, output raw parsed arguments
@@ -90,8 +95,8 @@ export async function main(args = []) {
   // Arguments are valid; log validated arguments
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
-  // Destructure parameters including title
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale, gridColor, gridStroke, title } = result.data;
+  // Destructure parameters including title and gridDash
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale, gridColor, gridStroke, gridDash, title } = result.data;
 
   // Process multiple expressions separated by semicolon
   const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
@@ -276,15 +281,17 @@ export async function main(args = []) {
     // Use custom grid color and stroke if provided; otherwise default values
     const gridLineColor = gridColor || "#ddd";
     const gridLineStroke = gridStroke || 1;
+    // Determine dash attribute if gridDash is provided
+    const dashAttribute = gridDash ? ` stroke-dasharray=\"${gridDash}\"` : "";
     const verticalSpacing = (canvasWidth - 2 * canvasPadding) / (numGrid + 1);
     for (let i = 1; i <= numGrid; i++) {
       const xPos = canvasPadding + i * verticalSpacing;
-      gridLines += `<line x1="${xPos}" y1="${canvasPadding}" x2="${xPos}" y2="${canvasHeight - canvasPadding}" stroke="${gridLineColor}" stroke-width="${gridLineStroke}"/>`;
+      gridLines += `<line x1=\"${xPos}\" y1=\"${canvasPadding}\" x2=\"${xPos}\" y2=\"${canvasHeight - canvasPadding}\" stroke=\"${gridLineColor}\" stroke-width=\"${gridLineStroke}\"${dashAttribute}/>`;
     }
     const horizontalSpacing = (canvasHeight - 2 * canvasPadding) / (numGrid + 1);
     for (let i = 1; i <= numGrid; i++) {
       const yPos = canvasPadding + i * horizontalSpacing;
-      gridLines += `<line x1="${canvasPadding}" y1="${yPos}" x2="${canvasWidth - canvasPadding}" y2="${yPos}" stroke="${gridLineColor}" stroke-width="${gridLineStroke}"/>`;
+      gridLines += `<line x1=\"${canvasPadding}\" y1=\"${yPos}\" x2=\"${canvasWidth - canvasPadding}\" y2=\"${yPos}\" stroke=\"${gridLineColor}\" stroke-width=\"${gridLineStroke}\"${dashAttribute}/>`;
     }
   }
 
@@ -296,9 +303,9 @@ export async function main(args = []) {
     const points = xValues.map((x, i) => `${mapX(x)},${mapY(currentYValues[i])}`).join(" ");
     // Determine color for this polyline
     const currentColor = color ? strokeColorGlobal : defaultPalette[idx % defaultPalette.length];
-    polylinesSvg += `<polyline points="${points}" fill="none" stroke="${currentColor}" stroke-width="${strokeWidth}"/>`;
+    polylinesSvg += `<polyline points=\"${points}\" fill=\"none\" stroke=\"${currentColor}\" stroke-width=\"${strokeWidth}\"/>`;
     if (marker) {
-      markersSvg += xValues.map((x, i) => `<circle cx="${mapX(x)}" cy="${mapY(currentYValues[i])}" r="3" fill="${currentColor}" />`).join("");
+      markersSvg += xValues.map((x, i) => `<circle cx=\"${mapX(x)}\" cy=\"${mapY(currentYValues[i])}\" r=\"3\" fill=\"${currentColor}\" />`).join("");
     }
   }
 
@@ -315,29 +322,19 @@ export async function main(args = []) {
     for (let idx = 0; idx < expressionsArray.length; idx++) {
       const exprLabel = expressionsArray[idx];
       const currentColor = color ? strokeColorGlobal : defaultPalette[idx % defaultPalette.length];
-      legendItems += `<g class="legend-item" transform="translate(${legendX}, ${legendY})">
-        <rect width="${rectSize}" height="${rectSize}" fill="${currentColor}" />
-        <text x="${rectSize + textSpacing}" y="${rectSize}" fill="black" font-size="12">${exprLabel}</text>
-      </g>`;
+      legendItems += `<g class=\"legend-item\" transform=\"translate(${legendX}, ${legendY})\">\n        <rect width=\"${rectSize}\" height=\"${rectSize}\" fill=\"${currentColor}\" />\n        <text x=\"${rectSize + textSpacing}\" y=\"${rectSize}\" fill=\"black\" font-size=\"12\">${exprLabel}</text>\n      </g>`;
       legendY += verticalSpacing;
     }
-    legendSvg = `<g id="legend">${legendItems}</g>`;
+    legendSvg = `<g id=\"legend\">${legendItems}</g>`;
   }
 
   // If a title is provided, create a text element
-  const titleText = title ? `<text x="${canvasWidth / 2}" y="${canvasPadding / 2}" text-anchor="middle" style="font-size:16px; fill:black;">${title}</text>` : "";
+  const titleText = title ? `<text x=\"${canvasWidth / 2}\" y=\"${canvasPadding / 2}\" text-anchor=\"middle\" style=\"font-size:16px; fill:black;\">${title}</text>` : "";
 
   // Build complete SVG content
   // If logscale is active, add a comment indicator in the SVG
   const logscaleComment = logscale ? "\n  <!-- Logarithmic scale applied -->" : "";
-  const svgContent = `<svg width="${canvasWidth}" height="${canvasHeight}" xmlns="http://www.w3.org/2000/svg">
-  <rect width="100%" height="100%" fill="white"/>
-  ${titleText}${logscaleComment}
-  ${gridLines}
-  ${legendSvg}
-  ${markersSvg}
-  ${polylinesSvg}
-</svg>`;
+  const svgContent = `<svg width=\"${canvasWidth}\" height=\"${canvasHeight}\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"100%\" height=\"100%\" fill=\"white\"/>\n  ${titleText}${logscaleComment}\n  ${gridLines}\n  ${legendSvg}\n  ${markersSvg}\n  ${polylinesSvg}\n</svg>`;
 
   // Write file depending on the extension
   if (file.endsWith(".png")) {
