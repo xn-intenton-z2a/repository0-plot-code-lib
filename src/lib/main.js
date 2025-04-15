@@ -135,7 +135,8 @@ export async function main(args = []) {
                        .replace(/tan\(/g, "Math.tan(")
                        .replace(/sqrt\(/g, "Math.sqrt(")
                        .replace(/log\(/g, "Math.log(")
-                       .replace(/exp\(/g, "Math.exp(");
+                       .replace(/exp\(/g, "Math.exp(")
+                       .replace(/abs\(/g, "Math.abs(");
     return procExpr;
   }
 

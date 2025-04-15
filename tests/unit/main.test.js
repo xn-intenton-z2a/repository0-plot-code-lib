@@ -241,6 +241,18 @@ describe("Additional Math Functions", () => {
     expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to exp.svg");
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
+
+  test("should generate and save an SVG plot for abs function", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    // Test expression: absolute value of (x-5) will ensure transformation to Math.abs()
+    await main(["--expression", "y=abs(x-5)", "--range", "x=0:10,y=0:10", "--file", "abs.svg"]);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).toContain("<svg");
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to abs.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
+  });
 });
 
 describe("CSV Export Functionality", () => {

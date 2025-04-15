@@ -10,7 +10,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --json, --color, --stroke, --width, --height, --padding, --samples, --grid, --marker, --no-legend, and the new --logscale flag.
 
-- --expression: A non-empty string representing one or more mathematical expressions. For a single expression, use the format (e.g., "y=sin(x)"). For multiple expressions, separate them with a semicolon (e.g., "y=sin(x);y=cos(x)"). In each expression, if the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp) are translated for JavaScript evaluation.
+- --expression: A non-empty string representing one or more mathematical expressions. For a single expression, use the format (e.g., "y=sin(x)"). For multiple expressions, separate them with a semicolon (e.g., "y=sin(x);y=cos(x)"). In each expression, if the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp, and abs) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
 - --file: The output file name which must end with .svg, .png, or .csv. When a .png file is specified, the generated SVG plot is converted to PNG using the sharp library. When a .csv file is specified, the computed time series data is exported in CSV format. Note: CSV export now supports multiple expressions by including additional y columns (e.g., y1, y2, etc.).
 - --evaluate: (Optional) When provided, the CLI evaluates the given expression(s) over the x-range and generates time series data. By default, the data is printed to the console (except when exporting CSV).
@@ -40,6 +40,10 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6,y=-1:1" --file outpu
 ```
 
 This will generate a file named output.json containing the evaluation data in JSON format.
+
+#### Additional Math Functions
+
+In addition to sin, cos, tan, sqrt, log, and exp, the CLI now supports the abs function. Use abs(x) in your expression to compute the absolute value, which will be translated to Math.abs(x) during evaluation.
 
 #### Valid Usage Examples
 
