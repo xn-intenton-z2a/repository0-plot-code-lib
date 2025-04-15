@@ -62,6 +62,15 @@ export async function main(args = []) {
     parsedArgs.noLegend = true;
     delete parsedArgs['no-legend'];
   }
+  // Convert dash-case flags for grid-color and grid-stroke
+  if ('grid-color' in parsedArgs) {
+    parsedArgs.gridColor = parsedArgs['grid-color'];
+    delete parsedArgs['grid-color'];
+  }
+  if ('grid-stroke' in parsedArgs) {
+    parsedArgs.gridStroke = parsedArgs['grid-stroke'];
+    delete parsedArgs['grid-stroke'];
+  }
 
   // If diagnostics flag is provided, output raw parsed arguments
   if (parsedArgs.diagnostics) {

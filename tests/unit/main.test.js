@@ -394,4 +394,3 @@ describe("Custom Grid Styling Options", () => {
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
-
