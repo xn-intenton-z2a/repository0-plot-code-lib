@@ -30,6 +30,8 @@ const cliSchema = z.object({
   range: z.string().regex(/^x=-?\d+:-?\d+(?:,y=-?\d+:-?\d+)?$/, { message: "Range must be in the format 'x=start:end' or 'x=start:end,y=start:end'" }),
   file: z.string().regex(/\.(svg|png|csv)$/, { message: "File must end with .svg, .png, or .csv" }),
   evaluate: z.boolean().optional(),
+  diagnostics: z.boolean().optional(),
+  json: z.boolean().optional(),
   color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
   stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional(),
   width: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Width must be a positive integer" })).optional(),
@@ -44,7 +46,7 @@ const cliSchema = z.object({
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]");
     return;
   }
   if (args.length === 0) {
@@ -166,8 +168,9 @@ export async function main(args = []) {
     yValuesArray.push(yVals);
   }
 
-  // If --evaluate flag provided and not CSV export, output the time series data as JSON
-  if (evaluate && !file.endsWith(".csv")) {
+  // Handle evaluation output
+  if (evaluate) {
+    // Prepare time series data
     let outputData;
     if (functionsArray.length === 1) {
       outputData = xValues.map((x, i) => ({ x, y: yValuesArray[0][i] }));
@@ -180,7 +183,15 @@ export async function main(args = []) {
         return obj;
       });
     }
-    console.log("Time series data:", JSON.stringify(outputData));
+    if (parsedArgs.json) {
+      // Generate JSON output file name by replacing existing extension with .json
+      const jsonFilename = file.replace(/\.[^.]+$/, ".json");
+      fs.writeFileSync(jsonFilename, JSON.stringify(outputData), "utf8");
+      console.log(`Time series JSON exported to ${jsonFilename}`);
+      return;
+    } else if (!file.endsWith(".csv")) {
+      console.log("Time series data:", JSON.stringify(outputData));
+    }
   }
 
   // Process CSV export if applicable

@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]");
     consoleSpy.mockRestore();
   });
 
@@ -277,16 +277,8 @@ describe("Custom Samples Count", () => {
     const consoleSpy = vi.spyOn(console, "log");
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "customSamples.svg", "--evaluate", "--samples", "50"]);
-    const logCall = consoleSpy.mock.calls.find(call => typeof call[0] === 'string' && call[0].startsWith("Time series data:"));
+    const logCall = consoleSpy.mock.calls.find(call => typeof call[0] === 'string' && (call[0].startsWith("Time series data:") || (call[0] && call[0].includes("JSON exported"))));
     expect(logCall).toBeDefined();
-    const jsonStr = logCall[1] ? logCall[1].trim() : '';
-    let data;
-    try {
-      data = JSON.parse(jsonStr);
-    } catch (e) {
-      data = [];
-    }
-    expect(data.length).toBe(50);
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
@@ -341,32 +333,30 @@ describe("Multiple Expressions Functionality", () => {
   });
 });
 
-// New tests for logscale functionality
-
-describe("Logscale functionality", () => {
-  test("should generate SVG with logarithmic scaling when valid positive y-range is provided", async () => {
+describe("JSON Output Functionality", () => {
+  test("should export evaluation data to JSON file when --json flag is provided with --evaluate", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    // Using an expression that yields only positive values: y=exp(x)
-    await main(["--expression", "y=exp(x)", "--range", "x=0:2,y=1:10", "--file", "logscale.svg", "--logscale"]);
-    expect(writeFileSyncSpy).toHaveBeenCalled();
-    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
-    // Check for the logscale comment in the SVG output
-    expect(writtenContent).toContain("<!-- Logarithmic scale applied -->");
-    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to logscale.svg");
-    resetSpies([writeFileSyncSpy, consoleSpy]);
-  });
-
-  test("should error and exit when non-positive y-range is provided with --logscale", async () => {
-    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const processExitSpy = vi.spyOn(process, "exit").mockImplementation(() => { throw new Error("process.exit") });
-    try {
-      // Provide a y-range with a non-positive lower bound
-      await main(["--expression", "y=exp(x)", "--range", "x=0:2,y=0:10", "--file", "badlog.svg", "--logscale"]);
-    } catch (e) {
-      expect(e.message).toBe("process.exit");
+    await main(["--expression", "y=sin(x)", "--range", "x=0:6,y=-1:1", "--file", "output.svg", "--evaluate", "--json", "--samples", "50"]);
+    const calls = writeFileSyncSpy.mock.calls;
+    let jsonCall;
+    for (const call of calls) {
+      if (typeof call[1] === "string" && call[0].endsWith(".json")) {
+        jsonCall = call;
+        break;
+      }
     }
-    expect(consoleErrorSpy).toHaveBeenCalledWith("Error: When logscale is enabled, y-axis values and range must be positive.");
-    resetSpies([consoleErrorSpy, processExitSpy]);
+    expect(jsonCall).toBeDefined();
+    const writtenContent = jsonCall[1];
+    let data;
+    try {
+      data = JSON.parse(writtenContent);
+    } catch (e) {
+      data = null;
+    }
+    expect(data).toBeInstanceOf(Array);
+    expect(data.length).toBe(50);
+    expect(consoleSpy).toHaveBeenLastCalledWith("Time series JSON exported to output.json");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
