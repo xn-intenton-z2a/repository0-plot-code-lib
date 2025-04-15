@@ -13,7 +13,6 @@ function parseCliArgs(args) {
     if (args[i].startsWith("--")) {
       const key = args[i].substring(2);
       if (i + 1 < args.length && !args[i + 1].startsWith("--")) {
-        // Convert numeric values if possible
         parsed[key] = args[i + 1];
         i++;
       } else {
@@ -38,12 +37,13 @@ const cliSchema = z.object({
   padding: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Padding must be a positive integer" })).optional(),
   samples: z.preprocess(arg => Number(arg), z.number().int().positive({ message: "Samples must be a positive integer" })).optional(),
   grid: z.boolean().optional(),
-  marker: z.boolean().optional()
+  marker: z.boolean().optional(),
+  noLegend: z.boolean().optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend]");
     return;
   }
   if (args.length === 0) {
@@ -52,6 +52,11 @@ export async function main(args = []) {
   }
 
   const parsedArgs = parseCliArgs(args);
+  // Convert dash-case flag --no-legend into camelCase noLegend for validation
+  if ('no-legend' in parsedArgs) {
+    parsedArgs.noLegend = true;
+    delete parsedArgs['no-legend'];
+  }
 
   // If diagnostics flag is provided, output raw parsed arguments
   if (parsedArgs.diagnostics) {
@@ -71,7 +76,7 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Destructure parameters
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker } = result.data;
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend } = result.data;
 
   // Process multiple expressions separated by semicolon
   const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
@@ -249,9 +254,9 @@ export async function main(args = []) {
     }
   }
 
-  // Build legend if multiple expressions and output is SVG/PNG
+  // Build legend if multiple expressions and if noLegend flag is not set
   let legendSvg = "";
-  if (functionsArray.length > 1) {
+  if (functionsArray.length > 1 && !noLegend) {
     // Position legend at top right
     const legendX = canvasWidth - canvasPadding - 150;
     let legendY = canvasPadding + 10;

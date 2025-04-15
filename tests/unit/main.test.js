@@ -24,7 +24,7 @@ describe("Default main behavior", () => {
   test("should display help when '--help' is passed", async () => {
     const consoleSpy = vi.spyOn(console, "log");
     await main(["--help"]);
-    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker]");
+    expect(consoleSpy).toHaveBeenCalledWith("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend]");
     consoleSpy.mockRestore();
   });
 
@@ -288,7 +288,6 @@ describe("Custom Samples Count", () => {
   });
 });
 
-// Marker functionality
 describe("Marker functionality", () => {
   test("should include marker circles when --marker flag is provided in SVG output", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
@@ -313,8 +312,6 @@ describe("Marker functionality", () => {
     resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
-
-// Tests for Multiple Expressions (already partially covered above)
 
 describe("Multiple Expressions Functionality", () => {
   test("should generate SVG with multiple polyline elements for multiple expressions and include legend", async () => {
@@ -342,5 +339,15 @@ describe("Multiple Expressions Functionality", () => {
     }
     expect(consoleErrorSpy).toHaveBeenCalledWith("Error: CSV export does not support multiple expressions.");
     resetSpies([consoleErrorSpy, processExitSpy]);
+  });
+
+  test("should not include legend in SVG plot when --no-legend flag is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "noLegend.svg", "--no-legend"]);
+    const writtenContent = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenContent).not.toContain('<g id="legend">');
+    expect(consoleSpy).toHaveBeenLastCalledWith("Plot saved to noLegend.svg");
+    resetSpies([writeFileSyncSpy, consoleSpy]);
   });
 });
