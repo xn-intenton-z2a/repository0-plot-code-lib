@@ -7,9 +7,9 @@ import { z } from "zod";
 import { evaluate } from "mathjs";
 
 /**
- * Parses CLI arguments to extract --expression, --range, and --file options.
+ * Parses CLI arguments to extract --expression, --range, --file, and --json options.
  * @param {string[]} args - Array of command-line arguments
- * @returns {object} An object with expression, range, and file if present
+ * @returns {object} An object with expression, range, file, and json if present
  */
 function parseArgs(args) {
   const result = {};
@@ -24,6 +24,8 @@ function parseArgs(args) {
     } else if (arg === "--file") {
       result.file = args[i + 1];
       i++;
+    } else if (arg === "--json") {
+      result.json = true;
     }
   }
   return result;
@@ -37,6 +39,7 @@ const cliOptionsSchema = z.object({
     "Range must be in the format 'x=min:max,y=min:max'"
   ),
   file: z.string().regex(/\.(svg|png)$/i, "File must have .svg or .png extension"),
+  json: z.boolean().optional()
 });
 
 /**
@@ -48,10 +51,6 @@ const cliOptionsSchema = z.object({
  * @returns {string} - JSON string of the computed time series data
  */
 function generateTimeSeriesData(expression, rangeStr) {
-  const xMatch = rangeStr.match(/x=(-?\d+(?:\.\d+)?):-?\d+(?:\.\d+)?/);
-  if (!xMatch) {
-    throw new Error("Invalid range format for x values");
-  }
   const xRangeMatch = rangeStr.match(/x=(-?\d+(?:\.\d+)?):(-?\d+(?:\.\d+)?)/);
   if (!xRangeMatch) {
     throw new Error("Invalid range format for x values");
@@ -79,7 +78,7 @@ function generateTimeSeriesData(expression, rangeStr) {
 export function main(args = []) {
   // If no arguments are provided, print usage information and exit.
   if (args.length === 0) {
-    console.log("Run with: node src/lib/main.js --expression <expression> --range <range> --file <file>");
+    console.log("Run with: node src/lib/main.js --expression <expression> --range <range> --file <file> [--json]");
     return;
   }
 
@@ -93,8 +92,6 @@ export function main(args = []) {
     return;
   }
 
-  let plotContent;
-  const filePath = cliOptions.file;
   let timeSeriesData;
   try {
     timeSeriesData = generateTimeSeriesData(cliOptions.expression, cliOptions.range);
@@ -103,6 +100,21 @@ export function main(args = []) {
     return;
   }
 
+  // If --json flag is provided, output JSON object to stdout and bypass file writing
+  if (cliOptions.json) {
+    const outputObj = {
+      message: "Plot generated",
+      expression: cliOptions.expression,
+      range: cliOptions.range,
+      file: cliOptions.file,
+      timeSeriesData: JSON.parse(timeSeriesData)
+    };
+    console.log(JSON.stringify(outputObj));
+    return;
+  }
+
+  let plotContent;
+  const filePath = cliOptions.file;
   if (filePath.endsWith('.svg')) {
     // Generate a minimal valid SVG content with embedded time series data
     plotContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100">
