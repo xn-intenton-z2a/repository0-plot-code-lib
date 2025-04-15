@@ -72,7 +72,8 @@ function generateTimeSeriesData(expression, rangeStr) {
     }
     points.push({ x: xVal, y: yVal });
   }
-  return JSON.stringify(points);
+  // Format JSON with indentation for better readability in output files
+  return JSON.stringify(points, null, 2);
 }
 
 export function main(args = []) {
