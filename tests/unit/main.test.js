@@ -138,7 +138,7 @@ describe("Diagnostics functionality", () => {
 describe("PNG Plot Generation", () => {
   test("should generate and save a PNG plot with legend when multiple expressions are provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
-    const consoleSpy = vi.spyOn(console, "log");
+    const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     await main(["--expression", "y=sin(x);y=cos(x)", "--range", "x=0:10,y=-1:1", "--file", "plot.png"]);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenContent = writeFileSyncSpy.mock.calls[0][1];
