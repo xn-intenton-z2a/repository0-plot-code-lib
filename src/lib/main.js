@@ -41,12 +41,14 @@ const cliSchema = z.object({
   grid: z.boolean().optional(),
   marker: z.boolean().optional(),
   noLegend: z.boolean().optional(),
-  logscale: z.boolean().optional()
+  logscale: z.boolean().optional(),
+  gridColor: z.string().min(1, { message: "Grid color must be a non-empty string" }).optional(),
+  gridStroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Grid stroke must be a positive number" })).optional()
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]");
+    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale]");
     return;
   }
   if (args.length === 0) {
@@ -79,7 +81,7 @@ export async function main(args = []) {
   console.log(`Validated arguments: ${JSON.stringify(result.data)}`);
 
   // Destructure parameters
-  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale } = result.data;
+  const { expression, range, file, evaluate, color, stroke, width, height, padding, samples, grid, marker, noLegend, logscale, gridColor, gridStroke } = result.data;
 
   // Process multiple expressions separated by semicolon
   const expressionsArray = expression.split(";").map(expr => expr.trim()).filter(expr => expr !== "");
@@ -261,15 +263,18 @@ export async function main(args = []) {
   let gridLines = "";
   if (grid) {
     const numGrid = 5;
+    // Use custom grid color and stroke if provided; otherwise default values
+    const gridLineColor = gridColor || "#ddd";
+    const gridLineStroke = gridStroke || 1;
     const verticalSpacing = (canvasWidth - 2 * canvasPadding) / (numGrid + 1);
     for (let i = 1; i <= numGrid; i++) {
       const xPos = canvasPadding + i * verticalSpacing;
-      gridLines += `<line x1="${xPos}" y1="${canvasPadding}" x2="${xPos}" y2="${canvasHeight - canvasPadding}" stroke="#ddd" stroke-width="1"/>`;
+      gridLines += `<line x1="${xPos}" y1="${canvasPadding}" x2="${xPos}" y2="${canvasHeight - canvasPadding}" stroke="${gridLineColor}" stroke-width="${gridLineStroke}"/>`;
     }
     const horizontalSpacing = (canvasHeight - 2 * canvasPadding) / (numGrid + 1);
     for (let i = 1; i <= numGrid; i++) {
       const yPos = canvasPadding + i * horizontalSpacing;
-      gridLines += `<line x1="${canvasPadding}" y1="${yPos}" x2="${canvasWidth - canvasPadding}" y2="${yPos}" stroke="#ddd" stroke-width="1"/>`;
+      gridLines += `<line x1="${canvasPadding}" y1="${yPos}" x2="${canvasWidth - canvasPadding}" y2="${yPos}" stroke="${gridLineColor}" stroke-width="${gridLineStroke}"/>`;
     }
   }
 

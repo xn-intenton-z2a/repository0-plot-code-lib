@@ -8,7 +8,7 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### CLI
 
-The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --json, --color, --stroke, --width, --height, --padding, --samples, --grid, --marker, --no-legend, and the new --logscale flag.
+The CLI now requires three parameters: --expression, --range, and --file. Additional optional flags include --evaluate, --diagnostics, --json, --color, --stroke, --width, --height, --padding, --samples, --grid, --grid-color, --grid-stroke, --marker, --no-legend, and --logscale.
 
 - --expression: A non-empty string representing one or more mathematical expressions. For a single expression, use the format (e.g., "y=sin(x)"). For multiple expressions, separate them with a semicolon (e.g., "y=sin(x);y=cos(x)"). In each expression, if the string starts with "y=", the prefix is removed and basic math functions (like sin, cos, tan, sqrt, log, exp, and abs) are translated for JavaScript evaluation.
 - --range: A string specifying the range for the x-axis and optionally the y-axis. It can be provided in the format 'x=min:max' or 'x=min:max,y=min:max'. When a y-range is provided, its boundaries will be used for plotting rather than auto scaling based on computed values.
@@ -22,7 +22,9 @@ The CLI now requires three parameters: --expression, --range, and --file. Additi
 - --height: (Optional) A positive integer to specify the canvas height of the generated plot. Defaults to 500 if not provided.
 - --padding: (Optional) A positive integer to set the padding within the canvas, affecting the plot margins. Defaults to 20 if not provided.
 - --samples: (Optional) A positive integer specifying the number of sample points to generate the plot. Defaults to 100 if not provided.
-- --grid: (Optional) When provided, gridlines are drawn on the plot. The gridlines are rendered in light gray (#ddd) with a stroke width of 1.
+- --grid: (Optional) When provided, gridlines are drawn on the plot. 
+- --grid-color: (Optional) A valid CSS color string for gridlines. When used with --grid, it customizes the gridline color (default is #ddd).
+- --grid-stroke: (Optional) A positive number specifying the stroke width of the gridlines when --grid is used (default is 1).
 - --marker: (Optional) When provided, small circle markers (with a default radius of 3) are drawn at each computed data point using the stroke color.
 - --no-legend: (Optional) When provided, the legend is disabled in multi-expression plots. By default a legend is generated if multiple expressions are provided.
 - --logscale: (Optional) When provided, the plot’s y-axis will use a logarithmic scale. This transforms y-values using the natural logarithm. Note: All y-axis values must be positive when using this option.
@@ -45,13 +47,19 @@ This will generate a file named output.json containing the evaluation data in JS
 
 In addition to sin, cos, tan, sqrt, log, and exp, the CLI now supports the abs function. Use abs(x) in your expression to compute the absolute value, which will be translated to Math.abs(x) during evaluation.
 
+#### Custom Grid Styling
+
+When the --grid flag is provided, you can customize gridline appearance using the following additional flags:
+- --grid-color: Specify a custom color for the gridlines (e.g., "#00FF00").
+- --grid-stroke: Specify a custom stroke width for the gridlines (e.g., 2).
+
 #### Valid Usage Examples
 
 Display help information:
 
 ```sh
 node src/lib/main.js --help
-# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--marker] [--no-legend] [--logscale]
+# Output: Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--json] [--color <color>] [--stroke <number>] [--width <number>] [--height <number>] [--padding <number>] [--samples <number>] [--grid] [--grid-color <color>] [--grid-stroke <number>] [--marker] [--no-legend] [--logscale]
 ```
 
 Run the CLI with a single expression (SVG plot generation):
@@ -64,24 +72,14 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file ou
 # Plot saved to output.svg
 ```
 
-Run the CLI with multiple expressions (SVG plot generation with legend):
+Run the CLI with multiple expressions and custom grid styling (SVG plot generation):
 
 ```sh
-node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:10,y=-1:1" --file multi.svg
+node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:10,y=-1:1" --file customGrid.svg --grid --grid-color "#00FF00" --grid-stroke 2
 # Output:
-# Validated arguments: {"expression":"y=sin(x);y=cos(x)","range":"x=0:10,y=-1:1","file":"multi.svg"}
+# Validated arguments: {"expression":"y=sin(x);y=cos(x)","range":"x=0:10,y=-1:1","file":"customGrid.svg","grid":true,"gridColor":"#00FF00","gridStroke":2}
 # Generating plot for expression: y=sin(x);y=cos(x) with range: x=0:10,y=-1:1
-# Plot saved to multi.svg
-```
-
-Run the CLI with multiple expressions and disable legend:
-
-```sh
-node src/lib/main.js --expression "y=sin(x);y=cos(x)" --range "x=0:10,y=-1:1" --file noLegend.svg --no-legend
-# Output:
-# Validated arguments: {"expression":"y=sin(x);y=cos(x)","range":"x=0:10,y=-1:1","file":"noLegend.svg","noLegend":true}
-# Generating plot for expression: y=sin(x);y=cos(x) with range: x=0:10,y=-1:1
-# Plot saved to noLegend.svg
+# Plot saved to customGrid.svg
 ```
 
 Run the CLI with PNG output (PNG plot generation):
@@ -144,19 +142,21 @@ main([
   "--expression", "y=sin(x);y=cos(x)",
   "--range", "x=0:6,y=-1:1",
   "--file", "output.svg", // or use output.png for PNG output or output.csv for CSV export
-  "--evaluate",        // optional flag to output time series data (when not exporting CSV)
-  "--diagnostics",     // optional flag to output diagnostic information
-  "--json",            // optional flag to export evaluation data to JSON
-  "--color", "green", // optional flag to set the stroke color
-  "--stroke", "3",    // optional flag to set the stroke width
-  "--width", "800",   // optional custom canvas width
-  "--height", "600",  // optional custom canvas height
-  "--padding", "30",  // optional custom padding
-  "--samples", "120", // optional custom sample count
-  "--grid",            // optional flag to add gridlines
-  "--marker",          // optional flag to add markers at data points
-  "--no-legend",       // optional flag to disable the legend in multi-expression plots
-  "--logscale"         // optional flag to enable logarithmic scaling of the y-axis
+  "--evaluate",         // optional flag to output time series data (when not exporting CSV)
+  "--diagnostics",      // optional flag to output diagnostic information
+  "--json",             // optional flag to export evaluation data to JSON
+  "--color", "green",  // optional flag to set the stroke color
+  "--stroke", "3",     // optional flag to set the stroke width
+  "--width", "800",    // optional custom canvas width
+  "--height", "600",   // optional custom canvas height
+  "--padding", "30",   // optional custom padding
+  "--samples", "120",  // optional custom sample count
+  "--grid",             // optional flag to add gridlines
+  "--grid-color", "#00FF00", // optional gridline color
+  "--grid-stroke", "2",       // optional gridline stroke width
+  "--marker",           // optional flag to add markers at data points
+  "--no-legend",        // optional flag to disable the legend in multi-expression plots
+  "--logscale"          // optional flag to enable logarithmic scaling of the y-axis
 ]);
 ```
 
