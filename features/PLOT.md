@@ -1,36 +1,36 @@
 # PLOT Feature Enhancement
 
-This update refines and extends the existing PLOT feature to improve the command-line interface (CLI) functionality and ensure robust parameter validation. The changes include enhanced parsing, clearer error messages, and updated documentation and tests.
+This update refines the PLOT feature by adding robust CLI argument parsing, parameter validation, and improved error handling. This ensures users receive clear guidance for command usage.
 
-## CLI Argument Parsing
+# CLI Argument Parsing & Validation
 
-- Update the main function in src/lib/main.js to recognize and validate the following CLI parameters:
-  - `--expression`: Accepts a mathematical expression string (e.g., "y=sin(x)").
-  - `--range`: Accepts a range in the format "x=start:end,y=start:end", and validates the input format.
-  - `--file`: Accepts a file path for output where a simulated plot generation confirmation will be printed.
+- Update `src/lib/main.js` to parse CLI arguments for the following parameters:
+  - `--expression`: A mathematical expression string (e.g., "y=sin(x)").
+  - `--range`: A range in the format "x=start:end,y=start:end". Validate the format using a robust library or custom regex ensuring both parts are present.
+  - `--file`: A file path where the plot output (e.g., SVG) is confirmed to be generated.
 
-- Implement error handling for cases where required parameters are missing or are in an incorrect format. Provide users with usage guidance and error messages if the input parameters are malformed.
+- Implement clear error messages in cases of missing or improperly formatted parameters.
 
-## Test Enhancements
-
-- Update tests in tests/unit/main.test.js to include scenarios covering the new CLI functionality. This includes tests for:
-  - Successful parsing and confirmation message when all required parameters are provided.
-  - Error handling when one or more parameters (e.g., `--range` or `--expression`) are missing or do not meet the expected format.
-
-## Documentation Updates
-
-- Revise the README.md file to document the updated CLI usage, including examples of valid commands. For example:
+- Include a usage guide that is printed when the argument input is invalid or incomplete. This guide should illustrate the correct command usage:
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
 ```
 
-- Include information on the expected input format and error messages in the documentation.
+# Test Enhancements
 
-## Dependency and Code Quality Considerations
+- Update `tests/unit/main.test.js` to include tests for:
+  - Successful execution when valid parameters are passed.
+  - Cases where one or more parameters are missing or badly formatted, ensuring the appropriate error message is produced.
 
-- Make sure that the updates in src/lib/main.js remain compatible with Node 20 and the ECMAScript Module (ESM) standards as outlined in CONTRIBUTING.md.
-- Verify that any changes uphold the discipline of minimal file changes (updating only source, test, README, and dependencies if necessary).
-- Ensure that the tests pass under the command `npm test` and that the new functionality is clearly documented.
+# Documentation Updates
 
-This feature enhancement aligns with the mission of being a "go-to plot library with a CLI" by providing a more reliable, user-friendly interface for generating plot visualizations from mathematical expressions and time ranges.
+- Update the README.md to reflect the enhanced CLI usage, including updated examples and detailed explanation of parameter formats and error cases.
+
+# Dependency and Code Integrity
+
+- Ensure that all updates remain compatible with Node 20 and ESM standards.
+- Leverage existing dependencies (e.g., zod) if needed for parameter validation.
+- Confirm that changes remain compliant with `CONTRIBUTING.md` guidelines and minimal file modifications, affecting only source, tests, README, and package.json if necessary.
+
+This enhancement consolidates the PLOT feature by providing a more resilient and user-friendly CLI interface, directly aligning with the mission to be the go-to plot library for formula visualisations.
