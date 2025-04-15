@@ -44,10 +44,11 @@ const cliSchema = z.object({
   logscale: z.boolean().optional(),
   gridColor: z.string().min(1, { message: "Grid color must be a non-empty string" }).optional(),
   gridStroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Grid stroke must be a positive number" })).optional(),
+  gridDash: z.string().min(1, { message: "Grid dash pattern must be a non-empty string" }).optional(),
   title: z.string().min(1, { message: "Title must be a non-empty string" }).optional(),
   // New options for title font styling
   titleFontFamily: z.string().min(1, { message: "Title font family must be a non-empty string" }).optional(),
-  titleFontSize: z.preprocess(arg => Number(arg), z.number().positive({ message: "Title font size must be a positive number" })).optional(),
+  titleFontSize: z.preprocess(arg => Number(arg), z.number().positive({ message: "Title font size must be a positive number" })).optional()
 });
 
 export async function main(args = []) {
