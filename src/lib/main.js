@@ -39,6 +39,12 @@ const cliOptionsSchema = z.object({
 });
 
 export function main(args = []) {
+  // If no arguments are provided, print usage information and exit.
+  if (args.length === 0) {
+    console.log("Run with: node src/lib/main.js --expression <expression> --range <range> --file <file>");
+    return;
+  }
+
   const cliOptions = parseArgs(args);
 
   // Validate CLI options
