@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/lib/main.js",
   "bin": {
-    "repository0-plot-code-lib": "src/lib/main.js"
+    "repository0_plot-code-lib": "src/lib/main.js"
   },
   "scripts": {
     "build": "echo 'Nothing to build'",
