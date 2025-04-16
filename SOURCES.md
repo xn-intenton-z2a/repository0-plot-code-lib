@@ -292,3 +292,18 @@ GeoGebra provides interactive mathematics software, with documentation focusing 
 ## https://nodejs.org/api/esm.html
 The Node.js ES Modules Documentation explains how ECMAScript modules are implemented in Node.js. It covers topics such as module resolution, import/export syntax, and interoperability with CommonJS modules. This source is authoritative and continuously updated with new Node.js releases.
 ## Public Domain
+
+# Enquirer Documentation
+## https://github.com/enquirer/enquirer
+Enquirer is a stylish and intuitive command-line prompt library that enhances interactive CLI applications. Its documentation covers setup, prompt customization, and integration strategies, making it an excellent resource for building engaging command-line interfaces. This is especially relevant for interactive modes in CLI tools like plot-code-lib.
+## MIT
+
+# Winston Logging Documentation
+## https://github.com/winstonjs/winston
+Winston is a versatile logging library for Node.js that offers a multi-transport logging system. Its documentation provides detailed instructions, best practices, and configuration examples, making it a go-to resource for implementing robust logging in CLI applications.
+## MIT
+
+# Ink Documentation
+## https://github.com/vadimdemedes/ink
+Ink is a React renderer for interactive command-line applications, allowing developers to build modern CLI tools using React components. Its documentation covers component usage, API details, and customization options, providing a fresh approach to interactive CLI development.
+## MIT
