@@ -94,7 +94,7 @@ export function main(args = []) {
         let y;
         try {
           y = f(x);
-          // If the result is not a valid number, substitute it with null
+          // If the result is not a valid finite number (including NaN), substitute it with null
           if (typeof y !== "number" || !Number.isFinite(y)) y = null;
         } catch (e) {
           y = null;
