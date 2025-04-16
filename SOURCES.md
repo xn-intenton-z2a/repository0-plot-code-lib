@@ -72,3 +72,33 @@ QuickChart API is a powerful chart generation service that allows the dynamic cr
 ## https://www.npmjs.com/package/inquirer
 Inquirer.js provides a collection of interactive command-line user interfaces. Its documentation covers prompt types, question validation, and customization options. Although not currently used in the repository, it serves as a valuable reference for enhancing CLI user experiences through interactive prompts and can inspire future feature development.
 ## MIT
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js/blob/master/README.md
+Commander.js is a popular CLI framework for Node.js that simplifies argument parsing, command handling, and output formatting for command-line applications. Its documentation is regularly updated and well-regarded for its clear examples and ease-of-use. This source is particularly useful for developers looking to implement robust CLI features similar to those enhanced in this repository.
+## MIT
+
+# Vite Documentation
+## https://vitejs.dev/guide/
+Vite is a next-generation front-end build tool that offers an extremely fast development environment by leveraging native ES modules. Its documentation covers configuration, plugin integration, and performance optimization, making it a critical resource for projects using modern testing frameworks like Vitest.
+## MIT
+
+# Node.js CLI Tools Guide
+## https://nodejs.dev/learn/command-line-interfaces
+The Node.js CLI Tools Guide provides insights on building robust command-line interfaces with Node.js. It covers best practices, common libraries, and design patterns which are helpful for implementing CLI enhancements such as the integrated help flag and argument validation present in this repository.
+## Node.js Documentation License
+
+# JSON Schema Documentation
+## https://json-schema.org/understanding-json-schema/
+This comprehensive guide to JSON Schema explains how to describe and validate JSON data. It is an invaluable resource for projects that output or consume JSON, ensuring data structures meet a defined standard. The documentation is frequently updated and is considered an authoritative source in the data validation domain.
+## CC0
+
+# ES Modules Documentation
+## https://nodejs.org/api/esm.html
+The ES Modules documentation by Node.js details the usage, implementation, and best practices for ECMAScript modules. As the repository adheres to modern JavaScript standards by using ESM, this documentation serves as a crucial reference for developers and maintainers.
+## Node.js Documentation License
+
+# Chalk Documentation
+## https://github.com/chalk/chalk#readme
+Chalk is a widely used library for styling command-line output with colors, enhancing the user interface of terminal applications. Its documentation provides examples, configuration options, and usage guidelines, making it an excellent reference for developers aiming to improve CLI usability and aesthetics.
+## MIT
