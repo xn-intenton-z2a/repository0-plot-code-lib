@@ -94,7 +94,8 @@ export function main(args = []) {
         let y;
         try {
           y = f(x);
-          // If the result is not a valid finite number (including NaN), substitute it with null
+          // If the result is not a valid finite number (including NaN or Infinity), substitute it with null
+          // This ensures the resulting JSON time series contains only finite numerical values or null for invalid results
           if (typeof y !== "number" || !Number.isFinite(y)) y = null;
         } catch (e) {
           y = null;

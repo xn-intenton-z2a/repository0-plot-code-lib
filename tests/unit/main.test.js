@@ -127,7 +127,9 @@ describe("Custom Sample Count Handling", () => {
 });
 
 describe("NaN Handling", () => {
-  test("should handle NaN result by returning null in time series", () => {
+  test("should handle non-finite results by returning null in time series", () => {
+    // This test verifies that when an expression results in a non-finite value (e.g., NaN),
+    // the output JSON correctly substitutes such results with null.
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "0/0", "--range", "x=0:10"]);
     const output = logSpy.mock.calls[0][0];

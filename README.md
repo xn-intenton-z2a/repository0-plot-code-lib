@@ -35,7 +35,10 @@ Omit the `--file` option to output JSON time series data from the provided expre
 ```bash
 node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
 ```
-This prints a JSON array with objects containing `x` and `y` values. If the evaluated expression does not result in a finite number (for example, if it evaluates to `NaN`), the corresponding `y` value in the output will be `null`.
+This prints a JSON array with objects containing `x` and `y` values. 
+
+**Note on Non-finite Values:**
+If the evaluated mathematical expression produces a non-finite result (such as NaN or Infinity), the tool intentionally replaces the result with `null` to ensure the output is valid JSON. For example, if an invalid or non-finite computation is performed, the corresponding `y` value in the output will be `null`.
 
 #### Example: NaN Handling
 
@@ -51,7 +54,7 @@ will produce an output similar to:
   ...
 ]
 ```
-(Each sample point's `y` value will be `null` because the expression evaluates to `NaN`.)
+(Each sample point's `y` value will be `null` because the expression evaluates to a non-finite value.)
 
 #### Custom Sample Count
 
@@ -95,8 +98,8 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options.
 2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
-3. Without `--file`, the tool evaluates the mathematical expression over the specified range and outputs a JSON array representing the time series data. If the evaluated expression results in a non-finite value (such as `NaN`), the output will contain `null` for that sample.
-4. The `--samples` flag allows customization of the number of sample points, and if the expression does not return a valid number, the corresponding value is replaced with `null` to ensure the output adheres to JSON standards.
+3. Without `--file`, the tool evaluates the mathematical expression over the specified range and outputs a JSON array representing the time series data. If the evaluated expression results in a non-finite value (such as NaN or Infinity), the result is replaced with `null` to maintain valid JSON output.
+4. The `--samples` flag allows customization of the number of sample points, and if the expression does not return a valid number, the corresponding value is replaced with `null`.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
 ## License
