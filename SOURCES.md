@@ -60,7 +60,7 @@ EJS is a simple templating language that lets you generate HTML markup with plai
 
 # Yargs Documentation
 ## https://yargs.js.org/docs/
-Yargs is a mature library for command-line argument parsing in Node.js. Its documentation details features like subcommands, comprehensive help text generation, and advanced validation. While the repository currently uses a simple custom parser, the Yargs documentation offers valuable insights and best practices for enhancing CLI interfaces. Last updated in 2023, it is recognized for its thorough coverage and community support.
+Yargs is a mature library for command-line argument parsing in Node.js. Its documentation details features like subcommands, comprehensive help text generation, and advanced validation. Last updated in 2023, it is recognized for its thorough coverage and community support.
 ## MIT
 
 # QuickChart API Documentation
@@ -117,3 +117,23 @@ Minimist is a minimal argument parser for Node.js, offering guidance on handling
 ## https://oclif.io/docs/introduction.html
 Oclif is a powerful framework for building command-line tools. Its documentation details setup, command creation, help flag integration, testing, and publishing CLI applications. This resource is widely regarded in the CLI development community for its comprehensiveness and modern practices, making it a strong competitor in the landscape of CLI tool development.
 ## MIT
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js is a flexible and easy-to-use JavaScript charting library ideal for creating simple yet elegant visualizations. Its documentation provides clear guides and examples on chart configuration, making it a useful resource for developers exploring lightweight chart solutions in a competitive landscape.
+## MIT
+
+# SVG 2 Specification
+## https://www.w3.org/TR/SVG2/
+The SVG 2 Specification is the official W3C document detailing the latest standards for scalable vector graphics. It covers comprehensive guidelines on SVG implementation, rendering, and accessibility, making it an essential reference for developers working with modern graphical outputs such as SVG plots.
+## W3C Document License
+
+# Highcharts Documentation
+## https://www.highcharts.com/docs
+Highcharts is a feature-rich charting library widely used in enterprise environments. Its documentation provides in-depth guides on chart configuration, advanced visualization techniques, and API usage. Although it requires licensing for commercial applications, the publicly available documentation is renowned for its clarity and extensiveness.
+## Proprietary (Free for non-commercial use)
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite offers a high-level grammar for creating interactive graphics, built on top of Vega. The documentation presents concise examples, API details, and best practices, making it accessible for developers who need a lighter, more streamlined approach to data visualization.
+## BSD-3-Clause
