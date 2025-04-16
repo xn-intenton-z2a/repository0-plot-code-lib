@@ -1,75 +1,66 @@
 # CLI_IMPROVEMENTS Update
 
-This update enhances the CLI tool by expanding its diagnostic output modes. In addition to the already implemented `--diagnostics` flag, this update adds a new `--version` flag. When invoked with either flag, the CLI tool provides immediate feedback about the runtime environment.
+This update expands the CLI tool functionality by fully implementing the version flag in addition to the existing diagnostics and maintenance modes. The improvements are achieved by updating source file logic, expanding unit tests, and enhancing documentation. This adheres to our mission of transparency and ease of use for our visualisation tool.
 
-## Version Flag
+## Version Flag Implementation
 
 - **Purpose:**
-  - When the CLI is invoked with the `--version` flag, the tool should output the package version (read from package.json or a hard-coded value) and exit immediately. This provides users with a quick way to verify the version of the tool in use.
+  - The CLI tool now supports the `--version` flag. When invoked, it retrieves and outputs the current package version (e.g., "1.2.0-0") and terminates immediately. This gives users a quick method to verify the version of the tool in use.
 
 - **Implementation Details:**
-  - In `src/lib/main.js`, add a conditional check at the beginning of the argument parsing. If `options.version` is detected:
-    - Retrieve the package version (e.g. from a hard-coded string or by requiring package.json).
-    - Output the version as a plain string or JSON object.
-    - Terminate execution immediately to avoid executing further logic.
-
-Example snippet:
-```js
-if (options.version) {
-  const pkgVersion = "1.2.0-0"; // Alternatively, require package.json to get the current version
-  console.log(pkgVersion);
-  return;
-}
-```
-
-## Diagnostics Mode Reviewed
-
-- **Diagnostics Mode:**
-  - Remains as implemented with the `--diagnostics` flag. The mode outputs a JSON object containing key diagnostic details such as the package version and the Node.js runtime version.
-
-- **Consistency Check:**
-  - Both the `--diagnostics` and `--version` flags are designed to provide environment feedback without interfering with the main operations of the CLI.
+  - In `src/lib/main.js`, add a conditional check at the top of the argument parsing:
+    ```js
+    if (options.version) {
+      const pkgVersion = "1.2.0-0"; // Alternatively, read from package.json
+      console.log(pkgVersion);
+      return;
+    }
+    ```
+  - This check must be placed before processing any other options to ensure immediate exit upon invocation of the version flag.
 
 ## Testing Enhancements
 
 - **Unit Tests:**
-  - In `tests/unit/main.test.js`, add tests to ensure that:
-    - Invoking the CLI with the `--version` flag outputs the correct version string.
-    - The `--diagnostics` mode continues to function as expected.
-
-Test outline for version flag:
-```js
-describe("Version Flag", () => {
-  test("should output the correct package version", () => {
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["--version"]);
-    expect(logSpy).toHaveBeenCalledWith("1.2.0-0");
-    logSpy.mockRestore();
-  });
-});
-```
+  - In `tests/unit/main.test.js`, include tests to cover the new `--version` flag functionality:
+    ```js
+    describe("Version Flag", () => {
+      test("should output the correct package version", () => {
+        const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+        main(["--version"]);
+        expect(logSpy).toHaveBeenCalledWith("1.2.0-0");
+        logSpy.mockRestore();
+      });
+    });
+    ```
+  - This test ensures that the version flag outputs the correct version string and exits without processing further logic.
 
 ## Documentation Updates
 
 - **README.md:**
-  - Update the CLI Usage section to include a new subsection for the Version Flag:
+  - Update the CLI Usage section to include details for the version flag:
+    ```markdown
+    ### Version Flag
 
-```markdown
-### Version Flag
+    To check the current version of the tool, run:
 
-To retrieve the current version of the tool, run:
+    ```bash
+    node src/lib/main.js --version
+    ```
 
-```bash
-node src/lib/main.js --version
-```
+    This will output the version number (e.g. "1.2.0-0") and exit immediately.
+    ```
+  - These documentation updates guide users on how the version feature works and align with the overall CLI usage instructions.
 
-This command outputs the version number (e.g. `1.2.0-0`).
-```
+## Consistency with Existing Features
+
+- The version flag works alongside existing options like `--diagnostics` and `--maintenance`. The order of condition checks in `src/lib/main.js` is designed to ensure that the version flag is prioritised, thereby preventing further processing if `--version` is present.
 
 ## Alignment with Mission & Contributing Guidelines
 
 - **Mission Compliance:**
-  - By providing immediate version feedback, this enhancement improves the tool’s usability and supports transparency with users, aligning with our mission of making `plot-code-lib` the go-to visualisation tool.
+  - Providing an immediate response when invoked with `--version` improves usability and transparency, in line with our mission of making the tool the go-to visualisation library.
 
 - **Contributing Guidelines:**
-  - The update is confined to modifications in the source file, tests, and README.md, ensuring adherence to established coding, testing, and documentation standards.
+  - This update is confined to modifications of source code, tests, and documentation, ensuring adherence to our coding, testing, and documentation standards.
+
+This enhancement represents a focused, valuable iteration of the CLI tool, ensuring that all major functionalities are present and operate cohesively within a single repository.
