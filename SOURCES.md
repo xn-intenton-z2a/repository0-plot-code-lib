@@ -130,12 +130,12 @@ Apache ECharts is a versatile interactive charting library offering extensive do
 
 # oclif Documentation
 ## https://oclif.io/docs/introduction
-oclif is a powerful framework for building CLI applications with JavaScript and TypeScript. The documentation covers everything from basic command creation to advanced plugin systems, offering insights into building robust and maintainable CLI tools. This resource is particularly useful for projects like plot-code-lib that aim for reliability and ease of use.
+oclif is a powerful framework for building CLI applications with JavaScript and TypeScript. The documentation covers everything from basic command creation to advanced plugin systems, offering insights into building robust and maintainable CLI tools. This resource is particularly useful for projects aiming for reliability and ease of use in CLI environments.
 ## MIT
 
 # Node.js Debugger Guide
 ## https://nodejs.org/en/docs/guides/debugging-getting-started
-The official Node.js guide to debugging covers how to use built-in debugging tools for Node applications, including setting breakpoints and analyzing performance. It serves as an excellent resource for developers needing to diagnose and troubleshoot CLI tools effectively, aligning with the diagnostic features of plot-code-lib.
+The official Node.js guide to debugging covers how to use built-in debugging tools for Node applications, including setting breakpoints and analyzing performance. It serves as an excellent resource for developers needing to diagnose and troubleshoot CLI tools effectively, aligning with the diagnostic features of modern CLI applications.
 ## Public Domain (Node.js Documentation Terms)
 
 # KaTeX Documentation
@@ -171,4 +171,14 @@ Decimal.js is an arbitrary-precision decimal arithmetic library for JavaScript. 
 # Chalk Documentation
 ## https://chalk.js.org/
 Chalk is a popular terminal string styling library for Node.js that enables developers to easily add colors and formatting to CLI output. Its documentation provides comprehensive guides and examples to enhance the readability and user experience of terminal applications.
+## MIT
+
+# Gnuplot Documentation
+## https://www.gnuplot.info/documentation.html
+Gnuplot provides detailed documentation for its command-driven graphing utility, widely used for generating scientific and analytical plots. The site offers usage examples, command syntax, and customization options for creating professional graphs. As a long-standing tool in the plotting domain, the documentation is considered authoritative and is distributed under the GNU General Public License.
+## GPL
+
+# C3.js Documentation
+## https://c3js.org/gettingstarted.html
+C3.js is a D3-based reusable chart library that simplifies the integration of interactive charts into web applications. Its documentation includes detailed guides, examples, and API references to help developers quickly implement and customize charts. The project is open-source and maintained under the MIT license.
 ## MIT
