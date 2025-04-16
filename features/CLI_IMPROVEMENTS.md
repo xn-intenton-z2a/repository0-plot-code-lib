@@ -1,64 +1,93 @@
 # CLI_IMPROVEMENTS Update
 
-This update refines the CLI tool by fully implementing the version flag functionality as outlined in our existing feature documentation. The update ensures that when a user invokes the CLI with `--version`, the tool immediately outputs the current package version and exits without processing additional arguments.
+This update refines the CLI tool to not only support the version flag but also incorporate a help mode. The help mode provides users with a comprehensive overview of available CLI options. This enhancement improves user accessibility by offering clear guidance directly from the command line.
 
-## Version Flag Implementation
+## Purpose
+- **Version Flag:** Ensure the CLI outputs the current version immediately when invoked with `--version`.
+- **Help Flag:** Display detailed usage information and flag descriptions when the CLI is invoked with `--help`.
 
-- **Purpose:**
-  - Allow users to quickly check the tool's version using the command `node src/lib/main.js --version`.
-  - Improve usability and transparency, aligning with our mission statement.
+## Implementation
 
-- **Source Code Changes:**
-  - In `src/lib/main.js`, add a conditional block at the beginning of the argument processing:
+### Source Code Changes (src/lib/main.js)
 
-    ```js
-    if (options.version) {
-      // Hard-coded version from package.json or defined constant
-      const pkgVersion = "1.2.0-0";
-      console.log(pkgVersion);
-      return;
-    }
-    ```
+- **Version Flag:**
+  - Retain the existing conditional branch that checks for `--version` and outputs the package version.
 
-    This check should occur before any other processing of options to ensure an immediate response.
+- **Help Flag:**
+  - Add a new conditional branch early in the argument parsing logic to check for `--help`.
+  - If the `--help` flag is provided, output a well-formatted multi-line help message which includes:
+    - A brief description of the tool and its mission.
+    - Detailed explanations for each CLI option, including `--expression`, `--range`, `--file`, `--samples`, `--diagnostics`, `--maintenance`, and `--version`.
+    - Instructions to refer to the README.md for extended documentation.
+  - Example implementation snippet:
 
-## Test Enhancements
+  ```js
+  if (options.help) {
+    const helpText = `
+Usage: node src/lib/main.js [options]
 
-- **Unit Tests:**
-  - In `tests/unit/main.test.js`, add a test case to confirm that the version flag outputs the correct version and halts further processing:
+Options:
+  --expression <expression>  Specify the mathematical expression to evaluate (prefix with 'y=' is allowed).
+  --range <range>            Specify the range in the format x=min:max.
+  --file <filename>          Generate a plot file (supports SVG and PNG).
+  --samples <number>         (Optional) Number of sample points for time series data (default is 100).
+  --diagnostics              Output diagnostic information in JSON format.
+  --version                Output the current version and exit.
+  --maintenance            Display maintenance issue error if open issues exist.
+  --help                   Show this help message and exit.
 
-    ```js
-    describe("Version Flag", () => {
-      test("should output the correct package version and exit immediately", () => {
-        const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-        main(["--version"]);
-        expect(logSpy).toHaveBeenCalledWith("1.2.0-0");
-        logSpy.mockRestore();
-      });
+For more information, please refer to the README.md file.
+`;
+    console.log(helpText);
+    return;
+  }
+  ```
+
+### Testing
+
+- **Unit Tests (tests/unit/main.test.js):**
+  - Add a test case to invoke the CLI with the `--help` flag.
+  - Verify that the output contains key phrases such as "Usage:" and option descriptions for `--expression`, `--range`, etc.
+
+  ```js
+  describe("Help Flag", () => {
+    test("should output help information containing usage instructions and options", () => {
+      const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+      main(["--help"]);
+      const output = logSpy.mock.calls[0][0];
+      expect(output).toContain("Usage:");
+      expect(output).toContain("--expression");
+      expect(output).toContain("--range");
+      expect(output).toContain("--file");
+      expect(output).toContain("--samples");
+      expect(output).toContain("--diagnostics");
+      expect(output).toContain("--version");
+      expect(output).toContain("--maintenance");
+      helpSpy.mockRestore();
     });
-    ```
+  });
+  ```
 
-## Documentation Updates
+### Documentation Updates (README.md)
 
-- **README.md:**
-  - Update the CLI Usage section to include usage of the `--version` flag:
+- Add a new subsection under the CLI Usage section for the Help Option. Example:
 
-    ```markdown
-    ### Version Flag
+  ```markdown
+  ### Help Option
 
-    To check the current version of the tool, run:
+  To view detailed usage instructions and available options, run:
 
-    ```bash
-    node src/lib/main.js --version
-    ```
+  ```bash
+  node src/lib/main.js --help
+  ```
 
-    This command outputs the version number (e.g., "1.2.0-0") and exits immediately.
-    ```
+  This command displays guidance on how to use the CLI tool, including descriptions of each flag.
+  ```
 
 ## Consistency and Mission Alignment
 
 - **Consistency:**
-  - The version flag is prioritized and handled before any other CLI options, ensuring no interference with functionalities like maintenance alerts or plot generation.
+  - The help flag is processed early in the CLI flow to immediately provide guidance, preventing any further processing of other options.
 
 - **Mission Alignment:**
-  - By providing an immediate and transparent method for version checking, this update supports our mission of making the tool accessible and reliable.
+  - By incorporating a help mode, the tool becomes more accessible and user-friendly, reinforcing our mission of being a go-to plot library with clear, transparent usage.
