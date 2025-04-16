@@ -17,6 +17,12 @@ export function main(args = []) {
     }
   }
 
+  // New maintenance check: if the --maintenance flag is provided, output an error about open maintenance issues
+  if (options.maintenance) {
+    console.log("Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.");
+    return;
+  }
+
   // If both expression and range are provided
   if (options.expression && options.range) {
     // If file option provided, maintain existing plot generation message

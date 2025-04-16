@@ -56,6 +56,14 @@ If any of the required options are missing (and no time series generation is pos
 Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
 ```
 
+### Maintenance Issues Handling
+
+In compliance with the repository guidelines, new maintenance issues cannot be submitted when there are already open maintenance issues. If you attempt to submit a new maintenance issue via the CLI using the `--maintenance` flag, the tool will output the following error message:
+
+```
+Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.
+```
+
 #### Dry-Run Mode
 
 Running the CLI without any arguments shows the received arguments:
@@ -72,10 +80,11 @@ Run with: []
 
 ## How It Works
 
-1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file`.
+1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file` or `--maintenance`.
 2. If `--expression` and `--range` are provided along with `--file`, the tool simulates plot generation by printing a message with the input details.
 3. If `--expression` and `--range` are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array.
-4. If any options are missing, the CLI informs the user about the correct usage.
+4. If the `--maintenance` flag is provided, the CLI will output an error message indicating that no new maintenance issues can be submitted until existing ones are resolved.
+5. If any required options for plot generation or time series creation are missing, the CLI informs the user about the correct usage.
 
 ## License
 
@@ -85,4 +94,4 @@ MIT
 
 ## Note on Issue Handling
 
-Due to the current limit of open maintenance issues, no changes have been applied until existing issues are resolved or closed.
+Due to repository guidelines and the current limit of open maintenance issues, no new maintenance issues will be accepted until the existing issues are resolved. This is enforced via the CLI when the `--maintenance` flag is used.

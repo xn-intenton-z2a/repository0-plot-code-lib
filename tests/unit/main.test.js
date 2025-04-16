@@ -57,3 +57,12 @@ describe("Time series data generation", () => {
     logSpy.mockRestore();
   });
 });
+
+describe("Maintenance issues handling", () => {
+  test("should output error when --maintenance flag is provided", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--maintenance"]);
+    expect(logSpy).toHaveBeenCalledWith("Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.");
+    logSpy.mockRestore();
+  });
+});
