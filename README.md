@@ -1,143 +1,87 @@
 # repository0-plot-code-lib
 
-_"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
+_"Be a go-to plot library with a CLI – the jq of formula visualizations."_
 
 ---
 
 ## Overview
 
-`plot-code-lib` is a JavaScript library and CLI tool designed to transform mathematical expressions and time series data into visual plots (SVG/PNG) or serialized JSON data. It enables users to generate plots directly from the command-line using a simple syntax. Additionally, the library can evaluate a mathematical expression over a specified range and output a time series as a JSON array.
+`plot-code-lib` is a modern JavaScript library and CLI tool that transforms mathematical expressions into visual plots (SVG/PNG) and generates time series data. With a simple command-line interface, you can easily produce plots or JSON arrays of computed values over a specified range.
 
 ## CLI Usage
 
 ### Plot Generation
 
-To generate a plot using `plot-code-lib`, run the following command. When the `--file` option is provided, the tool will generate an actual plot file with dummy content based on the file extension:
+To generate a plot, provide the options `--expression`, `--range`, and `--file`. The file extension determines the output format:
 
 For SVG:
-
 ```bash
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
 For PNG:
-
 ```bash
 node src/lib/main.js --expression "Math.cos(x)" --range "x=0:3.14" --file output.png
 ```
 
 Options:
-- `--expression`: The mathematical expression to be plotted. (You can prefix with "y=" if desired)
-- `--range`: The range values for the plot in the format `x=min:max` (e.g., x=-1:1, x=0:6.28)
-- `--file`: The output file name where the plot will be saved (supports SVG/PNG). When provided, a file is actually generated with dummy content.
+- `--expression`: The mathematical expression to plot (optionally prefixed with "y=").
+- `--range`: The range in the format `x=min:max` (e.g., `x=-1:1`, `x=0:6.28`).
+- `--file`: The output filename for the plot (supports SVG and PNG formats).
 
 ### Time Series JSON Data Generation
 
-If you want to generate time series data from an expression and range, simply omit the `--file` option:
-
+Omit the `--file` option to output JSON time series data from the provided expression and range:
 ```bash
 node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
 ```
-
-This will output a JSON array representing the time series data. Each element of the array is an object with numeric `x` and `y` properties. For example:
-
-```json
-[
-  { "x": 0, "y": 0 },
-  { "x": 0.063, "y": 0.063 },
-  ..., 
-  { "x": 6.28, "y": -0.001 }
-]
-```
+This prints a JSON array with objects containing `x` and `y` values. Non-numeric evaluation results are replaced with `null` to ensure valid JSON output.
 
 #### Custom Sample Count
 
-A new `--samples` flag has been added to allow you to customize the number of sample points in the time series data generation. By default, 100 sample points are generated. You can override this by specifying a valid integer greater than 1. For example, to generate 50 sample points:
-
+Use the `--samples` flag to specify the number of sample points (default is 100). For example, to generate 50 samples:
 ```bash
 node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28" --samples 50
 ```
-
-If an invalid value is provided for `--samples`, the default of 100 sample points will be used.
-
-### Handling Non-Numeric Results in Time Series Generation
-
-When evaluating a mathematical expression over a specified range, the tool computes the resulting `y` value for each `x`. If the evaluation yields a result that is not a valid number—including cases that produce `NaN` or any other non-numeric value—it is explicitly replaced with `null`. This is done to ensure the output remains valid JSON, as JSON does not support non-numeric values such as `NaN`.
-
-For example, consider the following command:
-
-```bash
-node src/lib/main.js --expression "Math.sqrt(-1)" --range "x=0:10"
-```
-
-This will output a JSON array where every `y` value is `null`:
-
-```json
-[
-  { "x": 0, "y": null },
-  { "x": 0.101, "y": null },
-  ...
-]
-```
-
-### Handling Invalid Numeric Inputs
-
-If you provide non-numeric values in the range option or if the mathematical expression evaluates to a non-numeric result, the tool will output an error message. For example:
-
-```bash
-node src/lib/main.js --expression "Math.sin(x)" --range "x=a:b"
-```
-
-Expected Output:
-
-```
-Error: Range bounds must be numeric.
-```
-
-### Incomplete Options
-
-If any of the required options are missing (and no time series generation is possible), the CLI will display an error message:
-
-```
-Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
-```
+If an invalid sample count is provided, the tool defaults to generating 100 samples.
 
 ### Maintenance Issues Handling
 
-In compliance with the repository guidelines, new maintenance issues cannot be submitted when there are already open maintenance issues. If you attempt to submit a new maintenance issue via the CLI using the `--maintenance` flag, the tool will output the following error message:
-
+In accordance with repository guidelines, the CLI prevents the submission of new maintenance issues if there are unresolved ones. When the `--maintenance` flag is used, it outputs an error:
+```bash
+node src/lib/main.js --maintenance
+```
+Output:
 ```
 Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.
 ```
 
+### Incomplete Options
+
+If not all required options for plot generation or time series creation are provided, the CLI displays an error message:
+```
+Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
+```
+
 #### Dry-Run Mode
 
-Running the CLI without any arguments shows the received arguments:
-
+Running the CLI without arguments will display the received arguments, which can be useful for debugging:
 ```bash
 node src/lib/main.js
 ```
-
-Expected Output:
-
+Output:
 ```
 Run with: []
 ```
 
 ## How It Works
 
-1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file`, `--samples`, or `--maintenance`.
-2. If `--expression` and `--range` are provided along with `--file`, the tool generates an actual file with dummy plot content based on the file extension. For SVG files, a minimal SVG is generated; for PNG files, a dummy text placeholder is written.
-3. If the `--expression` and `--range` options are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates a specified number of equally spaced sample points (default is 100, or the value provided by `--samples`), and outputs the resulting time series data as a JSON array. During this evaluation, any result that is not a valid number—including cases yielding `NaN` or other non-numeric values—is deliberately replaced with `null` to ensure the output is valid JSON.
-4. If the `--maintenance` flag is provided, the CLI will output an error message indicating that no new maintenance issues can be submitted until existing ones are resolved.
-5. If any required options for plot generation or time series creation are missing, the CLI informs the user about the correct usage.
+1. The CLI parses command-line arguments to extract options.
+2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
+3. Without `--file`, the tool evaluates the mathematical expression over the specified range and outputs a JSON array representing the time series data.
+4. The `--samples` flag allows customization of the number of sample points, and non-numeric results during evaluation are replaced with `null`.
+5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
 ## License
 
 MIT
-
----
-
-## Note on Issue Handling
-
-Due to repository guidelines and the current limit of open maintenance issues, no new maintenance issues will be accepted until the existing issues are resolved. This is enforced via the CLI when the `--maintenance` flag is used.
