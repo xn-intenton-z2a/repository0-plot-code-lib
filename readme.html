@@ -47,20 +47,18 @@
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;Math.sin(x)&quot; --range &quot;x=0:6.28&quot;
 </code></pre>
 <p class="md-github">This prints a JSON array with objects containing <code class="md-github">x</code> and <code class="md-github">y</code> values.</p>
-<h4 class="md-github"><a class="md-github__anchor" name="handling-non-finite-values-nan--infinity" href="#handling-non-finite-values-nan--infinity"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Handling Non-finite Values (NaN / Infinity)</h4>
-<p class="md-github">When evaluating a mathematical expression, if the result is non-finite (such as NaN or Infinity), <code class="md-github">plot-code-lib</code> replaces the resulting value with <code class="md-github">null</code> in the JSON output. This behavior ensures that the output remains valid JSON, as JSON does not support non-finite numeric values.</p>
-<p class="md-github"><strong class="md-github">Example:</strong></p>
-<p class="md-github">Consider the command:</p>
+<h4 class="md-github"><a class="md-github__anchor" name="handling-non-finite-numerical-outputs" href="#handling-non-finite-numerical-outputs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Handling Non-Finite Numerical Outputs</h4>
+<p class="md-github">When evaluating a mathematical expression, if the result is NaN, Infinity, or -Infinity, <code class="md-github">plot-code-lib</code> automatically converts these non-finite values to <code class="md-github">null</code> in the JSON output. This ensures that the resulting JSON is valid and avoids issues in downstream processing. For example:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;0/0&quot; --range &quot;x=0:10&quot;
 </code></pre>
-<p class="md-github">The output will be a JSON array where every computed point has a <code class="md-github">null</code> y-value:</p>
+<p class="md-github">will produce an output similar to:</p>
 <pre class="md-github"><code class="md-github language-json">[
   { &quot;x&quot;: 0, &quot;y&quot;: null },
   { &quot;x&quot;: 1, &quot;y&quot;: null },
   ...
 ]
 </code></pre>
-<p class="md-github">This substitution ensures consistency and prevents errors in downstream processing of the data.</p>
+<p class="md-github">This behavior guarantees that any undefined or non-finite result is represented as <code class="md-github">null</code>, maintaining consistency and reliability in the data.</p>
 <h4 class="md-github"><a class="md-github__anchor" name="custom-sample-count" href="#custom-sample-count"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Sample Count</h4>
 <p class="md-github">Use the <code class="md-github">--samples</code> flag to specify the number of sample points (default is 100). For example, to generate 50 samples:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;Math.sin(x)&quot; --range &quot;x=0:6.28&quot; --samples 50
@@ -88,7 +86,7 @@
 <ol class="md-github">
 <li class="md-github">The CLI parses command-line arguments to extract options.</li>
 <li class="md-github">Providing <code class="md-github">--file</code> triggers plot generation with dummy content (SVG or PNG based on the file extension).</li>
-<li class="md-github">Without <code class="md-github">--file</code>, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. Non-finite results are replaced with <code class="md-github">null</code> to maintain valid JSON output.</li>
+<li class="md-github">Without <code class="md-github">--file</code>, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. Non-finite results (NaN, Infinity, or -Infinity) are replaced with <code class="md-github">null</code> to maintain valid JSON output.</li>
 <li class="md-github">The <code class="md-github">--samples</code> flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.</li>
 <li class="md-github">The <code class="md-github">--maintenance</code> flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.</li>
 </ol>
@@ -97,7 +95,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-16T21:24:12.598Z</p>
+    <p>Generated on 2025-04-16T22:24:41.326Z</p>
   </footer>
 </body>
 </html>
