@@ -1,48 +1,73 @@
 # CLI_IMPROVEMENTS Update
 
-This update consolidates all CLI related enhancements into a single robust feature. It implements not only the existing help and maintenance checks but also introduces a new diagnostics mode, which outputs runtime diagnostics information in JSON format. This ensures that users have immediate access to system and version details when needed.
+This update enhances the CLI tool by fully implementing the diagnostics mode as originally specified in our design guidelines. In addition to the existing help, maintenance, and plot generation functionalities, this update ensures that the CLI supports a new `--diagnostics` flag. When this flag is provided, the tool outputs a JSON object containing key diagnostic details, such as the package version and the Node.js runtime version.
 
 ## Overview
 
-- **Help Support:** Retains support for the `--help` flag. When invoked, the tool displays detailed usage instructions and exits without processing further arguments.
-- **Maintenance Check:** Continues to check for the `--maintenance` flag. When present, the feature outputs a maintenance error message and halts further processing.
-- **Diagnostics Mode:** Implements a new `--diagnostics` flag. When provided, the CLI outputs JSON-formatted diagnostic information including the current package version (sourced from package.json) and the Node.js runtime version. This mode is crucial for debugging and verifying the environment setup.
+- **Diagnostics Mode:** When the CLI is invoked with the `--diagnostics` flag, the tool outputs a JSON object with diagnostic information and exits immediately. This assists users and developers in verifying the tool's environment settings quickly.
+- **Existing Functionality Preservation:** The update maintains all prior behaviors for help display, maintenance issue detection, plot generation, and time series data generation.
 
 ## Source Code Changes
 
-- Update `src/lib/main.js`:
-  - Add a new check at the beginning of the main function to detect the `--diagnostics` flag. If detected, gather diagnostic information (e.g., package version and Node.js version) and output this information in valid JSON format before exiting.
-  - Ensure the new diagnostics check is placed before further processing of other CLI options.
-  - Maintain existing functionalities for help display and maintenance issues.
-  
-  Example code snippet:
-  ```js
-  if (options.diagnostics) {
-    // Import package.json version if needed or use a hard-coded version
-    const pkgVersion = "1.2.0-0";
-    const diagnosticsInfo = {
-      version: pkgVersion,
-      nodeVersion: process.version
-    };
-    console.log(JSON.stringify(diagnosticsInfo));
-    return;
-  }
-  ```
+- In `src/lib/main.js`, add a new conditional block at the very beginning of the argument processing. This block should check for the presence of the `--diagnostics` flag before performing other operations. If detected:
+  - Import or define the package version (from either a hard-coded value or by reading from package.json).
+  - Retrieve the Node.js runtime version using `process.version`.
+  - Output the diagnostic information as a valid JSON object and exit the program.
+
+Example snippet:
+```js
+if (options.diagnostics) {
+  const pkgVersion = "1.2.0-0"; // Alternatively, require package.json version if needed
+  const diagnosticsInfo = {
+    version: pkgVersion,
+    nodeVersion: process.version
+  };
+  console.log(JSON.stringify(diagnosticsInfo));
+  return;
+}
+```
 
 ## Testing Enhancements
 
-- In `tests/unit/main.test.js`:
-  - Add a new test case to confirm that running the CLI with `--diagnostics` produces valid JSON output containing at least `version` and `nodeVersion` keys.
-  - Update existing tests (if needed) to ensure that introducing diagnostics does not interfere with help or maintenance functionalities.
+- In `tests/unit/main.test.js`, add a new test case to ensure that invoking the CLI with the `--diagnostics` flag produces valid JSON output containing at least the keys `version` and `nodeVersion`.
+- Confirm that this diagnostic mode does not interfere with existing test cases for plot generation, maintenance flag handling, and incomplete options.
+
+Expected test outline:
+```js
+describe("Diagnostics Mode", () => {
+  test("should output valid JSON with version and nodeVersion keys", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--diagnostics"]);
+    const output = logSpy.mock.calls[0][0];
+    let diagnostics;
+    expect(() => { diagnostics = JSON.parse(output); }).not.toThrow();
+    expect(diagnostics).toHaveProperty("version");
+    expect(diagnostics).toHaveProperty("nodeVersion");
+    logSpy.mockRestore();
+  });
+});
+```
 
 ## Documentation Updates
 
-- Update the `README.md` under the CLI Usage section:
-  - Include a new subsection for Diagnostics Mode:
-    - Describe that invoking `node src/lib/main.js --diagnostics` will output a JSON object with diagnostic information.
-    - Provide an example command and show expected output.
+- Update the `README.md` file under the CLI Usage section to include a new subsection for Diagnostics Mode.
+- Document that running the command `node src/lib/main.js --diagnostics` will output a JSON object with diagnostic details.
+- Provide an example invocation and expected output snippet.
+
+Example update snippet:
+```markdown
+### Diagnostics Mode
+
+To retrieve diagnostic information, run:
+
+```bash
+node src/lib/main.js --diagnostics
+```
+
+This command outputs a JSON object with fields such as `version` and `nodeVersion`.
+```
 
 ## Alignment with Mission & Contributing Guidelines
 
-- **Mission Compliance:** This improvement supports our mission by further enhancing the accessibility and debuggability of the CLI tool, making it easier for users to verify tool status and runtime conditions.
-- **Contributing Guidelines:** All modifications are confined to existing repository files (source code, tests, README, and dependencies). The new diagnostics feature follows the coding style and standards, includes thorough test coverage, and is well-documented.
+- **Mission Compliance:** By providing immediate access to runtime diagnostics, this feature enhances debuggability and user support, aligning with our mission of making `plot-code-lib` the go-to visualisation tool.
+- **Contributing Guidelines:** The update is confined to modifications in the source, tests, README, and dependency files as necessary. The changes adhere to the established code style and testing standards, ensuring backward compatibility and enhanced documentation.
