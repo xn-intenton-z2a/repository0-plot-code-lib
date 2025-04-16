@@ -137,3 +137,23 @@ oclif is a powerful framework for building CLI applications with JavaScript and 
 ## https://nodejs.org/en/docs/guides/debugging-getting-started
 The official Node.js guide to debugging covers how to use built-in debugging tools for Node applications, including setting breakpoints and analyzing performance. It serves as an excellent resource for developers needing to diagnose and troubleshoot CLI tools effectively, aligning with the diagnostic features of plot-code-lib.
 ## Public Domain (Node.js Documentation Terms)
+
+# KaTeX Documentation
+## https://katex.org/docs/
+KaTeX is a fast, lightweight library for parsing and rendering TeX math. Its documentation provides detailed guidelines for integrating and configuring the library in web applications, ensuring that mathematical expressions are rendered accurately and efficiently. It is widely appreciated for its performance improvements over traditional LaTeX rendering engines.
+## MIT
+
+# MathJax Documentation
+## https://docs.mathjax.org/en/latest/
+MathJax is a cross-browser JavaScript display engine for mathematics that supports LaTeX, MathML, and AsciiMath notation. Its documentation offers extensive examples, configuration options, and performance tips, and it is regularly updated by a large community of contributors. It remains an essential reference for high-quality mathematical rendering on the web.
+## Apache-2.0
+
+# Mermaid Documentation
+## https://mermaid.js.org/#/
+Mermaid is a diagramming and charting tool that transforms simple text definitions into dynamic diagrams such as flowcharts, sequence diagrams, and Gantt charts. Its documentation provides clear examples, syntax guidelines, and integration tips, making it a valuable resource for embedding diagrams in documentation and web applications.
+## MIT
+
+# OpenAI API Documentation
+## https://platform.openai.com/docs/api-reference/introduction
+OpenAI’s API documentation offers a comprehensive guide to integrating advanced AI models into applications. Covering authentication, endpoint usage, parameter configurations, and best practices, it is regularly updated and serves as an authoritative reference for developers building AI-driven features.
+## Proprietary
