@@ -232,3 +232,28 @@ The JSON.org documentation explains the standard format for JSON data, providing
 ## https://tc39.es/ecma262/
 This is the official ECMAScript Language Specification maintained by TC39, outlining the complete standard for JavaScript. The documentation covers syntax, semantics, and the latest language features, making it a definitive and authoritative source for developers who need to understand JavaScript at a deep level. Regular updates correspond with new ECMAScript editions.
 ## Public Domain
+
+# Math Expression Evaluator Documentation
+## https://github.com/benjamine/math-expression-evaluator
+A JavaScript library for parsing and evaluating mathematical expressions. This documentation explains its API, parsing rules, and supported operations. It is useful for comparing performance and accuracy with other expression evaluators and is actively maintained.
+## MIT
+
+# SVG Basics Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG
+This MDN guide covers the fundamentals of Scalable Vector Graphics (SVG), including basic shapes, attributes, styling, and animation techniques. Updated regularly, it provides authoritative insights on designing and manipulating SVG elements for web applications.
+## CC BY-SA 2.5
+
+# Building Command Line Applications with Node.js
+## https://www.digitalocean.com/community/tutorials/how-to-write-a-node-js-command-line-application
+A comprehensive tutorial that walks through the process of creating command line interfaces using Node.js. It covers argument parsing, error handling, and best practices for building maintainable CLI applications. This resource is highly practical and updated regularly.
+## DigitalOcean Community
+
+# Grokking Zod Validation
+## https://dev.to/krumpet/grokking-zod-javascript-validator-3hc9
+An in-depth blog post that introduces the Zod schema validation library for JavaScript. It provides practical examples, detailed explanations, and best practices for using Zod to enforce data integrity in applications. This source is useful for developers seeking to understand and implement runtime validation.
+## Not Specified
+
+# InfluxDB Documentation for Time Series Data
+## https://docs.influxdata.com/influxdb/latest/
+The official documentation for InfluxDB, a time series database. It provides comprehensive guides on data ingestion, querying, and scaling time series data, making it a vital resource for understanding time series data modeling and analysis. It is regularly updated and maintained by InfluxData.
+## MIT (for reference, as InfluxDB uses an open source license)
