@@ -39,14 +39,13 @@ This prints a JSON array with objects containing `x` and `y` values.
 
 #### Handling Non-Finite Numerical Outputs
 
-When evaluating a mathematical expression, if the result is NaN, Infinity, or -Infinity, `plot-code-lib` automatically converts these non-finite values to `null` in the JSON output. This ensures that the resulting JSON is valid and avoids issues in downstream processing. For example:
+When evaluating a mathematical expression, if the result is a non-finite value (such as `NaN`, `Infinity`, or `-Infinity`), `plot-code-lib` automatically converts it to `null` in the JSON output. This ensures that the time series data remains valid and can be safely processed by downstream tools.
 
+Example:
 ```bash
 node src/lib/main.js --expression "0/0" --range "x=0:10"
 ```
-
-will produce an output similar to:
-
+produces an output similar to:
 ```json
 [
   { "x": 0, "y": null },
@@ -54,8 +53,7 @@ will produce an output similar to:
   ...
 ]
 ```
-
-This behavior guarantees that any undefined or non-finite result is represented as `null`, maintaining consistency and reliability in the data.
+This mechanism guarantees consistency and reliability in data consumption.
 
 #### Custom Sample Count
 
@@ -98,7 +96,7 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options.
 2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
-3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. Non-finite results (NaN, Infinity, or -Infinity) are replaced with `null` to maintain valid JSON output.
+3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. **Note:** Any non-finite result (e.g., `NaN`, `Infinity`, or `-Infinity`) is replaced with `null` in the output.
 4. The `--samples` flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
