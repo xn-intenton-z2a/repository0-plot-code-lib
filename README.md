@@ -27,15 +27,15 @@ When all options are provided, the CLI will simulate plot generation by printing
 Generating plot for expression 'y=sin(x)' with range 'x=-1:1,y=-1:1' and output file 'output.svg'
 ```
 
-If any of the required options are missing, the CLI will display a usage message:
+If any of the required options are missing, the CLI will display an error message:
 
 ```
-Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
+Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
 ```
 
-## Detailed CLI Usage Examples
+### Detailed CLI Usage Examples
 
-### Example 1: Complete Options
+#### Example 1: Complete Options
 
 Command:
 
@@ -49,7 +49,7 @@ Expected Output:
 Generating plot for expression 'y=sin(x)' with range 'x=-1:1,y=-1:1' and output file 'plot.svg'
 ```
 
-### Example 2: Incomplete Options
+#### Example 2: Incomplete Options
 
 Command:
 
@@ -60,10 +60,10 @@ node src/lib/main.js --expression "y=sin(x)"
 Expected Output:
 
 ```
-Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
+Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
 ```
 
-### Dry-Run Mode
+#### Dry-Run Mode
 
 If you run the CLI without any arguments, it will perform a dry-run and display the list of arguments received, for example:
 
@@ -81,7 +81,7 @@ Run with: []
 
 1. The CLI parses the command-line arguments to extract options such as `--expression`, `--range`, and `--file`.
 2. If all required options are provided, the tool simulates transforming the mathematical expression and range into time series data (this simulation is indicated by the generated log message) and then produces a plot output in the specified format.
-3. If any options are missing, it informs the user of the correct usage.
+3. If any options are missing, it informs the user with a clear error message about the missing parameters and displays the correct usage.
 
 This streamlined process allows users to quickly generate visualizations of mathematical expressions from the command-line.
 
