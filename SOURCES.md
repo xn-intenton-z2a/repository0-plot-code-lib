@@ -57,3 +57,18 @@ The OpenAI API documentation provides comprehensive information on integrating a
 ## https://ejs.co/#docs
 EJS is a simple templating language that lets you generate HTML markup with plain JavaScript. The documentation includes usage examples, features overview, and API details, which can be useful for projects that require templating capabilities.
 ## MIT
+
+# Yargs Documentation
+## https://yargs.js.org/docs/
+Yargs is a mature library for command-line argument parsing in Node.js. Its documentation details features like subcommands, comprehensive help text generation, and advanced validation. While the repository currently uses a simple custom parser, the Yargs documentation offers valuable insights and best practices for enhancing CLI interfaces. Last updated in 2023, it is recognized for its thorough coverage and community support.
+## MIT
+
+# QuickChart API Documentation
+## https://quickchart.io/documentation/
+QuickChart API is a powerful chart generation service that allows the dynamic creation of charts via URL requests. Its documentation covers endpoints, parameters, and usage examples, making it an excellent reference for developers looking to integrate charting capabilities into web applications. This source is authoritative, regularly updated, and widely used in modern data visualization projects.
+## Apache-2.0
+
+# Inquirer.js Documentation
+## https://www.npmjs.com/package/inquirer
+Inquirer.js provides a collection of interactive command-line user interfaces. Its documentation covers prompt types, question validation, and customization options. Although not currently used in the repository, it serves as a valuable reference for enhancing CLI user experiences through interactive prompts and can inspire future feature development.
+## MIT
