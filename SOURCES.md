@@ -122,3 +122,18 @@ Vite is a fast and modern build tool that provides a lean development experience
 ## https://sharp.pixelplumbing.com/
 Sharp is a high-performance Node.js image processing library that enables developers to resize, convert, and manipulate images efficiently. The documentation offers detailed API references, examples, and best practices, making it an ideal resource for projects requiring image manipulation, such as generating or processing PNG plots.
 ## Apache-2.0
+
+# Apache ECharts Documentation
+## https://echarts.apache.org/en/index.html
+Apache ECharts is a versatile interactive charting library offering extensive documentation and guides. It provides examples and best practices for creating dynamic and responsive visualizations. Its clear instructions and recent updates make it a highly authoritative resource for developers building modern visualization tools.
+## Apache-2.0
+
+# oclif Documentation
+## https://oclif.io/docs/introduction
+oclif is a powerful framework for building CLI applications with JavaScript and TypeScript. The documentation covers everything from basic command creation to advanced plugin systems, offering insights into building robust and maintainable CLI tools. This resource is particularly useful for projects like plot-code-lib that aim for reliability and ease of use.
+## MIT
+
+# Node.js Debugger Guide
+## https://nodejs.org/en/docs/guides/debugging-getting-started
+The official Node.js guide to debugging covers how to use built-in debugging tools for Node applications, including setting breakpoints and analyzing performance. It serves as an excellent resource for developers needing to diagnose and troubleshoot CLI tools effectively, aligning with the diagnostic features of plot-code-lib.
+## Public Domain (Node.js Documentation Terms)
