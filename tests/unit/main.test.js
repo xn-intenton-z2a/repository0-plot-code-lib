@@ -125,3 +125,17 @@ describe("Custom Sample Count Handling", () => {
     logSpy.mockRestore();
   });
 });
+
+describe("NaN Handling", () => {
+  test("should handle NaN result by returning null in time series", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "0/0", "--range", "x=0:10"]);
+    const output = logSpy.mock.calls[0][0];
+    let series;
+    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    series.forEach((point) => {
+      expect(point.y).toBeNull();
+    });
+    logSpy.mockRestore();
+  });
+});

@@ -35,7 +35,23 @@ Omit the `--file` option to output JSON time series data from the provided expre
 ```bash
 node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
 ```
-This prints a JSON array with objects containing `x` and `y` values. If the evaluated expression does not return a valid number, it is replaced with `null` to ensure valid JSON output.
+This prints a JSON array with objects containing `x` and `y` values. If the evaluated expression does not result in a finite number (for example, if it evaluates to `NaN`), the corresponding `y` value in the output will be `null`.
+
+#### Example: NaN Handling
+
+For instance, the command:
+```bash
+node src/lib/main.js --expression "0/0" --range "x=0:10"
+```
+will produce an output similar to:
+```json
+[
+  { "x": 0, "y": null },
+  { "x": 1, "y": null },
+  ...
+]
+```
+(Each sample point's `y` value will be `null` because the expression evaluates to `NaN`.)
 
 #### Custom Sample Count
 
@@ -79,7 +95,7 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options.
 2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
-3. Without `--file`, the tool evaluates the mathematical expression over the specified range and outputs a JSON array representing the time series data.
+3. Without `--file`, the tool evaluates the mathematical expression over the specified range and outputs a JSON array representing the time series data. If the evaluated expression results in a non-finite value (such as `NaN`), the output will contain `null` for that sample.
 4. The `--samples` flag allows customization of the number of sample points, and if the expression does not return a valid number, the corresponding value is replaced with `null` to ensure the output adheres to JSON standards.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
