@@ -43,9 +43,33 @@ This will output a JSON array representing the time series data. Each element of
 [
   { "x": 0, "y": 0 },
   { "x": 0.063, "y": 0.063 },
-  ..., 
+  ...,
   { "x": 6.28, "y": -0.001 }
 ]
+```
+
+### Handling Invalid Numeric Inputs
+
+If you provide non-numeric values in the range option or if the mathematical expression evaluates to `NaN` for given inputs, the tool will output an error message. In particular:
+
+- For a range with non-numeric bounds (e.g., `--range "x=a:b"`), the following error is displayed:
+
+```
+Error: Range bounds must be numeric.
+```
+
+- Similarly, if the expression evaluation results in `NaN` for any sample point, that particular `y` value is set to `null` in the generated JSON time series.
+
+Example of invalid numeric input scenario:
+
+```bash
+node src/lib/main.js --expression "Math.sin(x)" --range "x=a:b"
+```
+
+Expected Output:
+
+```
+Error: Range bounds must be numeric.
 ```
 
 ### Incomplete Options
@@ -84,7 +108,7 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file` or `--maintenance`.
 2. If `--expression` and `--range` are provided along with `--file`, the tool simulates plot generation by printing a message with the input details.
-3. If `--expression` and `--range` are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array.
+3. If `--expression` and `--range` are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array. If any sample point evaluation results in `NaN`, its `y` value is set to `null`.
 4. If the `--maintenance` flag is provided, the CLI will output an error message indicating that no new maintenance issues can be submitted until existing ones are resolved.
 5. If any required options for plot generation or time series creation are missing, the CLI informs the user about the correct usage.
 

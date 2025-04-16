@@ -58,6 +58,15 @@ describe("Time series data generation", () => {
   });
 });
 
+describe("Invalid Numeric Range Bounds", () => {
+  test("should show error for non-numeric range bounds", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "Math.sin(x)", "--range", "x=a:b"]);
+    expect(logSpy).toHaveBeenCalledWith('Error: Range bounds must be numeric.');
+    logSpy.mockRestore();
+  });
+});
+
 describe("Maintenance issues handling", () => {
   test("should output error when --maintenance flag is provided", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
