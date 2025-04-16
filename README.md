@@ -62,7 +62,7 @@ If an invalid value is provided for `--samples`, the default of 100 sample point
 
 ### Handling Non-Numeric Results in Time Series Generation
 
-When evaluating a mathematical expression over a specified range, the tool computes the resulting `y` value for each `x`. In cases where the evaluation yields a non-numeric result (including `NaN`), the output is intentionally replaced with `null`. This design choice is made because JSON does not support the `NaN` value, ensuring that the generated output is valid JSON. For example:
+When evaluating a mathematical expression over a specified range, the tool computes the resulting `y` value for each `x`. If the evaluation yields a non-numeric result—including `NaN` or any other non-numeric value—the output is intentionally replaced with `null` to comply with JSON standards. This ensures that the generated JSON is valid and can be parsed without errors. For example:
 
 ```bash
 node src/lib/main.js --expression "Math.sqrt(-1)" --range "x=0:10"
@@ -78,7 +78,7 @@ Results in:
 ]
 ```
 
-This behavior guarantees that any non-numeric computation does not break JSON parsing, aligning with JSON standards.
+This design choice is deliberate to maintain consistency with JSON parsing, since JSON does not support the `NaN` value.
 
 ### Handling Invalid Numeric Inputs
 
@@ -128,7 +128,7 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file`, `--samples`, or `--maintenance`.
 2. If `--expression` and `--range` are provided along with `--file`, the tool generates an actual file with dummy plot content based on the file extension. For SVG files, a minimal SVG is generated; for PNG files, a dummy text placeholder is written.
-3. If the `--expression` and `--range` options are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates a specified number of equally spaced sample points (default is 100, or the value provided by `--samples`), and outputs the resulting time series data as a JSON array. Any computed result that is not a valid number (or non-numeric) is intentionally replaced with `null` to remain compliant with JSON standards.
+3. If the `--expression` and `--range` options are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates a specified number of equally spaced sample points (default is 100, or the value provided by `--samples`), and outputs the resulting time series data as a JSON array. Any computed result that is not a valid number—including cases yielding `NaN` or other non-numeric results—is intentionally replaced with `null` to maintain valid JSON.
 4. If the `--maintenance` flag is provided, the CLI will output an error message indicating that no new maintenance issues can be submitted until existing ones are resolved.
 5. If any required options for plot generation or time series creation are missing, the CLI informs the user about the correct usage.
 
