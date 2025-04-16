@@ -257,3 +257,23 @@ An in-depth blog post that introduces the Zod schema validation library for Java
 ## https://docs.influxdata.com/influxdb/latest/
 The official documentation for InfluxDB, a time series database. It provides comprehensive guides on data ingestion, querying, and scaling time series data, making it a vital resource for understanding time series data modeling and analysis. It is regularly updated and maintained by InfluxData.
 ## MIT (for reference, as InfluxDB uses an open source license)
+
+# JSON Schema Documentation
+## https://json-schema.org/understanding-json-schema/
+The JSON Schema website provides comprehensive guides, tutorials, and examples on implementing JSON Schema for validating JSON documents. It is an authoritative source for best practices in designing and validating JSON data and is frequently updated to reflect current standards.
+## CC BY-SA 4.0
+
+# npm Documentation
+## https://docs.npmjs.com/
+The official npm documentation offers detailed guides, reference materials, and best practices for using npm as a package manager for Node.js. It covers topics such as dependency management, versioning, script execution, and publishing packages, serving as an essential resource for modern JavaScript development.
+## Not Specified
+
+# Express.js Documentation
+## https://expressjs.com/en/starter/installing.html
+Express.js is a minimal, flexible Node.js framework for building web applications and APIs. Its documentation includes installation guides, routing, middleware usage, and error-handling strategies, making it a fundamental resource for web developers looking to efficiently build server-side applications.
+## MIT
+
+# Dotenv Documentation
+## https://github.com/motdotla/dotenv
+Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env, facilitating the management of configuration and secrets in Node.js applications. The documentation provides usage instructions, configuration options, and best practices.
+## MIT
