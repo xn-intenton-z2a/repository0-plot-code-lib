@@ -38,7 +38,7 @@ node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
 This prints a JSON array with objects containing `x` and `y` values.
 
 **Note on Non-finite Values:**
-If the evaluated mathematical expression produces a non-finite result (such as NaN or Infinity), the tool intentionally replaces the result with `null` to ensure the output is valid JSON. For example, if an invalid or non-finite computation is performed, the corresponding `y` value in the output will be `null`.
+If the evaluated mathematical expression produces a non-finite result (such as NaN or Infinity), the tool intentionally replaces the result with `null` to ensure the output is valid JSON. JSON standards do not support NaN values, so this substitution is necessary to avoid errors during data consumption and to maintain consistency in the output format. For example, if an invalid or non-finite computation is performed, the corresponding `y` value in the output will be `null`.
 
 #### Under the Hood
 The time series generation logic has been refactored for better readability and maintainability. Dedicated helper functions now handle parsing the `--range` option and evaluating the mathematical expression before generating the sample points.
