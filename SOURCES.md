@@ -222,3 +222,13 @@ The official Node.js guide to profiling and performance diagnostics. This docume
 ## https://www.digitalocean.com/community/tutorials/how-to-handle-errors-in-node-js
 A detailed tutorial on error handling in Node.js applications. It explains best practices for catching, managing, and logging errors to create resilient and maintainable applications, with steps applicable to CLI tools and larger systems alike.
 ## DigitalOcean Community
+
+# JSON.org Documentation
+## https://www.json.org/json-en.html
+The JSON.org documentation explains the standard format for JSON data, providing clear definitions, examples, and parsing guidelines. It is an essential reference for developers working with JSON data in various programming environments. Though not updated frequently, it remains a fundamental resource for understanding the JSON standard.
+## Not Specified
+
+# TC39 ECMAScript Language Specification
+## https://tc39.es/ecma262/
+This is the official ECMAScript Language Specification maintained by TC39, outlining the complete standard for JavaScript. The documentation covers syntax, semantics, and the latest language features, making it a definitive and authoritative source for developers who need to understand JavaScript at a deep level. Regular updates correspond with new ECMAScript editions.
+## Public Domain
