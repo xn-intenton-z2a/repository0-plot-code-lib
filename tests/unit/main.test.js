@@ -67,6 +67,23 @@ describe("Invalid Numeric Range Bounds", () => {
   });
 });
 
+describe("NaN Handling in Time Series Generation", () => {
+  test("should replace NaN results with null", () => {
+    // Use an expression that always returns NaN, e.g., Math.sqrt(-1)
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "Math.sqrt(-1)", "--range", "x=0:10"]);
+    const output = logSpy.mock.calls[0][0];
+    let series;
+    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(Array.isArray(series)).toBe(true);
+    expect(series.length).toBe(100);
+    series.forEach(point => {
+      expect(point.y).toBeNull();
+    });
+    logSpy.mockRestore();
+  });
+});
+
 describe("Maintenance issues handling", () => {
   test("should output error when --maintenance flag is provided", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});

@@ -48,6 +48,8 @@ This will output a JSON array representing the time series data. Each element of
 ]
 ```
 
+- Note: If a sample point's evaluation results in an invalid number (NaN), the corresponding `y` value is replaced with `null` in the JSON output.
+
 ### Handling Invalid Numeric Inputs
 
 If you provide non-numeric values in the range option or if the mathematical expression evaluates to `NaN` for given inputs, the tool will output an error message. In particular:
