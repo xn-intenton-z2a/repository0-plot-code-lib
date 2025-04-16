@@ -1,54 +1,57 @@
 # CLI_ENHANCEMENTS Feature Specification
 
-This feature upgrades and consolidates the command line interface (CLI) by adding support for a dedicated help mode, diagnostics output, and verbose logging. The improvements build on the existing CLI functionality for plot generation and time series data production, while remaining backward compatible. All updates are applied within the source (src/lib/main.js), tests, README documentation, and dependency management.
+This feature upgrades and consolidates the command line interface (CLI) by adding several new options and modes. In addition to the existing support for help output, diagnostics, verbose logging, and error handling, this update introduces an interactive mode for users who wish to input expressions and ranges dynamically.
 
 ## Overview
 
 - **Purpose:**
-  - Provide a clear and comprehensive help output when the `--help` flag is used to display detailed usage instructions and exit immediately.
-  - Introduce a diagnostics mode via the `--diagnostics` flag that outputs tool version, Node.js version, and current CLI arguments.
-  - Enable verbose logging with the `--verbose` flag so that key processing steps (argument parsing, validation, evaluation, file writing) are logged.
-  - Retain and enhance error handling and maintenance issue checks, while keeping existing plot generation and time series functionality.
+  - Enhance the CLI experience by providing an interactive mode triggered by the `--interactive` flag.
+  - Continue to support the existing features: help (`--help`), diagnostics (`--diagnostics`), and verbose logging (`--verbose`).
+  - Maintain backward compatibility with plot generation and time series JSON data functionality.
 
 ## Implementation
 
 ### Source Code Changes (src/lib/main.js)
 
+- **Interactive Mode:**
+  - When the `--interactive` flag is detected, the CLI will enter an interactive session.
+  - The interactive session will prompt the user for the mathematical expression and the range (in the format `x=min:max`).
+  - User input will be read from standard input, after which the normal evaluation and output generation logic will execute.
+
 - **Help Mode Integration:**
-  - During argument parsing, check if `--help` is present. If found, output a comprehensive usage guide summarizing all supported options and exit without further processing.
+  - As before, the CLI should immediately display a comprehensive help message when the `--help` flag is used.
 
 - **Diagnostics Flag:**
-  - Check for the `--diagnostics` flag early in the main function. If provided, output diagnostic information including:
-    - Tool version (retrieved from package.json)
-    - Node.js version
-    - All received CLI arguments
-  - After displaying diagnostics, exit without executing further processing.
+  - If the `--diagnostics` flag is provided, the tool outputs diagnostic information (tool version, Node.js version, and CLI arguments) and exits.
 
 - **Verbose Logging:**
-  - If `--verbose` is detected among the arguments, log detailed steps for parsing, validation, evaluation, and file operations.
+  - If `--verbose` is specified, detailed logging of CLI processing, including argument parsing and evaluation steps, is enabled.
 
 - **Maintained Functionality:**
-  - Continue handling options for generation of plot files (SVG or PNG) and time series JSON data.
-  - Maintain the maintenance check and error messages as previously implemented.
+  - The updates ensure that plot file generation (SVG/PNG) and time series JSON data generation continue to operate as specified.
+  - Existing maintenance checks and error messages remain unchanged.
 
 ### Test File Updates (tests/unit/main.test.js)
 
-- Add tests to verify the help mode:
-  - Assert that when `--help` is provided, the output contains usage instructions and no further processing occurs.
+- **New Tests for Interactive Mode:**
+  - Add tests to simulate interactive input by mocking standard input mechanisms.
+  - Verify that when `--interactive` is provided, the CLI properly prompts for input and then produces valid output.
 
-- Add tests for diagnostics mode:
-  - Verify that when `--diagnostics` is provided, the output contains diagnostic information including Node.js version, tool version, and input arguments.
-
-- Ensure existing tests for file generation, numeric range validation, and maintenance handling remain valid.
+- **Existing Tests:**
+  - Ensure that the new interactive mode does not interfere with tests for help mode, diagnostics, plot file generation, numeric range validation, and maintenance handling.
 
 ### Documentation Updates (README.md)
 
-- Update the CLI Usage section to document the new `--help` and `--diagnostics` flags:
-  - For `--help`: Describe that this option outputs a comprehensive usage guide with all available options and exits immediately.
-  - For `--diagnostics`: Explain that this flag outputs version and system diagnostic information.
+- **CLI Usage Section:**
+  - Update the CLI usage documentation to include details on the interactive mode.
+  - Provide usage examples such as:
+    ```bash
+    node src/lib/main.js --interactive
+    ```
+    With the interactive mode, after launching the CLI, the user is prompted to enter a mathematical expression and a range (e.g., `x=0:6.28`).
 
 ## Compatibility and Mission Alignment
 
-- The updates are fully backward compatible with existing CLI behavior for plot generation and time series data generation.
-- By adding help and diagnostics, the tool becomes more user-friendly and transparent, supporting the mission of making plot-code-lib the go-to tool for formula visualizations.
-- All changes are applied solely to existing files with no new file additions or deletion of current features.
+- The interactive mode enhancement builds on the current CLI features, providing an additional user-friendly mechanism to generate plots and time series data dynamically.
+- All changes are confined to modifications within existing files (source, tests, README, and dependencies) while ensuring complete backward compatibility with current functionality.
+- This update aligns with the mission of making `plot-code-lib` the go-to tool for generating formula visualizations with a flexible and intuitive CLI interface.
