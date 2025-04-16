@@ -62,3 +62,33 @@ QuickChart is a service that generates chart images on demand. Its documentation
 ## https://recharts.org/en-US/
 Recharts is a composable charting library built with React components. Its documentation features detailed overviews, API references, and usage examples that assist developers in integrating interactive charts into React applications seamlessly. Maintained by a robust community and released under the MIT license, it is a popular choice for modern web-based charting solutions.
 ## MIT
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js
+Commander.js is a popular library for building Node.js command-line interfaces. Its comprehensive documentation covers command parsing, option definitions, and sub-command management, making it an essential resource for developers aiming to create robust CLI applications. Regularly updated and widely adopted in the Node.js community, it is licensed under MIT.
+## MIT
+
+# Yargs Documentation
+## https://yargs.js.org/docs/
+Yargs is a powerful tool for building interactive command line tools by parsing arguments and generating an elegant user interface. Its documentation offers step-by-step guides, API references, and examples that simplify the creation of CLI applications. Known for its clarity and ease of use, it remains current with modern JavaScript practices.
+## MIT
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js is a widely-used JavaScript library for creating responsive, interactive, and visually appealing charts. The documentation provides detailed instructions, API references, and practical examples that make it easier for developers to integrate dynamic charts into web applications. It is well-maintained and released under the MIT license.
+## MIT
+
+# Highcharts Documentation
+## https://www.highcharts.com/docs
+Highcharts is a feature-rich charting library that enables developers to create interactive and customizable charts for web applications. Its documentation covers a wide range of topics including chart types, interactivity, and integration options. While free for non-commercial use, Highcharts operates under a proprietary license for commercial purposes.
+## Proprietary (Free for non-commercial use)
+
+# Zod Documentation
+## https://github.com/colinhacks/zod
+Zod is a TypeScript-first schema declaration and validation library. Its documentation provides detailed explanations of its API, usage examples, and best practices for validating data at runtime, making it a valuable resource for developers building reliable and type-safe applications. It is maintained actively and benefits from a growing community of users.
+## MIT
+
+# EJS Documentation
+## https://ejs.co
+EJS (Embedded JavaScript) is a simple templating language that lets you generate HTML markup with plain JavaScript. The documentation covers syntax, usage examples, and best practices for integrating EJS into web applications and server-side rendering. It is lightweight, flexible, and released under the MIT license.
+## MIT
