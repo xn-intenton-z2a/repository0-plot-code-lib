@@ -92,3 +92,18 @@ Zod is a TypeScript-first schema declaration and validation library. Its documen
 ## https://ejs.co
 EJS (Embedded JavaScript) is a simple templating language that lets you generate HTML markup with plain JavaScript. The documentation covers syntax, usage examples, and best practices for integrating EJS into web applications and server-side rendering. It is lightweight, flexible, and released under the MIT license.
 ## MIT
+
+# Observable Plot Documentation
+## https://observablehq.com/plot
+Observable Plot is a modern visualization library that enables users to quickly create interactive and expressive data visualizations. The documentation provides an overview of its declarative API, examples of custom visualizations, and guidelines on integrating reactive data streams. It is highly regarded for its innovative approach to visual analytics.
+## MIT
+
+# Desmos Graphing Calculator API Documentation
+## https://www.desmos.com/api/v1.6/docs/index.html
+The Desmos Graphing Calculator API documentation explains how to embed and interact with its advanced graphing calculator. It covers topics such as graph construction, slider integration, and dynamic parameter updates, enabling developers to create interactive educational tools and visualizations. The content is authoritative though usage is subject to proprietary licensing terms.
+## Proprietary
+
+# p5.js Documentation
+## https://p5js.org/reference/
+p5.js is a versatile library designed for creative coding and visual expression. Its comprehensive documentation covers core functions, drawing and animation techniques, and user interaction, making it an excellent resource for developers and artists alike looking to build interactive visual applications.
+## MIT
