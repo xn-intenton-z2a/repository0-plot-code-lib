@@ -76,6 +76,7 @@ describe("Invalid Numeric Range Bounds", () => {
 
 describe("NaN Handling in Time Series Generation", () => {
   test("should replace non-numeric evaluation results with null to comply with JSON standards", () => {
+    // This test ensures that when the expression evaluation results in NaN, the value is replaced with null.
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "Math.sqrt(-1)", "--range", "x=0:10"]);
     const output = logSpy.mock.calls[0][0];

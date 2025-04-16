@@ -96,6 +96,7 @@ export function main(args = []) {
           y = f(x);
           // When evaluating the expression, any result that is not a valid number (including NaN or non-numeric values)
           // is substituted with null to ensure the JSON output remains valid according to JSON standards.
+          // This ensures that any occurrence of NaN is replaced by null for compliance with JSON, which does not support NaN values.
           if (typeof y !== "number" || isNaN(y)) y = null;
         } catch (e) {
           y = null;
