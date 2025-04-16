@@ -1,54 +1,49 @@
 # CLI_IMPROVEMENTS Update
 
-This update refines the CLI tool to enhance user guidance and troubleshooting by introducing an additional verbose mode. The verbose mode, activated by the `--verbose` flag, provides detailed logging throughout the execution process. This complements the existing help and diagnostic features by offering deeper insight into the tool's internal operations, making it easier to trace computation steps, debug issues, and verify processing stages.
+This update refines the CLI tool by augmenting the existing verbose mode with a new help mode. The new help mode is activated by the `--help` flag and displays comprehensive usage instructions extracted from the README. This ensures that users have immediate, in-context guidance on how to use the CLI tool, bolstering the mission to be accessible and transparent.
 
 ## Overview
 
 - **Purpose:**
-  - Enhance CLI transparency and troubleshooting by logging detailed runtime operations.
-  - Provide insights into option parsing, input validation, time series generation, and file-writing operations.
-  - Improve the user experience and reliability in alignment with our mission of becoming the go-to plot library for formula visualisations.
+  - Provide immediate, clear guidance via a help mode when users invoke the CLI with the `--help` flag.
+  - Enhance user troubleshooting by integrating both verbose operational logging (via `--verbose`) and detailed help instructions.
+  - Ensure the CLI remains simple yet self-documenting, reinforcing our mission of accessibility and reliability.
 
 ## Implementation
 
 ### Source Code Changes (src/lib/main.js)
 
-- **Verbose Flag Implementation:**
-  - Parse a new CLI flag `--verbose` alongside existing options.
-  - If `--verbose` is set, log detailed information such as:
-    - The parsed options immediately after argument processing.
-    - Key stages of the computation (e.g., before generating time series data, before writing output files, etc.).
-
-  - Example code snippet:
+- **Help Mode Implementation:**
+  - Parse a new `--help` flag in the CLI argument parser.
+  - When `--help` is detected, output comprehensive usage information. This can be a static string containing usage examples, options, and a summary of operations extracted from the README’s CLI Usage section.
+  - Ensure that the help information is printed before any other processing.
 
   ```js
-  // After parsing CLI options
-  if (options.verbose) {
-    console.log('Verbose Mode Activated: Parsed Options:', options);
-  }
-
-  // Continue with processing. Additional verbose logs can be added around critical operations:
-  if (options.expression && options.range) {
-    if (options.verbose) console.log('Starting plot or time series generation...');
-    // ... existing plot generation or time series code
+  // Check for help flag early in the argument parsing
+  if (options.help) {
+    console.log(`Usage: node src/lib/main.js [options]\n\nOptions:\n  --expression <expression>   Mathematical expression to evaluate\n  --range <range>             Range in the format x=min:max\n  --file <file>               Output file for plot generation (SVG/PNG)\n  --samples <number>          (Optional) Number of sample points (default: 100)\n  --verbose                   Show detailed operational logs\n  --diagnostics               Output diagnostics information in JSON format\n  --maintenance               Show maintenance issues error\n  --help                    Show this help message\n\nExamples:\n  node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"\n  node src/lib/main.js --expression "y=cos(x)" --range "x=-1:1" --file output.svg\n`);
+    return;
   }
   ```
 
+- **Retain Existing Features:**
+  - Ensure the existing parsing for `--verbose`, `--diagnostics`, and other flags remains intact.
+
 ### Testing (tests/unit/main.test.js)
 
-- **New Test Cases for Verbose Mode:**
-  - Add tests to confirm that when the `--verbose` flag is provided, the execution logs include detailed debug statements.
-  - The test should spy on `console.log` and check for the expected verbose message, e.g., a message starting with "Verbose Mode Activated:".
-
-  - Example test snippet:
+- **New Test Cases for Help Mode:**
+  - Add test(s) to confirm that when `--help` is provided, the CLI outputs the expected help content.
 
   ```js
-  describe("Verbose Mode", () => {
-    test("should log detailed information when --verbose is provided", () => {
+  describe("Help Mode", () => {
+    test("should display usage instructions when --help is provided", () => {
       const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-      main(["--expression", "Math.sin(x)", "--range", "x=0:6.28", "--verbose"]);
-      const firstLog = logSpy.mock.calls.find(call => call[0] && call[0].includes('Verbose Mode Activated'));
-      expect(firstLog).toBeDefined();
+      main(["--help"]);
+      const output = logSpy.mock.calls[0][0];
+      expect(output).toContain("Usage: node src/lib/main.js");
+      expect(output).toContain("--expression");
+      expect(output).toContain("--range");
+      expect(output).toContain("--file");
       logSpy.mockRestore();
     });
   });
@@ -57,21 +52,22 @@ This update refines the CLI tool to enhance user guidance and troubleshooting by
 ### Documentation Updates (README.md)
 
 - **CLI Usage Section:**
-  - Add a subsection detailing the verbose mode:
+  - Add or update a subsection to describe the new help mode:
 
   ```markdown
-  ### Verbose Mode
+  ### Help Mode
 
-  To activate verbose mode and view detailed process logs, run:
+  To view complete usage instructions and options, run:
 
   ```bash
-  node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28" --verbose
+  node src/lib/main.js --help
   ```
 
-  When enabled, the CLI tool will output additional information about the executed operations, which is useful for debugging and tracing.
+  This will output detailed information on all available CLI flags and examples on how to use them.
   ```
 
 ## Consistency and Mission Alignment
 
-- This verbose mode enhances user experience by providing clear, detailed insights about internal processing, which reinforces our commitment to transparency and reliability in data visualization. 
-- The feature integrates seamlessly with existing CLI improvements (help, diagnostics, and maintenance handling) to make the tool more accessible and informative.
+- The addition of a help mode reinforces our mission to make the CLI tool accessible and self-explanatory.
+- By integrating concise, built-in usage instructions, users can troubleshoot and explore the tool without needing to search external documentation.
+- This update complements the verbose mode and diagnostics feature to make the CLI a robust, user-friendly interface for formula visualisations.
