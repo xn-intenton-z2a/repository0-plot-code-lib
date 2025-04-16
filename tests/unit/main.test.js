@@ -36,6 +36,13 @@ describe("Plot generation CLI options", () => {
     expect(logSpy).toHaveBeenCalledWith("Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg");
     logSpy.mockRestore();
   });
+
+  test("should display error when an unsupported file extension is provided", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.txt"]);
+    expect(logSpy).toHaveBeenCalledWith("Error: Unsupported file format. Supported formats are .svg and .png.");
+    logSpy.mockRestore();
+  });
 });
 
 describe("Time series data generation", () => {
