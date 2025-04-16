@@ -85,4 +85,4 @@ MIT
 
 ## Note on Issue Handling
 
-Please note: Issues or prompts that consist solely of non-actionable tokens are not intended to trigger changes in the code. If you encounter such prompts or have unclear modification requests, please provide clear and actionable instructions.
+Please note: Issues or prompts that consist solely of non-actionable tokens are not intended to trigger changes in the code. Additionally, the repository currently has the maximum number of open maintenance issues. Please close or resolve existing non-essential issues before submitting new ones.
