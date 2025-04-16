@@ -6,58 +6,51 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ## Overview
 
-`plot-code-lib` is a JavaScript library and CLI tool designed to transform mathematical expressions and time series data into visual plots (SVG/PNG). It enables users to generate plots directly from the command-line using a simple syntax. Additionally, the library simulates the process of transforming a mathematical expression and a specified range into time series data, which is then used to generate plots in the desired format.
+`plot-code-lib` is a JavaScript library and CLI tool designed to transform mathematical expressions and time series data into visual plots (SVG/PNG) or serialized JSON data. It enables users to generate plots directly from the command-line using a simple syntax. Additionally, the library can evaluate a mathematical expression over a specified range and output a time series as a JSON array.
 
 ## CLI Usage
 
-To generate a plot using `plot-code-lib`, run the following command:
+### Plot Generation
+
+To generate a plot using `plot-code-lib`, run the following command (note: file output is simulated):
 
 ```bash
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
 Options:
-- `--expression`: The mathematical expression to be plotted.
-- `--range`: The range values for the plot (e.g., x and y boundaries).
-- `--file`: The output file name where the plot will be saved (supports SVG/PNG).
+- `--expression`: The mathematical expression to be plotted. (You can prefix with "y=" if desired)
+- `--range`: The range values for the plot in the format `x=min:max` (e.g., x=-1:1, x=0:6.28)
+- `--file`: The output file name where the plot will be saved (supports SVG/PNG). When provided, a plot generation message is displayed.
 
-When all options are provided, the CLI will simulate plot generation by printing a message detailing the input. For example, executing the command above would output:
-
-```
-Generating plot for expression 'y=sin(x)' with range 'x=-1:1,y=-1:1' and output file 'output.svg'
-```
-
-If any of the required options are missing, the CLI will display an error message:
+Expected Output for Plot Generation:
 
 ```
-Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
+Generating plot for expression 'y=sin(x)' with range 'x=-1:1' and output file 'output.svg'
 ```
 
-#### Detailed CLI Usage Examples
+### Time Series JSON Data Generation
 
-##### Example 1: Complete Options
-
-Command:
+If you want to generate time series data from an expression and range, simply omit the `--file` option:
 
 ```bash
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file plot.svg
+node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
 ```
 
-Expected Output:
+This will output a JSON array representing the time series data. Each element of the array is an object with numeric `x` and `y` properties. For example:
 
-```
-Generating plot for expression 'y=sin(x)' with range 'x=-1:1,y=-1:1' and output file 'plot.svg'
-```
-
-##### Example 2: Incomplete Options
-
-Command:
-
-```bash
-node src/lib/main.js --expression "y=sin(x)"
+```json
+[
+  { "x": 0, "y": 0 },
+  { "x": 0.063, "y": 0.063 },
+  ...
+  { "x": 6.28, "y": -0.001 }
+]
 ```
 
-Expected Output:
+### Incomplete Options
+
+If any of the required options are missing (and no time series generation is possible), the CLI will display an error message:
 
 ```
 Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
@@ -65,7 +58,7 @@ Error: Missing required options. Usage: node src/lib/main.js --expression <expre
 
 #### Dry-Run Mode
 
-If you run the CLI without any arguments, it will perform a dry-run and display the list of arguments received, for example:
+Running the CLI without any arguments shows the received arguments:
 
 ```bash
 node src/lib/main.js
@@ -79,11 +72,10 @@ Run with: []
 
 ## How It Works
 
-1. The CLI parses the command-line arguments to extract options such as `--expression`, `--range`, and `--file`.
-2. If all required options are provided, the tool simulates transforming the mathematical expression and range into time series data (this simulation is indicated by the generated log message) and then produces a plot output in the specified format.
-3. If any options are missing, it informs the user with a clear error message about the missing parameters and displays the correct usage.
-
-This streamlined process allows users to quickly generate visualizations of mathematical expressions from the command-line.
+1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file`.
+2. If `--expression` and `--range` are provided along with `--file`, the tool simulates plot generation by printing a message with the input details.
+3. If `--expression` and `--range` are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array.
+4. If any options are missing, the CLI informs the user about the correct usage.
 
 ## License
 
@@ -93,4 +85,4 @@ MIT
 
 ## Note on Issue Handling
 
-Please note: Issues or prompts that consist solely of non-actionable tokens (such as "NaN") are not intended to trigger changes in the code. If you encounter such prompts or have unclear modification requests, please provide clear and actionable instructions. This ensures that the repository reflects only intentional and well-defined updates.
+Please note: Issues or prompts that consist solely of non-actionable tokens are not intended to trigger changes in the code. If you encounter such prompts or have unclear modification requests, please provide clear and actionable instructions.

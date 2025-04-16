@@ -17,9 +17,62 @@ export function main(args = []) {
     }
   }
 
-  // Check if the expected options are provided
-  if (options.expression && options.range && options.file) {
-    console.log(`Generating plot for expression '${options.expression}' with range '${options.range}' and output file '${options.file}'`);
+  // If both expression and range are provided
+  if (options.expression && options.range) {
+    // If file option provided, maintain existing plot generation message
+    if (options.file) {
+      console.log(`Generating plot for expression '${options.expression}' with range '${options.range}' and output file '${options.file}'`);
+    } else {
+      // New functionality: generate time series data and output as JSON
+      // Expected range format: "x=min:max"
+      const rangeParts = options.range.split("=");
+      if (rangeParts.length !== 2) {
+        console.log('Error: Range format invalid. Expected format "x=min:max"');
+        return;
+      }
+      const variable = rangeParts[0];
+      const bounds = rangeParts[1].split(":");
+      if (bounds.length !== 2) {
+        console.log('Error: Range bounds invalid. Expected format "x=min:max"');
+        return;
+      }
+      const min = parseFloat(bounds[0]);
+      const max = parseFloat(bounds[1]);
+      if (isNaN(min) || isNaN(max)) {
+        console.log('Error: Range bounds must be numeric.');
+        return;
+      }
+      
+      // Process expression: remove leading 'y=' if present
+      let expr = options.expression;
+      if (expr.startsWith("y=")) {
+        expr = expr.substring(2);
+      }
+      let f;
+      try {
+        f = new Function("x", "return " + expr);
+      } catch (e) {
+        console.log("Error: Invalid mathematical expression.");
+        return;
+      }
+
+      // Generate 100 equally spaced sample points
+      const n = 100;
+      const step = (max - min) / (n - 1);
+      const series = [];
+      for (let i = 0; i < n; i++) {
+        const x = min + step * i;
+        let y;
+        try {
+          y = f(x);
+          if (typeof y !== "number" || isNaN(y)) y = null;
+        } catch (e) {
+          y = null;
+        }
+        series.push({ x, y });
+      }
+      console.log(JSON.stringify(series));
+    }
   } else if (Object.keys(options).length > 0) {
     console.log('Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>');
   } else {

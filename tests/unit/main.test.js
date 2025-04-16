@@ -16,10 +16,10 @@ describe("Default main", () => {
 });
 
 describe("Plot generation CLI options", () => {
-  test("should generate plot message when all required flags are provided", () => {
+  test("should generate plot message when all required flags are provided (with --file)", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    main(["--expression", "y=sin(x)", "--range", "x=-1:1,y=-1:1", "--file", "output.svg"]);
-    expect(logSpy).toHaveBeenCalledWith("Generating plot for expression 'y=sin(x)' with range 'x=-1:1,y=-1:1' and output file 'output.svg'");
+    main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"]);
+    expect(logSpy).toHaveBeenCalledWith("Generating plot for expression 'y=sin(x)' with range 'x=-1:1' and output file 'output.svg'");
     logSpy.mockRestore();
   });
 
@@ -27,6 +27,33 @@ describe("Plot generation CLI options", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "y=sin(x)"]);
     expect(logSpy).toHaveBeenCalledWith('Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>');
+    logSpy.mockRestore();
+  });
+});
+
+describe("Time series data generation", () => {
+  test("should output valid JSON time series when --expression and --range are provided without --file", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "Math.sin(x)", "--range", "x=0:6.28"]);
+    const output = logSpy.mock.calls[0][0];
+    let series;
+    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(Array.isArray(series)).toBe(true);
+    expect(series.length).toBe(100);
+    series.forEach((point) => {
+      expect(typeof point.x).toBe("number");
+      expect(point).toHaveProperty("y");
+      if (point.y !== null) {
+        expect(typeof point.y).toBe("number");
+      }
+    });
+    logSpy.mockRestore();
+  });
+
+  test("should show error for invalid range format", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "Math.sin(x)", "--range", "invalidRange"]);
+    expect(logSpy).toHaveBeenCalledWith('Error: Range format invalid. Expected format "x=min:max"');
     logSpy.mockRestore();
   });
 });
