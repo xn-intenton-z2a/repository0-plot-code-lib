@@ -39,21 +39,7 @@ This prints a JSON array with objects containing `x` and `y` values.
 
 #### Handling Non-Finite Numerical Outputs
 
-When evaluating a mathematical expression, if the result is a non-finite value (such as `NaN`, `Infinity`, or `-Infinity`), `plot-code-lib` automatically converts it to `null` in the JSON output. This ensures that the time series data remains valid and can be safely processed by downstream tools.
-
-Example:
-```bash
-node src/lib/main.js --expression "0/0" --range "x=0:10"
-```
-produces an output similar to:
-```json
-[
-  { "x": 0, "y": null },
-  { "x": 1, "y": null },
-  ...
-]
-```
-This mechanism guarantees consistency and reliability in data consumption.
+When evaluating a mathematical expression, if the computation results in a non-finite value (such as `NaN`, `Infinity`, or `-Infinity`), `plot-code-lib` automatically converts that value to `null` in the generated JSON output. In other words, any operation that would normally produce `NaN` will appear as `null` to ensure that the time series data remains valid and can be safely processed by downstream tools.
 
 #### Custom Sample Count
 
@@ -96,7 +82,7 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options.
 2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
-3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. **Note:** Any non-finite result (e.g., `NaN`, `Infinity`, or `-Infinity`) is replaced with `null` in the output.
+3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. **Note:** Any computation that would produce a non-finite number (like `NaN`, `Infinity`, or `-Infinity`) is replaced with `null` in the output.
 4. The `--samples` flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
