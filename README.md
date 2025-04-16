@@ -58,10 +58,11 @@ Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issu
 
 ### Incomplete Options
 
-If not all required options for plot generation or time series creation are provided, the CLI displays an error message:
+If not all required options for plot generation or time series creation are provided, the CLI displays a detailed error message guiding you to provide the missing parameters. For example:
 ```
-Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
+Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg
 ```
+This guidance helps you troubleshoot and correct the command usage.
 
 #### Dry-Run Mode
 

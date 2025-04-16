@@ -33,7 +33,7 @@ describe("Plot generation CLI options", () => {
   test("should display usage message when incomplete options are provided", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "y=sin(x)"]);
-    expect(logSpy).toHaveBeenCalledWith('Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>');
+    expect(logSpy).toHaveBeenCalledWith("Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg");
     logSpy.mockRestore();
   });
 });
