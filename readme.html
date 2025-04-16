@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
+<p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI – the jq of formula visualizations.&quot;</em></p>
+<hr class="md-github">
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github"><code class="md-github">plot-code-lib</code> is a modern JavaScript library and CLI tool that transforms mathematical expressions into visual plots (SVG/PNG) and generates time series data. With a simple command-line interface, you can easily produce plots or JSON arrays of computed values over a specified range.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="cli-usage" href="#cli-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="plot-generation" href="#plot-generation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plot Generation</h3>
+<p class="md-github">To generate a plot, provide the options <code class="md-github">--expression</code>, <code class="md-github">--range</code>, and <code class="md-github">--file</code>. The file extension determines the output format:</p>
+<p class="md-github">For SVG:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-1:1&quot; --file output.svg
+</code></pre>
+<p class="md-github">For PNG:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;Math.cos(x)&quot; --range &quot;x=0:3.14&quot; --file output.png
+</code></pre>
+<p class="md-github">Options:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">--expression</code>: The mathematical expression to plot (optionally prefixed with &quot;y=&quot;).</li>
+<li class="md-github"><code class="md-github">--range</code>: The range in the format <code class="md-github">x=min:max</code> (e.g., <code class="md-github">x=-1:1</code>, <code class="md-github">x=0:6.28</code>).</li>
+<li class="md-github"><code class="md-github">--file</code>: The output filename for the plot. Note: Only <code class="md-github">.svg</code> and <code class="md-github">.png</code> file formats are supported. If an unsupported format is provided (e.g., <code class="md-github">output.txt</code>), the CLI will output an error message: &quot;Error: Unsupported file format. Supported formats are .svg and .png.&quot;</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="time-series-json-data-generation" href="#time-series-json-data-generation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Time Series JSON Data Generation</h3>
+<p class="md-github">Omit the <code class="md-github">--file</code> option to output JSON time series data from the provided expression and range:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;Math.sin(x)&quot; --range &quot;x=0:6.28&quot;
+</code></pre>
+<p class="md-github">This prints a JSON array with objects containing <code class="md-github">x</code> and <code class="md-github">y</code> values.</p>
+<h4 class="md-github"><a class="md-github__anchor" name="handling-non-finite-values-nan--infinity" href="#handling-non-finite-values-nan--infinity"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Handling Non-finite Values (NaN / Infinity)</h4>
+<p class="md-github">When evaluating a mathematical expression, if the result is non-finite (such as NaN or Infinity), <code class="md-github">plot-code-lib</code> replaces the resulting value with <code class="md-github">null</code> in the JSON output. This behavior ensures that the output remains valid JSON, as JSON does not support non-finite numeric values.</p>
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<p class="md-github">Consider the command:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;0/0&quot; --range &quot;x=0:10&quot;
+</code></pre>
+<p class="md-github">The output will be a JSON array where every computed point has a <code class="md-github">null</code> y-value:</p>
+<pre class="md-github"><code class="md-github language-json">[
+  { &quot;x&quot;: 0, &quot;y&quot;: null },
+  { &quot;x&quot;: 1, &quot;y&quot;: null },
+  ...
+]
+</code></pre>
+<p class="md-github">This substitution ensures consistency and prevents errors in downstream processing of the data.</p>
+<h4 class="md-github"><a class="md-github__anchor" name="custom-sample-count" href="#custom-sample-count"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Sample Count</h4>
+<p class="md-github">Use the <code class="md-github">--samples</code> flag to specify the number of sample points (default is 100). For example, to generate 50 samples:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;Math.sin(x)&quot; --range &quot;x=0:6.28&quot; --samples 50
+</code></pre>
+<p class="md-github">If an invalid sample count is provided, the tool defaults to generating 100 samples.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="maintenance-issues-handling" href="#maintenance-issues-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Maintenance Issues Handling</h3>
+<p class="md-github">In accordance with repository guidelines, the CLI prevents the submission of new maintenance issues if there are unresolved ones. When the <code class="md-github">--maintenance</code> flag is used, it outputs an error:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --maintenance
+</code></pre>
+<p class="md-github">Output:</p>
+<pre class="md-github"><code class="md-github">Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="incomplete-options" href="#incomplete-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Incomplete Options</h3>
+<p class="md-github">If not all required options for plot generation or time series creation are provided, the CLI displays a detailed error message guiding you to provide the missing parameters. For example:</p>
+<pre class="md-github"><code class="md-github">Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="dry-run-mode" href="#dry-run-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dry-Run Mode</h4>
+<p class="md-github">Running the CLI without arguments will display the received arguments, which can be useful for debugging:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js
+</code></pre>
+<p class="md-github">Output:</p>
+<pre class="md-github"><code class="md-github">Run with: []
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="how-it-works" href="#how-it-works"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How It Works</h2>
+<ol class="md-github">
+<li class="md-github">The CLI parses command-line arguments to extract options.</li>
+<li class="md-github">Providing <code class="md-github">--file</code> triggers plot generation with dummy content (SVG or PNG based on the file extension).</li>
+<li class="md-github">Without <code class="md-github">--file</code>, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. Non-finite results are replaced with <code class="md-github">null</code> to maintain valid JSON output.</li>
+<li class="md-github">The <code class="md-github">--samples</code> flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.</li>
+<li class="md-github">The <code class="md-github">--maintenance</code> flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
+<p class="md-github">MIT</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-16T21:24:12.598Z</p>
+  </footer>
+</body>
+</html>
