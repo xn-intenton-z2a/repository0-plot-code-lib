@@ -39,9 +39,9 @@ This prints a JSON array with objects containing `x` and `y` values.
 
 #### Handling Non-finite Values (NaN / Infinity)
 
-When evaluating a mathematical expression, if the result is non-finite (such as NaN or Infinity), `plot-code-lib` replaces the resulting value with `null` in the JSON output. This behavior ensures that the output remains valid JSON, as JSON does not support non-finite numeric values. 
+When evaluating a mathematical expression, if the result is NaN, Infinity, or -Infinity, `plot-code-lib` converts these non-finite values to `null` in the JSON output to ensure that the produced JSON is valid. 
 
-**Example:**
+Example:
 
 Consider the command:
 ```bash
@@ -57,7 +57,7 @@ The output will be a JSON array where every computed point has a `null` y-value:
 ]
 ```
 
-This substitution ensures consistency and prevents errors in downstream processing of the data.
+This substitution prevents non-finite numerical values from causing issues in downstream processing of the data.
 
 #### Custom Sample Count
 
@@ -100,7 +100,7 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options.
 2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
-3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. Non-finite results are replaced with `null` to maintain valid JSON output.
+3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. Non-finite results (NaN, Infinity, or -Infinity) are replaced with `null` to maintain valid JSON output.
 4. The `--samples` flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
