@@ -43,7 +43,7 @@ This will output a JSON array representing the time series data. Each element of
 [
   { "x": 0, "y": 0 },
   { "x": 0.063, "y": 0.063 },
-  ...
+  ...,
   { "x": 6.28, "y": -0.001 }
 ]
 ```
@@ -85,4 +85,4 @@ MIT
 
 ## Note on Issue Handling
 
-Please note: Issues or prompts that consist solely of non-actionable tokens are not intended to trigger changes in the code. Additionally, the repository currently has the maximum number of open maintenance issues. Please resolve or close existing non-essential issues before submitting new ones.
+Due to the current limit of open maintenance issues, no changes have been applied until existing issues are resolved or closed.
