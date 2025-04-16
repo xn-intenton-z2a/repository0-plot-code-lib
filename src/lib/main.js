@@ -4,6 +4,41 @@
 import { fileURLToPath } from "url";
 import fs from "fs";
 
+// Helper function to parse and validate the --range option
+function parseRange(rangeStr) {
+  const rangeParts = rangeStr.split("=");
+  if (rangeParts.length !== 2) {
+    console.log('Error: Range format invalid. Expected format "x=min:max"');
+    return null;
+  }
+  const bounds = rangeParts[1].split(":");
+  if (bounds.length !== 2) {
+    console.log('Error: Range bounds invalid. Expected format "x=min:max"');
+    return null;
+  }
+  const min = parseFloat(bounds[0]);
+  const max = parseFloat(bounds[1]);
+  if (isNaN(min) || isNaN(max)) {
+    console.log('Error: Range bounds must be numeric.');
+    return null;
+  }
+  return { min, max };
+}
+
+// Helper function to evaluate the mathematical expression and return a function
+function getMathFunction(expression) {
+  let expr = expression;
+  if (expr.startsWith("y=")) {
+    expr = expr.substring(2);
+  }
+  try {
+    return new Function("x", "return " + expr);
+  } catch (e) {
+    console.log("Error: Invalid mathematical expression.");
+    return null;
+  }
+}
+
 export function main(args = []) {
   // Simple argument parser: converts CLI arguments into an options object
   const options = {};
@@ -18,7 +53,7 @@ export function main(args = []) {
     }
   }
 
-  // New maintenance check: if the --maintenance flag is provided, output an error about open maintenance issues
+  // Maintenance check for open maintenance issues
   if (options.maintenance) {
     console.log("Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.");
     return;
@@ -45,37 +80,13 @@ export function main(args = []) {
         console.log(`Error: Could not write file ${options.file}.`, error);
       }
     } else {
-      // New functionality: generate time series data and output as JSON
-      // Expected range format: "x=min:max"
-      const rangeParts = options.range.split("=");
-      if (rangeParts.length !== 2) {
-        console.log('Error: Range format invalid. Expected format "x=min:max"');
-        return;
-      }
-      const bounds = rangeParts[1].split(":");
-      if (bounds.length !== 2) {
-        console.log('Error: Range bounds invalid. Expected format "x=min:max"');
-        return;
-      }
-      const min = parseFloat(bounds[0]);
-      const max = parseFloat(bounds[1]);
-      if (isNaN(min) || isNaN(max)) {
-        console.log('Error: Range bounds must be numeric.');
-        return;
-      }
-      
-      // Process expression: remove leading 'y=' if present
-      let expr = options.expression;
-      if (expr.startsWith("y=")) {
-        expr = expr.substring(2);
-      }
-      let f;
-      try {
-        f = new Function("x", "return " + expr);
-      } catch (e) {
-        console.log("Error: Invalid mathematical expression.");
-        return;
-      }
+      // Time series data generation using refactored helper functions
+      const range = parseRange(options.range);
+      if (!range) return;
+      const { min, max } = range;
+
+      const mathFunc = getMathFunction(options.expression);
+      if (!mathFunc) return;
 
       // Determine the number of sample points
       let n = 100;
@@ -93,9 +104,7 @@ export function main(args = []) {
         const x = min + step * i;
         let y;
         try {
-          y = f(x);
-          // If the result is not a valid finite number (including NaN or Infinity), substitute it with null
-          // This ensures the resulting JSON time series contains only finite numerical values or null for invalid results
+          y = mathFunc(x);
           if (typeof y !== "number" || !Number.isFinite(y)) y = null;
         } catch (e) {
           y = null;

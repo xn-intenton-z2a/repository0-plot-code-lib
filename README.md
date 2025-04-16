@@ -35,10 +35,13 @@ Omit the `--file` option to output JSON time series data from the provided expre
 ```bash
 node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
 ```
-This prints a JSON array with objects containing `x` and `y` values. 
+This prints a JSON array with objects containing `x` and `y` values.
 
 **Note on Non-finite Values:**
 If the evaluated mathematical expression produces a non-finite result (such as NaN or Infinity), the tool intentionally replaces the result with `null` to ensure the output is valid JSON. For example, if an invalid or non-finite computation is performed, the corresponding `y` value in the output will be `null`.
+
+#### Under the Hood
+The time series generation logic has been refactored for better readability and maintainability. Dedicated helper functions now handle parsing the `--range` option and evaluating the mathematical expression before generating the sample points.
 
 #### Example: NaN Handling
 
@@ -81,7 +84,6 @@ If not all required options for plot generation or time series creation are prov
 ```
 Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg
 ```
-This guidance helps you troubleshoot and correct the command usage.
 
 #### Dry-Run Mode
 
@@ -98,8 +100,8 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options.
 2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
-3. Without `--file`, the tool evaluates the mathematical expression over the specified range and outputs a JSON array representing the time series data. If the evaluated expression results in a non-finite value (such as NaN or Infinity), the result is replaced with `null` to maintain valid JSON output.
-4. The `--samples` flag allows customization of the number of sample points, and if the expression does not return a valid number, the corresponding value is replaced with `null`.
+3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. Non-finite results are replaced with `null` to maintain valid JSON output.
+4. The `--samples` flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
 ## License
