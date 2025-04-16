@@ -77,8 +77,16 @@ export function main(args = []) {
         return;
       }
 
-      // Generate 100 equally spaced sample points
-      const n = 100;
+      // Determine the number of sample points
+      let n = 100;
+      if (options.samples) {
+        const parsedSamples = parseInt(options.samples, 10);
+        if (!isNaN(parsedSamples) && parsedSamples > 1) {
+          n = parsedSamples;
+        }
+      }
+
+      // Generate n equally spaced sample points
       const step = (max - min) / (n - 1);
       const series = [];
       for (let i = 0; i < n; i++) {
