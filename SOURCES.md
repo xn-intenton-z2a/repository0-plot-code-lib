@@ -277,3 +277,18 @@ Express.js is a minimal, flexible Node.js framework for building web application
 ## https://github.com/motdotla/dotenv
 Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env, facilitating the management of configuration and secrets in Node.js applications. The documentation provides usage instructions, configuration options, and best practices.
 ## MIT
+
+# WolframAlpha API Documentation
+## https://products.wolframalpha.com/api/documentation/
+WolframAlpha API Documentation provides a gateway to embed computational intelligence into applications, offering a wide range of algorithms and curated data. It enables advanced query processing and analysis of complex mathematical problems. Regularly updated, it supports integration with various programming environments.
+## Proprietary
+
+# GeoGebra Graphing Calculator Documentation
+## https://www.geogebra.org/manual/en/graphing.html
+GeoGebra provides interactive mathematics software, with documentation focusing on graphing, geometry, algebra, and calculus. The manual details features for interactive graphing and dynamic geometry, making it a valuable resource for educators and learners engaging with mathematical visualization tools.
+## Multiple Licenses (Free and Open Source)
+
+# Node.js ES Modules Documentation
+## https://nodejs.org/api/esm.html
+The Node.js ES Modules Documentation explains how ECMAScript modules are implemented in Node.js. It covers topics such as module resolution, import/export syntax, and interoperability with CommonJS modules. This source is authoritative and continuously updated with new Node.js releases.
+## Public Domain
