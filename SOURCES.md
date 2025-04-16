@@ -157,3 +157,18 @@ Mermaid is a diagramming and charting tool that transforms simple text definitio
 ## https://platform.openai.com/docs/api-reference/introduction
 OpenAI’s API documentation offers a comprehensive guide to integrating advanced AI models into applications. Covering authentication, endpoint usage, parameter configurations, and best practices, it is regularly updated and serves as an authoritative reference for developers building AI-driven features.
 ## Proprietary
+
+# Nerdamer Documentation
+## https://nerdamer.com
+Nerdamer is a symbolic math expression parser for JavaScript that facilitates advanced algebraic operations and expression evaluations. Its documentation offers insights into its API for symbolic computations and algebraic simplifications, positioning it as a competitor to other expression evaluators in the JavaScript ecosystem.
+## MIT
+
+# Decimal.js Documentation
+## https://mikemcl.github.io/decimal.js/
+Decimal.js is an arbitrary-precision decimal arithmetic library for JavaScript. Its documentation covers methods for performing precise arithmetic calculations, managing rounding, and converting between decimal representations. This resource is invaluable for projects requiring high precision in mathematical computations.
+## MIT
+
+# Chalk Documentation
+## https://chalk.js.org/
+Chalk is a popular terminal string styling library for Node.js that enables developers to easily add colors and formatting to CLI output. Its documentation provides comprehensive guides and examples to enhance the readability and user experience of terminal applications.
+## MIT
