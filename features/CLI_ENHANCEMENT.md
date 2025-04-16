@@ -1,28 +1,32 @@
-# CLI Enhancement Update
+# CLI Enhancement with Help Flag
 
-This update refines the unified CLI feature to include a new `--help` flag in addition to the existing functionality for plot generation and statistics computation. The goal is to simplify the user experience by offering comprehensive guidance directly from the CLI, while consolidating the separate STATS and PLOT features into one.
+This update refines the unified CLI feature to include a robust `--help` flag. The purpose of this flag is to provide users with a detailed usage guide listing all available commands and options. This enhancement streamlines the user experience and ensures consistency across help documentation, as described in the project's mission.
 
 ## Implementation Details
 
-- **CLI Arguments Update:**
-  - Extend the argument parser in `src/lib/main.js` to recognize a new `--help` flag. When this flag is present, the tool should immediately print a detailed usage guide that includes information about all supported flags (`--expression`, `--range`, `--file`, `--stats`, and `--help`) and exit without processing further commands.
-  - Preserve the existing logic for handling plot generation (`--expression`, `--range`, `--file`) and statistics computation (`--stats`), ensuring that both functionalities work seamlessly when their flags are provided.
+- **Source Code (src/lib/main.js):**
+  - Extend the argument parser to check for the `--help` flag. If present, the tool should immediately print a comprehensive usage guide which details all supported flags (`--expression`, `--range`, `--file`, `--stats`, and `--help`) and then exit without further processing.
+  - Ensure that the existing functionality for plot generation (when both `--expression` and `--range` are provided with or without the `--file` option) and statistics computation remains intact.
+  - Include error handling to cover scenarios where conflicting or insufficient arguments are provided.
 
 ## Testing Enhancements
 
-- **Source & Test Updates:**
-  - Update `tests/unit/main.test.js` to include tests that verify the correct output when the `--help` flag is used, ensuring that the CLI prints the comprehensive usage guide.
-  - Retain and update tests for existing plot generation and statistics output to confirm that they properly function under merged logic.
+- **Test File (tests/unit/main.test.js):**
+  - Add tests verifying that when the `--help` flag is passed, the CLI outputs the full usage guide and does not process further commands.
+  - Retain tests for plot generation and time series data computations, ensuring that the introduction of `--help` does not affect those functionalities.
 
 ## Documentation Updates
 
 - **README.md:**
-  - Update the CLI usage documentation to include details on the new `--help` flag. Provide clear examples and output expectations. This should include a section on how to invoke help to assist users in correctly using all available commands.
+  - Update the CLI usage section with a new segment detailing the `--help` flag. Include usage examples to demonstrate how a user can invoke the help feature.
+  - Ensure that the documentation clearly outlines the expected output when `--help` is used.
 
-## Mission & Contributing Alignment
+## Alignment with Mission & Contributing Guidelines
 
 - **Mission Compliance:**
-  - Enhancing the CLI to offer a robust help function aligns with the mission to be the go-to plot library for formulae visualisations by improving user accessibility and clarity.
+  - Enhancing the CLI with a help command aligns with the mission to be a go-to tool for formulae visualisations by improving accessibility and usability.
 
 - **Contributing Guidelines:**
-  - All modifications are confined to existing files (source code, tests, README, and dependency files) ensuring that the changes adhere to the guidelines in `CONTRIBUTING.md`. No new files are added and no deletions occur apart from merging overlapping features.
+  - All modifications are confined to existing files (source, tests, README, and dependency files). The changes follow the existing coding style and are fully covered by tests.
+
+This update is a targeted and valuable improvement that enhances both usability and clarity of the CLI tool without introducing unnecessary complexity.
