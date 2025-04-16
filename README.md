@@ -50,9 +50,7 @@ This will output a JSON array representing the time series data. Each element of
 
 ### Handling NaN in Time Series Generation
 
-When evaluating a mathematical expression over a specified range, any computed result that is not a valid number (i.e., NaN) is automatically replaced with `null`. This design choice is made to ensure that the output remains valid JSON since JSON does not support NaN values. For instance:
-
-- If the expression yields a mathematical error or an undefined numeric result (NaN), that particular value will be substituted with `null` in the generated JSON.
+When evaluating a mathematical expression over a specified range, any computed result that is not a valid number (i.e., NaN) is automatically replaced with `null`. This design decision is made to ensure that the output remains valid JSON since JSON does not support NaN values. In other words, if the mathematical expression results in a NaN (for example, due to an invalid operation like taking the square root of a negative number), that particular value is substituted with `null`.
 
 **Example:**
 
@@ -70,9 +68,11 @@ The resulting JSON output will have `null` in place of any NaN values:
 ]
 ```
 
+This approach guarantees JSON validity and prevents errors during parsing since NaN is not a supported JSON value.
+
 ### Handling Invalid Numeric Inputs
 
-If you provide non-numeric values in the range option or if the mathematical expression evaluates to `NaN` for given inputs, the tool will output an error message. In particular:
+If you provide non-numeric values in the range option or if the mathematical expression evaluates to NaN for given inputs, the tool will output an error message. In particular:
 
 - For a range with non-numeric bounds (e.g., `--range "x=a:b"`), the following error is displayed:
 
@@ -80,9 +80,9 @@ If you provide non-numeric values in the range option or if the mathematical exp
 Error: Range bounds must be numeric.
 ```
 
-- Similarly, if the expression evaluation results in `NaN` for any sample point, that particular `y` value is set to `null` in the generated JSON time series.
+- Similarly, if the expression evaluation results in NaN for any sample point, that particular `y` value is set to `null` in the generated JSON time series.
 
-Example of invalid numeric input scenario:
+**Example of invalid numeric input scenario:**
 
 ```bash
 node src/lib/main.js --expression "Math.sin(x)" --range "x=a:b"
