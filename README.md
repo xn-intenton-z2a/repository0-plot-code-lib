@@ -33,9 +33,9 @@ If any of the required options are missing, the CLI will display an error messag
 Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>
 ```
 
-### Detailed CLI Usage Examples
+#### Detailed CLI Usage Examples
 
-#### Example 1: Complete Options
+##### Example 1: Complete Options
 
 Command:
 
@@ -49,7 +49,7 @@ Expected Output:
 Generating plot for expression 'y=sin(x)' with range 'x=-1:1,y=-1:1' and output file 'plot.svg'
 ```
 
-#### Example 2: Incomplete Options
+##### Example 2: Incomplete Options
 
 Command:
 
@@ -90,3 +90,7 @@ This streamlined process allows users to quickly generate visualizations of math
 MIT
 
 ---
+
+## Note on Issue Handling
+
+Please note: Issues or prompts that consist solely of non-actionable tokens (such as "NaN") are not intended to trigger changes in the code. If you encounter such prompts or have unclear modification requests, please provide clear and actionable instructions. This ensures that the repository reflects only intentional and well-defined updates.
