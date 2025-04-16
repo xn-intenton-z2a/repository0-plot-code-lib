@@ -70,8 +70,6 @@ The resulting JSON output will have `null` in place of any NaN values:
 ]
 ```
 
-This substitution is intentional to ensure that consumers of the JSON data do not encounter errors when parsing, as per JSON standards.
-
 ### Handling Invalid Numeric Inputs
 
 If you provide non-numeric values in the range option or if the mathematical expression evaluates to `NaN` for given inputs, the tool will output an error message. In particular:
