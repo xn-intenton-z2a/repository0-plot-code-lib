@@ -107,3 +107,18 @@ The Desmos Graphing Calculator API documentation explains how to embed and inter
 ## https://p5js.org/reference/
 p5.js is a versatile library designed for creative coding and visual expression. Its comprehensive documentation covers core functions, drawing and animation techniques, and user interaction, making it an excellent resource for developers and artists alike looking to build interactive visual applications.
 ## MIT
+
+# Inquirer.js Documentation
+## https://github.com/SBoudrias/Inquirer.js
+Inquirer.js is a collection of common interactive command line user interfaces. Its documentation provides clear examples and API references on how to implement prompt-based interactions in Node.js applications. It is widely adopted for creating engaging CLI tools and is maintained actively by the community.
+## MIT
+
+# Vite Documentation
+## https://vitejs.dev/guide/
+Vite is a fast and modern build tool that provides a lean development experience with near-instant server start and hot module replacement. Its documentation includes guides on setup, configuration, and optimization, which are beneficial for developers using frameworks like Vitest and other modern JavaScript tools.
+## MIT
+
+# Sharp Documentation
+## https://sharp.pixelplumbing.com/
+Sharp is a high-performance Node.js image processing library that enables developers to resize, convert, and manipulate images efficiently. The documentation offers detailed API references, examples, and best practices, making it an ideal resource for projects requiring image manipulation, such as generating or processing PNG plots.
+## Apache-2.0
