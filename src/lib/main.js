@@ -71,8 +71,9 @@ export function main(args = []) {
         let y;
         try {
           y = f(x);
-          // Handle NaN: if f(x) returns NaN or a non-numeric value, set y to null.
-          // This substitution ensures that the output remains valid JSON since JSON does not support NaN values.
+          // Evaluate function result. If y is not a valid number (NaN) or not of type 'number',
+          // it is replaced with null. This ensures that the generated JSON output remains valid,
+          // as JSON does not support NaN values.
           if (typeof y !== "number" || isNaN(y)) y = null;
         } catch (e) {
           y = null;
