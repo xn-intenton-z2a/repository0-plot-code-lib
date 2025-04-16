@@ -35,7 +35,7 @@ export function main(args = []) {
         // For PNG, writing a dummy placeholder content
         fileContent = "PNG content: " + options.expression + " on " + options.range;
       } else {
-        console.log("Error: Unsupported file format. Only SVG and PNG are supported.");
+        console.log("Error: Unsupported file format. Supported formats are .svg and .png.");
         return;
       }
       try {

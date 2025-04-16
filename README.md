@@ -27,7 +27,7 @@ node src/lib/main.js --expression "Math.cos(x)" --range "x=0:3.14" --file output
 Options:
 - `--expression`: The mathematical expression to plot (optionally prefixed with "y=").
 - `--range`: The range in the format `x=min:max` (e.g., `x=-1:1`, `x=0:6.28`).
-- `--file`: The output filename for the plot (supports SVG and PNG formats).
+- `--file`: The output filename for the plot. Note: Only `.svg` and `.png` file formats are supported. If an unsupported format is provided (e.g., `output.txt`), the CLI will output an error message: "Error: Unsupported file format. Supported formats are .svg and .png."
 
 ### Time Series JSON Data Generation
 
