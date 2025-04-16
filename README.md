@@ -64,6 +64,8 @@ In compliance with the repository guidelines, new maintenance issues cannot be s
 Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.
 ```
 
+Note: This error indicates that there are currently 5 open maintenance issues in the repository. Please address these open issues before submitting a new maintenance issue.
+
 #### Dry-Run Mode
 
 Running the CLI without any arguments shows the received arguments:
