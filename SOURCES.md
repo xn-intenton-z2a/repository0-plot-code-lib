@@ -102,3 +102,18 @@ The ES Modules documentation by Node.js details the usage, implementation, and b
 ## https://github.com/chalk/chalk#readme
 Chalk is a widely used library for styling command-line output with colors, enhancing the user interface of terminal applications. Its documentation provides examples, configuration options, and usage guidelines, making it an excellent reference for developers aiming to improve CLI usability and aesthetics.
 ## MIT
+
+# The Art of Command Line
+## https://github.com/jlevy/the-art-of-command-line
+A well-curated collection of tips, tricks, and best practices for using the command line. This resource provides insights on efficient CLI usage, command chaining, and advanced help flag design considerations. Frequently updated and community-driven, it is regarded as an authoritative guide in the realm of command-line interfaces. (Last updated: 2023)
+## MIT
+
+# Minimist Documentation
+## https://www.npmjs.com/package/minimist
+Minimist is a minimal argument parser for Node.js, offering guidance on handling command-line inputs with ease. While the repository uses a custom parser, this documentation serves as a useful reference for understanding underlying parsing mechanics and alternative approaches.
+## MIT
+
+# oclif Documentation
+## https://oclif.io/docs/introduction.html
+Oclif is a powerful framework for building command-line tools. Its documentation details setup, command creation, help flag integration, testing, and publishing CLI applications. This resource is widely regarded in the CLI development community for its comprehensiveness and modern practices, making it a strong competitor in the landscape of CLI tool development.
+## MIT
