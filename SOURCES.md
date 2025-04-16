@@ -157,3 +157,18 @@ The JSON.org website provides the official specifications and guidelines for JSO
 ## https://developer.mozilla.org/en-US/docs/Web/JavaScript
 MDN’s JavaScript documentation is a comprehensive resource covering both fundamental and advanced JavaScript topics. It includes detailed explanations of ECMAScript standards, browser APIs, and best practices, and is widely regarded as one of the most authoritative guidebooks for modern JavaScript development.
 ## CC BY-SA
+
+# MDN SVG Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG
+The MDN SVG documentation provides extensive guides and tutorials on using Scalable Vector Graphics (SVG) for web development. It covers detailed explanations of SVG elements, attributes, styling, and browser compatibility tips. This is an authoritative, frequently updated guide.
+## CC BY-SA
+
+# Desmos API Documentation
+## https://www.desmos.com/api/v1.6/docs/index.html
+The Desmos API Documentation offers guidelines for embedding and integrating interactive graphing calculator features into web applications. It provides examples and reference material to assist developers in providing dynamic graphing capabilities. This source is a valuable reference for interactive visualization.
+## Proprietary
+
+# jsep Documentation
+## https://github.com/EricSmekens/jsep
+Jsep is a lightweight JavaScript expression parser that provides an abstract syntax tree for mathematical expressions. Its documentation explains the API and usage patterns for safely parsing and evaluating expressions, offering inspiration for secure math expression handling in CLI tools.
+## MIT
