@@ -110,3 +110,27 @@ describe("PNG file generation", () => {
     logSpy.mockRestore();
   });
 });
+
+describe("Custom Sample Count Handling", () => {
+  test("should generate the specified number of samples when --samples flag is provided with a valid integer", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "Math.sin(x)", "--range", "x=0:6.28", "--samples", "50"]);
+    const output = logSpy.mock.calls[0][0];
+    let series;
+    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(Array.isArray(series)).toBe(true);
+    expect(series.length).toBe(50);
+    logSpy.mockRestore();
+  });
+
+  test("should fallback to default 100 samples when --samples flag is provided with an invalid value", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "Math.sin(x)", "--range", "x=0:6.28", "--samples", "abc"]);
+    const output = logSpy.mock.calls[0][0];
+    let series;
+    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(Array.isArray(series)).toBe(true);
+    expect(series.length).toBe(100);
+    logSpy.mockRestore();
+  });
+});

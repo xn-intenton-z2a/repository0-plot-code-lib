@@ -31,16 +31,6 @@ Options:
 - `--range`: The range values for the plot in the format `x=min:max` (e.g., x=-1:1, x=0:6.28)
 - `--file`: The output file name where the plot will be saved (supports SVG/PNG). When provided, a file is actually generated with dummy content.
 
-Expected Output for Plot Generation:
-
-For SVG, a file named `output.svg` will be created containing minimal SVG content:
-
-```xml
-<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1</text></svg>
-```
-
-For PNG, a file named `output.png` will be created containing dummy placeholder text.
-
 ### Time Series JSON Data Generation
 
 If you want to generate time series data from an expression and range, simply omit the `--file` option:
@@ -59,6 +49,16 @@ This will output a JSON array representing the time series data. Each element of
   { "x": 6.28, "y": -0.001 }
 ]
 ```
+
+#### Custom Sample Count
+
+A new `--samples` flag has been added to allow you to customize the number of sample points in the time series data generation. By default, 100 sample points are generated. You can override this by specifying a valid integer greater than 1. For example, to generate 50 sample points:
+
+```bash
+node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28" --samples 50
+```
+
+If an invalid value is provided for `--samples`, the default of 100 sample points will be used.
 
 ### Handling NaN in Time Series Generation
 
@@ -126,9 +126,9 @@ Run with: []
 
 ## How It Works
 
-1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file` or `--maintenance`.
+1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file`, `--samples`, or `--maintenance`.
 2. If `--expression` and `--range` are provided along with `--file`, the tool generates an actual file with dummy plot content based on the file extension. For SVG files, a minimal SVG is generated; for PNG files, a dummy text placeholder is written.
-3. If the `--expression` and `--range` options are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array. Any non-valid numerical result is replaced with `null` to ensure valid JSON output.
+3. If the `--expression` and `--range` options are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates a specified number of equally spaced sample points (default is 100, or the value provided by `--samples`), and outputs the resulting time series data as a JSON array. Any non-valid numerical result is replaced with `null` to ensure valid JSON output.
 4. If the `--maintenance` flag is provided, the CLI will output an error message indicating that no new maintenance issues can be submitted until existing ones are resolved.
 5. If any required options for plot generation or time series creation are missing, the CLI informs the user about the correct usage.
 
