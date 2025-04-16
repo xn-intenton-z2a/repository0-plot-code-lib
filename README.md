@@ -48,7 +48,9 @@ This will output a JSON array representing the time series data. Each element of
 ]
 ```
 
-- Note: If the evaluation of the expression results in an invalid number (NaN) for any sample point, the corresponding `y` value is replaced with `null` in the JSON output. This ensures that all returned values are either a valid number or null if the computation failed.
+### Handling NaN in Time Series Generation
+
+When evaluating a mathematical expression over a specified range, any result that is not a valid number (i.e., NaN) is replaced with `null` in the generated JSON time series. This design decision ensures that the output remains valid JSON and avoids the propagation of NaN values, which are not recognized in JSON format. This behavior is validated by the "NaN Handling in Time Series Generation" test in the test suite.
 
 ### Handling Invalid Numeric Inputs
 
@@ -110,7 +112,7 @@ Run with: []
 
 1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file` or `--maintenance`.
 2. If `--expression` and `--range` are provided along with `--file`, the tool simulates plot generation by printing a message with the input details.
-3. If `--expression` and `--range` are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array. If any sample point evaluation results in `NaN`, its `y` value is set to `null`.
+3. If `--expression` and `--range` are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array. During this process, any mathematical result that is not a valid number (NaN) is automatically replaced with `null` to ensure consistency and valid JSON output.
 4. If the `--maintenance` flag is provided, the CLI will output an error message indicating that no new maintenance issues can be submitted until existing ones are resolved.
 5. If any required options for plot generation or time series creation are missing, the CLI informs the user about the correct usage.
 
