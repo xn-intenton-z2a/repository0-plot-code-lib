@@ -37,18 +37,16 @@ node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
 ```
 This prints a JSON array with objects containing `x` and `y` values.
 
-#### Handling Non-finite Values (NaN / Infinity)
+#### Handling Non-Finite Numerical Outputs
 
-When evaluating a mathematical expression, if the result is NaN, Infinity, or -Infinity, `plot-code-lib` converts these non-finite values to `null` in the JSON output to ensure that the produced JSON is valid. 
+When evaluating a mathematical expression, if the result is NaN, Infinity, or -Infinity, `plot-code-lib` automatically converts these non-finite values to `null` in the JSON output. This ensures that the resulting JSON is valid and avoids issues in downstream processing. For example:
 
-Example:
-
-Consider the command:
 ```bash
 node src/lib/main.js --expression "0/0" --range "x=0:10"
 ```
 
-The output will be a JSON array where every computed point has a `null` y-value:
+will produce an output similar to:
+
 ```json
 [
   { "x": 0, "y": null },
@@ -57,7 +55,7 @@ The output will be a JSON array where every computed point has a `null` y-value:
 ]
 ```
 
-This substitution prevents non-finite numerical values from causing issues in downstream processing of the data.
+This behavior guarantees that any undefined or non-finite result is represented as `null`, maintaining consistency and reliability in the data.
 
 #### Custom Sample Count
 
