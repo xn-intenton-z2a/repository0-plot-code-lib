@@ -1,27 +1,54 @@
-# Overview
-This feature consolidates and upgrades the command line interface by merging several CLI-related improvements into one streamlined system. It incorporates the help message functionality (previously defined in CLI_HELP) along with diagnostics, verbose logging, and robust argument validation. The unified CLI experience makes the tool more user-friendly and transparent, aligning with the mission of being the go-to CLI for generating plots and time series data.
+# CLI_ENHANCEMENTS Feature Specification
 
-# Implementation
-## Source Code Changes (src/lib/main.js)
+This feature upgrades and consolidates the command line interface (CLI) by adding support for a dedicated help mode, diagnostics output, and verbose logging. The improvements build on the existing CLI functionality for plot generation and time series data production, while remaining backward compatible. All updates are applied within the source (src/lib/main.js), tests, README documentation, and dependency management.
+
+## Overview
+
+- **Purpose:**
+  - Provide a clear and comprehensive help output when the `--help` flag is used to display detailed usage instructions and exit immediately.
+  - Introduce a diagnostics mode via the `--diagnostics` flag that outputs tool version, Node.js version, and current CLI arguments.
+  - Enable verbose logging with the `--verbose` flag so that key processing steps (argument parsing, validation, evaluation, file writing) are logged.
+  - Retain and enhance error handling and maintenance issue checks, while keeping existing plot generation and time series functionality.
+
+## Implementation
+
+### Source Code Changes (src/lib/main.js)
+
 - **Help Mode Integration:**
-  - Add an early check for the `--help` flag. When detected, output a comprehensive usage guide that details all options (`--expression`, `--range`, `--file`, `--samples`, `--maintenance`, `--diagnostics`, `--verbose`, and `--help`).
-  - Ensure that after displaying the help message, no further processing occurs.
-- **Unified CLI Improvements:**
-  - Retain the maintenance check and file generation logic.
-  - Integrate Zod-based input validation for required options. In case of validation errors, output a clear error message along with usage instructions.
-  - Maintain advanced diagnostic outputs when `--diagnostics` is provided, including tool version, Node.js version, and input arguments.
-  - Enable verbose logging using the `--verbose` flag to log key processing steps (parsing, validation, evaluation, and file writing).
+  - During argument parsing, check if `--help` is present. If found, output a comprehensive usage guide summarizing all supported options and exit without further processing.
 
-## Test Updates
-- Update existing tests to cover the help mode functionality, ensuring that when `--help` is passed, the output contains detailed instructions for all CLI options.
-- Merge tests from the previous CLI_HELP feature into the CLI_ENHANCEMENTS test suite.
-- Ensure that tests for diagnostics, logging, and input validation are comprehensive and maintain existing test coverage.
+- **Diagnostics Flag:**
+  - Check for the `--diagnostics` flag early in the main function. If provided, output diagnostic information including:
+    - Tool version (retrieved from package.json)
+    - Node.js version
+    - All received CLI arguments
+  - After displaying diagnostics, exit without executing further processing.
 
-## Documentation Updates (README.md)
-- Revise the CLI Usage section to include information about the `--help` flag and its output, consolidating the documentation previously found in CLI_HELP into the CLI_ENHANCEMENTS section.
-- Remove any redundant help sections and clearly document the complete set of CLI options and usage scenarios.
+- **Verbose Logging:**
+  - If `--verbose` is detected among the arguments, log detailed steps for parsing, validation, evaluation, and file operations.
 
-# Compatibility and Mission Alignment
-- The enhancements are fully backward compatible with the current functionality.
-- The updated CLI interface improves usability and transparency, reinforcing the mission of providing a reliable and accessible tool for generating visual plots and time series data.
-- By merging help functionality with diagnostics and logging, the tool becomes a single cohesive utility, simplifying maintenance and future enhancements.
+- **Maintained Functionality:**
+  - Continue handling options for generation of plot files (SVG or PNG) and time series JSON data.
+  - Maintain the maintenance check and error messages as previously implemented.
+
+### Test File Updates (tests/unit/main.test.js)
+
+- Add tests to verify the help mode:
+  - Assert that when `--help` is provided, the output contains usage instructions and no further processing occurs.
+
+- Add tests for diagnostics mode:
+  - Verify that when `--diagnostics` is provided, the output contains diagnostic information including Node.js version, tool version, and input arguments.
+
+- Ensure existing tests for file generation, numeric range validation, and maintenance handling remain valid.
+
+### Documentation Updates (README.md)
+
+- Update the CLI Usage section to document the new `--help` and `--diagnostics` flags:
+  - For `--help`: Describe that this option outputs a comprehensive usage guide with all available options and exits immediately.
+  - For `--diagnostics`: Explain that this flag outputs version and system diagnostic information.
+
+## Compatibility and Mission Alignment
+
+- The updates are fully backward compatible with existing CLI behavior for plot generation and time series data generation.
+- By adding help and diagnostics, the tool becomes more user-friendly and transparent, supporting the mission of making plot-code-lib the go-to tool for formula visualizations.
+- All changes are applied solely to existing files with no new file additions or deletion of current features.
