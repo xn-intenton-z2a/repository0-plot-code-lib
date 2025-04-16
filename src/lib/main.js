@@ -71,6 +71,7 @@ export function main(args = []) {
         let y;
         try {
           y = f(x);
+          // If the evaluated result is not a valid number, replace it with null (NaN handling)
           if (typeof y !== "number" || isNaN(y)) y = null;
         } catch (e) {
           y = null;

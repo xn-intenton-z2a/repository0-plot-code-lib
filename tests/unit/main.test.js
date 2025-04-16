@@ -68,6 +68,7 @@ describe("Invalid Numeric Range Bounds", () => {
 });
 
 describe("NaN Handling in Time Series Generation", () => {
+  // This test ensures that invalid numerical results (NaN) are replaced with null.
   test("should replace NaN results with null", () => {
     // Use an expression that always returns NaN, e.g., Math.sqrt(-1)
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
