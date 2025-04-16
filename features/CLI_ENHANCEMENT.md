@@ -1,37 +1,28 @@
-# CLI Enhancement
+# CLI Enhancement Update
 
-This feature merges and refines the existing STATS and PLOT functionalities to provide a unified CLI experience. In addition to maintaining the plot generation and statistics computation functionalities, it introduces a new help flag to guide users through command usage.
-
-## Overview
-
-- Integrates the `--stats` flag to compute and display basic statistics (minimum, maximum, average) for generated y-values.
-- Enhances CLI argument parsing to support the primary plot generation flags: `--expression`, `--range`, and `--file`.
-- Introduces a `--help` flag which prints a comprehensive usage guide and command examples.
+This update refines the unified CLI feature to include a new `--help` flag in addition to the existing functionality for plot generation and statistics computation. The goal is to simplify the user experience by offering comprehensive guidance directly from the CLI, while consolidating the separate STATS and PLOT features into one.
 
 ## Implementation Details
 
-- **Source File (`src/lib/main.js`):**
-  - Update the argument parser to recognize `--stats` and `--help` flags.
-  - For `--stats`, implement logic to compute basic statistics from dummy or computed y-values (using functions like `Math.min`, `Math.max` and a sum for average).
-  - For `--help`, print a detailed usage message covering all available flags with examples.
-  - Maintain existing functionality for plot generation using `--expression`, `--range`, and `--file`.
+- **CLI Arguments Update:**
+  - Extend the argument parser in `src/lib/main.js` to recognize a new `--help` flag. When this flag is present, the tool should immediately print a detailed usage guide that includes information about all supported flags (`--expression`, `--range`, `--file`, `--stats`, and `--help`) and exit without processing further commands.
+  - Preserve the existing logic for handling plot generation (`--expression`, `--range`, `--file`) and statistics computation (`--stats`), ensuring that both functionalities work seamlessly when their flags are provided.
 
-- **Test File (`tests/unit/main.test.js`):**
-  - Add tests to verify that when the `--stats` flag is provided, a formatted statistics summary is included in the console output.
-  - Add tests that check the correct output when the `--help` flag is provided, ensuring the usage message is comprehensive and correctly formatted.
-  - Retain and update existing tests for valid plot generation and error cases.
+## Testing Enhancements
 
-- **Documentation (`README.md`):**
-  - Update the CLI usage documentation to include details on the new `--stats` and `--help` flags.
-  - Provide usage examples illustrating different scenarios (e.g., plot generation with statistics enabled, and displaying help).
+- **Source & Test Updates:**
+  - Update `tests/unit/main.test.js` to include tests that verify the correct output when the `--help` flag is used, ensuring that the CLI prints the comprehensive usage guide.
+  - Retain and update tests for existing plot generation and statistics output to confirm that they properly function under merged logic.
 
-- **Dependencies:**
-  - No additional dependencies are required. The feature remains compatible with Node 20 and ECMAScript modules as defined in the current package configuration.
+## Documentation Updates
 
-## Testing & Validation
+- **README.md:**
+  - Update the CLI usage documentation to include details on the new `--help` flag. Provide clear examples and output expectations. This should include a section on how to invoke help to assist users in correctly using all available commands.
 
-- Ensure that running the CLI with all required flags (`--expression`, `--range`, `--file`) produces the expected plot generation message.
-- Validate that using the `--stats` flag produces a properly formatted summary of computed statistics.
-- Confirm that the `--help` flag outputs a detailed usage guide covering all supported commands and options.
+## Mission & Contributing Alignment
 
-This unified CLI enhancement aligns with the mission to be the go-to tool for formula visualisations by combining essential plotting and analytic capabilities with user-friendly command guidance.
+- **Mission Compliance:**
+  - Enhancing the CLI to offer a robust help function aligns with the mission to be the go-to plot library for formulae visualisations by improving user accessibility and clarity.
+
+- **Contributing Guidelines:**
+  - All modifications are confined to existing files (source code, tests, README, and dependency files) ensuring that the changes adhere to the guidelines in `CONTRIBUTING.md`. No new files are added and no deletions occur apart from merging overlapping features.
