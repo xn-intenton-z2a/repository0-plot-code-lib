@@ -197,3 +197,28 @@ Prettier is an opinionated code formatter that supports various programming lang
 ## https://github.com/raineorshine/npm-check-updates
 npm-check-updates is a utility tool that helps developers find and update outdated dependencies in a project's package.json file. Its documentation includes installation instructions, configuration options, and practical examples, streamlining the process of managing project dependencies. It is considered an essential tool for maintaining up-to-date Node.js projects.
 ## MIT
+
+# Node.js CLI Best Practices
+## https://nodejs.dev/learn
+This guide provides best practices for building command-line interfaces in Node.js. It covers argument parsing, error handling, and performance considerations that are essential for robust CLI tools. The content is designed to help developers build maintainable and user-friendly command-line applications.
+## Not Specified
+
+# Zod Validation with JavaScript
+## https://blog.logrocket.com/validate-javascript-data-types-with-zod/
+An informative article that explores the use of Zod for validating JavaScript data types and object structures. It offers practical examples and best practices for schema design and error management, supporting the creation of robust validation routines for CLI tools.
+## Not Specified
+
+# Node.js Logging Practices
+## https://www.loggly.com/ultimate-guide/node-logging/
+A comprehensive guide on logging in Node.js, detailing various techniques and tools to produce clear and actionable logs. This source is valuable for developers seeking to implement diagnostics and verbose logging features in CLI applications.
+## Not Specified
+
+# Node.js Performance Diagnostic Tools
+## https://nodejs.org/en/docs/guides/simple-profiling/
+The official Node.js guide to profiling and performance diagnostics. This documentation covers built-in tools and methods for identifying bottlenecks and optimizing application performance, essential for tools that require runtime diagnostics.
+## Public Domain
+
+# Effective Error Handling in Node.js
+## https://www.digitalocean.com/community/tutorials/how-to-handle-errors-in-node-js
+A detailed tutorial on error handling in Node.js applications. It explains best practices for catching, managing, and logging errors to create resilient and maintainable applications, with steps applicable to CLI tools and larger systems alike.
+## DigitalOcean Community
