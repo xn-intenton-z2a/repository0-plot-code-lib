@@ -47,3 +47,18 @@ ESLint is a pluggable linting utility for JavaScript and JSX. The documentation 
 ## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 The MDN Web Docs provide an extensive guide on ES Modules, explaining how to work with import/export syntax, module scopes, and asynchronous module loading. This resource is widely respected for its clear explanations and examples, making it a go-to reference for developers learning modern JavaScript module systems. Updated regularly by experts at MDN, it remains a highly authoritative guide.
 ## CC BY-SA 2.5
+
+# Math.js Documentation
+## https://mathjs.org/docs/
+Math.js is an extensive mathematics library for JavaScript and Node.js, offering a wide range of tools for numerical computation, symbolic mathematics, and units conversion. Its documentation provides comprehensive guides, API references, and illustrative examples to facilitate complex mathematical computations. Actively maintained, it is licensed under Apache-2.0.
+## Apache-2.0
+
+# QuickChart Documentation
+## https://quickchart.io/documentation/
+QuickChart is a service that generates chart images on demand. Its documentation provides comprehensive guidelines on constructing URLs for various chart types, customization options, and embedding charts in different applications. With frequent updates and practical examples, it serves as a valuable resource for API-driven chart generation. The service is provided as-is.
+## Public Domain
+
+# Recharts Documentation
+## https://recharts.org/en-US/
+Recharts is a composable charting library built with React components. Its documentation features detailed overviews, API references, and usage examples that assist developers in integrating interactive charts into React applications seamlessly. Maintained by a robust community and released under the MIT license, it is a popular choice for modern web-based charting solutions.
+## MIT
