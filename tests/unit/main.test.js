@@ -68,8 +68,8 @@ describe("Invalid Numeric Range Bounds", () => {
 });
 
 describe("NaN Handling in Time Series Generation", () => {
-  // This test ensures that any invalid numerical result (NaN) is replaced with null,
-  // ensuring that the final JSON output remains valid since JSON does not support NaN values.
+  // This test ensures that any invalid numerical result (NaN) is replaced with null, ensuring
+  // that the final JSON output remains valid since JSON does not support NaN values.
   test("should replace NaN results with null", () => {
     // Use an expression that evaluates to NaN, e.g., Math.sqrt(-1)
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
