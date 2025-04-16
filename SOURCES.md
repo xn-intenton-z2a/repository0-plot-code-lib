@@ -137,3 +137,23 @@ Highcharts is a feature-rich charting library widely used in enterprise environm
 ## https://vega.github.io/vega-lite/docs/
 Vega-Lite offers a high-level grammar for creating interactive graphics, built on top of Vega. The documentation presents concise examples, API details, and best practices, making it accessible for developers who need a lighter, more streamlined approach to data visualization.
 ## BSD-3-Clause
+
+# Gnuplot Documentation
+## http://www.gnuplot.info/documentation.html
+Gnuplot is a classic, command-line driven graphing utility that offers extensive capabilities for creating detailed plots and graphical representations of data. Its documentation provides comprehensive instructions on scripting, customization, and output generation. Frequently updated by its community, it remains a staple in scientific and engineering environments.
+## GNU GPL
+
+# CLI Pattern Best Practices
+## https://www.nngroup.com/articles/command-line-interface/
+This resource offers an in-depth analysis of command-line interface design, focusing on usability, intuitive command structures, and best practices to enhance user experience. Published by the Nielsen Norman Group, it provides actionable insights that can help refine CLI tools similar to those in this repository.
+## Proprietary
+
+# JSON.org Documentation
+## https://www.json.org/json-en.html
+The JSON.org website provides the official specifications and guidelines for JSON data interchange. It explains the syntax and semantics of JSON, making it an essential reference for projects that generate or consume JSON data, such as time series outputs in this repository.
+## CC0
+
+# MDN JavaScript Guide
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript
+MDN’s JavaScript documentation is a comprehensive resource covering both fundamental and advanced JavaScript topics. It includes detailed explanations of ECMAScript standards, browser APIs, and best practices, and is widely regarded as one of the most authoritative guidebooks for modern JavaScript development.
+## CC BY-SA
