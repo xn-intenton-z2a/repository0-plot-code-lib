@@ -80,7 +80,7 @@ If you provide non-numeric values in the range option or if the mathematical exp
 Error: Range bounds must be numeric.
 ```
 
-- Similarly, if the expression evaluation results in NaN for any sample point, that particular `y` value is set to `null` in the generated JSON time series.
+- Similarly, if the expression evaluation results in NaN for any sample point, the corresponding `y` value in the generated JSON time series will be set to `null`.
 
 **Example of invalid numeric input scenario:**
 
