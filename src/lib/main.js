@@ -21,7 +21,7 @@ export function main(args = []) {
   if (options.expression && options.range && options.file) {
     console.log(`Generating plot for expression '${options.expression}' with range '${options.range}' and output file '${options.file}'`);
   } else if (Object.keys(options).length > 0) {
-    console.log('Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>');
+    console.log('Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>');
   } else {
     console.log(`Run with: ${JSON.stringify(args)}`);
   }
