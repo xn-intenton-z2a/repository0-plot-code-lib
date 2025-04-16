@@ -62,18 +62,13 @@ If an invalid value is provided for `--samples`, the default of 100 sample point
 
 ### Handling Non-Numeric Results in Time Series Generation
 
-When evaluating a mathematical expression over a specified range, any computed result that is not a valid number (i.e., NaN) or does not yield a numeric value is automatically replaced with `null`. This substitution is intentional:
-
-- JSON does not support the NaN value, so substituting with `null` ensures that the output is valid JSON.
-- This behavior applies whether the result is from an invalid computation (like `Math.sqrt(-1)`) or any other non-numeric evaluation.
-
-For example:
+When evaluating a mathematical expression over a specified range, the tool computes the resulting `y` value for each `x`. In cases where the evaluation yields a non-numeric result (including `NaN`), the output is intentionally replaced with `null`. This design choice is made because JSON does not support the `NaN` value, ensuring that the generated output is valid JSON. For example:
 
 ```bash
 node src/lib/main.js --expression "Math.sqrt(-1)" --range "x=0:10"
 ```
 
-Resulting JSON output:
+Results in:
 
 ```json
 [
@@ -82,6 +77,8 @@ Resulting JSON output:
   ...
 ]
 ```
+
+This behavior guarantees that any non-numeric computation does not break JSON parsing, aligning with JSON standards.
 
 ### Handling Invalid Numeric Inputs
 
