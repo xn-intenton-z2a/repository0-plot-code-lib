@@ -43,7 +43,7 @@ This will output a JSON array representing the time series data. Each element of
 [
   { "x": 0, "y": 0 },
   { "x": 0.063, "y": 0.063 },
-  ..., 
+  ...,
   { "x": 6.28, "y": -0.001 }
 ]
 ```
