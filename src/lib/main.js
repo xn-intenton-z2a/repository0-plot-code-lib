@@ -94,9 +94,8 @@ export function main(args = []) {
         let y;
         try {
           y = f(x);
-          // Evaluate function result. If y is not a valid number (NaN) or not of type 'number',
-          // it is replaced with null. This ensures that the generated JSON output remains valid,
-          // as JSON does not support NaN values.
+          // If the evaluated result is not a valid number (NaN) or not a 'number' type, replace it with null.
+          // This is intentional: JSON does not support NaN, so we ensure valid JSON output by converting NaN to null.
           if (typeof y !== "number" || isNaN(y)) y = null;
         } catch (e) {
           y = null;
