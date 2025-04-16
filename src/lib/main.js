@@ -104,7 +104,7 @@ export function main(args = []) {
       console.log(JSON.stringify(series));
     }
   } else if (Object.keys(options).length > 0) {
-    console.log('Error: Missing required options. Usage: node src/lib/main.js --expression <expression> --range <range> --file <file>');
+    console.log("Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg");
   } else {
     console.log(`Run with: ${JSON.stringify(args)}`);
   }
