@@ -182,3 +182,18 @@ Gnuplot provides detailed documentation for its command-driven graphing utility,
 ## https://c3js.org/gettingstarted.html
 C3.js is a D3-based reusable chart library that simplifies the integration of interactive charts into web applications. Its documentation includes detailed guides, examples, and API references to help developers quickly implement and customize charts. The project is open-source and maintained under the MIT license.
 ## MIT
+
+# Caporal.js Documentation
+## https://caporal.js.org/docs/
+Caporal.js is a comprehensive framework for building CLI applications in Node.js. Its documentation covers command definition, argument parsing, and plugin architecture, making it a robust alternative for CLI tool development. The resource is regularly updated, well-documented, and provides examples for best practices in building user-friendly command-line interfaces.
+## MIT
+
+# Prettier Documentation
+## https://prettier.io/docs/en/index.html
+Prettier is an opinionated code formatter that supports various programming languages and enforces a consistent style. Its documentation provides details on configuration, integration with editors, and customization options. Widely adopted in modern JavaScript projects, Prettier ensures code consistency across development teams.
+## MIT
+
+# npm-check-updates Documentation
+## https://github.com/raineorshine/npm-check-updates
+npm-check-updates is a utility tool that helps developers find and update outdated dependencies in a project's package.json file. Its documentation includes installation instructions, configuration options, and practical examples, streamlining the process of managing project dependencies. It is considered an essential tool for maintaining up-to-date Node.js projects.
+## MIT
