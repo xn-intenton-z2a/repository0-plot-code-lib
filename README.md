@@ -12,22 +12,34 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 
 ### Plot Generation
 
-To generate a plot using `plot-code-lib`, run the following command (note: file output is simulated):
+To generate a plot using `plot-code-lib`, run the following command. When the `--file` option is provided, the tool will generate an actual plot file with dummy content based on the file extension:
+
+For SVG:
 
 ```bash
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
+For PNG:
+
+```bash
+node src/lib/main.js --expression "Math.cos(x)" --range "x=0:3.14" --file output.png
+```
+
 Options:
 - `--expression`: The mathematical expression to be plotted. (You can prefix with "y=" if desired)
 - `--range`: The range values for the plot in the format `x=min:max` (e.g., x=-1:1, x=0:6.28)
-- `--file`: The output file name where the plot will be saved (supports SVG/PNG). When provided, a plot generation message is displayed.
+- `--file`: The output file name where the plot will be saved (supports SVG/PNG). When provided, a file is actually generated with dummy content.
 
 Expected Output for Plot Generation:
 
+For SVG, a file named `output.svg` will be created containing minimal SVG content:
+
+```xml
+<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1</text></svg>
 ```
-Generating plot for expression 'y=sin(x)' with range 'x=-1:1' and output file 'output.svg'
-```
+
+For PNG, a file named `output.png` will be created containing dummy placeholder text.
 
 ### Time Series JSON Data Generation
 
@@ -50,7 +62,7 @@ This will output a JSON array representing the time series data. Each element of
 
 ### Handling NaN in Time Series Generation
 
-When evaluating a mathematical expression over a specified range, any computed result that is not a valid number (i.e., NaN) is automatically replaced with `null`. This design decision is made to ensure that the output remains valid JSON since JSON does not support NaN values. In other words, if the mathematical expression results in a NaN (for example, due to an invalid operation like taking the square root of a negative number), that particular value is substituted with `null`.
+When evaluating a mathematical expression over a specified range, any computed result that is not a valid number (i.e., NaN) is automatically replaced with `null`. This design decision ensures that the output remains valid JSON since JSON does not support NaN values. In other words, if the mathematical expression results in a NaN (for example, due to an invalid operation like taking the square root of a negative number), that particular value is substituted with `null`.
 
 **Example:**
 
@@ -68,21 +80,9 @@ The resulting JSON output will have `null` in place of any NaN values:
 ]
 ```
 
-This approach guarantees JSON validity and prevents errors during parsing since NaN is not a supported JSON value.
-
 ### Handling Invalid Numeric Inputs
 
-If you provide non-numeric values in the range option or if the mathematical expression evaluates to NaN for given inputs, the tool will output an error message. In particular:
-
-- For a range with non-numeric bounds (e.g., `--range "x=a:b"`), the following error is displayed:
-
-```
-Error: Range bounds must be numeric.
-```
-
-- Similarly, if the expression evaluation results in NaN for any sample point, the corresponding `y` value in the generated JSON time series will be set to `null`.
-
-**Example of invalid numeric input scenario:**
+If you provide non-numeric values in the range option or if the mathematical expression evaluates to NaN for given inputs, the tool will output an error message. For example:
 
 ```bash
 node src/lib/main.js --expression "Math.sin(x)" --range "x=a:b"
@@ -110,8 +110,6 @@ In compliance with the repository guidelines, new maintenance issues cannot be s
 Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.
 ```
 
-Note: This error indicates that there are currently 5 open maintenance issues in the repository. Please address these open issues before submitting a new maintenance issue.
-
 #### Dry-Run Mode
 
 Running the CLI without any arguments shows the received arguments:
@@ -129,8 +127,8 @@ Run with: []
 ## How It Works
 
 1. The CLI parses command-line arguments to extract options such as `--expression`, `--range`, and optionally `--file` or `--maintenance`.
-2. If `--expression` and `--range` are provided along with `--file`, the tool simulates plot generation by printing a message with the input details.
-3. If `--expression` and `--range` are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array. During this process, any mathematical result that is not a valid number (NaN) is automatically replaced with `null` to ensure valid JSON output.
+2. If `--expression` and `--range` are provided along with `--file`, the tool generates an actual file with dummy plot content based on the file extension. For SVG files, a minimal SVG is generated; for PNG files, a dummy text placeholder is written.
+3. If the `--expression` and `--range` options are provided without `--file`, the tool evaluates the mathematical expression over the given range (expecting the range format `x=min:max`), generates 100 equally spaced sample points, and outputs the resulting time series data as a JSON array. Any non-valid numerical result is replaced with `null` to ensure valid JSON output.
 4. If the `--maintenance` flag is provided, the CLI will output an error message indicating that no new maintenance issues can be submitted until existing ones are resolved.
 5. If any required options for plot generation or time series creation are missing, the CLI informs the user about the correct usage.
 

@@ -1,6 +1,7 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
+import fs from "fs";
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -16,10 +17,16 @@ describe("Default main", () => {
 });
 
 describe("Plot generation CLI options", () => {
-  test("should generate plot message when all required flags are provided (with --file)", () => {
+  test("should generate a file when all required flags are provided (SVG)", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const fsSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
     main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"]);
-    expect(logSpy).toHaveBeenCalledWith("Generating plot for expression 'y=sin(x)' with range 'x=-1:1' and output file 'output.svg'");
+    expect(fsSpy).toHaveBeenCalledWith(
+      "output.svg",
+      `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1</text></svg>`
+    );
+    expect(logSpy).toHaveBeenCalledWith("File output.svg generated successfully.");
+    fsSpy.mockRestore();
     logSpy.mockRestore();
   });
 
@@ -68,10 +75,7 @@ describe("Invalid Numeric Range Bounds", () => {
 });
 
 describe("NaN Handling in Time Series Generation", () => {
-  // This test ensures that any invalid numerical result (NaN) is replaced with null, ensuring
-  // that the final JSON output remains valid since JSON does not support NaN values.
   test("should replace NaN results with null", () => {
-    // Use an expression that evaluates to NaN, e.g., Math.sqrt(-1)
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "Math.sqrt(-1)", "--range", "x=0:10"]);
     const output = logSpy.mock.calls[0][0];
@@ -91,6 +95,18 @@ describe("Maintenance issues handling", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--maintenance"]);
     expect(logSpy).toHaveBeenCalledWith("Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.");
+    logSpy.mockRestore();
+  });
+});
+
+describe("PNG file generation", () => {
+  test("should generate a PNG file with dummy content when --file ends with .png", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const fsSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    main(["--expression", "Math.cos(x)", "--range", "x=0:3.14", "--file", "output.png"]);
+    expect(fsSpy).toHaveBeenCalledWith("output.png", "PNG content: Math.cos(x) on x=0:3.14");
+    expect(logSpy).toHaveBeenCalledWith("File output.png generated successfully.");
+    fsSpy.mockRestore();
     logSpy.mockRestore();
   });
 });

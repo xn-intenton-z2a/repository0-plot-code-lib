@@ -2,6 +2,7 @@
 // src/lib/main.js
 
 import { fileURLToPath } from "url";
+import fs from "fs";
 
 export function main(args = []) {
   // Simple argument parser: converts CLI arguments into an options object
@@ -25,9 +26,24 @@ export function main(args = []) {
 
   // If both expression and range are provided
   if (options.expression && options.range) {
-    // If file option provided, maintain existing plot generation message
+    // If file option provided, generate a dummy plot file
     if (options.file) {
-      console.log(`Generating plot for expression '${options.expression}' with range '${options.range}' and output file '${options.file}'`);
+      let fileContent;
+      if (options.file.endsWith(".svg")) {
+        fileContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">${options.expression} on ${options.range}</text></svg>`;
+      } else if (options.file.endsWith(".png")) {
+        // For PNG, writing a dummy placeholder content
+        fileContent = "PNG content: " + options.expression + " on " + options.range;
+      } else {
+        console.log("Error: Unsupported file format. Only SVG and PNG are supported.");
+        return;
+      }
+      try {
+        fs.writeFileSync(options.file, fileContent);
+        console.log(`File ${options.file} generated successfully.`);
+      } catch (error) {
+        console.log(`Error: Could not write file ${options.file}.`, error);
+      }
     } else {
       // New functionality: generate time series data and output as JSON
       // Expected range format: "x=min:max"
@@ -36,7 +52,6 @@ export function main(args = []) {
         console.log('Error: Range format invalid. Expected format "x=min:max"');
         return;
       }
-      const variable = rangeParts[0];
       const bounds = rangeParts[1].split(":");
       if (bounds.length !== 2) {
         console.log('Error: Range bounds invalid. Expected format "x=min:max"');
