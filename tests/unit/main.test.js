@@ -57,3 +57,30 @@ describe("PNG Plot Generation", () => {
     writeSpy.mockRestore();
   });
 });
+
+describe("CSV Plot Generation", () => {
+  test("should generate and save SVG file with a polyline element when valid CSV provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_output.svg"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<polyline");
+    expect(writtenContent).toContain("CSV Plot");
+    writeSpy.mockRestore();
+  });
+
+  test("should generate and save PNG file when valid CSV provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_output.png"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.png");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(Buffer.isBuffer(writtenContent)).toBe(true);
+    writeSpy.mockRestore();
+  });
+});

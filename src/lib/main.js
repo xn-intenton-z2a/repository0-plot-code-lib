@@ -92,12 +92,67 @@ function generateSVG(expression, range) {
 }
 
 /**
- * Parses CLI arguments for --expression, --range, and --file options.
+ * Generates an SVG plot from CSV input containing x and y values.
+ * Each line of the CSV should have two comma-separated values, optionally without a header.
+ * @param {string} csv - CSV data as a string.
+ * @returns {string} - SVG content as string.
+ */
+function generateSVGFromCSV(csv) {
+  const width = 300;
+  const height = 150;
+  const margin = 10;
+  let dataPoints = [];
+  try {
+    const lines = csv.split(/\r?\n/);
+    for (const line of lines) {
+      if (line.trim().length === 0) continue;
+      const parts = line.split(",");
+      if (parts.length < 2) continue;
+      const x = Number(parts[0].trim());
+      const y = Number(parts[1].trim());
+      if (isNaN(x) || isNaN(y)) continue;
+      dataPoints.push([x, y]);
+    }
+    if (dataPoints.length === 0) throw new Error('No valid CSV data found');
+  } catch (error) {
+    return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${width}" height="${height}" fill="#f0f0f0"/>
+  <text x="10" y="50" font-size="14" fill="#333">Error parsing CSV: ${error.message}</text>
+</svg>`;
+  }
+
+  // Determine x and y extents from the CSV data
+  const xs = dataPoints.map(p => p[0]);
+  const ys = dataPoints.map(p => p[1]);
+  const xMin = Math.min(...xs);
+  const xMax = Math.max(...xs);
+  const yMin = Math.min(...ys);
+  const yMax = Math.max(...ys);
+
+  // Map CSV points to svg coordinates
+  const points = dataPoints.map(([x, y]) => {
+    const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
+    const svgY = height - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
+    return `${svgX},${svgY}`;
+  });
+
+  // Build SVG content with a red polyline for CSV data
+  const polyline = `<polyline fill="none" stroke="red" stroke-width="2" points="${points.join(' ')}" />`;
+
+  return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${width}" height="${height}" fill="#f0f0f0"/>
+  ${polyline}
+  <text x="10" y="${height - 5}" font-size="10" fill="#333">CSV Plot</text>
+</svg>`;
+}
+
+/**
+ * Parses CLI arguments for --expression, --range, --file, and --csv options.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
 function parseArgs(args) {
-  const options = { expression: null, range: null, file: null };
+  const options = { expression: null, range: null, file: null, csv: null };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case "--expression":
@@ -118,6 +173,12 @@ function parseArgs(args) {
           i++;
         }
         break;
+      case "--csv":
+        if (i + 1 < args.length) {
+          options.csv = args[i + 1];
+          i++;
+        }
+        break;
       default:
         // Ignore unrecognized arguments
         break;
@@ -130,29 +191,37 @@ export async function main(args) {
   const options = parseArgs(args);
   if (options.file) {
     if (options.file.endsWith(".svg")) {
-      if (options.expression && options.range) {
-        const svgContent = generateSVG(options.expression, options.range);
-        try {
-          fs.writeFileSync(options.file, svgContent, "utf8");
-          console.log(`SVG file created at: ${options.file}`);
-        } catch (error) {
-          console.error("Error writing SVG file:", error.message);
-        }
+      let svgContent;
+      if (options.csv) {
+        svgContent = generateSVGFromCSV(options.csv);
+      } else if (options.expression && options.range) {
+        svgContent = generateSVG(options.expression, options.range);
       } else {
-        console.error("Error: --expression and --range options are required for SVG generation.");
+        console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
+        return;
+      }
+      try {
+        fs.writeFileSync(options.file, svgContent, "utf8");
+        console.log(`SVG file created at: ${options.file}`);
+      } catch (error) {
+        console.error("Error writing SVG file:", error.message);
       }
     } else if (options.file.endsWith(".png")) {
-      if (options.expression && options.range) {
-        const svgContent = generateSVG(options.expression, options.range);
-        try {
-          const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
-          fs.writeFileSync(options.file, pngBuffer);
-          console.log(`PNG file created at: ${options.file}`);
-        } catch (error) {
-          console.error("Error writing PNG file:", error.message);
-        }
+      let svgContent;
+      if (options.csv) {
+        svgContent = generateSVGFromCSV(options.csv);
+      } else if (options.expression && options.range) {
+        svgContent = generateSVG(options.expression, options.range);
       } else {
-        console.error("Error: --expression and --range options are required for PNG generation.");
+        console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
+        return;
+      }
+      try {
+        const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+        fs.writeFileSync(options.file, pngBuffer);
+        console.log(`PNG file created at: ${options.file}`);
+      } catch (error) {
+        console.error("Error writing PNG file:", error.message);
       }
     } else {
       console.error("Error: Only .svg and .png files are supported for plot generation.");
