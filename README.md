@@ -23,6 +23,7 @@ New in this release:
 - New Feature: **Custom Axis Tick Label Formatting**: You can now customize the tick labels on both the x and y axes using the --x-tick-format and --y-tick-format options. These options accept a format string with a placeholder `{value}` that is replaced by the tick value. For example, `--x-tick-format "{value} ms"` appends " ms" to each x-axis tick value. This enhances plot annotation and readability when the default numeric labels are not sufficient.
 - New Feature: **SVG Minification Option**: You can now use the --minify flag to optimize the SVG output. When this flag is enabled, unnecessary whitespace and newlines are removed from the SVG, resulting in a smaller file size without affecting the visual rendering.
 - New Feature: **Help Option**: You can now use the --help flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any output files.
+- New Feature: **Custom Font Family Option**: You can now specify a custom font family for all text elements in the generated SVG output using the --font-family option (e.g., "Arial, sans-serif"). This setting applies to the plot title, axis labels, and tick labels, making it easier to match your application's styles.
 
 **Note:** The --csv option and the --expression/--range options are mutually exclusive. Please provide only one input mode.
 
@@ -52,12 +53,11 @@ You can run the CLI with the following options:
 - --tooltip-style: (Optional) Provide custom CSS styling for tooltip circle markers. For example, you can use --tooltip-style "fill: red; stroke: blue;" to adjust the appearance.
 - --x-tick-format: (Optional) Customize the x-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} ms").
 - --y-tick-format: (Optional) Customize the y-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} units").
+- --font-family: (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
 - --minify: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines, resulting in a smaller file size.
-- --help: (Optional) Display detailed help information about all available CLI options and usage examples, then exit without generating any output files.
+- --help: (Optional) Display detailed help information about all available CLI options and usage examples, then exit without generating any files.
 
 ### Example using Expression (Default styling and dimensions):
-
-To generate an SVG plot that renders a graph of the function with default styling and dimensions:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
 
@@ -65,9 +65,9 @@ To generate a PNG plot with default styling and dimensions:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.png
 
-### Example using Expression with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, Axis Tick Formats, and SVG Minification:
+### Example using Expression with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, Axis Tick Formats, SVG Minification, and Custom Font Family:
 
-    node src/lib/main.js --expression "y=x+10" --range "x=0:10,y=10:20" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid --log-scale --background-color "#ffdead" --title "My Plot Title" --x-label "Time (s)" --y-label "Value" --tooltip --tooltip-format "X: {x}, Y: {y}" --dash-array "5,5" --tooltip-style "fill: red; stroke: blue;" --x-tick-format "{value} ms" --y-tick-format "{value} units" --minify
+    node src/lib/main.js --expression "y=x+10" --range "x=0:10,y=10:20" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid --log-scale --background-color "#ffdead" --title "My Plot Title" --x-label "Time (s)" --y-label "Value" --tooltip --tooltip-format "X: {x}, Y: {y}" --dash-array "5,5" --tooltip-style "fill: red; stroke: blue;" --x-tick-format "{value} ms" --y-tick-format "{value} units" --minify --font-family "Arial, sans-serif"
 
 ### Example using CSV (Default styling and dimensions):
 
@@ -79,9 +79,9 @@ To generate a PNG plot from CSV data with default styling and dimensions (header
 
     node src/lib/main.js --csv "0,0\n5,10\n10,5" --file csv_output.png
 
-### Example using CSV with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, Axis Tick Formats, and SVG Minification:
+### Example using CSV with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, Axis Tick Formats, SVG Minification, and Custom Font Family:
 
-    node src/lib/main.js --csv "0,1\n5,10\n10,100" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid --log-scale --background-color "#e0ffff" --title "CSV Plot Title" --x-label "X-Axis" --y-label "Y-Axis" --tooltip --tooltip-format "X: {x}; Y: {y}" --dash-array "2,2" --tooltip-style "fill: green; stroke: orange;" --x-tick-format "{value} ms" --y-tick-format "{value} units" --minify
+    node src/lib/main.js --csv "0,1\n5,10\n10,100" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid --log-scale --background-color "#e0ffff" --title "CSV Plot Title" --x-label "X-Axis" --y-label "Y-Axis" --tooltip --tooltip-format "X: {x}; Y: {y}" --dash-array "2,2" --tooltip-style "fill: green; stroke: orange;" --x-tick-format "{value} ms" --y-tick-format "{value} units" --minify --font-family "Courier New"
 
 ### Example using JSON Data Export:
 
