@@ -5,24 +5,31 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 
 // Helper function to parse and validate the --range option
+// Now supports multiple comma-separated ranges, e.g., "x=-1:1,y=-0.5:0.5"
 function parseRange(rangeStr) {
-  const rangeParts = rangeStr.split("=");
-  if (rangeParts.length !== 2) {
-    console.log('Error: Range format invalid. Expected format "x=min:max"');
-    return null;
+  const segments = rangeStr.split(",");
+  const ranges = {};
+  for (let seg of segments) {
+    const rangeParts = seg.split("=");
+    if (rangeParts.length !== 2) {
+      console.log(`Error: Range segment "${seg}" format invalid. Expected format "var=min:max"`);
+      return null;
+    }
+    const key = rangeParts[0].trim();
+    const bounds = rangeParts[1].split(":");
+    if (bounds.length !== 2) {
+      console.log(`Error: Range bounds for "${key}" invalid. Expected format "var=min:max"`);
+      return null;
+    }
+    const min = parseFloat(bounds[0]);
+    const max = parseFloat(bounds[1]);
+    if (isNaN(min) || isNaN(max)) {
+      console.log(`Error: Range bounds for "${key}" must be numeric.`);
+      return null;
+    }
+    ranges[key] = { min, max };
   }
-  const bounds = rangeParts[1].split(":");
-  if (bounds.length !== 2) {
-    console.log('Error: Range bounds invalid. Expected format "x=min:max"');
-    return null;
-  }
-  const min = parseFloat(bounds[0]);
-  const max = parseFloat(bounds[1]);
-  if (isNaN(min) || isNaN(max)) {
-    console.log('Error: Range bounds must be numeric.');
-    return null;
-  }
-  return { min, max };
+  return ranges;
 }
 
 // Helper function to evaluate the mathematical expression and return a function
@@ -81,10 +88,13 @@ export function main(args = []) {
       }
     } else {
       // Time series data generation using refactored helper functions
-      const range = parseRange(options.range);
-      if (!range) return;
-      const { min, max } = range;
+      const ranges = parseRange(options.range);
+      if (!ranges || !ranges.x) {
+        console.log('Error: X axis range is required for time series generation.');
+        return;
+      }
 
+      const { min, max } = ranges.x;
       const mathFunc = getMathFunction(options.expression);
       if (!mathFunc) return;
 
@@ -97,7 +107,7 @@ export function main(args = []) {
         }
       }
 
-      // Generate n equally spaced sample points
+      // Generate n equally spaced sample points using x-axis range
       const step = (max - min) / (n - 1);
       const series = [];
       for (let i = 0; i < n; i++) {

@@ -30,6 +30,19 @@ describe("Plot generation CLI options", () => {
     logSpy.mockRestore();
   });
 
+  test("should generate a file when multiple ranges are provided (SVG)", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const fsSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    main(["--expression", "y=sin(x)", "--range", "x=-1:1,y=-0.5:0.5", "--file", "output.svg"]);
+    expect(fsSpy).toHaveBeenCalledWith(
+      "output.svg",
+      `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1,y=-0.5:0.5</text></svg>`
+    );
+    expect(logSpy).toHaveBeenCalledWith("File output.svg generated successfully.");
+    fsSpy.mockRestore();
+    logSpy.mockRestore();
+  });
+
   test("should display usage message when incomplete options are provided", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "y=sin(x)"]);
@@ -67,7 +80,7 @@ describe("Time series data generation", () => {
   test("should show error for invalid range format", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "Math.sin(x)", "--range", "invalidRange"]);
-    expect(logSpy).toHaveBeenCalledWith('Error: Range format invalid. Expected format "x=min:max"');
+    expect(logSpy).toHaveBeenCalledWith('Error: Range segment "invalidRange" format invalid. Expected format "var=min:max"');
     logSpy.mockRestore();
   });
 });
@@ -76,7 +89,7 @@ describe("Invalid Numeric Range Bounds", () => {
   test("should show error for non-numeric range bounds", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "Math.sin(x)", "--range", "x=a:b"]);
-    expect(logSpy).toHaveBeenCalledWith('Error: Range bounds must be numeric.');
+    expect(logSpy).toHaveBeenCalledWith('Error: Range bounds for "x" must be numeric.');
     logSpy.mockRestore();
   });
 });
