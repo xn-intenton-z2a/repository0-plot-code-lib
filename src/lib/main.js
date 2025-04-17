@@ -326,7 +326,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       gridLines += `<line x1="${svgX}" y1="${margin}" x2="${svgX}" y2="${height - margin}" stroke="#ccc" stroke-width="1"/>`;
     }
     for (let j = 0; j <= numY; j++) {
-      const yTick = yMin + j * dy;
+      const yTick = yMin + j * (yMax - yMin) / numY;
       const svgY = height - margin - ((yTick - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
       gridLines += `<line x1="${margin}" y1="${svgY}" x2="${width - margin}" y2="${svgY}" stroke="#ccc" stroke-width="1"/>`;
     }
@@ -573,8 +573,8 @@ Options:
   --tooltip-format     Customize the tooltip text format (use {x} and {y} placeholders).
   --dash-array         Customize the dash pattern of the plotted polyline.
   --tooltip-style      Custom CSS styling for tooltip markers.
-  --x-tick-format      Customize the x-axis tick labels (use {value} placeholder).
-  --y-tick-format      Customize the y-axis tick labels (use {value} placeholder).
+  --x-tick-format      Customize the x-axis tick labels.
+  --y-tick-format      Customize the y-axis tick labels.
   --font-family        Custom font family for all text elements (default: inherit).
   --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
   --help               Display this help message and exit.
@@ -666,7 +666,6 @@ export async function main(args) {
         console.error("Error: either --csv or both --expression and --range options are required for PDF generation.");
         return;
       }
-      // Minification if needed
       if (options.minify) {
         svgContent = svgContent.replace(/>\s+</g, '><').trim();
       }
@@ -753,6 +752,7 @@ export async function main(args) {
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
+
           const xVals = xPart.split('=')[1].split(":").map(Number);
           const yVals = yPart.split('=')[1].split(":").map(Number);
           [xMin, xMax] = xVals;
