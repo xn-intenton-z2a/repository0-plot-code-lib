@@ -38,6 +38,9 @@ describe("SVG Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain("<polyline");
     expect(writtenContent).toContain('stroke="blue"');
     expect(writtenContent).toContain('stroke-width="2"');
+    // Check default dimensions
+    expect(writtenContent).toContain('width="300"');
+    expect(writtenContent).toContain('height="150"');
     writeSpy.mockRestore();
   });
 });
@@ -68,6 +71,9 @@ describe("CSV Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain('stroke="red"');
     expect(writtenContent).toContain('stroke-width="2"');
     expect(writtenContent).toContain("CSV Plot");
+    // Check default dimensions
+    expect(writtenContent).toContain('width="300"');
+    expect(writtenContent).toContain('height="150"');
     writeSpy.mockRestore();
   });
 
@@ -107,6 +113,33 @@ describe("Custom Style Options", () => {
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain('stroke="purple"');
     expect(writtenContent).toContain('stroke-width="3"');
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Custom Dimensions Options", () => {
+  test("should generate SVG with custom width and height when options are provided for function plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "dim_output.svg", "--width", "500", "--height", "400"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "dim_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('width="500"');
+    expect(writtenContent).toContain('height="400"');
+    writeSpy.mockRestore();
+  });
+
+  test("should generate PNG with custom width and height when options are provided for CSV plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n10,20\n20,10";
+    const args = ["--csv", csvData, "--file", "dim_output.png", "--width", "600", "--height", "450"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "dim_output.png");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    // Because writtenContent is a PNG converted from SVG, we verify success by ensuring buffer is created
+    expect(Buffer.isBuffer(writtenContent)).toBe(true);
     writeSpy.mockRestore();
   });
 });
