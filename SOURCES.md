@@ -479,9 +479,7 @@ The Modern JavaScript Tutorial provides a comprehensive resource for learning mo
 ## Not Specified
 
 
-#
 # New Sources Added
-#
 
 # Node.js FS API Documentation
 ## https://nodejs.org/api/fs.html
@@ -502,3 +500,20 @@ This MDN documentation provides a comprehensive guide to ES6 template literals, 
 ## https://d3indepth.com/
 D3.js in Depth offers a comprehensive exploration of D3.js features with a focus on scales, axes, and transitions. It provides advanced insights and practical examples that complement the repository’s custom axis tick label formatting and other data visualization capabilities.
 ## MIT
+
+# New Additional Sources
+
+# Charticulator Documentation
+## https://charticulator.com/docs/
+Charticulator is an interactive visualization design tool that allows users to create custom charts without writing code. Its documentation covers the process of binding data, designing visual elements, and exporting chart specifications. This resource is valuable for developers and designers interested in exploring alternative approaches to data visualization.
+## Not Specified
+
+# The CLI Handbook
+## https://cli.guide/
+The CLI Handbook is an extensive resource on designing user-friendly command-line interfaces. It covers best practices, usability guidelines, and design patterns essential for building intuitive CLI tools, making it an excellent reference for developers of plotting libraries with rich CLI options.
+## Not Specified
+
+# d3-format Documentation
+## https://github.com/d3/d3-format
+D3-format provides powerful number formatting capabilities for data visualization, enabling developers to create custom numeric representations including custom tick labels. Its documentation details a variety of format specifiers and localization options, which are particularly useful for implementing features like custom axis tick label formatting.
+## BSD-3-Clause
