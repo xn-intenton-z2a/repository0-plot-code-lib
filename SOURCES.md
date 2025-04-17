@@ -105,7 +105,7 @@ The Desmos Graphing Calculator API documentation explains how to embed and inter
 
 # p5.js Documentation
 ## https://p5js.org/reference/
-p5.js is a versatile library designed for creative coding and visual expression. Its comprehensive documentation covers core functions, drawing and animation techniques, and user interaction, making it an excellent resource for developers and artists alike looking to build interactive visual applications.
+ p5.js is a versatile library designed for creative coding and visual expression. Its comprehensive documentation covers core functions, drawing and animation techniques, and user interaction, making it an excellent resource for developers and artists alike looking to build interactive visual applications.
 ## MIT
 
 # Inquirer.js Documentation
@@ -342,3 +342,13 @@ This article presents an overview of handling and analyzing time series data usi
 ## https://blog.logrocket.com/testing-node-cli-applications-jest/
 This blog post explores strategies for testing command-line interface applications in Node.js. It discusses methodologies for simulating user inputs, capturing output, and integrating with testing frameworks like Jest, with principles transferable to Vitest. It is a useful resource for developers aiming to ensure reliable CLI functionality.
 ## Not Specified
+
+# Simple Statistics Documentation
+## https://simplestatistics.org/docs/
+Simple Statistics is a JavaScript library that provides functions for descriptive statistical analysis including mean, median, mode, variance, and standard deviation. Its comprehensive documentation offers guides, API references, and examples for integrating statistical computations in JavaScript applications, which is beneficial for CLI tools that calculate summary statistics. Last updated in 2023, this resource is considered authoritative for lightweight statistical analysis.
+## MIT
+
+# Node.js Diagnostic Report Documentation
+## https://nodejs.org/api/report.html
+The Node.js Diagnostic Report documentation explains how to generate diagnostic reports for Node.js applications, which capture system state, error logs, and performance metrics. This resource is essential for developers looking to implement robust diagnostic features in CLI tools and is maintained with every new Node.js release. It is recognized as an authoritative guide for debugging production issues.
+## Public Domain (Node.js Documentation Terms)
