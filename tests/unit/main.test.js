@@ -331,7 +331,7 @@ describe("Tooltip Option", () => {
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<circle");
     expect(writtenContent).toContain("<title>");
-    expect(writtenContent).toContain("style=\"cursor: pointer;\"");
+    expect(writtenContent).toContain("cursor: pointer;");
     writeSpy.mockRestore();
   });
 
@@ -345,7 +345,7 @@ describe("Tooltip Option", () => {
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<circle");
     expect(writtenContent).toContain("<title>");
-    expect(writtenContent).toContain("style=\"cursor: pointer;\"");
+    expect(writtenContent).toContain("cursor: pointer;");
     writeSpy.mockRestore();
   });
 });
@@ -392,6 +392,39 @@ describe("Custom Tooltip Format Option", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("X: 0.00; Y: ");
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Custom Tooltip Style Option", () => {
+  test("should apply custom tooltip style in function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const customStyle = "fill: red; stroke: blue;";
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=0:3.14,y=-1:1",
+      "--file", "tooltip_style_output.svg",
+      "--tooltip",
+      "--tooltip-style", customStyle
+    ];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_style_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain(`style="cursor: pointer; ${customStyle}"`);
+    writeSpy.mockRestore();
+  });
+
+  test("should apply custom tooltip style in CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const customStyle = "fill: green; stroke: orange;";
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_tooltip_style_output.svg", "--tooltip", "--tooltip-style", customStyle];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_tooltip_style_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain(`style="cursor: pointer; ${customStyle}"`);
     writeSpy.mockRestore();
   });
 });
