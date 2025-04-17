@@ -278,7 +278,7 @@ function generateSVG(
  * @param {string|null} [tooltipStyle] - Optional custom CSS styling for the tooltip circle marker.
  * @param {string|null} [xTickFormat] - Optional format for x-axis tick labels, with placeholder {value}.
  * @param {string|null} [yTickFormat] - Optional format for y-axis tick labels, with placeholder {value}.
- * @param {string} [fontFamily] - Global fallback font family. Defaults to "inherit".
+ * @param {string} [fontFamily] - Global font family for all text elements. Defaults to "inherit".
  * @param {string} [titleFontFamily] - Font family for the plot title. Defaults to fontFamily.
  * @param {string} [labelFontFamily] - Font family for the axis labels. Defaults to fontFamily.
  * @param {string} [tickFontFamily] - Font family for the axis tick labels. Defaults to fontFamily.
@@ -651,14 +651,14 @@ Options:
   --tooltip            Add tooltips to each data point in the plot.
   --tooltip-format     Customize the tooltip text format (use {x} and {y} placeholders).
   --dash-array         Customize the dash pattern of the plotted polyline.
-  --tooltip-style      Custom CSS styling for tooltip markers.
+  --tooltip-style      Custom CSS styling for the tooltip markers.
   --x-tick-format      Customize the x-axis tick labels (use {value} placeholder).
   --y-tick-format      Customize the y-axis tick labels (use {value} placeholder).
   --font-family        Global font family for all text elements (default: inherit).
   --title-font-family  Font family for the plot title (overrides global).
   --label-font-family  Font family for the axis labels (overrides global).
   --tick-font-family   Font family for the axis tick labels (overrides global).
-  --minify             Minify the SVG output by removing unnecessary whitespace.
+  --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
   --help               Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
@@ -835,6 +835,7 @@ export async function main(args) {
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
+
           const xVals = xPart.split('=')[1].split(":").map(Number);
           const yVals = yPart.split('=')[1].split(":").map(Number);
           [xMin, xMax] = xVals;

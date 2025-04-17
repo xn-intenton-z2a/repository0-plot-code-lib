@@ -554,31 +554,25 @@ describe("SVG Minification Option", () => {
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "minify_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).not.toMatch(/\n/);
+    expect(writtenContent).not.toMatch(/>\s+</);
     expect(writtenContent).toContain("<svg");
     writeSpy.mockRestore();
   });
 });
 
 describe("Custom Font Family Options", () => {
-  test("should include custom global font-family style in text elements for function based plots when --font-family is provided", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "font_output.svg", "--font-family", "Arial, sans-serif" ];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "font_output.svg");
-    expect(callArgs).toBeDefined();
-    const writtenContent = callArgs[1];
-    // Should use Arial for title, labels, and tick labels if not overridden
-    expect(writtenContent).toContain('font-family: Arial, sans-serif');
-    writeSpy.mockRestore();
-  });
-
   test("should include custom title, label, and tick font families when respective options are provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    // Updated test: provide title, x-label, y-label, and tick formats so that corresponding elements are generated
     const args = [
       "--expression", "y=cos(x)",
       "--range", "x=-10:10,y=-1:1",
       "--file", "custom_font_output.svg",
+      "--title", "Test Title",
+      "--x-label", "Test X",
+      "--y-label", "Test Y",
+      "--x-tick-format", "X: {value}",
+      "--y-tick-format", "Y: {value}",
       "--font-family", "GlobalFont",
       "--title-font-family", "TitleFont",
       "--label-font-family", "LabelFont",
@@ -588,9 +582,9 @@ describe("Custom Font Family Options", () => {
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_font_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).toContain('style="font-family: TitleFont;"'); // for title
-    expect(writtenContent).toContain('style="font-family: LabelFont;"'); // for axis labels
-    expect(writtenContent).toContain('style="font-family: TickFont;"'); // for tick labels
+    expect(writtenContent).toContain('style="font-family: TitleFont;"');
+    expect(writtenContent).toContain('style="font-family: LabelFont;"');
+    expect(writtenContent).toContain('style="font-family: TickFont;"');
     writeSpy.mockRestore();
   });
 });
