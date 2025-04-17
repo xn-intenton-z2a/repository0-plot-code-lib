@@ -40,6 +40,8 @@ describe("SVG Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain('stroke-width="2"');
     expect(writtenContent).toContain('width="300"');
     expect(writtenContent).toContain('height="150"');
+    // Default background color
+    expect(writtenContent).toContain('fill="#f0f0f0"');
     writeSpy.mockRestore();
   });
 });
@@ -72,6 +74,8 @@ describe("CSV Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain("CSV Plot");
     expect(writtenContent).toContain('width="300"');
     expect(writtenContent).toContain('height="150"');
+    // Default background color
+    expect(writtenContent).toContain('fill="#f0f0f0"');
     writeSpy.mockRestore();
   });
 
@@ -220,6 +224,31 @@ describe("Logarithmic Scaling Option", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain('Error: Logarithmic scaling requires positive y values');
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Background Color Option", () => {
+  test("should apply custom background color for function-based SVG output", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "bg_output.svg", "--background-color", "#123456"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "bg_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('fill="#123456"');
+    writeSpy.mockRestore();
+  });
+
+  test("should apply custom background color for CSV-based SVG output", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_bg_output.svg", "--background-color", "#abcdef"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_bg_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('fill="#abcdef"');
     writeSpy.mockRestore();
   });
 });
