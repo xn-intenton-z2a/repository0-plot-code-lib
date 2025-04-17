@@ -422,3 +422,18 @@ Frappe Charts is a simple, responsive charting library for modern web applicatio
 ## https://apexcharts.com/docs/
 ApexCharts is a modern charting library that delivers interactive and customizable visualizations. Its documentation covers installation, usage, and advanced configuration options, making it a popular choice for dynamic data visualization.
 ## MIT
+
+# MDN SVG Text Element
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
+This MDN documentation provides a comprehensive guide to the SVG text element, covering attributes, styling, positioning, and usage examples. It is particularly useful for developers looking to add annotations, titles, and labels to SVG plots. The source is highly authoritative as part of MDN Web Docs.
+## CC BY-SA 2.5
+
+# SVGO Documentation
+## https://github.com/svg/svgo#readme
+SVGO is an effective tool for optimizing SVG files by removing unnecessary data while preserving the visual quality. Its documentation offers detailed guidance on installation, configuration, and usage, making it a valuable resource for developers looking to minimize SVG file sizes and improve performance.
+## MIT
+
+# Node.js v20 Release Highlights
+## https://nodejs.org/en/blog/release/v20.0.0/
+This official Node.js blog post announces the release of Node.js version 20, outlining key features, improvements, and enhancements. It provides insights into new capabilities, performance optimizations, and updated documentation, reinforcing its authority as the primary source for Node.js updates.
+## Public Domain
