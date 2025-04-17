@@ -105,7 +105,7 @@ The Desmos Graphing Calculator API documentation explains how to embed and inter
 
 # p5.js Documentation
 ## https://p5js.org/reference/
- p5.js is a versatile library designed for creative coding and visual expression. Its comprehensive documentation covers core functions, drawing and animation techniques, and user interaction, making it an excellent resource for developers and artists alike looking to build interactive visual applications.
+p5.js is a versatile library designed for creative coding and visual expression. Its comprehensive documentation covers core functions, drawing and animation techniques, and user interaction, making it an excellent resource for developers and artists alike looking to build interactive visual applications.
 ## MIT
 
 # Inquirer.js Documentation
@@ -362,3 +362,18 @@ Dygraphs is a fast, flexible, interactive open source JavaScript charting librar
 ## https://nivo.rocks/
 Nivo is a comprehensive charting library built with React and D3, offering a wide array of customizable, interactive visualization components. Its well-organized documentation includes interactive demos, API references, and advanced configuration guides, making it an excellent resource for building modern web visualizations.
 ## MIT
+
+# jStat Documentation
+## https://jstat.github.io/
+jStat is a JavaScript statistical library that provides a comprehensive suite of methods for descriptive and inferential statistics, including calculations of mean, median, variance, and various distribution functions. It is particularly useful for data analysis and visualization applications, providing essential tools for statistical computations. Regular updates and community support enhance its reliability.
+## MIT
+
+# Node.js Process Documentation
+## https://nodejs.org/api/process.html
+The Node.js Process Documentation provides detailed insights into process management, including process lifecycle, environment variables, and inter-process communication. It serves as an essential resource for developers implementing diagnostic features and understanding runtime behavior in Node.js applications. This documentation is maintained by the Node.js community and updated with each release.
+## Public Domain (Node.js Documentation Terms)
+
+# JSON Configuration in Node.js
+## https://blog.risingstack.com/node-js-best-practices-configuration-environment-variables/
+This article from RisingStack outlines best practices for managing configuration in Node.js applications, emphasizing the use of JSON configuration files and environment variables. It offers practical advice on structuring configuration, loading defaults, and overriding settings via CLI arguments, making it highly relevant for CLI tools that support configurable options.
+## Not Specified
