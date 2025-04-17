@@ -46,10 +46,10 @@ function generateSVG(expression, range) {
 </svg>`;
   }
 
-  // Create function to evaluate expression
+  // Create function to evaluate expression using Math context
   let func;
   try {
-    func = new Function('x', 'return ' + funcStr + ';');
+    func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
     // Test the function for a sample value
     const testVal = func(xMin);
     if (typeof testVal !== 'number' || isNaN(testVal)) {
