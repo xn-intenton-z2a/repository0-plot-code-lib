@@ -625,3 +625,16 @@ describe("Help Option", () => {
     writeSpy.mockRestore();
   });
 });
+
+describe("Invalid Tooltip Shape Option", () => {
+  test("should output error and not create output file when an invalid tooltip shape is provided", async () => {
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "invalid_shape_output.svg", "--tooltip", "--tooltip-shape", "triangle"];
+    await main(args);
+    expect(errorSpy).toHaveBeenCalledWith("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+    expect(writeSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
+    writeSpy.mockRestore();
+  });
+});
