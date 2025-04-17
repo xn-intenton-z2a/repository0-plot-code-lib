@@ -101,7 +101,6 @@ describe("CSV Header Row Support", () => {
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "header_csv_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    // Ensure the polyline exists and the header did not affect the plot
     expect(writtenContent).toContain("<polyline");
     writeSpy.mockRestore();
   });
@@ -305,6 +304,33 @@ describe("Plot Labels Options", () => {
     expect(writtenContent).toContain('CSV Plot Title');
     expect(writtenContent).toContain('X-Axis');
     expect(writtenContent).toContain('Y-Axis');
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Tooltip Option", () => {
+  test("should add tooltips to each data point in a function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_output.svg", "--tooltip"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<circle");
+    expect(writtenContent).toContain("<title>");
+    writeSpy.mockRestore();
+  });
+
+  test("should add tooltips to each data point in a CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "tooltip_csv_output.svg", "--tooltip"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_csv_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<circle");
+    expect(writtenContent).toContain("<title>");
     writeSpy.mockRestore();
   });
 });
