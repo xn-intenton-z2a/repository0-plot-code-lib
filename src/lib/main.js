@@ -609,24 +609,24 @@ Options:
   --y-tick-format      Customize the y-axis tick labels.
   --font-family        Custom font family for all text elements (default: inherit).
   --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
-  --tooltip-shape      Set the tooltip marker shape ('circle' or 'square'; default is 'circle').
+  --tooltip-shape      Set the tooltip marker shape. Only accepted values are "circle" and "square".
   --help               Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
-
-Examples:
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
-  node src/lib/main.js --csv "0,0\n5,10\n10,5" --file output.svg
-
-For detailed information, see the documentation.
-`;
+`; 
 
 export async function main(args) {
   const options = parseArgs(args);
 
-  // New validation for mutually exclusive input options
+  // Validate mutually exclusive input modes
   if (options.csv && (options.expression || options.range)) {
     console.error("Error: Cannot use --csv together with --expression/--range. Please provide only one input mode.");
+    return;
+  }
+
+  // Validate tooltip shape option
+  if (options.tooltipShape && (options.tooltipShape !== "circle" && options.tooltipShape !== "square")) {
+    console.error("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
     return;
   }
 
