@@ -27,6 +27,10 @@ function parseRange(rangeStr) {
       console.log(`Error: Range bounds for "${key}" must be numeric.`);
       return null;
     }
+    if (min >= max) {
+      console.log(`Error: For variable "${key}", the minimum value must be less than the maximum value.`);
+      return null;
+    }
     ranges[key] = { min, max };
   }
   return ranges;
