@@ -429,6 +429,30 @@ describe("Custom Tooltip Style Option", () => {
   });
 });
 
+describe("Axis Tick Label Formatting Option", () => {
+  test("should include custom formatted x-axis tick labels in SVG output", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "xtick_output.svg", "--x-tick-format", "X: {value} sec"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "xtick_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("X: -10.00 sec");
+    writeSpy.mockRestore();
+  });
+
+  test("should include custom formatted y-axis tick labels in SVG output", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "ytick_output.svg", "--y-tick-format", "Y: {value} units"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "ytick_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("Y: -1.00 units");
+    writeSpy.mockRestore();
+  });
+});
+
 describe("JSON Data Export Option", () => {
   test("should generate valid JSON export for function based plot", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
