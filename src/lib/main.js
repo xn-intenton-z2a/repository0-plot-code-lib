@@ -11,12 +11,14 @@ import PDFDocument from "pdfkit";
  * It computes sample points from the function and draws a polyline representing the graph.
  * Optionally includes grid lines if the grid flag is true.
  * Adds optional title and axis labels if provided.
- * Optionally adds tooltips (circle markers with <title> elements) for each data point if tooltip is true.
+ * Optionally adds tooltips (data point markers with a <title> element) for each data point if tooltip is true.
  * Supports optional stroke dash pattern via dashArray, and optional custom tooltip formatting via tooltipFormat.
- * Additionally supports custom tooltip styling via tooltipStyle which appends extra CSS to the tooltip circle marker.
+ * Additionally supports custom tooltip styling via tooltipStyle which appends extra CSS to the tooltip marker.
  * Allows custom axis tick label formatting via xTickFormat and yTickFormat options.
  * 
- * New Parameter: fontFamily - to set a custom font family for all text elements in the SVG. Defaults to "inherit".
+ * New Parameters:
+ *   - fontFamily: to set a custom font family for all text elements in the SVG. Defaults to "inherit".
+ *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default) and "square".
  * 
  * @param {string} expression - Mathematical expression (e.g., "y=sin(x)").
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
@@ -33,13 +35,14 @@ import PDFDocument from "pdfkit";
  * @param {boolean} [tooltip] - Optional flag to add tooltip markers at each data point. Defaults to false.
  * @param {string|null} [dashArray] - Optional dash pattern for the polyline.
  * @param {string|null} [tooltipFormat] - Optional tooltip template with placeholders {x} and {y}.
- * @param {string|null} [tooltipStyle] - Optional custom CSS styling for the tooltip circle marker.
+ * @param {string|null} [tooltipStyle] - Optional custom CSS styling for the tooltip marker.
  * @param {string|null} [xTickFormat] - Optional format for x-axis tick labels, with placeholder {value}.
  * @param {string|null} [yTickFormat] - Optional format for y-axis tick labels, with placeholder {value}.
  * @param {string} [fontFamily] - Optional custom font family for all text elements. Defaults to "inherit".
+ * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other option: "square").
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit") {
+function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit", tooltipShape = "circle") {
   const margin = 10;
   const sampleCount = 100;
 
@@ -120,9 +123,13 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
       points.push(`${svgX},${svgY}`);
       if (tooltip) {
         const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-        // Merge default style with custom tooltip style if provided
         const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
-        tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
+        if (tooltipShape === "square") {
+          // Draw a square (rect) with side 6, centered at (svgX, svgY)
+          tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
+        } else {
+          tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
+        }
       }
     }
   }
@@ -221,12 +228,14 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * Each line of the CSV should have two comma-separated values, optionally without a header.
  * Optionally includes grid lines if the grid flag is true.
  * Adds optional title and axis labels if provided.
- * Optionally adds tooltips (circle markers with <title> elements) for each data point if tooltip is true.
+ * Optionally adds tooltips (data point markers with a <title> element) for each data point if tooltip is true.
  * Supports optional stroke dash pattern via dashArray, and optional custom tooltip formatting via tooltipFormat.
  * Additionally supports custom tooltip styling via tooltipStyle.
  * Allows custom axis tick label formatting via xTickFormat and yTickFormat options.
  * 
- * New Parameter: fontFamily - to set a custom font family for all text elements in the SVG. Defaults to "inherit".
+ * New Parameters:
+ *   - fontFamily: to set a custom font family for all text elements in the SVG. Defaults to "inherit".
+ *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default) and "square".
  * 
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
@@ -242,13 +251,14 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * @param {boolean} [tooltip] - Optional flag to add tooltip markers for each data point. Defaults to false.
  * @param {string|null} [dashArray] - Optional dash pattern for the polyline.
  * @param {string|null} [tooltipFormat] - Optional tooltip template with placeholders {x} and {y}.
- * @param {string|null} [tooltipStyle] - Optional custom CSS styling for the tooltip circle marker.
+ * @param {string|null} [tooltipStyle] - Optional custom CSS styling for the tooltip marker.
  * @param {string|null} [xTickFormat] - Optional format for x-axis tick labels, with placeholder {value}.
  * @param {string|null} [yTickFormat] - Optional format for y-axis tick labels, with placeholder {value}.
  * @param {string} [fontFamily] - Optional custom font family for all text elements. Defaults to "inherit".
+ * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other option: "square").
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit") {
+function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit", tooltipShape = "circle") {
   const margin = 10;
   let dataPoints = [];
   let tooltipElements = "";
@@ -309,10 +319,25 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     if (tooltip) {
       const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
       const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
-      tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
+      if (tooltipShape === "square") {
+        return `${svgX},${svgY}`; // return point as normal and handle tooltip later
+      } else {
+        tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
+      }
     }
     return `${svgX},${svgY}`;
   });
+
+  // If tooltip is enabled for CSV and tooltipShape is square, we need to add rect elements for each data point.
+  if (tooltip && tooltipShape === "square") {
+    dataPoints.forEach(([x, y], index) => {
+      const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
+      const svgY = height - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
+      const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
+      const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
+      tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
+    });
+  }
 
   // Compute grid lines if flag is true
   let gridLines = '';
@@ -388,7 +413,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 }
 
 /**
- * Parses CLI arguments for various options including new tick format options and help flag.
+ * Parses CLI arguments for various options including new tick format options, tooltip shape, and help flag.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
@@ -415,6 +440,7 @@ function parseArgs(args) {
     xTickFormat: null,
     yTickFormat: null,
     fontFamily: null,
+    tooltipShape: null,
     help: false,
     minify: false
   };
@@ -540,6 +566,12 @@ function parseArgs(args) {
       case "--minify":
         options.minify = true;
         break;
+      case "--tooltip-shape":
+        if (i + 1 < args.length) {
+          options.tooltipShape = args[i + 1];
+          i++;
+        }
+        break;
       case "--help":
         options.help = true;
         break;
@@ -572,21 +604,19 @@ Options:
   --tooltip            Add tooltips to each data point in the plot.
   --tooltip-format     Customize the tooltip text format (use {x} and {y} placeholders).
   --dash-array         Customize the dash pattern of the plotted polyline.
-  --tooltip-style      Custom CSS styling for tooltip markers.
+  --tooltip-style      Provide custom CSS styling for tooltip markers.
   --x-tick-format      Customize the x-axis tick labels.
   --y-tick-format      Customize the y-axis tick labels.
   --font-family        Custom font family for all text elements (default: inherit).
   --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
+  --tooltip-shape      Set the tooltip marker shape ('circle' or 'square'; default is 'circle').
   --help               Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
 
 Examples:
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.png
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.pdf
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.json
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.csv
+  node src/lib/main.js --csv "0,0\n5,10\n10,5" --file output.svg
 
 For detailed information, see the documentation.
 `;
@@ -622,12 +652,13 @@ export async function main(args) {
     const customXTickFormat = options.xTickFormat;
     const customYTickFormat = options.yTickFormat;
     const customFontFamily = options.fontFamily || "inherit";
+    const customTooltipShape = options.tooltipShape || "circle";
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
@@ -643,9 +674,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
@@ -659,9 +690,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".pdf")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PDF generation.");
         return;

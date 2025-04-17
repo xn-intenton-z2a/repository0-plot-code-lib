@@ -24,7 +24,6 @@ describe("CLI Options Parsing", () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    // Updated expected error message to include .pdf
     expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
     errorSpy.mockRestore();
   });
@@ -350,7 +349,7 @@ describe("Plot Labels Options", () => {
 });
 
 describe("Tooltip Option", () => {
-  test("should add tooltips to each data point in a function based plot with pointer cursor", async () => {
+  test("should add tooltips to each data point in a function based plot with pointer cursor using default circle markers", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_output.svg", "--tooltip"];
     await main(args);
@@ -363,7 +362,7 @@ describe("Tooltip Option", () => {
     writeSpy.mockRestore();
   });
 
-  test("should add tooltips to each data point in a CSV based plot with pointer cursor", async () => {
+  test("should add tooltips to each data point in a CSV based plot with pointer cursor using default circle markers", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const csvData = "0,0\n5,10\n10,5";
     const args = ["--csv", csvData, "--file", "tooltip_csv_output.svg", "--tooltip"];
@@ -372,6 +371,33 @@ describe("Tooltip Option", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<circle");
+    expect(writtenContent).toContain("<title>");
+    expect(writtenContent).toContain("cursor: pointer;");
+    writeSpy.mockRestore();
+  });
+
+  test("should render square tooltip markers when --tooltip-shape square is provided for function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_square_output.svg", "--tooltip", "--tooltip-shape", "square"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_square_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<rect");
+    expect(writtenContent).toContain("<title>");
+    expect(writtenContent).toContain("cursor: pointer;");
+    writeSpy.mockRestore();
+  });
+
+  test("should render square tooltip markers when --tooltip-shape square is provided for CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "tooltip_csv_square_output.svg", "--tooltip", "--tooltip-shape", "square"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_csv_square_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<rect");
     expect(writtenContent).toContain("<title>");
     expect(writtenContent).toContain("cursor: pointer;");
     writeSpy.mockRestore();
@@ -428,13 +454,7 @@ describe("Custom Tooltip Style Option", () => {
   test("should apply custom tooltip style in function based plot", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const customStyle = "fill: red; stroke: blue;";
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=0:3.14,y=-1:1",
-      "--file", "tooltip_style_output.svg",
-      "--tooltip",
-      "--tooltip-style", customStyle
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_style_output.svg", "--tooltip", "--tooltip-style", customStyle];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_style_output.svg");
     expect(callArgs).toBeDefined();
