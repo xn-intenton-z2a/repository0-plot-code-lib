@@ -1,19 +1,23 @@
 # ANNOTATIONS Feature Update
 
 ## Overview
-This update extends the existing annotations functionality. In addition to enabling font size customization for plot title and axis labels, users can now also define custom formatting for axis tick labels using the new CLI options --x-tick-format and --y-tick-format. The tick label formatting allows users to add descriptive text (e.g., units or time indicators) by inserting a placeholder `{value}`, which is replaced with the numerical tick value formatted to two decimals.
+This update refines the existing annotations functionality by not only providing customization for plot titles and axis labels but also by introducing a new capability for custom axis tick label formatting. Users can now specify the display of tick labels on both the x and y axes using the CLI options `--x-tick-format` and `--y-tick-format`. These options accept a format string with the `{value}` placeholder which is replaced with the numerical tick value (formatted to two decimals), allowing, for example, the addition of units or descriptive text.
 
 ## Implementation Details
 - **Source File Changes**:
-  - Update the CLI parser in `src/lib/main.js` to recognize `--x-tick-format` and `--y-tick-format` options.
-  - Modify the SVG generation functions (`generateSVG` and `generateSVGFromCSV`) to incorporate the provided tick format strings when rendering x-axis and y-axis labels. When these options are not provided, default numeric labels are produced.
-  - Ensure the new tick formatting features work seamlessly with existing features such as title, axis labels, and grid lines.
+  - Update the CLI parser (in `src/lib/main.js`) to recognize the new options `--x-tick-format` and `--y-tick-format` alongside the existing parameters.
+  - In the SVG generation functions (`generateSVG` and `generateSVGFromCSV`), incorporate logic to render axis tick labels with the supplied custom formats. When these options are provided, the placeholder `{value}` is replaced appropriately in the label text; if they are not provided, default numeric labels are shown.
+  - Ensure compatibility so that custom tick formatting works seamlessly with existing features such as grid lines, tooltips, and labels.
 
-- **Testing**:
-  - Enhance unit tests in `tests/unit/main.test.js` to verify the correct application of tick formatting in both function-based and CSV-based plots. Tests should inspect that text elements for tick labels include the custom formatted strings.
+## Testing
+- **Unit Tests**:
+  - Add new cases in `tests/unit/main.test.js` to verify that when the `--x-tick-format` and `--y-tick-format` options are used, the generated SVG includes correctly formatted tick label text on both axes.
+  - Validate that the custom format correctly replaces the `{value}` placeholder in a variety of scenarios, for both function-based and CSV-based plot generations.
 
-- **Documentation**:
-  - Update `README.md` to document the new usage of `--x-tick-format` and `--y-tick-format` options. Provide examples illustrating how to append units or custom strings to tick values.
+## Documentation
+- **README Updates**:
+  - Update the usage section in the README to document the new custom axis tick formatting options. Provide examples such as: `--x-tick-format "{value} ms"` and `--y-tick-format "{value} units"`.
+  - Explain that these options enhance readability and allow users to append units or descriptors to numerical tick values.
 
 ## Compatibility and Value
-This update reinforces the mission to be the go-to plotting library by offering enhanced customization options. Users can now fine-tune the presentation of axis tick labels, leading to clearer, more professional plots that better suit various data visualization needs.
+This refined ANNOTATIONS feature supports our mission to be the go-to plotting library by enhancing the clarity and professionalism of generated plots. By enabling custom tick label formatting, users gain more control over how their data is presented, making it easier to integrate the plots into tailored reports or presentations.
