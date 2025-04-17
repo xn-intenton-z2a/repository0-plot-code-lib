@@ -83,7 +83,7 @@ Chart.js is a widely-used JavaScript library for creating responsive, interactiv
 Highcharts is a feature-rich charting library enabling the creation of interactive and customizable charts for web applications. Its documentation covers chart types, interactivity, and integration options, operating under a proprietary license for commercial purposes.
 ## Proprietary (Free for non-commercial use)
 
-# Vega-Lite Documentation (Repeated Entry for Emphasis)
+# Vega-Lite Documentation
 ## https://vega.github.io/vega-lite/docs/
 This guide provides a high-level view of rapid interactive visualization prototyping. It consolidates complex configurations into more manageable declarative statements.
 ## Apache-2.0
@@ -430,7 +430,7 @@ ApexCharts is a modern charting library that delivers interactive and customizab
 
 # MDN SVG Text Element
 ## https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text
-This MDN documentation provides a comprehensive guide to the SVG text element, covering attributes, styling, positioning, and usage examples. It is particularly useful for developers looking to add annotations, titles, and labels to SVG plots. The source is highly authoritative as part of MDN Web Docs.
+This MDN documentation provides a comprehensive guide to the SVG text element, covering attributes, styling, positioning, and usage examples. It is particularly useful for developers looking to add annotations, titles, and labels to SVG plots.
 ## CC BY-SA 2.5
 
 # SVGO Documentation
@@ -513,10 +513,6 @@ The CLI Handbook is an extensive resource on designing user-friendly command-lin
 D3-format provides powerful number formatting capabilities for data visualization, enabling developers to create custom numeric representations including custom tick labels. Its documentation details a variety of format specifiers and localization options, which are particularly useful for implementing features like custom axis tick label formatting.
 ## BSD-3-Clause
 
-#
-# New Additional Sources
-#
-
 # MDN SVG Styling
 ## https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/style
 MDN's documentation on SVG styling explains how inline CSS via the style attribute can be used to customize the appearance of SVG elements. This is particularly useful for developers who need to fine-tune text elements such as axis tick labels and plot annotations in dynamically generated SVGs.
@@ -531,3 +527,18 @@ This article provides an accessible explanation of logarithmic scales and their 
 ## https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
 This MDN resource details the CSS font-family property along with usage examples and best practices for choosing and applying fonts in web design. It is a valuable reference for users implementing the --font-family option to customize text styling in SVG outputs.
 ## CC BY-SA 2.5
+
+# Graphviz Documentation
+## https://graphviz.org/documentation/
+Graphviz is a powerful open-source tool for graph visualization that uses the DOT language to describe diagrams. Its documentation covers layout engines, node and edge styling, and advanced features for producing structured visual representations of complex data, offering valuable insights for developers designing visualization tools.
+## EPL-1.0
+
+# PDFKit Documentation
+## https://pdfkit.org/docs/
+PDFKit is a robust PDF generation library for Node.js, allowing developers to create complex, multi-page documents with embedded graphics, text, and images. Its documentation is essential for integrating PDF export functionality, as seen in this repository's capability to convert SVG/PNG outputs to high-quality PDFs.
+## MIT
+
+# Google Fonts
+## https://fonts.google.com/
+Google Fonts provides a vast collection of free, open-source fonts that are optimized for the web. Developers can explore and integrate custom font families to enhance the aesthetic appeal and readability of text elements within SVG graphics, aligning with the repository's custom font family feature.
+## OFL
