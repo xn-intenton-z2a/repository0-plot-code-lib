@@ -83,6 +83,11 @@ Chart.js is a widely-used JavaScript library for creating responsive, interactiv
 Highcharts is a feature-rich charting library that enables developers to create interactive and customizable charts for web applications. Its documentation covers a wide range of topics including chart types, interactivity, and integration options. While free for non-commercial use, Highcharts operates under a proprietary license for commercial purposes.
 ## Proprietary (Free for non-commercial use)
 
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite provides a high-level grammar for rapid prototyping of interactive visualizations. Its documentation covers the declarative approach to data visualization, empowering users to create complex visual constructs with minimal code. The project is widely recognized and maintained by an active community, adding to its reliability and currency.
+## Apache-2.0
+
 # Zod Documentation
 ## https://github.com/colinhacks/zod
 Zod is a TypeScript-first schema declaration and validation library. Its documentation provides detailed explanations of its API, usage examples, and best practices for validating data at runtime, making it a valuable resource for developers building reliable and type-safe applications. It is maintained actively and benefits from a growing community of users.
@@ -377,3 +382,18 @@ The Node.js Process Documentation provides detailed insights into process manage
 ## https://blog.risingstack.com/node-js-best-practices-configuration-environment-variables/
 This article from RisingStack outlines best practices for managing configuration in Node.js applications, emphasizing the use of JSON configuration files and environment variables. It offers practical advice on structuring configuration, loading defaults, and overriding settings via CLI arguments, making it highly relevant for CLI tools that support configurable options.
 ## Not Specified
+
+# Node-Config Documentation
+## https://github.com/lorenwest/node-config
+Node-Config is a widely used configuration management library for Node.js applications that supports hierarchical configurations and environment-specific settings. Its documentation covers how to set up configuration files in various formats including JSON, and explains how to override default settings with environment variables. The resource is well-maintained and serves as a comprehensive guide to managing configurations in complex applications.
+## MIT
+
+# function-plot Documentation
+## https://maurizzzio.github.io/function-plot/
+Function-plot is a JavaScript library for plotting mathematical functions with an easy-to-use API. Its documentation offers interactive examples, detailed configuration options, and customization guides that make it a strong competitor in the domain of function visualization. The resource is particularly valuable for developers seeking lightweight yet powerful plotting capabilities.
+## MIT
+
+# Clinic.js Documentation
+## https://clinicjs.org/
+Clinic.js is a powerful diagnostic toolkit for Node.js applications that provides profiling, performance analysis, and troubleshooting utilities. Its comprehensive documentation and suite of tools help developers identify performance bottlenecks and optimize their applications effectively. Regularly updated and community-supported, Clinic.js serves as an authoritative resource for application diagnostics.
+## MIT
