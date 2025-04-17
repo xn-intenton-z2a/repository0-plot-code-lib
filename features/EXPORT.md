@@ -1,36 +1,24 @@
-# EXPORT Feature
+# EXPORT Feature Update
 
 ## Overview
-This feature updates and expands the existing PDF export functionality to serve as a comprehensive export solution. In addition to generating PDF outputs from the SVG plots, the feature now supports optional SVG minification. By enabling the new `--minify` CLI flag, users can obtain optimized SVG files with reduced file size and cleaner markup, which can be beneficial for web usage and performance.
+This update expands the EXPORT feature to provide a unified export solution for various output formats. In addition to the existing PDF (and SVG minification) during export, users can now export computed plot data in JSON and CSV formats. This functionality enables seamless integration into data-processing pipelines, facilitating further analysis and visual customizations.
 
 ## Implementation Details
 - **Source File Changes**:
-  - Update the CLI argument parser in `src/lib/main.js` to recognize the new `--minify` flag.
-  - After generating the SVG content (for files with a `.svg` extension), check if the `--minify` flag is set. If so, pass the SVG string through the SVGO library to optimize and minify the SVG content before writing it to the file.
-  - Integrate SVGO by importing it in `src/lib/main.js` and adding logic similar to:
-    ```js
-    import { optimize } from 'svgo';
+  - Update the CLI argument parser in `src/lib/main.js` to detect output file extensions: `.json` and `.csv` in addition to `.svg` and `.png`.
+  - For JSON export, generate an array of data points where each point contains the original x and y values (applying logarithmic transformation if necessary) alongside SVG coordinates (`svgX` and `svgY`).
+  - For CSV export, produce a header row (`x,y,svgX,svgY`) followed by computed data points.
+  - Ensure that these export branches reuse the common plotting logic for consistency with other formats.
 
-    if (options.file.endsWith('.svg') && options.minify) {
-      const optimized = optimize(svgContent, { multipass: true });
-      svgContent = optimized.data;
-    }
-    ```
-  - Ensure that the new flag does not interfere with the existing PDF conversion using Sharp.
-
-- **Testing**:
-  - Update the unit test file (`tests/unit/main.test.js`) to include scenarios that verify SVG output is minified when the `--minify` flag is provided. This may involve checking for removal of extraneous whitespace or unnecessary elements.
-  - Verify that when `--minify` is not used, the SVG output remains unchanged (aside from any expected formatting).
-
-- **Dependencies**:
-  - Update `package.json` to add the SVGO library (e.g., "svgo": "^3.0.0") as a dependency.
+## Testing
+- **Unit Tests**:
+  - Enhance `tests/unit/main.test.js` with new cases verifying that JSON exports contain valid JSON arrays with the required properties (`x`, `y`, `svgX`, `svgY`).
+  - Add tests for CSV export that check the header row and correct formatting of data rows for both function-based plots and CSV input plots.
 
 ## Documentation
-- Update the `README.md` file to describe the new `--minify` CLI option. Provide usage examples, such as:
-
-    node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg --minify
-
-- Explain that enabling SVG minification can lead to reduced file sizes and cleaner SVG markup, which may improve performance in web settings.
+- **README Updates**:
+  - Revise the usage section in `README.md` to include examples for exporting to JSON and CSV.
+  - Clearly document the expected data structure for JSON and CSV outputs, including information on how headers are handled.
 
 ## Compatibility and Value
-This upgrade aligns with the mission to be the go-to plot library by enhancing output quality and efficiency. Users seeking both high-resolution PDF exports and optimized SVG files can benefit from a unified export solution.
+This update aligns with our mission to be the go-to plot library by providing versatile export options. It extends the library’s usability beyond visual rendering, allowing users to integrate computed plot data directly into other systems and workflows. The expanded export functionality is implemented solely via modifications to existing source files, tests, and documentation, ensuring a lean, maintainable feature set.
