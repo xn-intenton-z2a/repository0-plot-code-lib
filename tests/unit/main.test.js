@@ -20,11 +20,11 @@ describe("Default main", () => {
 });
 
 describe("CLI Options Parsing", () => {
-  test("should correctly parse --expression, --range, and --file options when file is not .svg or .png", async () => {
+  test("should correctly parse --expression, --range, and --file options when file is not .svg, .png, .json, or .csv", async () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, and .json files are supported for plot generation.");
+    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .json, and .csv files are supported for plot generation.");
     errorSpy.mockRestore();
   });
 });
@@ -466,6 +466,35 @@ describe("JSON Data Export Option", () => {
       expect(data[0]).toHaveProperty('svgX');
       expect(data[0]).toHaveProperty('svgY');
     }
+    writeSpy.mockRestore();
+  });
+});
+
+describe("CSV Data Export Option", () => {
+  test("should generate valid CSV export for function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.csv"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.csv");
+    expect(callArgs).toBeDefined();
+    const csvContent = callArgs[1];
+    expect(csvContent).toMatch(/^x,y,svgX,svgY\n/);
+    const lines = csvContent.trim().split("\n");
+    expect(lines.length).toBeGreaterThanOrEqual(2);
+    writeSpy.mockRestore();
+  });
+
+  test("should generate valid CSV export for CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "x,y\n0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_input.csv"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_input.csv");
+    expect(callArgs).toBeDefined();
+    const csvContent = callArgs[1];
+    expect(csvContent).toMatch(/^x,y,svgX,svgY\n/);
+    const lines = csvContent.trim().split("\n");
+    expect(lines.length).toBeGreaterThanOrEqual(2);
     writeSpy.mockRestore();
   });
 });

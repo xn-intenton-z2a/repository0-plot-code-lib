@@ -18,7 +18,8 @@ New in this release:
 - New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like "X: {x}, Y: {y}". The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places. These tooltip markers have a pointer cursor to indicate interactivity.
 - New Feature: You can now customize the dash pattern of the plotted polyline with the --dash-array option (e.g., "5,5") to create dashed or dotted line styles.
 - New Feature: You can now customize the CSS styling of tooltip circle markers using the --tooltip-style option. This option allows you to pass custom CSS (e.g., fill color, stroke, radius adjustments) to style the tooltip markers. For example, you can use --tooltip-style "fill: red; stroke: blue;".
-- New Feature: You can now export the computed plot data as JSON by specifying an output file with a .json extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the mapped SVG coordinates (svgX and svgY).
+- New Feature: You can now export the computed plot data as JSON by specifying an output file with a .json extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the corresponding SVG coordinates (svgX and svgY).
+- New Feature: You can now export the computed plot data as CSV by specifying an output file with a .csv extension. The CSV export includes a header row (`x,y,svgX,svgY`) followed by one row per data point. This works for both function-based plots and CSV input plots. 
 - CSV files with an optional header row (e.g., "x,y") are now supported, and the header is automatically ignored.
 
 ---
@@ -30,7 +31,7 @@ You can run the CLI with the following options:
 - --expression: A mathematical expression (e.g., "y=sin(x)").
 - --range: A range specification for variables (e.g., "x=-10:10,y=-1:1").
 - --csv: CSV-formatted time series data with two comma-separated values (x,y) per line. When this option is provided, the --expression and --range options are ignored. CSV files with an optional header row are supported.
-- --file: The output filename for the generated plot. If the file has a .svg extension, an SVG plot with the rendered graph will be generated. If the file has a .png extension, the tool will generate a PNG plot by converting the SVG output. If the file has a .json extension, the CLI exports the computed plot data as JSON.
+- --file: The output filename for the generated plot. If the file has a .svg extension, an SVG plot with the rendered graph will be generated. If the file has a .png extension, the tool will generate a PNG plot by converting the SVG output. If the file has a .json extension, the CLI exports the computed plot data as JSON. If the file has a .csv extension, the CLI exports the computed plot data as CSV with a header row.
 - --stroke-color: (Optional) Custom stroke color for the plot's polyline. Defaults to blue for function plots and red for CSV plots.
 - --stroke-width: (Optional) Custom stroke width for the plot's polyline. Defaults to 2.
 - --width: (Optional) Custom width for the output SVG/PNG. Defaults to 300 if not provided.
@@ -48,7 +49,7 @@ You can run the CLI with the following options:
 
 ### Example using Expression (Default styling and dimensions):
 
-To generate an SVG plot that renders a graph of the function with default styling and dimensions (and default background color):
+To generate an SVG plot that renders a graph of the function with default styling and dimensions:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
 
@@ -80,7 +81,13 @@ To export the computed plot data as JSON for further processing:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.json
 
-When the output file has a .json extension, the CLI exports an array of data points. Each data point contains the original x and y values (after applying log scale if enabled) along with the corresponding SVG coordinates (svgX and svgY).
+### Example using CSV Data Export:
+
+To export the computed plot data as CSV for further analysis (with header row):
+
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.csv
+
+When the output file has a .csv extension, the CLI exports the plot data with a header row (`x,y,svgX,svgY`) followed by one row for each data point.
 
 ---
 
