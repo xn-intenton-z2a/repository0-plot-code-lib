@@ -368,3 +368,28 @@ describe("Dash Array Option", () => {
     writeSpy.mockRestore();
   });
 });
+
+describe("Custom Tooltip Format Option", () => {
+  test("should use custom tooltip format in function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "custom_tooltip_output.svg", "--tooltip", "--tooltip-format", "X: {x}, Y: {y}"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_tooltip_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("X: 0.00, Y: ");
+    writeSpy.mockRestore();
+  });
+
+  test("should use custom tooltip format in CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "custom_csv_tooltip_output.svg", "--tooltip", "--tooltip-format", "X: {x}; Y: {y}"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_csv_tooltip_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("X: 0.00; Y: ");
+    writeSpy.mockRestore();
+  });
+});
