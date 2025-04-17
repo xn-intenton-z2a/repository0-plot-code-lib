@@ -437,3 +437,18 @@ SVGO is an effective tool for optimizing SVG files by removing unnecessary data 
 ## https://nodejs.org/en/blog/release/v20.0.0/
 This official Node.js blog post announces the release of Node.js version 20, outlining key features, improvements, and enhancements. It provides insights into new capabilities, performance optimizations, and updated documentation, reinforcing its authority as the primary source for Node.js updates.
 ## Public Domain
+
+# W3C SVG2 Specification
+## https://www.w3.org/TR/SVG2/
+This official W3C specification details the second generation of the Scalable Vector Graphics standard, including extended features and improvements for web rendering. It serves as an authoritative guide for advanced SVG usage and is continually updated as part of the W3C recommendations.
+## W3C Document License
+
+# Data-to-Viz: A Resource for Data Visualization Best Practices
+## https://www.data-to-viz.com/
+Data-to-Viz provides best practices and guidelines for designing effective data visualizations. It offers practical insights into visual encoding and storytelling with data, making it a valuable reference for developers aiming to create clear and impactful charts.
+## Not Specified
+
+# Inkscape Manual
+## https://inkscape.org/doc/
+The Inkscape manual offers a comprehensive guide to using Inkscape, an open-source vector graphics editor. It covers techniques for creating and editing SVG graphics, and is a useful resource for developers and designers looking to enhance their understanding of SVG manipulation.
+## GNU GPL
