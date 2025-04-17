@@ -134,7 +134,7 @@ describe("CSV Header Row Support", () => {
 
   test("should ignore header row in CSV for PNG output", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const csvData = "x,y\n0,1\n5,10\n10,100";
+    const csvData = "x,y\n0,0\n5,10\n10,100";
     const args = ["--csv", csvData, "--file", "header_csv_output.png"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "header_csv_output.png");
