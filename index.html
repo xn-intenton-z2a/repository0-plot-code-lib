@@ -38,6 +38,8 @@
 <li class="md-github">New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like &quot;X: {x}, Y: {y}&quot;. The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places. These tooltip markers have a pointer cursor to indicate interactivity.</li>
 <li class="md-github">New Feature: You can now customize the dash pattern of the plotted polyline with the --dash-array option (e.g., &quot;5,5&quot;) to create dashed or dotted line styles.</li>
 <li class="md-github">New Feature: You can now customize the CSS styling of tooltip circle markers using the --tooltip-style option. This option allows you to pass custom CSS (e.g., fill color, stroke, radius adjustments) to style the tooltip markers. For example, you can use --tooltip-style &quot;fill: red; stroke: blue;&quot;.</li>
+<li class="md-github">New Feature: You can now export the computed plot data as JSON by specifying an output file with a .json extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the corresponding SVG coordinates (svgX and svgY).</li>
+<li class="md-github">New Feature: You can now export the computed plot data as CSV by specifying an output file with a .csv extension. The CSV export includes a header row (<code class="md-github">x,y,svgX,svgY</code>) followed by one row per data point. This works for both function-based plots and CSV input plots.</li>
 <li class="md-github">CSV files with an optional header row (e.g., &quot;x,y&quot;) are now supported, and the header is automatically ignored.</li>
 </ul>
 <hr class="md-github">
@@ -47,7 +49,7 @@
 <li class="md-github">--expression: A mathematical expression (e.g., &quot;y=sin(x)&quot;).</li>
 <li class="md-github">--range: A range specification for variables (e.g., &quot;x=-10:10,y=-1:1&quot;).</li>
 <li class="md-github">--csv: CSV-formatted time series data with two comma-separated values (x,y) per line. When this option is provided, the --expression and --range options are ignored. CSV files with an optional header row are supported.</li>
-<li class="md-github">--file: The output filename for the generated plot. If the file has a .svg extension, an SVG plot with the rendered graph will be generated. If the file has a .png extension, the tool will generate a PNG plot by converting the SVG output.</li>
+<li class="md-github">--file: The output filename for the generated plot. If the file has a .svg extension, an SVG plot with the rendered graph will be generated. If the file has a .png extension, the tool will generate a PNG plot by converting the SVG output. If the file has a .json extension, the CLI exports the computed plot data as JSON. If the file has a .csv extension, the CLI exports the computed plot data as CSV with a header row.</li>
 <li class="md-github">--stroke-color: (Optional) Custom stroke color for the plot's polyline. Defaults to blue for function plots and red for CSV plots.</li>
 <li class="md-github">--stroke-width: (Optional) Custom stroke width for the plot's polyline. Defaults to 2.</li>
 <li class="md-github">--width: (Optional) Custom width for the output SVG/PNG. Defaults to 300 if not provided.</li>
@@ -64,7 +66,7 @@
 <li class="md-github">--tooltip-style: (Optional) Provide custom CSS styling for tooltip circle markers. For example, you can use --tooltip-style &quot;fill: red; stroke: blue;&quot; to adjust the appearance of tooltip markers.</li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="example-using-expression-default-styling-and-dimensions" href="#example-using-expression-default-styling-and-dimensions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example using Expression (Default styling and dimensions):</h3>
-<p class="md-github">To generate an SVG plot that renders a graph of the function with default styling and dimensions (and default background color):</p>
+<p class="md-github">To generate an SVG plot that renders a graph of the function with default styling and dimensions:</p>
 <pre class="md-github"><code class="md-github">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-10:10,y=-1:1&quot; --file output.svg
 </code></pre>
 <p class="md-github">To generate a PNG plot with default styling and dimensions:</p>
@@ -83,14 +85,22 @@
 <h3 class="md-github"><a class="md-github__anchor" name="example-using-csv-with-custom-styling-dimensions-grid-lines-logarithmic-scaling-background-color-labels-tooltips-dash-pattern-and-tooltip-styling" href="#example-using-csv-with-custom-styling-dimensions-grid-lines-logarithmic-scaling-background-color-labels-tooltips-dash-pattern-and-tooltip-styling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example using CSV with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, and Tooltip Styling:</h3>
 <pre class="md-github"><code class="md-github">node src/lib/main.js --csv &quot;0,1\n5,10\n10,100&quot; --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid --log-scale --background-color &quot;#e0ffff&quot; --title &quot;CSV Plot Title&quot; --x-label &quot;X-Axis&quot; --y-label &quot;Y-Axis&quot; --tooltip --tooltip-format &quot;X: {x}; Y: {y}&quot; --dash-array &quot;2,2&quot; --tooltip-style &quot;fill: green; stroke: orange;&quot;
 </code></pre>
-<p class="md-github">If the --file option is provided with a filename that does not end with .svg or .png, an error message will be displayed.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="example-using-json-data-export" href="#example-using-json-data-export"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example using JSON Data Export:</h3>
+<p class="md-github">To export the computed plot data as JSON for further processing:</p>
+<pre class="md-github"><code class="md-github">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-10:10,y=-1:1&quot; --file output.json
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="example-using-csv-data-export" href="#example-using-csv-data-export"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example using CSV Data Export:</h3>
+<p class="md-github">To export the computed plot data as CSV for further analysis (with header row):</p>
+<pre class="md-github"><code class="md-github">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-10:10,y=-1:1&quot; --file output.csv
+</code></pre>
+<p class="md-github">When the output file has a .csv extension, the CLI exports the plot data with a header row (<code class="md-github">x,y,svgX,svgY</code>) followed by one row for each data point.</p>
 <hr class="md-github">
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-17T11:22:48.377Z</p>
+    <p>Generated on 2025-04-17T12:27:04.905Z</p>
   </footer>
 </body>
 </html>
