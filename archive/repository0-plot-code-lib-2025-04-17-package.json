@@ -5,7 +5,7 @@
   "type": "module",
   "main": "src/lib/main.js",
   "bin": {
-    "repository0-plot-code-lib": "src/lib/main.js"
+    "repository0_plot-code-lib": "src/lib/main.js"
   },
   "scripts": {
     "build": "echo 'Nothing to build'",
@@ -46,6 +46,7 @@
     "markdown-it-github": "^0.5.0",
     "markdown-it": "^14.1.0",
     "npm-check-updates": "^17.1.18",
+    "openai": "^4.94.0",
     "prettier": "^3.5.3",
     "vitest": "^3.1.1"
   },
