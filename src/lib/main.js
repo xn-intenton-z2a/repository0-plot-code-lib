@@ -505,8 +505,127 @@ export async function main(args) {
       } catch (error) {
         console.error("Error writing PNG file:", error.message);
       }
+    } else if (options.file.endsWith(".json")) {
+      // New branch: JSON export option
+      let plotData;
+      const margin = 10;
+      if (options.csv) {
+        let dataPoints = [];
+        try {
+          const lines = options.csv.split(/\r?\n/);
+          let startIndex = 0;
+          if (lines.length > 0) {
+            const firstLineParts = lines[0].split(",");
+            if (firstLineParts.length >= 2) {
+              const firstToken = Number(firstLineParts[0].trim());
+              const secondToken = Number(firstLineParts[1].trim());
+              if (isNaN(firstToken) || isNaN(secondToken)) {
+                startIndex = 1;
+              }
+            }
+          }
+          for (let i = startIndex; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (line === "") continue;
+            const parts = line.split(",");
+            if (parts.length < 2) continue;
+            const x = Number(parts[0].trim());
+            const yOrig = Number(parts[1].trim());
+            if (isNaN(x) || isNaN(yOrig)) continue;
+            let y = yOrig;
+            if (options.logScale) {
+              if (y <= 0) {
+                console.error("Error: Logarithmic scaling requires positive y values");
+                return;
+              }
+              y = Math.log10(y);
+            }
+            dataPoints.push([x, y]);
+          }
+          if (dataPoints.length === 0) throw new Error('No valid CSV data found');
+        } catch (error) {
+          console.error("Error parsing CSV: " + error.message);
+          return;
+        }
+        const xs = dataPoints.map(p => p[0]);
+        const ys = dataPoints.map(p => p[1]);
+        const xMin = Math.min(...xs);
+        const xMax = Math.max(...xs);
+        const yMin = Math.min(...ys);
+        const yMax = Math.max(...ys);
+        plotData = dataPoints.map(([x, y]) => {
+          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (customWidth - 2 * margin);
+          const svgY = customHeight - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (customHeight - 2 * margin);
+          return { x, y, svgX, svgY };
+        });
+      } else if (options.expression && options.range) {
+        let funcStr = options.expression;
+        if (options.expression.includes('=')) {
+          const parts = options.expression.split('=');
+          funcStr = parts[1].trim();
+        }
+        let xMin, xMax, yMin, yMax;
+        try {
+          const rangeParts = options.range.split(",");
+          const xPart = rangeParts.find(part => part.trim().startsWith('x='));
+          const yPart = rangeParts.find(part => part.trim().startsWith('y='));
+          if (!xPart || !yPart) throw new Error('Invalid range format');
+          const xVals = xPart.split('=')[1].split(":").map(Number);
+          const yVals = yPart.split('=')[1].split(":").map(Number);
+          [xMin, xMax] = xVals;
+          [yMin, yMax] = yVals;
+          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
+        } catch (error) {
+          console.error("Error parsing range: " + error.message);
+          return;
+        }
+        if (options.logScale && (yMin <= 0 || yMax <= 0)) {
+          console.error("Error: Logarithmic scaling requires positive y values");
+          return;
+        }
+        let func;
+        try {
+          func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
+          const testVal = func(xMin);
+          if (typeof testVal !== 'number' || isNaN(testVal)) {
+            throw new Error('Function does not return a number');
+          }
+        } catch (error) {
+          console.error("Error in function: " + error.message);
+          return;
+        }
+        const sampleCount = 100;
+        const points = [];
+        const step = (xMax - xMin) / (sampleCount - 1);
+        for (let i = 0; i < sampleCount; i++) {
+          const x = xMin + i * step;
+          let y = func(x);
+          if (options.logScale) {
+            if (y <= 0) {
+              console.error("Error: Logarithmic scaling requires positive y values");
+              return;
+            }
+            y = Math.log10(y);
+          }
+          const svgX = margin + ((x - xMin) / (xMax - xMin)) * (customWidth - 2 * margin);
+          const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
+          const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
+          const svgY = customHeight - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * (customHeight - 2 * margin);
+          points.push({ x, y, svgX, svgY });
+        }
+        plotData = points;
+      } else {
+        console.error("Error: either --csv or both --expression and --range options are required for JSON export.");
+        return;
+      }
+      try {
+        fs.writeFileSync(options.file, JSON.stringify(plotData, null, 2), "utf8");
+        console.log(`JSON data file created at: ${options.file}`);
+      } catch (error) {
+        console.error("Error writing JSON file:" + error.message);
+      }
     } else {
-      console.error("Error: Only .svg and .png files are supported for plot generation.");
+      console.error("Error: Only .svg, .png, and .json files are supported for plot generation.");
     }
   } else {
     console.log(`Run with: ${JSON.stringify(options)}`);
