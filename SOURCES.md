@@ -472,3 +472,22 @@ The Airbnb JavaScript Style Guide offers a widely adopted set of conventions for
 ## https://javascript.info/
 The Modern JavaScript Tutorial provides a comprehensive resource for learning modern JavaScript, covering language fundamentals, advanced topics, and practical examples. It is updated frequently to reflect current best practices and trends in JavaScript development.
 ## Not Specified
+
+#
+# New Sources Added
+#
+
+# Node.js FS API Documentation
+## https://nodejs.org/api/fs.html
+The Node.js File System (fs) API documentation provides an in-depth overview of Node.js’s methods for interacting with the file system. It covers functionalities such as reading, writing, and manipulating files and directories, which are essential for the CLI export features of this plotting library.
+## Public Domain (Node.js Documentation Terms)
+
+# D3 Axis Customization Documentation
+## https://observablehq.com/@d3/d3-axis
+This resource delves into the D3.js axis module, offering practical examples and guidance on customizing tick labels and formatting. It serves as a valuable reference for implementing custom axis tick formats in data visualizations, aligning with the repository’s new feature for custom axis tick label formatting.
+## CC BY-NC 4.0
+
+# MDN Template Literals Documentation
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+This MDN documentation provides a comprehensive guide to ES6 template literals, including string interpolation and expression embedding. Given that the plotting library utilizes template literals extensively for generating dynamic SVG content, this source serves as an essential reference for understanding and applying modern JavaScript string formatting techniques.
+## CC BY-SA 2.5
