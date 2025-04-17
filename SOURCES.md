@@ -397,3 +397,13 @@ Function-plot is a JavaScript library for plotting mathematical functions with a
 ## https://clinicjs.org/
 Clinic.js is a powerful diagnostic toolkit for Node.js applications that provides profiling, performance analysis, and troubleshooting utilities. Its comprehensive documentation and suite of tools help developers identify performance bottlenecks and optimize their applications effectively. Regularly updated and community-supported, Clinic.js serves as an authoritative resource for application diagnostics.
 ## MIT
+
+# Node.js CLI Diagnostics and Statistics
+## https://nodesource.com/blog/nodejs-diagnostics/
+This article from NodeSource discusses how to implement diagnostics and statistical monitoring in Node.js CLI applications. It provides insights into leveraging built-in tools and best practices for logging version details, configuration settings, and runtime metrics. The guide is particularly useful for developers looking to enhance CLI tools with diagnostic and performance metrics capabilities. Published in 2023, it is considered authoritative based on NodeSource's expertise in Node development.
+## Not Specified
+
+# CLI Configuration and JSON File Handling in Node.js
+## https://nodejs.dev/learn/reading-and-writing-json-files
+This resource offers comprehensive guidance on reading and writing JSON configuration files in Node.js. It explains techniques for merging configuration defaults with runtime values—a practice integral to CLI applications that support configuration files. Frequently updated by the Node.js developer community, it serves as a reliable reference for modern CLI configuration management.
+## Public Domain (Node.js Dev Documentation)
