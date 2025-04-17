@@ -24,7 +24,6 @@ describe("CLI Options Parsing", () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    // Updated expected error message to include .pdf
     expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
     errorSpy.mockRestore();
   });
@@ -231,7 +230,6 @@ describe("Grid Lines Option", () => {
 describe("Logarithmic Scaling Option", () => {
   test("should generate SVG with log scale when valid positive function values are provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // Use a function that is always positive: y = x + 10, range x=0:10, y=10:20
     const args = ["--expression", "y=x+10", "--range", "x=0:10,y=10:20", "--file", "log_output.svg", "--log-scale"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "log_output.svg");
@@ -244,7 +242,6 @@ describe("Logarithmic Scaling Option", () => {
 
   test("should output error SVG when function returns non-positive values with log scale", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // Use a function that can produce non-positive values: y = x - 10, range x=0:10, y=-10:0
     const args = ["--expression", "y=x-10", "--range", "x=0:10,y=-10:0", "--file", "log_error.svg", "--log-scale"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "log_error.svg");
@@ -256,7 +253,6 @@ describe("Logarithmic Scaling Option", () => {
 
   test("should generate SVG with log scale for CSV data when valid positive y values are provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // CSV data with positive y values
     const csvData = "0,1\n5,10\n10,100";
     const args = ["--csv", csvData, "--file", "csv_log_output.svg", "--log-scale"];
     await main(args);
@@ -270,7 +266,6 @@ describe("Logarithmic Scaling Option", () => {
 
   test("should output error SVG for CSV data when a non-positive y value is encountered with log scale", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // CSV data with a non-positive y value
     const csvData = "0,0\n5,10\n10,5";
     const args = ["--csv", csvData, "--file", "csv_log_error.svg", "--log-scale"];
     await main(args);
@@ -565,27 +560,37 @@ describe("SVG Minification Option", () => {
   });
 });
 
-describe("Custom Font Family Option", () => {
-  test("should include custom font-family style in text elements for function based plots", async () => {
+describe("Custom Font Family Options", () => {
+  test("should include custom global font-family style in text elements for function based plots when --font-family is provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "font_output.svg", "--font-family", "Arial, sans-serif" ];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "font_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).toContain('style="font-family: Arial, sans-serif;"');
+    // Should use Arial for title, labels, and tick labels if not overridden
+    expect(writtenContent).toContain('font-family: Arial, sans-serif');
     writeSpy.mockRestore();
   });
 
-  test("should include custom font-family style in text elements for CSV based plots", async () => {
+  test("should include custom title, label, and tick font families when respective options are provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const csvData = "0,0\n5,10\n10,5";
-    const args = ["--csv", csvData, "--file", "csv_font_output.svg", "--font-family", "Courier New" ];
+    const args = [
+      "--expression", "y=cos(x)",
+      "--range", "x=-10:10,y=-1:1",
+      "--file", "custom_font_output.svg",
+      "--font-family", "GlobalFont",
+      "--title-font-family", "TitleFont",
+      "--label-font-family", "LabelFont",
+      "--tick-font-family", "TickFont"
+    ];
     await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_font_output.svg");
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_font_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).toContain('style="font-family: Courier New;"');
+    expect(writtenContent).toContain('style="font-family: TitleFont;"'); // for title
+    expect(writtenContent).toContain('style="font-family: LabelFont;"'); // for axis labels
+    expect(writtenContent).toContain('style="font-family: TickFont;"'); // for tick labels
     writeSpy.mockRestore();
   });
 });

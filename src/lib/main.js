@@ -16,7 +16,11 @@ import PDFDocument from "pdfkit";
  * Additionally supports custom tooltip styling via tooltipStyle which appends extra CSS to the tooltip circle marker.
  * Allows custom axis tick label formatting via xTickFormat and yTickFormat options.
  * 
- * New Parameter: fontFamily - to set a custom font family for all text elements in the SVG. Defaults to "inherit".
+ * New Parameters:
+ *   fontFamily - global fallback font family for text elements (default: "inherit")
+ *   titleFontFamily - font family for the plot title (falls back to fontFamily)
+ *   labelFontFamily - font family for axis labels (falls back to fontFamily)
+ *   tickFontFamily - font family for axis tick labels (falls back to fontFamily)
  * 
  * @param {string} expression - Mathematical expression (e.g., "y=sin(x)").
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
@@ -36,10 +40,36 @@ import PDFDocument from "pdfkit";
  * @param {string|null} [tooltipStyle] - Optional custom CSS styling for the tooltip circle marker.
  * @param {string|null} [xTickFormat] - Optional format for x-axis tick labels, with placeholder {value}.
  * @param {string|null} [yTickFormat] - Optional format for y-axis tick labels, with placeholder {value}.
- * @param {string} [fontFamily] - Optional custom font family for all text elements. Defaults to "inherit".
+ * @param {string} [fontFamily] - Global font family fallback. Defaults to "inherit".
+ * @param {string} [titleFontFamily] - Font family for the plot title. Defaults to fontFamily.
+ * @param {string} [labelFontFamily] - Font family for the axis labels. Defaults to fontFamily.
+ * @param {string} [tickFontFamily] - Font family for the axis tick labels. Defaults to fontFamily.
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit") {
+function generateSVG(
+  expression,
+  range,
+  strokeColor = "blue",
+  strokeWidth = 2,
+  width = 300,
+  height = 150,
+  grid = false,
+  logScale = false,
+  backgroundColor = "#f0f0f0",
+  title = "",
+  xLabel = "",
+  yLabel = "",
+  tooltip = false,
+  dashArray = null,
+  tooltipFormat = null,
+  tooltipStyle = null,
+  xTickFormat = null,
+  yTickFormat = null,
+  fontFamily = "inherit",
+  titleFontFamily = fontFamily,
+  labelFontFamily = fontFamily,
+  tickFontFamily = fontFamily
+) {
   const margin = 10;
   const sampleCount = 100;
 
@@ -112,7 +142,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     }
     // Map x to svg coordinate
     const svgX = margin + ((x - xMin) / (xMax - xMin)) * (width - 2 * margin);
-    // Map y to svg coordinate (inverted y-axis) using either direct or log-transformed scaling
+    // Map y to svg coordinate (inverted y-axis)
     const yMinTrans = logScale ? Math.log10(yMin) : yMin;
     const yMaxTrans = logScale ? Math.log10(yMax) : yMax;
     const svgY = height - margin - ((y - yMinTrans) / (yMaxTrans - yMinTrans)) * (height - 2 * margin);
@@ -120,7 +150,6 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
       points.push(`${svgX},${svgY}`);
       if (tooltip) {
         const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-        // Merge default style with custom tooltip style if provided
         const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
         tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
       }
@@ -161,7 +190,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
       const xTick = xMin + i * (xMax - xMin) / numTicksX;
       const svgX = margin + ((xTick - xMin) / (xMax - xMin)) * (width - 2 * margin);
       const label = xTickFormat.replace("{value}", xTick.toFixed(2));
-      xTickLabels += `<text x="${svgX}" y="${height - margin + 12}" font-size="10" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${label}</text>`;
+      xTickLabels += `<text x="${svgX}" y="${height - margin + 12}" font-size="10" fill="#333" text-anchor="middle" style="font-family: ${tickFontFamily};">${label}</text>`;
     }
   }
   if (yTickFormat) {
@@ -176,7 +205,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
       const yMaxTrans = logScale ? Math.log10(yMax) : yMax;
       const svgY = height - margin - ((yTickTrans - yMinTrans) / (yMaxTrans - yMinTrans)) * (height - 2 * margin);
       const label = yTickFormat.replace("{value}", yTick.toFixed(2));
-      yTickLabels += `<text x="${margin - 5}" y="${svgY + 4}" font-size="10" fill="#333" text-anchor="end" style="font-family: ${fontFamily};">${label}</text>`;
+      yTickLabels += `<text x="${margin - 5}" y="${svgY + 4}" font-size="10" fill="#333" text-anchor="end" style="font-family: ${tickFontFamily};">${label}</text>`;
     }
   }
 
@@ -187,19 +216,19 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   // Additional text elements for title and axis labels
   let titleElement = '';
   if (title) {
-    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${title}</text>`;
+    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${titleFontFamily};">${title}</text>`;
   }
   let xLabelElement = '';
   if (xLabel) {
-    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${xLabel}</text>`;
+    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${labelFontFamily};">${xLabel}</text>`;
   }
   let yLabelElement = '';
   if (yLabel) {
-    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})" style="font-family: ${fontFamily};">${yLabel}</text>`;
+    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})" style="font-family: ${labelFontFamily};">${yLabel}</text>`;
   }
 
   // The existing expression text at the bottom (keep for reference if no custom xLabel provided)
-  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">Expression: ${expression}, Range: ${range}</text>` : '';
+  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${labelFontFamily};">Expression: ${expression}, Range: ${range}</text>` : '';
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
@@ -226,7 +255,11 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * Additionally supports custom tooltip styling via tooltipStyle.
  * Allows custom axis tick label formatting via xTickFormat and yTickFormat options.
  * 
- * New Parameter: fontFamily - to set a custom font family for all text elements in the SVG. Defaults to "inherit".
+ * New Parameters:
+ *   fontFamily - global fallback for text (default: "inherit")
+ *   titleFontFamily - font family for the plot title (fallback to fontFamily)
+ *   labelFontFamily - font family for axis labels (fallback to fontFamily)
+ *   tickFontFamily - font family for axis tick labels (fallback to fontFamily)
  * 
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
@@ -245,10 +278,35 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * @param {string|null} [tooltipStyle] - Optional custom CSS styling for the tooltip circle marker.
  * @param {string|null} [xTickFormat] - Optional format for x-axis tick labels, with placeholder {value}.
  * @param {string|null} [yTickFormat] - Optional format for y-axis tick labels, with placeholder {value}.
- * @param {string} [fontFamily] - Optional custom font family for all text elements. Defaults to "inherit".
+ * @param {string} [fontFamily] - Global fallback font family. Defaults to "inherit".
+ * @param {string} [titleFontFamily] - Font family for the plot title. Defaults to fontFamily.
+ * @param {string} [labelFontFamily] - Font family for the axis labels. Defaults to fontFamily.
+ * @param {string} [tickFontFamily] - Font family for the axis tick labels. Defaults to fontFamily.
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit") {
+function generateSVGFromCSV(
+  csv,
+  strokeColor = "red",
+  strokeWidth = 2,
+  width = 300,
+  height = 150,
+  grid = false,
+  logScale = false,
+  backgroundColor = "#f0f0f0",
+  title = "",
+  xLabel = "",
+  yLabel = "",
+  tooltip = false,
+  dashArray = null,
+  tooltipFormat = null,
+  tooltipStyle = null,
+  xTickFormat = null,
+  yTickFormat = null,
+  fontFamily = "inherit",
+  titleFontFamily = fontFamily,
+  labelFontFamily = fontFamily,
+  tickFontFamily = fontFamily
+) {
   const margin = 10;
   let dataPoints = [];
   let tooltipElements = "";
@@ -326,7 +384,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       gridLines += `<line x1="${svgX}" y1="${margin}" x2="${svgX}" y2="${height - margin}" stroke="#ccc" stroke-width="1"/>`;
     }
     for (let j = 0; j <= numY; j++) {
-      const yTick = yMin + j * dy;
+      const yTick = yMin + j * (yMax - yMin) / numY;
       const svgY = height - margin - ((yTick - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
       gridLines += `<line x1="${margin}" y1="${svgY}" x2="${width - margin}" y2="${svgY}" stroke="#ccc" stroke-width="1"/>`;
     }
@@ -341,7 +399,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       const xTick = xMin + i * (xMax - xMin) / numTicksX;
       const svgX = margin + ((xTick - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
       const label = xTickFormat.replace("{value}", xTick.toFixed(2));
-      xTickLabels += `<text x="${svgX}" y="${height - margin + 12}" font-size="10" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${label}</text>`;
+      xTickLabels += `<text x="${svgX}" y="${height - margin + 12}" font-size="10" fill="#333" text-anchor="middle" style="font-family: ${tickFontFamily};">${label}</text>`;
     }
   }
   if (yTickFormat) {
@@ -349,7 +407,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       const yTick = yMin + j * (yMax - yMin) / numTicksY;
       const svgY = height - margin - ((yTick - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
       const label = yTickFormat.replace("{value}", yTick.toFixed(2));
-      yTickLabels += `<text x="${margin - 5}" y="${svgY + 4}" font-size="10" fill="#333" text-anchor="end" style="font-family: ${fontFamily};">${label}</text>`;
+      yTickLabels += `<text x="${margin - 5}" y="${svgY + 4}" font-size="10" fill="#333" text-anchor="end" style="font-family: ${tickFontFamily};">${label}</text>`;
     }
   }
 
@@ -359,18 +417,18 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 
   let titleElement = '';
   if (title) {
-    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${title}</text>`;
+    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${titleFontFamily};">${title}</text>`;
   }
   let xLabelElement = '';
   if (xLabel) {
-    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${xLabel}</text>`;
+    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${labelFontFamily};">${xLabel}</text>`;
   }
   let yLabelElement = '';
   if (yLabel) {
-    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})" style="font-family: ${fontFamily};">${yLabel}</text>`;
+    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})" style="font-family: ${labelFontFamily};">${yLabel}</text>`;
   }
 
-  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">CSV Plot</text>` : '';
+  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${labelFontFamily};">CSV Plot</text>` : '';
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
@@ -388,7 +446,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 }
 
 /**
- * Parses CLI arguments for various options including new tick format options and help flag.
+ * Parses CLI arguments for various options including new tick and font family options.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
@@ -415,6 +473,9 @@ function parseArgs(args) {
     xTickFormat: null,
     yTickFormat: null,
     fontFamily: null,
+    titleFontFamily: null,
+    labelFontFamily: null,
+    tickFontFamily: null,
     help: false,
     minify: false
   };
@@ -537,6 +598,24 @@ function parseArgs(args) {
           i++;
         }
         break;
+      case "--title-font-family":
+        if (i + 1 < args.length) {
+          options.titleFontFamily = args[i + 1];
+          i++;
+        }
+        break;
+      case "--label-font-family":
+        if (i + 1 < args.length) {
+          options.labelFontFamily = args[i + 1];
+          i++;
+        }
+        break;
+      case "--tick-font-family":
+        if (i + 1 < args.length) {
+          options.tickFontFamily = args[i + 1];
+          i++;
+        }
+        break;
       case "--minify":
         options.minify = true;
         break;
@@ -575,8 +654,11 @@ Options:
   --tooltip-style      Custom CSS styling for tooltip markers.
   --x-tick-format      Customize the x-axis tick labels (use {value} placeholder).
   --y-tick-format      Customize the y-axis tick labels (use {value} placeholder).
-  --font-family        Custom font family for all text elements (default: inherit).
-  --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
+  --font-family        Global font family for all text elements (default: inherit).
+  --title-font-family  Font family for the plot title (overrides global).
+  --label-font-family  Font family for the axis labels (overrides global).
+  --tick-font-family   Font family for the axis tick labels (overrides global).
+  --minify             Minify the SVG output by removing unnecessary whitespace.
   --help               Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
@@ -587,8 +669,7 @@ Examples:
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.pdf
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.json
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.csv
-
-For detailed information, see the documentation.
+  node src/lib/main.js --title-font-family "Verdana" --label-font-family "Courier New" --tick-font-family "Tahoma"
 `;
 
 export async function main(args) {
@@ -621,13 +702,16 @@ export async function main(args) {
     const customTooltipStyle = options.tooltipStyle;
     const customXTickFormat = options.xTickFormat;
     const customYTickFormat = options.yTickFormat;
-    const customFontFamily = options.fontFamily || "inherit";
+    const globalFontFamily = options.fontFamily || "inherit";
+    const customTitleFont = options.titleFontFamily || globalFontFamily;
+    const customLabelFont = options.labelFontFamily || globalFontFamily;
+    const customTickFont = options.tickFontFamily || globalFontFamily;
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, globalFontFamily, customTitleFont, customLabelFont, customTickFont);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, globalFontFamily, customTitleFont, customLabelFont, customTickFont);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
@@ -643,9 +727,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, globalFontFamily, customTitleFont, customLabelFont, customTickFont);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, globalFontFamily, customTitleFont, customLabelFont, customTickFont);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
@@ -659,14 +743,13 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".pdf")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, globalFontFamily, customTitleFont, customLabelFont, customTickFont);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, globalFontFamily, customTitleFont, customLabelFont, customTickFont);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PDF generation.");
         return;
       }
-      // Minification if needed
       if (options.minify) {
         svgContent = svgContent.replace(/>\s+</g, '><').trim();
       }
@@ -696,7 +779,6 @@ export async function main(args) {
         try {
           const lines = options.csv.split(/\r?\n/);
           let startIndex = 0;
-          // Detect if the first line is a header by checking if its tokens are not numeric
           if (lines.length > 0) {
             const firstLineParts = lines[0].split(",");
             if (firstLineParts.length >= 2) {
