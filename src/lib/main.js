@@ -12,12 +12,11 @@ import sharp from "sharp";
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to blue.
  * @param {number} [strokeWidth] - Optional stroke width for the polyline. Defaults to 2.
+ * @param {number} [width] - Optional width of the SVG. Defaults to 300.
+ * @param {number} [height] - Optional height of the SVG. Defaults to 150.
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2) {
-  // Set SVG dimensions and margin
-  const width = 300;
-  const height = 150;
+function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150) {
   const margin = 10;
   const sampleCount = 100;
 
@@ -99,11 +98,11 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2) {
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
  * @param {number} [strokeWidth] - Optional stroke width for the polyline. Defaults to 2.
+ * @param {number} [width] - Optional width of the SVG. Defaults to 300.
+ * @param {number} [height] - Optional height of the SVG. Defaults to 150.
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2) {
-  const width = 300;
-  const height = 150;
+function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150) {
   const margin = 10;
   let dataPoints = [];
   try {
@@ -151,12 +150,12 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2) {
 }
 
 /**
- * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, and --stroke-width options.
+ * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, and --height options.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
 function parseArgs(args) {
-  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null };
+  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case "--expression":
@@ -195,6 +194,18 @@ function parseArgs(args) {
           i++;
         }
         break;
+      case "--width":
+        if (i + 1 < args.length) {
+          options.width = Number(args[i + 1]);
+          i++;
+        }
+        break;
+      case "--height":
+        if (i + 1 < args.length) {
+          options.height = Number(args[i + 1]);
+          i++;
+        }
+        break;
       default:
         // Ignore unrecognized arguments
         break;
@@ -207,15 +218,17 @@ export async function main(args) {
   const options = parseArgs(args);
   if (options.file) {
     let svgContent;
-    // Determine custom styling, if provided, else defaults:
+    // Determine custom styling and dimensions
     const customStrokeColor = options.strokeColor;
     const customStrokeWidth = options.strokeWidth;
+    const customWidth = options.width || 300;
+    const customHeight = options.height || 150;
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
@@ -228,9 +241,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
