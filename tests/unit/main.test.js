@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from "vitest";
-import * as mainModule from "@src/lib/main.js";
-import { main } from "@src/lib/main.js";
+import * as mainModule from "../../src/lib/main.js";
+import { main } from "../../src/lib/main.js";
 import fs from "fs";
 
 // Added import for sharp if needed by tests, though not directly used
