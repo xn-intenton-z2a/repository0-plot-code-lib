@@ -3,6 +3,7 @@
 
 import { fileURLToPath } from "url";
 import fs from "fs";
+import sharp from "sharp";
 
 /**
  * Generates an SVG plot based on given expression and range.
@@ -52,7 +53,7 @@ function parseArgs(args) {
   return options;
 }
 
-export function main(args) {
+export async function main(args) {
   const options = parseArgs(args);
   if (options.file) {
     if (options.file.endsWith(".svg")) {
@@ -67,8 +68,21 @@ export function main(args) {
       } else {
         console.error("Error: --expression and --range options are required for SVG generation.");
       }
+    } else if (options.file.endsWith(".png")) {
+      if (options.expression && options.range) {
+        const svgContent = generateSVG(options.expression, options.range);
+        try {
+          const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+          fs.writeFileSync(options.file, pngBuffer);
+          console.log(`PNG file created at: ${options.file}`);
+        } catch (error) {
+          console.error("Error writing PNG file:", error.message);
+        }
+      } else {
+        console.error("Error: --expression and --range options are required for PNG generation.");
+      }
     } else {
-      console.error("Error: Only .svg files are supported for plot generation.");
+      console.error("Error: Only .svg and .png files are supported for plot generation.");
     }
   } else {
     console.log(`Run with: ${JSON.stringify(options)}`);
