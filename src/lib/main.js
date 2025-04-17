@@ -72,7 +72,11 @@ export function main(args = []) {
     if (options.file) {
       let fileContent;
       if (options.file.endsWith(".svg")) {
-        fileContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">${options.expression} on ${options.range}</text></svg>`;
+        if (options.title) {
+          fileContent = `<svg xmlns="http://www.w3.org/2000/svg"><title>${options.title}</title><text x="10" y="20">${options.expression} on ${options.range}</text></svg>`;
+        } else {
+          fileContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">${options.expression} on ${options.range}</text></svg>`;
+        }
       } else if (options.file.endsWith(".png")) {
         // For PNG, writing a dummy placeholder content
         fileContent = "PNG content: " + options.expression + " on " + options.range;
