@@ -110,7 +110,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
       points.push(`${svgX},${svgY}`);
       if (tooltip) {
         const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-        tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black"><title>${formattedTooltip}</title></circle>`;
+        tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="cursor: pointer;"><title>${formattedTooltip}</title></circle>`;
       }
     }
   }
@@ -258,7 +258,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     const svgY = height - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
     if (tooltip) {
       const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-      tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black"><title>${formattedTooltip}</title></circle>`;
+      tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="cursor: pointer;"><title>${formattedTooltip}</title></circle>`;
     }
     return `${svgX},${svgY}`;
   });
