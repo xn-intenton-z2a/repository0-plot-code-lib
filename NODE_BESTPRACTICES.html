@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="node_bestpractices" href="#node_bestpractices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NODE_BESTPRACTICES</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Extracted technical content emphasizes clearly defined modular architecture, robust error handling, consistent code style, and thorough testing strategies. Key specifications include 3-tier component structure, custom error classes, use of async/await with proper promise handling, centralized logging with mature libraries (e.g., Winston), use of ESLint and naming conventions, explicit module entry points, version control with nvm/Volta, and detailed production readiness practices such as process monitoring, lockfile management, multi-core utilization, and external static asset serving.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Project Architecture Practices</p>
+<ul class="md-github">
+<li class="md-github">Structure by Components</li>
+<li class="md-github">Layered Components (3-Tier Architecture)</li>
+<li class="md-github">Packaging Common Utilities</li>
+<li class="md-github">Hierarchical and Secure Configuration</li>
+<li class="md-github">Framework Selection Criteria</li>
+<li class="md-github">TypeScript Usage Guidelines</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Error Handling Practices</p>
+<ul class="md-github">
+<li class="md-github">Async/Await vs Callbacks</li>
+<li class="md-github">Custom Error Class Implementation</li>
+<li class="md-github">Differentiating Operational vs Catastrophic Errors</li>
+<li class="md-github">Centralized Error Handling Mechanism</li>
+<li class="md-github">API Error Documentation</li>
+<li class="md-github">Graceful Process Exit</li>
+<li class="md-github">Mature Logging Usage and Configuration</li>
+<li class="md-github">Testing Error Flows &amp; Unhandled Rejections</li>
+<li class="md-github">Parameter Validation and Promise Awaiting</li>
+<li class="md-github">Event Emitter ‘error’ Subscription</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Code Patterns And Style Practices</p>
+<ul class="md-github">
+<li class="md-github">ESLint and Node-specific Plugins</li>
+<li class="md-github">Curly Brace and Statement Formatting</li>
+<li class="md-github">Naming Conventions and Function Naming</li>
+<li class="md-github">const vs let vs var</li>
+<li class="md-github">Module Import Order and Explicit Entry Points</li>
+<li class="md-github">Strict Equality and Arrow Function Use</li>
+<li class="md-github">Encapsulation of Effects</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Testing And Overall Quality Practices</p>
+<ul class="md-github">
+<li class="md-github">API Testing and Test Naming Convention (3-Part Names)</li>
+<li class="md-github">AAA Pattern in Tests</li>
+<li class="md-github">Unified Node Version and Isolated Test Fixtures</li>
+<li class="md-github">Tag Based Test Execution and Code Coverage</li>
+<li class="md-github">Production-like E2E Testing Environment</li>
+<li class="md-github">Middleware Isolation, Random Port Usage, Outcome Testing</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Going To Production Practices</p>
+<ul class="md-github">
+<li class="md-github">Comprehensive Monitoring and APM Integration</li>
+<li class="md-github">Smart Logging and Delegation to Reverse Proxies</li>
+<li class="md-github">Dependency Locking and Process Management</li>
+<li class="md-github">Multi-Core Utilization and Maintenance Endpoints</li>
+<li class="md-github">Memory Usage Measurement and External Asset Serving</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="detailed-technical-information" href="#detailed-technical-information"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Technical Information</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="1-project-architecture-practices" href="#1-project-architecture-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Project Architecture Practices</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Structure by Components:</strong> Use directory structures that clearly delineate business modules. For example:<pre class="md-github"><code class="md-github">my-system
+├─ apps
+│  ├─ orders
+│  ├─ users
+│  ├─ payments
+├─ libraries
+│  ├─ logger
+│  ├─ authenticator
+</code></pre>
+</li>
+<li class="md-github"><strong class="md-github">Layering (3-Tier):</strong> Organize components into entry-points (controllers), domain (business logic), and data-access (database calls). Use a directory tree to enforce separation.</li>
+<li class="md-github"><strong class="md-github">Utility Packaging:</strong> Modularize common functionalities and expose a public interface via package.json (using exports/main field).</li>
+<li class="md-github"><strong class="md-github">Configuration:</strong> Use libraries like convict or zod to read environment variables and configuration files with default values and validation.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="2-error-handling-practices" href="#2-error-handling-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Error Handling Practices</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Async/Await:</strong> Standardize error handling with try/catch blocks in async functions.</li>
+<li class="md-github"><strong class="md-github">Custom Error Classes:</strong> Extend the built-in Error prototype:<pre class="md-github"><code class="md-github">class AppError extends Error {
+  constructor(message, code, isCatastrophic = false) {
+    super(message);
+    this.code = code;
+    this.isCatastrophic = isCatastrophic;
+  }
+}
+</code></pre>
+</li>
+<li class="md-github"><strong class="md-github">Centralized Error Logging:</strong> Integrate libraries like Winston with JSON output and attach properties:<pre class="md-github"><code class="md-github">const winston = require('winston');
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [new winston.transports.Console()]
+});
+</code></pre>
+</li>
+<li class="md-github"><strong class="md-github">Unhandled Rejections:</strong> Subscribe to process events:<pre class="md-github"><code class="md-github">process.on('unhandledRejection', (reason) =&gt; {
+  console.error('Unhandled Rejection:', reason);
+});
+</code></pre>
+</li>
+<li class="md-github"><strong class="md-github">Event Emitter Errors:</strong> Always subscribe to the 'error' event for emitters.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="3-code-patterns-and-style-practices" href="#3-code-patterns-and-style-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Code Patterns And Style Practices</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">ESLint:</strong> Configure ESLint with node-specific plugins.</li>
+<li class="md-github"><strong class="md-github">Naming Conventions:</strong> Use lowerCamelCase for functions and variables, UpperCamelCase for classes, UPPER_SNAKE_CASE for globals.</li>
+<li class="md-github"><strong class="md-github">Module Imports:</strong> Place all require statements at the top of the file; define an explicit entry point in package.json.</li>
+<li class="md-github"><strong class="md-github">Equality:</strong> Always use === to ensure type-safe comparisons.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="4-testing-and-overall-quality-practices" href="#4-testing-and-overall-quality-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Testing And Overall Quality Practices</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Test Structure:</strong> Use the AAA pattern: Arrange, Act, Assert.</li>
+<li class="md-github"><strong class="md-github">Version Uniformity:</strong> Employ nvm/Volta for consistent Node.js versions across environments.</li>
+<li class="md-github"><strong class="md-github">Isolated Test Data:</strong> Seed data within each test to avoid global fixtures.</li>
+<li class="md-github"><strong class="md-github">Port Randomization:</strong> Use port 0 in test servers to automatically select an available port.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="5-going-to-production-practices" href="#5-going-to-production-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Going To Production Practices</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Monitoring:</strong> Define metrics (uptime, event loop lag) and integrate with APM tools.</li>
+<li class="md-github"><strong class="md-github">Smart Logging:</strong> Use robust logging configuration to attach transaction IDs and log to stdout.</li>
+<li class="md-github"><strong class="md-github">Dependency Locking:</strong> Commit package-lock.json to ensure identical code across environments.</li>
+<li class="md-github"><strong class="md-github">Process Management:</strong> Use Docker/Kubernetes or systemd to manage process uptime and multi-core utilization.</li>
+<li class="md-github"><strong class="md-github">Maintenance Endpoints:</strong> Implement a secured API endpoint to expose diagnostic information.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="detailed-implementation-steps-and-configuration-options" href="#detailed-implementation-steps-and-configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Implementation Steps and Configuration Options</h3>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">For layered architecture, ensure each module has the following structure:</p>
+<ul class="md-github">
+<li class="md-github">entry-points: contains controller logic (e.g., Express router handlers).</li>
+<li class="md-github">domain: includes service layer, DTOs, business validations.</li>
+<li class="md-github">data-access: encapsulates raw database queries (without ORM).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Example using convict:</p>
+<pre class="md-github"><code class="md-github language-js">const convict = require('convict');
+const config = convict({
+  env: {
+    doc: 'The application environment.',
+    format: ['production', 'development', 'test'],
+    default: 'development',
+    env: 'NODE_ENV'
+  },
+  port: {
+    doc: 'The port to bind.',
+    format: 'port',
+    default: 3000,
+    env: 'PORT'
+  }
+});
+config.validate({allowed: 'strict'});
+module.exports = config;
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github">Logger Configuration with Winston:</p>
+<ul class="md-github">
+<li class="md-github">Level: 'error', 'warn', 'info' etc.</li>
+<li class="md-github">Format: JSON for machine-readability</li>
+<li class="md-github">Transport: Console and file transports as needed.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Testing Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Use Mocha/Jest as test runners.</li>
+<li class="md-github">Structure tests as follows:<pre class="md-github"><code class="md-github language-js">describe('Component X', () =&gt; {
+  it('should return expected result under condition Y', async () =&gt; {
+    // Arrange
+    const input = {...};
+    // Act
+    const result = await componentX(input);
+    // Assert
+    expect(result).toEqual(expectedOutput);
+  });
+});
+</code></pre>
+</li>
+<li class="md-github">Simulate errors using stubs and mocks (e.g., sinon, nock for HTTP mocks).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Production Deployment:</p>
+<ul class="md-github">
+<li class="md-github">Use npm ci for clean installs (cf. npm ci breakdown in production practices).</li>
+<li class="md-github">Set NODE_ENV=production in deployment scripts.</li>
+<li class="md-github">Automate deployment pipelines with zero-downtime strategies (blue-green or rolling deployments).</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="complete-api-specifications-and-sdk-method-signatures" href="#complete-api-specifications-and-sdk-method-signatures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API Specifications and SDK Method Signatures</h3>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Custom Error Class</strong></p>
+<pre class="md-github"><code class="md-github language-js">/**
+ * Class representing an application specific error.
+ * @extends Error
+ * @param {string} message - Error message
+ * @param {number|string} code - Error code
+ * @param {boolean} [isCatastrophic=false] - Flag for catastrophic errors
+ */
+class AppError extends Error {
+  constructor(message, code, isCatastrophic = false) {
+    super(message);
+    this.code = code;
+    this.isCatastrophic = isCatastrophic;
+  }
+}
+module.exports = AppError;
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Async Function with Full Error Handling and Awaiting</strong></p>
+<pre class="md-github"><code class="md-github language-js">/**
+ * Fetch data asynchronously with proper error handling.
+ * @async
+ * @function fetchData
+ * @returns {Promise&lt;Object&gt;} The result object
+ * @throws {AppError} Throws an AppError on failure
+ */
+async function fetchData() {
+  try {
+    const result = await getData(); // getData must be a function returning a Promise
+    return result;
+  } catch (err) {
+    throw new AppError('Data fetch failed', 500, true);
+  }
+}
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Configuration with Convict (Example SDK-like Setup)</strong></p>
+<pre class="md-github"><code class="md-github language-js">const convict = require('convict');
+const config = convict({
+  env: {
+    doc: 'Application environment',
+    format: ['production', 'development', 'test'],
+    default: 'development',
+    env: 'NODE_ENV'
+  },
+  port: {
+    doc: 'Port number',
+    format: 'port',
+    default: 3000,
+    env: 'PORT'
+  },
+  db: {
+    host: {
+      doc: 'Database host name/IP',
+      format: String,
+      default: 'localhost',
+      env: 'DB_HOST'
+    },
+    port: {
+      doc: 'Database port',
+      format: 'port',
+      default: 5432,
+      env: 'DB_PORT'
+    }
+  }
+});
+config.validate({allowed: 'strict'});
+module.exports = config;
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Logger (Winston) Setup</strong></p>
+<pre class="md-github"><code class="md-github language-js">const winston = require('winston');
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.combine(
+    winston.format.timestamp(),
+    winston.format.json()
+  ),
+  transports: [
+    new winston.transports.Console(),
+    // Additional transport, e.g., file transport
+    new winston.transports.File({ filename: 'error.log', level: 'error' })
+  ]
+});
+module.exports = logger;
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Testing Middleware Isolation</strong></p>
+<pre class="md-github"><code class="md-github language-js">// Using express and supertest
+const request = require('supertest');
+const express = require('express');
+const app = express();
+// Middleware under test
+const sampleMiddleware = require('./middleware/sample');
+app.use(sampleMiddleware);
+app.get('/test', (req, res) =&gt; res.send('ok'));
+
+describe('Middleware Test', () =&gt; {
+  it('should process request correctly', (done) =&gt; {
+    request(app)
+      .get('/test')
+      .expect(200, 'ok', done);
+  });
+});
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Troubleshooting Procedures</strong></p>
+<ul class="md-github">
+<li class="md-github">Verify Node.js version: <code class="md-github">node -v</code></li>
+<li class="md-github">Check running processes: <code class="md-github">ps aux | grep node</code></li>
+<li class="md-github">Inspect log files: <code class="md-github">tail -f /var/log/app.log</code></li>
+<li class="md-github">Test configuration: <code class="md-github">node -e &quot;console.log(require('./config').getProperties())&quot;</code></li>
+<li class="md-github">Debug using Node Inspector: Start with <code class="md-github">node --inspect-brk app.js</code> and connect via Chrome DevTools.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Each of these specifications includes exact method signatures, parameter types, default values, and code examples that can be directly integrated into Node.js projects to enforce best practices and robust, production-ready code.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js Best Practices
+https://github.com/goldbergyoni/nodebestpractices</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-node_bestpractices" href="#digest-of-node_bestpractices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of NODE_BESTPRACTICES</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="nodejs-best-practices-retrieved-2023-10-30" href="#nodejs-best-practices-retrieved-2023-10-30"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js Best Practices (Retrieved: 2023-10-30)</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="1-project-architecture-practices-1" href="#1-project-architecture-practices-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Project Architecture Practices</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="11-structure-your-solution-by-business-components" href="#11-structure-your-solution-by-business-components"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.1 Structure your solution by business components</h3>
+<ul class="md-github">
+<li class="md-github">Use separate folders or repositories for business modules (e.g., user-component, order-component).</li>
+<li class="md-github">Each component has its own API, business logic, and data store.</li>
+</ul>
+<p class="md-github">Code Example:</p>
+<pre class="md-github"><code class="md-github">my-system
+├─ apps (components)
+│  ├─ orders
+│  ├─ users
+│  ├─ payments
+├─ libraries (shared functionality)
+│  ├─ logger
+│  ├─ authenticator
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="12-layer-your-components-with-3-tiers" href="#12-layer-your-components-with-3-tiers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.2 Layer your components with 3-tiers</h3>
+<ul class="md-github">
+<li class="md-github">Organize each component into three layers: entry-point, domain, and data-access.</li>
+<li class="md-github">Keep infrastructural code (HTTP, DB) separate from business logic.</li>
+</ul>
+<p class="md-github">Code Example:</p>
+<pre class="md-github"><code class="md-github">my-system
+├─ apps (components)
+│  ├─ component-a
+│     ├─ entry-points
+│     │   ├─ api    // controllers
+│     │   ├─ message-queue  // consumers
+│     ├─ domain    // business logic, DTOs, services
+│     ├─ data-access  // direct DB calls
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="13-wrap-common-utilities-as-packages" href="#13-wrap-common-utilities-as-packages"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.3 Wrap common utilities as packages</h3>
+<ul class="md-github">
+<li class="md-github">Place reusable modules in a dedicated folder (e.g., libraries/logger) with their own package.json.</li>
+<li class="md-github">This enables encapsulation and potential future publishing.</li>
+</ul>
+<p class="md-github">Code Example:</p>
+<pre class="md-github"><code class="md-github">my-system
+├─ apps (components)
+│  ├─ component-a
+├─ libraries
+│  ├─ logger
+│     ├─ package.json
+│     ├─ src
+│         ├─ index.js
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="14-use-environment-aware-secure-and-hierarchical-config" href="#14-use-environment-aware-secure-and-hierarchical-config"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.4 Use environment aware, secure and hierarchical config</h3>
+<ul class="md-github">
+<li class="md-github">Configuration must support reading from both files and environment variables, with secured secret storage.</li>
+<li class="md-github">Include hierarchical structure, default values and validation (using packages such as convict, env-var, zod).</li>
+</ul>
+<p class="md-github">Configuration Requirements:</p>
+<ul class="md-github">
+<li class="md-github">Keys read from file and env</li>
+<li class="md-github">Secrets kept outside committed code</li>
+<li class="md-github">Hierarchical config structure</li>
+<li class="md-github">Default values for each key</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="15-consider-consequences-when-choosing-the-main-framework" href="#15-consider-consequences-when-choosing-the-main-framework"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.5 Consider consequences when choosing the main framework</h3>
+<ul class="md-github">
+<li class="md-github">Evaluate frameworks such as Nest.js, Fastify, Express, and Koa with pros and cons.</li>
+<li class="md-github">Nest.js especially suits large-scale, OOP based applications; Fastify is preferable for microservice architectures.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="16-use-typescript-sparingly-and-thoughtfully" href="#16-use-typescript-sparingly-and-thoughtfully"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1.6 Use TypeScript sparingly and thoughtfully</h3>
+<ul class="md-github">
+<li class="md-github">Employ TypeScript to define variable and function return types.</li>
+<li class="md-github">Use simple types and advanced features only when necessary to avoid complexity.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="2-error-handling-practices-1" href="#2-error-handling-practices-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Error Handling Practices</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="21-use-async-await-or-promises" href="#21-use-async-await-or-promises"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1 Use Async-Await or Promises</h3>
+<ul class="md-github">
+<li class="md-github">Replace callback style with async/await for clearer error handling.</li>
+</ul>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github">async function fetchData() {
+  try {
+    const result = await getData();
+    return result;
+  } catch (err) {
+    // handle error
+    throw err;
+  }
+}
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="22-extend-the-built-in-error-object" href="#22-extend-the-built-in-error-object"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2 Extend the built-in Error object</h3>
+<ul class="md-github">
+<li class="md-github">Create a custom error class extending Error to include properties such as error name/code and isCatastrophic.</li>
+</ul>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github">class AppError extends Error {
+  constructor(message, code, isCatastrophic = false) {
+    super(message);
+    this.code = code;
+    this.isCatastrophic = isCatastrophic;
+  }
+}
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="23-distinguish-catastrophic-from-operational-errors" href="#23-distinguish-catastrophic-from-operational-errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.3 Distinguish catastrophic from operational errors</h3>
+<ul class="md-github">
+<li class="md-github">Operational errors (e.g., invalid inputs) are handled differently from programmer (catastrophic) errors.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="24-handle-errors-centrally" href="#24-handle-errors-centrally"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.4 Handle errors centrally</h3>
+<ul class="md-github">
+<li class="md-github">Centralize error handling logic (logging, metrics, process exit) instead of scattering inside middleware.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="25-document-api-errors-using-openapi-or-graphql" href="#25-document-api-errors-using-openapi-or-graphql"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.5 Document API errors using OpenAPI or GraphQL</h3>
+<ul class="md-github">
+<li class="md-github">Explicitly document response errors to improve API consumer reliability.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="26-exit-the-process-gracefully-on-unknown-errors" href="#26-exit-the-process-gracefully-on-unknown-errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.6 Exit the process gracefully on unknown errors</h3>
+<ul class="md-github">
+<li class="md-github">For catastrophic errors, gracefully shut down connections and exit the process so that the infrastructure can restart the service.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="27-use-a-mature-logger" href="#27-use-a-mature-logger"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.7 Use a mature logger</h3>
+<ul class="md-github">
+<li class="md-github">Use mature logging frameworks (e.g., Pino, Winston) rather than console.log to attach custom properties, apply log levels, and output in JSON.</li>
+</ul>
+<p class="md-github">Example using Winston:</p>
+<pre class="md-github"><code class="md-github">const winston = require('winston');
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  transports: [
+    new winston.transports.Console()
+  ]
+});
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="28-test-error-flows" href="#28-test-error-flows"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.8 Test error flows</h3>
+<ul class="md-github">
+<li class="md-github">Validate error handling using test frameworks covering both happy and error paths.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="29-discover-errors-using-apm-products" href="#29-discover-errors-using-apm-products"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.9 Discover errors using APM products</h3>
+<ul class="md-github">
+<li class="md-github">Implement APM to discover downtime and errors automatically.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="210-catch-unhandled-promise-rejections" href="#210-catch-unhandled-promise-rejections"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.10 Catch unhandled promise rejections</h3>
+<ul class="md-github">
+<li class="md-github">Register to <code class="md-github">process.unhandledRejection</code> to log and handle promise rejections.</li>
+</ul>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github">process.on('unhandledRejection', (reason, promise) =&gt; {
+  console.error('Unhandled Rejection:', reason);
+});
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="211-validate-arguments-and-fail-fast" href="#211-validate-arguments-and-fail-fast"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.11 Validate arguments and fail fast</h3>
+<ul class="md-github">
+<li class="md-github">Use libraries (ajv, zod, typebox) for input validation at the API boundary.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="212-always-await-promises-before-returning" href="#212-always-await-promises-before-returning"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.12 Always await promises before returning</h3>
+<ul class="md-github">
+<li class="md-github">To ensure full stacktrace is captured, always use <code class="md-github">return await promise</code> in async functions.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="213-subscribe-to-event-emitter-error-events" href="#213-subscribe-to-event-emitter-error-events"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.13 Subscribe to event emitter 'error' events</h3>
+<ul class="md-github">
+<li class="md-github">Instead of try/catch, listen to the 'error' event for events or streams.</li>
+</ul>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github">const emitter = getSomeEmitter();
+emitter.on('error', (err) =&gt; {
+  // handle emitter error
+});
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="3-code-patterns-and-style-practices-1" href="#3-code-patterns-and-style-practices-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Code Patterns And Style Practices</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="31-use-eslint" href="#31-use-eslint"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.1 Use ESLint</h3>
+<ul class="md-github">
+<li class="md-github">Use ESLint to detect errors and enforce code style.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="32-use-nodejs-eslint-extension-plugins" href="#32-use-nodejs-eslint-extension-plugins"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.2 Use Node.js ESLint extension plugins</h3>
+<ul class="md-github">
+<li class="md-github">Install plugins like eslint-plugin-node, eslint-plugin-mocha, etc. to catch Node-specific issues.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="33-curly-brace-placement" href="#33-curly-brace-placement"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.3 Curly Brace Placement</h3>
+<ul class="md-github">
+<li class="md-github">Place opening curly braces on the same line as the statement.</li>
+</ul>
+<p class="md-github">Example (Correct):</p>
+<pre class="md-github"><code class="md-github">function someFunction() {
+  // code block
+}
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="34-separate-statements-properly" href="#34-separate-statements-properly"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.4 Separate statements properly</h3>
+<ul class="md-github">
+<li class="md-github">Avoid pitfalls with automatic semicolon insertion; enforce statement separation via linters like Prettier.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="35-name-your-functions" href="#35-name-your-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.5 Name your functions</h3>
+<ul class="md-github">
+<li class="md-github">Always name functions, including callbacks and closures, to enable effective debugging.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="36-naming-conventions" href="#36-naming-conventions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.6 Naming Conventions</h3>
+<ul class="md-github">
+<li class="md-github">Use lowerCamelCase for variables and functions, UpperCamelCase for classes, and UPPER_SNAKE_CASE for globals.</li>
+</ul>
+<p class="md-github">Code Example:</p>
+<pre class="md-github"><code class="md-github">const GLOBAL_CONSTANT = 'value';
+class SomeClassExample {
+  static STATIC_PROPERTY = 'value';
+}
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="37-prefer-const-over-let-avoid-var" href="#37-prefer-const-over-let-avoid-var"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.7 Prefer const over let; avoid var</h3>
+<ul class="md-github">
+<li class="md-github">Use const when a variable is immutable and let when reassignment is needed.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="38-require-modules-at-the-top" href="#38-require-modules-at-the-top"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.8 Require modules at the top</h3>
+<ul class="md-github">
+<li class="md-github">All requires/imports should be at the start of the file to avoid performance issues.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="39-set-an-explicit-entry-point" href="#39-set-an-explicit-entry-point"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.9 Set an explicit entry point</h3>
+<ul class="md-github">
+<li class="md-github">For modules, export a public interface using an index.js or package.json &quot;main&quot;/&quot;exports&quot;.</li>
+</ul>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github">// index.js
+module.exports = {
+  SMSWithMedia: require('./SMSProvider/providers/media/media-provider.js')
+};
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="310-use-the--operator" href="#310-use-the--operator"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.10 Use the === operator</h3>
+<ul class="md-github">
+<li class="md-github">Always use strict equality (===) to avoid type coercion issues.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="311-use-asyncawait-and-avoid-callbacks" href="#311-use-asyncawait-and-avoid-callbacks"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.11 Use Async/Await and avoid callbacks</h3>
+<ul class="md-github">
+<li class="md-github">Preferred pattern for asynchronous operations.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="312-use-arrow-functions" href="#312-use-arrow-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.12 Use arrow functions</h3>
+<ul class="md-github">
+<li class="md-github">Arrow functions maintain lexical this and tend to have a more compact syntax.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="313-avoid-effects-outside-functions" href="#313-avoid-effects-outside-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3.13 Avoid effects outside functions</h3>
+<ul class="md-github">
+<li class="md-github">Encapsulate network or DB calls within explicit functions to prevent unexpected early executions.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="4-testing-and-overall-quality-practices-1" href="#4-testing-and-overall-quality-practices-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Testing And Overall Quality Practices</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="41-write-api-component-tests-as-a-minimum" href="#41-write-api-component-tests-as-a-minimum"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.1 Write API (component) tests as a minimum</h3>
+<ul class="md-github">
+<li class="md-github">Focus on API testing before unit testing to ensure maximum coverage.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="42-include-three-parts-in-each-test-name" href="#42-include-three-parts-in-each-test-name"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.2 Include three parts in each test name</h3>
+<ul class="md-github">
+<li class="md-github">Test names should clarify the unit being tested, the conditions, and the expected outcome.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="43-structure-tests-using-the-aaa-pattern-arrange-act-assert" href="#43-structure-tests-using-the-aaa-pattern-arrange-act-assert"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.3 Structure tests using the AAA pattern (Arrange, Act, Assert)</h3>
+<ul class="md-github">
+<li class="md-github">Clearly separate test setup, execution, and verification.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="44-ensure-node-version-is-unified" href="#44-ensure-node-version-is-unified"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.4 Ensure Node version is unified</h3>
+<ul class="md-github">
+<li class="md-github">Use version management tools (nvm, Volta) to enforce consistent Node.js versions across environments.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="45-avoid-global-test-fixtures-use-per-test-data-seeds" href="#45-avoid-global-test-fixtures-use-per-test-data-seeds"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.5 Avoid global test fixtures; use per-test data seeds</h3>
+<ul class="md-github">
+<li class="md-github">Each test should set up its own data to prevent inter-dependencies.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="46-tag-your-tests-for-selective-execution" href="#46-tag-your-tests-for-selective-execution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.6 Tag your tests for selective execution</h3>
+<ul class="md-github">
+<li class="md-github">Use tags (e.g., #sanity, #api) to run subsets of tests when needed.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="47-check-test-coverage" href="#47-check-test-coverage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.7 Check test coverage</h3>
+<ul class="md-github">
+<li class="md-github">Utilize tools like Istanbul/NYC to enforce minimum coverage thresholds.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="48-use-production-like-environment-for-e2e-tests" href="#48-use-production-like-environment-for-e2e-tests"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.8 Use production-like environment for E2E tests</h3>
+<ul class="md-github">
+<li class="md-github">Run end-to-end tests in an environment mimicking production (Docker Compose recommended).</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="49-refactor-code-using-static-analysis-tools" href="#49-refactor-code-using-static-analysis-tools"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.9 Refactor code using static analysis tools</h3>
+<ul class="md-github">
+<li class="md-github">Integrate tools like SonarQube or Code Climate for regular code inspection and to detect duplication or complexity issues.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="410-mock-external-http-responses" href="#410-mock-external-http-responses"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.10 Mock external HTTP responses</h3>
+<ul class="md-github">
+<li class="md-github">Use nock or Mock-Server to simulate external API responses, including error conditions.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="411-test-middleware-in-isolation" href="#411-test-middleware-in-isolation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.11 Test middleware in isolation</h3>
+<ul class="md-github">
+<li class="md-github">Stub/spies for {req, res, next} objects to test middleware independently.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="412-use-random-ports-in-testing" href="#412-use-random-ports-in-testing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.12 Use random ports in testing</h3>
+<ul class="md-github">
+<li class="md-github">When running tests, start servers on port 0 to assign random available ports.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="413-test-all-five-possible-outcomes" href="#413-test-all-five-possible-outcomes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4.13 Test all five possible outcomes</h3>
+<ul class="md-github">
+<li class="md-github">Ensure tests cover responses, state changes, external API calls, messaging events, and observability logs.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="5-going-to-production-practices-1" href="#5-going-to-production-practices-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Going To Production Practices</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="51-monitoring" href="#51-monitoring"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.1 Monitoring</h3>
+<ul class="md-github">
+<li class="md-github">Define key metrics (uptime, event loop lag, etc.) and use observability tools.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="52-increase-observability-through-smart-logging" href="#52-increase-observability-through-smart-logging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.2 Increase observability through smart logging</h3>
+<ul class="md-github">
+<li class="md-github">Plan log collection, aggregation, and analysis from day one.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="53-delegate-tasks-gzip-ssl-to-reverse-proxies" href="#53-delegate-tasks-gzip-ssl-to-reverse-proxies"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.3 Delegate tasks (gzip, SSL) to reverse proxies</h3>
+<ul class="md-github">
+<li class="md-github">Offload CPU intensive tasks to tools like nginx or HAProxy.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="54-lock-dependencies" href="#54-lock-dependencies"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.4 Lock dependencies</h3>
+<ul class="md-github">
+<li class="md-github">Always commit lockfiles (e.g., package-lock.json) to ensure environment consistency.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="55-guard-process-uptime" href="#55-guard-process-uptime"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.5 Guard process uptime</h3>
+<ul class="md-github">
+<li class="md-github">Use managed platforms (Docker, Kubernetes) or process managers (systemd) to monitor and restart processes.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="56-utilize-all-cpu-cores" href="#56-utilize-all-cpu-cores"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.6 Utilize all CPU cores</h3>
+<ul class="md-github">
+<li class="md-github">Replicate Node.js processes to fully utilize available CPU cores.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="57-create-a-maintenance-endpoint" href="#57-create-a-maintenance-endpoint"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.7 Create a maintenance endpoint</h3>
+<ul class="md-github">
+<li class="md-github">Expose system information (memory usage, REPL access) via a secured API endpoint.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="58-discover-unknowns-with-apm-products" href="#58-discover-unknowns-with-apm-products"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.8 Discover unknowns with APM products</h3>
+<ul class="md-github">
+<li class="md-github">Integrate Application Performance Monitoring to capture latency and error contexts.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="59-make-your-code-production-ready" href="#59-make-your-code-production-ready"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.9 Make your code production-ready</h3>
+<ul class="md-github">
+<li class="md-github">Follow development guidelines that support easy production debugging and maintenance.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="510-measure-and-guard-memory-usage" href="#510-measure-and-guard-memory-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.10 Measure and guard memory usage</h3>
+<ul class="md-github">
+<li class="md-github">Monitor Node.js process memory usage (v8 limits ~1.4GB) and implement safeguards against leaks.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="511-serve-frontend-assets-outside-node" href="#511-serve-frontend-assets-outside-node"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.11 Serve frontend assets outside Node</h3>
+<ul class="md-github">
+<li class="md-github">Use specialized static file servers (nginx, S3, CDN) to serve frontend assets.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Node.js Best Practices</li>
+<li class="md-github">URL: https://github.com/goldbergyoni/nodebestpractices</li>
+<li class="md-github">License: MIT</li>
+<li class="md-github">Crawl Date: 2025-04-17T14:19:37.041Z</li>
+<li class="md-github">Data Size: 950161 bytes</li>
+<li class="md-github">Links Found: 6669</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-17</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-17T14:24:37.319Z</p>
+  </footer>
+</body>
+</html>
