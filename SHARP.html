@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="sharp" href="#sharp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SHARP</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">The crawled content provides detailed technical specifications for the Sharp Node.js module. It specifies installation commands, supported image formats (both input and output), performance optimizations using libvips, and a comprehensive API covering constructor parameters, metadata extraction, pixel statistics, various output methods (toFile, toBuffer) and multiple image format conversion options (jpeg, png, webp, gif, jp2, tiff, avif, heif, jxl). It includes exact parameter names, default values and complete code examples to guide developers directly.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ol class="md-github">
+<li class="md-github">Installation
+<ul class="md-github">
+<li class="md-github">Package manager commands</li>
+<li class="md-github">Prerequisites and prebuilt binaries</li>
+</ul>
+</li>
+<li class="md-github">Supported Formats
+<ul class="md-github">
+<li class="md-github">Input and output formats</li>
+</ul>
+</li>
+<li class="md-github">Constructor
+<ul class="md-github">
+<li class="md-github">Signature: <code class="md-github">new Sharp([input], [options])</code></li>
+<li class="md-github">Parameter Types and defaults (failOn, limitInputPixels, autoOrient, sequentialRead, density, raw, create, text, join)</li>
+</ul>
+</li>
+<li class="md-github">Input and Metadata Methods
+<ul class="md-github">
+<li class="md-github"><code class="md-github">metadata([callback]) ⇒ Promise&lt;Object&gt;</code> with full return object keys</li>
+<li class="md-github"><code class="md-github">stats([callback]) ⇒ Promise&lt;Object&gt;</code></li>
+</ul>
+</li>
+<li class="md-github">Output Options
+<ul class="md-github">
+<li class="md-github">Methods: <code class="md-github">toFile(fileOut, [callback])</code>, <code class="md-github">toBuffer([options], [callback])</code></li>
+<li class="md-github">Configuration: Removing/keeping metadata via <code class="md-github">keepExif</code>, <code class="md-github">withExif</code>, <code class="md-github">keepIccProfile</code>, <code class="md-github">withIccProfile</code>, <code class="md-github">keepMetadata</code>, and <code class="md-github">withMetadata</code></li>
+</ul>
+</li>
+<li class="md-github">Format Conversion Methods
+<ul class="md-github">
+<li class="md-github"><code class="md-github">jpeg([options])</code>, <code class="md-github">png([options])</code>, <code class="md-github">webp([options])</code>, <code class="md-github">gif([options])</code>, <code class="md-github">jp2([options])</code>, <code class="md-github">tiff([options])</code>, <code class="md-github">avif([options])</code>, <code class="md-github">heif([options])</code>, and <code class="md-github">jxl([options])</code></li>
+</ul>
+</li>
+<li class="md-github">Advanced Methods
+<ul class="md-github">
+<li class="md-github"><code class="md-github">clone()</code> method for snapshot instances</li>
+<li class="md-github">Complex processing pipelines with multiple clones</li>
+</ul>
+</li>
+</ol>
+<hr class="md-github">
+<h3 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h3>
+<p class="md-github">Commands:</p>
+<pre class="md-github"><code class="md-github language-bash">npm install sharp
+pnpm add sharp
+yarn add sharp
+bun add sharp
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="constructor--options" href="#constructor--options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor &amp; Options</h3>
+<pre class="md-github"><code class="md-github language-js">// Constructor signature
+new Sharp(input, options);
+
+// Valid input types: Buffer, ArrayBuffer, TypedArray, string (filepath)
+// Example options:
+{
+  failOn: 'warning',
+  limitInputPixels: 268402689,
+  autoOrient: false,
+  sequentialRead: true,
+  density: 72,
+  raw: { width: 2, height: 1, channels: 3 },
+  create: { width: 300, height: 200, channels: 4, background: { r: 255, g: 0, b: 0, alpha: 0.5 } },
+  text: { text: 'Hello, world!', font: 'sans', width: 400, height: 300, rgba: true },
+  join: { across: 2, shim: 4 }
+}
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="input-metadata-and-stats" href="#input-metadata-and-stats"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Input Metadata and Stats</h3>
+<pre class="md-github"><code class="md-github language-js">// Retrieve metadata
+const metadata = await sharp(input).metadata();
+
+// Retrieve channel stats
+const stats = await sharp(input).stats();
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="output-options" href="#output-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Output Options</h3>
+<pre class="md-github"><code class="md-github language-js">// Write to file
+sharp(input).toFile('output.png')
+  .then(info =&gt; console.log(info))
+  .catch(err =&gt; console.error(err));
+
+// Write to buffer
+sharp(input).png().toBuffer({ resolveWithObject: true })
+  .then(({ data, info }) =&gt; { /* use data and info */ });
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="metadata-preservation" href="#metadata-preservation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata Preservation</h3>
+<pre class="md-github"><code class="md-github language-js">// Keep EXIF
+sharp(input).keepExif().toBuffer();
+
+// Set EXIF explicitly
+sharp(input).withExif({ IFD0: { Copyright: 'The National Gallery' } }).toBuffer();
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="format-conversions" href="#format-conversions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Format Conversions</h3>
+<pre class="md-github"><code class="md-github language-js">// JPEG conversion
+sharp(input).jpeg({ quality: 100, chromaSubsampling: '4:4:4' }).toBuffer();
+
+// PNG conversion with indexed palette
+sharp(input).png({ palette: true }).toBuffer();
+
+// WebP conversion
+sharp(input).webp({ lossless: true }).toBuffer();
+
+// Animated GIF conversion
+sharp('in.gif', { animated: true }).gif().toFile('animated.gif');
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="advanced-usage-clone-and-pipelines" href="#advanced-usage-clone-and-pipelines"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Usage: clone() and Pipelines</h3>
+<pre class="md-github"><code class="md-github language-js">const pipeline = sharp().rotate();
+pipeline.clone().resize(800, 600).pipe(firstWritableStream);
+pipeline.clone().extract({ left: 20, top: 20, width: 100, height: 100 }).pipe(secondWritableStream);
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="complex-pipeline-example" href="#complex-pipeline-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complex Pipeline Example</h3>
+<p class="md-github">Refer to the code example in the Digest section for processing an image stream from a remote URL, cloning pipelines, and handling output file operations.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-technical-specifications" href="#supplementary-technical-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Technical Specifications</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Constructor Options:</strong> Detailed parameter types including buffer, array types, raw, create, and text creation. Each has precise keys such as width, height, channels, background, noise, text properties (font, fontfile, align, justify, dpi, rgba, spacing, wrap).</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Output Methods:</strong> <code class="md-github">toFile</code> and <code class="md-github">toBuffer</code> remove metadata by default. To preserve metadata use <code class="md-github">keepExif</code>, <code class="md-github">withMetadata</code>. Options control formatting like quality, progressive scanning for JPEG; compression level, adaptive filtering for PNG; quality, alphaQuality, lossless and nearLossless for WebP; palette reuse and dithering for GIF.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Advanced Configuration:</strong> Cross-platform installation details using npm flags (<code class="md-github">--cpu</code>, <code class="md-github">--os</code>, <code class="md-github">--libc</code>). Custom libvips integration via environment variables such as <code class="md-github">SHARP_IGNORE_GLOBAL_LIBVIPS</code> and <code class="md-github">SHARP_FORCE_GLOBAL_LIBVIPS</code>.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Troubleshooting:</strong></p>
+<ul class="md-github">
+<li class="md-github">For cross-compilation: use <code class="md-github">npm_config_platform</code>, <code class="md-github">npm_config_arch</code>, <code class="md-github">npm_config_libc</code>.</li>
+<li class="md-github">On Linux, consider switching to jemalloc to avoid memory fragmentation.</li>
+<li class="md-github">For AWS Lambda, ensure correct binaries (linux-x64 or linux-arm64) are bundled without symbolic links.</li>
+<li class="md-github">For electron packaging, use <code class="md-github">asarUnpack</code> or <code class="md-github">unpack</code> configuration in electron-builder and electron-forge.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="complete-api-specifications-and-code-examples" href="#complete-api-specifications-and-code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API Specifications and Code Examples</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="sharp-constructor" href="#sharp-constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sharp Constructor</h3>
+<p class="md-github"><strong class="md-github">Signature:</strong></p>
+<pre class="md-github"><code class="md-github language-js">new Sharp(input: Buffer | ArrayBuffer | Uint8Array | Uint8ClampedArray | Int8Array | Uint16Array | Int16Array | Uint32Array | Int32Array | Float32Array | Float64Array | string | Array, options?: {
+  failOn?: 'none' | 'truncated' | 'error' | 'warning',
+  limitInputPixels?: number | boolean,
+  unlimited?: boolean,
+  autoOrient?: boolean,
+  sequentialRead?: boolean,
+  density?: number,
+  ignoreIcc?: boolean,
+  pages?: number,
+  page?: number,
+  subifd?: number,
+  level?: number,
+  pdfBackground?: string | Object,
+  animated?: boolean,
+  raw?: { width: number, height: number, channels: number, premultiplied?: boolean },
+  create?: { width: number, height: number, channels: number, background: string | Object, noise?: { type: 'gaussian', mean: number, sigma: number } },
+  text?: { text: string, font?: string, fontfile?: string, width?: number, height?: number, align?: 'left' | 'centre' | 'center' | 'right', justify?: boolean, dpi?: number, rgba?: boolean, spacing?: number, wrap?: 'word' | 'char' | 'word-char' | 'none' },
+  join?: { across?: number, animated?: boolean, shim?: number, background?: string | Object, halign?: 'left' | 'centre' | 'center' | 'right', valign?: 'top' | 'centre' | 'center' | 'bottom' }
+})
+</code></pre>
+<p class="md-github"><strong class="md-github">Throws:</strong></p>
+<ul class="md-github">
+<li class="md-github">Error for invalid parameters.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="metadata-and-stats-methods" href="#metadata-and-stats-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata and Stats Methods</h3>
+<p class="md-github"><strong class="md-github">metadata(callback?: function): Promise<Object></strong></p>
+<p class="md-github">Returns an Object with keys:</p>
+<ul class="md-github">
+<li class="md-github">format, size, width, height, space, channels, depth, density, chromaSubsampling,
+isProgressive, isPalette, bitsPerSample, pages, pageHeight, loop, delay, pagePrimary,
+levels, subifds, background, compression, resolutionUnit, hasProfile, hasAlpha, orientation,
+exif, icc, iptc, xmp, tifftagPhotoshop, formatMagick, comments.</li>
+</ul>
+<p class="md-github"><strong class="md-github">stats(callback?: function): Promise<Object></strong></p>
+<p class="md-github">Returns an Object:</p>
+<pre class="md-github"><code class="md-github language-js">{
+  channels: [{ min, max, sum, squaresSum, mean, stdev, minX, minY, maxX, maxY }],
+  isOpaque: boolean,
+  entropy: number,
+  sharpness: number,
+  dominant: { r: number, g: number, b: number }
+}
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="output-methods" href="#output-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Output Methods</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="tofile" href="#tofile"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>toFile</h4>
+<p class="md-github"><strong class="md-github">Signature:</strong></p>
+<pre class="md-github"><code class="md-github language-js">toFile(fileOut: string, callback?: (err: Error, info: Object) =&gt; void): Promise&lt;Object&gt;
+</code></pre>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">info Object:</strong> Contains output format, size, width, height, channels, premultiplied, cropOffsetLeft, cropOffsetTop, attentionX, attentionY, pageHeight, pages, textAutofitDpi.</li>
+</ul>
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp('input.jpg').toFile('output.png', (err, info) =&gt; { /* ... */ });
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="tobuffer" href="#tobuffer"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>toBuffer</h4>
+<p class="md-github"><strong class="md-github">Signature:</strong></p>
+<pre class="md-github"><code class="md-github language-js">toBuffer(options?: { resolveWithObject?: boolean }, callback?: (err: Error, data: Buffer, info: Object) =&gt; void): Promise&lt;Buffer&gt;
+</code></pre>
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp('input.jpg').png().toBuffer({ resolveWithObject: true })
+  .then(({ data, info }) =&gt; { /* process data */ });
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="metadata-preservation-methods" href="#metadata-preservation-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata Preservation Methods</h4>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">keepExif(): Sharp</strong></li>
+<li class="md-github"><strong class="md-github">withExif(exif: Object): Sharp</strong></li>
+<li class="md-github"><strong class="md-github">withExifMerge(exif: Object): Sharp</strong></li>
+<li class="md-github"><strong class="md-github">keepIccProfile(): Sharp</strong></li>
+<li class="md-github"><strong class="md-github">withIccProfile(icc: string, options?: { attach?: boolean }): Sharp</strong></li>
+<li class="md-github"><strong class="md-github">keepMetadata(): Sharp</strong></li>
+<li class="md-github"><strong class="md-github">withMetadata(options?: { orientation?: number, density?: number }): Sharp</strong></li>
+</ul>
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp('input.jpg').withExif({ IFD0: { Copyright: &quot;The National Gallery&quot; } })
+  .toBuffer();
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="format-conversion-methods" href="#format-conversion-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Format Conversion Methods</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="jpegoptions" href="#jpegoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>jpeg([options])</h4>
+<p class="md-github"><strong class="md-github">Options:</strong></p>
+<pre class="md-github"><code class="md-github language-js">{
+  quality?: number,              // default: 80
+  progressive?: boolean,         // default: false
+  chromaSubsampling?: string,    // default: '4:2:0'
+  optimiseCoding?: boolean,      // default: true
+  mozjpeg?: boolean,             // default: false
+  trellisQuantisation?: boolean, // default: false
+  overshootDeringing?: boolean,  // default: false
+  quantisationTable?: number,    // default: 0,
+  force?: boolean                // default: true
+}
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="pngoptions" href="#pngoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>png([options])</h4>
+<p class="md-github"><strong class="md-github">Options:</strong></p>
+<pre class="md-github"><code class="md-github language-js">{
+  progressive?: boolean,         // default: false
+  compressionLevel?: number,     // default: 6
+  adaptiveFiltering?: boolean,   // default: false
+  palette?: boolean,             // default: false
+  quality?: number,              // default: 100
+  effort?: number,               // default: 7
+  colours?: number,              // default: 256
+  dither?: number,               // default: 1.0
+  force?: boolean                // default: true
+}
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="webpoptions" href="#webpoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>webp([options])</h4>
+<p class="md-github"><strong class="md-github">Options:</strong></p>
+<pre class="md-github"><code class="md-github language-js">{
+  quality?: number,         // default: 80
+  alphaQuality?: number,    // default: 100
+  lossless?: boolean,       // default: false
+  nearLossless?: boolean,   // default: false
+  smartSubsample?: boolean, // default: false
+  smartDeblock?: boolean,   // default: false
+  preset?: string,          // default: 'default'
+  effort?: number,          // default: 4
+  loop?: number,            // default: 0
+  delay?: number | number[],
+  minSize?: boolean,        // default: false
+  mixed?: boolean,          // default: false
+  force?: boolean           // default: true
+}
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="gifoptions" href="#gifoptions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>gif([options])</h4>
+<p class="md-github"><strong class="md-github">Options:</strong></p>
+<pre class="md-github"><code class="md-github language-js">{
+  reuse?: boolean,            // default: true
+  progressive?: boolean,      // default: false
+  colours?: number,           // default: 256
+  effort?: number,            // default: 7
+  dither?: number,            // default: 1.0
+  interFrameMaxError?: number, // default: 0
+  interPaletteMaxError?: number,// default: 3
+  loop?: number,              // default: 0
+  delay?: number | number[],
+  force?: boolean             // default: true
+}
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="other-formats-jp2-tiff-avif-heif-jxl" href="#other-formats-jp2-tiff-avif-heif-jxl"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Other Formats (jp2, tiff, avif, heif, jxl)</h4>
+<p class="md-github">Each method accepts options with parameters such as quality, lossless flag, tile sizes, compression type, bitdepth, chromaSubsampling, and additional format specific settings.</p>
+<p class="md-github"><strong class="md-github">Example (avif):</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp('input.jpg').avif({ quality: 50, lossless: false, effort: 2, chromaSubsampling: '4:4:4', bitdepth: 8 })
+  .toBuffer();
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="advanced-methods" href="#advanced-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced Methods</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="clone" href="#clone"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>clone()</h4>
+<p class="md-github"><strong class="md-github">Signature:</strong></p>
+<pre class="md-github"><code class="md-github language-js">clone() ⇒ Sharp
+</code></pre>
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">const pipeline = sharp().rotate();
+pipeline.clone().resize(800, 600).pipe(firstWritableStream);
+pipeline.clone().extract({ left: 20, top: 20, width: 100, height: 100 }).pipe(secondWritableStream);
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="best-practices--troubleshooting" href="#best-practices--troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices &amp; Troubleshooting</h2>
+<ul class="md-github">
+<li class="md-github">For cross-platform installations, configure package manager flags appropriately (e.g. <code class="md-github">npm install --cpu=x64 --os=linux --libc=glibc sharp</code>).</li>
+<li class="md-github">When using custom libvips, ensure it meets the minimum version requirements specified in the package.json.</li>
+<li class="md-github">In serverless environments (AWS Lambda), bundle required binaries for linux-x64 or linux-arm64 and avoid symbolic links.</li>
+<li class="md-github">Use debugging logs (e.g. event listeners on <code class="md-github">info</code> and <code class="md-github">warning</code> events) to troubleshoot processing errors.</li>
+<li class="md-github">For Electron applications, ensure sharp is excluded from bundling or unpacked using <code class="md-github">asarUnpack</code>/<code class="md-github">unpack</code> options in your configuration.</li>
+</ul>
+<p class="md-github"><strong class="md-github">Example Troubleshooting Command:</strong></p>
+<pre class="md-github"><code class="md-github language-bash">node -e &quot;require('sharp')('input.jpg').toBuffer().then(data =&gt; console.log('Success')).catch(err =&gt; console.error(err))&quot;
+</code></pre>
+<p class="md-github">This command verifies if sharp processes the image without errors.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Sharp Documentation
+https://sharp.pixelplumbing.com/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-sharp" href="#digest-of-sharp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SHARP</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="sharp-documentation-digest" href="#sharp-documentation-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sharp Documentation Digest</h1>
+<p class="md-github"><strong class="md-github">Retrieved:</strong> 2023-10-27</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">This document provides the exact technical content extracted from the Sharp library documentation. It includes installation commands, supported formats, constructor and method API details, parameter specifications, complete SDK method signatures, detailed configuration options, and full code examples.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="installation-1" href="#installation-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Command Examples:</strong></p>
+<ul class="md-github">
+<li class="md-github">npm: <code class="md-github">npm install sharp</code></li>
+<li class="md-github">pnpm: <code class="md-github">pnpm add sharp</code></li>
+<li class="md-github">yarn: <code class="md-github">yarn add sharp</code></li>
+<li class="md-github">bun: <code class="md-github">bun add sharp</code></li>
+<li class="md-github">deno: <code class="md-github">deno run --allow-ffi ...</code></li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Prerequisites:</strong></p>
+<ul class="md-github">
+<li class="md-github">Node-API v9 compatible runtime (e.g., Node.js ^18.17.0 or &gt;=20.3.0)</li>
+<li class="md-github">Prebuilt binaries available for various platforms (macOS, Windows, Linux, etc.)</li>
+<li class="md-github">Optional configuration for package manager lockfiles and cross-platform installs using <code class="md-github">--cpu</code>, <code class="md-github">--os</code>, and <code class="md-github">--libc</code> flags.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supported-formats" href="#supported-formats"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supported Formats</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Input:</strong> JPEG, PNG, WebP, GIF, AVIF, TIFF, SVG</li>
+<li class="md-github"><strong class="md-github">Output:</strong> JPEG, PNG, WebP, GIF, AVIF, TIFF, and raw pixel data</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="constructor" href="#constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Syntax:</strong> <code class="md-github">new Sharp([input], [options])</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Parameters:</strong>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">input</code>: Accepts Buffer, ArrayBuffer, TypedArray, or string (file path).</li>
+<li class="md-github"><code class="md-github">options</code>: Object with attributes:
+<ul class="md-github">
+<li class="md-github"><code class="md-github">failOn</code> (string, default: 'warning')</li>
+<li class="md-github"><code class="md-github">limitInputPixels</code> (number|boolean, default: 268402689)</li>
+<li class="md-github"><code class="md-github">unlimited</code> (boolean, default: false)</li>
+<li class="md-github"><code class="md-github">autoOrient</code> (boolean, default: false)</li>
+<li class="md-github"><code class="md-github">sequentialRead</code> (boolean, default: true)</li>
+<li class="md-github"><code class="md-github">density</code> (number, default: 72)</li>
+<li class="md-github">Additional keys for raw image data, image creation, text, joined images, etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Exceptions:</strong> Throws Error on invalid parameters.</p>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="input-metadata" href="#input-metadata"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Input Metadata</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Method:</strong> <code class="md-github">metadata([callback]) ⇒ Promise.&lt;Object&gt; | Sharp</code></p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Return:</strong> Object containing:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">format</code>, <code class="md-github">size</code>, <code class="md-github">width</code>, <code class="md-github">height</code>, <code class="md-github">space</code>, <code class="md-github">channels</code>, <code class="md-github">depth</code>, <code class="md-github">density</code>, <code class="md-github">chromaSubsampling</code>, <code class="md-github">isProgressive</code>, <code class="md-github">isPalette</code>, <code class="md-github">bitsPerSample</code>, <code class="md-github">pages</code>, <code class="md-github">pageHeight</code>, <code class="md-github">loop</code>, <code class="md-github">delay</code>, <code class="md-github">pagePrimary</code>, <code class="md-github">levels</code>, <code class="md-github">subifds</code>, <code class="md-github">background</code>, <code class="md-github">compression</code>, <code class="md-github">resolutionUnit</code>, <code class="md-github">hasProfile</code>, <code class="md-github">hasAlpha</code>, <code class="md-github">orientation</code>, <code class="md-github">exif</code>, <code class="md-github">icc</code>, <code class="md-github">iptc</code>, <code class="md-github">xmp</code>, <code class="md-github">tifftagPhotoshop</code>, <code class="md-github">formatMagick</code>, <code class="md-github">comments</code></li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Examples:</strong></p>
+<pre class="md-github"><code class="md-github language-js">const metadata = await sharp(input).metadata();
+</code></pre>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="stats-method" href="#stats-method"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Stats Method</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Method:</strong> <code class="md-github">stats([callback]) ⇒ Promise.&lt;Object&gt;</code></p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Return:</strong> Object including <code class="md-github">channels</code> (min, max, sum, squaredSum, mean, stdev, minX, minY, maxX, maxY), <code class="md-github">isOpaque</code>, <code class="md-github">entropy</code>, <code class="md-github">sharpness</code>, <code class="md-github">dominant</code> color.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Examples:</strong></p>
+<pre class="md-github"><code class="md-github language-js">const { entropy, sharpness, dominant } = await sharp(input).stats();
+</code></pre>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="output-options-1" href="#output-options-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Output Options</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="tofile-1" href="#tofile-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>toFile</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Method:</strong> <code class="md-github">toFile(fileOut, [callback]) ⇒ Promise.&lt;Object&gt;</code></p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Description:</strong> Write output image data to a file. Infers output format from file extension. Metadata is removed by default.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Parameters:</strong></p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">fileOut</code>: string path to output file.</li>
+<li class="md-github"><code class="md-github">callback</code>: optional callback with (err, info).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp(input).toFile('output.png', (err, info) =&gt; { /* ... */ });
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="tobuffer-1" href="#tobuffer-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>toBuffer</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Method:</strong> <code class="md-github">toBuffer([options], [callback]) ⇒ Promise.&lt;Buffer&gt;</code></p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Parameters:</strong></p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">options</code>: Object (e.g., <code class="md-github">{ resolveWithObject: true }</code>).</li>
+<li class="md-github"><code class="md-github">callback</code>: function (err, data, info).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp(input).png().toBuffer({ resolveWithObject: true })
+  .then(({ data, info }) =&gt; { /* ... */ });
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="metadata-and-profile-preservation" href="#metadata-and-profile-preservation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata and Profile Preservation</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">keepExif():</strong> Keeps EXIF metadata.</li>
+<li class="md-github"><strong class="md-github">withExif(exif):</strong> Sets EXIF metadata explicitly.</li>
+<li class="md-github"><strong class="md-github">withExifMerge(exif):</strong> Merges EXIF metadata.</li>
+<li class="md-github"><strong class="md-github">keepIccProfile():</strong> Retains ICC profile.</li>
+<li class="md-github"><strong class="md-github">withIccProfile(icc, [options]):</strong> Applies ICC profile.</li>
+<li class="md-github"><strong class="md-github">keepMetadata() / withMetadata([options]):</strong> Configure metadata (orientation, density, etc.).</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="format-conversion-methods-1" href="#format-conversion-methods-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Format Conversion Methods</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="jpegoptions-1" href="#jpegoptions-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>jpeg([options])</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Options Include:</strong> quality (default 80), progressive (default false), chromaSubsampling (default '4:2:0'), optimiseCoding, mozjpeg, trellisQuantisation, overshootDeringing, quantisationTable, force.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp(input).jpeg({ quality: 100, chromaSubsampling: '4:4:4' })
+  .toBuffer();
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="pngoptions-1" href="#pngoptions-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>png([options])</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Options Include:</strong> progressive, compressionLevel (default 6), adaptiveFiltering, palette, quality, effort, colours, dither, force.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp(input).png({ palette: true }).toBuffer();
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="webpoptions-1" href="#webpoptions-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>webp([options])</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Options Include:</strong> quality (default 80), alphaQuality, lossless, nearLossless, smartSubsample, smartDeblock, preset, effort, loop, delay, minSize, mixed, force.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp(input).webp({ lossless: true }).toBuffer();
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="gifoptions-1" href="#gifoptions-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>gif([options])</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Options Include:</strong> reuse (default true), progressive, colours, effort, dither, interFrameMaxError, interPaletteMaxError, loop, delay, force.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp(inputGif, { animated: true }).gif().toFile('animated.gif');
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="jp2-tiff-avif-heif-jxl" href="#jp2-tiff-avif-heif-jxl"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>jp2, tiff, avif, heif, jxl</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Options:</strong> Detailed options for each format such as quality, lossless, tile sizes, compression types, bitdepth and others.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example (avif):</strong></p>
+<pre class="md-github"><code class="md-github language-js">sharp(input).avif({ effort: 2 }).toBuffer();
+</code></pre>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="additional-methods-and-use-cases" href="#additional-methods-and-use-cases"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Additional Methods and Use Cases</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="clone-1" href="#clone-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>clone()</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Method:</strong> <code class="md-github">clone() ⇒ Sharp</code></p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Description:</strong> Creates a snapshot of a Sharp instance for parallel processing pipelines.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">const pipeline = sharp().rotate();
+pipeline.clone().resize(800, 600).pipe(firstWritableStream);
+pipeline.clone().extract({ left: 20, top: 20, width: 100, height: 100 }).pipe(secondWritableStream);
+</code></pre>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="complex-pipeline-example-1" href="#complex-pipeline-example-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complex Pipeline Example</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Example (Multiple Resizes):</strong><pre class="md-github"><code class="md-github language-js">const fs = require('fs');
+const got = require('got');
+const sharpStream = sharp({ failOn: 'none' });
+const promises = [];
+
+promises.push(sharpStream.clone().jpeg({ quality: 100 }).toFile('originalFile.jpg'));
+promises.push(sharpStream.clone().resize({ width: 500 }).jpeg({ quality: 80 }).toFile('optimized-500.jpg'));
+promises.push(sharpStream.clone().resize({ width: 500 }).webp({ quality: 80 }).toFile('optimized-500.webp'));
+
+got.stream('https://www.example.com/some-file.jpg').pipe(sharpStream);
+Promise.all(promises)
+  .then(res =&gt; { console.log('Done!', res); })
+  .catch(err =&gt; { console.error('Error processing files', err); 
+    try {
+      fs.unlinkSync('originalFile.jpg');
+      fs.unlinkSync('optimized-500.jpg');
+      fs.unlinkSync('optimized-500.webp');
+    } catch (e) {}
+  });
+</code></pre>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: https://sharp.pixelplumbing.com/</li>
+<li class="md-github">Data Size: 7309046 bytes</li>
+<li class="md-github">Links Found: 18652</li>
+<li class="md-github">No errors detected.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Sharp Documentation</li>
+<li class="md-github">URL: https://sharp.pixelplumbing.com/</li>
+<li class="md-github">License: Apache-2.0</li>
+<li class="md-github">Crawl Date: 2025-04-17T21:25:31.574Z</li>
+<li class="md-github">Data Size: 7309046 bytes</li>
+<li class="md-github">Links Found: 18652</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-17</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-17T22:24:20.471Z</p>
+  </footer>
+</body>
+</html>
