@@ -322,7 +322,7 @@ describe("Plot Labels Options", () => {
 });
 
 describe("Tooltip Option", () => {
-  test("should add tooltips to each data point in a function based plot", async () => {
+  test("should add tooltips to each data point in a function based plot with pointer cursor", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_output.svg", "--tooltip"];
     await main(args);
@@ -331,10 +331,11 @@ describe("Tooltip Option", () => {
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<circle");
     expect(writtenContent).toContain("<title>");
+    expect(writtenContent).toContain("style=\"cursor: pointer;\"");
     writeSpy.mockRestore();
   });
 
-  test("should add tooltips to each data point in a CSV based plot", async () => {
+  test("should add tooltips to each data point in a CSV based plot with pointer cursor", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const csvData = "0,0\n5,10\n10,5";
     const args = ["--csv", csvData, "--file", "tooltip_csv_output.svg", "--tooltip"];
@@ -344,6 +345,7 @@ describe("Tooltip Option", () => {
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<circle");
     expect(writtenContent).toContain("<title>");
+    expect(writtenContent).toContain("style=\"cursor: pointer;\"");
     writeSpy.mockRestore();
   });
 });

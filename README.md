@@ -15,7 +15,7 @@ New in this release:
 - You can now apply logarithmic scaling on the y-axis with the --log-scale flag. When enabled, the y values are transformed using base-10 logarithm. Note: All y values must be positive when using logarithmic scaling.
 - You can now set a custom background color for both SVG and PNG outputs with the --background-color flag, allowing greater customization of the plot appearance.
 - New Feature: You can add descriptive titles and axis labels to your plots using --title, --x-label, and --y-label options. This allows you to annotate your plot with a main title (centered at the top), an x-axis label (centered at the bottom), and a y-axis label (rotated along the left side).
-- New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like "X: {x}, Y: {y}". The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places.
+- New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like "X: {x}, Y: {y}". The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places. Importantly, these tooltip markers now have a pointer cursor to indicate interactivity.
 - New Feature: You can now customize the dash pattern of the plotted polyline with the --dash-array option (e.g., "5,5") to create dashed or dotted line styles.
 - CSV files with an optional header row (e.g., "x,y") are now supported, and the header is automatically ignored.
 
@@ -39,7 +39,7 @@ You can run the CLI with the following options:
 - --title: (Optional) Sets a custom title for the plot. The title is displayed at the top center of the SVG.
 - --x-label: (Optional) Sets a custom label for the x-axis. The label appears at the bottom center of the SVG.
 - --y-label: (Optional) Sets a custom label for the y-axis. The label appears along the left side of the SVG, rotated for readability.
-- --tooltip: (Optional) Add tooltips to each data point in the plot. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates.
+- --tooltip: (Optional) Add tooltips to each data point in the plot. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates. The tooltip markers now display a pointer cursor to indicate interactivity.
 - --tooltip-format: (Optional) Customize the tooltip text format when --tooltip is enabled. Use a template string with placeholders {x} and {y} (e.g., "X: {x}, Y: {y}").
 - --dash-array: (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5") to create dashed or dotted line styles.
 
