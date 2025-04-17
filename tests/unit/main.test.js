@@ -24,7 +24,8 @@ describe("CLI Options Parsing", () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .json, and .csv files are supported for plot generation.");
+    // Updated expected error message to include .pdf
+    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
     errorSpy.mockRestore();
   });
 });
@@ -69,6 +70,20 @@ describe("PNG Plot Generation with Default Styles", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(Buffer.isBuffer(writtenContent)).toBe(true);
+    writeSpy.mockRestore();
+  });
+});
+
+describe("PDF Plot Generation Option", () => {
+  test("should generate and save PDF file as a Buffer when valid parameters provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.pdf"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.pdf");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(Buffer.isBuffer(writtenContent)).toBe(true);
+    expect(writtenContent.slice(0,5).toString()).toBe("%PDF-");
     writeSpy.mockRestore();
   });
 });

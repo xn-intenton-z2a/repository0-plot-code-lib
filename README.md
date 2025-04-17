@@ -24,6 +24,7 @@ New in this release:
 - New Feature: **SVG Minification Option**: You can now use the --minify flag to optimize the SVG output. When this flag is enabled, unnecessary whitespace and newlines are removed from the SVG, resulting in a smaller file size without affecting the visual rendering.
 - New Feature: **Help Option**: You can now use the --help flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any output files.
 - New Feature: **Custom Font Family Option**: You can now specify a custom font family for all text elements in the generated SVG output using the --font-family option (e.g., "Arial, sans-serif"). This setting applies to the plot title, axis labels, and tick labels, making it easier to match your application's styles.
+- **New Feature: PDF Export Option**: When the output filename has a .pdf extension, the CLI generates a PDF file containing the plot. The SVG content is first converted to a PNG image using sharp, and then the PDF is created using PDFKit with the PNG embedded into it.
 
 **Note:** The --csv option and the --expression/--range options are mutually exclusive. Please provide only one input mode.
 
@@ -36,26 +37,31 @@ You can run the CLI with the following options:
 - --expression: A mathematical expression (e.g., "y=sin(x)").
 - --range: A range specification for variables (e.g., "x=-10:10,y=-1:1").
 - --csv: CSV-formatted time series data with two comma-separated values (x,y) per line. When this option is provided, the --expression and --range options are ignored. CSV files with an optional header row are supported.
-- --file: The output filename for the generated plot. If the file has a .svg extension, an SVG plot with the rendered graph will be generated. If the file has a .png extension, the tool will generate a PNG plot by converting the SVG output. If the file has a .json extension, the CLI exports the computed plot data as JSON. If the file has a .csv extension, the CLI exports the computed plot data as CSV with a header row.
+- --file: The output filename for the generated plot. 
+  - If the file has a .svg extension, an SVG plot with the rendered graph will be generated.
+  - If the file has a .png extension, the tool will generate a PNG plot by converting the SVG output.
+  - If the file has a .pdf extension, the tool will generate a PDF file by embedding the plot image into a PDF document using PDFKit.
+  - If the file has a .json extension, the CLI exports the computed plot data as JSON.
+  - If the file has a .csv extension, the CLI exports the computed plot data as CSV with a header row.
 - --stroke-color: (Optional) Custom stroke color for the plot's polyline. Defaults to blue for function plots and red for CSV plots.
 - --stroke-width: (Optional) Custom stroke width for the plot's polyline. Defaults to 2.
-- --width: (Optional) Custom width for the output SVG/PNG. Defaults to 300 if not provided.
-- --height: (Optional) Custom height for the output SVG/PNG. Defaults to 150 if not provided.
-- --grid: (Optional) Include grid lines in the SVG plot. When this flag is used, the plot will display light gray grid lines in the background, computed based on the provided range.
-- --log-scale: (Optional) Apply logarithmic scaling on the y-axis. When this flag is used, y-values are transformed using base-10 logarithm. All y values must be positive; otherwise, an error is shown.
-- --background-color: (Optional) Set a custom background color for the generated SVG/PNG output. Defaults to '#f0f0f0' if not specified.
-- --title: (Optional) Sets a custom title for the plot. The title is displayed at the top center of the SVG.
-- --x-label: (Optional) Sets a custom label for the x-axis. The label appears at the bottom center of the SVG.
-- --y-label: (Optional) Sets a custom label for the y-axis. The label appears along the left side of the SVG, rotated for readability.
-- --tooltip: (Optional) Add tooltips to each data point in the plot. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates.
+- --width: (Optional) Custom width for the output SVG/PNG/PDF. Defaults to 300 if not provided.
+- --height: (Optional) Custom height for the output SVG/PNG/PDF. Defaults to 150 if not provided.
+- --grid: (Optional) Include grid lines in the plot.
+- --log-scale: (Optional) Apply logarithmic scaling on the y-axis. When enabled, y-values are transformed using base-10 logarithm. All y values must be positive; otherwise, an error is shown.
+- --background-color: (Optional) Set a custom background color for the generated output. Defaults to '#f0f0f0' if not specified.
+- --title: (Optional) Sets a custom title for the plot.
+- --x-label: (Optional) Sets a custom label for the x-axis.
+- --y-label: (Optional) Sets a custom label for the y-axis.
+- --tooltip: (Optional) Add tooltips to each data point in the plot.
 - --tooltip-format: (Optional) Customize the tooltip text format when --tooltip is enabled. Use a template string with placeholders {x} and {y} (e.g., "X: {x}, Y: {y}").
-- --dash-array: (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5") to create dashed or dotted line styles.
-- --tooltip-style: (Optional) Provide custom CSS styling for tooltip circle markers. For example, you can use --tooltip-style "fill: red; stroke: blue;" to adjust the appearance.
-- --x-tick-format: (Optional) Customize the x-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} ms").
-- --y-tick-format: (Optional) Customize the y-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} units").
+- --dash-array: (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5").
+- --tooltip-style: (Optional) Provide custom CSS styling for tooltip circle markers.
+- --x-tick-format: (Optional) Customize the x-axis tick labels.
+- --y-tick-format: (Optional) Customize the y-axis tick labels.
 - --font-family: (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
-- --minify: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines, resulting in a smaller file size.
-- --help: (Optional) Display detailed help information about all available CLI options and usage examples, then exit without generating any files.
+- --minify: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
+- --help: (Optional) Display detailed help information and a summary of all available CLI options, then exit.
 
 ### Example using Expression (Default styling and dimensions):
 
@@ -65,17 +71,21 @@ To generate a PNG plot with default styling and dimensions:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.png
 
+To generate a PDF plot with default styling and dimensions:
+
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.pdf
+
 ### Example using Expression with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, Axis Tick Formats, SVG Minification, and Custom Font Family:
 
     node src/lib/main.js --expression "y=x+10" --range "x=0:10,y=10:20" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid --log-scale --background-color "#ffdead" --title "My Plot Title" --x-label "Time (s)" --y-label "Value" --tooltip --tooltip-format "X: {x}, Y: {y}" --dash-array "5,5" --tooltip-style "fill: red; stroke: blue;" --x-tick-format "{value} ms" --y-tick-format "{value} units" --minify --font-family "Arial, sans-serif"
 
 ### Example using CSV (Default styling and dimensions):
 
-To generate an SVG plot from CSV data with default styling and dimensions (header row optional):
+To generate an SVG plot from CSV data:
 
     node src/lib/main.js --csv "0,0\n5,10\n10,5" --file csv_output.svg
 
-To generate a PNG plot from CSV data with default styling and dimensions (header row optional):
+To generate a PNG plot from CSV data:
 
     node src/lib/main.js --csv "0,0\n5,10\n10,5" --file csv_output.png
 
@@ -85,13 +95,13 @@ To generate a PNG plot from CSV data with default styling and dimensions (header
 
 ### Example using JSON Data Export:
 
-To export the computed plot data as JSON for further processing:
+To export the computed plot data as JSON:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.json
 
 ### Example using CSV Data Export:
 
-To export the computed plot data as CSV for further analysis (with header row):
+To export the computed plot data as CSV for further analysis:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.csv
 
@@ -100,5 +110,3 @@ To export the computed plot data as CSV for further analysis (with header row):
 To display detailed usage information and a summary of all available CLI options, run:
 
     node src/lib/main.js --help
-
-When the --help flag is provided, the tool will print this help message and exit without generating any files.

@@ -4,6 +4,7 @@
 import { fileURLToPath } from "url";
 import fs from "fs";
 import sharp from "sharp";
+import PDFDocument from "pdfkit";
 
 /**
  * Generates an SVG plot based on given mathematical expression and range.
@@ -557,7 +558,7 @@ Options:
   --expression         A mathematical expression (e.g., "y=sin(x)").
   --range              Range specification (e.g., "x=-10:10,y=-1:1").
   --csv                CSV-formatted time series data (overrides expression and range).
-  --file               Output filename (.svg, .png, .json, or .csv).
+  --file               Output filename (.svg, .png, .pdf, .json, or .csv).
   --stroke-color       Custom stroke color for the plot's polyline.
   --stroke-width       Custom stroke width for the plot's polyline.
   --width              Custom width for the output plot (default: 300).
@@ -568,21 +569,26 @@ Options:
   --title              Set a custom title for the plot.
   --x-label            Set a custom label for the x-axis.
   --y-label            Set a custom label for the y-axis.
-  --tooltip            Add tooltips to each data point.
+  --tooltip            Add tooltips to each data point in the plot.
   --tooltip-format     Customize the tooltip text format (use {x} and {y} placeholders).
   --dash-array         Customize the dash pattern of the plotted polyline.
   --tooltip-style      Custom CSS styling for tooltip markers.
   --x-tick-format      Customize the x-axis tick labels (use {value} placeholder).
   --y-tick-format      Customize the y-axis tick labels (use {value} placeholder).
-  --font-family        (Optional) Custom font family for all text elements (e.g., 'Arial, sans-serif'). Defaults to inherit.
+  --font-family        Custom font family for all text elements (default: inherit).
   --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
   --help               Display this help message and exit.
 
-Note: The --csv option and --expression/--range options are mutually exclusive. Please provide only one input mode.
+Note: The --csv option and the --expression/--range options are mutually exclusive.
 
 Examples:
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
-  node src/lib/main.js --help
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.png
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.pdf
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.json
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.csv
+
+For detailed information, see the documentation.
 `;
 
 export async function main(args) {
@@ -626,7 +632,6 @@ export async function main(args) {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
       }
-      // Apply minification if --minify is passed
       if (options.minify) {
         svgContent = svgContent.replace(/>\s+</g, '><').trim();
       }
@@ -652,8 +657,38 @@ export async function main(args) {
       } catch (error) {
         console.error("Error writing PNG file:", error.message);
       }
+    } else if (options.file.endsWith(".pdf")) {
+      if (options.csv) {
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+      } else if (options.expression && options.range) {
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily);
+      } else {
+        console.error("Error: either --csv or both --expression and --range options are required for PDF generation.");
+        return;
+      }
+      // Minification if needed
+      if (options.minify) {
+        svgContent = svgContent.replace(/>\s+</g, '><').trim();
+      }
+      try {
+        const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+        let doc = new PDFDocument({ autoFirstPage: false });
+        doc.addPage({ size: [customWidth, customHeight] });
+        doc.image(pngBuffer, 0, 0, { width: customWidth, height: customHeight });
+        const pdfBuffer = await new Promise((resolve, reject) => {
+          const chunks = [];
+          doc.on('data', chunk => chunks.push(chunk));
+          doc.on('end', () => resolve(Buffer.concat(chunks)));
+          doc.on('error', reject);
+          doc.end();
+        });
+        fs.writeFileSync(options.file, pdfBuffer);
+        console.log(`PDF file created at: ${options.file}`);
+      } catch (error) {
+        console.error("Error writing PDF file:", error.message);
+      }
     } else if (options.file.endsWith(".json")) {
-      // New branch: JSON export option
+      // JSON export branch
       let plotData;
       const margin = 10;
       if (options.csv) {
@@ -661,6 +696,7 @@ export async function main(args) {
         try {
           const lines = options.csv.split(/\r?\n/);
           let startIndex = 0;
+          // Detect if the first line is a header by checking if its tokens are not numeric
           if (lines.length > 0) {
             const firstLineParts = lines[0].split(",");
             if (firstLineParts.length >= 2) {
@@ -772,7 +808,7 @@ export async function main(args) {
         console.error("Error writing JSON file:" + error.message);
       }
     } else if (options.file.endsWith(".csv")) {
-      // New branch: CSV export option
+      // CSV export branch
       let plotData;
       const margin = 10;
       if (options.csv) {
@@ -895,7 +931,7 @@ export async function main(args) {
          console.error("Error writing CSV file:" + error.message);
       }
     } else {
-      console.error("Error: Only .svg, .png, .json, and .csv files are supported for plot generation.");
+      console.error("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
     }
   } else {
     console.log(`Run with: ${JSON.stringify(options)}`);
