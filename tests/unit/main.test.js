@@ -2,8 +2,6 @@ import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main } from "../../src/lib/main.js";
 import fs from "fs";
-
-// Added import for sharp if needed by tests, though not directly used
 import sharp from "sharp";
 
 describe("Main Module Import", () => {
@@ -29,27 +27,26 @@ describe("CLI Options Parsing", () => {
   });
 });
 
-describe("SVG Plot Generation", () => {
-  test("should generate and save SVG file with a polyline element when valid parameters provided", async () => {
+describe("SVG Plot Generation with Default Styles", () => {
+  test("should generate and save SVG file with a polyline element with default stroke when valid parameters provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.svg"];
     await main(args);
-    // Capture the written content
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<polyline");
+    expect(writtenContent).toContain('stroke="blue"');
+    expect(writtenContent).toContain('stroke-width="2"');
     writeSpy.mockRestore();
   });
 });
 
-describe("PNG Plot Generation", () => {
-  test("should generate and save PNG file when valid parameters provided", async () => {
+describe("PNG Plot Generation with Default Styles", () => {
+  test("should generate and save PNG file as a Buffer when valid parameters provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.png"];
     await main(args);
-    // Ensure that fs.writeFileSync was called with a Buffer for a PNG file
-    expect(writeSpy).toHaveBeenCalled();
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.png");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
@@ -58,8 +55,8 @@ describe("PNG Plot Generation", () => {
   });
 });
 
-describe("CSV Plot Generation", () => {
-  test("should generate and save SVG file with a polyline element when valid CSV provided", async () => {
+describe("CSV Plot Generation with Default Styles", () => {
+  test("should generate and save SVG file with a polyline element with default CSV styling when valid CSV provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const csvData = "0,0\n5,10\n10,5";
     const args = ["--csv", csvData, "--file", "csv_output.svg"];
@@ -68,11 +65,13 @@ describe("CSV Plot Generation", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<polyline");
+    expect(writtenContent).toContain('stroke="red"');
+    expect(writtenContent).toContain('stroke-width="2"');
     expect(writtenContent).toContain("CSV Plot");
     writeSpy.mockRestore();
   });
 
-  test("should generate and save PNG file when valid CSV provided", async () => {
+  test("should generate and save PNG file as a Buffer when valid CSV provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const csvData = "0,0\n5,10\n10,5";
     const args = ["--csv", csvData, "--file", "csv_output.png"];
@@ -81,6 +80,33 @@ describe("CSV Plot Generation", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(Buffer.isBuffer(writtenContent)).toBe(true);
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Custom Style Options", () => {
+  test("should generate SVG with custom stroke color and width for function based plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=cos(x)", "--range", "x=-10:10,y=-1:1", "--file", "custom_output.svg", "--stroke-color", "green", "--stroke-width", "5"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('stroke="green"');
+    expect(writtenContent).toContain('stroke-width="5"');
+    writeSpy.mockRestore();
+  });
+
+  test("should generate SVG with custom stroke color and width for CSV based plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "custom_csv_output.svg", "--stroke-color", "purple", "--stroke-width", "3"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_csv_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('stroke="purple"');
+    expect(writtenContent).toContain('stroke-width="3"');
     writeSpy.mockRestore();
   });
 });
