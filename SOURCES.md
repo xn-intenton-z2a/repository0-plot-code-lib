@@ -452,3 +452,13 @@ Data-to-Viz provides best practices and guidelines for designing effective data 
 ## https://inkscape.org/doc/
 The Inkscape manual offers a comprehensive guide to using Inkscape, an open-source vector graphics editor. It covers techniques for creating and editing SVG graphics, and is a useful resource for developers and designers looking to enhance their understanding of SVG manipulation.
 ## GNU GPL
+
+# Using Web Fonts in SVG
+## https://css-tricks.com/using-web-fonts-in-svgs/
+This article from CSS-Tricks explains how to embed and reference web fonts within SVG elements. It covers best practices for ensuring text in SVGs appears with the intended typography and styling, which can be particularly useful when adding custom text elements such as plot titles and axis labels.
+## CC BY-NC 4.0
+
+# Generating PDFs from SVG: A Practical Guide for Node.js
+## https://dev.to/ivaboronov/generating-pdf-from-svg-in-nodejs-2d9d
+This guide offers practical steps for converting SVG content to PDF format in Node.js applications using tools like Sharp. It outlines common pitfalls and best practices, making it an excellent resource for developers implementing PDF export features in plot generation tools.
+## MIT
