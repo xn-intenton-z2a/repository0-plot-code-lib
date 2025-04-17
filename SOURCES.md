@@ -291,7 +291,7 @@ GeoGebra provides interactive mathematics software, with documentation focusing 
 # Node.js ES Modules Documentation
 ## https://nodejs.org/api/esm.html
 The Node.js ES Modules Documentation explains how ECMAScript modules are implemented in Node.js. It covers topics such as module resolution, import/export syntax, and interoperability with CommonJS modules. This source is authoritative and continuously updated with new Node.js releases.
-## Public Domain
+## Public Domain (Node.js Documentation Terms)
 
 # Enquirer Documentation
 ## https://github.com/enquirer/enquirer
@@ -327,3 +327,18 @@ This resource provides an overview of the IEEE 754 standard for binary floating-
 ## https://github.com/goldbergyoni/nodebestpractices
 A community-driven repository that outlines a comprehensive guide to Node.js best practices, covering topics such as performance optimization, security, error handling, and code style. This source is highly regarded in the Node.js community and is continuously updated with contributions from experts.
 ## MIT
+
+# Designing Great Command Line Interfaces
+## https://uxdesign.cc/the-golden-rules-for-creating-a-usable-command-line-interface-7e6e1e7329b2
+This article provides principles and best practices on designing user-friendly command-line interfaces. It offers guidelines, usability tips, and strategies for reducing cognitive load in CLI design. It is updated regularly and draws on contemporary design trends, making it a valuable resource for developers building robust and accessible CLIs.
+## CC BY-NC 4.0
+
+# Time Series Analysis in JavaScript
+## https://medium.com/swlh/time-series-analysis-in-javascript-fd4bafc7b229
+This article presents an overview of handling and analyzing time series data using JavaScript. It covers topics such as data smoothing, trend analysis, and forecasting, which are essential for developers working with dynamic data visualization and plot generation. Though informal, its insights are practical and applicable in real-world scenarios.
+## Not Specified
+
+# Testing Node.js CLI Applications
+## https://blog.logrocket.com/testing-node-cli-applications-jest/
+This blog post explores strategies for testing command-line interface applications in Node.js. It discusses methodologies for simulating user inputs, capturing output, and integrating with testing frameworks like Jest, with principles transferable to Vitest. It is a useful resource for developers aiming to ensure reliable CLI functionality.
+## Not Specified
