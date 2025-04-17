@@ -40,7 +40,6 @@ describe("SVG Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain('stroke-width="2"');
     expect(writtenContent).toContain('width="300"');
     expect(writtenContent).toContain('height="150"');
-    // Default background color
     expect(writtenContent).toContain('fill="#f0f0f0"');
     writeSpy.mockRestore();
   });
@@ -74,7 +73,6 @@ describe("CSV Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain("CSV Plot");
     expect(writtenContent).toContain('width="300"');
     expect(writtenContent).toContain('height="150"');
-    // Default background color
     expect(writtenContent).toContain('fill="#f0f0f0"');
     writeSpy.mockRestore();
   });
@@ -249,6 +247,35 @@ describe("Background Color Option", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain('fill="#abcdef"');
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Plot Labels Options", () => {
+  test("should generate SVG with custom title, x-axis label, and y-axis label when provided for function based plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "label_output.svg", "--title", "My Plot Title", "--x-label", "Time (s)", "--y-label", "Amplitude"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "label_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('My Plot Title');
+    expect(writtenContent).toContain('Time (s)');
+    expect(writtenContent).toContain('Amplitude');
+    writeSpy.mockRestore();
+  });
+
+  test("should generate SVG with custom title, x-axis label, and y-axis label when provided for CSV based plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_label_output.svg", "--title", "CSV Plot Title", "--x-label", "X-Axis", "--y-label", "Y-Axis"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_label_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('CSV Plot Title');
+    expect(writtenContent).toContain('X-Axis');
+    expect(writtenContent).toContain('Y-Axis');
     writeSpy.mockRestore();
   });
 });
