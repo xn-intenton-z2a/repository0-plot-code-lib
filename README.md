@@ -18,9 +18,10 @@ New in this release:
 - New Feature: You can now add tooltips to each data point by using the `--tooltip` flag. When enabled, each point is marked with a small marker (default is a circle) containing a `<title>` element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new `--tooltip-format` option, where you can specify a template like "X: {x}, Y: {y}". The placeholders `{x}` and `{y}` will be replaced with the corresponding data values formatted to two decimal places. These tooltip markers have a pointer cursor to indicate interactivity.
 - New Feature: You can now customize the dash pattern of the plotted polyline with the `--dash-array` option (e.g., "5,5") to create dashed or dotted line styles.
 - New Feature: You can now customize the CSS styling of tooltip markers using the `--tooltip-style` option. This option allows you to pass custom CSS (e.g., fill color, stroke, radius adjustments) to style the tooltip markers.
-- New Feature: **Custom Tooltip Marker Shape Option**: You can now choose the shape of the data point markers when tooltips are enabled using the `--tooltip-shape` option. **Accepted values are "circle" (default) and "square".** If an invalid value is provided, the program will output an error: "Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported." and will halt execution.
+- New Feature: **Custom Tooltip Marker Shape Option**: You can now choose the shape of the data point markers when tooltips are enabled using the `--tooltip-shape` option. **Accepted values are "circle" (default) and "square".** If an invalid value is provided, the program will output an error and exit.
 - New Feature: You can now export the computed plot data as JSON by specifying an output file with a `.json` extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the corresponding SVG coordinates (`svgX` and `svgY`).
 - New Feature: You can now export the computed plot data as CSV by specifying an output file with a `.csv` extension. The CSV export includes a header row (`x,y,svgX,svgY`) followed by one row per data point. This works for both function-based plots and CSV input plots.
+- New Feature: **XML Data Export Option**: You can now export the computed plot data as XML by specifying an output file with a `.xml` extension. The CLI will generate an XML document with a `<plotData>` root element containing multiple `<point>` elements. Each `<point>` element includes attributes for the original x and y values as well as the computed SVG coordinates (`svgX` and `svgY`).
 - New Feature: **Custom Axis Tick Label Formatting**: You can now customize the tick labels on both the x and y axes using the `--x-tick-format` and `--y-tick-format` options. These options accept a format string with a placeholder `{value}` that is replaced by the tick value. For example, `--x-tick-format "{value} ms"` appends " ms" to each x-axis tick value. This enhances plot annotation and readability when the default numeric labels are not sufficient.
 - New Feature: **SVG Minification Option**: You can now use the `--minify` flag to optimize the SVG output. When this flag is enabled, unnecessary whitespace and newlines are removed from the SVG, resulting in a smaller file size without affecting the visual rendering.
 - New Feature: **Help Option**: You can now use the `--help` flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any output files.
@@ -44,6 +45,7 @@ You can run the CLI with the following options:
   - If the file has a `.pdf` extension, the tool will generate a PDF file by embedding the plot image into a PDF document using PDFKit.
   - If the file has a `.json` extension, the CLI exports the computed plot data as JSON.
   - If the file has a `.csv` extension, the CLI exports the computed plot data as CSV with a header row.
+  - If the file has a `.xml` extension, the CLI generates an XML document containing the computed plot data. The XML structure has a `<plotData>` root element with child `<point>` elements containing `x`, `y`, `svgX`, and `svgY` attributes.
 - `--stroke-color`: (Optional) Custom stroke color for the plot's polyline. Defaults to blue for function plots and red for CSV plots.
 - `--stroke-width`: (Optional) Custom stroke width for the plot's polyline. Defaults to 2.
 - `--width`: (Optional) Custom width for the output SVG/PNG/PDF. Defaults to 300 if not provided.
@@ -56,13 +58,13 @@ You can run the CLI with the following options:
 - `--y-label`: (Optional) Sets a custom label for the y-axis.
 - `--tooltip`: (Optional) Add tooltips to each data point in the plot.
 - `--tooltip-format`: (Optional) Customize the tooltip text format when `--tooltip` is enabled. Use a template string with placeholders `{x}` and `{y}` (e.g., "X: {x}, Y: {y}").
-- `--dash-array`: (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5").
+- `--dash-array`: (Optional) Customize the dash pattern of the plotted polyline (e.g., "5,5").
 - `--tooltip-style`: (Optional) Provide custom CSS styling for tooltip markers.
 - `--x-tick-format`: (Optional) Customize the x-axis tick labels.
 - `--y-tick-format`: (Optional) Customize the y-axis tick labels.
 - `--font-family`: (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
 - `--minify`: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
-- `--tooltip-shape`: (Optional) Set the tooltip marker shape. **Only accepted values are "circle" and "square".** If an invalid value is supplied, the application will output an error and exit.
+- `--tooltip-shape`: (Optional) Set the tooltip marker shape. Only accepted values are "circle" and "square".
 - `--help`: (Optional) Display detailed usage information and a summary of all available CLI options, then exit.
 
 ### Example using Expression (Default styling and dimensions):
@@ -106,6 +108,20 @@ To export the computed plot data as JSON:
 To export the computed plot data as CSV for further analysis:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.csv
+
+### Example using XML Data Export:
+
+To export the computed plot data as XML:
+
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.xml
+
+The XML output will have a structure similar to:
+
+    <plotData>
+      <point x="..." y="..." svgX="..." svgY="..." />
+      <point x="..." y="..." svgX="..." svgY="..." />
+      ...
+    </plotData>
 
 ### Help Option
 

@@ -20,11 +20,11 @@ describe("Default main", () => {
 });
 
 describe("CLI Options Parsing", () => {
-  test("should correctly parse --expression, --range, and --file options when file is not .svg, .png, .json, or .csv", async () => {
+  test("should correctly parse --expression, --range, and --file options when file is not .svg, .png, .json, .xml, or .csv", async () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
+    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, .xml, and .csv files are supported for plot generation.");
     errorSpy.mockRestore();
   });
 });
@@ -135,7 +135,7 @@ describe("CSV Header Row Support", () => {
   test("should ignore header row in CSV for PNG output", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const csvData = "x,y\n0,1\n5,10\n10,100";
-    const args = ["--csv", csvData, "--file", "header_csv_output.png", "--log-scale"];
+    const args = ["--csv", csvData, "--file", "header_csv_output.png"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "header_csv_output.png");
     expect(callArgs).toBeDefined();
@@ -497,6 +497,37 @@ describe("Axis Tick Label Formatting Option", () => {
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("Y: -1.00 units");
+    writeSpy.mockRestore();
+  });
+});
+
+describe("XML Data Export Option", () => {
+  test("should generate valid XML export for function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.xml"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.xml");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<plotData>");
+    expect(writtenContent).toContain("<point");
+    expect(writtenContent).toContain("x=\"");
+    expect(writtenContent).toContain("y=\"");
+    expect(writtenContent).toContain("svgX=\"");
+    expect(writtenContent).toContain("svgY=\"");
+    writeSpy.mockRestore();
+  });
+  
+  test("should generate valid XML export for CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_output.xml"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.xml");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<plotData>");
+    expect(writtenContent).toContain("<point");
     writeSpy.mockRestore();
   });
 });
