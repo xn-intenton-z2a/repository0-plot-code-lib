@@ -478,9 +478,6 @@ The Airbnb JavaScript Style Guide offers a widely adopted set of conventions for
 The Modern JavaScript Tutorial provides a comprehensive resource for learning modern JavaScript, covering language fundamentals, advanced topics, and practical examples. It is updated frequently to reflect current best practices and trends in JavaScript development.
 ## Not Specified
 
-
-# New Sources Added
-
 # Node.js FS API Documentation
 ## https://nodejs.org/api/fs.html
 The Node.js File System (fs) API documentation provides an in-depth overview of Node.js’s methods for interacting with the file system. It covers functionalities such as reading, writing, and manipulating files and directories, which are essential for the CLI export features of this plotting library.
@@ -501,8 +498,6 @@ This MDN documentation provides a comprehensive guide to ES6 template literals, 
 D3.js in Depth offers a comprehensive exploration of D3.js features with a focus on scales, axes, and transitions. It provides advanced insights and practical examples that complement the repository’s custom axis tick label formatting and other data visualization capabilities.
 ## MIT
 
-# New Additional Sources
-
 # Charticulator Documentation
 ## https://charticulator.com/docs/
 Charticulator is an interactive visualization design tool that allows users to create custom charts without writing code. Its documentation covers the process of binding data, designing visual elements, and exporting chart specifications. This resource is valuable for developers and designers interested in exploring alternative approaches to data visualization.
@@ -517,3 +512,22 @@ The CLI Handbook is an extensive resource on designing user-friendly command-lin
 ## https://github.com/d3/d3-format
 D3-format provides powerful number formatting capabilities for data visualization, enabling developers to create custom numeric representations including custom tick labels. Its documentation details a variety of format specifiers and localization options, which are particularly useful for implementing features like custom axis tick label formatting.
 ## BSD-3-Clause
+
+#
+# New Additional Sources
+#
+
+# MDN SVG Styling
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/style
+MDN's documentation on SVG styling explains how inline CSS via the style attribute can be used to customize the appearance of SVG elements. This is particularly useful for developers who need to fine-tune text elements such as axis tick labels and plot annotations in dynamically generated SVGs.
+## CC BY-SA 2.5
+
+# Understanding Logarithmic Scales in Data Visualization
+## https://www.explainthatstuff.com/logarithmic-scales.html
+This article provides an accessible explanation of logarithmic scales and their application in data visualization. It discusses how transforming data using logarithms can help in visualizing a wide range of values effectively, which supports the use of the --log-scale flag in the plotting library.
+## Not Specified
+
+# MDN CSS Font Family
+## https://developer.mozilla.org/en-US/docs/Web/CSS/font-family
+This MDN resource details the CSS font-family property along with usage examples and best practices for choosing and applying fonts in web design. It is a valuable reference for users implementing the --font-family option to customize text styling in SVG outputs.
+## CC BY-SA 2.5
