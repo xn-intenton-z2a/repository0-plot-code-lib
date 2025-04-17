@@ -562,6 +562,8 @@ Options:
   --minify          Minify the SVG output by removing unnecessary whitespace and newlines.
   --help            Display this help message and exit.
 
+Note: The --csv option and --expression/--range options are mutually exclusive. Please provide only one input mode.
+
 Examples:
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
   node src/lib/main.js --help
@@ -569,6 +571,13 @@ Examples:
 
 export async function main(args) {
   const options = parseArgs(args);
+
+  // New validation for mutually exclusive input options
+  if (options.csv && (options.expression || options.range)) {
+    console.error("Error: Cannot use --csv together with --expression/--range. Please provide only one input mode.");
+    return;
+  }
+
   if (options.help) {
     console.log(helpMessage);
     return;

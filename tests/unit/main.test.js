@@ -29,6 +29,19 @@ describe("CLI Options Parsing", () => {
   });
 });
 
+describe("Mutually Exclusive Input Options", () => {
+  test("should output error when both --csv and --expression/--range options are provided", async () => {
+    const errorSpy = vi.spyOn(console, "error");
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--csv", "0,1\n2,3", "--expression", "y=sin(x)", "--range", "x=-1:1,y=-1:1", "--file", "output.svg"];
+    await main(args);
+    expect(errorSpy).toHaveBeenCalledWith("Error: Cannot use --csv together with --expression/--range. Please provide only one input mode.");
+    expect(writeSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
+    writeSpy.mockRestore();
+  });
+});
+
 describe("SVG Plot Generation with Default Styles", () => {
   test("should generate and save SVG file with a polyline element with default stroke when valid parameters provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
@@ -531,7 +544,6 @@ describe("SVG Minification Option", () => {
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "minify_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    // Ensure that the output has no newline characters
     expect(writtenContent).not.toMatch(/\n/);
     expect(writtenContent).toContain("<svg");
     writeSpy.mockRestore();
