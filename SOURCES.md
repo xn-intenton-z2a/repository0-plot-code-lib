@@ -462,3 +462,13 @@ This article from CSS-Tricks explains how to embed and reference web fonts withi
 ## https://dev.to/ivaboronov/generating-pdf-from-svg-in-nodejs-2d9d
 This guide offers practical steps for converting SVG content to PDF format in Node.js applications using tools like Sharp. It outlines common pitfalls and best practices, making it an excellent resource for developers implementing PDF export features in plot generation tools.
 ## MIT
+
+# Airbnb JavaScript Style Guide
+## https://github.com/airbnb/javascript
+The Airbnb JavaScript Style Guide offers a widely adopted set of conventions for writing clean, efficient, and consistent JavaScript code. It is recommended for developers seeking to enforce best practices and maintain high-quality code standards in modern JavaScript projects.
+## MIT
+
+# The Modern JavaScript Tutorial
+## https://javascript.info/
+The Modern JavaScript Tutorial provides a comprehensive resource for learning modern JavaScript, covering language fundamentals, advanced topics, and practical examples. It is updated frequently to reflect current best practices and trends in JavaScript development.
+## Not Specified
