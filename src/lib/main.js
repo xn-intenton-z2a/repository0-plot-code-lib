@@ -97,6 +97,12 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
 </svg>`;
   }
 
+  // Validate tooltip shape option
+  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square")) {
+    console.error("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+    return;
+  }
+
   // Compute sample points for x and corresponding y values, and optionally tooltip markers
   const points = [];
   let tooltipElements = "";
@@ -304,6 +310,12 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 </svg>`;
   }
 
+  // Validate tooltip shape option for CSV as well if tooltips enabled
+  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square")) {
+    console.error("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+    return;
+  }
+
   // Determine x and y extents
   const xs = dataPoints.map(p => p[0]);
   const ys = dataPoints.map(p => p[1]);
@@ -328,9 +340,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     return `${svgX},${svgY}`;
   });
 
-  // If tooltip and square shape handled above already
-
-  // Compute grid lines if flag is true
+  // If grid flag is true, compute grid lines
   let gridLines = '';
   const numX = 10, numY = 10;
   if (grid) {
@@ -606,7 +616,7 @@ Options:
   --y-tick-format      (Optional) Customize the y-axis tick labels.
   --font-family        (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
   --minify             (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
-  --tooltip-shape      (Optional) Set the tooltip marker shape. Only accepted values are "circle" and "square".
+  --tooltip-shape      (Optional) Set the tooltip marker shape. Accepted values: "circle" (default) or "square".
   --help               (Optional) Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
@@ -763,7 +773,7 @@ export async function main(args) {
         const yMin = Math.min(...ys);
         const yMax = Math.max(...ys);
         plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (options.width || 300 - 2 * margin);
+          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * ((options.width || 300) - 2 * margin);
           const svgY = (options.height || 150) - margin - ((y - yMin) / ((yMax - yMin) || 1)) * ((options.height || 150) - 2 * margin);
           return { x, y, svgX, svgY };
         });
