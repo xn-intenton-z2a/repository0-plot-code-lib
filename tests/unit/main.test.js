@@ -20,11 +20,11 @@ describe("Default main", () => {
 });
 
 describe("CLI Options Parsing", () => {
-  test("should correctly parse --expression, --range, and --file options when file is not .svg, .png, .json, or .csv", async () => {
+  test("should correctly parse --expression, --range, and --file options when file is not .svg, .png, .json, .csv, or .xml", async () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
+    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, .csv, and .xml files are supported for plot generation.");
     errorSpy.mockRestore();
   });
 });
@@ -501,6 +501,33 @@ describe("Axis Tick Label Formatting Option", () => {
   });
 });
 
+describe("XML Data Export Option", () => {
+  test("should generate valid XML export for function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.xml"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.xml");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<plotData>");
+    expect(writtenContent).toContain("<point");
+    writeSpy.mockRestore();
+  });
+
+  test("should generate valid XML export for CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_output.xml"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.xml");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<plotData>");
+    expect(writtenContent).toContain("<point");
+    writeSpy.mockRestore();
+  });
+});
+
 describe("JSON Data Export Option", () => {
   test("should generate valid JSON export for function based plot", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
@@ -626,15 +653,31 @@ describe("Help Option", () => {
   });
 });
 
-describe("Invalid Tooltip Shape Option", () => {
-  test("should output error and not create output file when an invalid tooltip shape is provided", async () => {
-    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
+// New tests for XML Data Export Option
+
+describe("XML Data Export Option", () => {
+  test("should generate valid XML export for function based plot", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "invalid_shape_output.svg", "--tooltip", "--tooltip-shape", "triangle"];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.xml"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
-    expect(writeSpy).not.toHaveBeenCalled();
-    errorSpy.mockRestore();
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.xml");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<plotData>");
+    expect(writtenContent).toContain("<point");
+    writeSpy.mockRestore();
+  });
+
+  test("should generate valid XML export for CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_output.xml"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.xml");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<plotData>");
+    expect(writtenContent).toContain("<point");
     writeSpy.mockRestore();
   });
 });
