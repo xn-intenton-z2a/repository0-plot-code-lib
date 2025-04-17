@@ -320,7 +320,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
       const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
       if (tooltipShape === "square") {
-        return `${svgX},${svgY}`; // return point as normal and handle tooltip later
+        // Draw square tooltip markers later
       } else {
         tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
       }
