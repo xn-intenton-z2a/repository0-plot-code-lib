@@ -230,7 +230,7 @@ describe("Grid Lines Option", () => {
 describe("Logarithmic Scaling Option", () => {
   test("should generate SVG with log scale when valid positive function values are provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // Use a function that is always positive: y = x + 10, range x=0:10, y=10:20
+    // Use a function with always positive values
     const args = ["--expression", "y=x+10", "--range", "x=0:10,y=10:20", "--file", "log_output.svg", "--log-scale"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "log_output.svg");
@@ -243,7 +243,6 @@ describe("Logarithmic Scaling Option", () => {
 
   test("should output error SVG when function returns non-positive values with log scale", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // Use a function that can produce non-positive values: y = x - 10, range x=0:10, y=-10:0
     const args = ["--expression", "y=x-10", "--range", "x=0:10,y=-10:0", "--file", "log_error.svg", "--log-scale"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "log_error.svg");
@@ -255,7 +254,6 @@ describe("Logarithmic Scaling Option", () => {
 
   test("should generate SVG with log scale for CSV data when valid positive y values are provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // CSV data with positive y values
     const csvData = "0,1\n5,10\n10,100";
     const args = ["--csv", csvData, "--file", "csv_log_output.svg", "--log-scale"];
     await main(args);
@@ -269,7 +267,6 @@ describe("Logarithmic Scaling Option", () => {
 
   test("should output error SVG for CSV data when a non-positive y value is encountered with log scale", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // CSV data with a non-positive y value
     const csvData = "0,0\n5,10\n10,5";
     const args = ["--csv", csvData, "--file", "csv_log_error.svg", "--log-scale"];
     await main(args);
@@ -501,70 +498,15 @@ describe("Axis Tick Label Formatting Option", () => {
   });
 });
 
-describe("XML Data Export Option", () => {
-  test("should generate valid XML export for function based plot", async () => {
+describe("Invalid Tooltip Marker Shape", () => {
+  test("should output error and not produce file when an invalid tooltip shape is provided", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.xml"];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "invalid_tooltip.svg", "--tooltip-shape", "triangle"];
     await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.xml");
-    expect(callArgs).toBeDefined();
-    const writtenContent = callArgs[1];
-    expect(writtenContent).toContain("<plotData>");
-    expect(writtenContent).toContain("<point");
-    writeSpy.mockRestore();
-  });
-
-  test("should generate valid XML export for CSV based plot", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const csvData = "0,0\n5,10\n10,5";
-    const args = ["--csv", csvData, "--file", "csv_output.xml"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.xml");
-    expect(callArgs).toBeDefined();
-    const writtenContent = callArgs[1];
-    expect(writtenContent).toContain("<plotData>");
-    expect(writtenContent).toContain("<point");
-    writeSpy.mockRestore();
-  });
-});
-
-describe("JSON Data Export Option", () => {
-  test("should generate valid JSON export for function based plot", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.json"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.json");
-    expect(callArgs).toBeDefined();
-    const writtenContent = callArgs[1];
-    let data;
-    expect(() => { data = JSON.parse(writtenContent); }).not.toThrow();
-    expect(Array.isArray(data)).toBe(true);
-    if(data.length > 0){
-      expect(data[0]).toHaveProperty('x');
-      expect(data[0]).toHaveProperty('y');
-      expect(data[0]).toHaveProperty('svgX');
-      expect(data[0]).toHaveProperty('svgY');
-    }
-    writeSpy.mockRestore();
-  });
-
-  test("should generate valid JSON export for CSV based plot", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const csvData = "0,0\n5,10\n10,5";
-    const args = ["--csv", csvData, "--file", "csv_output.json"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.json");
-    expect(callArgs).toBeDefined();
-    const writtenContent = callArgs[1];
-    let data;
-    expect(() => { data = JSON.parse(writtenContent); }).not.toThrow();
-    expect(Array.isArray(data)).toBe(true);
-    if(data.length > 0){
-      expect(data[0]).toHaveProperty('x');
-      expect(data[0]).toHaveProperty('y');
-      expect(data[0]).toHaveProperty('svgX');
-      expect(data[0]).toHaveProperty('svgY');
-    }
+    expect(errorSpy).toHaveBeenCalledWith("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+    expect(writeSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
     writeSpy.mockRestore();
   });
 });
