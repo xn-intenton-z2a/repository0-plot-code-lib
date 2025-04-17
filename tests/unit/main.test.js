@@ -38,7 +38,6 @@ describe("SVG Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain("<polyline");
     expect(writtenContent).toContain('stroke="blue"');
     expect(writtenContent).toContain('stroke-width="2"');
-    // Check default dimensions
     expect(writtenContent).toContain('width="300"');
     expect(writtenContent).toContain('height="150"');
     writeSpy.mockRestore();
@@ -71,7 +70,6 @@ describe("CSV Plot Generation with Default Styles", () => {
     expect(writtenContent).toContain('stroke="red"');
     expect(writtenContent).toContain('stroke-width="2"');
     expect(writtenContent).toContain("CSV Plot");
-    // Check default dimensions
     expect(writtenContent).toContain('width="300"');
     expect(writtenContent).toContain('height="150"');
     writeSpy.mockRestore();
@@ -138,8 +136,36 @@ describe("Custom Dimensions Options", () => {
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "dim_output.png");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    // Because writtenContent is a PNG converted from SVG, we verify success by ensuring buffer is created
     expect(Buffer.isBuffer(writtenContent)).toBe(true);
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Grid Lines Option", () => {
+  test("should include grid lines in SVG output when --grid option is used for function plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "grid_output.svg", "--grid"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "grid_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('<line');
+    expect(writtenContent).toContain('stroke="#ccc"');
+    expect(writtenContent).toContain('stroke-width="1"');
+    writeSpy.mockRestore();
+  });
+
+  test("should include grid lines in SVG output when --grid option is used for CSV plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_grid_output.svg", "--grid"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_grid_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('<line');
+    expect(writtenContent).toContain('stroke="#ccc"');
+    expect(writtenContent).toContain('stroke-width="1"');
     writeSpy.mockRestore();
   });
 });
