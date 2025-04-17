@@ -83,9 +83,19 @@ Chart.js is a widely-used JavaScript library for creating responsive, interactiv
 Highcharts is a feature-rich charting library enabling the creation of interactive and customizable charts for web applications. Its documentation covers chart types, interactivity, and integration options, operating under a proprietary license for commercial purposes.
 ## Proprietary (Free for non-commercial use)
 
-# Vega-Lite Documentation
+# D3 Axis Customization Documentation
+## https://observablehq.com/@d3/d3-axis
+This resource delves into the D3.js axis module, offering practical examples and guidance on customizing tick labels and formatting. It serves as a valuable reference for implementing custom axis tick formats in data visualizations.
+## CC BY-NC 4.0
+
+# Plotly.js Documentation
+## https://plotly.com/javascript/
+Plotly.js, built on D3.js and stack.gl, facilitates the creation of complex interactive visualizations. Its comprehensive documentation covers tutorials and API references essential for developing high-level interactive plots.
+## MIT
+
+# Vega-Lite Documentation (Consolidated)
 ## https://vega.github.io/vega-lite/docs/
-This guide provides a high-level view of rapid interactive visualization prototyping. It consolidates complex configurations into more manageable declarative statements.
+An authoritative guide on rapid visualization prototyping using a high-level grammar. This documentation simplifies complex configurations with a declarative approach.
 ## Apache-2.0
 
 # Zod Documentation
@@ -125,7 +135,7 @@ Vite is a fast, modern build tool offering an optimized development experience w
 
 # Sharp Documentation
 ## https://sharp.pixelplumbing.com/
-Sharp is a high-performance Node.js image processing library enabling efficient image resizing, conversion, and manipulation. Its documentation covers API references, examples, and usage best practices for image processing tasks.
+Sharp is a high-performance Node.js image processing library enabling efficient image resizing, conversion, and manipulation. Its documentation covers API references, examples, and best practices for image processing tasks.
 ## Apache-2.0
 
 # Apache ECharts Documentation
@@ -485,8 +495,7 @@ The Node.js File System (fs) API documentation provides an in-depth overview of 
 
 # D3 Axis Customization Documentation
 ## https://observablehq.com/@d3/d3-axis
-This resource delves into the D3.js axis module, offering practical examples and guidance on customizing tick labels and formatting. It serves as a valuable reference for implementing custom axis tick formats in data visualizations, aligning with the repository’s new feature for custom axis tick label formatting.
-## CC BY-NC 4.0
+(This entry is intentionally included only once to avoid duplication.)
 
 # MDN Template Literals Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
@@ -542,3 +551,18 @@ PDFKit is a robust PDF generation library for Node.js, allowing developers to cr
 ## https://fonts.google.com/
 Google Fonts provides a vast collection of free, open-source fonts that are optimized for the web. Developers can explore and integrate custom font families to enhance the aesthetic appeal and readability of text elements within SVG graphics, aligning with the repository's custom font family feature.
 ## OFL
+
+# The Art of Command Line
+## https://github.com/jlevy/the-art-of-command-line
+A comprehensive guide detailing useful tips and best practices for using and designing command line interfaces. Its content covers a range of topics from basic shell usage to advanced scripting, making it a valuable resource for developers building CLI tools like this plotting library.
+## CC BY-NC 4.0
+
+# D3 Graph Gallery - Custom Axis
+## https://www.d3-graph-gallery.com/graph/custom_axis.html
+This resource from the D3 Graph Gallery explains how to create and customize axes in data visualizations using D3.js. It provides practical examples on formatting tick labels, applying custom scales, and enhancing axis readability, which is relevant to the new custom axis tick label formatting feature.
+## CC BY 4.0
+
+# MDN SVG Transforms
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/transform
+This MDN documentation explains the use of the 'transform' attribute in SVG, detailing how to apply transformations such as translate, scale, rotate, and skew to SVG elements. This guide is essential for developers looking to understand and implement advanced SVG manipulations.
+## CC BY-SA 2.5
