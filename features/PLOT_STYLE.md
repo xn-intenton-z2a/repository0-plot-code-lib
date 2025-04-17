@@ -1,28 +1,30 @@
 # PLOT_STYLE
 
 ## Overview
-This feature consolidates all styling, annotation, and tooltip customization options into a single, comprehensive feature. It merges the functionalities previously provided by the ANNOTATIONS and CUSTOM_FONT features. In addition, it enhances the plot style customization by introducing support for custom tooltip marker shapes and an SVG minification option.
+This update refines the unified plot styling feature by consolidating and expanding customization options for SVG plot generation. In addition to merging options from annotations and custom font features, the new changes add support for:
+- Custom font family via the `--font-family` option, ensuring that all text elements (titles, axis labels, tick labels) are rendered in the desired style.
+- Custom tooltip marker shape via the `--tooltip-shape` option with strict validation. Supported shapes are "circle" (default) and "square". If an invalid shape is provided, the CLI will output a descriptive error and abort.
+- Enhanced axis tick label formatting via `--x-tick-format` and `--y-tick-format` options for better annotation and readability.
+- SVG output minification using the `--minify` flag, which removes unnecessary whitespace and newlines, optimizing file size.
 
 ## Implementation Details
-- **Source File Changes:**
-  - Update the CLI argument parser in `src/lib/main.js` to merge the options previously in ANNOTATIONS and CUSTOM_FONT:
-    - Retain and merge options to customize axis tick labels (`--x-tick-format`, `--y-tick-format`).
-    - Retain consistent application of custom font family through a new unified option `--font-family`.
-    - Introduce a new option `--tooltip-shape` to allow users to choose between supported shapes (`circle` or `square`) for tooltip markers.
-    - Integrate the new `--minify` flag to remove unnecessary whitespaces and newlines from the generated SVG output.
-  - Ensure that all text elements (plot title, axis labels, tick labels) apply the provided custom font family for visual consistency.
-  - Enhance the tooltip rendering logic so that the marker shape can be dynamically chosen based on the option value.
+- **Source Code Changes:**
+  - The CLI argument parser in `src/lib/main.js` now includes new parameters for `fontFamily` and `tooltipShape`, along with validation logic to ensure only "circle" or "square" are accepted for tooltip markers.
+  - The SVG generation functions (`generateSVG` and `generateSVGFromCSV`) have been updated to apply the specified `--font-family` to all text elements and use the correct SVG element (`<circle>` or `<rect>`) based on the `--tooltip-shape` option.
+  - Custom dash patterns, grid lines, and log scale handling remain consolidated within this feature.
 
-## Testing
-- **Unit Tests:**
-  - Extend tests in `tests/unit/main.test.js` to verify that when the new `--font-family` and `--tooltip-shape` options are provided, the generated SVG output includes the correct font families and uses the appropriate SVG elements (`<circle>` for default or `<rect>` for square markers).
-  - Add test cases to check the behavior of the `--minify` option, ensuring that whitespace is effectively removed from the final SVG output.
-  - Validate that the merged options produce correct behavior for both function-based plots and CSV input plots.
+- **Testing:**
+  - Unit tests in `tests/unit/main.test.js` have been extended to confirm that providing custom font families correctly applies the style, and that tooltip markers render as circles by default or as squares when specified.
+  - New tests ensure that invalid tooltip shape inputs are rejected with a proper error message.
+  - Tests cover both function-based plots and CSV input plots across all supported export formats (SVG, PNG, PDF, JSON, CSV, and XML).
 
-## Documentation
-- **README Updates:**
-  - Update README.md to describe the unified plotting style customization feature under a new section, explaining that styling options (including axis tick formatting, custom fonts, tooltip marker shape, and SVG minification) are now managed together by the PLOT_STYLE feature.
-  - Provide examples to illustrate usage of the new options (e.g., `--font-family "Arial, sans-serif"`, `--tooltip-shape square`, `--minify`).
+## Documentation & CLI Usage
+- The README file now documents all new options:
+  - `--font-family` to override the default inherited font.
+  - `--tooltip-shape` for marker customization.
+  - Detailed usage examples covering custom axis tick formats and SVG minification.
+- Help output (invoked via `--help`) reflects these enhancements with clear descriptions.
 
 ## Compatibility and Value
-This update aligns with the project’s mission by simplifying the user experience and reducing fragmentation of style customization options. Users benefit from a unified, robust customization interface that enhances plot readability and visual consistency. This feature update facilitates easier maintenance and scalability as new style options can be added centrally in future iterations.
+This update is fully compatible with the existing mission of making the CLI the go-to tool for formula visualizations by enhancing visual consistency and customization. Users can now better align the plot appearance with application styles and improve the legibility of their plots with customizable tooltips and text formatting.
+
