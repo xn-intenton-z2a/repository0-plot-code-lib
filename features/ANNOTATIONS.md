@@ -1,22 +1,19 @@
-# ANNOTATIONS Feature
+# ANNOTATIONS Feature Update
 
 ## Overview
-This feature enhances the plot annotation capabilities of the CLI by allowing users to customize the font sizes for the plot title, x-axis label, and y-axis label. With the addition of new CLI options (--title-font-size, --x-label-font-size, and --y-label-font-size), users can now have finer control over the appearance of text elements in both SVG and PNG outputs.
+This update enhances the existing annotations feature by enabling font size customization for plot titles and axis labels. Users can now adjust the text size for the plot title, x-axis label, and y-axis label using three new CLI options: `--title-font-size`, `--x-label-font-size`, and `--y-label-font-size`.
 
 ## Implementation Details
-- Update the source file (src/lib/main.js) to parse the new CLI options:
-  - `--title-font-size` to set the font size of the plot title (default: 16).
-  - `--x-label-font-size` to set the font size of the x-axis label (default: 12).
-  - `--y-label-font-size` to set the font size of the y-axis label (default: 12).
-- Modify the functions `generateSVG` and `generateSVGFromCSV` to incorporate these new parameters when generating the SVG content. The text elements for the title and axis labels will now use these configurable font sizes.
-- Ensure that if the new options are not provided, the default font sizes are used.
-
+- **Source File Changes**: 
+  - Update the CLI argument parser in `src/lib/main.js` to handle the new options (`--title-font-size`, `--x-label-font-size`, and `--y-label-font-size`).
+  - Modify the SVG generation functions (`generateSVG` and `generateSVGFromCSV`) to use the provided font size values when rendering the title and labels. If any of these options are not provided, default font sizes will be used (default values: title - 16, x-axis and y-axis - 12).
+  
 ## Testing
-- Update the existing test file (tests/unit/main.test.js) to include tests verifying that when the new CLI options are provided, the generated SVG contains the correct font-size attributes in the title, x-axis label, and y-axis label elements.
-- Add test cases for both function-based plots and CSV-based plots.
+- **Unit Tests**: 
+  - Update `tests/unit/main.test.js` to include test cases that verify font size customization. For both function-based plots and CSV-based plots, tests will confirm that when the new CLI options are provided, the generated SVG contains text elements with the correct `font-size` attributes.
 
 ## Documentation
-- Update the README.md with a new section under **Usage** that documents the purpose and usage of the new CLI options (--title-font-size, --x-label-font-size, and --y-label-font-size), including examples.
+- **README Updates**:
+  - Revise the Usage section in `README.md` to document the new CLI options. Provide examples illustrating how to set custom font sizes for the plot title and axis labels.
 
-## Dependencies
-- No new dependencies are required; all changes utilize the current stack and existing libraries.
+This update aligns with the mission to provide a flexible and customizable plotting tool that empowers users to tailor the visual presentation of their plots through simple CLI modifications.
