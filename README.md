@@ -15,7 +15,7 @@ New in this release:
 - You can now apply logarithmic scaling on the y-axis with the --log-scale flag. When enabled, the y values are transformed using base-10 logarithm. Note: All y values must be positive when using logarithmic scaling.
 - You can now set a custom background color for both SVG and PNG outputs with the --background-color flag, allowing greater customization of the plot appearance.
 - New Feature: You can add descriptive titles and axis labels to your plots using --title, --x-label, and --y-label options. This allows you to annotate your plot with a main title (centered at the top), an x-axis label (centered at the bottom), and a y-axis label (rotated along the left side).
-- New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates.
+- New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like "X: {x}, Y: {y}". The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places.
 - New Feature: You can now customize the dash pattern of the plotted polyline with the --dash-array option (e.g., "5,5") to create dashed or dotted line styles.
 - CSV files with an optional header row (e.g., "x,y") are now supported, and the header is automatically ignored.
 
@@ -40,6 +40,7 @@ You can run the CLI with the following options:
 - --x-label: (Optional) Sets a custom label for the x-axis. The label appears at the bottom center of the SVG.
 - --y-label: (Optional) Sets a custom label for the y-axis. The label appears along the left side of the SVG, rotated for readability.
 - --tooltip: (Optional) Add tooltips to each data point in the plot. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates.
+- --tooltip-format: (Optional) Customize the tooltip text format when --tooltip is enabled. Use a template string with placeholders {x} and {y} (e.g., "X: {x}, Y: {y}").
 - --dash-array: (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5") to create dashed or dotted line styles.
 
 ### Example using Expression (Default styling and dimensions):
@@ -54,9 +55,9 @@ To generate a PNG plot with default styling and dimensions:
 
 ### Example using Expression with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, and Dash Pattern:
 
-To generate an SVG plot with a custom stroke color, stroke width, width, height, grid lines, logarithmic scaling, custom background color, annotations (title and axis labels), tooltips, and a dashed line style (provided y values are positive):
+To generate an SVG plot with a custom stroke color, stroke width, width, height, grid lines, logarithmic scaling, custom background color, annotations (title and axis labels), tooltips with custom formatting, and a dashed line style (provided y values are positive):
 
-    node src/lib/main.js --expression "y=x+10" --range "x=0:10,y=10:20" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid --log-scale --background-color "#ffdead" --title "My Plot Title" --x-label "Time (s)" --y-label "Value" --tooltip --dash-array "5,5"
+    node src/lib/main.js --expression "y=x+10" --range "x=0:10,y=10:20" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid --log-scale --background-color "#ffdead" --title "My Plot Title" --x-label "Time (s)" --y-label "Value" --tooltip --tooltip-format "X: {x}, Y: {y}" --dash-array "5,5"
 
 ### Example using CSV (Default styling and dimensions):
 
@@ -70,9 +71,9 @@ To generate a PNG plot from CSV data with default styling and dimensions (header
 
 ### Example using CSV with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, and Dash Pattern:
 
-To generate an SVG plot from CSV data with custom styling, dimensions, grid lines, logarithmic scaling, custom background color, annotations (title and axis labels), tooltips, and a dashed line style (ensure all y values are positive):
+To generate an SVG plot from CSV data with custom styling, dimensions, grid lines, logarithmic scaling, custom background color, annotations (title and axis labels), tooltips with custom formatting, and a dashed line style (ensure all y values are positive):
 
-    node src/lib/main.js --csv "0,1\n5,10\n10,100" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid --log-scale --background-color "#e0ffff" --title "CSV Plot Title" --x-label "X-Axis" --y-label "Y-Axis" --tooltip --dash-array "2,2"
+    node src/lib/main.js --csv "0,1\n5,10\n10,100" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid --log-scale --background-color "#e0ffff" --title "CSV Plot Title" --x-label "X-Axis" --y-label "Y-Axis" --tooltip --tooltip-format "X: {x}; Y: {y}" --dash-array "2,2"
 
 If the --file option is provided with a filename that does not end with .svg or .png, an error message will be displayed.
 
