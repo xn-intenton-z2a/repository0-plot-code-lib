@@ -16,9 +16,10 @@ import sharp from "sharp";
  * @param {number} [width] - Optional width of the SVG. Defaults to 300.
  * @param {number} [height] - Optional height of the SVG. Defaults to 150.
  * @param {boolean} [grid] - Optional flag to include grid lines. Defaults to false.
+ * @param {boolean} [logScale] - Optional flag to apply logarithmic scaling on the y-axis. Defaults to false.
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false) {
+function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false) {
   const margin = 10;
   const sampleCount = 100;
 
@@ -37,8 +38,8 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     const yPart = rangeParts.find(part => part.trim().startsWith('y='));
     if (!xPart || !yPart) throw new Error('Invalid range format');
 
-    const xVals = xPart.split('=')[1].split(":" ).map(Number);
-    const yVals = yPart.split('=')[1].split(":" ).map(Number);
+    const xVals = xPart.split('=')[1].split(":").map(Number);
+    const yVals = yPart.split('=')[1].split(":").map(Number);
     [xMin, xMax] = xVals;
     [yMin, yMax] = yVals;
     if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
@@ -46,6 +47,14 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="#f0f0f0"/>
   <text x="10" y="50" font-size="14" fill="#333">Error parsing range: ${error.message}</text>
+</svg>`;
+  }
+
+  // If logarithmic scaling is requested, ensure yMin and yMax are positive
+  if (logScale && (yMin <= 0 || yMax <= 0)) {
+    return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${width}" height="${height}" fill="#f0f0f0"/>
+  <text x="10" y="50" font-size="14" fill="#333">Error: Logarithmic scaling requires positive y values</text>
 </svg>`;
   }
 
@@ -71,13 +80,21 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   for (let i = 0; i < sampleCount; i++) {
     const x = xMin + i * step;
     let y = func(x);
-    if (typeof y !== 'number' || !isFinite(y)) {
-      y = NaN;
+    if (logScale) {
+      if (y <= 0) {
+        return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${width}" height="${height}" fill="#f0f0f0"/>
+  <text x="10" y="50" font-size="14" fill="#333">Error: Logarithmic scaling requires positive y values</text>
+</svg>`;
+      }
+      y = Math.log10(y);
     }
     // Map x to svg coordinate
     const svgX = margin + ((x - xMin) / (xMax - xMin)) * (width - 2 * margin);
-    // Map y to svg coordinate (inverted y-axis)
-    const svgY = height - margin - ((y - yMin) / (yMax - yMin)) * (height - 2 * margin);
+    // Map y to svg coordinate (inverted y-axis) using either direct or log-transformed scaling
+    const yMinTrans = logScale ? Math.log10(yMin) : yMin;
+    const yMaxTrans = logScale ? Math.log10(yMax) : yMax;
+    const svgY = height - margin - ((y - yMinTrans) / (yMaxTrans - yMinTrans)) * (height - 2 * margin);
     // Only add valid points
     if (!isNaN(svgY)) {
       points.push(`${svgX},${svgY}`);
@@ -97,7 +114,14 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     }
     for (let j = 0; j <= numY; j++) {
       const yTick = yMin + j * dy;
-      const svgY = height - margin - ((yTick - yMin) / (yMax - yMin)) * (height - 2 * margin);
+      let yTickTrans = yTick;
+      if (logScale) {
+        if (yTick <= 0) continue;
+        yTickTrans = Math.log10(yTick);
+      }
+      const yMinTrans = logScale ? Math.log10(yMin) : yMin;
+      const yMaxTrans = logScale ? Math.log10(yMax) : yMax;
+      const svgY = height - margin - ((yTickTrans - yMinTrans) / (yMaxTrans - yMinTrans)) * (height - 2 * margin);
       gridLines += `<line x1="${margin}" y1="${svgY}" x2="${width - margin}" y2="${svgY}" stroke="#ccc" stroke-width="1"/>`;
     }
   }
@@ -105,11 +129,15 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   // Build SVG content with background, optional grid lines, and polyline for the graph
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
 
+  // Optionally add a log scale indicator
+  const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
+
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="#f0f0f0"/>
   ${gridLines}
   ${polyline}
   <text x="10" y="${height - 5}" font-size="10" fill="#333">Expression: ${expression}, Range: ${range}</text>
+  ${logIndicator}
 </svg>`;
 }
 
@@ -123,9 +151,10 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * @param {number} [width] - Optional width of the SVG. Defaults to 300.
  * @param {number} [height] - Optional height of the SVG. Defaults to 150.
  * @param {boolean} [grid] - Optional flag to include grid lines. Defaults to false.
+ * @param {boolean} [logScale] - Optional flag to apply logarithmic scaling on the y-axis. Defaults to false.
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false) {
+function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false) {
   const margin = 10;
   let dataPoints = [];
   try {
@@ -135,9 +164,19 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       const parts = line.split(",");
       if (parts.length < 2) continue;
       const x = Number(parts[0].trim());
-      const y = Number(parts[1].trim());
-      if (isNaN(x) || isNaN(y)) continue;
-      dataPoints.push([x, y]);
+      const yOrig = Number(parts[1].trim());
+      if (isNaN(x) || isNaN(yOrig)) continue;
+      if (logScale) {
+        if (yOrig <= 0) {
+          return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+  <rect width="${width}" height="${height}" fill="#f0f0f0"/>
+  <text x="10" y="50" font-size="14" fill="#333">Error: Logarithmic scaling requires positive y values</text>
+</svg>`;
+        }
+        dataPoints.push([x, Math.log10(yOrig)]);
+      } else {
+        dataPoints.push([x, yOrig]);
+      }
     }
     if (dataPoints.length === 0) throw new Error('No valid CSV data found');
   } catch (error) {
@@ -182,22 +221,23 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 
   // Build SVG content with background, optional grid lines, and polyline for CSV data
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
-
+  const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="#f0f0f0"/>
   ${gridLines}
   ${polyline}
   <text x="10" y="${height - 5}" font-size="10" fill="#333">CSV Plot</text>
+  ${logIndicator}
 </svg>`;
 }
 
 /**
- * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, --height, and --grid options.
+ * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, --height, --grid, and --log-scale options.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
 function parseArgs(args) {
-  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null, grid: false };
+  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null, grid: false, logScale: false };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case "--expression":
@@ -251,6 +291,9 @@ function parseArgs(args) {
       case "--grid":
         options.grid = true;
         break;
+      case "--log-scale":
+        options.logScale = true;
+        break;
       default:
         // Ignore unrecognized arguments
         break;
@@ -271,9 +314,9 @@ export async function main(args) {
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
@@ -286,9 +329,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
