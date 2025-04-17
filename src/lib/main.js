@@ -589,28 +589,34 @@ const helpMessage = `Usage: node src/lib/main.js [options]
 Options:
   --expression         A mathematical expression (e.g., "y=sin(x)").
   --range              Range specification (e.g., "x=-10:10,y=-1:1").
-  --csv                CSV-formatted time series data (overrides expression and range).
-  --file               Output filename (.svg, .png, .pdf, .json, or .csv).
-  --stroke-color       Custom stroke color for the plot's polyline.
-  --stroke-width       Custom stroke width for the plot's polyline.
-  --width              Custom width for the output plot (default: 300).
-  --height             Custom height for the output plot (default: 150).
-  --grid               Include grid lines in the plot.
-  --log-scale          Apply logarithmic scaling on the y-axis (requires positive y values).
-  --background-color   Set a custom background color for the plot.
-  --title              Set a custom title for the plot.
-  --x-label            Set a custom label for the x-axis.
-  --y-label            Set a custom label for the y-axis.
-  --tooltip            Add tooltips to each data point in the plot.
-  --tooltip-format     Customize the tooltip text format (use {x} and {y} placeholders).
-  --dash-array         Customize the dash pattern of the plotted polyline.
-  --tooltip-style      Provide custom CSS styling for tooltip markers.
-  --x-tick-format      Customize the x-axis tick labels.
-  --y-tick-format      Customize the y-axis tick labels.
-  --font-family        Custom font family for all text elements (default: inherit).
-  --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
-  --tooltip-shape      Set the tooltip marker shape. Only accepted values are "circle" and "square".
-  --help               Display this help message and exit.
+  --csv                CSV-formatted time series data with two comma-separated values (x,y) per line. When this option is provided, the --expression and --range options are ignored.
+  --file               The output filename for the generated plot. 
+                       - If the file has a .svg extension, an SVG plot with the rendered graph will be generated.
+                       - If the file has a .png extension, the tool will generate a PNG plot by converting the SVG output.
+                       - If the file has a .pdf extension, the tool will generate a PDF file by embedding the plot image into a PDF document using PDFKit.
+                       - If the file has a .json extension, the CLI exports the computed plot data as JSON.
+                       - If the file has a .csv extension, the CLI exports the computed plot data as CSV with a header row.
+  --stroke-color       (Optional) Custom stroke color for the plot's polyline. Defaults to blue for function plots and red for CSV plots.
+  --stroke-width       (Optional) Custom stroke width for the plot's polyline. Defaults to 2.
+  --width              (Optional) Custom width for the output plot (default: 300).
+  --height             (Optional) Custom height for the output plot (default: 150).
+  --grid               (Optional) Include grid lines in the plot.
+  --log-scale          (Optional) Apply logarithmic scaling on the y-axis. When enabled, y-values are transformed using base-10 logarithm.
+                       All y values must be positive; otherwise, an error is shown.
+  --background-color   (Optional) Set a custom background color for the plot.
+  --title              (Optional) Sets a custom title for the plot.
+  --x-label            (Optional) Sets a custom label for the x-axis.
+  --y-label            (Optional) Sets a custom label for the y-axis.
+  --tooltip            (Optional) Add tooltips to each data point in the plot.
+  --tooltip-format     (Optional) Customize the tooltip text format when --tooltip is enabled. Use a template string with placeholders {x} and {y} (e.g., "X: {x}, Y: {y}").
+  --dash-array         (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5").
+  --tooltip-style      (Optional) Provide custom CSS styling for tooltip markers.
+  --x-tick-format      (Optional) Customize the x-axis tick labels.
+  --y-tick-format      (Optional) Customize the y-axis tick labels.
+  --font-family        (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
+  --minify             (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
+  --tooltip-shape      (Optional) Set the tooltip marker shape. Only accepted values are "circle" and "square".
+  --help               (Optional) Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
 `;
@@ -903,6 +909,7 @@ export async function main(args) {
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
+
           const xVals = xPart.split('=')[1].split(":").map(Number);
           const yVals = yPart.split('=')[1].split(":").map(Number);
           [xMin, xMax] = xVals;
@@ -956,10 +963,10 @@ export async function main(args) {
          csvContent += `${point.x},${point.y},${point.svgX},${point.svgY}\n`;
       });
       try {
-         fs.writeFileSync(options.file, csvContent, "utf8");
-         console.log(`CSV data file created at: ${options.file}`);
+        fs.writeFileSync(options.file, csvContent, "utf8");
+        console.log(`CSV data file created at: ${options.file}`);
       } catch (error) {
-         console.error("Error writing CSV file:" + error.message);
+        console.error("Error writing CSV file:" + error.message);
       }
     } else {
       console.error("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
