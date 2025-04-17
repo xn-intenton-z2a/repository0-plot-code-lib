@@ -307,3 +307,23 @@ Winston is a versatile logging library for Node.js that offers a multi-transport
 ## https://github.com/vadimdemedes/ink
 Ink is a React renderer for interactive command-line applications, allowing developers to build modern CLI tools using React components. Its documentation covers component usage, API details, and customization options, providing a fresh approach to interactive CLI development.
 ## MIT
+
+# Node.js Readline Documentation
+## https://nodejs.org/api/readline.html
+The official Node.js documentation for the readline module, which provides an interface for reading data from a Readable stream (such as process.stdin) one line at a time. This is especially useful for implementing interactive CLI modes. It is continuously updated along with Node.js and offers examples and API references.
+## Public Domain (Node.js Documentation Terms)
+
+# MDN JSON.stringify Documentation
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify
+The MDN documentation for JSON.stringify explains how JavaScript converts values to JSON, including details on handling special cases like non-finite numbers (e.g., NaN, Infinity) by converting them to null in JSON output. This resource is regularly updated by the MDN community and is highly authoritative.
+## CC BY-SA 2.5
+
+# IEEE 754 Floating Point Standard Brief
+## https://en.wikipedia.org/wiki/IEEE_754
+This resource provides an overview of the IEEE 754 standard for binary floating-point arithmetic, detailing how numeric values including NaN and infinity are represented in computing. It serves as useful context for understanding JavaScript's handling of numeric edge cases. The page is maintained collectively by the Wikipedia community.
+## CC BY-SA 3.0
+
+# Node.js Best Practices
+## https://github.com/goldbergyoni/nodebestpractices
+A community-driven repository that outlines a comprehensive guide to Node.js best practices, covering topics such as performance optimization, security, error handling, and code style. This source is highly regarded in the Node.js community and is continuously updated with contributions from experts.
+## MIT
