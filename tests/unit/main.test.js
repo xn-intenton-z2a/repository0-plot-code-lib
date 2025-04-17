@@ -282,7 +282,14 @@ describe("Background Color Option", () => {
 describe("Plot Labels Options", () => {
   test("should generate SVG with custom title, x-axis label, and y-axis label when provided for function based plots", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "label_output.svg", "--title", "My Plot Title", "--x-label", "Time (s)", "--y-label", "Amplitude"];
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-10:10,y=-1:1",
+      "--file", "label_output.svg",
+      "--title", "My Plot Title",
+      "--x-label", "Time (s)",
+      "--y-label", "Amplitude"
+    ];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "label_output.svg");
     expect(callArgs).toBeDefined();
@@ -296,7 +303,13 @@ describe("Plot Labels Options", () => {
   test("should generate SVG with custom title, x-axis label, and y-axis label when provided for CSV based plots", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const csvData = "0,0\n5,10\n10,5";
-    const args = ["--csv", csvData, "--file", "csv_label_output.svg", "--title", "CSV Plot Title", "--x-label", "X-Axis", "--y-label", "Y-Axis"];
+    const args = [
+      "--csv", csvData,
+      "--file", "csv_label_output.svg",
+      "--title", "CSV Plot Title",
+      "--x-label", "X-Axis",
+      "--y-label", "Y-Axis"
+    ];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_label_output.svg");
     expect(callArgs).toBeDefined();
@@ -331,6 +344,27 @@ describe("Tooltip Option", () => {
     const writtenContent = callArgs[1];
     expect(writtenContent).toContain("<circle");
     expect(writtenContent).toContain("<title>");
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Dash Array Option", () => {
+  test("should include stroke-dasharray attribute in function based SVG plot when --dash-array is provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "dash_output.svg", "--dash-array", "5,5"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "dash_output.svg");
+    expect(callArgs[1]).toContain('stroke-dasharray="5,5"');
+    writeSpy.mockRestore();
+  });
+
+  test("should include stroke-dasharray attribute in CSV based SVG plot when --dash-array is provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_dash_output.svg", "--dash-array", "2,2"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_dash_output.svg");
+    expect(callArgs[1]).toContain('stroke-dasharray="2,2"');
     writeSpy.mockRestore();
   });
 });

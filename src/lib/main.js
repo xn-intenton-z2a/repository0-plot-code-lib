@@ -11,6 +11,7 @@ import sharp from "sharp";
  * Optionally includes grid lines if the grid flag is true.
  * Adds optional title and axis labels if provided.
  * Optionally adds tooltips (circle markers with <title> elements) for each data point if tooltip is true.
+ * Supports optional stroke dash pattern via dashArray.
  * @param {string} expression - Mathematical expression (e.g., "y=sin(x)").
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to blue.
@@ -24,9 +25,10 @@ import sharp from "sharp";
  * @param {string} [xLabel] - Optional label for the x-axis to be displayed at the bottom center.
  * @param {string} [yLabel] - Optional label for the y-axis to be displayed on the left side.
  * @param {boolean} [tooltip] - Optional flag to add tooltip markers at each data point. Defaults to false.
+ * @param {string|null} [dashArray] - Optional dash pattern for the polyline.
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false) {
+function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null) {
   const margin = 10;
   const sampleCount = 100;
 
@@ -138,7 +140,8 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   }
 
   // Build SVG content with background, optional grid lines, polyline for the graph, and optional tooltip markers
-  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
+  const dashArrayAttribute = dashArray ? ` stroke-dasharray="${dashArray}"` : "";
+  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(' ')}" />`;
   const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
 
   // Additional text elements for title and axis labels
@@ -177,6 +180,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * Optionally includes grid lines if the grid flag is true.
  * Adds optional title and axis labels if provided.
  * Optionally adds tooltips (circle markers with <title> elements) for each data point if tooltip is true.
+ * Supports optional stroke dash pattern via dashArray.
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
  * @param {number} [strokeWidth] - Optional stroke width for the polyline. Defaults to 2.
@@ -189,9 +193,10 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * @param {string} [xLabel] - Optional x-axis label.
  * @param {string} [yLabel] - Optional y-axis label.
  * @param {boolean} [tooltip] - Optional flag to add tooltip markers for each data point. Defaults to false.
+ * @param {string|null} [dashArray] - Optional dash pattern for the polyline.
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false) {
+function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null) {
   const margin = 10;
   let dataPoints = [];
   let tooltipElements = "";
@@ -273,7 +278,8 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     }
   }
 
-  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
+  const dashArrayAttribute = dashArray ? ` stroke-dasharray="${dashArray}"` : "";
+  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(' ')}" />`;
   const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
 
   let titleElement = '';
@@ -306,12 +312,29 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 
 /**
  * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, --height, --grid, --log-scale, --background-color,
- * as well as new options --title, --x-label, --y-label, and --tooltip for plot annotations and tooltips.
+ * as well as new options --title, --x-label, --y-label, --tooltip and --dash-array for plot annotations, tooltips, and dash styling.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
 function parseArgs(args) {
-  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null, grid: false, logScale: false, backgroundColor: null, title: null, xLabel: null, yLabel: null, tooltip: false };
+  const options = {
+    expression: null,
+    range: null,
+    file: null,
+    csv: null,
+    strokeColor: null,
+    strokeWidth: null,
+    width: null,
+    height: null,
+    grid: false,
+    logScale: false,
+    backgroundColor: null,
+    title: null,
+    xLabel: null,
+    yLabel: null,
+    tooltip: false,
+    dashArray: null
+  };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case "--expression":
@@ -395,6 +418,12 @@ function parseArgs(args) {
       case "--tooltip":
         options.tooltip = true;
         break;
+      case "--dash-array":
+        if (i + 1 < args.length) {
+          options.dashArray = args[i + 1];
+          i++;
+        }
+        break;
       default:
         // Ignore unrecognized arguments
         break;
@@ -417,12 +446,13 @@ export async function main(args) {
     const customXLabel = options.xLabel || "";
     const customYLabel = options.yLabel || "";
     const customTooltip = options.tooltip;
+    const customDashArray = options.dashArray;
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
@@ -435,9 +465,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
