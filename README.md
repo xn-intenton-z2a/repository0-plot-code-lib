@@ -55,7 +55,7 @@ You can run the CLI with the following options:
 - --y-tick-format: (Optional) Customize the y-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} units").
 - --font-family: (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
 - --minify: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines, resulting in a smaller file size.
-- --help: (Optional) Display detailed help information about all available CLI options and usage examples, then exit without generating any output files.
+- --help: (Optional) Display detailed help information about all available CLI options and usage examples, then exit without generating any files.
 
 ### Example using Expression (Default styling and dimensions):
 
