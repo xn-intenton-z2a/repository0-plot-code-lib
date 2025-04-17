@@ -83,6 +83,11 @@ Chart.js is a widely-used JavaScript library for creating responsive, interactiv
 Highcharts is a feature-rich charting library enabling the creation of interactive and customizable charts for web applications. Its documentation covers chart types, interactivity, and integration options, operating under a proprietary license for commercial purposes.
 ## Proprietary (Free for non-commercial use)
 
+# Vega-Lite Documentation (Repeated Entry for Emphasis)
+## https://vega.github.io/vega-lite/docs/
+This guide provides a high-level view of rapid interactive visualization prototyping. It consolidates complex configurations into more manageable declarative statements.
+## Apache-2.0
+
 # Zod Documentation
 ## https://github.com/colinhacks/zod
 Zod is a TypeScript-first schema declaration and validation library. Its documentation details its API, usage examples, and best practices for data validation, making it valuable for building type-safe applications.
@@ -473,6 +478,7 @@ The Airbnb JavaScript Style Guide offers a widely adopted set of conventions for
 The Modern JavaScript Tutorial provides a comprehensive resource for learning modern JavaScript, covering language fundamentals, advanced topics, and practical examples. It is updated frequently to reflect current best practices and trends in JavaScript development.
 ## Not Specified
 
+
 #
 # New Sources Added
 #
@@ -491,3 +497,8 @@ This resource delves into the D3.js axis module, offering practical examples and
 ## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 This MDN documentation provides a comprehensive guide to ES6 template literals, including string interpolation and expression embedding. Given that the plotting library utilizes template literals extensively for generating dynamic SVG content, this source serves as an essential reference for understanding and applying modern JavaScript string formatting techniques.
 ## CC BY-SA 2.5
+
+# D3.js in Depth Documentation
+## https://d3indepth.com/
+D3.js in Depth offers a comprehensive exploration of D3.js features with a focus on scales, axes, and transitions. It provides advanced insights and practical examples that complement the repository’s custom axis tick label formatting and other data visualization capabilities.
+## MIT
