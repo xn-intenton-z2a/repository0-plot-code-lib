@@ -11,6 +11,7 @@ This library provides functionality to generate plots from mathematical expressi
 New in this release:
 - You can customize the polyline's appearance with additional CLI options --stroke-color and --stroke-width.
 - You can now specify custom dimensions for the generated plots with --width and --height options.
+- You can include optional grid lines in the SVG plot by using the --grid flag. These grid lines are rendered in a light gray color to aid in visual interpretation of the plot scale.
 
 ---
 
@@ -26,6 +27,7 @@ You can run the CLI with the following options:
 - --stroke-width: (Optional) Custom stroke width for the plot's polyline. Defaults to 2.
 - --width: (Optional) Custom width for the output SVG/PNG. Defaults to 300 if not provided.
 - --height: (Optional) Custom height for the output SVG/PNG. Defaults to 150 if not provided.
+- --grid: (Optional) Include grid lines in the SVG plot. When this flag is used, the plot will display light gray grid lines in the background, computed based on the provided range.
 
 ### Example using Expression (Default styling and dimensions):
 
@@ -37,11 +39,11 @@ To generate a PNG plot with default styling and dimensions:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.png
 
-### Example using Expression with Custom Styling and Dimensions:
+### Example using Expression with Custom Styling, Dimensions and Grid Lines:
 
-To generate an SVG plot with a custom stroke color, stroke width, width, and height:
+To generate an SVG plot with a custom stroke color, stroke width, width, height, and grid lines:
 
-    node src/lib/main.js --expression "y=cos(x)" --range "x=-10:10,y=-1:1" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400
+    node src/lib/main.js --expression "y=cos(x)" --range "x=-10:10,y=-1:1" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid
 
 ### Example using CSV (Default styling and dimensions):
 
@@ -53,11 +55,11 @@ To generate a PNG plot from CSV data with default styling and dimensions:
 
     node src/lib/main.js --csv "0,0\n5,10\n10,5" --file csv_output.png
 
-### Example using CSV with Custom Styling and Dimensions:
+### Example using CSV with Custom Styling, Dimensions and Grid Lines:
 
-To generate an SVG plot from CSV data with custom styling and dimensions:
+To generate an SVG plot from CSV data with custom styling, dimensions, and grid lines:
 
-    node src/lib/main.js --csv "0,0\n5,10\n10,5" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450
+    node src/lib/main.js --csv "0,0\n5,10\n10,5" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid
 
 If the --file option is provided with a filename that does not end with .svg or .png, an error message will be displayed.
 

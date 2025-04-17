@@ -8,15 +8,17 @@ import sharp from "sharp";
 /**
  * Generates an SVG plot based on given mathematical expression and range.
  * It computes sample points from the function and draws a polyline representing the graph.
+ * Optionally includes grid lines if the grid flag is true.
  * @param {string} expression - Mathematical expression (e.g., "y=sin(x)").
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to blue.
  * @param {number} [strokeWidth] - Optional stroke width for the polyline. Defaults to 2.
  * @param {number} [width] - Optional width of the SVG. Defaults to 300.
  * @param {number} [height] - Optional height of the SVG. Defaults to 150.
+ * @param {boolean} [grid] - Optional flag to include grid lines. Defaults to false.
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150) {
+function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false) {
   const margin = 10;
   const sampleCount = 100;
 
@@ -35,8 +37,8 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     const yPart = rangeParts.find(part => part.trim().startsWith('y='));
     if (!xPart || !yPart) throw new Error('Invalid range format');
 
-    const xVals = xPart.split('=')[1].split(":").map(Number);
-    const yVals = yPart.split('=')[1].split(":").map(Number);
+    const xVals = xPart.split('=')[1].split(":" ).map(Number);
+    const yVals = yPart.split('=')[1].split(":" ).map(Number);
     [xMin, xMax] = xVals;
     [yMin, yMax] = yVals;
     if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
@@ -82,11 +84,30 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     }
   }
 
-  // Build SVG content with background and polyline for the graph
+  // If grid flag is true, compute grid lines
+  let gridLines = '';
+  if (grid) {
+    const numX = 10, numY = 10;
+    const dx = (xMax - xMin) / numX;
+    const dy = (yMax - yMin) / numY;
+    for (let i = 0; i <= numX; i++) {
+      const xTick = xMin + i * dx;
+      const svgX = margin + ((xTick - xMin) / (xMax - xMin)) * (width - 2 * margin);
+      gridLines += `<line x1="${svgX}" y1="${margin}" x2="${svgX}" y2="${height - margin}" stroke="#ccc" stroke-width="1"/>`;
+    }
+    for (let j = 0; j <= numY; j++) {
+      const yTick = yMin + j * dy;
+      const svgY = height - margin - ((yTick - yMin) / (yMax - yMin)) * (height - 2 * margin);
+      gridLines += `<line x1="${margin}" y1="${svgY}" x2="${width - margin}" y2="${svgY}" stroke="#ccc" stroke-width="1"/>`;
+    }
+  }
+
+  // Build SVG content with background, optional grid lines, and polyline for the graph
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="#f0f0f0"/>
+  ${gridLines}
   ${polyline}
   <text x="10" y="${height - 5}" font-size="10" fill="#333">Expression: ${expression}, Range: ${range}</text>
 </svg>`;
@@ -95,14 +116,16 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
 /**
  * Generates an SVG plot from CSV input containing x and y values.
  * Each line of the CSV should have two comma-separated values, optionally without a header.
+ * Optionally includes grid lines if the grid flag is true.
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
  * @param {number} [strokeWidth] - Optional stroke width for the polyline. Defaults to 2.
  * @param {number} [width] - Optional width of the SVG. Defaults to 300.
  * @param {number} [height] - Optional height of the SVG. Defaults to 150.
+ * @param {boolean} [grid] - Optional flag to include grid lines. Defaults to false.
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150) {
+function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false) {
   const margin = 10;
   let dataPoints = [];
   try {
@@ -139,23 +162,42 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     return `${svgX},${svgY}`;
   });
 
-  // Build SVG content with a polyline for CSV data
+  // If grid flag is true, compute grid lines
+  let gridLines = '';
+  if (grid) {
+    const numX = 10, numY = 10;
+    const dx = (xMax - xMin) / numX;
+    const dy = (yMax - yMin) / numY;
+    for (let i = 0; i <= numX; i++) {
+      const xTick = xMin + i * dx;
+      const svgX = margin + ((xTick - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
+      gridLines += `<line x1="${svgX}" y1="${margin}" x2="${svgX}" y2="${height - margin}" stroke="#ccc" stroke-width="1"/>`;
+    }
+    for (let j = 0; j <= numY; j++) {
+      const yTick = yMin + j * dy;
+      const svgY = height - margin - ((yTick - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
+      gridLines += `<line x1="${margin}" y1="${svgY}" x2="${width - margin}" y2="${svgY}" stroke="#ccc" stroke-width="1"/>`;
+    }
+  }
+
+  // Build SVG content with background, optional grid lines, and polyline for CSV data
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="#f0f0f0"/>
+  ${gridLines}
   ${polyline}
   <text x="10" y="${height - 5}" font-size="10" fill="#333">CSV Plot</text>
 </svg>`;
 }
 
 /**
- * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, and --height options.
+ * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, --height, and --grid options.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
 function parseArgs(args) {
-  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null };
+  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null, grid: false };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case "--expression":
@@ -206,6 +248,9 @@ function parseArgs(args) {
           i++;
         }
         break;
+      case "--grid":
+        options.grid = true;
+        break;
       default:
         // Ignore unrecognized arguments
         break;
@@ -226,9 +271,9 @@ export async function main(args) {
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
@@ -241,9 +286,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
