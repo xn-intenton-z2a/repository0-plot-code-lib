@@ -613,7 +613,7 @@ Options:
   --help               Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
-`; 
+`;
 
 export async function main(args) {
   const options = parseArgs(args);
