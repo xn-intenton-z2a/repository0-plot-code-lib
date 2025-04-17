@@ -265,7 +265,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   try {
     const lines = csv.split(/\r?\n/);
     let startIndex = 0;
-    // Detect if the first line is a header by checking if its tokens are not numeric
+    // Detect if the first line is a header
     if (lines.length > 0) {
       const firstLineParts = lines[0].split(",");
       if (firstLineParts.length >= 2) {
@@ -304,7 +304,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 </svg>`;
   }
 
-  // Determine x and y extents from the CSV data
+  // Determine x and y extents
   const xs = dataPoints.map(p => p[0]);
   const ys = dataPoints.map(p => p[1]);
   const xMin = Math.min(...xs);
@@ -312,7 +312,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   const yMin = Math.min(...ys);
   const yMax = Math.max(...ys);
 
-  // Map CSV points to svg coordinates and optionally add tooltip markers
+  // Map CSV points to svg coordinates
   const points = dataPoints.map(([x, y]) => {
     const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
     const svgY = height - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
@@ -320,7 +320,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
       const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
       if (tooltipShape === "square") {
-        // Draw square tooltip markers later
+        tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
       } else {
         tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
       }
@@ -328,16 +328,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     return `${svgX},${svgY}`;
   });
 
-  // If tooltip is enabled for CSV and tooltipShape is square, we need to add rect elements for each data point.
-  if (tooltip && tooltipShape === "square") {
-    dataPoints.forEach(([x, y]) => {
-      const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
-      const svgY = height - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
-      const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-      const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
-      tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
-    });
-  }
+  // If tooltip and square shape handled above already
 
   // Compute grid lines if flag is true
   let gridLines = '';
@@ -588,7 +579,7 @@ const helpMessage = `Usage: node src/lib/main.js [options]
 
 Options:
   --expression         A mathematical expression (e.g., "y=sin(x)").
-  --range              Range specification (e.g., "x=-10:10,y=-1:1").
+  --range              A range specification for variables (e.g., "x=-10:10,y=-1:1").
   --csv                CSV-formatted time series data with two comma-separated values (x,y) per line. When this option is provided, the --expression and --range options are ignored.
   --file               The output filename for the generated plot. 
                        - If the file has a .svg extension, an SVG plot with the rendered graph will be generated.
@@ -732,7 +723,6 @@ export async function main(args) {
         try {
           const lines = options.csv.split(/\r?\n/);
           let startIndex = 0;
-          // Detect if the first line is a header by checking if its tokens are not numeric
           if (lines.length > 0) {
             const firstLineParts = lines[0].split(",");
             if (firstLineParts.length >= 2) {
@@ -744,8 +734,8 @@ export async function main(args) {
             }
           }
           for (let i = startIndex; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (line === "") continue;
+            const line = lines[i];
+            if (line.trim() === "") continue;
             const parts = line.split(",");
             if (parts.length < 2) continue;
             const x = Number(parts[0].trim());
@@ -773,8 +763,8 @@ export async function main(args) {
         const yMin = Math.min(...ys);
         const yMax = Math.max(...ys);
         plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (customWidth - 2 * margin);
-          const svgY = customHeight - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (customHeight - 2 * margin);
+          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (options.width || 300 - 2 * margin);
+          const svgY = (options.height || 150) - margin - ((y - yMin) / ((yMax - yMin) || 1)) * ((options.height || 150) - 2 * margin);
           return { x, y, svgX, svgY };
         });
       } else if (options.expression && options.range) {
@@ -785,7 +775,7 @@ export async function main(args) {
         }
         let xMin, xMax, yMin, yMax;
         try {
-          const rangeParts = options.range.split(",");
+          const rangeParts = options.range.split(',');
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
@@ -827,10 +817,10 @@ export async function main(args) {
             }
             y = Math.log10(y);
           }
-          const svgX = margin + ((x - xMin) / (xMax - xMin)) * (customWidth - 2 * margin);
+          const svgX = margin + ((x - xMin) / (xMax - xMin)) * ((options.width || 300) - 2 * margin);
           const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
           const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
-          const svgY = customHeight - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * (customHeight - 2 * margin);
+          const svgY = (options.height || 150) - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * ((options.height || 150) - 2 * margin);
           points.push({ x, y, svgX, svgY });
         }
         plotData = points;
@@ -843,6 +833,131 @@ export async function main(args) {
         console.log(`JSON data file created at: ${options.file}`);
       } catch (error) {
         console.error("Error writing JSON file:" + error.message);
+      }
+    } else if (options.file.endsWith(".xml")) {
+      // XML export branch
+      let plotData;
+      const margin = 10;
+      if (options.csv) {
+        let dataPoints = [];
+        try {
+          const lines = options.csv.split(/\r?\n/);
+          let startIndex = 0;
+          if (lines.length > 0) {
+            const firstLineParts = lines[0].split(",");
+            if (firstLineParts.length >= 2) {
+              const firstToken = Number(firstLineParts[0].trim());
+              const secondToken = Number(firstLineParts[1].trim());
+              if (isNaN(firstToken) || isNaN(secondToken)) {
+                startIndex = 1;
+              }
+            }
+          }
+          for (let i = startIndex; i < lines.length; i++) {
+            const line = lines[i];
+            if (line.trim() === "") continue;
+            const parts = line.split(",");
+            if (parts.length < 2) continue;
+            const x = Number(parts[0].trim());
+            const yOrig = Number(parts[1].trim());
+            if (isNaN(x) || isNaN(yOrig)) continue;
+            if (options.logScale) {
+              if (yOrig <= 0) {
+                console.error("Error: Logarithmic scaling requires positive y values");
+                return;
+              }
+              dataPoints.push([x, Math.log10(yOrig)]);
+            } else {
+              dataPoints.push([x, yOrig]);
+            }
+          }
+          if (dataPoints.length === 0) throw new Error('No valid CSV data found');
+        } catch (error) {
+          console.error("Error parsing CSV: " + error.message);
+          return;
+        }
+        const xs = dataPoints.map(p => p[0]);
+        const ys = dataPoints.map(p => p[1]);
+        const xMin = Math.min(...xs);
+        const xMax = Math.max(...xs);
+        const yMin = Math.min(...ys);
+        const yMax = Math.max(...ys);
+        plotData = dataPoints.map(([x, y]) => {
+          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * ((options.width || 300) - 2 * margin);
+          const svgY = (options.height || 150) - margin - ((y - yMin) / ((yMax - yMin) || 1)) * ((options.height || 150) - 2 * margin);
+          return { x, y, svgX, svgY };
+        });
+      } else if (options.expression && options.range) {
+        let funcStr = options.expression;
+        if (options.expression.includes('=')) {
+          const parts = options.expression.split('=');
+          funcStr = parts[1].trim();
+        }
+        let xMin, xMax, yMin, yMax;
+        try {
+          const rangeParts = options.range.split(',');
+          const xPart = rangeParts.find(part => part.trim().startsWith('x='));
+          const yPart = rangeParts.find(part => part.trim().startsWith('y='));
+          if (!xPart || !yPart) throw new Error('Invalid range format');
+
+          const xVals = xPart.split('=')[1].split(":").map(Number);
+          const yVals = yPart.split('=')[1].split(":").map(Number);
+          [xMin, xMax] = xVals;
+          [yMin, yMax] = yVals;
+          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
+        } catch (error) {
+          console.error("Error parsing range: " + error.message);
+          return;
+        }
+        if (options.logScale && (yMin <= 0 || yMax <= 0)) {
+          console.error("Error: Logarithmic scaling requires positive y values");
+          return;
+        }
+        let func;
+        try {
+          func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
+          const testVal = func(xMin);
+          if (typeof testVal !== 'number' || isNaN(testVal)) {
+            throw new Error('Function does not return a number');
+          }
+        } catch (error) {
+          console.error("Error in function: " + error.message);
+          return;
+        }
+        const sampleCount = 100;
+        const points = [];
+        const step = (xMax - xMin) / (sampleCount - 1);
+        for (let i = 0; i < sampleCount; i++) {
+          const x = xMin + i * step;
+          let y = func(x);
+          if (options.logScale) {
+            if (y <= 0) {
+              console.error("Error: Logarithmic scaling requires positive y values");
+              return;
+            }
+            y = Math.log10(y);
+          }
+          const svgX = margin + ((x - xMin) / (xMax - xMin)) * ((options.width || 300) - 2 * margin);
+          const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
+          const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
+          const svgY = (options.height || 150) - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * ((options.height || 150) - 2 * margin);
+          points.push({ x, y, svgX, svgY });
+        }
+        plotData = points;
+      } else {
+        console.error("Error: either --csv or both --expression and --range options are required for XML export.");
+        return;
+      }
+      let xmlContent = `<plotData>\n`;
+      plotData.forEach(point => {
+         xmlContent += `  <point x=\"${point.x}\" y=\"${point.y}\" svgX=\"${point.svgX}\" svgY=\"${point.svgY}\" />\n`;
+      });
+      xmlContent += `</plotData>`;
+      try {
+        fs.writeFileSync(options.file, xmlContent, "utf8");
+        console.log(`XML file created at: ${options.file}`);
+      } catch (error) {
+        console.error("Error writing XML file:", error.message);
       }
     } else if (options.file.endsWith(".csv")) {
       // CSV export branch
@@ -893,8 +1008,8 @@ export async function main(args) {
         const yMin = Math.min(...ys);
         const yMax = Math.max(...ys);
         plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (customWidth - 2 * margin);
-          const svgY = customHeight - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (customHeight - 2 * margin);
+          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * ((options.width || 300) - 2 * margin);
+          const svgY = (options.height || 150) - margin - ((y - yMin) / ((yMax - yMin) || 1)) * ((options.height || 150) - 2 * margin);
           return { x, y, svgX, svgY };
         });
       } else if (options.expression && options.range) {
@@ -905,7 +1020,7 @@ export async function main(args) {
         }
         let xMin, xMax, yMin, yMax;
         try {
-          const rangeParts = options.range.split(",");
+          const rangeParts = options.range.split(',');
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
@@ -947,10 +1062,10 @@ export async function main(args) {
             }
             y = Math.log10(y);
           }
-          const svgX = margin + ((x - xMin) / (xMax - xMin)) * (customWidth - 2 * margin);
+          const svgX = margin + ((x - xMin) / (xMax - xMin)) * ((options.width || 300) - 2 * margin);
           const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
           const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
-          const svgY = customHeight - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * (customHeight - 2 * margin);
+          const svgY = (options.height || 150) - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * ((options.height || 150) - 2 * margin);
           points.push({ x, y, svgX, svgY });
         }
         plotData = points;
@@ -967,258 +1082,9 @@ export async function main(args) {
         console.log(`CSV data file created at: ${options.file}`);
       } catch (error) {
         console.error("Error writing CSV file:" + error.message);
-      }
-    } else if (options.file.endsWith(".xml")) {
-      // XML export branch
-      let plotData;
-      const margin = 10;
-      if (options.csv) {
-        let dataPoints = [];
-        try {
-          const lines = options.csv.split(/\r?\n/);
-          let startIndex = 0;
-          if (lines.length > 0) {
-            const firstLineParts = lines[0].split(",");
-            if (firstLineParts.length >= 2) {
-              const firstToken = Number(firstLineParts[0].trim());
-              const secondToken = Number(firstLineParts[1].trim());
-              if (isNaN(firstToken) || isNaN(secondToken)) {
-                startIndex = 1;
-              }
-            }
-          }
-          for (let i = startIndex; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (line === "") continue;
-            const parts = line.split(",");
-            if (parts.length < 2) continue;
-            const x = Number(parts[0].trim());
-            const yOrig = Number(parts[1].trim());
-            if (isNaN(x) || isNaN(yOrig)) continue;
-            if (options.logScale) {
-              if (yOrig <= 0) {
-                console.error("Error: Logarithmic scaling requires positive y values");
-                return;
-              }
-              dataPoints.push([x, Math.log10(yOrig)]);
-            } else {
-              dataPoints.push([x, yOrig]);
-            }
-          }
-          if (dataPoints.length === 0) throw new Error('No valid CSV data found');
-        } catch (error) {
-          console.error("Error parsing CSV: " + error.message);
-          return;
-        }
-        const xs = dataPoints.map(p => p[0]);
-        const ys = dataPoints.map(p => p[1]);
-        const xMin = Math.min(...xs);
-        const xMax = Math.max(...xs);
-        const yMin = Math.min(...ys);
-        const yMax = Math.max(...ys);
-        plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (customWidth - 2 * margin);
-          const svgY = customHeight - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (customHeight - 2 * margin);
-          return { x, y, svgX, svgY };
-        });
-      } else if (options.expression && options.range) {
-        let funcStr = options.expression;
-        if (options.expression.includes('=')) {
-          const parts = options.expression.split('=');
-          funcStr = parts[1].trim();
-        }
-        let xMin, xMax, yMin, yMax;
-        try {
-          const rangeParts = options.range.split(",");
-          const xPart = rangeParts.find(part => part.trim().startsWith('x='));
-          const yPart = rangeParts.find(part => part.trim().startsWith('y='));
-          if (!xPart || !yPart) throw new Error('Invalid range format');
-
-          const xVals = xPart.split('=')[1].split(":").map(Number);
-          const yVals = yPart.split('=')[1].split(":").map(Number);
-          [xMin, xMax] = xVals;
-          [yMin, yMax] = yVals;
-          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
-        } catch (error) {
-          console.error("Error parsing range: " + error.message);
-          return;
-        }
-        if (options.logScale && (yMin <= 0 || yMax <= 0)) {
-          console.error("Error: Logarithmic scaling requires positive y values");
-          return;
-        }
-        let func;
-        try {
-          func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
-          const testVal = func(xMin);
-          if (typeof testVal !== 'number' || isNaN(testVal)) {
-            throw new Error('Function does not return a number');
-          }
-        } catch (error) {
-          console.error("Error in function: " + error.message);
-          return;
-        }
-        const sampleCount = 100;
-        const points = [];
-        const step = (xMax - xMin) / (sampleCount - 1);
-        for (let i = 0; i < sampleCount; i++) {
-          const x = xMin + i * step;
-          let y = func(x);
-          if (options.logScale) {
-            if (y <= 0) {
-              console.error("Error: Logarithmic scaling requires positive y values");
-              return;
-            }
-            y = Math.log10(y);
-          }
-          const svgX = margin + ((x - xMin) / (xMax - xMin)) * (customWidth - 2 * margin);
-          const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
-          const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
-          const svgY = customHeight - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * (customHeight - 2 * margin);
-          points.push({ x, y, svgX, svgY });
-        }
-        plotData = points;
-      } else {
-        console.error("Error: either --csv or both --expression and --range options are required for CSV export.");
-        return;
-      }
-      let csvContent = "x,y,svgX,svgY\n";
-      plotData.forEach(point => {
-         csvContent += `${point.x},${point.y},${point.svgX},${point.svgY}\n`;
-      });
-      try {
-        fs.writeFileSync(options.file, csvContent, "utf8");
-        console.log(`CSV data file created at: ${options.file}`);
-      } catch (error) {
-        console.error("Error writing CSV file:" + error.message);
-      }
-    } else if (options.file.endsWith(".xml")) {
-      // XML export branch
-      let plotData;
-      const margin = 10;
-      if (options.csv) {
-        let dataPoints = [];
-        try {
-          const lines = options.csv.split(/\r?\n/);
-          let startIndex = 0;
-          if (lines.length > 0) {
-            const firstLineParts = lines[0].split(",");
-            if (firstLineParts.length >= 2) {
-              const firstToken = Number(firstLineParts[0].trim());
-              const secondToken = Number(firstLineParts[1].trim());
-              if (isNaN(firstToken) || isNaN(secondToken)) {
-                startIndex = 1;
-              }
-            }
-          }
-          for (let i = startIndex; i < lines.length; i++) {
-            const line = lines[i].trim();
-            if (line === "") continue;
-            const parts = line.split(",");
-            if (parts.length < 2) continue;
-            const x = Number(parts[0].trim());
-            const yOrig = Number(parts[1].trim());
-            if (isNaN(x) || isNaN(yOrig)) continue;
-            if (options.logScale) {
-              if (yOrig <= 0) {
-                console.error("Error: Logarithmic scaling requires positive y values");
-                return;
-              }
-              dataPoints.push([x, Math.log10(yOrig)]);
-            } else {
-              dataPoints.push([x, yOrig]);
-            }
-          }
-          if (dataPoints.length === 0) throw new Error('No valid CSV data found');
-        } catch (error) {
-          console.error("Error parsing CSV: " + error.message);
-          return;
-        }
-        const xs = dataPoints.map(p => p[0]);
-        const ys = dataPoints.map(p => p[1]);
-        const xMin = Math.min(...xs);
-        const xMax = Math.max(...xs);
-        const yMin = Math.min(...ys);
-        const yMax = Math.max(...ys);
-        plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (customWidth - 2 * margin);
-          const svgY = customHeight - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (customHeight - 2 * margin);
-          return { x, y, svgX, svgY };
-        });
-      } else if (options.expression && options.range) {
-        let funcStr = options.expression;
-        if (options.expression.includes('=')) {
-          const parts = options.expression.split('=');
-          funcStr = parts[1].trim();
-        }
-        let xMin, xMax, yMin, yMax;
-        try {
-          const rangeParts = options.range.split(",");
-          const xPart = rangeParts.find(part => part.trim().startsWith('x='));
-          const yPart = rangeParts.find(part => part.trim().startsWith('y='));
-          if (!xPart || !yPart) throw new Error('Invalid range format');
-
-          const xVals = xPart.split('=')[1].split(":").map(Number);
-          const yVals = yPart.split('=')[1].split(":").map(Number);
-          [xMin, xMax] = xVals;
-          [yMin, yMax] = yVals;
-          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
-        } catch (error) {
-          console.error("Error parsing range: " + error.message);
-          return;
-        }
-        if (options.logScale && (yMin <= 0 || yMax <= 0)) {
-          console.error("Error: Logarithmic scaling requires positive y values");
-          return;
-        }
-        let func;
-        try {
-          func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
-          const testVal = func(xMin);
-          if (typeof testVal !== 'number' || isNaN(testVal)) {
-            throw new Error('Function does not return a number');
-          }
-        } catch (error) {
-          console.error("Error in function: " + error.message);
-          return;
-        }
-        const sampleCount = 100;
-        const points = [];
-        const step = (xMax - xMin) / (sampleCount - 1);
-        for (let i = 0; i < sampleCount; i++) {
-          const x = xMin + i * step;
-          let y = func(x);
-          if (options.logScale) {
-            if (y <= 0) {
-              console.error("Error: Logarithmic scaling requires positive y values");
-              return;
-            }
-            y = Math.log10(y);
-          }
-          const svgX = margin + ((x - xMin) / (xMax - xMin)) * (customWidth - 2 * margin);
-          const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
-          const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
-          const svgY = customHeight - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * (customHeight - 2 * margin);
-          points.push({ x, y, svgX, svgY });
-        }
-        plotData = points;
-      } else {
-        console.error("Error: either --csv or both --expression and --range options are required for XML export.");
-        return;
-      }
-      let xmlContent = `<plotData>\n`;
-      plotData.forEach(point => {
-        xmlContent += `  <point x=\"${point.x}\" y=\"${point.y}\" svgX=\"${point.svgX}\" svgY=\"${point.svgY}\" />\n`;
-      });
-      xmlContent += `</plotData>`;
-      try {
-        fs.writeFileSync(options.file, xmlContent, "utf8");
-        console.log(`XML file created at: ${options.file}`);
-      } catch (error) {
-        console.error("Error writing XML file:", error.message);
       }
     } else {
-      console.error("Error: Only .svg, .png, .pdf, .json, .csv, and .xml files are supported for plot generation.");
+      console.error("Error: Only .svg, .png, .pdf, .json, .xml, and .csv files are supported for plot generation.");
     }
   } else {
     console.log(`Run with: ${JSON.stringify(options)}`);

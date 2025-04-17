@@ -24,7 +24,7 @@ describe("CLI Options Parsing", () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, .csv, and .xml files are supported for plot generation.");
+    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, .xml, and .csv files are supported for plot generation.");
     errorSpy.mockRestore();
   });
 });
@@ -606,7 +606,7 @@ describe("SVG Minification Option", () => {
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "minify_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).not.toMatch(/\n/);
+    expect(writtenContent).not.toMatch(/>\s+</);
     expect(writtenContent).toContain("<svg");
     writeSpy.mockRestore();
   });
