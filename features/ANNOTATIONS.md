@@ -1,23 +1,23 @@
-# ANNOTATIONS Feature Update
+# ANNOTATIONS FEATURE UPDATE
 
 ## Overview
-This update refines the existing annotations functionality by not only providing customization for plot titles and axis labels but also by introducing a new capability for custom axis tick label formatting. Users can now specify the display of tick labels on both the x and y axes using the CLI options `--x-tick-format` and `--y-tick-format`. These options accept a format string with the `{value}` placeholder which is replaced with the numerical tick value (formatted to two decimals), allowing, for example, the addition of units or descriptive text.
+This update further refines the annotations functionality by enhancing the customization capabilities for generated plots. In addition to the existing support for custom titles, axis labels, tooltips, and grid lines, this update introduces **Custom Axis Tick Label Formatting**. Users can now specify formatting templates for both the x and y axis tick labels using the CLI options `--x-tick-format` and `--y-tick-format`. These templates include a `{value}` placeholder, which is replaced with the numerical tick value (formatted to two decimals), allowing annotations such as units or descriptive text to be appended to the tick labels.
 
 ## Implementation Details
-- **Source File Changes**:
-  - Update the CLI parser (in `src/lib/main.js`) to recognize the new options `--x-tick-format` and `--y-tick-format` alongside the existing parameters.
-  - In the SVG generation functions (`generateSVG` and `generateSVGFromCSV`), incorporate logic to render axis tick labels with the supplied custom formats. When these options are provided, the placeholder `{value}` is replaced appropriately in the label text; if they are not provided, default numeric labels are shown.
-  - Ensure compatibility so that custom tick formatting works seamlessly with existing features such as grid lines, tooltips, and labels.
+- **Source File Changes:**
+  - Update the CLI argument parser in `src/lib/main.js` to recognize the new options `--x-tick-format` and `--y-tick-format` alongside existing options.
+  - Enhance the SVG generation functions (`generateSVG` and `generateSVGFromCSV`) to compute tick positions and generate `<text>` elements for axis tick labels using the provided format strings. The label should replace the `{value}` placeholder with the actual tick value.
+  - Apply the custom font family from the `--font-family` option to ensure consistent styling in all text elements including the custom tick labels.
 
 ## Testing
-- **Unit Tests**:
-  - Add new cases in `tests/unit/main.test.js` to verify that when the `--x-tick-format` and `--y-tick-format` options are used, the generated SVG includes correctly formatted tick label text on both axes.
-  - Validate that the custom format correctly replaces the `{value}` placeholder in a variety of scenarios, for both function-based and CSV-based plot generations.
+- **Unit Tests:**
+  - Extend tests in `tests/unit/main.test.js` to cover cases where `--x-tick-format` and `--y-tick-format` options are provided. Verify that SVG output contains correctly formatted tick label elements with the expected text (e.g., "X: 10.00 ms") for both function-based and CSV-based plots.
+  - Include error handling cases to ensure that if the formatting options are provided without a valid numeric replacement, the default tick labels are used.
 
 ## Documentation
-- **README Updates**:
-  - Update the usage section in the README to document the new custom axis tick formatting options. Provide examples such as: `--x-tick-format "{value} ms"` and `--y-tick-format "{value} units"`.
-  - Explain that these options enhance readability and allow users to append units or descriptors to numerical tick values.
+- **README Updates:**
+  - Update the CLI usage documentation to include examples for the new `--x-tick-format` and `--y-tick-format` options, e.g., `--x-tick-format "{value} ms"` and `--y-tick-format "{value} units"`.
+  - Emphasize that these options improve the clarity of axis annotations when integrating plots into reports and presentations.
 
 ## Compatibility and Value
-This refined ANNOTATIONS feature supports our mission to be the go-to plotting library by enhancing the clarity and professionalism of generated plots. By enabling custom tick label formatting, users gain more control over how their data is presented, making it easier to integrate the plots into tailored reports or presentations.
+This enhancement aligns with the project’s mission of becoming the go-to plotting library by offering detailed and customizable visual output. Custom axis tick formatting makes the plots more informative and adaptable to various domains, delivering clear, publication-quality visualizations without increasing complexity or file bloat.
