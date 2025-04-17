@@ -320,7 +320,8 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
       const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
       if (tooltipShape === "square") {
-        return `${svgX},${svgY}`; // return point as normal and handle tooltip later
+        // Draw square tooltip markers later
+        return `${svgX},${svgY}`;
       } else {
         tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
       }
@@ -328,9 +329,9 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     return `${svgX},${svgY}`;
   });
 
-  // If tooltip is enabled for CSV and tooltipShape is square, we need to add rect elements for each data point.
+  // If tooltip is enabled for CSV and tooltipShape is square, add rect elements for each data point.
   if (tooltip && tooltipShape === "square") {
-    dataPoints.forEach(([x, y], index) => {
+    dataPoints.forEach(([x, y]) => {
       const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
       const svgY = height - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
       const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
@@ -609,20 +610,20 @@ Options:
   --y-tick-format      Customize the y-axis tick labels.
   --font-family        Custom font family for all text elements (default: inherit).
   --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
-  --tooltip-shape      Set the tooltip marker shape ('circle' or 'square'; default is 'circle').
+  --tooltip-shape      Set the tooltip marker shape ('circle' or 'square').
   --help               Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
-
-Examples:
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
-  node src/lib/main.js --csv "0,0\n5,10\n10,5" --file output.svg
-
-For detailed information, see the documentation.
 `;
 
 export async function main(args) {
   const options = parseArgs(args);
+
+  // Validate tooltipShape option if provided
+  if (options.tooltipShape && options.tooltipShape !== "circle" && options.tooltipShape !== "square") {
+    console.error("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+    return;
+  }
 
   // New validation for mutually exclusive input options
   if (options.csv && (options.expression || options.range)) {

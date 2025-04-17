@@ -18,7 +18,7 @@ New in this release:
 - New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small marker (default is a circle) containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like "X: {x}, Y: {y}". The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places. These tooltip markers have a pointer cursor to indicate interactivity.
 - New Feature: You can now customize the dash pattern of the plotted polyline with the --dash-array option (e.g., "5,5") to create dashed or dotted line styles.
 - New Feature: You can now customize the CSS styling of tooltip markers using the --tooltip-style option. This option allows you to pass custom CSS (e.g., fill color, stroke, radius adjustments) to style the tooltip markers.
-- New Feature: **Custom Tooltip Marker Shape Option**: You can now choose the shape of the data point markers when tooltips are enabled using the --tooltip-shape option. Accepted values are "circle" (default) and "square". When "square" is selected, a square marker (a <rect> element of 6x6 units, centered at the data point) is rendered instead of the default circle.
+- New Feature: **Custom Tooltip Marker Shape Option**: You can now choose the shape of the data point markers when tooltips are enabled using the --tooltip-shape option. Accepted values are "circle" (default) and "square". **If an invalid value is provided, the program prints an error message and exits without generating any output.**
 - New Feature: You can now export the computed plot data as JSON by specifying an output file with a .json extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the corresponding SVG coordinates (svgX and svgY).
 - New Feature: You can now export the computed plot data as CSV by specifying an output file with a .csv extension. The CSV export includes a header row (`x,y,svgX,svgY`) followed by one row per data point. This works for both function-based plots and CSV input plots.
 - New Feature: **Custom Axis Tick Label Formatting**: You can now customize the tick labels on both the x and y axes using the --x-tick-format and --y-tick-format options. These options accept a format string with a placeholder `{value}` that is replaced by the tick value. For example, `--x-tick-format "{value} ms"` appends " ms" to each x-axis tick value. This enhances plot annotation and readability when the default numeric labels are not sufficient.
@@ -62,8 +62,8 @@ You can run the CLI with the following options:
 - --y-tick-format: (Optional) Customize the y-axis tick labels.
 - --font-family: (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
 - --minify: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
-- --tooltip-shape: (Optional) Set the tooltip marker shape. Accepted values are "circle" (default) and "square".
-- --help: (Optional) Display detailed help information and a summary of all available CLI options, then exit.
+- --tooltip-shape: (Optional) Set the tooltip marker shape. **Accepted values are "circle" (default) and "square". If an invalid value is provided, an error message is shown and the program exits without generating output.**
+- --help: (Optional) Display detailed usage information and a summary of all available CLI options, then exit.
 
 ### Example using Expression (Default styling and dimensions):
 

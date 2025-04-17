@@ -610,6 +610,19 @@ describe("Custom Font Family Option", () => {
   });
 });
 
+describe("Invalid Tooltip Shape Option", () => {
+  test("should output error and not create file when invalid tooltip shape is provided", async () => {
+    const errorSpy = vi.spyOn(console, "error");
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "invalid_tooltip.svg", "--tooltip-shape", "triangle"];
+    await main(args);
+    expect(errorSpy).toHaveBeenCalledWith("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+    expect(writeSpy).not.toHaveBeenCalled();
+    errorSpy.mockRestore();
+    writeSpy.mockRestore();
+  });
+});
+
 describe("Help Option", () => {
   test("should output help message and not attempt file generation when --help is provided", async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
