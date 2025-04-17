@@ -21,6 +21,7 @@ New in this release:
 - New Feature: You can now export the computed plot data as JSON by specifying an output file with a .json extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the corresponding SVG coordinates (svgX and svgY).
 - New Feature: You can now export the computed plot data as CSV by specifying an output file with a .csv extension. The CSV export includes a header row (`x,y,svgX,svgY`) followed by one row per data point. This works for both function-based plots and CSV input plots.
 - New Feature: **Custom Axis Tick Label Formatting**: You can now customize the tick labels on both the x and y axes using the --x-tick-format and --y-tick-format options. These options accept a format string with a placeholder `{value}` that is replaced by the tick value. For example, `--x-tick-format "{value} ms"` appends " ms" to each x-axis tick value. This enhances plot annotation and readability when the default numeric labels are not sufficient.
+- New Feature: **Help Option**: You can now use the --help flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any files.
 - CSV files with an optional header row (e.g., "x,y") are now supported, and the header is automatically ignored.
 
 ---
@@ -49,6 +50,7 @@ You can run the CLI with the following options:
 - --tooltip-style: (Optional) Provide custom CSS styling for tooltip circle markers. For example, you can use --tooltip-style "fill: red; stroke: blue;" to adjust the appearance.
 - --x-tick-format: (Optional) Customize the x-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} ms").
 - --y-tick-format: (Optional) Customize the y-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} units").
+- --help: (Optional) Display detailed help information about all available CLI options and usage examples, then exit without generating any output files.
 
 ### Example using Expression (Default styling and dimensions):
 
@@ -90,7 +92,13 @@ To export the computed plot data as CSV for further analysis (with header row):
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.csv
 
-When the output file has a .csv extension, the CLI exports the plot data with a header row (`x,y,svgX,svgY`) followed by one row for each data point.
+### Help Option
+
+To display detailed usage information and a summary of all available CLI options, run:
+
+    node src/lib/main.js --help
+
+When the --help flag is provided, the tool will print this help message and exit without generating any files.
 
 ---
 
