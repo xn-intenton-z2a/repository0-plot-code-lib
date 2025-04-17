@@ -15,16 +15,17 @@ New in this release:
 - You can now apply logarithmic scaling on the y-axis with the --log-scale flag. When enabled, the y values are transformed using base-10 logarithm. Note: All y values must be positive when using logarithmic scaling.
 - You can now set a custom background color for both SVG and PNG outputs with the --background-color flag, allowing greater customization of the plot appearance.
 - New Feature: You can add descriptive titles and axis labels to your plots using --title, --x-label, and --y-label options. This allows you to annotate your plot with a main title (centered at the top), an x-axis label (centered at the bottom), and a y-axis label (rotated along the left side).
-- New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small circle containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like "X: {x}, Y: {y}". The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places. These tooltip markers have a pointer cursor to indicate interactivity.
+- New Feature: You can now add tooltips to each data point by using the --tooltip flag. When enabled, each point is marked with a small marker (default is a circle) containing a <title> element that shows the (x, y) coordinates. Additionally, you can customize the tooltip text by using the new --tooltip-format option, where you can specify a template like "X: {x}, Y: {y}". The placeholders {x} and {y} will be replaced with the corresponding data values formatted to two decimal places. These tooltip markers have a pointer cursor to indicate interactivity.
 - New Feature: You can now customize the dash pattern of the plotted polyline with the --dash-array option (e.g., "5,5") to create dashed or dotted line styles.
-- New Feature: You can now customize the CSS styling of tooltip circle markers using the --tooltip-style option. This option allows you to pass custom CSS (e.g., fill color, stroke, radius adjustments) to style the tooltip markers. For example, you can use --tooltip-style "fill: red; stroke: blue;".
+- New Feature: You can now customize the CSS styling of tooltip markers using the --tooltip-style option. This option allows you to pass custom CSS (e.g., fill color, stroke, radius adjustments) to style the tooltip markers.
+- New Feature: **Custom Tooltip Marker Shape Option**: You can now choose the shape of the data point markers when tooltips are enabled using the --tooltip-shape option. Accepted values are "circle" (default) and "square". When "square" is selected, a square marker (a <rect> element of 6x6 units, centered at the data point) is rendered instead of the default circle.
 - New Feature: You can now export the computed plot data as JSON by specifying an output file with a .json extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the corresponding SVG coordinates (svgX and svgY).
 - New Feature: You can now export the computed plot data as CSV by specifying an output file with a .csv extension. The CSV export includes a header row (`x,y,svgX,svgY`) followed by one row per data point. This works for both function-based plots and CSV input plots.
 - New Feature: **Custom Axis Tick Label Formatting**: You can now customize the tick labels on both the x and y axes using the --x-tick-format and --y-tick-format options. These options accept a format string with a placeholder `{value}` that is replaced by the tick value. For example, `--x-tick-format "{value} ms"` appends " ms" to each x-axis tick value. This enhances plot annotation and readability when the default numeric labels are not sufficient.
 - New Feature: **SVG Minification Option**: You can now use the --minify flag to optimize the SVG output. When this flag is enabled, unnecessary whitespace and newlines are removed from the SVG, resulting in a smaller file size without affecting the visual rendering.
 - New Feature: **Help Option**: You can now use the --help flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any output files.
 - New Feature: **Custom Font Family Option**: You can now specify a custom font family for all text elements in the generated SVG output using the --font-family option (e.g., "Arial, sans-serif"). This setting applies to the plot title, axis labels, and tick labels, making it easier to match your application's styles.
-- **New Feature: PDF Export Option**: When the output filename has a .pdf extension, the CLI generates a PDF file containing the plot. The SVG content is first converted to a PNG image using sharp, and then the PDF is created using PDFKit with the PNG embedded into it.
+- New Feature: **PDF Export Option**: When the output filename has a .pdf extension, the CLI generates a PDF file containing the plot. The SVG content is first converted to a PNG image using sharp, and then the PDF is created using PDFKit with the PNG embedded into it.
 
 **Note:** The --csv option and the --expression/--range options are mutually exclusive. Please provide only one input mode.
 
@@ -56,11 +57,12 @@ You can run the CLI with the following options:
 - --tooltip: (Optional) Add tooltips to each data point in the plot.
 - --tooltip-format: (Optional) Customize the tooltip text format when --tooltip is enabled. Use a template string with placeholders {x} and {y} (e.g., "X: {x}, Y: {y}").
 - --dash-array: (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5").
-- --tooltip-style: (Optional) Provide custom CSS styling for tooltip circle markers.
+- --tooltip-style: (Optional) Provide custom CSS styling for tooltip markers.
 - --x-tick-format: (Optional) Customize the x-axis tick labels.
 - --y-tick-format: (Optional) Customize the y-axis tick labels.
 - --font-family: (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
 - --minify: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
+- --tooltip-shape: (Optional) Set the tooltip marker shape. Accepted values are "circle" (default) and "square".
 - --help: (Optional) Display detailed help information and a summary of all available CLI options, then exit.
 
 ### Example using Expression (Default styling and dimensions):
