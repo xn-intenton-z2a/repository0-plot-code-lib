@@ -352,3 +352,13 @@ Simple Statistics is a JavaScript library that provides functions for descriptiv
 ## https://nodejs.org/api/report.html
 The Node.js Diagnostic Report documentation explains how to generate diagnostic reports for Node.js applications, which capture system state, error logs, and performance metrics. This resource is essential for developers looking to implement robust diagnostic features in CLI tools and is maintained with every new Node.js release. It is recognized as an authoritative guide for debugging production issues.
 ## Public Domain (Node.js Documentation Terms)
+
+# Dygraphs Documentation
+## http://dygraphs.com/
+Dygraphs is a fast, flexible, interactive open source JavaScript charting library that specializes in handling large datasets and time series. Its documentation provides insights into features like zooming, panning, and real-time data updates. With practical examples and regular updates, it is a strong competitor in the charting space.
+## MIT
+
+# Nivo Documentation
+## https://nivo.rocks/
+Nivo is a comprehensive charting library built with React and D3, offering a wide array of customizable, interactive visualization components. Its well-organized documentation includes interactive demos, API references, and advanced configuration guides, making it an excellent resource for building modern web visualizations.
+## MIT
