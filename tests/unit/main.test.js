@@ -523,6 +523,21 @@ describe("CSV Data Export Option", () => {
   });
 });
 
+describe("SVG Minification Option", () => {
+  test("should minify SVG output when --minify flag is provided for function plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "minify_output.svg", "--minify"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "minify_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    // Ensure that the output has no newline characters
+    expect(writtenContent).not.toMatch(/\n/);
+    expect(writtenContent).toContain("<svg");
+    writeSpy.mockRestore();
+  });
+});
+
 describe("Help Option", () => {
   test("should output help message and not attempt file generation when --help is provided", async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});

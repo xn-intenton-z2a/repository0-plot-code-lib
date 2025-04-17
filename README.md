@@ -21,6 +21,7 @@ New in this release:
 - New Feature: You can now export the computed plot data as JSON by specifying an output file with a .json extension. When using this option, the CLI exports an array of data points, each containing the original x and y values (after applying log scale if enabled) as well as the corresponding SVG coordinates (svgX and svgY).
 - New Feature: You can now export the computed plot data as CSV by specifying an output file with a .csv extension. The CSV export includes a header row (`x,y,svgX,svgY`) followed by one row per data point. This works for both function-based plots and CSV input plots.
 - New Feature: **Custom Axis Tick Label Formatting**: You can now customize the tick labels on both the x and y axes using the --x-tick-format and --y-tick-format options. These options accept a format string with a placeholder `{value}` that is replaced by the tick value. For example, `--x-tick-format "{value} ms"` appends " ms" to each x-axis tick value. This enhances plot annotation and readability when the default numeric labels are not sufficient.
+- New Feature: **SVG Minification Option**: You can now use the --minify flag to optimize the SVG output. When this flag is enabled, unnecessary whitespace and newlines are removed from the SVG, resulting in a smaller file size without affecting the visual rendering.
 - New Feature: **Help Option**: You can now use the --help flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any files.
 - CSV files with an optional header row (e.g., "x,y") are now supported, and the header is automatically ignored.
 
@@ -50,6 +51,7 @@ You can run the CLI with the following options:
 - --tooltip-style: (Optional) Provide custom CSS styling for tooltip circle markers. For example, you can use --tooltip-style "fill: red; stroke: blue;" to adjust the appearance.
 - --x-tick-format: (Optional) Customize the x-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} ms").
 - --y-tick-format: (Optional) Customize the y-axis tick labels. Provide a format string with a `{value}` placeholder (e.g., "{value} units").
+- --minify: (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines, resulting in a smaller file size.
 - --help: (Optional) Display detailed help information about all available CLI options and usage examples, then exit without generating any output files.
 
 ### Example using Expression (Default styling and dimensions):
@@ -62,9 +64,9 @@ To generate a PNG plot with default styling and dimensions:
 
     node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.png
 
-### Example using Expression with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, and Axis Tick Formats:
+### Example using Expression with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, Axis Tick Formats, and SVG Minification:
 
-    node src/lib/main.js --expression "y=x+10" --range "x=0:10,y=10:20" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid --log-scale --background-color "#ffdead" --title "My Plot Title" --x-label "Time (s)" --y-label "Value" --tooltip --tooltip-format "X: {x}, Y: {y}" --dash-array "5,5" --tooltip-style "fill: red; stroke: blue;" --x-tick-format "{value} ms" --y-tick-format "{value} units"
+    node src/lib/main.js --expression "y=x+10" --range "x=0:10,y=10:20" --file custom_output.svg --stroke-color green --stroke-width 5 --width 500 --height 400 --grid --log-scale --background-color "#ffdead" --title "My Plot Title" --x-label "Time (s)" --y-label "Value" --tooltip --tooltip-format "X: {x}, Y: {y}" --dash-array "5,5" --tooltip-style "fill: red; stroke: blue;" --x-tick-format "{value} ms" --y-tick-format "{value} units" --minify
 
 ### Example using CSV (Default styling and dimensions):
 
@@ -76,9 +78,9 @@ To generate a PNG plot from CSV data with default styling and dimensions (header
 
     node src/lib/main.js --csv "0,0\n5,10\n10,5" --file csv_output.png
 
-### Example using CSV with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, and Axis Tick Formats:
+### Example using CSV with Custom Styling, Dimensions, Grid Lines, Logarithmic Scaling, Background Color, Labels, Tooltips, Dash Pattern, Tooltip Styling, Axis Tick Formats, and SVG Minification:
 
-    node src/lib/main.js --csv "0,1\n5,10\n10,100" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid --log-scale --background-color "#e0ffff" --title "CSV Plot Title" --x-label "X-Axis" --y-label "Y-Axis" --tooltip --tooltip-format "X: {x}; Y: {y}" --dash-array "2,2" --tooltip-style "fill: green; stroke: orange;" --x-tick-format "{value} ms" --y-tick-format "{value} units"
+    node src/lib/main.js --csv "0,1\n5,10\n10,100" --file custom_csv_output.svg --stroke-color purple --stroke-width 3 --width 600 --height 450 --grid --log-scale --background-color "#e0ffff" --title "CSV Plot Title" --x-label "X-Axis" --y-label "Y-Axis" --tooltip --tooltip-format "X: {x}; Y: {y}" --dash-array "2,2" --tooltip-style "fill: green; stroke: orange;" --x-tick-format "{value} ms" --y-tick-format "{value} units" --minify
 
 ### Example using JSON Data Export:
 

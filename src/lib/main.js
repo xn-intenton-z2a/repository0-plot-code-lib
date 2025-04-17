@@ -405,7 +405,8 @@ function parseArgs(args) {
     tooltipStyle: null,
     xTickFormat: null,
     yTickFormat: null,
-    help: false
+    help: false,
+    minify: false
   };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -520,6 +521,9 @@ function parseArgs(args) {
           i++;
         }
         break;
+      case "--minify":
+        options.minify = true;
+        break;
       case "--help":
         options.help = true;
         break;
@@ -555,6 +559,7 @@ Options:
   --tooltip-style   Custom CSS styling for tooltip markers.
   --x-tick-format   Customize the x-axis tick labels (use {value} placeholder).
   --y-tick-format   Customize the y-axis tick labels (use {value} placeholder).
+  --minify          Minify the SVG output by removing unnecessary whitespace and newlines.
   --help            Display this help message and exit.
 
 Examples:
@@ -594,6 +599,10 @@ export async function main(args) {
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
+      }
+      // Apply minification if --minify is passed
+      if (options.minify) {
+        svgContent = svgContent.replace(/>\s+</g, '><').trim();
       }
       try {
         fs.writeFileSync(options.file, svgContent, "utf8");
