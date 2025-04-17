@@ -550,6 +550,31 @@ describe("SVG Minification Option", () => {
   });
 });
 
+describe("Custom Font Family Option", () => {
+  test("should include custom font-family style in text elements for function based plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "font_output.svg", "--font-family", "Arial, sans-serif" ];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "font_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('style="font-family: Arial, sans-serif;"');
+    writeSpy.mockRestore();
+  });
+
+  test("should include custom font-family style in text elements for CSV based plots", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_font_output.svg", "--font-family", "Courier New" ];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_font_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('style="font-family: Courier New;"');
+    writeSpy.mockRestore();
+  });
+});
+
 describe("Help Option", () => {
   test("should output help message and not attempt file generation when --help is provided", async () => {
     const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
