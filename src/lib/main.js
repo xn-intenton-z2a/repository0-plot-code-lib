@@ -569,14 +569,14 @@ Options:
   --title              Set a custom title for the plot.
   --x-label            Set a custom label for the x-axis.
   --y-label            Set a custom label for the y-axis.
-  --tooltip            Add tooltips to each data point.
+  --tooltip            Add tooltips to each data point in the plot.
   --tooltip-format     Customize the tooltip text format (use {x} and {y} placeholders).
   --dash-array         Customize the dash pattern of the plotted polyline.
   --tooltip-style      Custom CSS styling for tooltip markers.
   --x-tick-format      Customize the x-axis tick labels (use {value} placeholder).
   --y-tick-format      Customize the y-axis tick labels (use {value} placeholder).
   --font-family        Custom font family for all text elements (default: inherit).
-  --minify             Minify the SVG output by removing unnecessary whitespace.
+  --minify             Minify the SVG output by removing unnecessary whitespace and newlines.
   --help               Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
@@ -696,6 +696,7 @@ export async function main(args) {
         try {
           const lines = options.csv.split(/\r?\n/);
           let startIndex = 0;
+          // Detect if the first line is a header by checking if its tokens are not numeric
           if (lines.length > 0) {
             const firstLineParts = lines[0].split(",");
             if (firstLineParts.length >= 2) {

@@ -24,7 +24,8 @@ describe("CLI Options Parsing", () => {
     const errorSpy = vi.spyOn(console, "error");
     const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.txt"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .json, and .csv files are supported for plot generation.");
+    // Updated expected error message to include .pdf
+    expect(errorSpy).toHaveBeenCalledWith("Error: Only .svg, .png, .pdf, .json, and .csv files are supported for plot generation.");
     errorSpy.mockRestore();
   });
 });
