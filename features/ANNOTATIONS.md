@@ -1,19 +1,19 @@
 # ANNOTATIONS Feature Update
 
 ## Overview
-This update enhances the existing annotations feature by enabling font size customization for plot titles and axis labels. Users can now adjust the text size for the plot title, x-axis label, and y-axis label using three new CLI options: `--title-font-size`, `--x-label-font-size`, and `--y-label-font-size`.
+This update extends the existing annotations functionality. In addition to enabling font size customization for plot title and axis labels, users can now also define custom formatting for axis tick labels using the new CLI options --x-tick-format and --y-tick-format. The tick label formatting allows users to add descriptive text (e.g., units or time indicators) by inserting a placeholder `{value}`, which is replaced with the numerical tick value formatted to two decimals.
 
 ## Implementation Details
-- **Source File Changes**: 
-  - Update the CLI argument parser in `src/lib/main.js` to handle the new options (`--title-font-size`, `--x-label-font-size`, and `--y-label-font-size`).
-  - Modify the SVG generation functions (`generateSVG` and `generateSVGFromCSV`) to use the provided font size values when rendering the title and labels. If any of these options are not provided, default font sizes will be used (default values: title - 16, x-axis and y-axis - 12).
-  
-## Testing
-- **Unit Tests**: 
-  - Update `tests/unit/main.test.js` to include test cases that verify font size customization. For both function-based plots and CSV-based plots, tests will confirm that when the new CLI options are provided, the generated SVG contains text elements with the correct `font-size` attributes.
+- **Source File Changes**:
+  - Update the CLI parser in `src/lib/main.js` to recognize `--x-tick-format` and `--y-tick-format` options.
+  - Modify the SVG generation functions (`generateSVG` and `generateSVGFromCSV`) to incorporate the provided tick format strings when rendering x-axis and y-axis labels. When these options are not provided, default numeric labels are produced.
+  - Ensure the new tick formatting features work seamlessly with existing features such as title, axis labels, and grid lines.
 
-## Documentation
-- **README Updates**:
-  - Revise the Usage section in `README.md` to document the new CLI options. Provide examples illustrating how to set custom font sizes for the plot title and axis labels.
+- **Testing**:
+  - Enhance unit tests in `tests/unit/main.test.js` to verify the correct application of tick formatting in both function-based and CSV-based plots. Tests should inspect that text elements for tick labels include the custom formatted strings.
 
-This update aligns with the mission to provide a flexible and customizable plotting tool that empowers users to tailor the visual presentation of their plots through simple CLI modifications.
+- **Documentation**:
+  - Update `README.md` to document the new usage of `--x-tick-format` and `--y-tick-format` options. Provide examples illustrating how to append units or custom strings to tick values.
+
+## Compatibility and Value
+This update reinforces the mission to be the go-to plotting library by offering enhanced customization options. Users can now fine-tune the presentation of axis tick labels, leading to clearer, more professional plots that better suit various data visualization needs.
