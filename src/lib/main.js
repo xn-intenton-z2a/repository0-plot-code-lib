@@ -189,7 +189,20 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   let dataPoints = [];
   try {
     const lines = csv.split(/\r?\n/);
-    for (const line of lines) {
+    let startIndex = 0;
+    // Detect if the first line is a header by checking if its tokens are not numeric
+    if (lines.length > 0) {
+      const firstLineParts = lines[0].split(",");
+      if (firstLineParts.length >= 2) {
+        const firstToken = Number(firstLineParts[0].trim());
+        const secondToken = Number(firstLineParts[1].trim());
+        if (isNaN(firstToken) || isNaN(secondToken)) {
+          startIndex = 1;
+        }
+      }
+    }
+    for (let i = startIndex; i < lines.length; i++) {
+      const line = lines[i];
       if (line.trim().length === 0) continue;
       const parts = line.split(",");
       if (parts.length < 2) continue;
