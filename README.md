@@ -29,10 +29,19 @@ The `--range` option now supports multiple comma-separated ranges. For example, 
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-0.5:0.5" --file output.svg
 ```
 
+**New Option: `--title` for SVG**
+
+When generating an SVG plot, you can add a custom title using the `--title` option. The provided title will be embedded as a `<title>` element within the SVG file, before the `<text>` element. For example:
+
+```bash
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Sine Wave Plot"
+```
+
 Options:
 - `--expression`: The mathematical expression to plot (optionally prefixed with "y=").
 - `--range`: The range in the format `var=min:max`. Multiple ranges can be separated by commas (e.g., `x=-1:1,y=-0.5:0.5`).
 - `--file`: The output filename for the plot. Note: Only `.svg` and `.png` file formats are supported. If an unsupported format is provided (e.g., `output.txt`), the CLI will output an error message: "Error: Unsupported file format. Supported formats are .svg and .png." 
+- `--title`: (For SVG only) A custom title to be embedded in the SVG plot as a `<title>` element.
 
 ### Time Series JSON Data Generation
 
@@ -96,7 +105,7 @@ Run with: []
 ## How It Works
 
 1. The CLI parses command-line arguments to extract options.
-2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension). When multiple ranges are provided, all ranges are shown in the output content.
+2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension). When multiple ranges are provided, all ranges are shown in the output content. The new `--title` option enables embedding a custom title into SVG files.
 3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data using the x-axis range.
 4. The `--samples` flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.

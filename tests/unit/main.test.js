@@ -43,6 +43,17 @@ describe("Plot generation CLI options", () => {
     logSpy.mockRestore();
   });
 
+  test("should include title in SVG file when '--title' is provided", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const fsSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--title", "Test Title"]);
+    const expectedContent = `<svg xmlns="http://www.w3.org/2000/svg"><title>Test Title</title><text x="10" y="20">y=sin(x) on x=-1:1</text></svg>`;
+    expect(fsSpy).toHaveBeenCalledWith("output.svg", expectedContent);
+    expect(logSpy).toHaveBeenCalledWith("File output.svg generated successfully.");
+    fsSpy.mockRestore();
+    logSpy.mockRestore();
+  });
+
   test("should display usage message when incomplete options are provided", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "y=sin(x)"]);
