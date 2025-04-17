@@ -37,6 +37,9 @@ When generating an SVG plot, you can add a custom title using the `--title` opti
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Sine Wave Plot"
 ```
 
+**Note on Range Specification:**
+When using the `--range` option, ensure that for each variable the minimum value is less than the maximum value. For example, `x=0:1` is valid whereas `x=1:0` is invalid.
+
 Options:
 - `--expression`: The mathematical expression to plot (optionally prefixed with "y=").
 - `--range`: The range in the format `var=min:max`. Multiple ranges can be separated by commas (e.g., `x=-1:1,y=-0.5:0.5`).

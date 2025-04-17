@@ -163,3 +163,12 @@ describe("NaN Handling", () => {
     logSpy.mockRestore();
   });
 });
+
+describe("Invalid Range Order", () => {
+  test("should show error when minimum value is not less than maximum", () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    main(["--expression", "Math.sin(x)", "--range", "x=5:1"]);
+    expect(logSpy).toHaveBeenCalledWith('Error: For variable "x", the minimum value must be less than the maximum value.');
+    logSpy.mockRestore();
+  });
+});
