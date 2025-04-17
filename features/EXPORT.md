@@ -1,24 +1,26 @@
-# EXPORT Feature Update
+# EXPORT FEATURE UPDATE
 
 ## Overview
-This update expands the EXPORT feature to provide a unified export solution for various output formats. In addition to the existing PDF (and SVG minification) during export, users can now export computed plot data in JSON and CSV formats. This functionality enables seamless integration into data-processing pipelines, facilitating further analysis and visual customizations.
+This feature provides a unified export solution for various output formats, allowing users to export computed plot data and generated plots in multiple formats. In addition to PDF export (with SVG to PNG conversion), and the already supported JSON and CSV exports, this update expands functionality to include XML export. By adding support for exporting plot data as XML, the library becomes even more versatile for integration into data-processing pipelines.
 
 ## Implementation Details
-- **Source File Changes**:
-  - Update the CLI argument parser in `src/lib/main.js` to detect output file extensions: `.json` and `.csv` in addition to `.svg` and `.png`.
-  - For JSON export, generate an array of data points where each point contains the original x and y values (applying logarithmic transformation if necessary) alongside SVG coordinates (`svgX` and `svgY`).
-  - For CSV export, produce a header row (`x,y,svgX,svgY`) followed by computed data points.
-  - Ensure that these export branches reuse the common plotting logic for consistency with other formats.
+- **Source File Changes:**
+  - Update the CLI argument parser in `src/lib/main.js` to detect output file extensions: `.svg`, `.png`, `.pdf`, `.json`, `.csv`, and now `.xml`.
+  - For JSON export, generate an array of data points. Each point contains the original x and y values (transformed if logarithmic scaling is enabled) along with the corresponding SVG coordinates (`svgX` and `svgY`).
+  - For CSV export, produce a header row (`x,y,svgX,svgY`) followed by computed data points for both function-based plots and CSV input plots.
+  - For XML export, create an XML document with a `<plotData>` root element and child `<point>` elements. Each `<point>` element includes attributes for `x`, `y`, `svgX`, and `svgY`.
+  - For PDF export, first convert the SVG content to a PNG image using `sharp`, and then embed this image into a PDF document using PDFKit.
+  - Reuse common plot data computation logic across all export branches to ensure consistency in the exported data.
 
 ## Testing
-- **Unit Tests**:
-  - Enhance `tests/unit/main.test.js` with new cases verifying that JSON exports contain valid JSON arrays with the required properties (`x`, `y`, `svgX`, `svgY`).
-  - Add tests for CSV export that check the header row and correct formatting of data rows for both function-based plots and CSV input plots.
+- **Unit Tests:**
+  - Extend unit tests (in `tests/unit/main.test.js`) to validate that exporting with file extensions `.json`, `.csv`, and `.xml` produces data with the expected structure and properties. 
+  - For the PDF export branch, add tests to confirm that generated files begin with `%PDF-` and are valid PDF documents.
 
 ## Documentation
-- **README Updates**:
-  - Revise the usage section in `README.md` to include examples for exporting to JSON and CSV.
-  - Clearly document the expected data structure for JSON and CSV outputs, including information on how headers are handled.
+- **README Updates:**
+  - Update `README.md` to include examples and usage instructions for exporting to XML in addition to the existing JSON, CSV, PDF, and SVG exports.
+  - Clearly document the expected data structure for each export format.
 
 ## Compatibility and Value
-This update aligns with our mission to be the go-to plot library by providing versatile export options. It extends the library’s usability beyond visual rendering, allowing users to integrate computed plot data directly into other systems and workflows. The expanded export functionality is implemented solely via modifications to existing source files, tests, and documentation, ensuring a lean, maintainable feature set.
+This update enhances the library's interoperability by providing multiple export options. Users can integrate the exported plot data directly into reporting pipelines or further data analysis workflows. The addition of XML export meets the growing demand for standardized data interchange formats.
