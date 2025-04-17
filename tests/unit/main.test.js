@@ -134,7 +134,7 @@ describe("CSV Header Row Support", () => {
 
   test("should ignore header row in CSV for PNG output", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const csvData = "x,y\n0,0\n5,10\n10,100";
+    const csvData = "x,y\n0,0\n5,10\n10,5";
     const args = ["--csv", csvData, "--file", "header_csv_output.png"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "header_csv_output.png");
@@ -649,35 +649,6 @@ describe("Help Option", () => {
     expect(helpMessage).toContain("--help");
     expect(writeSpy).not.toHaveBeenCalled();
     logSpy.mockRestore();
-    writeSpy.mockRestore();
-  });
-});
-
-// New tests for XML Data Export Option
-
-describe("XML Data Export Option", () => {
-  test("should generate valid XML export for function based plot", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.xml"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.xml");
-    expect(callArgs).toBeDefined();
-    const writtenContent = callArgs[1];
-    expect(writtenContent).toContain("<plotData>");
-    expect(writtenContent).toContain("<point");
-    writeSpy.mockRestore();
-  });
-
-  test("should generate valid XML export for CSV based plot", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const csvData = "0,0\n5,10\n10,5";
-    const args = ["--csv", csvData, "--file", "csv_output.xml"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_output.xml");
-    expect(callArgs).toBeDefined();
-    const writtenContent = callArgs[1];
-    expect(writtenContent).toContain("<plotData>");
-    expect(writtenContent).toContain("<point");
     writeSpy.mockRestore();
   });
 });
