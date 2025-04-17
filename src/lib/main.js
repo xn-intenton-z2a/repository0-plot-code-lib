@@ -175,7 +175,6 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     }
   }
 
-  // Build SVG content with background, optional grid lines, axis tick labels, polyline for the graph, and optional tooltip markers
   const dashArrayAttribute = dashArray ? ` stroke-dasharray="${dashArray}"` : "";
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(' ')}" />`;
   const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
@@ -380,7 +379,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 }
 
 /**
- * Parses CLI arguments for various options including new tick format options.
+ * Parses CLI arguments for various options including new tick format options and help flag.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
@@ -405,7 +404,8 @@ function parseArgs(args) {
     tooltipFormat: null,
     tooltipStyle: null,
     xTickFormat: null,
-    yTickFormat: null
+    yTickFormat: null,
+    help: false
   };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -520,6 +520,9 @@ function parseArgs(args) {
           i++;
         }
         break;
+      case "--help":
+        options.help = true;
+        break;
       default:
         // Ignore unrecognized arguments
         break;
@@ -528,8 +531,43 @@ function parseArgs(args) {
   return options;
 }
 
+// Help message string
+const helpMessage = `Usage: node src/lib/main.js [options]
+
+Options:
+  --expression      A mathematical expression (e.g., "y=sin(x)").
+  --range           Range specification (e.g., "x=-10:10,y=-1:1").
+  --csv             CSV-formatted time series data (overrides expression and range).
+  --file            Output filename (.svg, .png, .json, or .csv).
+  --stroke-color    Custom stroke color for the plot's polyline.
+  --stroke-width    Custom stroke width for the plot's polyline.
+  --width           Custom width for the output plot (default: 300).
+  --height          Custom height for the output plot (default: 150).
+  --grid            Include grid lines in the plot.
+  --log-scale       Apply logarithmic scaling on the y-axis (requires positive y values).
+  --background-color  Set a custom background color for the plot.
+  --title           Set a custom title for the plot.
+  --x-label         Set a custom label for the x-axis.
+  --y-label         Set a custom label for the y-axis.
+  --tooltip         Add tooltips to each data point.
+  --tooltip-format  Customize the tooltip text format (use {x} and {y} placeholders).
+  --dash-array      Customize the dash pattern of the plotted polyline.
+  --tooltip-style   Custom CSS styling for tooltip markers.
+  --x-tick-format   Customize the x-axis tick labels (use {value} placeholder).
+  --y-tick-format   Customize the y-axis tick labels (use {value} placeholder).
+  --help            Display this help message and exit.
+
+Examples:
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
+  node src/lib/main.js --help
+`;
+
 export async function main(args) {
   const options = parseArgs(args);
+  if (options.help) {
+    console.log(helpMessage);
+    return;
+  }
   if (options.file) {
     let svgContent;
     // Determine custom styling and dimensions

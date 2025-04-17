@@ -522,3 +522,19 @@ describe("CSV Data Export Option", () => {
     writeSpy.mockRestore();
   });
 });
+
+describe("Help Option", () => {
+  test("should output help message and not attempt file generation when --help is provided", async () => {
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--help"];
+    await main(args);
+    expect(logSpy).toHaveBeenCalled();
+    const helpMessage = logSpy.mock.calls[0][0];
+    expect(helpMessage).toContain("Usage: node src/lib/main.js [options]");
+    expect(helpMessage).toContain("--help");
+    expect(writeSpy).not.toHaveBeenCalled();
+    logSpy.mockRestore();
+    writeSpy.mockRestore();
+  });
+});
