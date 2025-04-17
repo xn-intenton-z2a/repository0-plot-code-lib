@@ -169,3 +169,57 @@ describe("Grid Lines Option", () => {
     writeSpy.mockRestore();
   });
 });
+
+describe("Logarithmic Scaling Option", () => {
+  test("should generate SVG with log scale when valid positive function values are provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    // Use a function that is always positive: y = x + 10, range x=0:10, y=10:20
+    const args = ["--expression", "y=x+10", "--range", "x=0:10,y=10:20", "--file", "log_output.svg", "--log-scale"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "log_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('<polyline');
+    expect(writtenContent).toContain('Log Scale Applied');
+    writeSpy.mockRestore();
+  });
+
+  test("should output error SVG when function returns non-positive values with log scale", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    // Use a function that can produce non-positive values: y = x - 10, range x=0:10, y=-10:0
+    const args = ["--expression", "y=x-10", "--range", "x=0:10,y=-10:0", "--file", "log_error.svg", "--log-scale"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "log_error.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('Error: Logarithmic scaling requires positive y values');
+    writeSpy.mockRestore();
+  });
+
+  test("should generate SVG with log scale for CSV data when valid positive y values are provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    // CSV data with positive y values
+    const csvData = "0,1\n5,10\n10,100";
+    const args = ["--csv", csvData, "--file", "csv_log_output.svg", "--log-scale"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_log_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('<polyline');
+    expect(writtenContent).toContain('Log Scale Applied');
+    writeSpy.mockRestore();
+  });
+
+  test("should output error SVG for CSV data when a non-positive y value is encountered with log scale", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    // CSV data with a non-positive y value
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_log_error.svg", "--log-scale"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_log_error.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain('Error: Logarithmic scaling requires positive y values');
+    writeSpy.mockRestore();
+  });
+});
