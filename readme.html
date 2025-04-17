@@ -39,11 +39,18 @@
 <p class="md-github">The <code class="md-github">--range</code> option now supports multiple comma-separated ranges. For example, you can specify both x and y ranges:</p>
 <pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-1:1,y=-0.5:0.5&quot; --file output.svg
 </code></pre>
+<p class="md-github"><strong class="md-github">New Option: <code class="md-github">--title</code> for SVG</strong></p>
+<p class="md-github">When generating an SVG plot, you can add a custom title using the <code class="md-github">--title</code> option. The provided title will be embedded as a <code class="md-github">&lt;title&gt;</code> element within the SVG file, before the <code class="md-github">&lt;text&gt;</code> element. For example:</p>
+<pre class="md-github"><code class="md-github language-bash">node src/lib/main.js --expression &quot;y=sin(x)&quot; --range &quot;x=-1:1&quot; --file output.svg --title &quot;Sine Wave Plot&quot;
+</code></pre>
+<p class="md-github"><strong class="md-github">Note on Range Specification:</strong>
+When using the <code class="md-github">--range</code> option, ensure that for each variable the minimum value is less than the maximum value. For example, <code class="md-github">x=0:1</code> is valid whereas <code class="md-github">x=1:0</code> is invalid.</p>
 <p class="md-github">Options:</p>
 <ul class="md-github">
 <li class="md-github"><code class="md-github">--expression</code>: The mathematical expression to plot (optionally prefixed with &quot;y=&quot;).</li>
 <li class="md-github"><code class="md-github">--range</code>: The range in the format <code class="md-github">var=min:max</code>. Multiple ranges can be separated by commas (e.g., <code class="md-github">x=-1:1,y=-0.5:0.5</code>).</li>
 <li class="md-github"><code class="md-github">--file</code>: The output filename for the plot. Note: Only <code class="md-github">.svg</code> and <code class="md-github">.png</code> file formats are supported. If an unsupported format is provided (e.g., <code class="md-github">output.txt</code>), the CLI will output an error message: &quot;Error: Unsupported file format. Supported formats are .svg and .png.&quot;</li>
+<li class="md-github"><code class="md-github">--title</code>: (For SVG only) A custom title to be embedded in the SVG plot as a <code class="md-github">&lt;title&gt;</code> element.</li>
 </ul>
 <h3 class="md-github"><a class="md-github__anchor" name="time-series-json-data-generation" href="#time-series-json-data-generation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Time Series JSON Data Generation</h3>
 <p class="md-github">Omit the <code class="md-github">--file</code> option to output JSON time series data from the provided expression and range. Note that time series data generation uses the x-axis range (specified as <code class="md-github">x=min:max</code>):</p>
@@ -84,7 +91,7 @@
 <h2 class="md-github"><a class="md-github__anchor" name="how-it-works" href="#how-it-works"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>How It Works</h2>
 <ol class="md-github">
 <li class="md-github">The CLI parses command-line arguments to extract options.</li>
-<li class="md-github">Providing <code class="md-github">--file</code> triggers plot generation with dummy content (SVG or PNG based on the file extension). When multiple ranges are provided, all ranges are shown in the output content.</li>
+<li class="md-github">Providing <code class="md-github">--file</code> triggers plot generation with dummy content (SVG or PNG based on the file extension). When multiple ranges are provided, all ranges are shown in the output content. The new <code class="md-github">--title</code> option enables embedding a custom title into SVG files.</li>
 <li class="md-github">Without <code class="md-github">--file</code>, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data using the x-axis range.</li>
 <li class="md-github">The <code class="md-github">--samples</code> flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.</li>
 <li class="md-github">The <code class="md-github">--maintenance</code> flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.</li>
@@ -94,7 +101,7 @@
 
   </section>
   <footer>
-    <p>Generated on 2025-04-17T00:36:47.237Z</p>
+    <p>Generated on 2025-04-17T01:54:46.640Z</p>
   </footer>
 </body>
 </html>
