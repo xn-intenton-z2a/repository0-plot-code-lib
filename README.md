@@ -24,22 +24,27 @@ For PNG:
 node src/lib/main.js --expression "Math.cos(x)" --range "x=0:3.14" --file output.png
 ```
 
+The `--range` option now supports multiple comma-separated ranges. For example, you can specify both x and y ranges:
+```bash
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-0.5:0.5" --file output.svg
+```
+
 Options:
 - `--expression`: The mathematical expression to plot (optionally prefixed with "y=").
-- `--range`: The range in the format `x=min:max` (e.g., `x=-1:1`, `x=0:6.28`).
+- `--range`: The range in the format `var=min:max`. Multiple ranges can be separated by commas (e.g., `x=-1:1,y=-0.5:0.5`).
 - `--file`: The output filename for the plot. Note: Only `.svg` and `.png` file formats are supported. If an unsupported format is provided (e.g., `output.txt`), the CLI will output an error message: "Error: Unsupported file format. Supported formats are .svg and .png." 
 
 ### Time Series JSON Data Generation
 
-Omit the `--file` option to output JSON time series data from the provided expression and range:
+Omit the `--file` option to output JSON time series data from the provided expression and range. Note that time series data generation uses the x-axis range (specified as `x=min:max`):
 ```bash
-node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28"
+node src/lib/main.js --expression "Math.sin(x)" --range "x=0:6.28,y=-1:1"
 ```
-This prints a JSON array with objects containing `x` and `y` values.
+This prints a JSON array with objects containing `x` and `y` values. Additional ranges (like y) can be used to influence the plot file’s display content when generating plots.
 
 ### Handling Non-Finite Numerical Outputs
 
-When evaluating a mathematical expression, the CLI automatically checks for non-finite numerical values such as `NaN`, `Infinity`, and `-Infinity`. Any such non-finite result is replaced with `null` in the generated JSON output to ensure that the data is valid and easy to process. 
+When evaluating a mathematical expression, the CLI automatically checks for non-finite numerical values such as `NaN`, `Infinity`, and `-Infinity`. Any such non-finite result is replaced with `null` in the generated JSON output to ensure that the data is valid and easy to process.
 
 For example:
 ```bash
@@ -91,8 +96,8 @@ Run with: []
 ## How It Works
 
 1. The CLI parses command-line arguments to extract options.
-2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension).
-3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data. **Note:** Any computation that produces a non-finite number (like `NaN`, `Infinity`, or `-Infinity`) is replaced with `null` in the output.
+2. Providing `--file` triggers plot generation with dummy content (SVG or PNG based on the file extension). When multiple ranges are provided, all ranges are shown in the output content.
+3. Without `--file`, the tool uses refactored helper functions to parse the range and evaluate the mathematical expression, then generates a JSON array representing the time series data using the x-axis range.
 4. The `--samples` flag allows customization of the number of sample points, and defaults to 100 if an invalid value is provided.
 5. The `--maintenance` flag enforces maintenance guidelines by preventing new issues when unresolved ones exist.
 
