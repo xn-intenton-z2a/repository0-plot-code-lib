@@ -9,6 +9,7 @@ import sharp from "sharp";
  * Generates an SVG plot based on given mathematical expression and range.
  * It computes sample points from the function and draws a polyline representing the graph.
  * Optionally includes grid lines if the grid flag is true.
+ * Adds optional title and axis labels if provided.
  * @param {string} expression - Mathematical expression (e.g., "y=sin(x)").
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to blue.
@@ -18,9 +19,12 @@ import sharp from "sharp";
  * @param {boolean} [grid] - Optional flag to include grid lines. Defaults to false.
  * @param {boolean} [logScale] - Optional flag to apply logarithmic scaling on the y-axis. Defaults to false.
  * @param {string} [backgroundColor] - Optional background color for the SVG. Defaults to '#f0f0f0'.
+ * @param {string} [title] - Optional plot title to be displayed at the top center.
+ * @param {string} [xLabel] - Optional label for the x-axis to be displayed at the bottom center.
+ * @param {string} [yLabel] - Optional label for the y-axis to be displayed on the left side.
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0") {
+function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "") {
   const margin = 10;
   const sampleCount = 100;
 
@@ -130,14 +134,34 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   // Build SVG content with background, optional grid lines, and polyline for the graph
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
 
-  // Optionally add a log scale indicator
+  // Optional additional indicators
   const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
+
+  // Additional text elements for title and axis labels
+  let titleElement = '';
+  if (title) {
+    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle">${title}</text>`;
+  }
+  let xLabelElement = '';
+  if (xLabel) {
+    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle">${xLabel}</text>`;
+  }
+  let yLabelElement = '';
+  if (yLabel) {
+    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})">${yLabel}</text>`;
+  }
+
+  // The existing expression text at the bottom (keep for reference if no custom xLabel provided)
+  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333">Expression: ${expression}, Range: ${range}</text>` : '';
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
+  ${titleElement}
   ${gridLines}
   ${polyline}
-  <text x="10" y="${height - 5}" font-size="10" fill="#333">Expression: ${expression}, Range: ${range}</text>
+  ${defaultInfo}
+  ${xLabelElement}
+  ${yLabelElement}
   ${logIndicator}
 </svg>`;
 }
@@ -146,6 +170,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * Generates an SVG plot from CSV input containing x and y values.
  * Each line of the CSV should have two comma-separated values, optionally without a header.
  * Optionally includes grid lines if the grid flag is true.
+ * Adds optional title and axis labels if provided.
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
  * @param {number} [strokeWidth] - Optional stroke width for the polyline. Defaults to 2.
@@ -154,9 +179,12 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * @param {boolean} [grid] - Optional flag to include grid lines. Defaults to false.
  * @param {boolean} [logScale] - Optional flag to apply logarithmic scaling on the y-axis. Defaults to false.
  * @param {string} [backgroundColor] - Optional background color for the SVG. Defaults to '#f0f0f0'.
+ * @param {string} [title] - Optional plot title.
+ * @param {string} [xLabel] - Optional x-axis label.
+ * @param {string} [yLabel] - Optional y-axis label.
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0") {
+function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "") {
   const margin = 10;
   let dataPoints = [];
   try {
@@ -221,25 +249,44 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     }
   }
 
-  // Build SVG content with background, optional grid lines, and polyline for CSV data
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}" points="${points.join(' ')}" />`;
   const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
+
+  let titleElement = '';
+  if (title) {
+    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle">${title}</text>`;
+  }
+  let xLabelElement = '';
+  if (xLabel) {
+    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle">${xLabel}</text>`;
+  }
+  let yLabelElement = '';
+  if (yLabel) {
+    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})">${yLabel}</text>`;
+  }
+
+  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333">CSV Plot</text>` : '';
+
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
+  ${titleElement}
   ${gridLines}
   ${polyline}
-  <text x="10" y="${height - 5}" font-size="10" fill="#333">CSV Plot</text>
+  ${defaultInfo}
+  ${xLabelElement}
+  ${yLabelElement}
   ${logIndicator}
 </svg>`;
 }
 
 /**
- * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, --height, --grid, --log-scale, and --background-color options.
+ * Parses CLI arguments for --expression, --range, --file, --csv, --stroke-color, --stroke-width, --width, --height, --grid, --log-scale, --background-color,
+ * as well as new options --title, --x-label, and --y-label for plot annotations.
  * @param {string[]} args - The command line arguments array.
  * @returns {Object} - Parsed options.
  */
 function parseArgs(args) {
-  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null, grid: false, logScale: false, backgroundColor: null };
+  const options = { expression: null, range: null, file: null, csv: null, strokeColor: null, strokeWidth: null, width: null, height: null, grid: false, logScale: false, backgroundColor: null, title: null, xLabel: null, yLabel: null };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
       case "--expression":
@@ -302,6 +349,24 @@ function parseArgs(args) {
           i++;
         }
         break;
+      case "--title":
+        if (i + 1 < args.length) {
+          options.title = args[i + 1];
+          i++;
+        }
+        break;
+      case "--x-label":
+        if (i + 1 < args.length) {
+          options.xLabel = args[i + 1];
+          i++;
+        }
+        break;
+      case "--y-label":
+        if (i + 1 < args.length) {
+          options.yLabel = args[i + 1];
+          i++;
+        }
+        break;
       default:
         // Ignore unrecognized arguments
         break;
@@ -320,12 +385,15 @@ export async function main(args) {
     const customWidth = options.width || 300;
     const customHeight = options.height || 150;
     const customBackgroundColor = options.backgroundColor || "#f0f0f0";
+    const customTitle = options.title || "";
+    const customXLabel = options.xLabel || "";
+    const customYLabel = options.yLabel || "";
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
@@ -338,9 +406,9 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor);
+        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel);
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor);
+        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel);
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
