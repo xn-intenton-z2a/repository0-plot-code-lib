@@ -1,44 +1,34 @@
-# CLI_ENHANCEMENT Feature Update
-
-This update extends the CLI capabilities by adding support for two new flags: --stats and --diagnostics. This enhancement builds on the existing functionalities by providing statistical analysis of computed data and diagnostic output for improved debugging and environment verification.
+# CLI_ENHANCEMENT Update
 
 ## Overview
-
-- **Plot Generation**: Continues support for generating SVG plots using --expression, --range, and --file flags.
-- **Statistics Calculation**: When the --stats flag is provided, the CLI will calculate and display statistical summaries (minimum, maximum, and average) based on computed y-values from the given expression and range. (Note: For now, a simple or dummy calculation may be implemented.)
-- **Diagnostics Reporting**: With the --diagnostics flag, the CLI will output environment diagnostics including the Node.js version, active CLI flags, and relevant configuration details.
+This update enhances the CLI functionality to include two additional flags: `--stats` and `--diagnostics`. In addition to its existing capabilities for generating SVG and PNG plots from mathematical expressions and CSV data, the CLI will now be able to provide basic statistical summaries and diagnostic information. The `--stats` flag will trigger a calculation of summary metrics (minimum, maximum, and average) for computed y-values, while the `--diagnostics` flag will output useful environment and configuration details for troubleshooting.
 
 ## Implementation Details
-
 ### Source File Updates (src/lib/main.js)
-
-- **Argument Parsing**: 
-  - Extend the `parseArgs` function to detect the `--stats` and `--diagnostics` flags. Set corresponding options (e.g., `stats: true`, `diagnostics: true`).
-
+- **Argument Parsing**: Extend the `parseArgs` function to detect the new flags `--stats` and `--diagnostics` and include them in the options object.
 - **Main Function Logic**:
-  - If the `--diagnostics` flag is set, retrieve and log diagnostic information such as the Node.js version (`process.version`), environment details, and the parsed CLI options.
-  - If the `--stats` flag is set along with valid plot inputs (i.e., both `--expression` and `--range` provided), compute and display statistical metrics (minimum, maximum, average) for the computed data (this can be a dummy implementation for now).
-  - Retain existing functionality for SVG generation when the --file option ends with `.svg`.
+  - If `--diagnostics` is present, log diagnostic information including:
+    - Node.js version using `process.version`.
+    - The parsed CLI options.
+    - Any relevant environment or configuration details.
+  - If `--stats` is provided (and both `--expression` and `--range` are supplied), compute and display statistical results (minimum, maximum, average) for the set of computed y-values. An initial dummy implementation is acceptable.
+- **Fallback Behavior**: Ensure that the new flags do not interfere with the existing SVG and PNG file generation functionality.
 
 ### Test File Enhancements (tests/unit/main.test.js)
-
-- Add test cases to ensure:
-  - The `--stats` flag triggers the statistics calculation and outputs the expected summary (using spies to monitor console output).
-  - The `--diagnostics` flag logs diagnostic information including Node.js version, environment details, and active CLI options.
+- Add tests to verify that:
+  - When `--diagnostics` is used, the CLI outputs diagnostic information (using spies on `console.log` or `console.error`).
+  - The `--stats` flag triggers statistical computations and outputs the expected summary when valid inputs are provided.
 
 ### README Updates (README.md)
-
-- Update usage examples to include the new flags:
+- Update the CLI usage examples to include the new flags. For instance:
   ```sh
   node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg --stats
   node src/lib/main.js --diagnostics
   ```
-- Document the purpose and usage of the `--stats` and `--diagnostics` flags in the CLI section.
+- Document the purpose of `--stats` (to provide statistical analysis) and `--diagnostics` (to output environment and debug information).
 
 ### Dependencies File (package.json)
-
-- No new dependencies are required; existing testing and linting tools will support these enhancements.
+- No additional dependencies are required. The current modules (including Node.js built-in modules) suffice to implement these features.
 
 ## Rationale
-
-This update aligns with our mission to be the go-to plot library by making the CLI tool more robust and user-friendly. By incorporating statistical and diagnostic features, developers and end-users obtain deeper insights during troubleshooting and data analysis, enhancing both the utility and maintainability of the tool.
+Integrating diagnostic and statistical features into the CLI enhances the tool’s utility and robustness. By providing quick insights and troubleshooting information, this update aligns with the mission to be the go-to plot library, making it easier for users and developers to validate and debug their plotting commands without external tools.
