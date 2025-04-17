@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="gnuplot_doc" href="#gnuplot_doc"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GNUPLOT_DOC</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Gnuplot documentation technical details include command syntax for plotting, terminal settings, output configuration, and scripting automation. Specific examples such as 'plot &quot;data.dat&quot; using 1:2 with lines' and configuration commands like 'set terminal pngcairo' are provided. Troubleshooting techniques and detailed command error checks accompany each section.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ol class="md-github">
+<li class="md-github">Introduction</li>
+<li class="md-github">Command Syntax</li>
+<li class="md-github">Terminal and Output Settings</li>
+<li class="md-github">Configuration Options</li>
+<li class="md-github">Scripting and Automation</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<h3 class="md-github"><a class="md-github__anchor" name="1-introduction" href="#1-introduction"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Introduction</h3>
+<ul class="md-github">
+<li class="md-github">Overview of Gnuplot as a versatile plotting utility.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="2-command-syntax" href="#2-command-syntax"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Command Syntax</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Plot Command</strong>: <code class="md-github">plot 'datafile.dat' using &lt;x&gt;:&lt;y&gt; title &quot;&lt;Label&gt;&quot; with &lt;style&gt;</code>
+<ul class="md-github">
+<li class="md-github">Parameter details:
+<ul class="md-github">
+<li class="md-github"><code class="md-github">datafile.dat</code>: Path to the data file.</li>
+<li class="md-github"><code class="md-github">&lt;x&gt;</code> and <code class="md-github">&lt;y&gt;</code>: Column numbers for axes.</li>
+<li class="md-github"><code class="md-github">&lt;Label&gt;</code>: Title shown in the legend.</li>
+<li class="md-github"><code class="md-github">&lt;style&gt;</code>: Plot style, e.g., lines, points, etc.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="3-terminal-and-output-settings" href="#3-terminal-and-output-settings"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Terminal and Output Settings</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Terminal Setup</strong>:</p>
+<ul class="md-github">
+<li class="md-github">Command: <code class="md-github">set terminal &lt;terminalType&gt; [options]</code></li>
+<li class="md-github">Example: <code class="md-github">set terminal pngcairo enhanced font 'Verdana,10'</code></li>
+<li class="md-github">Supported terminal types include: png, pdfcairo, svg, etc.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Output Setup</strong>:</p>
+<ul class="md-github">
+<li class="md-github">Command: <code class="md-github">set output '&lt;filename&gt;'</code></li>
+<li class="md-github">Example: <code class="md-github">set output 'plot.png'</code></li>
+<li class="md-github">This directs the plot to a file rather than an interactive window.</li>
+</ul>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="4-configuration-options" href="#4-configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Configuration Options</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Global Plot Settings</strong>:
+<ul class="md-github">
+<li class="md-github"><code class="md-github">set title '&lt;Title&gt;'</code>: Defines the plot title.</li>
+<li class="md-github"><code class="md-github">set xlabel '&lt;Label&gt;'</code>: Sets x-axis label.</li>
+<li class="md-github"><code class="md-github">set ylabel '&lt;Label&gt;'</code>: Sets y-axis label.</li>
+<li class="md-github">Options such as grid, border, and key placement for legend control.</li>
+</ul>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="5-scripting-and-automation" href="#5-scripting-and-automation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Scripting and Automation</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Running Scripts</strong>:
+<ul class="md-github">
+<li class="md-github">Write commands in a script file (e.g., script.gp) and execute using <code class="md-github">gnuplot script.gp</code>.</li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">Loop and Macro Usage</strong>:
+<ul class="md-github">
+<li class="md-github">Incorporate shell loops to generate multiple plots or automate repetitive tasks.</li>
+</ul>
+</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="6-troubleshooting" href="#6-troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Troubleshooting</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Debugging Commands</strong>:
+<ul class="md-github">
+<li class="md-github">Run Gnuplot interactively for error messages.</li>
+<li class="md-github">Validate file paths and terminal compatibility.</li>
+<li class="md-github">Example error command check: Running <code class="md-github">gnuplot</code> and entering commands manually to verify syntax.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="detailed-technical-specifications-and-implementation" href="#detailed-technical-specifications-and-implementation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Technical Specifications and Implementation</h3>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Command and Syntax Details:</p>
+<ul class="md-github">
+<li class="md-github">Plot Command: <code class="md-github">plot 'datafile.dat' using &lt;columnX&gt;:&lt;columnY&gt; title &quot;Plot Label&quot; with linespoints</code></li>
+<li class="md-github">Complete syntax includes optional parameters for error bars, line width (<code class="md-github">lw</code>), and line type (<code class="md-github">lt</code>).</li>
+<li class="md-github">Example for error representation: <code class="md-github">plot 'data.dat' using 1:2:3 title 'Error Plot' with yerrorlines</code>.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options with Exact Values:</p>
+<ul class="md-github">
+<li class="md-github">Terminals: <code class="md-github">pngcairo</code>, <code class="md-github">pdfcairo</code>, <code class="md-github">svg</code>, <code class="md-github">x11</code>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">pngcairo</code>: Options include <code class="md-github">enhanced</code>, <code class="md-github">font</code>, and anti-aliasing options.</li>
+</ul>
+</li>
+<li class="md-github">Output: Filename must be enclosed in single quotes.</li>
+<li class="md-github">Global settings: <code class="md-github">set title 'My Plot'</code>, <code class="md-github">set xlabel 'Time (s)'</code>, <code class="md-github">set ylabel 'Value'</code> with no defaults if not set.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Scripting Implementation Steps:</p>
+<ul class="md-github">
+<li class="md-github">Write a script file <code class="md-github">plot.gp</code> containing:
+// Set terminal and output
+set terminal pngcairo enhanced font 'Verdana,10'
+set output 'output.png'
+// Set labels
+set title 'My Data Plot'
+set xlabel 'X Axis'
+set ylabel 'Y Axis'
+// Plot command
+plot 'data.dat' using 1:2 title 'Data' with lines</li>
+<li class="md-github">Execute with: <code class="md-github">gnuplot plot.gp</code></li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Implementation Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always check file paths and access permissions for data files.</li>
+<li class="md-github">Use explicit terminal settings to avoid rendering errors.</li>
+<li class="md-github">Document script parameters and expected outputs in comments.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">If no output file is generated, verify terminal support by running <code class="md-github">gnuplot --version</code>.</li>
+<li class="md-github">Use interactive mode to test individual commands:
+<ol class="md-github">
+<li class="md-github">Launch with <code class="md-github">gnuplot</code></li>
+<li class="md-github">Run <code class="md-github">set terminal pngcairo enhanced font 'Verdana,10'</code></li>
+<li class="md-github">Run <code class="md-github">set output 'test.png'</code></li>
+<li class="md-github">Execute <code class="md-github">plot sin(x)</code> to verify plot generation.</li>
+</ol>
+</li>
+<li class="md-github">Check logs for syntax errors and consult the Gnuplot manual for deprecated options.</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="complete-api-and-command-specifications" href="#complete-api-and-command-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API and Command Specifications</h3>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Plot Command API:</p>
+<ul class="md-github">
+<li class="md-github">Function: plot</li>
+<li class="md-github">Signature: plot(filename: string, options: { using: string, title: string, style: string, [errorBars]?: boolean, [lw]?: number, [lt]?: number })</li>
+<li class="md-github">Return: Renders the plot to the specified terminal/output</li>
+<li class="md-github">Code Example:
+/*
+Example of plotting data with error bars
+*/
+plot 'data.dat' using 1:2:3 title 'Error Plot' with yerrorlines</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Terminal and Output Configuration:</p>
+<ul class="md-github">
+<li class="md-github">set terminal <terminalType> [options]
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">terminalType: 'pngcairo', 'pdfcairo', 'svg', 'x11'</li>
+<li class="md-github">options: additional configuration like font and enhanced text mode</li>
+</ul>
+</li>
+<li class="md-github">Code Example:
+set terminal pngcairo enhanced font 'Verdana,10'
+set output 'plot.png'</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Global Plot Settings API:</p>
+<ul class="md-github">
+<li class="md-github">set title '<Title>'</li>
+<li class="md-github">set xlabel '<Label>'</li>
+<li class="md-github">set ylabel '<Label>'
+<ul class="md-github">
+<li class="md-github">These commands do not return a value but set internal state for the plot window.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Scripting and Execution Pattern:</p>
+<ul class="md-github">
+<li class="md-github">
+<h2 class="md-github"><a class="md-github__anchor" name="script-file-plotgp" href="#script-file-plotgp"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Script File (plot.gp):</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="gnuplot-script-example" href="#gnuplot-script-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Gnuplot Script Example</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="set-terminal-pngcairo-enhanced-font-verdana10set-output-plotpngset-title-my-data-plotset-xlabel-x-axisset-ylabel-y-axisplot-datadat-using-12-title-data-with-lines" href="#set-terminal-pngcairo-enhanced-font-verdana10set-output-plotpngset-title-my-data-plotset-xlabel-x-axisset-ylabel-y-axisplot-datadat-using-12-title-data-with-lines"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>set terminal pngcairo enhanced font 'Verdana,10'
+set output 'plot.png'
+set title 'My Data Plot'
+set xlabel 'X Axis'
+set ylabel 'Y Axis'
+plot 'data.dat' using 1:2 title 'Data' with lines</h2>
+</li>
+<li class="md-github">Execution Command: gnuplot plot.gp</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Error Handling and Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">Command: Run interactive mode by simply using <code class="md-github">gnuplot</code> and then input commands.</li>
+<li class="md-github">Common Error Resolution:
+<ul class="md-github">
+<li class="md-github">Incorrect file paths: Verify file exists by using shell command <code class="md-github">ls data.dat</code></li>
+<li class="md-github">Terminal compatibility issues: Confirm with <code class="md-github">gnuplot --version</code> and check available terminals.</li>
+</ul>
+</li>
+<li class="md-github">Detailed Troubleshooting Steps:
+<ol class="md-github">
+<li class="md-github">Begin interactive session with <code class="md-github">gnuplot</code></li>
+<li class="md-github">Execute configuration commands individually to isolate errors.</li>
+<li class="md-github">Use verbose logging if available: set debug level with <code class="md-github">set debug &lt;level&gt;</code> (if supported).</li>
+</ol>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Advanced Usage Patterns:</p>
+<ul class="md-github">
+<li class="md-github">
+<h2 class="md-github"><a class="md-github__anchor" name="looping-in-shell-scripts-to-automate-multiple-plotsexample-bash" href="#looping-in-shell-scripts-to-automate-multiple-plotsexample-bash"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Looping in shell scripts to automate multiple plots:
+Example (Bash):</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="for-file-in-datadat-dognuplot--e-set-terminal-pngcairo-set-output-filedatpng-plot-file-using-12-title-file-with-linesdone" href="#for-file-in-datadat-dognuplot--e-set-terminal-pngcairo-set-output-filedatpng-plot-file-using-12-title-file-with-linesdone"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>for file in data*.dat; do
+gnuplot -e &quot;set terminal pngcairo; set output '${file%.dat}.png'; plot '$file' using 1:2 title '$file' with lines&quot;
+done</h2>
+</li>
+<li class="md-github">Integration with programming languages via system calls to gnuplot.</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Gnuplot Documentation
+https://www.gnuplot.info/documentation.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-gnuplot_doc" href="#digest-of-gnuplot_doc"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of GNUPLOT_DOC</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="gnuplot-documentation" href="#gnuplot-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Gnuplot Documentation</h1>
+<p class="md-github">Date Retrieved: 2023-10-26</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">This document contains the complete technical details extracted from the Gnuplot documentation source. It includes command syntaxes, configuration options, scripting examples, and troubleshooting procedures that are essential for developers and data visualization specialists.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="command-syntax" href="#command-syntax"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Command Syntax</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Basic Plot Command</strong>
+<ul class="md-github">
+<li class="md-github">Syntax: <code class="md-github">plot 'datafile.dat' using &lt;x&gt;:&lt;y&gt; title &quot;&lt;Label&gt;&quot; with &lt;style&gt;</code></li>
+<li class="md-github">Example: <code class="md-github">plot 'data.dat' using 1:2 title &quot;Data Plot&quot; with lines</code></li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="terminal-and-output" href="#terminal-and-output"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Terminal and Output</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Setting Terminal</strong>
+<ul class="md-github">
+<li class="md-github">Command: <code class="md-github">set terminal &lt;terminalType&gt; [options]</code></li>
+<li class="md-github">Example: <code class="md-github">set terminal pngcairo enhanced font 'Verdana,10'</code></li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">Setting Output</strong>
+<ul class="md-github">
+<li class="md-github">Command: <code class="md-github">set output '&lt;filename&gt;'</code></li>
+<li class="md-github">Example: <code class="md-github">set output 'plot.png'</code></li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Global Options</strong>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">set title '&lt;Title&gt;'</code> : Sets the title of the plot.</li>
+<li class="md-github"><code class="md-github">set xlabel '&lt;Label&gt;'</code> : Specifies the label for the x-axis.</li>
+<li class="md-github"><code class="md-github">set ylabel '&lt;Label&gt;'</code> : Specifies the label for the y-axis.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="scripting-and-automation" href="#scripting-and-automation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scripting and Automation</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Batch Mode Execution</strong>
+<ul class="md-github">
+<li class="md-github">Scripts can be written in a file and executed with <code class="md-github">gnuplot script.gp</code>.</li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">Loop Constructs</strong>
+<ul class="md-github">
+<li class="md-github">Use macros or loops in shell scripts to generate multiple plots.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Common Issues</strong>
+<ul class="md-github">
+<li class="md-github">Ensure data file paths are correct.</li>
+<li class="md-github">Terminal settings must be supported by the installed Gnuplot version.</li>
+<li class="md-github">Check for syntax errors by running Gnuplot in interactive mode.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<p class="md-github">Crawled content details: Data Size: 0 bytes, Links Found: 0, Error: None</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Gnuplot Documentation</li>
+<li class="md-github">URL: https://www.gnuplot.info/documentation.html</li>
+<li class="md-github">License: GPL</li>
+<li class="md-github">Crawl Date: 2025-04-17T17:25:26.418Z</li>
+<li class="md-github">Data Size: 0 bytes</li>
+<li class="md-github">Links Found: 0</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-17</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-17T18:25:52.889Z</p>
+  </footer>
+</body>
+</html>
