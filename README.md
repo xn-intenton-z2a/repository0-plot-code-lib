@@ -22,8 +22,9 @@ New in this release:
 - New Feature: You can now export the computed plot data as CSV by specifying an output file with a .csv extension. The CSV export includes a header row (`x,y,svgX,svgY`) followed by one row per data point. This works for both function-based plots and CSV input plots.
 - New Feature: **Custom Axis Tick Label Formatting**: You can now customize the tick labels on both the x and y axes using the --x-tick-format and --y-tick-format options. These options accept a format string with a placeholder `{value}` that is replaced by the tick value. For example, `--x-tick-format "{value} ms"` appends " ms" to each x-axis tick value. This enhances plot annotation and readability when the default numeric labels are not sufficient.
 - New Feature: **SVG Minification Option**: You can now use the --minify flag to optimize the SVG output. When this flag is enabled, unnecessary whitespace and newlines are removed from the SVG, resulting in a smaller file size without affecting the visual rendering.
-- New Feature: **Help Option**: You can now use the --help flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any files.
-- CSV files with an optional header row (e.g., "x,y") are now supported, and the header is automatically ignored.
+- New Feature: **Help Option**: You can now use the --help flag to display detailed usage information and a summary of all available CLI options. When invoked, the application prints this help message and exits without generating any output files.
+
+**Note:** The --csv option and the --expression/--range options are mutually exclusive. Please provide only one input mode.
 
 ---
 
@@ -101,9 +102,3 @@ To display detailed usage information and a summary of all available CLI options
     node src/lib/main.js --help
 
 When the --help flag is provided, the tool will print this help message and exit without generating any files.
-
----
-
-## License
-
-MIT
