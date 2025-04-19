@@ -1,34 +1,24 @@
 # PLOT_STYLE
 
 ## Overview
-This update refines the unified plot styling feature by consolidating a wide range of customization options for generating SVG plots. The improvements focus on enhanced visual consistency and user configurability, and include several new options such as custom font family, tooltip marker shape, axis tick label formatting, and SVG minification. These enhancements improve the aesthetic integration of plots into varied applications while keeping the CLI simple and powerful.
+This feature refines the unified plot styling for both function based and CSV-based plots. It consolidates customization of visual options for generated plots including stroke properties, grid lines, axis labeling, and annotation. It supports both traditional function plotting as well as CSV time series data. The feature reinforces our mission of making our CLI the go-to tool for formula visualisations.
+
+## New Enhancements
+- **Custom Font Family:** A new `--font-family` option to set a custom font (e.g., "Arial, sans-serif") that applies to the title, axis labels, and tick labels.
+- **Tooltip Marker Shape:** The new `--tooltip-shape` option lets users choose between "circle" (default), "square", or "triangle" marker shapes for tooltip markers. Strict validation ensures that an invalid shape triggers an error.
+- **Custom Axis Tick Label Formatting:** New `--x-tick-format` and `--y-tick-format` options accept a format string with a `{value}` placeholder to enhance tick readability.
+- **SVG Minification:** With the `--minify` flag enabled, unnecessary whitespace and newlines are removed from the SVG output, optimizing file size.
+- **Additional Customizations:** Options like `--stroke-color`, `--stroke-width`, `--dash-array`, and `--grid` further enhance visual styling. The feature also handles logarithmic scaling on the y-axis with necessary validation of positive values.
 
 ## Implementation Details
-- **Custom Font Family:**
-  - New `--font-family` option applies a user-defined font to all text elements (titles, axis labels, tick labels) in the generated SVG. This helps in matching application styles.
+- **Parameter Handling:** The feature parses CLI arguments for both function-based plots (using `--expression` and `--range`) and CSV-based plots (`--csv`). Mutually exclusive input modes are enforced.
+- **Validation:** Robust error handling ensures that when using logarithmic scaling, non-positive y values are caught, and an invalid `--tooltip-shape` value halts execution with an error message.
+- **SVG Generation:** Sample points are computed from the provided mathematical function or CSV data. Custom mappings apply the user-specified styling (stroke, dash pattern, grid lines, tick labels) along with new features like custom font and tooltip shape.
+- **Minification:** When the `--minify` flag is provided, the generated SVG content is processed to remove extraneous whitespace.
+- **Testing:** Unit tests verify that the correct SVG/PNG/PDF/JSON/XML outputs are generated, validate custom styling options, and ensure error messaging is correct for invalid configurations.
 
-- **Tooltip Marker Shape:**
-  - New `--tooltip-shape` option allows users to choose between a "circle" (default) and "square" marker for tooltip data points. Strict validation ensures only these two values are accepted, and the CLI outputs a descriptive error if an invalid shape is provided.
+## Value and Compatibility
+This update consolidates a wide range of user-configurable visual options for plot generation in a single cohesive feature. It adheres to our mission of becoming the go-to tool for formula visualisations by offering high flexibility and precise control over the plot appearance, while keeping the CLI simple and robust.
 
-- **Axis Tick Label Formatting:**
-  - Enhanced formatting via `--x-tick-format` and `--y-tick-format` options lets users customize tick labels using a template string with a `{value}` placeholder.
-
-- **Dash Pattern Customization:**
-  - The `--dash-array` option allows users to specify dash patterns (e.g., "5,5") for the plotted polyline, offering additional styling control.
-
-- **SVG Minification:**
-  - The new `--minify` flag removes unnecessary whitespace and newlines from the SVG output to optimize file size without affecting rendering.
-
-- **Additional Enhancements:**
-  - Support for tooltips with custom formatting (`--tooltip-format`) and styling (`--tooltip-style`) is maintained.
-  - Error handling improvements ensure that cases such as invalid range formats or non-positive values for log scaling produce informative SVG error messages.
-  - Integration of CSV input mode continues, offering an alternative means to supply data while using the same styling options.
-
-## Testing
-- **Unit Tests:**
-  - Existing tests in `tests/unit/main.test.js` are extended to verify behavior for custom font, tooltip shape validation, axis tick formatting, and SVG minification.
-  - New tests check that providing an invalid tooltip shape outputs the appropriate error and halts execution.
-- **CLI Help:**
-  - Running the CLI with the `--help` flag displays detailed usage information including the new styling options.
-
-This update is fully backward compatible and reinforces the repository's mission of becoming the go-to tool for formula visualizations by empowering users with high-value, customizable plot styling options.
+## Backward Compatibility
+All enhancements are fully backward compatible. Existing functionality remains intact, and the new CLI options augment the current behavior without introducing breaking changes.
