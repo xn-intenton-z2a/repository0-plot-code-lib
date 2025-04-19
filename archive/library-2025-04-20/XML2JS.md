@@ -32,11 +32,12 @@ This document provides the complete technical details for xml2js which includes 
 • Signature: parseString(xml: string, callback: (err: Error, result: Object) => void)
 
 Example:
+
 ```javascript
-var parseString = require('xml2js').parseString;
+var parseString = require('./XML2JS').parseString;
 var xml = "<root>Hello xml2js!</root>";
-parseString(xml, function (err, result) {
-    console.dir(result);
+parseString(xml, function(err, result) {
+  console.dir(result);
 });
 ```
 
@@ -52,28 +53,30 @@ parseString xml, (err, result) -> console.dir result
 **File Parsing:**
 
 Example using fs:
+
 ```javascript
-var fs = require('fs'), xml2js = require('xml2js');
+var fs = require('fs'), xml2js = require('./XML2JS');
 var parser = new xml2js.Parser();
 fs.readFile(__dirname + '/foo.xml', function(err, data) {
-    parser.parseString(data, function (err, result) {
-        console.dir(result);
-        console.log('Done');
-    });
+  parser.parseString(data, function(err, result) {
+    console.dir(result);
+    console.log('Done');
+  });
 });
 ```
 
 **Promise-based Parsing:**
 
 Example using parseStringPromise:
+
 ```javascript
-var xml2js = require('xml2js');
+var xml2js = require('./XML2JS');
 var xml = '<foo></foo>';
 var parser = new xml2js.Parser();
-parser.parseStringPromise(xml).then(function (result) {
+parser.parseStringPromise(xml).then(function(result) {
   console.dir(result);
   console.log('Done');
-}).catch(function (err) {
+}).catch(function(err) {
   // Handle error
 });
 ```
@@ -300,15 +303,16 @@ parseString(xml: string, options?: Object, callback: (err: Error|null, result: O
 - void (results are provided via the callback).
 
 **Example:**
+
 ```javascript
-var parseString = require('xml2js').parseString;
+var parseString = require('./XML2JS').parseString;
 var xml = "<root>Hello xml2js!</root>";
-parseString(xml, {trim: true}, function (err, result) {
-    if(err) {
-       console.error(err);
-    } else {
-       console.dir(result);
-    }
+parseString(xml, { trim: true }, function(err, result) {
+  if (err) {
+    console.error(err);
+  } else {
+    console.dir(result);
+  }
 });
 ```
 
@@ -327,16 +331,17 @@ parseStringPromise(xml: string, options?: Object): Promise<Object>
 - Promise that resolves to the JavaScript object representing the XML.
 
 **Example:**
+
 ```javascript
-var xml2js = require('xml2js');
+var xml2js = require('./XML2JS');
 var xml = '<foo></foo>';
-xml2js.parseStringPromise(xml, {trim: true})
-    .then(function(result) {
-        console.dir(result);
-    })
-    .catch(function(err) {
-        console.error(err);
-    });
+xml2js.parseStringPromise(xml, { trim: true })
+  .then(function(result) {
+    console.dir(result);
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
 ```
 
 ## Parser Class Constructor
@@ -350,8 +355,9 @@ new Parser(options?: Object)
 - options: An object with configuration options (see Parser Detailed Options above).
 
 **Example:**
+
 ```javascript
-var xml2js = require('xml2js');
+var xml2js = require('./XML2JS');
 var parser = new xml2js.Parser({
   explicitArray: false,
   trim: true
@@ -456,10 +462,10 @@ xml2js is a simple XML to JavaScript object converter that offers bidirectional 
 ### Basic Parsing
 
 ```javascript
-var parseString = require('xml2js').parseString;
+var parseString = require('./XML2JS').parseString;
 var xml = "<root>Hello xml2js!</root>";
-parseString(xml, function (err, result) {
-    console.dir(result);
+parseString(xml, function(err, result) {
+  console.dir(result);
 });
 ```
 
@@ -483,36 +489,36 @@ parseString(xml, {trim: true}, function (err, result) {
 ### File Parsing Example
 
 ```javascript
-var fs = require('fs'), xml2js = require('xml2js');
+var fs = require('fs'), xml2js = require('./XML2JS');
 var parser = new xml2js.Parser();
 fs.readFile(__dirname + '/foo.xml', function(err, data) {
-    parser.parseString(data, function (err, result) {
-        console.dir(result);
-        console.log('Done');
-    });
+  parser.parseString(data, function(err, result) {
+    console.dir(result);
+    console.log('Done');
+  });
 });
 ```
 
 ### Promise Based Parsing
 
 ```javascript
-var xml2js = require('xml2js');
+var xml2js = require('./XML2JS');
 var xml = '<foo></foo>';
 
 // With parser instance
 var parser = new xml2js.Parser(/* options */);
-parser.parseStringPromise(xml).then(function (result) {
+parser.parseStringPromise(xml).then(function(result) {
   console.dir(result);
   console.log('Done');
-}).catch(function (err) {
+}).catch(function(err) {
   // Error handling
 });
 
 // Without parser instance
-xml2js.parseStringPromise(xml /*, options */).then(function (result) {
+xml2js.parseStringPromise(xml /*, options */).then(function(result) {
   console.dir(result);
   console.log('Done');
-}).catch(function (err) {
+}).catch(function(err) {
   // Error handling
 });
 ```
@@ -522,8 +528,8 @@ xml2js.parseStringPromise(xml /*, options */).then(function (result) {
 ### Basic XML Building
 
 ```javascript
-var xml2js = require('xml2js');
-var obj = {name: "Super", Surname: "Man", age: 23};
+var xml2js = require('./XML2JS');
+var obj = { name: "Super", Surname: "Man", age: 23 };
 
 var builder = new xml2js.Builder();
 var xml = builder.buildObject(obj);
@@ -667,7 +673,7 @@ Options explanation:
 To use previous defaults in version 0.2:
 
 ```javascript
-var xml2js = require('xml2js');
+var xml2js = require('./XML2JS');
 var parser = new xml2js.Parser(xml2js.defaults["0.2"]);
 // For 0.1 defaults in version 0.2, use xml2js.defaults["0.1"]
 ```
