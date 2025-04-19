@@ -18,7 +18,7 @@ import PDFDocument from "pdfkit";
  * 
  * New Parameters:
  *   - fontFamily: to set a custom font family for all text elements in the SVG. Defaults to "inherit".
- *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default) and "square".
+ *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default), "square", and "triangle".
  * 
  * @param {string} expression - Mathematical expression (e.g., "y=sin(x)").
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
@@ -39,7 +39,7 @@ import PDFDocument from "pdfkit";
  * @param {string|null} [xTickFormat] - Optional format for x-axis tick labels, with placeholder {value}.
  * @param {string|null} [yTickFormat] - Optional format for y-axis tick labels, with placeholder {value}.
  * @param {string} [fontFamily] - Optional custom font family for all text elements. Defaults to "inherit".
- * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other option: "square").
+ * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other options: "square", "triangle").
  * @returns {string} - SVG content as string.
  */
 function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit", tooltipShape = "circle") {
@@ -98,8 +98,8 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   }
 
   // Validate tooltip shape option
-  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square")) {
-    console.error("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square" && tooltipShape !== "triangle")) {
+    console.error("Error: Invalid tooltip shape provided. Only 'circle', 'square', and 'triangle' are supported.");
     return;
   }
 
@@ -133,7 +133,11 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
         if (tooltipShape === "square") {
           // Draw a square (rect) with side 6, centered at (svgX, svgY)
           tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
+        } else if (tooltipShape === "triangle") {
+          // Draw a triangle using polygon with vertices at (svgX, svgY-3), (svgX-3, svgY+3), (svgX+3, svgY+3)
+          tooltipElements += `<polygon points="${svgX},${svgY - 3} ${svgX - 3},${svgY + 3} ${svgX + 3},${svgY + 3}" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></polygon>`;
         } else {
+          // Default: circle
           tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
         }
       }
@@ -241,7 +245,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * 
  * New Parameters:
  *   - fontFamily: to set a custom font family for all text elements in the SVG. Defaults to "inherit".
- *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default) and "square".
+ *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default), "square", and "triangle".
  * 
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
@@ -261,7 +265,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * @param {string|null} [xTickFormat] - Optional format for x-axis tick labels, with placeholder {value}.
  * @param {string|null} [yTickFormat] - Optional format for y-axis tick labels, with placeholder {value}.
  * @param {string} [fontFamily] - Optional custom font family for all text elements. Defaults to "inherit".
- * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other option: "square").
+ * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other options: "square", "triangle").
  * @returns {string} - SVG content as string.
  */
 function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit", tooltipShape = "circle") {
@@ -310,9 +314,9 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 </svg>`;
   }
 
-  // Validate tooltip shape option for CSV as well if tooltips enabled
-  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square")) {
-    console.error("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+  // Validate tooltip shape option
+  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square" && tooltipShape !== "triangle")) {
+    console.error("Error: Invalid tooltip shape provided. Only 'circle', 'square', and 'triangle' are supported.");
     return;
   }
 
@@ -332,7 +336,10 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
       const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
       const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
       if (tooltipShape === "square") {
+        // Draw a square
         tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
+      } else if (tooltipShape === "triangle") {
+        tooltipElements += `<polygon points="${svgX},${svgY - 3} ${svgX - 3},${svgY + 3} ${svgX + 3},${svgY + 3}" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></polygon>`;
       } else {
         tooltipElements += `<circle cx="${svgX}" cy="${svgY}" r="3" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></circle>`;
       }
@@ -612,11 +619,11 @@ Options:
   --tooltip-format     (Optional) Customize the tooltip text format when --tooltip is enabled. Use a template string with placeholders {x} and {y} (e.g., "X: {x}, Y: {y}").
   --dash-array         (Optional) Custom dash pattern for the plotted polyline (e.g., "5,5").
   --tooltip-style      (Optional) Provide custom CSS styling for tooltip markers.
-  --x-tick-format      (Optional) Customize the x-axis tick labels.
-  --y-tick-format      (Optional) Customize the y-axis tick labels.
+  --x-tick-format      (Optional) Customize the x-axis tick labels (use {value} as placeholder).
+  --y-tick-format      (Optional) Customize the y-axis tick labels (use {value} as placeholder).
   --font-family        (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
   --minify             (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
-  --tooltip-shape      (Optional) Set the tooltip marker shape. Accepted values: "circle" (default) or "square".
+  --tooltip-shape      (Optional) Set the tooltip marker shape. Accepted values: "circle" (default), "square", or "triangle".
   --help               (Optional) Display this help message and exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
@@ -632,8 +639,8 @@ export async function main(args) {
   }
 
   // Validate tooltip shape option
-  if (options.tooltipShape && (options.tooltipShape !== "circle" && options.tooltipShape !== "square")) {
-    console.error("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
+  if (options.tooltipShape && (options.tooltipShape !== "circle" && options.tooltipShape !== "square" && options.tooltipShape !== "triangle")) {
+    console.error("Error: Invalid tooltip shape provided. Only 'circle', 'square', and 'triangle' are supported.");
     return;
   }
 

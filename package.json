@@ -29,7 +29,7 @@
     "openai": "^4.94.0",
     "ejs": "^3.1.10",
     "zod": "^3.24.2",
-    "sharp": "^0.32.1",
+    "sharp": "^0.32.6",
     "pdfkit": "^0.13.0"
   },
   "devDependencies": {

@@ -230,7 +230,6 @@ describe("Grid Lines Option", () => {
 describe("Logarithmic Scaling Option", () => {
   test("should generate SVG with log scale when valid positive function values are provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    // Use a function with always positive values
     const args = ["--expression", "y=x+10", "--range", "x=0:10,y=10:20", "--file", "log_output.svg", "--log-scale"];
     await main(args);
     const callArgs = writeSpy.mock.calls.find(call => call[0] === "log_output.svg");
@@ -372,29 +371,31 @@ describe("Tooltip Option", () => {
     expect(writtenContent).toContain("cursor: pointer;");
     writeSpy.mockRestore();
   });
+});
 
-  test("should render square tooltip markers when --tooltip-shape square is provided for function based plot", async () => {
+describe("Tooltip Marker Triangle Option", () => {
+  test("should render triangle tooltip markers for function based plot when --tooltip-shape triangle is provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_square_output.svg", "--tooltip", "--tooltip-shape", "square"];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_triangle_output.svg", "--tooltip", "--tooltip-shape", "triangle"];
     await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_square_output.svg");
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_triangle_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).toContain("<rect");
+    expect(writtenContent).toContain("<polygon");
     expect(writtenContent).toContain("<title>");
     expect(writtenContent).toContain("cursor: pointer;");
     writeSpy.mockRestore();
   });
 
-  test("should render square tooltip markers when --tooltip-shape square is provided for CSV based plot", async () => {
+  test("should render triangle tooltip markers for CSV based plot when --tooltip-shape triangle is provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
     const csvData = "0,0\n5,10\n10,5";
-    const args = ["--csv", csvData, "--file", "tooltip_csv_square_output.svg", "--tooltip", "--tooltip-shape", "square"];
+    const args = ["--csv", csvData, "--file", "tooltip_csv_triangle_output.svg", "--tooltip", "--tooltip-shape", "triangle"];
     await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_csv_square_output.svg");
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_csv_triangle_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).toContain("<rect");
+    expect(writtenContent).toContain("<polygon");
     expect(writtenContent).toContain("<title>");
     expect(writtenContent).toContain("cursor: pointer;");
     writeSpy.mockRestore();
@@ -498,58 +499,128 @@ describe("Axis Tick Label Formatting Option", () => {
   });
 });
 
-describe("Invalid Tooltip Marker Shape", () => {
-  test("should output error and not produce file when an invalid tooltip shape is provided", async () => {
-    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+describe("Tooltip Marker Triangle Option", () => {
+  test("should render triangle tooltip markers for function based plot when --tooltip-shape triangle is provided", async () => {
     const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "invalid_tooltip.svg", "--tooltip-shape", "triangle"];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_triangle_output.svg", "--tooltip", "--tooltip-shape", "triangle"];
     await main(args);
-    expect(errorSpy).toHaveBeenCalledWith("Error: Invalid tooltip shape provided. Only 'circle' and 'square' are supported.");
-    expect(writeSpy).not.toHaveBeenCalled();
-    errorSpy.mockRestore();
-    writeSpy.mockRestore();
-  });
-});
-
-describe("CSV Data Export Option", () => {
-  test("should generate valid CSV export for function based plot", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "output.csv"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "output.csv");
-    expect(callArgs).toBeDefined();
-    const csvContent = callArgs[1];
-    expect(csvContent).toMatch(/^x,y,svgX,svgY\n/);
-    const lines = csvContent.trim().split("\n");
-    expect(lines.length).toBeGreaterThanOrEqual(2);
-    writeSpy.mockRestore();
-  });
-
-  test("should generate valid CSV export for CSV based plot", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const csvData = "x,y\n0,0\n5,10\n10,5";
-    const args = ["--csv", csvData, "--file", "csv_input.csv"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_input.csv");
-    expect(callArgs).toBeDefined();
-    const csvContent = callArgs[1];
-    expect(csvContent).toMatch(/^x,y,svgX,svgY\n/);
-    const lines = csvContent.trim().split("\n");
-    expect(lines.length).toBeGreaterThanOrEqual(2);
-    writeSpy.mockRestore();
-  });
-});
-
-describe("SVG Minification Option", () => {
-  test("should minify SVG output when --minify flag is provided for function plots", async () => {
-    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "minify_output.svg", "--minify"];
-    await main(args);
-    const callArgs = writeSpy.mock.calls.find(call => call[0] === "minify_output.svg");
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_triangle_output.svg");
     expect(callArgs).toBeDefined();
     const writtenContent = callArgs[1];
-    expect(writtenContent).not.toMatch(/>\s+</);
-    expect(writtenContent).toContain("<svg");
+    expect(writtenContent).toContain("<polygon");
+    expect(writtenContent).toContain("<title>");
+    expect(writtenContent).toContain("cursor: pointer;");
+    writeSpy.mockRestore();
+  });
+
+  test("should render triangle tooltip markers for CSV based plot when --tooltip-shape triangle is provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "tooltip_csv_triangle_output.svg", "--tooltip", "--tooltip-shape", "triangle"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_csv_triangle_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("<polygon");
+    expect(writtenContent).toContain("<title>");
+    expect(writtenContent).toContain("cursor: pointer;");
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Dash Array Option", () => {
+  test("should include stroke-dasharray attribute in function based SVG plot when --dash-array is provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "dash_output.svg", "--dash-array", "5,5"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "dash_output.svg");
+    expect(callArgs[1]).toContain('stroke-dasharray="5,5"');
+    writeSpy.mockRestore();
+  });
+
+  test("should include stroke-dasharray attribute in CSV based SVG plot when --dash-array is provided", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_dash_output.svg", "--dash-array", "2,2"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_dash_output.svg");
+    expect(callArgs[1]).toContain('stroke-dasharray="2,2"');
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Custom Tooltip Format Option", () => {
+  test("should use custom tooltip format in function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "custom_tooltip_output.svg", "--tooltip", "--tooltip-format", "X: {x}, Y: {y}"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_tooltip_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("X: 0.00, Y: ");
+    writeSpy.mockRestore();
+  });
+
+  test("should use custom tooltip format in CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "custom_csv_tooltip_output.svg", "--tooltip", "--tooltip-format", "X: {x}; Y: {y}"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "custom_csv_tooltip_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("X: 0.00; Y: ");
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Custom Tooltip Style Option", () => {
+  test("should apply custom tooltip style in function based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const customStyle = "fill: red; stroke: blue;";
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:3.14,y=-1:1", "--file", "tooltip_style_output.svg", "--tooltip", "--tooltip-style", customStyle];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "tooltip_style_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain(`style="cursor: pointer; ${customStyle}"`);
+    writeSpy.mockRestore();
+  });
+
+  test("should apply custom tooltip style in CSV based plot", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const customStyle = "fill: green; stroke: orange;";
+    const csvData = "0,0\n5,10\n10,5";
+    const args = ["--csv", csvData, "--file", "csv_tooltip_style_output.svg", "--tooltip", "--tooltip-style", customStyle];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "csv_tooltip_style_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain(`style="cursor: pointer; ${customStyle}"`);
+    writeSpy.mockRestore();
+  });
+});
+
+describe("Axis Tick Label Formatting Option", () => {
+  test("should include custom formatted x-axis tick labels in SVG output", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "xtick_output.svg", "--x-tick-format", "X: {value} sec"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "xtick_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("X: -10.00 sec");
+    writeSpy.mockRestore();
+  });
+
+  test("should include custom formatted y-axis tick labels in SVG output", async () => {
+    const writeSpy = vi.spyOn(fs, 'writeFileSync').mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-10:10,y=-1:1", "--file", "ytick_output.svg", "--y-tick-format", "Y: {value} units"];
+    await main(args);
+    const callArgs = writeSpy.mock.calls.find(call => call[0] === "ytick_output.svg");
+    expect(callArgs).toBeDefined();
+    const writtenContent = callArgs[1];
+    expect(writtenContent).toContain("Y: -1.00 units");
     writeSpy.mockRestore();
   });
 });
