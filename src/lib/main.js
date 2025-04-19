@@ -390,6 +390,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(' ')}" />`;
   const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
 
+  // Additional text elements for title and axis labels
   let titleElement = '';
   if (title) {
     titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${title}</text>`;
@@ -403,6 +404,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
     yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})" style="font-family: ${fontFamily};">${yLabel}</text>`;
   }
 
+  // The existing expression text at the bottom (keep for reference if no custom xLabel provided)
   const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">CSV Plot</text>` : '';
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
