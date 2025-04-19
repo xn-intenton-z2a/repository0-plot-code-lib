@@ -1,24 +1,29 @@
 # PLOT_STYLE
 
 ## Overview
-This feature consolidates and refines the visual styling of the generated plots. It supports both function-based and CSV-based plots with a unified set of CLI options. In addition to traditional styling parameters such as stroke color, stroke width, and background color, this update introduces several customizable enhancements:
+This update refines and extends the visual styling options available in the plot library. In addition to the traditional styling parameters (such as stroke color, stroke width, and background color), several new customizable enhancements have been introduced:
 
-- **Custom Font Family:** Set a custom font (e.g. "Arial, sans-serif") for all text elements including plot titles, axis labels, and tick labels.
-- **Tooltip Marker Shape:** Choose the shape of tooltip markers using the new `--tooltip-shape` option. Supported shapes include "circle" (default), "square", and "triangle". Invalid values will produce an error and halt processing.
-- **Axis Tick Label Formatting:** Customize the display format of the x and y-axis tick labels via `--x-tick-format` and `--y-tick-format` options. These accept a format string with a `{value}` placeholder to enhance readability.
-- **SVG Minification:** When the `--minify` flag is enabled, extraneous whitespace and newlines are removed from the SVG output to reduce file size without affecting rendering.
+- **Custom Font Family:** Specify a custom font family for all text elements (plot title, axis labels, tick labels) using the `--font-family` CLI option. This allows users to better tailor the plot’s appearance to match their application styles.
+
+- **Tooltip Marker Shape:** Choose the shape of data point markers for tooltips with the new `--tooltip-shape` option. Supported values include "circle" (default), "square", and "triangle". Invalid values are caught by validation logic which outputs an error and halts processing.
+
+- **Axis Tick Label Formatting:** Enhance plot readability by customizing axis tick labels using the `--x-tick-format` and `--y-tick-format` options. These accept a format string containing a `{value}` placeholder that is replaced with the computed tick value.
+
+- **SVG Minification:** Optimize the output SVG file size with the `--minify` flag. When enabled, extraneous whitespace and newlines are removed from the SVG content without altering its visual rendering.
 
 ## Implementation Details
-- **Parameter Parsing & Validation:** The CLI parses new input options and validates each. Mutual exclusion is enforced between CSV input and expression-based input. The new parameters (fontFamily, tooltipShape, xTickFormat, yTickFormat, minify) are integrated with existing parsing logic.
-- **SVG Generation:** The source file computes sample points for the plot from either the mathematical expression or CSV data. The computed points are then mapped to SVG coordinates. In addition to drawing the polyline, grid lines may be drawn if requested. Custom text elements for titles and axis labels are rendered with the specified font family.
-- **Tooltip Integration:** Depending on the `--tooltip` flag and the validated `--tooltip-shape` option, small markers (circle, square, or triangle) with an embedded `<title>` element are added to each data point. Custom tooltip formatting and styling are supported via `--tooltip-format` and `--tooltip-style`.
-- **Axis Tick Labels & Grid:** The feature allows custom formatting of tick labels on both axes. If grid lines are enabled, they are drawn with a light gray stroke. Custom tick labels are rendered using the provided format strings.
-- **SVG Minification Process:** After the SVG content is generated, if the `--minify` flag is provided, the content is post-processed to collapse extra whitespace and newlines.
+- **Parameter Parsing & Validation:** The CLI argument parser has been updated to capture new options for font family, tooltip marker shape, axis tick label formatting, and minification. Validation logic ensures that only the accepted tooltip shapes (circle, square, triangle) are allowed, and appropriate error messages are displayed if an invalid value is provided.
+
+- **SVG Generation:** The main source file computes sample points from either a mathematical expression or CSV data. The computed points are then mapped to SVG coordinates. Custom styling is applied during the SVG element generation including:
+  - Rendering text elements (title, labels, tick labels) with the specified font family.
+  - Formatting tick labels according to user-provided templates.
+  - Rendering tooltip markers in the shape specified by the `--tooltip-shape` option.
+  - Optionally minifying the SVG output if the `--minify` flag is set.
 
 ## Testing & Compatibility
-- **Unit Tests:** Added unit tests validate that the generated SVG/PNG outputs include the new attributes (such as custom font-family, tooltip shape markers, and formatted tick labels) and that errors are thrown for invalid tooltip shape values.
-- **Backward Compatibility:** Existing plots continue to work without the new options. When new options are omitted, default values (e.g. fontFamily "inherit", tooltipShape "circle") are used.
-- **CLI Documentation:** The README and help messages have been updated to reflect these new options, ensuring that users understand how to use the additional styling capabilities.
+- **Unit Tests:** The test suite has been extended to verify that new text attributes, such as custom font family and axis tick label formatting, appear correctly in the SVG output. Further tests confirm that tooltip markers render in the specified shape, that errors are thrown for invalid tooltip shapes, and that minification reduces extraneous whitespace in the SVG content.
+
+- **Backward Compatibility:** Existing behavior is preserved. When new options are not provided, default values are used (e.g., fontFamily defaults to "inherit" and tooltipShape defaults to "circle").
 
 ## Value
-By streamlining and enhancing the plot styling process, this feature further reinforces the mission of making the library the go-to tool for formula visualization. It allows users to produce publication-ready plots with minimal effort while offering a high degree of customization.
+This update provides users with a higher degree of customization over plot appearance. With options for custom font families, tooltip marker shapes, formatted tick labels, and optimized SVG output, the library reinforces its mission to be the go-to tool for formula visualization, allowing users to easily create publication-ready plots with minimal effort.
