@@ -245,7 +245,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * 
  * New Parameters:
  *   - fontFamily: to set a custom font family for all text elements in the SVG. Defaults to "inherit".
- *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default), "square", and "triangle".
+ *   - tooltipShape: to set the tooltip marker shape. Supported values: "circle" (default), "square", and "triangle".
  * 
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
@@ -486,19 +486,22 @@ function parseArgs(args) {
         break;
       case "--stroke-width":
         if (i + 1 < args.length) {
-          options.strokeWidth = Number(args[i + 1]);
+          const num = Number(args[i + 1]);
+          if (!isNaN(num)) options.strokeWidth = num;
           i++;
         }
         break;
       case "--width":
         if (i + 1 < args.length) {
-          options.width = Number(args[i + 1]);
+          const num = Number(args[i + 1]);
+          if (!isNaN(num)) options.width = num;
           i++;
         }
         break;
       case "--height":
         if (i + 1 < args.length) {
-          options.height = Number(args[i + 1]);
+          const num = Number(args[i + 1]);
+          if (!isNaN(num)) options.height = num;
           i++;
         }
         break;
