@@ -216,7 +216,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   }
 
   // The existing expression text at the bottom (keep for reference if no custom xLabel provided)
-  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">Expression: ${expression}, Range: ${range}</text>` : '';
+  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">CSV Plot</text>` : '';
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
