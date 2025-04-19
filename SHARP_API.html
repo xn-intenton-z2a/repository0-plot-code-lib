@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="sharp_api" href="#sharp_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SHARP_API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">The crawled content returned no data (Data Size: 0 bytes), but the source is referenced from the Sharp API documentation. This document includes detailed API method signatures such as <code class="md-github">sharp(input, options)</code>, <code class="md-github">resize(width, height, options)</code>, and <code class="md-github">toFile(outputPath, [callback])</code>, alongside code examples and configuration details.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ol class="md-github">
+<li class="md-github">Installation</li>
+<li class="md-github">API Methods
+<ul class="md-github">
+<li class="md-github">sharp(input, options)</li>
+<li class="md-github">resize(width, height, options)</li>
+<li class="md-github">toFile(outputPath, [callback])</li>
+</ul>
+</li>
+<li class="md-github">Implementation Patterns</li>
+<li class="md-github">Troubleshooting</li>
+<li class="md-github">Configuration Options</li>
+</ol>
+<h3 class="md-github"><a class="md-github__anchor" name="1-installation" href="#1-installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Installation</h3>
+<ul class="md-github">
+<li class="md-github">Command: <code class="md-github">npm install sharp</code></li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="2-api-methods" href="#2-api-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. API Methods</h3>
+<p class="md-github"><strong class="md-github">sharp(input, options?)</strong></p>
+<ul class="md-github">
+<li class="md-github">Signature: <code class="md-github">sharp(input: Buffer | string, options?: {limitInputPixels?: number}): Sharp</code></li>
+<li class="md-github">Details: Accepts a file path or Buffer and optional options.</li>
+</ul>
+<p class="md-github"><strong class="md-github">resize(width, height?, options?)</strong></p>
+<ul class="md-github">
+<li class="md-github">Signature: <code class="md-github">resize(width: number, height?: number, options?: {   kernel?: 'nearest' | 'cubic' | 'mitchell' | 'lanczos2' | 'lanczos3',   fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside',   position?: 'centre' | 'center' | 'entropy' | 'attention' | number,   withoutEnlargement?: boolean }): Sharp</code></li>
+<li class="md-github">Details: Resizes images with explicit kernel, fit mode, cropping position and enlargement restrictions.</li>
+</ul>
+<p class="md-github"><strong class="md-github">toFile(outputPath, [callback])</strong></p>
+<ul class="md-github">
+<li class="md-github">Signatures:
+<ul class="md-github">
+<li class="md-github">Promise: <code class="md-github">toFile(outputPath: string): Promise&lt;{format: string, width: number, height: number, size: number}&gt;</code></li>
+<li class="md-github">Callback: <code class="md-github">toFile(outputPath: string, callback: (err: Error, info: {format: string, width: number, height: number, size: number}) =&gt; void): void</code></li>
+</ul>
+</li>
+<li class="md-github">Details: Saves processed image and returns file info.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="3-implementation-patterns" href="#3-implementation-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Implementation Patterns</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Chain Processing:</strong> Configure input, apply resize transformations, and output to file.</li>
+<li class="md-github"><strong class="md-github">Error Management:</strong> Use catch blocks with Promises or error callbacks.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="4-troubleshooting" href="#4-troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Troubleshooting</h3>
+<ul class="md-github">
+<li class="md-github">Increase <code class="md-github">limitInputPixels</code> for large images.</li>
+<li class="md-github">Verify file system permissions for output.</li>
+<li class="md-github">Update to the latest Sharp version if methods are missing.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="5-configuration-options" href="#5-configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Configuration Options</h3>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">limitInputPixels</code>: number, controls the maximum pixel count.</li>
+<li class="md-github">Resize options include <code class="md-github">kernel</code>, <code class="md-github">fit</code>, <code class="md-github">position</code>, and <code class="md-github">withoutEnlargement</code> with defined accepted values.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="supplementary-technical-specifications" href="#supplementary-technical-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Technical Specifications</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">sharp(input, options) Details:</strong></p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">input: string | Buffer</li>
+<li class="md-github">options: { limitInputPixels?: number }</li>
+</ul>
+</li>
+<li class="md-github">Returns: A Sharp instance with methods for image transformation.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">resize(width, height?, options) Details:</strong></p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">width: number</li>
+<li class="md-github">height (optional): number</li>
+<li class="md-github">options: {
+kernel?: 'nearest' | 'cubic' | 'mitchell' | 'lanczos2' | 'lanczos3',
+fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside',
+position?: 'centre' | 'center' | 'entropy' | 'attention' | number,
+withoutEnlargement?: boolean
+}</li>
+</ul>
+</li>
+<li class="md-github">Operation: Resizes the image accordingly, chaining is supported.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">toFile(outputPath, callback?) Details:</strong></p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">outputPath: string</li>
+<li class="md-github">callback (optional): function handling error and info</li>
+</ul>
+</li>
+<li class="md-github">Returns: Promise resolving with object { format: string, width: number, height: number, size: number } if no callback is provided.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Implementation Steps:</strong></p>
+<ol class="md-github">
+<li class="md-github">Import sharp.</li>
+<li class="md-github">Instantiate sharp with input file or buffer and optional options.</li>
+<li class="md-github">Chain .resize() with desired dimensions and options.</li>
+<li class="md-github">Chain .toFile() to write output, handle error/success via callback or then/catch.</li>
+</ol>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Configuration Options Detailed:</strong></p>
+<ul class="md-github">
+<li class="md-github">Kernel Options: 'nearest', 'cubic', 'mitchell', 'lanczos2', 'lanczos3'.</li>
+<li class="md-github">Fit Modes: 'cover' (default crop), 'contain' (letterbox), 'fill' (force fill), 'inside', 'outside'.</li>
+<li class="md-github">withoutEnlargement: Defaults to false unless specified, preventing enlarging of images.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="complete-api-specifications-and-code-examples" href="#complete-api-specifications-and-code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API Specifications and Code Examples</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="function-sharpinput-options" href="#function-sharpinput-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Function: sharp(input, options?)</h4>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Signature:</strong> <code class="md-github">sharp(input: Buffer | string, options?: { limitInputPixels?: number }): Sharp</code></li>
+<li class="md-github"><strong class="md-github">Parameters:</strong>
+<ul class="md-github">
+<li class="md-github">input: Path to image file or Buffer</li>
+<li class="md-github">options: Optional object. Example: <code class="md-github">{ limitInputPixels: 100000000 }</code></li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">Return Type:</strong> Sharp instance</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="method-resizewidth-height-options" href="#method-resizewidth-height-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Method: resize(width, height?, options?)</h4>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Signature:</strong></li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">resize(
+  width: number,
+  height?: number,
+  options?: {
+    kernel?: 'nearest' | 'cubic' | 'mitchell' | 'lanczos2' | 'lanczos3',
+    fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside',
+    position?: 'centre' | 'center' | 'entropy' | 'attention' | number,
+    withoutEnlargement?: boolean
+  }
+): Sharp
+</code></pre>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Parameters Details:</strong>
+<ul class="md-github">
+<li class="md-github">width: Desired image width in pixels</li>
+<li class="md-github">height: Desired image height in pixels (optional)</li>
+<li class="md-github">options:
+<ul class="md-github">
+<li class="md-github">kernel: Defines the interpolation algorithm</li>
+<li class="md-github">fit: Defines the resizing mode</li>
+<li class="md-github">position: Specifies cropping position</li>
+<li class="md-github">withoutEnlargement: Prevents upscaling if true</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="method-tofileoutputpath-callback" href="#method-tofileoutputpath-callback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Method: toFile(outputPath, callback?)</h4>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Promise Signature:</strong></li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">toFile(outputPath: string): Promise&lt;{ format: string, width: number, height: number, size: number }&gt;
+</code></pre>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Callback Signature:</strong></li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">toFile(outputPath: string, callback: (err: Error, info: { format: string, width: number, height: number, size: number }) =&gt; void): void
+</code></pre>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Parameters:</strong>
+<ul class="md-github">
+<li class="md-github">outputPath: File system path to save the image</li>
+<li class="md-github">callback: Optional function with error and info parameters</li>
+</ul>
+</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="full-code-example" href="#full-code-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Full Code Example:</h4>
+<pre class="md-github"><code class="md-github language-javascript">const sharp = require('sharp');
+
+// Create a Sharp instance with input image and pixel limit
+const image = sharp('input.jpg', { limitInputPixels: 50000000 });
+
+// Resize the image with specific options
+image.resize(800, 600, {
+  kernel: 'lanczos3',
+  fit: 'inside',
+  withoutEnlargement: true
+})
+
+// Save the processed image to output file using Promise
+.toFile('output.jpg')
+  .then(info =&gt; {
+    console.log('Image info:', info);
+  })
+  .catch(err =&gt; {
+    console.error('Error:', err);
+  });
+</code></pre>
+<h4 class="md-github"><a class="md-github__anchor" name="best-practices" href="#best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices</h4>
+<ul class="md-github">
+<li class="md-github">Always set <code class="md-github">limitInputPixels</code> to mitigate risk on processing large images.</li>
+<li class="md-github">Chain API calls to process images efficiently.</li>
+<li class="md-github">Use Promises or async/await for better error handling.</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="troubleshooting-procedures" href="#troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Procedures</h4>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Command:</strong> <code class="md-github">node yourScript.js</code> to run the image processing script.</li>
+<li class="md-github"><strong class="md-github">Issue:</strong> Memory or pixel limit error
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Fix:</strong> Increase <code class="md-github">limitInputPixels</code> or reduce image size</li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">Issue:</strong> Output file not generated
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Fix:</strong> Check directory permissions and path validity; use <code class="md-github">fs.access</code> to verify write permissions.</li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">Expected Output:</strong> On successful processing, the console logs an object with keys: <code class="md-github">format</code>, <code class="md-github">width</code>, <code class="md-github">height</code>, <code class="md-github">size</code>.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Sharp Documentation
+https://sharp.pixelplumbing.com/api</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-sharp_api" href="#digest-of-sharp_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SHARP_API</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="sharp_api-documentation" href="#sharp_api-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SHARP_API Documentation</h1>
+<p class="md-github"><strong class="md-github">Retrieved Date:</strong> 2023-10-10</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">This document provides the technical API specifications, method signatures, code examples, configuration options, and troubleshooting procedures for the Sharp image processing library.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p class="md-github">To install Sharp, run:</p>
+<pre class="md-github"><code class="md-github language-bash">npm install sharp
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="api-methods-and-specifications" href="#api-methods-and-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Methods and Specifications</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="1-sharpinput-options" href="#1-sharpinput-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. sharp(input, [options])</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Signature:</strong> <code class="md-github">sharp(input: Buffer | string, options?: {limitInputPixels?: number}): Sharp</code></li>
+<li class="md-github"><strong class="md-github">Description:</strong> Creates a Sharp instance for processing an image. The <code class="md-github">input</code> can be a file path or a Buffer. The optional <code class="md-github">options</code> object allows configuration such as <code class="md-github">limitInputPixels</code> for memory safety.</li>
+<li class="md-github"><strong class="md-github">Example:</strong></li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">const sharp = require('sharp');
+// Create a Sharp instance from a JPEG file
+const image = sharp('input.jpg', { limitInputPixels: 100000000 });
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="2-resizewidth-height-options" href="#2-resizewidth-height-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. resize(width, [height], [options])</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Signature:</strong> <code class="md-github">resize(width: number, height?: number, options?: {   kernel?: 'nearest' | 'cubic' | 'mitchell' | 'lanczos2' | 'lanczos3',   fit?: 'cover' | 'contain' | 'fill' | 'inside' | 'outside',   position?: 'centre' | 'center' | 'entropy' | 'attention' | number,   withoutEnlargement?: boolean }): Sharp</code></li>
+<li class="md-github"><strong class="md-github">Description:</strong> Resizes the image to the specified width and optional height. Options allow control of interpolation kernel, fitting method, position for cropping, and prevention of enlargement.</li>
+<li class="md-github"><strong class="md-github">Example:</strong></li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">image.resize(200, 300, { fit: 'cover', position: 'centre', withoutEnlargement: true });
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="3-tofileoutputpath-callback" href="#3-tofileoutputpath-callback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. toFile(outputPath, [callback])</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Signature:</strong>
+<ul class="md-github">
+<li class="md-github">Promise: <code class="md-github">toFile(outputPath: string): Promise&lt;{ format: string, width: number, height: number, size: number }&gt;</code></li>
+<li class="md-github">Callback: <code class="md-github">toFile(outputPath: string, callback: (err: Error, info: { format: string, width: number, height: number, size: number }) =&gt; void): void</code></li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">Description:</strong> Writes the processed image to the specified <code class="md-github">outputPath</code>. Returns image metadata on success.</li>
+<li class="md-github"><strong class="md-github">Example (Promise):</strong></li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">image.toFile('output.jpg')
+  .then(info =&gt; console.log(info))
+  .catch(err =&gt; { throw err; });
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="detailed-implementation-patterns" href="#detailed-implementation-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Implementation Patterns</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="chain-processing" href="#chain-processing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chain Processing</h3>
+<p class="md-github">Sharp allows method chaining. Example of a typical image processing pipeline:</p>
+<pre class="md-github"><code class="md-github language-javascript">const sharp = require('sharp');
+sharp('input.jpg', { limitInputPixels: 50000000 })
+  .resize(800, 600, { fit: 'inside' })
+  .toFile('output.jpg', (err, info) =&gt; {
+    if (err) {
+      console.error('Error processing image:', err);
+      return;
+    }
+    console.log('Image processed:', info);
+  });
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="handling-input-types-and-errors" href="#handling-input-types-and-errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Handling Input Types and Errors</h3>
+<ul class="md-github">
+<li class="md-github">Pass input as either a Buffer (for in-memory images) or a file path.</li>
+<li class="md-github">Ensure error handling is implemented either via callbacks or Promise rejection.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Memory Limit Errors:</strong> Increase <code class="md-github">limitInputPixels</code> in the sharp options if processing very large images.</li>
+<li class="md-github"><strong class="md-github">Output Issues:</strong> Confirm the file paths have correct permissions and directory existence.</li>
+<li class="md-github"><strong class="md-github">Method Not Found:</strong> Ensure using the latest version of Sharp if API methods are missing.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><code class="md-github">limitInputPixels</code>:</p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Type:</strong> number</li>
+<li class="md-github"><strong class="md-github">Default:</strong> Not set (depends on image size)</li>
+<li class="md-github"><strong class="md-github">Effect:</strong> Limits the number of pixels processed to prevent potential denial-of-service attacks.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Resize Options:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">kernel</code>: Determines the interpolation algorithm with options such as <code class="md-github">nearest</code>, <code class="md-github">cubic</code>, <code class="md-github">mitchell</code>, <code class="md-github">lanczos2</code>, <code class="md-github">lanczos3</code>.</li>
+<li class="md-github"><code class="md-github">fit</code>: How the image should be resized ('cover', 'contain', 'fill', 'inside', 'outside').</li>
+<li class="md-github"><code class="md-github">position</code>: Defines the gravity or focal point for cropping. Accepted values include strings or numbers.</li>
+<li class="md-github"><code class="md-github">withoutEnlargement</code>: Boolean to prevent enlarging the image beyond its original dimensions.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Sharp Documentation</li>
+<li class="md-github">URL: https://sharp.pixelplumbing.com/api</li>
+<li class="md-github">License: Apache-2.0</li>
+<li class="md-github">Crawl Date: 2025-04-19T04:25:21.299Z</li>
+<li class="md-github">Data Size: 0 bytes</li>
+<li class="md-github">Links Found: 0</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-19</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-19T05:24:18.972Z</p>
+  </footer>
+</body>
+</html>
