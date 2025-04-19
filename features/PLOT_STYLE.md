@@ -1,23 +1,24 @@
 # PLOT_STYLE
 
 ## Overview
-This feature consolidates and refines the visual styling options of the plot outputs generated from mathematical expressions and CSV time series data. It unifies the customization for function-based and CSV-based plots by providing a robust set of CLI options which configure element styles in SVG outputs. These options range from stroke properties, grid lines, and background colors, to detailed customizations like font family, custom tooltip markers, and axis tick label formatting.
+This feature consolidates and refines the visual styling of the generated plots. It supports both function-based and CSV-based plots with a unified set of CLI options. In addition to traditional styling parameters such as stroke color, stroke width, and background color, this update introduces several customizable enhancements:
 
-## New Enhancements
-- **Custom Font Family:** A new `--font-family` option allows setting a custom font (e.g., "Arial, sans-serif") for the title, axis labels and tick labels, ensuring that the plot integrates well with user application styles.
-- **Tooltip Marker Shape:** The `--tooltip-shape` option enables users to choose the shape of tooltip markers. Supported shapes include "circle" (default), "square", and "triangle". Strict validation ensures that invalid values produce an error and halt processing.
-- **Custom Axis Tick Label Formatting:** New options `--x-tick-format` and `--y-tick-format` accept a format string with a `{value}` placeholder. This lets users customize tick labels (e.g., appending units like "ms" or "units") to improve readability.
-- **SVG Minification:** When the `--minify` flag is provided, the generated SVG output is optimized by removing extra whitespace and newlines, resulting in smaller file sizes without compromising visual fidelity.
-- **Additional Customizations:** The existing styling parameters like `--stroke-color`, `--stroke-width`, `--dash-array`, `--grid`, and `--background-color` remain available. This feature uniformly applies these options across both function-based and CSV-based plots.
+- **Custom Font Family:** Set a custom font (e.g. "Arial, sans-serif") for all text elements including plot titles, axis labels, and tick labels.
+- **Tooltip Marker Shape:** Choose the shape of tooltip markers using the new `--tooltip-shape` option. Supported shapes include "circle" (default), "square", and "triangle". Invalid values will produce an error and halt processing.
+- **Axis Tick Label Formatting:** Customize the display format of the x and y-axis tick labels via `--x-tick-format` and `--y-tick-format` options. These accept a format string with a `{value}` placeholder to enhance readability.
+- **SVG Minification:** When the `--minify` flag is enabled, extraneous whitespace and newlines are removed from the SVG output to reduce file size without affecting rendering.
 
 ## Implementation Details
-- **Parameter Parsing and Validation:** The CLI parses input options and ensures mutually exclusive modes between CSV input (`--csv`) and expression-based input (`--expression` plus `--range`). Tooltip shape values are validated against allowed values.
-- **SVG Generation:** The source file computes sample points from the provided mathematical function or parses CSV data, maps these into SVG coordinates, and draws a polyline. It then adds additional SVG elements for grid lines, axis tick labels (using user-defined formats), and text elements styled with the custom font family.
-- **Tooltip Integration:** Conditional logic adds tooltip markers at each data point. Their style and shape are configurable via `--tooltip`, `--tooltip-format`, `--tooltip-style`, and `--tooltip-shape` options.
-- **Minification Process:** If the `--minify` flag is enabled, the SVG content is post-processed to remove extraneous white space and newline characters before file output.
+- **Parameter Parsing & Validation:** The CLI parses new input options and validates each. Mutual exclusion is enforced between CSV input and expression-based input. The new parameters (fontFamily, tooltipShape, xTickFormat, yTickFormat, minify) are integrated with existing parsing logic.
+- **SVG Generation:** The source file computes sample points for the plot from either the mathematical expression or CSV data. The computed points are then mapped to SVG coordinates. In addition to drawing the polyline, grid lines may be drawn if requested. Custom text elements for titles and axis labels are rendered with the specified font family.
+- **Tooltip Integration:** Depending on the `--tooltip` flag and the validated `--tooltip-shape` option, small markers (circle, square, or triangle) with an embedded `<title>` element are added to each data point. Custom tooltip formatting and styling are supported via `--tooltip-format` and `--tooltip-style`.
+- **Axis Tick Labels & Grid:** The feature allows custom formatting of tick labels on both axes. If grid lines are enabled, they are drawn with a light gray stroke. Custom tick labels are rendered using the provided format strings.
+- **SVG Minification Process:** After the SVG content is generated, if the `--minify` flag is provided, the content is post-processed to collapse extra whitespace and newlines.
 
-## Value and Compatibility
-This updated plot styling feature enhances over the original by allowing deep customization of textual elements, tooltip markers, and axis labels which are essential for accurately conveying data scale and context. It reinforces the library’s mission of being the go-to formula visualization tool with a straightforward CLI interface, enabling precise control over plot appearance.
+## Testing & Compatibility
+- **Unit Tests:** Added unit tests validate that the generated SVG/PNG outputs include the new attributes (such as custom font-family, tooltip shape markers, and formatted tick labels) and that errors are thrown for invalid tooltip shape values.
+- **Backward Compatibility:** Existing plots continue to work without the new options. When new options are omitted, default values (e.g. fontFamily "inherit", tooltipShape "circle") are used.
+- **CLI Documentation:** The README and help messages have been updated to reflect these new options, ensuring that users understand how to use the additional styling capabilities.
 
-## Backward Compatibility
-All modifications are fully backward compatible. Existing functionality remains intact, while new CLI options augment the design. Existing plots generated without new options function as before, ensuring a seamless experience for current users.
+## Value
+By streamlining and enhancing the plot styling process, this feature further reinforces the mission of making the library the go-to tool for formula visualization. It allows users to produce publication-ready plots with minimal effort while offering a high degree of customization.
