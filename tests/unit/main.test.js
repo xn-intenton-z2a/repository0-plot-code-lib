@@ -32,7 +32,7 @@ describe("Plot Generation", () => {
 });
 
 describe("Time Series Data Generation", () => {
-  test("should generate at least 10 data points with numeric x and y", () => {
+  test("should generate at least 10 data points with numeric x and y for sin(x)", () => {
     const data = generateTimeSeriesData("y=sin(x)", "x=0:6.28");
     expect(data.length).toBeGreaterThanOrEqual(10);
     for (const point of data) {
@@ -40,6 +40,17 @@ describe("Time Series Data Generation", () => {
       expect(typeof point.y).toBe("number");
       expect(point.y).toBeGreaterThanOrEqual(-1);
       expect(point.y).toBeLessThanOrEqual(1);
+    }
+  });
+
+  test("should generate at least 10 data points with numeric x and y for cos(x)", () => {
+    const data = generateTimeSeriesData("y=cos(x)", "x=0:6.28");
+    expect(data.length).toBeGreaterThanOrEqual(10);
+    for (const point of data) {
+      expect(typeof point.x).toBe("number");
+      expect(typeof point.y).toBe("number");
+      // Check cosine values with a tolerance
+      expect(Math.abs(point.y - Math.cos(point.x))).toBeLessThan(0.0001);
     }
   });
 });
