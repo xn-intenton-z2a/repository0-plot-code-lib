@@ -40,7 +40,7 @@ Vega-Lite is a high-level grammar of interactive graphics that simplifies the ta
 
 # Plotly.js Documentation
 ## https://plotly.com/javascript/
-Plotly.js provides a rich set of interactive and customizable charting options built on D3.js and stack.gl. The documentation covers a wide range of chart types, layout customization, and interactivity features, serving as an excellent resource for developers seeking to implement advanced plot styling and data visualization.
+Plotly.js provides a rich set of interactive and customizable charting options built on D3.js and stack.gl. The documentation covers a wide range of chart types, layout customization, and interactivity features, serving as an excellent resource for developers seeking to implement advanced data visualization in web applications.
 ## MIT
 
 # MDN SVG Documentation
@@ -51,4 +51,19 @@ MDN's SVG documentation offers a thorough exploration of SVG elements, attribute
 # D3.js Documentation
 ## https://github.com/d3/d3/blob/main/README.md
 D3.js is a leading library for producing dynamic, interactive data visualizations in web browsers. The documentation covers its core concepts, methods for binding data to the DOM, and techniques for creating custom visual transitions and animations.
+## BSD-3-Clause
+
+# SVG 2 Specification
+## https://www.w3.org/TR/SVG2/
+The SVG 2 Specification by the World Wide Web Consortium (W3C) defines the structure, features, and behaviors of Scalable Vector Graphics (SVG) for modern web applications. It provides in-depth details of SVG elements, attributes, and styling, forming the foundation for vector graphics on the web.
+## W3C
+
+# Math.js Documentation
+## https://mathjs.org/docs/index.html
+Math.js is an extensive mathematics library for JavaScript and Node.js that features a flexible expression parser, a comprehensive collection of mathematical functions, and utilities for handling units and complex numbers. The documentation is essential for developers looking to incorporate mathematical computations into their applications.
+## Apache-2.0
+
+# Vega Documentation
+## https://vega.github.io/vega/docs/
+Vega is a declarative language for creating, saving, and sharing interactive visualization designs. Its documentation covers the principles behind the visual encoding of data, configuration of visual elements, and customization of charts, providing a strong theoretical and practical foundation for building advanced graphics.
 ## BSD-3-Clause
