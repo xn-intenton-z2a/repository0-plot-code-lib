@@ -97,3 +97,13 @@ Official documentation for Yargs, a powerful library for building command-line i
 ## https://www.desmos.com/api/v1.6/docs/index.html
 This documentation provides guidelines for integrating the Desmos Graphing Calculator into web applications, offering dynamic and interactive visualizations of mathematical functions. Although it is primarily aimed at web-based implementations, the insights offered can inspire similar approaches for CLI-based plotting and data visualization tools.
 ## N/A
+
+# Express Documentation
+## https://expressjs.com/
+The official Express documentation provides comprehensive coverage of the Express framework, including guides on routing, middleware, error handling, and deployment. As one of the most popular Node.js server frameworks, it is vital for understanding how to build scalable and maintainable web applications and API services. The documentation is regularly updated and highly regarded in the Node.js community.
+## MIT
+
+# js-yaml Documentation
+## https://github.com/nodeca/js-yaml
+The js-yaml documentation, hosted on GitHub, offers detailed information on parsing and dumping YAML in JavaScript. It covers usage examples, API references, and best practices for integrating YAML-based configurations into Node.js applications. This resource is essential for developers looking to implement configuration loaders using YAML in their projects.
+## MIT
