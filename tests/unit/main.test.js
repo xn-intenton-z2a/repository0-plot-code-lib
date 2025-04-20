@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from "vitest";
 import * as mainModule from "@src/lib/main.js";
-import { main, generateTimeSeriesData, serializeTimeSeries } from "@src/lib/main.js";
+import { main, generateTimeSeriesData, serializeTimeSeries, parseArguments } from "@src/lib/main.js";
 import fs from "fs";
 
 describe("Main Module Import", () => {
@@ -10,8 +10,9 @@ describe("Main Module Import", () => {
 });
 
 describe("Default main", () => {
-  test("should terminate without error", () => {
+  test("should terminate without error when no args provided", () => {
     process.argv = ["node", "src/lib/main.js"];
+    // Since parseArguments will throw, we can call main with empty array and expect error handling
     main([]);
   });
 });
@@ -71,5 +72,27 @@ describe("CLI CSV Generation", () => {
     const output = logSpy.mock.calls[0][0];
     expect(output.startsWith("x,y")).toBe(true);
     logSpy.mockRestore();
+  });
+});
+
+describe("CLI Argument Parsing", () => {
+  test("should parse valid CLI arguments correctly", () => {
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:1", "--file", "output.svg"];
+    const result = parseArguments(args);
+    expect(result).toEqual({
+      expression: "y=sin(x)",
+      range: "x=0:1",
+      outputFile: "output.svg"
+    });
+  });
+
+  test("should throw an error for missing --expression", () => {
+    const args = ["--range", "x=0:1", "--file", "output.svg"];
+    expect(() => parseArguments(args)).toThrow("Missing required parameter: --expression");
+  });
+
+  test("should throw an error for invalid range format", () => {
+    const args = ["--expression", "y=sin(x)", "--range", "invalid", "--file", "output.svg"];
+    expect(() => parseArguments(args)).toThrow("Invalid range format. Expected format: x=start:end");
   });
 });

@@ -12,6 +12,14 @@ When using the CSV option, the CLI transforms the provided mathematical expressi
 - --range: A range descriptor in the format "x=start:end" (for example, "x=0:6.28").
 - --file: The output file path. If the file path ends with ".csv", the tool outputs CSV content to stdout instead of writing to a file.
 
+### Error Handling and Argument Parsing
+
+The CLI now uses a dedicated argument parsing helper which validates required parameters and the range format. If any required argument is missing or if the range is malformed, the tool will output a descriptive error message. For example:
+
+- Missing --expression: "Missing required parameter: --expression"
+- Invalid range: "Invalid range format. Expected format: x=start:end"
+- Unsupported expression: "Unsupported expression: <expression>"
+
 ### Examples
 
 #### SVG Output

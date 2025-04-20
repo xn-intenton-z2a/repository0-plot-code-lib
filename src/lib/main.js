@@ -24,8 +24,8 @@ export function generateTimeSeriesData(expression, rangeStr) {
     if (expression === "y=sin(x)") {
       y = Math.sin(x);
     } else {
-      // Default behavior for unsupported expressions
-      y = 0;
+      // Throw error for unsupported expressions
+      throw new Error("Unsupported expression: " + expression);
     }
     data.push({ x, y });
   }
@@ -41,8 +41,8 @@ export function serializeTimeSeries(data) {
   return csv;
 }
 
-export function main(args) {
-  // Simple argument parser
+// Helper function to parse CLI arguments
+export function parseArguments(args) {
   let expression, range, outputFile;
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -57,29 +57,38 @@ export function main(args) {
       i++;
     }
   }
+  if (!expression) {
+    throw new Error("Missing required parameter: --expression");
+  }
+  if (!range) {
+    throw new Error("Missing required parameter: --range");
+  }
+  if (!outputFile) {
+    throw new Error("Missing required parameter: --file");
+  }
+  // Validate range format
+  if (!/^x=([\d\.]+):([\d\.]+)$/.test(range)) {
+    throw new Error("Invalid range format. Expected format: x=start:end");
+  }
+  return { expression, range, outputFile };
+}
 
-  if (expression && range && outputFile) {
+export function main(args) {
+  try {
+    const { expression, range, outputFile } = parseArguments(args);
     if (outputFile.endsWith(".csv")) {
       // Generate time series data and output CSV content to stdout
-      try {
-        const data = generateTimeSeriesData(expression, range);
-        const csvContent = serializeTimeSeries(data);
-        console.log(csvContent);
-      } catch (err) {
-        console.error("Error generating CSV content:", err);
-      }
+      const data = generateTimeSeriesData(expression, range);
+      const csvContent = serializeTimeSeries(data);
+      console.log(csvContent);
     } else {
-      // Generate dummy SVG content as before
+      // Generate dummy SVG content
       const svgContent = `<svg><text x='10' y='20'>Expression: ${expression}</text><text x='10' y='40'>Range: ${range}</text></svg>`;
-      try {
-        fs.writeFileSync(outputFile, svgContent);
-        console.log(`SVG file generated: ${outputFile}`);
-      } catch (err) {
-        console.error(`Error writing file ${outputFile}:`, err);
-      }
+      fs.writeFileSync(outputFile, svgContent);
+      console.log(`SVG file generated: ${outputFile}`);
     }
-  } else {
-    console.log(`Run with: ${JSON.stringify(args)}`);
+  } catch (err) {
+    console.error("Error:", err.message);
   }
 }
 
