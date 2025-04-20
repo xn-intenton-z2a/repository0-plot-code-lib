@@ -77,3 +77,23 @@ Vitest is a Vite-native unit test framework designed for fast and efficient test
 ## https://zod.dev/
 Zod is a TypeScript-first schema declaration and validation library that focuses on simplicity and performance. Its documentation provides detailed explanations on schema creation, validation, and transformation, along with plenty of examples and best practices. Frequent updates and robust community support make it an authoritative resource in modern JavaScript and TypeScript development.
 ## MIT
+
+# jq Manual
+## https://stedolan.github.io/jq/manual/
+The official manual for jq, a lightweight and flexible command-line JSON processor, offers a deep dive into its powerful filtering and data transformation capabilities. Its clear examples and thorough explanations serve as an excellent guide for users looking to harness the full power of command-line data manipulation. This resource is widely regarded as the definitive guide for jq usage.
+## MIT
+
+# Gnuplot Documentation
+## http://www.gnuplot.info/documentation.html
+Comprehensive documentation for Gnuplot, a command-line driven graphing utility widely used in scientific and engineering applications. It provides detailed tutorials, reference guides, and examples for creating sophisticated plots and data visualizations, making it an essential resource for users interested in command-line plotting tools.
+## GPL
+
+# Yargs Documentation
+## https://yargs.js.org/docs/
+Official documentation for Yargs, a powerful library for building command-line interfaces with Node.js. While this repository utilizes zod for CLI validation, Yargs offers extensive insights into argument parsing, command handling, and creating user-friendly CLI tools. Its thorough examples and API references are beneficial for developers designing robust command-line utilities.
+## MIT
+
+# Desmos Graphing Calculator API
+## https://www.desmos.com/api/v1.6/docs/index.html
+This documentation provides guidelines for integrating the Desmos Graphing Calculator into web applications, offering dynamic and interactive visualizations of mathematical functions. Although it is primarily aimed at web-based implementations, the insights offered can inspire similar approaches for CLI-based plotting and data visualization tools.
+## N/A
