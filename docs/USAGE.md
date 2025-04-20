@@ -9,7 +9,7 @@ When using the CSV option, the CLI transforms the provided mathematical expressi
 ### CLI Options
 
 - --expression: A mathematical expression (currently supported: "y=sin(x)").
-- --range: A range descriptor in the format "x=start:end" (for example, "x=0:6.28").
+- --range: A range descriptor in the format "x=start:end" where start and end can be negative (for example, "x=0:6.28" or "x=-1:1").
 - --file: The output file path. If the file path ends with ".csv", the tool outputs CSV content to stdout instead of writing to a file.
 
 ### Error Handling and Argument Parsing

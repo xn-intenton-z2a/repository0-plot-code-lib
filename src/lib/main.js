@@ -7,8 +7,8 @@ import fs from "fs";
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr) {
   // Only supports a simple expression: 'y=sin(x)'
-  // Expected range format: "x=start:end"
-  const match = rangeStr.match(/^x=([\d\.]+):([\d\.]+)$/);
+  // Expected range format: "x=start:end" (start and end may be negative)
+  const match = rangeStr.match(/^x=(-?[\d\.]+):(-?[\d\.]+)$/);
   if (!match) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -66,8 +66,8 @@ export function parseArguments(args) {
   if (!outputFile) {
     throw new Error("Missing required parameter: --file");
   }
-  // Validate range format
-  if (!/^x=([\d\.]+):([\d\.]+)$/.test(range)) {
+  // Validate range format - allow negative numbers
+  if (!/^x=(-?[\d\.]+):(-?[\d\.]+)$/.test(range)) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
   return { expression, range, outputFile };
