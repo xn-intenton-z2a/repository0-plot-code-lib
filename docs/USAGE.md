@@ -17,15 +17,6 @@ This CLI tool is designed to generate plots (in SVG format) and time series data
 
 ## Usage Examples
 
-### CSV Output Example
-Command:
-
-  node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.csv
-
-Expected Behavior:
-- The CLI processes the provided mathematical expression.
-- Prints CSV content to stdout starting with the header "x,y" followed by at least 10 rows of time series data.
-
 ### SVG Output Example
 Command:
 
@@ -34,6 +25,29 @@ Command:
 Expected Behavior:
 - The CLI generates an SVG file containing text elements that show the expression and range. For example:
   <svg><text x='10' y='20'>Expression: y=sin(x)</text><text x='10' y='40'>Range: x=-1:1</text></svg>
+
+### Generating CSV Output
+When invoking the CLI tool with the --file parameter ending with ".csv", the tool outputs CSV content directly to stdout instead of writing to a file. The CSV output consists of a header row "x,y" followed by at least 10 rows of numerical time series data computed based on the provided expression and range.
+
+#### Example Usage:
+
+  node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.csv
+
+#### Sample Output:
+
+  x,y
+  0,0
+  0.698,0.6428
+  1.396,0.9848
+  2.093,0.866
+  2.791,0.342
+  3.489,-0.342
+  4.186,-0.866
+  4.884,-0.9848
+  5.582,-0.6428
+  6.28,0
+
+Note: Numerical values are approximate and based on generating at least 10 data points over the given range.
 
 ## Requirements
 - Node 20+ with ECMAScript Module (ESM) support.
