@@ -2,9 +2,9 @@
 
 ## Introduction
 
-**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, and now `y=tan(x)` to compute corresponding function values over a specified numerical range.
+**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, and `y=tan(x)` to compute corresponding function values over a specified numerical range.
 
-This library adheres to the mission of becoming the go-to solution for formula-based visualizations, much like how jq operates for JSON data. It empowers users to either generate graphical plots (in SVG format) or output raw numerical data (in CSV format), allowing each to be processed further as needed.
+This library adheres to the mission of becoming the go-to solution for formula-based visualizations, much like how jq operates for JSON data. It empowers users to either generate graphical plots (in SVG or PNG format) or output raw numerical data (in CSV format), allowing each to be processed further as needed.
 
 ## Library Mission
 
@@ -26,7 +26,10 @@ The CLI tool is executed via Node.js and accepts the following parameters:
 
 - `--range`: Defines the range for the `x` values in the format `x=start:end`. For example, `x=0:6.28` sets the range from 0 to approximately 2π.
 
-- `--file`: Determines the type of output. If the file name ends in `.csv`, the tool outputs CSV content directly to stdout. Otherwise, it generates a dummy SVG file with embedded text displaying the input parameters.
+- `--file`: Determines the type of output based on the file extension:
+  - **CSV Output:** If the file name ends in `.csv`, the tool outputs CSV content directly to stdout.
+  - **SVG Output:** If the file name ends in anything other than `.csv` or `.png`, it generates a dummy SVG file with embedded text displaying the input parameters.
+  - **PNG Output:** If the file name ends in `.png`, the tool generates SVG content and then uses the Sharp library to convert it into a PNG image, writing the PNG data to the specified file.
 
 ## Examples
 
@@ -53,15 +56,15 @@ To create a dummy SVG file that contains a visual representation of the input pa
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
-### Generating Plot with tan(x)
+### Generating PNG Output
 
-The library now supports the tangent expression. For example, to generate an SVG plot using `y=tan(x)`, run:
+To generate a PNG image from your expression using Sharp, run:
 
 ```sh
-node src/lib/main.js --expression "y=tan(x)" --range "x=0:0.5" --file output.svg
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.png
 ```
 
-This command writes an SVG file (`output.svg`) with embedded text showing the chosen expression and range.
+This command converts the generated SVG content into a PNG image and writes it to `output.png`.
 
 ## Additional Information
 
