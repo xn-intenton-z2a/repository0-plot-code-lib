@@ -67,3 +67,13 @@ Math.js is an extensive mathematics library for JavaScript and Node.js that feat
 ## https://vega.github.io/vega/docs/
 Vega is a declarative language for creating, saving, and sharing interactive visualization designs. Its documentation covers the principles behind the visual encoding of data, configuration of visual elements, and customization of charts, providing a strong theoretical and practical foundation for building advanced graphics.
 ## BSD-3-Clause
+
+# Vitest Documentation
+## https://vitest.dev
+Vitest is a Vite-native unit test framework designed for fast and efficient testing in JavaScript and TypeScript projects. This documentation includes comprehensive guides, API references, and best practices for setting up and running tests. Regular updates and community contributions make it a trusted resource for modern testing workflows.
+## MIT
+
+# Zod Documentation
+## https://zod.dev/
+Zod is a TypeScript-first schema declaration and validation library that focuses on simplicity and performance. Its documentation provides detailed explanations on schema creation, validation, and transformation, along with plenty of examples and best practices. Frequent updates and robust community support make it an authoritative resource in modern JavaScript and TypeScript development.
+## MIT
