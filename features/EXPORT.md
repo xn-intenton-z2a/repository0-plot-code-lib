@@ -1,26 +1,32 @@
-# EXPORT FEATURE UPDATE
+# EXPORT
 
 ## Overview
-This feature provides a unified export solution for various output formats, allowing users to export computed plot data and generated plots in multiple formats. In addition to PDF export (with SVG to PNG conversion), and the already supported JSON and CSV exports, this update expands functionality to include XML export. By adding support for exporting plot data as XML, the library becomes even more versatile for integration into data-processing pipelines.
+This feature consolidates all export-related functionalities into a single unified module. In addition to exporting plot data and plots in various formats (SVG, PNG, PDF, JSON, CSV, and XML), the export functionality now integrates a diagnostics mode. By using the `--diagnostics` flag, users can obtain critical runtime and environment details (Node.js version, dependency versions, configuration options, etc.) without triggering regular export operations. This merged functionality streamlines the CLI and keeps the repository feature set within the allowed maximum.
 
 ## Implementation Details
-- **Source File Changes:**
-  - Update the CLI argument parser in `src/lib/main.js` to detect output file extensions: `.svg`, `.png`, `.pdf`, `.json`, `.csv`, and now `.xml`.
-  - For JSON export, generate an array of data points. Each point contains the original x and y values (transformed if logarithmic scaling is enabled) along with the corresponding SVG coordinates (`svgX` and `svgY`).
-  - For CSV export, produce a header row (`x,y,svgX,svgY`) followed by computed data points for both function-based plots and CSV input plots.
-  - For XML export, create an XML document with a `<plotData>` root element and child `<point>` elements. Each `<point>` element includes attributes for `x`, `y`, `svgX`, and `svgY`.
-  - For PDF export, first convert the SVG content to a PNG image using `sharp`, and then embed this image into a PDF document using PDFKit.
-  - Reuse common plot data computation logic across all export branches to ensure consistency in the exported data.
+- **Unified CLI Parsing:**
+  - The CLI argument parser now handles both export file formats and a new `--diagnostics` flag.
+  - When `--diagnostics` is detected, the export-related processing (plot generation and file output) is bypassed. Instead, diagnostic information is gathered and output to the console.
 
-## Testing
-- **Unit Tests:**
-  - Extend unit tests (in `tests/unit/main.test.js`) to validate that exporting with file extensions `.json`, `.csv`, and `.xml` produces data with the expected structure and properties. 
-  - For the PDF export branch, add tests to confirm that generated files begin with `%PDF-` and are valid PDF documents.
+- **Export Functionality:**
+  - Detects the output file type via its extension (.svg, .png, .pdf, .json, .csv, .xml).
+  - For data exports:
+    - **JSON Export:** Generates an array of data points, each containing original x and y values (after log scaling if enabled) along with computed SVG coordinates.
+    - **CSV Export:** Produces a CSV with a header row (x,y,svgX,svgY) and subsequent data rows.
+    - **XML Export:** Builds an XML document with a `<plotData>` root and child `<point>` elements for each data point.
+  - For plot generation:
+    - **SVG Generation:** Renders the plot with support for customizable styles as defined in the PLOT_STYLE feature.
+    - **PNG Conversion:** Uses the SVG output and converts it to PNG via Sharp.
+    - **PDF Generation:** Converts the SVG output to a PNG image and embeds it in a PDF file using PDFKit.
 
-## Documentation
-- **README Updates:**
-  - Update `README.md` to include examples and usage instructions for exporting to XML in addition to the existing JSON, CSV, PDF, and SVG exports.
-  - Clearly document the expected data structure for each export format.
+- **Diagnostics Mode:**
+  - When invoked with `--diagnostics`, all export and plot generation steps are skipped.
+  - Diagnostic details include Node.js runtime version, key dependency versions (such as sharp, pdfkit), and relevant environment variables.
+  - This information helps users verify that the environment is properly set up for using the library.
 
-## Compatibility and Value
-This update enhances the library's interoperability by providing multiple export options. Users can integrate the exported plot data directly into reporting pipelines or further data analysis workflows. The addition of XML export meets the growing demand for standardized data interchange formats.
+## Testing & Compatibility
+- **Unit Tests:** Updated unit tests simulate CLI input for both exports in various file formats and the diagnostics mode. Tests confirm that when diagnostics is active, no file generation occurs and the appropriate information is output.
+- **Backward Compatibility:** Regular export functionality remains unaffected when the `--diagnostics` flag is not provided.
+
+## Value
+By merging export functionalities with diagnostics, this feature enhances usability and troubleshooting whilst reducing the overall feature footprint. The unified EXPORT module aligns with the mission to be the go-to plot library for formula visualisations, providing users with a single, streamlined interface for both plot export and environment diagnostics.
