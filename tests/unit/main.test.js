@@ -10,14 +10,14 @@ describe("Main Module Import", () => {
 });
 
 describe("Default main", () => {
-  test("should terminate without error", () => {
+  test("should terminate without error", async () => {
     process.argv = ["node", "src/lib/main.js"];
-    main([]);
+    await main([]);
   });
 });
 
 describe("Plot Generation", () => {
-  test("should generate dummy SVG file when valid parameters are provided and file extension is not .csv", () => {
+  test("should generate dummy SVG file when valid parameters are provided and file extension is not .csv", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
       "--expression", "y=sin(x)",
@@ -25,7 +25,7 @@ describe("Plot Generation", () => {
       "--file", "output.svg"
     ];
     const expectedSVG = "<svg><text x='10' y='20'>Expression: y=sin(x)</text><text x='10' y='40'>Range: x=-1:1</text></svg>";
-    main(args);
+    await main(args);
     expect(writeFileSyncSpy).toHaveBeenCalledWith("output.svg", expectedSVG);
     writeFileSyncSpy.mockRestore();
   });
@@ -80,17 +80,36 @@ describe("Serialize Time Series Data", () => {
 });
 
 describe("CLI CSV Generation", () => {
-  test("should print CSV content to stdout when --file ends with .csv", () => {
+  test("should print CSV content to stdout when --file ends with .csv", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = [
       "--expression", "y=sin(x)",
       "--range", "x=0:6.28",
       "--file", "output.csv"
     ];
-    main(args);
+    await main(args);
     expect(logSpy).toHaveBeenCalled();
     const output = logSpy.mock.calls[0][0];
     expect(output.startsWith("x,y")).toBe(true);
     logSpy.mockRestore();
+  });
+});
+
+describe("CLI PNG Generation", () => {
+  test("should generate PNG using sharp when --file ends with .png", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=0:6.28",
+      "--file", "output.png"
+    ];
+    await main(args);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const [filename, buffer] = writeFileSyncSpy.mock.calls[0];
+    expect(filename).toBe("output.png");
+    // PNG files start with the following 8-byte signature: 89 50 4E 47 0D 0A 1A 0A
+    const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
+    expect(buffer.slice(0, 8)).toEqual(pngSignature);
+    writeFileSyncSpy.mockRestore();
   });
 });

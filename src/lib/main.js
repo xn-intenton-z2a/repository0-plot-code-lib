@@ -3,6 +3,7 @@
 
 import { fileURLToPath } from "url";
 import fs from "fs";
+import sharp from "sharp";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr) {
@@ -45,7 +46,7 @@ export function serializeTimeSeries(data) {
   return csv;
 }
 
-export function main(args) {
+export async function main(args) {
   // Simple argument parser
   let expression, range, outputFile;
   for (let i = 0; i < args.length; i++) {
@@ -72,6 +73,16 @@ export function main(args) {
       } catch (err) {
         console.error("Error generating CSV content:", err);
       }
+    } else if (outputFile.endsWith(".png")) {
+      // Generate SVG content and use sharp to convert it to PNG
+      const svgContent = `<svg><text x='10' y='20'>Expression: ${expression}</text><text x='10' y='40'>Range: ${range}</text></svg>`;
+      try {
+        const buffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+        fs.writeFileSync(outputFile, buffer);
+        console.log(`PNG file generated: ${outputFile}`);
+      } catch (err) {
+        console.error(`Error creating PNG file ${outputFile}:`, err);
+      }
     } else {
       // Generate dummy SVG content as before
       const svgContent = `<svg><text x='10' y='20'>Expression: ${expression}</text><text x='10' y='40'>Range: ${range}</text></svg>`;
@@ -89,5 +100,5 @@ export function main(args) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args);
+  main(args).catch(err => console.error(err));
 }
