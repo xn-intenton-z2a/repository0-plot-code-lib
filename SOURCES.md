@@ -132,3 +132,23 @@ This article from Smashing Magazine provides practical insights and best practic
 ## https://yaml.org/spec/1.2/spec.html
 The YAML 1.2 specification is the authoritative document for the YAML language. It provides comprehensive details on the syntax, data structures, and use cases for YAML, which is widely used for configuration files and data serialization.
 ## Open YAML Initiative
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js#readme
+Commander.js is a popular Node.js library for building command-line interfaces. It provides a robust set of features for argument parsing, subcommand handling, and custom help text generation. The documentation includes examples and detailed usage instructions, making it a useful benchmark for CLI design.
+## MIT
+
+# Building Node.js CLI Apps (freeCodeCamp)
+## https://www.freecodecamp.org/news/building-a-node-cli-app/
+This freeCodeCamp article offers a comprehensive guide on creating command-line tools with Node.js. It covers the basics of argument parsing, error handling, and best practices for CLI tool development, serving as a resource for both beginners and experienced developers.
+## N/A
+
+# ESLint Documentation
+## https://eslint.org/docs/latest/use/command-line-interface
+The ESLint documentation provides detailed instructions on how to use ESLint's command-line interface to lint JavaScript code. It includes configuration options, integration examples, and best practices for maintaining code quality in projects.
+## MIT
+
+# Express Best Practices
+## https://expressjs.com/en/advanced/best-practice-performance.html
+This guide outlines best practices for building and maintaining high-performance Express applications. It emphasizes middleware configuration, error handling, and security measures, offering practical advice for optimizing Node.js applications.
+## MIT
