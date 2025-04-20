@@ -152,3 +152,23 @@ The ESLint documentation provides detailed instructions on how to use ESLint's c
 ## https://expressjs.com/en/advanced/best-practice-performance.html
 This guide outlines best practices for building and maintaining high-performance Express applications. It emphasizes middleware configuration, error handling, and security measures, offering practical advice for optimizing Node.js applications.
 ## MIT
+
+# NPM Documentation
+## https://docs.npmjs.com/
+The official NPM Documentation details commands, package configuration, publishing guidelines, and dependency management practices. It is an essential resource for developers working in the Node.js ecosystem.
+## N/A
+
+# ECMAScript Language Specification
+## https://tc39.es/ecma262/
+The ECMAScript Language Specification defines the standard for JavaScript, providing detailed and authoritative guidelines on syntax, semantics, and built-in functionalities. It is regularly updated by TC39 and serves as a fundamental resource for JavaScript engine developers and advanced users.
+## Public Domain
+
+# Vite Documentation
+## https://vitejs.dev/guide/
+Vite offers a modern build tool and development server for web projects with a focus on speed and ease of use. While primarily used for front-end development, its insights into ES modules and rapid development can benefit CLI tool development and bundling strategies.
+## MIT
+
+# Markdown-it Documentation
+## https://github.com/markdown-it/markdown-it/blob/master/README.md
+Markdown-it provides a robust and extensible Markdown parser with support for GitHub Flavored Markdown (GFM). This resource is valuable for integrating markdown processing in applications and ensuring consistent rendering of documentation.
+## MIT
