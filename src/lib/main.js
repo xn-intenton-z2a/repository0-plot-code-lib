@@ -629,7 +629,7 @@ Options:
   --font-family        (Optional) Custom font family for all text elements in the SVG (e.g., "Arial, sans-serif"). Defaults to inherit.
   --minify             (Optional) When provided, the generated SVG output is minified by removing unnecessary whitespace and newlines.
   --tooltip-shape      (Optional) Set the tooltip marker shape. Accepted values: "circle" (default), "square", or "triangle".
-  --help               (Optional) Display this help message and exit.
+  --help               (Optional) Display detailed usage information and a summary of all available CLI options, then exit.
 
 Note: The --csv option and the --expression/--range options are mutually exclusive.
 `;
@@ -797,7 +797,7 @@ export async function main(args) {
         }
         let xMin, xMax, yMin, yMax;
         try {
-          const rangeParts = options.range.split(',');
+          const rangeParts = options.range.split(",");
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
@@ -917,7 +917,7 @@ export async function main(args) {
         }
         let xMin, xMax, yMin, yMax;
         try {
-          const rangeParts = options.range.split(',');
+          const rangeParts = options.range.split(",");
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
@@ -1042,7 +1042,7 @@ export async function main(args) {
         }
         let xMin, xMax, yMin, yMax;
         try {
-          const rangeParts = options.range.split(',');
+          const rangeParts = options.range.split(",");
           const xPart = rangeParts.find(part => part.trim().startsWith('x='));
           const yPart = rangeParts.find(part => part.trim().startsWith('y='));
           if (!xPart || !yPart) throw new Error('Invalid range format');
