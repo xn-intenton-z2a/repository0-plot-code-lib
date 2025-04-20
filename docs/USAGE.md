@@ -1,58 +1,43 @@
 # Usage
 
-This CLI tool can generate plots in SVG format and also process time series data from a mathematical expression.
+## Library Purpose
+This CLI tool is designed to generate plots (in SVG format) and time series data (in CSV format) from mathematical expressions. It serves as a go-to plot library, similar to how jq works for formula visualisations, aligning with our mission to become the leading tool for generating formula-based plots and visualisations.
 
-## Supported Expressions
+## Supported Expressions and Input Format
+- Expressions:
+  - "y=sin(x)": Computes the sine of x.
+  - "y=cos(x)": Computes the cosine of x.
+  - Note: If any other expression is provided, the tool defaults to y=0.
 
-The tool currently supports two mathematical expressions for generating time series data:
+- Range Input: The expected range format is "x=start:end". For example, "x=0:6.28".
 
-- y=sin(x): Calculates the sine of x.
-- y=cos(x): Calculates the cosine of x.
+## Output Types
+- CSV Output: The tool generates numerical time series data by calculating the expression over the specified range. When the output file ends with ".csv", the CLI prints the CSV content to stdout with a header "x,y" and at least 10 data rows.
+- SVG Output: When the output file does not end with ".csv", the CLI creates a dummy SVG file that contains text elements displaying the provided expression and range.
 
-## CSV Time Series Data Generation
+## Usage Examples
 
-When using the CSV option, the CLI transforms the provided mathematical expression and range into time series data and serializes it in CSV format.
-
-### CLI Options
-
-- --expression: A mathematical expression (supported: "y=sin(x)" and "y=cos(x)").
-- --range: A range descriptor in the format "x=start:end" (for example, "x=0:6.28").
-- --file: The output file path. If the file path ends with ".csv", the tool outputs CSV content to stdout instead of writing to a file.
-
-### Examples
-
-#### SVG Output
-
-Run the following command to generate a dummy SVG file using the sin function:
-
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
-
-This will create an SVG file with the content:
-
-  <svg><text x='10' y='20'>Expression: y=sin(x)</text><text x='10' y='40'>Range: x=-1:1</text></svg>
-
-#### CSV Output with sin(x)
-
-Run the following command to generate CSV output to stdout using the sin function:
+### CSV Output Example
+Command:
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.csv
 
-The CSV output will have a header and data rows similar to:
+Expected Behavior:
+- The CLI processes the provided mathematical expression.
+- Prints CSV content to stdout starting with the header "x,y" followed by at least 10 rows of time series data.
 
-  x,y
-  0,0
-  0.698,0.6428
-  ... (at least 10 data points)
+### SVG Output Example
+Command:
 
-#### CSV Output with cos(x)
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 
-Run the following command to generate CSV output to stdout using the cos function:
+Expected Behavior:
+- The CLI generates an SVG file containing text elements that show the expression and range. For example:
+  <svg><text x='10' y='20'>Expression: y=sin(x)</text><text x='10' y='40'>Range: x=-1:1</text></svg>
 
-  node src/lib/main.js --expression "y=cos(x)" --range "x=0:6.28" --file output.csv
+## Requirements
+- Node 20+ with ECMAScript Module (ESM) support.
 
-The CSV output will have a header and data rows with cosine values:
-
-  x,y
-  0,1
-  0.698,0.766
-  ... (at least 10 data points)
+## Additional Resources
+- [Mission Statement](../MISSION.md)
+- [Contributing Guidelines](../CONTRIBUTING.md)
