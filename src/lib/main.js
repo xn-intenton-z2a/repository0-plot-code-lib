@@ -6,7 +6,7 @@ import fs from "fs";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr) {
-  // Only supports simple expressions: 'y=sin(x)' and 'y=cos(x)'
+  // Supports simple expressions: 'y=sin(x)', 'y=cos(x)', and 'y=tan(x)'
   // Expected range format: "x=start:end"
   const match = rangeStr.match(/^x=([\d\.]+):([\d\.]+)$/);
   if (!match) {
@@ -25,6 +25,8 @@ export function generateTimeSeriesData(expression, rangeStr) {
       y = Math.sin(x);
     } else if (expression === "y=cos(x)") {
       y = Math.cos(x);
+    } else if (expression === "y=tan(x)") {
+      y = Math.tan(x);
     } else {
       // Default behavior for unsupported expressions
       y = 0;
