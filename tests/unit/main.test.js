@@ -49,8 +49,18 @@ describe("Time Series Data Generation", () => {
     for (const point of data) {
       expect(typeof point.x).toBe("number");
       expect(typeof point.y).toBe("number");
-      // Check cosine values with a tolerance
       expect(Math.abs(point.y - Math.cos(point.x))).toBeLessThan(0.0001);
+    }
+  });
+
+  test("should generate at least 10 data points with numeric x and y for tan(x)", () => {
+    // Using a safe range to avoid extreme tan(x) values
+    const data = generateTimeSeriesData("y=tan(x)", "x=0:0.5");
+    expect(data.length).toBeGreaterThanOrEqual(10);
+    for (const point of data) {
+      expect(typeof point.x).toBe("number");
+      expect(typeof point.y).toBe("number");
+      expect(Math.abs(point.y - Math.tan(point.x))).toBeLessThan(0.0001);
     }
   });
 });

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)` and `y=cos(x)` to compute corresponding function values over a specified numerical range. 
+**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, and now `y=tan(x)` to compute corresponding function values over a specified numerical range.
 
 This library adheres to the mission of becoming the go-to solution for formula-based visualizations, much like how jq operates for JSON data. It empowers users to either generate graphical plots (in SVG format) or output raw numerical data (in CSV format), allowing each to be processed further as needed.
 
@@ -21,6 +21,7 @@ The CLI tool is executed via Node.js and accepts the following parameters:
 - `--expression`: Specifies the mathematical expression. Supported values include:
   - `y=sin(x)` for sine computations
   - `y=cos(x)` for cosine computations
+  - `y=tan(x)` for tangent computations
   - Any unsupported expression will default to a constant value of 0.
 
 - `--range`: Defines the range for the `x` values in the format `x=start:end`. For example, `x=0:6.28` sets the range from 0 to approximately 2π.
@@ -50,6 +51,14 @@ To create a dummy SVG file that contains a visual representation of the input pa
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+```
+
+### Generating Plot with tan(x)
+
+The library now supports the tangent expression. For example, to generate an SVG plot using `y=tan(x)`, run:
+
+```sh
+node src/lib/main.js --expression "y=tan(x)" --range "x=0:0.5" --file output.svg
 ```
 
 This command writes an SVG file (`output.svg`) with embedded text showing the chosen expression and range.
