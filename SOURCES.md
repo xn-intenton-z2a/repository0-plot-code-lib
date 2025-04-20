@@ -107,3 +107,18 @@ The official Express documentation provides comprehensive coverage of the Expres
 ## https://github.com/nodeca/js-yaml
 The js-yaml documentation, hosted on GitHub, offers detailed information on parsing and dumping YAML in JavaScript. It covers usage examples, API references, and best practices for integrating YAML-based configurations into Node.js applications. This resource is essential for developers looking to implement configuration loaders using YAML in their projects.
 ## MIT
+
+# EJS Documentation
+## https://ejs.co/#docs
+The EJS documentation covers usage and best practices for integrating EJS templates within Node.js applications. It provides examples of embedding JavaScript into HTML and outlines configuration options and template syntax. Regularly updated, this source is essential for developers using EJS for templating.
+## MIT
+
+# Minimatch Documentation
+## https://github.com/isaacs/minimatch
+Minimatch is a glob matching library for JavaScript that supports file name pattern matching using glob patterns. Its GitHub repository includes comprehensive usage examples and API references, making it valuable for projects that require file path matching.
+## ISC
+
+# dotenv Documentation
+## https://github.com/motdotla/dotenv
+Dotenv is a zero-dependency module that loads environment variables from a .env file into process.env. Its GitHub repository provides usage instructions, configuration examples, and best practices for managing environment configurations in Node.js applications.
+## MIT
