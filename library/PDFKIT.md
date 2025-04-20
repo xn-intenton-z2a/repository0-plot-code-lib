@@ -1,192 +1,75 @@
 # PDFKIT
 
 ## Crawl Summary
-Installation via npm (`npm install pdfkit`), creating documents using `PDFDocument` with piping to writable streams (files or HTTP responses), browser usage with blob-stream, adding pages with flexible margin configurations (numeric, unit strings, or objects), page buffering and switching using `bufferPages`, switching pages via `switchToPage` followed by `flushPages`, setting default fonts (default Helvetica or via `font` option), document metadata setup using the `info` object, encryption using `userPassword`, `ownerPassword` and a detailed `permissions` object with values for printing, modifying, copying, annotating, form filling, content accessibility, and document assembly, and PDF/A conformance using subset settings and corresponding pdfVersion requirements.
+PDFKit is installed via npm and used by requiring 'pdfkit'. Create a document with new PDFDocument(), then pipe the output to a file or HTTP response. Key features include adding pages with customizable margins (using numbers, strings with units, or objects for specific sides), switching to previous pages with buffering (bufferPages option and methods like switchToPage and flushPages), setting default fonts, adding document metadata, and applying encryption and access privileges with options such as userPassword, ownerPassword, permissions, and specifying the PDF version for encryption method. PDF/A conformance is supported by specifying 'subset' along with proper PDF versions and tagging. Examples include code for text, images, vector graphics, and browser usage with blob-stream.
 
 ## Normalised Extract
-Table of Contents:
-
+## Table of Contents
 1. Installation
-   - Command: `npm install pdfkit`
-
 2. Creating a Document
-   - Import module: `const PDFDocument = require('pdfkit');`
-   - Create instance: `const doc = new PDFDocument();`
-   - Pipe output: `doc.pipe(fs.createWriteStream('/path/to/file.pdf'));`
-   - Finalize with `doc.end();`
-
 3. Using PDFKit in the Browser
-   - Use bundlers (Browserify/Webpack) or standalone script
-   - Example: Pipe output to blob-stream: 
-     ```javascript
-     const blobStream = require('blob-stream');
-     const doc = new PDFDocument();
-     const stream = doc.pipe(blobStream());
-     doc.end();
-     stream.on('finish', () => {
-       const url = stream.toBlobURL('application/pdf');
-       iframe.src = url;
-     });
-     ```
-
 4. Adding Pages
-   - New page: `doc.addPage();`
-   - Custom margins:
-     * Single value: `{ margin: 50 }` or `{ margin: '2in' }`
-     * Font dependent: `{ fontSize: 14, margin: '2em' }`
-     * Object: `{ margins: { top: 50, bottom: 50, left: 72, right: 72 } }`
-   - Page event: `doc.on('pageAdded', () => doc.text('Page Title'));`
-
 5. Switching Pages
-   - Enable buffering: `new PDFDocument({ bufferPages: true });`
-   - Retrieve pages: `const range = doc.bufferedPageRange();`
-   - Change pages: `doc.switchToPage(i);` then add content
-   - Flush pages: `doc.flushPages();`
-
 6. Setting Default Font
-   - Set via constructor: `new PDFDocument({ font: 'Courier' });` (_Default is 'Helvetica'._)
-
 7. Setting Document Metadata
-   - Define metadata in `info` object with properties: Title, Author, Subject, Keywords, CreationDate, ModDate.
-
 8. Encryption and Access Privileges
-   - Options include:
-     * `userPassword`: string
-     * `ownerPassword`: string
-     * `permissions`: { printing: 'lowResolution'|'highResolution', modifying: boolean, copying: boolean, annotating: boolean, fillingForms: boolean, contentAccessibility: boolean, documentAssembly: boolean }
-     * `pdfVersion`: string (e.g., '1.3', '1.4', '1.5', '1.6', '1.7', '1.7ext3')
-
 9. PDF/A Conformance
-   - Set subset values: 'PDF/A-1', 'PDF/A-1b', 'PDF/A-1a', 'PDF/A-2', 'PDF/A-2b', 'PDF/A-2a', 'PDF/A-3', 'PDF/A-3b', 'PDF/A-3a'
-   - Additional options: ensure correct `pdfVersion` and `tagged` flag
-
 10. Adding Content
-   - Adding text with `.text()`, images with `.image()`, vector graphics with `.moveTo()`, `.lineTo()`, `.fill()`, and annotations with `.underline()` and `.link()`.
 
-All steps and configurations are directly applicable in development.
+---
 
-## Supplementary Details
-Technical Specifications and Implementation Details:
+### 1. Installation
+- Command: `npm install pdfkit`
 
-- npm Command: `npm install pdfkit`
+### 2. Creating a Document
+- Method: `const doc = new PDFDocument();`
+- Pipe to file: `doc.pipe(fs.createWriteStream('/path/to/file.pdf'));`
+- Finalize: `doc.end();`
 
-- PDFDocument Constructor Options:
-  • bufferPages: boolean (default false)
-  • font: string (default 'Helvetica'; override e.g., 'Courier')
-  • info: { Title: string, Author: string, Subject: string, Keywords: string, CreationDate: Date, ModDate: Date }
-  • Encryption Options:
-      - userPassword: string
-      - ownerPassword: string
-      - permissions: object with keys:
-          • printing: accepts 'lowResolution' or 'highResolution'
-          • modifying: boolean
-          • copying: boolean
-          • annotating: boolean
-          • fillingForms: boolean
-          • contentAccessibility: boolean
-          • documentAssembly: boolean
-      - pdfVersion: string; options:
-          • '1.3' (40-bit RC4), '1.4'/'1.5' (128-bit RC4), '1.6'/'1.7' (128-bit AES), '1.7ext3' (256-bit AES)
-
-- Margin Options in doc.addPage():
-  • Single value: number (in points) or string with units (em, in, px, cm, mm, etc.)
-  • Object: { top: number, bottom: number, left: number, right: number }
-
-- Page Buffering and Switching:
-  1. Create document with { bufferPages: true }.
-  2. Add pages using doc.addPage().
-  3. Retrieve buffered pages with doc.bufferedPageRange().
-  4. Switch page: doc.switchToPage(pageNumber).
-  5. Update content, then flush using doc.flushPages() (automatically called on doc.end()).
-
-- Browser Usage Implementation:
-  • Use Browserify or webpack to require modules:
-    ```javascript
-    const PDFDocument = require('pdfkit');
-    const blobStream = require('blob-stream');
-    ```
-  • Create document, pipe to blob-stream, end document, and then retrieve Blob or URL.
-
-- Encryption Best Practices:
-  • Always specify both userPassword and ownerPassword if limited access is necessary.
-  • Set detailed permissions explicitly as per requirements.
-  • Choose pdfVersion based on desired encryption strength and compatibility.
-
-- PDF/A Conformance Requirements:
-  • Set 'subset' option appropriately.
-  • For PDF/A-1a: set tagged to true and pdfVersion at least 1.4; for PDF/A-2/3: set pdfVersion to at least 1.7 and tagged to true.
-  • Use embeddable TrueType fonts via registerFont() to meet PDF/A standards.
-
-Implementation Steps are documented in the code examples provided above.
-
-## Reference Details
-Complete API Specifications and Code Examples:
-
-1. Creating and Saving a PDF Document (Node):
-
+### 3. Using PDFKit in the Browser
+- Require modules: `pdfkit` and `blob-stream`
+- Sample:
 ```javascript
-// Import the required modules
 const PDFDocument = require('pdfkit');
-const fs = require('fs');
-
-// Create a new PDFDocument with metadata and default font override
-const doc = new PDFDocument({
-  font: 'Courier',
-  info: {
-    Title: 'Sample PDF',
-    Author: 'Author Name',
-    Subject: 'PDFKit Example',
-    Keywords: 'PDF, Node, PDFKit',
-    CreationDate: new Date(),
-    ModDate: new Date()
-  }
+const blobStream  = require('blob-stream');
+const doc = new PDFDocument();
+const stream = doc.pipe(blobStream());
+// add content
+ doc.end();
+ stream.on('finish', () => {
+   const blob = stream.toBlob('application/pdf');
+   const url = stream.toBlobURL('application/pdf');
+   iframe.src = url;
 });
-
-// Pipe the PDF document to a file
-doc.pipe(fs.createWriteStream('output.pdf'));
-
-// Add embedded text with custom font
-doc.font('fonts/PalatinoBold.ttf')
-   .fontSize(25)
-   .text('Some text with an embedded font!', 100, 100);
-
-// Add an image with specified dimensions and alignment
-doc.image('path/to/image.png', {
-  fit: [250, 300],
-  align: 'center',
-  valign: 'center'
-});
-
-// Add a new page with a 2-inch margin
-doc.addPage({ margin: '2in' });
-
-// Draw vector graphics (triangle example)
-doc.save()
-   .moveTo(100, 150)
-   .lineTo(100, 250)
-   .lineTo(200, 250)
-   .fill('#FF3300')
-   .restore();
-
-// Add a page with annotations and clickable link
-doc.addPage()
-   .fillColor('blue')
-   .text('Here is a link!', 100, 100)
-   .underline(100, 100, 160, 27, { color: '#0000FF' })
-   .link(100, 100, 160, 27, 'http://google.com/');
-
-// Finalize PDF file
-doc.end();
 ```
 
-2. Encryption and Access Privileges:
+### 4. Adding Pages
+- Default first page auto-added.
+- Method: `doc.addPage({ options });`
+- Margin options:
+  - Single value (number or string): e.g. `doc.addPage({ margin: 50 });`
+  - Object for sides: e.g. `{ margins: { top: 50, bottom: 50, left: 72, right: 72 } }`
 
+### 5. Switching Pages
+- Enable buffering: `new PDFDocument({ bufferPages: true })`
+- Switch: `doc.switchToPage(pageNumber)`
+- Flush: `doc.flushPages()`
+
+### 6. Setting Default Font
+- Option in constructor: `new PDFDocument({ font: 'Courier' })`
+
+### 7. Setting Document Metadata
+- Set `doc.info` or pass `info` on creation.
+- Properties: Title, Author, Subject, Keywords, CreationDate, ModDate.
+
+### 8. Encryption and Access Privileges
+- Options in constructor:
 ```javascript
-const secureDoc = new PDFDocument({
-  userPassword: 'userPass',
-  ownerPassword: 'ownerPass',
+{
+  userPassword: 'password',
+  ownerPassword: 'password',
   permissions: {
-    printing: 'highResolution', // Choose between 'lowResolution' and 'highResolution'
+    printing: 'highResolution',
     modifying: true,
     copying: true,
     annotating: true,
@@ -194,73 +77,212 @@ const secureDoc = new PDFDocument({
     contentAccessibility: true,
     documentAssembly: true
   },
-  pdfVersion: '1.7ext3' // For 256-bit AES encryption
-});
-// Pipe and add content as with standard document
-secureDoc.pipe(fs.createWriteStream('secure_output.pdf'));
-// ... add content ...
-secureDoc.end();
+  pdfVersion: '1.7'
+}
 ```
 
-3. Switching Pages with Buffering:
+### 9. PDF/A Conformance
+- Set subset option and ensure font embedding:
+```javascript
+const doc = new PDFDocument({
+  subset: 'PDF/A-1a',
+  pdfVersion: '1.4',
+  tagged: true
+});
+```
+
+### 10. Adding Content
+- Examples include text, images, vector graphics, and annotations.
+- Full code sample provided in the detailed digest shows chaining methods:
+```javascript
+// Text
+ doc.font('fonts/PalatinoBold.ttf').fontSize(25).text('Some text with an embedded font!', 100, 100);
+// Image
+ doc.image('path/to/image.png', { fit: [250, 300], align: 'center', valign: 'center' });
+// Vector graphics
+ doc.addPage().fontSize(25).text('Here is some vector graphics...', 100, 100);
+ doc.save().moveTo(100, 150).lineTo(100, 250).lineTo(200, 250).fill('#FF3300');
+ // Transforms and SVG path
+ doc.scale(0.6).translate(470, -380).path('M 250,75 L 323,301 131,161 369,161 177,301 z').fill('red', 'even-odd').restore();
+// Annotations & link
+ doc.addPage().fillColor('blue').text('Here is a link!', 100, 100).underline(100, 100, 160, 27, { color: '#0000FF' }).link(100, 100, 160, 27, 'http://google.com/');
+
+ doc.end();
+```
+
+## Supplementary Details
+### Parameter and Option Details
+
+- Installation: Uses npm. Command: `npm install pdfkit`.
+- PDFDocument Constructor Options:
+  - font: string (default 'Helvetica'). Example: `{ font: 'Courier' }`.
+  - bufferPages: boolean (enables page buffering). Example: `{ bufferPages: true }`.
+  - margin: number or string (e.g., 50 or '2in' or '2em').
+  - margins: object with keys top, right, bottom, left.
+  - pdfVersion: string (allowed values: '1.3', '1.4', '1.5', '1.6', '1.7', '1.7ext3').
+  - userPassword: string (for encryption).
+  - ownerPassword: string (for encryption).
+  - permissions: object. Keys: printing, modifying, copying, annotating, fillingForms, contentAccessibility, documentAssembly. Values: boolean or specific strings (e.g., 'lowResolution', 'highResolution').
+  - subset: string (to enable PDF/A compliance, e.g., 'PDF/A-1', 'PDF/A-1a', 'PDF/A-1b', 'PDF/A-2', etc.).
+  - tagged: boolean (for PDF/A accessibility).
+
+### Implementation Steps
+1. Create a new PDFDocument with desired options.
+2. Pipe the output to a destination (e.g., file stream or blob-stream for browsers).
+3. Add content using provided methods (text, image, vector graphics, annotations).
+4. For multi-page documents, use `addPage()`, optionally handling margins and layout.
+5. If necessary, enable buffering with `bufferPages: true`, and later switch pages using `switchToPage()` and finalize with `flushPages()`.
+6. End the document with `doc.end()`, which flushes buffered pages if not already done.
+
+### Configuration Options with Defaults and Effects
+- Default font: 'Helvetica'.
+- Default page size: letter.
+- Default margin: 72 points (1 inch) on all sides if not specified.
+- Encryption: Enabled by providing passwords and permissions; defaults to PDF version '1.3' if not set.
+- PDF/A: Requires font embedding and tagged content; standard fonts might need replacement via registerFont().
+
+## Reference Details
+## API Specifications and Code Examples
+
+### PDFDocument Constructor
+
+Signature:
 
 ```javascript
-const bufferedDoc = new PDFDocument({ bufferPages: true });
-
-bufferedDoc.addPage();
-// Add content to first page
-
-bufferedDoc.addPage();
-// Add content to second page
-
-// Retrieve buffered page range
-const range = bufferedDoc.bufferedPageRange(); // e.g., { start: 0, count: 2 }
-
-// Loop through pages and add a page number
-for (let i = range.start; i < range.start + range.count; i++) {
-  bufferedDoc.switchToPage(i);
-  bufferedDoc.text(`Page ${i + 1} of ${range.count}`, 50, 50);
-}
-
-// Flush buffered pages (doc.end() automatically calls flushPages if needed)
-bufferedDoc.flushPages();
-bufferedDoc.end();
+new PDFDocument(options?: {
+  size?: string | [number, number],        // e.g. 'letter' or [595.28, 841.89]
+  layout?: 'portrait' | 'landscape',         // default: 'portrait'
+  margin?: number | string,                  // single margin for all sides
+  margins?: { top: number, bottom: number, left: number, right: number },
+  font?: string,                             // default font name, e.g., 'Helvetica'
+  bufferPages?: boolean,                     // if true, pages are buffered
+  pdfVersion?: '1.3' | '1.4' | '1.5' | '1.6' | '1.7' | '1.7ext3',
+  userPassword?: string,                     // for file encryption
+  ownerPassword?: string,                    // for file encryption
+  permissions?: {
+    printing?: 'lowResolution' | 'highResolution',
+    modifying?: boolean,
+    copying?: boolean,
+    annotating?: boolean,
+    fillingForms?: boolean,
+    contentAccessibility?: boolean,
+    documentAssembly?: boolean
+  },
+  subset?: string,                           // PDF/A subset, e.g., 'PDF/A-1a'
+  tagged?: boolean                           // for PDF/A compliance
+}): PDFDocument
 ```
 
-4. Using PDFKit in the Browser with blob-stream:
+### Methods
+
+- pipe(destination: WritableStream): WritableStream
+- addPage(options?: { margin?: number | string, margins?: { top: number, right: number, bottom: number, left: number }, fontSize?: number }): PDFDocument
+- switchToPage(pageNumber: number): void
+- bufferedPageRange(): { start: number, count: number }
+- flushPages(): void
+- font(fontName: string): PDFDocument
+- fontSize(size: number): PDFDocument
+- text(text: string, x?: number, y?: number, options?: object): PDFDocument
+- image(path: string, options?: { fit?: [number, number], align?: 'center' | 'left' | 'right', valign?: 'center' | 'top' | 'bottom' }): PDFDocument
+- moveTo(x: number, y: number): PDFDocument
+- lineTo(x: number, y: number): PDFDocument
+- fill(color: string, rule?: string): PDFDocument
+- save(): PDFDocument
+- restore(): PDFDocument
+- scale(x: number, y?: number): PDFDocument
+- translate(x: number, y: number): PDFDocument
+- path(d: string): PDFDocument
+- underline(x: number, y: number, width: number, height: number, options?: { color: string }): PDFDocument
+- link(x: number, y: number, width: number, height: number, url: string): PDFDocument
+- end(): void
+
+### Example Usage (Complete Code Sample)
 
 ```javascript
 const PDFDocument = require('pdfkit');
-const blobStream = require('blob-stream');
+const fs = require('fs');
 
-const docBrowser = new PDFDocument();
-const stream = docBrowser.pipe(blobStream());
-
-// Add content as required
-
-docBrowser.text('Hello from PDFKit in the browser!', 100, 100);
-
-docBrowser.end();
-
-stream.on('finish', function() {
-  // Obtain a Blob URL and assign to an iframe
-  const url = stream.toBlobURL('application/pdf');
-  document.getElementById('pdfFrame').src = url;
+// Create a document with encryption and custom font
+const doc = new PDFDocument({
+  font: 'Courier',
+  bufferPages: true,
+  pdfVersion: '1.7',
+  userPassword: 'userpass',
+  ownerPassword: 'ownerpass',
+  permissions: {
+    printing: 'highResolution',
+    modifying: true,
+    copying: true,
+    annotating: true,
+    fillingForms: true,
+    contentAccessibility: true,
+    documentAssembly: true
+  }
 });
+
+// Stream to a file
+const stream = fs.createWriteStream('output.pdf');
+doc.pipe(stream);
+
+// Add text with an embedded font
+ doc.font('fonts/PalatinoBold.ttf')
+    .fontSize(25)
+    .text('Some text with an embedded font!', 100, 100);
+
+// Insert an image with constraints
+ doc.image('path/to/image.png', {
+    fit: [250, 300],
+    align: 'center',
+    valign: 'center'
+ });
+
+// Add a new page with vector graphics
+ doc.addPage()
+    .fontSize(25)
+    .text('Here is some vector graphics...', 100, 100);
+
+// Draw a triangle
+ doc.save()
+    .moveTo(100, 150)
+    .lineTo(100, 250)
+    .lineTo(200, 250)
+    .fill('#FF3300');
+
+// Apply transforms and render an SVG path
+ doc.scale(0.6)
+    .translate(470, -380)
+    .path('M 250,75 L 323,301 131,161 369,161 177,301 z')
+    .fill('red', 'even-odd')
+    .restore();
+
+// Add annotations and link
+ doc.addPage()
+    .fillColor('blue')
+    .text('Here is a link!', 100, 100)
+    .underline(100, 100, 160, 27, { color: '#0000FF' })
+    .link(100, 100, 160, 27, 'http://google.com/');
+
+// Finalize the PDF file
+ doc.end();
 ```
 
-Troubleshooting Procedures:
-- Verify module installation: run `npm install pdfkit blob-stream`
-- For browser builds with Browserify, ensure `brfs` is installed: `npm install brfs --save-dev`
-- Confirm file paths for fonts and images are correct.
-- Check encryption settings if password truncation issues occur (UTF-8 vs. Latin-1 based on pdfVersion).
-- Use veraPDF validator to test PDF/A conformance.
+### Troubleshooting Procedures
 
-Return Types & Exceptions:
-- Most PDFDocument methods return the instance for chaining.
-- Stream errors can be handled via `.on('error', handler)` on the piped stream.
+1. If Browserify fails to load built-in font data:
+   - Ensure `brfs` is installed as a devDependency: `npm install brfs --save-dev`
+   - Check the Browserify error message for misconfigured transforms.
 
-These API specifications, full code examples, configuration details, and troubleshooting steps provide complete direct technical guidance for using PDFKit without requiring additional references.
+2. If PDF output is not generated:
+   - Confirm that the stream destination (file or blob) is correctly set up.
+   - Verify that `doc.end()` is called to flush all buffers.
+   - For buffered pages, confirm that `doc.flushPages()` or `doc.end()` triggers flushing.
+
+3. Debugging encryption issues:
+   - Test by providing only a userPassword and verify full access.
+   - If using ownerPassword, confirm permissions are explicitly defined.
+   - Use a PDF viewer that respects encryption settings.
+
+This specification provides developers with complete and ready-to-use technical details for implementing PDFKit in Node or the browser.
 
 
 ## Original Source
@@ -269,137 +291,120 @@ https://pdfkit.org/docs/getting_started.html
 
 ## Digest of PDFKIT
 
-```
-# PDFKit Documentation
-
-Date Retrieved: 2023-10-05
+# PDFKit Documentation Digest (Retrieved on 2023-10-05)
 
 ## Installation
 
-- Command: `npm install pdfkit`
+To install PDFKit using npm:
+
+```
+npm install pdfkit
+```
 
 ## Creating a Document
 
-Create a PDF document in Node:
+Include the PDFKit module and create an instance of PDFDocument:
 
 ```javascript
 const PDFDocument = require('pdfkit');
-const fs = require('fs');
-
-// Create a new PDFDocument instance
 const doc = new PDFDocument();
+```
 
-// Pipe the PDF into a writable stream
-doc.pipe(fs.createWriteStream('/path/to/file.pdf'));
+PDFDocument instances are readable Node streams. You can pipe them to writable streams (e.g., file or HTTP response) and call the `end()` method to finalize the PDF:
 
-// Add content using methods (e.g., text, image, vector graphics, etc.)
+```javascript
+doc.pipe(fs.createWriteStream('/path/to/file.pdf')); // write to PDF
+// For HTTP response:
+doc.pipe(res);
+// Add content to PDF using the methods below
 
-// Finalize the document
+// finalize the PDF and end the stream
 doc.end();
 ```
 
-_Note: PDFDocument instances are readable Node streams. Pre-0.5 methods `write` and `output` are deprecated._
-
 ## Using PDFKit in the Browser
 
-Browser usage can be accomplished by bundling with Browserify or Webpack, or using a standalone script. Example using blob-stream:
+In the browser you have two main methods:
+
+1. Using Browserify/Webpack
+2. Using a standalone script
+
+To generate a Blob from a PDFDocument, pipe the document to a blob-stream:
 
 ```javascript
 const PDFDocument = require('pdfkit');
 const blobStream  = require('blob-stream');
 
-// Create a new document
 const doc = new PDFDocument();
-
-// Pipe the document to a blob stream
 const stream = doc.pipe(blobStream());
 
-// Add content as usual
-// ...
+// Add content
 
-doc.end();
-stream.on('finish', function() {
-  // Obtain a Blob
-  const blob = stream.toBlob('application/pdf');
-
-  // Or get a blob URL for display
-  const url = stream.toBlobURL('application/pdf');
-  iframe.src = url;
-});
+// Finalize document
+ doc.end();
+ stream.on('finish', function() {
+   const blob = stream.toBlob('application/pdf');
+   const url = stream.toBlobURL('application/pdf');
+   iframe.src = url;
+ });
 ```
 
-_For Browserify builds, install the `brfs` module: `npm install brfs --save-dev`_
+**Note:** When using Browserify, you must install the `brfs` module to load built-in font data.
 
 ## Adding Pages
 
-- The first page is automatically added unless `autoFirstPage: false` is specified.
-- To add new pages:
+A new PDFDocument comes with a first page automatically (unless `autoFirstPage: false` is supplied). Subsequent pages can be added:
 
 ```javascript
-// Add a new page
 doc.addPage();
 ```
 
-- Example with custom margins:
+You can add content on every new page using the `pageAdded` event:
+
+```javascript
+doc.on('pageAdded', () => doc.text("Page Title"));
+```
+
+Options for pages include setting the size as an array (in points) or a predefined size (default is letter), orientation (portrait or landscape), and margins. Margins can be set as a single number, string with units (e.g. '2in', '2em') or as an object:
 
 ```javascript
 // 50 point margin on all sides
-doc.addPage({ margin: 50 });
+ doc.addPage({ margin: 50 });
 
 // 2 inch margin on all sides
-doc.addPage({ margin: '2in' });
+ doc.addPage({ margin: '2in' });
 
-// 2em (28pt) margin with specified font size
-doc.addPage({ fontSize: 14, margin: '2em' });
+// 2em margin using the font size
+ doc.addPage({ fontSize: 14, margin: '2em' });
 
-// Different margins per side
-doc.addPage({
-  margins: {
-    top: 50,
-    bottom: 50,
-    left: 72,
-    right: 72
-  }
-});
+// Different margins on each side
+ doc.addPage({
+   margins: { top: 50, bottom: 50, left: 72, right: 72 }
+ });
 ```
 
-- You can set a page event:
+## Switching to Previous Pages
+
+In buffered pages mode (enabled with `bufferPages: true` in the constructor), you can switch to previous pages using `doc.switchToPage(pageNumber)` and flush them with `doc.flushPages()`:
 
 ```javascript
-doc.on('pageAdded', () => doc.text('Page Title'));
-```
-
-## Switching Pages
-
-Enable page buffering to modify content on previous pages:
-
-```javascript
-// Create document with buffering enabled
 const doc = new PDFDocument({ bufferPages: true });
+// ... add pages
+const range = doc.bufferedPageRange(); // returns { start: 0, count: n }
 
-// Add multiple pages
-doc.addPage();
-// ... add content ...
-doc.addPage();
-
-// Retrieve buffered pages range
-const range = doc.bufferedPageRange(); // returns { start, count }
-
-// Switch to a specific page and add content
 for (let i = range.start; i < range.start + range.count; i++) {
   doc.switchToPage(i);
   doc.text(`Page ${i + 1} of ${range.count}`);
 }
 
-// Flush buffered pages
 doc.flushPages();
-
-doc.end();
+// Alternatively, calling doc.end() will flush pages automatically
+ doc.end();
 ```
 
 ## Setting Default Font
 
-Default font is 'Helvetica'. To change it:
+The default font is Helvetica. To use a different font (e.g. Courier):
 
 ```javascript
 const doc = new PDFDocument({ font: 'Courier' });
@@ -407,31 +412,55 @@ const doc = new PDFDocument({ font: 'Courier' });
 
 ## Setting Document Metadata
 
-You can set metadata via the `info` object (first letter capitalized):
+Metadata properties can be set in the `doc.info` object or passed as an `info` option during instantiation. Allowed properties include:
+
+- Title
+- Author
+- Subject
+- Keywords
+- CreationDate (auto-set by PDFKit)
+- ModDate
+
+Example:
 
 ```javascript
-const doc = new PDFDocument({
-  info: {
-    Title: 'Document Title',
-    Author: 'Author Name',
-    Subject: 'Document Subject',
-    Keywords: 'keyword1, keyword2',
-    CreationDate: new Date(), // auto-added by PDFKit normally
-    ModDate: new Date()
-  }
-});
+doc.info = {
+  Title: 'My Document',
+  Author: 'Author Name',
+  Subject: 'PDFKit Guide',
+  Keywords: 'pdf, javascript, pdfkit'
+};
 ```
 
 ## Encryption and Access Privileges
 
-Enable encryption by providing passwords and permissions in the constructor options:
+Encryption can be enabled by providing a `userPassword` and/or `ownerPassword` as well as permission options during the PDFDocument creation. Allowed permission settings include:
+
+- printing: 'lowResolution' or 'highResolution'
+- modifying: true
+- copying: true
+- annotating: true
+- fillingForms: true
+- contentAccessibility: true
+- documentAssembly: true
+
+Specify the PDF version to choose the desired encryption method. Available versions and their encryption methods:
+
+- '1.3' (default) - 40-bit RC4
+- '1.4' - 128-bit RC4
+- '1.5' - 128-bit RC4
+- '1.6' - 128-bit AES
+- '1.7' - 128-bit AES
+- '1.7ext3' - 256-bit AES
+
+Example:
 
 ```javascript
-const secureDoc = new PDFDocument({
-  userPassword: 'userPass',
-  ownerPassword: 'ownerPass',
+const doc = new PDFDocument({
+  userPassword: 'userpass',
+  ownerPassword: 'ownerpass',
   permissions: {
-    printing: 'highResolution',    // or 'lowResolution'
+    printing: 'highResolution',
     modifying: true,
     copying: true,
     annotating: true,
@@ -439,66 +468,83 @@ const secureDoc = new PDFDocument({
     contentAccessibility: true,
     documentAssembly: true
   },
-  pdfVersion: '1.7ext3' // Determines encryption method (256-bit AES for 1.7ext3)
+  pdfVersion: '1.7'
 });
 ```
 
-_Behavior based on provided passwords:_
-- Only userPassword: full access for user
-- Only ownerPassword: opens without password but limited to permissions
-- Both provided: user gets limited access as per permissions
-
 ## PDF/A Conformance
 
-Set PDF/A subsets by specifying the `subset` option in PDFDocument constructor along with other necessary flags:
+To create PDF/A documents, pass the `subset` option to the PDFDocument constructor. For example:
 
-- For PDF/A-1b (Level B):
-  - `subset: 'PDF/A-1'` or `'PDF/A-1b'`, with pdfVersion at least 1.4
-- For PDF/A-1a (Level A):
-  - `subset: 'PDF/A-1a'` and tagged set to true
-- Similarly for PDF/A-2 and PDF/A-3 with pdfVersion set to at least 1.7
+- PDF/A-1b: use `subset: 'PDF/A-1'` or `'PDF/A-1b'` (requires at least PDF version 1.4 and embedding fonts)
+- PDF/A-1a: use `subset: 'PDF/A-1a'` (tagged set to true is required)
+- PDF/A-2 and PDF/A-3 variants require at least PDF version 1.7
 
-_Note: Embedded fonts are required; use registerFont() with TrueType fonts (ttf) instead of built-in AFM fonts._
+Example for PDF/A-1a:
+
+```javascript
+const doc = new PDFDocument({
+  subset: 'PDF/A-1a',
+  pdfVersion: '1.4',
+  tagged: true
+});
+```
+
+**Important:** For PDF/A, fonts must be embedded using `registerFont()` with embeddable font files (e.g. .ttf).
 
 ## Adding Content
 
-Add text, images, and vector graphics using built-in methods:
+After creating a PDFDocument instance, various types of content can be added including text, images, and vector graphics. For example:
 
 ```javascript
-// Add text with a specific font and font size
-doc.font('fonts/PalatinoBold.ttf')
+// Text with embedded font
+ doc.font('fonts/PalatinoBold.ttf')
    .fontSize(25)
    .text('Some text with an embedded font!', 100, 100);
 
-// Add an image with constraints
-doc.image('path/to/image.png', {
-  fit: [250, 300],
-  align: 'center',
-  valign: 'center'
-});
+// Image with constraints
+ doc.image('path/to/image.png', {
+   fit: [250, 300],
+   align: 'center',
+   valign: 'center'
+ });
 
-// Draw vector graphics (e.g., a triangle)
-doc.save()
+// Adding a new page and vector graphics
+ doc.addPage()
+   .fontSize(25)
+   .text('Here is some vector graphics...', 100, 100);
+
+// Draw a triangle
+ doc.save()
    .moveTo(100, 150)
    .lineTo(100, 250)
    .lineTo(200, 250)
-   .fill('#FF3300')
+   .fill('#FF3300');
+
+// Apply transforms and render an SVG path
+ doc.scale(0.6)
+   .translate(470, -380)
+   .path('M 250,75 L 323,301 131,161 369,161 177,301 z')
+   .fill('red', 'even-odd')
    .restore();
 
-// Add page with annotations and links
-doc.addPage()
+// Adding text with annotations and links
+ doc.addPage()
    .fillColor('blue')
    .text('Here is a link!', 100, 100)
    .underline(100, 100, 160, 27, { color: '#0000FF' })
    .link(100, 100, 160, 27, 'http://google.com/');
+
+// Finalize the document
+ doc.end();
 ```
-```
+
 
 ## Attribution
 - Source: PDFKit Documentation
 - URL: https://pdfkit.org/docs/getting_started.html
 - License: MIT
-- Crawl Date: 2025-04-20T19:06:20.627Z
+- Crawl Date: 2025-04-20T19:46:10.474Z
 - Data Size: 922356 bytes
 - Links Found: 954
 
