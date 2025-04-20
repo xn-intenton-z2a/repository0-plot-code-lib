@@ -1,57 +1,65 @@
-# Usage
+# Comprehensive Usage Guide for repository0-plot-code-lib
 
-## Library Purpose
-This CLI tool is designed to generate plots (in SVG format) and time series data (in CSV format) from mathematical expressions. It serves as a go-to plot library, similar to how jq works for formula visualisations, aligning with our mission to become the leading tool for generating formula-based plots and visualisations.
+## Introduction
 
-## Supported Expressions and Input Format
-- Expressions:
-  - "y=sin(x)": Computes the sine of x.
-  - "y=cos(x)": Computes the cosine of x.
-  - Note: If any other expression is provided, the tool defaults to y=0.
+**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)` and `y=cos(x)` to compute corresponding function values over a specified numerical range. 
 
-- Range Input: The expected range format is "x=start:end". For example, "x=0:6.28".
+This library adheres to the mission of becoming the go-to solution for formula-based visualizations, much like how jq operates for JSON data. It empowers users to either generate graphical plots (in SVG format) or output raw numerical data (in CSV format), allowing each to be processed further as needed.
 
-## Output Types
-- CSV Output: The tool generates numerical time series data by calculating the expression over the specified range. When the output file ends with ".csv", the CLI prints the CSV content to stdout with a header "x,y" and at least 10 data rows.
-- SVG Output: When the output file does not end with ".csv", the CLI creates a dummy SVG file that contains text elements displaying the provided expression and range.
+## Library Mission
 
-## Usage Examples
+_As outlined in [MISSION.md](../MISSION.md)_: 
 
-### SVG Output Example
-Command:
+"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
 
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+**repository0-plot-code-lib** is built to transform mathematical expressions into actionable time series data while providing an easy-to-use CLI for both development and production workflows.
 
-Expected Behavior:
-- The CLI generates an SVG file containing text elements that show the expression and range. For example:
-  <svg><text x='10' y='20'>Expression: y=sin(x)</text><text x='10' y='40'>Range: x=-1:1</text></svg>
+## CLI Usage
+
+The CLI tool is executed via Node.js and accepts the following parameters:
+
+- `--expression`: Specifies the mathematical expression. Supported values include:
+  - `y=sin(x)` for sine computations
+  - `y=cos(x)` for cosine computations
+  - Any unsupported expression will default to a constant value of 0.
+
+- `--range`: Defines the range for the `x` values in the format `x=start:end`. For example, `x=0:6.28` sets the range from 0 to approximately 2π.
+
+- `--file`: Determines the type of output. If the file name ends in `.csv`, the tool outputs CSV content directly to stdout. Otherwise, it generates a dummy SVG file with embedded text displaying the input parameters.
+
+## Examples
 
 ### Generating CSV Output
-When invoking the CLI tool with the --file parameter ending with ".csv", the tool outputs CSV content directly to stdout instead of writing to a file. The CSV output consists of a header row "x,y" followed by at least 10 rows of numerical time series data computed based on the provided expression and range.
 
-#### Example Usage:
+To produce a CSV output containing time series data:
 
-  node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.csv
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.csv
+```
 
-#### Sample Output:
+Expected output (printed to stdout):
+```
+x,y
+0,<value>
+... (at least 10 data rows)
+```
 
-  x,y
-  0,0
-  0.698,0.6428
-  1.396,0.9848
-  2.093,0.866
-  2.791,0.342
-  3.489,-0.342
-  4.186,-0.866
-  4.884,-0.9848
-  5.582,-0.6428
-  6.28,0
+### Generating SVG Output
 
-Note: Numerical values are approximate and based on generating at least 10 data points over the given range.
+To create a dummy SVG file that contains a visual representation of the input parameters:
 
-## Requirements
-- Node 20+ with ECMAScript Module (ESM) support.
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+```
 
-## Additional Resources
-- [Mission Statement](../MISSION.md)
-- [Contributing Guidelines](../CONTRIBUTING.md)
+This command writes an SVG file (`output.svg`) with embedded text showing the chosen expression and range.
+
+## Additional Information
+
+- **Node Requirements:** Node.js version 20 or above with ECMAScript Module (ESM) support.
+- **Testing:** The library is accompanied by a comprehensive test suite using Vitest. Run tests via `npm test` to ensure functionality.
+- **Contribution:** For guidelines on contributing improvements or reporting issues, refer to [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+## Summary
+
+**repository0-plot-code-lib** is designed to easily convert mathematical expressions into usable data and visuals, streamlining the creation of both graphical and numerical outputs. Whether you prefer to analyze raw data or view a quick graphical representation, this tool is built to adapt to your workflow needs.
