@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, `y=tan(x)`, and now also supports `y=log(x)`, `y=exp(x)`, and `y=x^2` to compute corresponding function values over a specified numerical range.
+**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, `y=tan(x)`, `y=log(x)`, `y=exp(x)`, `y=x^2`, and now also supports `y=sqrt(x)` to compute corresponding function values over a specified numerical range.
 
 This library adheres to the mission of becoming the go-to solution for formula-based visualizations, much like how jq operates for JSON data. It empowers users to either generate graphical plots (in SVG or PNG format) or output raw numerical data (in CSV format), allowing each to be processed further as needed.
 
@@ -25,6 +25,7 @@ The CLI tool is executed via Node.js and accepts the following parameters:
   - `y=log(x)` for natural logarithm computations (only valid for x > 0; non-positive x returns 0)
   - `y=exp(x)` for exponential computations
   - `y=x^2` for squaring the x value
+  - `y=sqrt(x)` for computing the square root of x (for x >= 0; non-negative x, otherwise 0)
   - Any unsupported expression will default to a constant value of 0.
 
 - `--range`: Defines the range for the `x` values in the format `x=start:end`. For example, `x=0:6.28` sets the range from 0 to approximately 2π.
@@ -72,6 +73,12 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.pn
 ### New Expression Examples
 
 You can now also use the new expressions:
+
+- **Square Root Function:**
+
+  ```sh
+  node src/lib/main.js --expression "y=sqrt(x)" --range "x=0:16" --file output.csv
+  ```
 
 - **Exponential Function:**
 
