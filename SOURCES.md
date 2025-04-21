@@ -20,5 +20,25 @@ Sharp is a high-performance image processing library for Node.js, used for tasks
 
 # Zod Documentation
 ## https://zod.dev
-Zod is a TypeScript-first schema validation library that provides a fluent API for runtime data validation and parsing. The documentation is thorough, featuring guides, examples, and API references that help developers integrate robust validation into their JavaScript and TypeScript projects. Its modern approach and clear examples contribute to its growing reputation as a go-to resource for data validation.
+Zod is a TypeScript-first schema validation library that provides a fluent API for runtime data validation and parsing. The documentation is thorough, featuring guides, examples, and API references that help developers integrate robust validation into their JavaScript and TypeScript projects.
 ## MIT
+
+# Express Documentation
+## https://expressjs.com/en/api.html
+Express is a fast, unopinionated, minimalist web framework for Node.js. Its comprehensive documentation covers routing, middleware, and error handling, making it essential for developers looking to build HTTP servers and integrate Express into CLI tools.
+## MIT
+
+# OpenAI API Documentation
+## https://platform.openai.com/docs
+The OpenAI API documentation provides detailed guidance on integrating AI capabilities into applications. It covers topics such as authentication, API endpoints, and best practices, serving as an authoritative resource for developers implementing AI-assisted features.
+## N/A
+
+# Vitest Documentation
+## https://vitest.dev
+Vitest is a fast and efficient testing framework for Vite-powered applications. Its documentation includes configuration details, API references, and examples, providing developers with the necessary tools to write and maintain high-quality tests.
+## MIT
+
+# MDN SVG Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG
+The MDN Web Docs on SVG offer in-depth coverage of SVG elements, attributes, styling, and animation techniques. This resource is highly regarded for its comprehensive explanations and up-to-date content, making it invaluable for developers working with vector graphics in web applications.
+## CC-BY-SA
