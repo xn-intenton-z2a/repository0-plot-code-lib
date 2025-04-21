@@ -450,6 +450,7 @@ export async function main(args) {
   let logScaleX = false, logScaleY = false;
   let tooltip = false;
   let theme; // new theme option
+  let diagnostics = false;
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -466,6 +467,8 @@ export async function main(args) {
         console.error("Error reading YAML config:", err);
         process.exit(1);
       }
+    } else if (args[i] === "--diagnostics") {
+      diagnostics = true;
     }
   }
 
@@ -612,7 +615,7 @@ export async function main(args) {
   if (yamlOptions['legend-title'] !== undefined) legendTitle = yamlOptions['legend-title'];
   if (yamlOptions['logScaleX'] !== undefined) logScaleX = String(yamlOptions['logScaleX']).toLowerCase() === "true";
   if (yamlOptions['logScaleY'] !== undefined) logScaleY = String(yamlOptions['logScaleY']).toLowerCase() === "true";
-  
+
   // Apply theme settings if --theme option is provided (CLI takes precedence)
   if (theme) {
     if (theme.toLowerCase() === 'dark') {
@@ -639,6 +642,14 @@ export async function main(args) {
   if (!markerColor) markerColor = ["red"]; 
   if (!markerShape) markerShape = ["circle"];
   customFunctions = customFunctions || {};
+
+  // If diagnostics flag is set, output diagnostic JSON report and exit
+  if (diagnostics) {
+    const mergedOptions = { expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily, width, height, customFunctions, fillColor, legendPosition, legendFont, legendFontSize, legendBackground, legendTitle, logScaleX, logScaleY, tooltip, theme };
+    const envDetails = { cwd: process.cwd(), nodeVersion: process.version, platform: process.platform };
+    console.log(JSON.stringify({ mergedOptions, envDetails }, null, 2));
+    return;
+  }
 
   if (expression && range && outputFile) {
     const expressions = expression.split(';').map(exp => exp.trim()).filter(exp => exp);
