@@ -30,7 +30,7 @@ You can provide a native function directly without resorting to eval. For exampl
 #### CLI Example
 
 ```
-node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{"double": "(x)=>2*x"}'
+node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{ "double": "(x)=>2*x" }'
 ```
 
 To use a native function, supply the function in your code as an object, for example when invoking the API:
@@ -69,7 +69,7 @@ node src/lib/main.js --config-yaml custom_config.yaml --expression "y=double(x)"
 For backward compatibility, you can still provide custom functions as strings:
 
 ```
-node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{"double": "(x)=>2*x"}'
+node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{ "double": "(x)=>2*x" }'
 ```
 
 ## CLI Overview
@@ -82,6 +82,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
   - If the file ends with **.csv**, the CLI outputs CSV content to stdout. In this case, the generation message is logged to stderr so that the CSV output remains clean.
   - If it ends with **.svg**, the CLI generates an enhanced SVG file containing axes, a polyline, and data markers.
   - If it ends with **.png**, the tool converts the generated SVG content to a PNG image using `sharp`.
+  - If it ends with **.pdf**, the tool generates a PDF file using `pdfkit` and `svg-to-pdfkit`.
 - `--points`: (Optional) Specifies the number of data points to generate. Defaults to 10 if omitted.
 - `--title`: (Optional) Specifies a custom plot title. If omitted, defaults to `Plot: <expression>`.
 - `--xlabel` (or `--xLabel`): (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
@@ -89,7 +90,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--marker-size`: (Optional) Specifies the size of the marker. Defaults to 3 if not provided.
 - `--marker-color`: (Optional) Specifies the fill color for the marker. Defaults to "red" if not provided.
 - `--marker-shape`: (Optional) Specifies the shape of the marker. Accepted value: "square". If set to "square", markers are rendered as squares; otherwise, they default to circles.
-- `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will cover the canvas in the SVG/PNG output.
+- `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will cover the canvas in the SVG/PNG/PDF output.
 - `--gridColor`: (Optional) Specifies a grid line color to overlay on the plot. Requires `--grid-dasharray` to specify the dash pattern.
 - `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided.
 - `--font-family`: (Optional) Specifies a custom font family for text elements in the plot (title, x-axis label, y-axis label). Defaults to "sans-serif" if not provided.
@@ -100,11 +101,23 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 
 A new option `--config-yaml <filepath>` has been introduced. When provided, the CLI will load and parse the specified YAML file (using `js-yaml`) and merge its settings with the CLI options. **YAML configuration values override the corresponding CLI options.**
 
+## PDF Output Support
+
+The library now supports generating PDF outputs. When the `--file` argument ends with `.pdf`, the tool uses `pdfkit` and `svg-to-pdfkit` to create a PDF document of the plot. The SVG plot is rendered onto a PDF document with the specified dimensions, and a success message is logged upon completion.
+
+#### Example PDF Command:
+
+```
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.pdf
+```
+
+In this example, the tool will generate a plot for `y=sin(x)` over the range `x=-1:1`, render the plot as an SVG, convert it to PDF using `pdfkit` and `svg-to-pdfkit`, and save it as `output.pdf`.
+
 ## Generation Message Behavior
 
 When all required options (`--expression`, `--range`, and `--file`) are provided:
 
-- For SVG or PNG outputs, the CLI logs the following message to stdout:
+- For SVG, PNG, or PDF outputs, the CLI logs the following message to stdout:
 
   `Generating plot for expression <expression> with range <range> to file <file>.`
   
@@ -127,7 +140,7 @@ Expected Output:
 
 Command:
 ```
-node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.svg --custom-functions '{"double": "(x)=>2*x"}'
+node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.svg --custom-functions '{ "double": "(x)=>2*x" }'
 ```
 
 Expected Output:
@@ -142,13 +155,21 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.pn
 ```
 
 Expected Output:
-- A generation message is logged to stdout:
-
-  `Generating plot for expression y=sin(x) with range x=0:6.28 to file output.png.`
-  
+- A generation message is logged to stdout.
 - The generated SVG is converted to a PNG image using `sharp` with dimensions 800x600 and saved as `output.png`.
 
-#### 4. Specifying a Custom Point Count
+#### 4. Generating a PDF Document
+
+Command:
+```
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.pdf
+```
+
+Expected Output:
+- A generation message is logged to stdout.
+- The tool generates an SVG plot, converts it to a PDF using `pdfkit` and `svg-to-pdfkit`, and saves it as `output.pdf`.
+
+#### 5. Specifying a Custom Point Count
 
 Command:
 ```
@@ -159,7 +180,7 @@ Expected Output:
 - A generation message is logged to stderr.
 - The CSV output contains a header and exactly 15 data rows.
 
-#### 5. Using YAML Configuration to Override Options
+#### 6. Using YAML Configuration to Override Options
 
 Command:
 ```
@@ -168,18 +189,6 @@ node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --
 
 Expected Output:
 - The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions, and custom functions) will override corresponding CLI options.
-
-#### 6. Generating Plots with Hyperbolic Functions
-
-The library now supports hyperbolic functions. For example:
-
-Command:
-```
-node src/lib/main.js --expression "y=cosh(x)" --range "x=-1:1" --file output.svg
-```
-
-Expected Output:
-- An SVG file is generated with y-values computed using the hyperbolic cosine function (Math.cosh).
 
 ## Fallback Behavior
 
@@ -197,4 +206,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions as either native functions or strings, making the tool flexible and adaptable to various needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, PNG, or PDF formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions as either native functions or strings, making the tool flexible and adaptable to various needs.

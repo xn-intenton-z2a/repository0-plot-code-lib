@@ -240,6 +240,21 @@ describe("CLI PNG Generation", () => {
   });
 });
 
+describe("PDF Generation", () => {
+  test("should generate PDF using pdfkit and svg-to-pdfkit when --file ends with .pdf", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.pdf"];
+    await main(args);
+    // Retrieve the buffer passed to writeFileSync
+    const [filename, buffer] = writeFileSyncSpy.mock.calls[0];
+    expect(filename).toBe("output.pdf");
+    // Check that the buffer starts with the PDF signature %PDF-
+    const pdfSignature = Buffer.from('%PDF-');
+    expect(buffer.slice(0, pdfSignature.length).toString()).toBe(pdfSignature.toString());
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
 describe("Custom Point Count", () => {
   test("should return exactly 5 data points when custom points count is 5", () => {
     const data = generateTimeSeriesData("y=sin(x)", "x=0:6.28", 5);
