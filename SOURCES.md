@@ -1,24 +1,24 @@
-# Zod Documentation
-## https://zod.dev
-Zod is a TypeScript-first schema declaration and validation library used in this repository for robust CLI argument parsing and input validation. Its clear and concise API helps ensure that user inputs are validated consistently, making it easier to handle errors and enforce schema rules. Last updated frequently on GitHub and maintained by Colin Hack, it is recognized for its reliability and developer-friendly design.
+# OpenAI API Documentation
+## https://platform.openai.com/docs/api-reference
+The official OpenAI API documentation provides comprehensive guides and reference material for integrating AI capabilities into applications. This resource supports the CLI's new AI-assisted feature by showing how to translate natural language descriptions into mathematical expressions and ranges, and is frequently updated by OpenAI.
+## Proprietary (OpenAI)
+
+# PDFKit Documentation
+## https://pdfkit.org/docs/
+PDFKit is a powerful library for generating PDF files in Node.js. Its documentation includes detailed examples and usage guides that are essential for the CLI's PDF export functionality. The resource is maintained with regular updates and is widely used in the Node.js community.
 ## MIT
 
-# js-yaml Documentation
-## https://github.com/nodeca/js-yaml
-js-yaml provides comprehensive methods for parsing and dumping YAML, enabling the repository to load configuration options from YAML files seamlessly. The documentation covers detailed usage examples and error handling strategies, ensuring that YAML-based configurations are integrated effectively.
+# Sharp Documentation
+## https://sharp.pixelplumbing.com/api-reference
+Sharp is a high-performance image processing library used to convert SVG images into PNG, JPEG, and other formats. Its API reference details methods for resizing, quality adjustments, and conversion operations, which directly support the CLI's image export features.
+## Apache-2.0
+
+# Express Documentation
+## https://expressjs.com/en/4x/api.html
+Express is a minimal and flexible web framework for Node.js. The documentation covers routing, middleware, and HTTP server setup, making it a valuable resource for implementing interactive preview modes in the CLI tool.
 ## MIT
 
-# Vitest Documentation
-## https://vitest.dev
-Vitest is a modern unit testing framework that offers fast execution and rich features such as snapshot testing and coverage reports. It is employed in this repository to validate functionality across multiple features, ensuring robust test coverage for CLI operations and plot generation.
-## MIT
-
-# Vega-Lite Documentation
-## https://vega.github.io/vega-lite/
-Vega-Lite is a high-level grammar for interactive graphics that simplifies the creation of complex visualizations through a declarative interface. Its documentation serves as a valuable resource for understanding data visualization concepts that complement the capabilities provided by this CLI plotting tool.
-## BSD-3-Clause
-
-# Prettier Documentation
-## https://prettier.io/docs/en/index.html
-Prettier is an opinionated code formatter that ensures consistent code style across the repository. The documentation provides in-depth guidance on configuration options and integration methods, helping maintain code quality and readability throughout the development process.
+# svg-to-pdfkit Documentation
+## https://github.com/devongovett/svg-to-pdfkit
+This documentation outlines how to convert SVG content to PDF using the svg-to-pdfkit library. It complements the PDF export feature by explaining integration details with PDFKit, ensuring high-quality PDF generation from SVG plots.
 ## MIT
