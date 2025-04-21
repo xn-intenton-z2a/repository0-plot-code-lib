@@ -628,6 +628,11 @@ export async function main(args) {
       markerColor = ["#000000"];
       gridColor = "#cccccc";
       fontFamily = "sans-serif";
+    } else if (theme.toLowerCase() === 'blue') {
+      bgColor = "#003366";
+      markerColor = ["#FFD700"];
+      gridColor = "#99CCFF";
+      fontFamily = "Courier New";
     }
   }
 

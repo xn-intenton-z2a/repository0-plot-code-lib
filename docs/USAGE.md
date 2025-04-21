@@ -95,15 +95,16 @@ Customize your plot with additional options:
 
   - `dark`: Applies a dark background with contrasting light-colored markers and grid lines.
   - `light`: Applies a light background with dark-colored markers and grid lines.
+  - `blue`: Applies a blue-themed aesthetic with the following settings:
+    - **Background Color:** `#003366`
+    - **Marker Color:** `#FFD700`
+    - **Grid Color:** `#99CCFF`
+    - **Font Family:** `Courier New`
 
   **Examples:**
 
   ```sh
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --theme dark
-  ```
-
-  ```sh
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --theme light
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --theme blue
   ```
 
 - **YAML Configuration Overrides:** Provide a YAML configuration file to override CLI options.
@@ -185,7 +186,7 @@ The CLI accepts configuration via both command line flags and YAML configuration
 - **Marker Customization:** If markers do not appear as expected, verify that the marker options (size, shape, color) are provided in a comma-separated format if multiple series are plotted.
 - **Log Scale Configuration:** When enabling logarithmic scaling, make sure that all data points are positive, as log scaling does not support zero or negative values.
 - **YAML Overrides:** When using a YAML file, ensure the file is properly formatted. Invalid YAML can cause the CLI to exit with an error.
-- **Theme Options:** Use the `--theme` option to quickly apply a consistent visual style to your plot. The dark theme uses a dark background (#333333) with light markers, while the light theme uses a white background (#ffffff) with dark markers.
+- **Theme Options:** Use the `--theme` option to quickly apply a consistent visual style to your plot. In addition to the existing dark and light themes, the new blue theme applies a blue background (`#003366`), golden markers (`#FFD700`), light blue grid lines (`#99CCFF`), and uses the `Courier New` font.
 - **Diagnostics Mode:** Use the `--diagnostics` flag to output a JSON report of the effective configuration and environment details instead of generating plots. This is useful for debugging and verifying your CLI options.
 - **Testing:** Refer to the unit tests for examples of how each functionality is expected to work. Running `npm test` provides immediate feedback on any discrepancies.
 

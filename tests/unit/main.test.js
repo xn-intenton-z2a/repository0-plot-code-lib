@@ -54,7 +54,6 @@ function svgContainsLineWithStroke(svg, stroke) {
   return lineRegex.test(svg);
 }
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -111,8 +110,6 @@ describe("Time Series Data Generation", () => {
       expect(point.y).toBeLessThanOrEqual(1);
     }
   });
-
-  // ... other tests remain unchanged ...
 });
 
 describe("Serialize Time Series Data", () => {
@@ -129,4 +126,18 @@ describe("Serialize Time Series Data", () => {
   });
 });
 
-// ... remaining tests as in the original file ...
+// New test for Blue Theme
+describe("Blue Theme Application", () => {
+  test("should apply blue theme settings with correct background, marker, grid and font settings", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--theme", "blue"];
+    await main(args);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('fill="#003366"'); // background color
+    expect(writtenData).toContain('stroke="#99CCFF"'); // grid lines
+    expect(writtenData).toContain('font-family="Courier New"'); // font-family for texts
+    expect(writtenData).toContain('fill="#FFD700"'); // marker color
+    writeFileSyncSpy.mockRestore();
+  });
+});
