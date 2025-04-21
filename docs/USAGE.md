@@ -93,9 +93,31 @@ For backward compatibility, you can still provide custom functions as strings:
 node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{ "double": "(x)=>2*x" }'
 ```
 
-## CLI Usage Examples
+## Fill Under Curve Option
 
-Below are some testable CLI usage examples that demonstrate how to use various options to customize your plot output:
+A new feature has been added to allow filling the area under the curve in your plot. Use the `--fillColor` flag to specify a fill color. When provided, the generated SVG will include a `<polygon>` element that fills the area between the plotted line and the baseline.
+
+### How It Works
+
+When you specify a fill color (e.g., `--fillColor #ff0000`), the tool constructs a polygon that:
+
+- Starts at the first data point,
+- Follows the curve through all data points,
+- Drops vertically to the baseline (which is determined by the x-axis position),
+- Returns horizontally to the starting x-coordinate,
+- And closes the shape.
+
+The polygon is rendered with the specified fill color and no stroke.
+
+### CLI Example
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --fillColor "#ff0000"
+```
+
+In this example, the area under the sine curve between x = -1 and 1 will be filled with red (#ff0000).
+
+## CLI Usage Examples
 
 ### 1. Custom Marker Options
 
@@ -149,6 +171,7 @@ marker-size: 7
 marker-color: blue
 width: 700
 height: 700
+fillColor: "#ff00ff"
 ```
 
 Then, run the command:
@@ -157,7 +180,7 @@ Then, run the command:
 node src/lib/main.js --config-yaml config.yaml --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
-The generated SVG will use the settings from the YAML file, overriding any conflicting CLI options.
+The generated SVG will use the settings from the YAML file, including filling the area under the curve with the specified fillColor (in this case, #ff00ff).
 
 ## CLI Overview
 
@@ -183,6 +206,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--font-family`: (Optional) Font family for text elements (default is "sans-serif").
 - `--width`: (Optional) Width of the output plot in pixels (default is 500).
 - `--height`: (Optional) Height of the output plot in pixels (default is 500).
+- `--fillColor`: (Optional) Fill color for the area under the curve. When provided, a filled area is rendered under the plot line.
 - `--config-yaml <filepath>`: Loads configuration options from a YAML file. Options in the YAML file override corresponding CLI options.
 
 ## PDF Output Support

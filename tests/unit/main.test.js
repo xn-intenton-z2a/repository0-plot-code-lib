@@ -485,6 +485,7 @@ marker-color: blue
 width: 700
 height: 700
 custom-functions: { double: "(x)=>2*x" }
+fillColor: "#abcdef"
 `;
     fs.writeFileSync(tempYamlPath, yamlContent, "utf8");
 
@@ -507,6 +508,8 @@ custom-functions: { double: "(x)=>2*x" }
     const markerAttrs = getMarkerAttributes(writtenData);
     expect(markerAttrs.r).toBe("7");
     expect(markerAttrs.fill).toBe("blue");
+    // Also check that fillColor from YAML is applied
+    expect(writtenData).toContain('fill="#abcdef"');
     // Clean up
     fs.unlinkSync(tempYamlPath);
     writeFileSyncSpy.mockRestore();
@@ -542,5 +545,36 @@ describe("Piecewise Expression Support", () => {
         expect(Math.abs(point.y - Math.cos(point.x))).toBeLessThan(TOLERANCE);
       }
     });
+  });
+});
+
+describe("Fill Under Curve Option", () => {
+  test("should include a polygon element with the specified fill color when --fillColor is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--fillColor", "#ff0000"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('<polygon fill="#ff0000"');
+    // Check that the polygon points attribute exists
+    expect(writtenData).toMatch(/<polygon[^>]*points="[^"]+"/);
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should not include a polygon element when --fillColor is not provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).not.toContain('<polygon');
+    writeFileSyncSpy.mockRestore();
   });
 });
