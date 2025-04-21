@@ -1,3 +1,4 @@
+DOCS_FILE_START
 # Comprehensive Usage Guide for repository0-plot-code-lib
 
 ## Introduction
@@ -230,3 +231,5 @@ When the output file ends with `.pdf`, a PDF document is generated using `pdfkit
 ## Conclusion
 
 **repository0-plot-code-lib** enables you to generate plots from mathematical expressions, with options for customization such as tooltips, multi-series overlays, logarithmic scales, and more. Experiment with these options to create clear, informative, and versatile visualizations.
+
+DOCS_FILE_END
