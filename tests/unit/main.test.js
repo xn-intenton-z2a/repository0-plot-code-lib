@@ -348,6 +348,7 @@ describe("Custom Grid Dash Pattern", () => {
       "--expression", "y=sin(x)",
       "--range", "x=-1:1",
       "--file", "output.svg",
+      "--gridColor", "#cccccc",
       "--grid-dasharray", "2,2"
     ];
     await main(args);

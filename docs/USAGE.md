@@ -33,7 +33,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--marker-color`: (Optional) Specifies the fill color for the marker circles. Defaults to "red" if not provided.
 - `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will be added to the SVG/PNG output covering the entire canvas.
 - `--gridColor`: (Optional) Specifies a grid line color. When provided, grid lines will be overlaid on the plot to enhance readability.
-- `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided.
+- `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided. (Note: To display grid lines, you must also provide a grid color using `--gridColor`.)
 - `--font-family`: (Optional) Specifies a custom font family for all text elements in the plot (plot title, x-axis label, and y-axis label). Defaults to "sans-serif" if not provided.
 
 ### Generation Message Behavior
