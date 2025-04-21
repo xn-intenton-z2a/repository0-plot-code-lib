@@ -7,9 +7,9 @@ import sharp from "sharp";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
-  // Supports simple expressions: 'y=sin(x)', 'y=cos(x)', and 'y=tan(x)'
+  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2'
   // Expected range format: "x=start:end"
-  const match = rangeStr.match(/^x=([\d\.\-]+):([\d\.\-]+)$/);
+  const match = rangeStr.match(/^x=([-\d\.]+):([-\d\.]+)$/);
   if (!match) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -27,6 +27,13 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
       y = Math.cos(x);
     } else if (expression === "y=tan(x)") {
       y = Math.tan(x);
+    } else if (expression === "y=log(x)") {
+      // Only compute log if x > 0, otherwise default to 0
+      y = x > 0 ? Math.log(x) : 0;
+    } else if (expression === "y=exp(x)") {
+      y = Math.exp(x);
+    } else if (expression === "y=x^2") {
+      y = x * x;
     } else {
       // Default behavior for unsupported expressions
       y = 0;

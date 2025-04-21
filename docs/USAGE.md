@@ -2,7 +2,7 @@
 
 ## Introduction
 
-**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, and `y=tan(x)` to compute corresponding function values over a specified numerical range.
+**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, `y=tan(x)`, and now also supports `y=log(x)`, `y=exp(x)`, and `y=x^2` to compute corresponding function values over a specified numerical range.
 
 This library adheres to the mission of becoming the go-to solution for formula-based visualizations, much like how jq operates for JSON data. It empowers users to either generate graphical plots (in SVG or PNG format) or output raw numerical data (in CSV format), allowing each to be processed further as needed.
 
@@ -22,6 +22,9 @@ The CLI tool is executed via Node.js and accepts the following parameters:
   - `y=sin(x)` for sine computations
   - `y=cos(x)` for cosine computations
   - `y=tan(x)` for tangent computations
+  - `y=log(x)` for natural logarithm computations (only valid for x > 0; non-positive x returns 0)
+  - `y=exp(x)` for exponential computations
+  - `y=x^2` for squaring the x value
   - Any unsupported expression will default to a constant value of 0.
 
 - `--range`: Defines the range for the `x` values in the format `x=start:end`. For example, `x=0:6.28` sets the range from 0 to approximately 2π.
@@ -66,7 +69,27 @@ To generate a PNG image from your expression using Sharp, run:
 node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.png
 ```
 
-This command converts the generated SVG content into a PNG image and writes it to `output.png`.
+### New Expression Examples
+
+You can now also use the new expressions:
+
+- **Exponential Function:**
+
+  ```sh
+  node src/lib/main.js --expression "y=exp(x)" --range "x=0:5" --file output.csv
+  ```
+
+- **Square Function:**
+
+  ```sh
+  node src/lib/main.js --expression "y=x^2" --range "x=-3:3" --file output.svg
+  ```
+
+- **Logarithm Function:** (Note: For non-positive x values, the output will be 0)
+
+  ```sh
+  node src/lib/main.js --expression "y=log(x)" --range "x=1:10" --file output.csv
+  ```
 
 ## Additional Information
 
