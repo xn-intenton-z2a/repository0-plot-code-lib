@@ -309,6 +309,17 @@ function generateSvgContent({
         const xPos = tx - currentMarkerSize;
         const yPos = ty - currentMarkerSize;
         svgContent += `<rect x="${xPos}" y="${yPos}" width="${size}" height="${size}" fill="${currentColor}" />`;
+      } else if (currentMarkerShape === "triangle") {
+        // Compute an equilateral triangle centered at (tx, ty)
+        const s = currentMarkerSize * 2;
+        const heightTriangle = s * Math.sqrt(3) / 2;
+        const v1x = tx;
+        const v1y = ty - (2/3) * heightTriangle;
+        const v2x = tx - s/2;
+        const v2y = ty + heightTriangle/3;
+        const v3x = tx + s/2;
+        const v3y = ty + heightTriangle/3;
+        svgContent += `<polygon points="${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}" fill="${currentColor}" />`;
       } else {
         svgContent += `<circle cx="${tx}" cy="${ty}" r="${currentMarkerSize}" fill="${currentColor}" />`;
       }
@@ -369,6 +380,16 @@ function generateSvgContent({
       let markerSVG = "";
       if (currentMarkerShape === "square") {
         markerSVG = `<rect x="0" y="0" width="${currentMarkerSize * 2}" height="${currentMarkerSize * 2}" fill="${currentColor}" />`;
+      } else if (currentMarkerShape === "triangle") {
+        const s = currentMarkerSize * 2;
+        const heightTriangle = s * Math.sqrt(3) / 2;
+        const v1x = currentMarkerSize;
+        const v1y = 0 - (2/3)*heightTriangle;
+        const v2x = 0;
+        const v2y = heightTriangle/3;
+        const v3x = currentMarkerSize * 2;
+        const v3y = heightTriangle/3;
+        markerSVG = `<polygon points="${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}" fill="${currentColor}" />`;
       } else {
         markerSVG = `<circle cx="${currentMarkerSize}" cy="${currentMarkerSize}" r="${currentMarkerSize}" fill="${currentColor}" />`;
       }

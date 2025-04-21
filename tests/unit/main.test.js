@@ -388,6 +388,30 @@ describe("Custom Marker Shape", () => {
     expect(squareMarker.fill).toBe("green");
     writeFileSyncSpy.mockRestore();
   });
+
+  test("should generate SVG with triangle markers when --marker-shape triangle is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-shape", "triangle",
+      "--marker-size", "5",
+      "--marker-color", "green"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('<polygon');
+    expect(writtenData).not.toContain('<circle');
+    expect(writtenData).not.toContain('<rect');
+    const polygonRegex = /<polygon[^>]*points="([^"]+)"/;
+    const match = writtenData.match(polygonRegex);
+    expect(match).not.toBeNull();
+    const points = match[1].trim().split(/\s+/);
+    expect(points.length).toBe(3);
+    expect(writtenData).toContain('fill="green"');
+    writeFileSyncSpy.mockRestore();
+  });
 });
 
 describe("Background and Grid Customization", () => {
@@ -509,7 +533,6 @@ legend-title: "YAML Legend"
     expect(markerAttrs.r).toBe("7");
     expect(markerAttrs.fill).toBe("blue");
     expect(writtenData).toContain('fill="#abcdef"');
-    // Check legend customizations from YAML
     expect(writtenData).toContain('transform="translate(');
     expect(writtenData).toContain('Verdana');
     expect(writtenData).toContain('16');

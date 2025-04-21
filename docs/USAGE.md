@@ -122,7 +122,7 @@ Then run:
 node src/lib/main.js --config-yaml config.yaml --expression "y=double(x)" --range "x=0:10" --file output.svg
 ```
 
-## Fill Under Curve Option
+### Fill Under Curve Option
 
 Use the `--fillColor` flag to fill the area under the curve in your plot. When a single solid color is provided, the generated SVG will include a `<polygon>` element with that fill color. 
 
@@ -142,43 +142,68 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg 
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --fillColor "#ff0000,#0000ff"
 ```
 
-## Other CLI Options
+### Custom Marker Options
 
-- **Custom Marker Options:**
-  ```sh
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-size 5 --marker-color green --marker-shape square
-  ```
+You can customize the appearance of data point markers using the following options:
 
-- **Background and Grid Customization:**
-  ```sh
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --bgColor "#f0f0f0" --gridColor "#cccccc" --grid-dasharray "2,2"
-  ```
+- **--marker-size**: Sets the size of the marker. For circle markers, this determines the radius. For square markers, this is half the side length. For triangle markers (new feature), the side length will be twice the marker size.
+- **--marker-color**: Specifies the fill color of the marker.
+- **--marker-shape**: Specifies the shape of the marker. Supported values are:
+  - `circle` (default)
+  - `square`
+  - `triangle`
 
-- **Custom Titles and Axis Labels:**
-  ```sh
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "X Axis" --ylabel "Y Axis"
-  ```
+#### Example:
 
-- **Custom Dimensions:**
-  ```sh
-  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --width 800 --height 600
-  ```
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
+  --marker-shape triangle --marker-size 5 --marker-color green
+```
 
-- **YAML Configuration Overrides:**
-  Create a YAML file (e.g., `config.yaml`) with your settings, then run:
-  ```sh
-  node src/lib/main.js --config-yaml config.yaml --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
-  ```
+### Background and Grid Customization
 
-## PDF Output Support
+Customize the plot's background and grid lines using the following options:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
+  --bgColor "#f0f0f0" --gridColor "#cccccc" --grid-dasharray "2,2"
+```
+
+### Custom Titles and Axis Labels
+
+Set custom titles and axis labels with:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
+  --title "Custom Plot" --xlabel "X Axis" --ylabel "Y Axis"
+```
+
+### Custom Dimensions
+
+Specify custom dimensions for the output file:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
+  --width 800 --height 600
+```
+
+### YAML Configuration Overrides
+
+Create a YAML file (e.g., `config.yaml`) with your settings, then run:
+
+```sh
+node src/lib/main.js --config-yaml config.yaml --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
+```
+
+### PDF Output Support
 
 When the output file ends with `.pdf`, a PDF document is generated using `pdfkit` and `svg-to-pdfkit`.
 
-## Generation Message Behavior
+### Generation Message Behavior
 
 - **CSV Output:** Generation message is logged to stderr; stdout outputs only the CSV data.
 - **SVG/PNG/PDF Output:** Generation message is logged to stdout followed by file generation confirmation.
 
 ## Conclusion
 
-**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also supports logarithmic scaling for the plot axes. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.
+**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also supports a variety of marker shapes including the new triangle marker. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.
