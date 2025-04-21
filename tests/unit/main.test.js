@@ -54,7 +54,6 @@ function svgContainsLineWithStroke(svg, stroke) {
   return lineRegex.test(svg);
 }
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -803,6 +802,34 @@ describe("Logarithmic Scale Options", () => {
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).toContain('<polyline');
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Custom Theme Option", () => {
+  test("should apply dark theme settings when --theme dark is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--theme", "dark"];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(svgContainsRectWithFill(writtenData, "#333333")).toBe(true);
+    const markerAttrs = getMarkerAttributes(writtenData);
+    expect(markerAttrs).not.toBeNull();
+    // Expect marker color to be white
+    expect(markerAttrs.fill.toLowerCase()).toBe("#ffffff");
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should apply light theme settings when --theme light is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--theme", "light"];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(svgContainsRectWithFill(writtenData, "#ffffff")).toBe(true);
+    const markerAttrs = getMarkerAttributes(writtenData);
+    expect(markerAttrs).not.toBeNull();
+    // Expect marker color to be black
+    expect(markerAttrs.fill.toLowerCase()).toBe("#000000");
     writeFileSyncSpy.mockRestore();
   });
 });
