@@ -66,15 +66,33 @@ node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file o
   --legend-background "#f0f0f0" --legend-title "Data Series Legend"
 ```
 
-This will generate an SVG that includes a legend group positioned as specified with the chosen fonts, font size, background color, and title.
+### Logarithmic Scale Support for Plot Axes
 
-## Registering Custom Functions
+This release introduces support for logarithmic scaling on the x and/or y axes. When enabled, the corresponding axis will transform the values logarithmically (base 10) before plotting. Note that all data values on an axis using logarithmic scaling must be positive.
+
+#### CLI Options
+
+- **--logScaleX**: When set to "true", the x-axis will use logarithmic scaling. Example:
+
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=1:100" --file output.svg --logScaleX true
+  ```
+
+- **--logScaleY**: When set to "true", the y-axis will use logarithmic scaling. Example:
+
+  ```sh
+  node src/lib/main.js --expression "y=exp(x)" --range "x=1:3" --file output.svg --logScaleY true
+  ```
+
+If both options are enabled, both axes will be transformed logarithmically.
+
+### Registering Custom Functions
 
 Users can register custom functions to extend mathematical operations. They can be provided as native JavaScript functions or as strings evaluated using eval for backward compatibility.
 
 #### CLI Example
 
-```
+```sh
 node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{ "double": "(x)=>2*x" }'
 ```
 
@@ -100,7 +118,7 @@ legend-title: "YAML Legend"
 
 Then run:
 
-```
+```sh
 node src/lib/main.js --config-yaml config.yaml --expression "y=double(x)" --range "x=0:10" --file output.svg
 ```
 
@@ -163,4 +181,4 @@ When the output file ends with `.pdf`, a PDF document is generated using `pdfkit
 
 ## Conclusion
 
-**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also provides gradient fill support for the area under the curve. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.
+**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also supports logarithmic scaling for the plot axes. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.
