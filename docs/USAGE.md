@@ -22,6 +22,24 @@
 - **y=ceil(x)**  (Computes the smallest integer greater than or equal to x using Math.ceil(x))
 - **y=customFunction(x)**  (Custom functions can be registered by the user.)
 
+### Piecewise Expressions
+
+In addition to the standard expressions above, you can now define piecewise expressions using the following syntax:
+
+```
+piecewise: if <condition> then <expression>; if <condition> then <expression>; ...
+```
+
+For example:
+
+```
+piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)
+```
+
+For each generated x value, the conditions are evaluated in order. The y value is determined by the expression associated with the first condition that is true. If none of the conditions are met, y defaults to 0.
+
+Note: In piecewise expressions, common math functions such as sin, cos, tan, etc., are available and are automatically mapped to their corresponding JavaScript Math functions.
+
 ## Registering Custom Functions
 
 Users can register custom functions to extend the available mathematical operations. Custom functions can now be provided either as native JavaScript function objects or as strings (evaluated using eval for backward compatibility).
@@ -79,7 +97,7 @@ node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.c
 
 The CLI functionality is provided by the `src/lib/main.js` script. It accepts several command-line options:
 
-- `--expression`: Specifies the mathematical expression.
+- `--expression`: Specifies the mathematical expression or a piecewise expression prefixed with `piecewise:`.
 - `--range`: Defines the data range in the format `x=start:end` (e.g., "x=0:6.28").
 - `--file`: Specifies the output file name and type, determining the output mode:
   - If the file ends with **.csv**, the CLI outputs CSV content to stdout. In this case, the generation message is logged to stderr so that the CSV output remains clean.
@@ -190,6 +208,17 @@ node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --
 Expected Output:
 - The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions, and custom functions) will override corresponding CLI options.
 
+## Piecewise Expression Examples
+
+Piecewise expressions allow you to define multiple conditions for plotting.
+
+Example:
+```
+node src/lib/main.js --expression "piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)" --range "x=-1:1" --file output.svg
+```
+
+For x values less than 0, the plot uses sin(x), and for x values greater than or equal to 0, it uses cos(x). If no condition matches, the y value defaults to 0.
+
 ## Fallback Behavior
 
 If required options are missing, the CLI outputs the provided options in JSON format. For example:
@@ -206,4 +235,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, PNG, or PDF formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions as either native functions or strings, making the tool flexible and adaptable to various needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, PNG, or PDF formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions as either native functions or strings, and now, piecewise expressions, making the tool flexible and adaptable to various needs.
