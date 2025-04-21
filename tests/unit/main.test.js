@@ -237,6 +237,24 @@ describe("Additional Expression Support", () => {
   });
 });
 
+describe("Custom Functions", () => {
+  test("should generate correct data for custom function double(x) that returns 2*x", () => {
+    const customFuncs = { double: "(x) => 2 * x" };
+    const data = generateTimeSeriesData("y=double(x)", "x=0:10", 11, customFuncs);
+    data.forEach(point => {
+      expect(point.y).toBeCloseTo(2 * point.x, 4);
+    });
+  });
+
+  test("should fallback to 0 for undefined custom function", () => {
+    const customFuncs = {};
+    const data = generateTimeSeriesData("y=triple(x)", "x=0:10", 11, customFuncs);
+    data.forEach(point => {
+      expect(point.y).toBe(0);
+    });
+  });
+});
+
 describe("CLI Generation Message", () => {
   test("should log the correct generation message for non-csv files", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
@@ -423,6 +441,7 @@ marker-size: 7
 marker-color: blue
 width: 700
 height: 700
+custom-functions: { double: "(x)=>2*x" }
 `;
     fs.writeFileSync(tempYamlPath, yamlContent, "utf8");
 
