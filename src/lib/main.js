@@ -160,7 +160,8 @@ function generateSvgContent({
   bgColor,
   gridColor,
   gridDashArray = "4",
-  fontFamily
+  fontFamily,
+  fillColor
 }) {
   // Compute data bounds
   const xs = data.map((p) => p.x);
@@ -218,6 +219,22 @@ function generateSvgContent({
     }
   }
 
+  // Add filled area under the curve if fillColor is provided
+  if (fillColor) {
+    const polygonPointsArray = data.map(point => {
+      const { tx, ty } = transform(point.x, point.y);
+      return `${tx},${ty}`;
+    });
+    // Get first and last x positions
+    const firstTrans = transform(data[0].x, data[0].y);
+    const lastTrans = transform(data[data.length - 1].x, data[data.length - 1].y);
+    // Append points to drop to baseline
+    polygonPointsArray.push(`${lastTrans.tx},${xAxisY}`);
+    polygonPointsArray.push(`${firstTrans.tx},${xAxisY}`);
+    const polygonPoints = polygonPointsArray.join(" ");
+    svgContent += `<polygon fill="${fillColor}" points="${polygonPoints}" />`;
+  }
+
   // Add custom plot title at the top center with font-family
   svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black" font-family="${fontFamily}">${title}</text>`;
 
@@ -253,7 +270,7 @@ function generateSvgContent({
 
 export async function main(args) {
   let expression, range, outputFile, points, title, xlabel, ylabel;
-  let markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily;
+  let markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily, fillColor;
   let width = 500, height = 500;
   let customFunctions;
   gridDashArray = "4"; // default dash pattern
@@ -334,6 +351,9 @@ export async function main(args) {
         customFunctions = {};
       }
       i++;
+    } else if (arg === "--fillColor") {
+      fillColor = args[i + 1];
+      i++;
     }
   }
 
@@ -355,6 +375,7 @@ export async function main(args) {
   if (yamlOptions.width !== undefined) width = parseInt(yamlOptions.width, 10);
   if (yamlOptions.height !== undefined) height = parseInt(yamlOptions.height, 10);
   if (yamlOptions['custom-functions'] !== undefined) customFunctions = yamlOptions['custom-functions'];
+  if (yamlOptions.fillColor !== undefined) fillColor = yamlOptions.fillColor;
 
   // Set defaults if still undefined
   if (!points) {
@@ -399,7 +420,8 @@ export async function main(args) {
           bgColor,
           gridColor,
           gridDashArray,
-          fontFamily
+          fontFamily,
+          fillColor
         });
         // Generate PDF using PDFDocument and svg-to-pdfkit
         const doc = new PDFDocument({ size: [width, height] });
@@ -436,7 +458,8 @@ export async function main(args) {
           bgColor,
           gridColor,
           gridDashArray,
-          fontFamily
+          fontFamily,
+          fillColor
         });
         if (outputFile.endsWith(".png")) {
           const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();
