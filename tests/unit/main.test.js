@@ -114,10 +114,8 @@ describe("Time Series Data Generation", () => {
   test("should generate correct data for cos(t) using non-x variable", () => {
     const data = generateTimeSeriesData("y=cos(t)", "t=-1:1");
     expect(data.length).toBeGreaterThanOrEqual(10);
-    // Check first and last x values correspond to -1 and 1
     expect(data[0].x).toBeCloseTo(-1, 3);
     expect(data[data.length - 1].x).toBeCloseTo(1, 3);
-    // Check that y values match Math.cos for each generated t
     data.forEach(point => {
       expect(point.y).toBeCloseTo(Math.cos(point.x), 3);
     });
@@ -142,14 +140,14 @@ describe("Serialize Time Series Data", () => {
 describe("Blue Theme Application", () => {
   test("should apply blue theme settings with correct background, marker, grid and font settings", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--theme", "blue"];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--theme", "blue"]; 
     await main(args);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    expect(writtenData).toContain('fill="#003366"'); // background color
-    expect(writtenData).toContain('stroke="#99CCFF"'); // grid lines
-    expect(writtenData).toContain('font-family="Courier New"'); // font-family for texts
-    expect(writtenData).toContain('fill="#FFD700"'); // marker color
+    expect(writtenData).toContain('fill="#003366"');
+    expect(writtenData).toContain('stroke="#99CCFF"');
+    expect(writtenData).toContain('font-family="Courier New"');
+    expect(writtenData).toContain('fill="#FFD700"');
     writeFileSyncSpy.mockRestore();
   });
 });
@@ -178,11 +176,24 @@ describe("Custom Theme Config Application", () => {
     await main(args);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // Should reflect custom theme values
     expect(writtenData).toContain('fill="#customBgColor"');
     expect(writtenData).toContain("#customMarker");
     expect(writtenData).toContain('stroke="#customGridColor"');
     expect(writtenData).toContain('font-family="CustomFont"');
     writeFileSyncSpy.mockRestore();
+  });
+});
+
+// New test for Verbose Progress Indicator
+describe("Progress Indicator", () => {
+  test("should output progress messages when --verbose-progress is provided", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.svg", "--verbose-progress"];
+    await main(args);
+    const logs = logSpy.mock.calls.map(call => call[0]).join(" ");
+    expect(logs).toContain("Starting generation of time series data...");
+    expect(logs).toContain("Generating SVG content...");
+    expect(logs).toContain("Writing output file...");
+    logSpy.mockRestore();
   });
 });

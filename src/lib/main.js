@@ -453,6 +453,7 @@ export async function main(args) {
   let theme; // new theme option
   let diagnostics = false;
   let themeConfig = null; // new theme config from external JSON
+  let verboseProgress = false; // new verbose progress flag
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -471,6 +472,8 @@ export async function main(args) {
       }
     } else if (args[i] === "--diagnostics") {
       diagnostics = true;
+    } else if (args[i] === "--verbose-progress") {
+      verboseProgress = true;
     }
   }
 
@@ -681,119 +684,115 @@ export async function main(args) {
     const genMessage = `Generating plot for expression ${expression} with range ${range} to file ${outputFile}.`;
 
     if (outputFile.endsWith(".csv")) {
+      if (verboseProgress) console.log("Starting generation of time series data...");
       const data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
       const csvContent = serializeTimeSeries(data);
       console.error(genMessage);
       console.log("");
+      if (verboseProgress) console.log("Writing output file...");
       console.log(csvContent);
     } else if (outputFile.endsWith(".pdf")) {
-      console.log(genMessage);
-      try {
-        let data;
-        if (expressions.length > 1) {
-          data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
-        } else {
-          data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
-        }
-        const svgContent = generateSvgContent({
-          data,
-          width,
-          height,
-          title,
-          xlabel,
-          ylabel,
-          markerSize,
-          markerColor,
-          markerShape,
-          bgColor,
-          gridColor,
-          gridDashArray,
-          fontFamily,
-          fillColor,
-          legendPosition,
-          legendFont,
-          legendFontSize,
-          legendBackground,
-          legendTitle,
-          logScaleX,
-          logScaleY,
-          tooltip
-        });
-        const doc = new PDFDocument({ size: [width, height] });
-        const chunks = [];
-        doc.on('data', chunk => chunks.push(chunk));
-        const pdfPromise = new Promise(resolve => {
-          doc.on('end', () => {
-            const buffer = Buffer.concat(chunks);
-            fs.writeFileSync(outputFile, buffer);
-            console.log(`PDF file generated: ${outputFile}`);
-            resolve();
-          });
-        });
-        svgToPdf(doc, svgContent, 0, 0, { preserveAspectRatio: 'xMinYMin meet' });
-        doc.end();
-        await pdfPromise;
-      } catch (err) {
-        console.error(`Error generating PDF for file ${outputFile}:`, err);
+      if (verboseProgress) console.log("Starting generation of time series data...");
+      let data;
+      if (expressions.length > 1) {
+        data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
+      } else {
+        data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
       }
-    } else if (outputFile.endsWith(".json")) {
-      console.log(genMessage);
-      try {
-        let data;
-        if (expressions.length > 1) {
-          data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
-        } else {
-          data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
-        }
-        const jsonContent = JSON.stringify(data, null, 2);
-        fs.writeFileSync(outputFile, jsonContent);
-        console.log(`JSON file generated: ${outputFile}`);
-      } catch (err) {
-        console.error(`Error generating JSON for file ${outputFile}:`, err);
-      }
-    } else {
-      console.log(genMessage);
-      try {
-        let data;
-        if (expressions.length > 1) {
-          data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
-        } else {
-          data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
-        }
-        const svgContent = generateSvgContent({
-          data,
-          width,
-          height,
-          title,
-          xlabel,
-          ylabel,
-          markerSize,
-          markerColor,
-          markerShape,
-          bgColor,
-          gridColor,
-          gridDashArray,
-          fontFamily,
-          fillColor,
-          legendPosition,
-          legendFont,
-          legendFontSize,
-          legendBackground,
-          legendTitle,
-          logScaleX,
-          logScaleY,
-          tooltip
-        });
-        if (outputFile.endsWith(".png")) {
-          const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();
+      if (verboseProgress) console.log("Generating SVG content...");
+      const svgContent = generateSvgContent({
+        data,
+        width,
+        height,
+        title,
+        xlabel,
+        ylabel,
+        markerSize,
+        markerColor,
+        markerShape,
+        bgColor,
+        gridColor,
+        gridDashArray,
+        fontFamily,
+        fillColor,
+        legendPosition,
+        legendFont,
+        legendFontSize,
+        legendBackground,
+        legendTitle,
+        logScaleX,
+        logScaleY,
+        tooltip
+      });
+      const doc = new PDFDocument({ size: [width, height] });
+      const chunks = [];
+      doc.on('data', chunk => chunks.push(chunk));
+      const pdfPromise = new Promise(resolve => {
+        doc.on('end', () => {
+          const buffer = Buffer.concat(chunks);
           fs.writeFileSync(outputFile, buffer);
-          console.log(`PNG file generated: ${outputFile}`);
-        } else {
-          fs.writeFileSync(outputFile, svgContent);
-          console.log(`SVG file generated: ${outputFile}`);
-        }
-      } catch (err) {
-        console.error(`Error generating plot for file ${outputFile}:`, err);
+          console.log(`PDF file generated: ${outputFile}`);
+          resolve();
+        });
+      });
+      svgToPdf(doc, svgContent, 0, 0, { preserveAspectRatio: 'xMinYMin meet' });
+      doc.end();
+      if (verboseProgress) console.log("Writing output file...");
+      await pdfPromise;
+    } else if (outputFile.endsWith(".json")) {
+      if (verboseProgress) console.log("Starting generation of time series data...");
+      let data;
+      if (expressions.length > 1) {
+        data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
+      } else {
+        data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
+      }
+      if (verboseProgress) console.log("Writing output file...");
+      const jsonContent = JSON.stringify(data, null, 2);
+      fs.writeFileSync(outputFile, jsonContent);
+      console.log(`JSON file generated: ${outputFile}`);
+    } else {
+      if (verboseProgress) console.log("Starting generation of time series data...");
+      let data;
+      if (expressions.length > 1) {
+        data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
+      } else {
+        data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
+      }
+      if (verboseProgress) console.log("Generating SVG content...");
+      const svgContent = generateSvgContent({
+        data,
+        width,
+        height,
+        title,
+        xlabel,
+        ylabel,
+        markerSize,
+        markerColor,
+        markerShape,
+        bgColor,
+        gridColor,
+        gridDashArray,
+        fontFamily,
+        fillColor,
+        legendPosition,
+        legendFont,
+        legendFontSize,
+        legendBackground,
+        legendTitle,
+        logScaleX,
+        logScaleY,
+        tooltip
+      });
+      if (outputFile.endsWith(".png")) {
+        const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();
+        if (verboseProgress) console.log("Writing output file...");
+        fs.writeFileSync(outputFile, buffer);
+        console.log(`PNG file generated: ${outputFile}`);
+      } else {
+        if (verboseProgress) console.log("Writing output file...");
+        fs.writeFileSync(outputFile, svgContent);
+        console.log(`SVG file generated: ${outputFile}`);
       }
     }
   } else {

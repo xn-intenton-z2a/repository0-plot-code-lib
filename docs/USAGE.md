@@ -40,7 +40,7 @@ This command generates an SVG file containing a sine curve.
 
   Generates a PDF file with the plotted sine curve.
 
-- **SVG Output:**
+- **SVG/PNG Output:**
 
   ```sh
   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
@@ -103,6 +103,22 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.sv
 
 This outputs a JSON report for debugging configuration settings.
 
+### Verbose Progress Indicator
+
+A new flag, **--verbose-progress**, has been added to provide real-time feedback during long-running operations. When enabled, the CLI will output progress messages at key stages:
+
+- **Starting generation of time series data...**: Indicates the beginning of data generation.
+- **Generating SVG content...**: Shown before creating the SVG representation of the plot.
+- **Writing output file...**: Displayed just before the file is written to disk.
+
+**Example:**
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --verbose-progress
+```
+
+This command will generate an SVG file while displaying progress messages on the console.
+
 ### Advanced Customizations
 
 Additional CLI options allow you to customize various aspects of your plot:
@@ -153,6 +169,6 @@ console.log(csv);
 
 ## Conclusion
 
-**repository0-plot-code-lib** is your go-to tool for generating beautiful plots from mathematical expressions. With extensive CLI options, theme support (including custom theme configuration via external JSON), diagnostic features, and now enhanced range parsing to support any variable, you can easily integrate it into your workflow to produce customizable visualizations.
+**repository0-plot-code-lib** is your go-to tool for generating beautiful plots from mathematical expressions. With extensive CLI options, theme support (including custom theme configuration via external JSON), diagnostic features, and now a verbose progress indicator to keep you informed during processing, you can easily integrate it into your workflow to produce customizable visualizations.
 
 Happy Plotting!
