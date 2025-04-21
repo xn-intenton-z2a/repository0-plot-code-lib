@@ -50,7 +50,7 @@ A new diagnostics mode is available to output a comprehensive JSON report of the
 - **Usage Example:**
 
   ```sh
-  node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.svg --diagnostics
+  node src/lib/main.js --expression "y=sin(x)" --range "x=6.28" --file output.svg --diagnostics
   ```
 
   **Expected Output:**

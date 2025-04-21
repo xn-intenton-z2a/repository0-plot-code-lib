@@ -54,6 +54,7 @@ function svgContainsLineWithStroke(svg, stroke) {
   return lineRegex.test(svg);
 }
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
