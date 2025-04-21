@@ -13,7 +13,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
   // Supports expressions such as 'y=sin(x)', etc. and now also piecewise expressions
   // Expected range format: "x=start:end"
 
-  const matchRange = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
+  const matchRange = rangeStr.match(/^x=(-?[\d\.]+):(-?[\d\.]+)$/);
   if (!matchRange) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -155,7 +155,8 @@ function generateSvgContent({
   legendBackground,
   legendTitle,
   logScaleX = false,
-  logScaleY = false
+  logScaleY = false,
+  tooltip = false
 }) {
   // Support multi-expression overlay plotting: if data is an array of arrays, treat as multiple series
   const multi = Array.isArray(data) && data.length > 0 && Array.isArray(data[0]);
@@ -317,13 +318,13 @@ function generateSvgContent({
     // Plot markers for each data point in the series
     series.forEach(point => {
       const { tx, ty } = transform(point.x, point.y);
+      let element = "";
       if (currentMarkerShape === "square") {
         const size = currentMarkerSize * 2;
         const xPos = tx - currentMarkerSize;
         const yPos = ty - currentMarkerSize;
-        svgContent += `<rect x="${xPos}" y="${yPos}" width="${size}" height="${size}" fill="${currentColor}" />`;
+        element = `<rect x=\"${xPos}\" y=\"${yPos}\" width=\"${size}\" height=\"${size}\" fill=\"${currentColor}\" />`;
       } else if (currentMarkerShape === "triangle") {
-        // Compute an equilateral triangle centered at (tx, ty)
         const s = currentMarkerSize * 2;
         const heightTriangle = s * Math.sqrt(3) / 2;
         const v1x = tx;
@@ -332,16 +333,19 @@ function generateSvgContent({
         const v2y = ty + heightTriangle/3;
         const v3x = tx + s/2;
         const v3y = ty + heightTriangle/3;
-        svgContent += `<polygon points="${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}" fill="${currentColor}" />`;
+        element = `<polygon points=\"${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}\" fill=\"${currentColor}\" />`;
       } else if (currentMarkerShape === "star") {
-        // Compute a five-pointed star centered at (tx, ty)
         const outerRadius = currentMarkerSize * 2;
         const innerRadius = outerRadius * 0.5;
-        const points = getStarPoints(tx, ty, outerRadius, innerRadius);
-        svgContent += `<polygon points="${points}" fill="${currentColor}" />`;
+        const pointsStr = getStarPoints(tx, ty, outerRadius, innerRadius);
+        element = `<polygon points=\"${pointsStr}\" fill=\"${currentColor}\" />`;
       } else {
-        svgContent += `<circle cx="${tx}" cy="${ty}" r="${currentMarkerSize}" fill="${currentColor}" />`;
+        element = `<circle cx=\"${tx}\" cy=\"${ty}\" r=\"${currentMarkerSize}\" fill=\"${currentColor}\" />`;
       }
+      if (tooltip) {
+        element = `<g class=\"marker\">${element}<title>x: ${point.x}, y: ${point.y}</title></g>`;
+      }
+      svgContent += element;
     });
   });
 
@@ -373,24 +377,20 @@ function generateSvgContent({
       legendX = margin;
       legendY = height - margin - legendGroupHeight;
     } else {
-      // default to top-right if invalid value
       legendX = width - margin - legendWidth;
       legendY = margin;
     }
 
-    let legendSVG = `<g class="legend" transform="translate(${legendX}, ${legendY})">`;
+    let legendSVG = `<g class=\"legend\" transform=\"translate(${legendX}, ${legendY})\">`;
 
-    // Add background rectangle for legend if legendBackground is provided
     if (legendBackground) {
-      legendSVG += `<rect x="0" y="0" width="${legendWidth}" height="${legendGroupHeight}" fill="${legendBackground}" />`;
+      legendSVG += `<rect x=\"0\" y=\"0\" width=\"${legendWidth}\" height=\"${legendGroupHeight}\" fill=\"${legendBackground}\" />`;
     }
 
-    // Add legend title if provided
     if (legendTitle) {
-      legendSVG += `<text x="${legendWidth / 2}" y="${legendTextFontSize + 2}" text-anchor="middle" font-size="${legendTextFontSize}" fill="black" font-family="${legendTextFont}">${legendTitle}</text>`;
+      legendSVG += `<text x=\"${legendWidth / 2}\" y=\"${legendTextFontSize + 2}\" text-anchor=\"middle\" font-size=\"${legendTextFontSize}\" fill=\"black\" font-family=\"${legendTextFont}\">${legendTitle}</text>`;
     }
 
-    // Add legend items
     for (let i = 0; i < allSeries.length; i++) {
       const currentColor = (Array.isArray(markerColor) && markerColor[i]) ? markerColor[i] : (Array.isArray(markerColor) ? markerColor[0] : "red");
       const currentMarkerSize = (Array.isArray(markerSize) && markerSize[i]) ? markerSize[i] : (Array.isArray(markerSize) ? markerSize[0] : 3);
@@ -398,7 +398,7 @@ function generateSvgContent({
       const offsetY = titleHeight + i * legendItemHeight;
       let markerSVG = "";
       if (currentMarkerShape === "square") {
-        markerSVG = `<rect x="0" y="0" width="${currentMarkerSize * 2}" height="${currentMarkerSize * 2}" fill="${currentColor}" />`;
+        markerSVG = `<rect x=\"0\" y=\"0\" width=\"${currentMarkerSize * 2}\" height=\"${currentMarkerSize * 2}\" fill=\"${currentColor}\" />`;
       } else if (currentMarkerShape === "triangle") {
         const s = currentMarkerSize * 2;
         const heightTriangle = s * Math.sqrt(3) / 2;
@@ -408,16 +408,16 @@ function generateSvgContent({
         const v2y = heightTriangle/3;
         const v3x = currentMarkerSize * 2;
         const v3y = heightTriangle/3;
-        markerSVG = `<polygon points="${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}" fill="${currentColor}" />`;
+        markerSVG = `<polygon points=\"${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}\" fill=\"${currentColor}\" />`;
       } else if (currentMarkerShape === "star") {
         const outerRadius = currentMarkerSize * 2;
         const innerRadius = outerRadius * 0.5;
         const points = getStarPoints(currentMarkerSize, currentMarkerSize, outerRadius, innerRadius);
-        markerSVG = `<polygon points="${points}" fill="${currentColor}" />`;
+        markerSVG = `<polygon points=\"${points}\" fill=\"${currentColor}\" />`;
       } else {
-        markerSVG = `<circle cx="${currentMarkerSize}" cy="${currentMarkerSize}" r="${currentMarkerSize}" fill="${currentColor}" />`;
+        markerSVG = `<circle cx=\"${currentMarkerSize}\" cy=\"${currentMarkerSize}\" r=\"${currentMarkerSize}\" fill=\"${currentColor}\" />`;
       }
-      legendSVG += `<g class="legend-item" transform="translate(0, ${offsetY})">` + markerSVG + `<text x="${currentMarkerSize * 2 + 5}" y="${currentMarkerSize * 2 - currentMarkerSize}" font-size="${legendTextFontSize}" fill="black" font-family="${legendTextFont}">Series ${i + 1}</text></g>`;
+      legendSVG += `<g class=\"legend-item\" transform=\"translate(0, ${offsetY})\">` + markerSVG + `<text x=\"${currentMarkerSize * 2 + 5}\" y=\"${currentMarkerSize * 2 - currentMarkerSize}\" font-size=\"${legendTextFontSize}\" fill=\"black\" font-family=\"${legendTextFont}\">Series ${i + 1}</text></g>`;
     }
     legendSVG += `</g>`;
     svgContent += legendSVG;
@@ -425,7 +425,6 @@ function generateSvgContent({
 
   svgContent += `</svg>`;
 
-  // Insert gradient definitions into the placeholder if any gradients were defined
   if (gradientDefs !== "") {
     svgContent = svgContent.replace('<defs id="gradientDefsPlaceholder"></defs>', `<defs>${gradientDefs}</defs>`);
   } else {
@@ -442,6 +441,7 @@ export async function main(args) {
   let customFunctions;
   let legendPosition, legendFont, legendFontSize, legendBackground, legendTitle;
   let logScaleX = false, logScaleY = false;
+  let tooltip = false;
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -488,7 +488,6 @@ export async function main(args) {
     } else if (arg === "--marker-size") {
       let ms = args[i + 1];
       i++;
-      // Check for multi-value
       if (ms.includes(",")) {
         markerSize = ms.split(",").map(s => parseInt(s.trim(), 10));
       } else {
@@ -560,6 +559,8 @@ export async function main(args) {
     } else if (arg === "--logScaleY") {
       logScaleY = args[i + 1].toLowerCase() === "true";
       i++;
+    } else if (arg === "--tooltip") {
+      tooltip = true;
     }
   }
 
@@ -601,7 +602,6 @@ export async function main(args) {
   if (yamlOptions['logScaleX'] !== undefined) logScaleX = String(yamlOptions['logScaleX']).toLowerCase() === "true";
   if (yamlOptions['logScaleY'] !== undefined) logScaleY = String(yamlOptions['logScaleY']).toLowerCase() === "true";
 
-  // Set defaults if still undefined
   if (!points) {
     points = 10;
   }
@@ -615,14 +615,10 @@ export async function main(args) {
   customFunctions = customFunctions || {};
 
   if (expression && range && outputFile) {
-    // Determine if multiple expressions are provided (separated by semicolon)
-    let expressions = expression.split(';').map(exp => exp.trim()).filter(exp => exp);
-
-    // Generation message
+    const expressions = expression.split(';').map(exp => exp.trim()).filter(exp => exp);
     const genMessage = `Generating plot for expression ${expression} with range ${range} to file ${outputFile}.`;
 
     if (outputFile.endsWith(".csv")) {
-      // For CSV, if multiple expressions, use only the first series
       const data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
       const csvContent = serializeTimeSeries(data);
       console.error(genMessage);
@@ -658,7 +654,8 @@ export async function main(args) {
           legendBackground,
           legendTitle,
           logScaleX,
-          logScaleY
+          logScaleY,
+          tooltip
         });
         const doc = new PDFDocument({ size: [width, height] });
         const chunks = [];
@@ -722,7 +719,8 @@ export async function main(args) {
           legendBackground,
           legendTitle,
           logScaleX,
-          logScaleY
+          logScaleY,
+          tooltip
         });
         if (outputFile.endsWith(".png")) {
           const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();

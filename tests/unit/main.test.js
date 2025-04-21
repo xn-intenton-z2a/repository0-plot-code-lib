@@ -15,11 +15,11 @@ function svgContainsText(svg, text) {
   return svg.includes(text);
 }
 
-// Utility function to extract marker attributes from circle elements in SVG
+// Updated utility function to extract marker attributes from circle elements in SVG (supports self-closing tags)
 function getMarkerAttributes(svg) {
-  const markerRegex = /<circle[^>]*>/g;
+  const markerRegex = /<circle\b[^>]*\/?>/g;
   const circles = svg.match(markerRegex) || [];
-  const attrRegex = /r="(\d+)".*fill="([^"]+)"/;
+  const attrRegex = /r="(\d+)"[^>]*fill="([^\"]+)"/;
   if (circles.length > 0) {
     const match = circles[0].match(attrRegex);
     if (match) {
@@ -29,14 +29,13 @@ function getMarkerAttributes(svg) {
   return null;
 }
 
-// Utility function to extract marker attributes from rect elements in SVG (for square markers)
+// Updated utility function to extract marker attributes from rect elements in SVG for square markers (supports self-closing tags)
 function getSquareMarkerAttributes(svg) {
-  const markerRegex = /<rect[^>]*>/g;
+  const markerRegex = /<rect\b(?!.*width="500")(?!.*height="500")[^>]*\/?>/g;
   const rects = svg.match(markerRegex) || [];
-  const filtered = rects.filter(rect => !rect.includes('width="500"') && !rect.includes('height="500"'));
-  const attrRegex = /x="([^"]+)".*y="([^"]+)".*width="(\d+)".*height="(\d+)".*fill="([^"]+)"/;
-  if (filtered.length > 0) {
-    const match = filtered[0].match(attrRegex);
+  const attrRegex = /x="([^"]+)"[^>]*y="([^"]+)"[^>]*width="(\d+)"[^>]*height="(\d+)"[^>]*fill="([^"]+)"/;
+  if (rects.length > 0) {
+    const match = rects[0].match(attrRegex);
     if (match) {
       return { x: match[1], y: match[2], width: match[3], height: match[4], fill: match[5] };
     }
@@ -72,7 +71,7 @@ describe("Default main", () => {
 describe("Plot Generation", () => {
   test("should generate enhanced SVG file with axes and data points when valid parameters are provided and file extension is not .csv", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"]; 
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     const condition =
@@ -455,6 +454,34 @@ describe("Custom Marker Shape", () => {
   });
 });
 
+describe("Interactive Tooltip Support", () => {
+  test("should include <title> elements in markers when --tooltip is enabled (circle markers)", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--tooltip"]; 
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toMatch(/<g class="marker">\s*<circle [^>]+\/?>\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should include <title> elements in markers when --tooltip is enabled (square markers)", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-shape", "square",
+      "--marker-size", "5",
+      "--marker-color", "green",
+      "--tooltip"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toMatch(/<g class="marker">\s*<rect [^>]+\/?>\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
 describe("Background and Grid Customization", () => {
   test("should include a background rectangle with the specified bgColor and grid lines with the specified gridColor", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
@@ -571,6 +598,7 @@ legend-title: "YAML Legend"
     expect(svgContainsText(writtenData, "YAML X")).toBe(true);
     expect(svgContainsText(writtenData, "YAML Y")).toBe(true);
     const markerAttrs = getMarkerAttributes(writtenData);
+    expect(markerAttrs).not.toBeNull();
     expect(markerAttrs.r).toBe("7");
     expect(markerAttrs.fill).toBe("blue");
     expect(writtenData).toContain('fill="#abcdef"');
@@ -714,7 +742,6 @@ describe("Customized Legend Generation", () => {
 describe("Logarithmic Scale Options", () => {
   test("should apply logarithmic scaling on x-axis when --logScaleX is true", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    // Use a positive range for x to enable log scale
     const args = [
       "--expression", "y=sin(x)",
       "--range", "x=1:100",
