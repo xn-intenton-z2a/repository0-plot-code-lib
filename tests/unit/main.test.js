@@ -474,8 +474,8 @@ describe("YAML Configuration Override", () => {
     const tempYamlPath = "temp_config.yaml";
     const yamlContent = `
 title: Custom Plot from YAML
-xlabel: YAML X
 ylabel: YAML Y
+xlabel: YAML X
 marker-size: 7
 marker-color: blue
 width: 700

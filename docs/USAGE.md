@@ -46,7 +46,7 @@ A recent enhancement allows you to overlay multiple expressions in a single plot
 node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
 ```
 
-When multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles. It also appends an automatic legend in the plot. 
+When multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles. It also appends an automatic legend in the plot. With the latest update, legend options can also be customized even for a single data series if desired.
 
 #### Legend Customization Options
 
@@ -66,7 +66,7 @@ node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file o
   --legend-background "#f0f0f0" --legend-title "Data Series Legend"
 ```
 
-This will generate an SVG that includes a legend group positioned in the top-left corner with the specified fonts, font size, background color, and title.
+This will generate an SVG that includes a legend group positioned as specified with the chosen fonts, font size, background color, and title.
 
 ## Registering Custom Functions
 

@@ -264,7 +264,8 @@ function generateSvgContent({
   });
 
   // Automatic Legend Generation for Multi-Series Overlay Plots with Customization Options
-  if (allSeries.length > 1) {
+  // Modified to always generate legend if any legend customization options are provided
+  if (allSeries.length > 1 || legendTitle || legendFont || legendFontSize || legendBackground || legendPosition) {
     // Set default legend options if not provided
     const _legendPosition = legendPosition || "top-right";
     const legendTextFont = legendFont || fontFamily;
@@ -501,7 +502,7 @@ export async function main(args) {
   ylabel = ylabel || "Y Axis";
   fontFamily = fontFamily || "sans-serif";
   if (!markerSize) markerSize = [3];
-  if (!markerColor) markerColor = ["red"];
+  if (!markerColor) markerColor = ["red"]; 
   if (!markerShape) markerShape = ["circle"];
   customFunctions = customFunctions || {};
 
