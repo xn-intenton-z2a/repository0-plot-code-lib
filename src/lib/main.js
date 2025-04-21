@@ -77,10 +77,10 @@ export async function main(args) {
     } else if (arg === "--title") {
       title = args[i + 1];
       i++;
-    } else if (arg === "--xlabel") {
+    } else if (arg === "--xlabel" || arg === "--xLabel") {
       xlabel = args[i + 1];
       i++;
-    } else if (arg === "--ylabel") {
+    } else if (arg === "--ylabel" || arg === "--yLabel") {
       ylabel = args[i + 1];
       i++;
     }

@@ -27,8 +27,8 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
   - If it ends with **.png**, the tool converts the generated SVG content to a PNG image using `sharp`.
 - `--points`: (Optional) Specifies the number of data points to generate. Defaults to 10 if omitted.
 - `--title`: (Optional) Specifies a custom plot title to be displayed at the top center of the plot. If omitted, defaults to `Plot: <expression>`.
-- `--xlabel`: (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
-- `--ylabel`: (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
+- `--xlabel` (or `--xLabel`): (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
+- `--ylabel` (or `--yLabel`): (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
 
 ### Generation Message Behavior
 
