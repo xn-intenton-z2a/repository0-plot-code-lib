@@ -553,12 +553,7 @@ describe("Piecewise Expression Support", () => {
 describe("Fill Under Curve Option", () => {
   test("should include a polygon element with the specified fill color when --fillColor is provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--fillColor", "#ff0000"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--fillColor", "#ff0000"];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).toContain('<polygon fill="#ff0000"');
@@ -572,6 +567,18 @@ describe("Fill Under Curve Option", () => {
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).not.toContain('<polygon');
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should support gradient fill when fillColor contains multiple colors", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--fillColor", "#ff0000,#0000ff"];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('<linearGradient');
+    expect(writtenData).toMatch(/<stop offset="0%" stop-color="#ff0000"/);
+    expect(writtenData).toMatch(/<stop offset="100%" stop-color="#0000ff"/);
+    expect(writtenData).toContain('fill="url(#gradient_fill_0)"');
     writeFileSyncSpy.mockRestore();
   });
 });
@@ -631,13 +638,9 @@ describe("Customized Legend Generation", () => {
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // Check legend group transform for top-left (should start at margin, margin which is 40)
     expect(writtenData).toContain('transform="translate(40, 40)"');
-    // Check legend title
     expect(writtenData).toContain('>Data Series Legend</text>');
-    // Check background rectangle in legend with specified fill
     expect(writtenData).toContain('fill="#f0f0f0"');
-    // Check that legend text uses Arial and font size 14
     expect(writtenData).toContain('font-family="Arial"');
     expect(writtenData).toContain('font-size="14"');
     writeFileSyncSpy.mockRestore();

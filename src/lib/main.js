@@ -193,7 +193,8 @@ function generateSvgContent({
   let xAxisY = (yMin <= 0 && yMax >= 0) ? origin.ty : height - margin;
   let yAxisX = (xMin <= 0 && xMax >= 0) ? origin.tx : margin;
 
-  let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+  // Begin SVG content with placeholder for defs
+  let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><defs id="gradientDefsPlaceholder"></defs>`;
 
   // Background rectangle
   if (bgColor) {
@@ -218,6 +219,9 @@ function generateSvgContent({
   svgContent += `<line x1="${yAxisX}" y1="${margin}" x2="${yAxisX}" y2="${height - margin}" stroke="black" stroke-width="2" />`;
   svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black" font-family="${fontFamily}">${xlabel}</text>`;
   svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})" font-family="${fontFamily}">${ylabel}</text>`;
+
+  // Variable to accumulate gradient definitions
+  let gradientDefs = "";
 
   // For each series, draw polyline, markers, and optional filled area
   allSeries.forEach((series, idx) => {
@@ -246,7 +250,22 @@ function generateSvgContent({
       polygonPointsArray.push(`${lastTrans.tx},${xAxisY}`);
       polygonPointsArray.push(`${firstTrans.tx},${xAxisY}`);
       const polygonPoints = polygonPointsArray.join(" ");
-      svgContent += `<polygon fill="${currentFill}" points="${polygonPoints}" />`;
+
+      // Check if the fill color specifies a gradient (multiple colors separated by commas)
+      if (currentFill.includes(",")) {
+        const colors = currentFill.split(",").map(s => s.trim());
+        const n = colors.length;
+        const gradientId = `gradient_fill_${idx}`;
+        let stops = "";
+        for (let i = 0; i < n; i++) {
+          const offset = n === 1 ? 0 : ((i * 100) / (n - 1)).toFixed(0);
+          stops += `<stop offset=\"${offset}%\" stop-color=\"${colors[i]}\" />`;
+        }
+        gradientDefs += `<linearGradient id=\"${gradientId}\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">${stops}</linearGradient>`;
+        svgContent += `<polygon fill="url(#${gradientId})" points="${polygonPoints}" />`;
+      } else {
+        svgContent += `<polygon fill="${currentFill}" points="${polygonPoints}" />`;
+      }
     }
 
     // Plot markers for each data point in the series
@@ -327,6 +346,14 @@ function generateSvgContent({
   }
 
   svgContent += `</svg>`;
+
+  // Insert gradient definitions into the placeholder if any gradients were defined
+  if (gradientDefs !== "") {
+    svgContent = svgContent.replace('<defs id="gradientDefsPlaceholder"></defs>', `<defs>${gradientDefs}</defs>`);
+  } else {
+    svgContent = svgContent.replace('<defs id="gradientDefsPlaceholder"></defs>', '');
+  }
+
   return svgContent;
 }
 
