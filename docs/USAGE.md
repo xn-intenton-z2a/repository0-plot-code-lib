@@ -142,32 +142,35 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg 
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --fillColor "#ff0000,#0000ff"
 ```
 
-### JSON Export Support
-
-A new feature now allows you to export the generated time series data as a JSON file when the output file name ends with `.json`. The JSON output is formatted with indentation and represents an array of objects for a single expression, or an array of series (each being an array of objects) when multiple expressions are provided.
-
-#### CLI Example
-
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.json
-```
-
 ### Custom Marker Options
 
 You can customize the appearance of data point markers using the following options:
 
-- **--marker-size**: Sets the size of the marker. For circle markers, this determines the radius. For square markers, this is half the side length. For triangle markers (new feature), the side length will be twice the marker size.
+- **--marker-size**: Sets the size of the marker. For circle markers, this determines the radius. For square markers, this is half the side length. For triangle markers, the side length will be twice the marker size.
 - **--marker-color**: Specifies the fill color of the marker.
 - **--marker-shape**: Specifies the shape of the marker. Supported values are:
   - `circle` (default)
   - `square`
   - `triangle`
+  - `star`  *(new feature)*
 
-#### Example:
+#### Star Marker Details
+
+When `--marker-shape star` is specified, each data point is rendered as a five-pointed star using an SVG `<polygon>` element. The star is centered at the data point, with its outer radius determined by twice the marker size, and an inner radius at half that value. 
+
+#### Example (CLI):
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
-  --marker-shape triangle --marker-size 5 --marker-color green
+  --marker-shape star --marker-size 5 --marker-color purple
+```
+
+#### Example (YAML):
+
+```yaml
+marker-shape: star
+marker-size: 5
+marker-color: purple
 ```
 
 ### Background and Grid Customization
