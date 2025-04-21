@@ -96,8 +96,8 @@ describe("CLI CSV Generation", () => {
       "--file", "output.csv"
     ];
     await main(args);
-    expect(logSpy).toHaveBeenCalled();
-    const output = logSpy.mock.calls[0][0];
+    // The CSV content should be printed in console.log (second call) and starts with 'x,y'
+    const output = logSpy.mock.calls[1][0];
     expect(output.startsWith("x,y")).toBe(true);
     logSpy.mockRestore();
   });
@@ -142,7 +142,7 @@ describe("Custom Point Count", () => {
       "--file", "output.csv"
     ];
     await main(args);
-    const output = logSpy.mock.calls[0][0];
+    const output = logSpy.mock.calls[1][0];
     // Verify CSV content has header + 15 data rows
     const lines = output.trim().split("\n");
     expect(lines.length).toBe(16);
@@ -157,7 +157,7 @@ describe("Custom Point Count", () => {
       "--file", "output.csv"
     ];
     await main(args);
-    const output = logSpy.mock.calls[0][0];
+    const output = logSpy.mock.calls[1][0];
     const lines = output.trim().split("\n");
     expect(lines.length).toBe(11);
     logSpy.mockRestore();
@@ -210,5 +210,35 @@ describe("Additional Expression Support", () => {
     data.forEach(point => {
       expect(point.y).toBeCloseTo(point.x * point.x * point.x, 4);
     });
+  });
+});
+
+describe("CLI Generation Message", () => {
+  test("should log the correct generation message for non-csv files", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg"
+    ];
+    await main(args);
+    const expectedMessage = "Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.";
+    expect(logSpy.mock.calls[0][0]).toBe(expectedMessage);
+    logSpy.mockRestore();
+  });
+
+  test("should log the correct generation message to stderr for CSV files", async () => {
+    const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=0:6.28",
+      "--file", "output.csv"
+    ];
+    await main(args);
+    const expectedMessage = "Generating plot for expression y=sin(x) with range x=0:6.28 to file output.csv.";
+    expect(errSpy.mock.calls[0][0]).toBe(expectedMessage);
+    errSpy.mockRestore();
+    logSpy.mockRestore();
   });
 });

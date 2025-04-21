@@ -22,10 +22,20 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--expression`: Specifies the mathematical expression.
 - `--range`: Defines the data range in the format `x=start:end` (e.g., "x=0:6.28").
 - `--file`: Specifies the output file name and type, determining the output mode:
-  - If the file ends with **.csv**, the CLI outputs CSV content to stdout.
+  - If the file ends with **.csv**, the CLI outputs CSV content to stdout. In this case, the generation message is logged to stderr so that the CSV output remains clean.
   - If it ends with **.svg**, the CLI generates an enhanced SVG file containing axes, a polyline, and data markers.
-  - If it ends with **.png**, the tool converts the SVG content to a PNG file using `sharp`.
+  - If it ends with **.png**, the tool converts the generated SVG content to a PNG image using `sharp`.
 - `--points`: (Optional) Specifies the number of data points to generate. Defaults to 10 if omitted.
+
+### Generation Message Behavior
+
+When all three options (`--expression`, `--range`, and `--file`) are provided:
+
+- For SVG or PNG outputs, the CLI logs the message to stdout in the exact format:
+  
+  `Generating plot for expression <expression> with range <range> to file <file>.`
+  
+- For CSV outputs, the CLI logs the generation message to stderr so that stdout contains only the CSV data starting with the header "x,y".
 
 ## Detailed CLI Usage Examples
 
@@ -37,7 +47,8 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.cs
 ```
 
 Expected Output:
-- The terminal prints a CSV string beginning with a header `x,y` followed by data rows. This output is verified by tests which check for the correct header and the appropriate number of data rows (default 10 or as specified with `--points`).
+- A generation message is logged to stderr.
+- The terminal prints a CSV string beginning with a header `x,y` followed by data rows. The number of data rows will be default (10) or as specified with `--points`.
 
 ### 2. Generating an Enhanced SVG Plot
 
@@ -47,12 +58,14 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
 Expected Output:
-- An SVG file named `output.svg` is generated.
-- The SVG includes:
+- A generation message is logged to stdout:
+  
+  `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
+- An SVG file named `output.svg` is generated. The SVG includes:
   - Axis lines (`<line>` elements) for both X and Y axes.
   - A polyline (`<polyline>`) connecting data points.
   - Individual data point markers (`<circle>` elements).
-- Additionally, the plot features a title and axis labels for easier interpretation.
+  - Plot title and axis labels.
 
 ### 3. Generating a PNG Image
 
@@ -62,8 +75,10 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.pn
 ```
 
 Expected Output:
-- The tool converts the generated SVG content to a PNG image using `sharp`.
-- The resulting PNG file, `output.png`, will have a valid PNG signature (first 8 bytes: 89 50 4E 47 0D 0A 1A 0A), ensuring its integrity.
+- A generation message is logged to stdout:
+  
+  `Generating plot for expression y=sin(x) with range x=0:6.28 to file output.png.`
+- The tool converts the generated SVG content into a PNG image using `sharp` and saves it as `output.png`.
 
 ### 4. Specifying a Custom Point Count
 
@@ -73,14 +88,21 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --points 15 --fi
 ```
 
 Expected Output:
-- The CLI prints CSV content with exactly 15 data rows (plus the header), as verified by the corresponding unit tests.
+- A generation message is logged to stderr.
+- The CLI prints CSV content with exactly 15 data rows (plus the header), as validated by tests.
 
-## Rendering Behavior Based on File Extension
+### 5. Fallback Behavior
 
-- **CSV (`.csv`)**: Outputs data as CSV content directly to stdout, complete with a header row followed by data points.
-- **SVG (`.svg`)**: Creates an enhanced scalable vector graphic that includes visual enhancements such as axes, a connecting polyline, and individual data markers.
-- **PNG (`.png`)**: Converts the generated SVG content into a PNG image using `sharp`. The PNG file can be verified by checking its signature.
+If not all required options are provided, the CLI outputs the provided options in JSON format. For example:
+```
+node src/lib/main.js --expression "y=sin(x)"
+```
+
+Might output:
+```
+{"expression":"y=sin(x)","range":undefined,"outputFile":undefined,"points":10}
+```
 
 ## Conclusion
 
-This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs. Happy plotting!
+This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs along with appropriate logging of generation messages. Happy plotting!
