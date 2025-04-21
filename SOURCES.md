@@ -177,3 +177,23 @@ Markdown-it offers a robust and extensible Markdown parser supporting GitHub Fla
 ## https://nodejs.org/api/readline.html
 The Node.js Readline documentation provides details on creating interactive command-line interfaces by reading data one line at a time from a readable stream, essential for implementing interactive CLI features.
 ## MIT
+
+# Inquirer.js Documentation
+## https://github.com/SBoudrias/Inquirer.js
+Inquirer.js provides interactive CLI prompts for Node.js applications. It offers a variety of prompt types and robust validation mechanisms, making it a popular choice for building user-friendly command-line interfaces. Its active maintenance and extensive use in the community make it an authoritative source for interactive CLI design. (Last updated 2023)
+## MIT
+
+# Chalk Documentation
+## https://chalk.js.org
+Chalk is a popular library for styling terminal strings in Node.js. It enables developers to easily apply colors and various text styles to enhance command-line outputs, and is widely regarded as an essential tool for creating vibrant CLI applications.
+## MIT
+
+# FIGlet Documentation
+## http://www.figlet.org/
+FIGlet is a classic command-line utility that generates ASCII art from text. Often used to create eye-catching banners and headings in CLI applications, it continues to influence modern command-line aesthetics.
+## GPL
+
+# Designing Command-Line Applications Handbook
+## https://www.oreilly.com/library/view/designing-command-line/9781491940281/
+This guide provides expert insights and practical advice for designing intuitive and robust command-line applications, covering topics such as flag parsing, error handling, and interactive prompt design. While it is a commercial publication, its insights are widely recognized and influential in the field of CLI development.
+## N/A
