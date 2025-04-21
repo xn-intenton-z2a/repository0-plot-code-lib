@@ -5,6 +5,8 @@ import { fileURLToPath } from "url";
 import fs from "fs";
 import sharp from "sharp";
 import yaml from "js-yaml";
+import PDFDocument from "pdfkit";
+import svgToPdf from "svg-to-pdfkit";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, customFunctions = {}) {
@@ -324,6 +326,43 @@ export async function main(args) {
         console.log(csvContent);
       } catch (err) {
         console.error("Error generating CSV content:", err);
+      }
+    } else if (outputFile.endsWith(".pdf")) {
+      console.log(genMessage);
+      try {
+        const data = generateTimeSeriesData(expression, range, points, customFunctions);
+        const svgContent = generateSvgContent({
+          data,
+          width,
+          height,
+          title,
+          xlabel,
+          ylabel,
+          markerSize,
+          markerColor,
+          markerShape,
+          bgColor,
+          gridColor,
+          gridDashArray,
+          fontFamily
+        });
+        // Generate PDF using PDFDocument and svg-to-pdfkit
+        const doc = new PDFDocument({ size: [width, height] });
+        const chunks = [];
+        doc.on('data', (chunk) => chunks.push(chunk));
+        const pdfPromise = new Promise((resolve) => {
+          doc.on('end', () => {
+            const buffer = Buffer.concat(chunks);
+            fs.writeFileSync(outputFile, buffer);
+            console.log(`PDF file generated: ${outputFile}`);
+            resolve();
+          });
+        });
+        svgToPdf(doc, svgContent, 0, 0, { preserveAspectRatio: 'xMinYMin meet' });
+        doc.end();
+        await pdfPromise;
+      } catch (err) {
+        console.error(`Error generating PDF for file ${outputFile}:`, err);
       }
     } else {
       console.log(genMessage);
