@@ -17,7 +17,7 @@ function svgContainsText(svg, text) {
 
 // Utility function to extract marker attributes from circle elements in SVG
 function getMarkerAttributes(svg) {
-  const markerRegex = /<circle[^>]*>/g;
+  const markerRegex = /<circle[^>]*>(<title>[^<]+<\/title>)?<\/circle>/g;
   const circles = svg.match(markerRegex) || [];
   const attrRegex = /r="(\d+)".*fill="([^"]+)"/;
   if (circles.length > 0) {
@@ -31,7 +31,7 @@ function getMarkerAttributes(svg) {
 
 // Utility function to extract marker attributes from rect elements in SVG (for square markers)
 function getSquareMarkerAttributes(svg) {
-  const markerRegex = /<rect[^>]*>/g;
+  const markerRegex = /<rect[^>]*>(<title>[^<]+<\/title>)?<\/rect>/g;
   const rects = svg.match(markerRegex) || [];
   const filtered = rects.filter(rect => !rect.includes('width="500"') && !rect.includes('height="500"'));
   const attrRegex = /x="([^"]+)".*y="([^"]+)".*width="(\d+)".*height="(\d+)".*fill="([^"]+)"/;
@@ -72,7 +72,7 @@ describe("Default main", () => {
 describe("Plot Generation", () => {
   test("should generate enhanced SVG file with axes and data points when valid parameters are provided and file extension is not .csv", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"]; 
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     const condition =
@@ -455,6 +455,34 @@ describe("Custom Marker Shape", () => {
   });
 });
 
+describe("Interactive Tooltip Support", () => {
+  test("should include <title> elements in markers when --tooltip is enabled (circle markers)", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--tooltip"]; 
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toMatch(/<g class="marker">\s*<circle [^>]+>\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should include <title> elements in markers when --tooltip is enabled (square markers)", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-shape", "square",
+      "--marker-size", "5",
+      "--marker-color", "green",
+      "--tooltip"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toMatch(/<g class="marker">\s*<rect [^>]+>\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
 describe("Background and Grid Customization", () => {
   test("should include a background rectangle with the specified bgColor and grid lines with the specified gridColor", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
@@ -714,7 +742,6 @@ describe("Customized Legend Generation", () => {
 describe("Logarithmic Scale Options", () => {
   test("should apply logarithmic scaling on x-axis when --logScaleX is true", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    // Use a positive range for x to enable log scale
     const args = [
       "--expression", "y=sin(x)",
       "--range", "x=1:100",

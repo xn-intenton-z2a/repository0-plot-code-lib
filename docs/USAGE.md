@@ -46,11 +46,9 @@ A recent enhancement allows you to overlay multiple expressions in a single plot
 node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
 ```
 
-When multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles. It also appends an automatic legend in the plot. With the latest update, legend options can also be customized even for a single data series if desired.
+When multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles. It also appends an automatic legend in the plot. Legend options can be customized even for a single data series if desired.
 
 #### Legend Customization Options
-
-The legend can be fully customized using the following options via CLI or YAML configuration:
 
 - **--legend-position**: Position of the legend. Acceptable values: `top-right` (default), `top-left`, `bottom-right`, `bottom-left`.
 - **--legend-font**: Font family for legend text.
@@ -65,6 +63,18 @@ node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file o
   --legend-position "top-left" --legend-font "Arial" --legend-font-size 14 \
   --legend-background "#f0f0f0" --legend-title "Data Series Legend"
 ```
+
+### Interactive Tooltip Support
+
+A new feature has been added to include interactive tooltips in the SVG output. When the CLI flag **--tooltip** is provided, each data point marker in the SVG will include a `<title>` element that shows the x and y values for that point. These tooltips will appear when you hover over the markers in an SVG viewer.
+
+Example:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --tooltip
+```
+
+The tooltip text is in the format: `x: <value>, y: <value>`.
 
 ### Logarithmic Scale Support for Plot Axes
 
@@ -84,7 +94,7 @@ This release introduces support for logarithmic scaling on the x and/or y axes. 
   node src/lib/main.js --expression "y=exp(x)" --range "x=1:3" --file output.svg --logScaleY true
   ```
 
-If both options are enabled, both axes will be transformed logarithmically.
+You can enable both axes by providing both options.
 
 ### Registering Custom Functions
 
@@ -126,7 +136,7 @@ node src/lib/main.js --config-yaml config.yaml --expression "y=double(x)" --rang
 
 Use the `--fillColor` flag to fill the area under the curve in your plot. When a single solid color is provided, the generated SVG will include a `<polygon>` element with that fill color. 
 
-To specify a gradient fill, provide a comma-separated list of color values (e.g. "#ff0000,#0000ff"). In this case, the tool generates a `<defs>` section with a `<linearGradient>` element that includes `<stop>` elements at evenly distributed offsets across the gradient. The `<polygon>` element will then reference the gradient via the `fill` attribute in the format `fill="url(#gradient_fill_0)"` (or similar unique ID for each series).
+To specify a gradient fill, provide a comma-separated list of color values (e.g. "#ff0000,#0000ff"). In this case, the tool generates a `<defs>` section with a `<linearGradient>` element that includes `<stop>` elements, and the `<polygon>` will reference the gradient.
 
 #### CLI Examples
 
@@ -144,7 +154,7 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg 
 
 ### Custom Marker Options
 
-You can customize the appearance of data point markers using the following options:
+Customize the appearance of data point markers using the following options:
 
 - **--marker-size**: Sets the size of the marker. For circle markers, this determines the radius. For square markers, this is half the side length. For triangle markers, the side length will be twice the marker size.
 - **--marker-color**: Specifies the fill color of the marker.
@@ -156,16 +166,16 @@ You can customize the appearance of data point markers using the following optio
 
 #### Star Marker Details
 
-When `--marker-shape star` is specified, each data point is rendered as a five-pointed star using an SVG `<polygon>` element. The star is centered at the data point, with its outer radius determined by twice the marker size, and an inner radius at half that value. 
+When using `--marker-shape star`, each data point is rendered as a five-pointed star using an SVG `<polygon>` element. The star's dimensions are based on the provided marker size.
 
-#### Example (CLI):
+Example (CLI):
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
   --marker-shape star --marker-size 5 --marker-color purple
 ```
 
-#### Example (YAML):
+Example (YAML):
 
 ```yaml
 marker-shape: star
@@ -175,7 +185,7 @@ marker-color: purple
 
 ### Background and Grid Customization
 
-Customize the plot's background and grid lines using the following options:
+Customize the plot's background and grid lines:
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
@@ -219,4 +229,4 @@ When the output file ends with `.pdf`, a PDF document is generated using `pdfkit
 
 ## Conclusion
 
-**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also supports exporting the underlying data as JSON. Experiment with these options to create clear, informative, and versatile visualizations.
+**repository0-plot-code-lib** enables you to generate plots from mathematical expressions, with options for customization such as tooltips, multi-series overlays, logarithmic scales, and more. Experiment with these options to create clear, informative, and versatile visualizations.
