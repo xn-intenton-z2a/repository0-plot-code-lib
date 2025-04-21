@@ -2,13 +2,12 @@ import { describe, test, expect, afterEach, beforeAll, afterAll } from "vitest";
 import * as mainModule from "@src/lib/main.js";
 import { main } from "@src/lib/main.js";
 import fs from "fs";
-import os from 'os';
-import path from 'path';
-import { spawn } from 'child_process';
+import os from "os";
+import path from "path";
+import { spawn } from "child_process";
 
 // Helper to delay execution for async writes
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -95,7 +94,7 @@ describe("Custom Dimensions and SVG File Output", () => {
       "--padding",
       "30",
       "--file",
-      outputFile
+      outputFile,
     ]);
     expect(fs.existsSync(outputFile)).toBe(true);
     const content = fs.readFileSync(outputFile, "utf8");
@@ -204,7 +203,7 @@ describe("Gridlines and Axis Labels", () => {
       "--xlabel",
       xlabel,
       "--ylabel",
-      ylabel
+      ylabel,
     ]);
     console.log = originalLog;
     expect(outputContent).toContain(xlabel);
@@ -231,7 +230,9 @@ describe("Auto Y Range Detection", () => {
   test("should auto-compute y-range when omitted and scale cy accordingly", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9"]);
     console.log = originalLog;
     expect(outputContent).toContain("<svg");
@@ -252,7 +253,9 @@ describe("Custom Line Width CLI Option", () => {
   test("should use provided custom line width for plot lines", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--lineWidth", "3.5"]);
     console.log = originalLog;
     expect(outputContent).toContain('stroke-width="3.5"');
@@ -277,7 +280,9 @@ describe("CSV Input Option", () => {
   test("should generate SVG output from CSV data and ignore --expression and --range", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--dataFile", csvFile]);
     console.log = originalLog;
     expect(outputContent).toContain("<svg");
@@ -296,15 +301,17 @@ describe("CSV Input Option", () => {
 describe("CSV Input via STDIN Option", () => {
   test("should generate SVG output from CSV data piped into stdin when --stdin is provided", async () => {
     const csvData = "x,y\n0,0\n1,1\n2,4\n3,9";
-    const child = spawn('node', ['src/lib/main.js', '--stdin'], { stdio: ['pipe', 'pipe', 'pipe'] });
-    let output = '';
-    child.stdout.on('data', (data) => { output += data.toString(); });
-    child.stderr.on('data', (data) => {});
+    const child = spawn("node", ["src/lib/main.js", "--stdin"], { stdio: ["pipe", "pipe", "pipe"] });
+    let output = "";
+    child.stdout.on("data", (data) => {
+      output += data.toString();
+    });
+    child.stderr.on("data", (data) => {});
     child.stdin.write(csvData);
     child.stdin.end();
-    await new Promise(resolve => child.on('close', resolve));
-    expect(output).toContain('<svg');
-    expect(output).toContain('CSV Data');
+    await new Promise((resolve) => child.on("close", resolve));
+    expect(output).toContain("<svg");
+    expect(output).toContain("CSV Data");
   });
 });
 
@@ -312,7 +319,9 @@ describe("Custom Legend Position CLI Option", () => {
   test("should render legend at the bottom when --legendPosition bottom is provided", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--legendPosition", "bottom"]);
     console.log = originalLog;
     const regex = /<text[^>]*y="(\d+(?:\.\d+)?)"/g;
@@ -322,13 +331,15 @@ describe("Custom Legend Position CLI Option", () => {
       yValues.push(parseFloat(match[1]));
     }
     const legendY = yValues.slice(0, 3);
-    expect(legendY.every(y => y > 150)).toBe(true);
+    expect(legendY.every((y) => y > 150)).toBe(true);
   });
 
   test("should render legend at the right when --legendPosition right is provided", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=cos(x)", "--range", "x=0:9,y=-1:1", "--legendPosition", "right"]);
     console.log = originalLog;
     const regex = /<text[^>]*x="(\d+(?:\.\d+)?)"/g;
@@ -338,7 +349,7 @@ describe("Custom Legend Position CLI Option", () => {
       xValues.push(parseFloat(match[1]));
     }
     const legendX = xValues.slice(0, 3);
-    expect(legendX.every(x => x > 300)).toBe(true);
+    expect(legendX.every((x) => x > 300)).toBe(true);
   });
 });
 
@@ -346,10 +357,12 @@ describe("No Markers Option", () => {
   test("should not render circle markers when --noMarkers is provided", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--noMarkers"]);
     console.log = originalLog;
-    expect(outputContent).not.toContain('<circle');
+    expect(outputContent).not.toContain("<circle");
   });
 });
 
@@ -357,7 +370,9 @@ describe("Custom Background Color CLI Option", () => {
   test("should set custom background color for the SVG using --bgColor", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--bgColor", "pink"]);
     console.log = originalLog;
     expect(outputContent).toContain('<rect width="100%" height="100%" fill="pink"');
@@ -368,32 +383,40 @@ describe("JSON Output Option", () => {
   test("should output valid JSON for expression based data", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--json"]);
     console.log = originalLog;
     let jsonData;
-    expect(() => { jsonData = JSON.parse(outputContent); }).not.toThrow();
-    expect(jsonData).toHaveProperty('expressions');
-    expect(jsonData).toHaveProperty('expressionsData');
-    expect(jsonData).toHaveProperty('xRange');
-    expect(jsonData).toHaveProperty('yRange');
+    expect(() => {
+      jsonData = JSON.parse(outputContent);
+    }).not.toThrow();
+    expect(jsonData).toHaveProperty("expressions");
+    expect(jsonData).toHaveProperty("expressionsData");
+    expect(jsonData).toHaveProperty("xRange");
+    expect(jsonData).toHaveProperty("yRange");
     expect(Array.isArray(jsonData.expressionsData)).toBe(true);
   });
 
   test("should output valid JSON for CSV data input", async () => {
     const tmpDir = os.tmpdir();
-    const csvFile = path.join(tmpDir, 'test_data_json.csv');
+    const csvFile = path.join(tmpDir, "test_data_json.csv");
     const csvData = "x,y\n0,0\n1,2\n2,4";
     fs.writeFileSync(csvFile, csvData);
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--dataFile", csvFile, "--json"]);
     console.log = originalLog;
     let jsonData;
-    expect(() => { jsonData = JSON.parse(outputContent); }).not.toThrow();
-    expect(jsonData).toHaveProperty('expressions');
-    expect(jsonData).toHaveProperty('expressionsData');
+    expect(() => {
+      jsonData = JSON.parse(outputContent);
+    }).not.toThrow();
+    expect(jsonData).toHaveProperty("expressions");
+    expect(jsonData).toHaveProperty("expressionsData");
     fs.unlinkSync(csvFile);
   });
 });
@@ -402,7 +425,9 @@ describe("Tooltip Option", () => {
   test("should add title tag to circle markers when --tooltip is provided", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--tooltip"]);
     console.log = originalLog;
     const circleRegex = /<circle[^>]*>\s*<title>([^<]+)<\/title>\s*<\/circle>/g;
@@ -422,7 +447,9 @@ describe("Custom Marker Size CLI Option", () => {
   test("should render circle markers with the custom marker size when --markerSize is provided", async () => {
     let outputContent = "";
     const originalLog = console.log;
-    console.log = (msg) => { outputContent += msg; };
+    console.log = (msg) => {
+      outputContent += msg;
+    };
     await main(["--expression", "y=sin(x)", "--range", "x=0:9,y=-1:1", "--markerSize", "5"]);
     console.log = originalLog;
     expect(outputContent).toContain('r="5"');

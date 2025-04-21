@@ -59,8 +59,17 @@ export function serializeTimeSeries(data) {
 
 export async function main(args) {
   // Simple argument parser
-  let expression, range, outputFile, points, title, xlabel, ylabel;
-  let markerSize, markerColor, bgColor, gridColor;
+  let expression;
+  let range;
+  let outputFile;
+  let points;
+  let title;
+  let xlabel;
+  let ylabel;
+  let markerSize;
+  let markerColor;
+  let bgColor;
+  let gridColor;
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--expression") {
@@ -138,10 +147,10 @@ export async function main(args) {
         const margin = 40;
 
         // Compute data bounds
-        const xs = data.map(p => p.x);
-        const ys = data.map(p => p.y);
-        let xMin = Math.min(...xs);
-        let xMax = Math.max(...xs);
+        const xs = data.map((p) => p.x);
+        const ys = data.map((p) => p.y);
+        const xMin = Math.min(...xs);
+        const xMax = Math.max(...xs);
         let yMin = Math.min(...ys);
         let yMax = Math.max(...ys);
         if (yMin === yMax) {
@@ -175,10 +184,12 @@ export async function main(args) {
         }
 
         // Create polyline points string for connecting data points
-        const polylinePoints = data.map(point => {
-          const { tx, ty } = transform(point.x, point.y);
-          return `${tx},${ty}`;
-        }).join(" ");
+        const polylinePoints = data
+          .map((point) => {
+            const { tx, ty } = transform(point.x, point.y);
+            return `${tx},${ty}`;
+          })
+          .join(" ");
 
         // Build the enhanced SVG content with custom title and axis labels
         let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
@@ -192,12 +203,12 @@ export async function main(args) {
         if (gridColor) {
           // Vertical grid lines
           for (let i = 1; i < 4; i++) {
-            const xPos = margin + i * (width - 2 * margin) / 4;
+            const xPos = margin + (i * (width - 2 * margin)) / 4;
             svgContent += `<line x1="${xPos}" y1="${margin}" x2="${xPos}" y2="${height - margin}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4" />`;
           }
           // Horizontal grid lines
           for (let i = 1; i < 4; i++) {
-            const yPos = margin + i * (height - 2 * margin) / 4;
+            const yPos = margin + (i * (height - 2 * margin)) / 4;
             svgContent += `<line x1="${margin}" y1="${yPos}" x2="${width - margin}" y2="${yPos}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4" />`;
           }
         }
@@ -217,7 +228,7 @@ export async function main(args) {
         svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
 
         // Plot each data point as a circle marker with custom marker options
-        data.forEach(point => {
+        data.forEach((point) => {
           const { tx, ty } = transform(point.x, point.y);
           svgContent += `<circle cx="${tx}" cy="${ty}" r="${markerSize}" fill="${markerColor}" />`;
         });
@@ -245,5 +256,5 @@ export async function main(args) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args).catch(err => console.error(err));
+  main(args).catch((err) => console.error(err));
 }

@@ -23,7 +23,7 @@ describe("Plot generation CLI options", () => {
     main(["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"]);
     expect(fsSpy).toHaveBeenCalledWith(
       "output.svg",
-      `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1</text></svg>`
+      `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1</text></svg>`,
     );
     expect(logSpy).toHaveBeenCalledWith("File output.svg generated successfully.");
     fsSpy.mockRestore();
@@ -36,7 +36,7 @@ describe("Plot generation CLI options", () => {
     main(["--expression", "y=sin(x)", "--range", "x=-1:1,y=-0.5:0.5", "--file", "output.svg"]);
     expect(fsSpy).toHaveBeenCalledWith(
       "output.svg",
-      `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1,y=-0.5:0.5</text></svg>`
+      `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">y=sin(x) on x=-1:1,y=-0.5:0.5</text></svg>`,
     );
     expect(logSpy).toHaveBeenCalledWith("File output.svg generated successfully.");
     fsSpy.mockRestore();
@@ -57,7 +57,9 @@ describe("Plot generation CLI options", () => {
   test("should display usage message when incomplete options are provided", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "y=sin(x)"]);
-    expect(logSpy).toHaveBeenCalledWith("Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg");
+    expect(logSpy).toHaveBeenCalledWith(
+      "Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg",
+    );
     logSpy.mockRestore();
   });
 
@@ -75,7 +77,9 @@ describe("Time series data generation", () => {
     main(["--expression", "Math.sin(x)", "--range", "x=0:6.28"]);
     const output = logSpy.mock.calls[0][0];
     let series;
-    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(() => {
+      series = JSON.parse(output);
+    }).not.toThrow();
     expect(Array.isArray(series)).toBe(true);
     expect(series.length).toBe(100);
     series.forEach((point) => {
@@ -91,7 +95,9 @@ describe("Time series data generation", () => {
   test("should show error for invalid range format", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "Math.sin(x)", "--range", "invalidRange"]);
-    expect(logSpy).toHaveBeenCalledWith('Error: Range segment "invalidRange" format invalid. Expected format "var=min:max"');
+    expect(logSpy).toHaveBeenCalledWith(
+      'Error: Range segment "invalidRange" format invalid. Expected format "var=min:max"',
+    );
     logSpy.mockRestore();
   });
 });
@@ -109,7 +115,9 @@ describe("Maintenance issues handling", () => {
   test("should output error when --maintenance flag is provided", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--maintenance"]);
-    expect(logSpy).toHaveBeenCalledWith("Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.");
+    expect(logSpy).toHaveBeenCalledWith(
+      "Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.",
+    );
     logSpy.mockRestore();
   });
 });
@@ -132,7 +140,9 @@ describe("Custom Sample Count Handling", () => {
     main(["--expression", "Math.sin(x)", "--range", "x=0:6.28", "--samples", "50"]);
     const output = logSpy.mock.calls[0][0];
     let series;
-    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(() => {
+      series = JSON.parse(output);
+    }).not.toThrow();
     expect(Array.isArray(series)).toBe(true);
     expect(series.length).toBe(50);
     logSpy.mockRestore();
@@ -143,7 +153,9 @@ describe("Custom Sample Count Handling", () => {
     main(["--expression", "Math.sin(x)", "--range", "x=0:6.28", "--samples", "abc"]);
     const output = logSpy.mock.calls[0][0];
     let series;
-    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(() => {
+      series = JSON.parse(output);
+    }).not.toThrow();
     expect(Array.isArray(series)).toBe(true);
     expect(series.length).toBe(100);
     logSpy.mockRestore();
@@ -156,7 +168,9 @@ describe("NaN Handling", () => {
     main(["--expression", "0/0", "--range", "x=0:10"]);
     const output = logSpy.mock.calls[0][0];
     let series;
-    expect(() => { series = JSON.parse(output); }).not.toThrow();
+    expect(() => {
+      series = JSON.parse(output);
+    }).not.toThrow();
     series.forEach((point) => {
       expect(point.y).toBeNull();
     });
@@ -168,7 +182,9 @@ describe("Invalid Range Order", () => {
   test("should show error when minimum value is not less than maximum", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     main(["--expression", "Math.sin(x)", "--range", "x=5:1"]);
-    expect(logSpy).toHaveBeenCalledWith('Error: For variable "x", the minimum value must be less than the maximum value.');
+    expect(logSpy).toHaveBeenCalledWith(
+      'Error: For variable "x", the minimum value must be less than the maximum value.',
+    );
     logSpy.mockRestore();
   });
 });

@@ -33,7 +33,7 @@ function parseCLIArgs(args) {
     bgColor: null,
     outputJson: false,
     tooltip: false,
-    markerSize: 3
+    markerSize: 3,
   };
   let i = 0;
   while (i < args.length) {
@@ -144,7 +144,7 @@ export async function main(args = process.argv.slice(2)) {
     bgColor: bgColorArg,
     outputJson,
     tooltip: tooltipArg,
-    markerSize: markerSizeArg
+    markerSize: markerSizeArg,
   } = parseCLIArgs(args);
 
   const svgWidth = width || 500;
@@ -152,17 +152,17 @@ export async function main(args = process.argv.slice(2)) {
   const pad = padding || 20;
 
   // Define unified color and line style variables
-  let plotColors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
-  let plotLineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
+  const plotColors = colorsArg && colorsArg.length > 0 ? colorsArg : ["blue", "green", "red", "orange", "purple"];
+  const plotLineStyles = lineStylesArg && lineStylesArg.length > 0 ? lineStylesArg : [];
 
   let expressionsData = [];
-  let validExprStrings = [];
+  const validExprStrings = [];
   let xRange = null;
   let yRange = null;
-  let gridY = [];
+  const gridY = [];
   let gridXPositions = [];
-  let gridXLeft = pad;
-  let gridXRight = svgWidth - pad;
+  const gridXLeft = pad;
+  const gridXRight = svgWidth - pad;
 
   // If dataFile is provided, use CSV data input and bypass expression and range parsing
   if (dataFile) {
@@ -176,25 +176,25 @@ export async function main(args = process.argv.slice(2)) {
     processCSVData(csvContent);
   } else if (stdin) {
     // Read CSV data from standard input
-    let csvContent = '';
+    let csvContent = "";
     try {
       csvContent = await new Promise((resolve, reject) => {
-        let data = '';
-        process.stdin.setEncoding('utf8');
-        process.stdin.on('data', chunk => data += chunk);
-        process.stdin.on('end', () => resolve(data));
-        process.stdin.on('error', err => reject(err));
+        let data = "";
+        process.stdin.setEncoding("utf8");
+        process.stdin.on("data", (chunk) => (data += chunk));
+        process.stdin.on("end", () => resolve(data));
+        process.stdin.on("error", (err) => reject(err));
       });
     } catch (err) {
-      console.error('Error reading from STDIN:', err);
+      console.error("Error reading from STDIN:", err);
       return;
     }
     processCSVData(csvContent);
   } else {
     // Expression based plotting
-    if (!expression || (range === null || range === undefined)) {
+    if (!expression || range === null || range === undefined) {
       console.log(
-        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--stdin] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--logXAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json] [--tooltip] [--markerSize <number>]`
+        `Usage: node src/lib/main.js --expression <expression1[,expression2,...]> --range "x=start:end[,y=min:max]" [--file <filename>] [--dataFile <csv_filepath>] [--stdin] [--width <number>] [--height <number>] [--padding <number>] [--points <number>] [--colors <color1,color2,...>] [--lineStyles <style1,style2,...>] [--grid] [--xlabel <label>] [--ylabel <label>] [--title <title>] [--logYAxis] [--logXAxis] [--lineWidth <number>] [--legendPosition <top|bottom|left|right>] [--noMarkers] [--bgColor <color>] [--json] [--tooltip] [--markerSize <number>]`,
       );
       return;
     }
@@ -244,7 +244,7 @@ export async function main(args = process.argv.slice(2)) {
     }
 
     if (!xRange) {
-      console.log('x range not defined properly.');
+      console.log("x range not defined properly.");
       return;
     }
 
@@ -270,7 +270,7 @@ export async function main(args = process.argv.slice(2)) {
             return null;
           }
         })
-        .filter((point) => point !== null)
+        .filter((point) => point !== null),
     );
 
     if (!yRange || yRange[0] === Infinity || yRange[1] === -Infinity) {
@@ -281,7 +281,7 @@ export async function main(args = process.argv.slice(2)) {
 
   // Helper function to process CSV data
   function processCSVData(csvContent) {
-    const lines = csvContent.split(/\r?\n/).filter(line => line.trim() !== '');
+    const lines = csvContent.split(/\r?\n/).filter((line) => line.trim() !== "");
     const pointsData = [];
     let startIndex = 0;
     const firstLineCols = lines[0].split(",");
@@ -289,7 +289,7 @@ export async function main(args = process.argv.slice(2)) {
       startIndex = 1; // skip header
     }
     for (let i = startIndex; i < lines.length; i++) {
-      const cols = lines[i].split(",").map(s => s.trim());
+      const cols = lines[i].split(",").map((s) => s.trim());
       if (cols.length < 2) continue;
       const xVal = parseFloat(cols[0]);
       const yVal = parseFloat(cols[1]);
@@ -300,15 +300,15 @@ export async function main(args = process.argv.slice(2)) {
       pointsData.push({ x: xVal, y: yVal });
     }
     if (pointsData.length === 0) {
-      console.error('No valid data points found in CSV input.');
+      console.error("No valid data points found in CSV input.");
       return;
     }
-    const xValuesFromCSV = pointsData.map(point => point.x);
-    const yValuesFromCSV = pointsData.map(point => point.y);
+    const xValuesFromCSV = pointsData.map((point) => point.x);
+    const yValuesFromCSV = pointsData.map((point) => point.y);
     xRange = [Math.min(...xValuesFromCSV), Math.max(...xValuesFromCSV)];
     yRange = [Math.min(...yValuesFromCSV), Math.max(...yValuesFromCSV)];
     expressionsData.push(pointsData);
-    validExprStrings.push('CSV Data');
+    validExprStrings.push("CSV Data");
   }
 
   // Compute allYValues from expressionsData
@@ -332,7 +332,8 @@ export async function main(args = process.argv.slice(2)) {
   }
 
   // Calculate y coordinate for each point
-  let yMinVal, yMaxVal;
+  let yMinVal;
+  let yMaxVal;
   if (yRange) {
     yMinVal = yRange[0];
     yMaxVal = yRange[1];
@@ -362,7 +363,7 @@ export async function main(args = process.argv.slice(2)) {
   } else {
     expressionsData.forEach((dataPoints) => {
       dataPoints.forEach((point) => {
-        const normalized = (point.y - yMinVal) / ((yMaxVal - yMinVal) || 1);
+        const normalized = (point.y - yMinVal) / (yMaxVal - yMinVal || 1);
         point.cy = pad + (1 - normalized) * (svgHeight - 2 * pad);
       });
     });
@@ -388,7 +389,7 @@ export async function main(args = process.argv.slice(2)) {
           }
           normalized = (Math.log(point.x) - Math.log(xMin)) / (Math.log(xMax) - Math.log(xMin));
         } else {
-          normalized = (point.x - xMin) / ((xMax - xMin) || 1);
+          normalized = (point.x - xMin) / (xMax - xMin || 1);
         }
         point.cx = pad + normalized * (svgWidth - 2 * pad);
       });
@@ -412,7 +413,7 @@ export async function main(args = process.argv.slice(2)) {
       expressions: validExprStrings,
       expressionsData,
       xRange,
-      yRange
+      yRange,
     };
     console.log(JSON.stringify(outputData, null, 2));
     return;
@@ -499,11 +500,11 @@ export async function main(args = process.argv.slice(2)) {
     ylabel: ylabelArg,
     title: titleArg,
     lineWidth: lineWidthArg,
-    legendPosition: legendPositionArg || 'top',
+    legendPosition: legendPositionArg || "top",
     drawMarkers,
-    bgColor: bgColorArg || 'white',
+    bgColor: bgColorArg || "white",
     tooltip: tooltipArg,
-    markerSize: markerSizeArg
+    markerSize: markerSizeArg,
   });
 
   if (fileArg) {
