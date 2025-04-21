@@ -21,15 +21,26 @@
 
 ## Registering Custom Functions
 
-Users can register custom functions to extend the available mathematical operations. This can be done via the CLI using the `--custom-functions` flag or within a YAML configuration file. The value should be a JSON string mapping the function name to its implementation as a string. For example:
+Users can register custom functions to extend the available mathematical operations. Custom functions can now be provided either as native JavaScript function objects or as strings (evaluated using eval for backward compatibility).
 
-### CLI Example
+### Using Custom Functions as Native Functions
+
+You can provide a native function directly without resorting to eval. For example:
+
+#### CLI Example
 
 ```
 node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{"double": "(x)=>2*x"}'
 ```
 
-### YAML Configuration Example
+To use a native function, supply the function in your code as an object, for example when invoking the API:
+
+```js
+import { generateTimeSeriesData } from 'repository0-plot-code-lib';
+const data = generateTimeSeriesData('y=double(x)', 'x=0:10', 11, { double: (x) => 2 * x });
+```
+
+#### YAML Configuration Example (String-based, remains supported)
 
 Create a YAML file (e.g., `custom_config.yaml`):
 
@@ -53,7 +64,13 @@ Then run:
 node src/lib/main.js --config-yaml custom_config.yaml --expression "y=double(x)" --range "x=0:10" --file output.svg
 ```
 
-When an expression such as `y=double(x)` is provided, the registered function `double` will be applied to each x value.
+### Using Custom Functions as Strings
+
+For backward compatibility, you can still provide custom functions as strings:
+
+```
+node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{"double": "(x)=>2*x"}'
+```
 
 ## CLI Overview
 
@@ -180,4 +197,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions via CLI or YAML configuration, making the tool flexible and adaptable to various needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions as either native functions or strings, making the tool flexible and adaptable to various needs.
