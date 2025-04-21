@@ -9,7 +9,7 @@ import sharp from "sharp";
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
   // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3'
   // Expected range format: "x=start:end"
-  const match = rangeStr.match(/^x=([-\d\.]+):([-\d\.]+)$/);
+  const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
   if (!match) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -71,6 +71,7 @@ export async function main(args) {
   let bgColor;
   let gridColor;
   let fontFamily;
+  let gridDashArray = "4"; // default dash pattern
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
@@ -109,6 +110,9 @@ export async function main(args) {
       i++;
     } else if (arg === "--font-family") {
       fontFamily = args[i + 1];
+      i++;
+    } else if (arg === "--grid-dasharray") {
+      gridDashArray = args[i + 1];
       i++;
     }
   }
@@ -211,12 +215,12 @@ export async function main(args) {
           // Vertical grid lines
           for (let i = 1; i < 4; i++) {
             const xPos = margin + (i * (width - 2 * margin)) / 4;
-            svgContent += `<line x1="${xPos}" y1="${margin}" x2="${xPos}" y2="${height - margin}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4" />`;
+            svgContent += `<line x1="${xPos}" y1="${margin}" x2="${xPos}" y2="${height - margin}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
           }
           // Horizontal grid lines
           for (let i = 1; i < 4; i++) {
             const yPos = margin + (i * (height - 2 * margin)) / 4;
-            svgContent += `<line x1="${margin}" y1="${yPos}" x2="${width - margin}" y2="${yPos}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4" />`;
+            svgContent += `<line x1="${margin}" y1="${yPos}" x2="${width - margin}" y2="${yPos}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
           }
         }
 

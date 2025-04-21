@@ -41,7 +41,6 @@ function svgContainsLineWithStroke(svg, stroke) {
   return lineRegex.test(svg);
 }
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -250,18 +249,12 @@ describe("CLI Generation Message", () => {
   test("should embed custom title and axis labels when provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression",
-      "y=sin(x)",
-      "--range",
-      "x=-1:1",
-      "--file",
-      "output.svg",
-      "--title",
-      "Custom Plot",
-      "--xlabel",
-      "Custom X",
-      "--ylabel",
-      "Custom Y"
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--title", "Custom Plot",
+      "--xlabel", "Custom X",
+      "--ylabel", "Custom Y"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -276,16 +269,11 @@ describe("Custom Marker Options", () => {
   test("should generate SVG with custom marker size and color when provided via CLI", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression",
-      "y=sin(x)",
-      "--range",
-      "x=-1:1",
-      "--file",
-      "output.svg",
-      "--marker-size",
-      "5",
-      "--marker-color",
-      "green"
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-size", "5",
+      "--marker-color", "green"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -314,16 +302,11 @@ describe("Background and Grid Customization", () => {
   test("should include a background rectangle with the specified bgColor and grid lines with the specified gridColor", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression",
-      "y=sin(x)",
-      "--range",
-      "x=-1:1",
-      "--file",
-      "output.svg",
-      "--bgColor",
-      "#f0f0f0",
-      "--gridColor",
-      "#cccccc"
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--bgColor", "#f0f0f0",
+      "--gridColor", "#cccccc"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -337,18 +320,13 @@ describe("Custom Font Family", () => {
   test("should generate SVG with custom font family when provided via CLI", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression",
-      "y=sin(x)",
-      "--range",
-      "x=-1:1",
-      "--file",
-      "output.svg",
-      "--font-family",
-      "Courier"
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--font-family", "Courier"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // Check that the SVG text elements include the custom font family
     expect(writtenData).toContain('font-family="Courier"');
     writeFileSyncSpy.mockRestore();
   });
@@ -358,8 +336,24 @@ describe("Custom Font Family", () => {
     const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // Default font family should be sans-serif
     expect(writtenData).toContain('font-family="sans-serif"');
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Custom Grid Dash Pattern", () => {
+  test("should use custom grid dash pattern when --grid-dasharray option is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--gridColor", "#cccccc",
+      "--grid-dasharray", "2,2"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('stroke-dasharray="2,2"');
     writeFileSyncSpy.mockRestore();
   });
 });
