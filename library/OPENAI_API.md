@@ -1,182 +1,214 @@
 # OPENAI_API
 
 ## Crawl Summary
-Authentication via Bearer tokens; POST endpoints (e.g., /v1/completions) requiring specific parameters (model, prompt, max_tokens, temperature, etc.); detailed response objects with id, model, created timestamp, and choices array. Includes exact HTTP header and cURL examples for direct implementation.
+Endpoint Details: Completions and Chat Completions endpoints with full request/response specifications including parameter types, default values, and response JSON object structures. Includes troubleshooting error responses and full header requirements.
 
 ## Normalised Extract
-Table of Contents:
-1. Authentication
-   - Header format: Authorization: Bearer <API_KEY>
-2. API Endpoints and Methods
-   - Completions endpoint details:
-     * Endpoint: POST https://api.openai.com/v1/completions
-     * Method signature: async function createCompletion(model: string, prompt: string, options?: { max_tokens?: number, temperature?: number, top_p?: number, n?: number, stream?: boolean, stop?: string | string[] }): Promise<CompletionResponse>
-     * Parameters:
-       - model (string, required)
-       - prompt (string, required)
-       - max_tokens (number, optional, default: 16)
-       - temperature (number, optional, default: 1)
-       - top_p (number, optional, default: 1)
-       - n (number, optional, default: 1)
-       - stream (boolean, optional, default: false)
-       - stop (string or array, optional)
-   - Additional endpoints: Chat completions, Edits, Embeddings, Files
-3. Example Code Usage
-   - Node.js example with fetch
-   - cURL usage example
-4. Configuration Options and Best Practices
-   - Timeout settings, error handling (HTTP 400, 401), rate limiting information.
-5. Troubleshooting Procedures
-   - Detailed steps to diagnose common issues using HTTP status codes and sample validation commands.
+## Table of Contents
+1. Endpoints Overview
+2. Completions API
+3. Chat Completions API
+4. Error Handling
+5. Code Examples
 
-Complete technical details include explicit method signatures, parameter type definitions, sample code implementations, and configuration parameters with defaults.
+---
+
+### 1. Endpoints Overview
+Direct API calls require proper header configuration including API key authorization and content type specification. Base URL: https://api.openai.com/v1/
+
+### 2. Completions API
+**Endpoint:** POST /v1/completions
+
+**Parameters:**
+- model (string, required): e.g., "text-davinci-003"
+- prompt (string/array, required): Text or prompt array to generate a response
+- suffix (string, optional): Text to append
+- max_tokens (integer, optional): Default 16
+- temperature (number, optional): Default 1
+- top_p (number, optional): Default 1
+- n (integer, optional): Number of completions, default 1
+- stream (boolean, optional): Streaming option, default false
+- logprobs (integer, optional): Log probability count
+- stop (string/array, optional): Stop sequences
+
+**Response Structure:** JSON with keys id, object, created, model, choices (text, index, logprobs, finish_reason), usage (prompt_tokens, completion_tokens, total_tokens).
+
+### 3. Chat Completions API
+**Endpoint:** POST /v1/chat/completions
+
+**Parameters:**
+- model (string, required): e.g., "gpt-3.5-turbo"
+- messages (array, required): List of { role, content } objects
+- temperature (number, optional): Default 1
+- top_p (number, optional): Default 1
+- n (integer, optional): Default 1
+- stream (boolean, optional): Default false
+- stop (string/array, optional): Stop sequences
+
+**Response Structure:** JSON with id, object, created, model, choices (index, message with role and content, finish_reason) and usage details.
+
+### 4. Error Handling
+Standardized JSON error responses include error message, type, parameter causing error, and error code. Example error: "Invalid API Key provided" with code "invalid_api_key".
+
+### 5. Code Examples
+Provides working Node.js examples utilizing axios and cURL commands for both completions and chat completions endpoints.
+
 
 ## Supplementary Details
-Detailed Specifications:
-- Parameter Values:
-  * max_tokens: number (default 16), must be integer.
-  * temperature: float (default 1.0), range 0-2.
-  * top_p: float (default 1.0), range 0-1.
-- Configuration Options:
-  * HTTP Timeout: Recommended 30 seconds.
-  * Retries: Implement exponential backoff starting from 1 second doubling up to 16 seconds.
-- Implementation Steps:
-  1. Validate API key and permission scopes.
-  2. Structure request JSON with required fields.
-  3. Use secure HTTPS request to endpoint.
-  4. Parse JSON response and check for error codes.
-  5. Log and handle exceptions using try/catch blocks.
-- Example Detailed Code (Node.js):
-```js
-const https = require('https');
+#### Detailed Specifications and Implementation Steps
 
-function callOpenAICompletion(apiKey, model, prompt) {
-  const data = JSON.stringify({
-    model: model,
-    prompt: prompt,
-    max_tokens: 50,
-    temperature: 0.7
-  });
+- Set up HTTP POST request to the API URL with the following headers:
+  - 'Content-Type': 'application/json'
+  - 'Authorization': 'Bearer YOUR_API_KEY'
 
-  const options = {
-    hostname: 'api.openai.com',
-    path: '/v1/completions',
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-      'Content-Length': data.length
-    },
-    timeout: 30000
-  };
+- For the Completions endpoint, construct JSON body with required fields:
+  {
+    "model": "text-davinci-003",
+    "prompt": "Your prompt here",
+    "max_tokens": 7,             // Optional, default 16
+    "temperature": 0.5,          // Optional, default 1
+    "top_p": 1,                  // Optional, default 1
+    "n": 1,                      // Optional, default 1
+    "stream": false,             // Optional, default false
+    "logprobs": null,            // Optional
+    "stop": null                 // Optional
+  }
 
-  const req = https.request(options, (res) => {
-    let chunks = '';
-    res.on('data', (chunk) => { chunks += chunk; });
-    res.on('end', () => { console.log(JSON.parse(chunks)); });
-  });
+- For Chat Completions, ensure messages array is structured properly:
+  [
+    { "role": "user", "content": "Hello, world!" },
+    { "role": "assistant", "content": "Response..." }
+  ]
 
-  req.on('error', (e) => { console.error(`Problem with request: ${e.message}`); });
-  req.write(data);
-  req.end();
-}
-
-callOpenAICompletion('YOUR_API_KEY', 'text-davinci-003', 'Once upon a time');
-```
+- Troubleshooting Steps:
+  1. Validate API key and header format.
+  2. Check HTTP status codes; for 4xx or 5xx, inspect error JSON for details.
+  3. Use provided curl examples to isolate issues.
+  4. Verify JSON schema against API specification if errors persist.
 
 
 ## Reference Details
-Complete API Specifications:
+### API Specifications
 
-1. Completions Endpoint:
-   - Method: POST
-   - URL: https://api.openai.com/v1/completions
-   - Request Headers:
-     * Content-Type: application/json
-     * Authorization: Bearer <API_KEY>
-   - Request Body Example:
-     {
-       "model": "text-davinci-003",
-       "prompt": "Once upon a time",
-       "max_tokens": 50,
-       "temperature": 0.7,
-       "top_p": 1,
-       "n": 1,
-       "stream": false,
-       "stop": null
-     }
-   - SDK Method Signature (TypeScript):
-     ```ts
-     interface CompletionRequest {
-       model: string;
-       prompt: string;
-       max_tokens?: number;
-       temperature?: number;
-       top_p?: number;
-       n?: number;
-       stream?: boolean;
-       stop?: string | string[] | null;
-     }
+#### Completions Endpoint Specification
+- **Method:** POST
+- **URL:** https://api.openai.com/v1/completions
+- **Headers:**
+  - Content-Type: application/json
+  - Authorization: Bearer YOUR_API_KEY
 
-     interface CompletionChoice {
-       text: string;
-       index: number;
-       logprobs?: any;
-       finish_reason: string;
-     }
+**Request JSON Schema:**
+{
+  "model": "string",          // Required, e.g., "text-davinci-003"
+  "prompt": "string or array",  // Required
+  "suffix": "string",           // Optional
+  "max_tokens": "integer",      // Optional, default 16
+  "temperature": "number",      // Optional, default 1
+  "top_p": "number",            // Optional, default 1
+  "n": "integer",               // Optional, default 1
+  "stream": "boolean",          // Optional, default false
+  "logprobs": "integer|null",   // Optional
+  "stop": "string or array|null"// Optional
+}
 
-     interface CompletionResponse {
-       id: string;
-       object: string;
-       created: number;
-       model: string;
-       choices: CompletionChoice[];
-     }
+**Response JSON Schema:**
+{
+  "id": "string",
+  "object": "string",
+  "created": "integer",
+  "model": "string",
+  "choices": [
+    {
+      "text": "string",
+      "index": "integer",
+      "logprobs": "object|null",
+      "finish_reason": "string"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": "integer",
+    "completion_tokens": "integer",
+    "total_tokens": "integer"
+  }
+}
 
-     async function createCompletion(request: CompletionRequest): Promise<CompletionResponse> {
-       // Implementation using fetch or axios
-     }
-     ```
-   - Example cURL Command:
-     ```bash
-     curl https://api.openai.com/v1/completions \
-       -H "Content-Type: application/json" \
-       -H "Authorization: Bearer YOUR_API_KEY" \
-       -d '{
-         "model": "text-davinci-003",
-         "prompt": "Once upon a time",
-         "max_tokens": 50,
-         "temperature": 0.7
-       }'
-     ```
+#### Chat Completions Endpoint Specification
+- **Method:** POST
+- **URL:** https://api.openai.com/v1/chat/completions
+- **Headers:** Same as above
 
-2. Error Handling and Troubleshooting:
-   - Common HTTP status codes: 400 (Bad Request), 401 (Unauthorized), 429 (Too Many Requests).
-   - Retry Procedure: On status 429 or network errors, implement exponential backoff: initial delay of 1s, doubling each retry, with a maximum of 16 seconds.
-   - Logging: Log request and response bodies for diagnostic purposes.
-   - Debugging: Use verbose mode with cURL (`curl -v ...`) to inspect header details.
+**Request JSON Schema:**
+{
+  "model": "string",   // Required, e.g., "gpt-3.5-turbo"
+  "messages": [          // Required, array of message objects
+    {
+      "role": "string",    // "system", "user", or "assistant"
+      "content": "string"  // Message text
+    }
+  ],
+  "temperature": "number", // Optional, default 1
+  "top_p": "number",       // Optional, default 1
+  "n": "integer",          // Optional, default 1
+  "stream": "boolean",     // Optional, default false
+  "stop": "string or array|null" // Optional
+}
 
-3. Best Practices Implementation Code Sample:
-   ```js
-   async function safeCreateCompletion(apiKey, model, prompt) {
-     let attempt = 0;
-     const maxAttempts = 5;
-     let delay = 1000; // 1 second
-     while (attempt < maxAttempts) {
-       try {
-         const response = await createCompletion({ model, prompt, max_tokens: 50, temperature: 0.7 });
-         return response;
-       } catch (error) {
-         if (attempt === maxAttempts - 1) throw error;
-         await new Promise(resolve => setTimeout(resolve, delay));
-         delay *= 2;
-         attempt++;
-       }
-     }
-   }
-   ```
+**Response JSON Schema:**
+{
+  "id": "string",
+  "object": "string",
+  "created": "integer",
+  "model": "string",
+  "choices": [
+    {
+      "index": "integer",
+      "message": {
+        "role": "string",
+        "content": "string"
+      },
+      "finish_reason": "string"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": "integer",
+    "completion_tokens": "integer",
+    "total_tokens": "integer"
+  }
+}
 
-This documentation provides developers with precise API endpoints, method signatures, configuration values, full code examples, and troubleshooting steps necessary for direct integration and use of OpenAI's API.
+### SDK Method Signature Example (Node.js using axios)
+
+/*
+ * Function: getChatCompletion
+ * Parameters:
+ *   - apiKey: string
+ *   - model: string
+ *   - messages: Array<{role: string, content: string}>
+ *   - temperature?: number (default = 1)
+ * Returns:
+ *   - Promise resolving with chat completion JSON response
+ */
+async function getChatCompletion(apiKey, model, messages, temperature = 1) {
+  const axios = require('axios');
+  const response = await axios.post('https://api.openai.com/v1/chat/completions', {
+    model,
+    messages,
+    temperature
+  }, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${apiKey}`
+    }
+  });
+  return response.data;
+}
+
+// Full troubleshooting commands:
+// 1. Validate API key with a simple GET request if available.
+// 2. Use curl command for baseline testing:
+//    curl https://api.openai.com/v1/completions -H "Content-Type: application/json" -H "Authorization: Bearer YOUR_API_KEY" -d '{ "model": "text-davinci-003", "prompt": "test", "max_tokens": 7 }'
+// 3. Check HTTP status code and error object for guidance on fixes.
+
 
 ## Original Source
 OpenAI API Documentation
@@ -184,119 +216,162 @@ https://platform.openai.com/docs/api-reference
 
 ## Digest of OPENAI_API
 
-# OPENAI API DOCUMENTATION
+# OpenAI API Documentation
 
-**Retrieved Date:** 2023-10-06
+**Retrieved Date:** 2023-10-08
 
-## 1. Authentication
-- All API requests require an HTTP header: 
-  - `Authorization: Bearer <API_KEY>`
+## Overview
+This document provides direct technical details from the OpenAI API documentation including complete API specifications, method signatures, configuration options, complete code examples, implementation patterns, and troubleshooting procedures.
 
-## 2. Endpoints and Methods
+## Endpoints
 
-### 2.1 Completions Endpoint
-- **Endpoint:** `POST https://api.openai.com/v1/completions`
-- **Description:** Generate text completions based on a provided prompt.
-- **Method Signature (SDK Example):**
-  ```js
-  async function createCompletion(model: string, prompt: string, options?: {
-    max_tokens?: number,
-    temperature?: number,
-    top_p?: number,
-    n?: number,
-    stream?: boolean,
-    stop?: string | string[]
-  }): Promise<CompletionResponse>;
-  ```
-- **Parameters:**
-  - `model` (string, required): Identifier of the model (e.g., "text-davinci-003").
-  - `prompt` (string, required): The input text for the model to complete.
-  - `max_tokens` (number, optional, default: 16): Maximum number of tokens to generate.
-  - `temperature` (number, optional, default: 1): Sampling temperature.
-  - `top_p` (number, optional, default: 1): Nucleus sampling parameter.
-  - `n` (number, optional, default: 1): Number of completions to generate.
-  - `stream` (boolean, optional, default: false): Whether to stream partial progress.
-  - `stop` (string or array, optional): Up to 4 sequences where the API will stop generating further tokens.
-- **Response:**
-  - `id` (string): Unique identifier for the completion.
-  - `object` (string): Type of object returned, e.g., "text_completion".
-  - `created` (number): Unix timestamp of creation.
-  - `model` (string): The model used for generation.
-  - `choices` (array): Array of completion choices, each containing:
-    - `text` (string): The generated text.
-    - `index` (number): The index of the completion.
-    - `logprobs` (nullable): Log probability details.
-    - `finish_reason` (string): Reason the generation stopped.
+### Completions Endpoint
+- **URL:** POST https://api.openai.com/v1/completions
+- **Required Headers:**
+  - Content-Type: application/json
+  - Authorization: Bearer YOUR_API_KEY
 
-### 2.2 Other Endpoints
-- **Chat Completions:** `POST https://api.openai.com/v1/chat/completions`
-  - Uses a similar parameter structure with messages array; refer to SDK docs for detailed method signature.
-- **Edits, Embeddings, and Files Endpoints:** Follow analogous patterns with required model, prompt, and additional parameters as per API requirements.
+#### Request Body Parameters
+| Parameter    | Type           | Required | Default   | Description |
+|--------------|----------------|----------|-----------|-------------|
+| model        | string         | Yes      | N/A       | The name of the model to use (e.g., "text-davinci-003") |
+| prompt       | string or array| Yes      | N/A       | The prompt(s) to generate completions for |
+| suffix       | string         | No       | null      | The text to append after the completion |
+| max_tokens   | integer        | No       | 16        | The maximum number of tokens to generate |
+| temperature  | number         | No       | 1         | Sampling temperature to use |
+| top_p        | number         | No       | 1         | Nucleus sampling probability |
+| n            | integer        | No       | 1         | How many completions to generate |
+| stream       | boolean        | No       | false     | Whether to stream back partial progress |
+| logprobs     | integer        | No       | null      | Include the log probabilities on the top tokens |
+| stop         | string or array| No       | null      | Up to 4 sequences where the API will stop generating further tokens |
 
-## 3. Example Code Usage
-
-### 3.1 Node.js Example using fetch:
-```js
-const fetch = require('node-fetch');
-
-async function createCompletion() {
-  const response = await fetch('https://api.openai.com/v1/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer YOUR_API_KEY'
-    },
-    body: JSON.stringify({
-      model: 'text-davinci-003',
-      prompt: 'Once upon a time',
-      max_tokens: 50,
-      temperature: 0.7
-    })
-  });
-  const data = await response.json();
-  console.log(data);
+#### Response
+Returns a JSON object with the following structure:
+```json
+{
+  "id": "cmpl-XXXXX",
+  "object": "text_completion",
+  "created": 1614807341,
+  "model": "text-davinci-003",
+  "choices": [
+    {
+      "text": "Generated completion text",
+      "index": 0,
+      "logprobs": null,
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 5,
+    "completion_tokens": 7,
+    "total_tokens": 12
+  }
 }
-
-createCompletion();
 ```
 
-### 3.2 cURL Example:
+### Chat Completions Endpoint
+- **URL:** POST https://api.openai.com/v1/chat/completions
+
+#### Request Body Parameters
+| Parameter    | Type           | Required | Default   | Description |
+|--------------|----------------|----------|-----------|-------------|
+| model        | string         | Yes      | N/A       | The name of the chat model to use (e.g., "gpt-3.5-turbo") |
+| messages     | array          | Yes      | N/A       | A list of message objects describing the conversation. Each object has:
+   - role (string): "system", "user", or "assistant"
+   - content (string): The content of the message
+| temperature  | number         | No       | 1         | Sampling temperature for response variation |
+| top_p        | number         | No       | 1         | Nucleus sampling probability |
+| n            | integer        | No       | 1         | Number of completions to generate |
+| stream       | boolean        | No       | false     | Whether to stream responses |
+| stop         | string or array| No       | null      | Sequence(s) at which the API will stop generating further tokens |
+
+#### Response
+Returns a JSON object with the structure:
+```json
+{
+  "id": "chatcmpl-XXXXX",
+  "object": "chat.completion",
+  "created": 1614807341,
+  "model": "gpt-3.5-turbo",
+  "choices": [
+    {
+      "index": 0,
+      "message": {
+        "role": "assistant",
+        "content": "Response message text"
+      },
+      "finish_reason": "stop"
+    }
+  ],
+  "usage": {
+    "prompt_tokens": 10,
+    "completion_tokens": 25,
+    "total_tokens": 35
+  }
+}
+```
+
+## Error Handling
+
+### Common Error Response
+Errors are typically returned with an HTTP status code other than 200. A sample error response:
+```json
+{
+  "error": {
+    "message": "Invalid API Key provided",
+    "type": "invalid_request_error",
+    "param": null,
+    "code": "invalid_api_key"
+  }
+}
+```
+
+## Example Code
+
+### Node.js (using axios) - Completions
+```javascript
+const axios = require('axios');
+
+async function getCompletion() {
+  try {
+    const response = await axios.post('https://api.openai.com/v1/completions', {
+      model: "text-davinci-003",
+      prompt: "Say this is a test",
+      max_tokens: 7,
+      temperature: 0.5
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer YOUR_API_KEY'
+      }
+    });
+    console.log(response.data);
+  } catch (error) {
+    console.error('Error:', error.response ? error.response.data : error.message);
+  }
+}
+
+getCompletion();
+```
+
+### cURL Example - Chat Completions
 ```bash
-curl https://api.openai.com/v1/completions \
+curl https://api.openai.com/v1/chat/completions \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer YOUR_API_KEY" \
   -d '{
-    "model": "text-davinci-003",
-    "prompt": "Once upon a time",
-    "max_tokens": 50,
-    "temperature": 0.7
+      "model": "gpt-3.5-turbo",
+      "messages": [{"role": "user", "content": "Hello, world!"}],
+      "temperature": 0.7
   }'
 ```
 
-## 4. Configuration Options and Best Practices
-- **Timeouts:** Set appropriate timeouts for HTTP requests; e.g., 30 seconds.
-- **Error Handling:** Catch HTTP errors and inspect response status codes; typical errors include 400 (Bad Request) and 401 (Unauthorized).
-- **Rate Limiting:** Monitor headers for rate limit info (e.g., `X-RateLimit-Remaining`).
-- **Best Practices:**
-  - Always validate input parameters before calling the API.
-  - Retry logic in case of transient errors.
-  - Securely store and manage API keys.
-
-## 5. Troubleshooting Procedures
-- **Common Errors and Commands:**
-  - *401 Unauthorized:* Ensure your API key is active and correctly placed in the header.
-  - *400 Bad Request:* Verify JSON payload; use a JSON linter to validate your request.
-  - Re-run a sample query using cURL to isolate potential code issues.
-
-**Data Size:** 0 bytes
-
-**Attribution:** Extracted from OpenAI API Documentation via https://platform.openai.com/docs/api-reference
 
 ## Attribution
 - Source: OpenAI API Documentation
 - URL: https://platform.openai.com/docs/api-reference
-- License: N/A
-- Crawl Date: 2025-04-21T02:21:14.180Z
+- License: Unknown
+- Crawl Date: 2025-04-21T17:47:04.067Z
 - Data Size: 0 bytes
 - Links Found: 0
 
