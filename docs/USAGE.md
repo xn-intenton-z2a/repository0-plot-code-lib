@@ -50,27 +50,34 @@ This command generates an SVG file containing a sine curve.
 
 ### Theme Functionality
 
-The CLI supports a new `--theme` option to easily apply predetermined visual styles to your plot. The available themes are:
+The CLI supports theme customization via two options:
 
-- **dark:** Applies a dark background along with light-colored markers and grid lines.
-- **light:** Applies a light background with dark-colored markers and grid lines.
-- **blue:** Applies a blue-themed aesthetic with the following settings:
-  - **Background Color:** `#003366`
-  - **Marker Color:** `#FFD700`
-  - **Grid Line Color:** `#99CCFF`
-  - **Font Family:** `Courier New`
+- **--theme**: Applies one of the built-in themes (dark, light, blue).
 
-**Example:**
+- **--theme-config <file>**: Provides a path to an external JSON configuration file that defines custom theme settings. The JSON file can include properties such as:
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --theme blue
+```json
+{
+  "bgColor": "#customBgColor",
+  "markerColor": ["#customMarker"],
+  "gridColor": "#customGridColor",
+  "fontFamily": "CustomFont"
+}
 ```
 
-This command generates an SVG using the blue theme settings.
+When both options are provided, the settings from the JSON configuration take precedence over the built-in theme. 
+
+**Example using custom theme config:**
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --theme blue --theme-config customTheme.json
+```
+
+This command generates an SVG file using the custom theme settings defined in customTheme.json.
 
 ### Diagnostic Mode
 
-Use the `--diagnostics` flag to output a JSON report containing merged CLI and YAML configuration options and environment details (current working directory, Node.js version, platform), instead of generating a plot.
+Use the **--diagnostics** flag to output a JSON report containing merged CLI and YAML configuration options and environment details (current working directory, Node.js version, platform), instead of generating a plot.
 
 **Example:**
 
@@ -84,10 +91,10 @@ This outputs a JSON report for debugging configuration settings.
 
 Additional CLI options allow you to customize various aspects of your plot:
 
-- **Custom Points Count:** Adjust the data points using `--points`.
-- **Marker Customization:** Define marker size (`--marker-size`), color (`--marker-color`), and shape (`--marker-shape`).
-- **Logarithmic Scaling:** Enable log scale with `--logScaleX` and `--logScaleY`.
-- **YAML Configuration:** Override CLI options with YAML by using the `--config-yaml` flag.
+- **Custom Points Count:** Adjust the data points using **--points**.
+- **Marker Customization:** Define marker size (**--marker-size**), color (**--marker-color**), and shape (**--marker-shape**).
+- **Logarithmic Scaling:** Enable log scale with **--logScaleX** and **--logScaleY**.
+- **YAML Configuration:** Override CLI options with YAML by using the **--config-yaml** flag.
 
 ## API and Source Function Usage
 
@@ -125,6 +132,6 @@ console.log(csv);
 
 ## Conclusion
 
-**repository0-plot-code-lib** is your go-to tool for generating beautiful plots from mathematical expressions. With extensive CLI options, theme support, and diagnostic features, you can easily integrate it into your workflow to produce customizable visualizations.
+**repository0-plot-code-lib** is your go-to tool for generating beautiful plots from mathematical expressions. With extensive CLI options, theme support (including custom theme configuration via external JSON), and diagnostic features, you can easily integrate it into your workflow to produce customizable visualizations.
 
 Happy Plotting!

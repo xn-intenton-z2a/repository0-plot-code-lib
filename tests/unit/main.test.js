@@ -1,4 +1,4 @@
-import { describe, test, expect, vi } from "vitest";
+import { describe, test, expect, vi, beforeAll, afterAll } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main, generateTimeSeriesData, serializeTimeSeries } from "../../src/lib/main.js";
 import fs from "fs";
@@ -138,6 +138,39 @@ describe("Blue Theme Application", () => {
     expect(writtenData).toContain('stroke="#99CCFF"'); // grid lines
     expect(writtenData).toContain('font-family="Courier New"'); // font-family for texts
     expect(writtenData).toContain('fill="#FFD700"'); // marker color
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+// New test for Custom Theme Config Application
+describe("Custom Theme Config Application", () => {
+  const configFilePath = "customTheme.json";
+  const customConfig = {
+    bgColor: "#customBgColor",
+    markerColor: ["#customMarker"],
+    gridColor: "#customGridColor",
+    fontFamily: "CustomFont"
+  };
+
+  beforeAll(() => {
+    fs.writeFileSync(configFilePath, JSON.stringify(customConfig));
+  });
+
+  afterAll(() => {
+    fs.unlinkSync(configFilePath);
+  });
+
+  test("should override theme settings with values from external JSON config", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync").mockImplementation(() => {});
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--theme", "blue", "--theme-config", configFilePath];
+    await main(args);
+    expect(writeFileSyncSpy).toHaveBeenCalled();
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // Should reflect custom theme values
+    expect(writtenData).toContain('fill="#customBgColor"');
+    expect(writtenData).toContain("#customMarker");
+    expect(writtenData).toContain('stroke="#customGridColor"');
+    expect(writtenData).toContain('font-family="CustomFont"');
     writeFileSyncSpy.mockRestore();
   });
 });

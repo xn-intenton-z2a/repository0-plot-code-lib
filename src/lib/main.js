@@ -451,6 +451,7 @@ export async function main(args) {
   let tooltip = false;
   let theme; // new theme option
   let diagnostics = false;
+  let themeConfig = null; // new theme config from external JSON
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -575,6 +576,16 @@ export async function main(args) {
     } else if (arg === "--theme") {
       theme = args[i + 1];
       i++;
+    } else if (arg === "--theme-config") {
+      const configPath = args[i + 1];
+      i++;
+      try {
+        const configContent = fs.readFileSync(configPath, "utf8");
+        themeConfig = JSON.parse(configContent);
+      } catch (err) {
+        console.error("Error reading theme config JSON:", err);
+        process.exit(1);
+      }
     }
   }
 
@@ -636,6 +647,14 @@ export async function main(args) {
     }
   }
 
+  // If themeConfig is provided, override the theme settings
+  if (themeConfig) {
+    bgColor = themeConfig.bgColor || bgColor;
+    markerColor = themeConfig.markerColor || markerColor;
+    gridColor = themeConfig.gridColor || gridColor;
+    fontFamily = themeConfig.fontFamily || fontFamily;
+  }
+
   if (!points) {
     points = 10;
   }
@@ -650,7 +669,7 @@ export async function main(args) {
 
   // If diagnostics flag is set, output diagnostic JSON report and exit
   if (diagnostics) {
-    const mergedOptions = { expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily, width, height, customFunctions, fillColor, legendPosition, legendFont, legendFontSize, legendBackground, legendTitle, logScaleX, logScaleY, tooltip, theme };
+    const mergedOptions = { expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily, width, height, customFunctions, fillColor, legendPosition, legendFont, legendFontSize, legendBackground, legendTitle, logScaleX, logScaleY, tooltip, theme, themeConfig };
     const envDetails = { cwd: process.cwd(), nodeVersion: process.version, platform: process.platform };
     console.log(JSON.stringify({ mergedOptions, envDetails }, null, 2));
     return;
