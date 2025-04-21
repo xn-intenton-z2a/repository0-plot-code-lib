@@ -1,42 +1,43 @@
 # JSON_EXPORT Feature Enhancement
 
-This feature introduces a new output option for the CLI tool that allows users to export the generated time series data in JSON format. When a user specifies an output file with a .json extension via the `--file` flag, the tool will output the raw JSON representation of the computed data.
+This update refines the JSON_EXPORT feature by adding support for exporting time series data in JSON format. When users specify an output file with a `.json` extension via the `--file` flag, the CLI tool will serialize the computed time series data into a formatted JSON string. This update complements existing CSV, SVG, and PNG export options and ensures that all supported export formats are available via the CLI.
 
 ## Overview
 
-- **New CLI Behavior:** Detect when the `--file` parameter ends with `.json`.
-- **JSON Output:** Instead of generating CSV or dummy SVG content, the tool will serialize the time series data as JSON.
-- **User Benefit:** This allows programmatic consumption of the generated data for further processing or integration with other tools.
+- **Objective:** Allow users to export the generated time series data in JSON format for programmatic consumption or further processing.
+- **Benefit:** Provides an additional data export option that is especially useful for users who wish to integrate the generated data with other tools or systems.
+- **Usage Example:**
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.json
+  ```
 
-## Source Code Changes (src/lib/main.js)
+## Implementation Details
 
-- **Argument Parsing Update:** In the main function, extend the conditional check to determine if the output file ends with `.json`.
+- **CLI Parameter Parsing:**
+  - Extend the argument parsing in `src/lib/main.js` to check if the output file name ends with `.json`.
+  - When the file extension is `.json`, the tool should generate the time series data using the existing `generateTimeSeriesData` function.
 
-- **Implementation Details:**
-  - If the output file ends with `.csv`, generate CSV content as before.
-  - Else if the output file ends with `.json`, call `generateTimeSeriesData(expression, range)` and then output the result using `JSON.stringify(data, null, 2)` to provide a formatted JSON output.
-  - Else, default to the existing dummy SVG generation for other file extensions.
+- **Data Serialization:**
+  - Instead of generating CSV or graphical plots, serialize the data to JSON using `JSON.stringify(data, null, 2)` to produce a human-readable format.
+  - Write the resulting JSON string to the specified output file using `fs.writeFileSync`.
 
-## Testing Enhancements (tests/unit/main.test.js)
+- **Branching Logic in Main Function:**
+  - If `outputFile.endsWith(".csv")`, maintain the current CSV generation workflow.
+  - Else if `outputFile.endsWith(".json")`, generate the JSON output.
+  - Else, continue with generating enhanced SVG/PNG plots as implemented.
 
-- **New Test Case:** Add a test scenario that passes an output file name ending with `.json`.
-  - Verify that the CLI prints a valid JSON string starting with `{` and containing the key-value pairs for the generated time series.
+## Testing Enhancements
 
-## Documentation Updates (README.md)
+- **Unit Tests:**
+  - Update tests in `tests/unit/main.test.js` to include a scenario where the `--file` flag ends with `.json`.
+  - Verify that the output file contains valid JSON starting with `{` and that all expected key-value pairings are present.
 
-- Update the README to include the new `--file` behavior for JSON export. Example usage:
+## Documentation Updates
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.json
-```
-
-Explain that when using a `.json` output, the tool writes the full JSON serialization of the time series data.
-
-## Dependency and Build Consistency
-
-- No new dependencies are required. All modifications are confined to the source file, test file, and README updates.
-- The changes remain compatible with Node 20 and adhere to ECMAScript module standards.
+- **README.md:**
+  - Document the new `--file output.json` behavior and provide a usage example.
+  - Explain that when a `.json` file is specified, the CLI tool writes a formatted JSON representation of the computed time series data.
 
 ## Conformance with Mission and Guidelines
 
-This enhancement supports the mission of being a go-to plot library by providing an additional export format that can be directly consumed by other tools. The JSON export option adds flexibility and complements the existing CSV and SVG functionalities without altering the current workflow.
+- This enhancement provides additional export flexibility to the CLI tool, aligning with the mission of being the "jq of formulae visualisations." All changes are confined to the source, test, and README files, in full compliance with repository contribution guidelines.
