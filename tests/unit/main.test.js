@@ -41,6 +41,7 @@ function svgContainsLineWithStroke(svg, stroke) {
   return lineRegex.test(svg);
 }
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -260,7 +261,7 @@ describe("CLI Generation Message", () => {
       "--xlabel",
       "Custom X",
       "--ylabel",
-      "Custom Y",
+      "Custom Y"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -284,7 +285,7 @@ describe("Custom Marker Options", () => {
       "--marker-size",
       "5",
       "--marker-color",
-      "green",
+      "green"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -322,12 +323,43 @@ describe("Background and Grid Customization", () => {
       "--bgColor",
       "#f0f0f0",
       "--gridColor",
-      "#cccccc",
+      "#cccccc"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(svgContainsRectWithFill(writtenData, "#f0f0f0")).toBe(true);
     expect(svgContainsLineWithStroke(writtenData, "#cccccc")).toBe(true);
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Custom Font Family", () => {
+  test("should generate SVG with custom font family when provided via CLI", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--font-family",
+      "Courier"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // Check that the SVG text elements include the custom font family
+    expect(writtenData).toContain('font-family="Courier"');
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should generate SVG with default font family when not provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // Default font family should be sans-serif
+    expect(writtenData).toContain('font-family="sans-serif"');
     writeFileSyncSpy.mockRestore();
   });
 });

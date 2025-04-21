@@ -33,6 +33,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--marker-color`: (Optional) Specifies the fill color for the marker circles. Defaults to "red" if not provided.
 - `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will be added to the SVG/PNG output covering the entire canvas.
 - `--gridColor`: (Optional) Specifies a grid line color. When provided, grid lines will be overlaid on the plot to enhance readability.
+- `--font-family`: (Optional) Specifies a custom font family for all text elements in the plot (plot title, x-axis label, and y-axis label). Defaults to "sans-serif" if not provided.
 
 ### Generation Message Behavior
 
@@ -57,11 +58,11 @@ Expected Output:
 - A generation message is logged to stderr.
 - The terminal prints a CSV string beginning with a header `x,y` followed by data rows. The number of data rows will be default (10) or as specified with `--points`.
 
-### 2. Generating an Enhanced SVG Plot with Custom Title, Axis Labels, and Marker Options
+### 2. Generating an Enhanced SVG Plot with Custom Title, Axis Labels, Marker Options, and Font Family
 
 Command:
 ```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y" --marker-size 5 --marker-color green
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y" --marker-size 5 --marker-color green --font-family Courier
 ```
 
 Expected Output:
@@ -70,9 +71,9 @@ Expected Output:
   `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
   
 - An SVG file named `output.svg` is generated. The SVG includes:
-  - A custom title at the top center: "Custom Plot".
-  - X axis and Y axis labels with the provided texts: "Custom X" and "Custom Y" respectively.
-  - Axis lines (`<line>` elements), a polyline (`<polyline>`) connecting data points, and individual data point markers (`<circle>` elements) with marker radius of 5 and fill color green.
+  - A custom title at the top center: "Custom Plot" with the font-family set to Courier.
+  - X axis and Y axis labels with the provided texts: "Custom X" and "Custom Y" respectively, also using Courier font.
+  - Axis lines (`<line>` elements), a polyline (`<polyline>`) connecting data points, and individual data point markers (`<circle>` elements) with a marker radius of 5 and fill color green.
 
 ### 3. Generating a PNG Image
 
@@ -124,4 +125,4 @@ Might output:
 
 ## Conclusion
 
-This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs, along with support for custom marker and background/grid options. Happy plotting!
+This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs, along with support for custom marker, background/grid, and font family options. Happy plotting!

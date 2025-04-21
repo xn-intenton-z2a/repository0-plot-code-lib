@@ -9,7 +9,7 @@ import sharp from "sharp";
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
   // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3'
   // Expected range format: "x=start:end"
-  const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
+  const match = rangeStr.match(/^x=([-\d\.]+):([-\d\.]+)$/);
   if (!match) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -70,6 +70,8 @@ export async function main(args) {
   let markerColor;
   let bgColor;
   let gridColor;
+  let fontFamily;
+
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--expression") {
@@ -105,6 +107,9 @@ export async function main(args) {
     } else if (arg === "--gridColor") {
       gridColor = args[i + 1];
       i++;
+    } else if (arg === "--font-family") {
+      fontFamily = args[i + 1];
+      i++;
     }
   }
 
@@ -113,10 +118,12 @@ export async function main(args) {
     points = 10;
   }
 
-  // Set defaults for title and axis labels if not provided
+  // Set defaults for title, axis labels and font family if not provided
   title = title || `Plot: ${expression}`;
   xlabel = xlabel || "X Axis";
   ylabel = ylabel || "Y Axis";
+  fontFamily = fontFamily || "sans-serif";
+
   // Set marker defaults if not provided
   markerSize = markerSize || 3;
   markerColor = markerColor || "red";
@@ -191,7 +198,7 @@ export async function main(args) {
           })
           .join(" ");
 
-        // Build the enhanced SVG content with custom title and axis labels
+        // Build the enhanced SVG content with custom title and axis labels including font-family
         let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
 
         // Add background rectangle if bgColor is provided
@@ -213,16 +220,16 @@ export async function main(args) {
           }
         }
 
-        // Add custom plot title at the top center
-        svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black">${title}</text>`;
+        // Add custom plot title at the top center with font-family
+        svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black" font-family="${fontFamily}">${title}</text>`;
 
         // Draw X and Y axes
         svgContent += `<line x1="${margin}" y1="${xAxisY}" x2="${width - margin}" y2="${xAxisY}" stroke="black" stroke-width="2" />`;
         svgContent += `<line x1="${yAxisX}" y1="${margin}" x2="${yAxisX}" y2="${height - margin}" stroke="black" stroke-width="2" />`;
 
-        // Add custom axis labels
-        svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black">${xlabel}</text>`;
-        svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})">${ylabel}</text>`;
+        // Add custom axis labels with font-family
+        svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black" font-family="${fontFamily}">${xlabel}</text>`;
+        svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})" font-family="${fontFamily}">${ylabel}</text>`;
 
         // Draw connecting line (polyline) through data points
         svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
