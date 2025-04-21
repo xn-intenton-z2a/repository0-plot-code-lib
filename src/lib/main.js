@@ -417,7 +417,7 @@ export async function main(args) {
         doc.end();
         await pdfPromise;
       } catch (err) {
-        console.error(`Error generating PDF for file ${outputFile}:", err);
+        console.error(`Error generating PDF for file ${outputFile}:`, err);
       }
     } else {
       console.log(genMessage);
@@ -447,7 +447,7 @@ export async function main(args) {
           console.log(`SVG file generated: ${outputFile}`);
         }
       } catch (err) {
-        console.error(`Error generating plot for file ${outputFile}:", err);
+        console.error(`Error generating plot for file ${outputFile}:`, err);
       }
     }
   } else {
