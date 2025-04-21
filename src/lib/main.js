@@ -68,6 +68,7 @@ function generateSvgContent({
   ylabel,
   markerSize,
   markerColor,
+  markerShape,
   bgColor,
   gridColor,
   gridDashArray = "4",
@@ -143,10 +144,19 @@ function generateSvgContent({
   // Draw connecting line (polyline) through data points
   svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
 
-  // Plot each data point as a circle marker with custom marker options
+  // Plot each data point as a marker based on markerShape
   data.forEach((point) => {
     const { tx, ty } = transform(point.x, point.y);
-    svgContent += `<circle cx="${tx}" cy="${ty}" r="${markerSize}" fill="${markerColor}" />`;
+    if (markerShape === "square") {
+      // Draw square marker: center the square by subtracting markerSize
+      const size = markerSize * 2;
+      const xPos = tx - markerSize;
+      const yPos = ty - markerSize;
+      svgContent += `<rect x="${xPos}" y="${yPos}" width="${size}" height="${size}" fill="${markerColor}" />`;
+    } else {
+      // Default to circle marker
+      svgContent += `<circle cx="${tx}" cy="${ty}" r="${markerSize}" fill="${markerColor}" />`;
+    }
   });
 
   svgContent += `</svg>`;
@@ -154,7 +164,7 @@ function generateSvgContent({
 }
 
 export async function main(args) {
-  let expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, bgColor, gridColor, fontFamily;
+  let expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, markerShape, bgColor, gridColor, fontFamily;
   let width = 500, height = 500;
   let gridDashArray = "4"; // default dash pattern
 
@@ -186,6 +196,9 @@ export async function main(args) {
       i++;
     } else if (arg === "--marker-color") {
       markerColor = args[i + 1];
+      i++;
+    } else if (arg === "--marker-shape") {
+      markerShape = args[i + 1];
       i++;
     } else if (arg === "--bgColor") {
       bgColor = args[i + 1];
@@ -250,6 +263,7 @@ export async function main(args) {
           ylabel,
           markerSize,
           markerColor,
+          markerShape,
           bgColor,
           gridColor,
           gridDashArray,

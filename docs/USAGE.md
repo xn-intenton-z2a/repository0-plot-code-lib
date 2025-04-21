@@ -29,8 +29,9 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--title`: (Optional) Specifies a custom plot title. If omitted, defaults to `Plot: <expression>`.
 - `--xlabel` (or `--xLabel`): (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
 - `--ylabel` (or `--yLabel`): (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
-- `--marker-size`: (Optional) Specifies the radius of the marker circles. Defaults to 3 if not provided.
-- `--marker-color`: (Optional) Specifies the fill color for the marker circles. Defaults to "red" if not provided.
+- `--marker-size`: (Optional) Specifies the radius of the marker. Defaults to 3 if not provided.
+- `--marker-color`: (Optional) Specifies the fill color for the marker. Defaults to "red" if not provided.
+- `--marker-shape`: (Optional) Specifies the shape of the marker. Accepted value: "square". If set to "square", markers are rendered as squares; otherwise, they default to circles.
 - `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will cover the canvas in the SVG/PNG output.
 - `--gridColor`: (Optional) Specifies a grid line color to overlay on the plot. Requires `--grid-dasharray` to specify the dash pattern.
 - `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided.
@@ -115,7 +116,18 @@ Expected Output:
 - A generation message is logged to stdout.
 - The SVG (or PNG) output includes a background rectangle filled with "#f0f0f0", and grid lines with stroke "#cccccc" using the dash pattern "2,2".
 
-#### 6. Fallback Behavior
+#### 6. Using Square Markers
+
+Command:
+```
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-shape square
+```
+
+Expected Output:
+- A generation message is logged to stdout.
+- The SVG file generated uses square markers (rendered with `<rect>` elements) centered on each data point, instead of the default circle markers.
+
+#### 7. Fallback Behavior
 
 If required options are missing, the CLI outputs the provided options in JSON format. For example:
 
@@ -131,4 +143,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The tool offers flexible customization options for titles, axis labels, markers, backgrounds, grids, font families, and now dimensions (width and height), ensuring it meets a variety of plotting needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The tool offers flexible customization options for titles, axis labels, markers (including a new square option), backgrounds, grids, font families, and dimensions, ensuring it meets a variety of plotting needs.
