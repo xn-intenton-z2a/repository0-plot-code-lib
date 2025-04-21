@@ -110,6 +110,18 @@ describe("Time Series Data Generation", () => {
       expect(point.y).toBeLessThanOrEqual(1);
     }
   });
+
+  test("should generate correct data for cos(t) using non-x variable", () => {
+    const data = generateTimeSeriesData("y=cos(t)", "t=-1:1");
+    expect(data.length).toBeGreaterThanOrEqual(10);
+    // Check first and last x values correspond to -1 and 1
+    expect(data[0].x).toBeCloseTo(-1, 3);
+    expect(data[data.length - 1].x).toBeCloseTo(1, 3);
+    // Check that y values match Math.cos for each generated t
+    data.forEach(point => {
+      expect(point.y).toBeCloseTo(Math.cos(point.x), 3);
+    });
+  });
 });
 
 describe("Serialize Time Series Data", () => {
