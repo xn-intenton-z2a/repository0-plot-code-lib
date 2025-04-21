@@ -82,3 +82,23 @@ Prettier is an opinionated code formatter that enforces a consistent style by pa
 ## https://eslint.org/docs/latest/user-guide/getting-started
 ESLint is a widely-used tool for identifying and reporting on patterns found in ECMAScript/JavaScript code. The official documentation outlines configuration, rule customization, and integration options to maintain code quality.
 ## MIT
+
+# CLI Frameworks and Libraries
+## https://github.com/tj/commander.js
+This source provides documentation on popular Node.js CLI frameworks including Commander.js and oclif. It offers insights into command parsing, interactive prompts, and best practices for building robust command-line interfaces.
+## MIT
+
+# GitHub CLI Documentation
+## https://cli.github.com/manual/
+The GitHub CLI documentation offers comprehensive guides and reference for using GitHub's command-line tool. It details various commands and usage examples to interact with GitHub from the terminal.
+## MIT
+
+# YAML 1.2 Specification
+## https://yaml.org/spec/1.2/spec.html
+This is the official YAML 1.2 specification, detailing the syntax, rules, and best practices for YAML. It is an essential resource for developers working with YAML configuration files.
+## CC0
+
+# Chalk Documentation
+## https://chalk.js.org/
+Chalk is a popular Node.js library for styling terminal output. Its documentation provides detailed usage examples and API references for adding colors and styles to CLI applications.
+## MIT
