@@ -15,11 +15,11 @@ import PDFDocument from "pdfkit";
  * Supports optional stroke dash pattern via dashArray, and optional custom tooltip formatting via tooltipFormat.
  * Additionally supports custom tooltip styling via tooltipStyle which appends extra CSS to the tooltip marker.
  * Allows custom axis tick label formatting via xTickFormat and yTickFormat options.
- * 
+ *
  * New Parameters:
  *   - fontFamily: to set a custom font family for all text elements in the SVG. Defaults to "inherit".
  *   - tooltipShape: to set the shape of the tooltip markers. Supported values: "circle" (default), "square", and "triangle".
- * 
+ *
  * @param {string} expression - Mathematical expression (e.g., "y=sin(x)").
  * @param {string} range - Range specification (e.g., "x=-10:10,y=-1:1").
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to blue.
@@ -42,30 +42,54 @@ import PDFDocument from "pdfkit";
  * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other options: "square", "triangle").
  * @returns {string} - SVG content as string.
  */
-function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit", tooltipShape = "circle") {
+function generateSVG(
+  expression,
+  range,
+  strokeColor = "blue",
+  strokeWidth = 2,
+  width = 300,
+  height = 150,
+  grid = false,
+  logScale = false,
+  backgroundColor = "#f0f0f0",
+  title = "",
+  xLabel = "",
+  yLabel = "",
+  tooltip = false,
+  dashArray = null,
+  tooltipFormat = null,
+  tooltipStyle = null,
+  xTickFormat = null,
+  yTickFormat = null,
+  fontFamily = "inherit",
+  tooltipShape = "circle",
+) {
   const margin = 10;
   const sampleCount = 100;
 
   // Parse expression: extract function body after '=' if exists
   let funcStr = expression;
-  if (expression.includes('=')) {
-    const parts = expression.split('=');
+  if (expression.includes("=")) {
+    const parts = expression.split("=");
     funcStr = parts[1].trim();
   }
 
   // Parse range, expected format: "x=min:max,y=min:max"
-  let xMin, xMax, yMin, yMax;
+  let xMin;
+  let xMax;
+  let yMin;
+  let yMax;
   try {
-    const rangeParts = range.split(',');
-    const xPart = rangeParts.find(part => part.trim().startsWith('x='));
-    const yPart = rangeParts.find(part => part.trim().startsWith('y='));
-    if (!xPart || !yPart) throw new Error('Invalid range format');
+    const rangeParts = range.split(",");
+    const xPart = rangeParts.find((part) => part.trim().startsWith("x="));
+    const yPart = rangeParts.find((part) => part.trim().startsWith("y="));
+    if (!xPart || !yPart) throw new Error("Invalid range format");
 
-    const xVals = xPart.split('=')[1].split(":").map(Number);
-    const yVals = yPart.split('=')[1].split(":").map(Number);
+    const xVals = xPart.split("=")[1].split(":").map(Number);
+    const yVals = yPart.split("=")[1].split(":").map(Number);
     [xMin, xMax] = xVals;
     [yMin, yMax] = yVals;
-    if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
+    if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error("Range values must be numbers");
   } catch (error) {
     return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
@@ -84,11 +108,11 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   // Create function to evaluate expression using Math context
   let func;
   try {
-    func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
+    func = new Function("x", "with (Math) { return " + funcStr + "; }");
     // Test the function for a sample value
     const testVal = func(xMin);
-    if (typeof testVal !== 'number' || isNaN(testVal)) {
-      throw new Error('Function does not return a number');
+    if (typeof testVal !== "number" || isNaN(testVal)) {
+      throw new Error("Function does not return a number");
     }
   } catch (error) {
     return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
@@ -98,7 +122,13 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   }
 
   // Validate tooltip shape option
-  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square" && tooltipShape !== "triangle")) {
+  if (
+    tooltip &&
+    tooltipShape &&
+    tooltipShape !== "circle" &&
+    tooltipShape !== "square" &&
+    tooltipShape !== "triangle"
+  ) {
     console.error("Error: Invalid tooltip shape provided. Only 'circle', 'square', and 'triangle' are supported.");
     return;
   }
@@ -128,8 +158,10 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
     if (!isNaN(svgY)) {
       points.push(`${svgX},${svgY}`);
       if (tooltip) {
-        const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-        const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
+        const formattedTooltip = tooltipFormat
+          ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2))
+          : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
+        const styleAttr = `cursor: pointer;${tooltipStyle ? " " + tooltipStyle : ""}`;
         if (tooltipShape === "square") {
           // Draw a square (rect) with side 6, centered at (svgX, svgY)
           tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
@@ -145,8 +177,9 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   }
 
   // If grid flag is true, compute grid lines
-  let gridLines = '';
-  const numX = 10, numY = 10;
+  let gridLines = "";
+  const numX = 10;
+  const numY = 10;
   if (grid) {
     const dx = (xMax - xMin) / numX;
     const dy = (yMax - yMin) / numY;
@@ -156,7 +189,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
       gridLines += `<line x1="${svgX}" y1="${margin}" x2="${svgX}" y2="${height - margin}" stroke="#ccc" stroke-width="1"/>`;
     }
     for (let j = 0; j <= numY; j++) {
-      const yTick = yMin + j * (yMax - yMin) / numY;
+      const yTick = yMin + (j * (yMax - yMin)) / numY;
       let yTickTrans = yTick;
       if (logScale) {
         if (yTick <= 0) continue;
@@ -172,10 +205,11 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   // Compute custom axis tick labels if formats are provided
   let xTickLabels = "";
   let yTickLabels = "";
-  const numTicksX = 10, numTicksY = 10;
+  const numTicksX = 10;
+  const numTicksY = 10;
   if (xTickFormat) {
     for (let i = 0; i <= numTicksX; i++) {
-      const xTick = xMin + i * (xMax - xMin) / numTicksX;
+      const xTick = xMin + (i * (xMax - xMin)) / numTicksX;
       const svgX = margin + ((xTick - xMin) / (xMax - xMin)) * (width - 2 * margin);
       const label = xTickFormat.replace("{value}", xTick.toFixed(2));
       xTickLabels += `<text x="${svgX}" y="${height - margin + 12}" font-size="10" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${label}</text>`;
@@ -183,7 +217,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   }
   if (yTickFormat) {
     for (let j = 0; j <= numTicksY; j++) {
-      const yTick = yMin + j * (yMax - yMin) / numTicksY;
+      const yTick = yMin + (j * (yMax - yMin)) / numTicksY;
       let yTickTrans = yTick;
       if (logScale) {
         if (yTick <= 0) continue;
@@ -198,25 +232,27 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   }
 
   const dashArrayAttribute = dashArray ? ` stroke-dasharray="${dashArray}"` : "";
-  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(' ')}" />`;
-  const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
+  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(" ")}" />`;
+  const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : "";
 
   // Additional text elements for title and axis labels
-  let titleElement = '';
+  let titleElement = "";
   if (title) {
-    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${title}</text>`;
+    titleElement = `<text x="${width / 2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${title}</text>`;
   }
-  let xLabelElement = '';
+  let xLabelElement = "";
   if (xLabel) {
-    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${xLabel}</text>`;
+    xLabelElement = `<text x="${width / 2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${xLabel}</text>`;
   }
-  let yLabelElement = '';
+  let yLabelElement = "";
   if (yLabel) {
-    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})" style="font-family: ${fontFamily};">${yLabel}</text>`;
+    yLabelElement = `<text x="15" y="${height / 2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height / 2})" style="font-family: ${fontFamily};">${yLabel}</text>`;
   }
 
   // The existing expression text at the bottom (keep for reference if no custom xLabel provided)
-  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">CSV Plot</text>` : '';
+  const defaultInfo = !xLabel
+    ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">CSV Plot</text>`
+    : "";
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
@@ -229,7 +265,7 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
   ${xLabelElement}
   ${yLabelElement}
   ${logIndicator}
-  ${tooltip ? tooltipElements : ''}
+  ${tooltip ? tooltipElements : ""}
 </svg>`;
 }
 
@@ -242,11 +278,11 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * Supports optional stroke dash pattern via dashArray, and optional custom tooltip formatting via tooltipFormat.
  * Additionally supports custom tooltip styling via tooltipStyle.
  * Allows custom axis tick label formatting via xTickFormat and yTickFormat options.
- * 
+ *
  * New Parameters:
  *   - fontFamily: to set a custom font family for all text elements in the SVG. Defaults to "inherit".
  *   - tooltipShape: to set the tooltip marker shape. Supported values: "circle" (default), "square", and "triangle".
- * 
+ *
  * @param {string} csv - CSV data as a string.
  * @param {string} [strokeColor] - Optional stroke color for the polyline. Defaults to red.
  * @param {number} [strokeWidth] - Optional stroke width for the polyline. Defaults to 2.
@@ -268,9 +304,29 @@ function generateSVG(expression, range, strokeColor = "blue", strokeWidth = 2, w
  * @param {string} [tooltipShape] - Optional shape for tooltip markers. Defaults to "circle" (other options: "square", "triangle").
  * @returns {string} - SVG content as string.
  */
-function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 300, height = 150, grid = false, logScale = false, backgroundColor = "#f0f0f0", title = "", xLabel = "", yLabel = "", tooltip = false, dashArray = null, tooltipFormat = null, tooltipStyle = null, xTickFormat = null, yTickFormat = null, fontFamily = "inherit", tooltipShape = "circle") {
+function generateSVGFromCSV(
+  csv,
+  strokeColor = "red",
+  strokeWidth = 2,
+  width = 300,
+  height = 150,
+  grid = false,
+  logScale = false,
+  backgroundColor = "#f0f0f0",
+  title = "",
+  xLabel = "",
+  yLabel = "",
+  tooltip = false,
+  dashArray = null,
+  tooltipFormat = null,
+  tooltipStyle = null,
+  xTickFormat = null,
+  yTickFormat = null,
+  fontFamily = "inherit",
+  tooltipShape = "circle",
+) {
   const margin = 10;
-  let dataPoints = [];
+  const dataPoints = [];
   let tooltipElements = "";
   try {
     const lines = csv.split(/\r?\n/);
@@ -306,7 +362,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
         dataPoints.push([x, yOrig]);
       }
     }
-    if (dataPoints.length === 0) throw new Error('No valid CSV data found');
+    if (dataPoints.length === 0) throw new Error("No valid CSV data found");
   } catch (error) {
     return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
@@ -315,14 +371,20 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   }
 
   // Validate tooltip shape option
-  if (tooltip && tooltipShape && (tooltipShape !== "circle" && tooltipShape !== "square" && tooltipShape !== "triangle")) {
+  if (
+    tooltip &&
+    tooltipShape &&
+    tooltipShape !== "circle" &&
+    tooltipShape !== "square" &&
+    tooltipShape !== "triangle"
+  ) {
     console.error("Error: Invalid tooltip shape provided. Only 'circle', 'square', and 'triangle' are supported.");
     return;
   }
 
   // Determine x and y extents
-  const xs = dataPoints.map(p => p[0]);
-  const ys = dataPoints.map(p => p[1]);
+  const xs = dataPoints.map((p) => p[0]);
+  const ys = dataPoints.map((p) => p[1]);
   const xMin = Math.min(...xs);
   const xMax = Math.max(...xs);
   const yMin = Math.min(...ys);
@@ -330,11 +392,13 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
 
   // Map CSV points to svg coordinates
   const points = dataPoints.map(([x, y]) => {
-    const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
-    const svgY = height - margin - ((y - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
+    const svgX = margin + ((x - xMin) / (xMax - xMin || 1)) * (width - 2 * margin);
+    const svgY = height - margin - ((y - yMin) / (yMax - yMin || 1)) * (height - 2 * margin);
     if (tooltip) {
-      const formattedTooltip = tooltipFormat ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2)) : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
-      const styleAttr = `cursor: pointer;${tooltipStyle ? ' ' + tooltipStyle : ''}`;
+      const formattedTooltip = tooltipFormat
+        ? tooltipFormat.replace("{x}", x.toFixed(2)).replace("{y}", y.toFixed(2))
+        : `(${x.toFixed(2)}, ${y.toFixed(2)})`;
+      const styleAttr = `cursor: pointer;${tooltipStyle ? " " + tooltipStyle : ""}`;
       if (tooltipShape === "square") {
         // Draw a square
         tooltipElements += `<rect x="${svgX - 3}" y="${svgY - 3}" width="6" height="6" fill="black" style="${styleAttr}"><title>${formattedTooltip}</title></rect>`;
@@ -348,19 +412,20 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   });
 
   // If grid flag is true, compute grid lines
-  let gridLines = '';
-  const numX = 10, numY = 10;
+  let gridLines = "";
+  const numX = 10;
+  const numY = 10;
   if (grid) {
     const dx = (xMax - xMin) / numX;
     const dy = (yMax - yMin) / numY;
     for (let i = 0; i <= numX; i++) {
       const xTick = xMin + i * dx;
-      const svgX = margin + ((xTick - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
+      const svgX = margin + ((xTick - xMin) / (xMax - xMin || 1)) * (width - 2 * margin);
       gridLines += `<line x1="${svgX}" y1="${margin}" x2="${svgX}" y2="${height - margin}" stroke="#ccc" stroke-width="1"/>`;
     }
     for (let j = 0; j <= numY; j++) {
-      const yTick = yMin + j * (yMax - yMin) / numY;
-      const svgY = height - margin - ((yTick - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
+      const yTick = yMin + (j * (yMax - yMin)) / numY;
+      const svgY = height - margin - ((yTick - yMin) / (yMax - yMin || 1)) * (height - 2 * margin);
       gridLines += `<line x1="${margin}" y1="${svgY}" x2="${width - margin}" y2="${svgY}" stroke="#ccc" stroke-width="1"/>`;
     }
   }
@@ -368,44 +433,47 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   // Compute custom axis tick labels if formats are provided
   let xTickLabels = "";
   let yTickLabels = "";
-  const numTicksX = 10, numTicksY = 10;
+  const numTicksX = 10;
+  const numTicksY = 10;
   if (xTickFormat) {
     for (let i = 0; i <= numTicksX; i++) {
-      const xTick = xMin + i * (xMax - xMin) / numTicksX;
-      const svgX = margin + ((xTick - xMin) / ((xMax - xMin) || 1)) * (width - 2 * margin);
+      const xTick = xMin + (i * (xMax - xMin)) / numTicksX;
+      const svgX = margin + ((xTick - xMin) / (xMax - xMin || 1)) * (width - 2 * margin);
       const label = xTickFormat.replace("{value}", xTick.toFixed(2));
       xTickLabels += `<text x="${svgX}" y="${height - margin + 12}" font-size="10" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${label}</text>`;
     }
   }
   if (yTickFormat) {
     for (let j = 0; j <= numTicksY; j++) {
-      const yTick = yMin + j * (yMax - yMin) / numTicksY;
-      const svgY = height - margin - ((yTick - yMin) / ((yMax - yMin) || 1)) * (height - 2 * margin);
+      const yTick = yMin + (j * (yMax - yMin)) / numTicksY;
+      const svgY = height - margin - ((yTick - yMin) / (yMax - yMin || 1)) * (height - 2 * margin);
       const label = yTickFormat.replace("{value}", yTick.toFixed(2));
       yTickLabels += `<text x="${margin - 5}" y="${svgY + 4}" font-size="10" fill="#333" text-anchor="end" style="font-family: ${fontFamily};">${label}</text>`;
     }
   }
 
   const dashArrayAttribute = dashArray ? ` stroke-dasharray="${dashArray}"` : "";
-  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(' ')}" />`;
-  const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : '';
+  const polyline = `<polyline fill="none" stroke="${strokeColor}" stroke-width="${strokeWidth}"${dashArrayAttribute} points="${points.join(" ")}" />`;
+  const logIndicator = logScale ? `<text x="10" y="15" font-size="10" fill="#333">Log Scale Applied</text>` : "";
 
   // Additional text elements for title and axis labels
-  let titleElement = '';
+  let titleElement = "";
   if (title) {
-    titleElement = `<text x="${width/2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${title}</text>`;
+    titleElement = `<text x="${width / 2}" y="20" font-size="16" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${title}</text>`;
   }
-  let xLabelElement = '';
+  let xLabelElement = "";
   if (xLabel) {
-    xLabelElement = `<text x="${width/2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${xLabel}</text>`;
+    xLabelElement = `<text x="${width / 2}" y="${height - 5}" font-size="12" fill="#333" text-anchor="middle" style="font-family: ${fontFamily};">${xLabel}</text>`;
   }
-  let yLabelElement = '';
+  let yLabelElement = "";
   if (yLabel) {
-    yLabelElement = `<text x="15" y="${height/2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height/2})" style="font-family: ${fontFamily};">${yLabel}</text>`;
+    yLabelElement = `<text x="15" y="${height / 2}" font-size="12" fill="#333" text-anchor="middle" transform="rotate(-90,15,${height / 2})" style="font-family: ${fontFamily};">${yLabel}</text>`;
   }
 
   // The existing expression text at the bottom (keep for reference if no custom xLabel provided)
-  const defaultInfo = (!xLabel) ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">CSV Plot</text>` : '';
+  const defaultInfo = !xLabel
+    ? `<text x="10" y="${height - 5}" font-size="10" fill="#333" style="font-family: ${fontFamily};">CSV Plot</text>`
+    : "";
 
   return `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
   <rect width="${width}" height="${height}" fill="${backgroundColor}"/>
@@ -418,7 +486,7 @@ function generateSVGFromCSV(csv, strokeColor = "red", strokeWidth = 2, width = 3
   ${xLabelElement}
   ${yLabelElement}
   ${logIndicator}
-  ${tooltip ? tooltipElements : ''}
+  ${tooltip ? tooltipElements : ""}
 </svg>`;
 }
 
@@ -452,7 +520,7 @@ function parseArgs(args) {
     fontFamily: null,
     tooltipShape: null,
     help: false,
-    minify: false
+    minify: false,
   };
   for (let i = 0; i < args.length; i++) {
     switch (args[i]) {
@@ -644,7 +712,12 @@ export async function main(args) {
   }
 
   // Validate tooltip shape option
-  if (options.tooltipShape && (options.tooltipShape !== "circle" && options.tooltipShape !== "square" && options.tooltipShape !== "triangle")) {
+  if (
+    options.tooltipShape &&
+    options.tooltipShape !== "circle" &&
+    options.tooltipShape !== "square" &&
+    options.tooltipShape !== "triangle"
+  ) {
     console.error("Error: Invalid tooltip shape provided. Only 'circle', 'square', and 'triangle' are supported.");
     return;
   }
@@ -675,15 +748,56 @@ export async function main(args) {
 
     if (options.file.endsWith(".svg")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
+        svgContent = generateSVGFromCSV(
+          options.csv,
+          customStrokeColor || undefined,
+          customStrokeWidth || undefined,
+          customWidth,
+          customHeight,
+          options.grid,
+          options.logScale,
+          customBackgroundColor,
+          customTitle,
+          customXLabel,
+          customYLabel,
+          customTooltip,
+          customDashArray,
+          customTooltipFormat,
+          customTooltipStyle,
+          customXTickFormat,
+          customYTickFormat,
+          customFontFamily,
+          customTooltipShape,
+        );
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
+        svgContent = generateSVG(
+          options.expression,
+          options.range,
+          customStrokeColor || undefined,
+          customStrokeWidth || undefined,
+          customWidth,
+          customHeight,
+          options.grid,
+          options.logScale,
+          customBackgroundColor,
+          customTitle,
+          customXLabel,
+          customYLabel,
+          customTooltip,
+          customDashArray,
+          customTooltipFormat,
+          customTooltipStyle,
+          customXTickFormat,
+          customYTickFormat,
+          customFontFamily,
+          customTooltipShape,
+        );
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for SVG generation.");
         return;
       }
       if (options.minify) {
-        svgContent = svgContent.replace(/>\s+</g, '><').trim();
+        svgContent = svgContent.replace(/>\s+</g, "><").trim();
       }
       try {
         fs.writeFileSync(options.file, svgContent, "utf8");
@@ -693,9 +807,50 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".png")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
+        svgContent = generateSVGFromCSV(
+          options.csv,
+          customStrokeColor || undefined,
+          customStrokeWidth || undefined,
+          customWidth,
+          customHeight,
+          options.grid,
+          options.logScale,
+          customBackgroundColor,
+          customTitle,
+          customXLabel,
+          customYLabel,
+          customTooltip,
+          customDashArray,
+          customTooltipFormat,
+          customTooltipStyle,
+          customXTickFormat,
+          customYTickFormat,
+          customFontFamily,
+          customTooltipShape,
+        );
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
+        svgContent = generateSVG(
+          options.expression,
+          options.range,
+          customStrokeColor || undefined,
+          customStrokeWidth || undefined,
+          customWidth,
+          customHeight,
+          options.grid,
+          options.logScale,
+          customBackgroundColor,
+          customTitle,
+          customXLabel,
+          customYLabel,
+          customTooltip,
+          customDashArray,
+          customTooltipFormat,
+          customTooltipStyle,
+          customXTickFormat,
+          customYTickFormat,
+          customFontFamily,
+          customTooltipShape,
+        );
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PNG generation.");
         return;
@@ -709,26 +864,67 @@ export async function main(args) {
       }
     } else if (options.file.endsWith(".pdf")) {
       if (options.csv) {
-        svgContent = generateSVGFromCSV(options.csv, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
+        svgContent = generateSVGFromCSV(
+          options.csv,
+          customStrokeColor || undefined,
+          customStrokeWidth || undefined,
+          customWidth,
+          customHeight,
+          options.grid,
+          options.logScale,
+          customBackgroundColor,
+          customTitle,
+          customXLabel,
+          customYLabel,
+          customTooltip,
+          customDashArray,
+          customTooltipFormat,
+          customTooltipStyle,
+          customXTickFormat,
+          customYTickFormat,
+          customFontFamily,
+          customTooltipShape,
+        );
       } else if (options.expression && options.range) {
-        svgContent = generateSVG(options.expression, options.range, customStrokeColor || undefined, customStrokeWidth || undefined, customWidth, customHeight, options.grid, options.logScale, customBackgroundColor, customTitle, customXLabel, customYLabel, customTooltip, customDashArray, customTooltipFormat, customTooltipStyle, customXTickFormat, customYTickFormat, customFontFamily, customTooltipShape);
+        svgContent = generateSVG(
+          options.expression,
+          options.range,
+          customStrokeColor || undefined,
+          customStrokeWidth || undefined,
+          customWidth,
+          customHeight,
+          options.grid,
+          options.logScale,
+          customBackgroundColor,
+          customTitle,
+          customXLabel,
+          customYLabel,
+          customTooltip,
+          customDashArray,
+          customTooltipFormat,
+          customTooltipStyle,
+          customXTickFormat,
+          customYTickFormat,
+          customFontFamily,
+          customTooltipShape,
+        );
       } else {
         console.error("Error: either --csv or both --expression and --range options are required for PDF generation.");
         return;
       }
       if (options.minify) {
-        svgContent = svgContent.replace(/>\s+</g, '><').trim();
+        svgContent = svgContent.replace(/>\s+</g, "><").trim();
       }
       try {
         const pngBuffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
-        let doc = new PDFDocument({ autoFirstPage: false });
+        const doc = new PDFDocument({ autoFirstPage: false });
         doc.addPage({ size: [customWidth, customHeight] });
         doc.image(pngBuffer, 0, 0, { width: customWidth, height: customHeight });
         const pdfBuffer = await new Promise((resolve, reject) => {
           const chunks = [];
-          doc.on('data', chunk => chunks.push(chunk));
-          doc.on('end', () => resolve(Buffer.concat(chunks)));
-          doc.on('error', reject);
+          doc.on("data", (chunk) => chunks.push(chunk));
+          doc.on("end", () => resolve(Buffer.concat(chunks)));
+          doc.on("error", reject);
           doc.end();
         });
         fs.writeFileSync(options.file, pdfBuffer);
@@ -741,7 +937,7 @@ export async function main(args) {
       let plotData;
       const margin = 10;
       if (options.csv) {
-        let dataPoints = [];
+        const dataPoints = [];
         try {
           const lines = options.csv.split(/\r?\n/);
           let startIndex = 0;
@@ -773,40 +969,46 @@ export async function main(args) {
               dataPoints.push([x, yOrig]);
             }
           }
-          if (dataPoints.length === 0) throw new Error('No valid CSV data found');
+          if (dataPoints.length === 0) throw new Error("No valid CSV data found");
         } catch (error) {
           console.error("Error parsing CSV: " + error.message);
           return;
         }
-        const xs = dataPoints.map(p => p[0]);
-        const ys = dataPoints.map(p => p[1]);
+        const xs = dataPoints.map((p) => p[0]);
+        const ys = dataPoints.map((p) => p[1]);
         const xMin = Math.min(...xs);
         const xMax = Math.max(...xs);
         const yMin = Math.min(...ys);
         const yMax = Math.max(...ys);
         plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * ((options.width || 300) - 2 * margin);
-          const svgY = (options.height || 150) - margin - ((y - yMin) / ((yMax - yMin) || 1)) * ((options.height || 150) - 2 * margin);
+          const svgX = margin + ((x - xMin) / (xMax - xMin || 1)) * ((options.width || 300) - 2 * margin);
+          const svgY =
+            (options.height || 150) -
+            margin -
+            ((y - yMin) / (yMax - yMin || 1)) * ((options.height || 150) - 2 * margin);
           return { x, y, svgX, svgY };
         });
       } else if (options.expression && options.range) {
         let funcStr = options.expression;
-        if (options.expression.includes('=')) {
-          const parts = options.expression.split('=');
+        if (options.expression.includes("=")) {
+          const parts = options.expression.split("=");
           funcStr = parts[1].trim();
         }
-        let xMin, xMax, yMin, yMax;
+        let xMin;
+        let xMax;
+        let yMin;
+        let yMax;
         try {
           const rangeParts = options.range.split(",");
-          const xPart = rangeParts.find(part => part.trim().startsWith('x='));
-          const yPart = rangeParts.find(part => part.trim().startsWith('y='));
-          if (!xPart || !yPart) throw new Error('Invalid range format');
+          const xPart = rangeParts.find((part) => part.trim().startsWith("x="));
+          const yPart = rangeParts.find((part) => part.trim().startsWith("y="));
+          if (!xPart || !yPart) throw new Error("Invalid range format");
 
-          const xVals = xPart.split('=')[1].split(":").map(Number);
-          const yVals = yPart.split('=')[1].split(":").map(Number);
+          const xVals = xPart.split("=")[1].split(":").map(Number);
+          const yVals = yPart.split("=")[1].split(":").map(Number);
           [xMin, xMax] = xVals;
           [yMin, yMax] = yVals;
-          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
+          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error("Range values must be numbers");
         } catch (error) {
           console.error("Error parsing range: " + error.message);
           return;
@@ -817,10 +1019,10 @@ export async function main(args) {
         }
         let func;
         try {
-          func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
+          func = new Function("x", "with (Math) { return " + funcStr + "; }");
           const testVal = func(xMin);
-          if (typeof testVal !== 'number' || isNaN(testVal)) {
-            throw new Error('Function does not return a number');
+          if (typeof testVal !== "number" || isNaN(testVal)) {
+            throw new Error("Function does not return a number");
           }
         } catch (error) {
           console.error("Error in function: " + error.message);
@@ -842,7 +1044,10 @@ export async function main(args) {
           const svgX = margin + ((x - xMin) / (xMax - xMin)) * ((options.width || 300) - 2 * margin);
           const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
           const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
-          const svgY = (options.height || 150) - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * ((options.height || 150) - 2 * margin);
+          const svgY =
+            (options.height || 150) -
+            margin -
+            ((y - yMinTrans) / (yMaxTrans - yMinTrans || 1)) * ((options.height || 150) - 2 * margin);
           points.push({ x, y, svgX, svgY });
         }
         plotData = points;
@@ -861,7 +1066,7 @@ export async function main(args) {
       let plotData;
       const margin = 10;
       if (options.csv) {
-        let dataPoints = [];
+        const dataPoints = [];
         try {
           const lines = options.csv.split(/\r?\n/);
           let startIndex = 0;
@@ -893,40 +1098,46 @@ export async function main(args) {
               dataPoints.push([x, yOrig]);
             }
           }
-          if (dataPoints.length === 0) throw new Error('No valid CSV data found');
+          if (dataPoints.length === 0) throw new Error("No valid CSV data found");
         } catch (error) {
           console.error("Error parsing CSV: " + error.message);
           return;
         }
-        const xs = dataPoints.map(p => p[0]);
-        const ys = dataPoints.map(p => p[1]);
+        const xs = dataPoints.map((p) => p[0]);
+        const ys = dataPoints.map((p) => p[1]);
         const xMin = Math.min(...xs);
         const xMax = Math.max(...xs);
         const yMin = Math.min(...ys);
         const yMax = Math.max(...ys);
         plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * ((options.width || 300) - 2 * margin);
-          const svgY = (options.height || 150) - margin - ((y - yMin) / ((yMax - yMin) || 1)) * ((options.height || 150) - 2 * margin);
+          const svgX = margin + ((x - xMin) / (xMax - xMin || 1)) * ((options.width || 300) - 2 * margin);
+          const svgY =
+            (options.height || 150) -
+            margin -
+            ((y - yMin) / (yMax - yMin || 1)) * ((options.height || 150) - 2 * margin);
           return { x, y, svgX, svgY };
         });
       } else if (options.expression && options.range) {
         let funcStr = options.expression;
-        if (options.expression.includes('=')) {
-          const parts = options.expression.split('=');
+        if (options.expression.includes("=")) {
+          const parts = options.expression.split("=");
           funcStr = parts[1].trim();
         }
-        let xMin, xMax, yMin, yMax;
+        let xMin;
+        let xMax;
+        let yMin;
+        let yMax;
         try {
           const rangeParts = options.range.split(",");
-          const xPart = rangeParts.find(part => part.trim().startsWith('x='));
-          const yPart = rangeParts.find(part => part.trim().startsWith('y='));
-          if (!xPart || !yPart) throw new Error('Invalid range format');
+          const xPart = rangeParts.find((part) => part.trim().startsWith("x="));
+          const yPart = rangeParts.find((part) => part.trim().startsWith("y="));
+          if (!xPart || !yPart) throw new Error("Invalid range format");
 
-          const xVals = xPart.split('=')[1].split(":").map(Number);
-          const yVals = yPart.split('=')[1].split(":").map(Number);
+          const xVals = xPart.split("=")[1].split(":").map(Number);
+          const yVals = yPart.split("=")[1].split(":").map(Number);
           [xMin, xMax] = xVals;
           [yMin, yMax] = yVals;
-          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
+          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error("Range values must be numbers");
         } catch (error) {
           console.error("Error parsing range: " + error.message);
           return;
@@ -937,10 +1148,10 @@ export async function main(args) {
         }
         let func;
         try {
-          func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
+          func = new Function("x", "with (Math) { return " + funcStr + "; }");
           const testVal = func(xMin);
-          if (typeof testVal !== 'number' || isNaN(testVal)) {
-            throw new Error('Function does not return a number');
+          if (typeof testVal !== "number" || isNaN(testVal)) {
+            throw new Error("Function does not return a number");
           }
         } catch (error) {
           console.error("Error in function: " + error.message);
@@ -962,7 +1173,10 @@ export async function main(args) {
           const svgX = margin + ((x - xMin) / (xMax - xMin)) * ((options.width || 300) - 2 * margin);
           const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
           const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
-          const svgY = (options.height || 150) - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * ((options.height || 150) - 2 * margin);
+          const svgY =
+            (options.height || 150) -
+            margin -
+            ((y - yMinTrans) / (yMaxTrans - yMinTrans || 1)) * ((options.height || 150) - 2 * margin);
           points.push({ x, y, svgX, svgY });
         }
         plotData = points;
@@ -971,8 +1185,8 @@ export async function main(args) {
         return;
       }
       let xmlContent = `<plotData>\n`;
-      plotData.forEach(point => {
-         xmlContent += `  <point x=\"${point.x}\" y=\"${point.y}\" svgX=\"${point.svgX}\" svgY=\"${point.svgY}\" />\n`;
+      plotData.forEach((point) => {
+        xmlContent += `  <point x=\"${point.x}\" y=\"${point.y}\" svgX=\"${point.svgX}\" svgY=\"${point.svgY}\" />\n`;
       });
       xmlContent += `</plotData>`;
       try {
@@ -986,7 +1200,7 @@ export async function main(args) {
       let plotData;
       const margin = 10;
       if (options.csv) {
-        let dataPoints = [];
+        const dataPoints = [];
         try {
           const lines = options.csv.split(/\r?\n/);
           let startIndex = 0;
@@ -1018,40 +1232,46 @@ export async function main(args) {
               dataPoints.push([x, yOrig]);
             }
           }
-          if (dataPoints.length === 0) throw new Error('No valid CSV data found');
+          if (dataPoints.length === 0) throw new Error("No valid CSV data found");
         } catch (error) {
           console.error("Error parsing CSV: " + error.message);
           return;
         }
-        const xs = dataPoints.map(p => p[0]);
-        const ys = dataPoints.map(p => p[1]);
+        const xs = dataPoints.map((p) => p[0]);
+        const ys = dataPoints.map((p) => p[1]);
         const xMin = Math.min(...xs);
         const xMax = Math.max(...xs);
         const yMin = Math.min(...ys);
         const yMax = Math.max(...ys);
         plotData = dataPoints.map(([x, y]) => {
-          const svgX = margin + ((x - xMin) / ((xMax - xMin) || 1)) * ((options.width || 300) - 2 * margin);
-          const svgY = (options.height || 150) - margin - ((y - yMin) / ((yMax - yMin) || 1)) * ((options.height || 150) - 2 * margin);
+          const svgX = margin + ((x - xMin) / (xMax - xMin || 1)) * ((options.width || 300) - 2 * margin);
+          const svgY =
+            (options.height || 150) -
+            margin -
+            ((y - yMin) / (yMax - yMin || 1)) * ((options.height || 150) - 2 * margin);
           return { x, y, svgX, svgY };
         });
       } else if (options.expression && options.range) {
         let funcStr = options.expression;
-        if (options.expression.includes('=')) {
-          const parts = options.expression.split('=');
+        if (options.expression.includes("=")) {
+          const parts = options.expression.split("=");
           funcStr = parts[1].trim();
         }
-        let xMin, xMax, yMin, yMax;
+        let xMin;
+        let xMax;
+        let yMin;
+        let yMax;
         try {
           const rangeParts = options.range.split(",");
-          const xPart = rangeParts.find(part => part.trim().startsWith('x='));
-          const yPart = rangeParts.find(part => part.trim().startsWith('y='));
-          if (!xPart || !yPart) throw new Error('Invalid range format');
+          const xPart = rangeParts.find((part) => part.trim().startsWith("x="));
+          const yPart = rangeParts.find((part) => part.trim().startsWith("y="));
+          if (!xPart || !yPart) throw new Error("Invalid range format");
 
-          const xVals = xPart.split('=')[1].split(":").map(Number);
-          const yVals = yPart.split('=')[1].split(":").map(Number);
+          const xVals = xPart.split("=")[1].split(":").map(Number);
+          const yVals = yPart.split("=")[1].split(":").map(Number);
           [xMin, xMax] = xVals;
           [yMin, yMax] = yVals;
-          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error('Range values must be numbers');
+          if ([xMin, xMax, yMin, yMax].some(isNaN)) throw new Error("Range values must be numbers");
         } catch (error) {
           console.error("Error parsing range: " + error.message);
           return;
@@ -1062,10 +1282,10 @@ export async function main(args) {
         }
         let func;
         try {
-          func = new Function('x', 'with (Math) { return ' + funcStr + '; }');
+          func = new Function("x", "with (Math) { return " + funcStr + "; }");
           const testVal = func(xMin);
-          if (typeof testVal !== 'number' || isNaN(testVal)) {
-            throw new Error('Function does not return a number');
+          if (typeof testVal !== "number" || isNaN(testVal)) {
+            throw new Error("Function does not return a number");
           }
         } catch (error) {
           console.error("Error in function: " + error.message);
@@ -1087,7 +1307,10 @@ export async function main(args) {
           const svgX = margin + ((x - xMin) / (xMax - xMin)) * ((options.width || 300) - 2 * margin);
           const yMinTrans = options.logScale ? Math.log10(yMin) : yMin;
           const yMaxTrans = options.logScale ? Math.log10(yMax) : yMax;
-          const svgY = (options.height || 150) - margin - ((y - yMinTrans) / ((yMaxTrans - yMinTrans) || 1)) * ((options.height || 150) - 2 * margin);
+          const svgY =
+            (options.height || 150) -
+            margin -
+            ((y - yMinTrans) / (yMaxTrans - yMinTrans || 1)) * ((options.height || 150) - 2 * margin);
           points.push({ x, y, svgX, svgY });
         }
         plotData = points;
@@ -1096,8 +1319,8 @@ export async function main(args) {
         return;
       }
       let csvContent = "x,y,svgX,svgY\n";
-      plotData.forEach(point => {
-         csvContent += `${point.x},${point.y},${point.svgX},${point.svgY}\n`;
+      plotData.forEach((point) => {
+        csvContent += `${point.x},${point.y},${point.svgX},${point.svgY}\n`;
       });
       try {
         fs.writeFileSync(options.file, csvContent, "utf8");

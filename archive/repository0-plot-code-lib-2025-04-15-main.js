@@ -26,16 +26,22 @@ function parseCliArgs(args) {
 // Define the CLI schema using zod
 const cliSchema = z.object({
   expression: z.string().min(1, { message: "Expression is required and cannot be empty" }),
-  range: z.string().regex(/^([xy]=-?\d+:\-?\d+)(,([xy]=-?\d+:\-?\d+))*$/, { message: "Range must be in the format 'x=start:end,y=start:end'" }),
+  range: z.string().regex(/^([xy]=-?\d+:\-?\d+)(,([xy]=-?\d+:\-?\d+))*$/, {
+    message: "Range must be in the format 'x=start:end,y=start:end'",
+  }),
   file: z.string().regex(/\.(svg|png)$/, { message: "File must end with .svg or .png" }),
   evaluate: z.boolean().optional(),
   color: z.string().min(1, { message: "Color must be a non-empty string" }).optional(),
-  stroke: z.preprocess(arg => Number(arg), z.number().positive({ message: "Stroke must be a positive number" })).optional()
+  stroke: z
+    .preprocess((arg) => Number(arg), z.number().positive({ message: "Stroke must be a positive number" }))
+    .optional(),
 });
 
 export async function main(args = []) {
   if (args.includes("--help")) {
-    console.log("Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]");
+    console.log(
+      "Usage: node src/lib/main.js --expression <exp> --range <range> --file <filepath> [--evaluate] [--diagnostics] [--color <color>] [--stroke <number>]",
+    );
     return;
   }
   if (args.length === 0) {
@@ -53,7 +59,7 @@ export async function main(args = []) {
   const result = cliSchema.safeParse(parsedArgs);
   if (!result.success) {
     console.error("Error: Invalid arguments.");
-    result.error.errors.forEach(err => {
+    result.error.errors.forEach((err) => {
       console.error(err.message);
     });
     process.exit(1);
@@ -73,7 +79,7 @@ export async function main(args = []) {
   const rangeParts = range.split(",");
   let xRangePart = null;
   let yRangePart = null;
-  rangeParts.forEach(part => {
+  rangeParts.forEach((part) => {
     if (part.startsWith("x=")) {
       xRangePart = part.substring(2);
     } else if (part.startsWith("y=")) {
@@ -108,9 +114,7 @@ export async function main(args = []) {
     procExpr = procExpr.substring(2);
   }
   // Replace common math functions with JavaScript's Math equivalents
-  procExpr = procExpr.replace(/sin\(/g, "Math.sin(")
-                     .replace(/cos\(/g, "Math.cos(")
-                     .replace(/tan\(/g, "Math.tan(");
+  procExpr = procExpr.replace(/sin\(/g, "Math.sin(").replace(/cos\(/g, "Math.cos(").replace(/tan\(/g, "Math.tan(");
 
   let func;
   try {
@@ -186,7 +190,7 @@ export async function main(args = []) {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args).catch(err => {
+  main(args).catch((err) => {
     console.error(err);
     process.exit(1);
   });

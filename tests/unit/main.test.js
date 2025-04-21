@@ -7,7 +7,7 @@ const TOLERANCE = 0.0001;
 
 // Utility function to check if SVG contains required elements
 function svgContainsElements(svg, elements) {
-  return elements.every(tag => svg.includes(`<${tag}`));
+  return elements.every((tag) => svg.includes(`<${tag}`));
 }
 
 // Utility function to check if SVG contains specific text
@@ -32,15 +32,14 @@ function getMarkerAttributes(svg) {
 
 // New utility to check for background rect and grid line attributes
 function svgContainsRectWithFill(svg, fill) {
-  const rectRegex = new RegExp(`<rect[^>]*fill="${fill}"`, 'i');
+  const rectRegex = new RegExp(`<rect[^>]*fill="${fill}"`, "i");
   return rectRegex.test(svg);
 }
 
 function svgContainsLineWithStroke(svg, stroke) {
-  const lineRegex = new RegExp(`<line[^>]*stroke="${stroke}"`, 'i');
+  const lineRegex = new RegExp(`<line[^>]*stroke="${stroke}"`, "i");
   return lineRegex.test(svg);
 }
-
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -58,14 +57,12 @@ describe("Default main", () => {
 describe("Plot Generation", () => {
   test("should generate enhanced SVG file with axes and data points when valid parameters are provided and file extension is not .csv", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    const condition = svgContainsElements(writtenData, ["line", "circle"]) || svgContainsElements(writtenData, ["line", "polyline", "circle"]);
+    const condition =
+      svgContainsElements(writtenData, ["line", "circle"]) ||
+      svgContainsElements(writtenData, ["line", "polyline", "circle"]);
     expect(condition).toBe(true);
     writeFileSyncSpy.mockRestore();
   });
@@ -110,7 +107,7 @@ describe("Serialize Time Series Data", () => {
     const sampleData = [
       { x: 0, y: 0 },
       { x: 1, y: 0.8415 },
-      { x: 2, y: 0.9093 }
+      { x: 2, y: 0.9093 },
     ];
     const csvOutput = serializeTimeSeries(sampleData);
     const lines = csvOutput.trim().split("\n");
@@ -122,11 +119,7 @@ describe("Serialize Time Series Data", () => {
 describe("CLI CSV Generation", () => {
   test("should print CSV content to stdout when --file ends with .csv", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=0:6.28",
-      "--file", "output.csv"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.csv"];
     await main(args);
     // The CSV content should be printed in console.log (second call) and starts with 'x,y'
     const output = logSpy.mock.calls[1][0];
@@ -138,11 +131,7 @@ describe("CLI CSV Generation", () => {
 describe("CLI PNG Generation", () => {
   test("should generate PNG using sharp when --file ends with .png", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=0:6.28",
-      "--file", "output.png"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.png"];
     await main(args);
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const [filename, buffer] = writeFileSyncSpy.mock.calls[0];
@@ -167,12 +156,7 @@ describe("Custom Point Count", () => {
 
   test("CLI should use custom points count when provided", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=0:6.28",
-      "--points", "15",
-      "--file", "output.csv"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--points", "15", "--file", "output.csv"];
     await main(args);
     const output = logSpy.mock.calls[1][0];
     // Verify CSV content has header + 15 data rows
@@ -183,11 +167,7 @@ describe("Custom Point Count", () => {
 
   test("CLI should default to 10 points when --points option is not provided", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=0:6.28",
-      "--file", "output.csv"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.csv"];
     await main(args);
     const output = logSpy.mock.calls[1][0];
     const lines = output.trim().split("\n");
@@ -207,7 +187,7 @@ describe("Additional Expression Support", () => {
 
   test("should handle x<=0 for y=log(x) by defaulting to 0", () => {
     const data = generateTimeSeriesData("y=log(x)", "x=-5:5", 11);
-    data.forEach(point => {
+    data.forEach((point) => {
       if (point.x <= 0) {
         expect(point.y).toBe(0);
       } else {
@@ -218,28 +198,28 @@ describe("Additional Expression Support", () => {
 
   test("should generate correct data for y=exp(x)", () => {
     const data = generateTimeSeriesData("y=exp(x)", "x=0:5", 10);
-    data.forEach(point => {
+    data.forEach((point) => {
       expect(Math.abs(point.y - Math.exp(point.x))).toBeLessThan(TOLERANCE);
     });
   });
 
   test("should generate correct data for y=x^2", () => {
     const data = generateTimeSeriesData("y=x^2", "x=-3:3", 13);
-    data.forEach(point => {
+    data.forEach((point) => {
       expect(point.y).toBeCloseTo(point.x * point.x, 4);
     });
   });
 
   test("should generate correct data for y=sqrt(x)", () => {
     const data = generateTimeSeriesData("y=sqrt(x)", "x=0:16", 10);
-    data.forEach(point => {
+    data.forEach((point) => {
       expect(Math.abs(point.y - Math.sqrt(point.x))).toBeLessThan(TOLERANCE);
     });
   });
 
   test("should generate correct data for y=x^3", () => {
     const data = generateTimeSeriesData("y=x^3", "x=0:10", 11);
-    data.forEach(point => {
+    data.forEach((point) => {
       expect(point.y).toBeCloseTo(point.x * point.x * point.x, 4);
     });
   });
@@ -248,11 +228,7 @@ describe("Additional Expression Support", () => {
 describe("CLI Generation Message", () => {
   test("should log the correct generation message for non-csv files", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
     await main(args);
     const expectedMessage = "Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.";
     expect(logSpy.mock.calls[0][0]).toBe(expectedMessage);
@@ -262,11 +238,7 @@ describe("CLI Generation Message", () => {
   test("should log the correct generation message to stderr for CSV files", async () => {
     const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=0:6.28",
-      "--file", "output.csv"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.csv"];
     await main(args);
     const expectedMessage = "Generating plot for expression y=sin(x) with range x=0:6.28 to file output.csv.";
     expect(errSpy.mock.calls[0][0]).toBe(expectedMessage);
@@ -277,12 +249,18 @@ describe("CLI Generation Message", () => {
   test("should embed custom title and axis labels when provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--title", "Custom Plot",
-      "--xlabel", "Custom X",
-      "--ylabel", "Custom Y"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--title",
+      "Custom Plot",
+      "--xlabel",
+      "Custom X",
+      "--ylabel",
+      "Custom Y",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -297,11 +275,16 @@ describe("Custom Marker Options", () => {
   test("should generate SVG with custom marker size and color when provided via CLI", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--marker-size", "5",
-      "--marker-color", "green"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--marker-size",
+      "5",
+      "--marker-color",
+      "green",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -315,11 +298,7 @@ describe("Custom Marker Options", () => {
 
   test("should generate SVG with default marker options when not provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     const markerAttrs = getMarkerAttributes(writtenData);
@@ -334,11 +313,16 @@ describe("Background and Grid Customization", () => {
   test("should include a background rectangle with the specified bgColor and grid lines with the specified gridColor", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--bgColor", "#f0f0f0",
-      "--gridColor", "#cccccc"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--bgColor",
+      "#f0f0f0",
+      "--gridColor",
+      "#cccccc",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];

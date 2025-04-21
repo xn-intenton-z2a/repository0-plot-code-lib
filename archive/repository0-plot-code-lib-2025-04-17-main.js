@@ -9,7 +9,7 @@ import fs from "fs";
 function parseRange(rangeStr) {
   const segments = rangeStr.split(",");
   const ranges = {};
-  for (let seg of segments) {
+  for (const seg of segments) {
     const rangeParts = seg.split("=");
     if (rangeParts.length !== 2) {
       console.log(`Error: Range segment "${seg}" format invalid. Expected format "var=min:max"`);
@@ -56,7 +56,7 @@ export function main(args = []) {
   for (let i = 0; i < args.length; i++) {
     if (args[i].startsWith("--")) {
       const key = args[i].substring(2);
-      const value = (i + 1 < args.length && !args[i + 1].startsWith("--")) ? args[i + 1] : true;
+      const value = i + 1 < args.length && !args[i + 1].startsWith("--") ? args[i + 1] : true;
       if (value !== true) {
         i++;
       }
@@ -66,7 +66,9 @@ export function main(args = []) {
 
   // Maintenance check for open maintenance issues
   if (options.maintenance) {
-    console.log("Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.");
+    console.log(
+      "Error: Maximum Open Maintenance Issues Reached. Please resolve the existing issues before submitting new maintenance issues.",
+    );
     return;
   }
 
@@ -98,7 +100,7 @@ export function main(args = []) {
       // Time series data generation using refactored helper functions
       const ranges = parseRange(options.range);
       if (!ranges || !ranges.x) {
-        console.log('Error: X axis range is required for time series generation.');
+        console.log("Error: X axis range is required for time series generation.");
         return;
       }
 
@@ -132,7 +134,9 @@ export function main(args = []) {
       console.log(JSON.stringify(series));
     }
   } else if (Object.keys(options).length > 0) {
-    console.log("Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg");
+    console.log(
+      "Error: Missing required options. Provide --expression and --range to generate time series data, or include --file to generate a plot file. Example: node src/lib/main.js --expression 'y=sin(x)' --range 'x=-1:1' --file output.svg",
+    );
   } else {
     console.log(`Run with: ${JSON.stringify(args)}`);
   }
