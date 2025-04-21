@@ -29,7 +29,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--range`: Defines the range for x in the format `x=start:end` (e.g., "x=0:6.28").
 
 - `--file`: Specifies the output file type based on the extension:
-  - **CSV:** If the file ends with `.csv`, CSV content is printed to stdout.
+  - **CSV:** If the file ends with `.csv`, CSV content is printed to stdout (including a header `x,y`).
   - **PNG:** If the file ends with `.png`, the tool converts generated SVG content to a PNG file using sharp.
   - **SVG:** For any other extension (or `.svg`), an enhanced SVG file is generated with graphical elements.
 
@@ -75,6 +75,16 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.pn
 
 Expected Outcome:
 - The tool converts the enhanced SVG content to a PNG image and writes it to `output.png`. The PNG file will have a valid PNG signature.
+
+### Example 4: Custom Point Count
+
+Command:
+```
+node src/lib/main.js --expression "y=cos(x)" --range "x=0:6.28" --points 15 --file output.svg
+```
+
+Expected Outcome:
+- An SVG file is generated containing a plot for the cosine function with exactly 15 data points.
 
 ## Troubleshooting Tips
 
