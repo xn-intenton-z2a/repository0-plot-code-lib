@@ -52,3 +52,18 @@ The official Node.js documentation offers detailed information on core modules, 
 ## https://vitest.dev/
 Vitest is a fast unit test framework heavily used in modern JavaScript projects. Its documentation includes guides on configuration, mocking, and advanced testing features, making it essential for ensuring robust test suites.
 ## MIT
+
+# W3C SVG 2 Specification
+## https://www.w3.org/TR/SVG2/
+This is the official specification for SVG 2, offering comprehensive details about scalable vector graphics. It covers elements, properties, and best practices for creating dynamic, interactive graphics, serving as an authoritative reference for developers and designers.
+## W3C License
+
+# Inquirer.js Documentation
+## https://github.com/SBoudrias/Inquirer.js
+Inquirer.js is a popular library for building interactive command-line interfaces. Its repository and documentation provide insights into creating user-friendly prompts and interactive workflows in Node.js. The techniques documented here inspire the interactive mode feature in various CLI applications.
+## MIT
+
+# D3.js API Reference
+## https://github.com/d3/d3
+D3.js is a powerful JavaScript library for data visualization that enables dynamic and interactive visualizations on the web. Its comprehensive API documentation offers insights into complex data manipulation and SVG rendering, serving both as a benchmark and inspiration for modern plotting libraries.
+## BSD-3-Clause
