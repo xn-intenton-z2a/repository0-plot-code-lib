@@ -1,47 +1,37 @@
-# EXPRESSION_EVAL Feature Enhancement
+# Expression Evaluation Enhancement
 
-This feature enhances the CLI tool by robustly evaluating mathematical expressions provided via the `--expression` flag. In addition to standard expressions such as `y=sin(x)`, `y=cos(x)`, `y=tan(x)`, and others, this update introduces support for piecewise expressions and custom function definitions. 
+This update consolidates and extends the functionality for evaluating mathematical expressions. It merges the previously separate features handling basic expressions and extended expressions (including piecewise definitions and custom functions) into a single, robust evaluation module. The updated feature supports conventional expressions such as `y=sin(x)`, as well as piecewise expressions provided with the `piecewise:` prefix. It also allows users to specify custom functions, either as inline JavaScript strings or via a JSON object, to further customize the evaluation process.
 
-# Overview
+## Overview
 
-- **Objective:** Expand the expression evaluation capabilities to accommodate complex mathematical formulations. Users can now specify piecewise expressions by prefixing their input with `piecewise:`. In a piecewise expression, multiple conditional segments can be defined, allowing different functions to be applied based on the input value. Additionally, the tool supports custom functions supplied either as native JavaScript functions or as string representations, enabling further flexibility. 
+- **Objective:** Merge and enhance the expression evaluation capability to support both standard and advanced mathematical expressions within a single feature. This includes support for piecewise expressions, extended function sets (e.g., cosine, tangent, logarithm, etc.), and user-defined custom functions.
+- **Benefit:** Simplifies the codebase by combining similar evaluation functionalities and provides a unified API for expression handling. Users can now provide complex expressions in a single format and get reliable time series data as output.
 
-- **Benefit:** By supporting piecewise expressions and custom functions, the CLI tool becomes significantly more powerful and user-friendly, aligning with the mission to be the "jq of formulae visualisations." This change allows for more intricate and diverse mathematical representations without altering the core CLI workflow.
+## CLI Parameter Parsing & Validation
 
-# Implementation Details
+- Extend the argument parser to accept the `--expression` flag that now supports multiple expressions separated by semicolons. The tool will parse these expressions and determine if they should be handled by the standard evaluator or by the piecewise handler (when prefixed with `piecewise:`).
+- Validate the input expression format and range using regular expressions. If the range does not conform to the expected format (e.g., `x=start:end`), the feature throws a clear error message.
 
-- **CLI Parameter Parsing:**
-  - Extend the argument parser in `src/lib/main.js` to process the `--expression` flag. The input expression may begin with `piecewise:`. 
-  - Maintain backward compatibility for standard expressions such as `y=sin(x)`, `y=cos(x)`, etc.
+## Implementation Details
 
-- **Data Processing:**
-  - When an expression starts with `piecewise:`, the tool parses the remaining string into conditional segments. Each segment should follow the syntax `if <condition> then <expression>`. The tool evaluates these conditions in sequence and applies the corresponding expression for the first matched condition. If no condition is met, the default value is set to 0.
-  - For standard expressions, the function evaluates the expression using preset conditions (e.g., mapping `y=sin(x)` to `Math.sin(x)`).
-  - Custom functions may be provided via the `--custom-functions` option. These can be defined as native functions or as strings that are evaluated into functions dynamically.
+- **Standard Expressions:** When an expression such as `y=sin(x)` is provided, the function computes the result using built-in Math functions.
+- **Extended Expressions:** The evaluator now supports additional expressions like `y=cos(x)`, `y=tan(x)`, `y=log(x)`, `y=exp(x)`, `y=x^2`, `y=sqrt(x)`, etc.
+- **Piecewise Support:** If the expression starts with the keyword `piecewise:`, the evaluator splits the expression into segments. Each segment is expected in the format `if <condition> then <expression>`. The evaluation function iterates through these segments, evaluates the condition for a given x value, and applies the corresponding expression if the condition is met. If none match, it defaults to `0`.
+- **Custom Functions:** Users can supply additional custom functions either via the CLI using a JSON string or through YAML configuration. Custom functions can be provided as function definitions or strings that are evaluated into functions.
+- **Merging Workflow:** This feature supersedes the previously separate EXPRESSION_EVAL and EXPRESSION_EXT capabilities by providing a single, unified approach.
 
-- **Error Handling:**
-  - The feature validates the range provided via the `--range` flag. If the range does not match the expected format (e.g., "x=start:end"), an error is thrown.
-  - For expressions that do not match any recognized pattern or when no conditions are matched in a piecewise definition, the output defaults to 0.
+## Testing Enhancements
 
-# Testing Enhancements
+- Unit tests have been updated in `tests/unit/main.test.js` to simulate various expression inputs including standard, extended, and piecewise expressions. New test cases verify the correct parsing and evaluation of piecewise conditions and custom function handling.
+- Tests ensure that edge cases, such as invalid expression formats or out-of-bound ranges, are appropriately reported to the user, and that no unexpected exceptions occur during evaluation.
 
-- **Unit Tests:**
-  - Update the test suite (in `tests/unit/main.test.js`) to include scenarios where piecewise expressions are provided. 
-  - Verify that given boundaries, conditions are correctly evaluated – for example, if `x < 0`, the function computes `sin(x)`, and if `x >= 0`, it computes `cos(x)`.
-  - Tests must also verify that custom functions (both as strings and functions) return the expected outputs.
+## Documentation Updates
 
-# Documentation Updates
+- The README and internal documentation are updated to reflect the new unified expression evaluation API. Usage examples now demonstrate how to provide multiple expressions and piecewise definitions.
+- Documentation clearly explains how users can provide custom functions, with detailed examples for both inline JavaScript expressions and JSON-based configuration.
 
-- **README.md:**
-  - Update the documentation to include examples of piecewise expressions. 
-  - Include usage examples such as:
-    ```sh
-    node src/lib/main.js --expression "piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)" --range "x=-1:1" --file output.svg
-    ```
-  - Document the custom functions option to illustrate how users can override or add new mathematical functions.
+## Conformance with Mission and Guidelines
 
-# Conformance with Mission and Guidelines
-
-- All modifications are confined to existing source files, test files, README, and dependency files, following repository guidelines.
-- This enhancement aligns with the mission to be a go-to plot library by increasing the expressiveness and flexibility of the formula input mechanism.
-- The updated feature does not create new files, but improves the core evaluation functionality to handle more complex cases, thereby distinguishing itself within the repository's feature set.
+- **Repository Constraints:** All updates are confined to modifications in the source file, test file, README, and dependencies file. No new files are created or deleted.
+- **Mission Alignment:** The enhanced expression evaluation functionality drives the mission to be a go-to plot library by simplifying user input and providing precise, on-demand evaluations of mathematical expressions for visualization.
+- **Integration:** This feature integrates seamlessly with the existing CLI, allowing users to plot both standard and advanced expressions without altering their workflow.
