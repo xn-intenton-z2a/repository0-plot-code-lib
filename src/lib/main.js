@@ -8,7 +8,7 @@ import yaml from "js-yaml";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, customFunctions = {}) {
-  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3'
+  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3', 'y=sinh(x)', 'y=cosh(x)', 'y=tanh(x)'
   // Expected range format: "x=start:end"
   const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
   if (!match) {
@@ -40,6 +40,12 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
       y = x >= 0 ? Math.sqrt(x) : 0;
     } else if (expression === "y=x^3") {
       y = x * x * x;
+    } else if (expression === "y=sinh(x)") {
+      y = Math.sinh(x);
+    } else if (expression === "y=cosh(x)") {
+      y = Math.cosh(x);
+    } else if (expression === "y=tanh(x)") {
+      y = Math.tanh(x);
     } else {
       // Check for custom function in the format y=func(x) e.g., y=double(x)
       const customMatch = expression.match(/^y=([a-zA-Z0-9_]+)\(x\)$/);

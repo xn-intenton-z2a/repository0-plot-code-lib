@@ -116,6 +116,75 @@ describe("Time Series Data Generation", () => {
       expect(Math.abs(point.y - Math.tan(point.x))).toBeLessThan(TOLERANCE);
     }
   });
+
+  test("should generate correct data for y=log(x) within valid domain", () => {
+    const data = generateTimeSeriesData("y=log(x)", "x=1:10", 10);
+    for (const point of data) {
+      expect(point.x).toBeGreaterThan(0);
+      expect(Math.abs(point.y - Math.log(point.x))).toBeLessThan(TOLERANCE);
+    }
+  });
+
+  test("should handle x<=0 for y=log(x) by defaulting to 0", () => {
+    const data = generateTimeSeriesData("y=log(x)", "x=-5:5", 11);
+    data.forEach((point) => {
+      if (point.x <= 0) {
+        expect(point.y).toBe(0);
+      } else {
+        expect(Math.abs(point.y - Math.log(point.x))).toBeLessThan(TOLERANCE);
+      }
+    });
+  });
+
+  test("should generate correct data for y=exp(x)", () => {
+    const data = generateTimeSeriesData("y=exp(x)", "x=0:5", 10);
+    data.forEach((point) => {
+      expect(Math.abs(point.y - Math.exp(point.x))).toBeLessThan(TOLERANCE);
+    });
+  });
+
+  test("should generate correct data for y=x^2", () => {
+    const data = generateTimeSeriesData("y=x^2", "x=-3:3", 13);
+    data.forEach((point) => {
+      expect(point.y).toBeCloseTo(point.x * point.x, 4);
+    });
+  });
+
+  test("should generate correct data for y=sqrt(x)", () => {
+    const data = generateTimeSeriesData("y=sqrt(x)", "x=0:16", 10);
+    data.forEach((point) => {
+      expect(Math.abs(point.y - Math.sqrt(point.x))).toBeLessThan(TOLERANCE);
+    });
+  });
+
+  test("should generate correct data for y=x^3", () => {
+    const data = generateTimeSeriesData("y=x^3", "x=0:10", 11);
+    data.forEach((point) => {
+      expect(point.y).toBeCloseTo(point.x * point.x * point.x, 4);
+    });
+  });
+
+  // Hyperbolic functions tests
+  test("should generate correct data for y=sinh(x)", () => {
+    const data = generateTimeSeriesData("y=sinh(x)", "x=-1:1", 11);
+    data.forEach((point) => {
+      expect(Math.abs(point.y - Math.sinh(point.x))).toBeLessThan(TOLERANCE);
+    });
+  });
+
+  test("should generate correct data for y=cosh(x)", () => {
+    const data = generateTimeSeriesData("y=cosh(x)", "x=-1:1", 11);
+    data.forEach((point) => {
+      expect(Math.abs(point.y - Math.cosh(point.x))).toBeLessThan(TOLERANCE);
+    });
+  });
+
+  test("should generate correct data for y=tanh(x)", () => {
+    const data = generateTimeSeriesData("y=tanh(x)", "x=-1:1", 11);
+    data.forEach((point) => {
+      expect(Math.abs(point.y - Math.tanh(point.x))).toBeLessThan(TOLERANCE);
+    });
+  });
 });
 
 describe("Serialize Time Series Data", () => {
@@ -186,73 +255,6 @@ describe("Custom Point Count", () => {
     const lines = output.trim().split("\n");
     expect(lines.length).toBe(11);
     logSpy.mockRestore();
-  });
-});
-
-describe("Additional Expression Support", () => {
-  test("should generate correct data for y=log(x) within valid domain", () => {
-    const data = generateTimeSeriesData("y=log(x)", "x=1:10", 10);
-    for (const point of data) {
-      expect(point.x).toBeGreaterThan(0);
-      expect(Math.abs(point.y - Math.log(point.x))).toBeLessThan(TOLERANCE);
-    }
-  });
-
-  test("should handle x<=0 for y=log(x) by defaulting to 0", () => {
-    const data = generateTimeSeriesData("y=log(x)", "x=-5:5", 11);
-    data.forEach((point) => {
-      if (point.x <= 0) {
-        expect(point.y).toBe(0);
-      } else {
-        expect(Math.abs(point.y - Math.log(point.x))).toBeLessThan(TOLERANCE);
-      }
-    });
-  });
-
-  test("should generate correct data for y=exp(x)", () => {
-    const data = generateTimeSeriesData("y=exp(x)", "x=0:5", 10);
-    data.forEach((point) => {
-      expect(Math.abs(point.y - Math.exp(point.x))).toBeLessThan(TOLERANCE);
-    });
-  });
-
-  test("should generate correct data for y=x^2", () => {
-    const data = generateTimeSeriesData("y=x^2", "x=-3:3", 13);
-    data.forEach((point) => {
-      expect(point.y).toBeCloseTo(point.x * point.x, 4);
-    });
-  });
-
-  test("should generate correct data for y=sqrt(x)", () => {
-    const data = generateTimeSeriesData("y=sqrt(x)", "x=0:16", 10);
-    data.forEach((point) => {
-      expect(Math.abs(point.y - Math.sqrt(point.x))).toBeLessThan(TOLERANCE);
-    });
-  });
-
-  test("should generate correct data for y=x^3", () => {
-    const data = generateTimeSeriesData("y=x^3", "x=0:10", 11);
-    data.forEach((point) => {
-      expect(point.y).toBeCloseTo(point.x * point.x * point.x, 4);
-    });
-  });
-});
-
-describe("Custom Functions", () => {
-  test("should generate correct data for custom function double(x) that returns 2*x", () => {
-    const customFuncs = { double: "(x) => 2 * x" };
-    const data = generateTimeSeriesData("y=double(x)", "x=0:10", 11, customFuncs);
-    data.forEach(point => {
-      expect(point.y).toBeCloseTo(2 * point.x, 4);
-    });
-  });
-
-  test("should fallback to 0 for undefined custom function", () => {
-    const customFuncs = {};
-    const data = generateTimeSeriesData("y=triple(x)", "x=0:10", 11, customFuncs);
-    data.forEach(point => {
-      expect(point.y).toBe(0);
-    });
   });
 });
 

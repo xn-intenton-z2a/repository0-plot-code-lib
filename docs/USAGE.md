@@ -14,6 +14,9 @@
 - **y=x^2**
 - **y=sqrt(x)**  (Note: For x < 0, returns 0)
 - **y=x^3**
+- **y=sinh(x)**  (Hyperbolic sine function)
+- **y=cosh(x)**  (Hyperbolic cosine function)
+- **y=tanh(x)**  (Hyperbolic tangent function)
 - **y=customFunction(x)**  (Custom functions can be registered by the user.)
 
 ## Registering Custom Functions
@@ -148,6 +151,18 @@ node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --
 
 Expected Output:
 - The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions, and custom functions) will override corresponding CLI options.
+
+#### 6. Generating Plots with Hyperbolic Functions
+
+The library now supports hyperbolic functions. For example:
+
+Command:
+```
+node src/lib/main.js --expression "y=cosh(x)" --range "x=-1:1" --file output.svg
+```
+
+Expected Output:
+- An SVG file is generated with y-values computed using the hyperbolic cosine function (Math.cosh).
 
 ## Fallback Behavior
 
