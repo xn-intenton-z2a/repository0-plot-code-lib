@@ -1,6 +1,6 @@
 import { describe, test, expect, vi } from "vitest";
-import * as mainModule from "@src/lib/main.js";
-import { main, generateTimeSeriesData, serializeTimeSeries } from "@src/lib/main.js";
+import * as mainModule from "../../src/lib/main.js";
+import { main, generateTimeSeriesData, serializeTimeSeries } from "../../src/lib/main.js";
 import fs from "fs";
 
 const TOLERANCE = 0.0001;
@@ -65,8 +65,8 @@ describe("Plot Generation", () => {
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    expect(svgContainsElements(writtenData, ["line", "circle"]) || 
-           svgContainsElements(writtenData, ["line", "polyline", "circle"]).toBe(true);
+    const condition = svgContainsElements(writtenData, ["line", "circle"]) || svgContainsElements(writtenData, ["line", "polyline", "circle"]);
+    expect(condition).toBe(true);
     writeFileSyncSpy.mockRestore();
   });
 });
