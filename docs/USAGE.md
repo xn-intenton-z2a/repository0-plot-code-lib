@@ -14,6 +14,43 @@
 - **y=x^2**
 - **y=sqrt(x)**  (Note: For x < 0, returns 0)
 - **y=x^3**
+- **y=customFunction(x)**  (Custom functions can be registered by the user.)
+
+## Registering Custom Functions
+
+Users can register custom functions to extend the available mathematical operations. This can be done via the CLI using the `--custom-functions` flag or within a YAML configuration file. The value should be a JSON string mapping the function name to its implementation as a string. For example:
+
+### CLI Example
+
+```
+node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{"double": "(x)=>2*x"}'
+```
+
+### YAML Configuration Example
+
+Create a YAML file (e.g., `custom_config.yaml`):
+
+```yaml
+# custom_config.yaml
+
+title: Custom Plot from YAML
+xlabel: YAML X
+ylabel: YAML Y
+marker-size: 7
+marker-color: blue
+width: 700
+height: 700
+custom-functions:
+  double: "(x)=>2*x"
+```
+
+Then run:
+
+```
+node src/lib/main.js --config-yaml custom_config.yaml --expression "y=double(x)" --range "x=0:10" --file output.svg
+```
+
+When an expression such as `y=double(x)` is provided, the registered function `double` will be applied to each x value.
 
 ## CLI Overview
 
@@ -43,69 +80,6 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 
 A new option `--config-yaml <filepath>` has been introduced. When provided, the CLI will load and parse the specified YAML file (using `js-yaml`) and merge its settings with the CLI options. **YAML configuration values override the corresponding CLI options.**
 
-#### Example YAML File
-
-```yaml
-# custom_config.yaml
-
-title: Custom Plot from YAML
-xlabel: YAML X
-ylabel: YAML Y
-marker-size: 7
-marker-color: blue
-width: 700
-height: 700
-```
-
-#### Usage Example
-
-```
-node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --range "x=-1:1" --file output.svg
-```
-
-## Advanced CLI Options and Customization
-
-This section details additional customization options for advanced usage:
-
-- **Custom Grid Dash Pattern**
-  - Use the `--grid-dasharray` option to set a custom dash pattern for grid lines.
-  - Example: `--grid-dasharray "2,2"`
-
-- **Custom Marker Options**
-  - Customize marker shape using `--marker-shape`. Use `square` to render square markers (default is circle).
-  - Set marker size with `--marker-size` (e.g., `--marker-size 5`).
-  - Set marker color with `--marker-color` (e.g., `--marker-color green`).
-  - Sample command:
-    ```
-    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-shape square --marker-size 5 --marker-color green
-    ```
-
-- **Custom Dimensions**
-  - Specify custom dimensions for generated SVG plots using `--width` and `--height`.
-  - Example:
-    ```
-    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --width 800 --height 600
-    ```
-
-- **Override Titles and Axis Labels**
-  - Override default plot title and axis labels with `--title`, `--xlabel`, and `--ylabel`.
-  - Sample command:
-    ```
-    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y"
-    ```
-
-- **Combining Advanced Options**
-  - You can combine multiple advanced options in a single command. For example:
-    ```
-    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
-      --marker-shape square --marker-size 5 --marker-color green \
-      --grid-dasharray "2,2" \
-      --width 800 --height 600 \
-      --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y"
-    ```
-
-Additionally, YAML configuration overrides are supported. Any settings provided in a YAML file via the `--config-yaml` option will take precedence over corresponding CLI options.
-
 ## Generation Message Behavior
 
 When all required options (`--expression`, `--range`, and `--file`) are provided:
@@ -129,19 +103,16 @@ Expected Output:
 - A generation message is logged to stderr.
 - The terminal prints a CSV string beginning with a header `x,y` followed by data rows (default 10 or as specified by `--points`).
 
-#### 2. Generating an Enhanced SVG Plot
+#### 2. Generating an Enhanced SVG Plot with Custom Functions
 
 Command:
 ```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y" --marker-size 5 --marker-color green --font-family Courier --width 800 --height 600
+node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.svg --custom-functions '{"double": "(x)=>2*x"}'
 ```
 
 Expected Output:
-- A generation message is logged to stdout:
-
-  `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
-  
-- An SVG file named `output.svg` is generated with custom title, labels, dimensions, and marker options.
+- A generation message is logged to stdout.
+- An SVG file named `output.svg` is generated where each data point's y value is computed using the custom function `double(x)` (i.e., 2*x).
 
 #### 3. Generating a PNG Image
 
@@ -176,7 +147,7 @@ node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --
 ```
 
 Expected Output:
-- The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions) will override corresponding CLI options.
+- The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions, and custom functions) will override corresponding CLI options.
 
 ## Fallback Behavior
 
@@ -194,4 +165,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The advanced CLI options provide comprehensive customization, and YAML-based configuration offers an easy way to override options, making the tool flexible and adaptable to various needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions via CLI or YAML configuration, making the tool flexible and adaptable to various needs.

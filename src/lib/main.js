@@ -7,7 +7,7 @@ import sharp from "sharp";
 import yaml from "js-yaml";
 
 // Generates time series data from a mathematical expression and range
-export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
+export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, customFunctions = {}) {
   // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3'
   // Expected range format: "x=start:end"
   const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
@@ -41,8 +41,24 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
     } else if (expression === "y=x^3") {
       y = x * x * x;
     } else {
-      // Default behavior for unsupported expressions
-      y = 0;
+      // Check for custom function in the format y=func(x) e.g., y=double(x)
+      const customMatch = expression.match(/^y=([a-zA-Z0-9_]+)\(x\)$/);
+      if (customMatch && customFunctions && typeof customFunctions[customMatch[1]] === "string") {
+        let fn;
+        try {
+          fn = eval(customFunctions[customMatch[1]]);
+        } catch (e) {
+          fn = null;
+        }
+        if (fn && typeof fn === "function") {
+          y = fn(x);
+        } else {
+          y = 0;
+        }
+      } else {
+        // Default behavior for unsupported expressions
+        y = 0;
+      }
     }
     data.push({ x, y });
   }
@@ -168,6 +184,7 @@ export async function main(args) {
   let expression, range, outputFile, points, title, xlabel, ylabel;
   let markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily;
   let width = 500, height = 500;
+  let customFunctions;
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -238,6 +255,14 @@ export async function main(args) {
     } else if (arg === "--height") {
       height = parseInt(args[i + 1], 10);
       i++;
+    } else if (arg === "--custom-functions") {
+      try {
+        customFunctions = JSON.parse(args[i + 1]);
+      } catch (e) {
+        console.error("Error parsing custom functions JSON:", e);
+        customFunctions = {};
+      }
+      i++;
     }
   }
 
@@ -258,6 +283,7 @@ export async function main(args) {
   if (yamlOptions['font-family'] !== undefined) fontFamily = yamlOptions['font-family'];
   if (yamlOptions.width !== undefined) width = parseInt(yamlOptions.width, 10);
   if (yamlOptions.height !== undefined) height = parseInt(yamlOptions.height, 10);
+  if (yamlOptions['custom-functions'] !== undefined) customFunctions = yamlOptions['custom-functions'];
 
   // Set defaults if still undefined
   if (!points) {
@@ -269,12 +295,13 @@ export async function main(args) {
   fontFamily = fontFamily || "sans-serif";
   markerSize = markerSize || 3;
   markerColor = markerColor || "red";
+  customFunctions = customFunctions || {};
 
   if (expression && range && outputFile) {
     const genMessage = `Generating plot for expression ${expression} with range ${range} to file ${outputFile}.`;
     if (outputFile.endsWith(".csv")) {
       try {
-        const data = generateTimeSeriesData(expression, range, points);
+        const data = generateTimeSeriesData(expression, range, points, customFunctions);
         const csvContent = serializeTimeSeries(data);
         // Log generation message to stderr for CSV so stdout remains pure CSV
         console.error(genMessage);
@@ -287,7 +314,7 @@ export async function main(args) {
     } else {
       console.log(genMessage);
       try {
-        const data = generateTimeSeriesData(expression, range, points);
+        const data = generateTimeSeriesData(expression, range, points, customFunctions);
         const svgContent = generateSvgContent({
           data,
           width,
