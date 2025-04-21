@@ -201,6 +201,32 @@ describe("Time Series Data Generation", () => {
   });
 });
 
+describe("Additional Mathematical Functions", () => {
+  test("should generate correct data for y=abs(x)", () => {
+    const points = 5;
+    const data = generateTimeSeriesData("y=abs(x)", "x=-10:10", points);
+    data.forEach(point => {
+      expect(point.y).toBe(Math.abs(point.x));
+    });
+  });
+
+  test("should generate correct data for y=floor(x)", () => {
+    const points = 7;
+    const data = generateTimeSeriesData("y=floor(x)", "x=0:5", points);
+    data.forEach(point => {
+      expect(point.y).toBe(Math.floor(point.x));
+    });
+  });
+
+  test("should generate correct data for y=ceil(x)", () => {
+    const points = 7;
+    const data = generateTimeSeriesData("y=ceil(x)", "x=0:5", points);
+    data.forEach(point => {
+      expect(point.y).toBe(Math.ceil(point.x));
+    });
+  });
+});
+
 describe("Serialize Time Series Data", () => {
   test("should produce a CSV string with header and data rows", () => {
     const sampleData = [
@@ -245,10 +271,8 @@ describe("PDF Generation", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.pdf"];
     await main(args);
-    // Retrieve the buffer passed to writeFileSync
     const [filename, buffer] = writeFileSyncSpy.mock.calls[0];
     expect(filename).toBe("output.pdf");
-    // Check that the buffer starts with the PDF signature %PDF-
     const pdfSignature = Buffer.from('%PDF-');
     expect(buffer.slice(0, pdfSignature.length).toString()).toBe(pdfSignature.toString());
     writeFileSyncSpy.mockRestore();

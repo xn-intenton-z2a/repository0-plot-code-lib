@@ -10,7 +10,7 @@ import svgToPdf from "svg-to-pdfkit";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, customFunctions = {}) {
-  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3', 'y=sinh(x)', 'y=cosh(x)', 'y=tanh(x)'
+  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3', 'y=sinh(x)', 'y=cosh(x)', 'y=tanh(x)', 'y=abs(x)', 'y=floor(x)', 'y=ceil(x)'
   // Expected range format: "x=start:end"
   const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
   if (!match) {
@@ -48,6 +48,12 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
       y = Math.cosh(x);
     } else if (expression === "y=tanh(x)") {
       y = Math.tanh(x);
+    } else if (expression === "y=abs(x)") {
+      y = Math.abs(x);
+    } else if (expression === "y=floor(x)") {
+      y = Math.floor(x);
+    } else if (expression === "y=ceil(x)") {
+      y = Math.ceil(x);
     } else {
       // Check for custom function in the format y=func(x) e.g., y=double(x)
       const customMatch = expression.match(/^y=([a-zA-Z0-9_]+)\(x\)$/);
