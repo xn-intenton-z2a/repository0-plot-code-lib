@@ -113,3 +113,45 @@ describe("CLI PNG Generation", () => {
     writeFileSyncSpy.mockRestore();
   });
 });
+
+describe("Custom Point Count", () => {
+  test("should return exactly 5 data points when custom points count is 5", () => {
+    const data = generateTimeSeriesData("y=sin(x)", "x=0:6.28", 5);
+    expect(data.length).toBe(5);
+  });
+
+  test("should return exactly 20 data points when custom points count is 20", () => {
+    const data = generateTimeSeriesData("y=sin(x)", "x=0:6.28", 20);
+    expect(data.length).toBe(20);
+  });
+
+  test("CLI should use custom points count when provided", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=0:6.28",
+      "--points", "15",
+      "--file", "output.csv"
+    ];
+    await main(args);
+    const output = logSpy.mock.calls[0][0];
+    // Verify CSV content has header + 15 data rows
+    const lines = output.trim().split("\n");
+    expect(lines.length).toBe(16);
+    logSpy.mockRestore();
+  });
+
+  test("CLI should default to 10 points when --points option is not provided", async () => {
+    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=0:6.28",
+      "--file", "output.csv"
+    ];
+    await main(args);
+    const output = logSpy.mock.calls[0][0];
+    const lines = output.trim().split("\n");
+    expect(lines.length).toBe(11);
+    logSpy.mockRestore();
+  });
+});
