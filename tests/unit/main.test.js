@@ -1,4 +1,4 @@
-import { describe, test, expect, vi } from "vitest";
+import { describe, test, expect, vi, beforeAll, afterAll } from "vitest";
 import * as mainModule from "../../src/lib/main.js";
 import { main, generateTimeSeriesData, serializeTimeSeries } from "../../src/lib/main.js";
 import fs from "fs";
