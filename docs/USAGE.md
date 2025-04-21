@@ -163,25 +163,33 @@ Customize the appearance of data point markers using the following options:
   - `circle` (default)
   - `square`
   - `triangle`
-  - `star`  *(new feature)*
+  - `star`
+  - `diamond`  *(new feature: rendered as a four-point polygon with vertices computed based on the marker size)*
 
-#### Star Marker Details
+#### Diamond Marker Details
 
-When using `--marker-shape star`, each data point is rendered as a five-pointed star using an SVG `<polygon>` element. The star's dimensions are based on the provided marker size.
+When using `--marker-shape diamond`, each data point is rendered as a diamond shape. The diamond is constructed as a polygon with four vertices calculated as follows:
+
+- Top vertex: (x, y - r)
+- Right vertex: (x + r, y)
+- Bottom vertex: (x, y + r)
+- Left vertex: (x - r, y)
+
+where r is the marker size.
 
 Example (CLI):
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
-  --marker-shape star --marker-size 5 --marker-color purple
+  --marker-shape diamond --marker-size 5 --marker-color orange
 ```
 
 Example (YAML):
 
 ```yaml
-marker-shape: star
+marker-shape: diamond
 marker-size: 5
-marker-color: purple
+marker-color: orange
 ```
 
 ### Background and Grid Customization
