@@ -26,10 +26,13 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
   - If it ends with **.svg**, the CLI generates an enhanced SVG file containing axes, a polyline, and data markers.
   - If it ends with **.png**, the tool converts the generated SVG content to a PNG image using `sharp`.
 - `--points`: (Optional) Specifies the number of data points to generate. Defaults to 10 if omitted.
+- `--title`: (Optional) Specifies a custom plot title to be displayed at the top center of the plot. If omitted, defaults to `Plot: <expression>`.
+- `--xlabel`: (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
+- `--ylabel`: (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
 
 ### Generation Message Behavior
 
-When all three options (`--expression`, `--range`, and `--file`) are provided:
+When all required options (`--expression`, `--range`, and `--file`) are provided:
 
 - For SVG or PNG outputs, the CLI logs the message to stdout in the exact format:
   
@@ -50,22 +53,22 @@ Expected Output:
 - A generation message is logged to stderr.
 - The terminal prints a CSV string beginning with a header `x,y` followed by data rows. The number of data rows will be default (10) or as specified with `--points`.
 
-### 2. Generating an Enhanced SVG Plot
+### 2. Generating an Enhanced SVG Plot with Custom Title and Axis Labels
 
 Command:
 ```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y"
 ```
 
 Expected Output:
 - A generation message is logged to stdout:
   
   `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
+  
 - An SVG file named `output.svg` is generated. The SVG includes:
-  - Axis lines (`<line>` elements) for both X and Y axes.
-  - A polyline (`<polyline>`) connecting data points.
-  - Individual data point markers (`<circle>` elements).
-  - Plot title and axis labels.
+  - A custom title at the top center: "Custom Plot".
+  - X axis and Y axis labels with the provided texts: "Custom X" and "Custom Y" respectively.
+  - Axis lines (`<line>` elements), a polyline (`<polyline>`) connecting data points, and individual data point markers (`<circle>` elements).
 
 ### 3. Generating a PNG Image
 
@@ -78,6 +81,7 @@ Expected Output:
 - A generation message is logged to stdout:
   
   `Generating plot for expression y=sin(x) with range x=0:6.28 to file output.png.`
+  
 - The tool converts the generated SVG content into a PNG image using `sharp` and saves it as `output.png`.
 
 ### 4. Specifying a Custom Point Count

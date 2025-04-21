@@ -10,6 +10,11 @@ function svgContainsElements(svg, elements) {
   return elements.every(tag => svg.includes(`<${tag}`));
 }
 
+// Utility function to check if SVG contains specific text
+function svgContainsText(svg, text) {
+  return svg.includes(text);
+}
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -240,5 +245,23 @@ describe("CLI Generation Message", () => {
     expect(errSpy.mock.calls[0][0]).toBe(expectedMessage);
     errSpy.mockRestore();
     logSpy.mockRestore();
+  });
+
+  test("should embed custom title and axis labels when provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--title", "Custom Plot",
+      "--xlabel", "Custom X",
+      "--ylabel", "Custom Y"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(svgContainsText(writtenData, "Custom Plot")).toBe(true);
+    expect(svgContainsText(writtenData, "Custom X")).toBe(true);
+    expect(svgContainsText(writtenData, "Custom Y")).toBe(true);
+    writeFileSyncSpy.mockRestore();
   });
 });
