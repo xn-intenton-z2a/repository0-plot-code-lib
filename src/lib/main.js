@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 // src/lib/main.js
+// For comprehensive usage examples and API documentation, please refer to the docs/USAGE.md file.
 
 import { fileURLToPath } from "url";
 import fs from "fs";
@@ -13,7 +14,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
   // Supports expressions such as 'y=sin(x)', etc. and now also piecewise expressions
   // Expected range format: "x=start:end"
 
-  const matchRange = rangeStr.match(/^x=(-?[\d\.]+):(-?[\d\.]+)$/);
+  const matchRange = rangeStr.match(/^x=(-?\d*\.?\d+):(-?\d*\.?\d+)$/);
   if (!matchRange) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -340,7 +341,6 @@ function generateSvgContent({
         const pointsStr = getStarPoints(tx, ty, outerRadius, innerRadius);
         element = `<polygon points=\"${pointsStr}\" fill=\"${currentColor}\" />`;
       } else if (currentMarkerShape === "diamond") {
-        // Diamond marker: four points: top, right, bottom, left
         const r = currentMarkerSize;
         const points = `${tx},${ty - r} ${tx + r},${ty} ${tx},${ty + r} ${tx - r},${ty}`;
         element = `<polygon points=\"${points}\" fill=\"${currentColor}\" />`;
@@ -355,7 +355,6 @@ function generateSvgContent({
   });
 
   // Automatic Legend Generation for Multi-Series Overlay Plots with Customization Options
-  // Modified to always generate legend if any legend customization options are provided
   if (allSeries.length > 1 || legendTitle || legendFont || legendFontSize || legendBackground || legendPosition) {
     // Set default legend options if not provided
     const _legendPosition = legendPosition || "top-right";
@@ -408,7 +407,7 @@ function generateSvgContent({
         const s = currentMarkerSize * 2;
         const heightTriangle = s * Math.sqrt(3) / 2;
         const v1x = currentMarkerSize;
-        const v1y = 0 - (2/3)*heightTriangle;
+        const v1y = 0 - (2/3) * heightTriangle;
         const v2x = 0;
         const v2y = heightTriangle/3;
         const v3x = currentMarkerSize * 2;
