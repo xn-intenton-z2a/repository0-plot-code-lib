@@ -41,9 +41,9 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
       let matched = false;
       for (const segment of parsedSegments) {
         try {
-          const condFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.condition + ");");
+          const condFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.condition + ")");
           if (condFunc(x)) {
-            const exprFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.expr + ");");
+            const exprFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.expr + ")");
             y = exprFunc(x);
             matched = true;
             break;
@@ -257,6 +257,28 @@ function generateSvgContent({
       }
     });
   });
+
+  // Automatic Legend Generation for Multi-Series Overlay Plots
+  if (allSeries.length > 1) {
+    let legendSVG = `<g class="legend">`;
+    const legendX = width - margin - 120;
+    const legendY = margin + 20;
+    const legendItemHeight = 20;
+    for (let i = 0; i < allSeries.length; i++) {
+      const currentColor = (Array.isArray(markerColor) && markerColor[i]) ? markerColor[i] : (Array.isArray(markerColor) ? markerColor[0] : "red");
+      const currentMarkerSize = (Array.isArray(markerSize) && markerSize[i]) ? markerSize[i] : (Array.isArray(markerSize) ? markerSize[0] : 3);
+      const currentMarkerShape = (Array.isArray(markerShape) && markerShape[i]) ? markerShape[i] : (Array.isArray(markerShape) ? markerShape[0] : "circle");
+      let markerSVG = "";
+      if (currentMarkerShape === "square") {
+        markerSVG = `<rect x="0" y="0" width="${currentMarkerSize*2}" height="${currentMarkerSize*2}" fill="${currentColor}" />`;
+      } else {
+        markerSVG = `<circle cx="${currentMarkerSize}" cy="${currentMarkerSize}" r="${currentMarkerSize}" fill="${currentColor}" />`;
+      }
+      legendSVG += `<g class="legend-item" transform="translate(${legendX}, ${legendY + i * legendItemHeight})">` + markerSVG + `<text x="${currentMarkerSize*2 + 5}" y="${currentMarkerSize*2 - currentMarkerSize}" font-size="12" fill="black" font-family="${fontFamily}">Series ${i+1}</text></g>`;
+    }
+    legendSVG += `</g>`;
+    svgContent += legendSVG;
+  }
 
   svgContent += `</svg>`;
   return svgContent;

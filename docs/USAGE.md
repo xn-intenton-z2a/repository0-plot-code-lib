@@ -38,21 +38,24 @@ piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)
 
 For each generated x value, the conditions are evaluated in order. The y value is determined by the first condition that is true. If none match, y defaults to 0.
 
-### Multi-Expression Overlay Plotting
+### Multi-Expression Overlay Plotting and Automatic Legend Generation
 
-A new enhancement allows you to overlay multiple expressions in a single plot. To plot more than one expression, provide them separated by a semicolon in the `--expression` parameter. For example:
+A recent enhancement allows you to overlay multiple expressions in a single plot and automatically generate a legend. To plot more than one expression, provide them separated by a semicolon in the `--expression` parameter. For example:
 
 ```
 node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
 ```
 
-You can also customize the appearance of each series by providing comma-separated lists for marker options:
+When multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles. It also appends an automatic legend in the top right corner of the SVG. Each legend item includes a marker (matching your specified style via `--marker-size`, `--marker-color`, and `--marker-shape`) and a label in the format "Series 1", "Series 2", etc.
 
-- `--marker-size "3,4"`
-- `--marker-color "red,blue"`
-- `--marker-shape "circle,square"`
+#### Example with Legend
 
-If multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles.
+```sh
+node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg \
+  --marker-size "3,4" --marker-color "red,blue" --marker-shape "circle,square"
+```
+
+The generated SVG will include a legend group (`<g class="legend">`) positioned in the top right corner, helping you easily identify each series.
 
 ## Registering Custom Functions
 
@@ -89,61 +92,39 @@ node src/lib/main.js --config-yaml config.yaml --expression "y=double(x)" --rang
 
 Use the `--fillColor` flag to fill the area under the curve in your plot. When provided, the generated SVG will include a `<polygon>` element that fills the area between the plot and the baseline.
 
-### CLI Example
+#### CLI Example
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --fillColor "#ff0000"
 ```
 
-## CLI Usage Examples
+## Other CLI Options
 
-### 1. Custom Marker Options
+- **Custom Marker Options:**
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-size 5 --marker-color green --marker-shape square
+  ```
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-size 5 --marker-color green --marker-shape square
-```
+- **Background and Grid Customization:**
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --bgColor "#f0f0f0" --gridColor "#cccccc" --grid-dasharray "2,2"
+  ```
 
-### 2. Background and Grid Customization
+- **Custom Titles and Axis Labels:**
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "X Axis" --ylabel "Y Axis"
+  ```
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --bgColor "#f0f0f0" --gridColor "#cccccc" --grid-dasharray "2,2"
-```
+- **Custom Dimensions:**
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --width 800 --height 600
+  ```
 
-### 3. Custom Titles and Axis Labels
-
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "X Axis" --ylabel "Y Axis"
-```
-
-### 4. Custom Dimensions
-
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --width 800 --height 600
-```
-
-### 5. YAML Configuration Overrides
-
-Create a YAML file (e.g., `config.yaml`) with your settings, then run:
-
-```sh
-node src/lib/main.js --config-yaml config.yaml --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
-```
-
-The plot will display multiple overlaid series with the specified custom styles.
-
-## CLI Overview
-
-The CLI is provided by the `src/lib/main.js` script. It accepts options such as:
-
-- `--expression`: Mathematical expression(s), multiple expressions separated by semicolons are supported.
-- `--range`: Data range in the format `x=start:end`.
-- `--file`: Output filename. The extension (.csv, .svg, .png, .pdf) determines the output format.
-- `--points`: (Optional) Number of data points (default is 10).
-- `--title`, `--xlabel`, `--ylabel`: Custom plot title and axis labels.
-- `--marker-size`, `--marker-color`, `--marker-shape`: Customize markers. Provide comma-separated lists for multiple series.
-- `--bgColor`, `--gridColor`, `--grid-dasharray`, `--font-family`: Other stylistic options.
-- `--fillColor`: Fill color for the area under the curve. Can also be provided as a list for multiple series.
-- `--config-yaml <filepath>`: Load configuration from a YAML file; these settings override CLI options.
+- **YAML Configuration Overrides:**
+  Create a YAML file (e.g., `config.yaml`) with your settings, then run:
+  ```sh
+  node src/lib/main.js --config-yaml config.yaml --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
+  ```
 
 ## PDF Output Support
 
@@ -156,4 +137,4 @@ When the output file ends with `.pdf`, a PDF document is generated using `pdfkit
 
 ## Conclusion
 
-This guide explains how to use **repository0-plot-code-lib** to generate plots from mathematical expressions. The new multi-expression overlay feature enables you to plot multiple series on one graph with distinct styles. Experiment with these options to customize your visualizations.
+**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also automatically generates a legend for multi-series overlay plots. This feature makes it easier to distinguish between multiple data series in a single plot. Experiment with these options to create clear and informative visualizations.
