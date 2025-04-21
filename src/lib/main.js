@@ -13,7 +13,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
   // Supports expressions such as 'y=sin(x)', etc. and now also piecewise expressions
   // Expected range format: "x=start:end"
 
-  const matchRange = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
+  const matchRange = rangeStr.match(/^x=([-\d\.]+):([-\d\.]+)$/);
   if (!matchRange) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -193,7 +193,8 @@ function generateSvgContent({
   let xAxisY = (yMin <= 0 && yMax >= 0) ? origin.ty : height - margin;
   let yAxisX = (xMin <= 0 && xMax >= 0) ? origin.tx : margin;
 
-  let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+  // Begin SVG content with placeholder for defs
+  let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg"><defs id="gradientDefsPlaceholder"></defs>`;
 
   // Background rectangle
   if (bgColor) {
@@ -219,6 +220,9 @@ function generateSvgContent({
   svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black" font-family="${fontFamily}">${xlabel}</text>`;
   svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})" font-family="${fontFamily}">${ylabel}</text>`;
 
+  // Variable to accumulate gradient definitions
+  let gradientDefs = "";
+
   // For each series, draw polyline, markers, and optional filled area
   allSeries.forEach((series, idx) => {
     // Determine style for this series using corresponding customization or fallback
@@ -235,7 +239,7 @@ function generateSvgContent({
     svgContent += `<polyline fill="none" stroke="${currentColor}" stroke-width="2" points="${polylinePoints}" />`;
 
     // Fill under curve if fillColor is provided
-    if (fillColor && fillColor.length > 0) {
+    if (fillColor) {
       const currentFill = (Array.isArray(fillColor) && fillColor[idx]) ? fillColor[idx] : (Array.isArray(fillColor) ? fillColor[0] : fillColor);
       const firstTrans = transform(series[0].x, series[0].y);
       const lastTrans = transform(series[series.length - 1].x, series[series.length - 1].y);
@@ -246,7 +250,22 @@ function generateSvgContent({
       polygonPointsArray.push(`${lastTrans.tx},${xAxisY}`);
       polygonPointsArray.push(`${firstTrans.tx},${xAxisY}`);
       const polygonPoints = polygonPointsArray.join(" ");
-      svgContent += `<polygon fill="${currentFill}" points="${polygonPoints}" />`;
+
+      // Check if the fill color specifies a gradient (multiple colors separated by commas)
+      if (typeof currentFill === 'string' && currentFill.includes(",")) {
+        const colors = currentFill.split(",").map(s => s.trim());
+        const n = colors.length;
+        const gradientId = `gradient_fill_${idx}`;
+        let stops = "";
+        for (let i = 0; i < n; i++) {
+          const offset = n === 1 ? 0 : ((i * 100) / (n - 1)).toFixed(0);
+          stops += `<stop offset=\"${offset}%\" stop-color=\"${colors[i]}\" />`;
+        }
+        gradientDefs += `<linearGradient id=\"${gradientId}\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">${stops}</linearGradient>`;
+        svgContent += `<polygon fill="url(#${gradientId})" points="${polygonPoints}" />`;
+      } else {
+        svgContent += `<polygon fill="${currentFill}" points="${polygonPoints}" />`;
+      }
     }
 
     // Plot markers for each data point in the series
@@ -327,6 +346,14 @@ function generateSvgContent({
   }
 
   svgContent += `</svg>`;
+
+  // Insert gradient definitions into the placeholder if any gradients were defined
+  if (gradientDefs !== "") {
+    svgContent = svgContent.replace('<defs id="gradientDefsPlaceholder"></defs>', `<defs>${gradientDefs}</defs>`);
+  } else {
+    svgContent = svgContent.replace('<defs id="gradientDefsPlaceholder"></defs>', '');
+  }
+
   return svgContent;
 }
 
@@ -431,13 +458,8 @@ export async function main(args) {
       }
       i++;
     } else if (arg === "--fillColor") {
-      let fc = args[i + 1];
+      fillColor = args[i + 1];
       i++;
-      if (fc.includes(",")) {
-        fillColor = fc.split(",").map(s => s.trim());
-      } else {
-        fillColor = [fc];
-      }
     } else if (arg === "--legend-position") {
       legendPosition = args[i + 1];
       i++;
@@ -484,8 +506,7 @@ export async function main(args) {
   if (yamlOptions.height !== undefined) height = parseInt(yamlOptions.height, 10);
   if (yamlOptions['custom-functions'] !== undefined) customFunctions = yamlOptions['custom-functions'];
   if (yamlOptions.fillColor !== undefined) {
-    const fc = yamlOptions.fillColor.toString();
-    fillColor = fc.includes(",") ? fc.split(",").map(s => s.trim()) : [fc];
+    fillColor = yamlOptions.fillColor.toString();
   }
   if (yamlOptions['legend-position'] !== undefined) legendPosition = yamlOptions['legend-position'];
   if (yamlOptions['legend-font'] !== undefined) legendFont = yamlOptions['legend-font'];

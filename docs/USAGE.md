@@ -106,12 +106,22 @@ node src/lib/main.js --config-yaml config.yaml --expression "y=double(x)" --rang
 
 ## Fill Under Curve Option
 
-Use the `--fillColor` flag to fill the area under the curve in your plot. When provided, the generated SVG will include a `<polygon>` element that fills the area between the plot and the baseline.
+Use the `--fillColor` flag to fill the area under the curve in your plot. When a single solid color is provided, the generated SVG will include a `<polygon>` element with that fill color. 
 
-#### CLI Example
+To specify a gradient fill, provide a comma-separated list of color values (e.g. "#ff0000,#0000ff"). In this case, the tool generates a `<defs>` section with a `<linearGradient>` element that includes `<stop>` elements at evenly distributed offsets across the gradient. The `<polygon>` element will then reference the gradient via the `fill` attribute in the format `fill="url(#gradient_fill_0)"` (or similar unique ID for each series).
+
+#### CLI Examples
+
+- **Solid Fill**:
 
 ```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --fillColor "#ff0000"
+```
+
+- **Gradient Fill**:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --fillColor "#ff0000,#0000ff"
 ```
 
 ## Other CLI Options
@@ -153,4 +163,4 @@ When the output file ends with `.pdf`, a PDF document is generated using `pdfkit
 
 ## Conclusion
 
-**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also provides extensive legend customization options. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.
+**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also provides gradient fill support for the area under the curve. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.
