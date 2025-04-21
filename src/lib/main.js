@@ -92,24 +92,95 @@ export async function main(args) {
       } catch (err) {
         console.error("Error generating CSV content:", err);
       }
-    } else if (outputFile.endsWith(".png")) {
-      // Generate SVG content and use sharp to convert it to PNG
-      const svgContent = `<svg><text x='10' y='20'>Expression: ${expression}</text><text x='10' y='40'>Range: ${range}</text></svg>`;
-      try {
-        const buffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
-        fs.writeFileSync(outputFile, buffer);
-        console.log(`PNG file generated: ${outputFile}`);
-      } catch (err) {
-        console.error(`Error creating PNG file ${outputFile}:`, err);
-      }
     } else {
-      // Generate dummy SVG content as before
-      const svgContent = `<svg><text x='10' y='20'>Expression: ${expression}</text><text x='10' y='40'>Range: ${range}</text></svg>`;
+      // For SVG or PNG, generate an enhanced plot with axes, data points, and a connecting polyline
       try {
-        fs.writeFileSync(outputFile, svgContent);
-        console.log(`SVG file generated: ${outputFile}`);
+        const data = generateTimeSeriesData(expression, range, points);
+
+        // Define SVG canvas dimensions and margins
+        const width = 500;
+        const height = 500;
+        const margin = 40;
+
+        // Compute data bounds
+        const xs = data.map(p => p.x);
+        const ys = data.map(p => p.y);
+        let xMin = Math.min(...xs);
+        let xMax = Math.max(...xs);
+        let yMin = Math.min(...ys);
+        let yMax = Math.max(...ys);
+        if (yMin === yMax) {
+          yMin -= 1;
+          yMax += 1;
+        }
+
+        // Define scale factors
+        const scaleX = (width - 2 * margin) / (xMax - xMin);
+        const scaleY = (height - 2 * margin) / (yMax - yMin);
+
+        // Helper function to transform data coordinate to SVG coordinate
+        const transform = (x, y) => {
+          const tx = margin + (x - xMin) * scaleX;
+          const ty = height - margin - (y - yMin) * scaleY;
+          return { tx, ty };
+        };
+
+        // Determine axis positions
+        let xAxisY;
+        if (yMin <= 0 && yMax >= 0) {
+          xAxisY = transform(0, 0).ty;
+        } else {
+          xAxisY = height - margin;
+        }
+        let yAxisX;
+        if (xMin <= 0 && xMax >= 0) {
+          yAxisX = transform(0, 0).tx;
+        } else {
+          yAxisX = margin;
+        }
+
+        // Create polyline points string for connecting data points
+        const polylinePoints = data.map(point => {
+          const { tx, ty } = transform(point.x, point.y);
+          return `${tx},${ty}`;
+        }).join(" ");
+
+        // Build the enhanced SVG content
+        let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+
+        // Add plot title
+        svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black">Plot: ${expression}</text>`;
+
+        // Draw X and Y axes
+        svgContent += `<line x1="${margin}" y1="${xAxisY}" x2="${width - margin}" y2="${xAxisY}" stroke="black" stroke-width="2" />`;
+        svgContent += `<line x1="${yAxisX}" y1="${margin}" x2="${yAxisX}" y2="${height - margin}" stroke="black" stroke-width="2" />`;
+
+        // Add axis labels
+        svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black">X Axis</text>`;
+        svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})">Y Axis</text>`;
+
+        // Draw connecting line (polyline) through data points
+        svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
+
+        // Plot each data point as a circle marker
+        data.forEach(point => {
+          const { tx, ty } = transform(point.x, point.y);
+          svgContent += `<circle cx="${tx}" cy="${ty}" r="3" fill="red" />`;
+        });
+
+        svgContent += `</svg>`;
+
+        // Output based on file extension: PNG or SVG
+        if (outputFile.endsWith(".png")) {
+          const buffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+          fs.writeFileSync(outputFile, buffer);
+          console.log(`PNG file generated: ${outputFile}`);
+        } else {
+          fs.writeFileSync(outputFile, svgContent);
+          console.log(`SVG file generated: ${outputFile}`);
+        }
       } catch (err) {
-        console.error(`Error writing file ${outputFile}:`, err);
+        console.error(`Error generating plot for file ${outputFile}:`, err);
       }
     }
   } else {

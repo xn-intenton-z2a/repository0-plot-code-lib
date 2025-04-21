@@ -5,6 +5,11 @@ import fs from "fs";
 
 const TOLERANCE = 0.0001;
 
+// Utility function to check if SVG contains required elements
+function svgContainsElements(svg, elements) {
+  return elements.every(tag => svg.includes(`<${tag}`));
+}
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -19,16 +24,17 @@ describe("Default main", () => {
 });
 
 describe("Plot Generation", () => {
-  test("should generate dummy SVG file when valid parameters are provided and file extension is not .csv", async () => {
+  test("should generate enhanced SVG file with axes and data points when valid parameters are provided and file extension is not .csv", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
       "--expression", "y=sin(x)",
       "--range", "x=-1:1",
       "--file", "output.svg"
     ];
-    const expectedSVG = "<svg><text x='10' y='20'>Expression: y=sin(x)</text><text x='10' y='40'>Range: x=-1:1</text></svg>";
     await main(args);
-    expect(writeFileSyncSpy).toHaveBeenCalledWith("output.svg", expectedSVG);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(svgContainsElements(writtenData, ["line", "circle"]) || 
+           svgContainsElements(writtenData, ["line", "polyline", "circle"]) ).toBe(true);
     writeFileSyncSpy.mockRestore();
   });
 });
@@ -169,7 +175,6 @@ describe("Additional Expression Support", () => {
 
   test("should handle x<=0 for y=log(x) by defaulting to 0", () => {
     const data = generateTimeSeriesData("y=log(x)", "x=-5:5", 11);
-    // For x <= 0, y should be 0
     data.forEach(point => {
       if (point.x <= 0) {
         expect(point.y).toBe(0);
