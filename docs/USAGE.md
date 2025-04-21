@@ -29,7 +29,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--title`: (Optional) Specifies a custom plot title. If omitted, defaults to `Plot: <expression>`.
 - `--xlabel` (or `--xLabel`): (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
 - `--ylabel` (or `--yLabel`): (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
-- `--marker-size`: (Optional) Specifies the radius of the marker. Defaults to 3 if not provided.
+- `--marker-size`: (Optional) Specifies the size of the marker. Defaults to 3 if not provided.
 - `--marker-color`: (Optional) Specifies the fill color for the marker. Defaults to "red" if not provided.
 - `--marker-shape`: (Optional) Specifies the shape of the marker. Accepted value: "square". If set to "square", markers are rendered as squares; otherwise, they default to circles.
 - `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will cover the canvas in the SVG/PNG output.
@@ -39,7 +39,33 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--width`: (Optional) Specifies the width (in pixels) of the output plot. Defaults to 500 if not provided.
 - `--height`: (Optional) Specifies the height (in pixels) of the output plot. Defaults to 500 if not provided.
 
-### Generation Message Behavior
+### YAML-Based Configuration
+
+A new option `--config-yaml <filepath>` has been introduced. When provided, the CLI will load and parse the specified YAML file (using `js-yaml`) and merge its settings with the CLI options. **YAML configuration values override the corresponding CLI options.**
+
+#### Example YAML File
+
+```yaml
+# custom_config.yaml
+
+title: Custom Plot from YAML
+xlabel: YAML X
+ylabel: YAML Y
+marker-size: 7
+marker-color: blue
+width: 700
+height: 700
+```
+
+#### Usage Example
+
+```
+node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+```
+
+In the above example, the plot will use the custom title, axis labels, marker size and color, and dimensions as specified in the YAML file.
+
+## Generation Message Behavior
 
 When all required options (`--expression`, `--range`, and `--file`) are provided:
 
@@ -49,7 +75,7 @@ When all required options (`--expression`, `--range`, and `--file`) are provided
   
 - For CSV outputs, the CLI logs the generation message to stderr so that stdout contains only the CSV data starting with the header "x,y".
 
-### Example Usages
+## Example Usages
 
 #### 1. Generating CSV Output
 
@@ -78,7 +104,7 @@ Expected Output:
   - Custom title "Custom Plot" in the specified font.
   - X and Y axis labels "Custom X" and "Custom Y" in the specified font.
   - Dimensions set to 800x600 (width and height attributes, and viewBox adjusted accordingly).
-  - Axis lines, a polyline connecting data points, and markers with radius 5 and fill color green.
+  - Axis lines, a polyline connecting data points, and markers with size 5 and fill color green.
 
 #### 3. Generating a PNG Image
 
@@ -116,16 +142,15 @@ Expected Output:
 - A generation message is logged to stdout.
 - The SVG (or PNG) output includes a background rectangle filled with "#f0f0f0", and grid lines with stroke "#cccccc" using the dash pattern "2,2".
 
-#### 6. Using Square Markers
+#### 6. Using YAML Configuration to Override Options
 
 Command:
 ```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-shape square
+node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
 Expected Output:
-- A generation message is logged to stdout.
-- The SVG file generated uses square markers (rendered with `<rect>` elements) centered on each data point, instead of the default circle markers.
+- The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions) will override corresponding CLI options.
 
 #### 7. Fallback Behavior
 
@@ -143,4 +168,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The tool offers flexible customization options for titles, axis labels, markers (including a new square option), backgrounds, grids, font families, and dimensions, ensuring it meets a variety of plotting needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. With the addition of YAML-based configuration support, users can now easily override and customize plot settings using a simple YAML file, making the tool more flexible and adaptable to various needs.

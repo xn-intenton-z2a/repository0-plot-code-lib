@@ -107,7 +107,6 @@ describe("Time Series Data Generation", () => {
   });
 
   test("should generate at least 10 data points with numeric x and y for tan(x)", () => {
-    // Using a safe range to avoid extreme tan(x) values
     const data = generateTimeSeriesData("y=tan(x)", "x=0:0.5");
     expect(data.length).toBeGreaterThanOrEqual(10);
     for (const point of data) {
@@ -137,7 +136,6 @@ describe("CLI CSV Generation", () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.csv"];
     await main(args);
-    // The CSV content should be printed in console.log (second call) and starts with 'x,y'
     const output = logSpy.mock.calls[1][0];
     expect(output.startsWith("x,y")).toBe(true);
     logSpy.mockRestore();
@@ -152,7 +150,6 @@ describe("CLI PNG Generation", () => {
     expect(writeFileSyncSpy).toHaveBeenCalled();
     const [filename, buffer] = writeFileSyncSpy.mock.calls[0];
     expect(filename).toBe("output.png");
-    // PNG files start with the following 8-byte signature: 89 50 4E 47 0D 0A 1A 0A
     const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     expect(buffer.slice(0, 8)).toEqual(pngSignature);
     writeFileSyncSpy.mockRestore();
@@ -175,7 +172,6 @@ describe("Custom Point Count", () => {
     const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--points", "15", "--file", "output.csv"];
     await main(args);
     const output = logSpy.mock.calls[1][0];
-    // Verify CSV content has header + 15 data rows
     const lines = output.trim().split("\n");
     expect(lines.length).toBe(16);
     logSpy.mockRestore();
@@ -326,9 +322,7 @@ describe("Custom Marker Shape", () => {
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // Ensure no circle markers are present
     expect(writtenData.includes('<circle')).toBe(false);
-    // Check that at least one rect marker with width 10 and height 10 and fill green is present
     const squareMarker = getSquareMarkerAttributes(writtenData);
     expect(squareMarker).not.toBeNull();
     expect(squareMarker.width).toBe("10");
@@ -413,6 +407,46 @@ describe("Custom Dimensions Option", () => {
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).toContain('width="800"');
     expect(writtenData).toContain('height="600"');
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("YAML Configuration Override", () => {
+  test("should override CLI options with YAML config settings", async () => {
+    // Prepare a temporary YAML file
+    const tempYamlPath = "temp_config.yaml";
+    const yamlContent = `
+title: Custom Plot from YAML
+xlabel: YAML X
+ylabel: YAML Y
+marker-size: 7
+marker-color: blue
+width: 700
+height: 700
+`;
+    fs.writeFileSync(tempYamlPath, yamlContent, "utf8");
+
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--config-yaml", tempYamlPath,
+      "--title", "CLI Title",
+      "--marker-size", "3",
+      "--marker-color", "red"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // YAML values should override the CLI ones
+    expect(svgContainsText(writtenData, "Custom Plot from YAML")).toBe(true);
+    expect(svgContainsText(writtenData, "YAML X")).toBe(true);
+    expect(svgContainsText(writtenData, "YAML Y")).toBe(true);
+    const markerAttrs = getMarkerAttributes(writtenData);
+    expect(markerAttrs.r).toBe("7");
+    expect(markerAttrs.fill).toBe("blue");
+    // Clean up
+    fs.unlinkSync(tempYamlPath);
     writeFileSyncSpy.mockRestore();
   });
 });
