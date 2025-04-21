@@ -585,3 +585,22 @@ describe("Multi-Expression Overlay Plotting", () => {
     writeFileSyncSpy.mockRestore();
   });
 });
+
+describe("Automatic Legend Generation", () => {
+  test("should generate legend group with legend items for multi-series inputs", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x); y=cos(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-size", "5,7",
+      "--marker-color", "green,blue"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData.includes('class="legend"')).toBe(true);
+    expect(writtenData.includes('Series 1')).toBe(true);
+    expect(writtenData.includes('Series 2')).toBe(true);
+    writeFileSyncSpy.mockRestore();
+  });
+});
