@@ -339,6 +339,11 @@ function generateSvgContent({
         const innerRadius = outerRadius * 0.5;
         const pointsStr = getStarPoints(tx, ty, outerRadius, innerRadius);
         element = `<polygon points=\"${pointsStr}\" fill=\"${currentColor}\" />`;
+      } else if (currentMarkerShape === "diamond") {
+        // Diamond marker: four points: top, right, bottom, left
+        const r = currentMarkerSize;
+        const points = `${tx},${ty - r} ${tx + r},${ty} ${tx},${ty + r} ${tx - r},${ty}`;
+        element = `<polygon points=\"${points}\" fill=\"${currentColor}\" />`;
       } else {
         element = `<circle cx=\"${tx}\" cy=\"${ty}\" r=\"${currentMarkerSize}\" fill=\"${currentColor}\" />`;
       }
@@ -414,6 +419,9 @@ function generateSvgContent({
         const innerRadius = outerRadius * 0.5;
         const points = getStarPoints(currentMarkerSize, currentMarkerSize, outerRadius, innerRadius);
         markerSVG = `<polygon points=\"${points}\" fill=\"${currentColor}\" />`;
+      } else if (currentMarkerShape === "diamond") {
+        const r = currentMarkerSize;
+        markerSVG = `<polygon points=\"${r},0 ${r*2},${r} ${r},${r*2} 0,${r}\" fill=\"${currentColor}\" />`;
       } else {
         markerSVG = `<circle cx=\"${currentMarkerSize}\" cy=\"${currentMarkerSize}\" r=\"${currentMarkerSize}\" fill=\"${currentColor}\" />`;
       }

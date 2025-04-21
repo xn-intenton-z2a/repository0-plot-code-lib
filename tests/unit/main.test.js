@@ -17,9 +17,9 @@ function svgContainsText(svg, text) {
 
 // Updated utility function to extract marker attributes from circle elements in SVG (supports self-closing tags)
 function getMarkerAttributes(svg) {
-  const markerRegex = /<circle\b[^>]*\/?>/g;
+  const markerRegex = /<circle\b[^>]*\/?>(?:<\/circle>)?/g;
   const circles = svg.match(markerRegex) || [];
-  const attrRegex = /r="(\d+)"[^>]*fill="([^\"]+)"/;
+  const attrRegex = /r="(\d+)"[^>]*fill="([^"]+)"/;
   if (circles.length > 0) {
     const match = circles[0].match(attrRegex);
     if (match) {
@@ -31,7 +31,7 @@ function getMarkerAttributes(svg) {
 
 // Updated utility function to extract marker attributes from rect elements in SVG for square markers (supports self-closing tags)
 function getSquareMarkerAttributes(svg) {
-  const markerRegex = /<rect\b(?!.*width="500")(?!.*height="500")[^>]*\/?>/g;
+  const markerRegex = /<rect\b(?!.*width="500")(?!.*height="500")[^>]*\/?>(?:<\/rect>)?/g;
   const rects = svg.match(markerRegex) || [];
   const attrRegex = /x="([^"]+)"[^>]*y="([^"]+)"[^>]*width="(\d+)"[^>]*height="(\d+)"[^>]*fill="([^"]+)"/;
   if (rects.length > 0) {
@@ -452,6 +452,29 @@ describe("Custom Marker Shape", () => {
     }
     writeFileSyncSpy.mockRestore();
   });
+
+  test("should generate SVG with diamond markers when --marker-shape diamond is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-shape", "diamond",
+      "--marker-size", "5",
+      "--marker-color", "orange"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).not.toContain('<circle');
+    const diamondRegex = /<polygon[^>]*points="([^"]+)"[^>]*fill="orange"/;
+    const match = writtenData.match(diamondRegex);
+    expect(match).not.toBeNull();
+    if (match) {
+      const points = match[1].trim().split(/\s+/);
+      expect(points.length).toBe(4);
+    }
+    writeFileSyncSpy.mockRestore();
+  });
 });
 
 describe("Interactive Tooltip Support", () => {
@@ -460,7 +483,7 @@ describe("Interactive Tooltip Support", () => {
     const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--tooltip"]; 
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    expect(writtenData).toMatch(/<g class="marker">\s*<circle [^>]+\/?>\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
+    expect(writtenData).toMatch(/<g class="marker">\s*<circle [^>]+\/?>(?:<\/circle>)?\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
     writeFileSyncSpy.mockRestore();
   });
 
@@ -477,7 +500,7 @@ describe("Interactive Tooltip Support", () => {
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    expect(writtenData).toMatch(/<g class="marker">\s*<rect [^>]+\/?>\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
+    expect(writtenData).toMatch(/<g class="marker">\s*<rect [^>]+\/?>(?:<\/rect>)?\s*<title>x: -?\d+(\.\d+)?, y: -?\d+(\.\d+)?<\/title>\s*<\/g>/);
     writeFileSyncSpy.mockRestore();
   });
 });
