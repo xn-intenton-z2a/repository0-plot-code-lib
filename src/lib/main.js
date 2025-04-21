@@ -221,6 +221,19 @@ function generateSvgContent({
     return { tx, ty };
   };
 
+  // Helper function to generate points for a five pointed star
+  function getStarPoints(cx, cy, outer, inner) {
+    let pts = "";
+    for (let i = 0; i < 10; i++) {
+      const angle = (Math.PI / 5) * i - Math.PI / 2;
+      const radius = (i % 2 === 0) ? outer : inner;
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      pts += `${x},${y} `;
+    }
+    return pts.trim();
+  }
+
   // Determine axis positions
   const origin = transform(0, 0);
   let xAxisY = (yMin <= 0 && yMax >= 0) ? origin.ty : height - margin;
@@ -320,6 +333,12 @@ function generateSvgContent({
         const v3x = tx + s/2;
         const v3y = ty + heightTriangle/3;
         svgContent += `<polygon points="${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}" fill="${currentColor}" />`;
+      } else if (currentMarkerShape === "star") {
+        // Compute a five-pointed star centered at (tx, ty)
+        const outerRadius = currentMarkerSize * 2;
+        const innerRadius = outerRadius * 0.5;
+        const points = getStarPoints(tx, ty, outerRadius, innerRadius);
+        svgContent += `<polygon points="${points}" fill="${currentColor}" />`;
       } else {
         svgContent += `<circle cx="${tx}" cy="${ty}" r="${currentMarkerSize}" fill="${currentColor}" />`;
       }
@@ -390,6 +409,11 @@ function generateSvgContent({
         const v3x = currentMarkerSize * 2;
         const v3y = heightTriangle/3;
         markerSVG = `<polygon points="${v1x},${v1y} ${v2x},${v2y} ${v3x},${v3y}" fill="${currentColor}" />`;
+      } else if (currentMarkerShape === "star") {
+        const outerRadius = currentMarkerSize * 2;
+        const innerRadius = outerRadius * 0.5;
+        const points = getStarPoints(currentMarkerSize, currentMarkerSize, outerRadius, innerRadius);
+        markerSVG = `<polygon points="${points}" fill="${currentColor}" />`;
       } else {
         markerSVG = `<circle cx="${currentMarkerSize}" cy="${currentMarkerSize}" r="${currentMarkerSize}" fill="${currentColor}" />`;
       }

@@ -429,6 +429,30 @@ describe("Custom Marker Shape", () => {
     expect(writtenData).toContain('fill="green"');
     writeFileSyncSpy.mockRestore();
   });
+
+  test("should generate SVG with star markers when --marker-shape star is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-shape", "star",
+      "--marker-size", "5",
+      "--marker-color", "purple"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).not.toContain('<circle');
+    expect(writtenData).not.toContain('<rect');
+    const polygonRegex = /<polygon[^>]*points="([^"]+)"[^>]*fill="purple"/;
+    const match = writtenData.match(polygonRegex);
+    expect(match).not.toBeNull();
+    if (match) {
+      const pointsArray = match[1].trim().split(/\s+/);
+      expect(pointsArray.length).toBe(10);
+    }
+    writeFileSyncSpy.mockRestore();
+  });
 });
 
 describe("Background and Grid Customization", () => {
