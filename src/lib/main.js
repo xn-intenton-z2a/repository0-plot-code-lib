@@ -148,7 +148,12 @@ function generateSvgContent({
   gridColor,
   gridDashArray = "4",
   fontFamily,
-  fillColor
+  fillColor,
+  legendPosition,
+  legendFont,
+  legendFontSize,
+  legendBackground,
+  legendTitle
 }) {
   // Support multi-expression overlay plotting: if data is an array of arrays, treat as multiple series
   const multi = Array.isArray(data) && data.length > 0 && Array.isArray(data[0]);
@@ -258,23 +263,64 @@ function generateSvgContent({
     });
   });
 
-  // Automatic Legend Generation for Multi-Series Overlay Plots
-  if (allSeries.length > 1) {
-    let legendSVG = `<g class="legend">`;
-    const legendX = width - margin - 120;
-    const legendY = margin + 20;
-    const legendItemHeight = 20;
+  // Automatic Legend Generation for Multi-Series Overlay Plots with Customization Options
+  // Modified to always generate legend if any legend customization options are provided
+  if (allSeries.length > 1 || legendTitle || legendFont || legendFontSize || legendBackground || legendPosition) {
+    // Set default legend options if not provided
+    const _legendPosition = legendPosition || "top-right";
+    const legendTextFont = legendFont || fontFamily;
+    const legendTextFontSize = legendFontSize || 12;
+    const legendItemHeight = legendTextFontSize + 6;
+    const legendWidth = 120;
+    const legendItemsCount = allSeries.length;
+    const titleHeight = legendTitle ? (legendTextFontSize + 10) : 0;
+    const legendGroupHeight = titleHeight + (legendItemsCount * legendItemHeight);
+
+    // Compute legend group position based on position option
+    let legendX, legendY;
+    if (_legendPosition === "top-right") {
+      legendX = width - margin - legendWidth;
+      legendY = margin;
+    } else if (_legendPosition === "top-left") {
+      legendX = margin;
+      legendY = margin;
+    } else if (_legendPosition === "bottom-right") {
+      legendX = width - margin - legendWidth;
+      legendY = height - margin - legendGroupHeight;
+    } else if (_legendPosition === "bottom-left") {
+      legendX = margin;
+      legendY = height - margin - legendGroupHeight;
+    } else {
+      // default to top-right if invalid value
+      legendX = width - margin - legendWidth;
+      legendY = margin;
+    }
+
+    let legendSVG = `<g class="legend" transform="translate(${legendX}, ${legendY})">`;
+
+    // Add background rectangle for legend if legendBackground is provided
+    if (legendBackground) {
+      legendSVG += `<rect x="0" y="0" width="${legendWidth}" height="${legendGroupHeight}" fill="${legendBackground}" />`;
+    }
+
+    // Add legend title if provided
+    if (legendTitle) {
+      legendSVG += `<text x="${legendWidth / 2}" y="${legendTextFontSize + 2}" text-anchor="middle" font-size="${legendTextFontSize}" fill="black" font-family="${legendTextFont}">${legendTitle}</text>`;
+    }
+
+    // Add legend items
     for (let i = 0; i < allSeries.length; i++) {
       const currentColor = (Array.isArray(markerColor) && markerColor[i]) ? markerColor[i] : (Array.isArray(markerColor) ? markerColor[0] : "red");
       const currentMarkerSize = (Array.isArray(markerSize) && markerSize[i]) ? markerSize[i] : (Array.isArray(markerSize) ? markerSize[0] : 3);
       const currentMarkerShape = (Array.isArray(markerShape) && markerShape[i]) ? markerShape[i] : (Array.isArray(markerShape) ? markerShape[0] : "circle");
+      const offsetY = titleHeight + i * legendItemHeight;
       let markerSVG = "";
       if (currentMarkerShape === "square") {
-        markerSVG = `<rect x="0" y="0" width="${currentMarkerSize*2}" height="${currentMarkerSize*2}" fill="${currentColor}" />`;
+        markerSVG = `<rect x="0" y="0" width="${currentMarkerSize * 2}" height="${currentMarkerSize * 2}" fill="${currentColor}" />`;
       } else {
         markerSVG = `<circle cx="${currentMarkerSize}" cy="${currentMarkerSize}" r="${currentMarkerSize}" fill="${currentColor}" />`;
       }
-      legendSVG += `<g class="legend-item" transform="translate(${legendX}, ${legendY + i * legendItemHeight})">` + markerSVG + `<text x="${currentMarkerSize*2 + 5}" y="${currentMarkerSize*2 - currentMarkerSize}" font-size="12" fill="black" font-family="${fontFamily}">Series ${i+1}</text></g>`;
+      legendSVG += `<g class="legend-item" transform="translate(0, ${offsetY})">` + markerSVG + `<text x="${currentMarkerSize * 2 + 5}" y="${currentMarkerSize * 2 - currentMarkerSize}" font-size="${legendTextFontSize}" fill="black" font-family="${legendTextFont}">Series ${i + 1}</text></g>`;
     }
     legendSVG += `</g>`;
     svgContent += legendSVG;
@@ -289,6 +335,7 @@ export async function main(args) {
   let markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily, fillColor;
   let width = 500, height = 500;
   let customFunctions;
+  let legendPosition, legendFont, legendFontSize, legendBackground, legendTitle;
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -391,6 +438,21 @@ export async function main(args) {
       } else {
         fillColor = [fc];
       }
+    } else if (arg === "--legend-position") {
+      legendPosition = args[i + 1];
+      i++;
+    } else if (arg === "--legend-font") {
+      legendFont = args[i + 1];
+      i++;
+    } else if (arg === "--legend-font-size") {
+      legendFontSize = parseInt(args[i + 1], 10);
+      i++;
+    } else if (arg === "--legend-background") {
+      legendBackground = args[i + 1];
+      i++;
+    } else if (arg === "--legend-title") {
+      legendTitle = args[i + 1];
+      i++;
     }
   }
 
@@ -425,6 +487,11 @@ export async function main(args) {
     const fc = yamlOptions.fillColor.toString();
     fillColor = fc.includes(",") ? fc.split(",").map(s => s.trim()) : [fc];
   }
+  if (yamlOptions['legend-position'] !== undefined) legendPosition = yamlOptions['legend-position'];
+  if (yamlOptions['legend-font'] !== undefined) legendFont = yamlOptions['legend-font'];
+  if (yamlOptions['legend-font-size'] !== undefined) legendFontSize = parseInt(yamlOptions['legend-font-size'], 10);
+  if (yamlOptions['legend-background'] !== undefined) legendBackground = yamlOptions['legend-background'];
+  if (yamlOptions['legend-title'] !== undefined) legendTitle = yamlOptions['legend-title'];
 
   // Set defaults if still undefined
   if (!points) {
@@ -435,7 +502,7 @@ export async function main(args) {
   ylabel = ylabel || "Y Axis";
   fontFamily = fontFamily || "sans-serif";
   if (!markerSize) markerSize = [3];
-  if (!markerColor) markerColor = ["red"];
+  if (!markerColor) markerColor = ["red"]; 
   if (!markerShape) markerShape = ["circle"];
   customFunctions = customFunctions || {};
 
@@ -476,7 +543,12 @@ export async function main(args) {
           gridColor,
           gridDashArray,
           fontFamily,
-          fillColor
+          fillColor,
+          legendPosition,
+          legendFont,
+          legendFontSize,
+          legendBackground,
+          legendTitle
         });
         const doc = new PDFDocument({ size: [width, height] });
         const chunks = [];
@@ -518,7 +590,12 @@ export async function main(args) {
           gridColor,
           gridDashArray,
           fontFamily,
-          fillColor
+          fillColor,
+          legendPosition,
+          legendFont,
+          legendFontSize,
+          legendBackground,
+          legendTitle
         });
         if (outputFile.endsWith(".png")) {
           const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();

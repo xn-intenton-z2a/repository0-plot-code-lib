@@ -55,6 +55,7 @@ function svgContainsLineWithStroke(svg, stroke) {
   return lineRegex.test(svg);
 }
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -473,14 +474,19 @@ describe("YAML Configuration Override", () => {
     const tempYamlPath = "temp_config.yaml";
     const yamlContent = `
 title: Custom Plot from YAML
-xlabel: YAML X
 ylabel: YAML Y
+xlabel: YAML X
 marker-size: 7
 marker-color: blue
 width: 700
 height: 700
 custom-functions: { double: "(x)=>2*x" }
 fillColor: "#abcdef"
+legend-position: "top-right"
+legend-font: "Verdana"
+legend-font-size: 16
+legend-background: "#123456"
+legend-title: "YAML Legend"
 `;
     fs.writeFileSync(tempYamlPath, yamlContent, "utf8");
 
@@ -503,6 +509,11 @@ fillColor: "#abcdef"
     expect(markerAttrs.r).toBe("7");
     expect(markerAttrs.fill).toBe("blue");
     expect(writtenData).toContain('fill="#abcdef"');
+    // Check legend customizations from YAML
+    expect(writtenData).toContain('transform="translate(');
+    expect(writtenData).toContain('Verdana');
+    expect(writtenData).toContain('16');
+    expect(writtenData).toContain("YAML Legend");
     fs.unlinkSync(tempYamlPath);
     writeFileSyncSpy.mockRestore();
   });
@@ -601,6 +612,34 @@ describe("Automatic Legend Generation", () => {
     expect(writtenData.includes('class="legend"')).toBe(true);
     expect(writtenData.includes('Series 1')).toBe(true);
     expect(writtenData.includes('Series 2')).toBe(true);
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Customized Legend Generation", () => {
+  test("should generate legend with custom options", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x); y=cos(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--legend-position", "top-left",
+      "--legend-font", "Arial",
+      "--legend-font-size", "14",
+      "--legend-background", "#f0f0f0",
+      "--legend-title", "Data Series Legend"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // Check legend group transform for top-left (should start at margin, margin which is 40)
+    expect(writtenData).toContain('transform="translate(40, 40)"');
+    // Check legend title
+    expect(writtenData).toContain('>Data Series Legend</text>');
+    // Check background rectangle in legend with specified fill
+    expect(writtenData).toContain('fill="#f0f0f0"');
+    // Check that legend text uses Arial and font size 14
+    expect(writtenData).toContain('font-family="Arial"');
+    expect(writtenData).toContain('font-size="14"');
     writeFileSyncSpy.mockRestore();
   });
 });
