@@ -13,7 +13,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
   // Supports expressions such as 'y=sin(x)', etc. and now also piecewise expressions
   // Expected range format: "x=start:end"
 
-  const matchRange = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
+  const matchRange = rangeStr.match(/^x=([-\d\.]+):([-\d\.]+)$/);
   if (!matchRange) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -239,7 +239,7 @@ function generateSvgContent({
     svgContent += `<polyline fill="none" stroke="${currentColor}" stroke-width="2" points="${polylinePoints}" />`;
 
     // Fill under curve if fillColor is provided
-    if (fillColor && fillColor.length > 0) {
+    if (fillColor) {
       const currentFill = (Array.isArray(fillColor) && fillColor[idx]) ? fillColor[idx] : (Array.isArray(fillColor) ? fillColor[0] : fillColor);
       const firstTrans = transform(series[0].x, series[0].y);
       const lastTrans = transform(series[series.length - 1].x, series[series.length - 1].y);
@@ -252,7 +252,7 @@ function generateSvgContent({
       const polygonPoints = polygonPointsArray.join(" ");
 
       // Check if the fill color specifies a gradient (multiple colors separated by commas)
-      if (currentFill.includes(",")) {
+      if (typeof currentFill === 'string' && currentFill.includes(",")) {
         const colors = currentFill.split(",").map(s => s.trim());
         const n = colors.length;
         const gradientId = `gradient_fill_${idx}`;
@@ -458,13 +458,8 @@ export async function main(args) {
       }
       i++;
     } else if (arg === "--fillColor") {
-      let fc = args[i + 1];
+      fillColor = args[i + 1];
       i++;
-      if (fc.includes(",")) {
-        fillColor = fc.split(",").map(s => s.trim());
-      } else {
-        fillColor = [fc];
-      }
     } else if (arg === "--legend-position") {
       legendPosition = args[i + 1];
       i++;
@@ -511,8 +506,7 @@ export async function main(args) {
   if (yamlOptions.height !== undefined) height = parseInt(yamlOptions.height, 10);
   if (yamlOptions['custom-functions'] !== undefined) customFunctions = yamlOptions['custom-functions'];
   if (yamlOptions.fillColor !== undefined) {
-    const fc = yamlOptions.fillColor.toString();
-    fillColor = fc.includes(",") ? fc.split(",").map(s => s.trim()) : [fc];
+    fillColor = yamlOptions.fillColor.toString();
   }
   if (yamlOptions['legend-position'] !== undefined) legendPosition = yamlOptions['legend-position'];
   if (yamlOptions['legend-font'] !== undefined) legendFont = yamlOptions['legend-font'];
