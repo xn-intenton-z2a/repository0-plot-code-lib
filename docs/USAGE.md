@@ -93,146 +93,109 @@ For backward compatibility, you can still provide custom functions as strings:
 node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.csv --custom-functions '{ "double": "(x)=>2*x" }'
 ```
 
+## CLI Usage Examples
+
+Below are some testable CLI usage examples that demonstrate how to use various options to customize your plot output:
+
+### 1. Custom Marker Options
+
+To generate an SVG with custom marker settings, run:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-size 5 --marker-color green --marker-shape square
+```
+
+This command produces an SVG where square markers are rendered with a size of 10x10 (centered on the data point) and a fill color of green.
+
+### 2. Background and Grid Customization
+
+To include a background rectangle and custom grid lines in your plot, run:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --bgColor "#f0f0f0" --gridColor "#cccccc" --grid-dasharray "2,2"
+```
+
+This produces an SVG that includes a background filled with #f0f0f0 and grid lines styled with a stroke color of #cccccc and a dash pattern of "2,2".
+
+### 3. Custom Titles and Axis Labels
+
+Override the default plot title and axis labels by running:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "X Axis" --ylabel "Y Axis"
+```
+
+The generated SVG will display "Custom Plot" as the title, "X Axis" as the X-axis label, and "Y Axis" as the Y-axis label.
+
+### 4. Custom Dimensions
+
+Specify custom dimensions for your plot output with the following command:
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --width 800 --height 600
+```
+
+This ensures that the SVG has a width of 800 pixels and a height of 600 pixels.
+
+### 5. YAML Configuration Overrides
+
+You can use a YAML configuration file to override CLI options. For example, create a file named `config.yaml` with the following content:
+
+```yaml
+title: "Custom Plot from YAML"
+xlabel: "YAML X"
+ylabel: "YAML Y"
+marker-size: 7
+marker-color: blue
+width: 700
+height: 700
+```
+
+Then, run the command:
+
+```sh
+node src/lib/main.js --config-yaml config.yaml --expression "y=sin(x)" --range "x=-1:1" --file output.svg
+```
+
+The generated SVG will use the settings from the YAML file, overriding any conflicting CLI options.
+
 ## CLI Overview
 
 The CLI functionality is provided by the `src/lib/main.js` script. It accepts several command-line options:
 
 - `--expression`: Specifies the mathematical expression or a piecewise expression prefixed with `piecewise:`.
 - `--range`: Defines the data range in the format `x=start:end` (e.g., "x=0:6.28").
-- `--file`: Specifies the output file name and type, determining the output mode:
-  - If the file ends with **.csv**, the CLI outputs CSV content to stdout. In this case, the generation message is logged to stderr so that the CSV output remains clean.
-  - If it ends with **.svg**, the CLI generates an enhanced SVG file containing axes, a polyline, and data markers.
-  - If it ends with **.png**, the tool converts the generated SVG content to a PNG image using `sharp`.
-  - If it ends with **.pdf**, the tool generates a PDF file using `pdfkit` and `svg-to-pdfkit`.
-- `--points`: (Optional) Specifies the number of data points to generate. Defaults to 10 if omitted.
-- `--title`: (Optional) Specifies a custom plot title. If omitted, defaults to `Plot: <expression>`.
-- `--xlabel` (or `--xLabel`): (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
-- `--ylabel` (or `--yLabel`): (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
-- `--marker-size`: (Optional) Specifies the size of the marker. Defaults to 3 if not provided.
-- `--marker-color`: (Optional) Specifies the fill color for the marker. Defaults to "red" if not provided.
-- `--marker-shape`: (Optional) Specifies the shape of the marker. Accepted value: "square". If set to "square", markers are rendered as squares; otherwise, they default to circles.
-- `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will cover the canvas in the SVG/PNG/PDF output.
-- `--gridColor`: (Optional) Specifies a grid line color to overlay on the plot. Requires `--grid-dasharray` to specify the dash pattern.
-- `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided.
-- `--font-family`: (Optional) Specifies a custom font family for text elements in the plot (title, x-axis label, y-axis label). Defaults to "sans-serif" if not provided.
-- `--width`: (Optional) Specifies the width (in pixels) of the output plot. Defaults to 500 if not provided.
-- `--height`: (Optional) Specifies the height (in pixels) of the output plot. Defaults to 500 if not provided.
-- `--config-yaml <filepath>`: Specifies a YAML file containing configuration options. YAML config values override the corresponding CLI options.
+- `--file`: Specifies the output file name and type. The file extension determines the output mode:
+  - **.csv**: Outputs CSV data to stdout (with generation message to stderr).
+  - **.svg**: Generates an SVG plot with axes, polyline, and markers.
+  - **.png**: Converts the SVG to a PNG image using `sharp`.
+  - **.pdf**: Generates a PDF file using `pdfkit` and `svg-to-pdfkit`.
+- `--points`: (Optional) Number of data points (default is 10).
+- `--title`: (Optional) Custom plot title. Defaults to `Plot: <expression>`.
+- `--xlabel` or `--xLabel`: (Optional) Label for the X-axis. Defaults to "X Axis".
+- `--ylabel` or `--yLabel`: (Optional) Label for the Y-axis. Defaults to "Y Axis".
+- `--marker-size`: (Optional) Size of the marker (default is 3).
+- `--marker-color`: (Optional) Color of the marker (default is "red").
+- `--marker-shape`: (Optional) Shape of the marker. Set to "square" for square markers; otherwise, circles are used.
+- `--bgColor`: (Optional) Background color for the plot.
+- `--gridColor`: (Optional) Color for the grid lines; works with `--grid-dasharray` to style grid lines.
+- `--grid-dasharray`: (Optional) Dash pattern for grid lines (default is "4").
+- `--font-family`: (Optional) Font family for text elements (default is "sans-serif").
+- `--width`: (Optional) Width of the output plot in pixels (default is 500).
+- `--height`: (Optional) Height of the output plot in pixels (default is 500).
+- `--config-yaml <filepath>`: Loads configuration options from a YAML file. Options in the YAML file override corresponding CLI options.
 
 ## PDF Output Support
 
-The library now supports generating PDF outputs. When the `--file` argument ends with `.pdf`, the tool uses `pdfkit` and `svg-to-pdfkit` to create a PDF document of the plot. The SVG plot is rendered onto a PDF document with the specified dimensions, and a success message is logged upon completion.
-
-#### Example PDF Command:
-
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.pdf
-```
-
-In this example, the tool will generate a plot for `y=sin(x)` over the range `x=-1:1`, render the plot as an SVG, convert it to PDF using `pdfkit` and `svg-to-pdfkit`, and save it as `output.pdf`.
+When the output file ends with `.pdf`, the tool uses `pdfkit` and `svg-to-pdfkit` to create a PDF document from the generated SVG. The PDF will have the specified dimensions, and a success message is logged upon completion.
 
 ## Generation Message Behavior
 
-When all required options (`--expression`, `--range`, and `--file`) are provided:
+Based on the output file type, the CLI displays a generation message:
 
-- For SVG, PNG, or PDF outputs, the CLI logs the following message to stdout:
-
-  `Generating plot for expression <expression> with range <range> to file <file>.`
-  
-- For CSV outputs, the CLI logs the generation message to stderr so that stdout contains only the CSV data starting with the header "x,y".
-
-## Example Usages
-
-#### 1. Generating CSV Output
-
-Command:
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.csv
-```
-
-Expected Output:
-- A generation message is logged to stderr.
-- The terminal prints a CSV string beginning with a header `x,y` followed by data rows (default 10 or as specified by `--points`).
-
-#### 2. Generating an Enhanced SVG Plot with Custom Functions
-
-Command:
-```
-node src/lib/main.js --expression "y=double(x)" --range "x=0:10" --file output.svg --custom-functions '{ "double": "(x)=>2*x" }'
-```
-
-Expected Output:
-- A generation message is logged to stdout.
-- An SVG file named `output.svg` is generated where each data point's y value is computed using the custom function `double(x)` (i.e., 2*x).
-
-#### 3. Generating a PNG Image
-
-Command:
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.png --width 800 --height 600
-```
-
-Expected Output:
-- A generation message is logged to stdout.
-- The generated SVG is converted to a PNG image using `sharp` with dimensions 800x600 and saved as `output.png`.
-
-#### 4. Generating a PDF Document
-
-Command:
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.pdf
-```
-
-Expected Output:
-- A generation message is logged to stdout.
-- The tool generates an SVG plot, converts it to a PDF using `pdfkit` and `svg-to-pdfkit`, and saves it as `output.pdf`.
-
-#### 5. Specifying a Custom Point Count
-
-Command:
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --points 15 --file output.csv
-```
-
-Expected Output:
-- A generation message is logged to stderr.
-- The CSV output contains a header and exactly 15 data rows.
-
-#### 6. Using YAML Configuration to Override Options
-
-Command:
-```
-node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --range "x=-1:1" --file output.svg
-```
-
-Expected Output:
-- The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions, and custom functions) will override corresponding CLI options.
-
-## Piecewise Expression Examples
-
-Piecewise expressions allow you to define multiple conditions for plotting.
-
-Example:
-```
-node src/lib/main.js --expression "piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)" --range "x=-1:1" --file output.svg
-```
-
-For x values less than 0, the plot uses sin(x), and for x values greater than or equal to 0, it uses cos(x). If no condition matches, the y value defaults to 0.
-
-## Fallback Behavior
-
-If required options are missing, the CLI outputs the provided options in JSON format. For example:
-
-Command:
-```
-node src/lib/main.js --expression "y=sin(x)"
-```
-
-Might output:
-```
-{"expression":"y=sin(x)","range":undefined,"outputFile":undefined,"points":10}
-```
+- **CSV Output:** The generation message is logged to stderr, while stdout outputs only the CSV data.
+- **SVG/PNG/PDF Output:** The generation message is logged to stdout, followed by the file generation confirmation.
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, PNG, or PDF formats. The advanced CLI options provide comprehensive customization, including the ability to register custom mathematical functions as either native functions or strings, and now, piecewise expressions, making the tool flexible and adaptable to various needs.
+This guide provides detailed instructions on using **repository0-plot-code-lib**, including how to customize visual plots via various CLI options. Experiment with the examples above to generate CSV, SVG, PNG, or PDF outputs tailored to your requirements.

@@ -513,8 +513,6 @@ custom-functions: { double: "(x)=>2*x" }
   });
 });
 
-// New tests for Piecewise Function Support
-
 describe("Piecewise Expression Support", () => {
   test("should evaluate piecewise expression: if x < 0 then sin(x); if x >= 0 then cos(x)", () => {
     const data = generateTimeSeriesData("piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)", "x=-1:1", 11);
