@@ -199,4 +199,11 @@ describe("Additional Expression Support", () => {
       expect(Math.abs(point.y - Math.sqrt(point.x))).toBeLessThan(TOLERANCE);
     });
   });
+
+  test("should generate correct data for y=x^3", () => {
+    const data = generateTimeSeriesData("y=x^3", "x=0:10", 11);
+    data.forEach(point => {
+      expect(point.y).toBeCloseTo(point.x * point.x * point.x, 4);
+    });
+  });
 });
