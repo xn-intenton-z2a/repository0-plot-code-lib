@@ -3,6 +3,8 @@ import * as mainModule from "@src/lib/main.js";
 import { main, generateTimeSeriesData, serializeTimeSeries } from "@src/lib/main.js";
 import fs from "fs";
 
+const TOLERANCE = 0.0001;
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -49,7 +51,7 @@ describe("Time Series Data Generation", () => {
     for (const point of data) {
       expect(typeof point.x).toBe("number");
       expect(typeof point.y).toBe("number");
-      expect(Math.abs(point.y - Math.cos(point.x))).toBeLessThan(0.0001);
+      expect(Math.abs(point.y - Math.cos(point.x))).toBeLessThan(TOLERANCE);
     }
   });
 
@@ -60,7 +62,7 @@ describe("Time Series Data Generation", () => {
     for (const point of data) {
       expect(typeof point.x).toBe("number");
       expect(typeof point.y).toBe("number");
-      expect(Math.abs(point.y - Math.tan(point.x))).toBeLessThan(0.0001);
+      expect(Math.abs(point.y - Math.tan(point.x))).toBeLessThan(TOLERANCE);
     }
   });
 });
@@ -153,5 +155,41 @@ describe("Custom Point Count", () => {
     const lines = output.trim().split("\n");
     expect(lines.length).toBe(11);
     logSpy.mockRestore();
+  });
+});
+
+describe("Additional Expression Support", () => {
+  test("should generate correct data for y=log(x) within valid domain", () => {
+    const data = generateTimeSeriesData("y=log(x)", "x=1:10", 10);
+    for (const point of data) {
+      expect(point.x).toBeGreaterThan(0);
+      expect(Math.abs(point.y - Math.log(point.x))).toBeLessThan(TOLERANCE);
+    }
+  });
+
+  test("should handle x<=0 for y=log(x) by defaulting to 0", () => {
+    const data = generateTimeSeriesData("y=log(x)", "x=-5:5", 11);
+    // For x <= 0, y should be 0
+    data.forEach(point => {
+      if (point.x <= 0) {
+        expect(point.y).toBe(0);
+      } else {
+        expect(Math.abs(point.y - Math.log(point.x))).toBeLessThan(TOLERANCE);
+      }
+    });
+  });
+
+  test("should generate correct data for y=exp(x)", () => {
+    const data = generateTimeSeriesData("y=exp(x)", "x=0:5", 10);
+    data.forEach(point => {
+      expect(Math.abs(point.y - Math.exp(point.x))).toBeLessThan(TOLERANCE);
+    });
+  });
+
+  test("should generate correct data for y=x^2", () => {
+    const data = generateTimeSeriesData("y=x^2", "x=-3:3", 13);
+    data.forEach(point => {
+      expect(point.y).toBeCloseTo(point.x * point.x, 4);
+    });
   });
 });
