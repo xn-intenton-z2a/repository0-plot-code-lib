@@ -4,6 +4,7 @@
 import { fileURLToPath } from "url";
 import fs from "fs";
 import sharp from "sharp";
+import yaml from "js-yaml";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
@@ -164,10 +165,29 @@ function generateSvgContent({
 }
 
 export async function main(args) {
-  let expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, markerShape, bgColor, gridColor, fontFamily;
+  let expression, range, outputFile, points, title, xlabel, ylabel;
+  let markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily;
   let width = 500, height = 500;
-  let gridDashArray = "4"; // default dash pattern
+  gridDashArray = "4"; // default dash pattern
 
+  // First, check for YAML configuration
+  let yamlOptions = {};
+  for (let i = 0; i < args.length; i++) {
+    if (args[i] === "--config-yaml") {
+      const yamlPath = args[i + 1];
+      i++;
+      try {
+        const fileContent = fs.readFileSync(yamlPath, "utf8");
+        const parsedYaml = yaml.load(fileContent);
+        yamlOptions = parsedYaml || {};
+      } catch (err) {
+        console.error("Error reading YAML config:", err);
+        process.exit(1);
+      }
+    }
+  }
+
+  // Process CLI options
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--expression") {
@@ -221,18 +241,32 @@ export async function main(args) {
     }
   }
 
-  // Default points to 10 if not provided
+  // Merge YAML options (YAML config overrides CLI options if provided)
+  if (yamlOptions.expression !== undefined) expression = yamlOptions.expression;
+  if (yamlOptions.range !== undefined) range = yamlOptions.range;
+  if (yamlOptions.file !== undefined) outputFile = yamlOptions.file;
+  if (yamlOptions.points !== undefined) points = yamlOptions.points;
+  if (yamlOptions.title !== undefined) title = yamlOptions.title;
+  if (yamlOptions.xlabel !== undefined) xlabel = yamlOptions.xlabel;
+  if (yamlOptions.ylabel !== undefined) ylabel = yamlOptions.ylabel;
+  if (yamlOptions['marker-size'] !== undefined) markerSize = yamlOptions['marker-size'];
+  if (yamlOptions['marker-color'] !== undefined) markerColor = yamlOptions['marker-color'];
+  if (yamlOptions['marker-shape'] !== undefined) markerShape = yamlOptions['marker-shape'];
+  if (yamlOptions.bgColor !== undefined) bgColor = yamlOptions.bgColor;
+  if (yamlOptions.gridColor !== undefined) gridColor = yamlOptions.gridColor;
+  if (yamlOptions['grid-dasharray'] !== undefined) gridDashArray = yamlOptions['grid-dasharray'];
+  if (yamlOptions['font-family'] !== undefined) fontFamily = yamlOptions['font-family'];
+  if (yamlOptions.width !== undefined) width = parseInt(yamlOptions.width, 10);
+  if (yamlOptions.height !== undefined) height = parseInt(yamlOptions.height, 10);
+
+  // Set defaults if still undefined
   if (!points) {
     points = 10;
   }
-
-  // Set defaults for title, axis labels and font family if not provided
   title = title || `Plot: ${expression}`;
   xlabel = xlabel || "X Axis";
   ylabel = ylabel || "Y Axis";
   fontFamily = fontFamily || "sans-serif";
-
-  // Set marker defaults if not provided
   markerSize = markerSize || 3;
   markerColor = markerColor || "red";
 
@@ -270,10 +304,7 @@ export async function main(args) {
           fontFamily
         });
         if (outputFile.endsWith(".png")) {
-          const buffer = await sharp(Buffer.from(svgContent))
-            .resize(width, height)
-            .png()
-            .toBuffer();
+          const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();
           fs.writeFileSync(outputFile, buffer);
           console.log(`PNG file generated: ${outputFile}`);
         } else {
