@@ -449,6 +449,7 @@ export async function main(args) {
   let legendPosition, legendFont, legendFontSize, legendBackground, legendTitle;
   let logScaleX = false, logScaleY = false;
   let tooltip = false;
+  let theme; // new theme option
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -568,6 +569,9 @@ export async function main(args) {
       i++;
     } else if (arg === "--tooltip") {
       tooltip = true;
+    } else if (arg === "--theme") {
+      theme = args[i + 1];
+      i++;
     }
   }
 
@@ -608,6 +612,21 @@ export async function main(args) {
   if (yamlOptions['legend-title'] !== undefined) legendTitle = yamlOptions['legend-title'];
   if (yamlOptions['logScaleX'] !== undefined) logScaleX = String(yamlOptions['logScaleX']).toLowerCase() === "true";
   if (yamlOptions['logScaleY'] !== undefined) logScaleY = String(yamlOptions['logScaleY']).toLowerCase() === "true";
+  
+  // Apply theme settings if --theme option is provided (CLI takes precedence)
+  if (theme) {
+    if (theme.toLowerCase() === 'dark') {
+      bgColor = "#333333";
+      markerColor = ["#ffffff"];
+      gridColor = "#777777";
+      fontFamily = "sans-serif";
+    } else if (theme.toLowerCase() === 'light') {
+      bgColor = "#ffffff";
+      markerColor = ["#000000"];
+      gridColor = "#cccccc";
+      fontFamily = "sans-serif";
+    }
+  }
 
   if (!points) {
     points = 10;

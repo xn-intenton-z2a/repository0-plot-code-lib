@@ -73,6 +73,23 @@ Customize your plot with additional options:
   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --tooltip
   ```
 
+- **Custom Plot Themes:**
+
+  Use the new `--theme` option to apply a predefined visual style to your plot. Available themes are:
+
+  - `dark`: Applies a dark background with contrasting light-colored markers and grid lines.
+  - `light`: Applies a light background with dark-colored markers and grid lines.
+
+  **Examples:**
+
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --theme dark
+  ```
+
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --theme light
+  ```
+
 - **YAML Configuration Overrides:** Provide a YAML configuration file to override CLI options.
 
   ```yaml
@@ -152,10 +169,11 @@ The CLI accepts configuration via both command line flags and YAML configuration
 - **Marker Customization:** If markers do not appear as expected, verify that the marker options (size, shape, color) are provided in a comma-separated format if multiple series are plotted.
 - **Log Scale Configuration:** When enabling logarithmic scaling, make sure that all data points are positive, as log scaling does not support zero or negative values.
 - **YAML Overrides:** When using a YAML file, ensure the file is properly formatted. Invalid YAML can cause the CLI to exit with an error.
+- **Theme Options:** Use the `--theme` option to quickly apply a consistent visual style to your plot. The dark theme uses a dark background (#333333) with light markers, while the light theme uses a white background (#ffffff) with dark markers.
 - **Testing:** Refer to the unit tests for examples of how each functionality is expected to work. Running `npm test` provides immediate feedback on any discrepancies.
 
 ## Conclusion
 
-**repository0-plot-code-lib** offers a flexible and powerful interface for generating plots from mathematical expressions. Whether you use it via the CLI or import its functions directly into your code, the library supports extensive customization options – from marker styles to logarithmic axes – ensuring that you can tailor the visualizations to your exact requirements.
+**repository0-plot-code-lib** offers a flexible and powerful interface for generating plots from mathematical expressions. Whether you use it via the CLI or import its functions directly into your code, the library supports extensive customization options – from marker styles to logarithmic axes and now customizable themes – ensuring that you can tailor the visualizations to your exact requirements.
 
 Happy Plotting!
