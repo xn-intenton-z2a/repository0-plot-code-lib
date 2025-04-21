@@ -31,6 +31,8 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--ylabel` (or `--yLabel`): (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
 - `--marker-size`: (Optional) Specifies the radius of the marker circles in the plot. Defaults to 3 if not provided.
 - `--marker-color`: (Optional) Specifies the fill color for the marker circles. Defaults to "red" if not provided.
+- `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will be added to the SVG/PNG output covering the entire canvas.
+- `--gridColor`: (Optional) Specifies a grid line color. When provided, grid lines will be overlaid on the plot to enhance readability.
 
 ### Generation Message Behavior
 
@@ -97,7 +99,18 @@ Expected Output:
 - A generation message is logged to stderr.
 - The CLI prints CSV content with exactly 15 data rows (plus the header), as validated by tests.
 
-### 5. Fallback Behavior
+### 5. Using Background and Grid Customization Options
+
+Command:
+```
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --bgColor "#f0f0f0" --gridColor "#cccccc"
+```
+
+Expected Output:
+- A generation message is logged to stdout.
+- The SVG (or converted PNG) file will include a background rectangle filled with "#f0f0f0" and grid lines drawn with the stroke "#cccccc".
+
+### 6. Fallback Behavior
 
 If not all required options are provided, the CLI outputs the provided options in JSON format. For example:
 ```
@@ -111,4 +124,4 @@ Might output:
 
 ## Conclusion
 
-This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs, along with support for custom marker options. Happy plotting!
+This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs, along with support for custom marker and background/grid options. Happy plotting!
