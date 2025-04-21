@@ -10,10 +10,7 @@ import svgToPdf from "svg-to-pdfkit";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, customFunctions = {}) {
-  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)',
-  // 'y=x^3', 'y=sinh(x)', 'y=cosh(x)', 'y=tanh(x)', 'y=abs(x)', 'y=floor(x)', 'y=ceil(x)'
-  // and now piecewise expressions in the format:
-  // "piecewise: if <condition> then <expression>; if <condition> then <expression>; ..."
+  // Supports expressions such as 'y=sin(x)', etc. and now also piecewise expressions
   // Expected range format: "x=start:end"
 
   const matchRange = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
@@ -28,11 +25,8 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
 
   // Check for piecewise expression support
   if (expression.startsWith("piecewise:")) {
-    // Remove prefix and trim
     const piecewiseStr = expression.slice("piecewise:".length).trim();
-    // Split by semicolon
     const segments = piecewiseStr.split(';').map(seg => seg.trim()).filter(seg => seg);
-    // Parse each segment: expected pattern "if <condition> then <expression>"
     const parsedSegments = segments.map(seg => {
       const match = seg.match(/^if\s+(.+?)\s+then\s+(.+)$/i);
       if (!match) {
@@ -41,14 +35,12 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
       return { condition: match[1].trim(), expr: match[2].trim() };
     });
 
-    // For each x value, evaluate conditions in order
     for (let i = 0; i < numPoints; i++) {
       const x = start + i * step;
       let y = 0;
       let matched = false;
       for (const segment of parsedSegments) {
         try {
-          // Create functions with a context that includes basic math functions
           const condFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.condition + ");");
           if (condFunc(x)) {
             const exprFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.expr + ");");
@@ -57,7 +49,6 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
             break;
           }
         } catch (e) {
-          // If any error occurs in evaluation, ignore and continue to next segment
           continue;
         }
       }
@@ -69,7 +60,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
     return data;
   }
 
-  // Existing standard expression handling
+  // Standard expression handling
   for (let i = 0; i < numPoints; i++) {
     const x = start + i * step;
     let y = 0;
@@ -80,14 +71,12 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
     } else if (expression === "y=tan(x)") {
       y = Math.tan(x);
     } else if (expression === "y=log(x)") {
-      // Only compute log if x > 0, otherwise default to 0
       y = x > 0 ? Math.log(x) : 0;
     } else if (expression === "y=exp(x)") {
       y = Math.exp(x);
     } else if (expression === "y=x^2") {
       y = x * x;
     } else if (expression === "y=sqrt(x)") {
-      // Compute square root if x is non-negative, otherwise default to 0
       y = x >= 0 ? Math.sqrt(x) : 0;
     } else if (expression === "y=x^3") {
       y = x * x * x;
@@ -104,7 +93,6 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
     } else if (expression === "y=ceil(x)") {
       y = Math.ceil(x);
     } else {
-      // Check for custom function in the format y=func(x) e.g., y=double(x)
       const customMatch = expression.match(/^y=([a-zA-Z0-9_]+)\(x\)$/);
       if (customMatch) {
         const funcName = customMatch[1];
@@ -127,7 +115,6 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
           y = 0;
         }
       } else {
-        // Default behavior for unsupported expressions
         y = 0;
       }
     }
@@ -163,9 +150,19 @@ function generateSvgContent({
   fontFamily,
   fillColor
 }) {
-  // Compute data bounds
-  const xs = data.map((p) => p.x);
-  const ys = data.map((p) => p.y);
+  // Support multi-expression overlay plotting: if data is an array of arrays, treat as multiple series
+  const multi = Array.isArray(data) && data.length > 0 && Array.isArray(data[0]);
+  const allSeries = multi ? data : [data];
+
+  // Compute overall bounds across all series
+  let xs = [];
+  let ys = [];
+  allSeries.forEach(series => {
+    series.forEach(p => {
+      xs.push(p.x);
+      ys.push(p.y);
+    });
+  });
   const xMin = Math.min(...xs);
   const xMax = Math.max(...xs);
   let yMin = Math.min(...ys);
@@ -187,81 +184,78 @@ function generateSvgContent({
   };
 
   // Determine axis positions
-  let xAxisY = (yMin <= 0 && yMax >= 0) ? transform(0, 0).ty : height - margin;
-  let yAxisX = (xMin <= 0 && xMax >= 0) ? transform(0, 0).tx : margin;
-
-  // Create polyline points string for connecting data points
-  const polylinePoints = data
-    .map((point) => {
-      const { tx, ty } = transform(point.x, point.y);
-      return `${tx},${ty}`;
-    })
-    .join(" ");
+  const origin = transform(0, 0);
+  let xAxisY = (yMin <= 0 && yMax >= 0) ? origin.ty : height - margin;
+  let yAxisX = (xMin <= 0 && xMax >= 0) ? origin.tx : margin;
 
   let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
 
-  // Add background rectangle if bgColor is provided
+  // Background rectangle
   if (bgColor) {
     svgContent += `<rect x="0" y="0" width="${width}" height="${height}" fill="${bgColor}" />`;
   }
 
-  // Add grid lines if gridColor is provided
+  // Grid lines
   if (gridColor) {
-    // Vertical grid lines
     for (let i = 1; i < 4; i++) {
       const xPos = margin + (i * (width - 2 * margin)) / 4;
       svgContent += `<line x1="${xPos}" y1="${margin}" x2="${xPos}" y2="${height - margin}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
     }
-    // Horizontal grid lines
     for (let i = 1; i < 4; i++) {
       const yPos = margin + (i * (height - 2 * margin)) / 4;
       svgContent += `<line x1="${margin}" y1="${yPos}" x2="${width - margin}" y2="${yPos}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
     }
   }
 
-  // Add filled area under the curve if fillColor is provided
-  if (fillColor) {
-    const polygonPointsArray = data.map(point => {
-      const { tx, ty } = transform(point.x, point.y);
-      return `${tx},${ty}`;
-    });
-    // Get first and last x positions
-    const firstTrans = transform(data[0].x, data[0].y);
-    const lastTrans = transform(data[data.length - 1].x, data[data.length - 1].y);
-    // Append points to drop to baseline
-    polygonPointsArray.push(`${lastTrans.tx},${xAxisY}`);
-    polygonPointsArray.push(`${firstTrans.tx},${xAxisY}`);
-    const polygonPoints = polygonPointsArray.join(" ");
-    svgContent += `<polygon fill="${fillColor}" points="${polygonPoints}" />`;
-  }
-
-  // Add custom plot title at the top center with font-family
+  // Add title and axis labels
   svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black" font-family="${fontFamily}">${title}</text>`;
-
-  // Draw X and Y axes
   svgContent += `<line x1="${margin}" y1="${xAxisY}" x2="${width - margin}" y2="${xAxisY}" stroke="black" stroke-width="2" />`;
   svgContent += `<line x1="${yAxisX}" y1="${margin}" x2="${yAxisX}" y2="${height - margin}" stroke="black" stroke-width="2" />`;
-
-  // Add custom axis labels with font-family
   svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black" font-family="${fontFamily}">${xlabel}</text>`;
   svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})" font-family="${fontFamily}">${ylabel}</text>`;
 
-  // Draw connecting line (polyline) through data points
-  svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
+  // For each series, draw polyline, markers, and optional filled area
+  allSeries.forEach((series, idx) => {
+    // Determine style for this series using corresponding customization or fallback
+    const currentColor = (Array.isArray(markerColor) && markerColor[idx]) ? markerColor[idx] : (Array.isArray(markerColor) ? markerColor[0] : "blue");
+    const currentMarkerSize = (Array.isArray(markerSize) && markerSize[idx]) ? markerSize[idx] : (Array.isArray(markerSize) ? markerSize[0] : 3);
+    const currentMarkerShape = (Array.isArray(markerShape) && markerShape[idx]) ? markerShape[idx] : (Array.isArray(markerShape) ? markerShape[0] : "circle");
 
-  // Plot each data point as a marker based on markerShape
-  data.forEach((point) => {
-    const { tx, ty } = transform(point.x, point.y);
-    if (markerShape === "square") {
-      // Draw square marker: center the square by subtracting markerSize
-      const size = markerSize * 2;
-      const xPos = tx - markerSize;
-      const yPos = ty - markerSize;
-      svgContent += `<rect x="${xPos}" y="${yPos}" width="${size}" height="${size}" fill="${markerColor}" />`;
-    } else {
-      // Default to circle marker
-      svgContent += `<circle cx="${tx}" cy="${ty}" r="${markerSize}" fill="${markerColor}" />`;
+    const polylinePoints = series
+      .map(point => {
+        const { tx, ty } = transform(point.x, point.y);
+        return `${tx},${ty}`;
+      })
+      .join(" ");
+    svgContent += `<polyline fill="none" stroke="${currentColor}" stroke-width="2" points="${polylinePoints}" />`;
+
+    // Fill under curve if fillColor is provided
+    if (fillColor && fillColor.length > 0) {
+      const currentFill = (Array.isArray(fillColor) && fillColor[idx]) ? fillColor[idx] : (Array.isArray(fillColor) ? fillColor[0] : fillColor);
+      const firstTrans = transform(series[0].x, series[0].y);
+      const lastTrans = transform(series[series.length - 1].x, series[series.length - 1].y);
+      let polygonPointsArray = series.map(point => {
+        const { tx, ty } = transform(point.x, point.y);
+        return `${tx},${ty}`;
+      });
+      polygonPointsArray.push(`${lastTrans.tx},${xAxisY}`);
+      polygonPointsArray.push(`${firstTrans.tx},${xAxisY}`);
+      const polygonPoints = polygonPointsArray.join(" ");
+      svgContent += `<polygon fill="${currentFill}" points="${polygonPoints}" />`;
     }
+
+    // Plot markers for each data point in the series
+    series.forEach(point => {
+      const { tx, ty } = transform(point.x, point.y);
+      if (currentMarkerShape === "square") {
+        const size = currentMarkerSize * 2;
+        const xPos = tx - currentMarkerSize;
+        const yPos = ty - currentMarkerSize;
+        svgContent += `<rect x="${xPos}" y="${yPos}" width="${size}" height="${size}" fill="${currentColor}" />`;
+      } else {
+        svgContent += `<circle cx="${tx}" cy="${ty}" r="${currentMarkerSize}" fill="${currentColor}" />`;
+      }
+    });
   });
 
   svgContent += `</svg>`;
@@ -317,14 +311,30 @@ export async function main(args) {
       ylabel = args[i + 1];
       i++;
     } else if (arg === "--marker-size") {
-      markerSize = parseInt(args[i + 1], 10);
+      let ms = args[i + 1];
       i++;
+      // Check for multi-value
+      if (ms.includes(",")) {
+        markerSize = ms.split(",").map(s => parseInt(s.trim(), 10));
+      } else {
+        markerSize = [parseInt(ms, 10)];
+      }
     } else if (arg === "--marker-color") {
-      markerColor = args[i + 1];
+      let mc = args[i + 1];
       i++;
+      if (mc.includes(",")) {
+        markerColor = mc.split(",").map(s => s.trim());
+      } else {
+        markerColor = [mc];
+      }
     } else if (arg === "--marker-shape") {
-      markerShape = args[i + 1];
+      let msShape = args[i + 1];
       i++;
+      if (msShape.includes(",")) {
+        markerShape = msShape.split(",").map(s => s.trim());
+      } else {
+        markerShape = [msShape];
+      }
     } else if (arg === "--bgColor") {
       bgColor = args[i + 1];
       i++;
@@ -352,12 +362,17 @@ export async function main(args) {
       }
       i++;
     } else if (arg === "--fillColor") {
-      fillColor = args[i + 1];
+      let fc = args[i + 1];
       i++;
+      if (fc.includes(",")) {
+        fillColor = fc.split(",").map(s => s.trim());
+      } else {
+        fillColor = [fc];
+      }
     }
   }
 
-  // Merge YAML options (YAML config overrides CLI options if provided)
+  // Merge YAML options (YAML overrides CLI if provided)
   if (yamlOptions.expression !== undefined) expression = yamlOptions.expression;
   if (yamlOptions.range !== undefined) range = yamlOptions.range;
   if (yamlOptions.file !== undefined) outputFile = yamlOptions.file;
@@ -365,9 +380,18 @@ export async function main(args) {
   if (yamlOptions.title !== undefined) title = yamlOptions.title;
   if (yamlOptions.xlabel !== undefined) xlabel = yamlOptions.xlabel;
   if (yamlOptions.ylabel !== undefined) ylabel = yamlOptions.ylabel;
-  if (yamlOptions['marker-size'] !== undefined) markerSize = yamlOptions['marker-size'];
-  if (yamlOptions['marker-color'] !== undefined) markerColor = yamlOptions['marker-color'];
-  if (yamlOptions['marker-shape'] !== undefined) markerShape = yamlOptions['marker-shape'];
+  if (yamlOptions['marker-size'] !== undefined) {
+    const ms = yamlOptions['marker-size'].toString();
+    markerSize = ms.includes(",") ? ms.split(",").map(s => parseInt(s.trim(), 10)) : [parseInt(ms, 10)];
+  }
+  if (yamlOptions['marker-color'] !== undefined) {
+    const mc = yamlOptions['marker-color'].toString();
+    markerColor = mc.includes(",") ? mc.split(",").map(s => s.trim()) : [mc];
+  }
+  if (yamlOptions['marker-shape'] !== undefined) {
+    const msShape = yamlOptions['marker-shape'].toString();
+    markerShape = msShape.includes(",") ? msShape.split(",").map(s => s.trim()) : [msShape];
+  }
   if (yamlOptions.bgColor !== undefined) bgColor = yamlOptions.bgColor;
   if (yamlOptions.gridColor !== undefined) gridColor = yamlOptions.gridColor;
   if (yamlOptions['grid-dasharray'] !== undefined) gridDashArray = yamlOptions['grid-dasharray'];
@@ -375,7 +399,10 @@ export async function main(args) {
   if (yamlOptions.width !== undefined) width = parseInt(yamlOptions.width, 10);
   if (yamlOptions.height !== undefined) height = parseInt(yamlOptions.height, 10);
   if (yamlOptions['custom-functions'] !== undefined) customFunctions = yamlOptions['custom-functions'];
-  if (yamlOptions.fillColor !== undefined) fillColor = yamlOptions.fillColor;
+  if (yamlOptions.fillColor !== undefined) {
+    const fc = yamlOptions.fillColor.toString();
+    fillColor = fc.includes(",") ? fc.split(",").map(s => s.trim()) : [fc];
+  }
 
   // Set defaults if still undefined
   if (!points) {
@@ -385,28 +412,34 @@ export async function main(args) {
   xlabel = xlabel || "X Axis";
   ylabel = ylabel || "Y Axis";
   fontFamily = fontFamily || "sans-serif";
-  markerSize = markerSize || 3;
-  markerColor = markerColor || "red";
+  if (!markerSize) markerSize = [3];
+  if (!markerColor) markerColor = ["red"];
+  if (!markerShape) markerShape = ["circle"];
   customFunctions = customFunctions || {};
 
   if (expression && range && outputFile) {
+    // Determine if multiple expressions are provided (separated by semicolon)
+    let expressions = expression.split(';').map(exp => exp.trim()).filter(exp => exp);
+
+    // Generation message
     const genMessage = `Generating plot for expression ${expression} with range ${range} to file ${outputFile}.`;
+
     if (outputFile.endsWith(".csv")) {
-      try {
-        const data = generateTimeSeriesData(expression, range, points, customFunctions);
-        const csvContent = serializeTimeSeries(data);
-        // Log generation message to stderr for CSV so stdout remains pure CSV
-        console.error(genMessage);
-        // Adding an empty log to ensure CSV content is the second stdout call as expected by tests
-        console.log("");
-        console.log(csvContent);
-      } catch (err) {
-        console.error("Error generating CSV content:", err);
-      }
+      // For CSV, if multiple expressions, use only the first series
+      const data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
+      const csvContent = serializeTimeSeries(data);
+      console.error(genMessage);
+      console.log("");
+      console.log(csvContent);
     } else if (outputFile.endsWith(".pdf")) {
       console.log(genMessage);
       try {
-        const data = generateTimeSeriesData(expression, range, points, customFunctions);
+        let data;
+        if (expressions.length > 1) {
+          data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
+        } else {
+          data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
+        }
         const svgContent = generateSvgContent({
           data,
           width,
@@ -423,11 +456,10 @@ export async function main(args) {
           fontFamily,
           fillColor
         });
-        // Generate PDF using PDFDocument and svg-to-pdfkit
         const doc = new PDFDocument({ size: [width, height] });
         const chunks = [];
-        doc.on('data', (chunk) => chunks.push(chunk));
-        const pdfPromise = new Promise((resolve) => {
+        doc.on('data', chunk => chunks.push(chunk));
+        const pdfPromise = new Promise(resolve => {
           doc.on('end', () => {
             const buffer = Buffer.concat(chunks);
             fs.writeFileSync(outputFile, buffer);
@@ -444,7 +476,12 @@ export async function main(args) {
     } else {
       console.log(genMessage);
       try {
-        const data = generateTimeSeriesData(expression, range, points, customFunctions);
+        let data;
+        if (expressions.length > 1) {
+          data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
+        } else {
+          data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
+        }
         const svgContent = generateSvgContent({
           data,
           width,
@@ -474,12 +511,11 @@ export async function main(args) {
       }
     }
   } else {
-    // Fallback: output provided options in JSON format
     console.log(JSON.stringify({ expression, range, outputFile, points }));
   }
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = process.argv.slice(2);
-  main(args).catch((err) => console.error(err));
+  main(args).catch(err => console.error(err));
 }

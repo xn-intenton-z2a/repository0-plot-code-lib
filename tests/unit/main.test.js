@@ -7,7 +7,7 @@ const TOLERANCE = 0.0001;
 
 // Utility function to check if SVG contains required elements
 function svgContainsElements(svg, elements) {
-  return elements.every((tag) => svg.includes(`<${tag}`));
+  return elements.every(tag => svg.includes(`<${tag}`));
 }
 
 // Utility function to check if SVG contains specific text
@@ -19,7 +19,6 @@ function svgContainsText(svg, text) {
 function getMarkerAttributes(svg) {
   const markerRegex = /<circle[^>]*>/g;
   const circles = svg.match(markerRegex) || [];
-  // Extract r and fill from the first circle
   const attrRegex = /r="(\d+)".*fill="([^"]+)"/;
   if (circles.length > 0) {
     const match = circles[0].match(attrRegex);
@@ -34,7 +33,6 @@ function getMarkerAttributes(svg) {
 function getSquareMarkerAttributes(svg) {
   const markerRegex = /<rect[^>]*>/g;
   const rects = svg.match(markerRegex) || [];
-  // Filter out potential background rect (assume background rect covers full width and height if present)
   const filtered = rects.filter(rect => !rect.includes('width="500"') && !rect.includes('height="500"'));
   const attrRegex = /x="([^"]+)".*y="([^"]+)".*width="(\d+)".*height="(\d+)".*fill="([^"]+)"/;
   if (filtered.length > 0) {
@@ -56,7 +54,6 @@ function svgContainsLineWithStroke(svg, stroke) {
   const lineRegex = new RegExp(`<line[^>]*stroke="${stroke}"`, "i");
   return lineRegex.test(svg);
 }
-
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -127,7 +124,7 @@ describe("Time Series Data Generation", () => {
 
   test("should handle x<=0 for y=log(x) by defaulting to 0", () => {
     const data = generateTimeSeriesData("y=log(x)", "x=-5:5", 11);
-    data.forEach((point) => {
+    data.forEach(point => {
       if (point.x <= 0) {
         expect(point.y).toBe(0);
       } else {
@@ -138,50 +135,49 @@ describe("Time Series Data Generation", () => {
 
   test("should generate correct data for y=exp(x)", () => {
     const data = generateTimeSeriesData("y=exp(x)", "x=0:5", 10);
-    data.forEach((point) => {
+    data.forEach(point => {
       expect(Math.abs(point.y - Math.exp(point.x))).toBeLessThan(TOLERANCE);
     });
   });
 
   test("should generate correct data for y=x^2", () => {
     const data = generateTimeSeriesData("y=x^2", "x=-3:3", 13);
-    data.forEach((point) => {
+    data.forEach(point => {
       expect(point.y).toBeCloseTo(point.x * point.x, 4);
     });
   });
 
   test("should generate correct data for y=sqrt(x)", () => {
     const data = generateTimeSeriesData("y=sqrt(x)", "x=0:16", 10);
-    data.forEach((point) => {
+    data.forEach(point => {
       expect(Math.abs(point.y - Math.sqrt(point.x))).toBeLessThan(TOLERANCE);
     });
   });
 
   test("should generate correct data for y=x^3", () => {
     const data = generateTimeSeriesData("y=x^3", "x=0:10", 11);
-    data.forEach((point) => {
+    data.forEach(point => {
       expect(point.y).toBeCloseTo(point.x * point.x * point.x, 4);
     });
   });
 
-  // Hyperbolic functions tests
   test("should generate correct data for y=sinh(x)", () => {
     const data = generateTimeSeriesData("y=sinh(x)", "x=-1:1", 11);
-    data.forEach((point) => {
+    data.forEach(point => {
       expect(Math.abs(point.y - Math.sinh(point.x))).toBeLessThan(TOLERANCE);
     });
   });
 
   test("should generate correct data for y=cosh(x)", () => {
     const data = generateTimeSeriesData("y=cosh(x)", "x=-1:1", 11);
-    data.forEach((point) => {
+    data.forEach(point => {
       expect(Math.abs(point.y - Math.cosh(point.x))).toBeLessThan(TOLERANCE);
     });
   });
 
   test("should generate correct data for y=tanh(x)", () => {
     const data = generateTimeSeriesData("y=tanh(x)", "x=-1:1", 11);
-    data.forEach((point) => {
+    data.forEach(point => {
       expect(Math.abs(point.y - Math.tanh(point.x))).toBeLessThan(TOLERANCE);
     });
   });
@@ -474,7 +470,6 @@ describe("Custom Dimensions Option", () => {
 
 describe("YAML Configuration Override", () => {
   test("should override CLI options with YAML config settings", async () => {
-    // Prepare a temporary YAML file
     const tempYamlPath = "temp_config.yaml";
     const yamlContent = `
 title: Custom Plot from YAML
@@ -501,16 +496,13 @@ fillColor: "#abcdef"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // YAML values should override the CLI ones
     expect(svgContainsText(writtenData, "Custom Plot from YAML")).toBe(true);
     expect(svgContainsText(writtenData, "YAML X")).toBe(true);
     expect(svgContainsText(writtenData, "YAML Y")).toBe(true);
     const markerAttrs = getMarkerAttributes(writtenData);
     expect(markerAttrs.r).toBe("7");
     expect(markerAttrs.fill).toBe("blue");
-    // Also check that fillColor from YAML is applied
     expect(writtenData).toContain('fill="#abcdef"');
-    // Clean up
     fs.unlinkSync(tempYamlPath);
     writeFileSyncSpy.mockRestore();
   });
@@ -529,7 +521,6 @@ describe("Piecewise Expression Support", () => {
   });
 
   test("should default to 0 when no condition matches", () => {
-    // Use condition that never is true
     const data = generateTimeSeriesData("piecewise: if x > 1 then sin(x)", "x=0:1", 5);
     data.forEach(point => {
       expect(point.y).toBe(0);
@@ -560,21 +551,37 @@ describe("Fill Under Curve Option", () => {
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).toContain('<polygon fill="#ff0000"');
-    // Check that the polygon points attribute exists
     expect(writtenData).toMatch(/<polygon[^>]*points="[^"]+"/);
     writeFileSyncSpy.mockRestore();
   });
 
   test("should not include a polygon element when --fillColor is not provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).not.toContain('<polygon');
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Multi-Expression Overlay Plotting", () => {
+  test("should generate SVG containing multiple polylines when multiple expressions are provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x); y=cos(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-color", "red,blue",
+      "--marker-size", "3,4",
+      "--marker-shape", "circle,square"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    const polylineCount = (writtenData.match(/<polyline/g) || []).length;
+    expect(polylineCount).toBe(2);
+    expect(writtenData.includes('<circle')).toBe(true);
+    expect(writtenData.includes('<rect')).toBe(true);
     writeFileSyncSpy.mockRestore();
   });
 });
