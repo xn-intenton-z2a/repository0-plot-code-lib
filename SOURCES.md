@@ -197,3 +197,13 @@ FIGlet is a classic command-line utility that generates ASCII art from text. Oft
 ## https://www.oreilly.com/library/view/designing-command-line/9781491940281/
 This guide provides expert insights and practical advice for designing intuitive and robust command-line applications, covering topics such as flag parsing, error handling, and interactive prompt design. While it is a commercial publication, its insights are widely recognized and influential in the field of CLI development.
 ## N/A
+
+# Observable Plot Documentation
+## https://observablehq.com/@observablehq/plot
+Observable Plot is a modern data visualization library by Observable. Its documentation details a declarative approach to creating interactive and reactive data visualizations, making use of built-in data transformations and customizable styles. Last updated in 2023, it is highly regarded for its flexibility and modern design principles.
+## BSD-3-Clause
+
+# Building Command-Line Tools with Node.js (Article)
+## https://medium.com/swlh/building-a-node-js-cli-tool-from-scratch-3ee265535e6c
+This Medium article offers an in-depth tutorial on developing a CLI tool using Node.js. It covers essential topics such as flag parsing, interactive prompts, error handling, and best practices, providing practical examples and insights for both beginners and experienced developers. Published in December 2022, it serves as a valuable resource for building robust CLI applications.
+## N/A
