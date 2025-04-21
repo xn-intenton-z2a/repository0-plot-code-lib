@@ -26,29 +26,29 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
   - If it ends with **.svg**, the CLI generates an enhanced SVG file containing axes, a polyline, and data markers.
   - If it ends with **.png**, the tool converts the generated SVG content to a PNG image using `sharp`.
 - `--points`: (Optional) Specifies the number of data points to generate. Defaults to 10 if omitted.
-- `--title`: (Optional) Specifies a custom plot title to be displayed at the top center of the plot. If omitted, defaults to `Plot: <expression>`.
+- `--title`: (Optional) Specifies a custom plot title. If omitted, defaults to `Plot: <expression>`.
 - `--xlabel` (or `--xLabel`): (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
 - `--ylabel` (or `--yLabel`): (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
-- `--marker-size`: (Optional) Specifies the radius of the marker circles in the plot. Defaults to 3 if not provided.
+- `--marker-size`: (Optional) Specifies the radius of the marker circles. Defaults to 3 if not provided.
 - `--marker-color`: (Optional) Specifies the fill color for the marker circles. Defaults to "red" if not provided.
-- `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will be added to the SVG/PNG output covering the entire canvas.
-- `--gridColor`: (Optional) Specifies a grid line color. When provided, grid lines will be overlaid on the plot to enhance readability.
-- `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided. (Note: To display grid lines, you must also provide a grid color using `--gridColor`.)
-- `--font-family`: (Optional) Specifies a custom font family for all text elements in the plot (plot title, x-axis label, and y-axis label). Defaults to "sans-serif" if not provided.
+- `--bgColor`: (Optional) Specifies a background color for the plot. When provided, a background rectangle will cover the canvas in the SVG/PNG output.
+- `--gridColor`: (Optional) Specifies a grid line color to overlay on the plot. Requires `--grid-dasharray` to specify the dash pattern.
+- `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided.
+- `--font-family`: (Optional) Specifies a custom font family for text elements in the plot (title, x-axis label, y-axis label). Defaults to "sans-serif" if not provided.
 
 ### Generation Message Behavior
 
 When all required options (`--expression`, `--range`, and `--file`) are provided:
 
-- For SVG or PNG outputs, the CLI logs the message to stdout in the exact format:
+- For SVG or PNG outputs, the CLI logs the following message to stdout:
 
   `Generating plot for expression <expression> with range <range> to file <file>.`
   
 - For CSV outputs, the CLI logs the generation message to stderr so that stdout contains only the CSV data starting with the header "x,y".
 
-## Detailed CLI Usage Examples
+### Example Usages
 
-### 1. Generating CSV Output
+#### 1. Generating CSV Output
 
 Command:
 ```
@@ -57,9 +57,9 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.cs
 
 Expected Output:
 - A generation message is logged to stderr.
-- The terminal prints a CSV string beginning with a header `x,y` followed by data rows. The number of data rows will be default (10) or as specified with `--points`.
+- The terminal prints a CSV string beginning with a header `x,y` followed by data rows (default 10 or as specified by `--points`).
 
-### 2. Generating an Enhanced SVG Plot with Custom Title, Axis Labels, Marker Options, and Font Family
+#### 2. Generating an Enhanced SVG Plot
 
 Command:
 ```
@@ -70,13 +70,13 @@ Expected Output:
 - A generation message is logged to stdout:
 
   `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
-  
-- An SVG file named `output.svg` is generated. The SVG includes:
-  - A custom title at the top center: "Custom Plot" with the font-family set to Courier.
-  - X axis and Y axis labels with the provided texts: "Custom X" and "Custom Y" respectively, also using Courier font.
-  - Axis lines (`<line>` elements), a polyline (`<polyline>`) connecting data points, and individual data point markers (`<circle>` elements) with a marker radius of 5 and fill color green.
 
-### 3. Generating a PNG Image
+- An SVG file named `output.svg` is generated with:
+  - Custom title "Custom Plot" in the specified font.
+  - X and Y axis labels "Custom X" and "Custom Y" in the specified font.
+  - Axis lines, a polyline connecting data points, and markers with radius 5 and fill color green.
+
+#### 3. Generating a PNG Image
 
 Command:
 ```
@@ -87,10 +87,10 @@ Expected Output:
 - A generation message is logged to stdout:
 
   `Generating plot for expression y=sin(x) with range x=0:6.28 to file output.png.`
-  
-- The tool converts the generated SVG content into a PNG image using `sharp` and saves it as `output.png`.
 
-### 4. Specifying a Custom Point Count
+- The generated SVG is converted to a PNG image using `sharp` and saved as `output.png`.
+
+#### 4. Specifying a Custom Point Count
 
 Command:
 ```
@@ -99,9 +99,9 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --points 15 --fi
 
 Expected Output:
 - A generation message is logged to stderr.
-- The CLI prints CSV content with exactly 15 data rows (plus the header), as validated by tests.
+- The CSV output contains a header and exactly 15 data rows.
 
-### 5. Using Background, Grid, and Custom Grid Dash Pattern Options
+#### 5. Background and Grid Customization
 
 Command:
 ```
@@ -110,11 +110,13 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg 
 
 Expected Output:
 - A generation message is logged to stdout.
-- The SVG (or converted PNG) file will include a background rectangle filled with "#f0f0f0", grid lines drawn with the stroke "#cccccc", and the grid lines will use a dash pattern of "2,2".
+- The SVG (or PNG) output includes a background rectangle filled with "#f0f0f0", and grid lines with stroke "#cccccc" using the dash pattern "2,2".
 
-### 6. Fallback Behavior
+#### 6. Fallback Behavior
 
-If not all required options are provided, the CLI outputs the provided options in JSON format. For example:
+If required options are missing, the CLI outputs the provided options in JSON format. For example:
+
+Command:
 ```
 node src/lib/main.js --expression "y=sin(x)"
 ```
@@ -126,4 +128,4 @@ Might output:
 
 ## Conclusion
 
-This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs, along with support for custom marker, background/grid, grid dash pattern, and font family options. Happy plotting!
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The tool offers flexible customization options for titles, axis labels, markers, backgrounds, grids, and font families, ensuring it meets a variety of plotting needs.

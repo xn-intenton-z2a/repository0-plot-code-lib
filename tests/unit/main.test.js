@@ -277,7 +277,6 @@ describe("Custom Marker Options", () => {
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // Check that circle elements have r="5" and fill="green"
     const markerAttrs = getMarkerAttributes(writtenData);
     expect(markerAttrs).not.toBeNull();
     expect(markerAttrs.r).toBe("5");
