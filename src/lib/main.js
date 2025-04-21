@@ -49,15 +49,23 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
     } else {
       // Check for custom function in the format y=func(x) e.g., y=double(x)
       const customMatch = expression.match(/^y=([a-zA-Z0-9_]+)\(x\)$/);
-      if (customMatch && customFunctions && typeof customFunctions[customMatch[1]] === "string") {
-        let fn;
-        try {
-          fn = eval(customFunctions[customMatch[1]]);
-        } catch (e) {
-          fn = null;
-        }
-        if (fn && typeof fn === "function") {
-          y = fn(x);
+      if (customMatch) {
+        const funcName = customMatch[1];
+        const customFunc = customFunctions[funcName];
+        if (typeof customFunc === "function") {
+          y = customFunc(x);
+        } else if (typeof customFunc === "string") {
+          let fn;
+          try {
+            fn = eval(customFunc);
+          } catch (e) {
+            fn = null;
+          }
+          if (fn && typeof fn === "function") {
+            y = fn(x);
+          } else {
+            y = 0;
+          }
         } else {
           y = 0;
         }

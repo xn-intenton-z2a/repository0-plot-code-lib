@@ -185,6 +185,20 @@ describe("Time Series Data Generation", () => {
       expect(Math.abs(point.y - Math.tanh(point.x))).toBeLessThan(TOLERANCE);
     });
   });
+
+  test("should generate correct data for y=double(x) when custom function is provided as a string", () => {
+    const data = generateTimeSeriesData("y=double(x)", "x=0:10", 11, { double: "(x)=>2*x" });
+    data.forEach(point => {
+      expect(point.y).toBeCloseTo(2 * point.x, 4);
+    });
+  });
+
+  test("should generate correct data for y=double(x) when custom function is provided as a native function", () => {
+    const data = generateTimeSeriesData("y=double(x)", "x=0:10", 11, { double: (x) => 2 * x });
+    data.forEach(point => {
+      expect(point.y).toBeCloseTo(2 * point.x, 4);
+    });
+  });
 });
 
 describe("Serialize Time Series Data", () => {
