@@ -1,15 +1,15 @@
-# Zod Documentation
-## https://zod.dev/
-Zod is a TypeScript-first schema declaration and validation library that provides a powerful and straightforward way of validating and parsing data in JavaScript and TypeScript. Its robust API is widely used in modern development and is especially useful in CLI tools for ensuring correct input formats. Last reviewed in 2023; it is licensed under the MIT License.
+# Express Documentation
+## https://expressjs.com/en/api.html
+Express is a minimal and flexible Node.js web framework that provides a robust set of features for building APIs and web applications. It underpins interactive preview features in many CLI tools and is widely regarded for its stable and extensive documentation (last reviewed in 2023). Licensed under the MIT License.
 
-# Vitest Documentation
-## https://vitest.dev/
-Vitest is a modern unit testing framework powered by Vite, offering fast, native ESM support and an intuitive API. It is used to test the behavior of JavaScript and TypeScript applications including CLI tools, with a focus on performance and simplicity. The documentation is comprehensive and up-to-date (2023), and Vitest is available under the MIT License.
+# Sharp Documentation
+## https://sharp.pixelplumbing.com/api-reference
+Sharp is a high-performance Node.js image processing library used for converting, resizing, and optimizing images. It plays a critical role in exporting plots to PNG, JPEG, and other formats. The API is comprehensive and up-to-date (2023), and it is available under the Apache-2.0 License.
 
-# js-yaml Documentation
-## https://github.com/nodeca/js-yaml
-js-yaml is a YAML parser and serializer for JavaScript and Node.js, emphasizing adherence to the YAML 1.2 specification. It is an essential resource for projects that require configuration management through YAML files, such as our CLI tool for handling plot configurations. The project is actively maintained and is distributed under the MIT License.
+# PDFKit Documentation
+## https://pdfkit.org/docs/
+PDFKit is a powerful PDF document generation library for Node.js, enabling the creation of complex PDF files from dynamic data. It is used in the CLI tool for PDF exports and is actively maintained. The documentation is thorough and current as of 2023, and the project is distributed under the MIT License.
 
-# npm-check-updates Documentation
-## https://www.npmjs.com/package/npm-check-updates
-npm-check-updates is a command-line tool that allows developers to upgrade dependencies in package.json to their latest versions. This resource is valuable for maintaining up-to-date dependencies in modern JavaScript projects, ensuring compatibility and access to the latest features. The package is well-documented and maintained, and it is licensed under the MIT License.
+# OpenAI API Documentation
+## https://platform.openai.com/docs/api-reference
+The OpenAI API Documentation provides detailed guidance on interacting with OpenAI’s models, including integration strategies for AI-assisted features. This authoritative resource is continuously updated (2023) and is essential for developers looking to implement natural language processing and AI capabilities into their applications.
