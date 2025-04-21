@@ -60,7 +60,7 @@ export function serializeTimeSeries(data) {
 export async function main(args) {
   // Simple argument parser
   let expression, range, outputFile, points, title, xlabel, ylabel;
-  let markerSize, markerColor;
+  let markerSize, markerColor, bgColor, gridColor;
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--expression") {
@@ -89,6 +89,12 @@ export async function main(args) {
       i++;
     } else if (arg === "--marker-color") {
       markerColor = args[i + 1];
+      i++;
+    } else if (arg === "--bgColor") {
+      bgColor = args[i + 1];
+      i++;
+    } else if (arg === "--gridColor") {
+      gridColor = args[i + 1];
       i++;
     }
   }
@@ -176,6 +182,25 @@ export async function main(args) {
 
         // Build the enhanced SVG content with custom title and axis labels
         let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+
+        // Add background rectangle if bgColor is provided
+        if (bgColor) {
+          svgContent += `<rect x="0" y="0" width="${width}" height="${height}" fill="${bgColor}" />`;
+        }
+
+        // Add grid lines if gridColor is provided
+        if (gridColor) {
+          // Vertical grid lines
+          for (let i = 1; i < 4; i++) {
+            const xPos = margin + i * (width - 2 * margin) / 4;
+            svgContent += `<line x1="${xPos}" y1="${margin}" x2="${xPos}" y2="${height - margin}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4" />`;
+          }
+          // Horizontal grid lines
+          for (let i = 1; i < 4; i++) {
+            const yPos = margin + i * (height - 2 * margin) / 4;
+            svgContent += `<line x1="${margin}" y1="${yPos}" x2="${width - margin}" y2="${yPos}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="4" />`;
+          }
+        }
 
         // Add custom plot title at the top center
         svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black">${title}</text>`;

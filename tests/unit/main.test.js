@@ -30,6 +30,18 @@ function getMarkerAttributes(svg) {
   return null;
 }
 
+// New utility to check for background rect and grid line attributes
+function svgContainsRectWithFill(svg, fill) {
+  const rectRegex = new RegExp(`<rect[^>]*fill="${fill}"`, 'i');
+  return rectRegex.test(svg);
+}
+
+function svgContainsLineWithStroke(svg, stroke) {
+  const lineRegex = new RegExp(`<line[^>]*stroke="${stroke}"`, 'i');
+  return lineRegex.test(svg);
+}
+
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -54,7 +66,7 @@ describe("Plot Generation", () => {
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(svgContainsElements(writtenData, ["line", "circle"]) || 
-           svgContainsElements(writtenData, ["line", "polyline", "circle"])).toBe(true);
+           svgContainsElements(writtenData, ["line", "polyline", "circle"]).toBe(true);
     writeFileSyncSpy.mockRestore();
   });
 });
@@ -314,6 +326,24 @@ describe("Custom Marker Options", () => {
     expect(markerAttrs).not.toBeNull();
     expect(markerAttrs.r).toBe("3");
     expect(markerAttrs.fill).toBe("red");
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Background and Grid Customization", () => {
+  test("should include a background rectangle with the specified bgColor and grid lines with the specified gridColor", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--bgColor", "#f0f0f0",
+      "--gridColor", "#cccccc"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(svgContainsRectWithFill(writtenData, "#f0f0f0")).toBe(true);
+    expect(svgContainsLineWithStroke(writtenData, "#cccccc")).toBe(true);
     writeFileSyncSpy.mockRestore();
   });
 });
