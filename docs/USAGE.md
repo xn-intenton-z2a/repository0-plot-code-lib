@@ -43,6 +43,22 @@ The CLI allows you to generate plots using a range of parameters. Here are some 
   # Expected output: A JSON file containing the generated data points.
   ```
 
+### Diagnostics Mode
+
+A new diagnostics mode is available to output a comprehensive JSON report of the effective CLI options and environment details without generating any plot files. This is especially useful for debugging and validating configuration settings.
+
+- **Usage Example:**
+
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.svg --diagnostics
+  ```
+
+  **Expected Output:**
+
+  A JSON object printed to stdout containing:
+  - `mergedOptions`: The effective CLI options after merging any YAML configurations and command-line arguments.
+  - `envDetails`: Environment details including the current working directory, Node.js version, and platform.
+
 ### Additional CLI Options
 
 Customize your plot with additional options:
@@ -170,10 +186,11 @@ The CLI accepts configuration via both command line flags and YAML configuration
 - **Log Scale Configuration:** When enabling logarithmic scaling, make sure that all data points are positive, as log scaling does not support zero or negative values.
 - **YAML Overrides:** When using a YAML file, ensure the file is properly formatted. Invalid YAML can cause the CLI to exit with an error.
 - **Theme Options:** Use the `--theme` option to quickly apply a consistent visual style to your plot. The dark theme uses a dark background (#333333) with light markers, while the light theme uses a white background (#ffffff) with dark markers.
+- **Diagnostics Mode:** Use the `--diagnostics` flag to output a JSON report of the effective configuration and environment details instead of generating plots. This is useful for debugging and verifying your CLI options.
 - **Testing:** Refer to the unit tests for examples of how each functionality is expected to work. Running `npm test` provides immediate feedback on any discrepancies.
 
 ## Conclusion
 
-**repository0-plot-code-lib** offers a flexible and powerful interface for generating plots from mathematical expressions. Whether you use it via the CLI or import its functions directly into your code, the library supports extensive customization options – from marker styles to logarithmic axes and now customizable themes – ensuring that you can tailor the visualizations to your exact requirements.
+**repository0-plot-code-lib** offers a flexible and powerful interface for generating plots from mathematical expressions. Whether you use it via the CLI or import its functions directly into your code, the library supports extensive customization options – from marker styles to logarithmic axes and customizable themes – ensuring that you can tailor the visualizations to your exact requirements.
 
 Happy Plotting!
