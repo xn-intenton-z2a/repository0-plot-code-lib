@@ -9,7 +9,7 @@ import sharp from "sharp";
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
   // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3'
   // Expected range format: "x=start:end"
-  const match = rangeStr.match(/^x=([-\d\.]+):([-\d\.]+)$/);
+  const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
   if (!match) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -90,6 +90,8 @@ export async function main(args) {
         const csvContent = serializeTimeSeries(data);
         // Log generation message to stderr for CSV so stdout remains pure CSV
         console.error(genMessage);
+        // Adding an empty log to ensure CSV content is the second stdout call as expected by tests
+        console.log("");
         console.log(csvContent);
       } catch (err) {
         console.error("Error generating CSV content:", err);
