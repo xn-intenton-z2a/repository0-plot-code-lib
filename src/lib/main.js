@@ -6,17 +6,16 @@ import fs from "fs";
 import sharp from "sharp";
 
 // Generates time series data from a mathematical expression and range
-export function generateTimeSeriesData(expression, rangeStr) {
+export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
   // Supports simple expressions: 'y=sin(x)', 'y=cos(x)', and 'y=tan(x)'
   // Expected range format: "x=start:end"
-  const match = rangeStr.match(/^x=([\d\.]+):([\d\.]+)$/);
+  const match = rangeStr.match(/^x=([\d\.\-]+):([\d\.\-]+)$/);
   if (!match) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
   const start = parseFloat(match[1]);
   const end = parseFloat(match[2]);
 
-  const numPoints = 10;
   const step = (end - start) / (numPoints - 1);
   const data = [];
   for (let i = 0; i < numPoints; i++) {
@@ -48,7 +47,7 @@ export function serializeTimeSeries(data) {
 
 export async function main(args) {
   // Simple argument parser
-  let expression, range, outputFile;
+  let expression, range, outputFile, points;
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--expression") {
@@ -60,14 +59,22 @@ export async function main(args) {
     } else if (arg === "--file") {
       outputFile = args[i + 1];
       i++;
+    } else if (arg === "--points") {
+      points = parseInt(args[i + 1], 10);
+      i++;
     }
+  }
+
+  // Default points to 10 if not provided
+  if (!points) {
+    points = 10;
   }
 
   if (expression && range && outputFile) {
     if (outputFile.endsWith(".csv")) {
       // Generate time series data and output CSV content to stdout
       try {
-        const data = generateTimeSeriesData(expression, range);
+        const data = generateTimeSeriesData(expression, range, points);
         const csvContent = serializeTimeSeries(data);
         console.log(csvContent);
       } catch (err) {

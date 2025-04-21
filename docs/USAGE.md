@@ -26,6 +26,8 @@ The CLI tool is executed via Node.js and accepts the following parameters:
 
 - `--range`: Defines the range for the `x` values in the format `x=start:end`. For example, `x=0:6.28` sets the range from 0 to approximately 2π.
 
+- `--points`: (Optional) Specifies the number of data points to generate. If omitted, the default value of 10 is used. For instance, `--points 20` will generate 20 data points for the time series.
+
 - `--file`: Determines the type of output based on the file extension:
   - **CSV Output:** If the file name ends in `.csv`, the tool outputs CSV content directly to stdout.
   - **SVG Output:** If the file name ends in anything other than `.csv` or `.png`, it generates a dummy SVG file with embedded text displaying the input parameters.
@@ -35,17 +37,17 @@ The CLI tool is executed via Node.js and accepts the following parameters:
 
 ### Generating CSV Output
 
-To produce a CSV output containing time series data:
+To produce a CSV output containing time series data with a custom point count:
 
 ```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.csv
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --points 20 --file output.csv
 ```
 
 Expected output (printed to stdout):
 ```
 x,y
 0,<value>
-... (at least 10 data rows)
+... (20 data rows in total)
 ```
 
 ### Generating SVG Output
