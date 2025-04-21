@@ -1,174 +1,179 @@
 # Node.js Documentation
 ## https://nodejs.org/api/
-The official Node.js documentation covers the core modules, APIs, and best practices for building fast and scalable network applications using Node.js. It offers detailed guides, examples, and reference material maintained by the Node.js community and Foundation. This resource is widely regarded as the definitive reference for Node.js internals and module usage.
+The official Node.js documentation covers the core modules, APIs, and best practices for building fast and scalable network applications using Node.js. It provides definitive reference material maintained by the Node.js community and Foundation, and is updated regularly.
 ## MIT
 
 # ECMAScript Modules Guide (MDN)
 ## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
-This MDN guide explains the use of ECMAScript Modules in JavaScript, including the import/export syntax, module resolution, and best practices. It is an authoritative source maintained by Mozilla with regularly updated content reflecting the latest ECMAScript standards.
+This MDN guide explains the use of ECMAScript Modules in JavaScript, including import/export syntax, module resolution, and best practices. It is an authoritative source maintained by Mozilla with regularly updated content reflecting the latest ECMAScript standards.
 ## CC BY-SA 2.5
 
 # Prettier Documentation
 ## https://prettier.io/docs/en/index.html
-The Prettier documentation provides comprehensive guidance on using this opinionated code formatter to enforce consistent coding styles across projects. It offers detailed instructions, configuration options, and integration examples that are kept up-to-date with modern coding practices.
+The Prettier documentation provides comprehensive guidance on using this opinionated code formatter to enforce consistent coding styles across projects. It includes detailed configuration options and integration examples kept up-to-date with modern coding practices.
 ## MIT
 
 # Chart.js Documentation
 ## https://www.chartjs.org/docs/latest/
-Chart.js is a popular JavaScript library for creating responsive and animated charts. Its documentation explains how to configure various chart types, customize tooltips, legends, and animations for dynamic data visualizations.
+Chart.js is a popular JavaScript library for creating responsive and animated charts. Its documentation explains configuration, customization, and usage examples for dynamic data visualizations.
 ## MIT
 
 # OpenAI API Documentation
 ## https://platform.openai.com/docs/api-reference
-This documentation provides a complete reference for integrating OpenAI's machine learning models. It includes guidance on authentication, endpoint usage, error handling, and rate limiting with sample code examples.
+This documentation offers a complete reference for integrating OpenAI's machine learning models. It covers authentication, endpoint usage, error handling, and rate limiting, along with sample code examples.
 ## N/A
 
 # PDFKit Documentation
 ## https://pdfkit.org/docs/getting_started.html
-PDFKit is a robust library for generating PDFs in Node.js. Its documentation includes getting started guides, API references, and practical examples on embedding images, text, and vector graphics into PDF outputs.
+PDFKit is a robust library for generating PDFs in Node.js. Its documentation includes getting started guides, API references, and practical examples on embedding images, text, and vector graphics in PDF documents.
 ## MIT
 
 # Sharp Documentation
 ## https://sharp.pixelplumbing.com/api
-Sharp is a high-performance image processing library for Node.js. Its documentation provides detailed API references and usage examples for image conversion, resizing, and optimization, especially useful for generating PNG images from SVGs.
+Sharp is a high-performance image processing library for Node.js. Its documentation offers detailed API references and usage examples for image conversion, resizing, and optimization.
 ## Apache-2.0
 
 # Vega-Lite Documentation
 ## https://vega.github.io/vega-lite/docs/
-Vega-Lite offers a high-level grammar for interactive graphics. The documentation explains how to specify visual encodings, define transformations, and render charts efficiently for exploratory data analysis.
+Vega-Lite provides a high-level grammar for interactive graphics. It explains visual encoding, data transformations, and chart rendering for exploratory data analysis.
 ## BSD-3-Clause
 
 # Plotly.js Documentation
 ## https://plotly.com/javascript/
-Plotly.js provides a rich set of interactive, customizable charting options built on D3.js. Its documentation covers chart types, layout options, and interactivity features, making it an excellent resource for developers building advanced visualizations.
+Plotly.js offers a rich set of interactive, customizable charting options built on D3.js. Its documentation covers chart types, layout options, and interactivity features, ideal for advanced visualizations.
 ## MIT
 
 # MDN SVG Documentation
 ## https://developer.mozilla.org/en-US/docs/Web/SVG
-MDN's SVG documentation provides a comprehensive overview of SVG elements, attributes, and styling techniques. Maintained by Mozilla, it is a highly authoritative resource for integrating scalable vector graphics on the web.
+MDN's comprehensive SVG documentation details elements, attributes, and styling techniques for scalable vector graphics, maintained by Mozilla.
 ## CC BY-SA 2.0
 
 # D3.js Documentation
 ## https://github.com/d3/d3/blob/main/README.md
-D3.js is a powerful library for creating dynamic, interactive data visualizations in web browsers. The documentation details its core concepts, data binding techniques, and methods for creating smooth animations and transitions.
+D3.js is a powerful library for creating dynamic, interactive data visualizations in web browsers. Its documentation elaborates on core concepts, data binding, and animation techniques.
 ## BSD-3-Clause
 
 # SVG 2 Specification
 ## https://www.w3.org/TR/SVG2/
-The SVG 2 Specification by the W3C defines the structure, capabilities, and enhancements of scalable vector graphics. It serves as the authoritative source for modern SVG features and standards.
+The SVG 2 Specification by the W3C defines the enhanced structure and capabilities of scalable vector graphics, serving as the authoritative source for modern SVG features.
 ## W3C
 
 # Math.js Documentation
 ## https://mathjs.org/docs/index.html
-Math.js is an extensive mathematics library for JavaScript with a flexible expression parser and numerous mathematical functions. Its documentation is essential for integrating complex mathematical computations in applications.
+Math.js is an extensive mathematics library for JavaScript, featuring an expression parser and numerous mathematical functions. It is essential for integrating complex computations within applications.
 ## Apache-2.0
 
 # Vega Documentation
 ## https://vega.github.io/vega/docs/
-Vega is a declarative format for creating interactive visualizations. Its documentation covers the specification of data-driven visuals, configuration options, and customization techniques for advanced plotting needs.
+Vega offers a declarative format for interactive visualizations, covering data-driven visuals and customization options for advanced plotting needs.
 ## BSD-3-Clause
 
 # Vitest Documentation
 ## https://vitest.dev
-Vitest is a Vite-native unit testing framework designed for rapid and efficient testing in modern JavaScript and TypeScript projects. Its comprehensive guides and API references help developers write reliable tests with real-time feedback.
+Vitest is a Vite-native unit testing framework designed for efficient testing in JavaScript/TypeScript projects. Its documentation provides guides, API references, and real-time feedback examples.
 ## MIT
 
 # Zod Documentation
 ## https://zod.dev/
-Zod is a TypeScript-first schema declaration and validation library, crucial for robust CLI flag parsing and runtime validation. Its documentation outlines schema creation, validation strategies, and transformation examples that are frequently updated.
+Zod is a TypeScript-first schema declaration and validation library, crucial for robust CLI flag parsing and runtime validations. Its documentation includes schema creation, validation strategies, and transformation examples.
 ## MIT
 
 # jq Manual
 ## https://stedolan.github.io/jq/manual/
-The jq manual details the usage of jq, a lightweight and flexible command-line JSON processor. It includes numerous examples and explanations for data filtering and transformation, making it the go-to guide for jq users.
+The jq manual explains the usage of jq, a lightweight command-line JSON processor. It offers numerous examples for data filtering and transformation, making it the go-to guide for JSON query operations.
 ## MIT
 
 # Gnuplot Documentation
 ## http://www.gnuplot.info/documentation.html
-Gnuplot offers extensive documentation for its command-line driven graphing utility. It covers tutorials, reference guides, and examples that help users create sophisticated plots for scientific and engineering applications.
+Gnuplot offers extensive documentation for its command-line graphing utility, covering tutorials, reference guides, and examples that help in creating sophisticated scientific and engineering plots.
 ## GPL
 
 # Yargs Documentation
 ## https://yargs.js.org/docs/
-Yargs is a powerful Node.js library for building interactive command-line interfaces. Its documentation provides in-depth guidance on argument parsing, command management, and usage examples, assuring ease of CLI development.
+Yargs is a robust Node.js library for building interactive command-line interfaces. Its documentation details argument parsing, command management, and usage examples for effective CLI development.
 ## MIT
 
 # Desmos Graphing Calculator API
 ## https://www.desmos.com/api/v1.6/docs/index.html
-This source offers guidelines for integrating the Desmos Graphing Calculator into web applications. It provides insights for dynamic and interactive visualizations of mathematical functions, useful for inspiring similar approaches in CLI plotting tools.
+This source provides guidelines for integrating the Desmos Graphing Calculator into web applications, enabling dynamic and interactive visualizations of mathematical functions.
 ## N/A
 
 # Express Documentation
 ## https://expressjs.com/
-The Express documentation is a comprehensive guide to this popular Node.js framework. It includes detailed information on routing, middleware, error handling, and deployment for building scalable web applications.
+The Express documentation offers a comprehensive guide for building scalable web applications in Node.js, including routing, middleware, error handling, and deployment practices.
 ## MIT
 
 # js-yaml Documentation
 ## https://github.com/nodeca/js-yaml
-Hosted on GitHub, the js-yaml documentation explains how to parse and dump YAML in JavaScript environments. It offers examples, API references, and best practices for managing configuration files.
+Hosted on GitHub, the js-yaml documentation explains how to parse and dump YAML in JavaScript environments, with clear examples and API details for configuration file management.
 ## MIT
 
 # EJS Documentation
 ## https://ejs.co/#docs
-EJS documentation covers integrating EJS templates into Node.js applications, detailing syntax, configuration options, and embedding JavaScript into HTML. It’s a key resource for developers implementing templating solutions.
+EJS documentation details the integration of EJS templating into Node.js applications, explaining syntax, configuration, and embedding JavaScript within HTML.
 ## MIT
 
 # Minimatch Documentation
 ## https://github.com/isaacs/minimatch
-Minimatch’s documentation provides insight into matching file paths using glob patterns in JavaScript. With clear examples and API details, it serves as an essential guide for projects involving file pattern matching.
+Minimatch’s documentation provides guidance on matching file paths using glob patterns in JavaScript, with clear examples and API details for effective pattern matching.
 ## ISC
 
 # dotenv Documentation
 ## https://github.com/motdotla/dotenv
-Dotenv’s repository documentation explains how to load environment variables from a .env file into process.env. It includes setup instructions, usage examples, and best practices for environment configuration in Node.js.
+Dotenv’s documentation explains how to load environment variables from a .env file into process.env, covering setup instructions, usage examples, and best practices.
 ## MIT
 
 # CLI Design Guidelines (Smashing Magazine)
 ## https://www.smashingmagazine.com/2017/06/command-line-interface-design/
-This article from Smashing Magazine provides practical insights and best practices for designing intuitive and user-friendly command-line interfaces. It explores command structure, error messaging, and overall user experience, making it a valuable resource for developers crafting CLI tools.
+This article offers practical insights and best practices for designing intuitive and user-friendly command-line interfaces, covering command structure, error messaging, and overall user experience.
 ## CC BY-ND
 
 # YAML Specification
 ## https://yaml.org/spec/1.2/spec.html
-The YAML 1.2 specification is the authoritative document for the YAML language. It provides comprehensive details on the syntax, data structures, and use cases for YAML, which is widely used for configuration files and data serialization.
+The YAML 1.2 specification is the authoritative document for the YAML language, providing details on syntax, data structures, and practical use cases for configuration and data serialization.
 ## Open YAML Initiative
 
 # Commander.js Documentation
 ## https://github.com/tj/commander.js#readme
-Commander.js is a popular Node.js library for building command-line interfaces. It provides a robust set of features for argument parsing, subcommand handling, and custom help text generation. The documentation includes examples and detailed usage instructions, making it a useful benchmark for CLI design.
+Commander.js is a popular library for building command-line interfaces in Node.js, offering features like argument parsing and help text generation. Its documentation includes extensive examples and usage guidelines.
 ## MIT
 
 # Building Node.js CLI Apps (freeCodeCamp)
 ## https://www.freecodecamp.org/news/building-a-node-cli-app/
-This freeCodeCamp article offers a comprehensive guide on creating command-line tools with Node.js. It covers the basics of argument parsing, error handling, and best practices for CLI tool development, serving as a resource for both beginners and experienced developers.
+This freeCodeCamp article provides a step-by-step guide on creating command-line tools with Node.js, addressing argument parsing, error handling, and best practices for developing CLI applications.
 ## N/A
 
 # ESLint Documentation
 ## https://eslint.org/docs/latest/use/command-line-interface
-The ESLint documentation provides detailed instructions on how to use ESLint's command-line interface to lint JavaScript code. It includes configuration options, integration examples, and best practices for maintaining code quality in projects.
+The ESLint documentation details how to use its command-line interface to lint JavaScript code, including configuration options and integration examples for maintaining code quality.
 ## MIT
 
 # Express Best Practices
 ## https://expressjs.com/en/advanced/best-practice-performance.html
-This guide outlines best practices for building and maintaining high-performance Express applications. It emphasizes middleware configuration, error handling, and security measures, offering practical advice for optimizing Node.js applications.
+This guide outlines best practices for building high-performance Express applications, focusing on middleware configuration, error handling, and security measures for optimizing Node.js applications.
 ## MIT
 
 # NPM Documentation
 ## https://docs.npmjs.com/
-The official NPM Documentation details commands, package configuration, publishing guidelines, and dependency management practices. It is an essential resource for developers working in the Node.js ecosystem.
+The official NPM documentation provides comprehensive guidance on commands, package configuration, publishing, and dependency management, serving as an essential resource for developers in the Node.js ecosystem.
 ## N/A
 
 # ECMAScript Language Specification
 ## https://tc39.es/ecma262/
-The ECMAScript Language Specification defines the standard for JavaScript, providing detailed and authoritative guidelines on syntax, semantics, and built-in functionalities. It is regularly updated by TC39 and serves as a fundamental resource for JavaScript engine developers and advanced users.
+The ECMAScript Language Specification defines the standard for JavaScript's syntax, semantics, and built-in functionalities. Regularly updated by TC39, it is vital for JavaScript engine developers and advanced users.
 ## Public Domain
 
 # Vite Documentation
 ## https://vitejs.dev/guide/
-Vite offers a modern build tool and development server for web projects with a focus on speed and ease of use. While primarily used for front-end development, its insights into ES modules and rapid development can benefit CLI tool development and bundling strategies.
+Vite is a modern build tool and development server for web projects with a focus on speed and simplicity. Its insights into module bundling and fast development cycles benefit both front-end and CLI tool development.
 ## MIT
 
 # Markdown-it Documentation
 ## https://github.com/markdown-it/markdown-it/blob/master/README.md
-Markdown-it provides a robust and extensible Markdown parser with support for GitHub Flavored Markdown (GFM). This resource is valuable for integrating markdown processing in applications and ensuring consistent rendering of documentation.
+Markdown-it offers a robust and extensible Markdown parser supporting GitHub Flavored Markdown (GFM), ensuring consistent rendering of documentation in various applications.
+## MIT
+
+# Node.js Readline Documentation
+## https://nodejs.org/api/readline.html
+The Node.js Readline documentation provides details on creating interactive command-line interfaces by reading data one line at a time from a readable stream, essential for implementing interactive CLI features.
 ## MIT
