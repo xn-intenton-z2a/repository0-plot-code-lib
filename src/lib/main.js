@@ -13,7 +13,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
   // Supports expressions such as 'y=sin(x)', etc. and now also piecewise expressions
   // Expected range format: "x=start:end"
 
-  const matchRange = rangeStr.match(/^x=([-\d\.]+):([-\d\.]+)$/);
+  const matchRange = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
   if (!matchRange) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
@@ -153,7 +153,9 @@ function generateSvgContent({
   legendFont,
   legendFontSize,
   legendBackground,
-  legendTitle
+  legendTitle,
+  logScaleX = false,
+  logScaleY = false
 }) {
   // Support multi-expression overlay plotting: if data is an array of arrays, treat as multiple series
   const multi = Array.isArray(data) && data.length > 0 && Array.isArray(data[0]);
@@ -168,8 +170,8 @@ function generateSvgContent({
       ys.push(p.y);
     });
   });
-  const xMin = Math.min(...xs);
-  const xMax = Math.max(...xs);
+  let xMin = Math.min(...xs);
+  let xMax = Math.max(...xs);
   let yMin = Math.min(...ys);
   let yMax = Math.max(...ys);
   if (yMin === yMax) {
@@ -177,14 +179,45 @@ function generateSvgContent({
     yMax += 1;
   }
 
-  // Define scale factors
-  const scaleX = (width - 2 * margin) / (xMax - xMin);
-  const scaleY = (height - 2 * margin) / (yMax - yMin);
+  // If logarithmic scaling is requested, ensure positive bounds and compute using log transformation
+  let scaleX;
+  if (logScaleX) {
+    if (xMin <= 0) {
+      throw new Error("All x values must be positive for logarithmic scaling");
+    }
+    const logXMin = Math.log10(xMin);
+    const logXMax = Math.log10(xMax);
+    scaleX = (width - 2 * margin) / (logXMax - logXMin);
+  } else {
+    scaleX = (width - 2 * margin) / (xMax - xMin);
+  }
+
+  let scaleY;
+  if (logScaleY) {
+    if (yMin <= 0) {
+      throw new Error("All y values must be positive for logarithmic scaling");
+    }
+    const logYMin = Math.log10(yMin);
+    const logYMax = Math.log10(yMax);
+    scaleY = (height - 2 * margin) / (logYMax - logYMin);
+  } else {
+    scaleY = (height - 2 * margin) / (yMax - yMin);
+  }
 
   // Helper function to transform data coordinate to SVG coordinate
   const transform = (x, y) => {
-    const tx = margin + (x - xMin) * scaleX;
-    const ty = height - margin - (y - yMin) * scaleY;
+    let tx;
+    if (logScaleX) {
+      tx = margin + (Math.log10(x) - Math.log10(xMin)) * scaleX;
+    } else {
+      tx = margin + (x - xMin) * scaleX;
+    }
+    let ty;
+    if (logScaleY) {
+      ty = height - margin - (Math.log10(y) - Math.log10(yMin)) * scaleY;
+    } else {
+      ty = height - margin - (y - yMin) * scaleY;
+    }
     return { tx, ty };
   };
 
@@ -363,6 +396,7 @@ export async function main(args) {
   let width = 500, height = 500;
   let customFunctions;
   let legendPosition, legendFont, legendFontSize, legendBackground, legendTitle;
+  let logScaleX = false, logScaleY = false;
   gridDashArray = "4"; // default dash pattern
 
   // First, check for YAML configuration
@@ -475,6 +509,12 @@ export async function main(args) {
     } else if (arg === "--legend-title") {
       legendTitle = args[i + 1];
       i++;
+    } else if (arg === "--logScaleX") {
+      logScaleX = args[i + 1].toLowerCase() === "true";
+      i++;
+    } else if (arg === "--logScaleY") {
+      logScaleY = args[i + 1].toLowerCase() === "true";
+      i++;
     }
   }
 
@@ -513,6 +553,8 @@ export async function main(args) {
   if (yamlOptions['legend-font-size'] !== undefined) legendFontSize = parseInt(yamlOptions['legend-font-size'], 10);
   if (yamlOptions['legend-background'] !== undefined) legendBackground = yamlOptions['legend-background'];
   if (yamlOptions['legend-title'] !== undefined) legendTitle = yamlOptions['legend-title'];
+  if (yamlOptions['logScaleX'] !== undefined) logScaleX = String(yamlOptions['logScaleX']).toLowerCase() === "true";
+  if (yamlOptions['logScaleY'] !== undefined) logScaleY = String(yamlOptions['logScaleY']).toLowerCase() === "true";
 
   // Set defaults if still undefined
   if (!points) {
@@ -569,7 +611,9 @@ export async function main(args) {
           legendFont,
           legendFontSize,
           legendBackground,
-          legendTitle
+          legendTitle,
+          logScaleX,
+          logScaleY
         });
         const doc = new PDFDocument({ size: [width, height] });
         const chunks = [];
@@ -616,7 +660,9 @@ export async function main(args) {
           legendFont,
           legendFontSize,
           legendBackground,
-          legendTitle
+          legendTitle,
+          logScaleX,
+          logScaleY
         });
         if (outputFile.endsWith(".png")) {
           const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();

@@ -646,3 +646,51 @@ describe("Customized Legend Generation", () => {
     writeFileSyncSpy.mockRestore();
   });
 });
+
+describe("Logarithmic Scale Options", () => {
+  test("should apply logarithmic scaling on x-axis when --logScaleX is true", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    // Use a positive range for x to enable log scale
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=1:100",
+      "--file", "output.svg",
+      "--logScaleX", "true"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // Check that the SVG was generated and contains a polyline
+    expect(writtenData).toContain('<polyline');
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should apply logarithmic scaling on y-axis when --logScaleY is true", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    // Use a positive range for y by using an expression with positive outputs
+    const args = [
+      "--expression", "y=exp(x)",
+      "--range", "x=1:3",
+      "--file", "output.svg",
+      "--logScaleY", "true"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('<polyline');
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should apply logarithmic scaling on both axes when --logScaleX and --logScaleY are true", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=exp(x)",
+      "--range", "x=1:10",
+      "--file", "output.svg",
+      "--logScaleX", "true",
+      "--logScaleY", "true"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('<polyline');
+    writeFileSyncSpy.mockRestore();
+  });
+});
