@@ -1,24 +1,15 @@
-# OpenAI API Documentation
-## https://platform.openai.com/docs/api-reference
-The official OpenAI API documentation provides comprehensive guides and reference material for integrating AI capabilities into applications. This resource supports the CLI's new AI-assisted feature by showing how to translate natural language descriptions into mathematical expressions and ranges, and is frequently updated by OpenAI.
-## Proprietary (OpenAI)
+# Zod Documentation
+## https://zod.dev/
+Zod is a TypeScript-first schema declaration and validation library that provides a powerful and straightforward way of validating and parsing data in JavaScript and TypeScript. Its robust API is widely used in modern development and is especially useful in CLI tools for ensuring correct input formats. Last reviewed in 2023; it is licensed under the MIT License.
 
-# PDFKit Documentation
-## https://pdfkit.org/docs/
-PDFKit is a powerful library for generating PDF files in Node.js. Its documentation includes detailed examples and usage guides that are essential for the CLI's PDF export functionality. The resource is maintained with regular updates and is widely used in the Node.js community.
-## MIT
+# Vitest Documentation
+## https://vitest.dev/
+Vitest is a modern unit testing framework powered by Vite, offering fast, native ESM support and an intuitive API. It is used to test the behavior of JavaScript and TypeScript applications including CLI tools, with a focus on performance and simplicity. The documentation is comprehensive and up-to-date (2023), and Vitest is available under the MIT License.
 
-# Sharp Documentation
-## https://sharp.pixelplumbing.com/api-reference
-Sharp is a high-performance image processing library used to convert SVG images into PNG, JPEG, and other formats. Its API reference details methods for resizing, quality adjustments, and conversion operations, which directly support the CLI's image export features.
-## Apache-2.0
+# js-yaml Documentation
+## https://github.com/nodeca/js-yaml
+js-yaml is a YAML parser and serializer for JavaScript and Node.js, emphasizing adherence to the YAML 1.2 specification. It is an essential resource for projects that require configuration management through YAML files, such as our CLI tool for handling plot configurations. The project is actively maintained and is distributed under the MIT License.
 
-# Express Documentation
-## https://expressjs.com/en/4x/api.html
-Express is a minimal and flexible web framework for Node.js. The documentation covers routing, middleware, and HTTP server setup, making it a valuable resource for implementing interactive preview modes in the CLI tool.
-## MIT
-
-# svg-to-pdfkit Documentation
-## https://github.com/devongovett/svg-to-pdfkit
-This documentation outlines how to convert SVG content to PDF using the svg-to-pdfkit library. It complements the PDF export feature by explaining integration details with PDFKit, ensuring high-quality PDF generation from SVG plots.
-## MIT
+# npm-check-updates Documentation
+## https://www.npmjs.com/package/npm-check-updates
+npm-check-updates is a command-line tool that allows developers to upgrade dependencies in package.json to their latest versions. This resource is valuable for maintaining up-to-date dependencies in modern JavaScript projects, ensuring compatibility and access to the latest features. The package is well-documented and maintained, and it is licensed under the MIT License.
