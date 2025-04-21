@@ -7,7 +7,7 @@ import sharp from "sharp";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
-  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)'
+  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3'
   // Expected range format: "x=start:end"
   const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
   if (!match) {
@@ -37,6 +37,8 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10) {
     } else if (expression === "y=sqrt(x)") {
       // Compute square root if x is non-negative, otherwise default to 0
       y = x >= 0 ? Math.sqrt(x) : 0;
+    } else if (expression === "y=x^3") {
+      y = x * x * x;
     } else {
       // Default behavior for unsupported expressions
       y = 0;
