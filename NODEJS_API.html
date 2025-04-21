@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="nodejs_api" href="#nodejs_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NODEJS_API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">The Node.js API documentation provides detailed technical specifications including a complete HTTP server example and extensive assertion testing APIs. Key topics include HTTP server setup with createServer, detailed usage of the assert module in both strict and legacy modes, the construction and use of assert.AssertionError, and the deprecated assert.CallTracker with its methods (calls, getCalls, report, reset, verify). It also documents full method signatures, parameter types, default values, and code snippets demonstrating their usage.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ol class="md-github">
+<li class="md-github">HTTP Server Example
+<ul class="md-github">
+<li class="md-github">Code example for creating a server using node:http</li>
+<li class="md-github">Listening configuration: port 3000, host 127.0.0.1</li>
+</ul>
+</li>
+<li class="md-github">Assertion Testing
+<ul class="md-github">
+<li class="md-github">Strict assertion mode: import from 'node:assert/strict' and usage of assert.deepStrictEqual</li>
+<li class="md-github">Legacy assertion mode: import from 'node:assert'</li>
+</ul>
+</li>
+<li class="md-github">Assert API Specifications
+<ul class="md-github">
+<li class="md-github">Detailed method signatures including: assert(), assert.deepEqual(), assert.strictEqual(), etc.</li>
+</ul>
+</li>
+<li class="md-github">assert.AssertionError
+<ul class="md-github">
+<li class="md-github">Constructor and options (message, actual, expected, operator, stackStartFn)</li>
+</ul>
+</li>
+<li class="md-github">assert.CallTracker (Deprecated)
+<ul class="md-github">
+<li class="md-github">Methods: calls(fn, exact), getCalls(fn), report(), reset(fn), verify()</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="1-http-server-example" href="#1-http-server-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. HTTP Server Example</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Import:</strong> <code class="md-github">import { createServer } from 'node:http';</code></li>
+<li class="md-github"><strong class="md-github">Usage:</strong> Create a server, set response headers and status, and listen on a specified host and port.</li>
+<li class="md-github"><strong class="md-github">Code:</strong></li>
+</ul>
+<pre class="md-github"><code class="md-github language-js">import { createServer } from 'node:http';
+const server = createServer((req, res) =&gt; {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello World!\n');
+});
+server.listen(3000, '127.0.0.1', () =&gt; {
+  console.log('Listening on 127.0.0.1:3000');
+});
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="2-assertion-testing" href="#2-assertion-testing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Assertion Testing</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="strict-mode" href="#strict-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Strict Mode</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Import:</strong> <code class="md-github">import { strict as assert } from 'node:assert';</code></li>
+<li class="md-github"><strong class="md-github">Method Example:</strong> <code class="md-github">assert.deepStrictEqual(actual, expected, [message])</code></li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="legacy-mode" href="#legacy-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Legacy Mode</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Import:</strong> <code class="md-github">import assert from 'node:assert';</code></li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="3-assert-api-specifications" href="#3-assert-api-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Assert API Specifications</h2>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">assert(value[, message])</code>: Tests truthiness.</li>
+<li class="md-github"><code class="md-github">assert.deepEqual(actual, expected[, message])</code>: Compares using loose equality rules.</li>
+<li class="md-github"><code class="md-github">assert.deepStrictEqual(actual, expected[, message])</code>: Compares using strict equality including Object.is and prototype checking.</li>
+<li class="md-github"><code class="md-github">assert.doesNotMatch(string, regexp[, message])</code>: Asserts string does not match regexp.</li>
+<li class="md-github"><code class="md-github">assert.doesNotReject(asyncFn[, error][, message])</code>: Returns a promise that ensures no rejection.</li>
+<li class="md-github"><code class="md-github">assert.doesNotThrow(fn[, error][, message])</code>: Asserts function does not throw.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="4-assertassertionerror" href="#4-assertassertionerror"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. assert.AssertionError</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Constructor:</strong> <code class="md-github">new assert.AssertionError(options)</code>
+<ul class="md-github">
+<li class="md-github">Options:
+<ul class="md-github">
+<li class="md-github">message: string</li>
+<li class="md-github">actual: any</li>
+<li class="md-github">expected: any</li>
+<li class="md-github">operator: string</li>
+<li class="md-github">stackStartFn: Function</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="5-assertcalltracker" href="#5-assertcalltracker"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. assert.CallTracker</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Constructor:</strong> <code class="md-github">new assert.CallTracker()</code></li>
+<li class="md-github"><strong class="md-github">Methods:</strong>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">calls(fn, [exact])</code>: Wraps a function to be called exactly <code class="md-github">exact</code> times (default 1).</li>
+<li class="md-github"><code class="md-github">getCalls(fn)</code>: Returns an array of objects <code class="md-github">{ thisArg, arguments }</code>.</li>
+<li class="md-github"><code class="md-github">report()</code>: Provides detailed call count mismatch reports.</li>
+<li class="md-github"><code class="md-github">reset([fn])</code>: Resets call tracking.</li>
+<li class="md-github"><code class="md-github">verify()</code>: Validates that functions were invoked the expected number of times.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="http-server-configuration" href="#http-server-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP Server Configuration</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Port:</strong> 3000</li>
+<li class="md-github"><strong class="md-github">Host:</strong> 127.0.0.1</li>
+<li class="md-github"><strong class="md-github">Response Header:</strong> Content-Type set to 'text/plain'</li>
+<li class="md-github"><strong class="md-github">Default Logging:</strong> Console outputs listening status.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="assertion-module-detailed-specs" href="#assertion-module-detailed-specs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Assertion Module Detailed Specs</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Strict Mode:</strong> Automatically uses deep strict equality comparisons (e.g., Object.is for NaN, compares prototypes).</li>
+<li class="md-github"><strong class="md-github">Legacy Mode:</strong> Uses non-strict type coercion (==) which can lead to unintended pass conditions.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="assertassertionerror-options" href="#assertassertionerror-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>assert.AssertionError Options</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">message:</strong> Custom error message string.</li>
+<li class="md-github"><strong class="md-github">actual &amp; expected:</strong> Values being compared (any type).</li>
+<li class="md-github"><strong class="md-github">operator:</strong> Comparison operator string (e.g., 'strictEqual').</li>
+<li class="md-github"><strong class="md-github">stackStartFn:</strong> Function reference to omit stack trace frames.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="assertcalltracker-methods" href="#assertcalltracker-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>assert.CallTracker Methods</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">calls(fn, exact=1):</strong>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Parameter:</strong> Function to monitor, exact call count (default 1).</li>
+<li class="md-github"><strong class="md-github">Return:</strong> Wrapped function that records each call with parameters and context.</li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">getCalls(fn):</strong>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Return:</strong> Array of call records with keys <code class="md-github">thisArg</code> and <code class="md-github">arguments</code>.</li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">report():</strong>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Return:</strong> Array of mismatch reports detailing expected vs actual call counts, including stack traces.</li>
+</ul>
+</li>
+<li class="md-github"><strong class="md-github">reset([fn]):</strong> Resets call counts for a specific function or all if none provided.</li>
+<li class="md-github"><strong class="md-github">verify():</strong>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Behavior:</strong> Throws an error if any tracked function has not met the expected call count.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="complete-api-specifications-and-code-examples" href="#complete-api-specifications-and-code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API Specifications and Code Examples</h3>
+<h4 class="md-github"><a class="md-github__anchor" name="http-server-api" href="#http-server-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP Server API</h4>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Method:</strong> createServer(callback: (req: IncomingMessage, res: ServerResponse) =&gt; void): Server
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Example:</strong><pre class="md-github"><code class="md-github language-js">import { createServer } from 'node:http';
+const server = createServer((req, res) =&gt; {
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  res.end('Hello World!\n');
+});
+server.listen(3000, '127.0.0.1', () =&gt; {
+  console.log('Listening on 127.0.0.1:3000');
+});
+</code></pre>
+</li>
+</ul>
+</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="assert-module-api" href="#assert-module-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>assert Module API</h4>
+<ol class="md-github">
+<li class="md-github">assert(value: any, message?: string | Error): void</li>
+<li class="md-github">assert.deepEqual(actual: any, expected: any, message?: string | Error): void</li>
+<li class="md-github">assert.deepStrictEqual(actual: any, expected: any, message?: string | Error): void</li>
+<li class="md-github">assert.strictEqual(actual: any, expected: any, message?: string | Error): void</li>
+<li class="md-github">assert.doesNotMatch(string: string, regexp: RegExp, message?: string | Error): void</li>
+<li class="md-github">assert.doesNotReject(asyncFn: Function | Promise<any>, error?: RegExp | Function, message?: string): Promise<void></li>
+<li class="md-github">assert.doesNotThrow(fn: Function, error?: RegExp | Function, message?: string): void</li>
+<li class="md-github">assert.ifError(value: any): void</li>
+<li class="md-github">assert.match(string: string, regexp: RegExp, message?: string | Error): void</li>
+<li class="md-github">assert.notDeepEqual(actual: any, expected: any, message?: string | Error): void</li>
+<li class="md-github">assert.notDeepStrictEqual(actual: any, expected: any, message?: string | Error): void</li>
+<li class="md-github">assert.notEqual(actual: any, expected: any, message?: string | Error): void</li>
+<li class="md-github">assert.notStrictEqual(actual: any, expected: any, message?: string | Error): void</li>
+<li class="md-github">assert.ok(value: any, message?: string | Error): void</li>
+<li class="md-github">assert.rejects(asyncFn: Function | Promise<any>, error?: RegExp | Function, message?: string): Promise<void></li>
+<li class="md-github">assert.throws(fn: Function, error?: RegExp | Function, message?: string): void</li>
+<li class="md-github">assert.partialDeepStrictEqual(actual: any, expected: any, message?: string | Error): void</li>
+</ol>
+<h4 class="md-github"><a class="md-github__anchor" name="assertassertionerror" href="#assertassertionerror"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>assert.AssertionError</h4>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Signature:</strong></p>
+<pre class="md-github"><code class="md-github language-js">new assert.AssertionError({ message?: string, actual: any, expected: any, operator: string, stackStartFn?: Function })
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Properties:</strong></p>
+<ul class="md-github">
+<li class="md-github">message: string</li>
+<li class="md-github">actual: any</li>
+<li class="md-github">expected: any</li>
+<li class="md-github">operator: string</li>
+<li class="md-github">generatedMessage: boolean (true if auto-generated)</li>
+<li class="md-github">code: string ('ERR_ASSERTION')</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">import assert from 'node:assert/strict';
+const { message } = new assert.AssertionError({ actual: 1, expected: 2, operator: 'strictEqual' });
+try {
+  assert.strictEqual(1, 2);
+} catch (err) {
+  console.error(err.message);
+}
+</code></pre>
+</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="assertcalltracker-deprecated" href="#assertcalltracker-deprecated"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>assert.CallTracker (Deprecated)</h4>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Constructor:</strong></p>
+<pre class="md-github"><code class="md-github language-js">const tracker = new assert.CallTracker();
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Methods:</strong></p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">calls(fn: Function, exact?: number): Function</code>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Usage:</strong><pre class="md-github"><code class="md-github language-js">const trackedFn = tracker.calls(myFunction, 2);
+trackedFn();
+trackedFn();
+</code></pre>
+</li>
+</ul>
+</li>
+<li class="md-github"><code class="md-github">getCalls(fn: Function): Array&lt;{ thisArg: any, arguments: any[] }&gt;</code></li>
+<li class="md-github"><code class="md-github">report(): Array&lt;{ message: string, actual: number, expected: number, operator: string, stack: Object }&gt;</code></li>
+<li class="md-github"><code class="md-github">reset(fn?: Function): void</code></li>
+<li class="md-github"><code class="md-github">verify(): void</code>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Behavior:</strong> Throws error if tracked functions have not been called the exact expected number of times.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Full Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">import assert from 'node:assert';
+import process from 'node:process';
+
+const tracker = new assert.CallTracker();
+function func() { /* implementation */ }
+const callsFunc = tracker.calls(func, 1);
+callsFunc();
+// Verification should be done at program exit
+process.on('exit', () =&gt; {
+  tracker.verify();
+});
+</code></pre>
+</li>
+</ul>
+<h4 class="md-github"><a class="md-github__anchor" name="best-practices-and-troubleshooting" href="#best-practices-and-troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices and Troubleshooting</h4>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">HTTP Server:</strong> Use version managers to install Node.js. Ensure port and host are correctly configured to avoid binding errors.</li>
+<li class="md-github"><strong class="md-github">Assertion Testing:</strong> Prefer strict assertions to catch subtle errors. When using CallTracker, always call verify() to enforce call count constraints.</li>
+<li class="md-github"><strong class="md-github">Troubleshooting Assertions:</strong> Check for type mismatches especially when comparing objects and primitives; use deepStrictEqual for best results.</li>
+<li class="md-github"><strong class="md-github">Environment Variables:</strong> Use NO_COLOR or NODE_DISABLE_COLORS to disable colorized output in error messages if needed.</li>
+</ul>
+<p class="md-github"><strong class="md-github">Commands for Troubleshooting:</strong></p>
+<ul class="md-github">
+<li class="md-github">Run server with detailed logging:<pre class="md-github"><code class="md-github language-bash">node server.mjs
+</code></pre>
+</li>
+<li class="md-github">For assertion failures, re-run tests with increased verbosity or log the error's stack trace to identify mismatches.</li>
+</ul>
+<p class="md-github">This complete reference is intended to be directly integrated into development environments without requiring further external lookup.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js API Documentation
+https://nodejs.org/api/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-nodejs_api" href="#digest-of-nodejs_api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of NODEJS_API</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="nodejs-api-documentation" href="#nodejs-api-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js API Documentation</h1>
+<p class="md-github"><strong class="md-github">Retrieved Date:</strong> 2023-10-07</p>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents-1" href="#table-of-contents-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ol class="md-github">
+<li class="md-github">HTTP Server Example</li>
+<li class="md-github">Assertion Testing
+<ul class="md-github">
+<li class="md-github">Strict Assertion Mode</li>
+<li class="md-github">Legacy Assertion Mode</li>
+<li class="md-github">assert.AssertionError Class</li>
+<li class="md-github">assert.CallTracker Class</li>
+</ul>
+</li>
+<li class="md-github">API Method Signatures and Code Examples</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="1-http-server-example-1" href="#1-http-server-example-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. HTTP Server Example</h2>
+<p class="md-github"><strong class="md-github">Code Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">// server.mjs
+import { createServer } from 'node:http';
+
+const server = createServer((req, res) =&gt; {
+  // Setting HTTP headers
+  res.writeHead(200, { 'Content-Type': 'text/plain' });
+  // Ending response with plain text
+  res.end('Hello World!\n');
+});
+
+// Start server on 127.0.0.1:3000
+server.listen(3000, '127.0.0.1', () =&gt; {
+  console.log('Listening on 127.0.0.1:3000');
+});
+
+// Run with `node server.mjs`
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="2-assertion-testing-1" href="#2-assertion-testing-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Assertion Testing</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="21-strict-assertion-mode" href="#21-strict-assertion-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.1 Strict Assertion Mode</h3>
+<p class="md-github">To use strict mode, import as follows:</p>
+<pre class="md-github"><code class="md-github language-js">import { strict as assert } from 'node:assert';
+// or
+import assert from 'node:assert/strict';
+</code></pre>
+<p class="md-github">The strict methods automatically compare values using deep strict equality. Example:</p>
+<pre class="md-github"><code class="md-github language-js">assert.deepStrictEqual([[[1, 2, 3]], 4, 5], [[[1, 2, '3']], 4, 5]);
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="22-legacy-assertion-mode" href="#22-legacy-assertion-mode"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.2 Legacy Assertion Mode</h3>
+<p class="md-github">Legacy mode uses non-strict comparisons (== for equality). Import as:</p>
+<pre class="md-github"><code class="md-github language-js">import assert from 'node:assert';
+</code></pre>
+<p class="md-github"><em class="md-github">Note:</em> Legacy mode may produce surprising results (e.g. comparing regex and dates).</p>
+<h3 class="md-github"><a class="md-github__anchor" name="23-class-assertassertionerror" href="#23-class-assertassertionerror"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.3 Class: assert.AssertionError</h3>
+<p class="md-github"><strong class="md-github">Usage:</strong></p>
+<p class="md-github">Constructor signature:</p>
+<pre class="md-github"><code class="md-github language-js">new assert.AssertionError(options)
+</code></pre>
+<p class="md-github"><strong class="md-github">Options Object Properties:</strong></p>
+<ul class="md-github">
+<li class="md-github">message: string (error message if provided)</li>
+<li class="md-github">actual: any (actual value)</li>
+<li class="md-github">expected: any (expected value)</li>
+<li class="md-github">operator: string (e.g., 'strictEqual')</li>
+<li class="md-github">stackStartFn: Function (to omit stack frames before this function)</li>
+</ul>
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">import assert from 'node:assert/strict';
+
+const { message } = new assert.AssertionError({
+  actual: 1,
+  expected: 2,
+  operator: 'strictEqual'
+});
+
+try {
+  assert.strictEqual(1, 2);
+} catch (err) {
+  assert(err instanceof assert.AssertionError);
+  assert.strictEqual(err.message, message);
+  assert.strictEqual(err.name, 'AssertionError');
+  assert.strictEqual(err.actual, 1);
+  assert.strictEqual(err.expected, 2);
+  assert.strictEqual(err.code, 'ERR_ASSERTION');
+  assert.strictEqual(err.operator, 'strictEqual');
+  assert.strictEqual(err.generatedMessage, true);
+}
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="24-class-assertcalltracker-deprecated" href="#24-class-assertcalltracker-deprecated"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2.4 Class: assert.CallTracker (Deprecated)</h3>
+<p class="md-github"><strong class="md-github">Usage:</strong></p>
+<p class="md-github">Constructor:</p>
+<pre class="md-github"><code class="md-github language-js">new assert.CallTracker()
+</code></pre>
+<p class="md-github"><strong class="md-github">Method Signatures:</strong></p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><code class="md-github">tracker.calls(fn, exact?)</code></p>
+<ul class="md-github">
+<li class="md-github">fn: Function (the function to wrap)</li>
+<li class="md-github">exact: number (default 1)</li>
+<li class="md-github"><strong class="md-github">Returns:</strong> Wrapped Function that must be called exactly <code class="md-github">exact</code> times</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">tracker.getCalls(fn)</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Returns:</strong> Array of call records <code class="md-github">{ thisArg, arguments }</code></li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">tracker.report()</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Returns:</strong> Array of objects with details: <code class="md-github">{ message, actual, expected, operator, stack }</code></li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">tracker.reset(fn?)</code></p>
+<ul class="md-github">
+<li class="md-github">Resets the call count; if fn is provided, only resets that function.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">tracker.verify()</code></p>
+<ul class="md-github">
+<li class="md-github">Throws an error if any tracked function is not called exact times.</li>
+</ul>
+</li>
+</ul>
+<p class="md-github"><strong class="md-github">Example:</strong></p>
+<pre class="md-github"><code class="md-github language-js">import assert from 'node:assert';
+import process from 'node:process';
+
+const tracker = new assert.CallTracker();
+
+function func() {}
+
+// Wrap function to be called exactly 1 time
+const callsFunc = tracker.calls(func, 1);
+
+callsFunc();
+
+process.on('exit', () =&gt; {
+  tracker.verify();
+});
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="3-api-method-signatures-and-code-examples" href="#3-api-method-signatures-and-code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. API Method Signatures and Code Examples</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="assert-api-methods" href="#assert-api-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>assert API Methods</h3>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><code class="md-github">assert(value, [message])</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Description:</strong> Tests if a value is truthy.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">assert.deepEqual(actual, expected, [message])</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Description:</strong> Tests for deep equality using loose equality rules (Legacy mode).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">assert.deepStrictEqual(actual, expected, [message])</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Description:</strong> Tests for deep equality using strict rules (uses Object.is, compares prototypes, etc.).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">assert.doesNotMatch(string, regexp, [message])</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Parameters:</strong>
+<ul class="md-github">
+<li class="md-github">string: string</li>
+<li class="md-github">regexp: RegExp</li>
+<li class="md-github">message: string | Error</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">assert.doesNotReject(asyncFn, [error], [message]) =&gt; Promise</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Description:</strong> Awaits async function and asserts it does not reject.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><code class="md-github">assert.doesNotThrow(fn, [error], [message])</code></p>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Description:</strong> Asserts that a function does not throw.</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Other assertion methods include:</p>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">assert.equal(actual, expected, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.fail([message])</code></li>
+<li class="md-github"><code class="md-github">assert.ifError(value)</code></li>
+<li class="md-github"><code class="md-github">assert.match(string, regexp, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.notDeepEqual(actual, expected, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.notDeepStrictEqual(actual, expected, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.notEqual(actual, expected, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.notStrictEqual(actual, expected, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.ok(value, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.rejects(asyncFn, [error], [message])</code></li>
+<li class="md-github"><code class="md-github">assert.strictEqual(actual, expected, [message])</code></li>
+<li class="md-github"><code class="md-github">assert.throws(fn, [error], [message])</code></li>
+<li class="md-github"><code class="md-github">assert.partialDeepStrictEqual(actual, expected, [message])</code></li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="example-running-a-hello-world-http-server-and-assertion-test" href="#example-running-a-hello-world-http-server-and-assertion-test"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example: Running a Hello World HTTP Server and Assertion Test</h3>
+<pre class="md-github"><code class="md-github language-js">// hello-world.js
+const http = require('node:http');
+
+const hostname = '127.0.0.1';
+const port = 3000;
+
+const server = http.createServer((req, res) =&gt; {
+  res.statusCode = 200;
+  res.setHeader('Content-Type', 'text/plain');
+  res.end('Hello, World!\n');
+});
+
+server.listen(port, hostname, () =&gt; {
+  console.log(`Server running at http://${hostname}:${port}/`);
+});
+
+// Test using assert
+const assert = require('node:assert/strict');
+assert.strictEqual(typeof server.listen, 'function');
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Node.js API Documentation</li>
+<li class="md-github">URL: https://nodejs.org/api/</li>
+<li class="md-github">License: Public Documentation (various licenses)</li>
+<li class="md-github">Crawl Date: 2025-04-21T22:47:26.926Z</li>
+<li class="md-github">Data Size: 4089407 bytes</li>
+<li class="md-github">Links Found: 3186</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-21</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-21T23:24:16.416Z</p>
+  </footer>
+</body>
+</html>
