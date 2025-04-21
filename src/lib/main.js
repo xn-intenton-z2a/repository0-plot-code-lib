@@ -10,17 +10,66 @@ import svgToPdf from "svg-to-pdfkit";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, customFunctions = {}) {
-  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)', 'y=x^3', 'y=sinh(x)', 'y=cosh(x)', 'y=tanh(x)', 'y=abs(x)', 'y=floor(x)', 'y=ceil(x)'
+  // Supports expressions: 'y=sin(x)', 'y=cos(x)', 'y=tan(x)', 'y=log(x)', 'y=exp(x)', 'y=x^2', 'y=sqrt(x)',
+  // 'y=x^3', 'y=sinh(x)', 'y=cosh(x)', 'y=tanh(x)', 'y=abs(x)', 'y=floor(x)', 'y=ceil(x)'
+  // and now piecewise expressions in the format:
+  // "piecewise: if <condition> then <expression>; if <condition> then <expression>; ..."
   // Expected range format: "x=start:end"
-  const match = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
-  if (!match) {
+
+  const matchRange = rangeStr.match(/^x=([\-\d\.]+):([\-\d\.]+)$/);
+  if (!matchRange) {
     throw new Error("Invalid range format. Expected format: x=start:end");
   }
-  const start = parseFloat(match[1]);
-  const end = parseFloat(match[2]);
+  const start = parseFloat(matchRange[1]);
+  const end = parseFloat(matchRange[2]);
 
   const step = (end - start) / (numPoints - 1);
   const data = [];
+
+  // Check for piecewise expression support
+  if (expression.startsWith("piecewise:")) {
+    // Remove prefix and trim
+    const piecewiseStr = expression.slice("piecewise:".length).trim();
+    // Split by semicolon
+    const segments = piecewiseStr.split(';').map(seg => seg.trim()).filter(seg => seg);
+    // Parse each segment: expected pattern "if <condition> then <expression>"
+    const parsedSegments = segments.map(seg => {
+      const match = seg.match(/^if\s+(.+?)\s+then\s+(.+)$/i);
+      if (!match) {
+        throw new Error(`Invalid piecewise segment format: ${seg}`);
+      }
+      return { condition: match[1].trim(), expr: match[2].trim() };
+    });
+
+    // For each x value, evaluate conditions in order
+    for (let i = 0; i < numPoints; i++) {
+      const x = start + i * step;
+      let y = 0;
+      let matched = false;
+      for (const segment of parsedSegments) {
+        try {
+          // Create functions with a context that includes basic math functions
+          const condFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.condition + ");");
+          if (condFunc(x)) {
+            const exprFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.expr + ");");
+            y = exprFunc(x);
+            matched = true;
+            break;
+          }
+        } catch (e) {
+          // If any error occurs in evaluation, ignore and continue to next segment
+          continue;
+        }
+      }
+      if (!matched) {
+        y = 0;
+      }
+      data.push({ x, y });
+    }
+    return data;
+  }
+
+  // Existing standard expression handling
   for (let i = 0; i < numPoints; i++) {
     const x = start + i * step;
     let y = 0;

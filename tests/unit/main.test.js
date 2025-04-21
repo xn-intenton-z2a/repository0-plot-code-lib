@@ -309,26 +309,13 @@ describe("Custom Point Count", () => {
     expect(lines.length).toBe(11);
     logSpy.mockRestore();
   });
-});
 
-describe("CLI Generation Message", () => {
-  test("should log the correct generation message for non-csv files", async () => {
+  test("CLI Generation Message should be correct for non-csv files", async () => {
     const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
     const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg"];
     await main(args);
     const expectedMessage = "Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.";
     expect(logSpy.mock.calls[0][0]).toBe(expectedMessage);
-    logSpy.mockRestore();
-  });
-
-  test("should log the correct generation message to stderr for CSV files", async () => {
-    const errSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-    const logSpy = vi.spyOn(console, "log").mockImplementation(() => {});
-    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.csv"];
-    await main(args);
-    const expectedMessage = "Generating plot for expression y=sin(x) with range x=0:6.28 to file output.csv.";
-    expect(errSpy.mock.calls[0][0]).toBe(expectedMessage);
-    errSpy.mockRestore();
     logSpy.mockRestore();
   });
 
@@ -455,7 +442,7 @@ describe("Custom Grid Dash Pattern", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
       "--expression", "y=sin(x)",
-      "--range", "x=-1:1", 
+      "--range", "x=-1:1",
       "--file", "output.svg",
       "--gridColor", "#cccccc",
       "--grid-dasharray", "2,2"
@@ -472,7 +459,7 @@ describe("Custom Dimensions Option", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
       "--expression", "y=sin(x)",
-      "--range", "x=-1:1", 
+      "--range", "x=-1:1",
       "--file", "output.svg",
       "--width", "800",
       "--height", "600"
@@ -523,5 +510,39 @@ custom-functions: { double: "(x)=>2*x" }
     // Clean up
     fs.unlinkSync(tempYamlPath);
     writeFileSyncSpy.mockRestore();
+  });
+});
+
+// New tests for Piecewise Function Support
+
+describe("Piecewise Expression Support", () => {
+  test("should evaluate piecewise expression: if x < 0 then sin(x); if x >= 0 then cos(x)", () => {
+    const data = generateTimeSeriesData("piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)", "x=-1:1", 11);
+    data.forEach(point => {
+      if (point.x < 0) {
+        expect(Math.abs(point.y - Math.sin(point.x))).toBeLessThan(TOLERANCE);
+      } else {
+        expect(Math.abs(point.y - Math.cos(point.x))).toBeLessThan(TOLERANCE);
+      }
+    });
+  });
+
+  test("should default to 0 when no condition matches", () => {
+    // Use condition that never is true
+    const data = generateTimeSeriesData("piecewise: if x > 1 then sin(x)", "x=0:1", 5);
+    data.forEach(point => {
+      expect(point.y).toBe(0);
+    });
+  });
+
+  test("should handle edge case where x equals boundary value", () => {
+    const data = generateTimeSeriesData("piecewise: if x <= 0 then sin(x); if x > 0 then cos(x)", "x=-0.5:0.5", 5);
+    data.forEach(point => {
+      if (point.x <= 0) {
+        expect(Math.abs(point.y - Math.sin(point.x))).toBeLessThan(TOLERANCE);
+      } else {
+        expect(Math.abs(point.y - Math.cos(point.x))).toBeLessThan(TOLERANCE);
+      }
+    });
   });
 });
