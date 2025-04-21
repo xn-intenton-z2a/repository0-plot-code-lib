@@ -142,6 +142,16 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg 
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --fillColor "#ff0000,#0000ff"
 ```
 
+### JSON Export Support
+
+A new feature now allows you to export the generated time series data as a JSON file when the output file name ends with `.json`. The JSON output is formatted with indentation and represents an array of objects for a single expression, or an array of series (each being an array of objects) when multiple expressions are provided.
+
+#### CLI Example
+
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.json
+```
+
 ### Custom Marker Options
 
 You can customize the appearance of data point markers using the following options:
@@ -202,8 +212,8 @@ When the output file ends with `.pdf`, a PDF document is generated using `pdfkit
 ### Generation Message Behavior
 
 - **CSV Output:** Generation message is logged to stderr; stdout outputs only the CSV data.
-- **SVG/PNG/PDF Output:** Generation message is logged to stdout followed by file generation confirmation.
+- **SVG/PNG/PDF/JSON Output:** Generation message is logged to stdout followed by file generation confirmation.
 
 ## Conclusion
 
-**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also supports a variety of marker shapes including the new triangle marker. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.
+**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also supports exporting the underlying data as JSON. Experiment with these options to create clear, informative, and versatile visualizations.

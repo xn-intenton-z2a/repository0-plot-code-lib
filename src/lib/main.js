@@ -653,6 +653,21 @@ export async function main(args) {
       } catch (err) {
         console.error(`Error generating PDF for file ${outputFile}:`, err);
       }
+    } else if (outputFile.endsWith(".json")) {
+      console.log(genMessage);
+      try {
+        let data;
+        if (expressions.length > 1) {
+          data = expressions.map(exp => generateTimeSeriesData(exp, range, points, customFunctions));
+        } else {
+          data = generateTimeSeriesData(expressions[0], range, points, customFunctions);
+        }
+        const jsonContent = JSON.stringify(data, null, 2);
+        fs.writeFileSync(outputFile, jsonContent);
+        console.log(`JSON file generated: ${outputFile}`);
+      } catch (err) {
+        console.error(`Error generating JSON for file ${outputFile}:`, err);
+      }
     } else {
       console.log(genMessage);
       try {

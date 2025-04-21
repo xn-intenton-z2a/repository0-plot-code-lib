@@ -276,6 +276,23 @@ describe("PDF Generation", () => {
   });
 });
 
+describe("CLI JSON Generation", () => {
+  test("should generate JSON content when --file ends with .json", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = ["--expression", "y=sin(x)", "--range", "x=0:6.28", "--file", "output.json"];
+    await main(args);
+    const jsonContent = writeFileSyncSpy.mock.calls[0][1];
+    let parsed;
+    expect(() => { parsed = JSON.parse(jsonContent); }).not.toThrow();
+    expect(Array.isArray(parsed)).toBe(true);
+    if (parsed.length > 0) {
+      expect(parsed[0]).toHaveProperty("x");
+      expect(parsed[0]).toHaveProperty("y");
+    }
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
 describe("Custom Point Count", () => {
   test("should return exactly 5 data points when custom points count is 5", () => {
     const data = generateTimeSeriesData("y=sin(x)", "x=0:6.28", 5);
@@ -682,14 +699,12 @@ describe("Logarithmic Scale Options", () => {
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    // Check that the SVG was generated and contains a polyline
     expect(writtenData).toContain('<polyline');
     writeFileSyncSpy.mockRestore();
   });
 
   test("should apply logarithmic scaling on y-axis when --logScaleY is true", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    // Use a positive range for y by using an expression with positive outputs
     const args = [
       "--expression", "y=exp(x)",
       "--range", "x=1:3",
