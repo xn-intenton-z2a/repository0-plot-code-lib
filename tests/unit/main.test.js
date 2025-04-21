@@ -30,7 +30,23 @@ function getMarkerAttributes(svg) {
   return null;
 }
 
-// New utility to check for background rect and grid line attributes
+// Utility function to extract marker attributes from rect elements in SVG (for square markers)
+function getSquareMarkerAttributes(svg) {
+  const markerRegex = /<rect[^>]*>/g;
+  const rects = svg.match(markerRegex) || [];
+  // Filter out potential background rect (assume background rect covers full width and height if present)
+  const filtered = rects.filter(rect => !rect.includes('width="500"') && !rect.includes('height="500"'));
+  const attrRegex = /x="([^"]+)".*y="([^"]+)".*width="(\d+)".*height="(\d+)".*fill="([^"]+)"/;
+  if (filtered.length > 0) {
+    const match = filtered[0].match(attrRegex);
+    if (match) {
+      return { x: match[1], y: match[2], width: match[3], height: match[4], fill: match[5] };
+    }
+  }
+  return null;
+}
+
+// Utility functions to check for background rect and grid line attributes
 function svgContainsRectWithFill(svg, fill) {
   const rectRegex = new RegExp(`<rect[^>]*fill="${fill}"`, "i");
   return rectRegex.test(svg);
@@ -40,7 +56,6 @@ function svgContainsLineWithStroke(svg, stroke) {
   const lineRegex = new RegExp(`<line[^>]*stroke="${stroke}"`, "i");
   return lineRegex.test(svg);
 }
-
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -108,7 +123,7 @@ describe("Serialize Time Series Data", () => {
     const sampleData = [
       { x: 0, y: 0 },
       { x: 1, y: 0.8415 },
-      { x: 2, y: 0.9093 },
+      { x: 2, y: 0.9093 }
     ];
     const csvOutput = serializeTimeSeries(sampleData);
     const lines = csvOutput.trim().split("\n");
@@ -294,6 +309,31 @@ describe("Custom Marker Options", () => {
     expect(markerAttrs).not.toBeNull();
     expect(markerAttrs.r).toBe("3");
     expect(markerAttrs.fill).toBe("red");
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Custom Marker Shape", () => {
+  test("should generate SVG with square markers when --marker-shape square is provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-shape", "square",
+      "--marker-size", "5",
+      "--marker-color", "green"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // Ensure no circle markers are present
+    expect(writtenData.includes('<circle')).toBe(false);
+    // Check that at least one rect marker with width 10 and height 10 and fill green is present
+    const squareMarker = getSquareMarkerAttributes(writtenData);
+    expect(squareMarker).not.toBeNull();
+    expect(squareMarker.width).toBe("10");
+    expect(squareMarker.height).toBe("10");
+    expect(squareMarker.fill).toBe("green");
     writeFileSyncSpy.mockRestore();
   });
 });
