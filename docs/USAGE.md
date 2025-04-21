@@ -48,6 +48,22 @@ This command generates an SVG file containing a sine curve.
 
   Produces an SVG file that includes axes, grid lines, and data points marking the sine curve.
 
+### Range Format and Variable Flexibility
+
+The CLI now supports arbitrary independent variable names in the range specification. The format should be provided as:
+
+```sh
+<variable>=start:end
+```
+
+For example, to generate data with the variable t:
+
+```sh
+node src/lib/main.js --expression "y=cos(t)" --range "t=-1:1" --file output.svg
+```
+
+This command generates data by applying the cosine function on t ranging from -1 to 1.
+
 ### Theme Functionality
 
 The CLI supports theme customization via two options:
@@ -100,15 +116,20 @@ Additional CLI options allow you to customize various aspects of your plot:
 
 ### generateTimeSeriesData
 
-Generates an array of data points for a given mathematical expression and range.
+Generates an array of data points for a given mathematical expression and range. The function now supports arbitrary variable identifiers. 
 
 **Example:**
 
 ```js
 import { generateTimeSeriesData } from 'repository0-plot-code-lib';
 
-const data = generateTimeSeriesData('y=sin(x)', 'x=0:6.28', 10);
-console.log(data);
+// Using default variable x
+const dataX = generateTimeSeriesData('y=sin(x)', 'x=0:6.28', 10);
+console.log(dataX);
+
+// Using a different variable, e.g., t, with cosine
+const dataT = generateTimeSeriesData('y=cos(t)', 't=-1:1', 10);
+console.log(dataT);
 ```
 
 ### serializeTimeSeries
@@ -132,6 +153,6 @@ console.log(csv);
 
 ## Conclusion
 
-**repository0-plot-code-lib** is your go-to tool for generating beautiful plots from mathematical expressions. With extensive CLI options, theme support (including custom theme configuration via external JSON), and diagnostic features, you can easily integrate it into your workflow to produce customizable visualizations.
+**repository0-plot-code-lib** is your go-to tool for generating beautiful plots from mathematical expressions. With extensive CLI options, theme support (including custom theme configuration via external JSON), diagnostic features, and now enhanced range parsing to support any variable, you can easily integrate it into your workflow to produce customizable visualizations.
 
 Happy Plotting!

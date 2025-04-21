@@ -11,15 +11,16 @@ import svgToPdf from "svg-to-pdfkit";
 
 // Generates time series data from a mathematical expression and range
 export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, customFunctions = {}) {
-  // Supports expressions such as 'y=sin(x)', etc. and now also piecewise expressions
-  // Expected range format: "x=start:end"
+  // Supports expressions such as 'y=sin(x)' or with arbitrary variable, e.g. 'y=cos(t)', and piecewise expressions
+  // Expected range format: "v=start:end" where v is any alphabetic character
 
-  const matchRange = rangeStr.match(/^x=(-?\d*\.?\d+):(-?\d*\.?\d+)$/);
+  const matchRange = rangeStr.match(/^([a-zA-Z])=(-?\d*\.?\d+):(-?\d*\.?\d+)$/);
   if (!matchRange) {
-    throw new Error("Invalid range format. Expected format: x=start:end");
+    throw new Error("Invalid range format. Expected format: <variable>=start:end");
   }
-  const start = parseFloat(matchRange[1]);
-  const end = parseFloat(matchRange[2]);
+  const variableName = matchRange[1];
+  const start = parseFloat(matchRange[2]);
+  const end = parseFloat(matchRange[3]);
 
   const step = (end - start) / (numPoints - 1);
   const data = [];
@@ -37,15 +38,15 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
     });
 
     for (let i = 0; i < numPoints; i++) {
-      const x = start + i * step;
+      const v = start + i * step;
       let y = 0;
       let matched = false;
       for (const segment of parsedSegments) {
         try {
-          const condFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.condition + ")");
-          if (condFunc(x)) {
-            const exprFunc = new Function("x", "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.expr + ")");
-            y = exprFunc(x);
+          const condFunc = new Function(variableName, "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.condition + ")");
+          if (condFunc(v)) {
+            const exprFunc = new Function(variableName, "sin=Math.sin; cos=Math.cos; tan=Math.tan; log=function(v){return v>0?Math.log(v):0}; exp=Math.exp; sqrt=Math.sqrt; abs=Math.abs; floor=Math.floor; ceil=Math.ceil; return (" + segment.expr + ")");
+            y = exprFunc(v);
             matched = true;
             break;
           }
@@ -56,50 +57,50 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
       if (!matched) {
         y = 0;
       }
-      data.push({ x, y });
+      data.push({ x: v, y });
     }
     return data;
   }
 
   // Standard expression handling
   for (let i = 0; i < numPoints; i++) {
-    const x = start + i * step;
+    const v = start + i * step;
     let y = 0;
-    if (expression === "y=sin(x)") {
-      y = Math.sin(x);
-    } else if (expression === "y=cos(x)") {
-      y = Math.cos(x);
-    } else if (expression === "y=tan(x)") {
-      y = Math.tan(x);
-    } else if (expression === "y=log(x)") {
-      y = x > 0 ? Math.log(x) : 0;
-    } else if (expression === "y=exp(x)") {
-      y = Math.exp(x);
-    } else if (expression === "y=x^2") {
-      y = x * x;
-    } else if (expression === "y=sqrt(x)") {
-      y = x >= 0 ? Math.sqrt(x) : 0;
-    } else if (expression === "y=x^3") {
-      y = x * x * x;
-    } else if (expression === "y=sinh(x)") {
-      y = Math.sinh(x);
-    } else if (expression === "y=cosh(x)") {
-      y = Math.cosh(x);
-    } else if (expression === "y=tanh(x)") {
-      y = Math.tanh(x);
-    } else if (expression === "y=abs(x)") {
-      y = Math.abs(x);
-    } else if (expression === "y=floor(x)") {
-      y = Math.floor(x);
-    } else if (expression === "y=ceil(x)") {
-      y = Math.ceil(x);
+    if (expression === `y=sin(${variableName})`) {
+      y = Math.sin(v);
+    } else if (expression === `y=cos(${variableName})`) {
+      y = Math.cos(v);
+    } else if (expression === `y=tan(${variableName})`) {
+      y = Math.tan(v);
+    } else if (expression === `y=log(${variableName})`) {
+      y = v > 0 ? Math.log(v) : 0;
+    } else if (expression === `y=exp(${variableName})`) {
+      y = Math.exp(v);
+    } else if (expression === `y=${variableName}^2`) {
+      y = v * v;
+    } else if (expression === `y=sqrt(${variableName})`) {
+      y = v >= 0 ? Math.sqrt(v) : 0;
+    } else if (expression === `y=${variableName}^3`) {
+      y = v * v * v;
+    } else if (expression === `y=sinh(${variableName})`) {
+      y = Math.sinh(v);
+    } else if (expression === `y=cosh(${variableName})`) {
+      y = Math.cosh(v);
+    } else if (expression === `y=tanh(${variableName})`) {
+      y = Math.tanh(v);
+    } else if (expression === `y=abs(${variableName})`) {
+      y = Math.abs(v);
+    } else if (expression === `y=floor(${variableName})`) {
+      y = Math.floor(v);
+    } else if (expression === `y=ceil(${variableName})`) {
+      y = Math.ceil(v);
     } else {
-      const customMatch = expression.match(/^y=([a-zA-Z0-9_]+)\(x\)$/);
+      const customMatch = expression.match(new RegExp(`^y=([a-zA-Z0-9_]+)\(${variableName}\)$`));
       if (customMatch) {
         const funcName = customMatch[1];
         const customFunc = customFunctions[funcName];
         if (typeof customFunc === "function") {
-          y = customFunc(x);
+          y = customFunc(v);
         } else if (typeof customFunc === "string") {
           let fn;
           try {
@@ -108,7 +109,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
             fn = null;
           }
           if (fn && typeof fn === "function") {
-            y = fn(x);
+            y = fn(v);
           } else {
             y = 0;
           }
@@ -119,7 +120,7 @@ export function generateTimeSeriesData(expression, rangeStr, numPoints = 10, cus
         y = 0;
       }
     }
-    data.push({ x, y });
+    data.push({ x: v, y });
   }
   return data;
 }
