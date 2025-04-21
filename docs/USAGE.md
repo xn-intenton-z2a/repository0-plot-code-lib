@@ -2,115 +2,92 @@
 
 ## Introduction
 
-**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform simple mathematical expressions into time series data and generate visualizations. The tool supports expressions like `y=sin(x)`, `y=cos(x)`, `y=tan(x)`, `y=log(x)`, `y=exp(x)`, `y=x^2`, `y=sqrt(x)`, and now also supports `y=x^3` to compute the cubic of x.
+**repository0-plot-code-lib** is a versatile JavaScript library and CLI tool designed to transform mathematical expressions into time series data and generate visualizations. The tool supports expressions such as `y=sin(x)`, `y=cos(x)`, `y=tan(x)`, `y=log(x)`, `y=exp(x)`, `y=x^2`, `y=sqrt(x)`, and `y=x^3`. It allows users to either print data in CSV format or create dummy SVG/PNG plots based on the output file extension.
 
-This library adheres to the mission of becoming the go-to solution for formula-based visualizations, much like how jq operates for JSON data. It empowers users to either generate graphical plots (in SVG or PNG format) or output raw numerical data (in CSV format), allowing each to be processed further as needed.
+## CLI Overview
 
-## Library Mission
+The CLI functionality is provided by the `src/lib/main.js` script. It accepts several command-line options to define the mathematical expression, data range, output file type, and the number of data points. This tool is designed to help you quickly generate time series data from mathematical expressions and visualize them, supporting both quick analysis and reporting needs.
 
-_As outlined in [MISSION.md](../MISSION.md)_: 
+### Available CLI Options
 
-"Be a go-to plot library with a CLI, be the jq of formulae visualisations."
+- `--expression`: Specifies the mathematical expression. Examples include:
+  - `y=sin(x)`
+  - `y=cos(x)`
+  - `y=tan(x)`
+  - `y=log(x)` (Note: Only valid for x > 0; otherwise returns 0)
+  - `y=exp(x)`
+  - `y=x^2`
+  - `y=sqrt(x)` (Note: For x < 0, returns 0)
+  - `y=x^3`
+  - Unsupported expressions default to a constant 0.
 
-**repository0-plot-code-lib** is built to transform mathematical expressions into actionable time series data while providing an easy-to-use CLI for both development and production workflows.
+- `--range`: Defines the range for x in the format `x=start:end` (e.g., "x=0:6.28").
 
-## CLI Usage
+- `--file`: Specifies the output file type based on the extension:
+  - **CSV:** If the file ends with `.csv`, CSV content is printed to stdout.
+  - **PNG:** If the file ends with `.png`, the tool converts generated SVG content to a PNG file using sharp.
+  - **SVG:** For any other extension (or `.svg`), a dummy SVG file is generated with embedded text.
 
-The CLI tool is executed via Node.js and accepts the following parameters:
+- `--points`: (Optional) Indicates the number of data points to generate. Defaults to 10 if not provided.
 
-- `--expression`: Specifies the mathematical expression. Supported values include:
-  - `y=sin(x)` for sine computations
-  - `y=cos(x)` for cosine computations
-  - `y=tan(x)` for tangent computations
-  - `y=log(x)` for natural logarithm computations (only valid for x > 0; non-positive x returns 0)
-  - `y=exp(x)` for exponential computations
-  - `y=x^2` for squaring the x value
-  - `y=sqrt(x)` for computing the square root of x (for x >= 0; non-negative x, otherwise 0)
-  - `y=x^3` for computing the cubic of x
-  - Any unsupported expression will default to a constant value of 0.
+## Quick Start
 
-- `--range`: Defines the range for the `x` values in the format `x=start:end`. For example, `x=0:6.28` sets the range from 0 to approximately 2π.
+Follow these steps to quickly get started:
 
-- `--points`: (Optional) Specifies the number of data points to generate. If omitted, the default value of 10 is used. For instance, `--points 20` will generate 20 data points for the time series.
+1. Ensure you have Node.js version 20 or above installed.
+2. Install the dependencies with `npm install`.
+3. Run the CLI command using one of the examples below.
 
-- `--file`: Determines the type of output based on the file extension:
-  - **CSV Output:** If the file name ends in `.csv`, the tool outputs CSV content directly to stdout.
-  - **SVG Output:** If the file name ends in anything other than `.csv` or `.png`, it generates a dummy SVG file with embedded text displaying the input parameters.
-  - **PNG Output:** If the file name ends in `.png`, the tool generates SVG content and then uses the Sharp library to convert it into a PNG image, writing the PNG data to the specified file.
+## CLI Usage Examples
 
-## Examples
+### Example 1: Generating CSV Output
 
-### Generating CSV Output
-
-To produce a CSV output containing time series data with a custom point count:
-
-```sh
+Command:
+```
 node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --points 20 --file output.csv
 ```
 
-Expected output (printed to stdout):
+Expected Outcome:
+- CSV content is printed to stdout with a header `x,y` followed by 20 rows of data.
+
+### Example 2: Generating an SVG Plot
+
+Command:
 ```
-x,y
-0,<value>
-... (20 data rows in total)
-```
-
-### Generating SVG Output
-
-To create a dummy SVG file that contains a visual representation of the input parameters:
-
-```sh
 node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
-### Generating PNG Output
+Expected Outcome:
+- An SVG file named `output.svg` is created containing embedded text that shows the expression and range.
 
-To generate a PNG image from your expression using Sharp, run:
+### Example 3: Generating a PNG Image
 
-```sh
+Command:
+```
 node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.png
 ```
 
-### New Expression Examples
+Expected Outcome:
+- The tool converts the SVG content to a PNG image and writes it to `output.png`. The PNG file will have a valid PNG signature.
 
-You can now also use the new expressions:
+## Troubleshooting Tips
 
-- **Cubic Function:**
+- **Invalid Range Format:**
+  - If you see an error regarding the range format, ensure you are using the format `x=start:end` (e.g., `x=0:6.28`).
 
-  ```sh
-  node src/lib/main.js --expression "y=x^3" --range "x=0:10" --file output.csv
-  ```
+- **Unsupported Expression or Domain Issues:**
+  - Verify that the expression is one of the supported types and that the x values fall within a valid domain (for instance, `y=log(x)` requires x > 0).
 
-- **Square Root Function:**
+- **File Output Verification:**
+  - Check that the output file extension matches the desired output (CSV, SVG, or PNG) and inspect the file content if the output is not as expected.
 
-  ```sh
-  node src/lib/main.js --expression "y=sqrt(x)" --range "x=0:16" --file output.csv
-  ```
+- **Reference Tests:**
+  - Consult the test cases in `tests/unit/main.test.js` to understand the expected behavior and validate your installation.
 
-- **Exponential Function:**
+## Common Use Cases
 
-  ```sh
-  node src/lib/main.js --expression "y=exp(x)" --range "x=0:5" --file output.csv
-  ```
+- **Data Analysis:** Generate time series data for plotting or further computation.
+- **Visualization:** Quickly create visual references or diagnostic plots in SVG or PNG format.
+- **Automation:** Integrate the CLI tool into scripts for automated data processing and visualization tasks.
 
-- **Square Function:**
-
-  ```sh
-  node src/lib/main.js --expression "y=x^2" --range "x=-3:3" --file output.svg
-  ```
-
-- **Logarithm Function:** (Note: For non-positive x values, the output will be 0)
-
-  ```sh
-  node src/lib/main.js --expression "y=log(x)" --range "x=1:10" --file output.csv
-  ```
-
-## Additional Information
-
-- **Node Requirements:** Node.js version 20 or above with ECMAScript Module (ESM) support.
-- **Testing:** The library is accompanied by a comprehensive test suite using Vitest. Run tests via `npm test` to ensure functionality.
-- **Contribution:** For guidelines on contributing improvements or reporting issues, refer to [CONTRIBUTING.md](../CONTRIBUTING.md).
-
-## Summary
-
-**repository0-plot-code-lib** is designed to easily convert mathematical expressions into usable data and visuals, streamlining the creation of both graphical and numerical outputs. Whether you prefer to analyze raw data or view a quick graphical representation, this tool is built to adapt to your workflow needs.
+Happy plotting!
