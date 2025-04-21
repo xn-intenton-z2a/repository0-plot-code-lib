@@ -10,7 +10,7 @@ This resource offers detailed documentation of JavaScript's Math object, coverin
 
 # Building CLI Tools with Node.js (RisingStack)
 ## https://blog.risingstack.com/node-js-cli-tutorial/
-This tutorial from RisingStack provides practical guidance on building command-line interfaces with Node.js, including argument parsing, interactive features, and robust error handling. Published and updated recently, it offers clear examples and best practices that align with the advanced CLI features of this repository.
+This tutorial from RisingStack provides practical guidance on building command-line interfaces with Node.js, including argument parsing, interactive features, and robust error handling. Published and updated recently, it offers clear examples and best practices that align with advanced CLI features.
 ## MIT
 
 # MDN SVG Documentation
@@ -20,20 +20,35 @@ This MDN article provides comprehensive documentation on SVG elements, their pro
 
 # Zod Schema Validation
 ## https://github.com/colinhacks/zod
-Zod is a TypeScript-first schema validation library used for robust argument parsing and validation in CLI applications. Its well-documented API and active community support make it an excellent choice for ensuring data integrity in modern JavaScript projects.
+Zod is a TypeScript-first schema validation library used for robust CLI argument parsing and validation in modern JavaScript projects. Its well-documented API and active community support make it an excellent choice for ensuring data integrity.
 ## MIT
 
 # PDFKit Documentation
 ## https://pdfkit.org/docs/getting_started.html
-PDFKit provides powerful tools to generate PDF documents programmatically. This documentation covers guides and examples essential for implementing PDF export features, enabling users to output plots as PDF files.
+PDFKit provides powerful tools to programmatically generate PDF documents. This documentation covers guides and examples essential for implementing PDF export features, enabling users to output plots as PDF files.
 ## MIT
 
 # Sharp Image Processing
 ## https://sharp.pixelplumbing.com/
-Sharp is a high-performance Node.js library used for image processing. Its documentation includes details on converting SVG content to PNG or JPEG formats, along with performance optimization techniques.
+Sharp is a high-performance Node.js library used for image processing. Its documentation includes details on converting SVG content to various image formats such as PNG or JPEG, along with performance optimization techniques.
 ## MIT
 
 # js-yaml API Reference
 ## https://www.nodeca.github.io/js-yaml/
-js-yaml is a YAML parser and serializer for JavaScript. The API reference offers detailed insights into loading and dumping YAML files, which is crucial for configuration loading features that merge CLI arguments with file-based settings.
+js-yaml is a YAML parser and serializer for JavaScript. The API reference provides detailed insights into loading and dumping YAML files, which is crucial for configuration loading features in CLI tools.
+## MIT
+
+# Express Documentation
+## https://expressjs.com/en/api.html
+The official Express documentation covers the API for Express, a minimal and flexible Node.js web application framework. It provides comprehensive information on middleware, routing, and server configurations, making it an indispensable resource for building web servers.
+## MIT
+
+# Node.js Documentation
+## https://nodejs.org/api/
+The official Node.js documentation offers detailed information on core modules, including file system operations, HTTP servers, and process management. It is vital for understanding Node.js internals and ensuring compatibility with Node 20 and beyond.
+## MIT
+
+# Vitest Documentation
+## https://vitest.dev/
+Vitest is a fast unit test framework heavily used in modern JavaScript projects. Its documentation includes guides on configuration, mocking, and advanced testing features, making it essential for ensuring robust test suites.
 ## MIT
