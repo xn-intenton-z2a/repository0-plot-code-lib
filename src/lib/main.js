@@ -57,20 +57,104 @@ export function serializeTimeSeries(data) {
   return csv;
 }
 
+// Helper function to generate SVG content based on options
+function generateSvgContent({
+  data,
+  width = 500,
+  height = 500,
+  margin = 40,
+  title,
+  xlabel,
+  ylabel,
+  markerSize,
+  markerColor,
+  bgColor,
+  gridColor,
+  gridDashArray = "4",
+  fontFamily
+}) {
+  // Compute data bounds
+  const xs = data.map((p) => p.x);
+  const ys = data.map((p) => p.y);
+  const xMin = Math.min(...xs);
+  const xMax = Math.max(...xs);
+  let yMin = Math.min(...ys);
+  let yMax = Math.max(...ys);
+  if (yMin === yMax) {
+    yMin -= 1;
+    yMax += 1;
+  }
+
+  // Define scale factors
+  const scaleX = (width - 2 * margin) / (xMax - xMin);
+  const scaleY = (height - 2 * margin) / (yMax - yMin);
+
+  // Helper function to transform data coordinate to SVG coordinate
+  const transform = (x, y) => {
+    const tx = margin + (x - xMin) * scaleX;
+    const ty = height - margin - (y - yMin) * scaleY;
+    return { tx, ty };
+  };
+
+  // Determine axis positions
+  let xAxisY = (yMin <= 0 && yMax >= 0) ? transform(0, 0).ty : height - margin;
+  let yAxisX = (xMin <= 0 && xMax >= 0) ? transform(0, 0).tx : margin;
+
+  // Create polyline points string for connecting data points
+  const polylinePoints = data
+    .map((point) => {
+      const { tx, ty } = transform(point.x, point.y);
+      return `${tx},${ty}`;
+    })
+    .join(" ");
+
+  let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
+
+  // Add background rectangle if bgColor is provided
+  if (bgColor) {
+    svgContent += `<rect x="0" y="0" width="${width}" height="${height}" fill="${bgColor}" />`;
+  }
+
+  // Add grid lines if gridColor is provided
+  if (gridColor) {
+    // Vertical grid lines
+    for (let i = 1; i < 4; i++) {
+      const xPos = margin + (i * (width - 2 * margin)) / 4;
+      svgContent += `<line x1="${xPos}" y1="${margin}" x2="${xPos}" y2="${height - margin}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
+    }
+    // Horizontal grid lines
+    for (let i = 1; i < 4; i++) {
+      const yPos = margin + (i * (height - 2 * margin)) / 4;
+      svgContent += `<line x1="${margin}" y1="${yPos}" x2="${width - margin}" y2="${yPos}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
+    }
+  }
+
+  // Add custom plot title at the top center with font-family
+  svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black" font-family="${fontFamily}">${title}</text>`;
+
+  // Draw X and Y axes
+  svgContent += `<line x1="${margin}" y1="${xAxisY}" x2="${width - margin}" y2="${xAxisY}" stroke="black" stroke-width="2" />`;
+  svgContent += `<line x1="${yAxisX}" y1="${margin}" x2="${yAxisX}" y2="${height - margin}" stroke="black" stroke-width="2" />`;
+
+  // Add custom axis labels with font-family
+  svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black" font-family="${fontFamily}">${xlabel}</text>`;
+  svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})" font-family="${fontFamily}">${ylabel}</text>`;
+
+  // Draw connecting line (polyline) through data points
+  svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
+
+  // Plot each data point as a circle marker with custom marker options
+  data.forEach((point) => {
+    const { tx, ty } = transform(point.x, point.y);
+    svgContent += `<circle cx="${tx}" cy="${ty}" r="${markerSize}" fill="${markerColor}" />`;
+  });
+
+  svgContent += `</svg>`;
+  return svgContent;
+}
+
 export async function main(args) {
-  // Simple argument parser
-  let expression;
-  let range;
-  let outputFile;
-  let points;
-  let title;
-  let xlabel;
-  let ylabel;
-  let markerSize;
-  let markerColor;
-  let bgColor;
-  let gridColor;
-  let fontFamily;
+  let expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, bgColor, gridColor, fontFamily;
   let gridDashArray = "4"; // default dash pattern
 
   for (let i = 0; i < args.length; i++) {
@@ -147,106 +231,21 @@ export async function main(args) {
         console.error("Error generating CSV content:", err);
       }
     } else {
-      // For SVG or PNG, log generation message to stdout
       console.log(genMessage);
       try {
         const data = generateTimeSeriesData(expression, range, points);
-
-        // Define SVG canvas dimensions and margins
-        const width = 500;
-        const height = 500;
-        const margin = 40;
-
-        // Compute data bounds
-        const xs = data.map((p) => p.x);
-        const ys = data.map((p) => p.y);
-        const xMin = Math.min(...xs);
-        const xMax = Math.max(...xs);
-        let yMin = Math.min(...ys);
-        let yMax = Math.max(...ys);
-        if (yMin === yMax) {
-          yMin -= 1;
-          yMax += 1;
-        }
-
-        // Define scale factors
-        const scaleX = (width - 2 * margin) / (xMax - xMin);
-        const scaleY = (height - 2 * margin) / (yMax - yMin);
-
-        // Helper function to transform data coordinate to SVG coordinate
-        const transform = (x, y) => {
-          const tx = margin + (x - xMin) * scaleX;
-          const ty = height - margin - (y - yMin) * scaleY;
-          return { tx, ty };
-        };
-
-        // Determine axis positions
-        let xAxisY;
-        if (yMin <= 0 && yMax >= 0) {
-          xAxisY = transform(0, 0).ty;
-        } else {
-          xAxisY = height - margin;
-        }
-        let yAxisX;
-        if (xMin <= 0 && xMax >= 0) {
-          yAxisX = transform(0, 0).tx;
-        } else {
-          yAxisX = margin;
-        }
-
-        // Create polyline points string for connecting data points
-        const polylinePoints = data
-          .map((point) => {
-            const { tx, ty } = transform(point.x, point.y);
-            return `${tx},${ty}`;
-          })
-          .join(" ");
-
-        // Build the enhanced SVG content with custom title and axis labels including font-family
-        let svgContent = `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg">`;
-
-        // Add background rectangle if bgColor is provided
-        if (bgColor) {
-          svgContent += `<rect x="0" y="0" width="${width}" height="${height}" fill="${bgColor}" />`;
-        }
-
-        // Add grid lines if gridColor is provided
-        if (gridColor) {
-          // Vertical grid lines
-          for (let i = 1; i < 4; i++) {
-            const xPos = margin + (i * (width - 2 * margin)) / 4;
-            svgContent += `<line x1="${xPos}" y1="${margin}" x2="${xPos}" y2="${height - margin}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
-          }
-          // Horizontal grid lines
-          for (let i = 1; i < 4; i++) {
-            const yPos = margin + (i * (height - 2 * margin)) / 4;
-            svgContent += `<line x1="${margin}" y1="${yPos}" x2="${width - margin}" y2="${yPos}" stroke="${gridColor}" stroke-width="1" stroke-dasharray="${gridDashArray}" />`;
-          }
-        }
-
-        // Add custom plot title at the top center with font-family
-        svgContent += `<text x="${width / 2}" y="20" text-anchor="middle" font-size="16" fill="black" font-family="${fontFamily}">${title}</text>`;
-
-        // Draw X and Y axes
-        svgContent += `<line x1="${margin}" y1="${xAxisY}" x2="${width - margin}" y2="${xAxisY}" stroke="black" stroke-width="2" />`;
-        svgContent += `<line x1="${yAxisX}" y1="${margin}" x2="${yAxisX}" y2="${height - margin}" stroke="black" stroke-width="2" />`;
-
-        // Add custom axis labels with font-family
-        svgContent += `<text x="${width / 2}" y="${height - 5}" text-anchor="middle" font-size="12" fill="black" font-family="${fontFamily}">${xlabel}</text>`;
-        svgContent += `<text x="15" y="${height / 2}" text-anchor="middle" font-size="12" fill="black" transform="rotate(-90,15,${height / 2})" font-family="${fontFamily}">${ylabel}</text>`;
-
-        // Draw connecting line (polyline) through data points
-        svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
-
-        // Plot each data point as a circle marker with custom marker options
-        data.forEach((point) => {
-          const { tx, ty } = transform(point.x, point.y);
-          svgContent += `<circle cx="${tx}" cy="${ty}" r="${markerSize}" fill="${markerColor}" />`;
+        const svgContent = generateSvgContent({
+          data,
+          title,
+          xlabel,
+          ylabel,
+          markerSize,
+          markerColor,
+          bgColor,
+          gridColor,
+          gridDashArray,
+          fontFamily
         });
-
-        svgContent += `</svg>`;
-
-        // Output based on file extension: PNG or SVG
         if (outputFile.endsWith(".png")) {
           const buffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
           fs.writeFileSync(outputFile, buffer);
