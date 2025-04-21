@@ -17,6 +17,9 @@
 - **y=sinh(x)**  (Hyperbolic sine function)
 - **y=cosh(x)**  (Hyperbolic cosine function)
 - **y=tanh(x)**  (Hyperbolic tangent function)
+- **y=abs(x)**   (Computes the absolute value using Math.abs(x))
+- **y=floor(x)** (Computes the greatest integer less than or equal to x using Math.floor(x))
+- **y=ceil(x)**  (Computes the smallest integer greater than or equal to x using Math.ceil(x))
 - **y=customFunction(x)**  (Custom functions can be registered by the user.)
 
 ## Registering Custom Functions
@@ -96,10 +99,7 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--font-family`: (Optional) Specifies a custom font family for text elements in the plot (title, x-axis label, y-axis label). Defaults to "sans-serif" if not provided.
 - `--width`: (Optional) Specifies the width (in pixels) of the output plot. Defaults to 500 if not provided.
 - `--height`: (Optional) Specifies the height (in pixels) of the output plot. Defaults to 500 if not provided.
-
-### YAML-Based Configuration
-
-A new option `--config-yaml <filepath>` has been introduced. When provided, the CLI will load and parse the specified YAML file (using `js-yaml`) and merge its settings with the CLI options. **YAML configuration values override the corresponding CLI options.**
+- `--config-yaml <filepath>`: Specifies a YAML file containing configuration options. YAML config values override the corresponding CLI options.
 
 ## PDF Output Support
 
