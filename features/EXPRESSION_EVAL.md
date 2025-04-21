@@ -1,41 +1,47 @@
 # EXPRESSION_EVAL Feature Enhancement
 
-This feature enhances the CLI tool by adding support for evaluating mathematical expressions provided through a new `--expression` flag. Along with an optional `--range` flag, the tool computes a series of y-values based on the provided function, offering users a preview of the data before plotting.
+This feature enhances the CLI tool by robustly evaluating mathematical expressions provided via the `--expression` flag. In addition to standard expressions such as `y=sin(x)`, `y=cos(x)`, `y=tan(x)`, and others, this update introduces support for piecewise expressions and custom function definitions. 
 
-## Overview
+# Overview
 
-- **Expression Parsing:** Parse the value from the `--expression` flag (e.g., "y=sin(x)") to determine the mathematical function.
-- **Range Processing:** Optionally parse the `--range` flag (formatted as `x=start:end`) to set the domain over which x values will be generated. If absent, a default range is applied.
-- **Evaluation:** Evaluate the mathematical expression using JavaScript's native Math functions. For example, if the expression is "y=sin(x)", compute y-values using `Math.sin(x)` over the determined range.
-- **Integration:** The computed y-values are output to the console as a preview before proceeding with any plotting or exporting routines.
+- **Objective:** Expand the expression evaluation capabilities to accommodate complex mathematical formulations. Users can now specify piecewise expressions by prefixing their input with `piecewise:`. In a piecewise expression, multiple conditional segments can be defined, allowing different functions to be applied based on the input value. Additionally, the tool supports custom functions supplied either as native JavaScript functions or as string representations, enabling further flexibility. 
 
-## Source Code Changes
+- **Benefit:** By supporting piecewise expressions and custom functions, the CLI tool becomes significantly more powerful and user-friendly, aligning with the mission to be the "jq of formulae visualisations." This change allows for more intricate and diverse mathematical representations without altering the core CLI workflow.
 
-- **Modify src/lib/main.js:**
-  - Update the argument parsing logic to detect the `--expression` flag and optionally the `--range` flag.
-  - Implement a simple parser that extracts the mathematical function from an expression starting with "y=". For instance, for "y=sin(x)", isolate the function body "sin(x)".
-  - Generate a set of x values over a defined range (either provided via `--range` or using a default such as x in [-10, 10]).
-  - Use JavaScript's `Math` functions to compute y-values for each x, and log the computed values along with basic statistics (min, max, average) if applicable.
-  - Ensure the new logic does not interfere with existing flags like `--stats`, `--diagnostics`, and `--help`.
+# Implementation Details
 
-## Testing Enhancements
+- **CLI Parameter Parsing:**
+  - Extend the argument parser in `src/lib/main.js` to process the `--expression` flag. The input expression may begin with `piecewise:`. 
+  - Maintain backward compatibility for standard expressions such as `y=sin(x)`, `y=cos(x)`, etc.
 
-- **Update tests/unit/main.test.js:**
-  - Add or extend tests to simulate CLI calls with the `--expression` flag (and optionally `--range`).
-  - Verify that the console output includes the computed y-values for known expressions (e.g., validate that `Math.sin` applied over the given range yields correct results).
-  - Check for proper handling and error messaging when the expression or range format is invalid.
+- **Data Processing:**
+  - When an expression starts with `piecewise:`, the tool parses the remaining string into conditional segments. Each segment should follow the syntax `if <condition> then <expression>`. The tool evaluates these conditions in sequence and applies the corresponding expression for the first matched condition. If no condition is met, the default value is set to 0.
+  - For standard expressions, the function evaluates the expression using preset conditions (e.g., mapping `y=sin(x)` to `Math.sin(x)`).
+  - Custom functions may be provided via the `--custom-functions` option. These can be defined as native functions or as strings that are evaluated into functions dynamically.
 
-## Documentation Updates
+- **Error Handling:**
+  - The feature validates the range provided via the `--range` flag. If the range does not match the expected format (e.g., "x=start:end"), an error is thrown.
+  - For expressions that do not match any recognized pattern or when no conditions are matched in a piecewise definition, the output defaults to 0.
 
-- **Update README.md:**
-  - Include a dedicated section documenting the new `--expression` and `--range` flags.
-  - Provide usage examples, such as:
+# Testing Enhancements
+
+- **Unit Tests:**
+  - Update the test suite (in `tests/unit/main.test.js`) to include scenarios where piecewise expressions are provided. 
+  - Verify that given boundaries, conditions are correctly evaluated – for example, if `x < 0`, the function computes `sin(x)`, and if `x >= 0`, it computes `cos(x)`.
+  - Tests must also verify that custom functions (both as strings and functions) return the expected outputs.
+
+# Documentation Updates
+
+- **README.md:**
+  - Update the documentation to include examples of piecewise expressions. 
+  - Include usage examples such as:
     ```sh
-    node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10"
+    node src/lib/main.js --expression "piecewise: if x < 0 then sin(x); if x >= 0 then cos(x)" --range "x=-1:1" --file output.svg
     ```
-  - Outline expected outputs and potential error messages for invalid inputs.
+  - Document the custom functions option to illustrate how users can override or add new mathematical functions.
 
-## Dependency and Build Consistency
+# Conformance with Mission and Guidelines
 
-- No new dependencies are introduced. This feature solely utilizes JavaScript's built-in functionalities.
-- All changes comply with Node 20, ECMAScript module standards, and adhere to the repository guidelines detailed in CONTRIBUTING.md and MISSION.md.
+- All modifications are confined to existing source files, test files, README, and dependency files, following repository guidelines.
+- This enhancement aligns with the mission to be a go-to plot library by increasing the expressiveness and flexibility of the formula input mechanism.
+- The updated feature does not create new files, but improves the core evaluation functionality to handle more complex cases, thereby distinguishing itself within the repository's feature set.
