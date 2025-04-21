@@ -29,13 +29,15 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--title`: (Optional) Specifies a custom plot title to be displayed at the top center of the plot. If omitted, defaults to `Plot: <expression>`.
 - `--xlabel` (or `--xLabel`): (Optional) Specifies a custom label for the X axis. Defaults to "X Axis" if not provided.
 - `--ylabel` (or `--yLabel`): (Optional) Specifies a custom label for the Y axis. Defaults to "Y Axis" if not provided.
+- `--marker-size`: (Optional) Specifies the radius of the marker circles in the plot. Defaults to 3 if not provided.
+- `--marker-color`: (Optional) Specifies the fill color for the marker circles. Defaults to "red" if not provided.
 
 ### Generation Message Behavior
 
 When all required options (`--expression`, `--range`, and `--file`) are provided:
 
 - For SVG or PNG outputs, the CLI logs the message to stdout in the exact format:
-  
+
   `Generating plot for expression <expression> with range <range> to file <file>.`
   
 - For CSV outputs, the CLI logs the generation message to stderr so that stdout contains only the CSV data starting with the header "x,y".
@@ -53,22 +55,22 @@ Expected Output:
 - A generation message is logged to stderr.
 - The terminal prints a CSV string beginning with a header `x,y` followed by data rows. The number of data rows will be default (10) or as specified with `--points`.
 
-### 2. Generating an Enhanced SVG Plot with Custom Title and Axis Labels
+### 2. Generating an Enhanced SVG Plot with Custom Title, Axis Labels, and Marker Options
 
 Command:
 ```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y"
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y" --marker-size 5 --marker-color green
 ```
 
 Expected Output:
 - A generation message is logged to stdout:
-  
+
   `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
   
 - An SVG file named `output.svg` is generated. The SVG includes:
   - A custom title at the top center: "Custom Plot".
   - X axis and Y axis labels with the provided texts: "Custom X" and "Custom Y" respectively.
-  - Axis lines (`<line>` elements), a polyline (`<polyline>`) connecting data points, and individual data point markers (`<circle>` elements).
+  - Axis lines (`<line>` elements), a polyline (`<polyline>`) connecting data points, and individual data point markers (`<circle>` elements) with marker radius of 5 and fill color green.
 
 ### 3. Generating a PNG Image
 
@@ -79,7 +81,7 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.pn
 
 Expected Output:
 - A generation message is logged to stdout:
-  
+
   `Generating plot for expression y=sin(x) with range x=0:6.28 to file output.png.`
   
 - The tool converts the generated SVG content into a PNG image using `sharp` and saves it as `output.png`.
@@ -109,4 +111,4 @@ Might output:
 
 ## Conclusion
 
-This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs along with appropriate logging of generation messages. Happy plotting!
+This guide provides detailed CLI usage examples and describes the key features of repository0-plot-code-lib. The documented commands are validated by comprehensive tests, ensuring that the tool behaves as expected in generating CSV, SVG, and PNG outputs, along with support for custom marker options. Happy plotting!

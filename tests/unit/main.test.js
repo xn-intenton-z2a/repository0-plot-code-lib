@@ -15,6 +15,21 @@ function svgContainsText(svg, text) {
   return svg.includes(text);
 }
 
+// Utility function to extract marker attributes from circle elements in SVG
+function getMarkerAttributes(svg) {
+  const markerRegex = /<circle[^>]*>/g;
+  const circles = svg.match(markerRegex) || [];
+  // Extract r and fill from the first circle
+  const attrRegex = /r="(\d+)".*fill="([^"]+)"/;
+  if (circles.length > 0) {
+    const match = circles[0].match(attrRegex);
+    if (match) {
+      return { r: match[1], fill: match[2] };
+    }
+  }
+  return null;
+}
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -39,7 +54,7 @@ describe("Plot Generation", () => {
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(svgContainsElements(writtenData, ["line", "circle"]) || 
-           svgContainsElements(writtenData, ["line", "polyline", "circle"]) ).toBe(true);
+           svgContainsElements(writtenData, ["line", "polyline", "circle"])).toBe(true);
     writeFileSyncSpy.mockRestore();
   });
 });
@@ -262,6 +277,43 @@ describe("CLI Generation Message", () => {
     expect(svgContainsText(writtenData, "Custom Plot")).toBe(true);
     expect(svgContainsText(writtenData, "Custom X")).toBe(true);
     expect(svgContainsText(writtenData, "Custom Y")).toBe(true);
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Custom Marker Options", () => {
+  test("should generate SVG with custom marker size and color when provided via CLI", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--marker-size", "5",
+      "--marker-color", "green"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    // Check that circle elements have r="5" and fill="green"
+    const markerAttrs = getMarkerAttributes(writtenData);
+    expect(markerAttrs).not.toBeNull();
+    expect(markerAttrs.r).toBe("5");
+    expect(markerAttrs.fill).toBe("green");
+    writeFileSyncSpy.mockRestore();
+  });
+
+  test("should generate SVG with default marker options when not provided", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    const markerAttrs = getMarkerAttributes(writtenData);
+    expect(markerAttrs).not.toBeNull();
+    expect(markerAttrs.r).toBe("3");
+    expect(markerAttrs.fill).toBe("red");
     writeFileSyncSpy.mockRestore();
   });
 });
