@@ -46,16 +46,27 @@ A recent enhancement allows you to overlay multiple expressions in a single plot
 node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg
 ```
 
-When multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles. It also appends an automatic legend in the top right corner of the SVG. Each legend item includes a marker (matching your specified style via `--marker-size`, `--marker-color`, and `--marker-shape`) and a label in the format "Series 1", "Series 2", etc.
+When multiple expressions are provided, the tool generates a separate data series for each and overlays them on the same plot with distinct styles. It also appends an automatic legend in the plot. 
 
-#### Example with Legend
+#### Legend Customization Options
+
+The legend can be fully customized using the following options via CLI or YAML configuration:
+
+- **--legend-position**: Position of the legend. Acceptable values: `top-right` (default), `top-left`, `bottom-right`, `bottom-left`.
+- **--legend-font**: Font family for legend text.
+- **--legend-font-size**: Font size for legend labels.
+- **--legend-background**: Background color for the legend group.
+- **--legend-title**: An optional title for the legend.
+
+Example with legend customization:
 
 ```sh
 node src/lib/main.js --expression "y=sin(x); y=cos(x)" --range "x=-1:1" --file output.svg \
-  --marker-size "3,4" --marker-color "red,blue" --marker-shape "circle,square"
+  --legend-position "top-left" --legend-font "Arial" --legend-font-size 14 \
+  --legend-background "#f0f0f0" --legend-title "Data Series Legend"
 ```
 
-The generated SVG will include a legend group (`<g class="legend">`) positioned in the top right corner, helping you easily identify each series.
+This will generate an SVG that includes a legend group positioned in the top-left corner with the specified fonts, font size, background color, and title.
 
 ## Registering Custom Functions
 
@@ -80,6 +91,11 @@ height: 700
 custom-functions:
   double: "(x)=>2*x"
 fillColor: "#ff00ff"
+legend-position: "top-right"
+legend-font: "Verdana"
+legend-font-size: 16
+legend-background: "#123456"
+legend-title: "YAML Legend"
 ```
 
 Then run:
@@ -137,4 +153,4 @@ When the output file ends with `.pdf`, a PDF document is generated using `pdfkit
 
 ## Conclusion
 
-**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also automatically generates a legend for multi-series overlay plots. This feature makes it easier to distinguish between multiple data series in a single plot. Experiment with these options to create clear and informative visualizations.
+**repository0-plot-code-lib** not only allows you to generate plots from mathematical expressions but now also provides extensive legend customization options. Experiment with these options to create clear, informative, and aesthetically pleasing visualizations.

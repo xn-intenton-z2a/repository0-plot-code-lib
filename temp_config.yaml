@@ -1,0 +1,15 @@
+
+title: Custom Plot from YAML
+xlabel: YAML X
+ylabel: YAML Y
+marker-size: 7
+marker-color: blue
+width: 700
+height: 700
+custom-functions: { double: "(x)=>2*x" }
+fillColor: "#abcdef"
+legend-position: "top-right"
+legend-font: "Verdana"
+legend-font-size: 16
+legend-background: "#123456"
+legend-title: "YAML Legend"
