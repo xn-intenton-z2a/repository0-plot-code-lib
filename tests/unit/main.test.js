@@ -41,6 +41,7 @@ function svgContainsLineWithStroke(svg, stroke) {
   return lineRegex.test(svg);
 }
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -305,7 +306,8 @@ describe("Background and Grid Customization", () => {
       "--range", "x=-1:1",
       "--file", "output.svg",
       "--bgColor", "#f0f0f0",
-      "--gridColor", "#cccccc"
+      "--gridColor", "#cccccc",
+      "--grid-dasharray", "2,2"
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -353,6 +355,24 @@ describe("Custom Grid Dash Pattern", () => {
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).toContain('stroke-dasharray="2,2"');
+    writeFileSyncSpy.mockRestore();
+  });
+});
+
+describe("Custom Dimensions Option", () => {
+  test("should generate SVG with custom width and height attributes when provided via CLI", async () => {
+    const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
+    const args = [
+      "--expression", "y=sin(x)",
+      "--range", "x=-1:1",
+      "--file", "output.svg",
+      "--width", "800",
+      "--height", "600"
+    ];
+    await main(args);
+    const writtenData = writeFileSyncSpy.mock.calls[0][1];
+    expect(writtenData).toContain('width="800"');
+    expect(writtenData).toContain('height="600"');
     writeFileSyncSpy.mockRestore();
   });
 });

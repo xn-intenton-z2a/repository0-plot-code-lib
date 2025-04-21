@@ -155,6 +155,7 @@ function generateSvgContent({
 
 export async function main(args) {
   let expression, range, outputFile, points, title, xlabel, ylabel, markerSize, markerColor, bgColor, gridColor, fontFamily;
+  let width = 500, height = 500;
   let gridDashArray = "4"; // default dash pattern
 
   for (let i = 0; i < args.length; i++) {
@@ -198,6 +199,12 @@ export async function main(args) {
     } else if (arg === "--grid-dasharray") {
       gridDashArray = args[i + 1];
       i++;
+    } else if (arg === "--width") {
+      width = parseInt(args[i + 1], 10);
+      i++;
+    } else if (arg === "--height") {
+      height = parseInt(args[i + 1], 10);
+      i++;
     }
   }
 
@@ -236,6 +243,8 @@ export async function main(args) {
         const data = generateTimeSeriesData(expression, range, points);
         const svgContent = generateSvgContent({
           data,
+          width,
+          height,
           title,
           xlabel,
           ylabel,
@@ -247,7 +256,10 @@ export async function main(args) {
           fontFamily
         });
         if (outputFile.endsWith(".png")) {
-          const buffer = await sharp(Buffer.from(svgContent)).png().toBuffer();
+          const buffer = await sharp(Buffer.from(svgContent))
+            .resize(width, height)
+            .png()
+            .toBuffer();
           fs.writeFileSync(outputFile, buffer);
           console.log(`PNG file generated: ${outputFile}`);
         } else {

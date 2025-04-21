@@ -35,6 +35,8 @@ The CLI functionality is provided by the `src/lib/main.js` script. It accepts se
 - `--gridColor`: (Optional) Specifies a grid line color to overlay on the plot. Requires `--grid-dasharray` to specify the dash pattern.
 - `--grid-dasharray`: (Optional) Specifies a custom dash pattern for the grid lines. Defaults to "4" if not provided.
 - `--font-family`: (Optional) Specifies a custom font family for text elements in the plot (title, x-axis label, y-axis label). Defaults to "sans-serif" if not provided.
+- `--width`: (Optional) Specifies the width (in pixels) of the output plot. Defaults to 500 if not provided.
+- `--height`: (Optional) Specifies the height (in pixels) of the output plot. Defaults to 500 if not provided.
 
 ### Generation Message Behavior
 
@@ -63,32 +65,33 @@ Expected Output:
 
 Command:
 ```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y" --marker-size 5 --marker-color green --font-family Courier
+node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y" --marker-size 5 --marker-color green --font-family Courier --width 800 --height 600
 ```
 
 Expected Output:
 - A generation message is logged to stdout:
 
   `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
-
+  
 - An SVG file named `output.svg` is generated with:
   - Custom title "Custom Plot" in the specified font.
   - X and Y axis labels "Custom X" and "Custom Y" in the specified font.
+  - Dimensions set to 800x600 (width and height attributes, and viewBox adjusted accordingly).
   - Axis lines, a polyline connecting data points, and markers with radius 5 and fill color green.
 
 #### 3. Generating a PNG Image
 
 Command:
 ```
-node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.png
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:6.28" --file output.png --width 800 --height 600
 ```
 
 Expected Output:
 - A generation message is logged to stdout:
 
   `Generating plot for expression y=sin(x) with range x=0:6.28 to file output.png.`
-
-- The generated SVG is converted to a PNG image using `sharp` and saved as `output.png`.
+  
+- The generated SVG is converted to a PNG image using `sharp` with dimensions 800x600 and saved as `output.png`.
 
 #### 4. Specifying a Custom Point Count
 
@@ -128,4 +131,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The tool offers flexible customization options for titles, axis labels, markers, backgrounds, grids, and font families, ensuring it meets a variety of plotting needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The tool offers flexible customization options for titles, axis labels, markers, backgrounds, grids, font families, and now dimensions (width and height), ensuring it meets a variety of plotting needs.
