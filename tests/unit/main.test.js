@@ -381,7 +381,7 @@ describe("Custom Grid Dash Pattern", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
       "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
+      "--range", "x=-1:1", 
       "--file", "output.svg",
       "--gridColor", "#cccccc",
       "--grid-dasharray", "2,2"
@@ -398,7 +398,7 @@ describe("Custom Dimensions Option", () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
       "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
+      "--range", "x=-1:1", 
       "--file", "output.svg",
       "--width", "800",
       "--height", "600"

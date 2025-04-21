@@ -63,7 +63,48 @@ height: 700
 node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --range "x=-1:1" --file output.svg
 ```
 
-In the above example, the plot will use the custom title, axis labels, marker size and color, and dimensions as specified in the YAML file.
+## Advanced CLI Options and Customization
+
+This section details additional customization options for advanced usage:
+
+- **Custom Grid Dash Pattern**
+  - Use the `--grid-dasharray` option to set a custom dash pattern for grid lines.
+  - Example: `--grid-dasharray "2,2"`
+
+- **Custom Marker Options**
+  - Customize marker shape using `--marker-shape`. Use `square` to render square markers (default is circle).
+  - Set marker size with `--marker-size` (e.g., `--marker-size 5`).
+  - Set marker color with `--marker-color` (e.g., `--marker-color green`).
+  - Sample command:
+    ```
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --marker-shape square --marker-size 5 --marker-color green
+    ```
+
+- **Custom Dimensions**
+  - Specify custom dimensions for generated SVG plots using `--width` and `--height`.
+  - Example:
+    ```
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --width 800 --height 600
+    ```
+
+- **Override Titles and Axis Labels**
+  - Override default plot title and axis labels with `--title`, `--xlabel`, and `--ylabel`.
+  - Sample command:
+    ```
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y"
+    ```
+
+- **Combining Advanced Options**
+  - You can combine multiple advanced options in a single command. For example:
+    ```
+    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg \
+      --marker-shape square --marker-size 5 --marker-color green \
+      --grid-dasharray "2,2" \
+      --width 800 --height 600 \
+      --title "Custom Plot" --xlabel "Custom X" --ylabel "Custom Y"
+    ```
+
+Additionally, YAML configuration overrides are supported. Any settings provided in a YAML file via the `--config-yaml` option will take precedence over corresponding CLI options.
 
 ## Generation Message Behavior
 
@@ -100,11 +141,7 @@ Expected Output:
 
   `Generating plot for expression y=sin(x) with range x=-1:1 to file output.svg.`
   
-- An SVG file named `output.svg` is generated with:
-  - Custom title "Custom Plot" in the specified font.
-  - X and Y axis labels "Custom X" and "Custom Y" in the specified font.
-  - Dimensions set to 800x600 (width and height attributes, and viewBox adjusted accordingly).
-  - Axis lines, a polyline connecting data points, and markers with size 5 and fill color green.
+- An SVG file named `output.svg` is generated with custom title, labels, dimensions, and marker options.
 
 #### 3. Generating a PNG Image
 
@@ -131,18 +168,7 @@ Expected Output:
 - A generation message is logged to stderr.
 - The CSV output contains a header and exactly 15 data rows.
 
-#### 5. Background and Grid Customization
-
-Command:
-```
-node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1" --file output.svg --bgColor "#f0f0f0" --gridColor "#cccccc" --grid-dasharray "2,2"
-```
-
-Expected Output:
-- A generation message is logged to stdout.
-- The SVG (or PNG) output includes a background rectangle filled with "#f0f0f0", and grid lines with stroke "#cccccc" using the dash pattern "2,2".
-
-#### 6. Using YAML Configuration to Override Options
+#### 5. Using YAML Configuration to Override Options
 
 Command:
 ```
@@ -152,7 +178,7 @@ node src/lib/main.js --config-yaml custom_config.yaml --expression "y=sin(x)" --
 Expected Output:
 - The settings specified in `custom_config.yaml` (e.g., custom title, axis labels, marker options, dimensions) will override corresponding CLI options.
 
-#### 7. Fallback Behavior
+## Fallback Behavior
 
 If required options are missing, the CLI outputs the provided options in JSON format. For example:
 
@@ -168,4 +194,4 @@ Might output:
 
 ## Conclusion
 
-This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. With the addition of YAML-based configuration support, users can now easily override and customize plot settings using a simple YAML file, making the tool more flexible and adaptable to various needs.
+This guide details how to use **repository0-plot-code-lib** via its CLI to generate time series data and visual plots in CSV, SVG, or PNG formats. The advanced CLI options provide comprehensive customization, and YAML-based configuration offers an easy way to override options, making the tool flexible and adaptable to various needs.
