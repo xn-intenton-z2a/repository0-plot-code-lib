@@ -1,12 +1,12 @@
 # Express Documentation
 ## https://expressjs.com/en/api.html
-Express is a minimal and flexible Node.js web framework that provides a robust set of features for building APIs and web applications. It underpins many interactive preview features in CLI tools and is widely regarded for its stable and extensive documentation (last reviewed in 2023). 
+Express is a minimal and flexible Node.js web framework that provides a robust set of features for building APIs and web applications. It underpins many interactive preview features in CLI tools and is widely regarded for its stable and extensive documentation (last reviewed in 2023).
 
 **License:** MIT License.
 
 # Sharp Documentation
 ## https://sharp.pixelplumbing.com/api-reference
-Sharp is a high-performance Node.js image processing library used for converting, resizing, and optimizing images. It plays a critical role in exporting plots to PNG, JPEG, and other formats. The API is comprehensive and current (2023). 
+Sharp is a high-performance Node.js image processing library used for converting, resizing, and optimizing images. It plays a critical role in exporting plots to PNG, JPEG, and other formats. The API is comprehensive and current (2023).
 
 **License:** Apache-2.0 License.
 
@@ -51,3 +51,33 @@ D3.js is a powerful library for producing dynamic, interactive data visualizatio
 Vega-Lite is a high-level grammar for rapidly creating, sharing, and exploring interactive visualizations. The documentation provides clear guidelines and examples that help users generate a wide range of visual representations.
 
 **License:** Apache-2.0 License.
+
+# SVG-to-PDFKit Documentation
+## https://www.npmjs.com/package/svg-to-pdfkit
+SVG-to-PDFKit is a Node.js library that bridges SVG graphics with PDF generation by converting SVG elements into PDF commands using PDFKit. This documentation details its API and usage, helping developers embed SVG content into PDFs seamlessly. It is a lightweight and practical tool, widely used for server-side SVG to PDF conversions.
+
+**License:** MIT License.
+
+# Node.js Readline Documentation
+## https://nodejs.org/api/readline.html
+The Node.js Readline module provides an interface for reading data from a Readable stream (such as process.stdin) one line at a time. This official documentation explains how to use the module to build interactive command-line applications, making it essential for CLI tool development.
+
+**License:** Node.js Documentation (Official).
+
+# Vitest Documentation
+## https://vitest.dev
+Vitest is a modern unit testing framework built on Vite, designed for fast and efficient testing of JavaScript and TypeScript projects. Its documentation is comprehensive, up-to-date, and offers best practices to ensure high-quality test suites in contemporary web development.
+
+**License:** MIT License.
+
+# MDN SVG Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG
+The MDN Web Docs provide an in-depth guide to Scalable Vector Graphics (SVG), covering everything from basic elements to advanced techniques for creating and manipulating SVG content. This authoritative resource is continuously updated by the Mozilla community and is essential for web developers working with vector graphics.
+
+**License:** Content on MDN is typically licensed under CC BY-SA.
+
+# The Art of Command Line
+## https://github.com/jlevy/the-art-of-command-line
+A comprehensive guide featuring tips and best practices for using the command line effectively, this repository offers valuable insights for both beginners and advanced users. It covers a wide range of topics and is maintained by a community of contributors, making it a go-to resource for command-line enthusiasts.
+
+**License:** MIT License.
