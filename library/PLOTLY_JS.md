@@ -1,190 +1,177 @@
 # PLOTLY_JS
 
 ## Crawl Summary
-The crawled content provides detailed navigation of Plotly.js features, including various chart types (e.g., contour, scatter, error bars, 3D charts) and configuration options. It displays code examples with precise trace and layout objects for building charts. Key technical points include the use of declarative JSON for chart configuration, options like colorscale customization, axis formatting (showline, ticks, grid settings), margin settings, annotations, and use of high-performance rendering techniques such as WebGL for 3D charts and scattergl for faster rendering of scatter plots.
+Plotly.js uses d3.js and stack.gl for high-performance, declarative charting with a JSON configuration. The technical examples include a contour plot with explicit trace parameters (x, y, z, colorscale, zmin, zmax) and layout settings (title, axis properties, margins, annotations) as well as a scatter plot example reading CSV data with custom error bars and axis formatting. The main API function, Plotly.newPlot, accepts an HTML element, a data array, a layout object, and a configuration object.
 
 ## Normalised Extract
-## Table of Contents
-1. Chart Construction
-   - Trace Object Specifications
-   - Layout Configuration Options
+TABLE OF CONTENTS:
+1. Overview
+   - High-level charting library built on d3.js and stack.gl.
 2. Code Examples
-   - Contour Plot Example
-   - Scatter Plot Example with Error Bars
-3. Performance Optimization
-   - SVG vs. WebGL and scattergl usage
+   - Contour Plot Example:
+     * Data retrieval using d3.json
+     * Trace configuration: x, y, z arrays; type 'contour'; fixed colorscale and reversescale settings; zmin and zmax values.
+     * Layout configuration: title, xaxis and yaxis with showline, mirror, ticks inside; margin settings; annotation for credit.
+   - Scatter Plot Example:
+     * Data retrieval using d3.csv
+     * Trace configuration: type 'scatter', mode 'lines', mapping CSV columns to x and y, line width, error_y setup with array, thickness, and width.
+     * Layout configuration: yaxis title, xaxis settings (no grid, tickformat), margin adjustments.
+3. Configuration Options
+   - API method `Plotly.newPlot` signature and parameters: container element, data, layout, config with values like { showLink: false }.
 
-## 1. Chart Construction
-### Trace Object Specifications
-- Properties include:
-  - x, y, (and optionally z): data arrays assigned directly from source data.
-  - type: specifies chart type (e.g., 'contour', 'scatter').
-  - autocolorscale: boolean flag to manage automatic colorscale.
-  - colorscale: an array of tuples defining numerical intervals and corresponding RGB strings.
-  - reversescale: boolean to invert the colorscale order.
-  - zmin and zmax: numerical bounds for the z-axis in contour charts.
+DETAILED INFORMATION:
+1. Contour Plot Example (Direct Usage):
+   • d3.json callback fetches a JSON structure and uses figure.data[0] for data arrays.
+   • Colorscale defined as an array of pairs: [0, "rgb(0, 0, 0)"], [0.3, "rgb(230, 0, 0)"], etc.
+   • Layout includes detailed axis definitions and margin: {l:40, b:40, t:60}.
 
-### Layout Configuration Options
-- Title configuration: provided as a nested text property in title object.
-- Axis configuration: each axis can include:
-  - title: text attribute under a nested object.
-  - showline: boolean
-  - mirror: option such as 'allticks'
-  - ticks: position such as 'inside'
-- Margin settings: object with keys l, b, t, r to set left, bottom, top, and right margins.
-- Annotations: array of objects including properties such as showarrow, text, and coordinate references (xref, yref).
+2. Scatter Plot Example (CSV-based):
+   • Uses d3.csv to load data, mapping CSV keys to chart data arrays.
+   • Sets line properties and error bars with exact numeric values (line width 1, error_thickness 0.5, width 0).
+   • Xaxis formatted with tickformat '%B, %Y' and no grid in xaxis.
 
-## 2. Code Examples
-### Contour Plot Example
-Direct usage of d3.json to fetch data and construct a contour plot with explicit trace and layout configuration. Uses Plotly.newPlot with a configuration object disabling the showLink.
+3. API & Configuration Options:
+   • Plotly.newPlot element signature: container (HTMLElement), data (array of trace objects), layout (object with axis and margin configurations), and config (standard config options like showLink).
 
-### Scatter Plot Example with Error Bars
-Demonstrates use of d3.csv to load tabular data. The trace is built with x, y arrays and an error_y object. Layout settings include axis titles and custom date formats (tickformat). 
-
-## 3. Performance Optimization
-- Uses SVG rendering for most graphs ensuring browser compatibility and high-quality vector output.
-- Implements WebGL rendering for all 3D charts to leverage GPU acceleration.
-- Introduces scattergl for scatter plots to render significantly faster compared to SVG counterparts.
 
 ## Supplementary Details
-### Detailed Technical Specifications and Implementation Steps
-1. Trace Object Configuration:
-   - For a contour plot:
-     • x, y, z: Must be arrays of numbers retrieved from JSON.
-     • type: 'contour' (string).
-     • autocolorscale: false (boolean).
-     • colorscale: Array of arrays, e.g., [[0, 'rgb(0,0,0)'], [0.3, 'rgb(230,0,0)'], [0.6, 'rgb(255,210,0)'], [1, 'rgb(255,255,255)']].
-     • reversescale: true (boolean).
-     • zmax and zmin: Numeric values (2.5 and -2.5).
+SUPPLEMENTARY TECHNICAL SPECIFICATIONS:
+- Contour Plot Technical Details:
+  • Trace Object:
+    - x: Array (obtained from figure.data[0].x)
+    - y: Array (obtained from figure.data[0].y)
+    - z: Array (obtained from figure.data[0].z)
+    - type: 'contour'
+    - autocolorscale: false
+    - colorscale: [[0, "rgb(0, 0, 0)"], [0.3, "rgb(230, 0, 0)"], [0.6, "rgb(255,210, 0)"], [1, "rgb(255,255,255)"]]
+    - reversescale: true
+    - zmin: -2.5
+    - zmax: 2.5
+  • Layout Object:
+    - title: { text: 'turbulence simulation' }
+    - xaxis: { title: { text: 'radial direction' }, showline: true, mirror: 'allticks', ticks: 'inside' }
+    - yaxis: { title: { text: 'vertical direction' }, showline: true, mirror: 'allticks', ticks: 'inside' }
+    - margin: { l: 40, b: 40, t: 60 }
+    - annotations: [{ showarrow: false, text: 'Credit: Daniel Carrera', x: 0, y: 0, xref: 'paper', yref: 'paper' }]
+- Scatter Plot Technical Details:
+  • Trace Object:
+    - type: 'scatter'
+    - mode: 'lines'
+    - x: Mapped from CSV column 'Time'
+    - y: Mapped from CSV column '10 Min Sampled Avg'
+    - line: { width: 1 }
+    - error_y: { array: Mapped from '10 Min Std Dev', thickness: 0.5, width: 0 }
+  • Layout Object:
+    - yaxis: { title: { text: 'Wind Speed' } }
+    - xaxis: { showgrid: false, tickformat: '%B, %Y' }
+    - margin: { l: 40, b: 10, r: 10, t: 20 }
+- API Configuration Option for Interactivity:
+  • Config Object passed to Plotly.newPlot: { showLink: false } to disable additional Plotly link rendering.
+- Data Retrieval Methods:
+  • Using d3.json for JSON data and d3.csv for CSV data, with callbacks processing the returned data directly into trace objects.
 
-2. Layout Configuration:
-   - title: Object with text key (e.g., 'turbulence simulation').
-   - xaxis and yaxis:
-     • title: Object with text (e.g., 'radial direction', 'vertical direction').
-     • showline: true.
-     • mirror: 'allticks'.
-     • ticks: 'inside'.
-   - Margin: Object with numeric values (e.g., {l: 40, b: 40, t: 60}).
-   - Annotations: Array containing objects with properties such as showarrow (false), text, and coordinate mappings (x, y, xref, yref set to 'paper').
-
-3. Code Implementation Pattern:
-   - Fetch data using d3.json or d3.csv.
-   - Map data to arrays directly in the trace definition.
-   - Define layout parameters explicitly with nested JSON objects.
-   - Call Plotly.newPlot with: 
-     • The target DOM element (obtained using document.getElementById).
-     • Array of trace objects.
-     • Layout object.
-     • Configuration object with additional settings (e.g., {showLink: false}).
-
-4. Configuration Options:
-   - showLine, mirror, ticks: controls visual appearance of axes.
-   - colorscale: Accepts a precise array structure for mapping data scale to colors.
-   - Error bars configuration: Uses 'error_y' with parameters array, thickness and width.
-
-5. Performance Best Practices:
-   - Use scattergl for rendering scatter plots when dealing with large datasets.
-   - Use WebGL for 3D charts to improve interactivity and speed.
-   - Maintain declarative JSON structures to ensure quick updates and re-render in Plotly.react.
-
-6. Troubleshooting Procedures:
-   - Verify data array consistency (ensure equal length for x, y, and z).
-   - Check DOM element existence before calling Plotly.newPlot to avoid null reference errors.
-   - Use browser developer tools to inspect network calls for data fetching errors.
-   - Inspect console for JavaScript errors detailing misconfigurations in trace or layout objects.
 
 ## Reference Details
-### Complete API Specifications and SDK Method Signatures
+API SPECIFICATIONS AND IMPLEMENTATION DETAILS:
 
-#### Plotly.newPlot
-Signature:
-  Plotly.newPlot(
-    graphDiv: HTMLElement, 
-    data: Array<Object>, 
-    layout?: Object, 
-    config?: Object
-  ) → Promise
+1. Plotly.newPlot
+   - Signature:
+     Plotly.newPlot(container: HTMLElement, data: Array<Object>, layout: Object, config?: Object): Promise
+   - Parameters:
+     • container: The HTML element (e.g., document.getElementById('chart-container')) where the chart is rendered.
+     • data: An array of trace objects. Each trace object must specify at least the 'type' and data arrays (e.g., x, y, z for contour charts).
+     • layout: An object representing chart layout. Common attributes include:
+         - title: { text: string }
+         - xaxis and yaxis: {
+             title: { text: string },
+             showline: boolean,
+             mirror: string (e.g., 'allticks'),
+             ticks: string (e.g., 'inside'),
+             showgrid: boolean (optional)
+           }
+         - margin: { l: number, b: number, t: number, r?: number }
+         - annotations: Array<Object> with properties such as showarrow, text, x, y, xref, yref
+     • config: Optional configuration object. Example configuration: { showLink: false } disables the display of a Plotly logo/link.
+   - Return: A Promise that resolves when the plot is rendered.
 
-Parameters:
-- graphDiv: The HTML element or the id of the element where the plot will be rendered.
-- data: An array of trace objects. Each trace object must include necessary keys (e.g., x, y for scatter; x, y, z for 3D and contour plots), and type as a string specifying chart type.
-- layout (Optional): A JSON object containing layout configuration including title, margin, axis properties (e.g., xaxis, yaxis) and annotations.
-- config (Optional): A JSON object for additional configuration such as static image export, display mode bar options (e.g., {showLink: false}).
+2. d3.json and d3.csv Usage Example with Plotly:
 
-Return Type:
-- Returns a Promise that resolves when the chart is rendered.
+// Contour Plot Example
+ d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure) {
+   // Define trace using data from the JSON figure
+   var trace = {
+     x: figure.data[0].x,
+     y: figure.data[0].y,
+     z: figure.data[0].z,
+     type: 'contour',
+     autocolorscale: false,
+     colorscale: [
+       [0, "rgb(0, 0, 0)"],
+       [0.3, "rgb(230, 0, 0)"],
+       [0.6, "rgb(255,210, 0)"],
+       [1, "rgb(255,255,255)"]
+     ],
+     reversescale: true,
+     zmin: -2.5,
+     zmax: 2.5
+   };
+   var layout = {
+     title: { text: 'turbulence simulation' },
+     xaxis: {
+       title: { text: 'radial direction' },
+       showline: true,
+       mirror: 'allticks',
+       ticks: 'inside'
+     },
+     yaxis: {
+       title: { text: 'vertical direction' },
+       showline: true,
+       mirror: 'allticks',
+       ticks: 'inside'
+     },
+     margin: { l: 40, b: 40, t: 60 },
+     annotations: [{
+       showarrow: false,
+       text: 'Credit: Daniel Carrera',
+       x: 0, y: 0, xref: 'paper', yref: 'paper'
+     }]
+   };
+   Plotly.newPlot(document.getElementById('contour-plot'), [trace], layout, { showLink: false });
+ });
 
-#### Code Example with Detailed Comments
-```javascript
-// Example: Rendering a Contour Plot
-// Step 1: Fetch JSON data with d3.json
-// Input: URL to JSON file containing figure object with data
+// Scatter Plot Example
+ d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/wind_speed_laurel_nebraska.csv', function(rows) {
+   var trace = {
+     type: 'scatter',
+     mode: 'lines',
+     x: rows.map(function(row) { return row['Time']; }),
+     y: rows.map(function(row) { return row['10 Min Sampled Avg']; }),
+     line: { width: 1 },
+     error_y: {
+       array: rows.map(function(row) { return row['10 Min Std Dev']; }),
+       thickness: 0.5,
+       width: 0
+     }
+   };
+   var layout = {
+     yaxis: { title: { text: 'Wind Speed' } },
+     xaxis: {
+       showgrid: false,
+       tickformat: '%B, %Y'
+     },
+     margin: { l: 40, b: 10, r: 10, t: 20 }
+   };
+   Plotly.newPlot(document.getElementById('wind-speed'), [trace], layout, { showLink: false });
+ });
 
-d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure) {
-  // Step 2: Define the trace using data from the fetched figure
-  var trace = {
-    x: figure.data[0].x,      // Array of x-coordinate data
-    y: figure.data[0].y,      // Array of y-coordinate data
-    z: figure.data[0].z,      // Array of z-coordinate data
-    type: 'contour',         // Chart type
-    autocolorscale: false,   // Disable automatic color scaling
-    colorscale: [
-      [0, 'rgb(0,0,0)'],
-      [0.3, 'rgb(230,0,0)'],
-      [0.6, 'rgb(255,210,0)'],
-      [1, 'rgb(255,255,255)']
-    ],
-    reversescale: true,      // Reverse the colorscale
-    zmax: 2.5,               // Maximum z value
-    zmin: -2.5               // Minimum z value
-  };
-
-  // Step 3: Define layout settings for the plot
-  var layout = {
-    title: { text: 'turbulence simulation' },
-    xaxis: {
-      title: { text: 'radial direction' },
-      showline: true,
-      mirror: 'allticks',
-      ticks: 'inside'
-    },
-    yaxis: {
-      title: { text: 'vertical direction' },
-      showline: true,
-      mirror: 'allticks',
-      ticks: 'inside'
-    },
-    margin: { l: 40, b: 40, t: 60 },
-    annotations: [{
-      showarrow: false,
-      text: 'Credit: Daniel Carrera',
-      x: 0, y: 0,
-      xref: 'paper', yref: 'paper'
-    }]
-  };
-
-  // Step 4: Render the plot by targeting a specific DOM element
-  Plotly.newPlot(document.getElementById('contour-plot'), [trace], layout, { showLink: false })
-    .then(function() {
-      console.log('Contour plot rendered successfully.');
-    })
-    .catch(function(error) {
-      console.error('Error rendering contour plot:', error);
-    });
-});
-```
-
-#### Additional Configuration Options and Best Practices
-- Setting the margin object correctly ensures the chart is correctly spaced within the container: { l: 40, b: 40, t: 60 }.
-- Always validate the existence of the targeted DOM node to avoid null errors.
-- For high-performance rendering, especially with large datasets, consider using scattergl or WebGL based charts.
-
-#### Troubleshooting Commands
-- Command to check network responses (using Chrome DevTools Console):
-  > Network tab → Inspect the request to JSON or CSV source
-- Command to enable verbose logging in Plotly (if applicable):
-  > Plotly.setPlotConfig({ logging: true });
-- Expected outputs: Successful render message in console and properly formatted chart in the designated DOM element.
+3. Best Practices & Troubleshooting:
+   - Always validate the JSON/CSV input data structure before rendering.
+   - Ensure that the HTML container exists and is correctly referenced by using document.getElementById or similar queries.
+   - Check the browser console for errors related to configuration options or data types; mismatches in expected trace properties can cause rendering failures.
+   - For performance optimization, consider using WebGL-based plots (e.g., scattergl) when dealing with large datasets.
+   - Example command to check Plotly.js version:
+       console.log(Plotly.version);
+   - If encountering issues with rendering, try isolating the layout configuration in a separate JSON object and validate each property incrementally.
 
 
 ## Original Source
@@ -193,100 +180,100 @@ https://plotly.com/javascript/
 
 ## Digest of PLOTLY_JS
 
-# Plotly.js Documentation
-Retrieved Date: 2023-10-27
+# PLOTLY.JS DOCUMENTATION DIGEST (Retrieved: 2023-10-25)
 
 ## Overview
-Plotly.js is a high-level, declarative charting library built on top of d3.js and stack.gl. It supports over 40 chart types including 3D charts, statistical graphs, and SVG maps. The library is free, open source, and customizable in every detail via declarative JSON objects.
+Plotly.js is a high-level, declarative charting library built on top of d3.js and stack.gl. It supports over 40 chart types including 3D charts, statistical graphs, and SVG maps. It is free and open source with a complete set of JSON-based configuration options.
 
 ## Code Examples
-
 ### Contour Plot Example
 ```javascript
-// Fetch data and construct a contour plot
-d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure){
-  var trace = {
-    x: figure.data[0].x,
-    y: figure.data[0].y,
-    z: figure.data[0].z,
-    type: 'contour',
-    autocolorscale: false,
-    colorscale: [
-      [0, "rgb(  0,  0,  0)"],
-      [0.3, "rgb(230,  0,  0)"],
-      [0.6, "rgb(255,210,  0)"],
-      [1, "rgb(255,255,255)"]
-    ],
-    reversescale: true,
-    zmax: 2.5,
-    zmin: -2.5
-  };
-  var layout = {
-    title: { text: 'turbulence simulation' },
-    xaxis: {
-      title: { text: 'radial direction' },
-      showline: true,
-      mirror: 'allticks',
-      ticks: 'inside'
-    },
-    yaxis: {
-      title: { text: 'vertical direction' },
-      showline: true,
-      mirror: 'allticks',
-      ticks: 'inside'
-    },
-    margin: { l: 40, b: 40, t: 60 },
-    annotations: [{
-      showarrow: false,
-      text: 'Credit: Daniel Carrera',
-      x: 0, y: 0, xref: 'paper', yref: 'paper'
-    }]
-  };
-  Plotly.newPlot(document.getElementById('contour-plot'), [trace], layout, { showLink: false });
-});
+// Fetch JSON data and render a contour plot
+ d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure){
+   var trace = {
+     x: figure.data[0].x,
+     y: figure.data[0].y,
+     z: figure.data[0].z,
+     type: 'contour',
+     autocolorscale: false,
+     colorscale: [
+       [0, "rgb(  0,  0,  0)"],
+       [0.3, "rgb(230,  0,  0)"],
+       [0.6, "rgb(255,210,  0)"],
+       [1, "rgb(255,255,255)"]
+     ],
+     reversescale: true,
+     zmax: 2.5,
+     zmin: -2.5
+   };
+   var layout = {
+     title: { text: 'turbulence simulation' },
+     xaxis: {
+       title: { text: 'radial direction' },
+       showline: true,
+       mirror: 'allticks',
+       ticks: 'inside'
+     },
+     yaxis: {
+       title: { text: 'vertical direction' },
+       showline: true,
+       mirror: 'allticks',
+       ticks: 'inside'
+     },
+     margin: { l: 40, b: 40, t: 60 },
+     annotations: [{
+       showarrow: false,
+       text: 'Credit: Daniel Carrera',
+       x: 0, y: 0, xref: 'paper', yref: 'paper'
+     }]
+   };
+   Plotly.newPlot(document.getElementById('contour-plot'), [trace], layout, { showLink: false });
+ });
 ```
 
-### Scatter Plot with Error Bars
+### Scatter Plot Example
 ```javascript
-// Load CSV data and create a scatter plot with error bars
-d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/wind_speed_laurel_nebraska.csv', function(rows){
-  var trace = {
-    type: 'scatter',          // Chart type
-    mode: 'lines',            // Connect data points with lines
-    x: rows.map(function(row){ return row['Time']; }),
-    y: rows.map(function(row){ return row['10 Min Sampled Avg']; }),
-    line: { width: 1 },       // Line width
-    error_y: {
-      array: rows.map(function(row){ return row['10 Min Std Dev']; }),
-      thickness: 0.5,         // Error bar thickness
-      width: 0
-    }
-  };
-  var layout = {
-    yaxis: { title: { text: 'Wind Speed' } },
-    xaxis: {
-      showgrid: false,
-      tickformat: '%B, %Y'
-    },
-    margin: { l: 40, b: 10, r: 10, t: 20 }
-  };
-  Plotly.newPlot(document.getElementById('wind-speed'), [trace], layout, { showLink: false });
-});
+// Load CSV data to render a scatter plot with error bars
+ d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/wind_speed_laurel_nebraska.csv', function(rows){
+   var trace = {
+     type: 'scatter',           // Chart type
+     mode: 'lines',             // Connect data points with lines
+     x: rows.map(function(row){ return row['Time']; }),
+     y: rows.map(function(row){ return row['10 Min Sampled Avg']; }),
+     line: { width: 1 },        // Line width setting
+     error_y: {
+       array: rows.map(function(row){ return row['10 Min Std Dev']; }),
+       thickness: 0.5,          // Error bar thickness
+       width: 0                 // Error bar cross width
+     }
+   };
+   var layout = {
+     yaxis: { title: { text: 'Wind Speed' } },
+     xaxis: {
+       showgrid: false,         // Disable grid lines
+       tickformat: '%B, %Y'      // Date format e.g., "Month, Year"
+     },
+     margin: { l: 40, b: 10, r: 10, t: 20 }
+   };
+   Plotly.newPlot(document.getElementById('wind-speed'), [trace], layout, { showLink: false });
+ });
 ```
+
+## Configuration Options
+- Chart rendering function: `Plotly.newPlot`
+  - Signature: `Plotly.newPlot(container: HTMLElement, data: Array, layout: Object, config: Object): Promise`
+  - Parameters include configurations such as margin settings (`{l: 40, b: 40, t: 60}`), axis configurations (titles, gridlines, tick formatting), and interactivity options (e.g. `{ showLink: false }`).
 
 ## Attribution
-Data Size during crawl: 4163742 bytes
-
----
-
+© 2025 Plotly. All rights reserved.
 
 ## Attribution
 - Source: Plotly.js Documentation
 - URL: https://plotly.com/javascript/
 - License: MIT
-- Crawl Date: 2025-04-20T23:46:47.999Z
-- Data Size: 4163742 bytes
-- Links Found: 12951
+- Crawl Date: 2025-04-21T09:47:48.248Z
+- Data Size: 4254550 bytes
+- Links Found: 13521
 
 ## Retrieved
-2025-04-20
+2025-04-21
