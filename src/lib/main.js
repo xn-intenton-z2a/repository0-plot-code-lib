@@ -60,6 +60,7 @@ export function serializeTimeSeries(data) {
 export async function main(args) {
   // Simple argument parser
   let expression, range, outputFile, points, title, xlabel, ylabel;
+  let markerSize, markerColor;
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
     if (arg === "--expression") {
@@ -83,6 +84,12 @@ export async function main(args) {
     } else if (arg === "--ylabel" || arg === "--yLabel") {
       ylabel = args[i + 1];
       i++;
+    } else if (arg === "--marker-size") {
+      markerSize = parseInt(args[i + 1], 10);
+      i++;
+    } else if (arg === "--marker-color") {
+      markerColor = args[i + 1];
+      i++;
     }
   }
 
@@ -95,6 +102,9 @@ export async function main(args) {
   title = title || `Plot: ${expression}`;
   xlabel = xlabel || "X Axis";
   ylabel = ylabel || "Y Axis";
+  // Set marker defaults if not provided
+  markerSize = markerSize || 3;
+  markerColor = markerColor || "red";
 
   if (expression && range && outputFile) {
     const genMessage = `Generating plot for expression ${expression} with range ${range} to file ${outputFile}.`;
@@ -181,10 +191,10 @@ export async function main(args) {
         // Draw connecting line (polyline) through data points
         svgContent += `<polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />`;
 
-        // Plot each data point as a circle marker
+        // Plot each data point as a circle marker with custom marker options
         data.forEach(point => {
           const { tx, ty } = transform(point.x, point.y);
-          svgContent += `<circle cx="${tx}" cy="${ty}" r="3" fill="red" />`;
+          svgContent += `<circle cx="${tx}" cy="${ty}" r="${markerSize}" fill="${markerColor}" />`;
         });
 
         svgContent += `</svg>`;
