@@ -35,7 +35,7 @@ function getSquareMarkerAttributes(svg) {
   const markerRegex = /<rect[^>]*>/g;
   const rects = svg.match(markerRegex) || [];
   // Filter out potential background rect (assume background rect covers full width and height if present)
-  const filtered = rects.filter(rect => !rect.includes('width="500"') && !rect.includes('height="500"'));
+  const filtered = rects.filter((rect) => !rect.includes('width="500"') && !rect.includes('height="500"'));
   const attrRegex = /x="([^"]+)".*y="([^"]+)".*width="(\d+)".*height="(\d+)".*fill="([^"]+)"/;
   if (filtered.length > 0) {
     const match = filtered[0].match(attrRegex);
@@ -56,7 +56,6 @@ function svgContainsLineWithStroke(svg, stroke) {
   const lineRegex = new RegExp(`<line[^>]*stroke="${stroke}"`, "i");
   return lineRegex.test(svg);
 }
-
 
 describe("Main Module Import", () => {
   test("should be non-null", () => {
@@ -188,14 +187,14 @@ describe("Time Series Data Generation", () => {
 
   test("should generate correct data for y=double(x) when custom function is provided as a string", () => {
     const data = generateTimeSeriesData("y=double(x)", "x=0:10", 11, { double: "(x)=>2*x" });
-    data.forEach(point => {
+    data.forEach((point) => {
       expect(point.y).toBeCloseTo(2 * point.x, 4);
     });
   });
 
   test("should generate correct data for y=double(x) when custom function is provided as a native function", () => {
     const data = generateTimeSeriesData("y=double(x)", "x=0:10", 11, { double: (x) => 2 * x });
-    data.forEach(point => {
+    data.forEach((point) => {
       expect(point.y).toBeCloseTo(2 * point.x, 4);
     });
   });
@@ -206,7 +205,7 @@ describe("Serialize Time Series Data", () => {
     const sampleData = [
       { x: 0, y: 0 },
       { x: 1, y: 0.8415 },
-      { x: 2, y: 0.9093 }
+      { x: 2, y: 0.9093 },
     ];
     const csvOutput = serializeTimeSeries(sampleData);
     const lines = csvOutput.trim().split("\n");
@@ -296,12 +295,18 @@ describe("CLI Generation Message", () => {
   test("should embed custom title and axis labels when provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--title", "Custom Plot",
-      "--xlabel", "Custom X",
-      "--ylabel", "Custom Y"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--title",
+      "Custom Plot",
+      "--xlabel",
+      "Custom X",
+      "--ylabel",
+      "Custom Y",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -316,11 +321,16 @@ describe("Custom Marker Options", () => {
   test("should generate SVG with custom marker size and color when provided via CLI", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--marker-size", "5",
-      "--marker-color", "green"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--marker-size",
+      "5",
+      "--marker-color",
+      "green",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -348,16 +358,22 @@ describe("Custom Marker Shape", () => {
   test("should generate SVG with square markers when --marker-shape square is provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--marker-shape", "square",
-      "--marker-size", "5",
-      "--marker-color", "green"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--marker-shape",
+      "square",
+      "--marker-size",
+      "5",
+      "--marker-color",
+      "green",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
-    expect(writtenData.includes('<circle')).toBe(false);
+    expect(writtenData.includes("<circle")).toBe(false);
     const squareMarker = getSquareMarkerAttributes(writtenData);
     expect(squareMarker).not.toBeNull();
     expect(squareMarker.width).toBe("10");
@@ -371,12 +387,18 @@ describe("Background and Grid Customization", () => {
   test("should include a background rectangle with the specified bgColor and grid lines with the specified gridColor", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--bgColor", "#f0f0f0",
-      "--gridColor", "#cccccc",
-      "--grid-dasharray", "2,2"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--bgColor",
+      "#f0f0f0",
+      "--gridColor",
+      "#cccccc",
+      "--grid-dasharray",
+      "2,2",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -389,12 +411,7 @@ describe("Background and Grid Customization", () => {
 describe("Custom Font Family", () => {
   test("should generate SVG with custom font family when provided via CLI", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
-    const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--font-family", "Courier"
-    ];
+    const args = ["--expression", "y=sin(x)", "--range", "x=-1:1", "--file", "output.svg", "--font-family", "Courier"];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
     expect(writtenData).toContain('font-family="Courier"');
@@ -415,11 +432,16 @@ describe("Custom Grid Dash Pattern", () => {
   test("should use custom grid dash pattern when --grid-dasharray option is provided", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1", 
-      "--file", "output.svg",
-      "--gridColor", "#cccccc",
-      "--grid-dasharray", "2,2"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--gridColor",
+      "#cccccc",
+      "--grid-dasharray",
+      "2,2",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -432,11 +454,16 @@ describe("Custom Dimensions Option", () => {
   test("should generate SVG with custom width and height attributes when provided via CLI", async () => {
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1", 
-      "--file", "output.svg",
-      "--width", "800",
-      "--height", "600"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--width",
+      "800",
+      "--height",
+      "600",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
@@ -464,13 +491,20 @@ custom-functions: { double: "(x)=>2*x" }
 
     const writeFileSyncSpy = vi.spyOn(fs, "writeFileSync");
     const args = [
-      "--expression", "y=sin(x)",
-      "--range", "x=-1:1",
-      "--file", "output.svg",
-      "--config-yaml", tempYamlPath,
-      "--title", "CLI Title",
-      "--marker-size", "3",
-      "--marker-color", "red"
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1",
+      "--file",
+      "output.svg",
+      "--config-yaml",
+      tempYamlPath,
+      "--title",
+      "CLI Title",
+      "--marker-size",
+      "3",
+      "--marker-color",
+      "red",
     ];
     await main(args);
     const writtenData = writeFileSyncSpy.mock.calls[0][1];
