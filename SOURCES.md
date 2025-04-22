@@ -88,3 +88,17 @@ START_OF_FORMAT
 SVG.js is a lightweight library for manipulating and animating SVGs in the browser. The documentation offers detailed guides, examples, and API references aimed at creating dynamic and interactive graphics. Last known update: 2023, and it is regarded as one of the more user-friendly libraries for SVG manipulation.
 ## License: MIT
 END_OF_FORMAT
+
+START_OF_FORMAT
+# RFC 4180 CSV Format Documentation
+## https://tools.ietf.org/html/rfc4180
+This document outlines the common format and MIME type for CSV files as defined in RFC 4180. It provides a standardized specification for comma-separated values file formats, which underpins many CSV export features in software applications. Last known update: October 2005. This source is an authoritative reference for understanding CSV structure in data export functionalities.
+## License: Public Domain
+END_OF_FORMAT
+
+START_OF_FORMAT
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/
+Vega-Lite offers a high-level grammar for visual analysis, enabling rapid creation of data visualizations. The documentation includes guides, tutorials, and examples showcasing how to generate complex visualizations with minimal code. Regularly updated with new features and improvements, it serves as a strong competitor in the realm of declarative visualization libraries. Last known update: 2023.
+## License: Apache-2.0
+END_OF_FORMAT
