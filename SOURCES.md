@@ -32,3 +32,24 @@ START_OF_FORMAT
 Vitest is a modern unit testing framework designed for rapid feedback in JavaScript projects. The documentation provides comprehensive guides, configuration details, and best practices, making it a crucial resource for developers using Vitest in Node 20 environments. Last known update: October 2023.
 ## License: MIT
 END_OF_FORMAT
+
+START_OF_FORMAT
+# Commander.js Documentation
+## https://github.com/tj/commander.js/#readme
+Commander.js is a popular Node.js module for building command-line interfaces. This documentation provides extensive guides, examples, and API references to help developers quickly integrate powerful CLI features into their applications. Last known update: 2023. It is widely used and trusted in the Node.js community for its simplicity and robustness.
+## License: MIT
+END_OF_FORMAT
+
+START_OF_FORMAT
+# D3.js Documentation
+## https://github.com/d3/d3/blob/main/README.md
+D3.js is a powerful JavaScript library for producing dynamic, interactive data visualizations in web browsers using HTML, SVG, and CSS. The documentation covers a wide range of visualization techniques, API details, and practical examples. Last updated in 2023, it is considered highly authoritative in the field of data visualization.
+## License: BSD-3-Clause
+END_OF_FORMAT
+
+START_OF_FORMAT
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js provides a comprehensive guide to creating responsive and interactive charts using HTML5 canvas. The documentation includes tutorials, code examples, and an extensive API reference, keeping up-to-date with modern charting techniques. Last known update: 2023, making it a reliable resource for developers seeking a straightforward charting library.
+## License: MIT
+END_OF_FORMAT
