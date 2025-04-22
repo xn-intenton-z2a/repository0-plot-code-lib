@@ -53,3 +53,24 @@ START_OF_FORMAT
 Chart.js provides a comprehensive guide to creating responsive and interactive charts using HTML5 canvas. The documentation includes tutorials, code examples, and an extensive API reference, keeping up-to-date with modern charting techniques. Last known update: 2023, making it a reliable resource for developers seeking a straightforward charting library.
 ## License: MIT
 END_OF_FORMAT
+
+START_OF_FORMAT
+# Node.js Official Documentation
+## https://nodejs.org/api/
+The official Node.js documentation provides detailed and authoritative guides, API references, and best practices for working with Node.js, including its support for ECMAScript modules and CLI development. Maintained by the Node.js Foundation, it is regularly updated with new features and optimizations. Last known update: 2023.
+## License: MIT
+END_OF_FORMAT
+
+START_OF_FORMAT
+# MDN ECMAScript Modules Documentation
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+This documentation from MDN offers a thorough explanation of ECMAScript modules, including import/export syntax, module resolution, and usage in modern JavaScript applications. It is a highly trusted source with continuous updates reflecting the latest ECMAScript standards. Last known update: 2023.
+## License: CC-BY-SA 2.5
+END_OF_FORMAT
+
+START_OF_FORMAT
+# W3C SVG 2 Documentation
+## https://www.w3.org/TR/SVG2/
+The W3C SVG 2 documentation provides official recommendations for scalable vector graphics (SVG), covering specifications for creating dynamic and interactive graphics. Although the publication dates are earlier, it remains the foundational and authoritative resource for SVG. Last known update: 2011 (Recommendation).
+## License: W3C Document License
+END_OF_FORMAT
