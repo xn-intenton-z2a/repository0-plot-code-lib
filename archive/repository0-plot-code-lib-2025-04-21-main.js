@@ -103,7 +103,7 @@ function generateSvgContent({
   bgColor,
   gridColor,
   gridDashArray = "4",
-  fontFamily
+  fontFamily,
 }) {
   // Compute data bounds
   const xs = data.map((p) => p.x);
@@ -129,8 +129,8 @@ function generateSvgContent({
   };
 
   // Determine axis positions
-  let xAxisY = (yMin <= 0 && yMax >= 0) ? transform(0, 0).ty : height - margin;
-  let yAxisX = (xMin <= 0 && xMax >= 0) ? transform(0, 0).tx : margin;
+  const xAxisY = yMin <= 0 && yMax >= 0 ? transform(0, 0).ty : height - margin;
+  const yAxisX = xMin <= 0 && xMax >= 0 ? transform(0, 0).tx : margin;
 
   // Create polyline points string for connecting data points
   const polylinePoints = data
@@ -195,9 +195,22 @@ function generateSvgContent({
 }
 
 export async function main(args) {
-  let expression, range, outputFile, points, title, xlabel, ylabel;
-  let markerSize, markerColor, markerShape, bgColor, gridColor, gridDashArray, fontFamily;
-  let width = 500, height = 500;
+  let expression;
+  let range;
+  let outputFile;
+  let points;
+  let title;
+  let xlabel;
+  let ylabel;
+  let markerSize;
+  let markerColor;
+  let markerShape;
+  let bgColor;
+  let gridColor;
+  let gridDashArray;
+  let fontFamily;
+  let width = 500;
+  let height = 500;
   let customFunctions;
   gridDashArray = "4"; // default dash pattern
 
@@ -288,16 +301,16 @@ export async function main(args) {
   if (yamlOptions.title !== undefined) title = yamlOptions.title;
   if (yamlOptions.xlabel !== undefined) xlabel = yamlOptions.xlabel;
   if (yamlOptions.ylabel !== undefined) ylabel = yamlOptions.ylabel;
-  if (yamlOptions['marker-size'] !== undefined) markerSize = yamlOptions['marker-size'];
-  if (yamlOptions['marker-color'] !== undefined) markerColor = yamlOptions['marker-color'];
-  if (yamlOptions['marker-shape'] !== undefined) markerShape = yamlOptions['marker-shape'];
+  if (yamlOptions["marker-size"] !== undefined) markerSize = yamlOptions["marker-size"];
+  if (yamlOptions["marker-color"] !== undefined) markerColor = yamlOptions["marker-color"];
+  if (yamlOptions["marker-shape"] !== undefined) markerShape = yamlOptions["marker-shape"];
   if (yamlOptions.bgColor !== undefined) bgColor = yamlOptions.bgColor;
   if (yamlOptions.gridColor !== undefined) gridColor = yamlOptions.gridColor;
-  if (yamlOptions['grid-dasharray'] !== undefined) gridDashArray = yamlOptions['grid-dasharray'];
-  if (yamlOptions['font-family'] !== undefined) fontFamily = yamlOptions['font-family'];
+  if (yamlOptions["grid-dasharray"] !== undefined) gridDashArray = yamlOptions["grid-dasharray"];
+  if (yamlOptions["font-family"] !== undefined) fontFamily = yamlOptions["font-family"];
   if (yamlOptions.width !== undefined) width = parseInt(yamlOptions.width, 10);
   if (yamlOptions.height !== undefined) height = parseInt(yamlOptions.height, 10);
-  if (yamlOptions['custom-functions'] !== undefined) customFunctions = yamlOptions['custom-functions'];
+  if (yamlOptions["custom-functions"] !== undefined) customFunctions = yamlOptions["custom-functions"];
 
   // Set defaults if still undefined
   if (!points) {
@@ -342,7 +355,7 @@ export async function main(args) {
           bgColor,
           gridColor,
           gridDashArray,
-          fontFamily
+          fontFamily,
         });
         if (outputFile.endsWith(".png")) {
           const buffer = await sharp(Buffer.from(svgContent)).resize(width, height).png().toBuffer();
