@@ -1,5 +1,5 @@
 # Which agentic-lib workflow schedule should be used?
-schedule: schedule-3
+schedule: schedule-2
 sourcesLimit: 128
 documentsLimit: 8
 featuresWipLimit: 2
@@ -8,11 +8,11 @@ maintenanceIssuesWipLimit: 2
 attemptsPerBranch: 2
 attemptsPerIssue: 2
 writeableFilepaths:
-  docs:         "docs/"
+  docs:         "README.md"
   features:     "features/"
   library:      "library/"
-  src:          "src/lib/"
-  tests:        "tests/unit/"
+  src:          "src/lib/main.js"
+  tests:        "tests/unit/main.test.js"
   dependencies: "package.json"
   readme:       "README.md"
-  sources:      "SOURCES*.md"
+  sources:      "SOURCES.md"

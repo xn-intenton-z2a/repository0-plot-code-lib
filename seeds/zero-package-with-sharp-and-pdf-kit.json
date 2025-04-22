@@ -18,7 +18,8 @@
     "update-to-greatest": "npx npm-check-updates --upgrade --enginesNode --target greatest --verbose --install always --reject 'alpha'",
     "test": "vitest tests/unit/*.test.js",
     "test:unit": "vitest --coverage tests/unit/*.test.js",
-    "start": "node src/lib/main.js"
+    "start": "node src/lib/main.js",
+    "diagnostics": "node src/lib/main.js --diagnostics"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +30,10 @@
     "ejs": "^3.1.10",
     "js-yaml": "^4.1.0",
     "minimatch": "^10.0.1",
-    "zod": "^3.24.3"
+    "zod": "^3.24.3",
+    "sharp": "^0.32.6",
+    "pdfkit": "^0.17.0",
+    "svg-to-pdfkit": "0.1.4"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.1.0",
