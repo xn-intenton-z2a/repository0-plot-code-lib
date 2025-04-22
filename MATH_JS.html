@@ -24,693 +24,414 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="math_js" href="#math_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MATH_JS</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Math.js provides a comprehensive set of capabilities for mathematical operations in JavaScript. Key technical points include: installation via npm, configuration via options such as relTol (1e-12), absTol (1e-15), matrix type, number type (with options 'number', 'BigNumber', 'bigint', 'Fraction'), precision, predictable output, and randomSeed settings. The library supports expression evaluation (using evaluate, compile, parse), chaining of operations via math.chain, extension via math.import (supporting overrides, silence, and wrapping), advanced typed function creation (using math.typed), factory functions for dependency injection, and full support for JSON serialization with math.replacer and math.reviver. Additionally, complete operator support (arithmetic, logical, bitwise, relational) is provided with strict operator precedence.</p>
+<p class="md-github">Extracted technical details include precise installation commands, detailed configuration options (relTol, absTol, matrix type, numeric types, precision, predictable flag, randomSeed), chaining syntax and API, extension and import methods with options (override, silent, wrap), serialization/deserialization using math.replacer and math.reviver, comprehensive expression evaluation including compile and parse methods, persistent parser API (get, set, clear), full expression syntax with operators and their precedence, and advanced topics like factory and typed functions. Full code examples for Node.js, ES modules, and browser usage are provided.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="normalised-extract-1" href="#normalised-extract-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github">Getting Started &amp; Installation</p>
-<ul class="md-github">
-<li class="md-github">npm install commands</li>
-<li class="md-github">Usage in Node.js, ES Modules, and Browser</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Configuration Options</p>
-<ul class="md-github">
-<li class="md-github">Available settings: relTol, absTol, matrix, number, numberFallback, precision, predictable, randomSeed</li>
-<li class="md-github">Code example on configuring math.js instance</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Expression Parsing &amp; Evaluation</p>
-<ul class="md-github">
-<li class="md-github">Methods: math.evaluate(), math.compile(), math.parse(), and parser API</li>
-<li class="md-github">Example code with scope</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Chaining Operations</p>
-<ul class="md-github">
-<li class="md-github">Creating chains with math.chain(value)</li>
-<li class="md-github">Methods: add, subtract, multiply, done</li>
-<li class="md-github">Example with matrix operations</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Extension Mechanisms</p>
-<ul class="md-github">
-<li class="md-github">Importing new functions and values using math.import() and its options</li>
-<li class="md-github">Typed functions creation with math.typed</li>
-<li class="md-github">Factory functions: factory(name, dependencies, create, meta?)</li>
-<li class="md-github">Code examples for each</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Serialization</p>
-<ul class="md-github">
-<li class="md-github">Using JSON.stringify with math.replacer</li>
-<li class="md-github">Deserialization with math.reviver</li>
-<li class="md-github">Example code</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Operators &amp; Precedence</p>
-<ul class="md-github">
-<li class="md-github">Detailed operator table (e.g., +, -, *, /, ^, factorial, etc.) with associativity</li>
-<li class="md-github">Examples for each operator</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">API Specifications</p>
-<ul class="md-github">
-<li class="md-github">Method signatures for evaluate, compile, parse, parser API, chaining API, and factory functions</li>
-</ul>
-</li>
+<li class="md-github">Installation / Download</li>
+<li class="md-github">Getting Started</li>
+<li class="md-github">Configuration</li>
+<li class="md-github">Chaining</li>
+<li class="md-github">Extension</li>
+<li class="md-github">Serialization</li>
+<li class="md-github">Expressions &amp; Parsing</li>
+<li class="md-github">Parser API</li>
+<li class="md-github">Expression Syntax &amp; Operators</li>
+<li class="md-github">Functions &amp; Custom Functions</li>
+<li class="md-github">Factory &amp; Typed Functions</li>
+<li class="md-github">Troubleshooting</li>
 </ol>
-<h2 class="md-github"><a class="md-github__anchor" name="detailed-technical-information" href="#detailed-technical-information"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Technical Information</h2>
-<p class="md-github"><strong class="md-github">Installation &amp; Usage:</strong></p>
+<h3 class="md-github"><a class="md-github__anchor" name="1-installation--download" href="#1-installation--download"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Installation / Download</h3>
 <ul class="md-github">
-<li class="md-github">
-<p class="md-github">Install math.js via npm:</p>
-<p class="md-github"><code class="md-github">npm install mathjs</code></p>
-</li>
-<li class="md-github">
-<p class="md-github">Node.js usage example:</p>
-<pre class="md-github"><code class="md-github language-js">const { sqrt, evaluate } = require('mathjs');
-console.log(sqrt(-4).toString()); // '2i'
-</code></pre>
-</li>
-<li class="md-github">
-<p class="md-github">ES Module usage example:</p>
-<pre class="md-github"><code class="md-github language-js">import { create, all, sqrt } from 'mathjs';
-const math = create(all, {});
-console.log(sqrt(-4).toString()); // '2i'
-</code></pre>
-</li>
-<li class="md-github">
-<p class="md-github">Browser usage:</p>
-<pre class="md-github"><code class="md-github language-html">&lt;script src=&quot;math.js&quot;&gt;&lt;/script&gt;
-&lt;script&gt;
-  console.log(math.sqrt(-4).toString()); // '2i'
-&lt;/script&gt;
-</code></pre>
+<li class="md-github">npm install command and CDN URLs.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="2-getting-started" href="#2-getting-started"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Getting Started</h3>
+<ul class="md-github">
+<li class="md-github">Node.js, ES module, and Browser usage examples with code snippets.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="3-configuration" href="#3-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Configuration</h3>
+<ul class="md-github">
+<li class="md-github">Detailed parameter list:
+<ul class="md-github">
+<li class="md-github">relTol: number (default 1e-12)</li>
+<li class="md-github">absTol: number (default 1e-15)</li>
+<li class="md-github">matrix: string ('Matrix'|'Array')</li>
+<li class="md-github">number: string ('number', 'BigNumber', 'bigint', 'Fraction')</li>
+<li class="md-github">numberFallback: string (default 'number')</li>
+<li class="md-github">precision: number (default 64)</li>
+<li class="md-github">predictable: boolean (default false)</li>
+<li class="md-github">randomSeed: any (default null)</li>
+</ul>
 </li>
 </ul>
-<p class="md-github"><strong class="md-github">Configuration Options:</strong></p>
-<pre class="md-github"><code class="md-github language-js">const config = {
+<h3 class="md-github"><a class="md-github__anchor" name="4-chaining" href="#4-chaining"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Chaining</h3>
+<ul class="md-github">
+<li class="md-github">Usage of math.chain with methods .add(), .subtract(), .multiply(), and .done().</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="5-extension" href="#5-extension"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Extension</h3>
+<ul class="md-github">
+<li class="md-github">Importing functions/constants with options { override, silent, wrap }.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="6-serialization" href="#6-serialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Serialization</h3>
+<ul class="md-github">
+<li class="md-github">JSON.stringify with math.replacer and deserialization with math.reviver.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="7-expressions--parsing" href="#7-expressions--parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Expressions &amp; Parsing</h3>
+<ul class="md-github">
+<li class="md-github">Using math.evaluate, math.compile, and math.parse with complete examples.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="8-parser-api" href="#8-parser-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8. Parser API</h3>
+<ul class="md-github">
+<li class="md-github">Methods: clear(), evaluate(), get(), getAll(), remove(), set(). Detailed usage examples provided.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="9-expression-syntax--operators" href="#9-expression-syntax--operators"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>9. Expression Syntax &amp; Operators</h3>
+<ul class="md-github">
+<li class="md-github">Differences from JavaScript, operator listing with sample expressions.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="10-functions--custom-functions" href="#10-functions--custom-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>10. Functions &amp; Custom Functions</h3>
+<ul class="md-github">
+<li class="md-github">Defining functions using assignment (e.g., f(x) = x^2 - 5).</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="11-factory--typed-functions" href="#11-factory--typed-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>11. Factory &amp; Typed Functions</h3>
+<ul class="md-github">
+<li class="md-github">Factory function signature: factory(name: string, dependencies: string[], create: function, meta?: object).</li>
+<li class="md-github">Typed function definition using math.typed with multiple signatures.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="12-troubleshooting" href="#12-troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12. Troubleshooting</h3>
+<ul class="md-github">
+<li class="md-github">Guidance on JSON serialization, resetting parser scope, and verifying configuration options with command-line examples.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Detailed technical specifications include:</p>
+<ul class="md-github">
+<li class="md-github">Exact installation commands: <code class="md-github">npm install mathjs</code> and global installation usage.</li>
+<li class="md-github">Configuration options with default values and effects:
+<ul class="md-github">
+<li class="md-github">relTol (1e-12): Minimum relative tolerance for equality checks.</li>
+<li class="md-github">absTol (1e-15): Minimum absolute tolerance.</li>
+<li class="md-github">matrix: Determines output type; 'Matrix' returns a math.js Matrix, 'Array' returns a JavaScript Array.</li>
+<li class="md-github">number: Defines numeric type for parsing (default 'number', options include BigNumber, bigint, Fraction).</li>
+<li class="md-github">numberFallback: Fallback type if conversion fails.</li>
+<li class="md-github">precision (64): Significant digits for BigNumber operations.</li>
+<li class="md-github">predictable (false): If true, output types match input strictly.</li>
+<li class="md-github">randomSeed (null): Used to seed the pseudo random generator for deterministic outputs.</li>
+</ul>
+</li>
+<li class="md-github">Implementation steps for instance creation in Node.js, browser, and ES modules with precise code snippets.</li>
+<li class="md-github">Troubleshooting steps include using math.replacer and math.reviver in JSON operations, resetting parser with clear(), and verifying factory function dependencies.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications and Code Examples:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Math Functions:</p>
+<ul class="md-github">
+<li class="md-github">math.round(value: number, decimals: number): number</li>
+<li class="md-github">math.atan2(y: number, x: number): number</li>
+<li class="md-github">math.sqrt(value: number|string): number|Complex // e.g., math.sqrt(-4) returns Complex('2i')</li>
+<li class="md-github">math.pow(matrix: Array | Matrix, exponent: number): Array | Matrix</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Chain API:</p>
+<ul class="md-github">
+<li class="md-github">math.chain(value: any): Chain
+<ul class="md-github">
+<li class="md-github">Chain.add(value: number): Chain</li>
+<li class="md-github">Chain.subtract(value: number): Chain</li>
+<li class="md-github">Chain.multiply(value: number): Chain</li>
+<li class="md-github">Chain.done(): any</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration API:</p>
+<ul class="md-github">
+<li class="md-github">create(all: any, config?: Object) returns a math instance.</li>
+<li class="md-github">math.config(config: Object): void
+Example:</li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">const math = create(all, {
   relTol: 1e-12,
   absTol: 1e-15,
-  matrix: 'Array', // or 'Matrix'
-  number: 'BigNumber', // or 'number', 'bigint', 'Fraction'
-  numberFallback: 'number',
+  matrix: 'Matrix',
+  number: 'number',
   precision: 64,
   predictable: false,
   randomSeed: null
-};
-const math = create(all, config);
+});
 </code></pre>
-<p class="md-github"><strong class="md-github">Expression Parsing &amp; Evaluation:</strong></p>
-<pre class="md-github"><code class="md-github language-js">// Direct evaluation
-console.log(math.evaluate('sqrt(3^2 + 4^2)')); // 5
-
-// Compile expression for repeated use
-const code = math.compile('sqrt(3^2 + 4^2)');
-console.log(code.evaluate());
-
-// Parsing an expression
-const node = math.parse('sqrt(3^2 + 4^2)');
-console.log(node.compile().evaluate());
-
-// Using a persistent parser
-const parser = math.parser();
-parser.evaluate('x = 7/2');
-console.log(parser.get('x')); // 3.5
-</code></pre>
-<p class="md-github"><strong class="md-github">Chaining Operations:</strong></p>
-<pre class="md-github"><code class="md-github language-js">const result = math.chain(3)
-  .add(4)
-  .subtract(2)
-  .done();
-console.log(result); // 5
-</code></pre>
-<p class="md-github"><strong class="md-github">Extension Mechanisms:</strong></p>
+</li>
+<li class="md-github">
+<p class="md-github">Parser API:</p>
 <ul class="md-github">
-<li class="md-github">Import example:</li>
+<li class="md-github">math.parser(): Parser
+<ul class="md-github">
+<li class="md-github">Parser.evaluate(expr: string): any</li>
+<li class="md-github">Parser.get(name: string): any</li>
+<li class="md-github">Parser.set(name: string, value: any): void</li>
+<li class="md-github">Parser.clear(): void</li>
 </ul>
-<pre class="md-github"><code class="md-github language-js">math.import({
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Factory Function API:</p>
+<ul class="md-github">
+<li class="md-github">factory(name: string, dependencies: string[], create: Function, meta?: Object): Function
+Example:</li>
+</ul>
+<pre class="md-github"><code class="md-github language-javascript">const createNegativeSquare = factory('negativeSquare', ['multiply', 'unaryMinus'], ({ multiply, unaryMinus }) =&gt; {
+  return function negativeSquare(x) {
+    return unaryMinus(multiply(x, x));
+  };
+});
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">For JSON serialization issues:
+Use: JSON.stringify(object, math.replacer) and JSON.parse(jsonString, math.reviver).</li>
+<li class="md-github">To reset the parser scope in case of stale variable issues:<pre class="md-github"><code class="md-github language-javascript">const parser = math.parser();
+parser.clear();
+</code></pre>
+</li>
+<li class="md-github">Command-line test for basic functionality:<pre class="md-github"><code class="md-github language-bash">node -e &quot;const { create, all } = require('mathjs'); const math = create(all); console.log(math.sqrt(-4).toString());&quot;
+</code></pre>
+Expected output: 2i</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Full SDK method signatures with parameter types, return types and exceptions are embedded in the examples above. Best practices include explicit configuration, use of math.replacer/math.reviver for JSON operations, and clearing the parser scope for consistent results.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Math.js Documentation
+https://mathjs.org/docs/index.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-math_js" href="#digest-of-math_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of MATH_JS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="mathjs-documentation" href="#mathjs-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Math.js Documentation</h1>
+<p class="md-github"><em class="md-github">Date Retrieved: 2023-11-24</em></p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">Math.js is an extensive math library for JavaScript and Node.js. It provides a flexible expression parser supporting symbolic computation and a large set of built-in functions and constants. It operates with various data types including numbers, BigNumbers, complex numbers, fractions, units, and matrices.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents-1" href="#table-of-contents-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ol class="md-github">
+<li class="md-github">Installation / Download</li>
+<li class="md-github">Getting Started</li>
+<li class="md-github">Configuration</li>
+<li class="md-github">Chaining</li>
+<li class="md-github">Extension</li>
+<li class="md-github">Serialization</li>
+<li class="md-github">Expressions &amp; Parsing</li>
+<li class="md-github">Parser API</li>
+<li class="md-github">Expression Syntax &amp; Operators</li>
+<li class="md-github">Functions &amp; Custom Functions</li>
+<li class="md-github">Factory &amp; Typed Functions</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="1-installation--download-1" href="#1-installation--download-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Installation / Download</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">npm Installation:</strong><pre class="md-github"><code class="md-github language-bash">npm install mathjs
+</code></pre>
+</li>
+<li class="md-github"><strong class="md-github">Global/CLI Usage:</strong> Install with <code class="md-github">-g</code> to use the command line application <code class="md-github">mathjs</code>.</li>
+<li class="md-github"><strong class="md-github">CDN Links:</strong>
+<ul class="md-github">
+<li class="md-github">unpkg: <code class="md-github">https://unpkg.com/mathjs@14.4.0/</code></li>
+<li class="md-github">cdnjs: <code class="md-github">https://cdnjs.com/libraries/mathjs</code></li>
+<li class="md-github">jsDelivr: <code class="md-github">https://www.jsdelivr.com/package/npm/mathjs</code></li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="2-getting-started-1" href="#2-getting-started-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Getting Started</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="nodejs-example" href="#nodejs-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js Example</h3>
+<pre class="md-github"><code class="md-github language-javascript">const { create, all } = require('mathjs');
+const math = create(all);
+console.log(math.sqrt(-4).toString()); // Outputs: 2i
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="es-modules-example" href="#es-modules-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ES Modules Example</h3>
+<pre class="md-github"><code class="md-github language-javascript">import { sqrt } from 'mathjs';
+console.log(sqrt(-4).toString()); // Outputs: 2i
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="browser-example" href="#browser-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Browser Example</h3>
+<pre class="md-github"><code class="md-github language-html">&lt;!DOCTYPE HTML&gt;
+&lt;html&gt;
+  &lt;head&gt;
+    &lt;script src=&quot;math.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;script type=&quot;text/javascript&quot;&gt;
+      console.log(math.sqrt(-4).toString()); // Outputs: 2i
+    &lt;/script&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="3-configuration-1" href="#3-configuration-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Configuration</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="creating-an-instance-with-custom-options" href="#creating-an-instance-with-custom-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Creating an Instance with Custom Options</h3>
+<pre class="md-github"><code class="md-github language-javascript">import { create, all } from 'mathjs';
+
+const config = {
+  relTol: 1e-12,       // Default: 1e-12
+  absTol: 1e-15,       // Default: 1e-15
+  matrix: 'Matrix',    // Options: 'Matrix' (default) or 'Array'
+  number: 'number',    // Options: 'number' (default), 'BigNumber', 'bigint', 'Fraction'
+  numberFallback: 'number', // Fallback type if conversion fails
+  precision: 64,       // Default for BigNumber precision
+  predictable: false,  // When true, output type is strictly based on input types
+  randomSeed: null     // Seed for deterministic pseudo random numbers
+};
+
+const math = create(all, config);
+
+// Reading and updating configuration
+console.log(math.config());
+math.config({ number: 'BigNumber' });
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="4-chaining-1" href="#4-chaining-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Chaining</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="using-chain-operations" href="#using-chain-operations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Chain Operations</h3>
+<pre class="md-github"><code class="md-github language-javascript">// Simple chaining
+math.chain(3)
+    .add(4)
+    .multiply(2)
+    .done(); // Returns: 14
+
+// Chaining with matrices
+math.chain([[1, 2], [3, 4]])
+    .subset(math.index(0, 0), 8)
+    .multiply(3)
+    .done(); // Returns: [[24, 6], [9, 12]]
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="5-extension-1" href="#5-extension-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Extension</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="importing-new-functions--constants" href="#importing-new-functions--constants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Importing New Functions &amp; Constants</h3>
+<pre class="md-github"><code class="md-github language-javascript">import { create, all } from 'mathjs';
+
+const math = create(all);
+
+// Importing functions and variables
+math.import({
   myvalue: 42,
   hello: function(name) {
     return 'hello, ' + name + '!';
   }
 });
-</code></pre>
-<ul class="md-github">
-<li class="md-github">Typed function example:</li>
-</ul>
-<pre class="md-github"><code class="md-github language-js">const max = math.typed('max', {
-  'number, number': (a, b) =&gt; Math.max(a, b),
-  'BigNumber, BigNumber': (a, b) =&gt; a.greaterThan(b) ? a : b
-});
-</code></pre>
-<ul class="md-github">
-<li class="md-github">Factory function example:</li>
-</ul>
-<pre class="md-github"><code class="md-github language-js">import { factory } from 'mathjs';
-const negativeSquare = factory('negativeSquare', ['multiply', 'unaryMinus'], ({ multiply, unaryMinus }) =&gt; {
-  return function(x) {
-    return unaryMinus(multiply(x, x));
-  };
-});
 
-// Use directly or import into math instance
+// Usage
+console.log(math.myvalue * 2);        // 84
+console.log(math.hello('user'));        // 'hello, user!'
 </code></pre>
-<p class="md-github"><strong class="md-github">Serialization:</strong></p>
-<pre class="md-github"><code class="md-github language-js">const x = math.complex('2 + 3i');
+<h3 class="md-github"><a class="md-github__anchor" name="import-options" href="#import-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Import Options</h3>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">override:</strong> (boolean) Overwrites existing functions if true. Default: false.</li>
+<li class="md-github"><strong class="md-github">silent:</strong> (boolean) No errors on duplicates if true. Default: false.</li>
+<li class="md-github"><strong class="md-github">wrap:</strong> (boolean) Wraps imported functions to convert types (e.g., Matrix to Array). Default: false.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="6-serialization-1" href="#6-serialization-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Serialization</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="serializing-mathjs-data-types" href="#serializing-mathjs-data-types"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Serializing Math.js Data Types</h3>
+<pre class="md-github"><code class="md-github language-javascript">const x = math.complex('2 + 3i');
 const jsonString = JSON.stringify(x, math.replacer);
-const parsedObject = JSON.parse(jsonString, math.reviver);
+console.log(jsonString); // Example output: '{&quot;mathjs&quot;:&quot;Complex&quot;,&quot;re&quot;:2,&quot;im&quot;:3}'
 </code></pre>
-<p class="md-github"><strong class="md-github">Operators &amp; Precedence:</strong></p>
-<p class="md-github">Operators include +, -, <em class="md-github">, /, ^ (power), ! (factorial), and element-wise versions (.</em>, ./, .^). Full examples:</p>
-<pre class="md-github"><code class="md-github language-js">console.log(math.evaluate('2 + 3'));  // 5
-console.log(math.evaluate('2 ^ 3'));    // 8
-console.log(math.evaluate('(2 + 3) * 4')); // 20
+<h3 class="md-github"><a class="md-github__anchor" name="deserialization" href="#deserialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Deserialization</h3>
+<pre class="md-github"><code class="md-github language-javascript">const json = '{&quot;mathjs&quot;:&quot;Unit&quot;,&quot;value&quot;:5,&quot;unit&quot;:&quot;cm&quot;,&quot;fixPrefix&quot;:false}';
+const unit = JSON.parse(json, math.reviver);
+// unit =&gt; Unit representing 5 cm
 </code></pre>
-<p class="md-github"><strong class="md-github">API Specifications:</strong> Refer to the next section in the reference details for complete SDK method signatures.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="supplementary-details-1" href="#supplementary-details-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h1>
-<h2 class="md-github"><a class="md-github__anchor" name="configuration-options-detailed" href="#configuration-options-detailed"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options Detailed</h2>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">relTol (number):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Minimum relative tolerance for equality comparisons.</li>
-<li class="md-github">Default: 1e-12</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">absTol (number):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Minimum absolute tolerance for equality comparisons.</li>
-<li class="md-github">Default: 1e-15</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">matrix (string):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Default matrix type for output. Determines if output is a 'Matrix' object or an ordinary 'Array'.</li>
-<li class="md-github">Options: 'Matrix', 'Array'</li>
-<li class="md-github">Default: 'Matrix'</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">number (string):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Numeric type used internally and for parsing inputs.</li>
-<li class="md-github">Options: 'number', 'BigNumber', 'bigint', 'Fraction'</li>
-<li class="md-github">Default: 'number'</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">numberFallback (string):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Fallback type if the desired type (e.g. bigint) cannot represent a given value.</li>
-<li class="md-github">Options: 'number', 'BigNumber'</li>
-<li class="md-github">Default: 'number'</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">precision (number):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Maximum number of significant digits for BigNumbers.</li>
-<li class="md-github">Default: 64</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">predictable (boolean):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Whether output types are strictly determined by input types.</li>
-<li class="md-github">Default: false</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">randomSeed (any):</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Seed value for deterministic pseudo-random number generation.</li>
-<li class="md-github">Default: null</li>
-</ul>
-</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="implementation-patterns" href="#implementation-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Implementation Patterns</h2>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Initialization:</strong> Always configure math.js with explicit configuration to guarantee consistent behavior for different numeric types.</li>
-<li class="md-github"><strong class="md-github">Using the Parser:</strong> Create a persistent parser instance with <code class="md-github">math.parser()</code> to manage scopes and variables across multiple evaluations.</li>
-<li class="md-github"><strong class="md-github">Chaining:</strong> For concise calculations, use <code class="md-github">math.chain(value)</code> to chain successive operations and finalize with <code class="md-github">done()</code>.</li>
-<li class="md-github"><strong class="md-github">Extension:</strong> Use <code class="md-github">math.import()</code> for adding custom functions or overriding existing ones, with options like <code class="md-github">override</code>, <code class="md-github">silent</code>, and <code class="md-github">wrap</code> to control behavior.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="best-practices" href="#best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices</h2>
-<ul class="md-github">
-<li class="md-github">Use explicit configuration when precision or numeric type consistency is required.</li>
-<li class="md-github">Precompile frequently used expressions to enhance performance.</li>
-<li class="md-github">Always use math.replacer and math.reviver for JSON serialization to correctly handle custom math.js types.</li>
-<li class="md-github">When extending math.js, test imported functions in both JavaScript and parser contexts.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h2>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Parser Errors:</strong> If an expression fails to parse, verify syntax (e.g. proper use of parentheses and operator precedence). Use the parser API (<code class="md-github">math.parse</code>) to inspect the expression tree.</li>
-<li class="md-github"><strong class="md-github">Configuration Mismatches:</strong> If unexpected types appear (for example, a number instead of a BigNumber), check the current configuration via <code class="md-github">math.config()</code> and ensure the correct settings were applied.</li>
-<li class="md-github"><strong class="md-github">Chain Interruptions:</strong> Ensure that chaining method calls are properly connected; avoid inserting unrelated statements between chained calls.</li>
-<li class="md-github"><strong class="md-github">Serialization Issues:</strong> If JSON serialization of special numbers (e.g. Infinity) fails, always pass <code class="md-github">math.replacer</code> to JSON.stringify.</li>
-</ul>
-<p class="md-github">Example troubleshooting command:</p>
-<pre class="md-github"><code class="md-github">// Check current configuration and type settings
-console.log(math.config());
+<p class="md-github"><em class="md-github">Note:</em> Always pass <code class="md-github">math.replacer</code> and <code class="md-github">math.reviver</code> to handle edge cases (e.g., Infinity).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="7-expressions--parsing-1" href="#7-expressions--parsing-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Expressions &amp; Parsing</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="evaluating-expressions" href="#evaluating-expressions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Evaluating Expressions</h3>
+<pre class="md-github"><code class="md-github language-javascript">// Single expression
+math.evaluate('sqrt(3^2 + 4^2)'); // Returns: 5
 
-// Example output:
-// {
-//   relTol: 1e-12,
-//   absTol: 1e-15,
-//   matrix: 'Matrix',
-//   number: 'number',
-//   precision: 64,
-//   predictable: false,
-//   randomSeed: null
-// }
+// With a scope
+let scope = { a: 3, b: 4 };
+math.evaluate('a * b', scope); // Returns: 12
 </code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="reference-details-1" href="#reference-details-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h1>
-<h2 class="md-github"><a class="md-github__anchor" name="complete-api-specifications" href="#complete-api-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API Specifications</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="expression-evaluation" href="#expression-evaluation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expression Evaluation</h3>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">math.evaluate(expr: string): any</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Evaluates the expression <code class="md-github">expr</code> and returns the result.</li>
-<li class="md-github">Parameters:
-<ul class="md-github">
-<li class="md-github"><code class="md-github">expr</code> (string): The expression to evaluate.</li>
-</ul>
-</li>
-<li class="md-github">Returns: <code class="md-github">any</code> - the numeric, complex or unit result.</li>
-<li class="md-github">Exceptions: Throws error if expression syntax is invalid.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">math.evaluate(expr: string, scope: Object | Map): any</strong></p>
-<ul class="md-github">
-<li class="md-github">Description: Evaluates the expression <code class="md-github">expr</code> within the provided scope.</li>
-<li class="md-github">Parameters:
-<ul class="md-github">
-<li class="md-github"><code class="md-github">expr</code> (string): Expression to evaluate.</li>
-<li class="md-github"><code class="md-github">scope</code> (Object | Map): Mapping of variable names to values.</li>
-</ul>
-</li>
-<li class="md-github">Returns: <code class="md-github">any</code>.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="expression-compilation" href="#expression-compilation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expression Compilation</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">math.compile(expr: string): { evaluate(scope?: Object | Map): any }</strong>
-<ul class="md-github">
-<li class="md-github">Description: Compiles an expression for repeated evaluations.</li>
-<li class="md-github">Parameters:
-<ul class="md-github">
-<li class="md-github"><code class="md-github">expr</code> (string): The expression to compile.</li>
-</ul>
-</li>
-<li class="md-github">Returns: An object with an <code class="md-github">evaluate</code> method.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="expression-parsing" href="#expression-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expression Parsing</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">math.parse(expr: string): Node</strong>
-<ul class="md-github">
-<li class="md-github">Description: Parses the expression and returns a node tree.</li>
-<li class="md-github">Parameters:
-<ul class="md-github">
-<li class="md-github"><code class="md-github">expr</code> (string): Expression to parse.</li>
-</ul>
-</li>
-<li class="md-github">Returns: <code class="md-github">Node</code> (the root of the expression tree).</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="parser-api" href="#parser-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parser API</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">math.parser(): Parser</strong></li>
-</ul>
-<p class="md-github">The returned Parser object has the following methods:</p>
-<pre class="md-github"><code class="md-github">// Evaluate an expression
-parser.evaluate(expr: string): any;
-
-// Retrieve a variable or function
-parser.get(name: string): any;
-
-// Set a variable or function
-parser.set(name: string, value: any): void;
-
-// Remove a variable or function
-parser.remove(name: string): void;
-
-// Get all defined symbols
-parser.getAll(): Object;
-
-// Clear the parser's scope
-parser.clear(): void;
+<h3 class="md-github"><a class="md-github__anchor" name="compiling-expressions" href="#compiling-expressions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Compiling Expressions</h3>
+<pre class="md-github"><code class="md-github language-javascript">const code = math.compile('sqrt(3^2 + 4^2)');
+const result = code.evaluate(); // 5
 </code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="chaining-api" href="#chaining-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chaining API</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">math.chain(value: any): Chain</strong>
-<ul class="md-github">
-<li class="md-github">Returns a Chain object that supports all math functions.</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Chain Object Methods:</p>
-<pre class="md-github"><code class="md-github">Chain.add(x: any): Chain;
-Chain.subtract(x: any): Chain;
-Chain.multiply(x: any): Chain;
-Chain.divide(x: any): Chain;
-Chain.done(): any;       // Finalizes and returns the result
-Chain.valueOf(): any;    // Synonym for done()
-Chain.toString(): string; // Returns formatted string representation
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="extension-via-import" href="#extension-via-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Extension via Import</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">math.import(functions: Object | Array, options?: { override?: boolean, silent?: boolean, wrap?: boolean }): void</strong>
-<ul class="md-github">
-<li class="md-github">Imports new functions or constants into the math.js instance.</li>
-<li class="md-github">Parameters:
-<ul class="md-github">
-<li class="md-github"><code class="md-github">functions</code>: An object or an array of factory functions.</li>
-<li class="md-github"><code class="md-github">options</code> (optional): Configuration options for import.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Example:</p>
-<pre class="md-github"><code class="md-github">math.import({
-  myFunc: function(a, b) { return a + b; }
-}, { override: false, silent: false, wrap: false });
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="typed-functions" href="#typed-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Typed Functions</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">math.typed(name: string, signatures: Object): Function</strong>
-<ul class="md-github">
-<li class="md-github">Creates a function that supports multiple type signatures.</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Example:</p>
-<pre class="md-github"><code class="md-github">const max = math.typed('max', {
-  'number, number': function(a, b) { return Math.max(a, b); },
-  'BigNumber, BigNumber': function(a, b) { return a.greaterThan(b) ? a : b; }
-});
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="factory-functions" href="#factory-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Factory Functions</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">factory(name: string, dependencies: string[], create: Function, meta?: Object): Function</strong>
-<ul class="md-github">
-<li class="md-github">Creates a new function with injected dependencies.</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Example:</p>
-<pre class="md-github"><code class="md-github">const negativeSquare = factory('negativeSquare', ['multiply', 'unaryMinus'], function({ multiply, unaryMinus }) {
-  return function(x: number): number {
-    return unaryMinus(multiply(x, x));
-  };
-});
-</code></pre>
-<h3 class="md-github"><a class="md-github__anchor" name="serialization" href="#serialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Serialization</h3>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">JSON.stringify(value, math.replacer): string</strong></p>
-<ul class="md-github">
-<li class="md-github">Serializes math.js types using a custom replacer to maintain type fidelity.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">JSON.parse(jsonString, math.reviver): any</strong></p>
-<ul class="md-github">
-<li class="md-github">Deserializes JSON strings and reconstructs math.js types.</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Example:</p>
-<pre class="md-github"><code class="md-github">const complexVal = math.complex('2 + 3i');
-const jsonStr = JSON.stringify(complexVal, math.replacer);
-const restored = JSON.parse(jsonStr, math.reviver);
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="detailed-code-examples-with-comments" href="#detailed-code-examples-with-comments"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Code Examples with Comments</h2>
-<pre class="md-github"><code class="md-github language-js">// Example: Creating a math.js instance with custom configuration
-import { create, all } from 'mathjs';
-
-const config = {
-  relTol: 1e-12,
-  absTol: 1e-15,
-  matrix: 'Array',
-  number: 'BigNumber',
-  precision: 32,
-  predictable: false,
-  randomSeed: null
-};
-
-const math = create(all, config);
-console.log('Current config:', math.config());
-
-// Evaluating an expression with scope
-const scope = { a: 3, b: 4 };
-const result = math.evaluate('sqrt(a^2 + b^2)', scope);
-console.log('Hypotenuse:', result); // Expected output: 5
-
-// Using the parser
-const parser = math.parser();
-parser.evaluate('x = 10');
-console.log('Value of x:', parser.get('x'));
-
-// Chaining operations
-const chainResult = math.chain(5)
-  .multiply(2)
-  .subtract(3)
-  .done();
-console.log('Chain result:', chainResult); // Expected: 7
-
-// Importing an external function
-math.import({
-  greet: function(name) { return `Hello, ${name}!`; }
-});
-console.log(math.greet('Developer'));
-
-// Serialization and Deserialization
-const complexNum = math.complex('2 + 3i');
-const serialized = JSON.stringify(complexNum, math.replacer);
-const deserialized = JSON.parse(serialized, math.reviver);
-console.log('Deserialized complex:', deserialized.toString());
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting-procedures" href="#troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Procedures</h2>
-<ol class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Parser Error Handling:</strong></p>
-<ul class="md-github">
-<li class="md-github">Command: <code class="md-github">math.parse('invalid_expression')</code></li>
-<li class="md-github">Expected: Error message indicating a syntax error with details on token position.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Configuration Verification:</strong></p>
-<ul class="md-github">
-<li class="md-github">Command: <code class="md-github">console.log(math.config());</code></li>
-<li class="md-github">Expected: Object displaying current configuration options with their default or set values.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Chain Operation Failures:</strong></p>
-<ul class="md-github">
-<li class="md-github">Ensure method calls are chained directly. For example, avoid:<pre class="md-github"><code class="md-github language-js">let chain = math.chain(3);
-chain.add(4);
-// Incorrect: breaking the chain without immediate continuation
-chain.subtract(2).done();
-</code></pre>
-</li>
-<li class="md-github">Correct Pattern:<pre class="md-github"><code class="md-github language-js">math.chain(3).add(4).subtract(2).done();
-</code></pre>
-</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Serialization Issues:</strong></p>
-<ul class="md-github">
-<li class="md-github">When special numeric values (e.g. Infinity) are serialized, always pass <code class="md-github">math.replacer</code> to avoid loss of type data.</li>
-<li class="md-github">Command:<pre class="md-github"><code class="md-github language-js">JSON.stringify(Infinity, math.replacer);
-</code></pre>
-</li>
-<li class="md-github">Expected: Correct JSON representation rather than null.</li>
-</ul>
-</li>
-</ol>
-<hr class="md-github">
-<p class="md-github">Developers can directly use these API specifications, code examples, and detailed configuration options to implement and troubleshoot applications using math.js without referring to external documentation.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">Math.js Documentation
-https://mathjs.org/docs/</p>
-<h2 class="md-github"><a class="md-github__anchor" name="digest-of-math_js" href="#digest-of-math_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of MATH_JS</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="mathjs-documentation-digest" href="#mathjs-documentation-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Math.js Documentation Digest</h1>
-<p class="md-github"><strong class="md-github">Retrieved Date:</strong> 2023-10-26
-<strong class="md-github">Data Size:</strong> 5364907 bytes</p>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h1>
-<p class="md-github">Math.js is an extensive math library for JavaScript and Node.js. It offers a flexible expression parser with support for symbolic computation, a wide range of built-in functions and constants, and native support for data types such as numbers, BigNumbers, bigints, Complex numbers, Fractions, Units, and Matrices.</p>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="table-of-contents-1" href="#table-of-contents-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h1>
-<ol class="md-github">
-<li class="md-github">Getting Started &amp; Installation</li>
-<li class="md-github">Configuration Options</li>
-<li class="md-github">Expression Parsing &amp; Evaluation</li>
-<li class="md-github">Chaining Operations</li>
-<li class="md-github">Extension Mechanisms
-<ul class="md-github">
-<li class="md-github">Importing Functions and Values</li>
-<li class="md-github">Typed Functions</li>
-<li class="md-github">Factory Functions</li>
-</ul>
-</li>
-<li class="md-github">Serialization</li>
-<li class="md-github">Operators &amp; Precedence</li>
-<li class="md-github">API Specifications</li>
-</ol>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="1-getting-started--installation" href="#1-getting-started--installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Getting Started &amp; Installation</h1>
-<p class="md-github"><strong class="md-github">Installation via npm:</strong></p>
-<pre class="md-github"><code class="md-github">npm install mathjs
-</code></pre>
-<p class="md-github">For global installation:</p>
-<pre class="md-github"><code class="md-github">npm install -g mathjs
-</code></pre>
-<p class="md-github"><strong class="md-github">Usage in Node.js (CommonJS):</strong></p>
-<pre class="md-github"><code class="md-github">const { sqrt, evaluate } = require('mathjs');
-console.log(sqrt(-4).toString()); // Output: 2i
-</code></pre>
-<p class="md-github"><strong class="md-github">Usage in ES Modules:</strong></p>
-<pre class="md-github"><code class="md-github">import { create, all, sqrt } from 'mathjs';
-
-const config = {};
-const math = create(all, config);
-console.log(sqrt(-4).toString()); // Output: 2i
-</code></pre>
-<p class="md-github"><strong class="md-github">Browser Usage:</strong></p>
-<p class="md-github">Include the script in HTML:</p>
-<pre class="md-github"><code class="md-github">&lt;script src=&quot;math.js&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;
-&lt;script&gt;
-  console.log(math.sqrt(-4).toString()); // Output: 2i
-&lt;/script&gt;
-</code></pre>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="2-configuration-options" href="#2-configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Configuration Options</h1>
-<p class="md-github">Math.js can be configured at initialization or modified later. The following options are available:</p>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">relTol</strong>: Minimum relative difference for equality testing. <em class="md-github">Default</em>: <code class="md-github">1e-12</code>.</li>
-<li class="md-github"><strong class="md-github">absTol</strong>: Minimum absolute difference for equality testing. <em class="md-github">Default</em>: <code class="md-github">1e-15</code>.</li>
-<li class="md-github"><strong class="md-github">matrix</strong>: Default output type for matrix functions. <em class="md-github">Options</em>: <code class="md-github">'Matrix'</code> (default) or <code class="md-github">'Array'</code>.</li>
-<li class="md-github"><strong class="md-github">number</strong>: Type used to parse numeric values. <em class="md-github">Options</em>: <code class="md-github">'number'</code> (default), <code class="md-github">'BigNumber'</code>, <code class="md-github">'bigint'</code>, or <code class="md-github">'Fraction'</code>.</li>
-<li class="md-github"><strong class="md-github">numberFallback</strong>: Fallback type if a value cannot be represented in the configured type. <em class="md-github">Default</em>: <code class="md-github">'number'</code>.</li>
-<li class="md-github"><strong class="md-github">precision</strong>: Maximum significant digits for BigNumbers. <em class="md-github">Default</em>: <code class="md-github">64</code>.</li>
-<li class="md-github"><strong class="md-github">predictable</strong>: When <code class="md-github">true</code>, output types are strictly derived from input types. <em class="md-github">Default</em>: <code class="md-github">false</code>.</li>
-<li class="md-github"><strong class="md-github">randomSeed</strong>: Seed value for deterministic pseudo-random generation. <em class="md-github">Default</em>: <code class="md-github">null</code>.</li>
-</ul>
-<p class="md-github"><strong class="md-github">Example Code (Node.js):</strong></p>
-<pre class="md-github"><code class="md-github">import { create, all } from 'mathjs';
-
-const config = {
-  relTol: 1e-12,
-  absTol: 1e-15,
-  matrix: 'Array',
-  number: 'BigNumber',
-  precision: 32,
-  predictable: false,
-  randomSeed: null
-};
-
-const math = create(all, config);
-console.log(math.config());
-// Modify configuration at runtime
-math.config({ matrix: 'Matrix' });
-</code></pre>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="3-expression-parsing--evaluation" href="#3-expression-parsing--evaluation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Expression Parsing &amp; Evaluation</h1>
-<p class="md-github">Math.js provides multiple methods for working with expressions:</p>
-<p class="md-github"><strong class="md-github">Evaluate Directly:</strong></p>
-<pre class="md-github"><code class="md-github">// Evaluate a single expression
-math.evaluate('sqrt(3^2 + 4^2)'); // Returns 5
-
-// Evaluate with a scope
-const scope = { a: 3, b: 4 };
-math.evaluate('a * b', scope); // Returns 12
-</code></pre>
-<p class="md-github"><strong class="md-github">Compile Expression:</strong></p>
-<pre class="md-github"><code class="md-github">const code = math.compile('sqrt(3^2 + 4^2)');
-console.log(code.evaluate()); // Returns 5
-</code></pre>
-<p class="md-github"><strong class="md-github">Parse Expression:</strong></p>
-<pre class="md-github"><code class="md-github">const node = math.parse('sqrt(3^2 + 4^2)');
+<h3 class="md-github"><a class="md-github__anchor" name="parsing-to-expression-trees" href="#parsing-to-expression-trees"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parsing to Expression Trees</h3>
+<pre class="md-github"><code class="md-github language-javascript">const node = math.parse('sqrt(3^2 + 4^2)');
 const compiled = node.compile();
-console.log(compiled.evaluate()); // Returns 5
+compiled.evaluate(); // 5
 </code></pre>
-<p class="md-github"><strong class="md-github">Parser Instance:</strong></p>
-<pre class="md-github"><code class="md-github">const parser = math.parser();
-parser.evaluate('x = 7/2');
-console.log(parser.get('x')); // 3.5
+<h2 class="md-github"><a class="md-github__anchor" name="8-parser-api-1" href="#8-parser-api-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8. Parser API</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="using-a-persistent-parser-with-scope" href="#using-a-persistent-parser-with-scope"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using a Persistent Parser with Scope</h3>
+<pre class="md-github"><code class="md-github language-javascript">const parser = math.parser();
+
+// Evaluations
+parser.evaluate('sqrt(3^2 + 4^2)'); // 5
+parser.evaluate('x = 7/2');           // x becomes 3.5
+parser.evaluate('f(x, y) = x^y');       // Defines function f
+
+// Accessing Variables and Functions
+const xVal = parser.get('x');
+const fFunc = parser.get('f');
+console.log(fFunc(2, 3));              // Computes 2^3, outputs: 8
+
+// Cleaning up
 parser.clear();
 </code></pre>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="4-chaining-operations" href="#4-chaining-operations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Chaining Operations</h1>
-<p class="md-github">Math.js supports chaining to perform sequential operations:</p>
-<pre class="md-github"><code class="md-github">const result = math.chain(3)
-                  .add(4)
-                  .subtract(2)
-                  .done();
-// result: 5
-</code></pre>
-<p class="md-github">For matrix operations:</p>
-<pre class="md-github"><code class="md-github">const resultMatrix = math.chain([[1, 2], [3, 4]])
-                      .subset(math.index(0, 0), 8)
-                      .multiply(3)
-                      .done();
-// resultMatrix: [[24, 6], [9, 12]]
-</code></pre>
-<p class="md-github"><strong class="md-github">Chain API Methods:</strong></p>
+<p class="md-github">Methods available in the parser:</p>
 <ul class="md-github">
-<li class="md-github"><code class="md-github">done()</code> or <code class="md-github">valueOf()</code>: Finalizes the chain and returns the value.</li>
-<li class="md-github"><code class="md-github">toString()</code>: Returns a formatted string of the chain's value.</li>
+<li class="md-github"><code class="md-github">clear()</code>: Clears the scope</li>
+<li class="md-github"><code class="md-github">evaluate(expr)</code>: Evaluates an expression</li>
+<li class="md-github"><code class="md-github">get(name)</code>: Retrieves a variable or function</li>
+<li class="md-github"><code class="md-github">getAll()</code>: Returns all definitions</li>
+<li class="md-github"><code class="md-github">remove(name)</code>: Removes a variable/function</li>
+<li class="md-github"><code class="md-github">set(name, value)</code>: Sets a variable/function</li>
 </ul>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="5-extension-mechanisms" href="#5-extension-mechanisms"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Extension Mechanisms</h1>
-<h2 class="md-github"><a class="md-github__anchor" name="51-importing-functions-and-values" href="#51-importing-functions-and-values"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.1 Importing Functions and Values</h2>
-<p class="md-github">Use <code class="md-github">math.import()</code> to add custom functions or values:</p>
-<pre class="md-github"><code class="md-github">math.import({
-  myvalue: 42,
-  hello: function (name) {
-    return 'hello, ' + name + '!';
-  }
+<h2 class="md-github"><a class="md-github__anchor" name="9-expression-syntax--operators-1" href="#9-expression-syntax--operators-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>9. Expression Syntax &amp; Operators</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="differences-from-javascript" href="#differences-from-javascript"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Differences from JavaScript</h3>
+<ul class="md-github">
+<li class="md-github">Functions and constants do not require the <code class="md-github">math.</code> prefix (e.g., <code class="md-github">sin(pi/4)</code>).</li>
+<li class="md-github">Matrix indexing is one-based.</li>
+<li class="md-github">Index and range operators allow syntax like <code class="md-github">A[2:4, 1]</code> where both upper and lower bounds are inclusive.</li>
+<li class="md-github">Implicit multiplication: <code class="md-github">2 pi</code> is allowed.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="operators" href="#operators"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Operators</h3>
+<p class="md-github">Examples:</p>
+<pre class="md-github"><code class="md-github language-javascript">math.evaluate('2 + 3');         // 5
+math.evaluate('2 * 3');         // 6
+math.evaluate('2 + 3 * 4');       // 14
+math.evaluate('(2 + 3) * 4');     // 20
+math.evaluate('5!');            // 120
+math.evaluate('sin(pi/4)');       // 0.7071067811865476
+</code></pre>
+<p class="md-github">Detailed operator list with associativity and precedence is provided in the documentation.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="10-functions--custom-functions-1" href="#10-functions--custom-functions-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>10. Functions &amp; Custom Functions</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="defining-functions-via-assignment" href="#defining-functions-via-assignment"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Defining Functions via Assignment</h3>
+<pre class="md-github"><code class="md-github language-javascript">const parser = math.parser();
+
+// Defining a function f(x) = x^2 - 5
+parser.evaluate('f(x) = x^2 - 5');
+
+// Usage:
+parser.evaluate('f(2)'); // Returns: -1
+parser.evaluate('f(3)'); // Returns: 4
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="11-factory--typed-functions-1" href="#11-factory--typed-functions-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>11. Factory &amp; Typed Functions</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="factory-function-syntax" href="#factory-function-syntax"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Factory Function Syntax</h3>
+<pre class="md-github"><code class="md-github language-javascript">import { factory, create, all } from 'mathjs';
+
+const name = 'negativeSquare';
+const dependencies = ['multiply', 'unaryMinus'];
+const createNegativeSquare = factory(name, dependencies, ({ multiply, unaryMinus }) =&gt; {
+  return function negativeSquare(x) {
+    return unaryMinus(multiply(x, x));
+  };
 });
 
-// Usage in expressions and parser
-math.myvalue * 2;  // 84
-math.hello('user');  // 'hello, user!'
+// Using the factory directly:
+const negativeSquare = createNegativeSquare({ multiply: (a, b) =&gt; a * b, unaryMinus: a =&gt; -a });
+console.log(negativeSquare(3)); // Outputs: -9
+
+// Importing into a math.js instance
+const mathInstance = create(all);
+mathInstance.import(createNegativeSquare);
+console.log(mathInstance.negativeSquare(4)); // -16
 </code></pre>
-<p class="md-github">Options for <code class="md-github">import</code> include:</p>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">override</code> (boolean): Overwrite existing functions. Default: <code class="md-github">false</code>.</li>
-<li class="md-github"><code class="md-github">silent</code> (boolean): Suppress errors on duplicates or invalid types. Default: <code class="md-github">false</code>.</li>
-<li class="md-github"><code class="md-github">wrap</code> (boolean): Wrap functions to convert data types (e.g. Matrix to Array). Default: <code class="md-github">false</code>.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="52-typed-functions" href="#52-typed-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.2 Typed Functions</h2>
-<p class="md-github">Define functions with multiple signatures using <code class="md-github">math.typed</code>:</p>
-<pre class="md-github"><code class="md-github">const max = math.typed('max', {
+<h3 class="md-github"><a class="md-github__anchor" name="typed-functions" href="#typed-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Typed Functions</h3>
+<pre class="md-github"><code class="md-github language-javascript">const max = math.typed('max', {
   'number, number': function (a, b) {
     return Math.max(a, b);
   },
@@ -719,134 +440,44 @@ math.hello('user');  // 'hello, user!'
   }
 });
 </code></pre>
-<p class="md-github">Extend data types by adding new type tests and functions:</p>
-<pre class="md-github"><code class="md-github">function MyType(value) {
-  this.value = value;
-}
-MyType.prototype.isMyType = true;
-
-math.typed.addType({
-  name: 'MyType',
-  test: function (x) { return x &amp;&amp; x.isMyType; }
-});
-
-const add = math.typed('add', {
-  'MyType, MyType': function (a, b) {
-    return new MyType(a.value + b.value);
-  }
-});
-
-math.import({ add: add });
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="53-factory-functions" href="#53-factory-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5.3 Factory Functions</h2>
-<p class="md-github">Factory functions allow dependency injection:</p>
-<pre class="md-github"><code class="md-github">import { factory, create, all } from 'mathjs';
-
-const name = 'negativeSquare';
-const dependencies = ['multiply', 'unaryMinus'];
-const createNegativeSquare = factory(name, dependencies, function ({ multiply, unaryMinus }) {
-  return function negativeSquare(x) {
-    return unaryMinus(multiply(x, x));
-  };
-});
-
-// Direct use
-const negativeSquare = createNegativeSquare({
-  multiply: (a, b) =&gt; a * b,
-  unaryMinus: (a) =&gt; -a
-});
-console.log(negativeSquare(3)); // -9
-
-// Import into a math.js instance
-const mathInstance = create(all);
-mathInstance.import(createNegativeSquare);
-console.log(mathInstance.negativeSquare(4)); // -16
-</code></pre>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="6-serialization" href="#6-serialization"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Serialization</h1>
-<p class="md-github">Math.js data types (e.g. Matrix, Complex, Unit) support JSON serialization:</p>
-<p class="md-github"><strong class="md-github">Serializing:</strong></p>
-<pre class="md-github"><code class="md-github">const complexVal = math.complex('2 + 3i');
-const str = JSON.stringify(complexVal, math.replacer);
-// Output: '{&quot;mathjs&quot;:&quot;Complex&quot;,&quot;re&quot;:2,&quot;im&quot;:3}'
-</code></pre>
-<p class="md-github"><strong class="md-github">Deserializing:</strong></p>
-<pre class="md-github"><code class="md-github">const json = '{&quot;mathjs&quot;:&quot;Unit&quot;,&quot;value&quot;:5,&quot;unit&quot;:&quot;cm&quot;,&quot;fixPrefix&quot;:false}';
-const unitVal = JSON.parse(json, math.reviver);
-// unitVal: Unit 5 cm
-</code></pre>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="7-operators--precedence" href="#7-operators--precedence"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Operators &amp; Precedence</h1>
-<p class="md-github">Math.js supports common operators with the following examples:</p>
+<h2 class="md-github"><a class="md-github__anchor" name="12-troubleshooting-1" href="#12-troubleshooting-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12. Troubleshooting</h2>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Addition:</strong> <code class="md-github">2 + 3</code> yields <code class="md-github">5</code></li>
-<li class="md-github"><strong class="md-github">Multiplication:</strong> <code class="md-github">2 * 3</code> yields <code class="md-github">6</code></li>
-<li class="md-github"><strong class="md-github">Exponentiation:</strong> <code class="md-github">2 ^ 3</code> yields <code class="md-github">8</code> (right-associative)</li>
-<li class="md-github"><strong class="md-github">Matrix Transpose:</strong> <code class="md-github">[[1,2],[3,4]]'</code> yields <code class="md-github">[[1,3],[2,4]]</code></li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">JSON Serialization Issues:</strong>
+Always use <code class="md-github">math.replacer</code> with <code class="md-github">JSON.stringify</code> to correctly serialize special numbers like <code class="md-github">Infinity</code>.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Scope Issues in Parser:</strong>
+Use <code class="md-github">parser.clear()</code> to remove stale definitions.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Type Configuration Problems:</strong>
+If unexpected results occur, verify configuration options such as <code class="md-github">number</code>, <code class="md-github">precision</code>, and <code class="md-github">predictable</code>.</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Factory/Typed Function Integration:</strong>
+Ensure that all dependencies are correctly injected into factory functions.</p>
+</li>
 </ul>
-<p class="md-github">The full list includes grouping, matrix indexing, property access, arithmetic (+, -, *, /), percentage, modulus, power (<code class="md-github">^</code> and <code class="md-github">.^</code>), factorial (<code class="md-github">!</code>), bitwise operations, relational operators, logical operators, assignment (<code class="md-github">=</code>), conditional (<code class="md-github">? :</code>), and range (<code class="md-github">:</code>).</p>
-<p class="md-github">Operators are evaluated based on precedence; for a complete list, refer to the documentation sections on operators and precedence.</p>
-<hr class="md-github">
-<h1 class="md-github"><a class="md-github__anchor" name="8-api-specifications" href="#8-api-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8. API Specifications</h1>
-<p class="md-github">Below are key API method signatures and their details:</p>
-<p class="md-github"><strong class="md-github">Expression Evaluation:</strong></p>
-<pre class="md-github"><code class="md-github">// Evaluate an expression
-math.evaluate(expr: string): any;
-math.evaluate(expr: string, scope: Object | Map): any;
-
-// Compile an expression
-const code = math.compile(expr: string);
-code.evaluate(scope?: Object | Map): any;
-
-// Parse an expression into a node tree
-const node = math.parse(expr: string);
-node.compile(): { evaluate(scope?: Object | Map): any };
+<p class="md-github">Command line check:</p>
+<pre class="md-github"><code class="md-github language-bash">node -e &quot;const math = require('mathjs'); console.log(math.sqrt(-4).toString());&quot;
 </code></pre>
-<p class="md-github"><strong class="md-github">Parser API:</strong></p>
-<pre class="md-github"><code class="md-github">const parser = math.parser();
-parser.evaluate(expr: string): any;
-parser.get(name: string): any;
-parser.set(name: string, value: any): void;
-parser.remove(name: string): void;
-parser.getAll(): Object;
-parser.clear(): void;
-</code></pre>
-<p class="md-github"><strong class="md-github">Chaining API:</strong></p>
-<pre class="md-github"><code class="md-github">math.chain(value: any): Chain;
-// Chain methods:
-Chain.add(value: any): Chain;
-Chain.subtract(value: any): Chain;
-Chain.multiply(value: any): Chain;
-Chain.divide(value: any): Chain;
-Chain.done(): any;
-Chain.valueOf(): any;
-Chain.toString(): string;
-</code></pre>
-<p class="md-github"><strong class="md-github">Factory Function API:</strong></p>
-<pre class="md-github"><code class="md-github">factory(name: string, dependencies: string[], create: Function, meta?: Object): Function;
-
-// Example:
-const negativeSquare = factory('negativeSquare', ['multiply', 'unaryMinus'], function({ multiply, unaryMinus }) {
-  return function(x: number): number {
-    return unaryMinus(multiply(x, x));
-  };
-});
-</code></pre>
+<p class="md-github">Expected output: <code class="md-github">2i</code></p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: Math.js Documentation</li>
-<li class="md-github">URL: https://mathjs.org/docs/</li>
-<li class="md-github">License: Apache-2.0</li>
-<li class="md-github">Crawl Date: 2025-04-21T12:58:17.154Z</li>
-<li class="md-github">Data Size: 5364907 bytes</li>
-<li class="md-github">Links Found: 11017</li>
+<li class="md-github">URL: https://mathjs.org/docs/index.html</li>
+<li class="md-github">License: License: Apache-2.0</li>
+<li class="md-github">Crawl Date: 2025-04-22T00:12:09.637Z</li>
+<li class="md-github">Data Size: 3647606 bytes</li>
+<li class="md-github">Links Found: 6952</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-04-21</p>
+<p class="md-github">2025-04-22</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-21T23:24:17.710Z</p>
+    <p>Generated on 2025-04-22T00:37:30.721Z</p>
   </footer>
 </body>
 </html>
