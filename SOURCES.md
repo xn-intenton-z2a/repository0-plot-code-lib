@@ -116,3 +116,10 @@ START_OF_FORMAT
 Prettier is an opinionated code formatter with comprehensive documentation that covers configuration, usage, and integration with various IDEs and build pipelines. It is essential for maintaining code style consistency in modern JavaScript projects. Last known update: 2023.
 ## License: MIT
 END_OF_FORMAT
+
+START_OF_FORMAT
+# The Art of Command Line
+## https://github.com/jlevy/the-art-of-command-line
+This guide compiles best practices and tips for using the command line efficiently. It covers a wide range of topics from basic command usage to advanced scripting techniques, making it a great reference for both newcomers and experienced CLI users. Last known update: 2022. Its broad adoption and practical insights make it an authoritative resource for CLI best practices.
+## License: CC BY-SA 3.0
+END_OF_FORMAT
