@@ -1,39 +1,33 @@
 # OUTPUT_ENGINE Feature Enhancement
 
-This feature consolidates various output options into a single, unified output engine. It merges the functionality from the D3PLOT, JSON_OUTPUT, PNG_OUTPUT, DATA_EXPORT, and PLOT features to streamline the user experience for generating plots and exporting data. The output engine supports multiple output formats including SVG, PNG, JSON, and CSV from one central CLI interface.
+This update refines the unified output engine to fully support PNG conversion alongside the existing SVG, JSON, and CSV outputs. The enhancement targets modifications in the source file, test file, README, and dependencies file and aligns with the CLI functionality described in CONTRIBUTING.md and the mission statement in MISSION.md.
 
-# CLI Parameter Parsing & Validation
+## Source Code Updates
 
-- Update the CLI parser in src/lib/main.js to recognize a set of output-related flags including --d3plot, --json, --export, and --file.
-- Detect the file extension from the --file parameter. If the extension is .png, trigger the PNG conversion routine after generating the SVG plot.
-- If the --json flag is provided (taking precedence over CSV export), format the computed time series data into JSON using built-in JavaScript methods.
-- When the --export flag is used without --json, output data in a CSV format with headers. 
-- Ensure that, when multiple output options are provided, the priority is maintained: JSON output overrides CSV, and visual plot outputs (SVG/PNG) are processed separately based on the file extension.
+- Enhance the CLI parser in src/lib/main.js to check if the --file flag is provided with a .png extension.
+- When a .png file is specified, invoke a PNG conversion routine. The routine will generate SVG content first (as previously implemented) and then convert it to PNG using the sharp library.
+- Maintain priority such that JSON output overrides CSV export when the --json flag is present.
+- Ensure this implementation remains compliant with Node 20 and ES modules.
 
-# Implementation Details
+## Testing Enhancements
 
-- Modify the main evaluation routine in src/lib/main.js to compute the time series data from the provided mathematical expression and range.
-- For plot outputs:
-  - Generate SVG content using the existing D3-based routines when the --d3plot flag is active.
-  - If the user provides a .png file extension, convert the generated SVG to PNG using a conversion routine (adding the sharp dependency if necessary).
-- For data exports:
-  - If the --json flag is active, format and output the data as a JSON object or array, optionally writing to a file if the --file parameter is provided with a .json extension.
-  - If the --export flag is used and no --json flag is present, convert the data to a CSV string with proper header rows and write to the specified file path.
-- Update the test suite in tests/unit/main.test.js to add cases that verify:
-  - Correct recognition and parsing of output-related flags.
-  - Proper file extension detection and correct activation of PNG conversion routines.
-  - Valid JSON formatting of output when requested.
-  - CSV generation that includes headers and correct data rows.
-- Revise the README.md to include clear usage examples and documentation of the unified output engine, illustrating how to use the various output options.
+- Update tests in tests/unit/main.test.js to add test cases that simulate providing a .png file extension. The tests should check that:
+  - The correct branch of code is reached (e.g., triggering the PNG conversion routine).
+  - The output format is logged appropriately for validation.
+  - Other flags such as --json and --export continue to behave as expected.
 
-# Dependency and Build Consistency
+## Documentation Updates
 
-- Ensure compatibility with Node 20 and ECMAScript module standards. 
-- Add the sharp library to package.json dependencies if PNG output conversion is required, keeping the project in line with modern build practices.
-- All changes adhere to the guidelines in CONTRIBUTING.md and align with the mission in MISSION.md to become the go-to plot library for formula visualisations.
+- Revise README.md to include usage examples that specifically demonstrate the new PNG conversion feature. For example, illustrate how providing an output file with a .png extension results in conversion from generated SVG to PNG.
+- Update any references in the documentation that list supported output formats, emphasizing PNG support.
 
-# Benefits
+## Dependency and Build Consistency
 
-- Simplifies the CLI by unifying multiple output functions into one maintainable code path.
-- Reduces code duplication and increases overall consistency in data export and plot generation.
-- Enhances user experience by providing clear, prioritized output options in a single feature.
+- Add the sharp library to package.json dependencies with an appropriate version (e.g. sharp v0.32.x) to support the conversion from SVG to PNG.
+- Verify that dependency updates do not conflict with existing libraries and maintain compatibility with the current build and testing setup.
+
+## Benefits
+
+- Streamlines the process of generating graphical output by automatically converting SVG plots to PNG when requested.
+- Enhances user experience by ensuring a simple, unified command line interface for all supported output formats.
+- Consolidates output functionalities into one coherent feature, reducing code duplication and maintenance overhead.
