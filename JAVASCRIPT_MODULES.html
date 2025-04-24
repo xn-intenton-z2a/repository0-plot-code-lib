@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="javascript_modules" href="#javascript_modules"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JAVASCRIPT_MODULES</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Module system overview; Canvas Module: create(wrapperId, parentElement, width, height) returns {ctx, id}, createReportList(wrapperId) returns list id; Square Module: constant name = 'square', draw(ctx, length, x, y, color) returns {length, x, y, color}, reportArea(length, reportList), reportPerimeter(length, reportList); Export syntax: named exports, default exports, aggregated exports; Import examples using relative paths, import maps for remapping; Use dynamic import() for asynchronous loading; Top-Level await to delay evaluation until promises resolve; Handling cyclic imports by asynchronous access; Strategies for writing isomorphic modules; Troubleshooting MIME types, local server, and file extension issues.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Modules Overview</li>
+<li class="md-github">Canvas Module</li>
+<li class="md-github">Square Module</li>
+<li class="md-github">Export &amp; Import Syntax</li>
+<li class="md-github">Import Maps</li>
+<li class="md-github">Dynamic Import</li>
+<li class="md-github">Top Level Await</li>
+<li class="md-github">Cyclic Imports</li>
+<li class="md-github">Isomorphic Modules</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<p class="md-github">Modules Overview:</p>
+<ul class="md-github">
+<li class="md-github">Enabling ES modules in browsers and Node.js with proper file extensions and MIME type configuration.</li>
+</ul>
+<p class="md-github">Canvas Module:</p>
+<ul class="md-github">
+<li class="md-github">create(wrapperId: string, parentElement: HTMLElement, width: number, height: number): Object { ctx: CanvasRenderingContext2D, id: string }.</li>
+<li class="md-github">createReportList(wrapperId: string): string (returns list id).</li>
+</ul>
+<p class="md-github">Square Module:</p>
+<ul class="md-github">
+<li class="md-github">Constant: name = 'square'.</li>
+<li class="md-github">draw(ctx: CanvasRenderingContext2D, length: number, x: number, y: number, color: string): Object { length, x, y, color }.</li>
+<li class="md-github">reportArea(length: number, reportList: string): void.</li>
+<li class="md-github">reportPerimeter(length: number, reportList: string): void.</li>
+</ul>
+<p class="md-github">Export &amp; Import Syntax:</p>
+<ul class="md-github">
+<li class="md-github">Use export keyword: export const name = 'square'; export function draw(...) {...};</li>
+<li class="md-github">Default export: export default randomSquare;</li>
+<li class="md-github">Import using: import { name, draw } from './modules/square.js'; or import randomSquare from './modules/square.js';</li>
+</ul>
+<p class="md-github">Import Maps:</p>
+<ul class="md-github">
+<li class="md-github">JSON object mapping module specifiers to URL paths. Example:
+{ &quot;imports&quot;: { &quot;square&quot;: &quot;./shapes/square.js&quot; } }.</li>
+<li class="md-github">Support for remapping bare module names and URL prefixes.</li>
+</ul>
+<p class="md-github">Dynamic Import:</p>
+<ul class="md-github">
+<li class="md-github">Syntax: import(moduleSpecifier).then((Module) =&gt; { ... });</li>
+<li class="md-github">Returns a Promise resolving to the module object, e.g., Module.Square for class-based modules.</li>
+</ul>
+<p class="md-github">Top Level Await:</p>
+<ul class="md-github">
+<li class="md-github">Use await at module scope. Example in getColors.js: export default await fetch(&quot;../data/colors.json&quot;).then(r=&gt;r.json());</li>
+</ul>
+<p class="md-github">Cyclic Imports:</p>
+<ul class="md-github">
+<li class="md-github">Handle cyclic dependencies by delaying usage of imported values (e.g., using setTimeout) or restructuring modules to avoid cycles.</li>
+</ul>
+<p class="md-github">Isomorphic Modules:</p>
+<ul class="md-github">
+<li class="md-github">Separate core logic and platform-specific bindings; use feature detection (typeof window, process) and polyfills via dynamic imports.</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">Verify correct MIME type (text/javascript) for module files.</li>
+<li class="md-github">Use a local server to avoid CORS when using file://.</li>
+<li class="md-github">Adjust OS file extension handling to prevent .mjs.js issues.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Canvas Module Implementation:</p>
+<ul class="md-github">
+<li class="md-github">create(wrapperId, parentElement, width, height): Requires valid HTML element and numeric dimensions; returns { ctx: CanvasRenderingContext2D, id: string }.</li>
+<li class="md-github">createReportList(wrapperId): Inserts <ul> element into element with id=wrapperId; returns unique list id.</li>
+</ul>
+<p class="md-github">Square Module Implementation:</p>
+<ul class="md-github">
+<li class="md-github">Constant name: 'square'.</li>
+<li class="md-github">draw(ctx, length, x, y, color): Uses ctx.fillRect(x, y, length, length) and sets ctx.fillStyle; returns object with keys: length, x, y, color.</li>
+<li class="md-github">reportArea(length, reportList): Calculates area as length^2; writes output to reportList element.</li>
+<li class="md-github">reportPerimeter(length, reportList): Calculates perimeter as 4 * length; outputs to reportList element.</li>
+</ul>
+<p class="md-github">Export &amp; Import Patterns:</p>
+<ul class="md-github">
+<li class="md-github">Named export pattern: Place export in front of declarations or aggregated at end using export { function1, const1 }.</li>
+<li class="md-github">Default export requires use of 'export default' without curly braces and is imported without braces.</li>
+</ul>
+<p class="md-github">Import Maps Configuration:</p>
+<ul class="md-github">
+<li class="md-github">JSON file specifying mappings with keys and corresponding URL paths. Keys with trailing slashes denote path prefixes.</li>
+<li class="md-github">Example mapping for packages like lodash: 'lodash': '/node_modules/lodash-es/lodash.js', 'lodash/': '/node_modules/lodash-es/'.</li>
+</ul>
+<p class="md-github">Dynamic Module Loading:</p>
+<ul class="md-github">
+<li class="md-github">Use import() as a function; returns a Promise.</li>
+<li class="md-github">Example: import('./modules/square.js').then(Module =&gt; { new Module.Square(...).draw(); });</li>
+</ul>
+<p class="md-github">Top Level Await:</p>
+<ul class="md-github">
+<li class="md-github">Use 'await' at module level; ensures module does not execute further until promise resolves.</li>
+<li class="md-github">Requires importing module to also use async context.</li>
+</ul>
+<p class="md-github">Cyclic Imports Handling:</p>
+<ul class="md-github">
+<li class="md-github">Avoid immediate use of imported values; use asynchronous functions (e.g., setTimeout) to defer usage.</li>
+<li class="md-github">Restructure modules when possible to merge or create intermediary modules.</li>
+</ul>
+<p class="md-github">Isomorphic Module Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Separate 'core' logic from environment specific binding.</li>
+<li class="md-github">Employ feature detection checks: if (typeof process !== 'undefined') { ... } else if (typeof window !== 'undefined') { ... }.</li>
+<li class="md-github">Use polyfill libraries via dynamic import if global features (like fetch) are absent.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Command to check MIME type via curl: curl -I http://localhost/path/to/module.js | grep Content-Type</li>
+<li class="md-github">Ensure local server is used: e.g., run 'npx http-server' for testing.</li>
+<li class="md-github">Check browser console for strict MIME type errors and revise server configuration accordingly.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:
+Canvas Module:</p>
+<ul class="md-github">
+<li class="md-github">function create(wrapperId: string, parentElement: HTMLElement, width: number, height: number): { ctx: CanvasRenderingContext2D, id: string } - Creates a canvas element inside a div with id=wrapperId, appended to parentElement. Throws error if parameters are invalid.</li>
+<li class="md-github">function createReportList(wrapperId: string): string - Inserts an unordered list in the element with id wrapperId. Returns list id.</li>
+</ul>
+<p class="md-github">Square Module:</p>
+<ul class="md-github">
+<li class="md-github">const name: string = 'square'</li>
+<li class="md-github">function draw(ctx: CanvasRenderingContext2D, length: number, x: number, y: number, color: string): { length: number, x: number, y: number, color: string } - Draws a square on the canvas with given dimensions and color; must use ctx.fillStyle and ctx.fillRect. Returns object with properties.</li>
+<li class="md-github">function reportArea(length: number, reportList: string): void - Calculates area (length*length) and appends result to element identified by reportList.</li>
+<li class="md-github">function reportPerimeter(length: number, reportList: string): void - Calculates perimeter (4*length) and outputs to reportList.</li>
+</ul>
+<p class="md-github">Export/Import Syntax:</p>
+<ul class="md-github">
+<li class="md-github">Named export: export { name, draw, reportArea, reportPerimeter };</li>
+<li class="md-github">Default export example: export default randomSquare;</li>
+<li class="md-github">Import usage: import { name, draw } from './modules/square.js';</li>
+<li class="md-github">Renaming imports: import { draw as drawSquare } from './modules/square.js';</li>
+<li class="md-github">Import all as namespace: import * as Module from './modules/module.js';</li>
+</ul>
+<p class="md-github">Dynamic Import:</p>
+<ul class="md-github">
+<li class="md-github">Syntax: import('./modules/myModule.js').then((Module) =&gt; { /* use Module features */ });</li>
+<li class="md-github">Returns Promise resolving to module object with exported members.</li>
+</ul>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">Module file type: .js must be served with MIME type text/javascript.</li>
+<li class="md-github">Import maps JSON example: { &quot;imports&quot;: { &quot;square&quot;: &quot;./shapes/square.js&quot; } }. Keys with trailing '/' indicate path prefixes.</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Use export default for single main function in module; use named exports for multiple functions.</li>
+<li class="md-github">Place all import declarations at file top for dependency clarity.</li>
+<li class="md-github">When using dynamic imports, ensure module file paths are relative and error-handled using Promise.catch.</li>
+</ul>
+<p class="md-github">Troubleshooting Commands:</p>
+<ul class="md-github">
+<li class="md-github">Check server MIME type: curl -I http://server/path/module.js</li>
+<li class="md-github">Local testing: Use a local server (e.g., npx http-server) to avoid CORS issues.</li>
+<li class="md-github">For cyclic import issues, log intermediate values using setTimeout to ensure module initialization.</li>
+</ul>
+<p class="md-github">Code Examples:
+// square.js
+export const name = 'square';
+export function draw(ctx, length, x, y, color) {
+ctx.fillStyle = color;
+ctx.fillRect(x, y, length, length);
+return { length, x, y, color };
+}
+export function reportArea(length, reportList) {
+const area = length * length;
+document.getElementById(reportList).innerText = 'Area: ' + area;
+}
+export function reportPerimeter(length, reportList) {
+const perimeter = 4 * length;
+document.getElementById(reportList).innerText = 'Perimeter: ' + perimeter;
+}</p>
+<p class="md-github">// Importing in main.js
+import { name, draw, reportArea, reportPerimeter } from './modules/square.js';</p>
+<p class="md-github">// Dynamic import example
+document.querySelector('.square').addEventListener('click', () =&gt; {
+import('./modules/square.js').then(Module =&gt; {
+const square = Module.draw(canvasCtx, 50, 50, 100, 'blue');
+Module.reportArea(square.length, reportListId);
+Module.reportPerimeter(square.length, reportListId);
+});
+});</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Modules Overview: ES modules enable split code loading. Canvas Module: create(wrapperId, parentElement, width, height) -&gt; {ctx, id}; createReportList(wrapperId) -&gt; string. Square Module: const name='square'; draw(ctx, length, x, y, color) -&gt; {length, x, y, color}; reportArea(length, reportList): void; reportPerimeter(length, reportList): void. Export syntax: named exports (export { ... }), default export (export default function), renaming imports (as keyword), namespace import (import * as Module). Import Maps: JSON mapping for bare module names; keys with trailing '/' denote path prefixes. Dynamic Import: import('module.js').then(Module =&gt; {...}). Top Level Await: export default await fetch(...).then(...). Cyclic Imports: Use asynchronous access to avoid ReferenceError. Isomorphic modules: Separate core logic, use feature detection, and polyfills. Troubleshooting: Ensure MIME type text/javascript, use local server, check file extensions.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Modules Overview</li>
+<li class="md-github">Canvas Module</li>
+<li class="md-github">Square Module</li>
+<li class="md-github">Export &amp; Import Syntax</li>
+<li class="md-github">Import Maps</li>
+<li class="md-github">Dynamic Import</li>
+<li class="md-github">Top Level Await</li>
+<li class="md-github">Cyclic Imports</li>
+<li class="md-github">Isomorphic Modules</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<p class="md-github">Modules Overview:</p>
+<ul class="md-github">
+<li class="md-github">Enabling ES modules in browsers and Node.js with proper file extensions and MIME type configuration.</li>
+</ul>
+<p class="md-github">Canvas Module:</p>
+<ul class="md-github">
+<li class="md-github">create(wrapperId: string, parentElement: HTMLElement, width: number, height: number): Object { ctx: CanvasRenderingContext2D, id: string }.</li>
+<li class="md-github">createReportList(wrapperId: string): string (returns list id).</li>
+</ul>
+<p class="md-github">Square Module:</p>
+<ul class="md-github">
+<li class="md-github">Constant: name = 'square'.</li>
+<li class="md-github">draw(ctx: CanvasRenderingContext2D, length: number, x: number, y: number, color: string): Object { length, x, y, color }.</li>
+<li class="md-github">reportArea(length: number, reportList: string): void.</li>
+<li class="md-github">reportPerimeter(length: number, reportList: string): void.</li>
+</ul>
+<p class="md-github">Export &amp; Import Syntax:</p>
+<ul class="md-github">
+<li class="md-github">Use export keyword: export const name = 'square'; export function draw(...) {...};</li>
+<li class="md-github">Default export: export default randomSquare;</li>
+<li class="md-github">Import using: import { name, draw } from './modules/square.js'; or import randomSquare from './modules/square.js';</li>
+</ul>
+<p class="md-github">Import Maps:</p>
+<ul class="md-github">
+<li class="md-github">JSON object mapping module specifiers to URL paths. Example:
+{ 'imports': { 'square': './shapes/square.js' } }.</li>
+<li class="md-github">Support for remapping bare module names and URL prefixes.</li>
+</ul>
+<p class="md-github">Dynamic Import:</p>
+<ul class="md-github">
+<li class="md-github">Syntax: import(moduleSpecifier).then((Module) =&gt; { ... });</li>
+<li class="md-github">Returns a Promise resolving to the module object, e.g., Module.Square for class-based modules.</li>
+</ul>
+<p class="md-github">Top Level Await:</p>
+<ul class="md-github">
+<li class="md-github">Use await at module scope. Example in getColors.js: export default await fetch('../data/colors.json').then(r=&gt;r.json());</li>
+</ul>
+<p class="md-github">Cyclic Imports:</p>
+<ul class="md-github">
+<li class="md-github">Handle cyclic dependencies by delaying usage of imported values (e.g., using setTimeout) or restructuring modules to avoid cycles.</li>
+</ul>
+<p class="md-github">Isomorphic Modules:</p>
+<ul class="md-github">
+<li class="md-github">Separate core logic and platform-specific bindings; use feature detection (typeof window, process) and polyfills via dynamic imports.</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">Verify correct MIME type (text/javascript) for module files.</li>
+<li class="md-github">Use a local server to avoid CORS when using file://.</li>
+<li class="md-github">Adjust OS file extension handling to prevent .mjs.js issues.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">MDN ECMAScript Modules Documentation
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-javascript_modules" href="#digest-of-javascript_modules"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of JAVASCRIPT_MODULES</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="javascript-modules-documentation" href="#javascript-modules-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JavaScript Modules Documentation</h1>
+<p class="md-github">Retrieved: 2023-10-06</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">This document covers the use of ES modules in JavaScript as described in the MDN documentation. It includes exact API specifications, method signatures, configuration details, and code examples directly from the crawled content.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="canvas-module" href="#canvas-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Canvas Module</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Function: create(wrapperId: string, parentElement: HTMLElement, width: number, height: number)</p>
+<ul class="md-github">
+<li class="md-github">Description: Creates a canvas element inside a wrapper <div> with the given id. The wrapper is appended to the specified parent element.</li>
+<li class="md-github">Returns: An object { ctx: CanvasRenderingContext2D, id: string }.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Function: createReportList(wrapperId: string)</p>
+<ul class="md-github">
+<li class="md-github">Description: Creates an unordered list in the specified wrapper element to output report data.</li>
+<li class="md-github">Returns: The generated list's id as a string.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="square-module" href="#square-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Square Module</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Constant: name = &quot;square&quot;</p>
+</li>
+<li class="md-github">
+<p class="md-github">Function: draw(ctx: CanvasRenderingContext2D, length: number, x: number, y: number, color: string)</p>
+<ul class="md-github">
+<li class="md-github">Description: Draws a square on the canvas with the given properties.</li>
+<li class="md-github">Returns: An object { length: number, x: number, y: number, color: string }.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Function: reportArea(length: number, reportList: string)</p>
+<ul class="md-github">
+<li class="md-github">Description: Writes the square's area to the specified report list.</li>
+<li class="md-github">Returns: void.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Function: reportPerimeter(length: number, reportList: string)</p>
+<ul class="md-github">
+<li class="md-github">Description: Writes the square's perimeter to the specified report list.</li>
+<li class="md-github">Returns: void.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="export--import-syntax" href="#export--import-syntax"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Export &amp; Import Syntax</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Named export example:</p>
+<ul class="md-github">
+<li class="md-github">export const name = &quot;square&quot;;</li>
+<li class="md-github">export function draw(ctx, length, x, y, color) { ... };</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Aggregated export:</p>
+<ul class="md-github">
+<li class="md-github">export { name, draw, reportArea, reportPerimeter };</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Default export example:</p>
+<ul class="md-github">
+<li class="md-github">export default randomSquare;</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Importing example:</p>
+<ul class="md-github">
+<li class="md-github">import { name, draw, reportArea, reportPerimeter } from &quot;./modules/square.js&quot;;</li>
+<li class="md-github">import randomSquare from &quot;./modules/square.js&quot;;</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="import-maps" href="#import-maps"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Import Maps</h2>
+<ul class="md-github">
+<li class="md-github">JSON mapping sample:
+{
+&quot;imports&quot;: {
+&quot;square&quot;: &quot;./shapes/square.js&quot;,
+&quot;lodash&quot;: &quot;/node_modules/lodash-es/lodash.js&quot;,
+&quot;lodash/&quot;: &quot;/node_modules/lodash-es/&quot;
+}
+}</li>
+<li class="md-github">Usage: Allows bare module names to be resolvable and supports remapping entire URL prefixes.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="dynamic-import" href="#dynamic-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dynamic Import</h2>
+<ul class="md-github">
+<li class="md-github">Syntax: import(moduleSpecifier).then((Module) =&gt; { ... });</li>
+<li class="md-github">Example:
+import(&quot;./modules/square.js&quot;).then((Module) =&gt; {
+const square1 = new Module.Square(ctx, listId, 50, 50, 100, &quot;blue&quot;);
+square1.draw();
+square1.reportArea();
+square1.reportPerimeter();
+});</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="top-level-await" href="#top-level-await"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Top Level Await</h2>
+<ul class="md-github">
+<li class="md-github">Usage: Await can be used at module scope.</li>
+<li class="md-github">Example in getColors.js:
+const colors = fetch(&quot;../data/colors.json&quot;).then(response =&gt; response.json());
+export default await colors;</li>
+<li class="md-github">Import in main.js:
+import colors from &quot;./modules/getColors.js&quot;;</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="cyclic-imports" href="#cyclic-imports"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cyclic Imports</h2>
+<ul class="md-github">
+<li class="md-github">Description: Modules importing each other can lead to cyclic dependencies. Use asynchronous access (e.g., setTimeout) to ensure values are defined.</li>
+<li class="md-github">Example:
+In a.js: import { b } from &quot;./b.js&quot;; export const a = 2;
+In b.js: import { a } from &quot;./a.js&quot;; setTimeout(() =&gt; { console.log(a); }, 10); export const b = 1;</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="isomorphic-modules" href="#isomorphic-modules"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Isomorphic Modules</h2>
+<ul class="md-github">
+<li class="md-github">Techniques for creating modules that run both on browser and Node.js:
+<ul class="md-github">
+<li class="md-github">Separate core logic from platform-specific binding.</li>
+<li class="md-github">Feature detection (e.g., typeof window !== &quot;undefined&quot;).</li>
+<li class="md-github">Use dynamic import for polyfills (e.g., node-fetch for fetch in Node.js).</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h2>
+<ul class="md-github">
+<li class="md-github">Ensure module files (.js or .mjs) are served with the correct MIME type (e.g., text/javascript).</li>
+<li class="md-github">Run via a local server to avoid CORS errors when using file:// URLs.</li>
+<li class="md-github">Disable automatic file extension changes (macOS may append .js to .mjs).</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<p class="md-github">Data Size: 6471614 bytes; Links Found: 41782; Retrieved from https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: MDN ECMAScript Modules Documentation</li>
+<li class="md-github">URL: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules</li>
+<li class="md-github">License: License: CC-BY-SA 2.5</li>
+<li class="md-github">Crawl Date: 2025-04-24T04:49:28.385Z</li>
+<li class="md-github">Data Size: 6471614 bytes</li>
+<li class="md-github">Links Found: 41782</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-24</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-24T05:24:48.705Z</p>
+  </footer>
+</body>
+</html>
