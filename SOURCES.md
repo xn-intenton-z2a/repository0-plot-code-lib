@@ -123,3 +123,24 @@ START_OF_FORMAT
 This guide compiles best practices and tips for using the command line efficiently. It covers a wide range of topics from basic command usage to advanced scripting techniques, making it a great reference for both newcomers and experienced CLI users. Last known update: 2022. Its broad adoption and practical insights make it an authoritative resource for CLI best practices.
 ## License: CC BY-SA 3.0
 END_OF_FORMAT
+
+START_OF_FORMAT
+# FreeCodeCamp CLI Tutorial
+## https://www.freecodecamp.org/news/command-line-interfaces-with-nodejs/
+A comprehensive tutorial on building command-line interfaces with Node.js, covering basics, best practices, and advanced topics. Published in 2023, it is an excellent resource for developers seeking to implement robust CLI applications.
+## License: CC BY-NC 4.0
+END_OF_FORMAT
+
+START_OF_FORMAT
+# Shunting Yard Algorithm Documentation
+## https://en.wikipedia.org/wiki/Shunting_yard_algorithm
+This Wikipedia article explains the Shunting Yard algorithm used for parsing mathematical expressions. It includes detailed explanations, examples, and historical context, making it a valuable resource for implementing formula parsers. Last updated as part of Wikipedia’s continuous revisions; considered highly authoritative.
+## License: CC BY-SA 3.0
+END_OF_FORMAT
+
+START_OF_FORMAT
+# Oclif CLI Framework Documentation
+## https://oclif.io/docs/introduction
+Oclif is a framework for building command-line interfaces using Node.js, maintained by Salesforce. Its documentation provides insights into best practices, architecture, and examples for building scalable CLI applications. Updated regularly, it serves as a strong competitor and complementary resource to other CLI libraries.
+## License: MIT
+END_OF_FORMAT
