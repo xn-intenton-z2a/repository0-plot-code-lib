@@ -62,3 +62,23 @@ D3.js is a powerful JavaScript library for producing dynamic, interactive data v
 ## https://vega.github.io/vega/
 Vega is a visualization grammar that offers a declarative format for creating, sharing, and exploring interactive data visualizations. The documentation describes its specification and usage guidelines in detail, providing insights into building complex and interactive plots. It is a valuable resource for developers looking to extend static visualizations to more interactive experiences, and is maintained by an active community.
 ## BSD-3-Clause
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js/#readme
+Commander.js is a widely adopted Node.js library for building command-line interfaces. Its documentation covers how to define commands, parse options, and generate user-friendly help text. While our repository leverages Zod for input validation, Commander.js provides complementary techniques and patterns for CLI development. The documentation is continuously updated by its community and remains a top reference for CLI design in Node.js applications.
+## MIT License
+
+# Observable Plot Documentation
+## https://observablehq.com/collection/@observablehq/plot
+Observable Plot is a modern visualization library that builds on D3.js to offer a high-level API for creating interactive and data-driven graphics. Although our repository currently focuses on generating static SVG and PNG plots, the interactive concepts and design insights from Observable Plot can inspire future enhancements. This resource is maintained by the Observable community and reflects cutting-edge trends in data visualization.
+## MIT License
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/
+Vega-Lite provides a high-level grammar for interactive graphics, simplifying the creation of complex visualizations with a concise JSON syntax. It extends the capabilities of Vega by enabling rapid prototyping of data visualizations and interactivity. For our repository, Vega-Lite serves as a benchmark for enhancing our static plots with interactive features in future iterations. The documentation is authoritative and regularly updated by the data visualization community.
+## BSD-3-Clause
+
+# Chalk Documentation
+## https://github.com/chalk/chalk
+Chalk is a popular library used to style and color terminal output in Node.js applications. Its documentation outlines various methods for applying color, styles, and formatting to text in the command-line interface. Incorporating such styling can enhance the usability and readability of our CLI's error messages and outputs. Chalk is well-maintained and widely adopted in the Node.js ecosystem.
+## MIT License
