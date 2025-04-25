@@ -22023,4 +22023,4085 @@ DOM InterfaceThis element implements the SVGFEMergeNodeElement interface.Specifi
 <set>
 <feMerge>
 SVG tutorial: Filter effects
-Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<feMorphology>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feMorphology> SVG filter primitive is used to erode or dilate the input image. Its usefulness lies especially in fattening or thinning effects.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+operator
+radius
+DOM InterfaceThis element implements the SVGFEMorphologyElement interface.ExamplesFiltering SVG contentSVG
+html<svg xmlns="http://www.w3.org/2000/svg" width="300" height="180">
+  <filter id="erode">
+    <feMorphology operator="erode" radius="1" />
+  </filter>
+  <filter id="dilate">
+    <feMorphology operator="dilate" radius="2" />
+  </filter>
+  <text y="1em">Normal text</text>
+  <text id="thin" y="2em">Thinned text</text>
+  <text id="thick" y="3em">Fattened text</text>
+</svg>
+
+CSS
+csstext {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3em;
+}
+
+#thin {
+  filter: url(#erode);
+}
+
+#thick {
+  filter: url(#dilate);
+}
+
+Filtering HTML contentSVG
+html<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+  <filter id="erode">
+    <feMorphology operator="erode" radius="1" />
+  </filter>
+  <filter id="dilate">
+    <feMorphology operator="dilate" radius="2" />
+  </filter>
+</svg>
+
+<p>Normal text</p>
+<p id="thin">Thinned text</p>
+<p id="thick">Fattened text</p>
+
+CSS
+cssp {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3em;
+}
+
+#thin {
+  filter: url(#erode);
+}
+
+#thick {
+  filter: url(#dilate);
+}
+
+SpecificationsSpecificationFilter Effects Module Level 1 # feMorphologyElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects\n\n<feMorphology>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feMorphology> SVG filter primitive is used to erode or dilate the input image. Its usefulness lies especially in fattening or thinning effects.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+operator
+radius
+DOM InterfaceThis element implements the SVGFEMorphologyElement interface.ExamplesFiltering SVG contentSVG
+html<svg xmlns="http://www.w3.org/2000/svg" width="300" height="180">
+  <filter id="erode">
+    <feMorphology operator="erode" radius="1" />
+  </filter>
+  <filter id="dilate">
+    <feMorphology operator="dilate" radius="2" />
+  </filter>
+  <text y="1em">Normal text</text>
+  <text id="thin" y="2em">Thinned text</text>
+  <text id="thick" y="3em">Fattened text</text>
+</svg>
+
+CSS
+csstext {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3em;
+}
+
+#thin {
+  filter: url(#erode);
+}
+
+#thick {
+  filter: url(#dilate);
+}
+
+Filtering HTML contentSVG
+html<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+  <filter id="erode">
+    <feMorphology operator="erode" radius="1" />
+  </filter>
+  <filter id="dilate">
+    <feMorphology operator="dilate" radius="2" />
+  </filter>
+</svg>
+
+<p>Normal text</p>
+<p id="thin">Thinned text</p>
+<p id="thick">Fattened text</p>
+
+CSS
+cssp {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3em;
+}
+
+#thin {
+  filter: url(#erode);
+}
+
+#thick {
+  filter: url(#dilate);
+}
+
+SpecificationsSpecificationFilter Effects Module Level 1 # feMorphologyElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<feMorphology>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feMorphology> SVG filter primitive is used to erode or dilate the input image. Its usefulness lies especially in fattening or thinning effects.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+operator
+radius
+DOM InterfaceThis element implements the SVGFEMorphologyElement interface.ExamplesFiltering SVG contentSVG
+html<svg xmlns="http://www.w3.org/2000/svg" width="300" height="180">
+  <filter id="erode">
+    <feMorphology operator="erode" radius="1" />
+  </filter>
+  <filter id="dilate">
+    <feMorphology operator="dilate" radius="2" />
+  </filter>
+  <text y="1em">Normal text</text>
+  <text id="thin" y="2em">Thinned text</text>
+  <text id="thick" y="3em">Fattened text</text>
+</svg>
+
+CSS
+csstext {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3em;
+}
+
+#thin {
+  filter: url(#erode);
+}
+
+#thick {
+  filter: url(#dilate);
+}
+
+Filtering HTML contentSVG
+html<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0">
+  <filter id="erode">
+    <feMorphology operator="erode" radius="1" />
+  </filter>
+  <filter id="dilate">
+    <feMorphology operator="dilate" radius="2" />
+  </filter>
+</svg>
+
+<p>Normal text</p>
+<p id="thin">Thinned text</p>
+<p id="thick">Fattened text</p>
+
+CSS
+cssp {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 3em;
+}
+
+#thin {
+  filter: url(#erode);
+}
+
+#thick {
+  filter: url(#dilate);
+}
+
+SpecificationsSpecificationFilter Effects Module Level 1 # feMorphologyElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<feOffset>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feOffset> SVG filter primitive enables offsetting an input image relative to its current position. The input image as a whole is offset by the values specified in the dx and dy attributes.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+dx
+dy
+DOM InterfaceThis element implements the SVGFEOffsetElement interface.ExampleSVGhtml<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="offset" width="180" height="180">
+      <feOffset in="SourceGraphic" dx="60" dy="60" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="100" height="100" stroke="black" fill="green" />
+  <rect
+    x="0"
+    y="0"
+    width="100"
+    height="100"
+    stroke="black"
+    fill="green"
+    filter="url(#offset)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feOffsetElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects\n\n<feOffset>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feOffset> SVG filter primitive enables offsetting an input image relative to its current position. The input image as a whole is offset by the values specified in the dx and dy attributes.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+dx
+dy
+DOM InterfaceThis element implements the SVGFEOffsetElement interface.ExampleSVGhtml<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="offset" width="180" height="180">
+      <feOffset in="SourceGraphic" dx="60" dy="60" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="100" height="100" stroke="black" fill="green" />
+  <rect
+    x="0"
+    y="0"
+    width="100"
+    height="100"
+    stroke="black"
+    fill="green"
+    filter="url(#offset)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feOffsetElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<feOffset>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feOffset> SVG filter primitive enables offsetting an input image relative to its current position. The input image as a whole is offset by the values specified in the dx and dy attributes.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+dx
+dy
+DOM InterfaceThis element implements the SVGFEOffsetElement interface.ExampleSVGhtml<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="offset" width="180" height="180">
+      <feOffset in="SourceGraphic" dx="60" dy="60" />
+    </filter>
+  </defs>
+
+  <rect x="0" y="0" width="100" height="100" stroke="black" fill="green" />
+  <rect
+    x="0"
+    y="0"
+    width="100"
+    height="100"
+    stroke="black"
+    fill="green"
+    filter="url(#offset)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feOffsetElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<fePointLight>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <fePointLight> SVG filter primitive defines a light source which allows to create a point light effect. It that can be used within a lighting filter primitive: <feDiffuseLighting> or <feSpecularLighting>.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesLight source elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+x
+y
+z
+DOM InterfaceThis element implements the SVGFEPointLightElement interface.ExampleSVGhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="spotlight">
+      <feSpecularLighting
+        result="spotlight"
+        specularConstant="1.5"
+        specularExponent="80"
+        lighting-color="#FFF">
+        <fePointLight x="50" y="50" z="220" />
+      </feSpecularLighting>
+      <feComposite
+        in="SourceGraphic"
+        in2="spotlight"
+        operator="arithmetic"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0" />
+    </filter>
+  </defs>
+
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#spotlight);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # fePointLightElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feDiffuseLighting>
+<feSpecularLighting>
+<feDistantLight>
+<feSpotLight>
+SVG tutorial: Filter effects\n\n<fePointLight>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <fePointLight> SVG filter primitive defines a light source which allows to create a point light effect. It that can be used within a lighting filter primitive: <feDiffuseLighting> or <feSpecularLighting>.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesLight source elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+x
+y
+z
+DOM InterfaceThis element implements the SVGFEPointLightElement interface.ExampleSVGhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="spotlight">
+      <feSpecularLighting
+        result="spotlight"
+        specularConstant="1.5"
+        specularExponent="80"
+        lighting-color="#FFF">
+        <fePointLight x="50" y="50" z="220" />
+      </feSpecularLighting>
+      <feComposite
+        in="SourceGraphic"
+        in2="spotlight"
+        operator="arithmetic"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0" />
+    </filter>
+  </defs>
+
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#spotlight);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # fePointLightElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feDiffuseLighting>
+<feSpecularLighting>
+<feDistantLight>
+<feSpotLight>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<fePointLight>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <fePointLight> SVG filter primitive defines a light source which allows to create a point light effect. It that can be used within a lighting filter primitive: <feDiffuseLighting> or <feSpecularLighting>.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesLight source elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+x
+y
+z
+DOM InterfaceThis element implements the SVGFEPointLightElement interface.ExampleSVGhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="spotlight">
+      <feSpecularLighting
+        result="spotlight"
+        specularConstant="1.5"
+        specularExponent="80"
+        lighting-color="#FFF">
+        <fePointLight x="50" y="50" z="220" />
+      </feSpecularLighting>
+      <feComposite
+        in="SourceGraphic"
+        in2="spotlight"
+        operator="arithmetic"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0" />
+    </filter>
+  </defs>
+
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#spotlight);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # fePointLightElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feDiffuseLighting>
+<feSpecularLighting>
+<feDistantLight>
+<feSpotLight>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<feSpecularLighting>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <feSpecularLighting> SVG filter primitive lights a source graphic using the alpha channel as a bump map. The resulting image is an RGBA image based on the light color. The lighting calculation follows the standard specular component of the Phong lighting model. The resulting image depends on the light color, light position and surface geometry of the input bump map. The result of the lighting calculation is added. The filter primitive assumes that the viewer is at infinity in the z direction.
+This filter primitive produces an image which contains the specular reflection part of the lighting calculation. Such a map is intended to be combined with a texture using the add term of the arithmetic <feComposite> method. Multiple light sources can be simulated by adding several of these light maps before applying it to the texture image.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentExactly one light source element first and any number of descriptive elements in any order.Attributes
+in
+surfaceScale
+specularConstant
+specularExponent
+kernelUnitLength
+DOM InterfaceThis element implements the SVGFESpecularLightingElement interface.Examplehtml<svg
+  height="200"
+  width="200"
+  viewBox="0 0 220 220"
+  xmlns="http://www.w3.org/2000/svg">
+  <filter id="filter">
+    <feSpecularLighting
+      result="specOut"
+      specularExponent="20"
+      lighting-color="#bbbbbb">
+      <fePointLight x="50" y="75" z="200" />
+    </feSpecularLighting>
+    <feComposite
+      in="SourceGraphic"
+      in2="specOut"
+      operator="arithmetic"
+      k1="0"
+      k2="1"
+      k3="1"
+      k4="0" />
+  </filter>
+  <circle cx="110" cy="110" r="100" style="filter:url(#filter)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feSpecularLightingElementBrowser compatibilitySee also
+<filter>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feDistantLight>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<fePointLight>
+<feSpotLight>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects\n\n<feSpecularLighting>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <feSpecularLighting> SVG filter primitive lights a source graphic using the alpha channel as a bump map. The resulting image is an RGBA image based on the light color. The lighting calculation follows the standard specular component of the Phong lighting model. The resulting image depends on the light color, light position and surface geometry of the input bump map. The result of the lighting calculation is added. The filter primitive assumes that the viewer is at infinity in the z direction.
+This filter primitive produces an image which contains the specular reflection part of the lighting calculation. Such a map is intended to be combined with a texture using the add term of the arithmetic <feComposite> method. Multiple light sources can be simulated by adding several of these light maps before applying it to the texture image.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentExactly one light source element first and any number of descriptive elements in any order.Attributes
+in
+surfaceScale
+specularConstant
+specularExponent
+kernelUnitLength
+DOM InterfaceThis element implements the SVGFESpecularLightingElement interface.Examplehtml<svg
+  height="200"
+  width="200"
+  viewBox="0 0 220 220"
+  xmlns="http://www.w3.org/2000/svg">
+  <filter id="filter">
+    <feSpecularLighting
+      result="specOut"
+      specularExponent="20"
+      lighting-color="#bbbbbb">
+      <fePointLight x="50" y="75" z="200" />
+    </feSpecularLighting>
+    <feComposite
+      in="SourceGraphic"
+      in2="specOut"
+      operator="arithmetic"
+      k1="0"
+      k2="1"
+      k3="1"
+      k4="0" />
+  </filter>
+  <circle cx="110" cy="110" r="100" style="filter:url(#filter)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feSpecularLightingElementBrowser compatibilitySee also
+<filter>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feDistantLight>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<fePointLight>
+<feSpotLight>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<feSpecularLighting>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <feSpecularLighting> SVG filter primitive lights a source graphic using the alpha channel as a bump map. The resulting image is an RGBA image based on the light color. The lighting calculation follows the standard specular component of the Phong lighting model. The resulting image depends on the light color, light position and surface geometry of the input bump map. The result of the lighting calculation is added. The filter primitive assumes that the viewer is at infinity in the z direction.
+This filter primitive produces an image which contains the specular reflection part of the lighting calculation. Such a map is intended to be combined with a texture using the add term of the arithmetic <feComposite> method. Multiple light sources can be simulated by adding several of these light maps before applying it to the texture image.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentExactly one light source element first and any number of descriptive elements in any order.Attributes
+in
+surfaceScale
+specularConstant
+specularExponent
+kernelUnitLength
+DOM InterfaceThis element implements the SVGFESpecularLightingElement interface.Examplehtml<svg
+  height="200"
+  width="200"
+  viewBox="0 0 220 220"
+  xmlns="http://www.w3.org/2000/svg">
+  <filter id="filter">
+    <feSpecularLighting
+      result="specOut"
+      specularExponent="20"
+      lighting-color="#bbbbbb">
+      <fePointLight x="50" y="75" z="200" />
+    </feSpecularLighting>
+    <feComposite
+      in="SourceGraphic"
+      in2="specOut"
+      operator="arithmetic"
+      k1="0"
+      k2="1"
+      k3="1"
+      k4="0" />
+  </filter>
+  <circle cx="110" cy="110" r="100" style="filter:url(#filter)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feSpecularLightingElementBrowser compatibilitySee also
+<filter>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feDistantLight>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<fePointLight>
+<feSpotLight>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<feSpotLight>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feSpotLight> SVG filter primitive defines a light source that can be used to create a spotlight effect.
+It is used within a lighting filter primitive: <feDiffuseLighting> or <feSpecularLighting>.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesLight source elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+x
+y
+z
+pointsAtX
+pointsAtY
+pointsAtZ
+specularExponent
+limitingConeAngle
+DOM InterfaceThis element implements the SVGFESpotLightElement interface.ExampleHTMLhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="spotlight">
+      <feSpecularLighting
+        result="spotlight"
+        specularConstant="1.5"
+        specularExponent="4"
+        lighting-color="#FFF">
+        <feSpotLight x="600" y="600" z="400" limitingConeAngle="5.5" />
+      </feSpecularLighting>
+      <feComposite
+        in="SourceGraphic"
+        in2="spotlight"
+        operator="out"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0" />
+    </filter>
+  </defs>
+
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#spotlight);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feSpotLightElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feDiffuseLighting>
+<feSpecularLighting>
+<feDistantLight>
+<fePointLight>
+SVG tutorial: Filter effects\n\n<feSpotLight>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feSpotLight> SVG filter primitive defines a light source that can be used to create a spotlight effect.
+It is used within a lighting filter primitive: <feDiffuseLighting> or <feSpecularLighting>.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesLight source elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+x
+y
+z
+pointsAtX
+pointsAtY
+pointsAtZ
+specularExponent
+limitingConeAngle
+DOM InterfaceThis element implements the SVGFESpotLightElement interface.ExampleHTMLhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="spotlight">
+      <feSpecularLighting
+        result="spotlight"
+        specularConstant="1.5"
+        specularExponent="4"
+        lighting-color="#FFF">
+        <feSpotLight x="600" y="600" z="400" limitingConeAngle="5.5" />
+      </feSpecularLighting>
+      <feComposite
+        in="SourceGraphic"
+        in2="spotlight"
+        operator="out"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0" />
+    </filter>
+  </defs>
+
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#spotlight);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feSpotLightElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feDiffuseLighting>
+<feSpecularLighting>
+<feDistantLight>
+<fePointLight>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<feSpotLight>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feSpotLight> SVG filter primitive defines a light source that can be used to create a spotlight effect.
+It is used within a lighting filter primitive: <feDiffuseLighting> or <feSpecularLighting>.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesLight source elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+x
+y
+z
+pointsAtX
+pointsAtY
+pointsAtZ
+specularExponent
+limitingConeAngle
+DOM InterfaceThis element implements the SVGFESpotLightElement interface.ExampleHTMLhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <filter id="spotlight">
+      <feSpecularLighting
+        result="spotlight"
+        specularConstant="1.5"
+        specularExponent="4"
+        lighting-color="#FFF">
+        <feSpotLight x="600" y="600" z="400" limitingConeAngle="5.5" />
+      </feSpecularLighting>
+      <feComposite
+        in="SourceGraphic"
+        in2="spotlight"
+        operator="out"
+        k1="0"
+        k2="1"
+        k3="1"
+        k4="0" />
+    </filter>
+  </defs>
+
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#spotlight);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feSpotLightElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feDiffuseLighting>
+<feSpecularLighting>
+<feDistantLight>
+<fePointLight>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<feTile>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feTile> SVG filter primitive allows to fill a target rectangle with a repeated, tiled pattern of an input image. The effect is similar to the one of a <pattern>.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+DOM InterfaceThis element implements the SVGFETileElement interface.ExampleSVGhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>
+    Tiling an MDN logo with the Mozilla mascot's head that is on the logo
+  </title>
+  <defs>
+    <!-- Define the region of the filter to be the bounding box of the
+         MDN logo being filtered. These parameters will create an output
+         that covers the same region as the image. -->
+    <filter id="tile" x="0" y="0" width="100%" height="100%">
+      <!-- Create a tile from the central portion of the image from
+           (50,50) to (150,150). This area is essentially the Mozilla
+           mascot's head. -->
+      <feTile in="SourceGraphic" x="50" y="50" width="100" height="100" />
+
+      <!-- Without specifying a region, feTile defaults to the region
+           of the filter. Without specifying an "in" parameter, the default
+           is the result of the previous primitive. So this second feTile
+           will tile the entire filter region with the mascot's head. -->
+      <feTile />
+    </filter>
+  </defs>
+
+  <!-- Use the MDN logo as input to the filter -->
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#tile);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feTileElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTurbulence>
+SVG tutorial: Filter effects\n\n<feTile>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feTile> SVG filter primitive allows to fill a target rectangle with a repeated, tiled pattern of an input image. The effect is similar to the one of a <pattern>.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+DOM InterfaceThis element implements the SVGFETileElement interface.ExampleSVGhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>
+    Tiling an MDN logo with the Mozilla mascot's head that is on the logo
+  </title>
+  <defs>
+    <!-- Define the region of the filter to be the bounding box of the
+         MDN logo being filtered. These parameters will create an output
+         that covers the same region as the image. -->
+    <filter id="tile" x="0" y="0" width="100%" height="100%">
+      <!-- Create a tile from the central portion of the image from
+           (50,50) to (150,150). This area is essentially the Mozilla
+           mascot's head. -->
+      <feTile in="SourceGraphic" x="50" y="50" width="100" height="100" />
+
+      <!-- Without specifying a region, feTile defaults to the region
+           of the filter. Without specifying an "in" parameter, the default
+           is the result of the previous primitive. So this second feTile
+           will tile the entire filter region with the mascot's head. -->
+      <feTile />
+    </filter>
+  </defs>
+
+  <!-- Use the MDN logo as input to the filter -->
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#tile);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feTileElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<feTile>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feTile> SVG filter primitive allows to fill a target rectangle with a repeated, tiled pattern of an input image. The effect is similar to the one of a <pattern>.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+in
+DOM InterfaceThis element implements the SVGFETileElement interface.ExampleSVGhtml<svg
+  width="200"
+  height="200"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <title>
+    Tiling an MDN logo with the Mozilla mascot's head that is on the logo
+  </title>
+  <defs>
+    <!-- Define the region of the filter to be the bounding box of the
+         MDN logo being filtered. These parameters will create an output
+         that covers the same region as the image. -->
+    <filter id="tile" x="0" y="0" width="100%" height="100%">
+      <!-- Create a tile from the central portion of the image from
+           (50,50) to (150,150). This area is essentially the Mozilla
+           mascot's head. -->
+      <feTile in="SourceGraphic" x="50" y="50" width="100" height="100" />
+
+      <!-- Without specifying a region, feTile defaults to the region
+           of the filter. Without specifying an "in" parameter, the default
+           is the result of the previous primitive. So this second feTile
+           will tile the entire filter region with the mascot's head. -->
+      <feTile />
+    </filter>
+  </defs>
+
+  <!-- Use the MDN logo as input to the filter -->
+  <image
+    href="mdn_logo_only_color.png"
+    x="10%"
+    y="10%"
+    width="80%"
+    height="80%"
+    style="filter:url(#tile);" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # feTileElementBrowser compatibilitySee also
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<feTurbulence>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feTurbulence> SVG filter primitive creates an image using the Perlin turbulence function. It allows the synthesis of artificial textures like clouds or marble. The resulting image will fill the entire filter primitive subregion.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+baseFrequency
+numOctaves
+seed
+stitchTiles
+type
+DOM InterfaceThis element implements the SVGFETurbulenceElement interface.Examplehtml<svg
+  width="200"
+  height="200"
+  viewBox="0 0 220 220"
+  xmlns="http://www.w3.org/2000/svg">
+  <filter id="displacementFilter">
+    <feTurbulence
+      type="turbulence"
+      baseFrequency="0.05"
+      numOctaves="2"
+      result="turbulence" />
+    <feDisplacementMap
+      in2="turbulence"
+      in="SourceGraphic"
+      scale="50"
+      xChannelSelector="R"
+      yChannelSelector="G" />
+  </filter>
+
+  <circle cx="100" cy="100" r="100" style="filter: url(#displacementFilter)" />
+</svg>
+
+SpecificationsSpecificationFilter Effects Module Level 1 # feTurbulenceElementBrowser compatibilitySee also
+SVG filter primitive attributes, including result.
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+SVG tutorial: Filter effects\n\n<feTurbulence>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feTurbulence> SVG filter primitive creates an image using the Perlin turbulence function. It allows the synthesis of artificial textures like clouds or marble. The resulting image will fill the entire filter primitive subregion.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+baseFrequency
+numOctaves
+seed
+stitchTiles
+type
+DOM InterfaceThis element implements the SVGFETurbulenceElement interface.Examplehtml<svg
+  width="200"
+  height="200"
+  viewBox="0 0 220 220"
+  xmlns="http://www.w3.org/2000/svg">
+  <filter id="displacementFilter">
+    <feTurbulence
+      type="turbulence"
+      baseFrequency="0.05"
+      numOctaves="2"
+      result="turbulence" />
+    <feDisplacementMap
+      in2="turbulence"
+      in="SourceGraphic"
+      scale="50"
+      xChannelSelector="R"
+      yChannelSelector="G" />
+  </filter>
+
+  <circle cx="100" cy="100" r="100" style="filter: url(#displacementFilter)" />
+</svg>
+
+SpecificationsSpecificationFilter Effects Module Level 1 # feTurbulenceElementBrowser compatibilitySee also
+SVG filter primitive attributes, including result.
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<feTurbulence>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.Learn moreSee full compatibilityReport feedbackThe <feTurbulence> SVG filter primitive creates an image using the Perlin turbulence function. It allows the synthesis of artificial textures like clouds or marble. The resulting image will fill the entire filter primitive subregion.
+Like other filter primitives, it handles color components in the linearRGB color space by default. You can use color-interpolation-filters to use sRGB instead.Usage contextCategoriesFilter primitive elementPermitted contentAny number of the following elements, in any order:<animate>, <discard>, <set>Attributes
+baseFrequency
+numOctaves
+seed
+stitchTiles
+type
+DOM InterfaceThis element implements the SVGFETurbulenceElement interface.Examplehtml<svg
+  width="200"
+  height="200"
+  viewBox="0 0 220 220"
+  xmlns="http://www.w3.org/2000/svg">
+  <filter id="displacementFilter">
+    <feTurbulence
+      type="turbulence"
+      baseFrequency="0.05"
+      numOctaves="2"
+      result="turbulence" />
+    <feDisplacementMap
+      in2="turbulence"
+      in="SourceGraphic"
+      scale="50"
+      xChannelSelector="R"
+      yChannelSelector="G" />
+  </filter>
+
+  <circle cx="100" cy="100" r="100" style="filter: url(#displacementFilter)" />
+</svg>
+
+SpecificationsSpecificationFilter Effects Module Level 1 # feTurbulenceElementBrowser compatibilitySee also
+SVG filter primitive attributes, including result.
+<filter>
+<animate>
+<set>
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<filter>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <filter> SVG element defines a custom filter effect by grouping atomic filter primitives. It is never rendered itself, but must be used by the filter attribute on SVG elements, or the filter CSS property for SVG/HTML elements.Usage contextCategoriesNonePermitted contentAny number of the following elements, in any order:Descriptive elementsFilter primitive elements<animate>, <discard>, <set>Attributes
+x
+y
+width
+height
+filterUnits
+primitiveUnits
+xlink:href 
+Deprecated
+
+DOM InterfaceThis element implements the SVGFilterElement interface.ExampleSVGhtml<svg width="230" height="120" xmlns="http://www.w3.org/2000/svg">
+  <filter id="blurMe">
+    <feGaussianBlur stdDeviation="5" />
+  </filter>
+
+  <circle cx="60" cy="60" r="50" fill="green" />
+
+  <circle cx="170" cy="60" r="50" fill="green" filter="url(#blurMe)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # FilterElementBrowser compatibilitySee also
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feDropShadow>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects\n\n<filter>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <filter> SVG element defines a custom filter effect by grouping atomic filter primitives. It is never rendered itself, but must be used by the filter attribute on SVG elements, or the filter CSS property for SVG/HTML elements.Usage contextCategoriesNonePermitted contentAny number of the following elements, in any order:Descriptive elementsFilter primitive elements<animate>, <discard>, <set>Attributes
+x
+y
+width
+height
+filterUnits
+primitiveUnits
+xlink:href 
+Deprecated
+
+DOM InterfaceThis element implements the SVGFilterElement interface.ExampleSVGhtml<svg width="230" height="120" xmlns="http://www.w3.org/2000/svg">
+  <filter id="blurMe">
+    <feGaussianBlur stdDeviation="5" />
+  </filter>
+
+  <circle cx="60" cy="60" r="50" fill="green" />
+
+  <circle cx="170" cy="60" r="50" fill="green" filter="url(#blurMe)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # FilterElementBrowser compatibilitySee also
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feDropShadow>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<filter>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since July 2015.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <filter> SVG element defines a custom filter effect by grouping atomic filter primitives. It is never rendered itself, but must be used by the filter attribute on SVG elements, or the filter CSS property for SVG/HTML elements.Usage contextCategoriesNonePermitted contentAny number of the following elements, in any order:Descriptive elementsFilter primitive elements<animate>, <discard>, <set>Attributes
+x
+y
+width
+height
+filterUnits
+primitiveUnits
+xlink:href 
+Deprecated
+
+DOM InterfaceThis element implements the SVGFilterElement interface.ExampleSVGhtml<svg width="230" height="120" xmlns="http://www.w3.org/2000/svg">
+  <filter id="blurMe">
+    <feGaussianBlur stdDeviation="5" />
+  </filter>
+
+  <circle cx="60" cy="60" r="50" fill="green" />
+
+  <circle cx="170" cy="60" r="50" fill="green" filter="url(#blurMe)" />
+</svg>
+ResultSpecificationsSpecificationFilter Effects Module Level 1 # FilterElementBrowser compatibilitySee also
+<feBlend>
+<feColorMatrix>
+<feComponentTransfer>
+<feComposite>
+<feConvolveMatrix>
+<feDiffuseLighting>
+<feDisplacementMap>
+<feDropShadow>
+<feFlood>
+<feGaussianBlur>
+<feImage>
+<feMerge>
+<feMorphology>
+<feOffset>
+<feSpecularLighting>
+<feTile>
+<feTurbulence>
+SVG tutorial: Filter effects
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<foreignObject>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <foreignObject> SVG element includes elements from a different XML namespace. In the context of a browser, it is most likely (X)HTML.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    div {
+      color: white;
+      font: 18px serif;
+      height: 100%;
+      overflow: auto;
+    }
+  </style>
+
+  <polygon points="5,5 195,10 185,185 10,195" />
+
+  <!-- Common use case: embed HTML text into SVG -->
+  <foreignObject x="20" y="20" width="160" height="160">
+    <!--
+      In the context of SVG embedded in an HTML document, the XHTML
+      namespace could be omitted, but it is mandatory in the
+      context of an SVG document
+    -->
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis mollis
+      mi ut ultricies. Nullam magna ipsum, porta vel dui convallis, rutrum
+      imperdiet eros. Aliquam erat volutpat.
+    </div>
+  </foreignObject>
+</svg>
+
+Attributes
+height
+
+The height of the foreignObject.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+width
+
+The width of the foreignObject.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+x
+
+The x coordinate of the foreignObject.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+y
+
+The y coordinate of the foreignObject.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+
+
+Note:
+Starting with SVG2, x, y, width, and height are Geometry Properties, meaning those attributes can also be used as CSS properties for that element.
+DOM InterfaceThis element implements the SVGForeignObjectElement interface.Usage contextCategoriesGraphics element, Renderable elementPermitted contentAny elements or character dataSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # ForeignObjectElementBrowser compatibility\n\n<foreignObject>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <foreignObject> SVG element includes elements from a different XML namespace. In the context of a browser, it is most likely (X)HTML.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    div {
+      color: white;
+      font: 18px serif;
+      height: 100%;
+      overflow: auto;
+    }
+  </style>
+
+  <polygon points="5,5 195,10 185,185 10,195" />
+
+  <!-- Common use case: embed HTML text into SVG -->
+  <foreignObject x="20" y="20" width="160" height="160">
+    <!--
+      In the context of SVG embedded in an HTML document, the XHTML
+      namespace could be omitted, but it is mandatory in the
+      context of an SVG document
+    -->
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis mollis
+      mi ut ultricies. Nullam magna ipsum, porta vel dui convallis, rutrum
+      imperdiet eros. Aliquam erat volutpat.
+    </div>
+  </foreignObject>
+</svg>
+
+Attributes
+height
+
+The height of the foreignObject.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+width
+
+The width of the foreignObject.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+x
+
+The x coordinate of the foreignObject.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+y
+
+The y coordinate of the foreignObject.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+
+
+Note:
+Starting with SVG2, x, y, width, and height are Geometry Properties, meaning those attributes can also be used as CSS properties for that element.
+DOM InterfaceThis element implements the SVGForeignObjectElement interface.Usage contextCategoriesGraphics element, Renderable elementPermitted contentAny elements or character dataSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # ForeignObjectElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<foreignObject>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <foreignObject> SVG element includes elements from a different XML namespace. In the context of a browser, it is most likely (X)HTML.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    div {
+      color: white;
+      font: 18px serif;
+      height: 100%;
+      overflow: auto;
+    }
+  </style>
+
+  <polygon points="5,5 195,10 185,185 10,195" />
+
+  <!-- Common use case: embed HTML text into SVG -->
+  <foreignObject x="20" y="20" width="160" height="160">
+    <!--
+      In the context of SVG embedded in an HTML document, the XHTML
+      namespace could be omitted, but it is mandatory in the
+      context of an SVG document
+    -->
+    <div xmlns="http://www.w3.org/1999/xhtml">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis mollis
+      mi ut ultricies. Nullam magna ipsum, porta vel dui convallis, rutrum
+      imperdiet eros. Aliquam erat volutpat.
+    </div>
+  </foreignObject>
+</svg>
+
+Attributes
+height
+
+The height of the foreignObject.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+width
+
+The width of the foreignObject.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+x
+
+The x coordinate of the foreignObject.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+y
+
+The y coordinate of the foreignObject.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+
+
+Note:
+Starting with SVG2, x, y, width, and height are Geometry Properties, meaning those attributes can also be used as CSS properties for that element.
+DOM InterfaceThis element implements the SVGForeignObjectElement interface.Usage contextCategoriesGraphics element, Renderable elementPermitted contentAny elements or character dataSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # ForeignObjectElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<g>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <g> SVG element is a container used to group other SVG elements.
+Transformations applied to the <g> element are performed on its child elements, and its attributes are inherited by its children. It can also group multiple elements to be referenced later with the <use> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Using g to inherit presentation attributes -->
+  <g fill="white" stroke="green" stroke-width="5">
+    <circle cx="40" cy="40" r="25" />
+    <circle cx="60" cy="60" r="25" />
+  </g>
+</svg>
+
+Usage contextCategoriesContainer element, Structural elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # GElementBrowser compatibility\n\n<g>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <g> SVG element is a container used to group other SVG elements.
+Transformations applied to the <g> element are performed on its child elements, and its attributes are inherited by its children. It can also group multiple elements to be referenced later with the <use> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Using g to inherit presentation attributes -->
+  <g fill="white" stroke="green" stroke-width="5">
+    <circle cx="40" cy="40" r="25" />
+    <circle cx="60" cy="60" r="25" />
+  </g>
+</svg>
+
+Usage contextCategoriesContainer element, Structural elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # GElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<g>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <g> SVG element is a container used to group other SVG elements.
+Transformations applied to the <g> element are performed on its child elements, and its attributes are inherited by its children. It can also group multiple elements to be referenced later with the <use> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Using g to inherit presentation attributes -->
+  <g fill="white" stroke="green" stroke-width="5">
+    <circle cx="40" cy="40" r="25" />
+    <circle cx="60" cy="60" r="25" />
+  </g>
+</svg>
+
+Usage contextCategoriesContainer element, Structural elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # GElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<image>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <image> SVG element includes images inside SVG documents. It can display raster image files or other SVG files.
+The only image formats SVG software must support are JPEG, PNG, and other SVG files. Animated GIF behavior is undefined.
+SVG files displayed with <image> are treated as an image: external resources aren't loaded, :visited styles aren't applied, and they cannot be interactive. To include dynamic SVG elements, try <use> with an external URL. To include SVG files and run scripts inside them, try <object> inside of <foreignObject>.
+
+Note:
+The HTML spec defines <image> as a synonym for <img> while parsing HTML. This specific element and its behavior only apply inside SVG documents or inline SVGs.
+Usage contextCategoriesGraphics element, Graphics referencing element, Renderable elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elements<animate>, <animateMotion>, <animateTransform>, <discard>, <script>, <set>, <style>Attributes
+x
+
+Positions the image horizontally from the origin.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+y
+
+Positions the image vertically from the origin.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+width
+
+The width the image renders at. Unlike HTML's <img>, this attribute is required.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+height
+
+The height the image renders at. Unlike HTML's <img>, this attribute is required.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+href
+
+Points at a URL for the image file.
+Value type: <URL>; Default value: none; Animatable: no
+
+preserveAspectRatio
+
+Controls how the image is scaled.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+crossorigin
+
+Defines the value of the credentials flag for CORS requests.
+Value type: [ anonymous | use-credentials ]?; Default value: None; Animatable: yes
+
+decoding
+
+Provides a hint to the browser as to whether it should perform image decoding synchronously or asynchronously.
+Value type: async | sync | auto; Default value: auto; Animatable: yes
+
+xlink:href
+Deprecated
+
+
+Points at a URL for the image file.
+Value type: <URL>; Default value: none; Animatable: no
+
+DOM InterfaceThis element implements the SVGImageElement interface.ExampleBasic rendering of a PNG image in SVG:SVGhtml<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <image href="mdn_logo_only_color.png" height="200" width="200" />
+</svg>
+ResultSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # ImageElementBrowser compatibility\n\n<image>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <image> SVG element includes images inside SVG documents. It can display raster image files or other SVG files.
+The only image formats SVG software must support are JPEG, PNG, and other SVG files. Animated GIF behavior is undefined.
+SVG files displayed with <image> are treated as an image: external resources aren't loaded, :visited styles aren't applied, and they cannot be interactive. To include dynamic SVG elements, try <use> with an external URL. To include SVG files and run scripts inside them, try <object> inside of <foreignObject>.
+
+Note:
+The HTML spec defines <image> as a synonym for <img> while parsing HTML. This specific element and its behavior only apply inside SVG documents or inline SVGs.
+Usage contextCategoriesGraphics element, Graphics referencing element, Renderable elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elements<animate>, <animateMotion>, <animateTransform>, <discard>, <script>, <set>, <style>Attributes
+x
+
+Positions the image horizontally from the origin.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+y
+
+Positions the image vertically from the origin.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+width
+
+The width the image renders at. Unlike HTML's <img>, this attribute is required.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+height
+
+The height the image renders at. Unlike HTML's <img>, this attribute is required.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+href
+
+Points at a URL for the image file.
+Value type: <URL>; Default value: none; Animatable: no
+
+preserveAspectRatio
+
+Controls how the image is scaled.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+crossorigin
+
+Defines the value of the credentials flag for CORS requests.
+Value type: [ anonymous | use-credentials ]?; Default value: None; Animatable: yes
+
+decoding
+
+Provides a hint to the browser as to whether it should perform image decoding synchronously or asynchronously.
+Value type: async | sync | auto; Default value: auto; Animatable: yes
+
+xlink:href
+Deprecated
+
+
+Points at a URL for the image file.
+Value type: <URL>; Default value: none; Animatable: no
+
+DOM InterfaceThis element implements the SVGImageElement interface.ExampleBasic rendering of a PNG image in SVG:SVGhtml<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <image href="mdn_logo_only_color.png" height="200" width="200" />
+</svg>
+ResultSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # ImageElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<image>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <image> SVG element includes images inside SVG documents. It can display raster image files or other SVG files.
+The only image formats SVG software must support are JPEG, PNG, and other SVG files. Animated GIF behavior is undefined.
+SVG files displayed with <image> are treated as an image: external resources aren't loaded, :visited styles aren't applied, and they cannot be interactive. To include dynamic SVG elements, try <use> with an external URL. To include SVG files and run scripts inside them, try <object> inside of <foreignObject>.
+
+Note:
+The HTML spec defines <image> as a synonym for <img> while parsing HTML. This specific element and its behavior only apply inside SVG documents or inline SVGs.
+Usage contextCategoriesGraphics element, Graphics referencing element, Renderable elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elements<animate>, <animateMotion>, <animateTransform>, <discard>, <script>, <set>, <style>Attributes
+x
+
+Positions the image horizontally from the origin.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+y
+
+Positions the image vertically from the origin.
+Value type: <length> | <percentage>; Default value: 0; Animatable: yes
+
+width
+
+The width the image renders at. Unlike HTML's <img>, this attribute is required.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+height
+
+The height the image renders at. Unlike HTML's <img>, this attribute is required.
+Value type: <length> | <percentage>; Default value: auto; Animatable: yes
+
+href
+
+Points at a URL for the image file.
+Value type: <URL>; Default value: none; Animatable: no
+
+preserveAspectRatio
+
+Controls how the image is scaled.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+crossorigin
+
+Defines the value of the credentials flag for CORS requests.
+Value type: [ anonymous | use-credentials ]?; Default value: None; Animatable: yes
+
+decoding
+
+Provides a hint to the browser as to whether it should perform image decoding synchronously or asynchronously.
+Value type: async | sync | auto; Default value: auto; Animatable: yes
+
+xlink:href
+Deprecated
+
+
+Points at a URL for the image file.
+Value type: <URL>; Default value: none; Animatable: no
+
+DOM InterfaceThis element implements the SVGImageElement interface.ExampleBasic rendering of a PNG image in SVG:SVGhtml<svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
+  <image href="mdn_logo_only_color.png" height="200" width="200" />
+</svg>
+ResultSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # ImageElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<line>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <line> SVG element is an SVG basic shape used to create a line connecting two points.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="100" y2="20" stroke="black" />
+
+  <!-- If you do not specify the stroke
+       color the line will not be visible -->
+</svg>
+
+Attributes
+x1
+
+Defines the x-axis coordinate of the line starting point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+x2
+
+Defines the x-axis coordinate of the line ending point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+y1
+
+Defines the y-axis coordinate of the line starting point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+y2
+
+Defines the y-axis coordinate of the line ending point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+pathLength
+
+Defines the total path length in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # LineElementBrowser compatibilitySee also
+Other SVG basic shapes: <circle>, <ellipse>, <polygon>, <polyline>, <rect>\n\n<line>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <line> SVG element is an SVG basic shape used to create a line connecting two points.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="100" y2="20" stroke="black" />
+
+  <!-- If you do not specify the stroke
+       color the line will not be visible -->
+</svg>
+
+Attributes
+x1
+
+Defines the x-axis coordinate of the line starting point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+x2
+
+Defines the x-axis coordinate of the line ending point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+y1
+
+Defines the y-axis coordinate of the line starting point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+y2
+
+Defines the y-axis coordinate of the line ending point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+pathLength
+
+Defines the total path length in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # LineElementBrowser compatibilitySee also
+Other SVG basic shapes: <circle>, <ellipse>, <polygon>, <polyline>, <rect>
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<line>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <line> SVG element is an SVG basic shape used to create a line connecting two points.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <line x1="0" y1="80" x2="100" y2="20" stroke="black" />
+
+  <!-- If you do not specify the stroke
+       color the line will not be visible -->
+</svg>
+
+Attributes
+x1
+
+Defines the x-axis coordinate of the line starting point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+x2
+
+Defines the x-axis coordinate of the line ending point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+y1
+
+Defines the y-axis coordinate of the line starting point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+y2
+
+Defines the y-axis coordinate of the line ending point.
+Value type: <length> | <percentage> | <number>; Default value: 0; Animatable: yes
+
+pathLength
+
+Defines the total path length in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # LineElementBrowser compatibilitySee also
+Other SVG basic shapes: <circle>, <ellipse>, <polygon>, <polyline>, <rect>
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<linearGradient>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <linearGradient> SVG element lets authors define linear gradients to apply to other SVG elements.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg
+  viewBox="0 0 10 10"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="myGradient" gradientTransform="rotate(90)">
+      <stop offset="5%" stop-color="gold" />
+      <stop offset="95%" stop-color="red" />
+    </linearGradient>
+  </defs>
+
+  <!-- using my linear gradient -->
+  <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+
+Attributes
+gradientUnits
+
+This attribute defines the coordinate system for attributes x1, x2, y1, y2
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+gradientTransform
+
+This attribute provides additional transformation to the gradient coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+href
+
+This attribute defines a reference to another <linearGradient> element that will be used as a template.
+Value type: <URL>; Default value: none; Animatable: yes
+
+spreadMethod
+
+This attribute indicates how the gradient behaves if it starts or ends inside the bounds of the shape containing the gradient.
+Value type: pad | reflect | repeat; Default value: pad; Animatable: yes
+
+x1
+
+This attribute defines the x coordinate of the starting point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+x2
+
+This attribute defines the x coordinate of the ending point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 100%; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+An <IRI> reference to another <linearGradient> element that will be used as a template.
+Value type: <IRI>; Default value: none; Animatable: yes
+
+y1
+
+This attribute defines the y coordinate of the starting point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+y2
+
+This attribute defines the y coordinate of the ending point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+Usage contextCategoriesGradient elementPermitted contentAny number of the following elements, in any order:Descriptive elements<animate>, <animateTransform>, <discard>, <script>, <set>, <stop>, <style>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # LinearGradientElementBrowser compatibility\n\n<linearGradient>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <linearGradient> SVG element lets authors define linear gradients to apply to other SVG elements.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg
+  viewBox="0 0 10 10"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="myGradient" gradientTransform="rotate(90)">
+      <stop offset="5%" stop-color="gold" />
+      <stop offset="95%" stop-color="red" />
+    </linearGradient>
+  </defs>
+
+  <!-- using my linear gradient -->
+  <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+
+Attributes
+gradientUnits
+
+This attribute defines the coordinate system for attributes x1, x2, y1, y2
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+gradientTransform
+
+This attribute provides additional transformation to the gradient coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+href
+
+This attribute defines a reference to another <linearGradient> element that will be used as a template.
+Value type: <URL>; Default value: none; Animatable: yes
+
+spreadMethod
+
+This attribute indicates how the gradient behaves if it starts or ends inside the bounds of the shape containing the gradient.
+Value type: pad | reflect | repeat; Default value: pad; Animatable: yes
+
+x1
+
+This attribute defines the x coordinate of the starting point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+x2
+
+This attribute defines the x coordinate of the ending point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 100%; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+An <IRI> reference to another <linearGradient> element that will be used as a template.
+Value type: <IRI>; Default value: none; Animatable: yes
+
+y1
+
+This attribute defines the y coordinate of the starting point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+y2
+
+This attribute defines the y coordinate of the ending point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+Usage contextCategoriesGradient elementPermitted contentAny number of the following elements, in any order:Descriptive elements<animate>, <animateTransform>, <discard>, <script>, <set>, <stop>, <style>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # LinearGradientElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<linearGradient>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <linearGradient> SVG element lets authors define linear gradients to apply to other SVG elements.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg
+  viewBox="0 0 10 10"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient id="myGradient" gradientTransform="rotate(90)">
+      <stop offset="5%" stop-color="gold" />
+      <stop offset="95%" stop-color="red" />
+    </linearGradient>
+  </defs>
+
+  <!-- using my linear gradient -->
+  <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+
+Attributes
+gradientUnits
+
+This attribute defines the coordinate system for attributes x1, x2, y1, y2
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+gradientTransform
+
+This attribute provides additional transformation to the gradient coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+href
+
+This attribute defines a reference to another <linearGradient> element that will be used as a template.
+Value type: <URL>; Default value: none; Animatable: yes
+
+spreadMethod
+
+This attribute indicates how the gradient behaves if it starts or ends inside the bounds of the shape containing the gradient.
+Value type: pad | reflect | repeat; Default value: pad; Animatable: yes
+
+x1
+
+This attribute defines the x coordinate of the starting point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+x2
+
+This attribute defines the x coordinate of the ending point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 100%; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+An <IRI> reference to another <linearGradient> element that will be used as a template.
+Value type: <IRI>; Default value: none; Animatable: yes
+
+y1
+
+This attribute defines the y coordinate of the starting point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+y2
+
+This attribute defines the y coordinate of the ending point of the vector gradient along which the linear gradient is drawn.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+Usage contextCategoriesGradient elementPermitted contentAny number of the following elements, in any order:Descriptive elements<animate>, <animateTransform>, <discard>, <script>, <set>, <stop>, <style>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # LinearGradientElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<marker>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <marker> SVG element defines a graphic used for drawing arrowheads or polymarkers on a given <path>, <line>, <polyline> or <polygon> element.
+Markers can be attached to shapes using the marker-start, marker-mid, and marker-end properties.ExamplesDrawing arrowheadsThe following example shows how to draw an arrowhead on a line and on a curved path.
+For the curved path, an arrowhead is drawn at each point with a marker-mid marker.
+html,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- A marker to be used as an arrowhead -->
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs>
+
+  <!-- A line with a marker -->
+  <line
+    x1="10"
+    y1="10"
+    x2="90"
+    y2="90"
+    stroke="black"
+    marker-end="url(#arrow)" />
+
+  <!-- A curved path with markers -->
+  <path
+    d="M 110 10
+       C 120 20, 130 20, 140 10
+       C 150 0, 160 0, 170 10
+       C 180 20, 190 20, 200 10"
+    stroke="black"
+    fill="none"
+    marker-start="url(#arrow)"
+    marker-mid="url(#arrow)"
+    marker-end="url(#arrow)" />
+</svg>
+
+Drawing polymarkershtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Arrowhead marker definition -->
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+
+    <!-- Dot marker definition -->
+    <marker
+      id="dot"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="5"
+      markerHeight="5">
+      <circle cx="5" cy="5" r="5" fill="red" />
+    </marker>
+  </defs>
+
+  <!-- Coordinate axes with an arrowhead in both directions -->
+  <polyline
+    points="10,10 10,90 90,90"
+    fill="none"
+    stroke="black"
+    marker-start="url(#arrow)"
+    marker-end="url(#arrow)" />
+
+  <!-- Data line with polymarkers -->
+  <polyline
+    points="15,80 29,50 43,60 57,30 71,40 85,15"
+    fill="none"
+    stroke="grey"
+    marker-start="url(#dot)"
+    marker-mid="url(#dot)"
+    marker-end="url(#dot)" />
+</svg>
+
+Using context fill and strokeThe following example shows how to use the context-fill and context-stroke values to make a marker use the same fill and stroke as the shape it is attached to.
+html<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <marker
+    id="circle"
+    markerWidth="6"
+    markerHeight="6"
+    refX="3"
+    refY="3"
+    markerUnits="strokeWidth">
+    <circle cx="3" cy="3" r="2" stroke="context-stroke" fill="context-fill" />
+  </marker>
+
+  <style>
+    path {
+      marker: url(#circle);
+    }
+  </style>
+
+  <path d="M 10,10 30,10 h 10" stroke="black" />
+  <path d="M 10,20 30,20 h 10" stroke="blue" fill="red" />
+  <path d="M 10,30 30,30 h 10" stroke="red" fill="none" />
+  <path d="M 10,40 30,40 h 10" stroke="gray" fill="blue" stroke-width="1.5" />
+</svg>
+
+html,
+body,
+svg {
+  height: 100%;
+}
+
+Attributes
+markerHeight
+
+This attribute defines the height of the marker viewport.
+Value type: <length>; Default value: 3; Animatable: yes
+
+markerUnits
+
+This attribute defines the coordinate system for the attributes markerWidth, markerHeight and the contents of the <marker>.
+Value type: userSpaceOnUse | strokeWidth; Default value: strokeWidth; Animatable: yes
+
+markerWidth
+
+This attribute defines the width of the marker viewport.
+Value type: <length>; Default value: 3; Animatable: yes
+
+orient
+
+This attribute defines the orientation of the marker relative to the shape it is attached to.
+Value type: auto | auto-start-reverse | <angle>; Default value: 0; Animatable: yes
+
+preserveAspectRatio
+
+This attribute defines how the svg fragment must be deformed if it is embedded in a container with a different aspect ratio.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+refX
+
+This attribute defines the x coordinate for the reference point of the marker.
+Value type: left | center | right | <coordinate>; Default value: 0; Animatable: yes
+
+refY
+
+This attribute defines the y coordinate for the reference point of the marker.
+Value type: top | center | bottom | <coordinate>; Default value: 0; Animatable: yes
+
+viewBox
+
+This attribute defines the bound of the SVG viewport for the current SVG fragment.
+Value type: <list-of-numbers>; Default value: none; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # MarkerElementBrowser compatibilitySee also
+Related marker properties: marker-start, marker-mid, and marker-end\n\n<marker>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <marker> SVG element defines a graphic used for drawing arrowheads or polymarkers on a given <path>, <line>, <polyline> or <polygon> element.
+Markers can be attached to shapes using the marker-start, marker-mid, and marker-end properties.ExamplesDrawing arrowheadsThe following example shows how to draw an arrowhead on a line and on a curved path.
+For the curved path, an arrowhead is drawn at each point with a marker-mid marker.
+html,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- A marker to be used as an arrowhead -->
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs>
+
+  <!-- A line with a marker -->
+  <line
+    x1="10"
+    y1="10"
+    x2="90"
+    y2="90"
+    stroke="black"
+    marker-end="url(#arrow)" />
+
+  <!-- A curved path with markers -->
+  <path
+    d="M 110 10
+       C 120 20, 130 20, 140 10
+       C 150 0, 160 0, 170 10
+       C 180 20, 190 20, 200 10"
+    stroke="black"
+    fill="none"
+    marker-start="url(#arrow)"
+    marker-mid="url(#arrow)"
+    marker-end="url(#arrow)" />
+</svg>
+
+Drawing polymarkershtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Arrowhead marker definition -->
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+
+    <!-- Dot marker definition -->
+    <marker
+      id="dot"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="5"
+      markerHeight="5">
+      <circle cx="5" cy="5" r="5" fill="red" />
+    </marker>
+  </defs>
+
+  <!-- Coordinate axes with an arrowhead in both directions -->
+  <polyline
+    points="10,10 10,90 90,90"
+    fill="none"
+    stroke="black"
+    marker-start="url(#arrow)"
+    marker-end="url(#arrow)" />
+
+  <!-- Data line with polymarkers -->
+  <polyline
+    points="15,80 29,50 43,60 57,30 71,40 85,15"
+    fill="none"
+    stroke="grey"
+    marker-start="url(#dot)"
+    marker-mid="url(#dot)"
+    marker-end="url(#dot)" />
+</svg>
+
+Using context fill and strokeThe following example shows how to use the context-fill and context-stroke values to make a marker use the same fill and stroke as the shape it is attached to.
+html<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <marker
+    id="circle"
+    markerWidth="6"
+    markerHeight="6"
+    refX="3"
+    refY="3"
+    markerUnits="strokeWidth">
+    <circle cx="3" cy="3" r="2" stroke="context-stroke" fill="context-fill" />
+  </marker>
+
+  <style>
+    path {
+      marker: url(#circle);
+    }
+  </style>
+
+  <path d="M 10,10 30,10 h 10" stroke="black" />
+  <path d="M 10,20 30,20 h 10" stroke="blue" fill="red" />
+  <path d="M 10,30 30,30 h 10" stroke="red" fill="none" />
+  <path d="M 10,40 30,40 h 10" stroke="gray" fill="blue" stroke-width="1.5" />
+</svg>
+
+html,
+body,
+svg {
+  height: 100%;
+}
+
+Attributes
+markerHeight
+
+This attribute defines the height of the marker viewport.
+Value type: <length>; Default value: 3; Animatable: yes
+
+markerUnits
+
+This attribute defines the coordinate system for the attributes markerWidth, markerHeight and the contents of the <marker>.
+Value type: userSpaceOnUse | strokeWidth; Default value: strokeWidth; Animatable: yes
+
+markerWidth
+
+This attribute defines the width of the marker viewport.
+Value type: <length>; Default value: 3; Animatable: yes
+
+orient
+
+This attribute defines the orientation of the marker relative to the shape it is attached to.
+Value type: auto | auto-start-reverse | <angle>; Default value: 0; Animatable: yes
+
+preserveAspectRatio
+
+This attribute defines how the svg fragment must be deformed if it is embedded in a container with a different aspect ratio.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+refX
+
+This attribute defines the x coordinate for the reference point of the marker.
+Value type: left | center | right | <coordinate>; Default value: 0; Animatable: yes
+
+refY
+
+This attribute defines the y coordinate for the reference point of the marker.
+Value type: top | center | bottom | <coordinate>; Default value: 0; Animatable: yes
+
+viewBox
+
+This attribute defines the bound of the SVG viewport for the current SVG fragment.
+Value type: <list-of-numbers>; Default value: none; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # MarkerElementBrowser compatibilitySee also
+Related marker properties: marker-start, marker-mid, and marker-end
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<marker>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <marker> SVG element defines a graphic used for drawing arrowheads or polymarkers on a given <path>, <line>, <polyline> or <polygon> element.
+Markers can be attached to shapes using the marker-start, marker-mid, and marker-end properties.ExamplesDrawing arrowheadsThe following example shows how to draw an arrowhead on a line and on a curved path.
+For the curved path, an arrowhead is drawn at each point with a marker-mid marker.
+html,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- A marker to be used as an arrowhead -->
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+  </defs>
+
+  <!-- A line with a marker -->
+  <line
+    x1="10"
+    y1="10"
+    x2="90"
+    y2="90"
+    stroke="black"
+    marker-end="url(#arrow)" />
+
+  <!-- A curved path with markers -->
+  <path
+    d="M 110 10
+       C 120 20, 130 20, 140 10
+       C 150 0, 160 0, 170 10
+       C 180 20, 190 20, 200 10"
+    stroke="black"
+    fill="none"
+    marker-start="url(#arrow)"
+    marker-mid="url(#arrow)"
+    marker-end="url(#arrow)" />
+</svg>
+
+Drawing polymarkershtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Arrowhead marker definition -->
+    <marker
+      id="arrow"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="6"
+      markerHeight="6"
+      orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" />
+    </marker>
+
+    <!-- Dot marker definition -->
+    <marker
+      id="dot"
+      viewBox="0 0 10 10"
+      refX="5"
+      refY="5"
+      markerWidth="5"
+      markerHeight="5">
+      <circle cx="5" cy="5" r="5" fill="red" />
+    </marker>
+  </defs>
+
+  <!-- Coordinate axes with an arrowhead in both directions -->
+  <polyline
+    points="10,10 10,90 90,90"
+    fill="none"
+    stroke="black"
+    marker-start="url(#arrow)"
+    marker-end="url(#arrow)" />
+
+  <!-- Data line with polymarkers -->
+  <polyline
+    points="15,80 29,50 43,60 57,30 71,40 85,15"
+    fill="none"
+    stroke="grey"
+    marker-start="url(#dot)"
+    marker-mid="url(#dot)"
+    marker-end="url(#dot)" />
+</svg>
+
+Using context fill and strokeThe following example shows how to use the context-fill and context-stroke values to make a marker use the same fill and stroke as the shape it is attached to.
+html<svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+  <marker
+    id="circle"
+    markerWidth="6"
+    markerHeight="6"
+    refX="3"
+    refY="3"
+    markerUnits="strokeWidth">
+    <circle cx="3" cy="3" r="2" stroke="context-stroke" fill="context-fill" />
+  </marker>
+
+  <style>
+    path {
+      marker: url(#circle);
+    }
+  </style>
+
+  <path d="M 10,10 30,10 h 10" stroke="black" />
+  <path d="M 10,20 30,20 h 10" stroke="blue" fill="red" />
+  <path d="M 10,30 30,30 h 10" stroke="red" fill="none" />
+  <path d="M 10,40 30,40 h 10" stroke="gray" fill="blue" stroke-width="1.5" />
+</svg>
+
+html,
+body,
+svg {
+  height: 100%;
+}
+
+Attributes
+markerHeight
+
+This attribute defines the height of the marker viewport.
+Value type: <length>; Default value: 3; Animatable: yes
+
+markerUnits
+
+This attribute defines the coordinate system for the attributes markerWidth, markerHeight and the contents of the <marker>.
+Value type: userSpaceOnUse | strokeWidth; Default value: strokeWidth; Animatable: yes
+
+markerWidth
+
+This attribute defines the width of the marker viewport.
+Value type: <length>; Default value: 3; Animatable: yes
+
+orient
+
+This attribute defines the orientation of the marker relative to the shape it is attached to.
+Value type: auto | auto-start-reverse | <angle>; Default value: 0; Animatable: yes
+
+preserveAspectRatio
+
+This attribute defines how the svg fragment must be deformed if it is embedded in a container with a different aspect ratio.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+refX
+
+This attribute defines the x coordinate for the reference point of the marker.
+Value type: left | center | right | <coordinate>; Default value: 0; Animatable: yes
+
+refY
+
+This attribute defines the y coordinate for the reference point of the marker.
+Value type: top | center | bottom | <coordinate>; Default value: 0; Animatable: yes
+
+viewBox
+
+This attribute defines the bound of the SVG viewport for the current SVG fragment.
+Value type: <list-of-numbers>; Default value: none; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # MarkerElementBrowser compatibilitySee also
+Related marker properties: marker-start, marker-mid, and marker-end
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<mask>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <mask> SVG element defines an alpha mask for compositing the current object into the background. A mask is used/referenced using the mask property.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="-10 -10 120 120">
+  <rect x="-10" y="-10" width="120" height="120" fill="blue" />
+  <mask id="myMask">
+    <!-- Everything under a white pixel will be visible -->
+    <rect x="0" y="0" width="100" height="100" fill="white" />
+
+    <!-- Everything under a black pixel will be invisible -->
+    <path
+      d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
+      fill="black" />
+  </mask>
+
+  <polygon points="-10,110 110,110 110,-10" fill="orange" />
+
+  <!-- with this mask applied, we "punch" a heart shape hole into the circle -->
+  <circle cx="50" cy="50" r="50" fill="purple" mask="url(#myMask)" />
+</svg>
+
+Attributes
+height
+
+This attribute defines the height of the masking area.
+Value type: <length>; Default value: 120%; Animatable: yes
+
+maskContentUnits
+
+This attribute defines the coordinate system for the contents of the <mask>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: userSpaceOnUse; Animatable: yes
+
+maskUnits
+
+This attribute defines the coordinate system for attributes x, y, width and height on the <mask>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+x
+
+This attribute defines the x-axis coordinate of the top-left corner of the masking area.
+Value type: <coordinate>; Default value: -10%; Animatable: yes
+
+y
+
+This attribute defines the y-axis coordinate of the top-left corner of the masking area.
+Value type: <coordinate>; Default value: -10%; Animatable: yes
+
+width
+
+This attribute defines the width of the masking area.
+Value type: <length>; Default value: 120%; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationCSS Masking Module Level 1 # MaskElementBrowser compatibilitySee also
+Other clipping and masking SVG elements: <clipPath>
+Clipping and masking CSS properties: mask, mask-image, mask-mode, mask-repeat, mask-position, mask-clip, mask-origin, mask-composite, mask-size, pointer-events\n\n<mask>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <mask> SVG element defines an alpha mask for compositing the current object into the background. A mask is used/referenced using the mask property.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="-10 -10 120 120">
+  <rect x="-10" y="-10" width="120" height="120" fill="blue" />
+  <mask id="myMask">
+    <!-- Everything under a white pixel will be visible -->
+    <rect x="0" y="0" width="100" height="100" fill="white" />
+
+    <!-- Everything under a black pixel will be invisible -->
+    <path
+      d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
+      fill="black" />
+  </mask>
+
+  <polygon points="-10,110 110,110 110,-10" fill="orange" />
+
+  <!-- with this mask applied, we "punch" a heart shape hole into the circle -->
+  <circle cx="50" cy="50" r="50" fill="purple" mask="url(#myMask)" />
+</svg>
+
+Attributes
+height
+
+This attribute defines the height of the masking area.
+Value type: <length>; Default value: 120%; Animatable: yes
+
+maskContentUnits
+
+This attribute defines the coordinate system for the contents of the <mask>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: userSpaceOnUse; Animatable: yes
+
+maskUnits
+
+This attribute defines the coordinate system for attributes x, y, width and height on the <mask>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+x
+
+This attribute defines the x-axis coordinate of the top-left corner of the masking area.
+Value type: <coordinate>; Default value: -10%; Animatable: yes
+
+y
+
+This attribute defines the y-axis coordinate of the top-left corner of the masking area.
+Value type: <coordinate>; Default value: -10%; Animatable: yes
+
+width
+
+This attribute defines the width of the masking area.
+Value type: <length>; Default value: 120%; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationCSS Masking Module Level 1 # MaskElementBrowser compatibilitySee also
+Other clipping and masking SVG elements: <clipPath>
+Clipping and masking CSS properties: mask, mask-image, mask-mode, mask-repeat, mask-position, mask-clip, mask-origin, mask-composite, mask-size, pointer-events
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<mask>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <mask> SVG element defines an alpha mask for compositing the current object into the background. A mask is used/referenced using the mask property.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="-10 -10 120 120">
+  <rect x="-10" y="-10" width="120" height="120" fill="blue" />
+  <mask id="myMask">
+    <!-- Everything under a white pixel will be visible -->
+    <rect x="0" y="0" width="100" height="100" fill="white" />
+
+    <!-- Everything under a black pixel will be invisible -->
+    <path
+      d="M10,35 A20,20,0,0,1,50,35 A20,20,0,0,1,90,35 Q90,65,50,95 Q10,65,10,35 Z"
+      fill="black" />
+  </mask>
+
+  <polygon points="-10,110 110,110 110,-10" fill="orange" />
+
+  <!-- with this mask applied, we "punch" a heart shape hole into the circle -->
+  <circle cx="50" cy="50" r="50" fill="purple" mask="url(#myMask)" />
+</svg>
+
+Attributes
+height
+
+This attribute defines the height of the masking area.
+Value type: <length>; Default value: 120%; Animatable: yes
+
+maskContentUnits
+
+This attribute defines the coordinate system for the contents of the <mask>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: userSpaceOnUse; Animatable: yes
+
+maskUnits
+
+This attribute defines the coordinate system for attributes x, y, width and height on the <mask>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+x
+
+This attribute defines the x-axis coordinate of the top-left corner of the masking area.
+Value type: <coordinate>; Default value: -10%; Animatable: yes
+
+y
+
+This attribute defines the y-axis coordinate of the top-left corner of the masking area.
+Value type: <coordinate>; Default value: -10%; Animatable: yes
+
+width
+
+This attribute defines the width of the masking area.
+Value type: <length>; Default value: 120%; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsShape elementsStructural elementsGradient elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <pattern>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationCSS Masking Module Level 1 # MaskElementBrowser compatibilitySee also
+Other clipping and masking SVG elements: <clipPath>
+Clipping and masking CSS properties: mask, mask-image, mask-mode, mask-repeat, mask-position, mask-clip, mask-origin, mask-composite, mask-size, pointer-events
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<metadata>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <metadata> SVG element adds metadata to SVG content. Metadata is structured information about data. The contents of <metadata> should be elements from other XML namespaces such as RDF, FOAF, etc.Usage contextCategoriesDescriptive elementPermitted contentAny elements or character dataDOM InterfaceThis element implements the SVGMetadataElement interface.Examplehtml<svg
+  width="400"
+  viewBox="0 0 400 300"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <metadata>
+    <rdf:RDF
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:connect="http://www.w3.org/1999/08/29-svg-connections-in-RDF#">
+      <rdf:Description about="#CableA">
+        <connect:ends rdf:resource="#socket1" />
+        <connect:ends rdf:resource="#ComputerA" />
+      </rdf:Description>
+      <rdf:Description about="#CableB">
+        <connect:ends rdf:resource="#socket2" />
+        <connect:ends rdf:resource="#ComputerB" />
+      </rdf:Description>
+      <rdf:Description about="#CableN">
+        <connect:ends rdf:resource="#socket5" />
+        <connect:ends>Everything</connect:ends>
+      </rdf:Description>
+      <rdf:Description about="#Hub">
+        <connect:ends rdf:resource="#socket1" />
+        <connect:ends rdf:resource="#socket2" />
+        <connect:ends rdf:resource="#socket3" />
+        <connect:ends rdf:resource="#socket4" />
+        <connect:ends rdf:resource="#socket5" />
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+  <title>Network</title>
+  <desc>An example of a computer network based on a hub.</desc>
+
+  <style>
+    svg {
+      /* Default styles to be inherited */
+      fill: white;
+      stroke: black;
+    }
+    text {
+      fill: black;
+      stroke: none;
+    }
+    path {
+      fill: none;
+    }
+  </style>
+
+  <!-- Define symbols used in the SVG -->
+  <defs>
+    <!-- hubPlug symbol. Used by hub symbol -->
+    <symbol id="hubPlug">
+      <desc>A 10BaseT/100baseTX socket</desc>
+      <path d="M0,10 h5 v-9 h12 v9 h5 v16 h-22 z" />
+    </symbol>
+
+    <!-- hub symbol -->
+    <symbol id="hub">
+      <desc>A typical 10BaseT/100BaseTX network hub</desc>
+      <text x="0" y="15">Hub</text>
+      <g transform="translate(0 20)">
+        <rect width="253" height="84" />
+        <rect width="229" height="44" x="12" y="10" />
+        <circle fill="red" cx="227" cy="71" r="7" />
+        <!-- five groups each using the defined socket -->
+        <g id="sock1et" transform="translate(25 20)">
+          <title>Socket 1</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket2" transform="translate(70 20)">
+          <title>Socket 2</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket3" transform="translate(115 20)">
+          <title>Socket 3</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket4" transform="translate(160 20)">
+          <title>Socket 4</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket5" transform="translate(205 20)">
+          <title>Socket 5</title>
+          <use href="#hubPlug" />
+        </g>
+      </g>
+    </symbol>
+
+    <!-- computer symbol -->
+    <symbol id="computer">
+      <desc>A common desktop PC</desc>
+      <g id="monitorStand" transform="translate(40 121)">
+        <title>Monitor stand</title>
+        <desc>
+          One of those cool swivelling monitor stands that sit under the monitor
+        </desc>
+        <path d="m0,0 S 10 10 40 12" />
+        <path d="m80,0 S 70 10 40 12" />
+        <path d="m0,20 L 10 10 S 40 12 70 10 L 80 20z" />
+      </g>
+      <g id="monitor">
+        <title>Monitor</title>
+        <desc>A very fancy monitor</desc>
+        <rect width="160" height="120" />
+        <rect fill="lightgrey" width="138" height="95" x="11" y="12" />
+      </g>
+      <g id="processor" transform="translate(0 142)">
+        <title>The computer</title>
+        <desc>A desktop computer - broad flat box style</desc>
+        <rect width="160" height="60" />
+        <g id="discDrive" transform="translate(70 8)">
+          <title>disc drive</title>
+          <desc>A built-in disc drive</desc>
+          <rect width="58" height="3" x="12" y="8" />
+          <rect width="8" height="2" x="12" y="15" />
+        </g>
+        <circle cx="135" cy="40" r="5" />
+      </g>
+    </symbol>
+  </defs>
+
+  <text x="0" y="15">Network</text>
+
+  <!-- Use the hub symbol. -->
+  <g id="Hub" transform="translate(80 45)">
+    <title>Hub</title>
+    <use href="#hub" transform="scale(0.75)" />
+  </g>
+
+  <!-- Use the computer symbol. -->
+  <g id="ComputerA" transform="translate(20 170)">
+    <title>Computer A</title>
+    <use href="#computer" transform="scale(0.5)" />
+  </g>
+
+  <!-- Use the same computer symbol. -->
+  <g id="ComputerB" transform="translate(300 170)">
+    <title>Computer B</title>
+    <use href="#computer" transform="scale(0.5)" />
+  </g>
+
+  <!-- Draw Cable A. -->
+  <g id="CableA" transform="translate(107 88)">
+    <title>Cable A</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c100,140 50,140 -8,160" />
+  </g>
+
+  <!-- Draw Cable B. -->
+  <g id="CableB" transform="translate(142 88)">
+    <title>Cable B</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c100,180 110,160 159,160" />
+  </g>
+
+  <!-- Draw Cable N. -->
+  <g id="CableN" transform="translate(242 88)">
+    <title>Cable N</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c0,-70 20,-50 60,-50" />
+  </g>
+</svg>
+
+SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # MetadataElementBrowser compatibility\n\n<metadata>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <metadata> SVG element adds metadata to SVG content. Metadata is structured information about data. The contents of <metadata> should be elements from other XML namespaces such as RDF, FOAF, etc.Usage contextCategoriesDescriptive elementPermitted contentAny elements or character dataDOM InterfaceThis element implements the SVGMetadataElement interface.Examplehtml<svg
+  width="400"
+  viewBox="0 0 400 300"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <metadata>
+    <rdf:RDF
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:connect="http://www.w3.org/1999/08/29-svg-connections-in-RDF#">
+      <rdf:Description about="#CableA">
+        <connect:ends rdf:resource="#socket1" />
+        <connect:ends rdf:resource="#ComputerA" />
+      </rdf:Description>
+      <rdf:Description about="#CableB">
+        <connect:ends rdf:resource="#socket2" />
+        <connect:ends rdf:resource="#ComputerB" />
+      </rdf:Description>
+      <rdf:Description about="#CableN">
+        <connect:ends rdf:resource="#socket5" />
+        <connect:ends>Everything</connect:ends>
+      </rdf:Description>
+      <rdf:Description about="#Hub">
+        <connect:ends rdf:resource="#socket1" />
+        <connect:ends rdf:resource="#socket2" />
+        <connect:ends rdf:resource="#socket3" />
+        <connect:ends rdf:resource="#socket4" />
+        <connect:ends rdf:resource="#socket5" />
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+  <title>Network</title>
+  <desc>An example of a computer network based on a hub.</desc>
+
+  <style>
+    svg {
+      /* Default styles to be inherited */
+      fill: white;
+      stroke: black;
+    }
+    text {
+      fill: black;
+      stroke: none;
+    }
+    path {
+      fill: none;
+    }
+  </style>
+
+  <!-- Define symbols used in the SVG -->
+  <defs>
+    <!-- hubPlug symbol. Used by hub symbol -->
+    <symbol id="hubPlug">
+      <desc>A 10BaseT/100baseTX socket</desc>
+      <path d="M0,10 h5 v-9 h12 v9 h5 v16 h-22 z" />
+    </symbol>
+
+    <!-- hub symbol -->
+    <symbol id="hub">
+      <desc>A typical 10BaseT/100BaseTX network hub</desc>
+      <text x="0" y="15">Hub</text>
+      <g transform="translate(0 20)">
+        <rect width="253" height="84" />
+        <rect width="229" height="44" x="12" y="10" />
+        <circle fill="red" cx="227" cy="71" r="7" />
+        <!-- five groups each using the defined socket -->
+        <g id="sock1et" transform="translate(25 20)">
+          <title>Socket 1</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket2" transform="translate(70 20)">
+          <title>Socket 2</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket3" transform="translate(115 20)">
+          <title>Socket 3</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket4" transform="translate(160 20)">
+          <title>Socket 4</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket5" transform="translate(205 20)">
+          <title>Socket 5</title>
+          <use href="#hubPlug" />
+        </g>
+      </g>
+    </symbol>
+
+    <!-- computer symbol -->
+    <symbol id="computer">
+      <desc>A common desktop PC</desc>
+      <g id="monitorStand" transform="translate(40 121)">
+        <title>Monitor stand</title>
+        <desc>
+          One of those cool swivelling monitor stands that sit under the monitor
+        </desc>
+        <path d="m0,0 S 10 10 40 12" />
+        <path d="m80,0 S 70 10 40 12" />
+        <path d="m0,20 L 10 10 S 40 12 70 10 L 80 20z" />
+      </g>
+      <g id="monitor">
+        <title>Monitor</title>
+        <desc>A very fancy monitor</desc>
+        <rect width="160" height="120" />
+        <rect fill="lightgrey" width="138" height="95" x="11" y="12" />
+      </g>
+      <g id="processor" transform="translate(0 142)">
+        <title>The computer</title>
+        <desc>A desktop computer - broad flat box style</desc>
+        <rect width="160" height="60" />
+        <g id="discDrive" transform="translate(70 8)">
+          <title>disc drive</title>
+          <desc>A built-in disc drive</desc>
+          <rect width="58" height="3" x="12" y="8" />
+          <rect width="8" height="2" x="12" y="15" />
+        </g>
+        <circle cx="135" cy="40" r="5" />
+      </g>
+    </symbol>
+  </defs>
+
+  <text x="0" y="15">Network</text>
+
+  <!-- Use the hub symbol. -->
+  <g id="Hub" transform="translate(80 45)">
+    <title>Hub</title>
+    <use href="#hub" transform="scale(0.75)" />
+  </g>
+
+  <!-- Use the computer symbol. -->
+  <g id="ComputerA" transform="translate(20 170)">
+    <title>Computer A</title>
+    <use href="#computer" transform="scale(0.5)" />
+  </g>
+
+  <!-- Use the same computer symbol. -->
+  <g id="ComputerB" transform="translate(300 170)">
+    <title>Computer B</title>
+    <use href="#computer" transform="scale(0.5)" />
+  </g>
+
+  <!-- Draw Cable A. -->
+  <g id="CableA" transform="translate(107 88)">
+    <title>Cable A</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c100,140 50,140 -8,160" />
+  </g>
+
+  <!-- Draw Cable B. -->
+  <g id="CableB" transform="translate(142 88)">
+    <title>Cable B</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c100,180 110,160 159,160" />
+  </g>
+
+  <!-- Draw Cable N. -->
+  <g id="CableN" transform="translate(242 88)">
+    <title>Cable N</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c0,-70 20,-50 60,-50" />
+  </g>
+</svg>
+
+SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # MetadataElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<metadata>Baseline Widely availableThis feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.Learn moreSee full compatibilityReport feedbackThe <metadata> SVG element adds metadata to SVG content. Metadata is structured information about data. The contents of <metadata> should be elements from other XML namespaces such as RDF, FOAF, etc.Usage contextCategoriesDescriptive elementPermitted contentAny elements or character dataDOM InterfaceThis element implements the SVGMetadataElement interface.Examplehtml<svg
+  width="400"
+  viewBox="0 0 400 300"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <metadata>
+    <rdf:RDF
+      xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+      xmlns:connect="http://www.w3.org/1999/08/29-svg-connections-in-RDF#">
+      <rdf:Description about="#CableA">
+        <connect:ends rdf:resource="#socket1" />
+        <connect:ends rdf:resource="#ComputerA" />
+      </rdf:Description>
+      <rdf:Description about="#CableB">
+        <connect:ends rdf:resource="#socket2" />
+        <connect:ends rdf:resource="#ComputerB" />
+      </rdf:Description>
+      <rdf:Description about="#CableN">
+        <connect:ends rdf:resource="#socket5" />
+        <connect:ends>Everything</connect:ends>
+      </rdf:Description>
+      <rdf:Description about="#Hub">
+        <connect:ends rdf:resource="#socket1" />
+        <connect:ends rdf:resource="#socket2" />
+        <connect:ends rdf:resource="#socket3" />
+        <connect:ends rdf:resource="#socket4" />
+        <connect:ends rdf:resource="#socket5" />
+      </rdf:Description>
+    </rdf:RDF>
+  </metadata>
+  <title>Network</title>
+  <desc>An example of a computer network based on a hub.</desc>
+
+  <style>
+    svg {
+      /* Default styles to be inherited */
+      fill: white;
+      stroke: black;
+    }
+    text {
+      fill: black;
+      stroke: none;
+    }
+    path {
+      fill: none;
+    }
+  </style>
+
+  <!-- Define symbols used in the SVG -->
+  <defs>
+    <!-- hubPlug symbol. Used by hub symbol -->
+    <symbol id="hubPlug">
+      <desc>A 10BaseT/100baseTX socket</desc>
+      <path d="M0,10 h5 v-9 h12 v9 h5 v16 h-22 z" />
+    </symbol>
+
+    <!-- hub symbol -->
+    <symbol id="hub">
+      <desc>A typical 10BaseT/100BaseTX network hub</desc>
+      <text x="0" y="15">Hub</text>
+      <g transform="translate(0 20)">
+        <rect width="253" height="84" />
+        <rect width="229" height="44" x="12" y="10" />
+        <circle fill="red" cx="227" cy="71" r="7" />
+        <!-- five groups each using the defined socket -->
+        <g id="sock1et" transform="translate(25 20)">
+          <title>Socket 1</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket2" transform="translate(70 20)">
+          <title>Socket 2</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket3" transform="translate(115 20)">
+          <title>Socket 3</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket4" transform="translate(160 20)">
+          <title>Socket 4</title>
+          <use href="#hubPlug" />
+        </g>
+        <g id="socket5" transform="translate(205 20)">
+          <title>Socket 5</title>
+          <use href="#hubPlug" />
+        </g>
+      </g>
+    </symbol>
+
+    <!-- computer symbol -->
+    <symbol id="computer">
+      <desc>A common desktop PC</desc>
+      <g id="monitorStand" transform="translate(40 121)">
+        <title>Monitor stand</title>
+        <desc>
+          One of those cool swivelling monitor stands that sit under the monitor
+        </desc>
+        <path d="m0,0 S 10 10 40 12" />
+        <path d="m80,0 S 70 10 40 12" />
+        <path d="m0,20 L 10 10 S 40 12 70 10 L 80 20z" />
+      </g>
+      <g id="monitor">
+        <title>Monitor</title>
+        <desc>A very fancy monitor</desc>
+        <rect width="160" height="120" />
+        <rect fill="lightgrey" width="138" height="95" x="11" y="12" />
+      </g>
+      <g id="processor" transform="translate(0 142)">
+        <title>The computer</title>
+        <desc>A desktop computer - broad flat box style</desc>
+        <rect width="160" height="60" />
+        <g id="discDrive" transform="translate(70 8)">
+          <title>disc drive</title>
+          <desc>A built-in disc drive</desc>
+          <rect width="58" height="3" x="12" y="8" />
+          <rect width="8" height="2" x="12" y="15" />
+        </g>
+        <circle cx="135" cy="40" r="5" />
+      </g>
+    </symbol>
+  </defs>
+
+  <text x="0" y="15">Network</text>
+
+  <!-- Use the hub symbol. -->
+  <g id="Hub" transform="translate(80 45)">
+    <title>Hub</title>
+    <use href="#hub" transform="scale(0.75)" />
+  </g>
+
+  <!-- Use the computer symbol. -->
+  <g id="ComputerA" transform="translate(20 170)">
+    <title>Computer A</title>
+    <use href="#computer" transform="scale(0.5)" />
+  </g>
+
+  <!-- Use the same computer symbol. -->
+  <g id="ComputerB" transform="translate(300 170)">
+    <title>Computer B</title>
+    <use href="#computer" transform="scale(0.5)" />
+  </g>
+
+  <!-- Draw Cable A. -->
+  <g id="CableA" transform="translate(107 88)">
+    <title>Cable A</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c100,140 50,140 -8,160" />
+  </g>
+
+  <!-- Draw Cable B. -->
+  <g id="CableB" transform="translate(142 88)">
+    <title>Cable B</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c100,180 110,160 159,160" />
+  </g>
+
+  <!-- Draw Cable N. -->
+  <g id="CableN" transform="translate(242 88)">
+    <title>Cable N</title>
+    <desc>10BaseT twisted pair cable</desc>
+    <path d="M0,0c0,-70 20,-50 60,-50" />
+  </g>
+</svg>
+
+SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # MetadataElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<mpath>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <mpath> SVG sub-element for the <animateMotion> element provides the ability to reference an external <path> element as the definition of a motion path.Usage contextCategoriesAnimation elementPermitted contentAny number of the following elements, in any order:Descriptive elementsAttributes
+xlink:href 
+Deprecated
+
+DOM InterfaceThis element implements the SVGMPathElement interface.ExampleSVGhtml<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 500 300"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect
+    x="1"
+    y="1"
+    width="498"
+    height="298"
+    fill="none"
+    stroke="blue"
+    stroke-width="2" />
+
+  <!-- Draw the outline of the motion path in blue, along
+          with three small circles at the start, middle and end. -->
+  <path
+    id="path1"
+    d="M100,250 C 100,50 400,50 400,250"
+    fill="none"
+    stroke="blue"
+    stroke-width="7.06" />
+  <circle cx="100" cy="250" r="17.64" fill="blue" />
+  <circle cx="250" cy="100" r="17.64" fill="blue" />
+  <circle cx="400" cy="250" r="17.64" fill="blue" />
+
+  <!-- Here is a triangle which will be moved about the motion path.
+       It is defined with an upright orientation with the base of
+       the triangle centered horizontally just above the origin. -->
+  <path
+    d="M-25,-12.5 L25,-12.5 L 0,-87.5 z"
+    fill="yellow"
+    stroke="red"
+    stroke-width="7.06">
+    <!-- Define the motion path animation -->
+    <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#path1" />
+    </animateMotion>
+  </path>
+</svg>
+ResultSpecificationsSpecificationSVG Animations Level 2 # MPathElementBrowser compatibilitySee also
+<animateMotion>\n\n<mpath>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <mpath> SVG sub-element for the <animateMotion> element provides the ability to reference an external <path> element as the definition of a motion path.Usage contextCategoriesAnimation elementPermitted contentAny number of the following elements, in any order:Descriptive elementsAttributes
+xlink:href 
+Deprecated
+
+DOM InterfaceThis element implements the SVGMPathElement interface.ExampleSVGhtml<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 500 300"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect
+    x="1"
+    y="1"
+    width="498"
+    height="298"
+    fill="none"
+    stroke="blue"
+    stroke-width="2" />
+
+  <!-- Draw the outline of the motion path in blue, along
+          with three small circles at the start, middle and end. -->
+  <path
+    id="path1"
+    d="M100,250 C 100,50 400,50 400,250"
+    fill="none"
+    stroke="blue"
+    stroke-width="7.06" />
+  <circle cx="100" cy="250" r="17.64" fill="blue" />
+  <circle cx="250" cy="100" r="17.64" fill="blue" />
+  <circle cx="400" cy="250" r="17.64" fill="blue" />
+
+  <!-- Here is a triangle which will be moved about the motion path.
+       It is defined with an upright orientation with the base of
+       the triangle centered horizontally just above the origin. -->
+  <path
+    d="M-25,-12.5 L25,-12.5 L 0,-87.5 z"
+    fill="yellow"
+    stroke="red"
+    stroke-width="7.06">
+    <!-- Define the motion path animation -->
+    <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#path1" />
+    </animateMotion>
+  </path>
+</svg>
+ResultSpecificationsSpecificationSVG Animations Level 2 # MPathElementBrowser compatibilitySee also
+<animateMotion>
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<mpath>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <mpath> SVG sub-element for the <animateMotion> element provides the ability to reference an external <path> element as the definition of a motion path.Usage contextCategoriesAnimation elementPermitted contentAny number of the following elements, in any order:Descriptive elementsAttributes
+xlink:href 
+Deprecated
+
+DOM InterfaceThis element implements the SVGMPathElement interface.ExampleSVGhtml<svg
+  width="100%"
+  height="100%"
+  viewBox="0 0 500 300"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect
+    x="1"
+    y="1"
+    width="498"
+    height="298"
+    fill="none"
+    stroke="blue"
+    stroke-width="2" />
+
+  <!-- Draw the outline of the motion path in blue, along
+          with three small circles at the start, middle and end. -->
+  <path
+    id="path1"
+    d="M100,250 C 100,50 400,50 400,250"
+    fill="none"
+    stroke="blue"
+    stroke-width="7.06" />
+  <circle cx="100" cy="250" r="17.64" fill="blue" />
+  <circle cx="250" cy="100" r="17.64" fill="blue" />
+  <circle cx="400" cy="250" r="17.64" fill="blue" />
+
+  <!-- Here is a triangle which will be moved about the motion path.
+       It is defined with an upright orientation with the base of
+       the triangle centered horizontally just above the origin. -->
+  <path
+    d="M-25,-12.5 L25,-12.5 L 0,-87.5 z"
+    fill="yellow"
+    stroke="red"
+    stroke-width="7.06">
+    <!-- Define the motion path animation -->
+    <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+      <mpath href="#path1" />
+    </animateMotion>
+  </path>
+</svg>
+ResultSpecificationsSpecificationSVG Animations Level 2 # MPathElementBrowser compatibilitySee also
+<animateMotion>
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Mar 18, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<path>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <path> SVG element is the generic element to define a shape. All the basic shapes can be created with a path element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 10,30
+           A 20,20 0,0,1 50,30
+           A 20,20 0,0,1 90,30
+           Q 90,60 50,90
+           Q 10,60 10,30 z" />
+</svg>
+
+Attributes
+d
+
+This attribute defines the shape of the path.
+Value type: <string>; Default value: ''; Animatable: yes
+
+pathLength
+
+This attribute lets authors specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesGraphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PathElementBrowser compatibilitySee also
+SVG basic shapes: <circle>, <ellipse>, <line>, <polygon>, <polyline>, <rect>
+The MDN SVG "Getting Started" tutorial: Path\n\n<path>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <path> SVG element is the generic element to define a shape. All the basic shapes can be created with a path element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 10,30
+           A 20,20 0,0,1 50,30
+           A 20,20 0,0,1 90,30
+           Q 90,60 50,90
+           Q 10,60 10,30 z" />
+</svg>
+
+Attributes
+d
+
+This attribute defines the shape of the path.
+Value type: <string>; Default value: ''; Animatable: yes
+
+pathLength
+
+This attribute lets authors specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesGraphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PathElementBrowser compatibilitySee also
+SVG basic shapes: <circle>, <ellipse>, <line>, <polygon>, <polyline>, <rect>
+The MDN SVG "Getting Started" tutorial: Path
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<path>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <path> SVG element is the generic element to define a shape. All the basic shapes can be created with a path element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <path
+    d="M 10,30
+           A 20,20 0,0,1 50,30
+           A 20,20 0,0,1 90,30
+           Q 90,60 50,90
+           Q 10,60 10,30 z" />
+</svg>
+
+Attributes
+d
+
+This attribute defines the shape of the path.
+Value type: <string>; Default value: ''; Animatable: yes
+
+pathLength
+
+This attribute lets authors specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesGraphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PathElementBrowser compatibilitySee also
+SVG basic shapes: <circle>, <ellipse>, <line>, <polygon>, <polyline>, <rect>
+The MDN SVG "Getting Started" tutorial: Path
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<pattern>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <pattern> SVG element defines a graphics object which can be redrawn at repeated x- and y-coordinate intervals ("tiled") to cover an area.
+The <pattern> is referenced by the fill and/or stroke attributes on other graphics elements to fill or stroke those elements with the referenced pattern.Exampleshtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 230 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="star" viewBox="0,0,10,10" width="10%" height="10%">
+      <polygon points="0,0 2,5 0,10 5,8 10,10 8,5 10,0 5,2" />
+    </pattern>
+  </defs>
+
+  <circle cx="50" cy="50" r="50" fill="url(#star)" />
+  <circle
+    cx="180"
+    cy="50"
+    r="40"
+    fill="none"
+    stroke-width="20"
+    stroke="url(#star)" />
+</svg>
+
+Attributes
+height
+
+This attribute determines the height of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+href
+
+This attribute reference a template pattern that provides default values for the <pattern> attributes.
+Value type: <URL>; Default value: none; Animatable: yes
+
+patternContentUnits
+
+This attribute defines the coordinate system for the contents of the <pattern>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: userSpaceOnUse; Animatable: yes
+
+Note:
+This attribute has no effect if a viewBox attribute is specified on the <pattern> element.
+
+
+patternTransform
+
+This attribute contains the definition of an optional additional transformation from the pattern coordinate system onto the target coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+patternUnits
+
+This attribute defines the coordinate system for attributes x, y, width, and height.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+preserveAspectRatio
+
+This attribute defines how the SVG fragment must be deformed if it is embedded in a container with a different aspect ratio.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+viewBox
+
+This attribute defines the bound of the SVG viewport for the pattern fragment.
+Value type: <list-of-numbers>; Default value: none; Animatable: yes
+
+width
+
+This attribute determines the width of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+x
+
+This attribute determines the x coordinate shift of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+This attribute references a template pattern that provides default values for the <pattern> attributes.
+Value type: <URL>; Default value: none; Animatable: yes
+
+Note:
+For browsers implementing href, if both href and xlink:href are set, xlink:href will be ignored and only href will be used.
+
+
+y
+
+This attribute determines the y coordinate shift of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsGradient elementsShape elementsStructural elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PatternElementBrowser compatibility\n\n<pattern>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <pattern> SVG element defines a graphics object which can be redrawn at repeated x- and y-coordinate intervals ("tiled") to cover an area.
+The <pattern> is referenced by the fill and/or stroke attributes on other graphics elements to fill or stroke those elements with the referenced pattern.Exampleshtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 230 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="star" viewBox="0,0,10,10" width="10%" height="10%">
+      <polygon points="0,0 2,5 0,10 5,8 10,10 8,5 10,0 5,2" />
+    </pattern>
+  </defs>
+
+  <circle cx="50" cy="50" r="50" fill="url(#star)" />
+  <circle
+    cx="180"
+    cy="50"
+    r="40"
+    fill="none"
+    stroke-width="20"
+    stroke="url(#star)" />
+</svg>
+
+Attributes
+height
+
+This attribute determines the height of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+href
+
+This attribute reference a template pattern that provides default values for the <pattern> attributes.
+Value type: <URL>; Default value: none; Animatable: yes
+
+patternContentUnits
+
+This attribute defines the coordinate system for the contents of the <pattern>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: userSpaceOnUse; Animatable: yes
+
+Note:
+This attribute has no effect if a viewBox attribute is specified on the <pattern> element.
+
+
+patternTransform
+
+This attribute contains the definition of an optional additional transformation from the pattern coordinate system onto the target coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+patternUnits
+
+This attribute defines the coordinate system for attributes x, y, width, and height.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+preserveAspectRatio
+
+This attribute defines how the SVG fragment must be deformed if it is embedded in a container with a different aspect ratio.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+viewBox
+
+This attribute defines the bound of the SVG viewport for the pattern fragment.
+Value type: <list-of-numbers>; Default value: none; Animatable: yes
+
+width
+
+This attribute determines the width of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+x
+
+This attribute determines the x coordinate shift of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+This attribute references a template pattern that provides default values for the <pattern> attributes.
+Value type: <URL>; Default value: none; Animatable: yes
+
+Note:
+For browsers implementing href, if both href and xlink:href are set, xlink:href will be ignored and only href will be used.
+
+
+y
+
+This attribute determines the y coordinate shift of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsGradient elementsShape elementsStructural elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PatternElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<pattern>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <pattern> SVG element defines a graphics object which can be redrawn at repeated x- and y-coordinate intervals ("tiled") to cover an area.
+The <pattern> is referenced by the fill and/or stroke attributes on other graphics elements to fill or stroke those elements with the referenced pattern.Exampleshtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 230 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern id="star" viewBox="0,0,10,10" width="10%" height="10%">
+      <polygon points="0,0 2,5 0,10 5,8 10,10 8,5 10,0 5,2" />
+    </pattern>
+  </defs>
+
+  <circle cx="50" cy="50" r="50" fill="url(#star)" />
+  <circle
+    cx="180"
+    cy="50"
+    r="40"
+    fill="none"
+    stroke-width="20"
+    stroke="url(#star)" />
+</svg>
+
+Attributes
+height
+
+This attribute determines the height of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+href
+
+This attribute reference a template pattern that provides default values for the <pattern> attributes.
+Value type: <URL>; Default value: none; Animatable: yes
+
+patternContentUnits
+
+This attribute defines the coordinate system for the contents of the <pattern>.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: userSpaceOnUse; Animatable: yes
+
+Note:
+This attribute has no effect if a viewBox attribute is specified on the <pattern> element.
+
+
+patternTransform
+
+This attribute contains the definition of an optional additional transformation from the pattern coordinate system onto the target coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+patternUnits
+
+This attribute defines the coordinate system for attributes x, y, width, and height.
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+preserveAspectRatio
+
+This attribute defines how the SVG fragment must be deformed if it is embedded in a container with a different aspect ratio.
+Value type: (none | xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax) (meet | slice)?; Default value: xMidYMid meet; Animatable: yes
+
+viewBox
+
+This attribute defines the bound of the SVG viewport for the pattern fragment.
+Value type: <list-of-numbers>; Default value: none; Animatable: yes
+
+width
+
+This attribute determines the width of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+x
+
+This attribute determines the x coordinate shift of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+This attribute references a template pattern that provides default values for the <pattern> attributes.
+Value type: <URL>; Default value: none; Animatable: yes
+
+Note:
+For browsers implementing href, if both href and xlink:href are set, xlink:href will be ignored and only href will be used.
+
+
+y
+
+This attribute determines the y coordinate shift of the pattern tile.
+Value type: <length>; Default value: 0; Animatable: yes
+
+Usage contextCategoriesContainer elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsGradient elementsShape elementsStructural elements<a>, <clipPath>, <filter>, <foreignObject>, <image>, <marker>, <mask>, <script>, <style>, <switch>, <text>, <view>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PatternElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<polygon>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <polygon> SVG element defines a closed shape consisting of a set of connected straight line segments. The last point is connected to the first point.
+For open shapes, see the <polyline> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Example of a polygon with the default fill -->
+  <polygon points="0,100 50,25 50,75 100,0" />
+
+  <!-- Example of the same polygon shape with stroke and no fill -->
+  <polygon points="100,100 150,25 150,75 200,0" fill="none" stroke="black" />
+</svg>
+
+Attributes
+points
+
+This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polygon.
+Value type: <number>+; Default value: ""; Animatable: yes
+
+pathLength
+
+This attribute lets specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PolygonElementBrowser compatibilitySee also
+
+SVG presentation attributes including fill and stroke
+
+
+Other SVG basic shapes:
+
+<circle>
+<ellipse>
+<line>
+<polyline>
+<rect>\n\n<polygon>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <polygon> SVG element defines a closed shape consisting of a set of connected straight line segments. The last point is connected to the first point.
+For open shapes, see the <polyline> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Example of a polygon with the default fill -->
+  <polygon points="0,100 50,25 50,75 100,0" />
+
+  <!-- Example of the same polygon shape with stroke and no fill -->
+  <polygon points="100,100 150,25 150,75 200,0" fill="none" stroke="black" />
+</svg>
+
+Attributes
+points
+
+This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polygon.
+Value type: <number>+; Default value: ""; Animatable: yes
+
+pathLength
+
+This attribute lets specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PolygonElementBrowser compatibilitySee also
+
+SVG presentation attributes including fill and stroke
+
+
+Other SVG basic shapes:
+
+<circle>
+<ellipse>
+<line>
+<polyline>
+<rect>
+
+
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<polygon>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <polygon> SVG element defines a closed shape consisting of a set of connected straight line segments. The last point is connected to the first point.
+For open shapes, see the <polyline> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Example of a polygon with the default fill -->
+  <polygon points="0,100 50,25 50,75 100,0" />
+
+  <!-- Example of the same polygon shape with stroke and no fill -->
+  <polygon points="100,100 150,25 150,75 200,0" fill="none" stroke="black" />
+</svg>
+
+Attributes
+points
+
+This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polygon.
+Value type: <number>+; Default value: ""; Animatable: yes
+
+pathLength
+
+This attribute lets specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PolygonElementBrowser compatibilitySee also
+
+SVG presentation attributes including fill and stroke
+
+
+Other SVG basic shapes:
+
+<circle>
+<ellipse>
+<line>
+<polyline>
+<rect>
+
+
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<polyline>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <polyline> SVG element is an SVG basic shape that creates straight lines connecting several points. Typically a polyline is used to create open shapes as the last point doesn't have to be connected to the first point. For closed shapes see the <polygon> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Example of a polyline with the default fill -->
+  <polyline points="0,100 50,25 50,75 100,0" />
+
+  <!-- Example of the same polyline shape with stroke and no fill -->
+  <polyline points="100,100 150,25 150,75 200,0" fill="none" stroke="black" />
+</svg>
+
+Attributes
+points
+
+This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polyline
+Value type: <number>+; Default value: ""; Animatable: yes
+
+pathLength
+
+This attribute lets specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PolylineElementBrowser compatibilitySee also
+SVG presentation attributes, including fill and stroke
+Other SVG basic shapes: <circle>, <ellipse>, <line>, <polygon>, <rect>\n\n<polyline>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <polyline> SVG element is an SVG basic shape that creates straight lines connecting several points. Typically a polyline is used to create open shapes as the last point doesn't have to be connected to the first point. For closed shapes see the <polygon> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Example of a polyline with the default fill -->
+  <polyline points="0,100 50,25 50,75 100,0" />
+
+  <!-- Example of the same polyline shape with stroke and no fill -->
+  <polyline points="100,100 150,25 150,75 200,0" fill="none" stroke="black" />
+</svg>
+
+Attributes
+points
+
+This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polyline
+Value type: <number>+; Default value: ""; Animatable: yes
+
+pathLength
+
+This attribute lets specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PolylineElementBrowser compatibilitySee also
+SVG presentation attributes, including fill and stroke
+Other SVG basic shapes: <circle>, <ellipse>, <line>, <polygon>, <rect>
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<polyline>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <polyline> SVG element is an SVG basic shape that creates straight lines connecting several points. Typically a polyline is used to create open shapes as the last point doesn't have to be connected to the first point. For closed shapes see the <polygon> element.Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Example of a polyline with the default fill -->
+  <polyline points="0,100 50,25 50,75 100,0" />
+
+  <!-- Example of the same polyline shape with stroke and no fill -->
+  <polyline points="100,100 150,25 150,75 200,0" fill="none" stroke="black" />
+</svg>
+
+Attributes
+points
+
+This attribute defines the list of points (pairs of x,y absolute coordinates) required to draw the polyline
+Value type: <number>+; Default value: ""; Animatable: yes
+
+pathLength
+
+This attribute lets specify the total length for the path, in user units.
+Value type: <number>; Default value: none; Animatable: yes
+
+Usage contextCategoriesBasic shape element, Graphics element, Shape elementPermitted contentAny number of the following elements, in any order:Animation elementsDescriptive elementsSpecificationsSpecificationScalable Vector Graphics (SVG) 2 # PolylineElementBrowser compatibilitySee also
+SVG presentation attributes, including fill and stroke
+Other SVG basic shapes: <circle>, <ellipse>, <line>, <polygon>, <rect>
+Help improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n<radialGradient>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <radialGradient> SVG element lets authors define radial gradients that can be applied to fill or stroke of graphical elements.
+
+Note:
+Don't be confused with CSS radial-gradient() as CSS gradients can only apply to HTML elements where SVG gradient can only apply to SVG elements.
+Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg
+  viewBox="0 0 10 10"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <radialGradient id="myGradient">
+      <stop offset="10%" stop-color="gold" />
+      <stop offset="95%" stop-color="red" />
+    </radialGradient>
+  </defs>
+
+  <!-- using my radial gradient -->
+  <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+
+Attributes
+cx
+
+This attribute defines the x coordinate of the end circle of the radial gradient.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+cy
+
+This attribute defines the y coordinate of the end circle of the radial gradient.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+fr
+
+This attribute defines the radius of the start circle of the radial gradient. The gradient will be drawn such that the 0% <stop> is mapped to the perimeter of the start circle.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+fx
+
+This attribute defines the x coordinate of the start circle of the radial gradient.
+Value type: <length>; Default value: Same as cx; Animatable: yes
+
+fy
+
+This attribute defines the y coordinate of the start circle of the radial gradient.
+Value type: <length>; Default value: Same as cy; Animatable: yes
+
+gradientUnits
+
+This attribute defines the coordinate system for attributes cx, cy, r, fx, fy, fr
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+gradientTransform
+
+This attribute provides additional transformation to the gradient coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+href
+
+This attribute defines a reference to another <radialGradient> element that will be used as a template.
+Value type: <URL>; Default value: none; Animatable: yes
+
+r
+
+This attribute defines the radius of the end circle of the radial gradient. The gradient will be drawn such that the 100% <stop> is mapped to the perimeter of the end circle.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+spreadMethod
+
+This attribute indicates how the gradient behaves if it starts or ends inside the bounds of the shape containing the gradient.
+Value type: pad | reflect | repeat; Default value: pad; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+An <IRI> reference to another <radialGradient> element that will be used as a template.
+Value type: <IRI>; Default value: none; Animatable: yes
+
+Usage contextCategoriesGradient elementPermitted contentAny number of the following elements, in any order:Descriptive elements<animate>, <animateTransform>, <discard>, <script>, <set>, <stop>, <style>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # RadialGradientElementBrowser compatibility\n\n<radialGradient>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <radialGradient> SVG element lets authors define radial gradients that can be applied to fill or stroke of graphical elements.
+
+Note:
+Don't be confused with CSS radial-gradient() as CSS gradients can only apply to HTML elements where SVG gradient can only apply to SVG elements.
+Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg
+  viewBox="0 0 10 10"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <radialGradient id="myGradient">
+      <stop offset="10%" stop-color="gold" />
+      <stop offset="95%" stop-color="red" />
+    </radialGradient>
+  </defs>
+
+  <!-- using my radial gradient -->
+  <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+
+Attributes
+cx
+
+This attribute defines the x coordinate of the end circle of the radial gradient.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+cy
+
+This attribute defines the y coordinate of the end circle of the radial gradient.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+fr
+
+This attribute defines the radius of the start circle of the radial gradient. The gradient will be drawn such that the 0% <stop> is mapped to the perimeter of the start circle.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+fx
+
+This attribute defines the x coordinate of the start circle of the radial gradient.
+Value type: <length>; Default value: Same as cx; Animatable: yes
+
+fy
+
+This attribute defines the y coordinate of the start circle of the radial gradient.
+Value type: <length>; Default value: Same as cy; Animatable: yes
+
+gradientUnits
+
+This attribute defines the coordinate system for attributes cx, cy, r, fx, fy, fr
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+gradientTransform
+
+This attribute provides additional transformation to the gradient coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+href
+
+This attribute defines a reference to another <radialGradient> element that will be used as a template.
+Value type: <URL>; Default value: none; Animatable: yes
+
+r
+
+This attribute defines the radius of the end circle of the radial gradient. The gradient will be drawn such that the 100% <stop> is mapped to the perimeter of the end circle.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+spreadMethod
+
+This attribute indicates how the gradient behaves if it starts or ends inside the bounds of the shape containing the gradient.
+Value type: pad | reflect | repeat; Default value: pad; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+An <IRI> reference to another <radialGradient> element that will be used as a template.
+Value type: <IRI>; Default value: none; Animatable: yes
+
+Usage contextCategoriesGradient elementPermitted contentAny number of the following elements, in any order:Descriptive elements<animate>, <animateTransform>, <discard>, <script>, <set>, <stop>, <style>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # RadialGradientElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n<radialGradient>Baseline Widely available *This feature is well established and works across many devices and browser versions. It’s been available across browsers since January 2020.* Some parts of this feature may have varying levels of support.Learn moreSee full compatibilityReport feedbackThe <radialGradient> SVG element lets authors define radial gradients that can be applied to fill or stroke of graphical elements.
+
+Note:
+Don't be confused with CSS radial-gradient() as CSS gradients can only apply to HTML elements where SVG gradient can only apply to SVG elements.
+Examplehtml,
+body,
+svg {
+  height: 100%;
+}
+
+html<svg
+  viewBox="0 0 10 10"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <radialGradient id="myGradient">
+      <stop offset="10%" stop-color="gold" />
+      <stop offset="95%" stop-color="red" />
+    </radialGradient>
+  </defs>
+
+  <!-- using my radial gradient -->
+  <circle cx="5" cy="5" r="4" fill="url('#myGradient')" />
+</svg>
+
+Attributes
+cx
+
+This attribute defines the x coordinate of the end circle of the radial gradient.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+cy
+
+This attribute defines the y coordinate of the end circle of the radial gradient.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+fr
+
+This attribute defines the radius of the start circle of the radial gradient. The gradient will be drawn such that the 0% <stop> is mapped to the perimeter of the start circle.
+Value type: <length>; Default value: 0%; Animatable: yes
+
+fx
+
+This attribute defines the x coordinate of the start circle of the radial gradient.
+Value type: <length>; Default value: Same as cx; Animatable: yes
+
+fy
+
+This attribute defines the y coordinate of the start circle of the radial gradient.
+Value type: <length>; Default value: Same as cy; Animatable: yes
+
+gradientUnits
+
+This attribute defines the coordinate system for attributes cx, cy, r, fx, fy, fr
+Value type: userSpaceOnUse | objectBoundingBox; Default value: objectBoundingBox; Animatable: yes
+
+gradientTransform
+
+This attribute provides additional transformation to the gradient coordinate system.
+Value type: <transform-list>; Default value: identity transform; Animatable: yes
+
+href
+
+This attribute defines a reference to another <radialGradient> element that will be used as a template.
+Value type: <URL>; Default value: none; Animatable: yes
+
+r
+
+This attribute defines the radius of the end circle of the radial gradient. The gradient will be drawn such that the 100% <stop> is mapped to the perimeter of the end circle.
+Value type: <length>; Default value: 50%; Animatable: yes
+
+spreadMethod
+
+This attribute indicates how the gradient behaves if it starts or ends inside the bounds of the shape containing the gradient.
+Value type: pad | reflect | repeat; Default value: pad; Animatable: yes
+
+xlink:href 
+Deprecated
+
+
+An <IRI> reference to another <radialGradient> element that will be used as a template.
+Value type: <IRI>; Default value: none; Animatable: yes
+
+Usage contextCategoriesGradient elementPermitted contentAny number of the following elements, in any order:Descriptive elements<animate>, <animateTransform>, <discard>, <script>, <set>, <stop>, <style>SpecificationsSpecificationScalable Vector Graphics (SVG) 2 # RadialGradientElementBrowser compatibilityHelp improve MDNWas this page helpful to you?YesNoLearn how to contribute.This page was last modified on Apr 15, 2025 by MDN contributors.View this page on GitHub • Report a problem with this content\n\n\n\n
