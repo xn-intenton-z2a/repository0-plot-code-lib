@@ -89,3 +89,20 @@ describe("CLI Help Flag", () => {
     process.exit = originalExit;
   });
 });
+
+describe("SVG Generation with expression and range", () => {
+  test("should generate SVG file with expression and range text when provided", async () => {
+    const testSVG = "tests/tmp_test_output_expr.svg";
+    if (fs.existsSync(testSVG)) {
+      fs.unlinkSync(testSVG);
+    }
+    const expressionStr = "y=sin(x)";
+    const rangeStr = "x=-1:1,y=-1:1";
+    await main(["--expression", expressionStr, "--range", rangeStr, "--file", testSVG]);
+    expect(fs.existsSync(testSVG)).toBe(true);
+    const fileContent = fs.readFileSync(testSVG, { encoding: 'utf8' });
+    expect(fileContent).toContain(`Expression: ${expressionStr}`);
+    expect(fileContent).toContain(`Range: ${rangeStr}`);
+    fs.unlinkSync(testSVG);
+  });
+});
