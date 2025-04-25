@@ -24,465 +24,415 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="svg2_spec" href="#svg2_spec"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG2_SPEC</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">The crawled content provides a highly detailed table of contents outlining the SVG 2 specification. It covers precise technical sections including rendering models, DOM interfaces, geometric property definitions, path data grammar, text layout, and styling rules. Specific configuration details such as the use of the <code class="md-github">viewBox</code> attribute, the transformation matrix computations in the ‘transform’ property, and the exact SVG attributes for fill, stroke, and markers are clearly listed. Each section provides exact instructions on attribute syntax (e.g. real number precision, clamping of values), detailed command definitions for path construction (moveto, lineto, Bézier curves, elliptical arcs), and comprehensive DOM interface descriptions for all SVG elements.</p>
+<p class="md-github">This crawl extracted the SVG 2 Candidate Recommendation including detailed sections on document status, rendering model, DOM interfaces for SVG elements, detailed descriptions of basic data types, document structure, CSS styling integration, geometry properties, coordinate systems, path data grammar, basic shapes, text layout, embedded content, and comprehensive painting instructions. Specific technical topics include detailed API and DOM interface names, attribute definitions, transformation mechanisms, and error handling strategies as defined in the SVG 2 specification.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents-and-technical-details" href="#table-of-contents-and-technical-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents and Technical Details</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="1-introduction" href="#1-introduction"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Introduction</h3>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Status and Document History
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Overview:</strong> SVG 2 builds on SVG 1.1 Second Edition. It defines an XML-based language for two-dimensional graphics that can be scaled, styled with CSS, and animated via declarative or script-based methods.</li>
-<li class="md-github"><strong class="md-github">Key Attributes:</strong> Candidate Recommendation dated 04 October 2018.</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="2-conformance-criteria" href="#2-conformance-criteria"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Conformance Criteria</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Processing Modes:</strong>
-<ul class="md-github">
-<li class="md-github">Dynamic interactive, animated, secure animated, static, secure static.</li>
+<li class="md-github">Candidate Recommendation dated 04 October 2018</li>
+<li class="md-github">URLs for candidate, latest and previous versions</li>
 </ul>
 </li>
-<li class="md-github"><strong class="md-github">Document Conformance:</strong>
+<li class="md-github">Rendering Model
 <ul class="md-github">
-<li class="md-github">Conforming SVG DOM subtrees, conforming markup fragments, and error processing rules.</li>
+<li class="md-github">Rendering tree definition, painters model, stacking context establishment, effects of 'display', 'visibility', and 'opacity'</li>
 </ul>
 </li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="3-rendering-model" href="#3-rendering-model"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Rendering Model</h3>
+<li class="md-github">Basic Data Types and DOM Interfaces
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Rendering Tree:</strong>
-<ul class="md-github">
-<li class="md-github">Definitions comparing rendered vs non-rendered elements.</li>
+<li class="md-github">Definitions of SVGNumber, SVGLength, SVGAngle, and corresponding list interfaces</li>
+<li class="md-github">DOM interfaces: SVGElement, SVGGraphicsElement, SVGGeometryElement, SVGAnimated* interfaces</li>
 </ul>
 </li>
-<li class="md-github"><strong class="md-github">Painter’s Model:</strong>
+<li class="md-github">Document Structure
 <ul class="md-github">
-<li class="md-github">Establishing stacking contexts and ordering elements based on SVG structure.</li>
+<li class="md-github">Structure: <svg>, <g>, <defs>, <symbol>, <use>, <switch>, <desc>, <title>, <metadata></li>
+<li class="md-github">Common attributes (id, lang, xml:lang, xml:space, tabindex, data-*) and WAI-ARIA attributes</li>
 </ul>
 </li>
-<li class="md-github"><strong class="md-github">Opacity Handling:</strong>
+<li class="md-github">Styling and CSS Integration
 <ul class="md-github">
-<li class="md-github">Group and element opacity determined by the 'opacity' property.</li>
+<li class="md-github">Use of inline style (<style>) and external style sheets (<link>)</li>
+<li class="md-github">Presentation attributes and user agent style sheet details</li>
+<li class="md-github">SVGStyleElement interface</li>
 </ul>
 </li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="4-basic-data-types-and-interfaces" href="#4-basic-data-types-and-interfaces"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Basic Data Types and Interfaces</h3>
+<li class="md-github">Geometry Properties
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Attribute Syntax:</strong>
-<ul class="md-github">
-<li class="md-github">Real number precision and clamping for restricted ranges.</li>
+<li class="md-github">Attributes: cx, cy, r, rx, ry, x, y, width, height</li>
 </ul>
 </li>
-<li class="md-github"><strong class="md-github">DOM Interfaces:</strong>
+<li class="md-github">Coordinate Systems and Transformations
 <ul class="md-github">
-<li class="md-github">SVGElement, SVGGraphicsElement, SVGGeometryElement, and interfaces for basic data types (SVGNumber, SVGLength, SVGAngle, etc.).</li>
+<li class="md-github">'transform' property, viewBox, preserveAspectRatio, initial viewport concepts</li>
+<li class="md-github">DOM interfaces: SVGTransform, SVGTransformList, SVGAnimatedTransformList, SVGPreserveAspectRatio, SVGAnimatedPreserveAspectRatio</li>
 </ul>
 </li>
-<li class="md-github"><strong class="md-github">Animated Attributes:</strong>
+<li class="md-github">Paths and Path Data Grammar
 <ul class="md-github">
-<li class="md-github">Interfaces such as SVGAnimatedBoolean, SVGAnimatedNumber, SVGAnimatedLength, SVGAnimatedRect, etc.</li>
+<li class="md-github">Definition of <path> element with 'd' attribute commands (moveto, lineto, curves, elliptical arcs, closepath)</li>
+<li class="md-github">Grammar rules and error handling for path data</li>
+<li class="md-github">SVGPathElement interface</li>
 </ul>
 </li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="5-document-structure" href="#5-document-structure"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Document Structure</h3>
+<li class="md-github">Basic Shapes
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Core Elements:</strong> <code class="md-github">&lt;svg&gt;</code>, <code class="md-github">&lt;g&gt;</code>, <code class="md-github">&lt;defs&gt;</code>, <code class="md-github">&lt;symbol&gt;</code>, <code class="md-github">&lt;use&gt;</code>.</li>
-<li class="md-github"><strong class="md-github">Conditional Processing:</strong>
-<ul class="md-github">
-<li class="md-github">Use of <code class="md-github">&lt;switch&gt;</code>, attributes <code class="md-github">requiredExtensions</code>, and <code class="md-github">systemLanguage</code> for conditional rendering.</li>
+<li class="md-github">Elements: <rect>, <circle>, <ellipse>, <line>, <polyline>, <polygon></li>
+<li class="md-github">Corresponding DOM interfaces: SVGRectElement, SVGCircleElement, SVGEllipseElement, SVGLineElement, SVGPolylineElement, SVGPolygonElement</li>
 </ul>
 </li>
-<li class="md-github"><strong class="md-github">Metadata:</strong>
+<li class="md-github">Text</li>
+</ol>
 <ul class="md-github">
-<li class="md-github"><code class="md-github">&lt;desc&gt;</code>, <code class="md-github">&lt;title&gt;</code>, and <code class="md-github">&lt;metadata&gt;</code> to enhance accessibility and SEO.</li>
+<li class="md-github">Elements: <text>, <tspan>, <textPath></li>
+<li class="md-github">Attributes: x, y, dx, dy, rotate; properties for inline-size, shape-inside, text-anchor, kerning, glyph orientation</li>
+<li class="md-github">DOM interfaces: SVGTextContentElement, SVGTextPositioningElement, SVGTextElement, SVGTSpanElement, SVGTextPathElement</li>
 </ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="6-styling" href="#6-styling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Styling</h3>
+<ol start="11" class="md-github">
+<li class="md-github">Embedded Content</li>
+</ol>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">CSS Integration:</strong>
+<li class="md-github">Embedding via <image> and <foreignObject></li>
+<li class="md-github">DOM interfaces: SVGImageElement, SVGForeignObjectElement</li>
+</ul>
+<ol start="12" class="md-github">
+<li class="md-github">Painting: Filling, Stroking, Markers</li>
+</ol>
 <ul class="md-github">
-<li class="md-github">Inline <code class="md-github">&lt;style&gt;</code> elements and external style sheets using <code class="md-github">&lt;link&gt;</code> elements.</li>
+<li class="md-github">Fill properties: fill, fill-rule, fill-opacity</li>
+<li class="md-github">Stroke properties: stroke, stroke-opacity, stroke-width, stroke-linecap, stroke-linejoin, stroke-dasharray, stroke-dashoffset</li>
+<li class="md-github">Marker definitions using <marker> element and properties marker-start, marker-mid, marker-end</li>
+<li class="md-github">Additional properties: paint-order, color-interpolation, color-rendering, shape-rendering, text-rendering, image-rendering, and 'will-change'</li>
 </ul>
-</li>
-<li class="md-github"><strong class="md-github">Presentation Attributes:</strong>
-<ul class="md-github">
-<li class="md-github">Class and style attributes for element-specific styling, along with user agent style sheet defaults.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="7-geometry-properties" href="#7-geometry-properties"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Geometry Properties</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Shape Attributes:</strong>
-<ul class="md-github">
-<li class="md-github">Definitions for <code class="md-github">cx</code>, <code class="md-github">cy</code> (center coordinates); <code class="md-github">r</code> (radius); <code class="md-github">rx</code>, <code class="md-github">ry</code> for ellipses; <code class="md-github">x</code>, <code class="md-github">y</code>, <code class="md-github">width</code>, <code class="md-github">height</code> for basic shapes.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="8-coordinate-systems-transformations-and-units" href="#8-coordinate-systems-transformations-and-units"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8. Coordinate Systems, Transformations and Units</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Transformations:</strong>
-<ul class="md-github">
-<li class="md-github">The <code class="md-github">transform</code> property accepts transformation functions (translate, scale, rotate, skewX, skewY, matrix).</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Viewport and ViewBox:</strong>
-<ul class="md-github">
-<li class="md-github">The <code class="md-github">viewBox</code> attribute defines the inner coordinate system and is complemented by <code class="md-github">preserveAspectRatio</code> for aspect control.</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Units:</strong>
-<ul class="md-github">
-<li class="md-github">Defined measurement units and intrinsic sizing properties of SVG content.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="9-paths" href="#9-paths"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>9. Paths</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Path Data (<code class="md-github">d</code> Attribute):</strong>
-<ul class="md-github">
-<li class="md-github">Contains commands: moveto (M, m), lineto (L, l), closepath (Z, z), cubic Bézier curves (C, c), quadratic Bézier curves (Q, q), and elliptical arcs (A, a).</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Grammar:</strong>
-<ul class="md-github">
-<li class="md-github">Detailed command syntax with error handling for malformed path data.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="10-basic-shapes" href="#10-basic-shapes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>10. Basic Shapes</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Elements:</strong>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">&lt;rect&gt;</code>, <code class="md-github">&lt;circle&gt;</code>, <code class="md-github">&lt;ellipse&gt;</code>, <code class="md-github">&lt;line&gt;</code>, <code class="md-github">&lt;polyline&gt;</code>, <code class="md-github">&lt;polygon&gt;</code> with specific attribute semantics and DOM interfaces (SVGRectElement, SVGCircleElement, etc.).</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="11-text" href="#11-text"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>11. Text</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Text Elements:</strong>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">&lt;text&gt;</code>, <code class="md-github">&lt;tspan&gt;</code>, <code class="md-github">&lt;textPath&gt;</code> with attributes for layout (x, y, dx, dy, rotate).</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Layout Processing:</strong>
-<ul class="md-github">
-<li class="md-github">Handling of inline-size, shape-inside, and white-space rules.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="12-embedded-content" href="#12-embedded-content"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12. Embedded Content</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Embedding External Content:</strong>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">&lt;image&gt;</code> element for raster images and <code class="md-github">&lt;foreignObject&gt;</code> for incorporating non-SVG XML/HTML.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="13-painting-filling-stroking-and-marker-symbols" href="#13-painting-filling-stroking-and-marker-symbols"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>13. Painting: Filling, Stroking and Marker Symbols</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Fill Properties:</strong>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">fill</code>, <code class="md-github">fill-rule</code> (nonzero/evenodd), <code class="md-github">fill-opacity</code>.</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Stroke Properties:</strong>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">stroke</code>, <code class="md-github">stroke-opacity</code>, <code class="md-github">stroke-width</code>, <code class="md-github">stroke-linecap</code> (butt, round, square), <code class="md-github">stroke-linejoin</code> (miter, round, bevel), <code class="md-github">stroke-dasharray</code>, <code class="md-github">stroke-dashoffset</code>.</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Markers:</strong>
-<ul class="md-github">
-<li class="md-github"><code class="md-github">&lt;marker&gt;</code> element with properties <code class="md-github">marker-start</code>, <code class="md-github">marker-mid</code>, and <code class="md-github">marker-end</code> to define arrowheads and vertices.</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">This extract constitutes a directly usable technical reference for developers implementing or extending SVG functionalities in applications.</p>
+<p class="md-github">Each section includes explicit technical definitions, attribute names, DOM interfaces and interfaces method specifications as defined in the SVG 2 specification.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<h2 class="md-github"><a class="md-github__anchor" name="supplementary-technical-specifications" href="#supplementary-technical-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Technical Specifications</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="transformation-specifications" href="#transformation-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Transformation Specifications</h3>
+<p class="md-github">Technical Specifications and Implementation Details:</p>
 <ul class="md-github">
-<li class="md-github"><strong class="md-github">Transform Property Syntax:</strong>
-<ul class="md-github">
-<li class="md-github">translate(tx, [ty])</li>
-<li class="md-github">scale(sx, [sy])</li>
-<li class="md-github">rotate(angle, [cx, cy])</li>
-<li class="md-github">skewX(angle)</li>
-<li class="md-github">skewY(angle)</li>
-<li class="md-github">matrix(a, b, c, d, e, f)</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Example:</p>
-<p class="md-github">transform=&quot;translate(50,100) rotate(45) scale(1.5)&quot;</p>
-<h3 class="md-github"><a class="md-github__anchor" name="viewbox-and-aspect-ratio" href="#viewbox-and-aspect-ratio"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ViewBox and Aspect Ratio</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">viewBox Attribute:</strong> Defines a rectangle in user space. Format: &quot;min-x min-y width height&quot;. E.g., viewBox=&quot;0 0 300 150&quot;.</li>
-<li class="md-github"><strong class="md-github">preserveAspectRatio:</strong> Format: &quot;(none | xMidYMid meet | xMinYMin slice, etc.)&quot;. Default is &quot;xMidYMid meet&quot;.</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="dom-interfaces-and-animated-attributes" href="#dom-interfaces-and-animated-attributes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>DOM Interfaces and Animated Attributes</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">SVGElement Interface:</strong> Base interface for all SVG elements with properties such as id, className, and style.</li>
-<li class="md-github"><strong class="md-github">Animated Interfaces:</strong>
-<ul class="md-github">
-<li class="md-github">SVGAnimatedNumber { baseVal: number; animVal: number; }</li>
-<li class="md-github">SVGAnimatedLength { baseVal: SVGLength; animVal: SVGLength; }</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="error-handling-in-path-data" href="#error-handling-in-path-data"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error Handling in Path Data</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Invalid Commands:</strong> The parser must raise errors when unexpected characters are encountered or when numbers fall out of valid ranges.</li>
-<li class="md-github"><strong class="md-github">Fallback Procedures:</strong> If an at-risk feature is not implemented, it should be removed according to the specification.</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="configuration-options-in-svg-rendering" href="#configuration-options-in-svg-rendering"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options in SVG Rendering</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Stroke Configurations:</strong>
-<ul class="md-github">
-<li class="md-github">Default stroke-width: 1 (if not specified)</li>
-<li class="md-github">Default stroke-linecap: butt</li>
-<li class="md-github">Default stroke-linejoin: miter</li>
-<li class="md-github">Stroke-dasharray and dashoffset must be parsed as lists of numbers with exact spacing behavior.</li>
-</ul>
-</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="best-practices" href="#best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Implementation:</strong> Ensure proper namespace declaration (xmlns=&quot;http://www.w3.org/2000/svg&quot;) in the root <code class="md-github">&lt;svg&gt;</code> element.</li>
-<li class="md-github"><strong class="md-github">Accessibility:</strong> Always include <code class="md-github">&lt;title&gt;</code> and <code class="md-github">&lt;desc&gt;</code> elements for assistive technologies.</li>
-<li class="md-github"><strong class="md-github">Performance:</strong> Use the <code class="md-github">&lt;use&gt;</code> element for reusing definitions defined in <code class="md-github">&lt;defs&gt;</code> to minimize DOM size.</li>
-</ul>
-<h3 class="md-github"><a class="md-github__anchor" name="troubleshooting-procedures" href="#troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Procedures</h3>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Validation:</strong> Use an XML/SVG validator to ensure all elements conform to the SVG 2 DTD.</li>
-<li class="md-github"><strong class="md-github">Debug Commands:</strong> In browser developer tools, inspect the computed style and the rendering tree (e.g., using Chrome DevTools Elements panel) to pinpoint misconfigurations.</li>
-<li class="md-github"><strong class="md-github">Example Command:</strong>
-xmllint --noout --schema http://www.w3.org/Graphics/SVG/svg11.xsd yourfile.svg
-Expected Output: &quot;yourfile.svg&quot; is valid.</li>
+<li class="md-github">Candidate Recommendation: 04 October 2018. URLs provided for candidate, latest, and previous versions.</li>
+<li class="md-github">DOM Interface Specifications include full names such as SVGElement, SVGGraphicsElement, SVGGeometryElement, and specific SVGAnimatedXXX interfaces for animatable properties.</li>
+<li class="md-github">Transformation details: 'transform' property accepts matrices, translations, rotations, scaling. The 'viewBox' attribute defines the initial coordinate system. 'preserveAspectRatio' specifies alignment and meet/slice options.</li>
+<li class="md-github">Path Data: 'd' attribute grammar includes commands (M, L, C, Q, A, Z) with precise semantics; error handling includes checking for out-of-range elliptical arc parameters and zero-length segments.</li>
+<li class="md-github">Configuration Options: Styling can be applied using inline styles, external CSS, or presentation attributes, with defaults defined by the user agent style sheet. Attributes like tabindex, data-* are supported with exact parameter rules.</li>
+<li class="md-github">Best Practices: Use <defs> for reusable content, employ <use> with shadow trees for instance reuse, maintain accessibility with proper use of <title> and <desc>, and adhere to SVG DOM interface specifications for dynamic modifications via script.</li>
+<li class="md-github">Troubleshooting Procedures: Validate SVG files against the SVG 2 specification, check for correct use of namespaces, verify that transformation matrices are computed correctly, and use browser developer tools to inspect computed styles and DOM interfaces. Typical commands include DOM inspection tools or validating against schema (e.g., xmllint) which should return no errors when compliant.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<h2 class="md-github"><a class="md-github__anchor" name="complete-api-and-implementation-specifications" href="#complete-api-and-implementation-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API and Implementation Specifications</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="svg-dom-api-specifications" href="#svg-dom-api-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG DOM API Specifications</h3>
+<p class="md-github">API Specifications and Code Examples:</p>
 <ol class="md-github">
 <li class="md-github">
-<p class="md-github">SVGElement Interface</p>
+<p class="md-github">DOM Interfaces:</p>
 <ul class="md-github">
-<li class="md-github">Properties:
-• id: DOMString
-• className: SVGAnimatedString
-• style: CSSStyleDeclaration</li>
-<li class="md-github">Methods:
-• <code class="md-github">SVGElement.getBBox(): SVGRect</code> – Returns the bounding box.
-• <code class="md-github">SVGElement.getCTM(): SVGMatrix</code> – Returns the current transformation matrix.</li>
+<li class="md-github">Interface SVGElement: Base interface for all SVG elements.</li>
+<li class="md-github">Interface SVGGraphicsElement: Inherits from SVGElement and adds properties for geometric rendering.</li>
+<li class="md-github">Interface SVGPathElement: Methods include:
+getTotalLength() -&gt; number
+getPointAtLength(distance: number) -&gt; DOMPoint
+getPathSegAtLength(distance: number) -&gt; number</li>
+<li class="md-github">Interface SVGAnimatedTransformList: Provides access to transformation lists via baseVal and animVal properties.</li>
 </ul>
 </li>
 <li class="md-github">
-<p class="md-github">Animated Attributes (Example: SVGAnimatedNumber)</p>
+<p class="md-github">Method Signatures Examples:</p>
 <ul class="md-github">
-<li class="md-github">Structure:
-{
-baseVal: number,  // The static value
-animVal: number   // The animated value
-}</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">SVGTransform API</p>
-<ul class="md-github">
-<li class="md-github">Method Signature:
-• <code class="md-github">createSVGTransform(): SVGTransform</code>
-<ul class="md-github">
-<li class="md-github">Returns a new SVGTransform with properties:
-<ul class="md-github">
-<li class="md-github">type: number (enum value)</li>
-<li class="md-github">matrix: SVGMatrix (with properties a, b, c, d, e, f)</li>
-<li class="md-github">angle: number (for rotate, skew operations)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h3 class="md-github"><a class="md-github__anchor" name="sdk-method-signatures-and-code-examples" href="#sdk-method-signatures-and-code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SDK Method Signatures and Code Examples</h3>
-<p class="md-github">// Creating a new SVG element and setting a transform
-var svgNS = &quot;http://www.w3.org/2000/svg&quot;;
-var svgElem = document.createElementNS(svgNS, 'svg');
-svgElem.setAttribute('width', '300');
-svgElem.setAttribute('height', '150');</p>
-<p class="md-github">var rect = document.createElementNS(svgNS, 'rect');
-rect.setAttribute('x', '50');
-rect.setAttribute('y', '20');
-rect.setAttribute('width', '100');
-rect.setAttribute('height', '50');
-rect.setAttribute('fill', 'blue');</p>
-<p class="md-github">// Applying transformation
-rect.setAttribute('transform', 'translate(10,20) rotate(30)');</p>
-<p class="md-github">svgElem.appendChild(rect);
-document.body.appendChild(svgElem);</p>
-<p class="md-github">// Using SVGAnimatedLength
-// Assuming we have an SVG circle element with a radius attribute
-var circle = document.createElementNS(svgNS, 'circle');
-circle.setAttribute('cx', '75');
-circle.setAttribute('cy', '75');
+<li class="md-github">function createSVGElement(tagName: string): SVGElement</li>
+<li class="md-github">function setAttribute(element: SVGElement, name: string, value: string): void</li>
+<li class="md-github">Example usage:
+// Create an SVG circle
+const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+circle.setAttribute('cx', '50');
+circle.setAttribute('cy', '50');
 circle.setAttribute('r', '40');
-circle.setAttribute('fill', 'red');</p>
-<p class="md-github">// Accessing animated value (if any animation is applied)
-var radiusAnimated = circle.r; // This is an SVGAnimatedLength object
-console.log('Base radius:', radiusAnimated.baseVal.value, 'Animated radius:', radiusAnimated.animVal.value);</p>
-<h3 class="md-github"><a class="md-github__anchor" name="configuration-options-and-their-effects" href="#configuration-options-and-their-effects"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options and Their Effects</h3>
-<ul class="md-github">
-<li class="md-github">xmlns (Namespace): Must be set to &quot;http://www.w3.org/2000/svg&quot;; default if omitted can cause rendering issues.</li>
-<li class="md-github">viewBox: Defines the internal coordinate system. E.g., viewBox=&quot;0 0 300 150&quot; sets origin at (0,0) with width 300 and height 150.</li>
-<li class="md-github">preserveAspectRatio: Controls scaling behavior. Values include &quot;xMidYMid meet&quot; (default), &quot;none&quot;, etc.</li>
+circle.setAttribute('fill', 'red');
+document.querySelector('svg').appendChild(circle);</li>
 </ul>
-<h3 class="md-github"><a class="md-github__anchor" name="best-practices-with-implementation-code" href="#best-practices-with-implementation-code"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices with Implementation Code</h3>
-<p class="md-github">// Best practice: Always include accessibility tags
-var title = document.createElementNS(svgNS, 'title');
-title.textContent = 'Sample SVG Graphic';</p>
-<p class="md-github">var desc = document.createElementNS(svgNS, 'desc');
-desc.textContent = 'A blue rectangle and red circle.';</p>
-<p class="md-github">svgElem.insertBefore(title, svgElem.firstChild);
-svgElem.insertBefore(desc, svgElem.firstChild);</p>
-<p class="md-github">// Validate SVG structure using xmllint as troubleshooting step:
-// Command:
-//   xmllint --noout --schema http://www.w3.org/Graphics/SVG/svg11.xsd file.svg
-// Expected outcome: 'file.svg' is valid if no errors are returned.</p>
-<h3 class="md-github"><a class="md-github__anchor" name="detailed-troubleshooting-procedures" href="#detailed-troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Troubleshooting Procedures</h3>
-<ol class="md-github">
-<li class="md-github">Verify all attributes and namespaces are correctly defined.</li>
-<li class="md-github">Check the browser console for parsing errors related to SVG content.</li>
-<li class="md-github">Use developer tools to inspect the computed layout and applied transformations.</li>
-<li class="md-github">In case of animation issues, confirm that animated attributes (baseVal and animVal) are being updated as per the JavaScript API.</li>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">'viewBox': string; e.g., '0 0 100 100'; defines the coordinate system.</li>
+<li class="md-github">'preserveAspectRatio': string; options include 'xMidYMid meet', 'xMinYMin slice'; defines scaling behavior.</li>
+<li class="md-github">'transform': string; accepts transformation functions like translate(10,20), rotate(45), scale(2).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Use <defs> to store reusable elements to reduce duplication.</li>
+<li class="md-github">Maintain clear separation of styling by using external CSS when possible.</li>
+<li class="md-github">Validate SVG syntax using XML validators and browser developer tools.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Command: xmllint --noout --schema svg2.xsd file.svg
+Expected output: file.svg: valid</li>
+<li class="md-github">Use browser inspector to verify computed styles and transformation matrices.</li>
+<li class="md-github">Check for namespace errors when embedding SVG inside HTML by ensuring the correct XML namespace is declared: xmlns=&quot;http://www.w3.org/2000/svg&quot;.</li>
+</ul>
+</li>
 </ol>
-<p class="md-github">This complete reference provides developers with an exhaustive set of API specifications, method signatures, code examples, and configuration options required for direct implementation of SVG 2 features.</p>
+<p class="md-github">These API specifications, method signatures, code examples, configuration options, best practices and troubleshooting steps represent the technical core of the SVG 2 specification directly as defined by W3C.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">SVG2 Candidate Rec 04Oct2018; URLs:Cand:https://www.w3.org/TR/2018/CR-SVG2-20181004/, Latest:https://www.w3.org/TR/SVG2/; Metadata: DataSize=25244860, Links=196440; Sections: Status (Doc history, review annotations), RenderingModel (render tree, painters, stacking), DataTypes (SVGNumber, SVGLength, SVGAnimated*), DocumentStructure (svg, g, defs, symbol, use, switch, metadata), Styling (CSS, style element, SVGStyleElement), Geometry (cx,cy,r,rx,ry,x,y,width,height), CoordinateSystems (transform, viewBox, preserveAspectRatio, SVGTransformList), Paths (d attribute, M,L,C,Q,A,Z, SVGPathElement), BasicShapes (rect, circle, ellipse, line, polyline, polygon), Text (text, tspan, textPath, text-anchor, kerning, white-space, SVGTextElement), Embedded (image, foreignObject), Painting (fill, stroke, marker, paint-order, color-rendering, shape-rendering, SVGMarkerElement); API: Methods: getTotalLength() :number, getPointAtLength(distance:number):DOMPoint; Config: viewBox, preserveAspectRatio, transform; Best Practices: use defs, external CSS, namespace declaration; Troubleshoot: xmllint --schema svg2.xsd file.svg</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Status and Document History
+<ul class="md-github">
+<li class="md-github">Candidate Recommendation dated 04 October 2018</li>
+<li class="md-github">URLs for candidate, latest and previous versions</li>
+</ul>
+</li>
+<li class="md-github">Rendering Model
+<ul class="md-github">
+<li class="md-github">Rendering tree definition, painters model, stacking context establishment, effects of 'display', 'visibility', and 'opacity'</li>
+</ul>
+</li>
+<li class="md-github">Basic Data Types and DOM Interfaces
+<ul class="md-github">
+<li class="md-github">Definitions of SVGNumber, SVGLength, SVGAngle, and corresponding list interfaces</li>
+<li class="md-github">DOM interfaces: SVGElement, SVGGraphicsElement, SVGGeometryElement, SVGAnimated* interfaces</li>
+</ul>
+</li>
+<li class="md-github">Document Structure
+<ul class="md-github">
+<li class="md-github">Structure: <svg>, <g>, <defs>, <symbol>, <use>, <switch>, <desc>, <title>, <metadata></li>
+<li class="md-github">Common attributes (id, lang, xml:lang, xml:space, tabindex, data-*) and WAI-ARIA attributes</li>
+</ul>
+</li>
+<li class="md-github">Styling and CSS Integration
+<ul class="md-github">
+<li class="md-github">Use of inline style (<style>) and external style sheets (<link>)</li>
+<li class="md-github">Presentation attributes and user agent style sheet details</li>
+<li class="md-github">SVGStyleElement interface</li>
+</ul>
+</li>
+<li class="md-github">Geometry Properties
+<ul class="md-github">
+<li class="md-github">Attributes: cx, cy, r, rx, ry, x, y, width, height</li>
+</ul>
+</li>
+<li class="md-github">Coordinate Systems and Transformations
+<ul class="md-github">
+<li class="md-github">'transform' property, viewBox, preserveAspectRatio, initial viewport concepts</li>
+<li class="md-github">DOM interfaces: SVGTransform, SVGTransformList, SVGAnimatedTransformList, SVGPreserveAspectRatio, SVGAnimatedPreserveAspectRatio</li>
+</ul>
+</li>
+<li class="md-github">Paths and Path Data Grammar
+<ul class="md-github">
+<li class="md-github">Definition of <path> element with 'd' attribute commands (moveto, lineto, curves, elliptical arcs, closepath)</li>
+<li class="md-github">Grammar rules and error handling for path data</li>
+<li class="md-github">SVGPathElement interface</li>
+</ul>
+</li>
+<li class="md-github">Basic Shapes
+<ul class="md-github">
+<li class="md-github">Elements: <rect>, <circle>, <ellipse>, <line>, <polyline>, <polygon></li>
+<li class="md-github">Corresponding DOM interfaces: SVGRectElement, SVGCircleElement, SVGEllipseElement, SVGLineElement, SVGPolylineElement, SVGPolygonElement</li>
+</ul>
+</li>
+<li class="md-github">Text</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Elements: <text>, <tspan>, <textPath></li>
+<li class="md-github">Attributes: x, y, dx, dy, rotate; properties for inline-size, shape-inside, text-anchor, kerning, glyph orientation</li>
+<li class="md-github">DOM interfaces: SVGTextContentElement, SVGTextPositioningElement, SVGTextElement, SVGTSpanElement, SVGTextPathElement</li>
+</ul>
+<ol start="11" class="md-github">
+<li class="md-github">Embedded Content</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Embedding via <image> and <foreignObject></li>
+<li class="md-github">DOM interfaces: SVGImageElement, SVGForeignObjectElement</li>
+</ul>
+<ol start="12" class="md-github">
+<li class="md-github">Painting: Filling, Stroking, Markers</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Fill properties: fill, fill-rule, fill-opacity</li>
+<li class="md-github">Stroke properties: stroke, stroke-opacity, stroke-width, stroke-linecap, stroke-linejoin, stroke-dasharray, stroke-dashoffset</li>
+<li class="md-github">Marker definitions using <marker> element and properties marker-start, marker-mid, marker-end</li>
+<li class="md-github">Additional properties: paint-order, color-interpolation, color-rendering, shape-rendering, text-rendering, image-rendering, and 'will-change'</li>
+</ul>
+<p class="md-github">Each section includes explicit technical definitions, attribute names, DOM interfaces and interfaces method specifications as defined in the SVG 2 specification.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">W3C SVG 2 Specification
+<p class="md-github">W3C SVG 2 Documentation
 https://www.w3.org/TR/SVG2/</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-svg2_spec" href="#digest-of-svg2_spec"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SVG2_SPEC</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="scalable-vector-graphics-svg-2-specification" href="#scalable-vector-graphics-svg-2-specification"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scalable Vector Graphics (SVG) 2 Specification</h1>
-<p class="md-github"><strong class="md-github">Retrieved Date:</strong> 2023-10-30</p>
-<p class="md-github">This document presents the full technical digest of the W3C SVG 2 Candidate Recommendation published on 04 October 2018. The specification defines the complete syntax, features, and behaviors for describing two-dimensional vector and mixed graphics using XML. It covers detailed topics such as conformance criteria, rendering models, basic data types and interfaces, document structure, styling, geometry properties, coordinate systems and transformations, path data, basic shapes, text layout, embedded content, and painting (filling, stroking, marker symbols).</p>
-<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="svg2-specification" href="#svg2-specification"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG2 SPECIFICATION</h1>
+<p class="md-github">Retrieved on: 2023-10-13</p>
+<h1 class="md-github"><a class="md-github__anchor" name="document-metadata" href="#document-metadata"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Document Metadata</h1>
+<p class="md-github">This document is the W3C Candidate Recommendation for SVG 2, dated 04 October 2018. It supersedes earlier versions such as the 04 August 2018 Candidate Recommendation and builds upon SVG 1.1 Second Edition. The specification is available at:</p>
+<ul class="md-github">
+<li class="md-github">Candidate Recommendation: https://www.w3.org/TR/2018/CR-SVG2-20181004/</li>
+<li class="md-github">Latest version: https://www.w3.org/TR/SVG2/</li>
+<li class="md-github">Previous version: https://www.w3.org/TR/2018/CR-SVG2-20180807/</li>
+</ul>
+<p class="md-github">Attribution:</p>
+<ul class="md-github">
+<li class="md-github">Data Size: 25244860 bytes</li>
+<li class="md-github">Links Found: 196440</li>
+<li class="md-github">Crawled from: https://www.w3.org/TR/SVG2/</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h1>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github">Introduction</p>
-<ul class="md-github">
-<li class="md-github">Overview of SVG 2</li>
-<li class="md-github">Compatibility requirements</li>
-<li class="md-github">Normative Terminology</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Conformance Criteria</p>
-<ul class="md-github">
-<li class="md-github">Processing modes (dynamic, animated, static, secure modes)</li>
-<li class="md-github">Document and software conformance classes</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Rendering Model</p>
-<ul class="md-github">
-<li class="md-github">Rendering tree definitions</li>
-<li class="md-github">Painter’s model and stacking contexts</li>
-<li class="md-github">Group rendering and opacity effects</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Basic Data Types and Interfaces</p>
-<ul class="md-github">
-<li class="md-github">Attribute syntax (real number precision, clamping values)</li>
-<li class="md-github">SVG DOM overviews and interface definitions (SVGElement, SVGGraphicsElement, SVGGeometryElement)</li>
-<li class="md-github">Interfaces for basic types and animated attributes (SVGNumber, SVGLength, SVGAngle, SVGAnimatedString, etc.)</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Document Structure</p>
-<ul class="md-github">
-<li class="md-github">Definition of the <code class="md-github">&lt;svg&gt;</code> element with namespaces</li>
-<li class="md-github">Grouping (<code class="md-github">&lt;g&gt;</code>), definitions (<code class="md-github">&lt;defs&gt;</code>), symbol and use elements</li>
-<li class="md-github">Conditional processing and metadata inclusion</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Styling</p>
-<ul class="md-github">
-<li class="md-github">Use of CSS for styling SVG content</li>
-<li class="md-github">Inline style sheets (<code class="md-github">&lt;style&gt;</code>), external style sheets via <code class="md-github">&lt;link&gt;</code></li>
-<li class="md-github">Presentation attributes and required CSS features</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Geometry Properties</p>
-<ul class="md-github">
-<li class="md-github">Properties like <code class="md-github">cx</code>, <code class="md-github">cy</code>, <code class="md-github">r</code>, <code class="md-github">rx</code>, <code class="md-github">ry</code>, <code class="md-github">x</code>, <code class="md-github">y</code>, <code class="md-github">width</code>, and <code class="md-github">height</code></li>
-<li class="md-github">Effects of these properties on shape rendering</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Coordinate Systems, Transformations and Units</p>
-<ul class="md-github">
-<li class="md-github">Viewport and coordinate system definitions</li>
-<li class="md-github">The <code class="md-github">transform</code> attribute and transformation matrices</li>
-<li class="md-github">The <code class="md-github">viewBox</code> and <code class="md-github">preserveAspectRatio</code> attributes</li>
-<li class="md-github">Unit specifications and intrinsic sizing</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Paths</p>
-<ul class="md-github">
-<li class="md-github">The <code class="md-github">&lt;path&gt;</code> element and its <code class="md-github">d</code> attribute</li>
-<li class="md-github">Command definitions: moveto, lineto, closepath, cubic &amp; quadratic Bézier curves, elliptical arcs</li>
-<li class="md-github">Grammar and error handling in path data</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Basic Shapes</p>
-<ul class="md-github">
-<li class="md-github">Elements for simple shapes: <code class="md-github">&lt;rect&gt;</code>, <code class="md-github">&lt;circle&gt;</code>, <code class="md-github">&lt;ellipse&gt;</code>, <code class="md-github">&lt;line&gt;</code>, <code class="md-github">&lt;polyline&gt;</code>, <code class="md-github">&lt;polygon&gt;</code></li>
-<li class="md-github">DOM interfaces for each shape and points list handling</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Text</p>
-<ul class="md-github">
-<li class="md-github">Definitions, font and glyph metrics</li>
-<li class="md-github">Text elements (<code class="md-github">&lt;text&gt;</code>, <code class="md-github">&lt;tspan&gt;</code>, <code class="md-github">&lt;textPath&gt;</code>) and attributes like x, y, dx, dy, and rotate</li>
-<li class="md-github">Layout algorithms, white-space handling, text decoration and rendering order</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Embedded Content</p>
-<ul class="md-github">
-<li class="md-github">Handling embedded images using the <code class="md-github">&lt;image&gt;</code> element</li>
-<li class="md-github">Foreign content via <code class="md-github">&lt;foreignObject&gt;</code> and incorporation of HTML elements</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Painting: Filling, Stroking and Marker Symbols</p>
-<ul class="md-github">
-<li class="md-github">Specification of fill properties (<code class="md-github">fill</code>, <code class="md-github">fill-rule</code>, <code class="md-github">fill-opacity</code>)</li>
-<li class="md-github">Stroke properties (<code class="md-github">stroke</code>, <code class="md-github">stroke-opacity</code>, <code class="md-github">stroke-width</code>, <code class="md-github">stroke-linecap</code>, <code class="md-github">stroke-linejoin</code>, <code class="md-github">stroke-dasharray</code>, <code class="md-github">stroke-dashoffset</code>)</li>
-<li class="md-github">Marker elements and properties (<code class="md-github">marker-start</code>, <code class="md-github">marker-mid</code>, <code class="md-github">marker-end</code>)</li>
-<li class="md-github">Additional rendering hints and color interpolation</li>
-</ul>
-</li>
+<li class="md-github">Status and Document History</li>
+<li class="md-github">Rendering Model</li>
+<li class="md-github">Basic Data Types and DOM Interfaces</li>
+<li class="md-github">Document Structure</li>
+<li class="md-github">Styling and CSS Integration</li>
+<li class="md-github">Geometry Properties</li>
+<li class="md-github">Coordinate Systems, Transformations and Units</li>
+<li class="md-github">Paths and Path Data Grammar</li>
+<li class="md-github">Basic Shapes and Associated DOM Interfaces</li>
+<li class="md-github">Text Rendering and Layout</li>
+<li class="md-github">Embedded Content</li>
+<li class="md-github">Painting: Filling, Stroking and Marker Symbols</li>
 </ol>
-<hr class="md-github">
-<p class="md-github"><strong class="md-github">Attribution:</strong> Technical content extracted directly from the W3C SVG 2 specification as published by the W3C SVG Working Group.</p>
-<p class="md-github"><strong class="md-github">Data Size:</strong> 19918006 bytes</p>
+<h1 class="md-github"><a class="md-github__anchor" name="1-status-and-document-history" href="#1-status-and-document-history"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Status and Document History</h1>
+<ul class="md-github">
+<li class="md-github">Candidate Recommendation dated 04 October 2018</li>
+<li class="md-github">Expected to advance to Proposed Recommendation no earlier than 04 December 2018</li>
+<li class="md-github">Contains annotations indicating review status: red (unchanged or new work), yellow (reviewed and rewritten), white (ready for wider review)</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="2-rendering-model" href="#2-rendering-model"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Rendering Model</h1>
+<ul class="md-github">
+<li class="md-github">Defines the rendering tree, the painters model, and the rendering order.</li>
+<li class="md-github">Topics include: establishing stacking contexts, rendered versus non-rendered elements, controlling visibility using 'display' and 'visibility', re-used graphics, and group opacity via the 'opacity' property.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="3-basic-data-types-and-dom-interfaces" href="#3-basic-data-types-and-dom-interfaces"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Basic Data Types and DOM Interfaces</h1>
+<ul class="md-github">
+<li class="md-github">Defines basic numeric types, angles, lengths and clamping rules.</li>
+<li class="md-github">DOM interfaces include:
+<ul class="md-github">
+<li class="md-github">SVGElement</li>
+<li class="md-github">SVGGraphicsElement</li>
+<li class="md-github">SVGGeometryElement</li>
+<li class="md-github">SVGNumber, SVGLength, SVGAngle and their list interfaces, e.g. SVGNumberList, SVGLengthList, SVGStringList</li>
+</ul>
+</li>
+<li class="md-github">Interfaces for animatable attributes:
+<ul class="md-github">
+<li class="md-github">SVGAnimatedBoolean, SVGAnimatedEnumeration, SVGAnimatedInteger, SVGAnimatedNumber, SVGAnimatedLength, SVGAnimatedAngle, SVGAnimatedString, SVGAnimatedRect, SVGAnimatedNumberList, SVGAnimatedLengthList</li>
+</ul>
+</li>
+<li class="md-github">Other interfaces include SVGUnitTypes, SVGTests, SVGFitToViewBox, SVGZoomAndPan, and SVGURIReference</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="4-document-structure" href="#4-document-structure"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Document Structure</h1>
+<ul class="md-github">
+<li class="md-github">Root element: <svg></li>
+<li class="md-github">Grouping element: <g></li>
+<li class="md-github">Reusable content defined using <defs></li>
+<li class="md-github">Symbol definitions with <symbol></li>
+<li class="md-github">Content reuse via <use> and the use-element shadow tree</li>
+<li class="md-github">Conditional processing with <switch> and attributes such as requiredExtensions and systemLanguage</li>
+<li class="md-github">Metadata embedding through <desc>, <title>, and <metadata></li>
+<li class="md-github">Common attributes: id, lang, xml:lang, xml:space, tabindex, data-* attributes, and WAI-ARIA attributes</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="5-styling-and-css-integration" href="#5-styling-and-css-integration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Styling and CSS Integration</h1>
+<ul class="md-github">
+<li class="md-github">Styling with inline <style> elements and external style sheets via <link> (HTML effect)</li>
+<li class="md-github">Element-specific styling via class and style attributes</li>
+<li class="md-github">Presentation attributes and default user agent styles</li>
+<li class="md-github">Required CSS features and DOM interface: SVGStyleElement</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="6-geometry-properties" href="#6-geometry-properties"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>6. Geometry Properties</h1>
+<ul class="md-github">
+<li class="md-github">Attributes for positioning and sizing shapes: cx, cy (center coordinates), r (radius), rx, ry, x, y, width, height</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="7-coordinate-systems-transformations-and-units" href="#7-coordinate-systems-transformations-and-units"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>7. Coordinate Systems, Transformations and Units</h1>
+<ul class="md-github">
+<li class="md-github">Definition of the initial viewport and coordinate system</li>
+<li class="md-github">Transformation using the 'transform' property and the 'viewBox' and 'preserveAspectRatio' attributes</li>
+<li class="md-github">Introduction to units and bounding boxes including object bounding box units</li>
+<li class="md-github">DOM interfaces for transformations: SVGTransform, SVGTransformList, SVGAnimatedTransformList, SVGPreserveAspectRatio, SVGAnimatedPreserveAspectRatio</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="8-paths-and-path-data-grammar" href="#8-paths-and-path-data-grammar"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8. Paths and Path Data Grammar</h1>
+<ul class="md-github">
+<li class="md-github">Definition and usage of the <path> element</li>
+<li class="md-github">The 'd' attribute defines path commands including:
+<ul class="md-github">
+<li class="md-github">moveto commands</li>
+<li class="md-github">lineto commands</li>
+<li class="md-github">cubic and quadratic Bézier curves</li>
+<li class="md-github">elliptical arc commands</li>
+<li class="md-github">closepath commands with segment-completing operations</li>
+</ul>
+</li>
+<li class="md-github">Detailed grammar for path data and error handling, including out-of-range arc parameters and zero-length segments</li>
+<li class="md-github">DOM interface: SVGPathElement</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="9-basic-shapes-and-associated-dom-interfaces" href="#9-basic-shapes-and-associated-dom-interfaces"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>9. Basic Shapes and Associated DOM Interfaces</h1>
+<ul class="md-github">
+<li class="md-github">Supported elements include:
+<ul class="md-github">
+<li class="md-github">
+<rect>
+</li>
+<li class="md-github">
+<circle>
+</li>
+<li class="md-github">
+<ellipse>
+</li>
+<li class="md-github">
+<line>
+</li>
+<li class="md-github">
+<polyline>
+</li>
+<li class="md-github">
+<polygon>
+</li>
+</ul>
+</li>
+<li class="md-github">Corresponding DOM interfaces include: SVGRectElement, SVGCircleElement, SVGEllipseElement, SVGLineElement, SVGAnimatedPoints, SVGPointList, SVGPolylineElement, SVGPolygonElement</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="10-text-rendering-and-layout" href="#10-text-rendering-and-layout"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>10. Text Rendering and Layout</h1>
+<ul class="md-github">
+<li class="md-github">Text is handled by <text> and <tspan> elements</li>
+<li class="md-github">Attributes for text positioning: x, y, dx, dy, rotate</li>
+<li class="md-github">Text layout properties such as inline-size, shape-inside, shape-subtract, shape-image-threshold, shape-margin, and shape-padding</li>
+<li class="md-github">Additional text formatting options including text anchoring ('text-anchor'), kerning, glyph orientation (horizontal and vertical), and white space handling</li>
+<li class="md-github">Advanced text methods: text on a path using <textPath></li>
+<li class="md-github">DOM interfaces: SVGTextContentElement, SVGTextPositioningElement, SVGTextElement, SVGTSpanElement, SVGTextPathElement</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="11-embedded-content" href="#11-embedded-content"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>11. Embedded Content</h1>
+<ul class="md-github">
+<li class="md-github">Embedding external content via <image> and <foreignObject> elements</li>
+<li class="md-github">Inclusion of HTML elements within SVG subtrees</li>
+<li class="md-github">DOM interfaces: SVGImageElement, SVGForeignObjectElement</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="12-painting-filling-stroking-and-marker-symbols" href="#12-painting-filling-stroking-and-marker-symbols"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>12. Painting: Filling, Stroking and Marker Symbols</h1>
+<ul class="md-github">
+<li class="md-github">Specification of paint using properties:
+<ul class="md-github">
+<li class="md-github">Fill properties: fill, fill-rule, fill-opacity</li>
+<li class="md-github">Stroke properties: stroke, stroke-opacity, stroke-width, stroke-linecap, stroke-linejoin (with miter limit adjustments), stroke-dasharray, stroke-dashoffset</li>
+</ul>
+</li>
+<li class="md-github">Definition of markers via the <marker> element with attributes for marker-start, marker-mid, and marker-end</li>
+<li class="md-github">Control over paint operation order via the 'paint-order' property</li>
+<li class="md-github">Color space and rendering hints with 'color-interpolation', 'color-rendering', 'shape-rendering', 'text-rendering', and 'image-rendering'</li>
+<li class="md-github">DOM interface: SVGMarkerElement</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
-<li class="md-github">Source: W3C SVG 2 Specification</li>
+<li class="md-github">Source: W3C SVG 2 Documentation</li>
 <li class="md-github">URL: https://www.w3.org/TR/SVG2/</li>
-<li class="md-github">License: W3C License</li>
-<li class="md-github">Crawl Date: 2025-04-21T07:46:57.567Z</li>
-<li class="md-github">Data Size: 19918006 bytes</li>
-<li class="md-github">Links Found: 155348</li>
+<li class="md-github">License: License: W3C Document License</li>
+<li class="md-github">Crawl Date: 2025-04-25T00:39:08.062Z</li>
+<li class="md-github">Data Size: 25244860 bytes</li>
+<li class="md-github">Links Found: 196440</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-04-21</p>
+<p class="md-github">2025-04-25</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-21T23:24:17.333Z</p>
+    <p>Generated on 2025-04-25T01:54:55.575Z</p>
   </footer>
 </body>
 </html>
