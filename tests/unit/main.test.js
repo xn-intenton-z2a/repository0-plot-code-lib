@@ -61,3 +61,31 @@ describe("PNG Generation via CLI", () => {
     fs.unlinkSync(testSVG);
   });
 });
+
+describe("CLI Help Flag", () => {
+  test("should display help message when --help flag is provided", async () => {
+    const logSpy = [];
+    const originalLog = console.log;
+    console.log = (msg) => logSpy.push(msg);
+
+    let exitCode = null;
+    const originalExit = process.exit;
+    process.exit = (code) => { exitCode = code; throw new Error('process.exit called'); };
+
+    try {
+      await main(["--help"]);
+    } catch (err) {
+      // Expected error due to process.exit being called
+    }
+
+    const output = logSpy.join(' ');
+    expect(output).toMatch("--file");
+    expect(output).toMatch("--expression");
+    expect(output).toMatch("--range");
+    expect(output).toMatch("--help");
+    expect(exitCode).toBe(0);
+
+    console.log = originalLog;
+    process.exit = originalExit;
+  });
+});

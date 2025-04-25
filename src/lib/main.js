@@ -6,6 +6,24 @@ import fs from "fs";
 import sharp from "sharp";
 
 export async function main(args) {
+  // Check for --help flag and display usage message if found
+  if (args.includes("--help")) {
+    const usage = `Usage: node src/lib/main.js [options]
+
+Options:
+  --file <output>        Specify output file for the plot. If the filename ends with ".png", a PNG file is generated; otherwise, an SVG file is created.
+  --expression <expr>    Specify the mathematical expression to plot. (Not currently implemented)
+  --range <range>        Specify the range for the plot in the format "x=start:end,y=start:end". (Not currently implemented)
+  --help                 Display this help message and exit.
+
+Examples:
+  node src/lib/main.js --file output.svg
+  node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=-1:1" --file plot.png
+`;
+    console.log(usage);
+    process.exit(0);
+  }
+
   let outputFile = null;
   // Parse arguments to find the --file flag and its value
   for (let i = 0; i < args.length; i++) {
