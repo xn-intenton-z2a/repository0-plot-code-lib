@@ -47,3 +47,8 @@ Prettier is an opinionated code formatter that maintains consistent coding style
 ## https://www.chartjs.org/docs/latest/
 Chart.js is a widely-used charting library that creates responsive and interactive visualizations with minimal configuration. Although our repository generates static SVG plots, this documentation serves as a comparative resource, showcasing alternative approaches to charting in JavaScript. It is a well-maintained resource that offers a variety of chart types and customization options.
 ## MIT License
+
+# Sharp Documentation
+## https://sharp.pixelplumbing.com/
+Sharp is a high-performance Node.js image processing library used in our repository to convert generated SVG plots into PNG format. The documentation provides an in-depth look into its robust API, performance optimizations, and extensive usage examples, ensuring efficient image processing. Maintained by PixelPlumbing, this resource is updated regularly with bug fixes and feature improvements.
+## Apache License 2.0
