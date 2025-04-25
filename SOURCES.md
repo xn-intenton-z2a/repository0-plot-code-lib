@@ -82,3 +82,13 @@ Vega-Lite provides a high-level grammar for interactive graphics, simplifying th
 ## https://github.com/chalk/chalk
 Chalk is a popular library used to style and color terminal output in Node.js applications. Its documentation outlines various methods for applying color, styles, and formatting to text in the command-line interface. Incorporating such styling can enhance the usability and readability of our CLI's error messages and outputs. Chalk is well-maintained and widely adopted in the Node.js ecosystem.
 ## MIT License
+
+# Expr-Eval Documentation
+## https://github.com/silentmatt/expr-eval
+Expr-Eval is a lightweight JavaScript library that serves as an expression parser and evaluator. It provides robust support for arithmetic operations, functions, constants, and variables, making it an excellent resource for safe and detailed mathematical expression evaluation. The documentation includes comprehensive examples and error handling strategies, offering actionable insights for developers considering enhancements to formula evaluation capabilities within our library. Its clear documentation and active community usage make it a strong candidate for integrating more advanced expression parsing in future iterations.
+## MIT License
+
+# SVGO Documentation
+## https://github.com/svg/svgo
+SVGO is a powerful tool designed for optimizing SVG files by removing unnecessary metadata and reducing file sizes without compromising quality. This documentation offers deep technical insights into configuration options, automated optimization processes, and best practices for achieving efficient SVG content. For our repository, which generates static SVG plots, SVGO provides actionable guidelines to further refine and optimize SVG outputs, ensuring both performance and quality improvements.
+## MIT License
