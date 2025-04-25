@@ -11,14 +11,17 @@ export async function main(args) {
     const usage = `Usage: node src/lib/main.js [options]
 
 Options:
-  --file <output>        Specify output file for the plot. If the filename ends with ".png", a PNG file is generated; otherwise, an SVG file is created.
-  --expression <expr>    Specify the mathematical expression to plot. Must be a non-empty string.
-  --range <range>        Specify the range for the plot in the format "x=start:end,y=start:end".
-  --help                 Display this help message and exit.
+  --file <output>             Specify output file for the plot. If the filename ends with ".png", a PNG file is generated; otherwise, an SVG file is created.
+  --expression <expr>         Specify the mathematical expression to plot. Must be a non-empty string.
+  --range <range>             Specify the range for the plot in the format "x=start:end,y=start:end".
+  --color <color>             Specify the background color for the plot's rectangle. Defaults to "lightblue".
+  --dimensions <width:height> Specify the dimensions of the plot. Both width and height must be positive numbers.
+  --help                      Display this help message and exit.
 
 Examples:
   node src/lib/main.js --file output.svg
   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file plot.png
+  node src/lib/main.js --file output.svg --color "coral" --dimensions "400:300"
 `;
     console.log(usage);
     process.exit(0);
@@ -27,6 +30,9 @@ Examples:
   let outputFile = null;
   let expressionVal = "";
   let rangeVal = "";
+  let colorVal = "lightblue";
+  let width = 300;
+  let height = 200;
 
   // Parse arguments to find flags and their values
   for (let i = 0; i < args.length; i++) {
@@ -39,6 +45,24 @@ Examples:
     } else if (args[i] === "--range" && i + 1 < args.length) {
       rangeVal = args[i + 1];
       i++;
+    } else if (args[i] === "--color" && i + 1 < args.length) {
+      colorVal = args[i + 1];
+      i++;
+    } else if (args[i] === "--dimensions" && i + 1 < args.length) {
+      const dimensions = args[i + 1];
+      i++;
+      const dimRegex = /^(\d+):(\d+)$/;
+      const match = dimensions.match(dimRegex);
+      if (!match) {
+        console.error('Error: --dimensions requires a value in the format "width:height" with positive numbers.');
+        process.exit(1);
+      }
+      width = parseInt(match[1], 10);
+      height = parseInt(match[2], 10);
+      if (width <= 0 || height <= 0) {
+        console.error('Error: --dimensions values must be positive numbers.');
+        process.exit(1);
+      }
     }
   }
 
@@ -72,9 +96,9 @@ Examples:
     ? `<text x="10" y="40" font-size="12" fill="black">Range: ${rangeVal}</text>`
     : "";
 
-  const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
-  <rect width="100%" height="100%" fill="lightblue" />
-  <circle cx="150" cy="100" r="80" fill="green" />
+  const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
+  <rect width="100%" height="100%" fill="${colorVal}" />
+  <circle cx="${width/2}" cy="${height/2}" r="${Math.min(width, height) / 4}" fill="green" />
   ${expressionText}
   ${rangeText}
 </svg>`;
