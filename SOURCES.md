@@ -144,3 +144,17 @@ START_OF_FORMAT
 Oclif is a framework for building command-line interfaces using Node.js, maintained by Salesforce. Its documentation provides insights into best practices, architecture, and examples for building scalable CLI applications. Updated regularly, it serves as a strong competitor and complementary resource to other CLI libraries.
 ## License: MIT
 END_OF_FORMAT
+
+START_OF_FORMAT
+# Node.js v20 Release Notes
+## https://nodejs.org/en/blog/release/v20.0.0/
+This source provides detailed release notes and an in-depth overview of Node.js version 20, including its new features, improvements, and any breaking changes. Published by the Node.js Foundation, it is an essential resource for developers upgrading to or building on Node 20. Last known update: April 2023.
+## License: N/A
+END_OF_FORMAT
+
+START_OF_FORMAT
+# Vitest Coverage Guide
+## https://vitest.dev/guide/coverage.html
+This guide explains how to configure and utilize code coverage features within Vitest, offering best practices, configuration tips, and troubleshooting advice. It is regularly updated alongside Vitest releases and serves as a valuable resource for ensuring robust test coverage in modern JavaScript projects. Last known update: 2023.
+## License: MIT
+END_OF_FORMAT
