@@ -1,11 +1,11 @@
 # CLI Usage Guide
 
-The `repository0-plot-code-lib` CLI tool enables you to generate plots in SVG or PNG format. It now supports additional parameters for specifying a mathematical expression and a plot range.
+The `repository0-plot-code-lib` CLI tool enables you to generate plots in SVG or PNG format. It now supports additional parameters for specifying a mathematical expression and a plot range. One of the key flags, `--help`, displays a detailed usage message and then terminates the program.
 
 ## Options
 
 - **--file <output>**
-  - Specifies the output file where the plot will be saved. 
+  - Specifies the output file where the plot will be saved.
   - If the filename ends with `.png`, a PNG file is generated; otherwise, an SVG file is created.
 
 - **--expression <expr>**
@@ -17,7 +17,7 @@ The `repository0-plot-code-lib` CLI tool enables you to generate plots in SVG or
   - The value must exactly follow the required format; otherwise, an error is displayed and the process exits.
 
 - **--help**
-  - Displays a comprehensive usage message outlining all supported options and examples, then exits gracefully.
+  - When provided, outputs a comprehensive usage message detailing all supported options (`--file`, `--expression`, `--range`, and `--help`) and exits immediately with code 0. This flag is useful for users to quickly understand the CLI capabilities without triggering any further processing.
 
 ## Examples
 
@@ -25,7 +25,7 @@ The `repository0-plot-code-lib` CLI tool enables you to generate plots in SVG or
 
   node src/lib/main.js --help
 
-This command outputs a detailed usage guide including all available flags and their descriptions.
+This command outputs a detailed usage guide including all available flags and their descriptions, and then terminates the program.
 
 ### Generate an SVG File
 
@@ -49,5 +49,4 @@ This command embeds the specified mathematical expression and plot range into th
 
 - When using the `--expression` and `--range` flags, the resulting SVG will include text elements displaying the provided values.
 - If these flags are omitted, the tool defaults to generating a static SVG/PNG plot without additional textual annotations.
-
-Ensure that you provide valid inputs to avoid errors. Running the CLI tool with the `--help` flag will prevent further processing beyond the usage display.
+- The `--help` flag supersedes other flags, displaying only the usage information and exiting immediately.
