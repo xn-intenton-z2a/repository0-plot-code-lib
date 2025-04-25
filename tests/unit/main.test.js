@@ -152,3 +152,52 @@ describe("Input Validation Errors", () => {
     process.exit = originalExit;
   });
 });
+
+describe("Custom Plot Styling", () => {
+  test("should apply custom color when --color flag is provided", async () => {
+    const testSVG = "tests/tmp_test_color.svg";
+    if (fs.existsSync(testSVG)) {
+      fs.unlinkSync(testSVG);
+    }
+    await main(["--color", "coral", "--file", testSVG]);
+    expect(fs.existsSync(testSVG)).toBe(true);
+    const fileContent = fs.readFileSync(testSVG, { encoding: "utf8" });
+    expect(fileContent).toContain('<rect width="100%" height="100%" fill="coral"');
+    fs.unlinkSync(testSVG);
+  });
+
+  test("should apply custom dimensions when --dimensions flag is provided", async () => {
+    const testSVG = "tests/tmp_test_dimensions.svg";
+    if (fs.existsSync(testSVG)) {
+      fs.unlinkSync(testSVG);
+    }
+    await main(["--dimensions", "400:300", "--file", testSVG]);
+    expect(fs.existsSync(testSVG)).toBe(true);
+    const fileContent = fs.readFileSync(testSVG, { encoding: "utf8" });
+    expect(fileContent).toContain('width="400"');
+    expect(fileContent).toContain('height="300"');
+    fs.unlinkSync(testSVG);
+  });
+
+  test("should error with invalid --dimensions format", async () => {
+    const errorSpy = [];
+    const originalError = console.error;
+    console.error = (msg) => errorSpy.push(msg);
+
+    let exitCalled = false;
+    const originalExit = process.exit;
+    process.exit = (code) => { exitCalled = true; throw new Error('process.exit ' + code); };
+
+    try {
+      await main(["--dimensions", "400300", "--file", "tests/tmp_invalid_dimensions.svg"]);
+    } catch (err) {
+      // Expected error
+    }
+
+    expect(exitCalled).toBe(true);
+    expect(errorSpy.join(' ').toLowerCase()).toContain('--dimensions requires a value in the format');
+
+    console.error = originalError;
+    process.exit = originalExit;
+  });
+});
