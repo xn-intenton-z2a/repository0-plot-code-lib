@@ -1,41 +1,32 @@
-# CLI_OPTIONS Feature Consolidation
+# CLI OPTIONS Enhancement
 
-This feature merges the enhancements previously described under STATS, VERBOSE, and CONFIG into a unified CLI options handler. The new implementation supports three additional CLI flags:
+This update extends the consolidated CLI options handler to include support for a new flag --preview. In addition to the existing flags --stats, --verbose, and --config, the --preview flag enables the tool to output an ASCII representation of the plotted data directly to the console. This improvement provides a quick, terminal-friendly visualization of the generated plot without writing to an image file.
 
-1. --stats: When enabled, the tool computes and displays basic statistics for computed y-values including minimum, maximum, and average values.
+## Source Code Updates
 
-2. --verbose: When active, the CLI tool prints detailed internal logs and progress messages to help with debugging and provide clear insights into execution steps.
-
-3. --config: Allows users to supply a JSON configuration string that defines default parameters. These defaults are merged with command line inputs, with explicit CLI arguments taking precedence.
-
-## CLI Parameter Parsing & Validation
-
-- Update the schema in src/lib/main.js using Zod to validate the additional boolean flags for --stats and --verbose, plus a string parameter for --config.
-- Ensure that the --config option is validated and its JSON is parsed safely. On parsing error, a user-friendly error message is displayed and the process exits.
-- Continue to support existing CLI arguments such as --expression, --range, and --file.
-
-## Implementation Details
-
-- Modify src/lib/main.js to detect and process the new flags. First read and remove the --config parameter along with its value from the arguments, parse it, and merge with other parameters.
-- If --stats is enabled, compute the minimum, maximum, and average values for the generated y-values before any subsequent processing.
-- If --verbose is enabled, output detailed logs, including the raw arguments, internal state changes, and processing steps.
-- Ensure that explicit CLI flag values override any defaults coming from the configuration.
+- Update the CLI parser in src/lib/main.js to recognize and validate the --preview flag as a boolean parameter using Zod. The flag should work in tandem with other flags and not interfere with file outputs.
+- When the --preview flag is provided, compute an ASCII representation of the time series data based on the generated y-values. The ASCII preview should use a simple character mapping (for example, asterisks or dashes) to depict the plot, allowing users to quickly assess the data visually in the terminal.
+- Ensure that if both --file and --preview are provided, the PNG and/or SVG conversions execute as specified while printing the preview as supplementary output.
 
 ## Testing Enhancements
 
-- Update tests in tests/unit/main.test.js to simulate CLI calls with combinations of the new flags:
-  - A test case for verifying that --stats outputs a correctly formatted statistics summary.
-  - A test case for ensuring that --verbose mode outputs expected log messages.
-  - A test case to check that --config JSON strings are parsed correctly and merged with CLI arguments.
-  - A test case validating that invalid JSON input for --config triggers an appropriate error message.
+- Update tests in tests/unit/main.test.js to simulate CLI calls that include the new --preview flag. The tests should check that:
+   - The CLI correctly detects the --preview flag and follows the new branch of generating ASCII output.
+   - The preview output is sent to the console along with any other log messages.
+   - There is no interference with the behavior of other flags such as --stats, --verbose, or --config.
 
 ## Documentation Updates
 
-- Revise README.md to reflect the consolidated CLI options, detailing usage examples for --stats, --verbose, and --config. Include examples that show configuration defaults being overridden by command line flags.
+- Revise README.md to include usage examples demonstrating the use of the --preview flag. For instance, provide an example where the command invokes the CLI with --expression, --range, --file, and --preview, and describe the expected ASCII output along with the file generation.
+- Update any relevant sections that list supported CLI options to include --preview and describe its behavior.
 
 ## Dependency and Build Consistency
 
-- No new external dependencies beyond those already in the project are required.
-- Confirm compatibility with Node 20, ES modules, and ensure changes remain compliant with the guidelines in CONTRIBUTING.md and MISSION.md.
+- No additional external dependencies are required for this enhancement. Make sure all modifications remain compliant with Node 20 and ES modules.
+- Cross verify that merging the configuration defaults from --config and new preview functionality do not conflict with existing CLI logic.
 
-This consolidation aims to streamline CLI configuration and improve user experience by unifying related flag functionalities into a single, maintainable feature.
+## Benefits
+
+- Offers users a quick, in-terminal visual overview of the plot via ASCII art, beneficial for rapid testing and development without generating full image files.
+- Enhances the unified CLI experience by consolidating all flag-based functionalities into a single, maintainable handler.
+- Maintains compatibility with existing output behaviors while providing an additional mode for previewing data.
