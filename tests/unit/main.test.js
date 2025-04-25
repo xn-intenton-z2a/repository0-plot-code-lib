@@ -106,3 +106,49 @@ describe("SVG Generation with expression and range", () => {
     fs.unlinkSync(testSVG);
   });
 });
+
+describe("Input Validation Errors", () => {
+  test("should error with empty --expression value", async () => {
+    const errorSpy = [];
+    const originalError = console.error;
+    console.error = (msg) => errorSpy.push(msg);
+
+    let exitCalled = false;
+    const originalExit = process.exit;
+    process.exit = (code) => { exitCalled = true; throw new Error('process.exit ' + code); };
+
+    try {
+      await main(["--expression", "", "--file", "tests/tmp_test_output.svg"]);
+    } catch (err) {
+      // Expected error
+    }
+
+    expect(exitCalled).toBe(true);
+    expect(errorSpy.join(' ').toLowerCase()).toContain("error: --expression requires a non-empty value");
+
+    console.error = originalError;
+    process.exit = originalExit;
+  });
+
+  test("should error with invalid --range format", async () => {
+    const errorSpy = [];
+    const originalError = console.error;
+    console.error = (msg) => errorSpy.push(msg);
+
+    let exitCalled = false;
+    const originalExit = process.exit;
+    process.exit = (code) => { exitCalled = true; throw new Error('process.exit ' + code); };
+
+    try {
+      await main(["--range", "incorrect_format", "--file", "tests/tmp_test_output.svg"]);
+    } catch (err) {
+      // Expected error
+    }
+
+    expect(exitCalled).toBe(true);
+    expect(errorSpy.join(' ').toLowerCase()).toContain("error: --range flag invalid format");
+
+    console.error = originalError;
+    process.exit = originalExit;
+  });
+});
