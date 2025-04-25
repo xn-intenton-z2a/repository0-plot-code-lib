@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="vega" href="#vega"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>VEGA</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Vega version 5.31.0 provides a JSON-based visualization specification that defines interactive visualizations with data, scales, axes, legends, marks, and signals. Vega-Lite (version 6.1.0) compiles higher-level concise visualizations to full Vega specs. Web deployment uses CDN-hosted scripts with options to import Vega, Vega-Lite, and Vega-Embed. The View API constructs visualizations with options for renderer, container, and hover enablement. Command line utilities vg2pdf, vg2png, and vg2svg support options -b, -h, -s, -seed, -c, -f, -t, -l for asset management, output scaling, and logging. Detailed CLI command examples and troubleshooting (redirecting stderr) are provided.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">TABLE OF CONTENTS:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Vega Core Concepts</p>
+</li>
+<li class="md-github">
+<p class="md-github">Vega Specification Structure</p>
+</li>
+<li class="md-github">
+<p class="md-github">Vega-Lite API Usage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Web Deployment &amp; View API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Command Line Utilities</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration and Troubleshooting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Vega Core Concepts:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Visualization grammar using JSON.</li>
+<li class="md-github">Supports interactive behavior via reactive signals.</li>
+<li class="md-github">Provides building blocks: data, scales, axes, legends, marks, signals.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Vega Specification Structure:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">JSON object with fields: width (Number), height (Number), data (object with url or values), scales (array), axes (array), legends (array), marks (array), signals (array).</li>
+<li class="md-github">Example: { &quot;width&quot;:400, &quot;height&quot;:200, &quot;data&quot;: { &quot;url&quot;:&quot;data/movies.json&quot; }, &quot;marks&quot;: [...] }</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Vega-Lite API Usage:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">JavaScript API for creating Vega-Lite JSON.</li>
+<li class="md-github">Method chaining pattern: vl.markBar().data(url).encode( vl.x().fieldQ('IMDB_Rating').bin(true), vl.y().count() )</li>
+<li class="md-github">Generates JSON spec with keys: mark, data, encoding (x: {bin, field, type}, y: {aggregate, type}).</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Web Deployment &amp; View API:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Import Vega using script tags from CDN.</li>
+<li class="md-github">View API: new vega.View(vega.parse(spec), { renderer:'canvas', container:'#view', hover:true })</li>
+<li class="md-github">runAsync() returns a promise.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Command Line Utilities:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Tools: vg2pdf, vg2png, vg2svg.</li>
+<li class="md-github">Parameters:
+-b/--base: String, base directory or URL.
+-h/--header: Flag for XML header in SVG output.
+-s/--scale: Number (default 1) for resolution scaling.
+-seed: Number for random seed.
+-c/--config: String for config file path.
+-f/--format: String for locale format file.
+-t/--timeFormat: String for time format locale file.
+-l/--loglevel: String (error, warn, info, debug).</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Configuration and Troubleshooting:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Renderer option: 'canvas' vs 'svg'.</li>
+<li class="md-github">Use -b flag to set asset base paths.</li>
+<li class="md-github">For CSP issues, use alternative evaluators.</li>
+<li class="md-github">Troubleshooting: Redirect stderr to log file (e.g., vg2pdf ... 2&gt; vg2pdf.log).</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Technical Specifications:</p>
+<ul class="md-github">
+<li class="md-github">Vega Spec JSON Example:
+{
+&quot;width&quot;: 400,
+&quot;height&quot;: 200,
+&quot;data&quot;: { &quot;url&quot;: &quot;data/movies.json&quot; },
+&quot;scales&quot;: [{ &quot;name&quot;: &quot;xscale&quot;, &quot;type&quot;: &quot;linear&quot;, &quot;domain&quot;: { &quot;data&quot;: &quot;table&quot;, &quot;field&quot;: &quot;value&quot; }, &quot;range&quot;: &quot;width&quot; }],
+&quot;axes&quot;: [{ &quot;orient&quot;: &quot;bottom&quot;, &quot;scale&quot;: &quot;xscale&quot; }],
+&quot;marks&quot;: [{ &quot;type&quot;: &quot;rect&quot;, &quot;encode&quot;: { &quot;enter&quot;: { &quot;x&quot;: { &quot;scale&quot;: &quot;xscale&quot;, &quot;field&quot;: &quot;category&quot; }, &quot;y&quot;: { &quot;value&quot;: 0 } } } }]
+}</li>
+<li class="md-github">Vega-Lite API: Methods such as vl.markBar(), vl.x(), vl.y(), with exact chainable methods returning objects with field setting and encoding options.</li>
+<li class="md-github">Web Deployment: CDN URLs:
+https://cdn.jsdelivr.net/npm/vega@5
+https://cdn.jsdelivr.net/npm/vega-lite@5
+https://cdn.jsdelivr.net/npm/vega-embed@6</li>
+<li class="md-github">View API Constructor Signature:
+new vega.View(parsedSpec, { renderer: string, container: string, hover: boolean })</li>
+<li class="md-github">CLI Options (exact values):
+-b: base directory string (e.g., &quot;data/&quot; or &quot;http://host/data/&quot;)
+-h: header flag for vg2svg
+-s: scale factor (default 1)
+-seed: number
+-c: config file path (JSON or JS exporting an object)
+-f: number format locale file
+-t: time format locale file
+-l: log level string [error, warn, info, debug]</li>
+<li class="md-github">Troubleshooting Command Example:
+vg2svg -b data/ -s 2 input_spec.json output.svg 2&gt; error.log</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Vega API Specifications:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Vega Specification Object:</p>
+<ul class="md-github">
+<li class="md-github">Properties: width (Number), height (Number), data (Object), scales (Array), axes (Array), legends (Array), marks (Array), signals (Array).</li>
+<li class="md-github">Example:
+{ &quot;width&quot;: 400, &quot;height&quot;: 200, &quot;data&quot;: { &quot;url&quot;: &quot;data/movies.json&quot; }, &quot;scales&quot;: [...], &quot;axes&quot;: [...], &quot;marks&quot;: [...], &quot;signals&quot;: [...] }</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Vega-Lite API:</p>
+<ul class="md-github">
+<li class="md-github">Method: vl.markBar()
+Return Type: MarkBuilder</li>
+<li class="md-github">Method: vl.x()
+Return Type: FieldBuilder, supports .fieldQ(String) which accepts field name and method bin(Boolean).</li>
+<li class="md-github">Method: vl.y()
+Return Type: AggregateBuilder, supports .count()</li>
+<li class="md-github">Complete chain returns a JSON object:
+{
+&quot;mark&quot;: &quot;bar&quot;,
+&quot;data&quot;: { &quot;url&quot;: &quot;data/movies.json&quot; },
+&quot;encoding&quot;: {
+&quot;x&quot;: { &quot;bin&quot;: true, &quot;field&quot;: &quot;IMDB_Rating&quot;, &quot;type&quot;: &quot;quantitative&quot; },
+&quot;y&quot;: { &quot;aggregate&quot;: &quot;count&quot;, &quot;type&quot;: &quot;quantitative&quot; }
+}
+}</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Vega View API:</p>
+<ul class="md-github">
+<li class="md-github">Constructor: new vega.View(parsedSpec, options)
+Parameters:
+parsedSpec: Output of vega.parse(spec), Object
+options: Object with keys:
+renderer: string (either 'canvas' or 'svg')
+container: string (DOM selector or element)
+hover: boolean
+Returns: View instance with methods runAsync(), signal(), insert(), remove(), update(), etc.</li>
+<li class="md-github">Example Code:
+var view = new vega.View(vega.parse(spec), { renderer: 'canvas', container: '#view', hover: true });
+view.runAsync().then(function() { /* view is rendered */ });</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">CLI Utilities (vg2pdf, vg2png, vg2svg):</p>
+<ul class="md-github">
+<li class="md-github">Syntax: vg2<format> [options] [input_vega_json_file] [output_file]</li>
+<li class="md-github">Options:
+-b, --base: String; base path (e.g., &quot;data/&quot; or &quot;http://host/data/&quot;)
+-h, --header: Flag (SVG only) to include XML header
+-s, --scale: Number; default 1
+-seed: Number; sets RNG seed
+-c, --config: String; path to config file
+-f, --format: String; path to number format file
+-t, --timeFormat: String; path to time format file
+-l, --loglevel: String; one of error, warn, info, debug
+--help: Flag to display usage instructions</li>
+<li class="md-github">Return: Writes static file to stdout or file, logs errors to stderr.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Best Practices &amp; Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">Always verify the JSON spec structure against documented schemas.</li>
+<li class="md-github">Use CDN for production with fallback to self-hostable files.</li>
+<li class="md-github">For CSP issues, replace Function constructors by using provided alternative evaluators.</li>
+<li class="md-github">Troubleshooting command: vg2png spec.json chart.png 2&gt;vg2png.log, check log file for error details.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Full Code Example (Embedding a Vega Chart):
+HTML:</p>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+</head>
+<body>
+  <div id="view"></div>
+  <script>
+    fetch('https://vega.github.io/vega/examples/bar-chart.vg.json')
+      .then(function(response) { return response.json(); })
+      .then(function(spec) {
+        var view = new vega.View(vega.parse(spec), {
+          renderer: 'canvas',
+          container: '#view',
+          hover: true
+        });
+        view.runAsync();
+      })
+      .catch(function(error) { console.error('Error loading Vega spec:', error); });
+  </script>
+</body>
+</li>
+</ol>
+<p class="md-github">Return Types, Exceptions:</p>
+<ul class="md-github">
+<li class="md-github">Methods throw exceptions if spec parsing fails. Always use .catch() for promises.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Vega ver. 5.31.0; Vega-Lite ver. 6.1.0; JSON spec: {width:Number, height:Number, data:{url:String}, scales:Array, axes:Array, legends:Array, marks:Array, signals:Array}; Vega-Lite API: vl.markBar(), vl.x().fieldQ(String).bin(Boolean), vl.y().count(); Output JSON: {mark:'bar', data:{url:'data/movies.json'}, encoding:{x:{bin:true, field:'IMDB_Rating', type:'quantitative'}, y:{aggregate:'count', type:'quantitative'}}}; View API: new vega.View(vega.parse(spec), {renderer:'canvas'|'svg', container:'#view', hover:Boolean}).runAsync(); CLI: vg2pdf/vg2png/vg2svg with options -b (base:String), -h (header flag), -s (scale:Number default 1), -seed(Number), -c (config file), -f (format locale), -t (timeFormat locale), -l (loglevel: error|warn|info|debug); Troubleshooting: redirect stderr (e.g., 2&gt; log.txt); CDN URLs: https://cdn.jsdelivr.net/npm/vega@5, https://cdn.jsdelivr.net/npm/vega-lite@5, https://cdn.jsdelivr.net/npm/vega-embed@6.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">TABLE OF CONTENTS:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Vega Core Concepts</p>
+</li>
+<li class="md-github">
+<p class="md-github">Vega Specification Structure</p>
+</li>
+<li class="md-github">
+<p class="md-github">Vega-Lite API Usage</p>
+</li>
+<li class="md-github">
+<p class="md-github">Web Deployment &amp; View API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Command Line Utilities</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration and Troubleshooting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Vega Core Concepts:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Visualization grammar using JSON.</li>
+<li class="md-github">Supports interactive behavior via reactive signals.</li>
+<li class="md-github">Provides building blocks: data, scales, axes, legends, marks, signals.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Vega Specification Structure:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">JSON object with fields: width (Number), height (Number), data (object with url or values), scales (array), axes (array), legends (array), marks (array), signals (array).</li>
+<li class="md-github">Example: { 'width':400, 'height':200, 'data': { 'url':'data/movies.json' }, 'marks': [...] }</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Vega-Lite API Usage:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">JavaScript API for creating Vega-Lite JSON.</li>
+<li class="md-github">Method chaining pattern: vl.markBar().data(url).encode( vl.x().fieldQ('IMDB_Rating').bin(true), vl.y().count() )</li>
+<li class="md-github">Generates JSON spec with keys: mark, data, encoding (x: {bin, field, type}, y: {aggregate, type}).</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Web Deployment &amp; View API:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Import Vega using script tags from CDN.</li>
+<li class="md-github">View API: new vega.View(vega.parse(spec), { renderer:'canvas', container:'#view', hover:true })</li>
+<li class="md-github">runAsync() returns a promise.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Command Line Utilities:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Tools: vg2pdf, vg2png, vg2svg.</li>
+<li class="md-github">Parameters:
+-b/--base: String, base directory or URL.
+-h/--header: Flag for XML header in SVG output.
+-s/--scale: Number (default 1) for resolution scaling.
+-seed: Number for random seed.
+-c/--config: String for config file path.
+-f/--format: String for locale format file.
+-t/--timeFormat: String for time format locale file.
+-l/--loglevel: String (error, warn, info, debug).</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Configuration and Troubleshooting:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Renderer option: 'canvas' vs 'svg'.</li>
+<li class="md-github">Use -b flag to set asset base paths.</li>
+<li class="md-github">For CSP issues, use alternative evaluators.</li>
+<li class="md-github">Troubleshooting: Redirect stderr to log file (e.g., vg2pdf ... 2&gt; vg2pdf.log).</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Vega Documentation
+https://vega.github.io/vega/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-vega" href="#digest-of-vega"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of VEGA</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="vega-documentation-digest" href="#vega-documentation-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Vega Documentation Digest</h1>
+<h1 class="md-github"><a class="md-github__anchor" name="date-retrieved-2023-10-07" href="#date-retrieved-2023-10-07"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Date Retrieved: 2023-10-07</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">Vega is a visualization grammar that uses JSON specifications to create interactive visualizations. It supports data loading, transformation, scales, mapping, axes, legends, graphical marks and reactive signals for interaction. The specifications can produce static images or interactive web views using Canvas or SVG.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="specification" href="#specification"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Specification</h2>
+<p class="md-github">A Vega specification is a JSON object with properties including:</p>
+<ul class="md-github">
+<li class="md-github">width, height</li>
+<li class="md-github">data definitions (with url, values, format)</li>
+<li class="md-github">scales for mapping data to visual attributes</li>
+<li class="md-github">axes for coordinate mapping</li>
+<li class="md-github">legends for encoding data aesthetics</li>
+<li class="md-github">marks (e.g., rectangles, lines, symbols) with properties (x, y, color, etc.)</li>
+<li class="md-github">signals for reactive state updates</li>
+</ul>
+<p class="md-github">Example JSON specification snippet:</p>
+<p class="md-github">{
+&quot;width&quot;: 400,
+&quot;height&quot;: 200,
+&quot;data&quot;: { &quot;url&quot;: &quot;data/movies.json&quot; },
+&quot;scales&quot;: [...],
+&quot;axes&quot;: [...],
+&quot;marks&quot;: [...],
+&quot;signals&quot;: [...]
+}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="vega-lite-and-vega-lite-api" href="#vega-lite-and-vega-lite-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Vega-Lite and Vega-Lite API</h2>
+<p class="md-github">Vega-Lite provides a higher-level declarative language to author visualizations. It compiles into Vega specifications.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="vega-lite-api-example" href="#vega-lite-api-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Vega-Lite API Example</h3>
+<p class="md-github">Using the Vega-Lite API in JavaScript:</p>
+<p class="md-github">vl.markBar().data('data/movies.json').encode(
+vl.x().fieldQ('IMDB_Rating').bin(true),
+vl.y().count()
+)</p>
+<p class="md-github">This produces the following JSON:</p>
+<p class="md-github">{
+&quot;mark&quot;: &quot;bar&quot;,
+&quot;data&quot;: { &quot;url&quot;: &quot;data/movies.json&quot; },
+&quot;encoding&quot;: {
+&quot;x&quot;: { &quot;bin&quot;: true, &quot;field&quot;: &quot;IMDB_Rating&quot;, &quot;type&quot;: &quot;quantitative&quot; },
+&quot;y&quot;: { &quot;aggregate&quot;: &quot;count&quot;, &quot;type&quot;: &quot;quantitative&quot; }
+}
+}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="web-deployment--view-api" href="#web-deployment--view-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Web Deployment &amp; View API</h2>
+<p class="md-github">To deploy Vega on the web, include the Vega JavaScript library. Example using CDN:</p>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+</head>
+<h3 class="md-github"><a class="md-github__anchor" name="using-the-vega-view-api" href="#using-the-vega-view-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using the Vega View API</h3>
+<p class="md-github">Example code to load and render a Vega spec:</p>
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+</head>
+<body>
+  <div id="view"></div>
+  <script type="text/javascript">
+    var view;
+    fetch('https://vega.github.io/vega/examples/bar-chart.vg.json')
+      .then(res => res.json())
+      .then(spec => render(spec))
+      .catch(err => console.error(err));
+<pre class="md-github"><code class="md-github">function render(spec) {
+  view = new vega.View(vega.parse(spec), {
+    renderer: 'canvas', // options: 'canvas' or 'svg'
+    container: '#view',  // DOM container
+    hover: true
+  });
+  return view.runAsync();
+}
+</code></pre>
+  </script>
+</body>
+<h2 class="md-github"><a class="md-github__anchor" name="command-line-utilities" href="#command-line-utilities"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Command Line Utilities</h2>
+<p class="md-github">The Vega CLI provides vg2pdf, vg2png, and vg2svg for rendering visualizations into static files.</p>
+<p class="md-github">Usage examples:</p>
+<p class="md-github">vg2png input_spec.json output.png</p>
+<p class="md-github">CLI Options:</p>
+<ul class="md-github">
+<li class="md-github">-b or --base: Specify base directory or URL for assets</li>
+<li class="md-github">-h or --header: Include XML header in SVG output</li>
+<li class="md-github">-s or --scale: Resolution scale factor (default 1)</li>
+<li class="md-github">-seed: Set seed for random number generation</li>
+<li class="md-github">-c or --config: Path to a Vega config JSON or JS file</li>
+<li class="md-github">-f or --format: Set number format locale</li>
+<li class="md-github">-t or --timeFormat: Set data/time format locale</li>
+<li class="md-github">-l or --loglevel: Set log level (error, warn, info, debug)</li>
+<li class="md-github">--help: Show usage help</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration-and-troubleshooting" href="#configuration-and-troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration and Troubleshooting</h2>
+<ul class="md-github">
+<li class="md-github">Rendering: Configure renderer as 'canvas' or 'svg' in the View API</li>
+<li class="md-github">Asset Loading: Use the -b flag with the appropriate path or URL</li>
+<li class="md-github">Content Security Policy: For CSP compliance, use alternative expression evaluators as documented</li>
+<li class="md-github">Troubleshooting: Log errors to stderr and use --loglevel debug for detailed logs. Example command:</li>
+</ul>
+<p class="md-github">vg2svg -b data/ -s 2 input_spec.json output.svg 2&gt; log.txt</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Vega Documentation</li>
+<li class="md-github">URL: https://vega.github.io/vega/</li>
+<li class="md-github">License: BSD-3-Clause</li>
+<li class="md-github">Crawl Date: 2025-04-25T19:43:12.811Z</li>
+<li class="md-github">Data Size: 9269851 bytes</li>
+<li class="md-github">Links Found: 10042</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-25</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-25T20:25:07.210Z</p>
+  </footer>
+</body>
+</html>
