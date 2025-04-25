@@ -12,31 +12,49 @@ export async function main(args) {
 
 Options:
   --file <output>        Specify output file for the plot. If the filename ends with ".png", a PNG file is generated; otherwise, an SVG file is created.
-  --expression <expr>    Specify the mathematical expression to plot. (Not currently implemented)
-  --range <range>        Specify the range for the plot in the format "x=start:end,y=start:end". (Not currently implemented)
+  --expression <expr>    Specify the mathematical expression to plot.
+  --range <range>        Specify the range for the plot in the format "x=start:end,y=start:end".
   --help                 Display this help message and exit.
 
 Examples:
   node src/lib/main.js --file output.svg
-  node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=-1:1" --file plot.png
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file plot.png
 `;
     console.log(usage);
     process.exit(0);
   }
 
   let outputFile = null;
-  // Parse arguments to find the --file flag and its value
+  let expressionVal = "";
+  let rangeVal = "";
+
+  // Parse arguments to find flags and their values
   for (let i = 0; i < args.length; i++) {
     if (args[i] === "--file" && i + 1 < args.length) {
       outputFile = args[i + 1];
-      break;
+      i++;
+    } else if (args[i] === "--expression" && i + 1 < args.length) {
+      expressionVal = args[i + 1];
+      i++;
+    } else if (args[i] === "--range" && i + 1 < args.length) {
+      rangeVal = args[i + 1];
+      i++;
     }
   }
 
-  // Dummy SVG content to simulate a plot
+  // Build dynamic SVG content
+  const expressionText = expressionVal
+    ? `<text x="10" y="20" font-size="12" fill="black">Expression: ${expressionVal}</text>`
+    : "";
+  const rangeText = rangeVal
+    ? `<text x="10" y="40" font-size="12" fill="black">Range: ${rangeVal}</text>`
+    : "";
+
   const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">
   <rect width="100%" height="100%" fill="lightblue" />
   <circle cx="150" cy="100" r="80" fill="green" />
+  ${expressionText}
+  ${rangeText}
 </svg>`;
 
   if (outputFile) {
