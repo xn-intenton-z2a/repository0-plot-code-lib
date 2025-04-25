@@ -1,36 +1,31 @@
 # PLOT Feature Enhancement
 
-This update refines the PLOT feature by adding robust CLI argument parsing, parameter validation, and improved error handling. This ensures users receive clear guidance for command usage.
+This update extends the PLOT feature to support both SVG and PNG output formats in the CLI tool and adds a new format flag for flexible export.
 
-# CLI Argument Parsing & Validation
+# CLI Parameter Parsing and Validation
 
-- Update `src/lib/main.js` to parse CLI arguments for the following parameters:
-  - `--expression`: A mathematical expression string (e.g., "y=sin(x)").
-  - `--range`: A range in the format "x=start:end,y=start:end". Validate the format using a robust library or custom regex ensuring both parts are present.
-  - `--file`: A file path where the plot output (e.g., SVG) is confirmed to be generated.
+Extend the CLI argument schema in src/lib/main.js to include a new optional string parameter format. Allowed values are svg and png. Default is svg. Validate that the format value is one of the supported options and produce a clear error message if it is invalid.
 
-- Implement clear error messages in cases of missing or improperly formatted parameters.
+Example usage:
+node src/lib/main.js --expression 'y=sin(x)' --range 'x=-10:10,y=-1:1' --file output.png --format png
 
-- Include a usage guide that is printed when the argument input is invalid or incomplete. This guide should illustrate the correct command usage:
+# Implementation Details
 
-```sh
-node src/lib/main.js --expression "y=sin(x)" --range "x=-10:10,y=-1:1" --file output.svg
-```
+After parsing the expression and range and computing the time series data, branch on the format flag. For svg format, use the existing SVG generation routine. For png format, render the SVG output into a PNG buffer using a headless canvas or a library such as sharp or canvas. Write the resulting file to disk with the correct extension and content type.
 
-# Test Enhancements
+# Testing Enhancements
 
-- Update `tests/unit/main.test.js` to include tests for:
-  - Successful execution when valid parameters are passed.
-  - Cases where one or more parameters are missing or badly formatted, ensuring the appropriate error message is produced.
+Add unit tests in tests/unit/main.test.js to cover:
+- Default behavior without a format flag produces an svg file output.
+- Passing format png generates a PNG file with nonzero byte length.
+- Invalid format values cause the CLI to exit with an error and print a helpful message.
 
 # Documentation Updates
 
-- Update the README.md to reflect the enhanced CLI usage, including updated examples and detailed explanation of parameter formats and error cases.
+Update README.md to document the new format option, list supported values, default behavior, and example commands for both svg and png outputs.
 
-# Dependency and Code Integrity
+# Dependency Management
 
-- Ensure that all updates remain compatible with Node 20 and ESM standards.
-- Leverage existing dependencies (e.g., zod) if needed for parameter validation.
-- Confirm that changes remain compliant with `CONTRIBUTING.md` guidelines and minimal file modifications, affecting only source, tests, README, and package.json if necessary.
+Add a dependency on sharp or canvas in package.json. Ensure that the dependency is imported and invoked only when png format is requested to avoid increasing overhead for svg-only use cases.
 
-This enhancement consolidates the PLOT feature by providing a more resilient and user-friendly CLI interface, directly aligning with the mission to be the go-to plot library for formula visualisations.
+All changes should remain compatible with Node 20 and ESM standards and follow the guidelines in CONTRIBUTING.md and reflect the mission in MISSION.md.
