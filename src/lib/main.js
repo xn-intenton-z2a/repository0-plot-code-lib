@@ -64,7 +64,7 @@ Examples:
     }
   }
 
-  // Build dynamic SVG content
+  // Build dynamic SVG content with optional expression and range details
   const expressionText = expressionVal
     ? `<text x="10" y="20" font-size="12" fill="black">Expression: ${expressionVal}</text>`
     : "";
