@@ -92,3 +92,13 @@ Expr-Eval is a lightweight JavaScript library that serves as an expression parse
 ## https://github.com/svg/svgo
 SVGO is a powerful tool designed for optimizing SVG files by removing unnecessary metadata and reducing file sizes without compromising quality. This documentation offers deep technical insights into configuration options, automated optimization processes, and best practices for achieving efficient SVG content. For our repository, which generates static SVG plots, SVGO provides actionable guidelines to further refine and optimize SVG outputs, ensuring both performance and quality improvements.
 ## MIT License
+
+# Yargs Documentation
+## https://yargs.js.org/docs/
+Yargs is a comprehensive command-line arguments parser that simplifies the process of building interactive CLI tools. Its documentation covers detailed configuration options, input validation techniques, and automatic help generation which complement our repository’s focus on robust CLI design and dynamic parameter handling. Yargs provides actionable insights for enhancing argument parsing and error handling in CLI applications and is recognized for its lightweight design and active community support.
+## MIT License
+
+# MathJax Documentation
+## https://docs.mathjax.org/en/latest/
+MathJax is a JavaScript display engine for mathematics that supports LaTeX, MathML, and AsciiMath notation. The documentation offers extensive guides on embedding and configuring mathematical rendering in web applications. For our repository, MathJax serves as an inspirational resource for future enhancements to render mathematical expressions with high fidelity, potentially complementing CLI outputs with rich mathematical formatting where necessary.
+## Apache License 2.0
