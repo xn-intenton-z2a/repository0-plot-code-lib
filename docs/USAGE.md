@@ -1,23 +1,23 @@
 # CLI Usage Guide
 
-The `repository0-plot-code-lib` CLI tool allows you to generate plots in SVG or PNG format from mathematical expressions and time series data. Below is a list of supported command line options and details on input validation.
+The `repository0-plot-code-lib` CLI tool enables you to generate plots in SVG or PNG format. It now supports additional parameters for specifying a mathematical expression and a plot range.
 
 ## Options
 
 - **--file <output>**
-  - Specifies the output file where the plot will be saved.
+  - Specifies the output file where the plot will be saved. 
   - If the filename ends with `.png`, a PNG file is generated; otherwise, an SVG file is created.
 
 - **--expression <expr>**
   - Specifies the mathematical expression to plot.
-  - The value must be a non-empty string. An empty string will result in an error.
+  - The provided value must be a non-empty string. An empty string will trigger an error.
 
 - **--range <range>**
   - Specifies the range for the plot in the format `x=start:end,y=start:end`.
-  - The value must conform exactly to the expected format. An incorrect format will display an error message and exit.
+  - The value must exactly follow the required format; otherwise, an error is displayed and the process exits.
 
 - **--help**
-  - Displays a detailed usage message outlining all supported options and examples, and then exits gracefully.
+  - Displays a comprehensive usage message outlining all supported options and examples, then exits gracefully.
 
 ## Examples
 
@@ -25,20 +25,29 @@ The `repository0-plot-code-lib` CLI tool allows you to generate plots in SVG or 
 
   node src/lib/main.js --help
 
-This will output a comprehensive usage guide including all flags and their descriptions.
+This command outputs a detailed usage guide including all available flags and their descriptions.
 
-### Generate an SVG file
+### Generate an SVG File
 
   node src/lib/main.js --file output.svg
 
-### Generate a PNG file
+Generates an SVG file with a static plot.
+
+### Generate a PNG File
 
   node src/lib/main.js --file plot.png
 
-### Generate an SVG file with a mathematical expression and range
+Generates a PNG file by converting the SVG output.
+
+### Generate an SVG with Expression and Range
 
   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
 
-## Note
+This command embeds the specified mathematical expression and plot range into the generated SVG, providing contextual information directly in the graphic.
 
-Ensure that you provide valid inputs to avoid errors. When using the `--help` flag, no further processing is performed after displaying the usage information.
+## Notes
+
+- When using the `--expression` and `--range` flags, the resulting SVG will include text elements displaying the provided values.
+- If these flags are omitted, the tool defaults to generating a static SVG/PNG plot without additional textual annotations.
+
+Ensure that you provide valid inputs to avoid errors. Running the CLI tool with the `--help` flag will prevent further processing beyond the usage display.
