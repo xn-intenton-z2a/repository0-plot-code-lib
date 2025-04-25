@@ -52,3 +52,13 @@ Chart.js is a widely-used charting library that creates responsive and interacti
 ## https://sharp.pixelplumbing.com/
 Sharp is a high-performance Node.js image processing library used in our repository to convert generated SVG plots into PNG format. The documentation provides an in-depth look into its robust API, performance optimizations, and extensive usage examples, ensuring efficient image processing. Maintained by PixelPlumbing, this resource is updated regularly with bug fixes and feature improvements.
 ## Apache License 2.0
+
+# D3.js Documentation
+## https://d3js.org/
+D3.js is a powerful JavaScript library for producing dynamic, interactive data visualizations in web browsers. Its comprehensive documentation covers data manipulation, DOM interactions, and advanced visualization techniques using SVG, Canvas, and HTML. Regularly updated and backed by a vibrant community, D3.js serves as a key resource for inspiration and implementation of data-driven visualizations.
+## BSD-3-Clause
+
+# Vega Documentation
+## https://vega.github.io/vega/
+Vega is a visualization grammar that offers a declarative format for creating, sharing, and exploring interactive data visualizations. The documentation describes its specification and usage guidelines in detail, providing insights into building complex and interactive plots. It is a valuable resource for developers looking to extend static visualizations to more interactive experiences, and is maintained by an active community.
+## BSD-3-Clause
