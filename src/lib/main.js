@@ -12,7 +12,7 @@ export async function main(args) {
 
 Options:
   --file <output>        Specify output file for the plot. If the filename ends with ".png", a PNG file is generated; otherwise, an SVG file is created.
-  --expression <expr>    Specify the mathematical expression to plot.
+  --expression <expr>    Specify the mathematical expression to plot. Must be a non-empty string.
   --range <range>        Specify the range for the plot in the format "x=start:end,y=start:end".
   --help                 Display this help message and exit.
 
@@ -39,6 +39,28 @@ Examples:
     } else if (args[i] === "--range" && i + 1 < args.length) {
       rangeVal = args[i + 1];
       i++;
+    }
+  }
+
+  // Input Validation for --expression flag
+  if (args.includes("--expression")) {
+    if (!expressionVal || expressionVal.trim() === "") {
+      console.error("Error: --expression requires a non-empty value.");
+      process.exit(1);
+    }
+  }
+
+  // Input Validation for --range flag
+  if (args.includes("--range")) {
+    if (!rangeVal || rangeVal.trim() === "") {
+      console.error("Error: --range requires a non-empty value in the format \"x=start:end,y=start:end\".");
+      process.exit(1);
+    }
+    // Validate range format: x=start:end,y=start:end
+    const rangeRegex = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
+    if (!rangeRegex.test(rangeVal.trim())) {
+      console.error("Error: --range flag invalid format. Expected format: \"x=start:end,y=start:end\".");
+      process.exit(1);
     }
   }
 
