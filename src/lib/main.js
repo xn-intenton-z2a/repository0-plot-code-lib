@@ -63,6 +63,36 @@ export function generatePlot(expression, range, fileOutput) {
 }
 
 export function main(args = process.argv.slice(2)) {
+  // Handle --help flag
+  if (args.includes("--help")) {
+    const helpMessage = `
+Usage: node src/lib/main.js [options]
+
+Options:
+  --help                Display this help message and exit.
+  --verbose             Enable verbose output for debugging.
+  --expression <expr>   Specify the mathematical expression (e.g., "y=sin(x)").
+  --range <range>       Specify the plot range (format: x=<min>:<max>,y=<min>:<max>). Supports integers and floating point numbers.
+  --file <path>         Specify the output file path. Supported extensions: .svg, .png.
+  --serve               Run in server mode to listen for HTTP requests.
+
+Examples:
+  node src/lib/main.js --help
+  node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --verbose
+  node src/lib/main.js --serve
+
+    `;
+    console.log(helpMessage);
+    return;
+  }
+
+  // Check for verbose flag
+  const verbose = args.includes("--verbose");
+  if (verbose) {
+    console.log("Verbose Mode Enabled.");
+    console.log("Arguments:", args);
+  }
+
   // Check for CLI_PLOT mode: if any of the CLI flags are provided, require all flags.
   const hasExpression = args.includes("--expression");
   const hasRange = args.includes("--range");
@@ -78,6 +108,13 @@ export function main(args = process.argv.slice(2)) {
     const expression = args[expressionIdx + 1];
     const range = args[rangeIdx + 1];
     const fileOutput = args[fileIdx + 1];
+
+    if (verbose) {
+      console.log("Parsed flags:");
+      console.log("Expression:", expression);
+      console.log("Range:", range);
+      console.log("File:", fileOutput);
+    }
 
     // Validate that all required flags have non-empty values
     if (!expression || expression.trim() === "") {
@@ -96,11 +133,18 @@ export function main(args = process.argv.slice(2)) {
       throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
 
-    // Call the extracted plot generation function
+    if (verbose) {
+      console.log("Range format validated.");
+      console.log(`Generating plot with expression: ${expression}, range: ${range}, output file: ${fileOutput}`);
+    }
+
     return generatePlot(expression, range, fileOutput);
   }
 
   if (args.includes("--serve")) {
+    if (verbose) {
+      console.log("Server mode initiated.");
+    }
     app.listen(3000, () => {
       console.log("Server listening on :3000");
     });
