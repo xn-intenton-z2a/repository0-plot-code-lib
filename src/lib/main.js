@@ -48,13 +48,13 @@ export function generatePlot(expression, range, fileOutput) {
   if (ext === ".svg") {
     const content = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
     fs.writeFileSync(fileOutput, content, "utf8");
-    successMessage = `SVG plot generated at ${fileOutput}`;
+    successMessage = `SVG plot generated at ${fileOutput} for expression: ${expression} in range: ${range}`;
   } else if (ext === ".png") {
     const pngBase64 =
       "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
     const buffer = Buffer.from(pngBase64, "base64");
     fs.writeFileSync(fileOutput, buffer);
-    successMessage = `PNG plot generated at ${fileOutput}`;
+    successMessage = `PNG plot generated at ${fileOutput} for expression: ${expression} in range: ${range}`;
   } else {
     throw new Error(`Error: Unsupported file extension '${ext}'. Only .svg and .png are supported.`);
   }

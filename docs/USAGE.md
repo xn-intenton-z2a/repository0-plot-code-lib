@@ -14,7 +14,7 @@ You can generate plots directly from the command line by providing the following
   - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
 
-When executed with the correct flags, the CLI will generate the plot and log a success message indicating the type and location of the generated file.
+When executed with the correct flags, the CLI will generate the plot and log a success message including details about the plot type, expression, range, and output file location.
 
 ### Examples
 
@@ -28,14 +28,14 @@ When executed with the correct flags, the CLI will generate the plot and log a s
      <text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>
    </svg>
    ```
-   - And the CLI will output a message: "SVG plot generated at output.svg"
+   - And the CLI will log a message: "SVG plot generated at output.svg for expression: y=sin(x) in range: x=-1:1,y=-1:1"
 
 2. **Generate a PNG plot**:
 
    node src/lib/main.js --expression "y=cos(x)" --range "x=-1:1,y=-1:1" --file output.png
 
    - The generated PNG file will have a valid PNG header.
-   - And the CLI will output a message: "PNG plot generated at output.png"
+   - And the CLI will log a message: "PNG plot generated at output.png for expression: y=cos(x) in range: x=-1:1,y=-1:1"
 
 ### Error Handling
 
