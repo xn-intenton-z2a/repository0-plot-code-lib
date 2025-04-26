@@ -201,3 +201,27 @@ BSD-2-Clause
 Vega is a low-level JSON grammar for creating, saving, and sharing interactive visualization designs. Its documentation details scene graphs, data transformations, mark definitions, scales, axes, and signal-driven interactivity. Studying Vega's specification informs the design of our internal plot DSL and guides implementation of advanced features like interactivity and configurable data transforms. Last updated 2024-03; maintained by the Vega Contributors.
 ## License
 BSD-3-Clause
+
+# Commander.js (Command-Line Interface Library for Node.js)
+## https://github.com/tj/commander.js#readme
+Commander.js is a mature, feature-rich library for building command-line interfaces in Node.js. The README covers command definitions, option parsing, subcommands, argument coercion, help generation, and customizable behaviors. Integrating insights from Commander.js documentation can enhance our CLI structure, support complex command hierarchies, and improve user-facing documentation. Last updated 2024-05; maintained by the Node.js community.
+## License
+MIT
+
+# JSEP (JavaScript Expression Parser)
+## https://github.com/EricSmekens/jsep
+JSEP is a lightweight and extensible JavaScript expression parser that produces an abstract syntax tree for arithmetic and logical expressions. The docs and examples demonstrate plugin architecture, operator precedence handling, and AST traversal, offering an alternative approach to expression parsing and potential optimizations beyond math.js. Last updated 2023-11; MIT.
+## License
+MIT
+
+# Ajv (Another JSON Schema Validator)
+## https://ajv.js.org
+Ajv is a high-performance JSON Schema validator that compiles schemas to JavaScript code for fast runtime validation. The documentation details JSON Schema draft support, custom keywords, asynchronous validation, code-generation modes, error messaging, and security considerations. Reviewing Ajv’s advanced usage patterns can supplement our Zod-based validation for HTTP payloads and configuration schemas. Last updated 2024-01; MIT.
+## License
+MIT
+
+# Convict (Schema-based Configuration for Node.js)
+## https://github.com/mozilla/node-convict#readme
+Convict defines a schema-based configuration management system for Node.js, supporting nested environments, validation, default values, and environment variable overrides. The docs illustrate configuration loading, format definitions, custom getters, and command-line interface integration, providing a robust alternative for managing complex configuration scenarios in CLI and HTTP contexts. Last updated 2024-02; MIT.
+## License
+MIT
