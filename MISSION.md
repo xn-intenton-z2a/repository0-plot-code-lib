@@ -10,5 +10,5 @@ _"Be a go-to plot library with a CLI, be the jq of formulae visualisations."_
 - Include CLI variations on this example: `node src/lib/main.js --expression "y=sin(x)" --range "x=-1:-1,y=-1:-1" --file output.svg` .
 - Showcase all the features of the library via a CLI by dry running tp generate example commands and output in the README.md file.
 
-`plot-code-lib` facilitate the creation of plots from mathematical expressions and time series data. It will take a 
+`plot-code-lib` facilitate the creation of plots from mathematical expressions and time series data. It will take a
 mathematical expression and a range of values and generate a plot in SVG or PNG format.
