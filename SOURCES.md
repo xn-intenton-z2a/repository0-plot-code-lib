@@ -51,3 +51,45 @@ MIT
 This utility parses and formats HTTP Content-Type headers, handling media type parameters like charset. The guide describes `parse()` for extracting type, subtype, and parameters, and `format()` for serializing objects back to header strings—essential for robust header management in both manual and framework-based responses. Last updated 2024-01; MIT.
 ## License
 MIT
+
+# Expression Evaluation (expr-eval)
+## https://github.com/silentmatt/expr-eval#getting-started
+This library parses and evaluates mathematical expressions from strings into JavaScript functions. The documentation details grammar, AST nodes, supported operators and functions (sin, cos, etc.), custom function definitions, and performance considerations. Essential for converting user-provided expressions into time series generation logic. Last updated 2024-01; MIT and widely used in Node.js scripting contexts.
+## License
+MIT
+
+# Math.js (Comprehensive Math Library)
+## https://mathjs.org/docs/
+Math.js offers a comprehensive math library for JavaScript and Node.js, including an expression parser, evaluation engine, unit and matrix operations, and advanced features like symbolic computations. The docs cover expression node trees, chain API, custom functions, and configurations for precision. Vital for extending expression parsing and supporting complex mathematical operations in plots. Last updated 2023-11; Apache-2.0 and maintained by a large open-source community.
+## License
+Apache-2.0
+
+# CSV Library (csv-parse and csv-stringify)
+## https://csv.js.org/
+The CSV library provides streaming CSV parsing and stringifying capabilities for Node.js, with support for configurable delimiters, quoting, headers, async iterators, and backpressure control. Documentation includes examples of streaming from files or streams, handling large datasets, and customizing transforms. Fundamental for robust CSV export and import in both CLI and API modes. Last updated 2024-02; MIT.
+## License
+MIT
+
+# Chart.js Node Canvas Integration (ChartjsNodeCanvas)
+## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
+This integration layer enables server-side rendering of Chart.js charts using Node Canvas. The README describes creating chart callbacks, setting dimensions, background, and returning image buffers in PNG or SVG formats. It supports Chart.js options, plugins, and async rendering. Directly applicable for generating plot images from time series data. Last updated 2024-03; MIT.
+## License
+MIT
+
+# Sharp (High-performance Image Processing)
+## https://sharp.pixelplumbing.com/
+Sharp is a high-performance image processing library leveraging libvips for fast resizing, format conversion, and compositing. The docs detail pipeline usage, format options (PNG, JPEG, WebP, TIFF), buffer operations, and integration with streams. Useful for converting SVGs to PNGs, resizing output, and optimizing images in production. Last updated 2024-04; Apache-2.0 and widely adopted.
+## License
+Apache-2.0
+
+# HTTP Problem Details (RFC 7807)
+## https://datatracker.ietf.org/doc/html/rfc7807
+RFC 7807 defines the "application/problem+json" media type for conveying standardized error details in HTTP APIs. The spec outlines object properties like `type`, `title`, `status`, `detail`, and `instance`, promoting consistent error responses. Applying this to 406 and 500 responses ensures clients can programmatically parse error payloads. Published 2016-04; IETF public domain document.
+## License
+Public Domain
+
+# Vitest (Testing Framework)
+## https://vitest.dev/guide/
+Vitest is a fast JavaScript testing framework powered by V8, offering Jest-like APIs with native ESM support. The guide covers test suite configuration, assertion APIs, mocks, snapshots, coverage reporting, and watch mode. Essential for writing and organizing unit tests for CLI parsing, HTTP endpoints, and core logic. Last updated 2024-01; MIT.
+## License
+MIT
