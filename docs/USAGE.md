@@ -30,7 +30,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 ### Behavior
 
 - If all query parameters are valid:
-  - **svg**: Returns a response with `Content-Type: image/svg+xml` containing an SVG plot with an annotation.
+  - **svg**: Returns a response with `Content-Type: image/svg+xml; charset=utf-8` containing an SVG plot with an annotation.
   - **png**: Returns a response with `Content-Type: image/png` containing a PNG image with a valid PNG header.
 - If any required query parameter is missing or invalid, the API returns a `400 Bad Request` with an error message describing the issue.
 - If no query parameters are provided, the endpoint falls back to the original behavior, using the Accept header for content negotiation.
@@ -41,7 +41,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
    GET `/plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg`
 
-   - Returns an SVG plot with `Content-Type: image/svg+xml` and content starting with `<svg`.
+   - Returns an SVG plot with `Content-Type: image/svg+xml; charset=utf-8` and content starting with `<svg`.
 
 2. **Dynamic PNG Generation:**
 

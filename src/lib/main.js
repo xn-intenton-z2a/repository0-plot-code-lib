@@ -32,7 +32,7 @@ app.get("/plot", (req, res) => {
     try {
       if (fileType === "svg") {
         const svgContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
-        return res.type("image/svg+xml").send(svgContent);
+        return res.type("image/svg+xml; charset=utf-8").send(svgContent);
       } else if (fileType === "png") {
         const pngBase64 =
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
@@ -52,7 +52,7 @@ app.get("/plot", (req, res) => {
   }
   switch (accepted) {
     case "image/svg+xml":
-      res.type("image/svg+xml").send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
+      res.type("image/svg+xml; charset=utf-8").send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
       break;
     case "image/png": {
       const pngBase64 =

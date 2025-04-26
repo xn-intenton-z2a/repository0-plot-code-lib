@@ -10,8 +10,9 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect("Vary", /Accept/)
       .expect(200);
-    const text = res.text || res.body.toString();
-    expect(text.startsWith("<svg")).toBe(true);
+    // Ensure res.text is defined and is a string
+    expect(typeof res.text).toBe('string');
+    expect(res.text.startsWith("<svg")).toBe(true);
   });
 
   test("should return PNG when Accept: image/png", async () => {
@@ -56,6 +57,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1", fileType: "svg" })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
+    expect(typeof res.text).toBe('string');
     expect(res.text.startsWith("<svg")).toBe(true);
     expect(res.text).toContain("Plot for: y=sin(x) in range x=-1:1,y=-1:1");
   });
