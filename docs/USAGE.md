@@ -11,7 +11,7 @@ You can generate plots directly from the command line by providing the following
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)").
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1").
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot with an embedded comment indicating the expression.
+  - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
 
 ### Examples
@@ -22,7 +22,9 @@ You can generate plots directly from the command line by providing the following
 
    The generated SVG file will contain:
    ```xml
-   <svg xmlns="http://www.w3.org/2000/svg"><!-- Plot for expression: y=sin(x) --></svg>
+   <svg xmlns="http://www.w3.org/2000/svg">
+     <text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>
+   </svg>
    ```
 
 2. **Generate a PNG plot**:
