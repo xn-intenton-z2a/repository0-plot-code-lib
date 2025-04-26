@@ -2,6 +2,7 @@ import { describe, test, expect } from "vitest";
 import request from "supertest";
 import { app } from "@src/lib/main.js";
 
+
 describe("GET /plot Content Negotiation", () => {
   test("should return SVG when Accept: image/svg+xml", async () => {
     const res = await request(app)
@@ -62,6 +63,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(typeof svgText).toBe('string');
     expect(svgText.startsWith("<svg")).toBe(true);
     expect(svgText).toContain("Plot for: y=sin(x) in range x=-1:1,y=-1:1");
+    expect(svgText).toContain("<polyline");
   });
 
   test("should generate dynamic PNG plot when valid query parameters are provided", async () => {

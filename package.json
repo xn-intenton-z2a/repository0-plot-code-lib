@@ -30,7 +30,8 @@
     "js-yaml": "^4.1.0",
     "minimatch": "^10.0.1",
     "zod": "^3.24.3",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "mathjs": "^11.0.0"
   },
   "devDependencies": {
     "@microsoft/eslint-formatter-sarif": "^3.1.0",

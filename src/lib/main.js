@@ -5,21 +5,73 @@ import { fileURLToPath } from "url";
 import express from "express";
 import fs from "fs";
 import path from "path";
+import { compile } from "mathjs";
 
 const app = express();
 
+function createSvgPlot(expression, range) {
+  // Extract x range from the range parameter (format: x=<min>:<max>,y=<min>:<max>)
+  const xPattern = /x=(-?\d+(\.\d+)?):(-?\d+(\.\d+)?)/;
+  const match = xPattern.exec(range);
+  if (!match) {
+    throw new Error("Error: Invalid range format for x values.");
+  }
+  const xMin = parseFloat(match[1]);
+  const xMax = parseFloat(match[3]);
+  const numPoints = 50;
+  const step = (xMax - xMin) / (numPoints - 1);
+  // Prepare mathematical expression (remove "y=" prefix if exists)
+  let exprStr = expression.trim();
+  if (exprStr.toLowerCase().startsWith("y=")) {
+    exprStr = exprStr.slice(2);
+  }
+  let compiled;
+  try {
+    compiled = compile(exprStr);
+  } catch (e) {
+    throw new Error("Error: Invalid mathematical expression.");
+  }
+  const points = [];
+  const yValues = [];
+  for (let i = 0; i < numPoints; i++) {
+    const xVal = xMin + i * step;
+    let yVal;
+    try {
+      yVal = compiled.evaluate({ x: xVal });
+    } catch (e) {
+      throw new Error(`Error evaluating expression at x=${xVal}: ${e.message}`);
+    }
+    yValues.push(yVal);
+    points.push({ x: xVal, y: yVal });
+  }
+  const yMin = Math.min(...yValues);
+  const yMax = Math.max(...yValues);
+  const width = 300;
+  const height = 150;
+  const mappedPoints = points.map(p => {
+    const mappedX = ((p.x - xMin) / (xMax - xMin)) * width;
+    let mappedY;
+    if (yMax === yMin) {
+      mappedY = height / 2;
+    } else {
+      mappedY = height - ((p.y - yMin) / (yMax - yMin)) * height;
+    }
+    return `${mappedX.toFixed(2)},${mappedY.toFixed(2)}`;
+  });
+  const polylinePoints = mappedPoints.join(" ");
+  const svgContent = `
+<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
+  <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
+</svg>
+  `.trim();
+  return svgContent;
+}
+
 app.get("/plot", (req, res) => {
-  // Check for dynamic query parameters
   const { expression, range, fileType, format } = req.query;
 
-  // If any query parameters are provided, use dynamic plot generation.
-  // Note: When query parameters are provided, they override content negotiation via the Accept header.
   if (expression || range || fileType || format) {
-    /* Dynamic query parameter handling: validate and generate plot dynamically.
-       Both 'expression' and 'range' must be provided. 'range' must match the format:
-       x=<min>:<max>,y=<min>:<max> with numeric values (integers or floating point).
-       Either 'fileType' or 'format' must be specified to determine the output.
-    */
     if (!expression || expression.trim() === "") {
       return res.status(400).send("Missing or empty 'expression' query parameter.");
     }
@@ -30,9 +82,7 @@ app.get("/plot", (req, res) => {
       return res.status(400).send("Missing required query parameter: either 'fileType' or 'format' must be provided.");
     }
 
-    // Determine output format: prefer 'format' over 'fileType'
     let outputFormat = format || fileType;
-    // Allow shorthand values for svg and png
     if (outputFormat === "svg") outputFormat = "image/svg+xml";
     if (outputFormat === "png") outputFormat = "image/png";
 
@@ -44,7 +94,6 @@ app.get("/plot", (req, res) => {
       return res.status(400).send("Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
     }
 
-    // Validate range format, supports integer and floating point numbers
     const rangePattern = /^x=-?\d+(\.\d+)?\:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?\:-?\d+(\.\d+)?$/;
     if (!rangePattern.test(range)) {
       return res.status(400).send("Error: 'range' query parameter is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
@@ -52,7 +101,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
+        const svgContent = createSvgPlot(expression, range);
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =
@@ -67,19 +116,28 @@ app.get("/plot", (req, res) => {
     }
   }
 
-  // Fallback to content negotiation based on Accept header
-  const accepted = req.accepts(["image/svg+xml", "image/png", "application/json"]);
+  let accepted = req.accepts(["image/svg+xml", "image/png", "application/json"]);
   res.vary("Accept");
+  const acceptHeader = req.get("Accept") || "";
+  if (acceptHeader.includes("image/svg+xml")) {
+    accepted = "image/svg+xml";
+  }
   if (!accepted) {
     return res.status(406).send("Not Acceptable");
   }
   switch (accepted) {
     case "image/svg+xml":
-      res.set("Content-Type", "image/svg+xml; charset=utf-8").send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
+      try {
+        // Updated default expression from 'y=default' to 'y=x' for correct evaluation
+        const svgContent = createSvgPlot("y=x", "x=0:10,y=0:10");
+        res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
+      } catch (error) {
+        res.status(500).send(String(error.message));
+      }
       break;
     case "image/png": {
       const pngBase64 =
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
       const img = Buffer.from(pngBase64, "base64");
       res.type("image/png").send(img);
       break;
@@ -105,8 +163,8 @@ export function generatePlot(expression, range, fileOutput) {
   const ext = path.extname(fileOutput).toLowerCase();
   let successMessage;
   if (ext === ".svg") {
-    const content = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
-    fs.writeFileSync(fileOutput, content, "utf8");
+    const svgContent = createSvgPlot(expression, range);
+    fs.writeFileSync(fileOutput, svgContent, "utf8");
     successMessage = `SVG plot generated at ${fileOutput} for expression: ${expression} in range: ${range}`;
   } else if (ext === ".png") {
     const pngBase64 =
