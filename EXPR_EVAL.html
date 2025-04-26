@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="expr_eval" href="#expr_eval"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPR_EVAL</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Parser(options?), parse(string)-&gt;Expression, evaluate(string,vars?)-&gt;any, Expression methods: evaluate(vars?)-&gt;any, substitute(var,expr)-&gt;Expression, simplify(vars)-&gt;Expression, variables({withMembers?})-&gt;string[], symbols({withMembers?})-&gt;string[], toString()-&gt;string, toJSFunction(params: string[]|string,vars?)-&gt;Function. Operator precedence, unary ops list, predefined functions list, constants in parser.consts, add custom JS functions on parser.functions.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1  Parser Class
+2  Expression Class
+3  Operator Precedence
+4  Unary Operators
+5  Pre-defined Functions
+6  Constants
+7  Custom JavaScript Functions</p>
+<p class="md-github">1  Parser Class
+Constructor: new Parser({operators:{add:boolean,concatenate:boolean,conditional:boolean,divide:boolean,factorial:boolean,multiply:boolean,power:boolean,remainder:boolean,subtract:boolean,logical:boolean,comparison:boolean,in:boolean,assignment:boolean}})
+Static Methods:
+parse(expression:string):Expression
+evaluate(expression:string,variables?:object):any</p>
+<p class="md-github">2  Expression Class
+Methods:
+evaluate(variables?:object):any
+substitute(variable:string,expression:Expression|string|number):Expression
+simplify(variables:object):Expression
+variables(options?:{withMembers:boolean}):string[]
+symbols(options?:{withMembers:boolean}):string[]
+toString():string
+toJSFunction(parameters:string[]|string,variables?:object):Function</p>
+<p class="md-github">3  Operator Precedence
+Order:
+() / f() / x.y / a[i]
+!
+^ (right)</p>
+<ul class="md-github">
+<li class="md-github">
+<ul class="md-github">
+<li class="md-github">not sqrt etc. (right)</li>
+</ul>
+</li>
+</ul>
+<ul class="md-github">
+<li class="md-github">/ %</li>
+</ul>
+<ul class="md-github">
+<li class="md-github">
+<ul class="md-github">
+<li class="md-github">||
+== != &gt;= &lt;= &gt; &lt; in
+and
+or
+?: (right)
+= (right)
+;</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">4  Unary Operators
+-x, +x, x!, abs x, acos x, acosh x, asin x, asinh x, atan x, atanh x, cbrt x, ceil x, cos x, cosh x, exp x, expm1 x, floor x, length x, ln x, log x, log10 x, log2 x, log1p x, not x, round x, sign x, sin x, sinh x, sqrt x, tan x, tanh x, trunc x</p>
+<p class="md-github">5  Pre-defined Functions
+random(n?:number):number
+fac(n:number):number
+default factorial
+min(...values:number[]):number
+max(...values:number[]):number
+hypot(...args:number[]):number
+pyt(a:number,b:number):number
+pow(x:number,y:number):number
+atan2(y:number,x:number):number
+roundTo(x:number,n:number):number
+map(f:Function,a:any[]):any[]
+fold(f:Function,y:any,a:any[]):any
+filter(f:Function,a:any[]):any[]
+indexOf(x:any,a:any[]):number
+join(sep:string,a:any[]):string
+if(c:any,a:any,b:any):any</p>
+<p class="md-github">6  Constants
+parser.consts = { E:number, PI:number, true:boolean, false:boolean }</p>
+<p class="md-github">7  Custom JavaScript Functions
+parser.functions[key:string] = (...args)=&gt;any
+delete parser.functions[key]</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">ParserOptions defaults: all operators true. parser.consts initial: {E:Math.E,PI:Math.PI,true:true,false:false}. Simplify behavior: only constant sub-expressions, built-in functions not executed. variables() default excludes member chains. symbols() includes built-ins. toJSFunction outputs JS function string: function(parameters){return <expression>}.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications
+Parser(options?:ParserOptions)
+options.operators.add:boolean = true
+options.operators.concatenate:boolean = true
+options.operators.conditional:boolean = true
+options.operators.divide:boolean = true
+options.operators.factorial:boolean = true
+options.operators.multiply:boolean = true
+options.operators.power:boolean = true
+options.operators.remainder:boolean = true
+options.operators.subtract:boolean = true
+options.operators.logical:boolean = true
+options.operators.comparison:boolean = true
+options.operators['in']:boolean = true
+options.operators.assignment:boolean = true</p>
+<p class="md-github">Parser.parse(expr:string):Expression
+Parser.evaluate(expr:string,vars?:object):any</p>
+<p class="md-github">Expression.evaluate(vars?:object):any
+Throws exception if unbound vars found: Error(&quot;Undefined variable: <var>&quot;)</p>
+<p class="md-github">Expression.substitute(variable:string,expression:Expression|string|number):Expression
+Expression.simplify(vars:object):Expression
+Expression.variables(options?:{withMembers:boolean}):string[]
+Expression.symbols(options?:{withMembers:boolean}):string[]
+Expression.toString():string
+Expression.toJSFunction(params:string[]|string,vars?:object):Function</p>
+<p class="md-github">Implementation Patterns:
+1  Parse then Evaluate
+const parser=new Parser();const expr=parser.parse('2<em class="md-github">x+1');const result=expr.evaluate({x:3});
+2  Direct Evaluate
+Parser.evaluate('6</em>x',{x:7});
+3  Compile to JS Function
+const f=expr.toJSFunction(['x','y'],{z:5});f(1,2);
+4  Customize Operators
+new Parser({operators:{in:true,assignment:true}})
+5  Add Custom Function
+parser.functions.customAdd=(a,b)=&gt;a+b;
+6  Remove Built-in
+delete parser.functions.fac;</p>
+<p class="md-github">Configuration Options:
+operators.add (default true) - toggles +
+operators.logical (default true) - enables and/or/not</p>
+<p class="md-github">Best Practices:
+Always handle exceptions when evaluating dynamic expressions.
+Use toJSFunction to precompile hot expressions.
+Lock down operators in user input scenarios.
+Simplify expressions with constants before evaluation to improve performance.</p>
+<p class="md-github">Troubleshooting:
+Command: Parser.parse('2^x').evaluate({}). Expect: throws &quot;Undefined variable: x&quot;.
+Command: parser.parse('x in [1,2]').evaluate({x:1}). Expect: true
+If missing operator, ensure enable in options.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Parser(options?){operators:attributes};Parser.parse(str)-&gt;Expression;Parser.evaluate(str,vars?)-&gt;any;Expression:{evaluate(vars?)-&gt;any,substitute(var,expr)-&gt;Expression,simplify(vars)-&gt;Expression,variables({withMembers?})-&gt;string[],symbols({withMembers?})-&gt;string[],toString()-&gt;string,toJSFunction(params:string[]|string,vars?)-&gt;Function};OperatorPrecedence:(),f(),x.y,a[i],!,^,unary+,unary-,not,sqrt,*,/,%,+, -,||,==,!=,&gt;=,&lt;=,&gt;,&lt;,in,and,or,?:,=,; ;UnaryOps:[negation,plus,factorial,abs,acos,acosh,asin,asinh,atan,atanh,cbrt,ceil,cos,cosh,exp,expm1,floor,length,ln,log,log10,log2,log1p,not,round,sign,sin,sinh,sqrt,tan,tanh,trunc];PreDefs:random(n?),fac(n),min(...),max(...),hypot(...),pyt(a,b),pow(x,y),atan2(y,x),roundTo(x,n),map(f,a),fold(f,y,a),filter(f,a),indexOf(x,a),join(sep,a),if(c,a,b);Constants:parser.consts={E,PI,true,false};CustomFunctions: parser.functions[key]=fn;delete parser.functions[key]</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1  Parser Class
+2  Expression Class
+3  Operator Precedence
+4  Unary Operators
+5  Pre-defined Functions
+6  Constants
+7  Custom JavaScript Functions</p>
+<p class="md-github">1  Parser Class
+Constructor: new Parser({operators:{add:boolean,concatenate:boolean,conditional:boolean,divide:boolean,factorial:boolean,multiply:boolean,power:boolean,remainder:boolean,subtract:boolean,logical:boolean,comparison:boolean,in:boolean,assignment:boolean}})
+Static Methods:
+parse(expression:string):Expression
+evaluate(expression:string,variables?:object):any</p>
+<p class="md-github">2  Expression Class
+Methods:
+evaluate(variables?:object):any
+substitute(variable:string,expression:Expression|string|number):Expression
+simplify(variables:object):Expression
+variables(options?:{withMembers:boolean}):string[]
+symbols(options?:{withMembers:boolean}):string[]
+toString():string
+toJSFunction(parameters:string[]|string,variables?:object):Function</p>
+<p class="md-github">3  Operator Precedence
+Order:
+() / f() / x.y / a[i]
+!
+^ (right)</p>
+<ul class="md-github">
+<li class="md-github">
+<ul class="md-github">
+<li class="md-github">not sqrt etc. (right)</li>
+</ul>
+</li>
+</ul>
+<ul class="md-github">
+<li class="md-github">/ %</li>
+</ul>
+<ul class="md-github">
+<li class="md-github">
+<ul class="md-github">
+<li class="md-github">||
+== != &gt;= &lt;= &gt; &lt; in
+and
+or
+?: (right)
+= (right)
+;</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">4  Unary Operators
+-x, +x, x!, abs x, acos x, acosh x, asin x, asinh x, atan x, atanh x, cbrt x, ceil x, cos x, cosh x, exp x, expm1 x, floor x, length x, ln x, log x, log10 x, log2 x, log1p x, not x, round x, sign x, sin x, sinh x, sqrt x, tan x, tanh x, trunc x</p>
+<p class="md-github">5  Pre-defined Functions
+random(n?:number):number
+fac(n:number):number
+default factorial
+min(...values:number[]):number
+max(...values:number[]):number
+hypot(...args:number[]):number
+pyt(a:number,b:number):number
+pow(x:number,y:number):number
+atan2(y:number,x:number):number
+roundTo(x:number,n:number):number
+map(f:Function,a:any[]):any[]
+fold(f:Function,y:any,a:any[]):any
+filter(f:Function,a:any[]):any[]
+indexOf(x:any,a:any[]):number
+join(sep:string,a:any[]):string
+if(c:any,a:any,b:any):any</p>
+<p class="md-github">6  Constants
+parser.consts = { E:number, PI:number, true:boolean, false:boolean }</p>
+<p class="md-github">7  Custom JavaScript Functions
+parser.functions[key:string] = (...args)=&gt;any
+delete parser.functions[key]</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">expr-eval (Expression Parsing and Evaluation)
+https://github.com/silentmatt/expr-eval#readme</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-expr_eval" href="#digest-of-expr_eval"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPR_EVAL</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="expr_eval-technical-reference" href="#expr_eval-technical-reference"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPR_EVAL Technical Reference</h1>
+<p class="md-github">Retrieved: 2023-10-05
+Data Size: 668776 bytes</p>
+<h2 class="md-github"><a class="md-github__anchor" name="parser-class" href="#parser-class"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Parser Class</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="constructor" href="#constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h3>
+<p class="md-github"><code class="md-github">new Parser(options?: ParserOptions)</code></p>
+<p class="md-github">ParserOptions:</p>
+<pre class="md-github"><code class="md-github">{
+  operators?: {
+    add?: boolean;
+    concatenate?: boolean;
+    conditional?: boolean;
+    divide?: boolean;
+    factorial?: boolean;
+    multiply?: boolean;
+    power?: boolean;
+    remainder?: boolean;
+    subtract?: boolean;
+    logical?: boolean;
+    comparison?: boolean;
+    in?: boolean;
+    assignment?: boolean;
+  };
+}
+</code></pre>
+<p class="md-github">Defaults: all true except logical/comparison/in/assignment false if overridden.</p>
+<h3 class="md-github"><a class="md-github__anchor" name="static-methods" href="#static-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Static Methods</h3>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">Parser.parse(expression: string): Expression</code></li>
+<li class="md-github"><code class="md-github">Parser.evaluate(expression: string, variables?: {[key:string]: any}): number | string | boolean | any[]</code></li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="expression-class" href="#expression-class"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expression Class</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="methods" href="#methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h3>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">evaluate(variables?: {[key:string]: any}): any</code></li>
+<li class="md-github"><code class="md-github">substitute(variable: string, expression: Expression | string | number): Expression</code></li>
+<li class="md-github"><code class="md-github">simplify(variables: {[key:string]: any}): Expression</code></li>
+<li class="md-github"><code class="md-github">variables(options?: {withMembers?: boolean}): string[]</code></li>
+<li class="md-github"><code class="md-github">symbols(options?: {withMembers?: boolean}): string[]</code></li>
+<li class="md-github"><code class="md-github">toString(): string</code></li>
+<li class="md-github"><code class="md-github">toJSFunction(parameters: string[] | string, variables?: {[key:string]: any}): Function</code></li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="operator-precedence" href="#operator-precedence"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Operator Precedence</h2>
+<pre class="md-github"><code class="md-github">Highest: () f(), x.y, a[i]
+! (factorial)
+^ (right-assoc)
+Unary +, -, not, sqrt, etc. (right-assoc)
+*, /, %
++, -, ||
+==, !=, &gt;=, &lt;=, &gt;, &lt;, in
+and
+or
+?: (right-assoc)
+= (assignment, right-assoc)
+; (separator)
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="unary-operators" href="#unary-operators"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Unary Operators</h2>
+<p class="md-github">List: -x, +x, x!, abs x, acos x, acosh x, asin x, asinh x, atan x, atanh x, cbrt x, ceil x, cos x, cosh x, exp x, expm1 x, floor x, length x, ln x, log x, log10 x, log2 x, log1p x, not x, round x, sign x, sin x, sinh x, sqrt x, tan x, tanh x, trunc x.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="pre-defined-functions" href="#pre-defined-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pre-defined Functions</h2>
+<pre class="md-github"><code class="md-github">random(n?: number): number         // [0,n)
+fac(n: number): number            // factorial (deprecated)
+min(...values: number[]): number
+max(...values: number[]): number
+hypot(...args: number[]): number
+pyt(a: number,b: number): number
+pow(x: number,y: number): number
+atan2(y: number,x: number): number
+roundTo(x: number,n: number): number
+map(f: Function,a: any[]): any[]
+fold(f: Function,y: any,a: any[]): any
+filter(f: Function,a: any[]): any[]
+indexOf(x: any,a: any[]): number
+join(sep: string,a: any[]): string
+if(c: any,a: any,b: any): any
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="constants" href="#constants"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constants</h2>
+<pre class="md-github"><code class="md-github">parser.consts = {
+  E: number,
+  PI: number,
+  true: boolean,
+  false: boolean
+}
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="custom-functions" href="#custom-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Functions</h2>
+<pre class="md-github"><code class="md-github">parser.functions[key:string] = (...args)=&gt;any;
+delete parser.functions[key];
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="examples" href="#examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Examples</h2>
+<pre class="md-github"><code class="md-github">const Parser = require('expr-eval').Parser;
+const parser = new Parser({operators:{in:true,assignment:true}});
+let expr = parser.parse('2 * x + 1');
+expr.evaluate({x:3}); //7
+Parser.evaluate('6 * x',{x:7}); //42
+let f = expr.toJSFunction('x'); //function(x){return 2*x+1}
+f(4); //9
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: expr-eval (Expression Parsing and Evaluation)</li>
+<li class="md-github">URL: https://github.com/silentmatt/expr-eval#readme</li>
+<li class="md-github">License: License</li>
+<li class="md-github">Crawl Date: 2025-04-26T03:51:06.602Z</li>
+<li class="md-github">Data Size: 668776 bytes</li>
+<li class="md-github">Links Found: 5113</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-26</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-26T04:25:15.099Z</p>
+  </footer>
+</body>
+</html>
