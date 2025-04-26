@@ -58,17 +58,19 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
 - **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty.
 - **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers.
-- **fileType**: (Deprecated) Specifies the output type. Supported values are `svg` or `png`. 
+- **fileType**: (Deprecated) Specifies the output type using shorthand values (`svg` or `png`).
 - **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
   - `image/svg+xml` (default if neither parameter is provided)
   - `image/png`
   - `application/json`
 
+**Note:** When using dynamic query parameters, you must provide either `fileType` (with value `svg` or `png`) or `format` (with one of the allowed MIME types). If neither is provided, the API will respond with a 400 error.
+
 ### Behavior
 
 - If query parameters are provided:
   - The endpoint validates that **expression** and **range** are non-empty and that **range** matches the required format.
-  - The output format is determined by the `format` parameter if provided; otherwise, by the legacy `fileType` parameter; if neither is provided, the default is `image/svg+xml`.
+  - The output format is determined by the `format` parameter if provided; otherwise, by the legacy `fileType` parameter; if neither is provided, an error is returned.
   - **image/svg+xml**: Returns an SVG plot with a text annotation showing the expression and range, with the Content-Type set to `image/svg+xml; charset=utf-8`.
   - **image/png**: Returns a PNG image with dummy base64 encoded image data and Content-Type set to `image/png`.
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
@@ -92,7 +94,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
 4. **Error Cases:**
 
-   - A missing or empty parameter (e.g., missing `expression` or `range`) will result in a 400 Bad Request with an appropriate error message.
+   - A missing or empty parameter (e.g., missing `expression`, `range`, or the required `fileType`/`format`) will result in a 400 Bad Request with an appropriate error message.
    - A malformed `range` (e.g., "x=-1:1,y=abc") will also return a 400 Bad Request.
 
 ## Server Mode

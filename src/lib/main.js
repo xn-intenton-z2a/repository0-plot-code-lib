@@ -11,18 +11,30 @@ const app = express();
 app.get("/plot", (req, res) => {
   // Check for dynamic query parameters
   const { expression, range, fileType, format } = req.query;
+
+  // If any query parameters are provided, use dynamic plot generation
   if (expression || range || fileType || format) {
-    // Validate required parameters
     if (!expression || expression.trim() === "") {
       return res.status(400).send("Missing or empty 'expression' query parameter.");
     }
     if (!range || range.trim() === "") {
       return res.status(400).send("Missing or empty 'range' query parameter.");
     }
+    if (!fileType && !format) {
+      return res.status(400).send("Missing required query parameter: either 'fileType' or 'format' must be provided.");
+    }
 
-    // Determine output format: prefer 'format' over 'fileType', default to image/svg+xml
-    const outputFormat = format || fileType || "image/svg+xml";
-    if (outputFormat !== "image/svg+xml" && outputFormat !== "image/png" && outputFormat !== "application/json") {
+    // Determine output format: prefer 'format' over 'fileType'
+    let outputFormat = format || fileType;
+    // Allow shorthand values for svg and png
+    if (outputFormat === "svg") outputFormat = "image/svg+xml";
+    if (outputFormat === "png") outputFormat = "image/png";
+
+    if (
+      outputFormat !== "image/svg+xml" &&
+      outputFormat !== "image/png" &&
+      outputFormat !== "application/json"
+    ) {
       return res.status(400).send("Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
     }
 
@@ -34,7 +46,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = `<svg xmlns=\"http://www.w3.org/2000/svg\"><text x=\"10\" y=\"20\">Plot for: ${expression} in range ${range}</text></svg>`;
+        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =

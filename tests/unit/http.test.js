@@ -88,7 +88,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1" })
       .expect(400);
-    expect(res.text).toContain("Invalid 'format'");
+    expect(res.text).toContain("Missing required query parameter");
   });
 
   test("should return 400 if range parameter is malformed", async () => {
