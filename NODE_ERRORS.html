@@ -24,373 +24,453 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="node_errors" href="#node_errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NODE_ERRORS</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Error handling in Node.js can be implemented using synchronous try/catch blocks, process event handlers (process.on('uncaughtException') and process.on('unhandledRejection')), and specific middleware in frameworks such as Express. For asynchronous operations using promises or async/await, errors should be caught using try/catch or promise chain catch methods. Best practices include using custom error classes, detailed logging, and graceful process shutdown procedures.</p>
+<p class="md-github">Error object properties: message, stack, code, cause. API methods: new Error(message[, options]), Error.captureStackTrace(targetObject[, constructorOpt]), Error.stackTraceLimit. System errors include properties like address, dest, errno, path, port, syscall. OpenSSL errors include opensslErrorStack, function, library, reason. Extensive Node.js error codes provided (ERR_ACCESS_DENIED, ERR_AMBIGUOUS_ARGUMENT, etc.). Detailed examples for synchronous, asynchronous, and EventEmitter based error handling are provided along with debugging best practices and troubleshooting commands.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github">Try/Catch Error Handling</p>
+<li class="md-github">Error Object Basics
 <ul class="md-github">
-<li class="md-github">Code snippet using try/catch with detailed error logging</li>
+<li class="md-github">Constructor: new Error(message[, options])</li>
+<li class="md-github">Properties: message (string), stack (string), code (string), cause (any), stackTraceLimit (number).</li>
 </ul>
 </li>
-<li class="md-github">
-<p class="md-github">Process Event Handlers</p>
+<li class="md-github">Error.captureStackTrace
 <ul class="md-github">
-<li class="md-github">Implementation of process.on('uncaughtException', callback) with mandatory process exit</li>
-<li class="md-github">Implementation of process.on('unhandledRejection', callback) logging promise details</li>
+<li class="md-github">Signature: Error.captureStackTrace(targetObject[, constructorOpt])</li>
+<li class="md-github">Details: Creates .stack property on target object, omits frames above optional constructorOpt.</li>
 </ul>
 </li>
-<li class="md-github">
-<p class="md-github">Express Error Middleware</p>
+<li class="md-github">Error Handling Patterns
 <ul class="md-github">
-<li class="md-github">Full code example of setting up an Express error-handling middleware with status 500 response</li>
+<li class="md-github">Synchronous: try...catch blocks.</li>
+<li class="md-github">Asynchronous: Promises with try/catch, callbacks with error-first pattern, EventEmitter error events.</li>
 </ul>
 </li>
-<li class="md-github">
-<p class="md-github">Asynchronous Error Handling</p>
+<li class="md-github">System and OpenSSL Errors
 <ul class="md-github">
-<li class="md-github">Code examples using async/await with try/catch blocks</li>
-<li class="md-github">Code examples using promise.catch chaining</li>
+<li class="md-github">System Error Properties: address, dest, errno, info, path, port, syscall.</li>
+<li class="md-github">OpenSSL Error Properties: opensslErrorStack, function, library, reason.</li>
 </ul>
 </li>
-<li class="md-github">
-<p class="md-github">Best Practices and Advanced Configurations</p>
+<li class="md-github">Node.js Error Codes
 <ul class="md-github">
-<li class="md-github">Definition and usage of custom error classes</li>
-<li class="md-github">Guidance on logging errors with libraries</li>
-<li class="md-github">Steps to ensure sensitive error information is not exposed</li>
-<li class="md-github">Guidelines for process diagnostics and monitoring</li>
+<li class="md-github">Complete list includes: ABORT_ERR, ERR_ACCESS_DENIED, ERR_AMBIGUOUS_ARGUMENT, ERR_ARG_NOT_ITERABLE, ERR_ASSERTION, ERR_ASYNC_CALLBACK, ERR_ASYNC_TYPE, ERR_BUFFER_OUT_OF_BOUNDS, ERR_BUFFER_TOO_LARGE, etc.</li>
 </ul>
 </li>
 </ol>
-<h3 class="md-github"><a class="md-github__anchor" name="detailed-implementations" href="#detailed-implementations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Implementations:</h3>
-<p class="md-github"><strong class="md-github">Try/Catch Error Handling:</strong></p>
-<pre class="md-github"><code class="md-github language-js">try {
-  performCriticalOperation();
-} catch (err) {
-  console.error(&quot;Error caught:&quot;, err);
-}
-</code></pre>
-<p class="md-github"><strong class="md-github">Process Event Handlers:</strong></p>
-<pre class="md-github"><code class="md-github language-js">process.on('uncaughtException', (err) =&gt; {
-  console.error('Uncaught Exception:', err);
-  process.exit(1);
-});
-
-process.on('unhandledRejection', (reason, promise) =&gt; {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-});
-</code></pre>
-<p class="md-github"><strong class="md-github">Express Error Middleware:</strong></p>
-<pre class="md-github"><code class="md-github language-js">app.use((err, req, res, next) =&gt; {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-</code></pre>
-<p class="md-github"><strong class="md-github">Asynchronous Error Handling:</strong></p>
-<pre class="md-github"><code class="md-github language-js">async function fetchData() {
-  try {
-    const data = await performAsyncOperation();
-    return data;
-  } catch (err) {
-    console.error('Async error caught:', err);
-    throw err;
-  }
-}
-
-performAsyncOperation()
-  .then(data =&gt; console.log(data))
-  .catch(err =&gt; console.error('Promise rejected with error:', err));
-</code></pre>
-<p class="md-github"><strong class="md-github">Custom Error Class Example:</strong></p>
-<pre class="md-github"><code class="md-github language-js">class MyCustomError extends Error {
-  constructor(message, errorCode) {
-    super(message);
-    this.name = 'MyCustomError';
-    this.errorCode = errorCode;
-  }
-}
-
-try {
-  throw new MyCustomError('Something went wrong', 500);
-} catch (err) {
-  console.error(err.name, err.message, err.errorCode);
-}
-</code></pre>
+<p class="md-github">Detailed Technical Information:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Error Constructor:
+new Error(message[, options])</p>
+<ul class="md-github">
+<li class="md-github">message: string</li>
+<li class="md-github">options: { cause: any } (optional)
+Example: err = new Error('Failure occurred', { cause: originalErr })</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Error.captureStackTrace:
+Error.captureStackTrace(object, [constructorOpt])</p>
+<ul class="md-github">
+<li class="md-github">Captures stack trace and assigns to object.stack</li>
+<li class="md-github">Omits frames above constructorOpt if provided.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Error.stackTraceLimit:
+Configurable numeric limit for captured frames.
+Default: 10
+Usage: Error.stackTraceLimit = desiredNumber</p>
+</li>
+<li class="md-github">
+<p class="md-github">Callback and Promise patterns:
+Synchronous: try { ... } catch (err) { handle(err) }
+Async (Promise): await operation() in try/catch
+Async (callback): function(err, data) { if (err) { handle(err) } }</p>
+</li>
+<li class="md-github">
+<p class="md-github">System Error details:
+Included properties: error.address (string), error.dest (string), error.errno (number), error.info (object), error.path (string), error.port (number), error.syscall (string)</p>
+</li>
+<li class="md-github">
+<p class="md-github">OpenSSL Error details:
+Included properties: error.opensslErrorStack (array), error.function (string), error.library (string), error.reason (string)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Error Code Examples:
+ERR_ACCESS_DENIED, ERR_AMBIGUOUS_ARGUMENT, ERR_ARG_NOT_ITERABLE, etc. are used as constants returned in error.code.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always attach error handlers in EventEmitter based APIs.</li>
+<li class="md-github">For fs operations, check error codes such as ENOENT, EISDIR, etc.</li>
+<li class="md-github">Increase Error.stackTraceLimit for deeper debugging.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">For EMFILE errors, run &quot;ulimit -n 2048&quot;.</li>
+<li class="md-github">Use util.getSystemErrorName(error.errno) for decoding system error codes.</li>
+</ul>
+</li>
+</ol>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="supplementary-specifications" href="#supplementary-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Specifications</h3>
+<p class="md-github">Technical Specifications:</p>
 <ul class="md-github">
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Parameter Values:</strong></p>
-<ul class="md-github">
-<li class="md-github">In process events, the error parameter is of type Error, and for promise rejections, the reason is of any type and the promise is the rejected Promise.</li>
-<li class="md-github">In Express error middleware, the parameters are (err: Error, req: Request, res: Response, next: NextFunction).</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Configuration Options:</strong></p>
-<ul class="md-github">
-<li class="md-github">For process exit upon fatal error: <code class="md-github">process.exit(1)</code> ensures the process terminates.</li>
-<li class="md-github">Logging configurations can be set using libraries (e.g., Winston configuration with transport options, log levels, format options).</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Implementation Steps:</strong></p>
+<li class="md-github">new Error: Accepts a string message and an optional object { cause: any }.</li>
+<li class="md-github">Error.captureStackTrace: targetObject must be an object; constructorOpt if specified should be a Function to omit frames above it.</li>
+<li class="md-github">Error.stackTraceLimit: Set as a number, default is 10. Exceeding this may provide more detailed stack traces at the cost of performance.</li>
+<li class="md-github">System Errors: Provide additional fields: address (string), dest (string), errno (number), info (object), path (string), port (number), syscall (string).</li>
+<li class="md-github">OpenSSL Error Fields: opensslErrorStack (array of string/error objects), function (string), library (string), reason (string).</li>
+<li class="md-github">Configuration options: Increase ulimit via shell command &quot;ulimit -n 2048&quot; when encountering file descriptor limitations.</li>
+<li class="md-github">Implementation steps for using errors:
 <ol class="md-github">
-<li class="md-github">Wrap synchronous code in try/catch blocks.</li>
-<li class="md-github">Attach process-level event handlers at the start of the application.</li>
-<li class="md-github">In web frameworks, use a dedicated error-handling middleware placed after all routes.</li>
-<li class="md-github">For asynchronous operations, ensure proper error propagation using async/await try/catch or promise catch.</li>
-<li class="md-github">Define custom error classes to handle specific error scenarios.</li>
+<li class="md-github">For standard errors, use new Error() with optional cause.</li>
+<li class="md-github">For tailored error handling, use Error.captureStackTrace to exclude internal functions from stack trace.</li>
+<li class="md-github">In asynchronous code, always use try/catch or error-first callbacks.</li>
 </ol>
 </li>
-<li class="md-github">
-<p class="md-github"><strong class="md-github">Troubleshooting Procedures:</strong></p>
-<ul class="md-github">
-<li class="md-github">Use <code class="md-github">node --trace-warnings app.js</code> for detailed warning traces.</li>
-<li class="md-github">Monitor log outputs using a logging framework and redirect them to a file for persistent records.</li>
-<li class="md-github">Validate error handling by intentionally throwing errors and verifying that logs capture detailed stack traces.</li>
-</ul>
-</li>
+<li class="md-github">Best Practice: Validate error codes using if (error.code === 'ERR_ACCESS_DENIED') then apply specific recovery steps.</li>
+<li class="md-github">Troubleshooting: Validate file path existence to avoid ENOENT; check error.errno mapping via util.getSystemErrorName.</li>
+<li class="md-github">Defaults: Error.stackTraceLimit default is 10, can be updated as needed.</li>
+<li class="md-github">Command Example: Setting stack trace limit: Error.stackTraceLimit = 50;</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="complete-api-specifications-and-code-examples" href="#complete-api-specifications-and-code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete API Specifications and Code Examples</h3>
-<h4 class="md-github"><a class="md-github__anchor" name="process-event-handlers-api" href="#process-event-handlers-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Process Event Handlers API</h4>
-<ul class="md-github">
-<li class="md-github">Method: process.on
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github">Signature for uncaught exception:</p>
-<pre class="md-github"><code class="md-github language-js">process.on('uncaughtException', (err: Error) =&gt; void): void;
-</code></pre>
-<ul class="md-github">
-<li class="md-github">Parameters:
-<ul class="md-github">
-<li class="md-github">err: instance of Error</li>
-</ul>
-</li>
-<li class="md-github">Behavior: callback is invoked when an uncaught exception occurs; typically followed by a process exit.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Signature for unhandled rejection:</p>
-<pre class="md-github"><code class="md-github language-js">process.on('unhandledRejection', (reason: any, promise: Promise&lt;any&gt;) =&gt; void): void;
-</code></pre>
-<ul class="md-github">
-<li class="md-github">Parameters:
-<ul class="md-github">
-<li class="md-github">reason: the reason for rejection (any type)</li>
-<li class="md-github">promise: the promise that was rejected</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 class="md-github"><a class="md-github__anchor" name="express-error-middleware-api" href="#express-error-middleware-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express Error Middleware API</h4>
-<ul class="md-github">
-<li class="md-github">Middleware function signature:<pre class="md-github"><code class="md-github language-js">function errorHandler(err: Error, req: Request, res: Response, next: NextFunction): void;
-</code></pre>
-<ul class="md-github">
-<li class="md-github">Example usage:<pre class="md-github"><code class="md-github language-js">app.use((err, req, res, next) =&gt; {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-</code></pre>
-</li>
-</ul>
-</li>
-</ul>
-<h4 class="md-github"><a class="md-github__anchor" name="asyncawait-error-handling" href="#asyncawait-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Async/Await Error Handling</h4>
-<ul class="md-github">
-<li class="md-github">Standard usage in async functions:<pre class="md-github"><code class="md-github language-js">async function yourFunction(): Promise&lt;ReturnType&gt; {
-  try {
-    // Await some promise
-    const result = await someAsyncOperation();
-    return result;
-  } catch (error) {
-    // Handle error
-    console.error('Error:', error);
-    throw error; // or handle gracefully
-  }
-}
-</code></pre>
-</li>
-</ul>
-<h4 class="md-github"><a class="md-github__anchor" name="custom-error-class" href="#custom-error-class"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Error Class</h4>
-<ul class="md-github">
-<li class="md-github">Example custom error class with additional properties:<pre class="md-github"><code class="md-github language-js">class MyCustomError extends Error {
-  public errorCode: number;
-  constructor(message: string, errorCode: number) {
-    super(message);
-    this.name = 'MyCustomError';
-    this.errorCode = errorCode;
-  }
-}
-</code></pre>
-</li>
-</ul>
-<h4 class="md-github"><a class="md-github__anchor" name="configuration-options-for-logging-example-using-winston" href="#configuration-options-for-logging-example-using-winston"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options for Logging (Example using Winston)</h4>
-<ul class="md-github">
-<li class="md-github">
-<p class="md-github">Install winston via npm: <code class="md-github">npm install winston</code></p>
-</li>
-<li class="md-github">
-<p class="md-github">Code example:</p>
-<pre class="md-github"><code class="md-github language-js">const winston = require('winston');
-
-const logger = winston.createLogger({
-  level: 'error',
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
-  transports: [
-    new winston.transports.File({ filename: 'error.log', level: 'error' })
-  ]
-});
-
-// Usage
-try {
-  performRiskyOperation();
-} catch (error) {
-  logger.error('Operation failed', { error });
-}
-</code></pre>
-</li>
-</ul>
-<h4 class="md-github"><a class="md-github__anchor" name="troubleshooting-procedures" href="#troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Procedures</h4>
-<ul class="md-github">
-<li class="md-github"><strong class="md-github">Command to run with trace warnings:</strong><pre class="md-github"><code class="md-github language-sh">node --trace-warnings app.js
-</code></pre>
-</li>
-<li class="md-github"><strong class="md-github">Verifying error logs:</strong>
-<ul class="md-github">
-<li class="md-github">Check the contents of <code class="md-github">error.log</code> (if using Winston file transport) to verify that errors are logged with timestamp and JSON structure.</li>
-</ul>
-</li>
-<li class="md-github"><strong class="md-github">Expected Output:</strong>
-<ul class="md-github">
-<li class="md-github">Detailed stack trace in the console and/or log file output demonstrating the full error object and custom properties (if any).</li>
-</ul>
-</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">Effective Error Handling in Node.js
-https://www.digitalocean.com/community/tutorials/how-to-handle-errors-in-node-js</p>
-<h2 class="md-github"><a class="md-github__anchor" name="digest-of-node_errors" href="#digest-of-node_errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of NODE_ERRORS</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="node-errors-documentation" href="#node-errors-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NODE ERRORS DOCUMENTATION</h1>
-<p class="md-github"><strong class="md-github">Retrieved Date:</strong> 2023-10-04</p>
-<p class="md-github"><strong class="md-github">Source:</strong> https://www.digitalocean.com/community/tutorials/how-to-handle-errors-in-node-js (Entry 48 from SOURCES.md)</p>
-<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents-1" href="#table-of-contents-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<p class="md-github">API Specifications:</p>
 <ol class="md-github">
-<li class="md-github">Try/Catch Error Handling</li>
-<li class="md-github">Process Event Handlers</li>
-<li class="md-github">Express Error Middleware</li>
-<li class="md-github">Asynchronous Error Handling</li>
-<li class="md-github">Best Practices and Advanced Configurations</li>
-</ol>
-<h2 class="md-github"><a class="md-github__anchor" name="1-trycatch-error-handling" href="#1-trycatch-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Try/Catch Error Handling</h2>
-<p class="md-github">Direct implementation using synchronous code:</p>
-<pre class="md-github"><code class="md-github language-js">try {
-  // Code that might throw an error
-  performCriticalOperation();
-} catch (err) {
-  console.error(&quot;Error caught:&quot;, err);
-  // Additional error recovery steps
-}
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="2-process-event-handlers" href="#2-process-event-handlers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. Process Event Handlers</h2>
-<p class="md-github">Handling uncaught exceptions and unhandled rejections.</p>
-<p class="md-github"><strong class="md-github">Uncaught Exception:</strong></p>
-<pre class="md-github"><code class="md-github language-js">process.on('uncaughtException', (err) =&gt; {
-  console.error('Uncaught Exception:', err);
-  // Optional: Cleanup and process exit
-  process.exit(1);
-});
-</code></pre>
-<p class="md-github"><strong class="md-github">Unhandled Promise Rejection:</strong></p>
-<pre class="md-github"><code class="md-github language-js">process.on('unhandledRejection', (reason, promise) =&gt; {
-  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
-  // Optional: Graceful shutdown logic
-});
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="3-express-error-middleware" href="#3-express-error-middleware"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. Express Error Middleware</h2>
-<p class="md-github">Integrate error handling within an Express application using a dedicated error-handling middleware.</p>
-<pre class="md-github"><code class="md-github language-js">const express = require('express');
-const app = express();
-
-// Application routes
-app.get('/', (req, res) =&gt; {
-  throw new Error('Synchronous error!');
-});
-
-// Error-handling middleware
-app.use((err, req, res, next) =&gt; {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
-
-app.listen(3000, () =&gt; console.log('Server running on port 3000'));
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="4-asynchronous-error-handling" href="#4-asynchronous-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Asynchronous Error Handling</h2>
-<p class="md-github">Using async/await requires try/catch blocks or promise.catch chaining:</p>
-<pre class="md-github"><code class="md-github language-js">// Using async/await with try/catch
-async function fetchData() {
-  try {
-    const data = await performAsyncOperation();
-    return data;
-  } catch (err) {
-    console.error('Async error caught:', err);
-    throw err;
-  }
-}
-
-// Using promise.catch
-performAsyncOperation()
-  .then(data =&gt; console.log(data))
-  .catch(err =&gt; console.error('Promise rejected with error:', err));
-</code></pre>
-<h2 class="md-github"><a class="md-github__anchor" name="5-best-practices-and-advanced-configurations" href="#5-best-practices-and-advanced-configurations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Best Practices and Advanced Configurations</h2>
+<li class="md-github">new Error(message: string, options?: { cause?: any }): Error
 <ul class="md-github">
-<li class="md-github">Use specific error types: Create custom error classes to provide more contextual errors.</li>
-<li class="md-github">Log errors with full stack traces using logging libraries (e.g., Winston, Bunyan).</li>
-<li class="md-github">In production, avoid exposing sensitive error details to end users.</li>
-<li class="md-github">Monitor the process using diagnostic tools (e.g., Node.js Diagnostic Report, Clinic.js).</li>
+<li class="md-github">Throws and returns an Error object with properties message, stack, code, and optionally cause.</li>
+<li class="md-github">Example:
+const err = new Error('Operation failed', { cause: previousError });</li>
 </ul>
-<p class="md-github"><strong class="md-github">Custom Error Example:</strong></p>
-<pre class="md-github"><code class="md-github language-js">class MyCustomError extends Error {
-  constructor(message, errorCode) {
-    super(message);
-    this.name = 'MyCustomError';
-    this.errorCode = errorCode;
-  }
-}
-
-// Usage
+</li>
+<li class="md-github">Error.captureStackTrace(targetObject: Object, constructorOpt?: Function): void
+<ul class="md-github">
+<li class="md-github">Captures the call stack at the point of invocation and assigns it to targetObject.stack.</li>
+<li class="md-github">Example:
+Error.captureStackTrace(myObj, myFunction);</li>
+</ul>
+</li>
+<li class="md-github">Error.stackTraceLimit: number
+<ul class="md-github">
+<li class="md-github">Default value is 10; modify by assignment to capture a larger or smaller number of stack frames.</li>
+<li class="md-github">Example:
+Error.stackTraceLimit = 50;</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="full-code-example" href="#full-code-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Full Code Example:</h2>
+<p class="md-github">// Synchronous error handling
 try {
-  throw new MyCustomError('Something went wrong', 500);
+throw new Error('Synchronous failure');
 } catch (err) {
-  console.error(err.name, err.message, err.errorCode);
+console.error('Caught error:', err.message);
+console.error('Stack trace:', err.stack);
+}</p>
+<p class="md-github">// Asynchronous error handling using Promises
+async function readFileExample() {
+const fs = require('node:fs/promises');
+try {
+const data = await fs.readFile('nonexistent.txt');
+} catch (err) {
+console.error('Async error:', err.message);
 }
-</code></pre>
+}
+readFileExample();</p>
+<p class="md-github">// Error.captureStackTrace usage
+function internalErrorHandler() {
+const obj = {};
+Error.captureStackTrace(obj, internalErrorHandler);
+return obj;
+}</p>
+<p class="md-github">// Configuration Options:
+// Increase stack trace limit for debugging
+Error.stackTraceLimit = 50;</p>
+<h2 class="md-github"><a class="md-github__anchor" name="-troubleshooting-1-for-emfile-errors-run-command-ulimit--n-2048-to-increase-file-descriptor-limits-2-use-utilgetsystemerrornameerrorerrno-to-interpret-system-error-numbers" href="#-troubleshooting-1-for-emfile-errors-run-command-ulimit--n-2048-to-increase-file-descriptor-limits-2-use-utilgetsystemerrornameerrorerrno-to-interpret-system-error-numbers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>// Troubleshooting:
+// 1. For EMFILE errors: Run command &quot;ulimit -n 2048&quot; to increase file descriptor limits.
+// 2. Use util.getSystemErrorName(error.errno) to interpret system error numbers.</h2>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always distinguish synchronous and asynchronous error handling methods.</li>
+<li class="md-github">Attach error handlers for EventEmitter instances to prevent process crashes.</li>
+<li class="md-github">Validate parameters to catch TypeError and RangeError before invoking functions.</li>
+<li class="md-github">Use the 'cause' property to chain errors and maintain original error context.</li>
+</ul>
+<p class="md-github">Detailed Steps:</p>
+<ol class="md-github">
+<li class="md-github">Wrap error prone code in try...catch.</li>
+<li class="md-github">For promise based methods, use async/await with error handling.</li>
+<li class="md-github">For callback based methods, check if (err) is non-null.</li>
+<li class="md-github">For events, attach listener on the 'error' event.</li>
+</ol>
+<p class="md-github">Return Types:</p>
+<ul class="md-github">
+<li class="md-github">new Error returns an Error instance.</li>
+<li class="md-github">Error.captureStackTrace returns void.</li>
+</ul>
+<p class="md-github">Exceptions:</p>
+<ul class="md-github">
+<li class="md-github">new Error does not throw additional exceptions by itself; however, improper use of Error.captureStackTrace may omit necessary debugging frames.</li>
+</ul>
+<p class="md-github">All parameters and return values are explicitly defined and documented in the Node.js API.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Error Constructor: new Error(message: string, options?: { cause?: any }); Properties: message, stack, code, cause, stackTraceLimit (default 10). Capture Stack: Error.captureStackTrace(targetObject: Object, constructorOpt?: Function) omits frames above constructorOpt. Synchronous handling: try { ... } catch (err). Asynchronous: async/await with try/catch, callback with error-first, EventEmitter 'error' event. System Errors include address, dest, errno, info, path, port, syscall; OpenSSL Errors include opensslErrorStack, function, library, reason. Error codes: ABORT_ERR, ERR_ACCESS_DENIED, ERR_AMBIGUOUS_ARGUMENT, ERR_ARG_NOT_ITERABLE, ERR_ASSERTION, ERR_ASYNC_CALLBACK, ERR_BUFFER_OUT_OF_BOUNDS, etc. Best practices: attach error handlers to EventEmitters, use Error.captureStackTrace to hide internals, increase Error.stackTraceLimit for deeper debugging, use util.getSystemErrorName(error.errno) to decode errors, ulimit -n 2048 for file descriptor limitations.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Error Object Basics
+<ul class="md-github">
+<li class="md-github">Constructor: new Error(message[, options])</li>
+<li class="md-github">Properties: message (string), stack (string), code (string), cause (any), stackTraceLimit (number).</li>
+</ul>
+</li>
+<li class="md-github">Error.captureStackTrace
+<ul class="md-github">
+<li class="md-github">Signature: Error.captureStackTrace(targetObject[, constructorOpt])</li>
+<li class="md-github">Details: Creates .stack property on target object, omits frames above optional constructorOpt.</li>
+</ul>
+</li>
+<li class="md-github">Error Handling Patterns
+<ul class="md-github">
+<li class="md-github">Synchronous: try...catch blocks.</li>
+<li class="md-github">Asynchronous: Promises with try/catch, callbacks with error-first pattern, EventEmitter error events.</li>
+</ul>
+</li>
+<li class="md-github">System and OpenSSL Errors
+<ul class="md-github">
+<li class="md-github">System Error Properties: address, dest, errno, info, path, port, syscall.</li>
+<li class="md-github">OpenSSL Error Properties: opensslErrorStack, function, library, reason.</li>
+</ul>
+</li>
+<li class="md-github">Node.js Error Codes
+<ul class="md-github">
+<li class="md-github">Complete list includes: ABORT_ERR, ERR_ACCESS_DENIED, ERR_AMBIGUOUS_ARGUMENT, ERR_ARG_NOT_ITERABLE, ERR_ASSERTION, ERR_ASYNC_CALLBACK, ERR_ASYNC_TYPE, ERR_BUFFER_OUT_OF_BOUNDS, ERR_BUFFER_TOO_LARGE, etc.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Technical Information:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Error Constructor:
+new Error(message[, options])</p>
+<ul class="md-github">
+<li class="md-github">message: string</li>
+<li class="md-github">options: { cause: any } (optional)
+Example: err = new Error('Failure occurred', { cause: originalErr })</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Error.captureStackTrace:
+Error.captureStackTrace(object, [constructorOpt])</p>
+<ul class="md-github">
+<li class="md-github">Captures stack trace and assigns to object.stack</li>
+<li class="md-github">Omits frames above constructorOpt if provided.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Error.stackTraceLimit:
+Configurable numeric limit for captured frames.
+Default: 10
+Usage: Error.stackTraceLimit = desiredNumber</p>
+</li>
+<li class="md-github">
+<p class="md-github">Callback and Promise patterns:
+Synchronous: try { ... } catch (err) { handle(err) }
+Async (Promise): await operation() in try/catch
+Async (callback): function(err, data) { if (err) { handle(err) } }</p>
+</li>
+<li class="md-github">
+<p class="md-github">System Error details:
+Included properties: error.address (string), error.dest (string), error.errno (number), error.info (object), error.path (string), error.port (number), error.syscall (string)</p>
+</li>
+<li class="md-github">
+<p class="md-github">OpenSSL Error details:
+Included properties: error.opensslErrorStack (array), error.function (string), error.library (string), error.reason (string)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Error Code Examples:
+ERR_ACCESS_DENIED, ERR_AMBIGUOUS_ARGUMENT, ERR_ARG_NOT_ITERABLE, etc. are used as constants returned in error.code.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always attach error handlers in EventEmitter based APIs.</li>
+<li class="md-github">For fs operations, check error codes such as ENOENT, EISDIR, etc.</li>
+<li class="md-github">Increase Error.stackTraceLimit for deeper debugging.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">For EMFILE errors, run 'ulimit -n 2048'.</li>
+<li class="md-github">Use util.getSystemErrorName(error.errno) for decoding system error codes.</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js Error Handling
+https://nodejs.org/api/errors.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-node_errors" href="#digest-of-node_errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of NODE_ERRORS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="nodejs-errors-documentation" href="#nodejs-errors-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js Errors Documentation</h1>
+<p class="md-github">This document presents the full technical details extracted from the Node.js Error Handling API. It includes complete method signatures, parameter types, properties and detailed code examples.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="error-object-and-properties" href="#error-object-and-properties"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error Object and Properties</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Constructor</strong>: new Error(message[, options])</p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">message: string</li>
+<li class="md-github">options: Object (optional) with property 'cause' (any type)</li>
+</ul>
+</li>
+<li class="md-github">Returns: An Error instance with a captured stack trace.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Properties</strong>:</p>
+<ul class="md-github">
+<li class="md-github">error.message: string, the error description.</li>
+<li class="md-github">error.stack: string, stack trace starting with &quot;Error: <message>&quot; followed by call frames.</li>
+<li class="md-github">error.code: string, identifier used to identify the error type.</li>
+<li class="md-github">error.cause: any, the underlying error provided via options.</li>
+<li class="md-github">Error.stackTraceLimit: number, sets the maximum number of stack frames to capture (default 10, can be updated to any number).</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="errorcapturestacktrace-method" href="#errorcapturestacktrace-method"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error.captureStackTrace Method</h2>
+<ul class="md-github">
+<li class="md-github"><strong class="md-github">Signature</strong>: Error.captureStackTrace(targetObject[, constructorOpt])
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">targetObject: Object on which the stack property will be defined.</li>
+<li class="md-github">constructorOpt: Function (optional), if provided, frames above this function (including it) are omitted from the stack trace.</li>
+</ul>
+</li>
+<li class="md-github">Usage: Helps hide internal implementation frames from the final error output.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="error-propagation-and-handling-patterns" href="#error-propagation-and-handling-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Error Propagation and Handling Patterns</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Synchronous Error Handling</strong>: Uses try...catch blocks. Example:
+try {
+// code that may throw an error
+} catch (err) {
+// process error: err.message, err.stack
+}</p>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">Asynchronous Error Handling</strong>:</p>
+<ul class="md-github">
+<li class="md-github">For Promise-based APIs, use async/await with try...catch.</li>
+<li class="md-github">For callback-based APIs, check if the first argument is non-null.</li>
+<li class="md-github">For EventEmitter APIs, attach a listener to the 'error' event.</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="system-errors-and-openssl-errors" href="#system-errors-and-openssl-errors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>System Errors and OpenSSL Errors</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github"><strong class="md-github">System Errors</strong>: Inherit from Error. Common properties include:</p>
+<ul class="md-github">
+<li class="md-github">error.address (string), error.dest (string), error.errno (number), error.info (Object), error.path (string), error.port (number), error.syscall (string).</li>
+<li class="md-github">Standard system error examples: EACCES, EADDRINUSE, ECONNREFUSED, ECONNRESET, EEXIST, EISDIR, EMFILE, ENOENT, ENOTDIR, ENOTEMPTY, EPERM, EPIPE, ETIMEDOUT.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github"><strong class="md-github">OpenSSL Errors</strong>:
+Additional properties specific to OpenSSL:</p>
+<ul class="md-github">
+<li class="md-github">error.opensslErrorStack: array (of error details)</li>
+<li class="md-github">error.function: string (OpenSSL function name)</li>
+<li class="md-github">error.library: string (OpenSSL library name)</li>
+<li class="md-github">error.reason: string (description of error cause)</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="nodejs-specific-error-codes" href="#nodejs-specific-error-codes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js Specific Error Codes</h2>
+<p class="md-github">The documentation enumerates many Node.js error codes including but not limited to:</p>
+<ul class="md-github">
+<li class="md-github">ABORT_ERR</li>
+<li class="md-github">ERR_ACCESS_DENIED</li>
+<li class="md-github">ERR_AMBIGUOUS_ARGUMENT</li>
+<li class="md-github">ERR_ARG_NOT_ITERABLE</li>
+<li class="md-github">ERR_ASSERTION</li>
+<li class="md-github">ERR_ASYNC_CALLBACK</li>
+<li class="md-github">ERR_ASYNC_TYPE</li>
+<li class="md-github">ERR_BUFFER_OUT_OF_BOUNDS</li>
+<li class="md-github">ERR_BUFFER_TOO_LARGE</li>
+<li class="md-github">ERR_CHILD_CLOSED_BEFORE_REPLY</li>
+<li class="md-github">ERR_CHILD_PROCESS_IPC_REQUIRED</li>
+<li class="md-github">ERR_CONSTRUCT_CALL_INVALID</li>
+<li class="md-github">ERR_CONSTRUCT_CALL_REQUIRED</li>
+<li class="md-github">ERR_CRYPTO_CUSTOM_ENGINE_NOT_SUPPORTED</li>
+<li class="md-github">... (full list available in documentation)</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="detailed-code-example-synchronous-asynchronous-and-eventemitter-error-handling" href="#detailed-code-example-synchronous-asynchronous-and-eventemitter-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed Code Example: Synchronous, Asynchronous, and EventEmitter Error Handling</h2>
+<p class="md-github">// Synchronous Exception Handling
+try {
+const a = 1;
+const b = a + undefinedVariable;
+} catch (err) {
+console.error('Synchronous error caught:', err.message);
+}</p>
+<p class="md-github">// Asynchronous handling using async/await
+const fsPromises = require('node:fs/promises');
+(async () =&gt; {
+try {
+let data = await fsPromises.readFile('nonexistent.txt');
+} catch (err) {
+console.error('Async error caught:', err.message);
+}
+})();</p>
+<p class="md-github">// EventEmitter error handling
+const net = require('node:net');
+const connection = net.connect({ port: 80, host: 'localhost' });
+connection.on('error', (err) =&gt; {
+console.error('Error event caught:', err.message);
+});</p>
+<h2 class="md-github"><a class="md-github__anchor" name="best-practices-and-troubleshooting" href="#best-practices-and-troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices and Troubleshooting</h2>
+<ol class="md-github">
+<li class="md-github">Always check function signatures for synchronous vs asynchronous error reporting.</li>
+<li class="md-github">For asynchronous APIs, always provide error handling logic either via try/catch with async/await or checking error in callbacks.</li>
+<li class="md-github">Use Error.captureStackTrace to hide internal frames and reduce noise in production.</li>
+<li class="md-github">Increase Error.stackTraceLimit for debugging complex errors: Example - Error.stackTraceLimit = 50</li>
+</ol>
+<h3 class="md-github"><a class="md-github__anchor" name="troubleshooting-commands" href="#troubleshooting-commands"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Commands</h3>
+<ul class="md-github">
+<li class="md-github">To increase file descriptor limits (for EMFILE errors):
+ulimit -n 2048</li>
+<li class="md-github">For diagnostic information of system errors, use util.getSystemErrorName(error.errno) to resolve the error code.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="documentation-attribution-and-data-size" href="#documentation-attribution-and-data-size"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Documentation Attribution and Data Size</h2>
+<ul class="md-github">
+<li class="md-github">URL: https://nodejs.org/api/errors.html</li>
+<li class="md-github">Data Size: 3318159 bytes</li>
+<li class="md-github">Date retrieved:</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
-<li class="md-github">Source: Effective Error Handling in Node.js</li>
-<li class="md-github">URL: https://www.digitalocean.com/community/tutorials/how-to-handle-errors-in-node-js</li>
-<li class="md-github">License: DigitalOcean Community</li>
-<li class="md-github">Crawl Date: 2025-04-17T18:27:02.608Z</li>
-<li class="md-github">Data Size: 0 bytes</li>
-<li class="md-github">Links Found: 0</li>
+<li class="md-github">Source: Node.js Error Handling</li>
+<li class="md-github">URL: https://nodejs.org/api/errors.html</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-26T20:47:27.697Z</li>
+<li class="md-github">Data Size: 3318159 bytes</li>
+<li class="md-github">Links Found: 1512</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-04-17</p>
+<p class="md-github">2025-04-26</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-19T22:24:01.188Z</p>
+    <p>Generated on 2025-04-26T21:22:12.536Z</p>
   </footer>
 </body>
 </html>
