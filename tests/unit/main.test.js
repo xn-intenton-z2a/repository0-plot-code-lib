@@ -89,6 +89,62 @@ describe("CLI Plot Generation", () => {
     ];
     expect(() => main()).toThrow(/Error: Unsupported file extension/);
   });
+
+  test("should error when --expression is empty", () => {
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "",
+      "--range",
+      "x=-1:1,y=-1:1",
+      "--file",
+      "output.svg"
+    ];
+    expect(() => main()).toThrow("Error: --expression flag must have a non-empty value.");
+  });
+
+  test("should error when --range is empty", () => {
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "",
+      "--file",
+      "output.svg"
+    ];
+    expect(() => main()).toThrow("Error: --range flag must have a non-empty value.");
+  });
+
+  test("should error when --file is empty", () => {
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1,y=-1:1",
+      "--file",
+      ""
+    ];
+    expect(() => main()).toThrow("Error: --file flag must have a non-empty value.");
+  });
+
+  test("should error if --range is malformed", () => {
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1,y=abc",
+      "--file",
+      "output.svg"
+    ];
+    expect(() => main()).toThrow("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+  });
 });
 
 // Restore original argv after all tests

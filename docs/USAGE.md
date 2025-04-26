@@ -8,9 +8,11 @@ repository0-plot-code-lib is a CLI tool and library for generating plots from ma
 
 You can generate plots directly from the command line by providing the following flags:
 
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)").
-- **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1").
-- **--file**: The output file path. The file extension determines the output type:
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string.
+- **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
+  - The range value must not be empty.
+  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. For example, "x=-1:1,y=-1:1".
+- **--file**: The output file path. The value must not be empty. The file extension determines the output type:
   - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
 
@@ -18,7 +20,7 @@ When executed with the correct flags, the CLI will generate the plot and log a s
 
 ### Examples
 
-1. **Generate an SVG plot**:
+1. **Generate an SVG plot (Valid Input):**
 
    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
 
@@ -30,20 +32,26 @@ When executed with the correct flags, the CLI will generate the plot and log a s
    ```
    - And the CLI will log a message: "SVG plot generated at output.svg for expression: y=sin(x) in range: x=-1:1,y=-1:1"
 
-2. **Generate a PNG plot**:
+2. **Generate a PNG plot (Valid Input):**
 
    node src/lib/main.js --expression "y=cos(x)" --range "x=-1:1,y=-1:1" --file output.png
 
    - The generated PNG file will have a valid PNG header.
    - And the CLI will log a message: "PNG plot generated at output.png for expression: y=cos(x) in range: x=-1:1,y=-1:1"
 
-### Error Handling
+3. **Invalid Input Examples:**
 
-- If any of the required flags (--expression, --range, or --file) are missing, the program will throw an error stating:
+   - Missing a required flag or providing an empty value will result in an error. For example:
+     - Missing or empty **--expression**: 
+       > Error: --expression flag must have a non-empty value.
+     - Missing or empty **--range**: 
+       > Error: --range flag must have a non-empty value.
+     - Missing or empty **--file**: 
+       > Error: --file flag must have a non-empty value.
 
-  > Error: --expression, --range, and --file flags are required together.
-
-- If an unsupported file extension is provided (anything other than .svg or .png), an error is thrown stating that only .svg and .png are supported.
+   - Malformed **--range** value:
+     - For example, using "x=-1:1,y=abc" will result in:
+       > Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.
 
 ## Server Mode
 
