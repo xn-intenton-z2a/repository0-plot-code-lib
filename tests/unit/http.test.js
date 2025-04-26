@@ -10,7 +10,8 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect("Vary", /Accept/)
       .expect(200);
-    expect(res.text.startsWith("<svg")).toBe(true);
+    const text = res.text || res.body.toString();
+    expect(text.startsWith("<svg")).toBe(true);
   });
 
   test("should return PNG when Accept: image/png", async () => {
