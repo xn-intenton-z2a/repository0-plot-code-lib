@@ -79,8 +79,21 @@ export function main(args = process.argv.slice(2)) {
     const range = args[rangeIdx + 1];
     const fileOutput = args[fileIdx + 1];
 
-    if (!expression || !range || !fileOutput) {
-      throw new Error("Error: Missing required values for --expression, --range, or --file.");
+    // Validate that all required flags have non-empty values
+    if (!expression || expression.trim() === "") {
+      throw new Error("Error: --expression flag must have a non-empty value.");
+    }
+    if (!range || range.trim() === "") {
+      throw new Error("Error: --range flag must have a non-empty value.");
+    }
+    if (!fileOutput || fileOutput.trim() === "") {
+      throw new Error("Error: --file flag must have a non-empty value.");
+    }
+
+    // Validate the range flag format
+    const rangePattern = /^x=-?\d+:\d+,y=-?\d+:\d+$/;
+    if (!rangePattern.test(range)) {
+      throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
 
     // Call the extracted plot generation function
