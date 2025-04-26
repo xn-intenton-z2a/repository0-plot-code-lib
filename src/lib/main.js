@@ -12,8 +12,14 @@ app.get("/plot", (req, res) => {
   // Check for dynamic query parameters
   const { expression, range, fileType, format } = req.query;
 
-  // If any query parameters are provided, use dynamic plot generation
+  // If any query parameters are provided, use dynamic plot generation.
+  // Note: When query parameters are provided, they override content negotiation via the Accept header.
   if (expression || range || fileType || format) {
+    /* Dynamic query parameter handling: validate and generate plot dynamically.
+       Both 'expression' and 'range' must be provided. 'range' must match the format:
+       x=<min>:<max>,y=<min>:<max> with numeric values (integers or floating point).
+       Either 'fileType' or 'format' must be specified to determine the output.
+    */
     if (!expression || expression.trim() === "") {
       return res.status(400).send("Missing or empty 'expression' query parameter.");
     }
