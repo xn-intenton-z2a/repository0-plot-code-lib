@@ -16,9 +16,7 @@ app.get("/plot", (req, res) => {
     case "image/svg+xml":
       res
         .type("image/svg+xml")
-        .send(
-          '<?xml version="1.0" encoding="UTF-8"?>'<+><svg xmlns="http://www.w3.org/2000/svg"></svg>
-        );
+        .send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
       break;
     case "image/png": {
       const pngBase64 =
