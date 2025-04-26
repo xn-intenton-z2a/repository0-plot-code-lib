@@ -16,9 +16,7 @@ app.get("/plot", (req, res) => {
   }
   switch (accepted) {
     case "image/svg+xml":
-      res
-        .type("image/svg+xml")
-        .send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
+      res.type("image/svg+xml").send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
       break;
     case "image/png": {
       const pngBase64 =
@@ -35,6 +33,35 @@ app.get("/plot", (req, res) => {
   }
 });
 
+/**
+ * Generates a plot based on the provided expression, range, and output file path.
+ * Supports only .svg and .png file extensions.
+ * @param {string} expression - The mathematical expression to plot.
+ * @param {string} range - The range for plotting (e.g., "x=-1:1,y=-1:1").
+ * @param {string} fileOutput - The file path where the plot will be saved.
+ * @returns {string} A success message indicating the plot generation details.
+ * @throws Will throw an error if an unsupported file extension is provided.
+ */
+export function generatePlot(expression, range, fileOutput) {
+  const ext = path.extname(fileOutput).toLowerCase();
+  let successMessage;
+  if (ext === ".svg") {
+    const content = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
+    fs.writeFileSync(fileOutput, content, "utf8");
+    successMessage = `SVG plot generated at ${fileOutput}`;
+  } else if (ext === ".png") {
+    const pngBase64 =
+      "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
+    const buffer = Buffer.from(pngBase64, "base64");
+    fs.writeFileSync(fileOutput, buffer);
+    successMessage = `PNG plot generated at ${fileOutput}`;
+  } else {
+    throw new Error(`Error: Unsupported file extension '${ext}'. Only .svg and .png are supported.`);
+  }
+  console.log(successMessage);
+  return successMessage;
+}
+
 export function main(args = process.argv.slice(2)) {
   // Check for CLI_PLOT mode: if any of the CLI flags are provided, require all flags.
   const hasExpression = args.includes("--expression");
@@ -49,29 +76,15 @@ export function main(args = process.argv.slice(2)) {
     const rangeIdx = args.indexOf("--range");
     const fileIdx = args.indexOf("--file");
     const expression = args[expressionIdx + 1];
-    const range = args[rangeIdx + 1]; // used in SVG output
+    const range = args[rangeIdx + 1];
     const fileOutput = args[fileIdx + 1];
 
     if (!expression || !range || !fileOutput) {
       throw new Error("Error: Missing required values for --expression, --range, or --file.");
     }
 
-    const ext = path.extname(fileOutput).toLowerCase();
-    if (ext === ".svg") {
-      const content = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
-      fs.writeFileSync(fileOutput, content, "utf8");
-      console.log(`SVG plot generated at ${fileOutput}`);
-      return;
-    } else if (ext === ".png") {
-      const pngBase64 =
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
-      const buffer = Buffer.from(pngBase64, "base64");
-      fs.writeFileSync(fileOutput, buffer);
-      console.log(`PNG plot generated at ${fileOutput}`);
-      return;
-    } else {
-      throw new Error(`Error: Unsupported file extension '${ext}'. Only .svg and .png are supported.`);
-    }
+    // Call the extracted plot generation function
+    return generatePlot(expression, range, fileOutput);
   }
 
   if (args.includes("--serve")) {

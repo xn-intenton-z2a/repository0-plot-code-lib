@@ -14,29 +14,36 @@ You can generate plots directly from the command line by providing the following
   - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
 
+When executed with the correct flags, the CLI will generate the plot and log a success message indicating the type and location of the generated file.
+
 ### Examples
 
 1. **Generate an SVG plot**:
 
    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
 
-   The generated SVG file will contain:
+   - The generated SVG file will contain:
    ```xml
    <svg xmlns="http://www.w3.org/2000/svg">
      <text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>
    </svg>
    ```
+   - And the CLI will output a message: "SVG plot generated at output.svg"
 
 2. **Generate a PNG plot**:
 
    node src/lib/main.js --expression "y=cos(x)" --range "x=-1:1,y=-1:1" --file output.png
 
-   The generated PNG file will have a valid PNG header.
+   - The generated PNG file will have a valid PNG header.
+   - And the CLI will output a message: "PNG plot generated at output.png"
 
 ### Error Handling
 
-- If any of the required flags (--expression, --range, or --file) are missing, the program will throw an error indicating that all are required.
-- If an unsupported file extension is provided, an error is thrown indicating that only .svg and .png are supported.
+- If any of the required flags (--expression, --range, or --file) are missing, the program will throw an error stating:
+
+  > Error: --expression, --range, and --file flags are required together.
+
+- If an unsupported file extension is provided (anything other than .svg or .png), an error is thrown stating that only .svg and .png are supported.
 
 ## Server Mode
 
