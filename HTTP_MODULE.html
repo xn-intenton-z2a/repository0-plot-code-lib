@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="http_module" href="#http_module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP_MODULE</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Agent configuration options with types and defaults for persistent connections; Agent methods for socket pooling; http.request and http.get signatures with options structure; ClientRequest methods for header manipulation, body streaming and lifecycle control; http.createServer signature and server management methods; Core message classes (IncomingMessage, ServerResponse) with their methods and properties; Utility functions validateHeaderName, validateHeaderValue, STATUS_CODES, METHODS.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Agent Configuration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Agent Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Client API</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Server API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Message Classes</p>
+</li>
+<li class="md-github">
+<p class="md-github">Agent Configuration:
+keepAlive: boolean = false
+keepAliveMsecs: number = 1000
+maxSockets: number = Infinity
+maxTotalSockets: number = Infinity
+maxFreeSockets: number = 256
+scheduling: 'lifo' | 'fifo' = 'lifo'
+timeout: number (ms)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Agent Methods:
+createConnection(options: net.ConnectOpts, callback?: (err, socket) =&gt; void): stream.Duplex
+keepSocketAlive(socket: stream.Duplex): boolean
+reuseSocket(socket: stream.Duplex, request: http.ClientRequest): void
+destroy(): void
+freeSockets: Record&lt;string, stream.Duplex[]&gt;; sockets: Record&lt;string, stream.Duplex[]&gt;; requests: Record&lt;string, http.ClientRequest[]&gt;</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Client API:
+request(options: HttpRequestOptions, callback?: (res: http.IncomingMessage) =&gt; void): http.ClientRequest
+get(options: HttpRequestOptions, callback?: (res: http.IncomingMessage) =&gt; void): http.ClientRequest
+HttpRequestOptions fields: protocol, host, hostname, port, method, path, headers, auth, agent, timeout, localAddress, family
+ClientRequest Methods: setHeader, getHeader, getHeaderNames, getHeaders, hasHeader, removeHeader, flushHeaders, write, end, destroy, setTimeout, setNoDelay, setSocketKeepAlive
+ClientRequest Events: response, socket, timeout, error, upgrade, connect, continue, information, finish</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Server API:
+createServer(options?: { allowHalfOpen?: boolean }, listener?: (req, http.IncomingMessage, res: http.ServerResponse) =&gt; void): http.Server
+server Methods: listen, setTimeout, close, closeAllConnections, closeIdleConnections
+Server Events: request, connection, checkContinue, checkExpectation, upgrade, clientError, close, connect, dropRequest</p>
+</li>
+<li class="md-github">
+<p class="md-github">Message Classes:
+IncomingMessage: headers, rawHeaders, method, url, httpVersion, statusCode, statusMessage, socket; setTimeout(ms, cb), destroy(error)
+ServerResponse: statusCode, statusMessage, headersSent, connection; setHeader, getHeader, removeHeader, writeHead, write, end, writeContinue, writeProcessing, addTrailers, flushHeaders, setTimeout, cork, uncork
+OutgoingMessage: base for both, similar methods minus status codes</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<ol class="md-github">
+<li class="md-github">Raw header handling: rawHeaders retains original casing and order as [key, value, ...]. headers normalizes keys to lowercase.</li>
+<li class="md-github">Keep‐Alive pooling: pooled sockets unref() when idle; override keepSocketAlive to customize retention.</li>
+<li class="md-github">Custom Agent per request: pass {agent: false} to http.request to disable pooling.</li>
+<li class="md-github">Timeout handling: agent.timeout sets socket timeout; request.setTimeout sets per-request idle timeout; server.headersTimeout and server.requestTimeout control server-side timeouts.</li>
+<li class="md-github">Validation utilities: http.validateHeaderName(name) throws ERR_INVALID_HTTP_TOKEN; http.validateHeaderValue(name, value) throws ERR_INVALID_CHAR.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">// Agent API
+interface AgentOptions {
+keepAlive?: boolean;          // default: false
+keepAliveMsecs?: number;      // default: 1000
+maxSockets?: number;          // default: Infinity
+maxTotalSockets?: number;     // default: Infinity
+maxFreeSockets?: number;      // default: 256
+scheduling?: 'fifo'|'lifo';   // default: 'lifo'
+timeout?: number;             // ms
+}
+class Agent {
+constructor(options?: AgentOptions)
+createConnection(options: net.ConnectOpts, callback?: (err: Error | null, socket: stream.Duplex) =&gt; void): stream.Duplex
+keepSocketAlive(socket: stream.Duplex): boolean
+reuseSocket(socket: stream.Duplex, request: http.ClientRequest): void
+destroy(): void
+freeSockets: Record&lt;string, stream.Duplex[]&gt;
+sockets: Record&lt;string, stream.Duplex[]&gt;
+requests: Record&lt;string, http.ClientRequest[]&gt;
+maxFreeSockets: number
+maxSockets: number
+maxTotalSockets: number
+}</p>
+<p class="md-github">// Client API
+interface RequestOptions {
+protocol?: string;
+host?: string;
+hostname?: string;
+port?: number|string;
+localAddress?: string;
+socketPath?: string;
+method?: string;
+path?: string;
+headers?: Record&lt;string,string|number|string[]&gt;;
+auth?: string;
+agent?: Agent|false;
+timeout?: number;
+family?: number;
+}
+function request(opts: RequestOptions, callback?: (res: http.IncomingMessage) =&gt; void): http.ClientRequest;
+function get(opts: RequestOptions, callback?: (res: http.IncomingMessage) =&gt; void): http.ClientRequest;</p>
+<p class="md-github">class ClientRequest extends OutgoingMessage {
+abort(): void; // deprecated
+destroy(error?: Error): this;
+end(data?: string|Buffer|Uint8Array, encoding?: string, callback?: () =&gt; void): this;
+flushHeaders(): void;
+getHeader(name: string): number|string|string[]|undefined;
+getHeaderNames(): string[];
+getHeaders(): Record&lt;string,string|string[]&gt;;
+hasHeader(name: string): boolean;
+removeHeader(name: string): void;
+setHeader(name: string, value: number|string|string[]): void;
+setNoDelay(noDelay?: boolean): void;
+setSocketKeepAlive(enable?: boolean, initialDelay?: number): void;
+setTimeout(timeout: number, callback?: () =&gt; void): this;
+write(chunk: string|Buffer|Uint8Array, encoding?: string, callback?: () =&gt; void): boolean;
+socket: net.Socket;
+reusedSocket: boolean;
+aborted: boolean; // deprecated
+}</p>
+<p class="md-github">// Server API
+interface ServerOptions { allowHalfOpen?: boolean; }
+function createServer(opts?: ServerOptions, listener?: (req: http.IncomingMessage, res: http.ServerResponse) =&gt; void): http.Server;
+class Server extends net.Server {
+listen(port?: number, hostname?: string, backlog?: number, callback?: () =&gt; void): this;
+setTimeout(msecs?: number, callback?: () =&gt; void): this;
+close(callback?: (err?: Error) =&gt; void): this;
+closeAllConnections(): void;
+closeIdleConnections(): void;
+headersTimeout: number;
+requestTimeout: number;
+maxHeadersCount: number;
+keepAliveTimeout: number;
+}</p>
+<p class="md-github">// Message Classes
+class IncomingMessage extends stream.Readable {
+headers: Record&lt;string,string&gt;;
+rawHeaders: string[];
+httpVersion: string;
+method?: string;
+url?: string;
+statusCode?: number;
+statusMessage?: string;
+setTimeout(msecs: number, callback?: () =&gt; void): this;
+destroy(error?: Error): void;
+}</p>
+<p class="md-github">class ServerResponse extends OutgoingMessage {
+statusCode: number;
+statusMessage: string;
+headersSent: boolean;
+writeHead(statusCode: number, statusMessage?: string, headers?: Record&lt;string,string&gt;): void;
+write(chunk: string|Buffer|Uint8Array, encoding?: string, callback?: () =&gt; void): boolean;
+addTrailers(headers: Record&lt;string,string&gt;): void;
+writeContinue(): void;
+writeProcessing(): void;
+}</p>
+<p class="md-github">class OutgoingMessage extends stream.Writable {
+setHeader(name: string, value: string|string[]): void;
+getHeader(name: string): string|string[]|undefined;
+getHeaderNames(): string[];
+getHeaders(): Record&lt;string,string|string[]&gt;;
+hasHeader(name: string): boolean;
+removeHeader(name: string): void;
+write(chunk: any, encoding?: string, callback?: () =&gt; void): boolean;
+end(chunk?: any, encoding?: string, callback?: () =&gt; void): void;
+}</p>
+<p class="md-github">// Utilities
+const METHODS: string[];
+const STATUS_CODES: Record&lt;number,string&gt;;
+function validateHeaderName(name: string, label?: string): void;
+function validateHeaderValue(name: string, value: string|string[]): void;
+function setMaxIdleHTTPParsers(max: number): void;</p>
+<p class="md-github">// Best Practices &amp; Troubleshooting
+// 1. Destroy unused Agent to free OS resources:
+const agent = new http.Agent({keepAlive: true});
+// ...
+agent.destroy();</p>
+<p class="md-github">// 2. Retry on ECONNRESET on reused socket:
+function retriableRequest() {
+const req = http.get('http://localhost:3000', {agent}, res =&gt; {/<em class="md-github">...</em>/});
+req.on('error', err =&gt; {
+if(req.reusedSocket &amp;&amp; err.code==='ECONNRESET') retriableRequest();
+});
+}</p>
+<p class="md-github">// 3. Enable HTTP debug logs:
+// NODE_DEBUG=http node app.js
+// Expected output: HTTP Parser headers, chunks, socket events</p>
+<p class="md-github">// 4. Increase maxHeaderCount:
+server.maxHeadersCount = 0; // disable limit</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Agent(options:keepAlive=false,keepAliveMsecs=1000,maxSockets=∞,maxTotalSockets=∞,maxFreeSockets=256,scheduling='lifo',timeout?):createConnection(opts,cb)-&gt;Duplex;keepSocketAlive(socket)-&gt;bool;reuseSocket(socket,req);destroy();properties:sockets,freeSockets,requests;
+http.request(opts,cb)-&gt;ClientRequest;http.get-&gt;alias(req+end);
+ClientRequest:setHeader(name,value);getHeader(name)-&gt;any;removeHeader(name);flushHeaders();write(chunk)-&gt;bool;end(data)-&gt;this;destroy(err?)-&gt;this;setTimeout(ms,cb)-&gt;this;setNoDelay(bool);setSocketKeepAlive(bool,delay);
+Events:response,timeout,error,socket,upgrade,connect,continue,information,finish;
+http.createServer(opts,listener)-&gt;Server;Server.listen(port,host,backlog,cb);setTimeout(ms,cb);close(cb);closeAllConnections();closeIdleConnections();props:headersTimeout,requestTimeout,maxHeadersCount,keepAliveTimeout;
+ServerResponse:setHeader(name,val);getHeader(name)-&gt;any;removeHeader(name);writeHead(code[,msg],headers);write(chunk)-&gt;bool;end(data);writeContinue();writeProcessing();addTrailers(headers);flushHeaders();setTimeout(ms,cb);cork()/uncork();statusCode;statusMessage;headersSent;
+IncomingMessage:headers:Obj;rawHeaders:string[];method,url,httpVersion,statusCode?,statusMessage?;setTimeout(ms,cb);destroy(err?);
+validateHeaderName(name,label?)-&gt;void;validateHeaderValue(name,value)-&gt;void;
+METH: string[];STATUS_CODES:Record&lt;number,string&gt;</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Agent Configuration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Agent Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Client API</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Server API</p>
+</li>
+<li class="md-github">
+<p class="md-github">Message Classes</p>
+</li>
+<li class="md-github">
+<p class="md-github">Agent Configuration:
+keepAlive: boolean = false
+keepAliveMsecs: number = 1000
+maxSockets: number = Infinity
+maxTotalSockets: number = Infinity
+maxFreeSockets: number = 256
+scheduling: 'lifo' | 'fifo' = 'lifo'
+timeout: number (ms)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Agent Methods:
+createConnection(options: net.ConnectOpts, callback?: (err, socket) =&gt; void): stream.Duplex
+keepSocketAlive(socket: stream.Duplex): boolean
+reuseSocket(socket: stream.Duplex, request: http.ClientRequest): void
+destroy(): void
+freeSockets: Record&lt;string, stream.Duplex[]&gt;; sockets: Record&lt;string, stream.Duplex[]&gt;; requests: Record&lt;string, http.ClientRequest[]&gt;</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Client API:
+request(options: HttpRequestOptions, callback?: (res: http.IncomingMessage) =&gt; void): http.ClientRequest
+get(options: HttpRequestOptions, callback?: (res: http.IncomingMessage) =&gt; void): http.ClientRequest
+HttpRequestOptions fields: protocol, host, hostname, port, method, path, headers, auth, agent, timeout, localAddress, family
+ClientRequest Methods: setHeader, getHeader, getHeaderNames, getHeaders, hasHeader, removeHeader, flushHeaders, write, end, destroy, setTimeout, setNoDelay, setSocketKeepAlive
+ClientRequest Events: response, socket, timeout, error, upgrade, connect, continue, information, finish</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Server API:
+createServer(options?: { allowHalfOpen?: boolean }, listener?: (req, http.IncomingMessage, res: http.ServerResponse) =&gt; void): http.Server
+server Methods: listen, setTimeout, close, closeAllConnections, closeIdleConnections
+Server Events: request, connection, checkContinue, checkExpectation, upgrade, clientError, close, connect, dropRequest</p>
+</li>
+<li class="md-github">
+<p class="md-github">Message Classes:
+IncomingMessage: headers, rawHeaders, method, url, httpVersion, statusCode, statusMessage, socket; setTimeout(ms, cb), destroy(error)
+ServerResponse: statusCode, statusMessage, headersSent, connection; setHeader, getHeader, removeHeader, writeHead, write, end, writeContinue, writeProcessing, addTrailers, flushHeaders, setTimeout, cork, uncork
+OutgoingMessage: base for both, similar methods minus status codes</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js HTTP Module
+https://nodejs.org/api/http.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-http_module" href="#digest-of-http_module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of HTTP_MODULE</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="nodejs-http-module" href="#nodejs-http-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js HTTP Module</h1>
+<p class="md-github"><strong class="md-github">Stability</strong>: 2 - Stable
+<strong class="md-github">Retrieved on</strong>: 2024-06-07</p>
+<h2 class="md-github"><a class="md-github__anchor" name="import" href="#import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Import</h2>
+<p class="md-github">CommonJS: require('node:http')
+ESM: import * as http from 'node:http'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="1-agent" href="#1-agent"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. Agent</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="signature" href="#signature"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Signature</h3>
+<pre class="md-github"><code class="md-github language-js">new http.Agent([options])
+</code></pre>
+<h3 class="md-github"><a class="md-github__anchor" name="options" href="#options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Options</h3>
+<table class="md-github">
+<thead class="md-github">
+<tr class="md-github">
+<th class="md-github">Name</th>
+<th class="md-github">Type</th>
+<th class="md-github">Default</th>
+<th class="md-github">Description</th>
+</tr>
+</thead>
+<tbody class="md-github">
+<tr class="md-github">
+<td class="md-github">keepAlive</td>
+<td class="md-github">boolean</td>
+<td class="md-github">false</td>
+<td class="md-github">Enable TCP Keep-Alive on pooled sockets.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">keepAliveMsecs</td>
+<td class="md-github">number</td>
+<td class="md-github">1000</td>
+<td class="md-github">Initial delay for TCP Keep-Alive when keepAlive=true.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">maxSockets</td>
+<td class="md-github">number</td>
+<td class="md-github">Infinity</td>
+<td class="md-github">Max concurrent sockets per origin.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">maxTotalSockets</td>
+<td class="md-github">number</td>
+<td class="md-github">Infinity</td>
+<td class="md-github">Max concurrent sockets across all origins.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">maxFreeSockets</td>
+<td class="md-github">number</td>
+<td class="md-github">256</td>
+<td class="md-github">Max idle sockets to keep per origin when keepAlive=true.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">scheduling</td>
+<td class="md-github">string</td>
+<td class="md-github">'lifo'</td>
+<td class="md-github">'lifo' or 'fifo' scheduling for free sockets.</td>
+</tr>
+<tr class="md-github">
+<td class="md-github">timeout</td>
+<td class="md-github">number</td>
+<td class="md-github">undefined</td>
+<td class="md-github">Socket timeout in ms. Sets socket.setTimeout() on new sockets.</td>
+</tr>
+</tbody>
+</table>
+<h3 class="md-github"><a class="md-github__anchor" name="methods" href="#methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h3>
+<ul class="md-github">
+<li class="md-github">agent.createConnection(options[, callback]) → stream.Duplex</li>
+<li class="md-github">agent.keepSocketAlive(socket) → boolean</li>
+<li class="md-github">agent.reuseSocket(socket, request) → void</li>
+<li class="md-github">agent.destroy() → void</li>
+<li class="md-github">Properties: agent.freeSockets, agent.sockets, agent.requests, agent.maxFreeSockets, agent.maxSockets, agent.maxTotalSockets</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="2-http-client-api" href="#2-http-client-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. HTTP Client API</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="httprequestoptions-callback--httpclientrequest" href="#httprequestoptions-callback--httpclientrequest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>http.request(options[, callback]) → http.ClientRequest</h3>
+<ul class="md-github">
+<li class="md-github">options: { protocol?, host?, hostname?, port?, path?, method?, headers?, auth?, agent?, timeout?, localAddress?, family? }</li>
+<li class="md-github">callback(res: http.IncomingMessage)</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="httpgetoptions-callback--httpclientrequest" href="#httpgetoptions-callback--httpclientrequest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>http.get(options[, callback]) → http.ClientRequest</h3>
+<p class="md-github">Alias of http.request with automatic req.end().</p>
+<h3 class="md-github"><a class="md-github__anchor" name="clientrequest-methods" href="#clientrequest-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ClientRequest Methods</h3>
+<ul class="md-github">
+<li class="md-github">setHeader(name, value)</li>
+<li class="md-github">getHeader(name) → any</li>
+<li class="md-github">hasHeader(name) → boolean</li>
+<li class="md-github">removeHeader(name)</li>
+<li class="md-github">flushHeaders() → void</li>
+<li class="md-github">write(chunk[, encoding][, callback]) → boolean</li>
+<li class="md-github">end([data[, encoding]][, callback]) → this</li>
+<li class="md-github">abort()/destroy([error]) → this</li>
+<li class="md-github">setTimeout(ms[, callback]) → this</li>
+<li class="md-github">setNoDelay([noDelay])</li>
+<li class="md-github">setSocketKeepAlive([enable], [initialDelay])</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="clientrequest-events" href="#clientrequest-events"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ClientRequest Events</h3>
+<p class="md-github">'response', 'socket', 'timeout', 'error', 'upgrade', 'connect', 'continue', 'information', 'finish'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="3-http-server-api" href="#3-http-server-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>3. HTTP Server API</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="httpcreateserveroptions-requestlistener--httpserver" href="#httpcreateserveroptions-requestlistener--httpserver"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>http.createServer([options][, requestListener]) → http.Server</h3>
+<ul class="md-github">
+<li class="md-github">options: { allowHalfOpen? }</li>
+<li class="md-github">requestListener: (req: http.IncomingMessage, res: http.ServerResponse)</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="serverlistenport-hostname-backlog-callback" href="#serverlistenport-hostname-backlog-callback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>server.listen(port[, hostname][, backlog][, callback])</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="serversettimeoutmsecs-callback" href="#serversettimeoutmsecs-callback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>server.setTimeout(msecs[, callback])</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="serverclosecallback" href="#serverclosecallback"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>server.close([callback])</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="servercloseallconnections" href="#servercloseallconnections"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>server.closeAllConnections()</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="servercloseidleconnections" href="#servercloseidleconnections"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>server.closeIdleConnections()</h3>
+<h3 class="md-github"><a class="md-github__anchor" name="server-events" href="#server-events"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Server Events</h3>
+<p class="md-github">'request', 'connection', 'checkContinue', 'checkExpectation', 'upgrade', 'clientError', 'close', 'connect', 'dropRequest'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="4-message-classes" href="#4-message-classes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. Message Classes</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="httpincomingmessage" href="#httpincomingmessage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>http.IncomingMessage</h3>
+<p class="md-github">Properties: headers: Object, rawHeaders: string[], method: string, url: string, httpVersion: string, statusCode?: number
+Methods: setTimeout(ms[, callback]) → this, destroy([error]) → void</p>
+<h3 class="md-github"><a class="md-github__anchor" name="httpserverresponse" href="#httpserverresponse"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>http.ServerResponse</h3>
+<p class="md-github">Methods: setHeader(name, value), getHeader(name) → any, removeHeader(name), writeHead(statusCode[, statusMessage][, headers]), write(chunk[, encoding][, callback]), end([data[, encoding]][, callback]), writeContinue(), writeProcessing(), addTrailers(headers), flushHeaders(), setTimeout(ms[, callback]), cork(), uncork()
+Properties: statusCode, statusMessage, headersSent, connection</p>
+<h3 class="md-github"><a class="md-github__anchor" name="httpoutgoingmessage" href="#httpoutgoingmessage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>http.OutgoingMessage</h3>
+<p class="md-github">Base class for ClientRequest and ServerResponse. Methods: similar to ServerResponse minus status codes.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="5-utilities" href="#5-utilities"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>5. Utilities</h2>
+<ul class="md-github">
+<li class="md-github">http.METHODS: string[] of valid methods.</li>
+<li class="md-github">http.STATUS_CODES: { [code: number]: string }</li>
+<li class="md-github">http.validateHeaderName(name[, label]) → void throws</li>
+<li class="md-github">http.validateHeaderValue(name, value) → void throws</li>
+<li class="md-github">http.setMaxIdleHTTPParsers(max: number) → void</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Node.js HTTP Module</li>
+<li class="md-github">URL: https://nodejs.org/api/http.html</li>
+<li class="md-github">License: License</li>
+<li class="md-github">Crawl Date: 2025-04-26T12:56:10.159Z</li>
+<li class="md-github">Data Size: 3590328 bytes</li>
+<li class="md-github">Links Found: 2252</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-26</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-26T13:23:55.182Z</p>
+  </footer>
+</body>
+</html>
