@@ -249,3 +249,27 @@ MIT
 Gnuplot is a portable, command-line driven graphing utility with broad support for 2D and 3D plot types. The documentation details scripting syntax, data file structures, terminal drivers, style customization, and batch mode usage. Analyzing Gnuplot's interface and scripting capabilities offers valuable UX patterns for CLI plotting workflows and preset scripts. Latest stable documentation; GNUplot license.
 ## License
 gnuplot license
+
+# Fastify (High-Performance HTTP Framework)
+## https://www.fastify.io/docs/latest/Routes/
+Fastify is a fast, extensible web framework for Node.js focused on low overhead and high throughput. The routes documentation details schema-based route definitions, validation with JSON Schema/Ajv, hooks, serialize/deserialize cycles, and plugin architecture. This source offers practical guidelines for building a performance-optimized HTTP API alternative to Express, illustrating advanced validation and serialization patterns. Last updated 2024-03; MIT.
+## License
+MIT
+
+# Ajv (Another JSON Schema Validator)
+## https://ajv.js.org/guide/getting-started.html
+Ajv is a high-performance JSON Schema validator supporting draft-07/2019-09/2020-12, asynchronous validation, and custom keywords. The getting started guide covers schema compilation, error customization, formats, and performance considerations. This documentation delivers actionable tactics for schema-based validation of CLI and HTTP payloads as an alternative or complement to Zod. Last updated 2024-02; MIT.
+## License
+MIT
+
+# Node.js Cluster API
+## https://nodejs.org/api/cluster.html
+The Node.js Cluster API docs explain how to spawn worker processes to leverage multi-core systems, manage IPC between master and workers, and handle worker lifecycle events. These patterns are valuable for scaling HTTP servers in high-load scenarios, such as concurrent plot generation requests. Last updated Node.js v20.x; provided by the OpenJS Foundation.
+## License
+OpenJS Foundation
+
+# RFC 3339 (Date and Time on the Internet)
+## https://tools.ietf.org/html/rfc3339
+RFC 3339 specifies a profile of ISO 8601 for use in Internet protocols, detailing date/time formats, offsets, and precision. Adhering to RFC 3339 ensures consistent parsing and formatting of timestamp inputs and axis labels in time series data processing. Published 2002-07; public domain.
+## License
+Public Domain
