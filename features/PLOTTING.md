@@ -1,65 +1,36 @@
 # Overview
-Enhance the CLI plotting workflow with core capabilities for expression parsing range parsing time series generation data export and plot rendering.
+Implement the end-to-end plotting workflow in src/lib/main.js with expression parsing, time series generation, data I/O, and plot rendering. Support both CLI invocation and HTTP API, driven by environment variables and command flags. Include unit tests and update documentation accordingly.
 
-# Dotenv Integration
-On startup load environment variables via dotenv.config
-Recognize and validate the following with zod
-- PLOT_WIDTH number
-- PLOT_HEIGHT number
-- PLOT_BACKGROUND string
-- PLOT_COLOR string
-Merge env defaults with CLI flags flags override env values
+# Environment Configuration
+On startup, load .env via dotenv.config. Use zod to parse and validate environment variables: PLOT_WIDTH, PLOT_HEIGHT, PLOT_BACKGROUND, PLOT_COLOR. Merge environment defaults with CLI flags, allowing flags to override.
 
-# CLI Parameter Parsing and Validation
-Define flags in src/lib/main.js with zod
-- --expression required unless --input-file is provided
-- --range required unless --input-file is provided syntax x=min:max[:step]
-- --input-file optional path to CSV or JSON input data
-- --input-format csv or json default csv
-- --export-data-format optional csv or json enables data export
-- --export-file optional path for data export default stdout
-- --format svg or png default svg
-- --output-file optional path for plot output default stdout
-- --width height background color optional style overrides
-Emit clear error messages exit nonzero on invalid inputs or flag combinations
+# CLI Interface and Validation
+Define CLI flags in main.js using zod:
+- --expression (string) required unless --input-file provided
+- --range (string syntax x=min:max[:step]) required unless --input-file provided
+- --input-file (path) optional, supports CSV or JSON input
+- --input-format (csv|json) default csv
+- --export-data-format (csv|json) optional, when set skips plotting and writes data
+- --export-file (path) default stdout
+- --format (svg|png) default svg
+- --output-file (path) default stdout
+- --serve (port) optional, when provided starts HTTP API
+Validate flag combinations and emit clear error messages with nonzero exit codes on invalid use.
 
 # Expression Parsing and Time Series Generation
-Import mathjs parse and compile expression into f(x)
-Parse range into numeric start end step validate start <= end step > 0
-Generate x values compute y filter non finite results
-Represent series as array of objects { x number y number }
+Import mathjs to parse and compile the expression into a function f(x). Parse range into numeric start, end, step; validate start ≤ end and step > 0. Generate x values, compute y = f(x), filter out non-finite results, and represent the series as an array of { x, y } objects.
 
-# Data Sourcing and I O
-If --input-file present read asynchronously
-For CSV use csv parser with header detection
-For JSON parse array of objects with numeric x and y
-Validate records with zod schema
-
-# Data Export
-When --export-data-format specified serialize series
-CSV header x y comma separated records
-JSON array of objects
-Write to --export-file or stdout skip plot generation
+# Data Import and Export
+If --input-file is provided, read asynchronously; for CSV use a streaming parser with header detection and zod validation; for JSON parse an array of { x, y } records and validate with zod. When --export-data-format is specified, serialize series as CSV or JSON and write to --export-file or stdout, then exit without plotting.
 
 # Plot Rendering
-Generate SVG via EJS template with axes data path
-If PNG requested convert SVG via sharp
-Apply width height background color from env or flags
-Write image to --output-file or stdout
+Embed an EJS template for SVG generation with axes and data paths. If format is png, convert the generated SVG to PNG using sharp. Apply width, height, background, and color from merged settings. Write the resulting image to --output-file or stdout.
 
 # HTTP API
-Define POST /plot endpoint in Express server
-Accept JSON payload matching CLI flags
-Validate payload with zod
-For export respond with text csv or application json body
-For plot respond with image svg+xml or image png
-Handle errors with JSON error messages and status codes
+When --serve is used, start an Express server in main.js listening on the provided port. Define POST /plot to accept a JSON body matching the CLI options. Validate the payload with zod. Respond with serialized data or image output based on payload, using appropriate content types and HTTP status codes for errors.
 
-# Testing Enhancements
-Update tests unit main.test.js cover dotenv loading new flags
-Add tests unit export.test.js for data serialization output
-Extend tests unit server.test.js cover env defaults and style overrides
+# Testing
+Update tests/unit/main.test.js to cover CLI flag parsing, dotenv loading, and error conditions. Add tests/unit/cli.test.js for expression and range parsing, data import/export, and plot invocation. Add tests/unit/export.test.js for CSV and JSON serialization. Add tests/unit/server.test.js to cover HTTP API endpoints and validation errors.
 
-# Documentation Updates
-Update README CLI Usage document dotenv support style flags
-Enhance docs USAGE.md with examples of using env variables and flags together
+# Documentation
+Update README.md and docs/USAGE.md to document the new CLI flags, environment variables, serve mode, data export options, and HTTP API usage with examples. Ensure quick-start and API reference sections reflect implemented behavior.
