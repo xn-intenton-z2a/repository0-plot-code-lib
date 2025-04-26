@@ -121,7 +121,7 @@ Usage: node src/lib/main.js [options]
 
 Options:
   --help                Display this help message and exit.
-  --version             Display the current version and exit.
+  --version             Display the current version and exit. (Takes precedence over other flags)
   --verbose             Enable verbose output for debugging.
   --expression <expr>   Specify the mathematical expression (e.g., "y=sin(x)").
   --range <range>       Specify the plot range (format: x=<min>:<max>,y=<min>:<max>). Supports integers and floating point numbers.
