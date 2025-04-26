@@ -176,7 +176,7 @@ BSD-3-Clause
 ## https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
 MDN Web Docs resource detailing the HTTP content negotiation process, including Accept headers, quality values, and server-driven vs agent-driven negotiation strategies. This guide is vital for implementing the `/plot` endpoint to correctly negotiate responses (JSON, CSV, SVG, or PNG) based on client preferences. Last updated 2024-01; licensed under CC-BY-SA 2.5.
 ## License
-CC-BY-SA-2.5
+CC-BY-SA 2.5
 
 # Supertest (HTTP Assertions for Node.js)
 ## https://github.com/visionmedia/supertest#readme
@@ -219,3 +219,33 @@ MIT
 Apache ECharts provides a rich set of chart types, theme customization, and data-driven animations. The API docs cover chart options, event handling, and rendering modes (Canvas and SVG). This documentation highlights best practices for scalable chart configuration and performance tuning in browser and Node environments. Last updated 2024-02; Apache-2.0.
 ## License
 Apache-2.0
+
+# Node.js HTTP Module
+## https://nodejs.org/api/http.html
+The Node.js HTTP module documentation describes low-level HTTP server and client APIs, including classes like `http.Server`, `IncomingMessage`, and `ServerResponse`, along with detailed guidance on status code management, headers, streaming request bodies, and performance tuning. This source is fundamental for understanding how Express builds on Node, enabling fine-grained control over content negotiation, chunked responses, and efficient streaming of CSV/JSON exports and image data. Last updated Node.js v20.x; provided by the OpenJS Foundation.
+## License
+OpenJS Foundation
+
+# SVG Text and Font Specification
+## https://www.w3.org/TR/SVG/text.html
+This W3C recommendation covers SVG `<text>`, `<tspan>`, `<textPath>`, font properties, text-anchor, and alignment-baseline rules. It is the authoritative source for implementing precise label placement, multi-line text rendering, and typographic styling in SVG plots, ensuring compatibility across rendering engines. Last updated 2018-10; W3C Document License.
+## License
+W3C Document License
+
+# YAML 1.2 Specification
+## https://yaml.org/spec/1.2/spec.html
+The YAML 1.2 specification defines the official syntax, data types, document structure, and schema mechanisms for YAML. This spec provides essential insights for robust parsing and validation of `.plot-presets.yaml` files, ensuring compatibility with js-yaml and adherence to industry-standard YAML constructs. Last updated 2009-10; publicly available.
+## License
+Unspecified/Public Domain
+
+# Commander.js (Node.js CLI Framework)
+## https://github.com/tj/commander.js#readme
+Commander.js is a feature-rich CLI framework offering declarative command definitions, options parsing, subcommand support, and automated help generation. The README explains API usage, argument types, variadic options, and extension patterns. Studying Commander.js can inform enhancements to our Zod-based CLI architecture, especially around presets, nested commands, and help mechanics. Last updated 2024-04; MIT.
+## License
+MIT
+
+# Gnuplot (Command-Line Plotting)
+## http://www.gnuplot.info/documentation.html
+Gnuplot is a portable, command-line driven graphing utility with broad support for 2D and 3D plot types. The documentation details scripting syntax, data file structures, terminal drivers, style customization, and batch mode usage. Analyzing Gnuplot's interface and scripting capabilities offers valuable UX patterns for CLI plotting workflows and preset scripts. Latest stable documentation; GNUplot license.
+## License
+gnuplot license
