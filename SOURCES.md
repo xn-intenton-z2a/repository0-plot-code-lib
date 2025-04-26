@@ -70,12 +70,6 @@ Worker Threads provide an API for running JavaScript in parallel threads, enabli
 ## License
 OpenJS Foundation
 
-# Node.js Packages: “exports” Field
-## https://nodejs.org/api/packages.html#packages_exports
-This section explains how to use the `exports` field in `package.json` to define public entry points, control subpath imports, and enforce encapsulation. It is crucial for library authors to manage API surfaces and ensure predictable module resolution for consumers. Last updated Node.js v20.x; OpenJS Foundation.
-## License
-OpenJS Foundation
-
 # SVG Path Data Specification
 ## https://www.w3.org/TR/SVG2/paths.html
 This W3C specification defines the syntax and semantics of SVG path commands, including line, curve, and arc segments. It is the authoritative reference for constructing precise path data for time series curves, ensuring standards-compliant rendering across browsers and tools. Last updated 2023-12; W3C Document License.
@@ -177,3 +171,15 @@ BSD-3-Clause
 Vega-Lite provides a concise JSON syntax for building interactive charts with data transformations and encoding channels. The documentation details mark types, aggregation, and export options, offering insights for aligning our plot generation API with declarative visualization standards. Last updated 2024-04; BSD-3-Clause.
 ## License
 BSD-3-Clause
+
+# HTTP Content Negotiation
+## https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation
+MDN Web Docs resource detailing the HTTP content negotiation process, including Accept headers, quality values, and server-driven vs agent-driven negotiation strategies. This guide is vital for implementing the `/plot` endpoint to correctly negotiate responses (JSON, CSV, SVG, or PNG) based on client preferences. Last updated 2024-01; licensed under CC-BY-SA 2.5.
+## License
+CC-BY-SA-2.5
+
+# Supertest (HTTP Assertions for Node.js)
+## https://github.com/visionmedia/supertest#readme
+Supertest provides a high-level abstraction for testing HTTP servers in Node.js, integrating seamlessly with Express. The documentation covers request simulation, response assertions, streaming bodies, header inspection, and error handling. This source is crucial for writing robust integration tests for the `/plot` endpoint, verifying data exports and image responses under various scenarios. Last updated 2024-01-15; authoritative as a widely adopted testing library.
+## License
+MIT
