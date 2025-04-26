@@ -1,26 +1,48 @@
 # Overview
-Implement robust CLI argument parsing for the main entrypoint using zod. Provide clear validation, default values, and help output so users can immediately invoke the tool with correct flags. This lays the foundation for expression parsing and plotting in subsequent iterations.
+Extend the CLI entrypoint to parse a mathematical expression and a numeric range, generate a time series from that range, and serialize the result in JSON or CSV format. This delivers core functionality for transforming an expression into data.
 
 # CLI Interface and Validation
-- Accept arguments from process.argv.slice(2) or via explicit main(args) invocation.
-- Supported flags:
-  - --expression (string, required): mathematical expression, e.g., y=sin(x).
-  - --range (string, required): value range syntax x=min:max[:step].
-  - --file (string, optional): output path for plot or data; defaults to stdout.
-  - --help or -h: display usage information and exit.
-- Use zod to define a schema for the flags. Parse and coerce values:
-  - Validate expression is nonempty.
-  - Validate range matches pattern and numeric constraints: start ≤ end, step > 0.
-  - Provide default for file as undefined (stdout).
-- On schema error, print user-friendly messages and exit with nonzero code.
-- On --help flag, print usage text including flag descriptions and exit with code 0.
 
-# Tests
-- Add tests in tests/unit/cli-args.test.js:
-  - Parsing succeeds for valid flags and returns parsed object.
-  - Schema errors for missing required flags or invalid range syntax.
-  - --help prints usage and does not throw.
+- Accept arguments via process.argv or main(args).
+- Supported flags:
+  - --expression (string, required): mathematical expression in terms of x, e.g. y=sin(x) or sin(x).
+  - --range (string, required): axis range syntax x=start:end[:step], e.g. x=0:10:0.5. Multiple variables optional in future.
+  - --format (string, optional): output data format json or csv; default json.
+  - --file (string, optional): output path; default writes to stdout.
+  - --help or -h: display usage and exit code 0.
+
+- Use zod to define and parse schema for flags and validate:
+  - expression must be nonempty and parseable by mathjs.
+  - range must match pattern and produce numeric parameters: start ≤ end, step > 0.
+  - format must be one of json, csv.
+
+# Expression and Range Processing
+
+- Use mathjs or expr-eval to compile the expression into a function of x.
+- Parse range string into start, end, step values.
+- Generate an array of x values from start to end at intervals of step.
+- Evaluate the expression function for each x to produce y values.
+
+# Data Serialization
+
+- For format=json: produce an object { x: [ ... ], y: [ ... ] } and serialize with JSON.stringify.
+- For format=csv: produce header line "x,y" then each row x,y separated by comma and ending CRLF.
+- Write serialized output to file or stdout using fsPromises.
+
+# Error Handling
+
+- On CLI validation failure, print user-friendly message and exit with code 1.
+- On expression or range parse errors, report the cause and exit with code 1.
+
+# Testing
+
+- Add unit tests in tests/unit/plotting.test.js:
+  - Flag parsing success and failure cases.
+  - Range string parsing with valid and invalid inputs.
+  - Expression evaluation over sample ranges.
+  - JSON and CSV output formats correctness.
 
 # Documentation
-- Update README.md under CLI Usage to list the new flags and show examples of correct invocation and error scenarios.
-- Update docs/USAGE.md to include flag descriptions, usage examples, and sample output of error and help commands.
+
+- Update README.md CLI Usage section with new --expression, --range, --format flags and examples.
+- Update docs/USAGE.md with usage examples, sample output, and error scenarios.
