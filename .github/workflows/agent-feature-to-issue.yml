@@ -21,9 +21,9 @@ on:
     types:
       - completed
   schedule:
-    #- cron: '0 4 */7 * *' # schedule-1
+    - cron: '0 4 */7 * *' # schedule-1
     #- cron: '0 4 * * *' # schedule-2
-    - cron: '0 */1 1-3,5-7,9-11,13-15,17-19,21-23,25-27,29-31 * *' # schedule-3
+    #- cron: '0 */1 1-3,5-7,9-11,13-15,17-19,21-23,25-27,29-31 * *' # schedule-3
     #- cron: '0,27,43 */1 1-3,5-7,9-11,13-15,17-19,21-23,25-27,29-31 * *' # schedule-4
 
 env:
@@ -40,7 +40,7 @@ jobs:
   agentic-lib:
     uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-agent-config.yml@4.3.11'
     with:
-      configPath: ${{ vars.configPath || '.github/agentic-lib.yml' }}
+      configPath: ${{ vars.configPath || '.github/agents/agentic-lib.yml' }}
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
@@ -113,6 +113,7 @@ jobs:
       model: ${{ vars.CHATGPT_API_MODEL || 'o3-mini' }}
       npmAuthOrganisation: ${{ vars.npmAuthOrganisation || '@xn-intenton-z2a' }}
       agentConfigPath: ${{ needs.agentic-lib.outputs.agentConfigPath }}
+      promptFile: '.github/agents/agent-feature-issue.md'
     secrets:
       CHATGPT_API_SECRET_KEY: ${{ secrets.CHATGPT_API_SECRET_KEY }}
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}

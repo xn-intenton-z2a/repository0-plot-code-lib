@@ -9,9 +9,9 @@ run-name: "agent linting to issue [${{ github.ref_name }}]"
 on:
   workflow_dispatch:
   schedule:
-    #- cron: '30 6 */14 * *' # schedule-1
+    - cron: '30 6 */14 * *' # schedule-1
     #- cron: '30 6 */3 * *' # schedule-2
-    - cron: '30 6 * * *' # schedule-3
+    #- cron: '30 6 * * *' # schedule-3
     #- cron: '30 6 * * *' # schedule-4
 
 env:
@@ -28,7 +28,7 @@ jobs:
   agentic-lib:
     uses: 'xn-intenton-z2a/agentic-lib/.github/workflows/wfr-agent-config.yml@4.3.11'
     with:
-      configPath: ${{ vars.configPath || '.github/agentic-lib.yml' }}
+      configPath: ${{ vars.configPath || '.github/agents/agentic-lib.yml' }}
     secrets:
       PERSONAL_ACCESS_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
 
