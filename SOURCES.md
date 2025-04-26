@@ -37,3 +37,18 @@ Supertest is a high-level abstraction for testing HTTP servers, integrating seam
 ## https://nodejs.org/api/fs.html
 The Node.js File System documentation provides detailed insights into file operations, including reading, writing, and handling file data. This resource is fundamental for our plot generation functionality, where generating and saving SVG and PNG files are core operations of the CLI tool.
 ## MIT License
+
+# Math.js
+## https://mathjs.org/docs/
+Math.js is a comprehensive math library for JavaScript and Node.js. It offers extensive functionalities for parsing, evaluating, and manipulating mathematical expressions. Given that our repository deals with expressions such as "y=sin(x)", the documentation provides actionable insights for robust expression parsing and validation, complementing our existing input validation routines. Regularly updated and widely adopted, it offers a deep dive into computational mathematics in JavaScript.
+## MIT License
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js#readme
+Commander.js provides a robust framework for building command-line interfaces in Node.js. Its detailed documentation illustrates advanced option parsing and custom command handling, offering practical examples that can streamline the development and maintenance of CLI tools. This resource is ideal for enhancing our CLI flag management and improving overall user experience.
+## MIT License
+
+# MDN SVG Tutorial
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial
+MDN's SVG Tutorial offers in-depth technical guidance for creating and manipulating SVG graphics. The resource provides actionable insights into generating dynamic, accessible SVG content, directly applicable to our plot generation functionality. Its clear examples and step-by-step instructions can help ensure that our SVG output meets modern web standards.
+## MDN License
