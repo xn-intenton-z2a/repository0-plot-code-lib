@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="express_routing" href="#express_routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESS_ROUTING</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Express routing supports HTTP methods via app.METHOD(path, callback). Routes accept simple strings, patterns, or regular expressions. Route parameters populate req.params. Middleware chaining is enabled by next() in multi-callback routes. express.Router allows modular route definitions. Key response methods include res.send, res.json, and res.sendFile. Configurations include express.static for serving files and app.route for chained handlers.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Routing Basics
+<ul class="md-github">
+<li class="md-github">API: app.get(path, callback), app.post(path, callback) etc.</li>
+<li class="md-github">Callback signature: (req, res, next)</li>
+</ul>
+</li>
+<li class="md-github">Route Paths and Patterns
+<ul class="md-github">
+<li class="md-github">Strings, patterns: /, /about, /ab?cd, /ab+cd, /ab*cd, /ab(cd)?e</li>
+<li class="md-github">Regular Expressions: /a/, /.*fly$/</li>
+</ul>
+</li>
+<li class="md-github">Route Parameters
+<ul class="md-github">
+<li class="md-github">Format: /users/:userId/books/:bookId; captured in req.params</li>
+<li class="md-github">Combined literals: /flights/:from-:to, /plantae/:genus.:species</li>
+<li class="md-github">Regex constraint: /user/:userId(\d+)</li>
+</ul>
+</li>
+<li class="md-github">Multiple Callback Handlers
+<ul class="md-github">
+<li class="md-github">Single function vs multiple functions using next()</li>
+<li class="md-github">Arrays of callbacks and mixed function arrays</li>
+</ul>
+</li>
+<li class="md-github">Chained Handlers with app.route()
+<ul class="md-github">
+<li class="md-github">Single location definition for GET, POST, PUT</li>
+</ul>
+</li>
+<li class="md-github">Modular Routing with express.Router
+<ul class="md-github">
+<li class="md-github">Define mini-apps with Router; use middleware specific to router</li>
+<li class="md-github">Merge parameters option: express.Router({ mergeParams: true })</li>
+</ul>
+</li>
+<li class="md-github">Response Methods
+<ul class="md-github">
+<li class="md-github">Methods: res.send, res.json, res.download, res.redirect, res.render, res.sendFile, res.sendStatus, res.end</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Each topic includes exact method signatures and configuration examples for immediate developer implementation.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Routing API Specifications:</p>
+<ul class="md-github">
+<li class="md-github">app.get(path: string | RegExp, callback: (req: Request, res: Response, next?: NextFunction) =&gt; void): void</li>
+<li class="md-github">app.post(path: string | RegExp, callback: ...): void</li>
+<li class="md-github">app.all(path: string | RegExp, callback: ...): void</li>
+<li class="md-github">express.Router(options?: { mergeParams?: boolean }): Router</li>
+</ul>
+<p class="md-github">Configuration Options for express.static:</p>
+<ul class="md-github">
+<li class="md-github">express.static(root: string, options?: {
+dotfiles?: string (default: 'ignore'),
+etag?: boolean (default: true),
+index?: boolean|string|Array (default: 'index.html'),
+maxAge?: number (default: 0),
+redirect?: boolean (default: true),
+setHeaders?: function(res, path, stat)})</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Define routes using app.METHOD and specify exact path patterns.</li>
+<li class="md-github">Use middleware by specifying next() in callbacks.</li>
+<li class="md-github">For modular routes, create a new Router instance, attach middleware and routes, and mount using app.use.</li>
+<li class="md-github">Use app.route(path) to chain HTTP method definitions in a concise manner.</li>
+</ol>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Order routes from most specific to generic.</li>
+<li class="md-github">Escape regex characters in route paths as needed (e.g. $).</li>
+<li class="md-github">Avoid use of query strings in route matching; they are not part of the route.</li>
+<li class="md-github">Test routes using Express Playground Router or by unit tests.</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">If 404 errors occur, verify route path and middleware order.</li>
+<li class="md-github">Use console.log in middleware to debug route matching.</li>
+<li class="md-github">Validate regular expressions for route parameters and patterns.</li>
+<li class="md-github">Check Express version differences especially between v4 and v5 for pattern handling.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ol class="md-github">
+<li class="md-github">app.METHOD(path: string|RegExp, callback: (req: Request, res: Response, next?: NextFunction) =&gt; void): void
+<ul class="md-github">
+<li class="md-github">Example: app.get('/', (req, res) =&gt; { res.send('hello world'); });</li>
+</ul>
+</li>
+<li class="md-github">app.all(path: string|RegExp, callback: (req: Request, res: Response, next: NextFunction) =&gt; void): void
+<ul class="md-github">
+<li class="md-github">Example: app.all('/secret', (req, res, next) =&gt; { console.log('Accessing secret'); next(); });</li>
+</ul>
+</li>
+<li class="md-github">express.Router(options?: { mergeParams?: boolean }): Router
+<ul class="md-github">
+<li class="md-github">Method usage:
+const router = express.Router({ mergeParams: true });
+router.get('/', (req, res) =&gt; { res.send('Router home'); });</li>
+</ul>
+</li>
+<li class="md-github">express.static(root: string, options?: { dotfiles?: string, etag?: boolean, index?: string|Array<string>, maxAge?: number, redirect?: boolean, setHeaders?: (res: Response, path: string, stat: any) =&gt; void }): RequestHandler
+<ul class="md-github">
+<li class="md-github">Example: app.use('/static', express.static(path.join(__dirname, 'public')));</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">SDK Method Signatures:</p>
+<ul class="md-github">
+<li class="md-github">function app.get(path: string|RegExp, ...handlers: (req: Request, res: Response, next?: NextFunction) =&gt; void): App;</li>
+<li class="md-github">function app.post(path: string|RegExp, ...handlers: (req: Request, res: Response, next?: NextFunction) =&gt; void): App;</li>
+</ul>
+<p class="md-github">Implementation Pattern (Chained Middleware):
+const cb0 = (req, res, next) =&gt; { console.log('CB0'); next(); };
+const cb1 = (req, res, next) =&gt; { console.log('CB1'); next(); };
+app.get('/example', [cb0, cb1], (req, res) =&gt; { res.send('Final Response'); });</p>
+<p class="md-github">Configuration Options with Values:</p>
+<ul class="md-github">
+<li class="md-github">For express.static: root directory, maxAge: 0 by default, redirect: true by default.</li>
+<li class="md-github">For express.Router: mergeParams default is false.</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always call next() in middleware if not ending the response.</li>
+<li class="md-github">Place error handling middleware after all routes: app.use((err, req, res, next) =&gt; { console.error(err.stack); res.status(500).send('Something broke!'); });</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ol class="md-github">
+<li class="md-github">Verify route paths are correct. Command: node app.js and check logs for route matching.</li>
+<li class="md-github">To test route parameter handling, invoke: curl http://localhost:3000/users/42/books/101 and expect JSON with userId:42, bookId:101.</li>
+<li class="md-github">Use debugging logs in middleware to confirm execution order.</li>
+</ol>
+<p class="md-github">Detailed Code Example:
+// app.js
+const express = require('express');
+const path = require('path');
+const app = express();</p>
+<p class="md-github">// Basic GET Route
+app.get('/', (req, res) =&gt; { res.send('Hello World!'); });</p>
+<p class="md-github">// Chained route handling with middleware
+const middlewareA = (req, res, next) =&gt; { console.log('Middleware A'); next(); };
+const middlewareB = (req, res, next) =&gt; { console.log('Middleware B'); next(); };
+app.get('/chain', [middlewareA, middlewareB], (req, res) =&gt; { res.send('Chain complete'); });</p>
+<p class="md-github">// Router setup
+const router = express.Router({ mergeParams: true });
+router.use((req, res, next) =&gt; { console.log('Router Middleware'); next(); });
+router.get('/info', (req, res) =&gt; { res.send('Router Info'); });
+app.use('/router', router);</p>
+<p class="md-github">// Serving static files
+app.use('/static', express.static(path.join(__dirname, 'public')));</p>
+<p class="md-github">// Start server
+const port = 3000;
+app.listen(port, () =&gt; { console.log(<code class="md-github">Server running on port ${port}</code>); });</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Express routing: use app.get/post/put/delete/all with path: string|RegExp and callbacks (req, res, next). Route parameters with :param populate req.params. Supports patterns (/ab?cd, /ab+cd, /ab*cd, /ab(cd)?e) and regex (/a/, /.*fly$/). Middleware chaining: multiple callbacks with next() invocation. Chained routes via app.route('/path'). Modular routing via express.Router({ mergeParams: boolean }). Response methods: res.send, res.json, res.download, res.redirect, res.render, res.sendFile, res.sendStatus, res.end. API specs: function app.get(path, ...handlers): App; express.static(root, options) with options: dotfiles (default 'ignore'), etag (true), index ('index.html'), maxAge (0), redirect (true). Best practices: order routes specifically; use error middleware; test with curl; log middleware execution.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Routing Basics
+<ul class="md-github">
+<li class="md-github">API: app.get(path, callback), app.post(path, callback) etc.</li>
+<li class="md-github">Callback signature: (req, res, next)</li>
+</ul>
+</li>
+<li class="md-github">Route Paths and Patterns
+<ul class="md-github">
+<li class="md-github">Strings, patterns: /, /about, /ab?cd, /ab+cd, /ab*cd, /ab(cd)?e</li>
+<li class="md-github">Regular Expressions: /a/, /.*fly$/</li>
+</ul>
+</li>
+<li class="md-github">Route Parameters
+<ul class="md-github">
+<li class="md-github">Format: /users/:userId/books/:bookId; captured in req.params</li>
+<li class="md-github">Combined literals: /flights/:from-:to, /plantae/:genus.:species</li>
+<li class="md-github">Regex constraint: /user/:userId('d+)</li>
+</ul>
+</li>
+<li class="md-github">Multiple Callback Handlers
+<ul class="md-github">
+<li class="md-github">Single function vs multiple functions using next()</li>
+<li class="md-github">Arrays of callbacks and mixed function arrays</li>
+</ul>
+</li>
+<li class="md-github">Chained Handlers with app.route()
+<ul class="md-github">
+<li class="md-github">Single location definition for GET, POST, PUT</li>
+</ul>
+</li>
+<li class="md-github">Modular Routing with express.Router
+<ul class="md-github">
+<li class="md-github">Define mini-apps with Router; use middleware specific to router</li>
+<li class="md-github">Merge parameters option: express.Router({ mergeParams: true })</li>
+</ul>
+</li>
+<li class="md-github">Response Methods
+<ul class="md-github">
+<li class="md-github">Methods: res.send, res.json, res.download, res.redirect, res.render, res.sendFile, res.sendStatus, res.end</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Each topic includes exact method signatures and configuration examples for immediate developer implementation.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Express Routing and Middleware Guide
+https://expressjs.com/en/guide/routing.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-express_routing" href="#digest-of-express_routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EXPRESS_ROUTING</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="express-routing" href="#express-routing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EXPRESS ROUTING</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">Express routing defines how an application responds to client requests at specific URIs//endpoints. Using methods such as app.get(), app.post(), and app.all(), routes are established with associated callback functions. Each route can accept one or more handler functions with the signature (req, res, next) and allows middleware chaining using next().</p>
+<h2 class="md-github"><a class="md-github__anchor" name="route-methods" href="#route-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route Methods</h2>
+<ul class="md-github">
+<li class="md-github">app.get(path, callback): Handles GET requests.</li>
+<li class="md-github">app.post(path, callback): Handles POST requests.</li>
+<li class="md-github">app.put(path, callback): Handles PUT requests.</li>
+<li class="md-github">app.delete(path, callback): Handles DELETE requests.</li>
+<li class="md-github">app.all(path, callback): Handles all HTTP methods.</li>
+<li class="md-github">app.use(path, middleware): Mounts middleware functions.</li>
+</ul>
+<p class="md-github">Example:</p>
+<p class="md-github">const express = require('express');
+const app = express();
+app.get('/', (req, res) =&gt; {
+res.send('Hello World!');
+});</p>
+<h2 class="md-github"><a class="md-github__anchor" name="route-paths--patterns" href="#route-paths--patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route Paths &amp; Patterns</h2>
+<p class="md-github">Routes can be defined with string paths, string patterns, or regular expressions. Special characters (?, +, *, etc.) allow flexible matching:</p>
+<p class="md-github">Examples:</p>
+<ul class="md-github">
+<li class="md-github">String: app.get('/', ...)</li>
+<li class="md-github">Pattern: app.get('/ab?cd', ...), app.get('/ab+cd', ...), app.get('/ab*cd', ...), app.get('/ab(cd)?e', ...)</li>
+<li class="md-github">RegExp: app.get(/a/, ...), app.get(/.*fly$/, ...)</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="route-parameters" href="#route-parameters"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Route Parameters</h2>
+<p class="md-github">Route parameters are specified using a colon prefix. They are captured in req.params.</p>
+<p class="md-github">Examples:</p>
+<ul class="md-github">
+<li class="md-github">app.get('/users/:userId/books/:bookId', (req, res) =&gt; { res.send(req.params); });</li>
+<li class="md-github">With literals combined: /flights/:from-:to and /plantae/:genus.:species</li>
+<li class="md-github">Restriction with RegExp: app.get('/user/:userId(\d+)', ...)</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="multiple-callback-handlers" href="#multiple-callback-handlers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multiple Callback Handlers</h2>
+<p class="md-github">Routes can have multiple functions to handle middleware chaining.</p>
+<p class="md-github">Examples:</p>
+<ul class="md-github">
+<li class="md-github">Single callback: app.get('/example/a', (req, res) =&gt; { res.send('Hello from A!'); });</li>
+<li class="md-github">Multiple callbacks:
+app.get('/example/b', (req, res, next) =&gt; {
+console.log('Processing request');
+next();
+}, (req, res) =&gt; { res.send('Hello from B!'); });</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="chained-route-handlers-using-approute" href="#chained-route-handlers-using-approute"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chained Route Handlers Using app.route()</h2>
+<p class="md-github">Routes can be chained:</p>
+<p class="md-github">app.route('/book')
+.get((req, res) =&gt; { res.send('Get a random book'); })
+.post((req, res) =&gt; { res.send('Add a book'); })
+.put((req, res) =&gt; { res.send('Update the book'); });</p>
+<h2 class="md-github"><a class="md-github__anchor" name="using-expressrouter" href="#using-expressrouter"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using express.Router</h2>
+<p class="md-github">Express.Router provides modular route handling. A Router instance is a complete middleware and routing system.</p>
+<p class="md-github">Example:</p>
+<p class="md-github">// birds.js
+const express = require('express');
+const router = express.Router();</p>
+<p class="md-github">const timeLog = (req, res, next) =&gt; {
+console.log('Time: ', Date.now());
+next();
+};</p>
+<p class="md-github">router.use(timeLog);
+router.get('/', (req, res) =&gt; { res.send('Birds home page'); });
+router.get('/about', (req, res) =&gt; { res.send('About birds'); });</p>
+<p class="md-github">module.exports = router;</p>
+<p class="md-github">Then mounted in main app:</p>
+<p class="md-github">const birds = require('./birds');
+app.use('/birds', birds);</p>
+<h2 class="md-github"><a class="md-github__anchor" name="response-methods" href="#response-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Response Methods</h2>
+<p class="md-github">Response methods terminate the request-response cycle:</p>
+<ul class="md-github">
+<li class="md-github">res.send()</li>
+<li class="md-github">res.json()</li>
+<li class="md-github">res.sendFile()</li>
+<li class="md-github">res.redirect()</li>
+<li class="md-github">res.render()</li>
+<li class="md-github">res.download()</li>
+<li class="md-github">res.sendStatus(code)</li>
+<li class="md-github">res.end()</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration--best-practices" href="#configuration--best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration &amp; Best Practices</h2>
+<ul class="md-github">
+<li class="md-github">Use express.static(path, [options]) for serving static files.</li>
+<li class="md-github">For multiple directories, mount express.static multiple times.</li>
+<li class="md-github">To avoid routing conflicts, ensure middleware ordering from specific to general.</li>
+<li class="md-github">In Express 5, some pattern matching characters and regex usage change; consult migration guides.</li>
+</ul>
+<p class="md-github">Retrieved: 2023-10-05
+Attribution: Data Size 7544456 bytes, Links Found: 19186</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Express Routing and Middleware Guide</li>
+<li class="md-github">URL: https://expressjs.com/en/guide/routing.html</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-26T22:47:28.139Z</li>
+<li class="md-github">Data Size: 7544456 bytes</li>
+<li class="md-github">Links Found: 19186</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-26</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-26T23:22:51.946Z</p>
+  </footer>
+</body>
+</html>
