@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It allows both command line interactions and HTTP API access to generate plots dynamically.
 
 ## CLI Plot Generation
 
@@ -13,68 +13,51 @@ You can generate plots directly from the command line by providing the following
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
-  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integer and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
+  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
 - **--file**: The output file path. The file extension determines the output type:
   - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for image/svg+xml, image/png, and application/json.
 
-**Help and Verbose Modes**
+## HTTP API: Dynamic Plot Generation
 
-- When running with **--help**, the CLI displays a concise usage message describing all available flags and provides examples.
-- When running with **--verbose** along with valid commands, the CLI outputs additional debug information for troubleshooting and clarity on internal operations.
+In addition to content negotiation via the Accept header, the `/plot` endpoint has been enhanced to support dynamic plot generation using URL query parameters. When making a GET request with the following query parameters, the API will dynamically generate and return the plot:
+
+- **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty.
+- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers.
+- **fileType**: Specifies the output type. Must be either `svg` or `png`.
+
+### Behavior
+
+- If all query parameters are valid:
+  - **svg**: Returns a response with `Content-Type: image/svg+xml` containing an SVG plot with an annotation.
+  - **png**: Returns a response with `Content-Type: image/png` containing a PNG image with a valid PNG header.
+- If any required query parameter is missing or invalid, the API returns a `400 Bad Request` with an error message describing the issue.
+- If no query parameters are provided, the endpoint falls back to the original behavior, using the Accept header for content negotiation.
 
 ### Examples
 
-1. **Display Help Message:**
+1. **Dynamic SVG Generation:**
 
-   node src/lib/main.js --help
+   GET `/plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg`
 
-   - This will output the usage guide along with flag descriptions and examples.
+   - Returns an SVG plot with `Content-Type: image/svg+xml` and content starting with `<svg`.
 
-2. **Generate an SVG Plot with Verbose Output (Valid Input):**
+2. **Dynamic PNG Generation:**
 
-   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --verbose
+   GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
 
-   - The generated SVG file will contain:
-   ```xml
-   <svg xmlns="http://www.w3.org/2000/svg">
-     <text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>
-   </svg>
-   ```
-   - The CLI will output verbose logs detailing argument parsing and plot generation steps.
+   - Returns a PNG image with `Content-Type: image/png` and a valid PNG header.
 
-3. **Generate a PNG Plot (Valid Input):**
+3. **Error Cases:**
 
-   node src/lib/main.js --expression "y=cos(x)" --range "x=-2.0:3.5,y=-1.5:1.5" --file output.png
-
-   - The generated PNG file will have a valid PNG header.
-   - And the CLI will log a success message: "PNG plot generated at output.png for expression: y=cos(x) in range: x=-2.0:3.5,y=-1.5:1.5"
-
-4. **Run in Server Mode:**
-
-   node src/lib/main.js --serve
-
-   - This starts an HTTP server listening on port 3000 with a `/plot` endpoint.
-
-5. **Invalid Input Examples:**
-
-   - Missing a required flag or providing an empty value will result in an error. For example:
-     - Missing or empty **--expression**: 
-       > Error: --expression flag must have a non-empty value.
-     - Missing or empty **--range**: 
-       > Error: --range flag must have a non-empty value.
-     - Missing or empty **--file**: 
-       > Error: --file flag must have a non-empty value.
-
-   - Malformed **--range** value:
-     - For example, using "x=-1.5:abc,y=-0.5:0.5" will result in:
-       > Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.
+   - Missing or empty parameters (e.g., missing `fileType` or empty `expression`) will result in a `400 Bad Request` with an appropriate error message.
+   - A malformed range (e.g., "x=-1:1,y=abc") will also return a `400 Bad Request`.
 
 ## Server Mode
 
-To run the HTTP server (which provides the /plot endpoint), use the following flag:
+To run the HTTP server (which provides the `/plot` endpoint), use the following flag:
 
    node src/lib/main.js --serve
 
-The /plot endpoint supports content negotiation for "image/svg+xml", "image/png", and "application/json".
+The `/plot` endpoint supports both content negotiation based on the Accept header and dynamic plot generation via query parameters.
