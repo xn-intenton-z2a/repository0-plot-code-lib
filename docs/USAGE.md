@@ -11,7 +11,7 @@ You can generate plots directly from the command line by providing the following
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
-  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. For example, "x=-1:1,y=-1:1".
+  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integer and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
 - **--file**: The output file path. The value must not be empty. The file extension determines the output type:
   - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
@@ -22,22 +22,22 @@ When executed with the correct flags, the CLI will generate the plot and log a s
 
 1. **Generate an SVG plot (Valid Input):**
 
-   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg
+   node src/lib/main.js --expression "y=sin(x)" --range "x=-1.5:2.5,y=-0.5:0.5" --file output.svg
 
    - The generated SVG file will contain:
    ```xml
    <svg xmlns="http://www.w3.org/2000/svg">
-     <text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>
+     <text x="10" y="20">Plot for: y=sin(x) in range x=-1.5:2.5,y=-0.5:0.5</text>
    </svg>
    ```
-   - And the CLI will log a message: "SVG plot generated at output.svg for expression: y=sin(x) in range: x=-1:1,y=-1:1"
+   - And the CLI will log a message: "SVG plot generated at output.svg for expression: y=sin(x) in range: x=-1.5:2.5,y=-0.5:0.5"
 
 2. **Generate a PNG plot (Valid Input):**
 
-   node src/lib/main.js --expression "y=cos(x)" --range "x=-1:1,y=-1:1" --file output.png
+   node src/lib/main.js --expression "y=cos(x)" --range "x=-2.0:3.5,y=-1.5:1.5" --file output.png
 
    - The generated PNG file will have a valid PNG header.
-   - And the CLI will log a message: "PNG plot generated at output.png for expression: y=cos(x) in range: x=-1:1,y=-1:1"
+   - And the CLI will log a message: "PNG plot generated at output.png for expression: y=cos(x) in range: x=-2.0:3.5,y=-1.5:1.5"
 
 3. **Invalid Input Examples:**
 
@@ -50,7 +50,7 @@ When executed with the correct flags, the CLI will generate the plot and log a s
        > Error: --file flag must have a non-empty value.
 
    - Malformed **--range** value:
-     - For example, using "x=-1:1,y=abc" will result in:
+     - For example, using "x=-1.5:abc,y=-0.5:0.5" will result in:
        > Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.
 
 ## Server Mode

@@ -90,8 +90,8 @@ export function main(args = process.argv.slice(2)) {
       throw new Error("Error: --file flag must have a non-empty value.");
     }
 
-    // Validate the range flag format
-    const rangePattern = /^x=-?\d+:\d+,y=-?\d+:\d+$/;
+    // Validate the range flag format (supports integer and floating point numbers)
+    const rangePattern = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
     if (!rangePattern.test(range)) {
       throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
