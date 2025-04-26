@@ -18,7 +18,7 @@ function createSvgPlot(expression, range) {
   }
   const xMin = parseFloat(match[1]);
   const xMax = parseFloat(match[3]);
-  const numPoints = 50;
+  const numPoints = 100;
   const step = (xMax - xMin) / (numPoints - 1);
   // Prepare mathematical expression (remove "y=" prefix if exists)
   let exprStr = expression.trim();
