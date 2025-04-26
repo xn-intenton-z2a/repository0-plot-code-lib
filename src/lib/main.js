@@ -31,7 +31,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (fileType === "svg") {
-        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
+        const svgContent = `<svg xmlns=\"http://www.w3.org/2000/svg\"><text x=\"10\" y=\"20\">Plot for: ${expression} in range ${range}</text></svg>`;
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (fileType === "png") {
         const pngBase64 =
@@ -99,6 +99,21 @@ export function generatePlot(expression, range, fileOutput) {
 }
 
 export function main(args = process.argv.slice(2)) {
+  // Handle version flag before any other processing
+  if (args.includes("--version")) {
+    const pkgPath = path.join(process.cwd(), 'package.json');
+    try {
+      const pkgContent = fs.readFileSync(pkgPath, 'utf8');
+      const pkg = JSON.parse(pkgContent);
+      console.log(pkg.version);
+    } catch (err) {
+      console.error('Error reading version from package.json');
+      console.error(err);
+      process.exit(1);
+    }
+    process.exit(0);
+  }
+
   // Handle --help flag
   if (args.includes("--help")) {
     const helpMessage = `
@@ -106,6 +121,7 @@ Usage: node src/lib/main.js [options]
 
 Options:
   --help                Display this help message and exit.
+  --version             Display the current version and exit.
   --verbose             Enable verbose output for debugging.
   --expression <expr>   Specify the mathematical expression (e.g., "y=sin(x)").
   --range <range>       Specify the plot range (format: x=<min>:<max>,y=<min>:<max>). Supports integers and floating point numbers.
@@ -114,6 +130,7 @@ Options:
 
 Examples:
   node src/lib/main.js --help
+  node src/lib/main.js --version
   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --verbose
   node src/lib/main.js --serve
 

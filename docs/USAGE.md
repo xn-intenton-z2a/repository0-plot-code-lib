@@ -9,6 +9,7 @@ repository0-plot-code-lib is a CLI tool and library for generating plots from ma
 You can generate plots directly from the command line by providing the following flags:
 
 - **--help**: Displays this help message with usage information, flag details, and examples.
+- **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
@@ -18,6 +19,38 @@ You can generate plots directly from the command line by providing the following
   - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for image/svg+xml, image/png, and application/json.
+
+### Examples
+
+1. **Display Help Information:**
+
+   ```bash
+   node src/lib/main.js --help
+   ```
+
+2. **Display Version:**
+
+   ```bash
+   node src/lib/main.js --version
+   ```
+
+3. **Generate an SVG Plot via CLI:**
+
+   ```bash
+   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg [--verbose]
+   ```
+
+4. **Generate a PNG Plot via CLI:**
+
+   ```bash
+   node src/lib/main.js --expression "y=cos(x)" --range "x=-2.0:3.5,y=-1.5:1.5" --file output.png
+   ```
+
+5. **Run in Server Mode:**
+
+   ```bash
+   node src/lib/main.js --serve
+   ```
 
 ## HTTP API: Dynamic Plot Generation
 
@@ -41,13 +74,9 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
    GET `/plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg`
 
-   - Returns an SVG plot with `Content-Type: image/svg+xml; charset=utf-8` and content starting with `<svg`.
-
 2. **Dynamic PNG Generation:**
 
    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
-
-   - Returns a PNG image with `Content-Type: image/png` and a valid PNG header.
 
 3. **Error Cases:**
 
