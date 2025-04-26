@@ -1,227 +1,179 @@
 # Zod (Type-Safe Validation for JavaScript and TypeScript)
 ## https://github.com/colinhacks/zod#readme
-Zod is a schema-based validation library that enables runtime data parsing and type-safe validation. Its concise API helps define complex CLI parameter schemas with clear error messaging. This documentation offers essential technical specifications on schema declarations, custom validation logic, coercion, and TypeScript integration, directly informing our CLI argument validation for robust input handling. Last updated 2024-02; authoritative as a peer-reviewed library used by major frameworks like Next.js.
+Zod is a schema-based validation library enabling runtime data parsing and type-safe checks in JavaScript and TypeScript. Its concise API offers declarative schema definitions, custom validation, coercion, and detailed error reporting. This documentation delivers essential specifications for defining and composing complex CLI argument schemas, integrating with environment-based defaults, and ensuring robust validation for both CLI and HTTP payloads. Last updated 2024-02; authoritative as a peer-reviewed library used in frameworks like Next.js.
 ## License
 MIT
 
 # dotenv (Environment Variable Loader for Node.js)
 ## https://github.com/motdotla/dotenv#readme
-dotenv loads environment variables from a .env file into process.env in Node.js applications. The README covers configuration options, custom file paths, variable expansion, secure defaults, and operational best practices. This source is critical for managing CLI configuration parameters (e.g., default plot settings) and injecting environment-based overrides. Last updated 2024-03; one of the most widely adopted Node utilities.
+dotenv loads and manages environment variables from `.env` files into `process.env`. Its README covers custom file paths, variable expansion, override strategies, and secure defaults. These features are critical for centralizing default plot parameters (color, dimensions, DPI) and enabling environment-driven configuration across CLI and HTTP contexts. Last updated 2024-03; widely adopted and battle-tested.
 ## License
 MIT
 
 # Vitest (Vite-Powered Testing Framework)
 ## https://vitest.dev/guide/
-Vitest is a fast, ESM-native unit-testing framework built on Vite. Its documentation details test configuration, fixture and mock support, snapshot testing, watch modes, and coverage integration. These guides provide actionable insights for structuring and accelerating our unit tests for CLI argument parsing, expression evaluation, and file I/O operations. Last updated 2024-05; maintained by the Vite community.
+Vitest is a high-performance, ESM-native testing framework built on Vite. The guide details configuration, mocking, snapshot tests, coverage, and watch modes. These instructions provide actionable patterns for organizing and accelerating unit and integration tests for argument parsing, expression evaluation, I/O flows, and server endpoints. Last updated 2024-05; maintained by the Vite community.
 ## License
 MIT
 
 # Math.js (Mathematical Expression Parsing and Evaluation)
 ## https://mathjs.org/docs/expressions/parsing.html
-Math.js provides a comprehensive expression parser and evaluator capable of interpreting and computing complex mathematical formulas. It supports custom functions, symbolic computation, and unit handling. This documentation offers actionable guidance on tokenizing expressions, constructing abstract syntax trees, compiling to JavaScript functions, and evaluating results, which are critical for implementing reliable expression parsing and time series generation. Last updated 2024-01-10; maintained under Apache-2.0.
+Math.js offers a comprehensive expression parser and evaluator with support for custom functions, symbolic operations, and unit calculations. The docs explain tokenization, AST construction, function compilation, and performance optimizations. This source underpins reliable parsing and runtime evaluation of user-provided formulas when generating numerical time series. Last updated 2024-01-10; maintained under Apache-2.0.
 ## License
 Apache-2.0
 
 # PapaParse (CSV Parsing for JavaScript)
 ## https://www.papaparse.com/docs
-PapaParse is a high-performance CSV parser for browser and Node.js environments that supports streaming, worker threads, header recognition, and robust edge-case handling. The docs provide detailed guidance on parsing callbacks, chunked processing, asynchronous versus synchronous modes, and error recovery strategies. This source is essential for implementing scalable CSV I/O in our CLI tool. Last updated 2024-02; maintained by the PapaParse community.
+PapaParse is a performant CSV parser supporting streaming, header detection, asynchronous processing, and robust error recovery. The documentation provides in-depth guidance on callback management, chunked parsing, worker threads, and custom delimiter handling. This source is essential for scalable CSV import in the CLI and HTTP API, ensuring efficient memory use and correct parsing of edge cases. Last updated 2024-02; community-maintained.
 ## License
 MIT
 
 # Frictionless Data Table Schema (JSON Table Schema)
 ## https://specs.frictionlessdata.io/table-schema/
-The JSON Table Schema specification defines a standard for tabular data representation in JSON, including field types, constraints, and metadata. This document guides the design of time series data imports and exports, ensuring adherence to open data principles, interoperability with other tools, and clear schema validation. Last updated 2024-02; maintained by the Frictionless Data project.
+The JSON Table Schema spec formalizes tabular data representation in JSON, specifying field types, constraints, and metadata conventions. This documentation guides the design of import/export schemas for time series data, enabling interoperability with other tools, clear validation rules, and adherence to open data standards. Last updated 2024-02; maintained by Frictionless Data.
 ## License
 CC0-1.0
 
 # RFC 4180 (Common Format and MIME Type for CSV Files)
 ## https://tools.ietf.org/html/rfc4180
-RFC 4180 describes the de facto standard for CSV formatting, covering delimiters, quoting rules, line breaks, and escape sequences. This source is critical for implementing robust CSV import and export by correctly handling commas in fields, embedded line breaks, and optional header rows. Published 2005-10; public domain.
+RFC 4180 defines the de facto CSV standard, covering delimiters, quoting, line breaks, and escape sequences. It is crucial for implementing robust CSV import/export logic that correctly handles quoted fields, embedded newlines, and optional header rows. Published 2005-10; public domain.
 ## License
 Public Domain
 
 # Node.js File System API
 ## https://nodejs.org/api/fs.html
-The official Node.js File System documentation details synchronous and asynchronous file I/O operations, file utilities, directory manipulation, and streaming file reads/writes. It covers backpressure control, buffer handling, and atomic file operations, which are vital for efficient import-export workflows and large file output handling in our CLI. Last updated Node.js v20.x; provided by the Node.js Foundation.
+The official Node.js File System API docs detail synchronous and asynchronous file operations, directory manipulation, file streams, and atomic writes. This source covers backpressure control, buffer management, and error handling, informing efficient I/O for reading/writing large CSV, JSON, and image output. Last updated Node.js v20.x; provided by the OpenJS Foundation.
 ## License
 OpenJS Foundation
 
 # Node.js Streams API
 ## https://nodejs.org/api/stream.html
-The Node.js Streams API documentation covers readable, writable, duplex, and transform streams, including highWaterMark settings, objectMode, piping, and backpressure. This source is critical for building efficient, non-blocking I/O pipelines for CSV and JSON import/export and large dataset processing. Last updated Node.js v20.x; provided by the Node.js Foundation.
+The Node.js Streams API docs illustrate readable, writable, transform, and duplex streams, including highWaterMark tuning, objectMode, piping, and backpressure. These patterns are critical for building non-blocking, memory-efficient pipelines for CSV/JSON import/export and large-scale data processing. Last updated Node.js v20.x; OpenJS Foundation.
 ## License
 OpenJS Foundation
 
-# Node.js ECMAScript Modules
+# Node.js Path Module
+## https://nodejs.org/api/path.html
+The Path module documentation explains cross-platform file path normalization, joining, resolving, and parsing. These utilities are essential for secure file handling, preventing path traversal vulnerabilities, and ensuring portability across operating systems in both CLI and server contexts. Last updated Node.js v20.x; OpenJS Foundation.
+## License
+OpenJS Foundation
+
+# Node.js ECMAScript Modules (ESM)
 ## https://nodejs.org/api/esm.html
-This official Node.js documentation details the ECMAScript Modules implementation, covering import/export syntax, module resolution, the "type" field in package.json, dynamic imports, and interoperability with CommonJS. Understanding ESM is essential for structuring our codebase, enabling clean modular design, and ensuring compatibility in Node.js v20+ environments. Last updated Node.js v20.x; provided by the OpenJS Foundation.
+This official guide covers ESM support in Node.js, including import/export syntax, module resolution, the `type` field in `package.json`, dynamic imports, and CommonJS interop. Understanding these mechanics is vital for clean project structure, optimal packaging, and compatibility with modern Node.js environments. Last updated Node.js v20.x; OpenJS Foundation.
+## License
+OpenJS Foundation
+
+# Node.js Worker Threads API
+## https://nodejs.org/api/worker_threads.html
+Worker Threads provide an API for running JavaScript in parallel threads, enabling offloading of CPU-bound tasks like large expression evaluations or batch data processing. The documentation details `Worker`, `MessageChannel`, transferable objects, and performance considerations for thread pooling. Last updated Node.js v20.x; OpenJS Foundation.
+## License
+OpenJS Foundation
+
+# Node.js Packages: “exports” Field
+## https://nodejs.org/api/packages.html#packages_exports
+This section explains how to use the `exports` field in `package.json` to define public entry points, control subpath imports, and enforce encapsulation. It is crucial for library authors to manage API surfaces and ensure predictable module resolution for consumers. Last updated Node.js v20.x; OpenJS Foundation.
 ## License
 OpenJS Foundation
 
 # SVG Path Data Specification
 ## https://www.w3.org/TR/SVG2/paths.html
-The W3C SVG2 Path specification defines the syntax and parameters for path commands in scalable vector graphics. This authoritative document provides the technical blueprint for generating complex shape outlines, curves, and line segments in SVG output, ensuring standards-compliant rendering across browsers and tools. Last updated 2023-12; published by W3C.
+This W3C specification defines the syntax and semantics of SVG path commands, including line, curve, and arc segments. It is the authoritative reference for constructing precise path data for time series curves, ensuring standards-compliant rendering across browsers and tools. Last updated 2023-12; W3C Document License.
 ## License
 W3C Document License
 
 # SVG Coordinate System and Transformations
 ## https://www.w3.org/TR/SVG2/coords.html
-This section of the W3C SVG2 specification outlines how coordinate systems, viewports, and transformations operate in SVG. It explains user space vs. object bounding box units, transform matrices, and preserveAspectRatio behavior. These technical details are fundamental for correctly scaling, positioning, and rendering plot elements within SVG canvases. Last updated 2023-08; published by W3C.
+This W3C section covers coordinate systems, viewports, transform matrices, `preserveAspectRatio`, and user vs object coordinate spaces. These technical details ensure correct scaling, positioning, and responsive behavior of generated SVG plots. Last updated 2023-08; W3C Document License.
 ## License
 W3C Document License
 
 # EJS (Embedded JavaScript Templating)
 ## https://ejs.co/#docs
-EJS is a simple templating language that compiles to HTML, XML, and SVG markup. The official docs cover template syntax, includes/partials, custom delimiters, and asynchronous rendering. Leveraging EJS for SVG templates allows clean separation of data logic and presentation, supporting flexible plot layouts and styling. Last updated 2023; MIT.
+EJS compiles simple templates to HTML, XML, or SVG markup. The docs explain template syntax, includes, partials, custom delimiters, and asynchronous rendering. Leveraging EJS allows a clear separation between data logic and presentation when generating SVG plots. Last updated 2023; MIT.
 ## License
 MIT
 
 # D3-Scale (Quantitative Scale Constructors)
 ## https://github.com/d3/d3-scale#readme
-D3-scale provides functions for mapping data domains to visual ranges using continuous, sequential, and temporal scales. The README offers technical specs for domain setting, interpolation, and tick generation, which are essential for calculating pixel positions of data points in our plot generation. Last updated 2024-03; BSD-3-Clause.
+D3-scale provides continuous, sequential, and temporal scales for mapping data domains to visual ranges. The README details domain configuration, interpolation methods, tick generation, and clamping. These functions are fundamental for calculating pixel positions of data points in SVG plots. Last updated 2024-03; BSD-3-Clause.
 ## License
 BSD-3-Clause
 
 # D3-Shape (Graphical Primitives for Lines and Areas)
 ## https://github.com/d3/d3-shape#readme
-D3-shape defines generators for creating SVG path data for lines, areas, and curves. The documentation explains interpolation modes, tension settings, and baseline definitions, providing a blueprint for constructing smooth time series curves and accurate SVG path output. Last updated 2024-03; BSD-3-Clause.
+D3-shape offers generators for line, area, and curve path data. The documentation covers interpolation modes, tension settings, baseline definitions, and custom curve factories. This source guides construction of smooth time series curves in SVG output. Last updated 2024-03; BSD-3-Clause.
 ## License
 BSD-3-Clause
 
 # D3-Axis (Axis Generators for D3.js)
 ## https://github.com/d3/d3-axis/blob/main/README.md
-D3-axis provides functions to generate and render axis lines, ticks, and labels in SVG. The README covers tick generation based on data domains, formatting through d3-format, axis orientation options, and grid line customization. This source is critical for standardized axis rendering in our SVG plots, ensuring precise tick placement and styling. Last updated 2024-02; BSD-3-Clause.
+D3-axis provides functions to render axis lines, ticks, and labels in SVG. The guide explains tick calculation based on data domains, formatting via D3-format, axis orientation, and gridline customization. These insights are key for precise and styled axis rendering in plots. Last updated 2024-02; BSD-3-Clause.
 ## License
 BSD-3-Clause
 
 # D3-Format (Numeric Formatting Library)
 ## https://github.com/d3/d3-format/blob/main/README.md
-D3-format offers robust formatting capabilities for numbers, including precision specifiers, SI-prefix formatting, currency, and percentage representations. The documentation guides on constructing format specifiers, registering locale-specific definitions, and applying format functions to axis labels and tooltip values. These insights directly inform how we format numerical tick labels and annotations. Last updated 2024-03; BSD-3-Clause.
+D3-format supports formatting numbers with precision specifiers, SI-prefixes, currency, and locale registration. The documentation details format specifier syntax and programmatic API for formatting tick labels and annotations consistently. Last updated 2024-03; BSD-3-Clause.
 ## License
 BSD-3-Clause
 
-# node-canvas (Canvas API for Node.js)
-## https://github.com/Automattic/node-canvas#readme
-node-canvas implements the HTML Canvas API in Node.js, enabling server-side rendering of graphics. The README covers context creation, path drawing, text rendering, and image buffer integration, guiding conversion of SVG paths into raster images and PNG output in headless environments. Last updated 2024-05; maintained by Automattic.
+# D3-Array (Data Manipulation Utilities)
+## https://github.com/d3/d3-array#readme
+D3-array provides utilities like `extent`, `bin`, `quantile`, and `group` for processing arrays of data. The README explains method signatures and performance considerations, streamlining pre-processing of time series datasets for analytic and rendering workflows. Last updated 2024-03; BSD-3-Clause.
 ## License
-MIT
+BSD-3-Clause
 
 # Sharp (High-Performance Image Processing)
 ## https://sharp.pixelplumbing.com/api-output#png
-Sharp is a widely used Node.js library for high-speed image manipulation, providing APIs for converting SVG or raw pixel data into PNG, JPEG, and WebP formats. The API docs detail output options such as compression levels, filters, and metadata handling, directly informing our PNG export pipeline for optimal performance and image quality. Last updated 2024-04; maintained by Lovell Fuller.
+Sharp delivers high-speed image conversion, resizing, and output options for formats like PNG, JPEG, and WebP. The API docs cover compression levels, filters, metadata handling, and streaming buffers, informing our SVG-to-PNG export pipeline for optimal performance and quality. Last updated 2024-04; Apache-2.0.
 ## License
 Apache-2.0
 
-# Plotly.js (Declarative JavaScript Data Visualization)
-## https://plotly.com/javascript/
-Plotly.js is a high-level library for creating interactive charts and plots in JavaScript, including both SVG and WebGL outputs. Its documentation details configuration options, plot types, layout customization, styling, and export methods. This source is valuable for understanding best practices in generating and exporting complex visualizations programmatically. Last updated 2024; maintained by Plotly Inc.
-## License
-MIT
-
-# Vega-Lite (High-Level Grammar for Interactive Visualization)
-## https://vega.github.io/vega-lite/docs/
-Vega-Lite offers a concise JSON syntax for creating interactive visualizations. Its docs cover encoding channels, data transformations, specification of marks, and export capabilities. Studying its grammar enables alignment of our plot-generation API with declarative standards for scalability and consistency. Last updated 2024-04; maintained by the University of Washington.
-## License
-BSD-3-Clause
-
-# Chart.js (Configurable Charting Library in JavaScript)
-## https://www.chartjs.org/docs/latest/
-Chart.js is a popular open-source library for creating responsive charts with HTML5 canvas. Its documentation details the full configuration object schema, dataset structures, scales, axes, animations, and plugin integrations. The deep dive into chart lifecycle methods and extensibility patterns offers practical guidance for programmatically generating charts or mirroring configurations in our CLI output. Last updated 2024; maintained by the Chart.js community.
-## License
-MIT
-
-# chartjs-node-canvas (Chart.js Rendering in Node.js)
-## https://github.com/SeanSobey/ChartjsNodeCanvas#readme
-chartjs-node-canvas integrates Chart.js with node-canvas to enable server-side chart rendering. The README details instantiation, context configuration, font registration, and exporting to image buffers. This source informs our local chart rendering pipeline, demonstrating how to leverage canvas and Chart.js options for high-quality outputs. Last updated 2024-02; MIT.
-## License
-MIT
-
-# QuickChart (HTTP Chart Generation API)
-## https://quickchart.io/documentation/
-QuickChart offers an HTTP API for chart generation using a subset of the Chart.js configuration schema. Documentation covers chart types, data formats, output options (PNG, SVG), and advanced styling parameters. This source provides actionable insights for offloading rendering to an external service, enabling lightweight CLI implementations and fallback strategies. Last updated 2024; MIT.
-## License
-MIT
-
 # Express.js (HTTP Server Framework)
 ## https://expressjs.com/en/4x/api.html
-The official Express 4.x API documentation details core middleware, routing mechanisms, request and response objects, error-handling patterns, and built-in body parsing via express.json() and express.urlencoded(). This source is critical for building and configuring the /plot HTTP endpoint, validating JSON payloads, managing error flows, and integrating middleware for robust request handling. Last updated 2023-12; maintained by the Express.js community.
+Express provides middleware-based routing, request/response handling, error management, and built-in body parsing. This documentation guides building the `/plot` endpoint, validation flows with Zod, content negotiation, and robust error patterns for a production-quality HTTP API. Last updated 2023-12; MIT.
 ## License
 MIT
 
 # js-yaml (YAML Parser and Dumper)
 ## https://github.com/nodeca/js-yaml#readme
-js-yaml is a pure JavaScript YAML parser and dumper. The README covers safeLoad, custom schema definitions, type extensions, and best practices for securely loading and writing YAML configurations. This source is valuable for adding YAML-based configuration support in CLI and HTTP contexts, enabling human-friendly plot settings files. Last updated 2024-05; maintained by the js-yaml community.
+js-yaml is a pure JavaScript library for parsing and writing YAML. The README explains safe loading, custom schemas, type extensions, and security best practices, enabling YAML-based configuration support for both CLI and HTTP interfaces. Last updated 2024-05; MIT.
 ## License
 MIT
 
-# Fast-CSV (Alternative High-Performance CSV Parser)
-## https://c2fo.github.io/fast-csv/docs/getting-started
-Fast-CSV is a suite of CSV parsing and formatting tools optimized for Node.js. The getting-started guide covers stream-based parsing, handling headers, type casting, and error recovery, demonstrating patterns for high-throughput CSV I/O with backpressure support. It offers an alternative to PapaParse for advanced streaming control in our CLI. Last updated 2024-01; maintained by the Fast-CSV community.
+# JSON Lines (Newline-Delimited JSON)
+## https://jsonlines.org
+The JSON Lines specification defines a convenient, stream-friendly format where each line is a valid JSON value. This spec is ideal for streaming large JSON exports in CLI and HTTP contexts, enabling line-by-line parsing and efficient memory usage. Last reviewed 2024; unlicensed/public domain style.
 ## License
-MIT
-
-# D3-Array (Data Manipulation Utilities)
-## https://github.com/d3/d3-array#readme
-D3-array provides a rich set of utilities for array manipulation, including functions for computing extents, histograms, quantiles, and grouping. The documentation details API methods like d3.extent, d3.bin, and d3.group, which streamline pre-processing of time series datasets to enhance analytic workflows. Last updated 2024-03; maintained by the D3 community.
-## License
-BSD-3-Clause
-
-# Apache ECharts (Interactive Charting Library)
-## https://echarts.apache.org/en/api.html
-The official Apache ECharts API reference enumerates chart types, dataset management, graphical element options, and theme configurations. While focused on browser-driven interactive charts, ECharts' declarative option model and headless rendering capabilities provide insights for extending the CLI with diverse chart types and advanced styling. Last updated 2024-04; maintained by the Apache ECharts project.
-## License
-Apache-2.0
+Unlicensed/Public Domain
 
 # OpenAPI Specification (RESTful API Standard)
 ## https://spec.openapis.org/oas/v3.1.0
-The OpenAPI 3.1.0 specification defines a standardized format for describing RESTful APIs, supporting JSON Schema compatibility, parameter definitions, and response modeling. Leveraging this spec ensures well-documented, contract-driven development for the /plot endpoint, enabling tooling-driven client generation and consistent API evolution. Last updated 2023-10; maintained by the OpenAPI Initiative.
+OpenAPI v3.1.0 defines a standard for describing RESTful APIs, including JSON Schema compatibility, parameter definitions, and response modeling. Leveraging this spec ensures contract-driven development for the `/plot` endpoint, enabling automatic client generation and thorough API documentation. Last updated 2023-10; Apache-2.0.
 ## License
 Apache-2.0
 
-# Node.js Path Module
-## https://nodejs.org/api/path.html
-The Node.js Path module documentation outlines utilities for normalizing, joining, resolving, and parsing filesystem paths across operating systems. These functions are fundamental for robust and secure file path handling in both CLI and HTTP server contexts, preventing path traversal issues and ensuring cross-platform compatibility. Last updated Node.js v20.x; provided by the OpenJS Foundation.
-## License
-OpenJS Foundation
-
 # JSON Schema (Data Validation and API Contracts)
 ## https://json-schema.org/specification.html
-The JSON Schema specification defines a vocabulary for annotating and validating JSON documents. It covers schema definitions, validation keywords, referencing, and meta-schemas. This spec is crucial for designing and validating JSON payloads in our HTTP API, complementing Zod-based validation to ensure consistency with industry standards. Latest published 2024-04; maintained by the JSON Schema organization under CC0.
+JSON Schema defines a vocabulary for annotating and validating JSON documents, covering keywords, referencing, and meta-schemas. This specification complements Zod-based validation, ensuring consistency with industry standards for both configuration and API payload schemas. Latest published 2024-04; CC0-1.0.
 ## License
 CC0-1.0
 
 # Yargs (Command-Line Argument Parser for Node.js)
 ## https://yargs.js.org/docs/
-Yargs provides a robust feature set for building command-line tools in Node.js, including argument parsing, default values, command modules, middleware, and help generation. Its documentation offers patterns for nested commands, validation hooks, and async CLI workflows. Evaluating Yargs alongside Zod-based flag parsing helps refine our CLI UX and error-handling strategies. Last updated 2024-02; BSD-2-Clause.
+Yargs is a feature-rich CLI parser offering nested commands, validation hooks, middleware, and automatic help generation. Examining its patterns helps refine our Zod-based CLI UX, error messaging, and command module structure. Last updated 2024-02; BSD-2-Clause.
 ## License
 BSD-2-Clause
 
 # Vega (Visualization Grammar Foundation)
 ## https://vega.github.io/vega/docs/
-Vega is a low-level JSON grammar for creating, saving, and sharing interactive visualization designs. Its documentation details scene graphs, data transformations, mark definitions, scales, axes, and signal-driven interactivity. Studying Vega's specification informs the design of our internal plot DSL and guides implementation of advanced features like interactivity and configurable data transforms. Last updated 2024-03; maintained by the Vega Contributors.
+Vega is a declarative JSON grammar for interactive visualizations. The docs describe scene graphs, data transforms, mark and scale definitions, and signal-driven interactivity. Studying Vega informs the design of an internal plot DSL and guides advanced rendering features for future releases. Last updated 2024-03; BSD-3-Clause.
 ## License
 BSD-3-Clause
 
-# Commander.js (Command-Line Interface Library for Node.js)
-## https://github.com/tj/commander.js#readme
-Commander.js is a mature, feature-rich library for building command-line interfaces in Node.js. The README covers command definitions, option parsing, subcommands, argument coercion, help generation, and customizable behaviors. Integrating insights from Commander.js documentation can enhance our CLI structure, support complex command hierarchies, and improve user-facing documentation. Last updated 2024-05; maintained by the Node.js community.
+# Vega-Lite (High-Level Grammar for Interactive Visualization)
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite provides a concise JSON syntax for building interactive charts with data transformations and encoding channels. The documentation details mark types, aggregation, and export options, offering insights for aligning our plot generation API with declarative visualization standards. Last updated 2024-04; BSD-3-Clause.
 ## License
-MIT
-
-# JSEP (JavaScript Expression Parser)
-## https://github.com/EricSmekens/jsep
-JSEP is a lightweight and extensible JavaScript expression parser that produces an abstract syntax tree for arithmetic and logical expressions. The docs and examples demonstrate plugin architecture, operator precedence handling, and AST traversal, offering an alternative approach to expression parsing and potential optimizations beyond math.js. Last updated 2023-11; MIT.
-## License
-MIT
-
-# Ajv (Another JSON Schema Validator)
-## https://ajv.js.org
-Ajv is a high-performance JSON Schema validator that compiles schemas to JavaScript code for fast runtime validation. The documentation details JSON Schema draft support, custom keywords, asynchronous validation, code-generation modes, error messaging, and security considerations. Reviewing Ajv’s advanced usage patterns can supplement our Zod-based validation for HTTP payloads and configuration schemas. Last updated 2024-01; MIT.
-## License
-MIT
-
-# Convict (Schema-based Configuration for Node.js)
-## https://github.com/mozilla/node-convict#readme
-Convict defines a schema-based configuration management system for Node.js, supporting nested environments, validation, default values, and environment variable overrides. The docs illustrate configuration loading, format definitions, custom getters, and command-line interface integration, providing a robust alternative for managing complex configuration scenarios in CLI and HTTP contexts. Last updated 2024-02; MIT.
-## License
-MIT
+BSD-3-Clause
