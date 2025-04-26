@@ -33,8 +33,8 @@ You can generate plots directly from the command line by providing the following
 
 ### Error Handling
 
-- If any of the required flags (--expression, --range, or --file) are missing, the program will output an error and exit.
-- If an unsupported file extension is provided, an error is displayed indicating that only .svg and .png are supported.
+- If any of the required flags (--expression, --range, or --file) are missing, the program will throw an error indicating that all are required.
+- If an unsupported file extension is provided, an error is thrown indicating that only .svg and .png are supported.
 
 ## Server Mode
 

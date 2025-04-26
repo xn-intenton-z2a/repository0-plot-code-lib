@@ -43,8 +43,7 @@ export function main(args = process.argv.slice(2)) {
 
   if (hasExpression || hasRange || hasFile) {
     if (!hasExpression || !hasRange || !hasFile) {
-      console.error("Error: --expression, --range, and --file flags are required together.");
-      process.exit(1);
+      throw new Error("Error: --expression, --range, and --file flags are required together.");
     }
     const expressionIdx = args.indexOf("--expression");
     const rangeIdx = args.indexOf("--range");
@@ -54,8 +53,7 @@ export function main(args = process.argv.slice(2)) {
     const fileOutput = args[fileIdx + 1];
 
     if (!expression || !range || !fileOutput) {
-      console.error("Error: Missing required values for --expression, --range, or --file.");
-      process.exit(1);
+      throw new Error("Error: Missing required values for --expression, --range, or --file.");
     }
 
     const ext = path.extname(fileOutput).toLowerCase();
@@ -72,8 +70,7 @@ export function main(args = process.argv.slice(2)) {
       console.log(`PNG plot generated at ${fileOutput}`);
       return;
     } else {
-      console.error(`Error: Unsupported file extension '${ext}'. Only .svg and .png are supported.`);
-      process.exit(1);
+      throw new Error(`Error: Unsupported file extension '${ext}'. Only .svg and .png are supported.`);
     }
   }
 
