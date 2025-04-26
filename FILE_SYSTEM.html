@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="file_system" href="#file_system"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>FILE_SYSTEM</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">File system module offers promise, callback and sync APIs. Key classes: FileHandle (methods: appendFile, chmod, chown, close, createReadStream, createWriteStream, datasync, read, write, writeFile, writev), fsPromises methods such as access, appendFile, chmod, copyFile, cp, glob, etc. Each method includes clearly defined parameters, defaults (e.g., encoding: 'utf8', autoClose: true) and return types (Promises or direct values). Code examples show promise-based (async/await) deletion, callback error handling, and synchronous usage with try/catch.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">FileHandle API
+<ul class="md-github">
+<li class="md-github">appendFile(data[, options]): data: string|Buffer|TypedArray|DataView|AsyncIterable|Iterable|Stream; options: Object|string (encoding: default 'utf8', signal: AbortSignal)</li>
+<li class="md-github">chmod(mode): mode: integer; returns Promise undefined</li>
+<li class="md-github">chown(uid, gid): uid, gid: integer; returns Promise undefined</li>
+<li class="md-github">close(): returns Promise undefined</li>
+<li class="md-github">createReadStream([options]): options include encoding (default null), autoClose (true), emitClose (true), start, end (default Infinity), highWaterMark (64*1024)</li>
+<li class="md-github">createWriteStream([options]): options include encoding (default 'utf8'), autoClose (true), emitClose (true), start, highWaterMark (16384), flush (false)</li>
+<li class="md-github">Other methods: datasync, read, readFile, write, writeFile, writev, stat, sync, truncate, utimes, readLines, readableWebStream, Symbol.asyncDispose</li>
+</ul>
+</li>
+<li class="md-github">fsPromises API
+<ul class="md-github">
+<li class="md-github">access(path[, mode]): path: string|Buffer|URL; mode: integer (default F_OK); returns Promise undefined</li>
+<li class="md-github">appendFile(path, data[, options]): options include encoding (default 'utf8'), mode (default 0o666), flag (default 'a'), flush (false)</li>
+<li class="md-github">chmod, chown, copyFile (with mode modifiers), cp (with options: force, mode, recursive, preserveTimestamps, verbatimSymlinks, errorOnExist, filter), glob (pattern with options cwd, exclude, withFileTypes)</li>
+<li class="md-github">Additional methods include: lchmod, lchown, lutimes, link, lstat, mkdir, open, opendir, readdir, readFile, readlink, realpath, rename, rmdir, rm, stat, statfs, symlink, truncate, unlink, utimes, watch, writeFile, constants</li>
+</ul>
+</li>
+<li class="md-github">Callback and Sync APIs
+<ul class="md-github">
+<li class="md-github">Each promise method has a callback alternative (e.g. fs.access(path[, mode], callback)) and synchronous variant (e.g. fs.accessSync(path[, mode]))</li>
+</ul>
+</li>
+<li class="md-github">Common Objects
+<ul class="md-github">
+<li class="md-github">fs.Dir, fs.Dirent, fs.FSWatcher, fs.Stat, fs.WriteStream, fs.ReadStream</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Each API item includes explicit type signatures, parameter defaults, applicable options and return types. Code examples are provided for promise, callback, and synchronous methods, including proper error handling and resource closure via try/finally.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Exact Parameters and Defaults:</p>
+<ul class="md-github">
+<li class="md-github">FileHandle.appendFile: data (string|Buffer|TypedArray|DataView|AsyncIterable|Iterable|Stream), options: { encoding: 'utf8' (default), signal: undefined }.</li>
+<li class="md-github">FileHandle.createReadStream options: { encoding: null, autoClose: true, emitClose: true, start: integer, end: Infinity, highWaterMark: 65536, signal: undefined }.</li>
+<li class="md-github">fsPromises.appendFile: options: encoding: 'utf8', mode: 0o666, flag: 'a', flush: false.</li>
+<li class="md-github">fsPromises.access: mode defaults to fs.constants.F_OK</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Import the required module: either using require('node:fs') for callback/sync or require('node:fs/promises') for promise-based operations.</li>
+<li class="md-github">Use fsPromises.open() to obtain a FileHandle. Always close the FileHandle using its close() method in a finally block.</li>
+<li class="md-github">For writing data, choose filehandle.write() for buffers or filehandle.writeFile() for full file replacement. Use filehandle.createWriteStream() for multiple asynchronous writes.</li>
+<li class="md-github">For reading, use filehandle.readFile() or createReadStream() with proper options if partial file reads are needed.</li>
+<li class="md-github">Handle errors in try/catch (promise and sync) or error-first callback pattern (callback API).</li>
+<li class="md-github">Use constants from fs.constants for permission or mode checks.</li>
+</ol>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">flush in appendFile and createWriteStream ensures file descriptor flush before close.</li>
+<li class="md-github">autoClose controls whether the file descriptor is closed automatically after stream end or error.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Use try/catch to capture errors from Promise rejections.</li>
+<li class="md-github">For file descriptor leaks, ensure filehandle.close() is called in a finally block.</li>
+<li class="md-github">Verify permissions using fsPromises.access with appropriate mode flags (R_OK, W_OK, X_OK).</li>
+<li class="md-github">Check fs.constants for file mode flags when using chmod and chown.</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always explicitly close file handles to prevent memory leaks.</li>
+<li class="md-github">Prefer promise-based APIs for ease of error handling with async/await, except when maximum performance is required (then use callback form).</li>
+<li class="md-github">Validate file existence and permissions before performing operations to avoid race conditions.</li>
+</ul>
+<p class="md-github">Example Code (Promise-based):
+import { open, unlink } from 'node:fs/promises';</p>
+<p class="md-github">(async () =&gt; {
+let filehandle;
+try {
+filehandle = await open('thefile.txt', 'r+');
+// perform file operations here
+await filehandle.writeFile('data', { encoding: 'utf8' });
+} catch (error) {
+console.error(error);
+} finally {
+await filehandle?.close();
+}
+})();</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<p class="md-github">FileHandle Methods:</p>
+<ol class="md-github">
+<li class="md-github">appendFile(data: string|Buffer|TypedArray|DataView|AsyncIterable|Iterable|Stream, options?: { encoding?: string, signal?: AbortSignal } | string): Promise<undefined></li>
+<li class="md-github">chmod(mode: number): Promise<undefined></li>
+<li class="md-github">chown(uid: number, gid: number): Promise<undefined></li>
+<li class="md-github">close(): Promise<undefined></li>
+<li class="md-github">createReadStream(options?: { encoding?: string, autoClose?: boolean, emitClose?: boolean, start?: number, end?: number, highWaterMark?: number, signal?: AbortSignal }): fs.ReadStream</li>
+<li class="md-github">createWriteStream(options?: { encoding?: string, autoClose?: boolean, emitClose?: boolean, start?: number, highWaterMark?: number, flush?: boolean }): fs.WriteStream</li>
+<li class="md-github">datasync(): Promise<undefined></li>
+<li class="md-github">read(buffer: Buffer|TypedArray|DataView, offset?: number, length?: number, position?: number|bigint|null): Promise&lt;{ bytesRead: number, buffer: Buffer|TypedArray|DataView }&gt;</li>
+<li class="md-github">readFile(options?: { encoding?: string|null, signal?: AbortSignal } | string): Promise&lt;string|Buffer&gt;</li>
+<li class="md-github">write(buffer: Buffer|TypedArray|DataView, offset?: number, length?: number, position?: number|null): Promise&lt;{ bytesWritten: number, buffer: Buffer|TypedArray|DataView }&gt;</li>
+<li class="md-github">write(string: string, position?: number|null, encoding?: string): Promise&lt;{ bytesWritten: number, buffer: string }&gt;</li>
+<li class="md-github">writeFile(data: string|Buffer|TypedArray|DataView|AsyncIterable|Iterable|Stream, options?: { encoding?: string|null, signal?: AbortSignal } | string): Promise<undefined></li>
+<li class="md-github">writev(buffers: Array&lt;Buffer|TypedArray|DataView&gt;, position?: number|null): Promise&lt;{ bytesWritten: number, buffers: Array&lt;Buffer|TypedArray|DataView&gt; }&gt;</li>
+<li class="md-github">stat(options?: { bigint?: boolean }): Promise&lt;fs.Stats&gt;</li>
+<li class="md-github">sync(): Promise<undefined></li>
+<li class="md-github">truncate(len?: number): Promise<undefined></li>
+<li class="md-github">utimes(atime: number | string | Date, mtime: number | string | Date): Promise<undefined></li>
+<li class="md-github">readLines(options?: { encoding?: string, autoClose?: boolean, emitClose?: boolean, start?: number, end?: number, highWaterMark?: number }): Promise&lt;readline.Interface&gt;</li>
+<li class="md-github">readableWebStream(): ReadableStream</li>
+<li class="md-github"><a href="" class="md-github">Symbol.asyncDispose</a>: Promise<undefined></li>
+</ol>
+<p class="md-github">fsPromises Methods:</p>
+<ol class="md-github">
+<li class="md-github">access(path: string|Buffer|URL, mode?: number): Promise<undefined></li>
+<li class="md-github">appendFile(path: string|Buffer|URL, data: string|Buffer, options?: { encoding?: string|null, mode?: number, flag?: string, flush?: boolean } | string): Promise<undefined></li>
+<li class="md-github">chmod(path: string|Buffer|URL, mode: number|string): Promise<undefined></li>
+<li class="md-github">chown(path: string|Buffer|URL, uid: number, gid: number): Promise<undefined></li>
+<li class="md-github">copyFile(src: string|Buffer|URL, dest: string|Buffer|URL, mode?: number): Promise<undefined></li>
+<li class="md-github">cp(src: string|URL, dest: string|URL, options?: { force?: boolean, mode?: number, recursive?: boolean, preserveTimestamps?: boolean, verbatimSymlinks?: boolean, errorOnExist?: boolean, filter?: Function }): Promise<undefined></li>
+<li class="md-github">glob(pattern: string|string[], options?: { cwd?: string, exclude?: Function|string[], withFileTypes?: boolean }): AsyncIterator&lt;string|fs.Dirent&gt;
+... (other methods follow similar pattern)</li>
+</ol>
+<p class="md-github">Code Example (Callback):
+import { unlink } from 'node:fs';</p>
+<p class="md-github">unlink('/tmp/hello', (err) =&gt; {
+if (err) throw err;
+console.log('successfully deleted /tmp/hello');
+});</p>
+<p class="md-github">Troubleshooting Commands:</p>
+<ul class="md-github">
+<li class="md-github">To test file permissions:
+node -e &quot;require('fs').accessSync('/path/to/file', require('fs').constants.R_OK | require('fs').constants.W_OK)&quot;
+Expected: No output if successful; error thrown if access fails.</li>
+<li class="md-github">To check file descriptor leaks, run process monitor and check for unclosed descriptors.</li>
+<li class="md-github">Use try/catch around async operations to log full error messages.</li>
+</ul>
+<p class="md-github">Best Practice:
+Always use try/finally for FileHandle operations:</p>
+<p class="md-github">(async () =&gt; {
+let fh;
+try {
+fh = await open('file.txt', 'r+');
+// ... perform operations
+} catch (err) {
+console.error(err);
+} finally {
+if (fh) await fh.close();
+}
+})();</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">FS API: FileHandle.appendFile(data, options?: { encoding?: string ('utf8'), signal?: AbortSignal } | string) -&gt; Promise<undefined>; FileHandle.chmod(mode: number) -&gt; Promise<undefined>; FileHandle.chown(uid: number, gid: number) -&gt; Promise<undefined>; FileHandle.close() -&gt; Promise<undefined>; createReadStream(options?: { encoding?: string (null), autoClose?: boolean (true), emitClose?: boolean (true), start?: number, end?: number (Infinity), highWaterMark?: number (65536), signal?: AbortSignal }) -&gt; fs.ReadStream; createWriteStream(options?: { encoding?: string ('utf8'), autoClose?: boolean (true), emitClose?: boolean (true), start?: number, highWaterMark?: number (16384), flush?: boolean (false) }) -&gt; fs.WriteStream; fsPromises.access(path: string|Buffer|URL, mode?: number (F_OK)) -&gt; Promise<undefined>; fsPromises.appendFile(path, data, options?: { encoding?: string ('utf8'), mode?: number (0o666), flag?: string ('a'), flush?: boolean (false) } | string) -&gt; Promise<undefined>; fsPromises.copyFile(src, dest, mode?: number) -&gt; Promise<undefined>; fsPromises.cp(src, dest, options: { force?: boolean (true), mode?: number (0), recursive?: boolean (false), preserveTimestamps?: boolean (false), verbatimSymlinks?: boolean (false) }) -&gt; Promise<undefined>; Callback and Sync versions available; Common Objects: fs.Dir, fs.Dirent, fs.FSWatcher, fs.Stats; Exact signatures included above.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">FileHandle API
+<ul class="md-github">
+<li class="md-github">appendFile(data[, options]): data: string|Buffer|TypedArray|DataView|AsyncIterable|Iterable|Stream; options: Object|string (encoding: default 'utf8', signal: AbortSignal)</li>
+<li class="md-github">chmod(mode): mode: integer; returns Promise undefined</li>
+<li class="md-github">chown(uid, gid): uid, gid: integer; returns Promise undefined</li>
+<li class="md-github">close(): returns Promise undefined</li>
+<li class="md-github">createReadStream([options]): options include encoding (default null), autoClose (true), emitClose (true), start, end (default Infinity), highWaterMark (64*1024)</li>
+<li class="md-github">createWriteStream([options]): options include encoding (default 'utf8'), autoClose (true), emitClose (true), start, highWaterMark (16384), flush (false)</li>
+<li class="md-github">Other methods: datasync, read, readFile, write, writeFile, writev, stat, sync, truncate, utimes, readLines, readableWebStream, Symbol.asyncDispose</li>
+</ul>
+</li>
+<li class="md-github">fsPromises API
+<ul class="md-github">
+<li class="md-github">access(path[, mode]): path: string|Buffer|URL; mode: integer (default F_OK); returns Promise undefined</li>
+<li class="md-github">appendFile(path, data[, options]): options include encoding (default 'utf8'), mode (default 0o666), flag (default 'a'), flush (false)</li>
+<li class="md-github">chmod, chown, copyFile (with mode modifiers), cp (with options: force, mode, recursive, preserveTimestamps, verbatimSymlinks, errorOnExist, filter), glob (pattern with options cwd, exclude, withFileTypes)</li>
+<li class="md-github">Additional methods include: lchmod, lchown, lutimes, link, lstat, mkdir, open, opendir, readdir, readFile, readlink, realpath, rename, rmdir, rm, stat, statfs, symlink, truncate, unlink, utimes, watch, writeFile, constants</li>
+</ul>
+</li>
+<li class="md-github">Callback and Sync APIs
+<ul class="md-github">
+<li class="md-github">Each promise method has a callback alternative (e.g. fs.access(path[, mode], callback)) and synchronous variant (e.g. fs.accessSync(path[, mode]))</li>
+</ul>
+</li>
+<li class="md-github">Common Objects
+<ul class="md-github">
+<li class="md-github">fs.Dir, fs.Dirent, fs.FSWatcher, fs.Stat, fs.WriteStream, fs.ReadStream</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Each API item includes explicit type signatures, parameter defaults, applicable options and return types. Code examples are provided for promise, callback, and synchronous methods, including proper error handling and resource closure via try/finally.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js File System (fs) Documentation
+https://nodejs.org/api/fs.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-file_system" href="#digest-of-file_system"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of FILE_SYSTEM</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="nodejs-file-system-api-fs" href="#nodejs-file-system-api-fs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node.js File System API (fs)</h1>
+<p class="md-github">This document details the Node.js file system API, including promise, callback and synchronous methods. It covers classes like FileHandle, common objects such as fs.Dir, fs.Dirent, fs.FSWatcher, and the detailed technical method signatures, parameters, and return types for each API.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="filehandle-api" href="#filehandle-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>FileHandle API</h1>
+<p class="md-github">FileHandle objects are created using fsPromises.open() and contain the following key methods:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">filehandle.appendFile(data[, options])</p>
+<ul class="md-github">
+<li class="md-github">Parameters: data (string | Buffer | TypedArray | DataView | AsyncIterable | Iterable | Stream), options (Object | string) with sub-properties encoding (string, default 'utf8') and signal (AbortSignal).</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+<li class="md-github">Alias: filehandle.writeFile()</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.chmod(mode)</p>
+<ul class="md-github">
+<li class="md-github">Parameter: mode (integer, file mode bit mask).</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.chown(uid, gid)</p>
+<ul class="md-github">
+<li class="md-github">Parameters: uid (integer), gid (integer).</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.close()</p>
+<ul class="md-github">
+<li class="md-github">Returns: Promise that fulfills with undefined after pending operations complete.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.createReadStream([options])</p>
+<ul class="md-github">
+<li class="md-github">Options: object with encoding (default null), autoClose (default true), emitClose (default true), start (integer), end (integer, default Infinity), highWaterMark (default 64*1024), signal.</li>
+<li class="md-github">Returns: fs.ReadStream.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.createWriteStream([options])</p>
+<ul class="md-github">
+<li class="md-github">Options: object with encoding (default 'utf8'), autoClose (default true), emitClose (default true), start (position), highWaterMark (default 16384), flush (boolean, default false).</li>
+<li class="md-github">Returns: fs.WriteStream.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.datasync()</p>
+<ul class="md-github">
+<li class="md-github">Returns: Promise that fulfills with undefined. Forces data to OS sync state.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.read(buffer, offset, length, position) and variations</p>
+<ul class="md-github">
+<li class="md-github">Parameters: buffer (Buffer/TYPED Array), offset (integer, default 0), length (bytes count), position (integer or bigint or null).</li>
+<li class="md-github">Returns: Promise that yields an object with bytesRead (integer) and buffer reference.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.readFile(options)</p>
+<ul class="md-github">
+<li class="md-github">Options: Object or string (encoding). If no encoding, returns Buffer; otherwise string.</li>
+<li class="md-github">Returns: Promise with file contents.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.write(buffer, offset[, length[, position]])</p>
+<ul class="md-github">
+<li class="md-github">Parameters: buffer (Buffer/TypedArray), offset (integer), length (optional), position (optional).</li>
+<li class="md-github">Returns: Promise that fulfills with an object containing bytesWritten and buffer reference.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.write(string[, position[, encoding]])</p>
+<ul class="md-github">
+<li class="md-github">Parameters: string (string), position (integer or null), encoding (default 'utf8').</li>
+<li class="md-github">Returns: Promise with bytesWritten and string reference.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.writeFile(data, options)</p>
+<ul class="md-github">
+<li class="md-github">Parameters: data (string | Buffer | Iterable types), options (Object or string specifying encoding, default 'utf8', signal).</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">filehandle.writev(buffers[, position])</p>
+<ul class="md-github">
+<li class="md-github">Parameters: buffers (array of Buffer or ArrayBufferViews), position (optional integer).</li>
+<li class="md-github">Returns: Promise with bytesWritten and buffers reference.</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Additional methods: filehandle.stat, filehandle.sync, filehandle.truncate, filehandle.utimes, filehandle.readLines, filehandle.readv, filehandle.readableWebStream, and the Symbol.asyncDispose alias.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="fspromises-api" href="#fspromises-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>fsPromises API</h1>
+<p class="md-github">The fsPromises API includes asynchronous methods returning promises:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">fsPromises.access(path[, mode])</p>
+<ul class="md-github">
+<li class="md-github">Parameters: path (string | Buffer | URL), mode (integer, default fs.constants.F_OK).</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">fsPromises.appendFile(path, data[, options])</p>
+<ul class="md-github">
+<li class="md-github">Parameters: path (string | Buffer | URL), data, options (Object/string with encoding, mode default 0o666, flag default 'a', flush option).</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">fsPromises.chmod(path, mode)</p>
+<ul class="md-github">
+<li class="md-github">Parameters: path, mode (string or integer).</li>
+<li class="md-github">Returns: Promise with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">fsPromises.copyFile(src, dest[, mode])</p>
+<ul class="md-github">
+<li class="md-github">Parameters: src, dest (string | Buffer | URL), mode (integer, default 0). Supports constants: COPYFILE_EXCL, COPYFILE_FICLONE, COPYFILE_FICLONE_FORCE.</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">fsPromises.cp(src, dest[, options])</p>
+<ul class="md-github">
+<li class="md-github">Options include: force (boolean, default true), mode (integer, default 0), recursive (boolean, default false), preserveTimestamps (boolean, default false), verbatimSymlinks (boolean, default false), errorOnExist, filter.</li>
+<li class="md-github">Returns: Promise that fulfills with undefined.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">fsPromises.glob(pattern[, options])</p>
+<ul class="md-github">
+<li class="md-github">Options: cwd (default process.cwd()), exclude (function or list), withFileTypes (boolean, default false).</li>
+<li class="md-github">Returns: AsyncIterator yielding matching file paths or Dirents.</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Additional methods: fsPromises.chown, fsPromises.lchmod (deprecated), fsPromises.lchown, fsPromises.lutimes, fsPromises.link, fsPromises.lstat, fsPromises.mkdir, fsPromises.open, fsPromises.opendir, fsPromises.readdir, fsPromises.readFile, fsPromises.readlink, fsPromises.realpath, fsPromises.rename, fsPromises.rmdir, fsPromises.rm, fsPromises.stat, fsPromises.statfs, fsPromises.symlink, fsPromises.truncate, fsPromises.unlink, fsPromises.utimes, fsPromises.watch, and fsPromises.writeFile.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="callback-and-synchronous-apis" href="#callback-and-synchronous-apis"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Callback and Synchronous APIs</h1>
+<p class="md-github">Each fs method is available in callback form and synchronous form. Example callback:</p>
+<p class="md-github">fs.access(path[, mode], callback)</p>
+<p class="md-github">Example synchronous method:</p>
+<p class="md-github">fs.accessSync(path[, mode])</p>
+<h1 class="md-github"><a class="md-github__anchor" name="common-objects" href="#common-objects"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Common Objects</h1>
+<ul class="md-github">
+<li class="md-github">fs.Dir: methods include close(), read(), readSync(), and iteration via Symbol.asyncIterator.</li>
+<li class="md-github">fs.Dirent: methods like isFile(), isDirectory(), isSymbolicLink(), and properties like name, path.</li>
+<li class="md-github">fs.FSWatcher: supports events 'change', 'close', 'error', and methods close(), ref(), unref().</li>
+<li class="md-github">fs.Stats: properties include size, mode, dev, ino, atime, mtime, ctime, birthtime, and methods such as isFile(), isDirectory(), etc.</li>
+<li class="md-github">fs.WriteStream, fs.ReadStream: Event-driven streams with events such as 'open', 'close', 'error'.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="code-examples" href="#code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Examples</h1>
+<p class="md-github">Promise-based operation:</p>
+<p class="md-github">import { unlink } from 'node:fs/promises';</p>
+<p class="md-github">(async function(path) {
+try {
+await unlink(path);
+console.log(<code class="md-github">successfully deleted ${path}</code>);
+} catch (error) {
+console.error('error:', error.message);
+}
+})('/tmp/hello');</p>
+<p class="md-github">Callback-based operation:</p>
+<p class="md-github">import { unlink } from 'node:fs';</p>
+<p class="md-github">unlink('/tmp/hello', (err) =&gt; {
+if (err) throw err;
+console.log('successfully deleted /tmp/hello');
+});</p>
+<p class="md-github">Synchronous operation:</p>
+<p class="md-github">import { unlinkSync } from 'node:fs';</p>
+<p class="md-github">try {
+unlinkSync('/tmp/hello');
+console.log('successfully deleted /tmp/hello');
+} catch (err) {
+// handle error
+}</p>
+<p class="md-github">Retrieved on:</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Node.js File System (fs) Documentation</li>
+<li class="md-github">URL: https://nodejs.org/api/fs.html</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-26T21:47:14.505Z</li>
+<li class="md-github">Data Size: 3304278 bytes</li>
+<li class="md-github">Links Found: 1237</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-26</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-26T22:22:48.760Z</p>
+  </footer>
+</body>
+</html>
