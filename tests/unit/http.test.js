@@ -10,9 +10,10 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect("Vary", /Accept/)
       .expect(200);
-    // Ensure res.text is defined and is a string
-    expect(typeof res.text).toBe('string');
-    expect(res.text.startsWith("<svg")).toBe(true);
+    // Ensure SVG content is defined and is a string
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(typeof svgText).toBe('string');
+    expect(svgText.startsWith("<svg")).toBe(true);
   });
 
   test("should return PNG when Accept: image/png", async () => {
@@ -57,9 +58,10 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1", fileType: "svg" })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    expect(typeof res.text).toBe('string');
-    expect(res.text.startsWith("<svg")).toBe(true);
-    expect(res.text).toContain("Plot for: y=sin(x) in range x=-1:1,y=-1:1");
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(typeof svgText).toBe('string');
+    expect(svgText.startsWith("<svg")).toBe(true);
+    expect(svgText).toContain("Plot for: y=sin(x) in range x=-1:1,y=-1:1");
   });
 
   test("should generate dynamic PNG plot when valid query parameters are provided", async () => {
