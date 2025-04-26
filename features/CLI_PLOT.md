@@ -1,16 +1,19 @@
 # Overview
-This feature expands the command line interface to support plotting from a mathematical expression and a specified range. It enables users to provide CLI options such as --expression, --range, and --file to generate an SVG or PNG plot. The output file format is determined from the file extension provided to --file.
+This update enhances the command line interface to fully support plotting directly from mathematical expressions. In addition to the existing HTTP endpoint, users can now invoke the program with flags such as --expression, --range, and --file from the CLI. This allows users to generate plots (SVG, PNG, or JSON fallback) directly, fulfilling the mission by showcasing both the HTTP and CLI capabilities in generating formula visualisations.
 
 # Implementation Details
-We will update the main source file (src/lib/main.js) to parse additional command line arguments. When the --expression flag is passed, along with --range and optionally --file, the program will generate a dummy plot based on the provided mathematical expression. The implementation will choose between SVG and PNG content based on the --file extension (or default to JSON if an unsupported file flag is provided). This ensures that the CLI not only logs instructions but actually produces output that aligns with the mission to be a go-to library for plots and formula visualisations.
-
-Steps:
-1. Enhance argument parsing in main.js to detect and process --expression, --range, and --file.
-2. Implement simple check and generation of dummy content: if output is SVG, generate an SVG structure; if PNG, generate a Buffer from a base64 string; otherwise, log an error or fallback to JSON output.
-3. Update the usage description within the CLI so that users see an example command in the console output.
-4. Update the README to include a new CLI usage example demonstrating how to use these parameters to generate plots.
+1. Update the main function in src/lib/main.js to detect the presence of --expression and --range flags on the command line. When these flags are provided:
+   - Validate that both --expression and --range options are passed; if not, output a descriptive error message and exit.
+   - Determine the intended output format by examining the optional --file flag. If the file extension is .svg, generate and output an SVG structure; if .png, output a PNG buffer generated from a dummy Base64 string; otherwise, fall back to outputting JSON data.
+2. If --file is provided, the program should attempt to write the generated plot to the specified file. Otherwise, the plot is printed to the standard output.
+3. Enhance the CLI help message (both in the console output and within the README) to include examples of how to use the new flags. For instance: 
+   node src/lib/main.js --expression "y=sin(x)" --range "x=-2:2,y=-1:1" --file output.svg
+4. Update unit tests in tests/unit/main.test.js to simulate CLI invocations with these new parameters ensuring that the correct output is generated, similar to the current HTTP tests.
 
 # Testing and Documentation
-Unit tests in tests/unit will be extended to simulate CLI calls and verify that the correct output is generated based on the provided parameters. The README and documentation will be updated to reflect the new command line options and usage instructions.
-
-This feature directly addresses mission priorities by enabling the main functionality of using mathematical expressions and ranges for generating plots, fulfilling parts of the mission statement related to time series and plot generation.
+1. Unit tests will be added/updated in tests/unit/main.test.js to cover CLI scenarios. The tests should launch the CLI with parameters and verify that:
+   - An SVG is generated when -file extension is .svg
+   - A PNG is generated when -file extension is .png
+   - A proper error and fallback is provided when parameters are missing or the file extension is not supported.
+2. The README.md will be updated with enhanced documentation and a CLI usage example showing the new functionality, ensuring consistency with the mission of being a go-to plot library.
+3. Code quality and proper error handling are maintained according to CONTRIBUTING.md guidelines.
