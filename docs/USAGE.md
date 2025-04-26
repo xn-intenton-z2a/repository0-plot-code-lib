@@ -9,7 +9,7 @@ repository0-plot-code-lib is a CLI tool and library for generating plots from ma
 You can generate plots directly from the command line by providing the following flags:
 
 - **--help**: Displays this help message with usage information, flag details, and examples.
-- **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags.
+- **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
