@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="streams" href="#streams"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>STREAMS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Module: node:stream, v23.11.0. Exposes Stream classes and utilities. Core types: Writable, Readable, Duplex, Transform. Constructors accept options: objectMode(boolean), highWaterMark(number), encoding(string, Readable), emitClose(boolean), autoDestroy(boolean). Methods: write, read, pipe, unpipe, pause, resume, destroy, cork, uncork, setDefaultEncoding, push, read, setEncoding, compose, from, toWeb. Promises API: pipeline(streams..., options{signal, end}), finished(stream, options{readable, writable, error, signal, cleanup}). Utility functions: duplexPair, compose, addAbortSignal, getDefaultHighWaterMark. Events: close, drain, error, finish, data, end, readable, pause, resume, pipe, unpipe.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents
+1 Fundamental Types
+2 Constructors
+3 Instance Properties
+4 Instance Methods
+5 Events
+6 Streams Promises API
+7 Utility Functions</p>
+<p class="md-github">1 Fundamental Types
+Writable writes data
+Readable reads data
+Duplex both read/write
+Transform Duplex with transform()</p>
+<p class="md-github">2 Constructors
+stream.Writable(options)
+objectMode?: boolean
+highWaterMark?: number
+emitClose?: boolean
+autoDestroy?: boolean
+write(chunk, encoding, callback)
+writev(chunks, callback)
+destroy(error, callback)
+final(callback)</p>
+<p class="md-github">stream.Readable(options)
+objectMode?: boolean
+highWaterMark?: number
+encoding?: string
+autoDestroy?: boolean
+read(size)
+destroy(error, callback)</p>
+<p class="md-github">stream.Duplex(options)
+allowHalfOpen?: boolean
+inherits both Writable and Readable options</p>
+<p class="md-github">stream.Transform(options)
+transform(chunk, encoding, callback)
+flush(callback)
+inherits Writable and Readable options</p>
+<p class="md-github">3 Instance Properties
+Writable.closed boolean
+Writable.destroyed boolean
+Writable.writable boolean
+Writable.writableEnded boolean
+Writable.writableFinished boolean
+Writable.writableNeedDrain boolean
+Writable.writableHighWaterMark number
+Writable.writableLength number
+Writable.writableObjectMode boolean
+Writable.writableCorked number
+Writable.errored Error|null
+Writable.writableAborted boolean</p>
+<p class="md-github">Readable.closed boolean
+Readable.destroyed boolean
+Readable.readableHighWaterMark number
+Readable.readableLength number
+Readable.readableObjectMode boolean
+Readable.readableEncoding string|null
+Readable.readableEnded boolean
+Readable.readableFlowing boolean|null
+Readable.readableDidRead boolean
+Readable.errored Error|null
+Readable.readableAborted boolean</p>
+<p class="md-github">4 Instance Methods
+Writable.write(chunk, encoding?, callback?): boolean
+Writable.end(chunk?, encoding?, callback?)
+Writable.destroy(error?)
+Writable.cork()
+Writable.uncork()
+Writable.setDefaultEncoding(encoding)
+Readable.read(size?)
+Readable.setEncoding(encoding)
+Readable.pause()
+Readable.resume()
+Readable.isPaused(): boolean
+Readable.pipe(dest, options?)
+Readable.unpipe(dest?)
+Readable.destroy(error?)
+Readable.push(chunk, encoding?)</p>
+<p class="md-github">5 Events
+Writable: close, drain, error, finish, pipe(src), unpipe(src)
+Readable: close, data(chunk), end, error(error), pause, readable, resume
+Duplex &amp; Transform inherit both</p>
+<p class="md-github">6 Streams Promises API
+import { pipeline, finished } from 'node:stream/promises'
+pipeline(...streams, { signal?: AbortSignal, end?: boolean }): Promise<void>
+finished(stream, { error?: boolean, readable?: boolean, writable?: boolean, signal?: AbortSignal, cleanup?: boolean }): Promise<void></p>
+<p class="md-github">7 Utility Functions
+stream.pipeline
+stream.finished
+stream.compose(...streams): Duplex
+stream.duplexPair(options?): [Duplex, Duplex]
+stream.Readable.from(iterable, options)
+stream.Readable.fromWeb(webStream, options)
+stream.Readable.toWeb(stream, options)
+stream.Writable.toWeb(stream)
+stream.Writable.fromWeb(webStream, options)
+stream.Duplex.toWeb(stream)
+stream.Duplex.fromWeb(webPair, options)
+stream.addAbortSignal(signal, stream)
+stream.getDefaultHighWaterMark(objectMode)
+stream.setDefaultHighWaterMark(objectMode, value)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Writable options.objectMode: false|true(default false)
+highWaterMark: number(default 16KB)
+emitClose: boolean(default true)
+autoDestroy: boolean(default true)
+Readable options.encoding: utf8|ascii|base64|latin1|hex(default null)
+highWaterMark: number(default 16KB in bytes or 16 objects if objectMode)
+autoDestroy: boolean(default false)
+stream.pipeline options.end: boolean(default true) destroys destination on end
+stream.pipeline options.signal: AbortSignal, on abort calls destroy with AbortError
+stream.finished options.cleanup: boolean(default false) removes listeners
+stream.finished options.readable, writable, error: booleans filter events</p>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">// Writable Example
+const { Writable } = require('node:stream');
+class MyWritable extends Writable {
+constructor() { super({ objectMode: true, highWaterMark: 4 }); }
+_write(chunk, encoding, callback) {
+// chunk: any, encoding: string|null
+process.nextTick(() =&gt; callback());
+}
+_writev(chunks, callback) {
+// chunks: Array&lt;{chunk:any,encoding:string}&gt;
+callback();
+}
+_final(callback) { callback(); }
+}</p>
+<p class="md-github">// Backpressure handling
+function writeData(writer, data) {
+if (!writer.write(data)) writer.once('drain', () =&gt; writeData(writer, data));
+}</p>
+<p class="md-github">// Readable Example
+const { Readable } = require('node:stream');
+class MyReadable extends Readable {
+constructor() { super({ encoding: 'utf8', highWaterMark: 8 }); }
+_read(size) {
+// size: number
+this.push('chunk');
+this.push(null);
+}
+}</p>
+<p class="md-github">// Duplex Example
+const { Duplex } = require('node:stream');
+const pair = stream.duplexPair({ highWaterMark: 8 });
+pair[0].write('data'); // written to pair[1]</p>
+<p class="md-github">// Transform Example
+const { Transform } = require('node:stream');
+const upper = new Transform({ transform(chunk, encoding, cb) {
+cb(null, chunk.toString().toUpperCase());
+}, highWaterMark: 16 });</p>
+<p class="md-github">// pipeline usage
+const fs = require('fs');
+const zlib = require('zlib');
+const { pipeline } = require('node:stream/promises');
+await pipeline(
+fs.createReadStream('in.txt'),
+zlib.createGzip(),
+fs.createWriteStream('out.txt.gz'),
+{ signal, end: false }
+);</p>
+<p class="md-github">// Troubleshooting
+// ERR_STREAM_DESTROYED: write after destroy(), check writer.destroyed
+// Backpressure hang: ensure drain listener or use pipeline</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Type: stream.Writable(options{objectMode:boolean,highWaterMark:number,emitClose:boolean,autoDestroy:boolean,write,writev,destroy,final}); methods: write(chunk,encoding?,cb?),end(chunk?,enc?,cb?),destroy(err?),cork(),uncork(),setDefaultEncoding(enc); props: closed,destroyed,writable*,errored,writableAborted; events: close,drain,error,finish,pipe(src),unpipe(src). stream.Readable(options{objectMode,highWaterMark,encoding,autoDestroy,read,destroy}); methods: read(size?),setEncoding(enc),pause(),resume(),isPaused(),pipe(dest,{end?}),unpipe(dest?),destroy(err?),push(chunk,enc?); props: readable*,errored,readableAborted; events: close,data(chunk),end,error,pause,readable,resume. stream.Duplex(options),stream.Transform(options{transform,flush,decodeStrings,objectMode,highWaterMark}); utilities: pipeline(streams...,{signal, end}),finished(stream,{error,readable,writable,signal,cleanup}),compose(...),duplexPair(opts),Readable.from(iterable,opts),Readable.fromWeb(web,opts),Readable.toWeb(stream,opts),Writable.toWeb(stream),Writable.fromWeb(web,opts),Duplex.toWeb(stream),Duplex.fromWeb(web,opts),addAbortSignal(signal,stream),getDefaultHighWaterMark(objectMode),setDefaultHighWaterMark(objectMode,value). Backpressure: write returns false-&gt; wait for 'drain'. AbortSignal: pipeline abort-&gt;AbortError. Defaults: highWaterMark 16KB/16 objects, end true, cleanup false.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents
+1 Fundamental Types
+2 Constructors
+3 Instance Properties
+4 Instance Methods
+5 Events
+6 Streams Promises API
+7 Utility Functions</p>
+<p class="md-github">1 Fundamental Types
+Writable writes data
+Readable reads data
+Duplex both read/write
+Transform Duplex with transform()</p>
+<p class="md-github">2 Constructors
+stream.Writable(options)
+objectMode?: boolean
+highWaterMark?: number
+emitClose?: boolean
+autoDestroy?: boolean
+write(chunk, encoding, callback)
+writev(chunks, callback)
+destroy(error, callback)
+final(callback)</p>
+<p class="md-github">stream.Readable(options)
+objectMode?: boolean
+highWaterMark?: number
+encoding?: string
+autoDestroy?: boolean
+read(size)
+destroy(error, callback)</p>
+<p class="md-github">stream.Duplex(options)
+allowHalfOpen?: boolean
+inherits both Writable and Readable options</p>
+<p class="md-github">stream.Transform(options)
+transform(chunk, encoding, callback)
+flush(callback)
+inherits Writable and Readable options</p>
+<p class="md-github">3 Instance Properties
+Writable.closed boolean
+Writable.destroyed boolean
+Writable.writable boolean
+Writable.writableEnded boolean
+Writable.writableFinished boolean
+Writable.writableNeedDrain boolean
+Writable.writableHighWaterMark number
+Writable.writableLength number
+Writable.writableObjectMode boolean
+Writable.writableCorked number
+Writable.errored Error|null
+Writable.writableAborted boolean</p>
+<p class="md-github">Readable.closed boolean
+Readable.destroyed boolean
+Readable.readableHighWaterMark number
+Readable.readableLength number
+Readable.readableObjectMode boolean
+Readable.readableEncoding string|null
+Readable.readableEnded boolean
+Readable.readableFlowing boolean|null
+Readable.readableDidRead boolean
+Readable.errored Error|null
+Readable.readableAborted boolean</p>
+<p class="md-github">4 Instance Methods
+Writable.write(chunk, encoding?, callback?): boolean
+Writable.end(chunk?, encoding?, callback?)
+Writable.destroy(error?)
+Writable.cork()
+Writable.uncork()
+Writable.setDefaultEncoding(encoding)
+Readable.read(size?)
+Readable.setEncoding(encoding)
+Readable.pause()
+Readable.resume()
+Readable.isPaused(): boolean
+Readable.pipe(dest, options?)
+Readable.unpipe(dest?)
+Readable.destroy(error?)
+Readable.push(chunk, encoding?)</p>
+<p class="md-github">5 Events
+Writable: close, drain, error, finish, pipe(src), unpipe(src)
+Readable: close, data(chunk), end, error(error), pause, readable, resume
+Duplex &amp; Transform inherit both</p>
+<p class="md-github">6 Streams Promises API
+import { pipeline, finished } from 'node:stream/promises'
+pipeline(...streams, { signal?: AbortSignal, end?: boolean }): Promise<void>
+finished(stream, { error?: boolean, readable?: boolean, writable?: boolean, signal?: AbortSignal, cleanup?: boolean }): Promise<void></p>
+<p class="md-github">7 Utility Functions
+stream.pipeline
+stream.finished
+stream.compose(...streams): Duplex
+stream.duplexPair(options?): [Duplex, Duplex]
+stream.Readable.from(iterable, options)
+stream.Readable.fromWeb(webStream, options)
+stream.Readable.toWeb(stream, options)
+stream.Writable.toWeb(stream)
+stream.Writable.fromWeb(webStream, options)
+stream.Duplex.toWeb(stream)
+stream.Duplex.fromWeb(webPair, options)
+stream.addAbortSignal(signal, stream)
+stream.getDefaultHighWaterMark(objectMode)
+stream.setDefaultHighWaterMark(objectMode, value)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js Streams API
+https://nodejs.org/api/stream.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-streams" href="#digest-of-streams"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of STREAMS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="retrieve-nodestream-module" href="#retrieve-nodestream-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieve node:stream Module</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="importing" href="#importing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Importing</h2>
+<p class="md-github">const stream = require('node:stream');</p>
+<h2 class="md-github"><a class="md-github__anchor" name="fundamental-stream-types" href="#fundamental-stream-types"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fundamental Stream Types</h2>
+<ul class="md-github">
+<li class="md-github">Writable</li>
+<li class="md-github">Readable</li>
+<li class="md-github">Duplex</li>
+<li class="md-github">Transform</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="streams-promises-api" href="#streams-promises-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Streams Promises API</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="methods" href="#methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Methods</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="pipelinesource-transforms-destination-options" href="#pipelinesource-transforms-destination-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>pipeline(source[, ...transforms], destination[, options])</h3>
+<p class="md-github">Signature: pipeline(...streams: Array&lt;Stream|Iterable|AsyncIterable|Function&gt;, options?: { signal?: AbortSignal; end?: boolean; }): Promise<void></p>
+<ul class="md-github">
+<li class="md-github">signal: AbortSignal triggers AbortError &amp; destroy</li>
+<li class="md-github">end (default true): auto-close destination</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="finishedstream-options" href="#finishedstream-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>finished(stream, options)</h3>
+<p class="md-github">Signature: finished(stream: Stream|ReadableStream|WritableStream, options?: { error?: boolean; readable?: boolean; writable?: boolean; signal?: AbortSignal; cleanup?: boolean; }): Promise<void></p>
+<ul class="md-github">
+<li class="md-github">error: include 'error' event (default undefined)</li>
+<li class="md-github">readable: wait for readable end</li>
+<li class="md-github">writable: wait for writable finish</li>
+<li class="md-github">cleanup (default false): remove listeners</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="object-mode--buffering" href="#object-mode--buffering"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object Mode &amp; Buffering</h1>
+<ul class="md-github">
+<li class="md-github">objectMode: boolean in constructor</li>
+<li class="md-github">highWaterMark: bytes (normal), objects (objectMode), UTF-16 code units (strings)</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="streamwritable" href="#streamwritable"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stream.Writable</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="constructor" href="#constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h2>
+<p class="md-github">new stream.Writable(options?: {
+write?(chunk: Buffer|string|TypedArray|DataView|any, encoding: string|null, callback: (err?: Error)=&gt;void): void;
+writev?(chunks: Array&lt;{ chunk: any; encoding: string }&gt;, callback: (err?: Error)=&gt;void): void;
+destroy?(error: Error|null, callback: (err?: Error)=&gt;void): void;
+final?(callback: (err?: Error)=&gt;void): void;
+objectMode?: boolean;
+highWaterMark?: number;
+emitClose?: boolean;
+autoDestroy?: boolean;
+})</p>
+<h2 class="md-github"><a class="md-github__anchor" name="instance-methods--properties" href="#instance-methods--properties"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Instance Methods &amp; Properties</h2>
+<ul class="md-github">
+<li class="md-github">write(chunk: Buffer|string|TypedArray|DataView|any, encoding?: string|null, callback?: (err?: Error)=&gt;void): boolean</li>
+<li class="md-github">end(chunk?: Buffer|string|TypedArray|DataView|any, encoding?: string, callback?: ()=&gt;void): this</li>
+<li class="md-github">destroy(error?: Error): this</li>
+<li class="md-github">cork(): void</li>
+<li class="md-github">uncork(): void</li>
+<li class="md-github">setDefaultEncoding(encoding: string): this</li>
+<li class="md-github">closed: boolean</li>
+<li class="md-github">destroyed: boolean</li>
+<li class="md-github">writable: boolean</li>
+<li class="md-github">writableEnded: boolean</li>
+<li class="md-github">writableFinished: boolean</li>
+<li class="md-github">writableNeedDrain: boolean</li>
+<li class="md-github">writableHighWaterMark: number</li>
+<li class="md-github">writableLength: number</li>
+<li class="md-github">writableObjectMode: boolean</li>
+<li class="md-github">writableCorked: number</li>
+<li class="md-github">errored: Error|null</li>
+<li class="md-github">writableAborted: boolean</li>
+<li class="md-github"><a href="" class="md-github">Symbol.asyncDispose</a>: Promise<void></li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="events" href="#events"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Events</h2>
+<ul class="md-github">
+<li class="md-github">'close'</li>
+<li class="md-github">'drain'</li>
+<li class="md-github">'error'</li>
+<li class="md-github">'finish'</li>
+<li class="md-github">'pipe'(src: stream.Readable)</li>
+<li class="md-github">'unpipe'(src: stream.Readable)</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="streamreadable" href="#streamreadable"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stream.Readable</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="constructor-1" href="#constructor-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor</h2>
+<p class="md-github">new stream.Readable(options?: {
+read?(size: number): void;
+destroy?(error: Error|null, callback: (err?: Error)=&gt;void): void;
+objectMode?: boolean;
+highWaterMark?: number;
+encoding?: string;
+autoDestroy?: boolean;
+})</p>
+<h2 class="md-github"><a class="md-github__anchor" name="instance-methods--properties-1" href="#instance-methods--properties-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Instance Methods &amp; Properties</h2>
+<ul class="md-github">
+<li class="md-github">read(size?: number): Buffer|string|null</li>
+<li class="md-github">setEncoding(encoding: string): this</li>
+<li class="md-github">pause(): this</li>
+<li class="md-github">resume(): this</li>
+<li class="md-github">isPaused(): boolean</li>
+<li class="md-github">pipe(dest: stream.Writable, options?: { end?: boolean }): dest</li>
+<li class="md-github">unpipe(dest?: stream.Writable): this</li>
+<li class="md-github">destroy(error?: Error): this</li>
+<li class="md-github">push(chunk: any, encoding?: string): boolean</li>
+<li class="md-github">closed: boolean</li>
+<li class="md-github">destroyed: boolean</li>
+<li class="md-github">readableHighWaterMark: number</li>
+<li class="md-github">readableLength: number</li>
+<li class="md-github">readableObjectMode: boolean</li>
+<li class="md-github">readableEncoding: string|null</li>
+<li class="md-github">readableEnded: boolean</li>
+<li class="md-github">readableFlowing: boolean|null</li>
+<li class="md-github">readableDidRead: boolean</li>
+<li class="md-github">errored: Error|null</li>
+<li class="md-github">readableAborted: boolean</li>
+<li class="md-github"><a href="" class="md-github">Symbol.asyncIterator</a>: AsyncIterator<any></li>
+<li class="md-github"><a href="" class="md-github">Symbol.asyncDispose</a>: Promise<void></li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="events-1" href="#events-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Events</h2>
+<ul class="md-github">
+<li class="md-github">'close'</li>
+<li class="md-github">'data'(chunk: Buffer|string|any)</li>
+<li class="md-github">'end'</li>
+<li class="md-github">'error'(err: Error)</li>
+<li class="md-github">'pause'</li>
+<li class="md-github">'readable'</li>
+<li class="md-github">'resume'</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="streamduplex--transform" href="#streamduplex--transform"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stream.Duplex &amp; Transform</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="streamduplex" href="#streamduplex"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stream.Duplex</h2>
+<p class="md-github">new stream.Duplex(options: WritableOptions &amp; ReadableOptions &amp; { allowHalfOpen?: boolean })</p>
+<ul class="md-github">
+<li class="md-github">allowHalfOpen: boolean (default true)</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="streamtransform" href="#streamtransform"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>stream.Transform</h2>
+<p class="md-github">new stream.Transform(options?: {
+transform?(chunk: any, encoding: string, callback: (err?: Error, data?: any)=&gt;void): void;
+flush?(callback: (err?: Error, data?: any)=&gt;void): void;
+objectMode?: boolean;
+highWaterMark?: number;
+decodeStrings?: boolean;
+})</p>
+<ul class="md-github">
+<li class="md-github">destroy(error?: Error): this</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="utility-functions" href="#utility-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Utility Functions</h1>
+<ul class="md-github">
+<li class="md-github">stream.pipeline(...)</li>
+<li class="md-github">stream.finished(...)</li>
+<li class="md-github">stream.compose(...streams: Stream[]): Duplex</li>
+<li class="md-github">stream.duplexPair(options?: { highWaterMark?: number; objectMode?: boolean }): [Duplex, Duplex]</li>
+<li class="md-github">stream.Readable.from(iterable: Iterable|AsyncIterable, options?: ReadableOptions): Readable</li>
+<li class="md-github">stream.Readable.fromWeb(readableStream: ReadableStream, options?: ReadableOptions): Readable</li>
+<li class="md-github">stream.Readable.toWeb(stream: Readable, options?: { preventCancel?: boolean; preventClose?: boolean; preventAbort?: boolean }): ReadableStream</li>
+<li class="md-github">stream.Writable.toWeb(stream: Writable): WritableStream</li>
+<li class="md-github">stream.Writable.fromWeb(writableStream: WritableStream, options?: { highWaterMark?: number; objectMode?: boolean }): Writable</li>
+<li class="md-github">stream.Duplex.toWeb(stream: Duplex): { readable: ReadableStream; writable: WritableStream }</li>
+<li class="md-github">stream.Duplex.fromWeb(pair: ReadableStreamDefaultReader|WritableStreamDefaultWriter|{ readable: ReadableStream; writable: WritableStream }, options?: DuplexOptions): Duplex</li>
+<li class="md-github">stream.addAbortSignal(signal: AbortSignal, stream: Stream): void</li>
+<li class="md-github">stream.getDefaultHighWaterMark(objectMode: boolean): number</li>
+<li class="md-github">stream.setDefaultHighWaterMark(objectMode: boolean, value: number): void</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Node.js Streams API</li>
+<li class="md-github">URL: https://nodejs.org/api/stream.html</li>
+<li class="md-github">License: License</li>
+<li class="md-github">Crawl Date: 2025-04-26T17:48:11.247Z</li>
+<li class="md-github">Data Size: 3647472 bytes</li>
+<li class="md-github">Links Found: 2200</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-26</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-26T18:23:55.779Z</p>
+  </footer>
+</body>
+</html>
