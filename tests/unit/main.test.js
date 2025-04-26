@@ -48,7 +48,8 @@ describe("CLI Plot Generation", () => {
     main();
     const content = fs.readFileSync(testFile, "utf8");
     expect(content.startsWith("<svg")).toBe(true);
-    expect(content.includes('<text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>')).toBe(true);
+    expect(content).toContain('<text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>');
+    expect(content).toContain("<polyline");
     fs.unlinkSync(testFile);
   });
 
@@ -164,7 +165,8 @@ describe("CLI Plot Generation", () => {
     main();
     const content = fs.readFileSync(testFile, "utf8");
     expect(content.startsWith("<svg")).toBe(true);
-    expect(content.includes('<text x="10" y="20">Plot for: y=sin(x) in range x=-1.5:2.5,y=-0.5:0.5</text>')).toBe(true);
+    expect(content).toContain('<text x="10" y="20">Plot for: y=sin(x) in range x=-1.5:2.5,y=-0.5:0.5</text>');
+    expect(content).toContain("<polyline");
     fs.unlinkSync(testFile);
   });
 
