@@ -1,57 +1,43 @@
-# PLOTTING Feature
-
-## Overview
-This feature merges expression evaluation and plot rendering into a unified CLI workflow. It implements robust argument parsing and validation, mathematical expression compilation, time series generation, support for CSV and JSON I/O, and rendering of SVG and PNG outputs.
+# Overview
+This feature merges the existing CLI plotting workflow with an HTTP API endpoint to generate SVG and PNG plots from mathematical expressions or time series data.
 
 # CLI Parameter Parsing & Validation
 - Use zod in src/lib/main.js to define and parse flags
-  - --expression: required when --input-file is absent. A string representing a function of x (for example y=sin(x) or x^2+3*x-5)
-  - --range: required when --input-file is absent. Syntax x=min:max[:step] where min < max and step > 0. If step is omitted, default step = (max - min) / 100
-  - --input-file: optional path to a CSV or JSON file containing time series points
-  - --input-format: optional, values csv or json, default csv, case-insensitive
-  - --format: optional output format, values svg or png, default svg
-  - --output-file: optional output file path; if omitted, write to stdout
-- Emit descriptive error messages for missing or invalid values and exit with nonzero code on failures
+  - --expression: required unless --input-file is provided
+  - --range: required unless --input-file is provided, syntax x=min:max[:step]
+  - --input-file: optional path to CSV or JSON data
+  - --input-format: csv or json, default csv
+  - --format: svg or png, default svg
+  - --output-file: optional path for file output; default writes to stdout
+- Emit clear errors and exit with nonzero status on invalid input
 
 # Expression Parsing & Time Series Generation
-- Import mathjs and parse the --expression string into an AST
-- Compile the AST into a function that accepts a numeric x and returns y
-- Catch syntax errors and emit console error with exit code
-- Parse the --range definition into numeric min, max, and step values
-- Build an array of x values from min to max using the step interval
-- For each x value, evaluate y using the compiled function and include only finite results
-- Report and skip any non-finite values
+- Import mathjs to parse and compile the expression into a function f(x)
+- Parse range string into numeric min, max, step and generate array of x values
+- Evaluate f(x) over the range, include only finite y values, skip non-finite
 
 # Data Sourcing & I/O
-- If --input-file is provided
-  - Read file asynchronously
-  - If --input-format is csv
-    - Detect optional header line
-    - Parse comma separated fields into numeric x and y pairs
-  - If --input-format is json
-    - Parse JSON array of objects with numeric x and y properties
-  - Validate data shape and types, error on invalid records
-- If no --input-file, use generated time series from expression and range
+- If --input-file is present read asynchronously
+  - For CSV use csv parser supporting optional header
+  - For JSON parse array of objects with numeric x and y
+- Validate records and error on invalid entries
 
 # Plot Rendering
-- For SVG output
-  - Generate markup using an inline template or an existing EJS template
-  - Include axes, grid lines, and a polyline or path for the data series
-- For PNG output
-  - Convert the SVG markup to a PNG buffer using sharp
-- Write the resulting SVG string or PNG binary to --output-file or stdout
+- Generate SVG markup via an EJS template including axes and data path
+- If PNG output convert SVG to PNG using sharp
+- Write output to file or stdout
+
+# HTTP API
+- In src/lib/main.js start an express server on PORT or default 3000
+- Define POST /plot accepting JSON payload with same fields as CLI
+- Validate payload with zod, return 400 on validation errors
+- Generate plot in memory and respond with image/svg+xml or image/png
+- Handle errors with 500 status and JSON error message
 
 # Testing Enhancements
-- Extend tests in tests/unit/main.test.js
-  - Successful parsing of valid flags and error conditions for invalid or missing flags
-  - Expression syntax errors and correct error messages
-  - Range parsing correctness and expected number of points
-  - CSV and JSON input parsing for valid and malformed files
-  - SVG output should start with an <svg> element
-  - PNG output should be a nonzero length buffer
+- Extend tests/unit/main.test.js to cover flag parsing, expression and range handling, input formats and rendering outputs
+- Add tests/unit/server.test.js to start server on random port, test valid and invalid payloads, response status and content type
 
 # Documentation Updates
-- Update README.md CLI Usage with end-to-end examples
-  node src/lib/main.js --expression y=sin(x) --range x=0:6.28:0.1 --format svg --output-file plot.svg
-  node src/lib/main.js --input-file data.csv --input-format csv --format png --output-file plot.png
-- Update docs/USAGE.md examples to reflect full flag set and new feature behavior
+- Update README.md CLI Usage and API Reference sections with examples
+- Update docs/USAGE.md to include HTTP API examples and environment variable guidance
