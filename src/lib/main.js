@@ -116,8 +116,12 @@ app.get("/plot", (req, res) => {
     }
   }
 
-  const accepted = req.accepts(["image/svg+xml", "image/png", "application/json"]);
+  let accepted = req.accepts(["image/svg+xml", "image/png", "application/json"]);
   res.vary("Accept");
+  const acceptHeader = req.get("Accept") || "";
+  if (acceptHeader.includes("image/svg+xml")) {
+    accepted = "image/svg+xml";
+  }
   if (!accepted) {
     return res.status(406).send("Not Acceptable");
   }
