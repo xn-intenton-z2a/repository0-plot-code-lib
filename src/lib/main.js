@@ -24,7 +24,7 @@ app.get("/plot", (req, res) => {
     }
     
     // Validate range format, supports integer and floating point numbers
-    const rangePattern = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
+    const rangePattern = /^x=-?\d+(\.\d+)?\:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?\:-?\d+(\.\d+)?$/;
     if (!rangePattern.test(range)) {
       return res.status(400).send("Error: 'range' query parameter is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
@@ -32,7 +32,7 @@ app.get("/plot", (req, res) => {
     try {
       if (fileType === "svg") {
         const svgContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
-        return res.type("image/svg+xml; charset=utf-8").send(svgContent);
+        return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (fileType === "png") {
         const pngBase64 =
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
@@ -52,7 +52,7 @@ app.get("/plot", (req, res) => {
   }
   switch (accepted) {
     case "image/svg+xml":
-      res.type("image/svg+xml; charset=utf-8").send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
+      res.set("Content-Type", "image/svg+xml; charset=utf-8").send('<svg xmlns="http://www.w3.org/2000/svg"></svg>');
       break;
     case "image/png": {
       const pngBase64 =
@@ -164,7 +164,7 @@ Examples:
     }
 
     // Validate the range flag format (supports integer and floating point numbers)
-    const rangePattern = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
+    const rangePattern = /^x=-?\d+(\.\d+)?\:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?\:-?\d+(\.\d+)?$/;
     if (!rangePattern.test(range)) {
       throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
