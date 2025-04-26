@@ -45,3 +45,45 @@ Public Domain
 The JSON Table Schema spec defines a standard for tabular data in JSON, including field types, constraints, and metadata. This documentation guides the design of time series data imports/exports in JSON, ensuring adherence to open data principles and interoperability. Last updated: 2024-02. Maintained by the Frictionless Data project.
 ## License
 CC0-1.0
+
+# commander.js (CLI framework for Node.js)
+## https://github.com/tj/commander.js/#readme
+Commander.js offers a robust and flexible API for building command-line interfaces in Node.js. Its documentation covers command definitions, option parsing, subcommands, and custom help output. This source addresses core implementation needs by illustrating declarative command hierarchies and automated help generation patterns, which can complement or inform enhancements to our CLI parsing layer. Last updated: v10.0.0 on 2024-03-01. Highly authoritative given widespread adoption and maintenance by the Node.js community.
+## License
+MIT
+
+# PapaParse (CSV parsing for JavaScript)
+## https://www.papaparse.com/docs
+PapaParse is a high-performance in-browser and Node.js CSV parser that supports streaming, worker threads, header recognition, and robust handling of edge cases like quoted fields and multiline records. The docs provide actionable guidance on parsing callbacks, chunked processing, and synchronous vs asynchronous usage, critical for scalable CSV import/export in our CLI tool. Last updated: 2024-02. Maintained by the PapaParse open-source community.
+## License
+MIT
+
+# Node.js File System (fs) API
+## https://nodejs.org/api/fs.html
+The official Node.js File System documentation details synchronous and asynchronous file I/O operations, streams, and file utilities. It covers methods for reading, writing, and streaming large datasets with backpressure control, critical for efficiently handling CSV/JSON import-export workflows and large file outputs like images or datasets. Last updated: Node.js v20.x. Provided by the Node.js Foundation under the Node.js license.
+## License
+OpenJS Foundation
+
+# node-canvas (Canvas API for Node.js)
+## https://github.com/Automattic/node-canvas#readme
+node-canvas implements the HTML Canvas API in Node.js, enabling server-side rendering of graphics. The README covers context creation, path drawing, text rendering, and integration with image buffers, which guide the conversion of SVG paths into raster images and the generation of PNG outputs in headless environments. Last updated: 2024-05. Maintained by Automattic.
+## License
+MIT
+
+# Sharp (High-performance image processing)
+## https://sharp.pixelplumbing.com/api-output#png
+Sharp is a widely-used Node.js library for high-speed image manipulation, providing APIs for converting SVG or raw pixel data into PNG, JPEG, and WebP formats. The API documentation details output options like compression levels, filters, and metadata handling, directly informing our PNG export pipeline for optimal performance and image quality. Last updated: 2024-04. Maintained by Lovell Fuller.
+## License
+Apache-2.0
+
+# D3-Scale (Quantitative scale constructors)
+## https://github.com/d3/d3-scale#readme
+d3-scale provides functions for mapping data domains to visual ranges using continuous, sequential, and temporal scales. The README offers technical specifications for setting domains, interpolation, and ticks, essential for calculating pixel positions of time series data points in our plot generation pipeline. Last updated: 2024-03. License and API details confirm its BSD-3-Clause license.
+## License
+BSD-3-Clause
+
+# D3-Shape (Graphical primitives for lines and areas)
+## https://github.com/d3/d3-shape#readme
+d3-shape defines generators for creating SVG path data for lines, areas, and curves based on data arrays. The documentation explains attention to interpolation modes, tension settings, and area baselines, providing a blueprint for constructing smooth time series curves and exporting accurate SVG path definitions. Last updated: 2024-03. BSD-3-Clause.
+## License
+BSD-3-Clause
