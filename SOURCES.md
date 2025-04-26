@@ -183,3 +183,21 @@ Apache-2.0
 The Node.js Path module documentation outlines utilities for normalizing, joining, resolving, and parsing filesystem paths across operating systems. These functions are fundamental for robust and secure file path handling in both CLI and HTTP server contexts, preventing path traversal issues and ensuring cross-platform compatibility. Last updated Node.js v20.x; provided by the OpenJS Foundation.
 ## License
 OpenJS Foundation
+
+# JSON Schema (Data Validation and API Contracts)
+## https://json-schema.org/specification.html
+The JSON Schema specification defines a vocabulary for annotating and validating JSON documents. It covers schema definitions, validation keywords, referencing, and meta-schemas. This spec is crucial for designing and validating JSON payloads in our HTTP API, complementing Zod-based validation to ensure consistency with industry standards. Latest published 2024-04; maintained by the JSON Schema organization under CC0.
+## License
+CC0-1.0
+
+# Yargs (Command-Line Argument Parser for Node.js)
+## https://yargs.js.org/docs/
+Yargs provides a robust feature set for building command-line tools in Node.js, including argument parsing, default values, command modules, middleware, and help generation. Its documentation offers patterns for nested commands, validation hooks, and async CLI workflows. Evaluating Yargs alongside Zod-based flag parsing helps refine our CLI UX and error-handling strategies. Last updated 2024-02; BSD-2-Clause.
+## License
+BSD-2-Clause
+
+# Vega (Visualization Grammar Foundation)
+## https://vega.github.io/vega/docs/
+Vega is a low-level JSON grammar for creating, saving, and sharing interactive visualization designs. Its documentation details scene graphs, data transformations, mark definitions, scales, axes, and signal-driven interactivity. Studying Vega's specification informs the design of our internal plot DSL and guides implementation of advanced features like interactivity and configurable data transforms. Last updated 2024-03; maintained by the Vega Contributors.
+## License
+BSD-3-Clause
