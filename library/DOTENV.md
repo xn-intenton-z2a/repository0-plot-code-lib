@@ -1,210 +1,268 @@
 # DOTENV
 
 ## Crawl Summary
-Install commands for npm/yarn/bun; .env structure with key=value; import early via require('dotenv').config() or import 'dotenv/config'; multiline values syntax; comment rules; parse API usage; CLI preload and config via dotenv_config and DOTENV_CONFIG env vars; four core functions with signatures and options; defaults: path=process.cwd()/.env, encoding='utf8', debug=false, override=false, processEnv=process.env.
+Dotenv zero-dependency module loads .env into process.env via API functions: config, parse, populate. Config(options) reads .env, merges based on path, encoding, debug, override, processEnv -> returns {parsed, error}. Parse(buffer|string, {debug}) -> {key:value}. Populate(target:Object, source:Object, {override,debug}) -> void. CLI preload: node -r dotenv/config with DOTENV_CONFIG_<OPTION>=value or dotenv_config_<option>=value. Supports multiline, comments, escapes. ES modules: import 'dotenv/config' at top. Variables collision: default skip existing, override flag enforces replace. Debug: prints parsing issues. Frontend requires polyfill or webpack plugin. Multiline via line breaks or \n.
 
 ## Normalised Extract
-Table of Contents:
- 1. Installation
- 2. .env Format
- 3. Loading Mechanism
- 4. Multiline Values
- 5. Comments Handling
- 6. Parsing Engine
- 7. CLI Preload and Config
- 8. Core Function Signatures
+Table of Contents
+1 Installation
+2 Usage .env
+3 Multiline Values
+4 Comments
+5 Config API
+6 Parse API
+7 Populate API
+8 CLI Preload
+9 Troubleshooting
 
-1. Installation
- npm install dotenv --save
- yarn add dotenv
- bun add dotenv
+1 Installation
+  npm install dotenv --save
+  yarn add dotenv
+  bun add dotenv
 
-2. .env Format
- key=value pairs
- Supported value types: unquoted, single-quoted, double-quoted, backticks
- Empty values become empty string
+2 Usage .env
+  File .env at project root
+  Lines: KEY=VALUE
+  Load with require('dotenv').config() or import 'dotenv/config'
 
-3. Loading Mechanism
- require('dotenv').config(options)
- import 'dotenv/config'
- Executes at require/import time, populates process.env or custom object
+3 Multiline Values
+  In-file line breaks:
+    PRIVATE_KEY="-----BEGIN RSA...\n...\nEND RSA KEY-----"
+  Or literal multi-line:
+    PRIVATE_KEY="-----BEGIN RSA
+    ...
+    -----END RSA"
 
-4. Multiline Values
- Use literal line breaks in double-quoted value
- Or escape newlines with \n
+4 Comments
+  Lines starting # skipped
+  Inline comments after #
+  To include # in value, wrap in quotes
 
-5. Comments Handling
- Lines starting with # are skipped
- Inline comments start at unquoted #
- To include # in value, wrap in quotes
+5 Config API
+  Function signature:
+    config(options?:{
+      path?:string|string[]
+      encoding?:string
+      debug?:boolean
+      override?:boolean
+      processEnv?:object
+    }):{parsed?:object,error?:Error}
+  Defaults:
+    path=path.resolve(process.cwd(),'.env')
+    encoding='utf8'
+    debug=false
+    override=false
+    processEnv=process.env
+  Behavior:
+    Parses specified files in order, merges into processEnv, first-wins unless override=true
 
-6. Parsing Engine
- dotenv.parse(src, { debug })
- Input: String or Buffer
- Output: object of key:string to value:string
- Rules:
-  - Skip empty lines
-  - Skip comments
-  - Trim unquoted values
-  - Maintain whitespace in quoted
-  - Expand \n in double quotes
-  - Support backticks
+6 Parse API
+  Signature:
+    parse(input:string|Buffer, options?:{debug?:boolean}):object
+  Default debug=false
+  Returns object mapping keys to values
 
-7. CLI Preload and Config
- node -r dotenv/config script.js
- dotenv_config_path=path dotenv_config_debug=true
- DOTENV_CONFIG_<OPTION>=value overrides CLI args
- Supported options: PATH, ENCODING, DEBUG, OVERRIDE, PROCESS_ENV
+7 Populate API
+  Signature:
+    populate(target:object, source:object, options?:{override?:boolean,debug?:boolean}):void
+  Default override=false, debug=false
+  Copies entries from source to target according to override
 
-8. Core Function Signatures
- config(options?): output
- parse(src, opts?): output
- populate(target, parsed, opts?): void
- decrypt(encrypted, opts): Buffer
+8 CLI Preload
+  Use node -r dotenv/config script.js
+  Supported env vars for options prefix DOTENV_CONFIG_:
+    DOTENV_CONFIG_PATH
+    DOTENV_CONFIG_DEBUG
+    DOTENV_CONFIG_ENCODING
+  Or lowercase dotenv_config_<option>
+
+9 Troubleshooting
+  .env not loading: verify CWD, use debug
+  Existing vars collision: use override flag
+  ES Modules: import 'dotenv/config' before imports
+  React: prefix with REACT_APP_
+  Webpack: install node-polyfill-webpack-plugin or use dotenv-webpack
+
 
 ## Supplementary Details
-Default Options:
- path: string or array, default: path.resolve(process.cwd(), '.env')
- encoding: utf8
- debug: false
- override: false
- processEnv: process.env
+Implementation Steps:
+1 Create .env file at process execution root
+2 Add require('dotenv').config(options) as first statement
+3 Confirm loaded keys: console.log(result.parsed)
+4 For ES Modules place import 'dotenv/config' at top of entry
+5 To override existing env vars set override=true
+6 To target custom object pass processEnv
+7 Use parse(buffer) to parse arbitrary buffers
+8 Use populate for advanced merging into custom targets
+9 For CLI preload use node -r dotenv/config with DOTENV_CONFIG_<OPTION>
 
-Process:
- 1. Read file(s) in order
- 2. Parse each into key/value pairs
- 3. For each key, if override=true or not present in processEnv, assign
- 4. If debug=true, log assignment decisions
+Parameter Defaults and Effects:
+- path: path.resolve(process.cwd(),'.env') – file lookup
+- encoding: 'utf8' – file charset
+- debug: false – log parse/populate operations
+- override: false – skip existing env variables
+- processEnv: process.env – destination of assignments
 
-Example Multi-file Load:
- require('dotenv').config({ path: ['.env.local', '.env'], override: true })
+Best Practices:
+- Always config before any module import that relies on process.env
+- Use explicit override only when necessary
+- Keep one .env per environment
+- Exclude .env from version control
+- Use dotenv-expand for variable expansion
 
-Docker Prebuild Hook:
- RUN curl -fsS https://dotenvx.sh/ | sh
- RUN dotenvx prebuild
+ES Module Pitfall:
+- import 'dotenv/config' must be first in entry.mjs
 
-Webpack Polyfill Example:
- const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
- module.exports = {
-   plugins: [ new NodePolyfillPlugin(), new webpack.DefinePlugin({ 'process.env': JSON.stringify(process.env) }) ]
- }
+Environment Variables Collision:
+- Default: skip existing in process.env
+- override flag: last-in wins across multiple files
 
 
 ## Reference Details
-API: require('dotenv') exports:
+API Specifications
 
-function config(options?: {
-  path?: string|string[]
-  encoding?: string
-  debug?: boolean
-  override?: boolean
-  processEnv?: {[key:string]:string|undefined}
-}): {
-  parsed?: {[key:string]:string}
-  error?: Error
-}
+config(options?:ConfigOptions):ConfigOutput
+  ConfigOptions:
+    path: string|string[] – location(s) of .env files
+    encoding: string – file encoding
+    debug: boolean – enable debug logs
+    override: boolean – allow overriding existing env vars
+    processEnv: object – target env object
+  ConfigOutput:
+    parsed?: { [key:string]:string }
+    error?: Error
 
-Example:
- const result = dotenv.config({ path: '/custom/.env', encoding: 'latin1', debug: true, override: false })
- if (result.error) throw result.error
- console.log(result.parsed)
+parse(input:string|Buffer, options?:ParseOptions): { [key:string]:string }
+  ParseOptions:
+    debug: boolean – enable debug logs
 
-function parse(src: string|Buffer, opts?: { debug?: boolean }): {[key:string]:string}
- Example:
- const buf = Buffer.from('KEY=value')
- const out = dotenv.parse(buf, { debug: true })
+populate(target:object, source:{ [key:string]:string }, options?:PopulateOptions): void
+  PopulateOptions:
+    override: boolean – allow override of existing keys
+    debug: boolean – enable debug logs
 
-function populate(target: object, parsed: {[key:string]:string}, opts?: { override?: boolean; debug?: boolean }): void
- Example:
- const parsed = dotenv.parse(Buffer.from('HELLO=world'))
- dotenv.populate(process.env, parsed, { override: true, debug: false })
+CLI Preload Patterns
+  node -r dotenv/config your_script.js
+  dotenv_config_path=/custom/path . . .
+  DOTENV_CONFIG_DEBUG=true node -r dotenv/config script.js
 
-CLI Preload:
- $ node -r dotenv/config index.js
- $ node -r dotenv/config index.js dotenv_config_path=/path/.env dotenv_config_debug=true
- $ DOTENV_CONFIG_ENCODING=latin1 DOTENV_CONFIG_DEBUG=true node -r dotenv/config index.js
+Examples
 
-Best Practices:
- - Place .env at root of process runtime directory
- - Load before any other module
- - Do not commit .env to source control
- - Use override only when necessary
- - Use separate .env per environment
+// Load default .env
+const result = require('dotenv').config()
+if (result.error) throw result.error
+console.log(result.parsed)
 
-Troubleshooting:
- .env not loading: confirm path, enable debug
-   require('dotenv').config({ debug: true })
- Expected debug log: Loaded .env file at /path/.env
+// Custom path and override
+require('dotenv').config({ path:['.env.local','.env'], override:true })
 
- Webpack error crypto|os|path:
-   npm install node-polyfill-webpack-plugin
-   add NodePolyfillPlugin to webpack.config.js
+// Parse buffer
+const buf = Buffer.from('FOO=bar')
+const config = require('dotenv').parse(buf,{debug:true})
 
- Docker build leak:
-   RUN dotenvx prebuild
+// Populate custom object
+const myEnv = {}
+require('dotenv').populate(myEnv, {HELLO:'world'},{override:true,debug:true})
+
+Troubleshooting Commands
+
+# Debug parse errors
+require('dotenv').config({debug:true})
+
+# React inject
+npm install node-polyfill-webpack-plugin
+# In webpack.config.js
+require('dotenv').config()
+new NodePolyfillPlugin()
+new webpack.DefinePlugin({ 'process.env': { REACT_APP_KEY: JSON.stringify(process.env.REACT_APP_KEY) } })
+
+# Prevent .env in Docker
+RUN curl -fsS https://dotenvx.sh/ | sh
+RUN dotenvx prebuild
 
 
 ## Information Dense Extract
-npm install dotenv; require('dotenv').config({ path:string|string[], encoding:'utf8', debug:false, override:false, processEnv:object }); import 'dotenv/config'; supports multiline in double quotes or \n; comments skip full-line or inline at unquoted #; dotenv.parse(src, { debug?:boolean }): {[k:string]:string}; dotenv.populate(target, parsed, { override?:boolean, debug?:boolean }); CLI preload via node -r dotenv/config with dotenv_config_path, dotenv_config_debug or DOTENV_CONFIG_<OPTION>; defaults path=process.cwd()/.env; encoding=utf8; debug=false; override=false; processEnv=process.env; best practices: load early; separate .env per env; do not commit; troubleshooting with debug logs; webpack polyfill via node-polyfill-webpack-plugin; docker prebuild hook via dotenvx prebuild.
+dotenv loads .env into process.env via config(options)->{parsed,error}, options: path (string|string[], default cwd+/.env), encoding ('utf8'), debug (false), override (false), processEnv (process.env). parse(input:Buffer|string,{debug}) returns key/value object. populate(target,source,{override,debug}) merges accordingly. CLI preload: node -r dotenv/config with DOTENV_CONFIG_<OPTION> environment variables. Load early, ES modules require import 'dotenv/config' at top. Multiline variables supported via literal breaks or \n. Comments start with #; wrap values in quotes to include #. Default skip existing env vars; override flag replaces. Debug mode logs parsing/populating steps. For React frontend, prefix vars with REACT_APP_ or use webpack DefinePlugin or dotenv-webpack. Ensure .env excluded from VCS. Use dotenv-expand for expansion and dotenvx for sync and encryption.
 
 ## Sanitised Extract
-Table of Contents:
- 1. Installation
- 2. .env Format
- 3. Loading Mechanism
- 4. Multiline Values
- 5. Comments Handling
- 6. Parsing Engine
- 7. CLI Preload and Config
- 8. Core Function Signatures
+Table of Contents
+1 Installation
+2 Usage .env
+3 Multiline Values
+4 Comments
+5 Config API
+6 Parse API
+7 Populate API
+8 CLI Preload
+9 Troubleshooting
 
-1. Installation
- npm install dotenv --save
- yarn add dotenv
- bun add dotenv
+1 Installation
+  npm install dotenv --save
+  yarn add dotenv
+  bun add dotenv
 
-2. .env Format
- key=value pairs
- Supported value types: unquoted, single-quoted, double-quoted, backticks
- Empty values become empty string
+2 Usage .env
+  File .env at project root
+  Lines: KEY=VALUE
+  Load with require('dotenv').config() or import 'dotenv/config'
 
-3. Loading Mechanism
- require('dotenv').config(options)
- import 'dotenv/config'
- Executes at require/import time, populates process.env or custom object
+3 Multiline Values
+  In-file line breaks:
+    PRIVATE_KEY='-----BEGIN RSA...'n...'nEND RSA KEY-----'
+  Or literal multi-line:
+    PRIVATE_KEY='-----BEGIN RSA
+    ...
+    -----END RSA'
 
-4. Multiline Values
- Use literal line breaks in double-quoted value
- Or escape newlines with 'n
+4 Comments
+  Lines starting # skipped
+  Inline comments after #
+  To include # in value, wrap in quotes
 
-5. Comments Handling
- Lines starting with # are skipped
- Inline comments start at unquoted #
- To include # in value, wrap in quotes
+5 Config API
+  Function signature:
+    config(options?:{
+      path?:string|string[]
+      encoding?:string
+      debug?:boolean
+      override?:boolean
+      processEnv?:object
+    }):{parsed?:object,error?:Error}
+  Defaults:
+    path=path.resolve(process.cwd(),'.env')
+    encoding='utf8'
+    debug=false
+    override=false
+    processEnv=process.env
+  Behavior:
+    Parses specified files in order, merges into processEnv, first-wins unless override=true
 
-6. Parsing Engine
- dotenv.parse(src, { debug })
- Input: String or Buffer
- Output: object of key:string to value:string
- Rules:
-  - Skip empty lines
-  - Skip comments
-  - Trim unquoted values
-  - Maintain whitespace in quoted
-  - Expand 'n in double quotes
-  - Support backticks
+6 Parse API
+  Signature:
+    parse(input:string|Buffer, options?:{debug?:boolean}):object
+  Default debug=false
+  Returns object mapping keys to values
 
-7. CLI Preload and Config
- node -r dotenv/config script.js
- dotenv_config_path=path dotenv_config_debug=true
- DOTENV_CONFIG_<OPTION>=value overrides CLI args
- Supported options: PATH, ENCODING, DEBUG, OVERRIDE, PROCESS_ENV
+7 Populate API
+  Signature:
+    populate(target:object, source:object, options?:{override?:boolean,debug?:boolean}):void
+  Default override=false, debug=false
+  Copies entries from source to target according to override
 
-8. Core Function Signatures
- config(options?): output
- parse(src, opts?): output
- populate(target, parsed, opts?): void
- decrypt(encrypted, opts): Buffer
+8 CLI Preload
+  Use node -r dotenv/config script.js
+  Supported env vars for options prefix DOTENV_CONFIG_:
+    DOTENV_CONFIG_PATH
+    DOTENV_CONFIG_DEBUG
+    DOTENV_CONFIG_ENCODING
+  Or lowercase dotenv_config_<option>
+
+9 Troubleshooting
+  .env not loading: verify CWD, use debug
+  Existing vars collision: use override flag
+  ES Modules: import 'dotenv/config' before imports
+  React: prefix with REACT_APP_
+  Webpack: install node-polyfill-webpack-plugin or use dotenv-webpack
 
 ## Original Source
 dotenv (Environment Variable Loader for Node.js)
@@ -212,104 +270,91 @@ https://github.com/motdotla/dotenv#readme
 
 ## Digest of DOTENV
 
+# DOTENV README – Retrieved 2023-11-27
+
 # Install
 
-Install via npm:
-
-    npm install dotenv --save
-
-Or with yarn:
-
-    yarn add dotenv
-
-Or with bun:
-
-    bun add dotenv
+npm install dotenv --save
+or yarn add dotenv
+or bun add dotenv
 
 # Usage
 
-Create a .env file in your project root (or the folder where your process runs):
+Create a .env file in your project root:
 
-    S3_BUCKET="YOURS3BUCKET"
-    SECRET_KEY="YOURSECRETKEYGOESHERE"
+S3_BUCKET="YOURS3BUCKET"
+SECRET_KEY="YOURSECRETKEYGOESHERE"
 
-As early as possible in application entry:
+Early in your application load:
 
-    require('dotenv').config()
-    // or for ES6 modules
-    import 'dotenv/config'
+require('dotenv').config()
+import 'dotenv/config'
 
-After loading, process.env contains your variables:
+# Multiline Values (>= v15.0.0)
 
-    require('dotenv').config()
-    console.log(process.env.S3_BUCKET)
-
-# Multiline Values
-
-Supported since v15.0.0 with line breaks:
-
-    PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
-    ...
-    -----END RSA PRIVATE KEY-----"
-
-Or with explicit newline escapes:
-
-    PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----\n"
+PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----
+...Kh9NV...
+-----END RSA PRIVATE KEY-----"
+or
+PRIVATE_KEY="-----BEGIN RSA PRIVATE KEY-----\nKh9NV...\n-----END RSA PRIVATE KEY-----\n"
 
 # Comments
 
-Lines or inline after # are ignored. To include # in value, wrap value in quotes.
+# This is a comment
+SECRET_KEY=YOURSECRETKEYGOESHERE # inline comment
+SECRET_HASH="something-with-a-#-hash"
 
-    # full-line comment
-    SECRET_HASH="value-with-#-hash"
+# Parsing Engine
 
-# Parsing API
+const dotenv = require('dotenv')
+const buf = Buffer.from('BASIC=basic')
+const config = dotenv.parse(buf)
+// config => { BASIC:'basic' }
 
-    const dotenv = require('dotenv')
-    const buf = Buffer.from('KEY=val')
-    const parsed = dotenv.parse(buf)
-    // parsed => { KEY: 'val' }
+# Preload CLI
 
-# Preload via CLI
+node -r dotenv/config your_script.js
+Supported CLI env vars: DOTENV_CONFIG_PATH, DOTENV_CONFIG_DEBUG, DOTENV_CONFIG_ENCODING
 
-    node -r dotenv/config your_script.js
+# API Reference
 
-Pass config via CLI args:
+## config(options)
+Reads .env, assigns to process.env. Returns { parsed, error }
 
-    node -r dotenv/config your.js dotenv_config_path=/custom/.env dotenv_config_debug=true
+Options:
+- path: string | string[] (default: path.resolve(process.cwd(),'.env'))
+- encoding: string (default: 'utf8')
+- debug: boolean (default: false)
+- override: boolean (default: false)
+- processEnv: object (default: process.env)
 
-Or via env vars:
+## parse(input, options)
+Parses input string or buffer into key/value object.
 
-    DOTENV_CONFIG_ENCODING=latin1 DOTENV_CONFIG_DEBUG=true node -r dotenv/config your.js
+Options:
+- debug: boolean (default: false)
 
-# Core Functions and Signatures
+## populate(target, source, options)
+Populates target object with source key/values.
 
-    // Loads .env into process.env
-    config(options?: {
-      path?: string|string[]
-      encoding?: string
-      debug?: boolean
-      override?: boolean
-      processEnv?: object
-    }): { parsed?: {[key:string]:string}; error?: Error }
+Options:
+- override: boolean (default: false)
+- debug: boolean (default: false)
 
-    // Parses string or buffer to key/value pairs
-    parse(src: string|Buffer, opts?: { debug?: boolean }): {[key:string]:string}
+# Troubleshooting
 
-    // Populates target object from parsed values
-    populate(target: object, parsed: {[key:string]:string}, opts?: { override?: boolean; debug?: boolean }): void
-
-    // Decrypts encrypted .env (used by dotenvx)
-    decrypt?(encrypted: Buffer|string, opts: { key: string }): Buffer
+- File not loading: ensure .env is in CWD, enable debug: require('dotenv').config({ debug: true })
+- React: prefix vars with REACT_APP_, inject via DefinePlugin or use dotenv-webpack
+- Frontend: add node-polyfill-webpack-plugin or use dotenv-webpack
 
 
 ## Attribution
 - Source: dotenv (Environment Variable Loader for Node.js)
 - URL: https://github.com/motdotla/dotenv#readme
 - License: License
-- Crawl Date: 2025-04-26T04:47:55.743Z
-- Data Size: 800985 bytes
-- Links Found: 5820
+- Crawl Date: 2025-04-26T08:48:22.068Z
+- Data Size: 642588 bytes
+- Links Found: 5012
 
 ## Retrieved
 2025-04-26
