@@ -200,6 +200,44 @@ describe("CLI Plot Generation", () => {
     ];
     expect(() => main()).toThrow("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   });
+
+  test("should display help message when --help flag is provided", () => {
+    let output = "";
+    const originalConsoleLog = console.log;
+    console.log = (msg, ...args) => { output += msg; if(args.length) output += " " + args.join(" "); };
+    process.argv = ["node", "src/lib/main.js", "--help"];
+    main();
+    console.log = originalConsoleLog;
+    expect(output).toContain("Usage: node src/lib/main.js");
+    expect(output).toContain("--help");
+    expect(output).toContain("--verbose");
+    expect(output).toContain("--expression");
+  });
+
+  test("should output verbose debug information when --verbose flag is provided", () => {
+    const testFile = "test_verbose.svg";
+    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
+    let output = "";
+    const originalConsoleLog = console.log;
+    console.log = (msg, ...args) => { output += msg; if(args.length) output += " " + args.join(" "); };
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=-1:1,y=-1:1",
+      "--file",
+      testFile,
+      "--verbose"
+    ];
+    main();
+    console.log = originalConsoleLog;
+    expect(output).toContain("Verbose Mode Enabled.");
+    expect(output).toContain("Parsed flags:");
+    expect(fs.existsSync(testFile)).toBe(true);
+    fs.unlinkSync(testFile);
+  });
 });
 
 // Restore original argv after all tests
