@@ -141,3 +141,45 @@ MIT
 QuickChart offers an HTTP API for chart generation using a subset of the Chart.js configuration schema. Documentation covers chart types, data formats, output options (PNG, SVG), and advanced styling parameters. This source provides actionable insights for offloading rendering to an external service, enabling lightweight CLI implementations and fallback strategies. Last updated 2024; MIT.
 ## License
 MIT
+
+# Express.js (HTTP Server Framework)
+## https://expressjs.com/en/4x/api.html
+The official Express 4.x API documentation details core middleware, routing mechanisms, request and response objects, error-handling patterns, and built-in body parsing via express.json() and express.urlencoded(). This source is critical for building and configuring the /plot HTTP endpoint, validating JSON payloads, managing error flows, and integrating middleware for robust request handling. Last updated 2023-12; maintained by the Express.js community.
+## License
+MIT
+
+# js-yaml (YAML Parser and Dumper)
+## https://github.com/nodeca/js-yaml#readme
+js-yaml is a pure JavaScript YAML parser and dumper. The README covers safeLoad, custom schema definitions, type extensions, and best practices for securely loading and writing YAML configurations. This source is valuable for adding YAML-based configuration support in CLI and HTTP contexts, enabling human-friendly plot settings files. Last updated 2024-05; maintained by the js-yaml community.
+## License
+MIT
+
+# Fast-CSV (Alternative High-Performance CSV Parser)
+## https://c2fo.github.io/fast-csv/docs/getting-started
+Fast-CSV is a suite of CSV parsing and formatting tools optimized for Node.js. The getting-started guide covers stream-based parsing, handling headers, type casting, and error recovery, demonstrating patterns for high-throughput CSV I/O with backpressure support. It offers an alternative to PapaParse for advanced streaming control in our CLI. Last updated 2024-01; maintained by the Fast-CSV community.
+## License
+MIT
+
+# D3-Array (Data Manipulation Utilities)
+## https://github.com/d3/d3-array#readme
+D3-array provides a rich set of utilities for array manipulation, including functions for computing extents, histograms, quantiles, and grouping. The documentation details API methods like d3.extent, d3.bin, and d3.group, which streamline pre-processing of time series datasets to enhance analytic workflows. Last updated 2024-03; maintained by the D3 community.
+## License
+BSD-3-Clause
+
+# Apache ECharts (Interactive Charting Library)
+## https://echarts.apache.org/en/api.html
+The official Apache ECharts API reference enumerates chart types, dataset management, graphical element options, and theme configurations. While focused on browser-driven interactive charts, ECharts' declarative option model and headless rendering capabilities provide insights for extending the CLI with diverse chart types and advanced styling. Last updated 2024-04; maintained by the Apache ECharts project.
+## License
+Apache-2.0
+
+# OpenAPI Specification (RESTful API Standard)
+## https://spec.openapis.org/oas/v3.1.0
+The OpenAPI 3.1.0 specification defines a standardized format for describing RESTful APIs, supporting JSON Schema compatibility, parameter definitions, and response modeling. Leveraging this spec ensures well-documented, contract-driven development for the /plot endpoint, enabling tooling-driven client generation and consistent API evolution. Last updated 2023-10; maintained by the OpenAPI Initiative.
+## License
+Apache-2.0
+
+# Node.js Path Module
+## https://nodejs.org/api/path.html
+The Node.js Path module documentation outlines utilities for normalizing, joining, resolving, and parsing filesystem paths across operating systems. These functions are fundamental for robust and secure file path handling in both CLI and HTTP server contexts, preventing path traversal issues and ensuring cross-platform compatibility. Last updated Node.js v20.x; provided by the OpenJS Foundation.
+## License
+OpenJS Foundation
