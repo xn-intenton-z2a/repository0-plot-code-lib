@@ -75,4 +75,43 @@ npm run formatting
 
 ---
 
-For feature requests and issues, please visit the project repository on GitHub.
+## HTTP Server
+
+Start the HTTP server on port 3000 by using the `--serve` flag:
+
+```bash
+repository0-plot-code-lib --serve
+# Output: Server listening on :3000
+```
+
+### `/plot` Endpoint
+
+The `/plot` endpoint supports content negotiation via the `Accept` header.
+
+- SVG representation:
+  ```bash
+  curl -H "Accept: image/svg+xml" http://localhost:3000/plot
+  ```
+  Response:
+  ```xml
+  <?xml version="1.0" encoding="UTF-8"?>
+  <svg xmlns="http://www.w3.org/2000/svg"></svg>
+  ```
+
+- PNG representation:
+  ```bash
+  curl -H "Accept: image/png" http://localhost:3000/plot --output plot.png
+  ```
+
+- JSON representation:
+  ```bash
+  curl -H "Accept: application/json" http://localhost:3000/plot
+  # { "data": [] }
+  ```
+
+- Unsupported media type:
+  ```bash
+  curl -H "Accept: text/plain" http://localhost:3000/plot -i
+  # HTTP/1.1 406 Not Acceptable
+  # Vary: Accept
+  ```
