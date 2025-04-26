@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="table_schema" href="#table_schema"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TABLE_SCHEMA</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Descriptor: JSON object with required &quot;fields&quot;: array<FieldDescriptor>. Optional &quot;missingValues&quot;: array<string> default [&quot;&quot;], &quot;primaryKey&quot;: string|array<string>, &quot;foreignKeys&quot;: array<ForeignKeyDescriptor>.</p>
+<p class="md-github">FieldDescriptor: object with required properties:
+name:string
+Optional properties:
+title:string, description:string, example:any, type:string default &quot;string&quot;, format:string default &quot;default&quot;, rdfType:URI, constraints:ConstraintsDescriptor.</p>
+<p class="md-github">Types &amp; Formats:
+string(formats default,email,uri,binary,uuid)
+number(decimalChar:string(&quot;.&quot;), groupChar:string(null), bareNumber:boolean(true))
+integer(bareNumber:boolean(true))
+boolean(trueValues:string[&quot;true&quot;,&quot;True&quot;,&quot;TRUE&quot;,&quot;1&quot;], falseValues:string[&quot;false&quot;,&quot;False&quot;,&quot;FALSE&quot;,&quot;0&quot;])
+object, array, date(format default ISO8601 or pattern), time, datetime, year, yearmonth, duration(ISO8601), geopoint(string, array, object), geojson(default, topojson), any.</p>
+<p class="md-github">ConstraintsDescriptor: object with boolean required, boolean unique, integer minLength,maxLength, minimum, maximum (numeric/date/time), pattern:string(XML Schema regex), enum:array<any>.</p>
+<p class="md-github">Missing Values: array<string> default [&quot;&quot;].</p>
+<p class="md-github">Primary Key: string or array<string>, implies required constraints.</p>
+<p class="md-github">Foreign Keys: array of { fields:string|string[], reference:{ resource:string, fields:string|string[] } }.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Descriptor Structure</p>
+</li>
+<li class="md-github">
+<p class="md-github">Field Descriptor Properties</p>
+</li>
+<li class="md-github">
+<p class="md-github">Supported Types and Formats</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constraint Properties</p>
+</li>
+<li class="md-github">
+<p class="md-github">Missing Values Handling</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Primary Keys</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Foreign Keys</p>
+</li>
+<li class="md-github">
+<p class="md-github">Descriptor Structure
+fields: array<FieldDescriptor>
+missingValues: array<string> default [&quot;&quot;]
+primaryKey: string|array<string>
+foreignKeys: array<ForeignKeyDescriptor></p>
+</li>
+<li class="md-github">
+<p class="md-github">Field Descriptor Properties
+name (string, required)
+title (string)
+description (string)
+example (any)
+type (string) default &quot;string&quot;
+format (string) default &quot;default&quot;
+rdfType (string URI)
+constraints (object)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Supported Types and Formats
+string: default,email,uri,binary,uuid
+number: decimalChar:string(&quot;.&quot;), groupChar:string(null), bareNumber:boolean(true)
+integer: bareNumber:boolean(true)
+boolean: trueValues:[&quot;true&quot;,&quot;True&quot;,&quot;TRUE&quot;,&quot;1&quot;], falseValues:[&quot;false&quot;,&quot;False&quot;,&quot;FALSE&quot;,&quot;0&quot;]
+object, array
+date/time/datetime: ISO8601 or pattern string
+year, yearmonth
+duration: ISO8601 PnYnMnDTnHnMnS
+geopoint: string &quot;lon, lat&quot;, array [lon,lat], object {lon,lat}
+geojson: default GeoJSON object, topojson
+any: no restrictions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constraint Properties
+required:boolean(default false)
+unique:boolean(default false)
+minLength:integer
+maxLength:integer
+minimum:number|integer|date|time|datetime|year|yearmonth
+maximum:number|integer|date|time|datetime|year|yearmonth
+pattern:string(XML Schema regex)
+enum:array<any></p>
+</li>
+<li class="md-github">
+<p class="md-github">Missing Values Handling
+missingValues:array<string> default [&quot;&quot;]
+converts matching strings to null before casting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Primary Keys
+primaryKey:string|array<string>
+fields must exist in fields array
+implies required=true</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Foreign Keys
+foreignKeys: array&lt;{
+fields:string|string[],
+reference:{ resource:string, fields:string|string[] }
+}&gt;</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Parameters and Defaults:</p>
+<p class="md-github">decimalChar: string = &quot;.&quot;
+groupChar: string = null
+bareNumber: boolean = true
+trueValues: [&quot;true&quot;,&quot;True&quot;,&quot;TRUE&quot;,&quot;1&quot;]
+falseValues: [&quot;false&quot;,&quot;False&quot;,&quot;FALSE&quot;,&quot;0&quot;]
+missingValues: string[] = [&quot;&quot;]</p>
+<p class="md-github">Date Formats:
+default: ISO8601 YYYY-MM-DD for date, hh:mm:ss for time, YYYY-MM-DDThh:mm:ssZ for datetime
+custom: pattern string following strptime syntax</p>
+<p class="md-github">Duration: ISO8601 extended format PnYnMnDTnHnMnS</p>
+<p class="md-github">Geopoint Formats:
+default: &quot;lon, lat&quot;
+array: [lon, lat]
+object: {&quot;lon&quot;:lon, &quot;lat&quot;:lat}</p>
+<p class="md-github">GeoJSON: default GeoJSON object, topojson per spec</p>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Load descriptor JSON file.</li>
+<li class="md-github">Validate descriptor schema: ensure required properties and types.</li>
+<li class="md-github">For each field descriptor:
+a. Validate name uniqueness (case-insensitive).
+b. Apply missingValues mapping.
+c. Cast physical values to logical types based on type, format, and additional properties.</li>
+<li class="md-github">Test constraints on logical representation.</li>
+<li class="md-github">Enforce primaryKey uniqueness and non-null.</li>
+<li class="md-github">Resolve foreignKeys: load referenced resources, compare field values.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">JSON Schema for table-schema.json (draft-07):
+{
+&quot;$schema&quot;: &quot;http://json-schema.org/draft-07/schema#&quot;,
+&quot;type&quot;: &quot;object&quot;,
+&quot;required&quot;: [&quot;fields&quot;],
+&quot;properties&quot;: {
+&quot;fields&quot;: { &quot;type&quot;: &quot;array&quot;, &quot;items&quot;: { &quot;$ref&quot;: &quot;#/definitions/field&quot; } },
+&quot;missingValues&quot;: { &quot;type&quot;: &quot;array&quot;, &quot;items&quot;: { &quot;type&quot;: &quot;string&quot; }, &quot;default&quot;: [&quot;&quot;] },
+&quot;primaryKey&quot;: { &quot;anyOf&quot;: [ {&quot;type&quot;: &quot;string&quot;}, {&quot;type&quot;: &quot;array&quot;,&quot;items&quot;: {&quot;type&quot;: &quot;string&quot;} } ] },
+&quot;foreignKeys&quot;: { &quot;type&quot;: &quot;array&quot;, &quot;items&quot;: { &quot;$ref&quot;: &quot;#/definitions/foreignKey&quot; } }
+},
+&quot;definitions&quot;: {
+&quot;field&quot;: {
+&quot;type&quot;: &quot;object&quot;,
+&quot;required&quot;: [&quot;name&quot;],
+&quot;properties&quot;: {
+&quot;name&quot;: { &quot;type&quot;: &quot;string&quot; },
+&quot;title&quot;: { &quot;type&quot;: &quot;string&quot; },
+&quot;description&quot;: { &quot;type&quot;: &quot;string&quot; },
+&quot;example&quot;: {},
+&quot;type&quot;: { &quot;type&quot;: &quot;string&quot; },
+&quot;format&quot;: { &quot;type&quot;: &quot;string&quot; },
+&quot;rdfType&quot;: { &quot;type&quot;: &quot;string&quot;, &quot;format&quot;: &quot;uri&quot; },
+&quot;constraints&quot;: { &quot;$ref&quot;: &quot;#/definitions/constraints&quot; }
+}
+},
+&quot;constraints&quot;: {
+&quot;type&quot;: &quot;object&quot;,
+&quot;properties&quot;: {
+&quot;required&quot;: { &quot;type&quot;: &quot;boolean&quot;, &quot;default&quot;: false },
+&quot;unique&quot;: { &quot;type&quot;: &quot;boolean&quot;, &quot;default&quot;: false },
+&quot;minLength&quot;: { &quot;type&quot;: &quot;integer&quot; },
+&quot;maxLength&quot;: { &quot;type&quot;: &quot;integer&quot; },
+&quot;minimum&quot;: {},
+&quot;maximum&quot;: {},
+&quot;pattern&quot;: { &quot;type&quot;: &quot;string&quot; },
+&quot;enum&quot;: { &quot;type&quot;: &quot;array&quot; }
+}
+},
+&quot;foreignKey&quot;: {
+&quot;type&quot;: &quot;object&quot;,
+&quot;required&quot;: [&quot;fields&quot;,&quot;reference&quot;],
+&quot;properties&quot;: {
+&quot;fields&quot;: { &quot;anyOf&quot;: [ {&quot;type&quot;:&quot;string&quot;},{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}} ] },
+&quot;reference&quot;: {
+&quot;type&quot;: &quot;object&quot;,
+&quot;required&quot;: [&quot;resource&quot;,&quot;fields&quot;],
+&quot;properties&quot;: {
+&quot;resource&quot;: { &quot;type&quot;: &quot;string&quot; },
+&quot;fields&quot;: { &quot;anyOf&quot;: [ {&quot;type&quot;:&quot;string&quot;},{&quot;type&quot;:&quot;array&quot;,&quot;items&quot;:{&quot;type&quot;:&quot;string&quot;}} ] }
+}
+}
+}
+}
+}
+}</p>
+<p class="md-github">Example Usage in Python:
+from frictionless import Schema, Field, Resource, validate</p>
+<p class="md-github">schema = Schema(
+fields=[Field(name=&quot;id&quot;, type=&quot;integer&quot;), Field(name=&quot;name&quot;, type=&quot;string&quot;)]
+)
+resource = Resource(path=&quot;data.csv&quot;, schema=schema)
+report = validate(resource)
+if report.valid:
+print(&quot;Table valid&quot;)
+else:
+print(report.flatten())</p>
+<p class="md-github">Command-Line Validation:
+$ frictionless validate data.csv --schema schema.json</p>
+<h1 class="md-github"><a class="md-github__anchor" name="expected-no-errors-on-valid-data" href="#expected-no-errors-on-valid-data"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Expected: no errors on valid data</h1>
+<p class="md-github">Troubleshooting:
+Invalid name in field descriptor:
+Error: Field name must be non-empty string</p>
+<p class="md-github">Missing key in descriptor:
+Error: Descriptor missing required property 'fields'</p>
+<p class="md-github">Type casting error:
+ValueError: invalid literal for int() with base 10: 'abc'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Descriptor:{fields:Array<FieldDescriptor>}FieldsDescriptor: {name:String(required),title:String,description:String,example:any,type:String(default&quot;string&quot;),format:String(default&quot;default&quot;),rdfType:StringURI,constraints:{required:Boolean,unique:Boolean,minLength:Int,maxLength:Int,minimum:any,maximum:any,pattern:String,enum:Array<any>}}Optional:{missingValues:Array<String>(default[&quot;&quot;]),primaryKey:String|Array<String>,foreignKeys:Array&lt;{fields:String|Array<String>,reference:{resource:String,fields:String|Array<String>}}&gt;}.Types:{string[default,email,uri,binary,uuid],number{decimalChar:&quot;.&quot;,groupChar:null,bareNumber:true},integer{bareNumber:true},boolean{trueValues:[&quot;true&quot;,&quot;True&quot;,&quot;TRUE&quot;,&quot;1&quot;],falseValues:[&quot;false&quot;,&quot;False&quot;,&quot;FALSE&quot;,&quot;0&quot;]},object,array,date/time/datetime[ISO8601|pattern],year,yearmonth,duration[ISO8601],geopoint[string:&quot;lon,lat&quot;,array,object],geojson[default,topojson],any}.Constraints apply logical. MissingValues pre-cast null. PrimaryKey non-null unique. ForeignKey links: fields+reference(resource,fields).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Descriptor Structure</p>
+</li>
+<li class="md-github">
+<p class="md-github">Field Descriptor Properties</p>
+</li>
+<li class="md-github">
+<p class="md-github">Supported Types and Formats</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constraint Properties</p>
+</li>
+<li class="md-github">
+<p class="md-github">Missing Values Handling</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Primary Keys</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Foreign Keys</p>
+</li>
+<li class="md-github">
+<p class="md-github">Descriptor Structure
+fields: array<FieldDescriptor>
+missingValues: array<string> default ['']
+primaryKey: string|array<string>
+foreignKeys: array<ForeignKeyDescriptor></p>
+</li>
+<li class="md-github">
+<p class="md-github">Field Descriptor Properties
+name (string, required)
+title (string)
+description (string)
+example (any)
+type (string) default 'string'
+format (string) default 'default'
+rdfType (string URI)
+constraints (object)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Supported Types and Formats
+string: default,email,uri,binary,uuid
+number: decimalChar:string('.'), groupChar:string(null), bareNumber:boolean(true)
+integer: bareNumber:boolean(true)
+boolean: trueValues:['true','True','TRUE','1'], falseValues:['false','False','FALSE','0']
+object, array
+date/time/datetime: ISO8601 or pattern string
+year, yearmonth
+duration: ISO8601 PnYnMnDTnHnMnS
+geopoint: string 'lon, lat', array [lon,lat], object {lon,lat}
+geojson: default GeoJSON object, topojson
+any: no restrictions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Constraint Properties
+required:boolean(default false)
+unique:boolean(default false)
+minLength:integer
+maxLength:integer
+minimum:number|integer|date|time|datetime|year|yearmonth
+maximum:number|integer|date|time|datetime|year|yearmonth
+pattern:string(XML Schema regex)
+enum:array<any></p>
+</li>
+<li class="md-github">
+<p class="md-github">Missing Values Handling
+missingValues:array<string> default ['']
+converts matching strings to null before casting</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Primary Keys
+primaryKey:string|array<string>
+fields must exist in fields array
+implies required=true</p>
+</li>
+<li class="md-github">
+<p class="md-github">Defining Foreign Keys
+foreignKeys: array&lt;{
+fields:string|string[],
+reference:{ resource:string, fields:string|string[] }
+}&gt;</p>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Frictionless Data Table Schema (JSON Table Schema)
+https://specs.frictionlessdata.io/table-schema/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-table_schema" href="#digest-of-table_schema"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of TABLE_SCHEMA</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="table-schema" href="#table-schema"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table Schema</h1>
+<p class="md-github">A simple format to declare a schema for tabular data expressible in JSON.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="descriptor" href="#descriptor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Descriptor</h2>
+<p class="md-github">The descriptor must be a JSON object with:</p>
+<p class="md-github">Required Properties:</p>
+<p class="md-github">fields: array of field descriptors ordered as in the CSV/logical table.</p>
+<p class="md-github">Optional Properties:</p>
+<p class="md-github">missingValues: array<string> (default [&quot;&quot;])
+primaryKey: string or array<string>
+foreignKeys: array<foreignKey></p>
+<p class="md-github">The descriptor may include additional custom properties.</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-json">{
+  &quot;fields&quot;: [
+    {&quot;name&quot;: &quot;id&quot;, &quot;type&quot;: &quot;integer&quot;},
+    {&quot;name&quot;: &quot;name&quot;, &quot;type&quot;: &quot;string&quot;}
+  ],
+  &quot;missingValues&quot;: [&quot;&quot;, &quot;NA&quot;],
+  &quot;primaryKey&quot;: &quot;id&quot;,
+  &quot;foreignKeys&quot;: [
+    {
+      &quot;fields&quot;: [&quot;country_id&quot;],
+      &quot;reference&quot;: {&quot;resource&quot;: &quot;countries&quot;,&quot;fields&quot;: [&quot;id&quot;]}
+    }
+  ]
+}
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="field-descriptors" href="#field-descriptors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Field Descriptors</h2>
+<p class="md-github">A field descriptor is a JSON object with:</p>
+<p class="md-github">Required:</p>
+<p class="md-github">name: string</p>
+<p class="md-github">Optional:</p>
+<p class="md-github">title: string
+description: string
+example: any
+type: string (default &quot;string&quot;)
+format: string (default &quot;default&quot;)
+rdfType: URI string
+constraints: constraints-descriptor object</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-json">{
+  &quot;name&quot;: &quot;age&quot;,
+  &quot;title&quot;: &quot;Age of person&quot;,
+  &quot;type&quot;: &quot;integer&quot;,
+  &quot;format&quot;: &quot;default&quot;,
+  &quot;example&quot;: 30,
+  &quot;description&quot;: &quot;Age in years&quot;,
+  &quot;constraints&quot;: {&quot;required&quot;: true, &quot;minimum&quot;: 0}
+}
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="types-and-formats" href="#types-and-formats"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Types and Formats</h2>
+<p class="md-github">The &quot;type&quot; property is based on JSON Schema types with additions:</p>
+<p class="md-github">string: formats: default, email, uri, binary, uuid
+number: decimal lexical rules, properties: decimalChar:string(default&quot;.&quot;), groupChar:string(default null), bareNumber:boolean(default true)
+integer: as number without fractions, bareNumber:boolean(default true)
+boolean: values cast via trueValues and falseValues arrays (defaults [&quot;true&quot;,&quot;True&quot;,&quot;TRUE&quot;,&quot;1&quot;], [&quot;false&quot;,&quot;False&quot;,&quot;FALSE&quot;,&quot;0&quot;])
+object: valid JSON object
+array: valid JSON array
+date, time, datetime: ISO8601 or pattern string following Python/C strptime
+year, yearmonth: gYear, gYearMonth
+duration: ISO8601 duration PnYnMnDTnHnMnS
+geopoint: default string &quot;lon, lat&quot;, array [lon,lat], or object {lon,lat}
+geojson: default GeoJSON object or topojson
+any: accept any type</p>
+<h2 class="md-github"><a class="md-github__anchor" name="constraints" href="#constraints"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constraints</h2>
+<p class="md-github">Property    Type          AppliesTo        Description</p>
+<p class="md-github">required    boolean       all fields       cannot be null if true
+unique      boolean       all fields       values must be unique
+minLength   integer       string,array,object   minimum number of items/characters
+maxLength   integer       string,array,object   maximum items/characters
+minimum     integer,number,date,time,datetime,year,yearmonth   minimum value
+maximum     integer,number,date,time,datetime,year,yearmonth   maximum value
+pattern     string (XML Schema regex)  string    regex to validate value
+enum        array<any>    all fields       must match one of the array values</p>
+<p class="md-github">Constraints apply on logical representation.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="missing-values" href="#missing-values"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Missing Values</h2>
+<p class="md-github">missingValues: array<string> default [&quot;&quot;]. Strings to treat as null prior to casting.</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-json">&quot;missingValues&quot;: [&quot;&quot;, &quot;-&quot;]
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="primary-key" href="#primary-key"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Primary Key</h2>
+<p class="md-github">primaryKey: string or array<string>. Fields that uniquely identify rows. Implies required: true on those fields.</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-json">&quot;primaryKey&quot;: [&quot;id&quot;,&quot;code&quot;]
+</code></pre>
+<pre class="md-github"><code class="md-github">
+## Foreign Keys
+
+foreignKeys: array of objects:
+
+fields: string or array&lt;string&gt; (source fields)
+reference: object {
+  resource: string (resource name or &quot;&quot; for self),
+  fields: string or array&lt;string&gt; (target fields)
+}
+
+Example:
+
+```json
+&quot;foreignKeys&quot;: [
+  {
+    &quot;fields&quot;: &quot;parent_id&quot;,
+    &quot;reference&quot;: {&quot;resource&quot;: &quot;&quot;, &quot;fields&quot;: &quot;id&quot;}
+  }
+]
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Frictionless Data Table Schema (JSON Table Schema)</li>
+<li class="md-github">URL: https://specs.frictionlessdata.io/table-schema/</li>
+<li class="md-github">License: License</li>
+<li class="md-github">Crawl Date: 2025-04-26T06:49:19.442Z</li>
+<li class="md-github">Data Size: 7764831 bytes</li>
+<li class="md-github">Links Found: 16278</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-26</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-26T07:23:08.693Z</p>
+  </footer>
+</body>
+</html>
