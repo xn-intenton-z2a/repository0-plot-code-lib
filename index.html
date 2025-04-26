@@ -24,14 +24,80 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="repository0-plot-code-lib" href="#repository0-plot-code-lib"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>repository0-plot-code-lib</h1>
 <p class="md-github"><em class="md-github">&quot;Be a go-to plot library with a CLI, be the jq of formulae visualisations.&quot;</em></p>
-<hr class="md-github">
+<p class="md-github"><strong class="md-github">Status</strong>: ⚙️ Under active development (v1.2.0-0)</p>
+<p class="md-github">A JavaScript library and CLI tool designed to:</p>
+<ul class="md-github">
+<li class="md-github">Take a mathematical expression and a range of values and eventually generate SVG/PNG plots.</li>
+<li class="md-github">Provide a CLI interface for quick data-to-plot workflows.</li>
+<li class="md-github">Expose a core API function to integrate in other Node.js applications.</li>
+</ul>
+<p class="md-github">Currently, the CLI entrypoint parses arguments and logs them for extensibility. Future releases will implement expression parsing, data serialization, and plotting.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="table-of-contents" href="#table-of-contents"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Table of Contents</h2>
+<ul class="md-github">
+<li class="md-github"><a href="#installation" class="md-github">Installation</a></li>
+<li class="md-github"><a href="#quick-start" class="md-github">Quick Start</a></li>
+<li class="md-github"><a href="#cli-usage" class="md-github">CLI Usage</a></li>
+<li class="md-github"><a href="#api-reference" class="md-github">API Reference</a></li>
+<li class="md-github"><a href="#roadmap" class="md-github">Roadmap</a></li>
+<li class="md-github"><a href="#contributing" class="md-github">Contributing</a></li>
+<li class="md-github"><a href="#license" class="md-github">License</a></li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<p class="md-github">Install locally:</p>
+<pre class="md-github"><code class="md-github language-bash">npm install @xn-intenton-z2a/repository0-plot-code-lib
+</code></pre>
+<p class="md-github">Install globally for CLI access:</p>
+<pre class="md-github"><code class="md-github language-bash">npm install -g @xn-intenton-z2a/repository0-plot-code-lib
+</code></pre>
+<p class="md-github">Or with <code class="md-github">npx</code>:</p>
+<pre class="md-github"><code class="md-github language-bash">npx @xn-intenton-z2a/repository0-plot-code-lib [options]
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="quick-start" href="#quick-start"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Quick Start</h2>
+<p class="md-github">After installation, you can run the CLI:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --help
+</code></pre>
+<p class="md-github">Currently, the CLI will echo the parsed arguments:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib foo bar
+# Output: Run with: [&quot;foo&quot;,&quot;bar&quot;]
+</code></pre>
+<p class="md-github">For more detailed usage, see <a href="docs/USAGE.md" class="md-github">USAGE Guide</a>.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="cli-usage" href="#cli-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Usage</h2>
+<p class="md-github">CLI syntax follows Unix conventions:</p>
+<pre class="md-github"><code class="md-github">repository0-plot-code-lib [--expression &lt;expr&gt;] [--range &lt;range&gt;] [--file &lt;output&gt;]
+</code></pre>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-bash">repository0-plot-code-lib --expression &quot;y=sin(x)&quot; --range &quot;x=0:10&quot; --file output.svg
+# Output: Run with: [&quot;--expression&quot;,&quot;y=sin(x)&quot;,&quot;--range&quot;,&quot;x=0:10&quot;,&quot;--file&quot;,&quot;output.svg&quot;]
+</code></pre>
+<h2 class="md-github"><a class="md-github__anchor" name="api-reference" href="#api-reference"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Reference</h2>
+<p class="md-github">Import the <code class="md-github">main</code> function:</p>
+<pre class="md-github"><code class="md-github language-js">import { main } from &quot;@xn-intenton-z2a/repository0-plot-code-lib&quot;;
+
+main([&quot;--expression&quot;, &quot;y=sin(x)&quot;]);
+// Logs: Run with: [&quot;--expression&quot;,&quot;y=sin(x)&quot;]
+</code></pre>
+<p class="md-github">Signature:</p>
+<pre class="md-github"><code class="md-github language-ts">function main(args?: string[]): void
+</code></pre>
+<ul class="md-github">
+<li class="md-github"><code class="md-github">args</code>: Array of strings representing CLI arguments (defaults to <code class="md-github">process.argv.slice(2)</code>).</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="roadmap" href="#roadmap"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Roadmap</h2>
+<ul class="md-github">
+<li class="md-github">Parse mathematical expressions into time series data.</li>
+<li class="md-github">Support standard data formats (e.g., CSV, JSON).</li>
+<li class="md-github">Generate SVG and PNG plots.</li>
+<li class="md-github">Advanced CLI options and configuration.</li>
+<li class="md-github">HTTP server endpoint for programmatic access.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="contributing" href="#contributing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contributing</h2>
+<p class="md-github">Contributions are welcome! Please see <a href="CONTRIBUTING.md" class="md-github">CONTRIBUTING.md</a> for guidelines.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="license" href="#license"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>License</h2>
 <p class="md-github">MIT</p>
-<hr class="md-github">
 
   </section>
   <footer>
-    <p>Generated on 2025-04-26T02:42:33.496Z</p>
+    <p>Generated on 2025-04-26T03:27:28.351Z</p>
   </footer>
 </body>
 </html>
