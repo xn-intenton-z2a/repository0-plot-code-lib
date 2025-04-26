@@ -74,12 +74,21 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(signature.equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))).toBe(true);
   });
 
-  test("should return 400 if required query parameter is missing (fileType)", async () => {
+  test("should generate JSON response when valid query parameters and format=application/json are provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=log(x)", range: "x=0:10,y=0:5", format: "application/json" })
+      .expect("Content-Type", /application\/json/)
+      .expect(200);
+    expect(res.body).toEqual({ expression: "y=log(x)", range: "x=0:10,y=0:5", message: "Plot generation details" });
+  });
+
+  test("should return 400 if required query parameter is missing (fileType/format)", async () => {
     const res = await request(app)
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1" })
       .expect(400);
-    expect(res.text).toContain("Invalid or missing 'fileType'");
+    expect(res.text).toContain("Missing required query parameter");
   });
 
   test("should return 400 if range parameter is malformed", async () => {

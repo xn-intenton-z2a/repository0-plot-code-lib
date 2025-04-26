@@ -10,19 +10,34 @@ const app = express();
 
 app.get("/plot", (req, res) => {
   // Check for dynamic query parameters
-  const { expression, range, fileType } = req.query;
-  if (expression || range || fileType) {
-    // Validate presence
+  const { expression, range, fileType, format } = req.query;
+
+  // If any query parameters are provided, use dynamic plot generation
+  if (expression || range || fileType || format) {
     if (!expression || expression.trim() === "") {
       return res.status(400).send("Missing or empty 'expression' query parameter.");
     }
     if (!range || range.trim() === "") {
       return res.status(400).send("Missing or empty 'range' query parameter.");
     }
-    if (!fileType || (fileType !== "svg" && fileType !== "png")) {
-      return res.status(400).send("Invalid or missing 'fileType' query parameter. Must be either 'svg' or 'png'.");
+    if (!fileType && !format) {
+      return res.status(400).send("Missing required query parameter: either 'fileType' or 'format' must be provided.");
     }
-    
+
+    // Determine output format: prefer 'format' over 'fileType'
+    let outputFormat = format || fileType;
+    // Allow shorthand values for svg and png
+    if (outputFormat === "svg") outputFormat = "image/svg+xml";
+    if (outputFormat === "png") outputFormat = "image/png";
+
+    if (
+      outputFormat !== "image/svg+xml" &&
+      outputFormat !== "image/png" &&
+      outputFormat !== "application/json"
+    ) {
+      return res.status(400).send("Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
+    }
+
     // Validate range format, supports integer and floating point numbers
     const rangePattern = /^x=-?\d+(\.\d+)?\:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?\:-?\d+(\.\d+)?$/;
     if (!rangePattern.test(range)) {
@@ -30,14 +45,16 @@ app.get("/plot", (req, res) => {
     }
 
     try {
-      if (fileType === "svg") {
-        const svgContent = `<svg xmlns=\"http://www.w3.org/2000/svg\"><text x=\"10\" y=\"20\">Plot for: ${expression} in range ${range}</text></svg>`;
+      if (outputFormat === "image/svg+xml") {
+        const svgContent = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
-      } else if (fileType === "png") {
+      } else if (outputFormat === "image/png") {
         const pngBase64 =
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
         const buffer = Buffer.from(pngBase64, "base64");
         return res.type("image/png").send(buffer);
+      } else if (outputFormat === "application/json") {
+        return res.json({ expression, range, message: "Plot generation details" });
       }
     } catch (error) {
       return res.status(400).send(String(error.message));
