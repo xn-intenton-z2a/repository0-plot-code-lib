@@ -128,7 +128,8 @@ app.get("/plot", (req, res) => {
   switch (accepted) {
     case "image/svg+xml":
       try {
-        const svgContent = createSvgPlot("y=default", "x=0:10,y=0:10");
+        // Updated default expression from 'y=default' to 'y=x' for correct evaluation
+        const svgContent = createSvgPlot("y=x", "x=0:10,y=0:10");
         res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } catch (error) {
         res.status(500).send(String(error.message));
@@ -136,7 +137,7 @@ app.get("/plot", (req, res) => {
       break;
     case "image/png": {
       const pngBase64 =
-        "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
       const img = Buffer.from(pngBase64, "base64");
       res.type("image/png").send(img);
       break;
