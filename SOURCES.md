@@ -273,3 +273,39 @@ OpenJS Foundation
 RFC 3339 specifies a profile of ISO 8601 for use in Internet protocols, detailing date/time formats, offsets, and precision. Adhering to RFC 3339 ensures consistent parsing and formatting of timestamp inputs and axis labels in time series data processing. Published 2002-07; public domain.
 ## License
 Public Domain
+
+# The Twelve-Factor App: Configuration
+## https://12factor.net/config
+The Twelve-Factor App methodology provides best practices for application configuration, advocating for storing config in environment variables. This guidance informs our use of `dotenv` and environment-driven CLI and HTTP API defaults, ensuring twelve-factor compliance and predictable deployments across environments. Authoritative as an influential industry standard; maintained continuously.
+## License
+Unlicensed/Public Domain
+
+# ECMA-404 (The JSON Data Interchange Standard)
+## https://www.ecma-international.org/publications-and-standards/standards/ecma-404/
+ECMA-404 is the official standard for JSON syntax and encoding rules, detailing the grammar, character encoding, and data types for JSON. This specification underpins reliable JSON parsing and serialization for import/export operations and HTTP payloads. Latest edition 2017; ECMA International.
+## License
+Available under ECMA-404 terms
+
+# Problem Details for HTTP APIs (RFC 7807)
+## https://datatracker.ietf.org/doc/html/rfc7807
+RFC 7807 defines a standardized JSON format for expressing HTTP API error details, including type, title, status, detail, and instance fields. Implementing this standard enhances error responses in our `/plot` endpoint, enabling clients to programmatically interpret and handle errors. Published 2016-03; public domain.
+## License
+Public Domain
+
+# CSS Color Module Level 4
+## https://www.w3.org/TR/css-color-4/
+The CSS Color Module Level 4 specification defines color value syntax, functions (e.g., `rgb()`, `hsl()`, `lab()`), alpha compositing, and color mixing operations. Adhering to this spec ensures correct parsing and rendering of color inputs (e.g., `PLOT_COLOR`, `PLOT_BACKGROUND`) in SVG and CSS-compatible outputs. Last updated 2023-06; W3C Document License.
+## License
+W3C Document License
+
+# NDJSON Media Type Registration
+## https://www.iana.org/assignments/media-types/application/x-ndjson
+This IANA registration describes the `application/x-ndjson` media type for Newline-Delimited JSON (NDJSON), specifying usage semantics and parameters. Utilizing the correct MIME type in HTTP headers ensures client compatibility and adherence to streaming JSON conventions. Last updated continuously; IANA registry.
+## License
+Public Domain
+
+# IANA Media Types Registry
+## https://www.iana.org/assignments/media-types/media-types.xhtml
+The IANA Media Types Registry provides the authoritative list of standardized MIME types for Internet media, including `application/json`, `text/csv`, `image/svg+xml`, and `image/png`. Referencing this registry ensures correct Content-Type headers for all CLI exports and HTTP responses. Updated regularly; IANA.
+## License
+CC0
