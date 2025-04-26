@@ -58,15 +58,23 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
 - **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty.
 - **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers.
-- **fileType**: Specifies the output type. Must be either `svg` or `png`.
+- **fileType**: (Deprecated) Specifies the output type. Supported values are `svg` or `png`. 
+- **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
+  - `image/svg+xml` (default if neither parameter is provided)
+  - `image/png`
+  - `application/json`
 
 ### Behavior
 
-- If all query parameters are valid:
-  - **svg**: Returns a response with `Content-Type: image/svg+xml; charset=utf-8` containing an SVG plot with an annotation.
-  - **png**: Returns a response with `Content-Type: image/png` containing a PNG image with a valid PNG header.
-- If any required query parameter is missing or invalid, the API returns a `400 Bad Request` with an error message describing the issue.
-- If no query parameters are provided, the endpoint falls back to the original behavior, using the Accept header for content negotiation.
+- If query parameters are provided:
+  - The endpoint validates that **expression** and **range** are non-empty and that **range** matches the required format.
+  - The output format is determined by the `format` parameter if provided; otherwise, by the legacy `fileType` parameter; if neither is provided, the default is `image/svg+xml`.
+  - **image/svg+xml**: Returns an SVG plot with a text annotation showing the expression and range, with the Content-Type set to `image/svg+xml; charset=utf-8`.
+  - **image/png**: Returns a PNG image with dummy base64 encoded image data and Content-Type set to `image/png`.
+  - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
+
+- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request and an appropriate error message.
+- If no query parameters are provided, the endpoint falls back to the original behavior which relies on the Accept header for content negotiation.
 
 ### Examples
 
@@ -78,10 +86,14 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
 
-3. **Error Cases:**
+3. **Dynamic JSON Response:**
 
-   - Missing or empty parameters (e.g., missing `fileType` or empty `expression`) will result in a `400 Bad Request` with an appropriate error message.
-   - A malformed range (e.g., "x=-1:1,y=abc") will also return a `400 Bad Request`.
+   GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
+
+4. **Error Cases:**
+
+   - A missing or empty parameter (e.g., missing `expression` or `range`) will result in a 400 Bad Request with an appropriate error message.
+   - A malformed `range` (e.g., "x=-1:1,y=abc") will also return a 400 Bad Request.
 
 ## Server Mode
 
