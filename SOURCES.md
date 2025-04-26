@@ -130,3 +130,52 @@ MIT
 Oclif is a production-ready CLI framework by Salesforce, supporting command hierarchies, plugin architecture, and built-in help generation. Its documentation covers command scaffolding, argument parsing, testing, and distribution workflows. This source offers insights into advanced CLI design patterns and extensibility models beyond basic parsers. Last updated 2023-11; licensed under MIT.
 ## License
 MIT
+
+# Commander.js (Command-Line Framework for Node.js)
+## https://github.com/tj/commander/blob/main/Readme.md
+
+Commander is a mature and widely adopted Node.js library for building command-line interfaces. It supports nested commands, option parsing with default values, optional and variadic arguments, automatic help and version flags, and custom argument validation. This source provides actionable insights into structuring complex CLI workflows, argument coercion, and customizing help output, serving as a comparative reference for designing our own CLI architecture. Last updated 2024; over 40K GitHub stars, indicating community trust and maintainability.
+## License
+MIT
+
+# Chart.js (Configurable Charting Library in JavaScript)
+## https://www.chartjs.org/docs/latest/
+
+Chart.js is a popular open-source library for creating responsive and interactive charts using HTML5 canvas. Its documentation details the complete configuration object schema for charts, datasets, scales, axes, animations, and plugin integrations. The deep dive into chart options, lifecycle methods, and extensibility patterns offers practical guidance for programmatically generating charts or mirroring Chart.js configurations in our CLI output pipelines. Last updated 2024; maintained by the Chart.js community.
+## License
+MIT
+
+# D3-Axis (Axis Generators for D3.js)
+## https://github.com/d3/d3-axis/blob/main/README.md
+
+D3-axis provides functions to generate and render axis lines, ticks, and labels in SVG. The README covers tick generation based on data domains, formatting ticks through d3-format, axis orientation options, and methods for customizing grid lines and tick arguments. This source is critical for implementing standardized axis rendering in our SVG plots, ensuring precise control over tick placement and styling. Last updated 2024-02; BSD-3-Clause.
+## License
+BSD-3-Clause
+
+# D3-Format (Numeric Formatting Library)
+## https://github.com/d3/d3-format/blob/main/README.md
+
+D3-format offers robust formatting capabilities for numbers, including precision specifiers, SI-prefix formatting, currency, and percentage representations. The documentation guides on constructing format specifiers, registering locale-specific definitions, and applying format functions to axis labels and tooltip values. These insights directly inform how we format numerical tick labels and data annotations in our plots. Last updated 2024-03; BSD-3-Clause.
+## License
+BSD-3-Clause
+
+# EJS (Embedded JavaScript Templating)
+## https://ejs.co/#docs
+
+EJS is a simple templating language that compiles to HTML or XML, including SVG markup. The official docs cover template syntax for embedding JavaScript code, includes/partials, custom delimiters, and asynchronous rendering. Leveraging EJS for SVG templates enables separation of data logic and presentation, allowing flexible plot layouts and styling through template-driven SVG generation. Last updated 2023; MIT.
+## License
+MIT
+
+# Node.js ECMAScript Modules
+## https://nodejs.org/api/esm.html
+
+This official Node.js documentation details the ECMAScript Modules implementation, covering import and export syntax, configuration via package.json type field, file extension resolution, dynamic imports, and interoperability with CommonJS modules. Understanding ESM is essential for structuring our library codebase, enabling clean modular design, and ensuring compatibility in Node.js environments (v20+). Last updated Node.js v20; OpenJS Foundation.
+## License
+OpenJS Foundation
+
+# SVG Coordinate System and Transformations
+## https://www.w3.org/TR/SVG2/coords.html
+
+This section of the W3C SVG2 specification outlines how coordinate systems, viewports, viewBox attributes, and transformations operate in SVG. It explains user space vs. object bounding box units, matrix and transform functions, and preserveAspectRatio behavior. These technical details are fundamental for correctly scaling, positioning, and rendering plot elements within SVG canvases. Last updated 2023-08; W3C Document License.
+## License
+W3C Document License
