@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="transform_units" href="#transform_units"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TRANSFORM_UNITS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Section 8: Defines transform-list syntax: matrix(a b c d e f), translate, scale, rotate, skewX/Y. viewBox attribute as four numbers: min-x, min-y, width&gt;0, height&gt;0. preserveAspectRatio options: none or align[ meet|slice ], align values for nine positions, default xMidYMid meet. Viewport transform computation: scale factors, alignment translation, combined matrix. Units: absolute and relative units with conversions.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Transform Property Syntax</p>
+</li>
+<li class="md-github">
+<p class="md-github">viewBox Attribute Syntax</p>
+</li>
+<li class="md-github">
+<p class="md-github">preserveAspectRatio Attribute Syntax and Defaults</p>
+</li>
+<li class="md-github">
+<p class="md-github">Viewport to User Coordinate Transform Computation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Units and Conversions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transform Property Syntax
+transform-list := transform ( ws? [,]? ws? transform )*
+transform :=
+matrix(a b c d e f)
+translate(tx [ , ty ])
+scale(sx [ , sy ])
+rotate(angle [ , cx , cy ])
+skewX(angle)
+skewY(angle)
+Parameters: a,b,c,d,e,f, tx,ty, sx,sy, angle, cx,cy are XML <number> (floating-point, optional leading sign, no units). Comma or whitespace separated.
+Semantics:
+matrix: sets 2D affine transformation matrix [ a c e; b d f; 0 0 1 ]
+translate: equivalent to matrix(1 0 0 1 tx ty)
+scale: matrix(sx 0 0 sy 0 0), sy defaults to sx
+rotate: rotation around origin or point (cx,cy)
+skewX/Y: horizontal/vertical shear by tan(angle)</p>
+</li>
+<li class="md-github">
+<p class="md-github">viewBox Attribute Syntax
+viewBox = min-x min-y width height
+min-x, min-y, width, height: XML <number>, width&gt;0, height&gt;0
+Defines user coordinate subregion mapped to viewport.</p>
+</li>
+<li class="md-github">
+<p class="md-github">preserveAspectRatio Attribute Syntax and Defaults
+Syntax: [defer]? ( none | align [ meetOrSlice ] )
+align values: xMinYMin, xMidYMin, xMaxYMin, xMinYMid, xMidYMid, xMaxYMid, xMinYMax, xMidYMax, xMaxYMax
+meetOrSlice: meet (default) or slice
+Default: xMidYMid meet
+none: no uniform scaling, independent axis scaling</p>
+</li>
+<li class="md-github">
+<p class="md-github">Viewport to User Coordinate Transform Computation
+Given viewportSize (vw, vh), viewBox(vx, vy, vbw, vbh), preserveAspectRatio(p):
+sx = vw / vbw; sy = vh / vbh
+if p.align != none:
+if p.meetOrSlice == meet: s = min(sx, sy)
+else s = max(sx, sy)
+tx = alignmentX(vw, vbw<em class="md-github">s, p.align)
+ty = alignmentY(vh, vbh</em>s, p.align)
+m = translate(tx, ty) * scale(s,s) * translate(-vx, -vy)
+else:
+m = translate(-vx<em class="md-github">sx, -vy</em>sy) * scale(sx, sy)</p>
+</li>
+</ol>
+<p class="md-github">alignmentX(viewportWidth, contentWidth, alignX):
+alignX=Min: 0; Mid: (viewportWidth - contentWidth)/2; Max: viewportWidth - contentWidth
+similarly alignmentY.</p>
+<ol start="5" class="md-github">
+<li class="md-github">Units and Conversions
+Absolute:
+1in = 96px; 1cm = 96px/2.54; 1mm = 1cm/10; 1pt = 1/72in; 1pc = 12pt
+Relative:
+percentages of current reference; em, ex relative to font-size; viewport units: vw, vh, vmin, vmax
+Usage: numbers with unit suffix or unitless numbers default to px in attributes.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Default behaviors and edge cases:</p>
+<ul class="md-github">
+<li class="md-github">Missing viewBox: user units equal to viewport units; no scaling.</li>
+<li class="md-github">preserveAspectRatio default on absent attribute: xMidYMid meet.</li>
+<li class="md-github">float precision: implementations should use at least 1e-6 accuracy.</li>
+<li class="md-github">At-risk feature: vector-effect non-scaling-stroke should preserve stroke width.</li>
+</ul>
+<p class="md-github">Implementation steps in rendering engines:</p>
+<ol class="md-github">
+<li class="md-github">Parse viewBox attribute into four floats.</li>
+<li class="md-github">Parse preserveAspectRatio tokens.</li>
+<li class="md-github">Compute sx, sy.</li>
+<li class="md-github">Determine uniform scale s and translation tx, ty.</li>
+<li class="md-github">Compose transformation matrix in order: translate, scale, translate.</li>
+<li class="md-github">Apply resulting matrix to all descendant coordinate inputs.</li>
+<li class="md-github">Handle 'defer' by delaying application to nested viewBoxes.</li>
+</ol>
+<p class="md-github">Handling units:</p>
+<ol class="md-github">
+<li class="md-github">Parse numeric value and unit suffix.</li>
+<li class="md-github">Convert to user units (px) using conversion factors.</li>
+<li class="md-github">Default unitless numbers in transform and geometry attributes to px.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">DOM API for transforms:</p>
+<p class="md-github">interface SVGAnimatedTransformList {
+readonly attribute SVGTransformList baseVal;
+readonly attribute SVGTransformList animVal;
+}</p>
+<p class="md-github">interface SVGTransformList {
+readonly attribute unsigned long numberOfItems;
+SVGTransform     getItem(unsigned long index);
+SVGTransform     insertItemBefore(SVGTransform newItem, unsigned long index);
+SVGTransform     replaceItem(SVGTransform newItem, unsigned long index);
+SVGTransform     removeItem(unsigned long index);
+SVGTransform     appendItem(SVGTransform newItem);
+SVGTransform     createSVGTransformFromMatrix(SVGMatrix matrix);
+SVGTransform     createSVGTransform();
+}</p>
+<p class="md-github">interface SVGTransform {
+readonly attribute unsigned short type;
+readonly attribute SVGMatrix matrix;
+float                 angle;
+void  setMatrix(SVGMatrix matrix);
+void  setTranslate(float tx, float ty);
+void  setScale(float sx, float sy);
+void  setRotate(float angle, float cx, float cy);
+void  setSkewX(float angle);
+void  setSkewY(float angle);
+}
+Constants for SVGTransform.type:
+SVG_TRANSFORM_UNKNOWN = 0;
+SVG_TRANSFORM_MATRIX = 1;
+SVG_TRANSFORM_TRANSLATE = 2;
+SVG_TRANSFORM_SCALE = 3;
+SVG_TRANSFORM_ROTATE = 4;
+SVG_TRANSFORM_SKEWX = 5;
+SVG_TRANSFORM_SKEWY = 6;</p>
+<p class="md-github">Example: scale origin of <rect> by 2
+const svgNS = 'http://www.w3.org/2000/svg';
+let rect = document.querySelector('rect');
+let transforms = rect.transform.baseVal;
+let svgRoot = document.documentElement;
+let scaleTransform = svgRoot.createSVGTransform();
+scaleTransform.setTranslate(50,50);
+transforms.appendItem(scaleTransform);
+scaleTransform = svgRoot.createSVGTransform();
+scaleTransform.setScale(2,2);
+transforms.appendItem(scaleTransform);
+scaleTransform = svgRoot.createSVGTransform();
+scaleTransform.setTranslate(-50,-50);
+transforms.appendItem(scaleTransform);</p>
+<p class="md-github">SVG attribute examples:
+<svg width="200" height="200" viewBox="0 0 100 100" preserveAspectRatio="xMinYMin slice">
+<circle cx="50" cy="50" r="40" transform="rotate(45 50 50) scale(1.2) translate(10,0)"/>
+</svg></p>
+<p class="md-github">Configuration options and effects:</p>
+<ul class="md-github">
+<li class="md-github">viewBox width,height &lt;=0: invalid value, ignore attribute.</li>
+<li class="md-github">preserveAspectRatio 'none' allows non-uniform sx,sy.</li>
+<li class="md-github">defer flag: apply preserveAspectRatio only to outermost viewBox.</li>
+</ul>
+<p class="md-github">Best practices:</p>
+<ul class="md-github">
+<li class="md-github">Always include viewBox when scaling SVG for responsive layouts.</li>
+<li class="md-github">Use preserveAspectRatio=&quot;xMidYMid meet&quot; for centered uniform scaling.</li>
+<li class="md-github">Combine transform origin adjustments via translate(…) around scale/rotate.</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ol class="md-github">
+<li class="md-github">Unexpected clipping: check viewBox width/height positive and preserveAspectRatio meet/slice.</li>
+<li class="md-github">Incorrect scaling: verify unit conversions: cm, mm, pt map to px via CSS DPI (96).</li>
+<li class="md-github">Debug matrix:
+console.dir(svgElement.getCTM()); // Check current transformation matrix</li>
+<li class="md-github">Normalize transform list:
+let items = svgElement.transform.baseVal.numberOfItems;
+for(let i=0; i&lt;items; i++){ console.log(svgElement.transform.baseVal.getItem(i)); }</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">8.2: Compute viewport-to-user CTM: sx=vw/vbw, sy=vh/vbh; if align!=none: s=meet?min(sx,sy):max(sx,sy); tx=alignX(vw,vbw<em class="md-github">s,alignX); ty=alignY(vh,vbh</em>s,alignY); CTM=translate(tx,ty)*scale(s,s)*translate(-vx,-vy); else CTM=scale(sx,sy)*translate(-vx,-vy). 8.5: transform-list grammar: matrix(a b c d e f)|translate(tx[,ty])|scale(sx[,sy])|rotate(angle[,cx,cy])|skewX(angle)|skewY(angle). Parameter types: XML <number>. 8.6: viewBox=min-x min-y width height, width&gt;0,height&gt;0. 8.7: preserveAspectRatio=[defer]? (none|align [meet|slice]), align: xMinYMin|xMidYMin|... default=xMidYMid meet. 8.9: Units conversions: 1in=96px; cm,mm,in,pt,pc conversions; relative units em,ex,%,vw, etc. DOM: SVGTransform API: setMatrix, setTranslate, setScale, setRotate, setSkewX, setSkewY. Methods on SVGTransformList. Constants for transform types. Code patterns: createSVGTransform(), appendItem(), reorder translate-&gt;scale-&gt;translate for origin-aware scaling.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Transform Property Syntax</p>
+</li>
+<li class="md-github">
+<p class="md-github">viewBox Attribute Syntax</p>
+</li>
+<li class="md-github">
+<p class="md-github">preserveAspectRatio Attribute Syntax and Defaults</p>
+</li>
+<li class="md-github">
+<p class="md-github">Viewport to User Coordinate Transform Computation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Units and Conversions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Transform Property Syntax
+transform-list := transform ( ws? [,]? ws? transform )*
+transform :=
+matrix(a b c d e f)
+translate(tx [ , ty ])
+scale(sx [ , sy ])
+rotate(angle [ , cx , cy ])
+skewX(angle)
+skewY(angle)
+Parameters: a,b,c,d,e,f, tx,ty, sx,sy, angle, cx,cy are XML <number> (floating-point, optional leading sign, no units). Comma or whitespace separated.
+Semantics:
+matrix: sets 2D affine transformation matrix [ a c e; b d f; 0 0 1 ]
+translate: equivalent to matrix(1 0 0 1 tx ty)
+scale: matrix(sx 0 0 sy 0 0), sy defaults to sx
+rotate: rotation around origin or point (cx,cy)
+skewX/Y: horizontal/vertical shear by tan(angle)</p>
+</li>
+<li class="md-github">
+<p class="md-github">viewBox Attribute Syntax
+viewBox = min-x min-y width height
+min-x, min-y, width, height: XML <number>, width&gt;0, height&gt;0
+Defines user coordinate subregion mapped to viewport.</p>
+</li>
+<li class="md-github">
+<p class="md-github">preserveAspectRatio Attribute Syntax and Defaults
+Syntax: [defer]? ( none | align [ meetOrSlice ] )
+align values: xMinYMin, xMidYMin, xMaxYMin, xMinYMid, xMidYMid, xMaxYMid, xMinYMax, xMidYMax, xMaxYMax
+meetOrSlice: meet (default) or slice
+Default: xMidYMid meet
+none: no uniform scaling, independent axis scaling</p>
+</li>
+<li class="md-github">
+<p class="md-github">Viewport to User Coordinate Transform Computation
+Given viewportSize (vw, vh), viewBox(vx, vy, vbw, vbh), preserveAspectRatio(p):
+sx = vw / vbw; sy = vh / vbh
+if p.align != none:
+if p.meetOrSlice == meet: s = min(sx, sy)
+else s = max(sx, sy)
+tx = alignmentX(vw, vbw<em class="md-github">s, p.align)
+ty = alignmentY(vh, vbh</em>s, p.align)
+m = translate(tx, ty) * scale(s,s) * translate(-vx, -vy)
+else:
+m = translate(-vx<em class="md-github">sx, -vy</em>sy) * scale(sx, sy)</p>
+</li>
+</ol>
+<p class="md-github">alignmentX(viewportWidth, contentWidth, alignX):
+alignX=Min: 0; Mid: (viewportWidth - contentWidth)/2; Max: viewportWidth - contentWidth
+similarly alignmentY.</p>
+<ol start="5" class="md-github">
+<li class="md-github">Units and Conversions
+Absolute:
+1in = 96px; 1cm = 96px/2.54; 1mm = 1cm/10; 1pt = 1/72in; 1pc = 12pt
+Relative:
+percentages of current reference; em, ex relative to font-size; viewport units: vw, vh, vmin, vmax
+Usage: numbers with unit suffix or unitless numbers default to px in attributes.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">SVG 2 Specification (W3C Recommendation)
+https://www.w3.org/TR/SVG2/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-transform_units" href="#digest-of-transform_units"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of TRANSFORM_UNITS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="coordinate-systems-transformations-and-units" href="#coordinate-systems-transformations-and-units"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Coordinate Systems, Transformations and Units</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="82-computing-the-equivalent-transform-of-an-svg-viewport" href="#82-computing-the-equivalent-transform-of-an-svg-viewport"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8.2 Computing the equivalent transform of an SVG viewport</h2>
+<p class="md-github">To map user coordinate system to device (CSS px) coordinates:
+Let svgWidth, svgHeight be CSS px of viewport. viewBox = (minX, minY, vbWidth, vbHeight). preserveAspectRatio = [defer] align meetOrSlice. Compute scaleX = svgWidth / vbWidth, scaleY = svgHeight / vbHeight.
+If align != none:
+if meetOrSlice == meet:  scale = min(scaleX, scaleY)
+else slice: scale = max(scaleX, scaleY)
+translateX = alignmentAlgorithmX(svgWidth, vbWidth<em class="md-github">scale, align)
+translateY = alignmentAlgorithmY(svgHeight, vbHeight</em>scale, align)
+Else (align==none): scaleX and scaleY independent; translateX = -minX * scaleX; translateY = -minY * scaleY.
+Equivalent transform matrix = translate(translateX, translateY) * scale(scale, scale) * translate(-minX, -minY)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="85-the-transform-property" href="#85-the-transform-property"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8.5 The transform property</h2>
+<p class="md-github">Syntax: transform-list
+transform-list := [ transform [ ws? comma? ws? transform ]* ]
+transform := matrix(a b c d e f) | translate(tx [ , ty ]) | scale(sx [ , sy ]) | rotate(angle [ , cx , cy ]) | skewX(angle) | skewY(angle)
+Parameter types: a,b,c,d,e,f, tx,ty,sx,sy,angle, cx,cy are <number> values conforming to XML number parsing and clamped per range.
+Comma/Ws separation allowed between parameters and transforms.
+Semantics:
+matrix(a b c d e f): sets transform to the 2D affine matrix [ a c e; b d f; 0 0 1 ].
+translate(tx,ty): equivalent to matrix(1,0,0,1,tx,ty).
+scale(sx,sy): matrix(sx,0,0,sy,0,0).
+rotate(angle,cx,cy): translate(cx,cy) * rotate(angle) * translate(-cx,-cy).
+skewX(angle): matrix(1,tan(angle),0,1,0,0).
+skewY(angle): matrix(1,0,tan(angle),1,0,0).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="86-the-viewbox-attribute" href="#86-the-viewbox-attribute"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8.6 The viewBox attribute</h2>
+<p class="md-github">Syntax: <number>{4}
+viewBox = min-x min-y width height
+All four values are <number>. width&gt;0, height&gt;0. Defaults: none (attribute required for scaling).
+Applied as user coordinate system region to map into viewport.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="87-the-preserveaspectratio-attribute" href="#87-the-preserveaspectratio-attribute"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8.7 The preserveAspectRatio attribute</h2>
+<p class="md-github">Syntax: [defer]? (none | [align] [meetOrSlice]?)
+align := xMinYMin | xMidYMin | xMaxYMin | xMinYMid | xMidYMid | xMaxYMid | xMinYMax | xMidYMax | xMaxYMax
+meetOrSlice := meet | slice
+Default: xMidYMid meet
+Defer flag indicates postpone application to contained viewBox-like elements.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="89-units" href="#89-units"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8.9 Units</h2>
+<p class="md-github">Absolute units: cm, mm, in, pt (1pt = 1/72in), pc (1pc = 12pt), px (CSS px). Relative: em, ex, ch, rem, vw, vh, vmin, vmax.
+Conversion: CSS 96px = 1in. e.g., 1cm = 96px/2.54.
+Units without suffix default to px.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: SVG 2 Specification (W3C Recommendation)</li>
+<li class="md-github">URL: https://www.w3.org/TR/SVG2/</li>
+<li class="md-github">License: License</li>
+<li class="md-github">Crawl Date: 2025-04-25T23:33:42.928Z</li>
+<li class="md-github">Data Size: 26689029 bytes</li>
+<li class="md-github">Links Found: 204175</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-25</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-26T00:36:29.115Z</p>
+  </footer>
+</body>
+</html>
