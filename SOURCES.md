@@ -183,3 +183,39 @@ CC-BY-SA-2.5
 Supertest provides a high-level abstraction for testing HTTP servers in Node.js, integrating seamlessly with Express. The documentation covers request simulation, response assertions, streaming bodies, header inspection, and error handling. This source is crucial for writing robust integration tests for the `/plot` endpoint, verifying data exports and image responses under various scenarios. Last updated 2024-01-15; authoritative as a widely adopted testing library.
 ## License
 MIT
+
+# D3-Time (Temporal Intervals and Manipulation)
+## https://github.com/d3/d3-time#readme
+D3-time provides utilities for generating and manipulating time intervals in JavaScript, including methods like `timeDay`, `timeHour`, and custom interval definitions. This documentation is essential for handling date- and time-based ranges in time series data, ensuring accurate tick generation and temporal domain calculations. Last updated 2024-03; BSD-3-Clause.
+## License
+BSD-3-Clause
+
+# D3-Time-Format (Time Parsing and Formatting)
+## https://github.com/d3/d3-time-format#readme
+D3-time-format covers parsing and formatting dates according to locale-sensitive specifiers, supporting ISO formats, custom patterns, and UTC offsets. This source informs the implementation of timestamp labeling, input parsing for time-based axes, and consistent rendering of time series data. Last updated 2024-03; BSD-3-Clause.
+## License
+BSD-3-Clause
+
+# D3-Interpolate (Interpolation Methods)
+## https://github.com/d3/d3-interpolate#readme
+D3-interpolate provides functions to compute intermediate values between domain and range endpoints, supporting numeric, color, array, and object interpolation. Leveraging these methods improves smoothness in curve transitions and supports advanced easing when animating data sequences. Last updated 2024-02; BSD-3-Clause.
+## License
+BSD-3-Clause
+
+# Plotly.js (Declarative JavaScript Charting Library)
+## https://plotly.com/javascript/reference/
+Plotly.js offers an extensive schema for defining chart types, layout options, and data transformations. The reference details each attribute, including axis configuration, styling, interactivity, and image export via `Plotly.toImage`. This source provides actionable patterns for building a flexible plotting API and exporting static assets. Last updated 2024-05; MIT license, widely used in analytics platforms.
+## License
+MIT
+
+# Chart.js (Flexible JavaScript Charting Library)
+## https://www.chartjs.org/docs/latest/getting-started/
+Chart.js is a simple yet extensible library for rendering responsive charts in Canvas. Its docs explain core concepts such as configuration objects, dataset definitions, plugin architecture, and animation settings. Studying Chart.js offers insights into user-friendly configuration schemas and dynamic updates. Last updated 2024-04; MIT.
+## License
+MIT
+
+# Apache ECharts (Enterprise-grade BI Charting Library)
+## https://echarts.apache.org/en/api.html
+Apache ECharts provides a rich set of chart types, theme customization, and data-driven animations. The API docs cover chart options, event handling, and rendering modes (Canvas and SVG). This documentation highlights best practices for scalable chart configuration and performance tuning in browser and Node environments. Last updated 2024-02; Apache-2.0.
+## License
+Apache-2.0
