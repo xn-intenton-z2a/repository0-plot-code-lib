@@ -1,4 +1,4 @@
-import { describe, test, expect, beforeEach, afterEach } from "vitest";
+import { describe, test, expect, beforeEach, afterEach, afterAll } from "vitest";
 import { main, app } from "@src/lib/main.js";
 import * as mainModule from "@src/lib/main.js";
 import fs from "fs";
