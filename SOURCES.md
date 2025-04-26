@@ -72,3 +72,18 @@ This official Node.js documentation covers the usage of ECMAScript Modules (ESM)
 ## https://eslint.org/docs/latest/
 ESLint is a powerful tool for identifying and resolving issues in JavaScript code. Its documentation offers comprehensive guidance on configuration, rule customization, and integrating ESLint into development workflows, which is vital for maintaining high code quality and consistency throughout the repository.
 ## MIT License
+
+# RFC 7231: HTTP/1.1 Semantics and Content Negotiation
+## https://tools.ietf.org/html/rfc7231
+This document from the IETF offers a definitive technical specification for HTTP/1.1, detailing methods, status codes, and header fields including those pertinent to content negotiation. Its in-depth coverage of protocol mechanics provides valuable insights for designing robust API responses and error messaging in our HTTP server.
+## IETF (Public Domain)
+
+# OpenAPI Specification
+## https://swagger.io/specification/
+The OpenAPI Specification provides a standardized framework for designing and documenting RESTful APIs with a focus on clarity and precision. It delivers actionable guidelines for defining endpoints, request/response schemas, and error handling, which can inform future enhancements to our HTTP API documentation and testing strategies.
+## Apache License 2.0
+
+# EJS Templating Engine
+## https://ejs.co/
+EJS is a simple yet powerful templating engine that facilitates dynamic generation of HTML content with plain JavaScript. Its straightforward syntax and flexibility make it a useful reference for potential future extensions, such as generating dynamic documentation pages or HTML interfaces for our plotting library.
+## MIT License
