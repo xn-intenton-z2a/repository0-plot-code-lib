@@ -64,7 +64,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - `image/png`
   - `application/json`
 
-**Note:** When using dynamic query parameters, you must provide either `fileType` (with value `svg` or `png`) or `format` (with one of the allowed MIME types). If neither is provided, the API will respond with a 400 error.
+**Note:** When using dynamic query parameters, you must provide either `fileType` (with value `svg` or `png`) or `format` (with one of the allowed MIME types). If query parameters are provided, they take precedence over the Accept header used for content negotiation.
 
 ### Behavior
 
