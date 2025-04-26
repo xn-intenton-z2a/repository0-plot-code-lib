@@ -31,7 +31,7 @@ describe("CLI Plot Generation", () => {
     process.exit = originalExit;
   });
 
-  test("should generate SVG file when provided correct flags", () => {
+  test("should generate enhanced SVG file when provided correct flags", () => {
     const testFile = "test_output.svg";
     if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
     process.argv = [
@@ -47,7 +47,7 @@ describe("CLI Plot Generation", () => {
     main();
     const content = fs.readFileSync(testFile, "utf8");
     expect(content.startsWith("<svg")).toBe(true);
-    expect(content.includes("<!-- Plot for expression: y=sin(x) -->")).toBe(true);
+    expect(content.includes('<text x="10" y="20">Plot for: y=sin(x) in range x=-1:1,y=-1:1</text>')).toBe(true);
     fs.unlinkSync(testFile);
   });
 

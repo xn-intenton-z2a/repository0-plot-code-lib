@@ -49,7 +49,7 @@ export function main(args = process.argv.slice(2)) {
     const rangeIdx = args.indexOf("--range");
     const fileIdx = args.indexOf("--file");
     const expression = args[expressionIdx + 1];
-    const range = args[rangeIdx + 1]; // currently unused but reserved for future enhancements
+    const range = args[rangeIdx + 1]; // used in SVG output
     const fileOutput = args[fileIdx + 1];
 
     if (!expression || !range || !fileOutput) {
@@ -58,7 +58,7 @@ export function main(args = process.argv.slice(2)) {
 
     const ext = path.extname(fileOutput).toLowerCase();
     if (ext === ".svg") {
-      const content = `<svg xmlns="http://www.w3.org/2000/svg"><!-- Plot for expression: ${expression} --></svg>`;
+      const content = `<svg xmlns="http://www.w3.org/2000/svg"><text x="10" y="20">Plot for: ${expression} in range ${range}</text></svg>`;
       fs.writeFileSync(fileOutput, content, "utf8");
       console.log(`SVG plot generated at ${fileOutput}`);
       return;
