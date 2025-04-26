@@ -16,6 +16,8 @@ You can generate plots directly from the command line by providing the following
   - **.svg**: Generates an SVG plot with a text annotation indicating the expression and range.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
 
+**Note:** The CLI now fully supports floating point values in the `--range` flag, enabling more precise plot ranges.
+
 When executed with the correct flags, the CLI will generate the plot and log a success message including details about the plot type, expression, range, and output file location.
 
 ### Examples
