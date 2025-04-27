@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="rfc7807" href="#rfc7807"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RFC7807</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">RFC7807 implementation details derived from crawl at https://restfulapi.net/problem-details/ include the specification for a standardized error response JSON structure (type, title, status, detail, instance).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">RFC7807 Object Structure
+<ul class="md-github">
+<li class="md-github">type: string (error identifier, default 'about:blank')</li>
+<li class="md-github">title: string (error summary)</li>
+<li class="md-github">status: number (HTTP status code)</li>
+<li class="md-github">detail: string (description of the error)</li>
+<li class="md-github">instance: string (specific occurrence URI)</li>
+</ul>
+</li>
+<li class="md-github">Express Middleware Error Handler
+<ul class="md-github">
+<li class="md-github">Signature: function errorHandler(err, req, res, next)</li>
+<li class="md-github">Usage: app.use(errorHandler)</li>
+<li class="md-github">Implementation: sets res.status(err.status || 500) and returns JSON with required fields</li>
+</ul>
+</li>
+<li class="md-github">API Method Specifications
+<ul class="md-github">
+<li class="md-github">Method: createProblemDetails(err, req, res) returning Response</li>
+<li class="md-github">Parameter types: err (Error object with optional properties), req (Request), res (Response)</li>
+</ul>
+</li>
+<li class="md-github">Configuration Options
+<ul class="md-github">
+<li class="md-github">err.type: optional, default 'about:blank'</li>
+<li class="md-github">err.status: optional, default 500</li>
+<li class="md-github">err.detail: optional custom error description</li>
+</ul>
+</li>
+<li class="md-github">Troubleshooting Steps
+<ul class="md-github">
+<li class="md-github">Verify middleware order in Express</li>
+<li class="md-github">Check error object completeness</li>
+<li class="md-github">Use logging for debugging error flow</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Technical Specifications:</p>
+<ul class="md-github">
+<li class="md-github">RFC7807 Error JSON must include:
+type: string (custom URI identifier, e.g., 'about:blank' or custom URI)
+title: string (short description, invariant across errors)
+status: number (HTTP status code, e.g., 400, 404, 500)
+detail: string (detailed error message)
+instance: string (request URL)</li>
+<li class="md-github">Implementation Steps:
+<ol class="md-github">
+<li class="md-github">Capture errors in Express routes using try-catch blocks.</li>
+<li class="md-github">Create error objects enriched with status, type, and detail properties.</li>
+<li class="md-github">Implement an error-handling middleware that constructs the Problem Details response.</li>
+<li class="md-github">Configure the middleware to be used after all route handlers.</li>
+</ol>
+</li>
+<li class="md-github">Configuration Values:
+err.type default: 'about:blank'
+err.status default: 500
+Expected Effects: Consistent error responses that adhere to RFC7807.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:
+Method Signature:
+function createProblemDetails(err: Error &amp; { status?: number, type?: string, detail?: string }, req: Request, res: Response): Response
+Returns: Express Response object with JSON formatted as:
+{
+type: string,  // defaults to 'about:blank'
+title: string, // error message
+status: number, // HTTP status code
+detail: string, // detailed error explanation
+instance: string // request URI
+}</p>
+<p class="md-github">Express Middleware Example:
+// Error handling middleware for RFC7807
+function errorHandler(err, req, res, next) {
+const statusCode = err.status || 500;
+res.status(statusCode).json({
+type: err.type || 'about:blank',
+title: err.message,
+status: statusCode,
+detail: err.detail || 'Unexpected error occurred',
+instance: req.originalUrl
+});
+}</p>
+<p class="md-github">Usage:
+// Place error handler after all other middlewares
+app.use(errorHandler);</p>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">err.type: accepts a string URI. If not provided, defaults to 'about:blank'.</li>
+<li class="md-github">err.status: accepts a number. If not provided, defaults to 500.</li>
+<li class="md-github">err.detail: accepts a string explanation. Use detailed description based on the context.</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always return a Problem Details JSON on errors to ensure consistency.</li>
+<li class="md-github">Log error details server-side including instance URIs for tracing.</li>
+<li class="md-github">Position error middleware as final middleware in Express.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Command: node app.js
+Expected Output: Server starts without uncaught exceptions; errors produce RFC7807 JSON responses.</li>
+<li class="md-github">Verify that error objects have the necessary structure by manually testing endpoints with errors.</li>
+<li class="md-github">Use debugging logs to trace missing properties or misconfigured middleware order.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">RFC7807 JSON: { type: string ('about:blank' default), title: string, status: number (HTTP code, default 500), detail: string, instance: string } | Express Middleware: function errorHandler(err,req,res,next) { res.status(err.status || 500).json({ type: err.type || 'about:blank', title: err.message, status: err.status || 500, detail: err.detail || 'Unexpected error occurred', instance: req.originalUrl }); } | API: createProblemDetails(err, req, res): Response | Configuration: err.type defaults 'about:blank', err.status defaults 500, err.detail optional | Best Practices: middleware last; consistent error format; logging included | Troubleshooting: verify middleware order; check error structure; debug with console logs</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">RFC7807 Object Structure
+<ul class="md-github">
+<li class="md-github">type: string (error identifier, default 'about:blank')</li>
+<li class="md-github">title: string (error summary)</li>
+<li class="md-github">status: number (HTTP status code)</li>
+<li class="md-github">detail: string (description of the error)</li>
+<li class="md-github">instance: string (specific occurrence URI)</li>
+</ul>
+</li>
+<li class="md-github">Express Middleware Error Handler
+<ul class="md-github">
+<li class="md-github">Signature: function errorHandler(err, req, res, next)</li>
+<li class="md-github">Usage: app.use(errorHandler)</li>
+<li class="md-github">Implementation: sets res.status(err.status || 500) and returns JSON with required fields</li>
+</ul>
+</li>
+<li class="md-github">API Method Specifications
+<ul class="md-github">
+<li class="md-github">Method: createProblemDetails(err, req, res) returning Response</li>
+<li class="md-github">Parameter types: err (Error object with optional properties), req (Request), res (Response)</li>
+</ul>
+</li>
+<li class="md-github">Configuration Options
+<ul class="md-github">
+<li class="md-github">err.type: optional, default 'about:blank'</li>
+<li class="md-github">err.status: optional, default 500</li>
+<li class="md-github">err.detail: optional custom error description</li>
+</ul>
+</li>
+<li class="md-github">Troubleshooting Steps
+<ul class="md-github">
+<li class="md-github">Verify middleware order in Express</li>
+<li class="md-github">Check error object completeness</li>
+<li class="md-github">Use logging for debugging error flow</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Implementing RFC7807 in REST APIs
+https://restfulapi.net/problem-details/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-rfc7807" href="#digest-of-rfc7807"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of RFC7807</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="problem-details-for-http-apis" href="#problem-details-for-http-apis"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Problem Details for HTTP APIs</h1>
+<p class="md-github">Retrieved Date: 2023-10-05</p>
+<p class="md-github">This document provides exact technical details for implementing RFC7807 in REST APIs. It outlines the RFC7807 JSON object structure, detailed Express middleware error handling implementation, API method signatures, configuration options, and troubleshooting procedures.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="rfc7807-json-object-structure" href="#rfc7807-json-object-structure"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RFC7807 JSON Object Structure</h2>
+<p class="md-github">The RFC7807 specification defines an error response object with the following fields:</p>
+<ul class="md-github">
+<li class="md-github">type (string): A URI identifier that categorizes the error type. Example: &quot;about:blank&quot; or a custom URI.</li>
+<li class="md-github">title (string): A short, human-readable summary of the error that should not change from occurrence to occurrence.</li>
+<li class="md-github">status (number): The HTTP status code generated by the origin server for this occurrence of the problem.</li>
+<li class="md-github">detail (string): A human-readable explanation specific to this occurrence of the problem.</li>
+<li class="md-github">instance (string): A URI reference that identifies the specific occurrence of the problem.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="express-middleware-implementation" href="#express-middleware-implementation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express Middleware Implementation</h2>
+<p class="md-github">Below is an implementation pattern for using RFC7807 in an Express API:</p>
+<p class="md-github">function errorHandler(err, req, res, next) {
+const statusCode = err.status || 500;
+res.status(statusCode).json({
+type: err.type || &quot;about:blank&quot;,
+title: err.message,
+status: statusCode,
+detail: err.detail || &quot;Unexpected error occurred&quot;,
+instance: req.originalUrl
+});
+}</p>
+<p class="md-github">Usage:
+app.use(errorHandler);</p>
+<h2 class="md-github"><a class="md-github__anchor" name="api-specifications" href="#api-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Specifications</h2>
+<p class="md-github">For error response creation, the method signature in a Node.js Express environment is as follows:</p>
+<p class="md-github">function createProblemDetails(err: Error &amp; { status?: number, type?: string, detail?: string }, req: Request, res: Response): Response</p>
+<p class="md-github">Parameters:</p>
+<ul class="md-github">
+<li class="md-github">err: The error object which may include additional properties such as status, type, and detail.</li>
+<li class="md-github">req: The Express request object.</li>
+<li class="md-github">res: The Express response object.</li>
+</ul>
+<p class="md-github">Returns:</p>
+<ul class="md-github">
+<li class="md-github">An Express response with a JSON object conforming to RFC7807.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="customization-and-configuration-options" href="#customization-and-configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Customization and Configuration Options</h2>
+<p class="md-github">Developers can configure custom error types by setting the following options:</p>
+<ul class="md-github">
+<li class="md-github">err.type: A string indicating a custom error URI. Defaults to &quot;about:blank&quot; if not provided.</li>
+<li class="md-github">err.status: A numeric HTTP status code. Defaults to 500 if not provided.</li>
+<li class="md-github">err.detail: A string providing a detailed explanation.</li>
+</ul>
+<p class="md-github">These configurations allow fine-tuned control over error reporting and consistency in API responses.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting-procedures" href="#troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Procedures</h2>
+<ol class="md-github">
+<li class="md-github">Ensure that the error-handling middleware is the last middleware used in Express.</li>
+<li class="md-github">Verify that the error object includes all necessary properties: status, type, title, detail, and instance.</li>
+<li class="md-github">Use console logs in the middleware for debugging error flows and unexpected responses.</li>
+</ol>
+<p class="md-github">Attribution: Data extracted from crawling URL https://restfulapi.net/problem-details/ with data size 0 bytes. Source entry index provided in SOURCES.md: Entry 24.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Implementing RFC7807 in REST APIs</li>
+<li class="md-github">URL: https://restfulapi.net/problem-details/</li>
+<li class="md-github">License: CC BY-NC 4.0</li>
+<li class="md-github">Crawl Date: 2025-04-27T10:49:31.795Z</li>
+<li class="md-github">Data Size: 0 bytes</li>
+<li class="md-github">Links Found: 0</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-27</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-27T11:20:42.918Z</p>
+  </footer>
+</body>
+</html>
