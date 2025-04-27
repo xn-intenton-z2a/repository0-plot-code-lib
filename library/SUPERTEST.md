@@ -1,219 +1,187 @@
 # SUPERTEST
 
 ## Crawl Summary
-SuperTest provides an abstraction for testing HTTP servers with superagent. Key technical details include installation via npm, flexible usage with HTTP server or function, support for HTTP2 via option {http2:true}, integration with test frameworks (Mocha, promises, async/await), and comprehensive API methods such as .get(), .post(), .auth(), .set(), .send(), .expect(), and .end(). It also supports multipart file uploads, cookie management via agents, and custom assertion functions.
+SuperTest provides a fluent API built on superagent for making HTTP assertions. Key details include installation via npm, usage examples with express, support for HTTP2 via { http2:true } options, integration examples with mocha using callbacks, promises, and async/await, and built-in support for cookie persistence using request.agent. API methods include various forms of .expect() for status codes, headers, bodies, and custom assertions.
 
 ## Normalised Extract
 Table of Contents:
-1. Installation and Setup
-   - npm install supertest --save-dev
-   - require('supertest') for inclusion
-2. Basic HTTP Testing
-   - Passing an http.Server or function into request()
-   - Binding to ephemeral port if not already listening
-3. HTTP Method Assertions
-   - Available methods: .get(), .post(), .send(), .set()
-   - Assertion methods: .expect(status[,fn]), .expect(status, body[,fn]), .expect(field, value[,fn]), .expect(customFunction)
-4. HTTP2 and Agent Support
-   - Option to enable HTTP2 by passing {http2:true}
-   - Request agent for persistent sessions and cookie management
-5. Integration with Mocha and Async Patterns
-   - Usage of callbacks, promises (.then()) and async/await
-   - Direct passing of done() to .expect()
-6. Advanced Features
-   - Multipart file uploads using .field() and .attach()
-   - Custom response modifications in .expect() before final assertion
+1. Installation & Setup
+2. HTTP and HTTP2 Request Handling
+3. API Methods and Assertions
+4. Mocha, Promise, and Async Testing Patterns
+5. Cookie Persistence with request.agent
+6. Custom Assertions and Response Modification
 
-Detailed Technical Information:
-1. Installation and Setup:
-   - Command: npm install supertest --save-dev
-   - Import: const request = require('supertest');
-2. Basic HTTP Testing:
-   - Example: request(app).get('/user').expect('Content-Type', /json/).expect(200).end(callback)
-3. Assertions:
-   - .expect(status[,fn]): validates response status
-   - .expect(status, body[,fn]): validates both status and response body
-   - .expect(body[,fn]): checks response body text against string, regex or object
-   - .expect(field, value[,fn]): verifies header field and value
-   - .expect(function(res) {}): custom validation; throw error if check fails
-4. HTTP2 and Agents:
-   - Enable HTTP2: request(app, { http2: true })
-   - Persistent agent: request.agent(app, { http2: true })
-5. Mocha and Async:
-   - Callback style: .expect(200, done)
-   - Promises: return request(...).then(...)
-   - Async/await: const res = await request(...)
-6. Advanced upload and cookie handling:
-   - File Upload: use .field() and .attach() for multipart forms
-   - Cookie management: store cookies via request.agent(app) and validate with .expect('set-cookie', 'cookie=value; Path=/')
+1. Installation & Setup:
+- Use npm install supertest --save-dev
+- Import with require('supertest') in Node.js projects.
+
+2. HTTP and HTTP2 Request Handling:
+- Basic usage: request(app).get('/user')
+- For HTTP2, pass options: request(app, { http2: true }) or request.agent(app, { http2: true })
+
+3. API Methods and Assertions:
+- .expect(status[, fn]) asserts the response status code.
+- .expect(status, body[, fn]) asserts both status and response body.
+- .expect(body[, fn]) asserts response body using string, regex or object.
+- .expect(field, value[, fn]) asserts header field values.
+- .expect(function(res){}) for custom assertions.
+- .end(fn) finalizes the test and returns errors in callback.
+
+4. Mocha, Promise, and Async Testing Patterns:
+- Callback style: pass done to .expect(200, done)
+- Promise style: return request(...).then(response => { ... })
+- Async/await: const response = await request(...); then validate headers and body.
+
+5. Cookie Persistence with request.agent:
+- Use request.agent(app) to persist cookies through subsequent requests.
+- Example: agent.get('/').expect('set-cookie', 'cookie=hey; Path=/') then agent.get('/return') to validate cookie transmission.
+
+6. Custom Assertions and Response Modification:
+- Modify response body within an .expect() function to set fixed IDs or adjust formats before final assertion.
+- Example: res.body.id = 'some fixed id'; res.body.name = res.body.name.toLowerCase(); followed by .expect(200, {id:'some fixed id', name:'john'}, done).
 
 ## Supplementary Details
-Detailed Technical Specifications:
-- Installation:
-  Command: npm install supertest --save-dev
-  Import: const request = require('supertest');
-- HTTP Server Testing:
-  Function: request(app)
-  Accepts: HTTP server instance or a function (callback to create server)
-  Auto-bind: binds to ephemeral port if server is not listening
-- Options:
-  http2: boolean (true enables HTTP2 protocol support)
-- Methods and Assertions:
-  .get(url: string): Request object
-  .post(url: string): Request object
-  .set(field: string, value: string): Request object
-  .send(data): Request object
-  .auth(username: string, password: string): Request object
-  .field(key: string, value: string, options?: { contentType: string }): Request object
-  .attach(field: string, filePath: string): Request object
-  .expect(status: number[, callback])
-  .expect(status: number, body: any[, callback])
-  .expect(field: string, value: RegExp | string[, callback])
-  .expect(customFunction: (res: any) => void)
-  .end(callback: (err: any, res: any) => void)
-- Agent Support:
-  request.agent(app, options): returns persistent agent supporting cookie management
-- Testing Patterns:
-  Callback: using .end(callback)
-  Promises: using .then()
-  Async/await: using await on request
+Technical Specifications:
+- HTTP2 Enablement: Pass { http2: true } as second parameter to request() or agent().
+- Assertion Method Signatures:
+   expect(status[, fn]) where status is a number and fn is a callback function.
+   expect(status, body[, fn]) where body is an exact object or string for matching.
+   expect(body[, fn]) where body can be a string/regex/object.
+   expect(field, value[, fn]) to match header fields.
+- Error handling: In .end(fn) callback, if error present, call done(err) to fail tests.
+- Configuration Options:
+   Default port binding: uses ephemeral port if server not listening.
+   Cookie persistence via agent: maintains cookies across requests.
+   Superagent methods available: .write(), .pipe(), etc, for lower-level HTTP operations.
+- Implementation Steps:
+   1. Install supertest using npm.
+   2. Create express application endpoints.
+   3. Use request(app) for testing endpoints.
+   4. Apply .expect() assertions in sequence.
+   5. Use .end(fn) to complete request and handle errors.
+   6. For asynchronous tests, use promise return or async/await.
+   7. For HTTP2 testing, include { http2:true } option.
 - Best Practices:
-  Always validate Content-Type using regex /json/ when expecting JSON responses
-  Rethrow errors inside .end() callback to fail tests effectively
-- Troubleshooting:
-  If assertions fail in .end(), errors are passed as first argument, e.g., if (!err) { done(); } else { done(err); }
+   - Ensure correct Content-Type and Content-Length headers are asserted when testing JSON responses.
+   - Use agent for stateful tests like cookie persistence.
+   - Order .expect() calls to systematically modify the response if needed before final assertion.
 
 ## Reference Details
 API Specifications:
-- Method Signatures:
-  request(app: Express.Application, options?: { http2?: boolean }): Request
-  request.agent(app: Express.Application, options?: { http2?: boolean }): Request
 
-- Request Object Methods:
-  .get(url: string): Request
-  .post(url: string): Request
-  .set(field: string, value: string): Request
-  .send(data: any): Request
-  .auth(username: string, password: string): Request
-  .field(key: string, value: string, options?: { contentType: string }): Request
-  .attach(field: string, filePath: string): Request
-  .expect(status: number, callback?: (err: any, res: any) => void): Request
-  .expect(status: number, body: any, callback?: (err: any, res: any) => void): Request
-  .expect(body: any, callback?: (err: any, res: any) => void): Request
-  .expect(field: string, value: string | RegExp, callback?: (err: any, res: any) => void): Request
-  .expect(fn: (res: any) => void): Request
-  .end(callback: (err: any, res: any) => void): void
+Method: request(app | url, [options]) -> Returns a SuperTest instance.
+Options: { http2: boolean }
 
-- Code Example with Comments:
-// Setup Express app and test endpoint
+Method: .get(path: string) -> SuperTest instance; path is the endpoint string.
+Method: .post(path: string) -> SuperTest instance.
+Method: .send(data: object|string) -> SuperTest instance; data type based on content-type.
+Method: .set(field: string, value: string|RegExp) -> SuperTest instance.
+Method: .auth(username: string, password: string) -> SuperTest instance.
+Method: .expect(status: number, [callback: (err: Error, res: Response) => void])
+Method: .expect(status: number, body: any, [callback])
+Method: .expect(body: string|RegExp|object, [callback])
+Method: .expect(field: string, value: string|RegExp, [callback])
+Method: .expect(fn: (res: Response) => void) -> Custom assertion that throws error if fails.
+Method: .end(callback: (err: Error, res: Response) => void)
+
+Full Code Example with Comments:
+// Basic usage of SuperTest with Express
+const request = require('supertest');
 const express = require('express');
+
+// Create an Express app
 const app = express();
 app.get('/user', function(req, res) {
-  // Respond with JSON object
+  // Responds with JSON containing name 'john'
   res.status(200).json({ name: 'john' });
 });
 
-// Basic test using callback
-const request = require('supertest');
+// Test the /user endpoint
 request(app)
-  .get('/user')
-  .set('Accept', 'application/json')
-  .expect('Content-Type', /json/)
-  .expect(200)
+  .get('/user') // HTTP GET request
+  .set('Accept', 'application/json') // Set request header
+  .expect('Content-Type', /json/) // Expect response Content-Type to match JSON pattern
+  .expect('Content-Length', '15') // Expect Content-Length to be '15'
+  .expect(200) // Assert HTTP status 200
   .end(function(err, res) {
-    if (err) {
-      // Rethrow error for failing test
-      throw err;
-    }
-    // Further assertions can be added here
+    // Error handling; if error exists, throw it to fail test
+    if (err) throw err;
   });
 
-// Enabling HTTP2 and using a persistent agent
-const agent = request.agent(app, { http2: true });
-agent.get('/user')
-  .expect('Content-Type', /json/)
+// HTTP2 Enablement Example
+request(app, { http2: true })
+  .get('/user')
   .expect(200)
   .end(function(err, res) {
     if (err) throw err;
   });
 
-// Using Promises
-request(app)
-  .get('/users')
-  .set('Accept', 'application/json')
-  .expect(200)
-  .then(response => {
-    // Validate response body
-    if(response.body.email !== 'foo@bar.com') {
-      throw new Error('Email mismatch');
-    }
-  }).catch(err => {
-    console.error(err);
-  });
+// Troubleshooting Procedure:
+// 1. If an assertion fails using .end(fn), verify the response headers and body manually by logging res.
+// 2. Run the test using npm test and check console output for error details.
+// 3. For cookie issues, ensure using request.agent() to persist cookies.
+// 4. Check that the server is bound and listening on an ephemeral port if not pre-bound.
 
-// Configuration Options and Effects:
-// Option { http2: true } enables HTTP/2 protocol support for testing.
-// Using request.agent(app) enables cookie persistence between requests.
-
-- Best Practices:
-// Always chain .expect() calls in defined order because execution order can modify headers/body.
-// In .end() callback, always check for error and rethrow to fail tests: if (err) return done(err); else return done();
-
-- Troubleshooting Procedures:
-// If test fails without throwing, verify that the correct Content-Type header is expected.
-// Run tests with increased logging by adding console.log in the .end() callback.
-// Example command: npm test
-// Expected output: Successful test run with no errors if assertions are met.
+Configuration Options:
+- npm install command: npm install supertest --save-dev
+- Options for HTTP2: { http2: true } enables HTTP2 protocol support.
+- Default callback error: Errors are passed as first argument in .end() method; handle with if(err) { done(err) }.
 
 Return Types:
-// All request methods return a Request object which supports method chaining.
+- All request methods return a SuperTest instance for chaining.
+- .end() returns a callback with (err: Error|null, res: Response object).
+
+Exceptions:
+- If non-2XX status returned without .expect() status, error passed to callback.
+- Custom assertion functions must throw an Error on failure.
+
+Best Practices:
+- Chain .expect() calls in the desired order.
+- Use agent() for tests requiring cookie state.
+- Leverage async/await for clean asynchronous tests.
+
 
 ## Information Dense Extract
-npm install supertest --save-dev; require('supertest'); Accepts http.Server or function; auto-binds to ephemeral port; options: {http2:true}; API: .get(url), .post(url), .set(), .send(), .auth(), .field(), .attach(); Assertions: .expect(status[,fn]), .expect(status,body[,fn]), .expect(field,value[,fn]), .expect(customFn); .end(callback) for executing request; supports callbacks, promises, async/await; persistent agents via request.agent(app, {http2:true}) for cookie management; detailed error handling in .end() with rethrow; complete method signatures with parameter types; configuration options and best practices provided.
+Install: npm install supertest --save-dev; Import: require('supertest'); API: request(app|url, {http2:boolean}); Methods: .get(path:string), .post(path:string), .set(field:string,value:string|RegExp), .send(data:object|string), .auth(username, password); Assertions: .expect(status[,fn]), .expect(status,body[,fn]), .expect(body[,fn]), .expect(field,value[,fn]), .expect(fn); End: .end(callback(err,res)); HTTP2: use {http2:true}; Mocha usage: callback style, promise chain, async/await; Cookie Persistence: request.agent(app); Custom assertion: function(res){ if(!cond) throw Error } ; Troubleshoot: Check .end() errors, validate response headers/body; Code pattern: chain .expect() then .end();
 
 ## Sanitised Extract
 Table of Contents:
-1. Installation and Setup
-   - npm install supertest --save-dev
-   - require('supertest') for inclusion
-2. Basic HTTP Testing
-   - Passing an http.Server or function into request()
-   - Binding to ephemeral port if not already listening
-3. HTTP Method Assertions
-   - Available methods: .get(), .post(), .send(), .set()
-   - Assertion methods: .expect(status[,fn]), .expect(status, body[,fn]), .expect(field, value[,fn]), .expect(customFunction)
-4. HTTP2 and Agent Support
-   - Option to enable HTTP2 by passing {http2:true}
-   - Request agent for persistent sessions and cookie management
-5. Integration with Mocha and Async Patterns
-   - Usage of callbacks, promises (.then()) and async/await
-   - Direct passing of done() to .expect()
-6. Advanced Features
-   - Multipart file uploads using .field() and .attach()
-   - Custom response modifications in .expect() before final assertion
+1. Installation & Setup
+2. HTTP and HTTP2 Request Handling
+3. API Methods and Assertions
+4. Mocha, Promise, and Async Testing Patterns
+5. Cookie Persistence with request.agent
+6. Custom Assertions and Response Modification
 
-Detailed Technical Information:
-1. Installation and Setup:
-   - Command: npm install supertest --save-dev
-   - Import: const request = require('supertest');
-2. Basic HTTP Testing:
-   - Example: request(app).get('/user').expect('Content-Type', /json/).expect(200).end(callback)
-3. Assertions:
-   - .expect(status[,fn]): validates response status
-   - .expect(status, body[,fn]): validates both status and response body
-   - .expect(body[,fn]): checks response body text against string, regex or object
-   - .expect(field, value[,fn]): verifies header field and value
-   - .expect(function(res) {}): custom validation; throw error if check fails
-4. HTTP2 and Agents:
-   - Enable HTTP2: request(app, { http2: true })
-   - Persistent agent: request.agent(app, { http2: true })
-5. Mocha and Async:
-   - Callback style: .expect(200, done)
-   - Promises: return request(...).then(...)
-   - Async/await: const res = await request(...)
-6. Advanced upload and cookie handling:
-   - File Upload: use .field() and .attach() for multipart forms
-   - Cookie management: store cookies via request.agent(app) and validate with .expect('set-cookie', 'cookie=value; Path=/')
+1. Installation & Setup:
+- Use npm install supertest --save-dev
+- Import with require('supertest') in Node.js projects.
+
+2. HTTP and HTTP2 Request Handling:
+- Basic usage: request(app).get('/user')
+- For HTTP2, pass options: request(app, { http2: true }) or request.agent(app, { http2: true })
+
+3. API Methods and Assertions:
+- .expect(status[, fn]) asserts the response status code.
+- .expect(status, body[, fn]) asserts both status and response body.
+- .expect(body[, fn]) asserts response body using string, regex or object.
+- .expect(field, value[, fn]) asserts header field values.
+- .expect(function(res){}) for custom assertions.
+- .end(fn) finalizes the test and returns errors in callback.
+
+4. Mocha, Promise, and Async Testing Patterns:
+- Callback style: pass done to .expect(200, done)
+- Promise style: return request(...).then(response => { ... })
+- Async/await: const response = await request(...); then validate headers and body.
+
+5. Cookie Persistence with request.agent:
+- Use request.agent(app) to persist cookies through subsequent requests.
+- Example: agent.get('/').expect('set-cookie', 'cookie=hey; Path=/') then agent.get('/return') to validate cookie transmission.
+
+6. Custom Assertions and Response Modification:
+- Modify response body within an .expect() function to set fixed IDs or adjust formats before final assertion.
+- Example: res.body.id = 'some fixed id'; res.body.name = res.body.name.toLowerCase(); followed by .expect(200, {id:'some fixed id', name:'john'}, done).
 
 ## Original Source
 Supertest Documentation
@@ -221,32 +189,25 @@ https://github.com/visionmedia/supertest
 
 ## Digest of SUPERTEST
 
-# SuperTest Documentation
+# SuperTest Documentation Digest
+
+Date Retrieved: 2023-10-11
 
 ## Overview
-SuperTest is a high-level abstraction for testing HTTP servers based on superagent. It supports both callback and promise styles, HTTP/1.1 and HTTP/2 protocols, and integrates with various test frameworks such as Mocha.
+SuperTest is a high-level abstraction for testing HTTP servers via the superagent library. It allows the user to test HTTP endpoints with various methods and assertions including custom checks, cookie handling, and HTTP2 protocol support.
 
 ## Installation
+- Command: npm install supertest --save-dev
+- Import: require('supertest')
 
-To install SuperTest, run:
+## Usage Examples
 
-npm install supertest --save-dev
-
-Then require it in your code:
+### Basic HTTP Test Setup
 
 const request = require('supertest');
-
-## Basic Usage and Examples
-
-### Passing an HTTP Server or a Function
-
-You can pass an instance of http.Server or a Function. If the server is not listening, SuperTest binds it to an ephemeral port.
-
-Example:
-
 const express = require('express');
-const app = express();
 
+const app = express();
 app.get('/user', function(req, res) {
   res.status(200).json({ name: 'john' });
 });
@@ -262,9 +223,13 @@ request(app)
 
 ### Enabling HTTP2
 
-Pass an options object with http2 set to true either to request or request.agent:
-
 const request = require('supertest');
+const express = require('express');
+
+const app = express();
+app.get('/user', function(req, res) {
+  res.status(200).json({ name: 'john' });
+});
 
 request(app, { http2: true })
   .get('/user')
@@ -275,10 +240,9 @@ request(app, { http2: true })
     if (err) throw err;
   });
 
-// Or using a persistent agent:
-
-const agent = request.agent(app, { http2: true });
-agent.get('/user')
+// Using agent for HTTP2
+request.agent(app, { http2: true })
+  .get('/user')
   .expect('Content-Type', /json/)
   .expect('Content-Length', '15')
   .expect(200)
@@ -286,9 +250,7 @@ agent.get('/user')
     if (err) throw err;
   });
 
-### Mocha Integration and Async Patterns
-
-Using Mocha with callback:
+### Mocha Integration and Async Testing
 
 describe('GET /user', function() {
   it('responds with json', function(done) {
@@ -300,26 +262,21 @@ describe('GET /user', function() {
   });
 });
 
-Using promises:
-
 describe('GET /users', function() {
-  it('responds with json', function() {
+  it('responds with json using promises', function() {
     return request(app)
       .get('/users')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
       .then(response => {
-         // Example assertion
          expect(response.body.email).toEqual('foo@bar.com');
       });
   });
 });
 
-Or async/await:
-
 describe('GET /users', function() {
-  it('responds with json', async function() {
+  it('responds with json using async/await', async function() {
     const response = await request(app)
       .get('/users')
       .set('Accept', 'application/json');
@@ -329,90 +286,82 @@ describe('GET /users', function() {
   });
 });
 
-### Authentication and Custom Assertions
+### Custom Assertions and Response Modification
 
-You can use the auth method to pass HTTP username and password:
-
-describe('GET /user', function() {
-  it('responds with json', function(done) {
+describe('POST /user', function() {
+  it('user.name should be case-insensitive match for "john"', function(done) {
     request(app)
-      .get('/user')
-      .auth('username', 'password')
+      .post('/user')
+      .send('name=john')
       .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
+      .expect(function(res) {
+        res.body.id = 'some fixed id';
+        res.body.name = res.body.name.toLowerCase();
+      })
+      .expect(200, {
+        id: 'some fixed id',
+        name: 'john'
+      }, done);
   });
 });
 
-Custom function assertions can be passed to modify the response before final verification:
+### Cookie Persistence Example using agent
 
-request(app)
-  .post('/user')
-  .send('name=john')
-  .set('Accept', 'application/json')
-  .expect(function(res) {
-    res.body.id = 'some fixed id';
-    res.body.name = res.body.name.toLowerCase();
-  })
-  .expect(200, {
-      id: 'some fixed id',
-      name: 'john'
-  }, function(err) {
-    if (err) throw err;
+const request = require('supertest');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+
+describe('request.agent(app)', function() {
+  const app = express();
+  app.use(cookieParser());
+
+  app.get('/', function(req, res) {
+    res.cookie('cookie', 'hey');
+    res.send();
   });
 
-### Multipart File Uploads
-
-SuperTest can handle multipart file uploads using superagent methods:
-
-request(app)
-  .post('/')
-  .field('name', 'my awesome avatar')
-  .field('complex_object', '{"attribute": "value"}', { contentType: 'application/json' })
-  .attach('avatar', 'test/fixtures/avatar.jpg')
-  .end(function(err, res) {
-    if (err) throw err;
+  app.get('/return', function(req, res) {
+    if (req.cookies.cookie) res.send(req.cookies.cookie);
+    else res.send(':(');
   });
 
-## API Methods
+  const agent = request.agent(app);
 
-SuperTest supports all superagent methods including .write(), .pipe(), etc. Common assertions include:
-
-.expect(status[, fn])                 // Assert response status code
-.expect(status, body[, fn])           // Assert status and body
-.expect(body[, fn])                   // Assert response body
-.expect(field, value[, fn])           // Assert header field value
-.expect(function(res){})              // Custom assertion function
-.end(fn)                              // Finalize the request
-
-## Cookie and Agent Management
-
-Persistent sessions and cookie management can be achieved using request.agent:
-
-const agent = request.agent(app);
-
-// Example: saving and sending cookies
-agent.get('/')
-  .expect('set-cookie', 'cookie=hey; Path=/')
-  .end(function(err) {
-    if (err) throw err;
-    agent.get('/return')
-      .expect('hey', function(err) {
-         if (err) throw err;
-      });
+  it('should save cookies', function(done) {
+    agent
+      .get('/')
+      .expect('set-cookie', 'cookie=hey; Path=/', done);
   });
 
-## License
+  it('should send cookies', function(done) {
+    agent
+      .get('/return')
+      .expect('hey', done);
+  });
+});
 
-Licensed under the MIT License.
+## API Methods Overview
+
+- .expect(status[, fn])
+- .expect(status, body[, fn])
+- .expect(body[, fn])
+- .expect(field, value[, fn])
+- .expect(function(res) { ... })
+- .end(fn)
+
+## Troubleshooting
+- When .end() is used, failed assertions provide an error as a callback parameter; use if (err) return done(err); to handle errors.
+
+## Attribution
+Crawled content data size: 589780 bytes, retrieved 4781 links.
 
 ## Attribution
 - Source: Supertest Documentation
 - URL: https://github.com/visionmedia/supertest
 - License: MIT License
-- Crawl Date: 2025-04-26T23:47:26.179Z
-- Data Size: 600776 bytes
-- Links Found: 4862
+- Crawl Date: 2025-04-27T01:08:23.412Z
+- Data Size: 589780 bytes
+- Links Found: 4781
 
 ## Retrieved
-2025-04-26
+2025-04-27
