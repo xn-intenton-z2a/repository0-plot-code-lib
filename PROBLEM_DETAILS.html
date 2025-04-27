@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="problem_details" href="#problem_details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>PROBLEM_DETAILS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">RFC 7807 defines a standardized JSON (and XML) structure to represent HTTP API error details. It specifies the mandatory members (type, title, status, detail, instance) for error objects, extension mechanism for additional problem-specific members, and associated media types (application/problem+json and application/problem+xml). The document also includes a RELAX NG schema for XML serialization and detailed security and IANA considerations.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Introduction
+<ul class="md-github">
+<li class="md-github">Context for error representation in HTTP APIs.</li>
+</ul>
+</li>
+<li class="md-github">Requirements
+<ul class="md-github">
+<li class="md-github">Must use problem details JSON or XML, with mandatory members and optional extensions.</li>
+</ul>
+</li>
+<li class="md-github">Problem Details JSON Object
+<ul class="md-github">
+<li class="md-github">Mandatory members: type (string, default 'about:blank'), title (string), status (number), detail (string), instance (string).</li>
+<li class="md-github">Extensions: Custom members (e.g., balance, accounts) following naming rules.</li>
+</ul>
+</li>
+<li class="md-github">Defining New Problem Types
+<ul class="md-github">
+<li class="md-github">Specifications for new type URIs, titles, and associated HTTP status codes. Optional Retry-After header usage.</li>
+</ul>
+</li>
+<li class="md-github">Media Types
+<ul class="md-github">
+<li class="md-github">application/problem+json: JSON encoding, no required parameters, follows RFC7159.</li>
+<li class="md-github">application/problem+xml: XML encoding per RFC7303 with RELAX NG schema provided.</li>
+</ul>
+</li>
+<li class="md-github">Security Considerations
+<ul class="md-github">
+<li class="md-github">Avoid exposing sensitive information; ensure consistency between HTTP status code and JSON 'status' member.</li>
+</ul>
+</li>
+<li class="md-github">IANA Considerations
+<ul class="md-github">
+<li class="md-github">Registration details of media types and usage instructions.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">For each topic, the details include the exact member definitions, media type configurations, example structures (JSON and XML), and related RFC specifications for error message formats.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Technical Specifications &amp; Configuration:</p>
+<ul class="md-github">
+<li class="md-github">Problem Details JSON Object Members:
+<ul class="md-github">
+<li class="md-github">type: string (URI reference, default 'about:blank').</li>
+<li class="md-github">title: string (short, human-readable summary, fixed except for localization).</li>
+<li class="md-github">status: number (HTTP status code corresponding to the error).</li>
+<li class="md-github">detail: string (problem-specific, human-readable error explanation focused on resolution).</li>
+<li class="md-github">instance: string (URI reference for the specific occurrence of the error).</li>
+</ul>
+</li>
+<li class="md-github">Extension Members: Must begin with ALPHA; at least 3 characters; valid characters ALPHA, DIGIT, underscore.</li>
+<li class="md-github">Media Types:
+<ul class="md-github">
+<li class="md-github">application/problem+json: No parameters; encoding per RFC7159.</li>
+<li class="md-github">application/problem+xml: No parameters; encoding per RFC7303; includes XML namespace 'urn:ietf:rfc:7807'.</li>
+</ul>
+</li>
+<li class="md-github">XML RELAX NG Schema (documentation only):
+default namespace ns = 'urn:ietf:rfc:7807'
+start = problem
+problem = element problem { ( element type { xsd:anyURI }?, element title { xsd:string }?, element detail { xsd:string }?, element status { xsd:positiveInteger }?, element instance { xsd:anyURI }? ), anyNsElement }</li>
+<li class="md-github">Security Considerations: Validate output to avoid leakage of internal details; use advisory 'status' member aligned with HTTP response code.</li>
+<li class="md-github">IANA Registration: Media types registered with specifications from RFC 7807, including contact information and restrictions on usage.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications &amp; Implementation Details:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">JSON Problem Details Object Example:
+HTTP/1.1 403 Forbidden
+Content-Type: application/problem+json
+Content-Language: en
+{
+'type': 'https://example.com/probs/out-of-credit',
+'title': 'You do not have enough credit.',
+'detail': 'Your current balance is 30, but that costs 50.',
+'instance': '/account/12345/msgs/abc',
+'balance': 30,
+'accounts': ['/account/12345', '/account/67890']
+}</p>
+</li>
+<li class="md-github">
+<p class="md-github">XML Problem Details Object Example:
+HTTP/1.1 403 Forbidden
+Content-Type: application/problem+xml
+Content-Language: en</p>
+  <?xml version='1.0' encoding='UTF-8'?>
+  <problem xmlns='urn:ietf:rfc:7807'>
+    <type>https://example.com/probs/out-of-credit</type>
+    <title>You do not have enough credit.</title>
+    <detail>Your current balance is 30, but that costs 50.</detail>
+    <instance>https://example.net/account/12345/msgs/abc</instance>
+    <balance>30</balance>
+    <accounts>
+      <i>https://example.net/account/12345</i>
+      <i>https://example.net/account/67890</i>
+    </accounts>
+  </problem>
+</li>
+<li class="md-github">
+<p class="md-github">Method Signatures (Conceptual, as RFC is specification not SDK):
+function createProblemDetail(type: string = 'about:blank', title: string, status: number, detail: string, instance: string, extensions: object = {}): object
+Returns a JSON object that conforms to RFC 7807. Throws error if mandatory fields are missing.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">MediaType: 'application/problem+json' or 'application/problem+xml' set in HTTP header.</li>
+<li class="md-github">Extensions: Optional keys must follow naming convention: regex /^[A-Za-z][A-Za-z0-9_]{2,}$/.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always use the same HTTP status code as in the 'status' member.</li>
+<li class="md-github">Do not include debugging or sensitive implementation details in the 'detail' member.</li>
+<li class="md-github">Use consistent type URIs to allow client-side caching or documentation lookups.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures:</p>
+<ol class="md-github">
+<li class="md-github">Command: curl -i -H 'Accept: application/problem+json' https://api.example.com/resource
+Expected Output: HTTP status code matching error, and JSON body with matching 'status' and 'type'.</li>
+<li class="md-github">Verify XML output by requesting with Accept: application/problem+xml. Use xmllint --noout to check XML well-formedness.</li>
+<li class="md-github">Check media type consistency in HTTP headers to ensure client compatibility.</li>
+<li class="md-github">Log all error responses and verify against the RFC member definitions using a JSON schema validator.</li>
+</ol>
+</li>
+<li class="md-github">
+<p class="md-github">Detailed Implementation Pattern:
+Step 1: Define error response based on environment configuration (JSON or XML).
+Step 2: Populate required fields: type, title, status, detail, instance.
+Step 3: Append any extension members after validating against naming rules.
+Step 4: Set appropriate Content-Type header.
+Step 5: Return error response with matching HTTP status code.</p>
+</li>
+</ul>
+<p class="md-github">Developers can directly use these specifications to guide error response implementations and verify conformance using automated tests.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">RFC7807 defines error details format: JSON object with members: type(string, default 'about:blank'), title(string), status(number), detail(string), instance(string). Extensions allowed with naming regex /^[A-Za-z][A-Za-z0-9_]{2,}$/. Media types: application/problem+json (JSON per RFC7159) and application/problem+xml (XML per RFC7303). XML RELAX NG schema provided; example JSON and XML responses given. API pattern: createProblemDetail(type, title, status, detail, instance, extensions) returns compliant object. Implementation best practices include aligning HTTP status code with JSON 'status', avoiding sensitive data exposure, and validating extension names. Troubleshooting involves CURL commands and XML linting to check media type and structure conformance.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Introduction
+<ul class="md-github">
+<li class="md-github">Context for error representation in HTTP APIs.</li>
+</ul>
+</li>
+<li class="md-github">Requirements
+<ul class="md-github">
+<li class="md-github">Must use problem details JSON or XML, with mandatory members and optional extensions.</li>
+</ul>
+</li>
+<li class="md-github">Problem Details JSON Object
+<ul class="md-github">
+<li class="md-github">Mandatory members: type (string, default 'about:blank'), title (string), status (number), detail (string), instance (string).</li>
+<li class="md-github">Extensions: Custom members (e.g., balance, accounts) following naming rules.</li>
+</ul>
+</li>
+<li class="md-github">Defining New Problem Types
+<ul class="md-github">
+<li class="md-github">Specifications for new type URIs, titles, and associated HTTP status codes. Optional Retry-After header usage.</li>
+</ul>
+</li>
+<li class="md-github">Media Types
+<ul class="md-github">
+<li class="md-github">application/problem+json: JSON encoding, no required parameters, follows RFC7159.</li>
+<li class="md-github">application/problem+xml: XML encoding per RFC7303 with RELAX NG schema provided.</li>
+</ul>
+</li>
+<li class="md-github">Security Considerations
+<ul class="md-github">
+<li class="md-github">Avoid exposing sensitive information; ensure consistency between HTTP status code and JSON 'status' member.</li>
+</ul>
+</li>
+<li class="md-github">IANA Considerations
+<ul class="md-github">
+<li class="md-github">Registration details of media types and usage instructions.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">For each topic, the details include the exact member definitions, media type configurations, example structures (JSON and XML), and related RFC specifications for error message formats.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">RFC 7807: Problem Details for HTTP APIs
+https://tools.ietf.org/html/rfc7807</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-problem_details" href="#digest-of-problem_details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of PROBLEM_DETAILS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="introduction" href="#introduction"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduction</h1>
+<p class="md-github">This document (RFC 7807) defines a standardized format for expressing error details in HTTP APIs using a JSON object or an equivalent XML format. It specifies a dedicated media type for problem details in JSON: application/problem+json and for XML: application/problem+xml. The document explains how HTTP status codes can be supplemented with additional machine‐readable information to assist API clients in error diagnosis and resolution.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="requirements" href="#requirements"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Requirements</h1>
+<p class="md-github">The specification requires that HTTP APIs adopting problem details:</p>
+<ul class="md-github">
+<li class="md-github">Use a JSON object (or XML) to convey error information.</li>
+<li class="md-github">Represent a problem type with a URI reference in the &quot;type&quot; member, with the default value &quot;about:blank&quot; when omitted.</li>
+<li class="md-github">Include members &quot;title&quot;, &quot;status&quot;, &quot;detail&quot;, and &quot;instance&quot; that provide human-readable error messages and context.</li>
+<li class="md-github">Allow for extension members that provide additional error-specific attributes (e.g., balance, accounts).</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="the-problem-details-json-object" href="#the-problem-details-json-object"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Problem Details JSON Object</h1>
+<p class="md-github">When serialized, the JSON object MUST be identified with the media type application/problem+json. An example response is as follows:</p>
+<p class="md-github">HTTP/1.1 403 Forbidden
+Content-Type: application/problem+json
+Content-Language: en
+{
+&quot;type&quot;: &quot;https://example.com/probs/out-of-credit&quot;,
+&quot;title&quot;: &quot;You do not have enough credit.&quot;,
+&quot;detail&quot;: &quot;Your current balance is 30, but that costs 50.&quot;,
+&quot;instance&quot;: &quot;/account/12345/msgs/abc&quot;,
+&quot;balance&quot;: 30,
+&quot;accounts&quot;: [&quot;/account/12345&quot;, &quot;/account/67890&quot;]
+}</p>
+<h1 class="md-github"><a class="md-github__anchor" name="members-of-a-problem-details-object" href="#members-of-a-problem-details-object"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Members of a Problem Details Object</h1>
+<p class="md-github">The canonical JSON object can include:</p>
+<ul class="md-github">
+<li class="md-github">type (string): URI reference identifying the problem type. Default: &quot;about:blank&quot;.</li>
+<li class="md-github">title (string): A short, consistent summary of the problem type.</li>
+<li class="md-github">status (number): The HTTP status code generated by the origin server for this occurrence of the problem.</li>
+<li class="md-github">detail (string): A human-readable explanation targeting correction, not debugging.</li>
+<li class="md-github">instance (string): A URI reference identifying the specific occurrence of the problem.</li>
+</ul>
+<p class="md-github">Extension members MAY be added to the object. Extensions MUST use names beginning with an ALPHA character and be at least three characters long, consisting only of ALPHA, DIGIT, and underscore characters.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="defining-new-problem-types" href="#defining-new-problem-types"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Defining New Problem Types</h1>
+<p class="md-github">When defining new problem types, the following MUST be documented:</p>
+<ol class="md-github">
+<li class="md-github">A type URI (with http or https scheme).</li>
+<li class="md-github">A descriptive title.</li>
+<li class="md-github">The HTTP status code to be used with.</li>
+</ol>
+<p class="md-github">Optionally, new types MAY specify additional members (e.g., use of Retry-After header or typed links in extensions) and SHOULD resolve to HTML documentation when dereferenced.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="media-types" href="#media-types"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Media Types</h1>
+<p class="md-github">Two media types are defined:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">application/problem+json:</p>
+<ul class="md-github">
+<li class="md-github">Required parameters: None</li>
+<li class="md-github">Optional parameters: None (unrecognized parameters ignored)</li>
+<li class="md-github">Encoding: Same as JSON (RFC7159)</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">application/problem+xml:</p>
+<ul class="md-github">
+<li class="md-github">Required parameters: None</li>
+<li class="md-github">Optional parameters: None (unrecognized parameters ignored)</li>
+<li class="md-github">Encoding: As per RFC7303</li>
+</ul>
+</li>
+</ol>
+<h1 class="md-github"><a class="md-github__anchor" name="xml-format-and-relax-ng-schema" href="#xml-format-and-relax-ng-schema"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>XML Format and RELAX NG Schema</h1>
+<p class="md-github">For XML representations, the following RELAX NG schema is given (for documentation only):</p>
+<p class="md-github">default namespace ns = &quot;urn:ietf:rfc:7807&quot;
+start = problem
+problem = element problem {
+( element type { xsd:anyURI }?,
+element title { xsd:string }?,
+element detail { xsd:string }?,
+element status { xsd:positiveInteger }?,
+element instance { xsd:anyURI }? ),
+anyNsElement
+}</p>
+<p class="md-github">Extension arrays and objects are encoded as nested XML elements within the same namespace.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="security-considerations" href="#security-considerations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Security Considerations</h1>
+<p class="md-github">Problem details must not inadvertently expose sensitive internal details. It is recommended that extensions be carefully considered to avoid leaking implementation internals. The duplicated information in the HTML status code and in the &quot;status&quot; member can be used by intermediaries, but its interpretation is advisory only.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="iana-considerations" href="#iana-considerations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>IANA Considerations</h1>
+<p class="md-github">IANA has registered the media types application/problem+json and application/problem+xml, with their associated parameters and usage recommendations as documented in RFC 7807.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="references" href="#references"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>References</h1>
+<p class="md-github">Key normative and informative references include RFC 2119, RFC 3986, RFC 5234, RFC 7159, RFC 7230, RFC 7231, and others which provide broader context on HTTP, JSON, XML and URI specifications.</p>
+<p class="md-github">Retrieved: 2023-10-05
+Data Size: 5183169 bytes</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: RFC 7807: Problem Details for HTTP APIs</li>
+<li class="md-github">URL: https://tools.ietf.org/html/rfc7807</li>
+<li class="md-github">License: IETF (Public Domain)</li>
+<li class="md-github">Crawl Date: 2025-04-27T02:23:13.964Z</li>
+<li class="md-github">Data Size: 5183169 bytes</li>
+<li class="md-github">Links Found: 8719</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-27</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-27T02:47:59.439Z</p>
+  </footer>
+</body>
+</html>
