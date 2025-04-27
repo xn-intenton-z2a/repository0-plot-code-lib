@@ -3,6 +3,7 @@
 
 // Load environment variables using dotenv and support custom .env file via CLI flag
 import dotenv from 'dotenv';
+import { z } from 'zod';
 
 // Initial load (this may use default .env if --env flag is not yet set in process.argv)
 const envFlagIndexGlobal = process.argv.findIndex(arg => arg === '--env');
@@ -377,8 +378,39 @@ function main() {
     try {
       const configFileContent = fs.readFileSync(options.config, 'utf8');
       const configOptions = JSON.parse(configFileContent);
+      // Define Zod schema for config file validation
+      const configSchema = z.object({
+        expression: z.string().min(1).optional(),
+        range: z.string().regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/).optional(),
+        resolution: z.preprocess(val => Number(val), z.number().int().positive()).optional(),
+        xlabel: z.string().optional(),
+        ylabel: z.string().optional(),
+        xlabelPrecision: z.preprocess(val => Number(val), z.number().int().nonnegative()).optional(),
+        ylabelPrecision: z.preprocess(val => Number(val), z.number().int().nonnegative()).optional(),
+        smooth: z.enum(["true", "false"]).optional(),
+        xlabelX: z.preprocess(val => Number(val), z.number()).optional(),
+        xlabelY: z.preprocess(val => Number(val), z.number()).optional(),
+        ylabelX: z.preprocess(val => Number(val), z.number()).optional(),
+        ylabelY: z.preprocess(val => Number(val), z.number()).optional(),
+        xlabelRotation: z.preprocess(val => Number(val), z.number()).optional(),
+        ylabelRotation: z.preprocess(val => Number(val), z.number()).optional(),
+        xlabelOffsetX: z.preprocess(val => Number(val), z.number()).optional(),
+        xlabelOffsetY: z.preprocess(val => Number(val), z.number()).optional(),
+        ylabelOffsetX: z.preprocess(val => Number(val), z.number()).optional(),
+        ylabelOffsetY: z.preprocess(val => Number(val), z.number()).optional(),
+        locale: z.string().optional(),
+        xlabelAriaLabel: z.string().optional(),
+        ylabelAriaLabel: z.string().optional(),
+        xlabelAnchor: z.enum(["start", "middle", "end"]).optional(),
+        ylabelAnchor: z.enum(["start", "middle", "end"]).optional(),
+        xlabelFontSize: z.string().optional(),
+        xlabelColor: z.string().optional(),
+        ylabelFontSize: z.string().optional(),
+        ylabelColor: z.string().optional()
+      });
+      const validatedConfig = configSchema.parse(configOptions);
       // Merge configuration: CLI flags override config file options
-      options = Object.assign({}, configOptions, options);
+      options = Object.assign({}, validatedConfig, options);
     } catch (e) {
       throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
