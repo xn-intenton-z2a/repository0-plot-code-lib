@@ -108,4 +108,20 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect(400);
     expect(res.text).toContain("Missing or empty 'expression'");
   });
+
+  test("should return 400 if x range numeric order is invalid", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=5:1,y=0:10", fileType: "svg" })
+      .expect(400);
+    expect(res.text).toContain("Error: Invalid range - x-min must be less than x-max.");
+  });
+
+  test("should return 400 if y range numeric order is invalid", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=-1:1,y=10:0", fileType: "svg" })
+      .expect(400);
+    expect(res.text).toContain("Error: Invalid range - y-min must be less than y-max.");
+  });
 });
