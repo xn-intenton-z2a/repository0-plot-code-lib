@@ -67,3 +67,18 @@ A comprehensive guide on designing robust RESTful APIs with actionable insights 
 ## https://www.w3.org/TR/wai-aria-practices/
 This W3C recommendation provides guidelines for creating accessible web applications. It offers detailed instructions on implementing ARIA attributes to improve accessibility, which is particularly relevant for enhancing our dynamic SVG plots with proper semantic annotations for users with disabilities.
 ## W3C Recommendation
+
+# SVGO Documentation
+## https://github.com/svg/svgo
+SVGO is an open-source tool for optimizing SVG files by removing unnecessary information and reducing file size. This resource provides in-depth technical details on configuring and using SVGO to streamline SVG outputs, ensuring that dynamically generated plots are both performance-optimized and compliant with modern web standards.
+## MIT License
+
+# Node.js Error Handling Best Practices
+## https://nodejs.dev/learn/error-handling-in-nodejs
+This guide offers deep insights into error handling patterns in Node.js, covering best practices for both synchronous and asynchronous operations. It provides actionable strategies for catching, reporting, and gracefully recovering from errors, which directly benefits the robust error handling implementations in our CLI tool and HTTP API.
+## Unknown License
+
+# Express Performance Best Practices
+## https://expressjs.com/en/advanced/best-practice-performance.html
+This resource outlines advanced strategies for improving the performance of Express-based applications, including efficient middleware usage, caching techniques, and profiling methods. These insights are critical for optimizing our HTTP endpoints, ensuring high throughput and scalability when serving dynamic plot generation requests.
+## MIT License
