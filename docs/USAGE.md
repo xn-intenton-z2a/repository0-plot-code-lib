@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, and a detailed JSON export option for plot data.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, and environment variable interpolation for configuration files.
 
 ## CLI Plot Generation
 
@@ -35,7 +35,7 @@ You can generate plots directly from the command line by providing the following
   - `computedYRange`: The computed minimum and maximum y values based on evaluation.
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
 
-- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file, validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence. **Important:** If the configuration file does not conform to the expected schema (for example, if a property like resolution is not a positive integer), the tool will throw a descriptive error indicating which configuration field is invalid.
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${PORT}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root. For example:
 
@@ -51,6 +51,10 @@ When using the **--config** flag, provide a JSON file with the following optiona
 - **range**: string, in the format `x=<min>:<max>,y=<min>:<max>` with numeric values.
 - **resolution**: a positive integer (can be provided as a number or a numeric string).
 - **Axis Label Customizations**: e.g., `xlabel`, `ylabel`, `xlabelPrecision`, `ylabelPrecision`, `smooth`, `xlabelX`, `xlabelY`, `ylabelX`, `ylabelY`, `xlabelRotation`, `ylabelRotation`, `xlabelOffsetX`, `xlabelOffsetY`, `ylabelOffsetX`, `ylabelOffsetY`, `locale`, `xlabelAriaLabel`, `ylabelAriaLabel`, `xlabelAnchor`, `ylabelAnchor`, `xlabelFontSize`, `xlabelColor`, `ylabelFontSize`, `ylabelColor`.
+
+**Environment Variable Interpolation:**
+
+You can include placeholders in string values using the format `${VAR_NAME}`. For example, setting "port": "${PORT}" in the config file will replace `${PORT}` with the value from the environment variable PORT. If the environment variable is not set, the placeholder remains unchanged.
 
 The tool validates these properties using a Zod schema. If any property fails validation (for example, if resolution is not a positive integer or the range format is incorrect), an error is thrown detailing the problematic field. Remember, any CLI flags provided will override the corresponding values from the configuration file.
 
@@ -84,12 +88,11 @@ This release introduces two new optional parameters to enhance plot rendering:
    GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&resolution=200&jsonExport=true
    ```
 
-5. **Using an External Configuration File:**
+5. **Using an External Configuration File with Environment Variable Interpolation:**
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
    ```
-
-   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. CLI flags provided will always override corresponding values from the config file.
+   In the above example, if `config.json` contains a property like "port": "${PORT}", and the environment variable PORT is set, the placeholder will be replaced accordingly. CLI flags provided will always override corresponding values from the config file.
 
 ## Environment Variables and DOTENV Support
 
@@ -172,5 +175,4 @@ Advanced query parameters allow customization of the generated SVG plots, includ
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
    ```
-
    In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. Any CLI flag provided will override the corresponding value in the config file.
