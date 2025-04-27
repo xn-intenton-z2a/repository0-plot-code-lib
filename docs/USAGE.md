@@ -21,6 +21,21 @@ You can generate plots directly from the command line by providing the following
   - **.png**: Generates a PNG plot using dummy placeholder image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
+## Environment Variables and DOTENV Support
+
+This release introduces DOTENV_SUPPORT. The application automatically loads environment variables from a `.env` file. To configure the application using environment variables such as the server port or other runtime options, follow these steps:
+
+1. **Create a `.env` file** in your project root with key-value pairs. For example:
+
+   ```dotenv
+   PORT=4000
+   CUSTOM_SETTING=example_value
+   ```
+
+2. **Automatic Loading:** The application uses the `dotenv` library to load these environment variables on startup. No code changes are required; simply create or update your `.env` file.
+
+3. **Using Environment Variables:** For example, setting `PORT=4000` will cause the HTTP server to listen on port 4000 instead of the default 3000.
+
 ## Enhanced Expression Validation
 
 The tool now performs advanced pre-compilation validation of mathematical expressions. This validation detects common errors such as:
