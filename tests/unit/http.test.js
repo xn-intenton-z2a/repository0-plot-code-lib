@@ -130,6 +130,6 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=5", range: "x=-1:1,y=-1:1", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: The expression must contain the variable 'x'.");
+    expect(res.text).toContain("Error: Expression must include the variable 'x'.");
   });
 });

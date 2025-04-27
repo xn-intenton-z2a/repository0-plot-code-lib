@@ -188,7 +188,7 @@ describe("CLI Plot Generation", () => {
       "--file",
       "output.svg"
     ];
-    expect(() => main()).toThrow("Error: The expression must contain the variable 'x'.");
+    expect(() => main()).toThrow("Error: Expression must include the variable 'x'.");
   });
 
   test("should display help message when --help flag is provided", () => {
