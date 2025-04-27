@@ -43,6 +43,11 @@ function createSvgPlot(expression, range) {
   if (exprStr.toLowerCase().startsWith("y=")) {
     exprStr = exprStr.slice(2);
   }
+  // Enforce that the expression uses the variable 'x'
+  if (!/\bx\b/.test(exprStr)) {
+    throw new Error("Error: The expression must contain the variable 'x'.");
+  }
+
   let compiled;
   try {
     compiled = compile(exprStr);

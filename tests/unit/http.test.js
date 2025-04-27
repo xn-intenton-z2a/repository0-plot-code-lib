@@ -124,4 +124,12 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect(400);
     expect(res.text).toContain("Error: Invalid range - y-min must be less than y-max.");
   });
+
+  test("should return error if expression does not contain variable x", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=5", range: "x=-1:1,y=-1:1", fileType: "svg" })
+      .expect(400);
+    expect(res.text).toContain("Error: The expression must contain the variable 'x'.");
+  });
 });
