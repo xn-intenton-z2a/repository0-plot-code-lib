@@ -24,341 +24,287 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="d3_js" href="#d3_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>D3_JS</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">D3.js provides a complete set of modules for custom data visualizations. Key technical elements include selections and transitions for DOM manipulation, scales and axes (e.g., d3.scaleUtc(), d3.scaleLinear(), d3.axisBottom(), d3.axisLeft()), and layout engines such as force simulations. Implementation involves defining chart dimensions, configuring domains and ranges on scales, appending SVG elements, and integrating dynamic updates via data joins. Usage in frameworks like React and Svelte is facilitated by hooks and reactive statements.</p>
+<p class="md-github">Key technical details include D3.js API for selections, transitions, scales (scaleUtc, scaleLinear), axes (axisBottom, axisLeft), line generators (d3.line), and data join techniques. It demonstrates full integration examples in vanilla HTML, Node (npm installation), React (useRef with d3.axis) and Svelte (reactive $: with bind:this), including complete code examples with precise dimension settings and transformation functions.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github">Basic Chart Setup</p>
+<li class="md-github">Selections and Transitions
+<ul class="md-github">
+<li class="md-github">Use selection.enter(), selection.update(), selection.exit() for efficient DOM updates.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">ES Module and CDN Integration</p>
+<li class="md-github">Scales and Axes
+<ul class="md-github">
+<li class="md-github">d3.scaleUtc(): domain([Date, Date]), range([number, number]);</li>
+<li class="md-github">d3.scaleLinear(): domain([min, max]), range([number, number]);</li>
+<li class="md-github">Axis generators: d3.axisBottom(scale) and d3.axisLeft(scale) for rendering axes.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">Force Simulation</p>
+<li class="md-github">Path and Line Generators
+<ul class="md-github">
+<li class="md-github">d3.line(): Configure with .x((d, i) =&gt; x(i)) and .y(y) to create SVG path data.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">Node Package Installation</p>
+<li class="md-github">Integration in HTML and Modules
+<ul class="md-github">
+<li class="md-github">Import via ES Module (https://cdn.jsdelivr.net/npm/d3@7/+esm) or UMD bundle.</li>
+<li class="md-github">Code structure with container append operations and proper margins passed to scales.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">React Integration</p>
+<li class="md-github">Framework Integrations
+<ul class="md-github">
+<li class="md-github">React: Use useRef, useEffect, and call d3.axisBottom/select to mount axes.</li>
+<li class="md-github">Svelte: Use reactive statements ($:) and bind:this for dynamic axis updates.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">Svelte Integration</p>
-</li>
-<li class="md-github">
-<p class="md-github">Basic Chart Setup:</p>
+<li class="md-github">Data Join Operations
+<ul class="md-github">
+<li class="md-github">Use selection.data(data) and process .enter(), .merge(), .exit() for smooth transitions.</li>
+</ul>
 </li>
 </ol>
-<ul class="md-github">
-<li class="md-github">Set dimensions: width = 640, height = 400, margins (top:20, right:20, bottom:30, left:40).</li>
-<li class="md-github">Define x scale using d3.scaleUtc with domain [new Date(&quot;2023-01-01&quot;), new Date(&quot;2024-01-01&quot;)] and range [marginLeft, width - marginRight].</li>
-<li class="md-github">Define y scale using d3.scaleLinear with domain [0, 100] and range [height - marginBottom, marginTop].</li>
-<li class="md-github">Create an SVG container with d3.create('svg') and set attributes width and height.</li>
-<li class="md-github">Append x-axis with d3.axisBottom(x) and position with translate(0, height - marginBottom).</li>
-<li class="md-github">Append y-axis with d3.axisLeft(y) and position with translate(marginLeft, 0).</li>
-</ul>
-<ol start="2" class="md-github">
-<li class="md-github">ES Module and CDN Integration:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Import D3 modules from &quot;https://cdn.jsdelivr.net/npm/d3@7/+esm&quot; for ES module usage in HTML.</li>
-<li class="md-github">Alternatively include via script src for UMD bundle.</li>
-</ul>
-<ol start="3" class="md-github">
-<li class="md-github">Force Simulation:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Import { forceSimulation, forceCollide, forceX }.</li>
-<li class="md-github">Initialize simulation: forceSimulation(nodes).force('x', forceX()).force('collide', forceCollide(5)).on('tick', callback).</li>
-</ul>
-<ol start="4" class="md-github">
-<li class="md-github">Node Package Installation:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Installation commands: yarn add d3, npm install d3, pnpm add d3.</li>
-<li class="md-github">Import entire library with: import * as d3 from 'd3'; or import specific modules.</li>
-</ul>
-<ol start="5" class="md-github">
-<li class="md-github">React Integration:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Use useRef and useEffect hooks.</li>
-<li class="md-github">Create scales and axes similarly, attach refs to DOM elements, and call d3.axisBottom and d3.axisLeft inside useEffect.</li>
-</ul>
-<ol start="6" class="md-github">
-<li class="md-github">Svelte Integration:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Use reactive declarations ($:).</li>
-<li class="md-github">Bind elements to variables using bind:this for axis groups.</li>
-<li class="md-github">Automatically update axes with reactive statements invoking d3.select(ref).call(axisFunction).</li>
-</ul>
+<p class="md-github">For each section, the implementation details include exact parameter values (e.g., width: 640, height: 400, margins: 20/30/40), precise function calls, and complete code examples that can be directly integrated.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Dimensions: width=640, height=400, margins: top=20, right=20, bottom=30, left=40.
-Scales:
-d3.scaleUtc(): requires domain (start and end Date objects) and range (numeric array based on margins).
-d3.scaleLinear(): requires numeric domain (e.g., [0, 100]) and range (e.g., [height-marginBottom, marginTop]).
-Axes:
-d3.axisBottom(scale): renders horizontal axis; used with transform translate(0, height-marginBottom).
-d3.axisLeft(scale): renders vertical axis; used with transform translate(marginLeft, 0).
-Force Simulation:
-forceSimulation(nodes): accepts an array of nodes.
-forceX(): positions nodes along x axis.
-forceCollide(radius): applies collision force with specified radius (e.g., 5).
-Installation:
-npm install d3 or equivalent commands.
-React &amp; Svelte integration patterns outlined with code examples; use refs or reactive statements as appropriate.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">API Specifications:</p>
-<ol class="md-github">
-<li class="md-github">d3.scaleUtc()
+<p class="md-github">Detailed Specifications:</p>
 <ul class="md-github">
-<li class="md-github">Signature: d3.scaleUtc()</li>
-<li class="md-github">Methods: .domain([Date, Date]), .range([number, number]), returns a scale function: Date -&gt; number.</li>
-</ul>
-</li>
-<li class="md-github">d3.scaleLinear()
-<ul class="md-github">
-<li class="md-github">Signature: d3.scaleLinear()</li>
-<li class="md-github">Methods: .domain([number, number]), .range([number, number]), returns a scale function: number -&gt; number.</li>
-</ul>
-</li>
-<li class="md-github">d3.axisBottom(scale)
-<ul class="md-github">
-<li class="md-github">Signature: d3.axisBottom(scale: Function)</li>
-<li class="md-github">Returns an axis generator that when called on a selection, appends axis elements.</li>
-</ul>
-</li>
-<li class="md-github">d3.axisLeft(scale)
-<ul class="md-github">
-<li class="md-github">Signature: d3.axisLeft(scale: Function)</li>
-<li class="md-github">Returns an axis generator for the left side.</li>
-</ul>
-</li>
-<li class="md-github">d3.create(string)
-<ul class="md-github">
-<li class="md-github">Signature: d3.create(name: string) returns a selection representing an element of type specified (e.g., 'svg').</li>
-</ul>
-</li>
-<li class="md-github">Force Simulation (from d3-force):
-<ul class="md-github">
-<li class="md-github">forceSimulation(nodes: Array<Object>) returns simulation object.</li>
-<li class="md-github">simulation.force(name: string, force: Function) to add forces.</li>
-<li class="md-github">forceX([strength]) creates a new force with optional strength parameter.</li>
-<li class="md-github">forceCollide(radius: number) sets collision detection with given radius.</li>
-<li class="md-github">simulation.on('tick', callback: Function) registers a tick event callback.
-Code Example (Vanilla):
-const svg = d3.create('svg')
-.attr('width', 640)
-.attr('height', 400);
-const x = d3.scaleUtc()
-.domain([new Date('2023-01-01'), new Date('2024-01-01')])
-.range([40, 620]);
-const y = d3.scaleLinear()
-.domain([0, 100])
-.range([370, 20]);
-svg.append('g')
-.attr('transform', 'translate(0,370)')
-.call(d3.axisBottom(x));
-svg.append('g')
-.attr('transform', 'translate(40,0)')
-.call(d3.axisLeft(y));
-Installation Commands:
+<li class="md-github">Chart Dimensions: width=640, height=400, margins: top=20, right=20, bottom=30, left=40.</li>
+<li class="md-github">Scale Configurations:
+x Scale: d3.scaleUtc() with domain [new Date('2023-01-01'), new Date('2024-01-01')] and range [marginLeft, width-marginRight].
+y Scale: d3.scaleLinear() with domain [0, 100] and range [height-marginBottom, marginTop].</li>
+<li class="md-github">Axis Functions: d3.axisBottom(x) and d3.axisLeft(y) appended to SVG groups with proper translation transforms.</li>
+<li class="md-github">Module Import Examples:
+ES Module: import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+Node: import * as d3 from 'd3';</li>
+<li class="md-github">React and Svelte Integration Patterns with full JSX and Svelte syntax, utilizing useRef, useEffect, $: reactive declarations, and bind:this for DOM element references.</li>
+<li class="md-github">Installation Options via npm, yarn, pnpm with commands:
 npm install d3
 yarn add d3
-Troubleshooting:</li>
-</ul>
-</li>
+pnpm add d3</li>
+<li class="md-github">Best Practices: Only update needed elements in data joins, use non-minified bundles for debugging, relegate DOM manipulations to specific lifecycle hooks in frameworks.</li>
+<li class="md-github">Troubleshooting Steps:
+<ol class="md-github">
+<li class="md-github">Check scale domains and ranges for correctness.</li>
+<li class="md-github">Use browser developer tools to inspect appended SVG elements.</li>
+<li class="md-github">Verify imported module versions and ensure CDN URLs are correct.</li>
+<li class="md-github">Confirm useEffect dependencies when integrating with React.</li>
 </ol>
-<ul class="md-github">
-<li class="md-github">Ensure proper domain and range values for scales.</li>
-<li class="md-github">Verify correct element selection before calling axis generators.</li>
-<li class="md-github">Check browser console for errors in case of module import issues.</li>
+</li>
 </ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ul class="md-github">
+<li class="md-github">d3.create(tagName: string): Returns a detached element selection; usage: d3.create('svg').attr('width', width).attr('height', height).</li>
+<li class="md-github">d3.scaleUtc(): No arguments; chainable methods: .domain(Date[]), .range(number[]).</li>
+<li class="md-github">d3.scaleLinear(): No arguments; chainable methods: .domain(number[]), .range(number[]).</li>
+<li class="md-github">d3.axisBottom(scale): Accepts a scale as parameter; returns an axis generator function; supports .ticks(count: number) and .tickFormat(formatFunction: Function).</li>
+<li class="md-github">d3.axisLeft(scale): Similar specifications to axisBottom but for y-axis rendering.</li>
+<li class="md-github">d3.line(): Returns a line generator; methods: .x(fn: (d, i) =&gt; number), .y(fn: (d, i) =&gt; number); usage: const pathData = line(data).</li>
+</ul>
+<p class="md-github">SDK Method Signatures:</p>
+<ol class="md-github">
+<li class="md-github">const svg: any = d3.create('svg') -&gt; svg.node() returns SVGElement.</li>
+<li class="md-github">const x = d3.scaleUtc().domain([Date, Date]).range([number, number]);</li>
+<li class="md-github">const y = d3.scaleLinear().domain([number, number]).range([number, number]);</li>
+<li class="md-github">Axis generators: d3.axisBottom(x) and d3.axisLeft(y) with chaining capabilities like .ticks(10), .tickSize(6).</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="complete-code-example-vanilla-html" href="#complete-code-example-vanilla-html"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete Code Example (Vanilla HTML):</h2>
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <title>D3 Chart</title>
+</head>
+<body>
+  <div id='container'></div>
+  <script type='module'>
+    import * as d3 from 'https://cdn.jsdelivr.net/npm/d3@7/+esm';
+    const width = 640, height = 400;
+    const marginTop = 20, marginRight = 20, marginBottom = 30, marginLeft = 40;
+    const x = d3.scaleUtc()
+         .domain([new Date('2023-01-01'), new Date('2024-01-01')])
+         .range([marginLeft, width - marginRight]);
+    const y = d3.scaleLinear()
+         .domain([0, 100])
+         .range([height - marginBottom, marginTop]);
+    const svg = d3.create('svg')
+         .attr('width', width)
+         .attr('height', height);
+    svg.append('g')
+         .attr('transform', `translate(0,${height - marginBottom})`)
+         .call(d3.axisBottom(x).ticks(5));
+    svg.append('g')
+         .attr('transform', `translate(${marginLeft},0)`)
+         .call(d3.axisLeft(y));
+    document.getElementById('container').appendChild(svg.node());
+  </script>
+</body>
+</html>
+--------------------------------------------------
+<h2 class="md-github"><a class="md-github__anchor" name="react-integration-example" href="#react-integration-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>React Integration Example:</h2>
+<p class="md-github">import * as d3 from 'd3';
+import { useRef, useEffect } from 'react';</p>
+<h2 class="md-github"><a class="md-github__anchor" name="export-default-function-lineplot-data-width--640-height--400-margintop--20-marginright--20-marginbottom--30-marginleft--40--const-gx--userefnullconst-gy--userefnullconst-x--d3scalelineardomain0-datalength---1rangemarginleft-width---marginrightconst-y--d3scalelineardomaind3extentdatarangeheight---marginbottom-margintopconst-line--d3linexd-i--xiyyuseeffect---d3selectgxcurrentcalld3axisbottomx--gx-xuseeffect---d3selectgycurrentcalld3axislefty--gy-yreturn-svg-widthwidth-heightheightg-refgx-transformtranslate0height---marginbottom-g-refgy-transformtranslatemarginleft0-path-fillnone-strokecurrentcolor-strokewidth15-dlinedata-g-fillwhite-strokecurrentcolor-strokewidth15datamapd-i--circle-keyi-cxxi-cyyd-r25-gsvg" href="#export-default-function-lineplot-data-width--640-height--400-margintop--20-marginright--20-marginbottom--30-marginleft--40--const-gx--userefnullconst-gy--userefnullconst-x--d3scalelineardomain0-datalength---1rangemarginleft-width---marginrightconst-y--d3scalelineardomaind3extentdatarangeheight---marginbottom-margintopconst-line--d3linexd-i--xiyyuseeffect---d3selectgxcurrentcalld3axisbottomx--gx-xuseeffect---d3selectgycurrentcalld3axislefty--gy-yreturn-svg-widthwidth-heightheightg-refgx-transformtranslate0height---marginbottom-g-refgy-transformtranslatemarginleft0-path-fillnone-strokecurrentcolor-strokewidth15-dlinedata-g-fillwhite-strokecurrentcolor-strokewidth15datamapd-i--circle-keyi-cxxi-cyyd-r25-gsvg"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>export default function LinePlot({ data, width = 640, height = 400, marginTop = 20, marginRight = 20, marginBottom = 30, marginLeft = 40 }) {
+const gx = useRef(null);
+const gy = useRef(null);
+const x = d3.scaleLinear().domain([0, data.length - 1]).range([marginLeft, width - marginRight]);
+const y = d3.scaleLinear().domain(d3.extent(data)).range([height - marginBottom, marginTop]);
+const line = d3.line().x((d, i) =&gt; x(i)).y(y);
+useEffect(() =&gt; { d3.select(gx.current).call(d3.axisBottom(x)); }, [gx, x]);
+useEffect(() =&gt; { d3.select(gy.current).call(d3.axisLeft(y)); }, [gy, y]);
+return (
+<svg width={width} height={height}>
+&lt;g ref={gx} transform={<code class="md-github">translate(0,${height - marginBottom})</code>} /&gt;
+&lt;g ref={gy} transform={<code class="md-github">translate(${marginLeft},0)</code>} /&gt;
+<path fill='none' stroke='currentColor' strokeWidth='1.5' d={line(data)} />
+<g fill='white' stroke='currentColor' strokeWidth='1.5'>
+{data.map((d, i) =&gt; <circle key={i} cx={x(i)} cy={y(d)} r='2.5' />)}
+</g>
+</svg>
+);
+}</h2>
+<p class="md-github">Configuration options include exact margin values, scale ranges, and tick formats. Best practices include using proper lifecycle hooks to avoid DOM conflicts and using unminified bundles for debugging.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">Width=640,Height=400,Margin: {top:20,right:20,bottom:30,left:40}; d3.scaleUtc(): domain=[Date('2023-01-01'),Date('2024-01-01')], range=[marginLeft, width-marginRight]; d3.scaleLinear(): domain=[0,100], range=[height-marginBottom, marginTop]; Axes: d3.axisBottom(x) at translate(0, height-marginBottom), d3.axisLeft(y) at translate(marginLeft,0); Force simulation: forceSimulation(nodes).force('x', forceX()).force('collide', forceCollide(5)).on('tick', callback); Import: ES module via https://cdn.jsdelivr.net/npm/d3@7/+esm, or npm install d3; React: useRef/useEffect to attach d3.axis, Svelte: reactive $: statements with bind:this; API details include methods of scales, axis generators, d3.create for SVG; complete method signatures provided above.</p>
+<p class="md-github">D3.js: selections, transitions (enter/update/exit); scales: scaleUtc() domain:[Date,Date] range:[num,num], scaleLinear() domain:[0,100] range:[num,num]; axes: axisBottom(x), axisLeft(y) with ticks and formats; line generator: d3.line() with .x and .y; integration: vanilla (CDN ES module), npm (import * as d3 from 'd3'), React (useRef/useEffect for axis rendering), Svelte (reactive $: and bind:this); data join: selection.data(data) with enter/exit; full code examples provided with exact dimensions and translations; installation commands: npm install d3, yarn add d3, pnpm add d3; troubleshooting: inspect DOM, verify scale domains, use non-minified bundle.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github">Basic Chart Setup</p>
+<li class="md-github">Selections and Transitions
+<ul class="md-github">
+<li class="md-github">Use selection.enter(), selection.update(), selection.exit() for efficient DOM updates.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">ES Module and CDN Integration</p>
+<li class="md-github">Scales and Axes
+<ul class="md-github">
+<li class="md-github">d3.scaleUtc(): domain([Date, Date]), range([number, number]);</li>
+<li class="md-github">d3.scaleLinear(): domain([min, max]), range([number, number]);</li>
+<li class="md-github">Axis generators: d3.axisBottom(scale) and d3.axisLeft(scale) for rendering axes.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">Force Simulation</p>
+<li class="md-github">Path and Line Generators
+<ul class="md-github">
+<li class="md-github">d3.line(): Configure with .x((d, i) =&gt; x(i)) and .y(y) to create SVG path data.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">Node Package Installation</p>
+<li class="md-github">Integration in HTML and Modules
+<ul class="md-github">
+<li class="md-github">Import via ES Module (https://cdn.jsdelivr.net/npm/d3@7/+esm) or UMD bundle.</li>
+<li class="md-github">Code structure with container append operations and proper margins passed to scales.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">React Integration</p>
+<li class="md-github">Framework Integrations
+<ul class="md-github">
+<li class="md-github">React: Use useRef, useEffect, and call d3.axisBottom/select to mount axes.</li>
+<li class="md-github">Svelte: Use reactive statements ($:) and bind:this for dynamic axis updates.</li>
+</ul>
 </li>
-<li class="md-github">
-<p class="md-github">Svelte Integration</p>
-</li>
-<li class="md-github">
-<p class="md-github">Basic Chart Setup:</p>
+<li class="md-github">Data Join Operations
+<ul class="md-github">
+<li class="md-github">Use selection.data(data) and process .enter(), .merge(), .exit() for smooth transitions.</li>
+</ul>
 </li>
 </ol>
-<ul class="md-github">
-<li class="md-github">Set dimensions: width = 640, height = 400, margins (top:20, right:20, bottom:30, left:40).</li>
-<li class="md-github">Define x scale using d3.scaleUtc with domain [new Date('2023-01-01'), new Date('2024-01-01')] and range [marginLeft, width - marginRight].</li>
-<li class="md-github">Define y scale using d3.scaleLinear with domain [0, 100] and range [height - marginBottom, marginTop].</li>
-<li class="md-github">Create an SVG container with d3.create('svg') and set attributes width and height.</li>
-<li class="md-github">Append x-axis with d3.axisBottom(x) and position with translate(0, height - marginBottom).</li>
-<li class="md-github">Append y-axis with d3.axisLeft(y) and position with translate(marginLeft, 0).</li>
-</ul>
-<ol start="2" class="md-github">
-<li class="md-github">ES Module and CDN Integration:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Import D3 modules from 'https://cdn.jsdelivr.net/npm/d3@7/+esm' for ES module usage in HTML.</li>
-<li class="md-github">Alternatively include via script src for UMD bundle.</li>
-</ul>
-<ol start="3" class="md-github">
-<li class="md-github">Force Simulation:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Import { forceSimulation, forceCollide, forceX }.</li>
-<li class="md-github">Initialize simulation: forceSimulation(nodes).force('x', forceX()).force('collide', forceCollide(5)).on('tick', callback).</li>
-</ul>
-<ol start="4" class="md-github">
-<li class="md-github">Node Package Installation:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Installation commands: yarn add d3, npm install d3, pnpm add d3.</li>
-<li class="md-github">Import entire library with: import * as d3 from 'd3'; or import specific modules.</li>
-</ul>
-<ol start="5" class="md-github">
-<li class="md-github">React Integration:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Use useRef and useEffect hooks.</li>
-<li class="md-github">Create scales and axes similarly, attach refs to DOM elements, and call d3.axisBottom and d3.axisLeft inside useEffect.</li>
-</ul>
-<ol start="6" class="md-github">
-<li class="md-github">Svelte Integration:</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">Use reactive declarations ($:).</li>
-<li class="md-github">Bind elements to variables using bind:this for axis groups.</li>
-<li class="md-github">Automatically update axes with reactive statements invoking d3.select(ref).call(axisFunction).</li>
-</ul>
+<p class="md-github">For each section, the implementation details include exact parameter values (e.g., width: 640, height: 400, margins: 20/30/40), precise function calls, and complete code examples that can be directly integrated.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
 <p class="md-github">D3.js Documentation
 https://d3js.org/</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-d3_js" href="#digest-of-d3_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of D3_JS</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="getting_started" href="#getting_started"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GETTING_STARTED</h1>
-<p class="md-github">Retrieved on 2023-10-12
-D3.js is a comprehensive JavaScript library that enables custom dynamic data visualizations using web standards. This document provides exact implementation details including API usage, method signatures, configuration parameters, and complete code examples.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="vanilla-html--es-module" href="#vanilla-html--es-module"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>VANILLA HTML &amp; ES MODULE</h1>
+<h1 class="md-github"><a class="md-github__anchor" name="d3js-technical-specifications" href="#d3js-technical-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>D3.js Technical Specifications</h1>
+<p class="md-github">Retrieved: 2023-10-XX</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">D3.js is a low-level JavaScript library for creating dynamic, interactive, data-driven visualizations by directly manipulating the DOM using web standards such as SVG and Canvas. It consists of multiple modules including selections, transitions, scales, axes, shapes, and layouts.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="core-modules-and-functions" href="#core-modules-and-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Modules and Functions</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="selections-and-transitions" href="#selections-and-transitions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Selections and Transitions</h3>
 <ul class="md-github">
-<li class="md-github">
-<p class="md-github">Use CDN reference via &quot;https://cdn.jsdelivr.net/npm/d3@7/+esm&quot; for ES modules.</p>
-</li>
-<li class="md-github">
-<p class="md-github">In vanilla HTML, load D3 via a script tag or as an ES module. Example code:</p>
-<p class="md-github">// Dimensions and margins
+<li class="md-github">Selection API: Create, update, and remove DOM elements dynamically.</li>
+<li class="md-github">Transition API: Animate changes; example: selection.transition().duration(750).attr(...).</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="scales-and-axes" href="#scales-and-axes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scales and Axes</h3>
+<ul class="md-github">
+<li class="md-github">d3.scaleUtc(): Configured with domain (dates) and range (pixel values).
+Signature: d3.scaleUtc() returns a continuous scale mapping Date objects to numbers.</li>
+<li class="md-github">d3.scaleLinear(): Maps quantitative data to pixels.
+Signature: d3.scaleLinear() returns a continuous linear scale.</li>
+<li class="md-github">d3.axisBottom(scale): Renders the x-axis based on the provided scale. Accepts additional configuration for ticks.</li>
+<li class="md-github">d3.axisLeft(scale): Renders the y-axis based on the provided scale.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="shapes-and-path-generators" href="#shapes-and-path-generators"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Shapes and Path Generators</h3>
+<ul class="md-github">
+<li class="md-github">d3.line(): Generates a line path for an array of data points.
+Usage pattern: const line = d3.line().x((d, i) =&gt; x(i)).y(y);</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="layouts-and-data-join" href="#layouts-and-data-join"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Layouts and Data Join</h3>
+<ul class="md-github">
+<li class="md-github">Dynamic data binding via data join pattern: Using selection.data(data) provides .enter(), .update(), and .exit() subselections to efficiently update the DOM.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="embedding-examples" href="#embedding-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Embedding Examples</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="example-blank-chart-creation" href="#example-blank-chart-creation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example: Blank Chart Creation</h3>
+<p class="md-github">// Declare dimensions and margins
 const width = 640;
 const height = 400;
 const marginTop = 20, marginRight = 20, marginBottom = 30, marginLeft = 40;</p>
-<p class="md-github">// Scales
+<p class="md-github">// Define scales
 const x = d3.scaleUtc()
 .domain([new Date(&quot;2023-01-01&quot;), new Date(&quot;2024-01-01&quot;)])
-.range([marginLeft, width - marginRight]);
-const y = d3.scaleLinear()
+.range([marginLeft, width - marginRight]);</p>
+<p class="md-github">const y = d3.scaleLinear()
 .domain([0, 100])
 .range([height - marginBottom, marginTop]);</p>
-<p class="md-github">// Create SVG container
+<p class="md-github">// Create an SVG container
 const svg = d3.create(&quot;svg&quot;)
 .attr(&quot;width&quot;, width)
 .attr(&quot;height&quot;, height);</p>
-<p class="md-github">// Add axes
+<p class="md-github">// Append x-axis
 svg.append(&quot;g&quot;)
 .attr(&quot;transform&quot;, <code class="md-github">translate(0,${height - marginBottom})</code>)
-.call(d3.axisBottom(x));
+.call(d3.axisBottom(x));</p>
+<p class="md-github">// Append y-axis
 svg.append(&quot;g&quot;)
 .attr(&quot;transform&quot;, <code class="md-github">translate(${marginLeft},0)</code>)
 .call(d3.axisLeft(y));</p>
-<p class="md-github">// Append element
-container.append(svg.node());</p>
-</li>
-</ul>
-<h1 class="md-github"><a class="md-github__anchor" name="forced-simulation" href="#forced-simulation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>FORCED SIMULATION</h1>
+<p class="md-github">// Return the SVG element
+return svg.node();</p>
+<h2 class="md-github"><a class="md-github__anchor" name="integration-approaches" href="#integration-approaches"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integration Approaches</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="in-vanilla-html" href="#in-vanilla-html"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>In Vanilla HTML</h3>
 <ul class="md-github">
-<li class="md-github">
-<p class="md-github">Import individual modules:
-import { forceSimulation, forceCollide, forceX } from &quot;https://cdn.jsdelivr.net/npm/d3-force@3/+esm&quot;;</p>
-</li>
-<li class="md-github">
-<p class="md-github">Use simulation as:</p>
-<p class="md-github">const nodes = [{}, {}];
-const simulation = forceSimulation(nodes)
-.force(&quot;x&quot;, forceX())
-.force(&quot;collide&quot;, forceCollide(5))
-.on(&quot;tick&quot;, () =&gt; console.log(nodes[0].x));</p>
-</li>
+<li class="md-github">Load from CDN: Use ES Module via &quot;https://cdn.jsdelivr.net/npm/d3@7/+esm&quot; or UMD bundle.</li>
+<li class="md-github">Embed via script tags in HTML with type=&quot;module&quot;.</li>
 </ul>
-<h1 class="md-github"><a class="md-github__anchor" name="installing-from-npm" href="#installing-from-npm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>INSTALLING FROM NPM</h1>
+<h3 class="md-github"><a class="md-github__anchor" name="using-node-and-npm" href="#using-node-and-npm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Using Node and npm</h3>
 <ul class="md-github">
-<li class="md-github">Commands:
-yarn add d3
-npm install d3
-pnpm add d3</li>
-<li class="md-github">Import examples:
-import * as d3 from &quot;d3&quot;;
-or
-import { select, selectAll } from &quot;d3&quot;;</li>
+<li class="md-github">Installation: npm install d3</li>
+<li class="md-github">Import usage: import * as d3 from &quot;d3&quot;; or import specific components (e.g. {select, selectAll})</li>
 </ul>
-<h1 class="md-github"><a class="md-github__anchor" name="react-integration" href="#react-integration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>REACT INTEGRATION</h1>
+<h3 class="md-github"><a class="md-github__anchor" name="in-react" href="#in-react"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>In React</h3>
 <ul class="md-github">
-<li class="md-github">
-<p class="md-github">Components use hooks and refs to integrate D3, for instance:</p>
-<p class="md-github">const gx = useRef();
-const gy = useRef();
-const x = d3.scaleLinear([0, data.length - 1], [marginLeft, width - marginRight]);
-const y = d3.scaleLinear(d3.extent(data), [height - marginBottom, marginTop]);
-useEffect(() =&gt; { d3.select(gx.current).call(d3.axisBottom(x)); }, [gx, x]);
-useEffect(() =&gt; { d3.select(gy.current).call(d3.axisLeft(y)); }, [gy, y]);</p>
-</li>
+<li class="md-github">Render static elements in JSX. Use d3-scale and d3-array for non-DOM work. For DOM manipulation, use useRef and useEffect to attach d3.axis calls.</li>
 </ul>
-<h1 class="md-github"><a class="md-github__anchor" name="svelte-integration" href="#svelte-integration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVELTE INTEGRATION</h1>
+<h3 class="md-github"><a class="md-github__anchor" name="in-svelte" href="#in-svelte"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>In Svelte</h3>
 <ul class="md-github">
-<li class="md-github">
-<p class="md-github">Utilize reactive statements ($:) for dynamic updates:</p>
-<p class="md-github">$: x = d3.scaleLinear([0, data.length - 1], [marginLeft, width - marginRight]);
-$: y = d3.scaleLinear(d3.extent(data), [height - marginBottom, marginTop]);
-$: line = d3.line((d, i) =&gt; x(i), y);
-$: d3.select(gy).call(d3.axisLeft(y));
-$: d3.select(gx).call(d3.axisBottom(x));</p>
-</li>
+<li class="md-github">Use reactive statements ($:) to update scales and axes. Bind container elements using bind:this.</li>
 </ul>
-<h1 class="md-github"><a class="md-github__anchor" name="configuration-and-parameters" href="#configuration-and-parameters"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CONFIGURATION AND PARAMETERS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting-and-best-practices" href="#troubleshooting-and-best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting and Best Practices</h2>
 <ul class="md-github">
-<li class="md-github">Dimensions: width: 640, height: 400; margins: top:20, right:20, bottom:30, left:40.</li>
-<li class="md-github">Scale methods: d3.scaleUtc() and d3.scaleLinear() require .domain() and .range() methods.</li>
-<li class="md-github">Axis methods: d3.axisBottom(scale) and d3.axisLeft(scale) to render axes.</li>
+<li class="md-github">Use non-minified bundle (d3.v7.js) for debugging, minified bundle (d3.v7.min.js) in production.</li>
+<li class="md-github">For performance, only update necessary DOM elements during data join transitions.</li>
+<li class="md-github">If integrating with frameworks like React, avoid using d3-selection to conflict with virtual DOM; isolate D3 code in useEffect hooks.</li>
 </ul>
-<h1 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ATTRIBUTION</h1>
-<p class="md-github">Data Size: 8936502 bytes; Links Count: 33758; Source: https://d3js.org/</p>
-<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-and-data-size" href="#attribution-and-data-size"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution and Data Size</h2>
+<p class="md-github">Data Size: 4545026 bytes, Links Found: 19149, No errors reported. Retrieved from https://d3js.org/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: D3.js Documentation</li>
 <li class="md-github">URL: https://d3js.org/</li>
 <li class="md-github">License: BSD License</li>
-<li class="md-github">Crawl Date: 2025-04-27T15:47:41.882Z</li>
-<li class="md-github">Data Size: 8936502 bytes</li>
-<li class="md-github">Links Found: 33758</li>
+<li class="md-github">Crawl Date: 2025-04-27T21:47:30.764Z</li>
+<li class="md-github">Data Size: 4545026 bytes</li>
+<li class="md-github">Links Found: 19149</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
 <p class="md-github">2025-04-27</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-27T21:22:26.716Z</p>
+    <p>Generated on 2025-04-27T22:22:51.431Z</p>
   </footer>
 </body>
 </html>
