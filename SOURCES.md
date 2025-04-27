@@ -82,3 +82,13 @@ This guide offers deep insights into error handling patterns in Node.js, coverin
 ## https://expressjs.com/en/advanced/best-practice-performance.html
 This resource outlines advanced strategies for improving the performance of Express-based applications, including efficient middleware usage, caching techniques, and profiling methods. These insights are critical for optimizing our HTTP endpoints, ensuring high throughput and scalability when serving dynamic plot generation requests.
 ## MIT License
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/
+Vega-Lite provides a high-level grammar for interactive graphics. Its documentation presents a declarative approach to creating visualizations, covering responsive scaling, data transformation, and customization of chart elements. This resource offers actionable insights that can inform enhancements in dynamic plot rendering and configuration within our library. It is maintained under the Apache License 2.0.
+## Apache License 2.0
+
+# ECMAScript Internationalization API Specification
+## https://tc39.es/ecma402/
+The ECMAScript Internationalization API Specification details the standards for locale-aware number and date formatting in JavaScript. This authoritative resource is essential for implementing precise, culturally appropriate formatting in our dynamic axis label generation, ensuring that numerical displays conform to international standards. Published by TC39, it is considered a definitive guide on internationalization in ECMAScript.
+## CC0
