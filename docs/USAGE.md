@@ -17,7 +17,7 @@ You can generate plots directly from the command line by providing the following
   - **Numeric Order Enforcement:** The lower bound must be less than the upper bound for both x and y ranges.
   - **Enhanced Error Feedback:** 
     - If the range format is malformed (e.g., missing delimiters, non-numeric inputs, or extra whitespace), you will receive an error message such as:
-      > Error: Invalid range format. Expected format: x=0:10, y=0:10. Please check for extra whitespace or missing delimiters.
+      > Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.
     - If the numeric order is invalid (e.g., x min is not less than x max), the error message will be like:
       > Error: Invalid range for x (provided: x=5:1). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.
 
