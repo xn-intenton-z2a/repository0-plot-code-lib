@@ -11,7 +11,16 @@ const app = express();
 
 function createSvgPlot(expression, range, customLabels = {}) {
   // Validate numeric custom label parameters
-  const numericParams = ["xlabelPrecision", "ylabelPrecision", "xlabelX", "xlabelY", "ylabelX", "ylabelY"]; 
+  const numericParams = [
+    "xlabelPrecision",
+    "ylabelPrecision",
+    "xlabelX",
+    "xlabelY",
+    "ylabelX",
+    "ylabelY",
+    "xlabelRotation",
+    "ylabelRotation"
+  ]; 
   let customLabelErrors = [];
   numericParams.forEach(param => {
     if (customLabels[param] != null) {
@@ -157,12 +166,19 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const xLabelX = customLabels.xlabelX != null ? customLabels.xlabelX : (width / 2).toFixed(2);
   const xLabelY = customLabels.xlabelY != null ? customLabels.xlabelY : (height - 5).toFixed(2);
 
-  // Determine y-axis label positioning: if custom positions provided, use them, otherwise use default with rotation
+  // Determine transform for x-axis label if rotation is provided
+  let xTransform = "";
+  if (customLabels.xlabelRotation != null) {
+    xTransform = ` transform="rotate(${customLabels.xlabelRotation}, ${xLabelX}, ${xLabelY})"`;
+  }
+
+  // Determine y-axis label positioning and rotation
   let yLabelAttributes;
+  let ylabelRotation = customLabels.ylabelRotation != null ? customLabels.ylabelRotation : -90;
   if (customLabels.ylabelX != null && customLabels.ylabelY != null) {
-    yLabelAttributes = `x="${customLabels.ylabelX}" y="${customLabels.ylabelY}"`;
+    yLabelAttributes = `x="${customLabels.ylabelX}" y="${customLabels.ylabelY}" transform="rotate(${ylabelRotation}, ${customLabels.ylabelX}, ${customLabels.ylabelY})"`;
   } else {
-    yLabelAttributes = `x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})"`;
+    yLabelAttributes = `x="5" y="${(height / 2).toFixed(2)}" transform="rotate(${ylabelRotation}, 10, ${(height / 2).toFixed(2)})"`;
   }
 
   // Create SVG content with dynamic labels for axes and ARIA accessibility attributes for screen readers
@@ -171,7 +187,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
   <!-- Dynamic Axis Labels with ARIA accessibility attributes -->
-  <text x="${xLabelX}" y="${xLabelY}" text-anchor="middle" aria-label="x-axis: ${xMin} to ${xMax}" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}">
+  <text x="${xLabelX}" y="${xLabelY}" text-anchor="middle" aria-label="x-axis: ${xMin} to ${xMax}" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}"${xTransform}>
     ${xAxisLabelText}
   </text>
   <text ${yLabelAttributes} text-anchor="middle" aria-label="y-axis: ${yInputMin} to ${yInputMax}" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}">
@@ -183,7 +199,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 }
 
 app.get("/plot", (req, res) => {
-  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY } = req.query;
+  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation } = req.query;
 
   // If query parameters are provided, perform aggregated validation
   if (expression || range || fileType || format) {
@@ -219,7 +235,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY });
+        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation });
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =

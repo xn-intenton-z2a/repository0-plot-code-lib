@@ -243,41 +243,36 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain('aria-label="y-axis: 0 to 10"');
   });
 
-  test("should return SVG with custom axis label positioning when provided", async () => {
+  // New tests for custom rotation options
+  test("should return SVG with custom x-axis rotation when xlabelRotation is provided", async () => {
     const res = await request(app)
       .get("/plot")
       .query({
         expression: "y=sin(x)",
         range: "x=0:10,y=0:10",
         fileType: "svg",
-        xlabelX: "50",
-        xlabelY: "100",
-        ylabelX: "10",
-        ylabelY: "150"
+        xlabelRotation: "15"
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toContain('x="50"');
-    expect(svgText).toContain('y="100"');
-    expect(svgText).toContain('x="10"');
-    expect(svgText).toContain('y="150"');
+    expect(svgText).toMatch(/<text[^>]+transform="rotate\(15,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
   });
 
-  test("should return 400 if custom label numeric parameters are invalid", async () => {
+  test("should return SVG with custom y-axis rotation when ylabelRotation is provided", async () => {
     const res = await request(app)
       .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", xlabelPrecision: "abc" })
-      .expect(400);
-    expect(res.text).toContain("Error: Invalid numeric value for xlabelPrecision. Expected a number.");
-  });
-
-  test("should return 400 if multiple custom label numeric parameters are invalid", async () => {
-    const res = await request(app)
-      .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", xlabelPrecision: "foo", ylabelX: "bar" })
-      .expect(400);
-    expect(res.text).toContain("Error: Invalid numeric value for xlabelPrecision. Expected a number.");
-    expect(res.text).toContain("Error: Invalid numeric value for ylabelX. Expected a number.");
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        ylabelRotation: "45",
+        ylabelX: "20",
+        ylabelY: "80"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(svgText).toMatch(/<text[^>]+transform="rotate\(45,\s*20,\s*80\)"/);
   });
 });

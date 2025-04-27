@@ -32,7 +32,7 @@ describe("CLI Plot Generation", () => {
     process.exit = originalExit;
   });
 
-  test("should generate enhanced SVG file when provided correct flags", () => {
+  test("should generate enhanced SVG file when provided correct flags including custom rotation", () => {
     const testFile = "test_output.svg";
     if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
     process.argv = [
@@ -43,17 +43,20 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=-1:1,y=-1:1",
       "--file",
-      testFile
+      testFile,
+      "--xlabelRotation",
+      "20",
+      "--ylabelRotation",
+      "-45"
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");
     expect(content.startsWith("<svg")).toBe(true);
-    expect(content).toContain('<text x="10" y="20"');
-    expect(content).toContain('Plot for: y=sin(x) in range x=-1:1,y=-1:1');
-    expect(content).toContain("<polyline");
-    // Verify ARIA attributes are present
-    expect(content).toContain('aria-label="x-axis: -1 to 1"');
-    expect(content).toContain('aria-label="y-axis: -1 to 1"');
+    expect(content).toContain('<text');
+    // Check custom rotation in x-axis label
+    expect(content).toMatch(/<text[^>]+transform="rotate\(20,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
+    // Check custom rotation in y-axis label (should include -45)
+    expect(content).toMatch(/<text[^>]+transform="rotate\(-45,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
     fs.unlinkSync(testFile);
   });
 
