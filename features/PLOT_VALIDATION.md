@@ -1,21 +1,22 @@
 # Overview
-This feature refines input validation, error handling, and extends plot generation by optionally exporting computed time series data. It leverages zod schema principles and RFC7807 compliant error responses, while now enabling clients to request the raw computed data points when needed.
+This update to the PLOT_VALIDATION feature integrates a new capability to export computed time series data. In addition to its existing validation for mathematical expressions and range parameters as well as SVG/PNG plot generation, the tool now supports an exportData feature. When clients include a truthy exportData query parameter and request a JSON response, the system computes an array of data points representing the function evaluation over the specified range.
 
 # Input Validation and Error Handling
-- Validate that the mathematical expression is non-empty and includes the variable x. If the expression starts with a 'y=' prefix, remove it prior to validation.
-- Validate that the range parameter follows the format: x=<min>:<max>,y=<min>:<max>, allowing extra whitespace around delimiters. Numeric order is strictly enforced for both x and y ranges.
-- When a validation error occurs, the system responds with either a plain text error or an RFC7807 compliant JSON error (when requested via Accept header: application/problem+json), ensuring clarity and consistency across both HTTP API and CLI usage.
+- Validates that the provided mathematical expression is non-empty and must include the variable x, with any 'y=' prefix removed prior to processing.
+- Verifies that the range parameter adheres to the format: x=<min>:<max>,y=<min>:<max>, allowing extra whitespace. It enforces that for both x and y ranges, the lower bound is less than the upper bound.
+- When multiple input errors occur, the system aggregates them and returns a combined error message. Errors are output either as plain text or as an RFC7807 compliant JSON error response when requested.
 
 # Time Series Data Export
-- An optional query parameter, exportData, has been integrated into the /plot endpoint. When exportData is provided and truthy, after validating the expression and range, the system computes the time series data points. These points are returned as an array of objects containing corresponding x and y values.
-- The JSON response will include the original expression, the provided range, and the computed data points, enabling clients to further analyze or process the numerical results without generating an image.
+- A new branch in the implementation checks for the query parameter exportData. When present and if the output format is application/json, the endpoint bypasses image generation.
+- Instead, the system computes 100 evenly spaced sample points over the defined x-range using the supplied mathematical expression.
+- Each computed point is an object with corresponding x and y values. The JSON response includes the original expression, the specified range, and the computed array of data points. This enhancement enables clients to integrate the raw computed data into their own data processing pipelines.
 
 # CLI and HTTP Endpoint Updates
-- For HTTP requests with appropriate query parameters, if exportData is truthy, the endpoint bypasses image generation. Instead, it returns a JSON response with detailed plotting data including the computed points.
-- In cases where exportData is not provided, content negotiation is used to determine the response format (SVG, PNG, or JSON) based on the fileType, format query parameters, or Accept header.
-- The CLI mode continues to support flags for expression, range, and file output. In this mode, the exportData functionality is not applicable.
+- For HTTP clients, if the exportData parameter is provided with a JSON request, instead of generating an SVG or PNG image, the endpoint returns a detailed JSON object with computed time series data.
+- CLI mode remains unchanged with respect to image file generation, ensuring that exportData functionality applies only to HTTP requests.
+- The behavior is integrated with content negotiation so that if the output format is application/json and exportData is true, the raw data is returned.
 
 # Testing and Documentation
-- Unit tests cover scenarios for both the traditional visual plot generation and the new exportData JSON output, including tests for valid data, malformed ranges, missing parameters, and non-finite expression evaluations.
-- README, USAGE, and documentation files have been updated to detail the new exportData parameter, complete with examples demonstrating how to request raw time series data.
-- This enhancement delivers significant user impact by allowing direct access to plotted data, fostering integration with external data processing pipelines without the intermediary step of image generation.
+- Unit tests have been updated to include scenarios that verify the presence and correctness of the computed data array when exportData is provided. New test cases assert that a JSON response includes a data array with 100 computed points.
+- Documentation in the usage guide and README has been revised to detail this new exportData parameter. Examples demonstrate how to request raw time series data using URL query parameters.
+- This enhancement brings significant value by enabling downstream analysis without requiring an intermediary image generation step.
