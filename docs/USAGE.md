@@ -11,15 +11,15 @@ You can generate plots directly from the command line by providing the following
 - **--help**: Displays this help message with usage information, flag details, and examples.
 - **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string. <br>**Note:** The expression must include the variable 'x' for proper plot generation.
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must contain the variable 'x'** for proper plot generation.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
   - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound (e.g., for x, `x-min < x-max`; for y, `y-min < y-max`). If the numeric order is not maintained, an error will be returned (e.g., "Error: Invalid range - x-min must be less than x-max.").
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot that now includes both a text annotation and a dynamically generated <polyline> element representing the evaluated curve over 100 sample points.
-  - **.png**: Generates a PNG plot using dummy base64 encoded image data.
-- **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for image/svg+xml, image/png, and application/json.
+  - **.svg**: Generates an SVG plot that includes a text annotation and a blue polyline representing the evaluated curve over 100 sample points.
+  - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
+- **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
 ### Examples
 
@@ -40,7 +40,7 @@ You can generate plots directly from the command line by providing the following
    ```bash
    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg [--verbose]
    ```
-   This command produces an SVG file that contains the annotation text and a blue polyline representing the mathematically evaluated curve over 100 sample points. The tool validates that the numeric range values are in ascending order (e.g., x-min < x-max and y-min < y-max); passing an out-of-order range like "x=5:1,y=0:10" will result in an error.
+   This command produces an SVG file that contains an annotation text and a blue polyline representing the mathematically evaluated curve over 100 sample points. The tool validates that the numeric range values are in ascending order; providing an out-of-order range like "x=5:1,y=0:10" will result in an error.
 
 4. **Generate a PNG Plot via CLI:**
 
@@ -58,11 +58,11 @@ You can generate plots directly from the command line by providing the following
 
 In addition to content negotiation via the Accept header, the `/plot` endpoint has been enhanced to support dynamic plot generation using URL query parameters. When making a GET request with the following query parameters, the API will dynamically generate and return the plot by mathematically evaluating the expression:
 
-- **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty.
-- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. **Important:** The tool validates that the lower numeric bound is less than the upper bound for both x and y ranges.
+- **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty. The expression **must contain the variable 'x'**.
+- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. The tool validates that the lower numeric bound is less than the upper bound for both x and y ranges.
 - **fileType**: (Deprecated) Specifies the output type using shorthand values (`svg` or `png`).
 - **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
-  - `image/svg+xml` (which now produces an SVG plot with a dynamically generated polyline)
+  - `image/svg+xml` (which produces an SVG plot with a dynamically generated polyline)
   - `image/png`
   - `application/json`
 
@@ -77,7 +77,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
 
-- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with an appropriate error message.
+- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (e.g., "Error: Missing or empty 'expression' query parameter." or "Error: The expression must contain the variable 'x'.").
 - If no query parameters are provided, the endpoint falls back to content negotiation based on the Accept header.
 
 ### Examples
