@@ -267,10 +267,8 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain('text-anchor="start"');
     expect(svgText).toContain('text-anchor="end"');
   });
-});
 
-describe("Adaptive Resolution and Smoothing", () => {
-  test("should return JSON export with specified resolution", async () => {
+  test("should return detailed JSON output when --jsonExport flag is provided", async () => {
     const res = await request(app)
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", resolution: "150", jsonExport: "true" })
@@ -309,5 +307,26 @@ describe("Adaptive Resolution and Smoothing", () => {
       .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", resolution: "-50", jsonExport: "true" })
       .expect(400);
     expect(res.text).toContain("Error: Invalid resolution");
+  });
+
+  test("should render SVG with dynamic color gradient when flag is enabled", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        colorGradient: "true",
+        gradientStartColor: "purple",
+        gradientEndColor: "orange"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(svgText).toContain("<defs>");
+    expect(svgText).toContain("id=\"dynamicGradient\"");
+    expect(svgText).toContain("<stop offset=\"0%\" stop-color=\"purple\"");
+    expect(svgText).toContain("<stop offset=\"100%\" stop-color=\"orange\"");
+    expect(svgText).toMatch(/stroke="url\(#dynamicGradient\)"/);
   });
 });

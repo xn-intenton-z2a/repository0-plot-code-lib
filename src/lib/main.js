@@ -214,7 +214,7 @@ function buildSmoothPath(points) {
   return d;
 }
 
-// Modified createSvgPlot now uses computePlotData and supports smoothing
+// Modified createSvgPlot now uses computePlotData and supports smoothing and dynamic color gradients
 function createSvgPlot(expression, range, customLabels = {}) {
   const plotData = computePlotData(expression, range, customLabels);
   const width = 300;
@@ -231,14 +231,24 @@ function createSvgPlot(expression, range, customLabels = {}) {
     return { x: mappedX, y: mappedY };
   });
 
+  // Dynamic color gradient support
+  let strokeAttr = 'stroke="blue"';
+  let defs = "";
+  if (customLabels.colorGradient === "true") {
+    const gradientStart = customLabels.gradientStartColor || "blue";
+    const gradientEnd = customLabels.gradientEndColor || "red";
+    defs = `<defs><linearGradient id="dynamicGradient"><stop offset="0%" stop-color="${gradientStart}" /><stop offset="100%" stop-color="${gradientEnd}" /></linearGradient></defs>`;
+    strokeAttr = 'stroke="url(#dynamicGradient)"';
+  }
+
   let shapeElement = "";
   // Check if smoothing is enabled
   if (customLabels.smooth === "true") {
     const pathData = buildSmoothPath(mappedPoints);
-    shapeElement = `<path d="${pathData}" stroke="blue" fill="none" />`;
+    shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none" />`;
   } else {
     const polylinePoints = mappedPoints.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
-    shapeElement = `<polyline points="${polylinePoints}" stroke="blue" fill="none" />`;
+    shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr} fill="none" />`;
   }
 
   // Determine x-axis label positioning and rotation
@@ -281,6 +291,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
 
   const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    ${defs}
     <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${plotData.axisLabels.x}</text>
     <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${plotData.axisLabels.y}</text>
     <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>
@@ -427,7 +438,11 @@ function main() {
         xlabelFontSize: z.string().optional(),
         xlabelColor: z.string().optional(),
         ylabelFontSize: z.string().optional(),
-        ylabelColor: z.string().optional()
+        ylabelColor: z.string().optional(),
+        // New gradient options
+        colorGradient: z.enum(["true", "false"]).optional(),
+        gradientStartColor: z.string().optional(),
+        gradientEndColor: z.string().optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       // Merge configuration: CLI flags override config file options

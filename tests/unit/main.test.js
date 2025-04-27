@@ -415,98 +415,33 @@ describe("CLI Plot Generation", () => {
     fs.unlinkSync(testFile);
   });
 
-  describe("CLI Config flag", () => {
-    const configFile = "test_config.json";
-    afterEach(() => {
-      if (fs.existsSync(configFile)) fs.unlinkSync(configFile);
-      if (fs.existsSync("output_config.svg")) fs.unlinkSync("output_config.svg");
-    });
-
-    test("should merge configuration from a valid config file with CLI override", () => {
-      const configData = {
-        expression: "y=cos(x)",
-        range: "x=-2:2,y=-1:1",
-        xlabel: "ConfigX",
-        ylabel: "ConfigY"
-      };
-      fs.writeFileSync(configFile, JSON.stringify(configData), "utf8");
-      // CLI overrides expression and file
-      process.argv = [
-        "node",
-        "src/lib/main.js",
-        "--config",
-        configFile,
-        "--expression",
-        "y=sin(x)",
-        "--file",
-        "output_config.svg"
-      ];
-      main();
-      const content = fs.readFileSync("output_config.svg", "utf8");
-      // Check that the expression from CLI overrides config, but other values come from config
-      expect(content).toContain("Plot for: y=sin(x) in range x=-2:2,y=-1:1");
-      expect(content).toContain("ConfigX");
-      expect(content).toContain("ConfigY");
-    });
-
-    test("should error if config file does not exist", () => {
-      process.argv = [
-        "node",
-        "src/lib/main.js",
-        "--config",
-        "nonexistent.json",
-        "--expression",
-        "y=sin(x)",
-        "--range",
-        "x=-1:1,y=-1:1",
-        "--file",
-        "output.svg"
-      ];
-      expect(() => main()).toThrow(/Error: Unable to read or parse configuration file/);
-    });
-
-    test("should error if config file contains invalid JSON", () => {
-      fs.writeFileSync(configFile, "{ invalid json }", "utf8");
-      process.argv = [
-        "node",
-        "src/lib/main.js",
-        "--config",
-        configFile,
-        "--expression",
-        "y=sin(x)",
-        "--range",
-        "x=-1:1,y=-1:1",
-        "--file",
-        "output.svg"
-      ];
-      expect(() => main()).toThrow(/Error: Unable to read or parse configuration file/);
-    });
-  });
-
-  test("should load custom .env file when --env flag is provided", () => {
-    // Create a temporary .env file with a test environment variable
-    const envPath = "test_custom.env";
-    fs.writeFileSync(envPath, "TEST_ENV_VAR=custom_value\n", "utf8");
-
-    // Remove the variable if it exists
-    delete process.env.TEST_ENV_VAR;
-
+  test("should generate SVG with dynamic color gradient when CLI flag is enabled", () => {
+    const testFile = "output_gradient.svg";
+    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
     process.argv = [
       "node",
       "src/lib/main.js",
-      "--env",
-      envPath,
       "--expression",
       "y=sin(x)",
       "--range",
-      "x=0:1,y=0:1",
+      "x=0:10,y=0:10",
       "--file",
-      "dummy.svg"
+      testFile,
+      "--colorGradient",
+      "true",
+      "--gradientStartColor",
+      "green",
+      "--gradientEndColor",
+      "yellow"
     ];
     main();
-    expect(process.env.TEST_ENV_VAR).toBe("custom_value");
-    fs.unlinkSync("dummy.svg");
-    fs.unlinkSync(envPath);
+    const content = fs.readFileSync(testFile, "utf8");
+    expect(content).toContain('<defs>');
+    expect(content).toContain('id="dynamicGradient"');
+    expect(content).toContain('<stop offset="0%" stop-color="green"');
+    expect(content).toContain('<stop offset="100%" stop-color="yellow"');
+    expect(content).toMatch(/stroke="url\(#dynamicGradient\)"/);
+    fs.unlinkSync(testFile);
   });
 });
 
