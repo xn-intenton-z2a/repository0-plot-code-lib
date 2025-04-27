@@ -127,3 +127,23 @@ The Twelve-Factor App methodology offers a set of best practices for building mo
 ## https://github.com/goldbergyoni/nodebestpractices
 This repository aggregates a comprehensive set of best practices for Node.js development. It covers topics such as performance optimization, error handling, code maintainability, and security. The actionable insights provided can help enhance our application's robustness and guide improvements in both the CLI tool and the HTTP API implementations.
 ## MIT License
+
+# Zod Official Documentation
+## https://zod.dev/
+The official Zod website offers an updated and comprehensive guide to schema validation with Zod. It provides detailed API references, advanced usage examples, and best practices for integrating type-safe validation into modern JavaScript and TypeScript applications. This is crucial for maintaining robust configuration management and input validation in our library.
+## MIT License
+
+# Node.js ESM Documentation
+## https://nodejs.org/api/esm.html
+This official Node.js documentation explains the usage of ECMAScript Modules (ESM) in Node.js. It covers import/export syntax, module resolution, and interoperability with CommonJS modules, providing essential insights for understanding and leveraging the modern module system in our codebase.
+## Node.js License
+
+# OpenAPI Specification
+## https://swagger.io/specification/
+The OpenAPI Specification offers a standard, language-agnostic interface to RESTful APIs which allows both humans and computers to discover and understand the capabilities of the service without access to source code. This resource is valuable for designing, documenting, and expanding our HTTP API endpoints with detailed technical specifications.
+## OpenAPI Initiative License
+
+# EJS Documentation
+## https://ejs.co/
+EJS is a simple templating language that enables the generation of HTML markup with plain JavaScript. Its concise syntax and versatility make it a solid reference for generating dynamic content, and it can be especially useful in creating customizable output for web applications and CLI tools.
+## MIT License
