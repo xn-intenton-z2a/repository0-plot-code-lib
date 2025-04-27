@@ -142,3 +142,18 @@ RisingStack offers an in-depth tutorial on error handling best practices in Node
 ## https://github.com/svg/svgo
 SVGO is a powerful tool designed to optimize and clean up SVG files by removing unnecessary data and reducing file size. The documentation provides technical details on various optimization strategies and configuration options, supporting our efforts to produce efficient and streamlined SVG plots for web delivery.
 ## MIT License
+
+# Node Canvas
+## https://github.com/Automattic/node-canvas
+Node Canvas provides a Cairo-backed canvas implementation for Node.js and offers advanced capabilities for generating and manipulating images in a server-side environment. Its technical documentation presents deep insights into rendering dynamic images and handling complex image operations, which can be leveraged to improve our PNG generation beyond placeholder data.
+## MIT License
+
+# SVG.js
+## https://svgjs.dev/docs/3.0/
+SVG.js is a lightweight library for creating, animating, and manipulating SVG elements using JavaScript. Its detailed API documentation can serve as a foundation for future enhancements involving interactive and dynamic SVG content in our library.
+## MIT License
+
+# Express Error Handling Best Practices
+## https://www.toptal.com/nodejs/node-js-error-handling
+This article provides a comprehensive guide to effective error handling in Express.js applications. It covers middleware error handling, best practices for structured error responses, and debugging techniques, delivering actionable insights that are directly applicable to improving our repository's error management strategies following RFC7807 standards.
+## N/A
