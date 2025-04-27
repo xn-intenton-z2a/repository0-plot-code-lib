@@ -35,13 +35,24 @@ You can generate plots directly from the command line by providing the following
   - `computedYRange`: The computed minimum and maximum y values based on evaluation.
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
 
-- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file, validates its structure using a predefined schema, and merges its values with the CLI flags, with CLI flags taking precedence. If the configuration file does not conform to the expected schema, an error with a descriptive message will be thrown.
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file, validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence. **Important:** If the configuration file does not conform to the expected schema (for example, if a property like resolution is not a positive integer), the tool will throw a descriptive error indicating which configuration field is invalid.
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root. For example:
 
   ```sh
   node src/lib/main.js --env ./config/.env --serve
   ```
+
+## Configuration File Format
+
+When using the **--config** flag, provide a JSON file with the following optional properties:
+
+- **expression**: string (non-empty if provided).
+- **range**: string, in the format `x=<min>:<max>,y=<min>:<max>` with numeric values.
+- **resolution**: a positive integer (can be provided as a number or a numeric string).
+- **Axis Label Customizations**: e.g., `xlabel`, `ylabel`, `xlabelPrecision`, `ylabelPrecision`, `smooth`, `xlabelX`, `xlabelY`, `ylabelX`, `ylabelY`, `xlabelRotation`, `ylabelRotation`, `xlabelOffsetX`, `xlabelOffsetY`, `ylabelOffsetX`, `ylabelOffsetY`, `locale`, `xlabelAriaLabel`, `ylabelAriaLabel`, `xlabelAnchor`, `ylabelAnchor`, `xlabelFontSize`, `xlabelColor`, `ylabelFontSize`, `ylabelColor`.
+
+The tool validates these properties using a Zod schema. If any property fails validation (for example, if resolution is not a positive integer or the range format is incorrect), an error is thrown detailing the problematic field. Remember, any CLI flags provided will override the corresponding values from the configuration file.
 
 ## Adaptive Resolution and Curve Smoothing
 
@@ -78,7 +89,7 @@ This release introduces two new optional parameters to enhance plot rendering:
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
    ```
 
-   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. **Note:** The configuration file is now validated against a predefined schema. If it contains invalid fields (for example, a negative resolution or improperly formatted range), the application will exit with an error detailing the invalid field(s). CLI flags provided will always override corresponding values from the configuration file.
+   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. CLI flags provided will always override corresponding values from the config file.
 
 ## Environment Variables and DOTENV Support
 
