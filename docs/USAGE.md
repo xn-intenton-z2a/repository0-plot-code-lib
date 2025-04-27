@@ -93,4 +93,4 @@ Advanced query parameters allow further customization of the generated SVG:
     GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
 
 11. **Dynamic JSON Response:**
-    GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
+    GET `/plot?expression=y=log(x)&range=x=1:10,y=0:5&format=application/json`

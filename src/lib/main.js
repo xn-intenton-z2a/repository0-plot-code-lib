@@ -51,14 +51,14 @@ app.get("/plot", (req, res) => {
   const accept = req.headers.accept;
   if (accept) {
     if (accept.includes("image/svg+xml")) {
-      res.set("Content-Type", "image/svg+xml");
+      res.type("svg");
       return res.send(svg);
     } else if (accept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.set("Content-Type", "image/png");
+      res.type("png");
       return res.send(dummyPng);
     } else if (accept.includes("application/json")) {
-      res.set("Content-Type", "application/json");
+      res.type("json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
       return res.status(406).send("Not Acceptable");
@@ -66,14 +66,14 @@ app.get("/plot", (req, res) => {
   } else {
     // Fallback if no Accept header is provided, use fileType parameter
     if (fileType.toLowerCase() === "svg") {
-      res.set("Content-Type", "image/svg+xml");
+      res.type("svg");
       return res.send(svg);
     } else if (fileType.toLowerCase() === "png") {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.set("Content-Type", "image/png");
+      res.type("png");
       return res.send(dummyPng);
     } else if (fileType.toLowerCase() === "json" || fileType.toLowerCase() === "application/json") {
-      res.set("Content-Type", "application/json");
+      res.type("json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
       return res.status(406).send("Not Acceptable");
@@ -147,7 +147,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
-    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    throw new Error("Error: Invalid y-range format. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[2]);
