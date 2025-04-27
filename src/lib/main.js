@@ -217,4 +217,104 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yTextAnchor = customLabels.ylabelAnchor ? customLabels.ylabelAnchor : "middle";
 
   // Create SVG content with dynamic labels for axes and ARIA accessibility attributes for screen readers
-  const svgContent = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + width + "\" height=\"" + height + "\" viewBox=\"0 0 " + width + " " + height + "\">
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}">${xAxisLabelText}</text>
+    <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}">${yAxisLabelText}</text>
+    <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>
+    <polyline points="${polylinePoints}" stroke="blue" fill="none" />
+  </svg>`;
+
+  return svgContent;
+}
+
+function main() {
+  const args = process.argv.slice(2);
+  const options = {};
+  for (let i = 0; i < args.length; i++) {
+    if (args[i].startsWith("--")) {
+      const key = args[i].substring(2);
+      const value = args[i + 1] || "";
+      options[key] = value;
+      i++;
+    }
+  }
+
+  if (options.serve) {
+    const port = process.env.PORT || 3000;
+    app.get("/plot", (req, res) => {
+      try {
+        const expression = req.query.expression;
+        const range = req.query.range;
+        if (!expression || expression.trim() === "") {
+          res.status(400).send("Missing or empty 'expression'");
+          return;
+        }
+        if (!range || range.trim() === "") {
+          res.status(400).send("Missing or empty 'range'");
+          return;
+        }
+        const fileType = req.query.fileType || req.query.format;
+        if (!fileType) {
+          res.status(400).send("Missing required query parameter: fileType or format");
+          return;
+        }
+        const svg = createSvgPlot(expression, range, req.query);
+        const accept = req.headers.accept || "";
+        res.set("Vary", "Accept");
+        if (accept.includes("image/svg+xml")) {
+          res.set("Content-Type", "image/svg+xml");
+          res.send(svg);
+        } else if (accept.includes("image/png")) {
+          const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
+          res.set("Content-Type", "image/png");
+          res.send(dummyPng);
+        } else if (accept.includes("application/json")) {
+          res.set("Content-Type", "application/json");
+          res.send({ expression: expression, range: range, message: "Plot generation details" });
+        } else {
+          res.status(406).send("Not Acceptable");
+        }
+      } catch (e) {
+        res.status(400).send(e.message);
+      }
+    });
+    app.listen(port, () => {
+      console.log(`Server running on port ${port}`);
+    });
+  } else {
+    if (!options.expression || !options.range || !options.file) {
+      throw new Error("Error: --expression, --range, and --file flags are required together.");
+    }
+    if (options.expression.trim() === "") {
+      throw new Error("Error: --expression flag must have a non-empty value.");
+    }
+    if (options.range.trim() === "") {
+      throw new Error("Error: --range flag must have a non-empty value.");
+    }
+    if (options.file.trim() === "") {
+      throw new Error("Error: --file flag must have a non-empty value.");
+    }
+    const ext = path.extname(options.file).toLowerCase();
+    if (ext !== ".svg" && ext !== ".png") {
+      throw new Error("Error: Unsupported file extension. Use .svg or .png.");
+    }
+    try {
+      const svg = createSvgPlot(options.expression, options.range, options);
+      if (ext === ".svg") {
+        fs.writeFileSync(options.file, svg, "utf8");
+      } else {
+        const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
+        fs.writeFileSync(options.file, dummyPng);
+      }
+      console.log(`Plot saved to ${options.file}`);
+    } catch (e) {
+      throw new Error(e.message);
+    }
+  }
+}
+
+export { main, app };
+
+if (import.meta.url === fileURLToPath(process.argv[1])) {
+  main();
+}
