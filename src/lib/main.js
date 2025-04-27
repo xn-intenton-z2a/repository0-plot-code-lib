@@ -237,10 +237,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   if (customLabels.colorGradient === "true") {
     const gradientStart = customLabels.gradientStartColor || "blue";
     const gradientEnd = customLabels.gradientEndColor || "red";
-    defs = `<defs><linearGradient id="dynamicGradient">
-      <stop offset="0%" stop-color="${gradientStart}" />
-      <stop offset="100%" stop-color="${gradientEnd}" />
-    </linearGradient></defs>`;
+    defs = `<defs><linearGradient id="dynamicGradient"><stop offset="0%" stop-color="${gradientStart}" /><stop offset="100%" stop-color="${gradientEnd}" /></linearGradient></defs>`;
     strokeAttr = 'stroke="url(#dynamicGradient)"';
   }
 
