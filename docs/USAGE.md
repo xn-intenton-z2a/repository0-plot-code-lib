@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It allows both command line interactions and HTTP API access to generate plots dynamically. The latest update introduces dynamic axis labels for SVG plots. These labels indicate the x and y ranges used in the plot, enhancing interpretability.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes a new feature: dynamic axis labels for SVG plots, which enhances the interpretability of the resulting plots by displaying the numerical ranges used.
 
 ## CLI Plot Generation
 
@@ -17,18 +17,18 @@ You can generate plots directly from the command line by providing the following
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
   - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound. If this condition is not met, an error is returned.
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and new dynamic axis labels for the x-axis and y-axis.
+  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and now includes dynamic axis labels. The x-axis label appears at the bottom center (format: "x-axis: {xMin} to {xMax}") and the y-axis label appears along the left side with rotation (format: "y-axis: {yInputMin} to {yInputMax}").
   - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
 ### Dynamic Axis Labels in SVG Plots
 
-With the new update, generated SVG plots now include dynamic axis labels:
+With the update, generated SVG plots now include dynamic axis labels:
 
-- **X-Axis Label:** Displayed at the bottom center in the format "x-axis: {xMin} to {xMax}".
-- **Y-Axis Label:** Displayed along the left side (rotated) in the format "y-axis: {yInputMin} to {yInputMax}".
+- **X-Axis Label:** Displayed at the bottom center, the label shows the x-range in the format "x-axis: {xMin} to {xMax}".
+- **Y-Axis Label:** Displayed along the left side with a rotation transform, the label shows the y-range in the format "y-axis: {yInputMin} to {yInputMax}".
 
-These labels directly reflect the numerical ranges provided, making it easier to interpret the plot.
+These labels are automatically generated based on the numerical ranges provided, which improves the plot's readability and user guidance.
 
 ### Examples
 
