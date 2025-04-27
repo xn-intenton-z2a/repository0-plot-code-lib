@@ -482,6 +482,32 @@ describe("CLI Plot Generation", () => {
       expect(() => main()).toThrow(/Error: Unable to read or parse configuration file/);
     });
   });
+
+  test("should load custom .env file when --env flag is provided", () => {
+    // Create a temporary .env file with a test environment variable
+    const envPath = "test_custom.env";
+    fs.writeFileSync(envPath, "TEST_ENV_VAR=custom_value\n", "utf8");
+
+    // Remove the variable if it exists
+    delete process.env.TEST_ENV_VAR;
+
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--env",
+      envPath,
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:1,y=0:1",
+      "--file",
+      "dummy.svg"
+    ];
+    main();
+    expect(process.env.TEST_ENV_VAR).toBe("custom_value");
+    fs.unlinkSync("dummy.svg");
+    fs.unlinkSync(envPath);
+  });
 });
 
 afterAll(() => {

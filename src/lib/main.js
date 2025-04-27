@@ -1,9 +1,17 @@
 #!/usr/bin/env node
 // src/lib/main.js
 
-// Load environment variables from .env file using dotenv
+// Load environment variables using dotenv and support custom .env file via CLI flag
 import dotenv from 'dotenv';
-dotenv.config();
+
+// Initial load (this may use default .env if --env flag is not yet set in process.argv)
+const envFlagIndexGlobal = process.argv.findIndex(arg => arg === '--env');
+if (envFlagIndexGlobal !== -1 && process.argv.length > envFlagIndexGlobal + 1) {
+  const envPath = process.argv[envFlagIndexGlobal + 1];
+  dotenv.config({ path: envPath });
+} else {
+  dotenv.config();
+}
 
 import { fileURLToPath, pathToFileURL } from "url";
 import express from "express";
@@ -346,6 +354,13 @@ app.get("/plot", (req, res) => {
 });
 
 function main() {
+  // Re-load environment variables if --env flag is provided (use override to update existing vars)
+  const envFlagIndex = process.argv.findIndex(arg => arg === '--env');
+  if (envFlagIndex !== -1 && process.argv.length > envFlagIndex + 1) {
+    const envPath = process.argv[envFlagIndex + 1];
+    dotenv.config({ path: envPath, override: true });
+  }
+
   const args = process.argv.slice(2);
   let options = {};
   for (let i = 0; i < args.length; i++) {

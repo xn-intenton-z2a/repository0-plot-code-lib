@@ -43,6 +43,12 @@ You can generate plots directly from the command line by providing the following
 
   If the configuration file cannot be read or parsed, an error will be displayed and the application will exit gracefully.
 
+- **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root. For example:
+
+  ```sh
+  node src/lib/main.js --env ./config/.env --serve
+  ```
+
 ## Adaptive Resolution and Curve Smoothing
 
 This release introduces two new optional parameters to enhance plot rendering:
@@ -91,7 +97,7 @@ This release introduces two new optional parameters to enhance plot rendering:
 
 ## Environment Variables and DOTENV Support
 
-The application automatically loads environment variables from a `.env` file in the project root using the [dotenv](https://www.npmjs.com/package/dotenv) package. This allows you to configure settings like the server port without modifying the source code.
+The application automatically loads environment variables from a `.env` file in the project root using the [dotenv](https://www.npmjs.com/package/dotenv) package. With the new **--env** flag, you can now specify a custom .env file path. This allows you to configure settings like the server port without modifying the source code.
 
 ## Enhanced Expression Validation
 
@@ -170,4 +176,5 @@ Advanced query parameters allow customization of the generated SVG plots, includ
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
    ```
-   The configuration file (e.g., `config.json`) can supply default parameters such as the range, resolution, smoothing options, and axis labels. Any CLI flag provided will override the configuration file values.
+
+   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. Any CLI flag provided will override the configuration file values.
