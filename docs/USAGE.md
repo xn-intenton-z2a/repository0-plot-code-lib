@@ -11,57 +11,27 @@ You can generate plots directly from the command line by providing the following
 - **--help**: Displays this help message with usage information, flag details, and examples.
 - **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must include the variable 'x'**. For example, an expression like "y=5" is invalid and will result in an error: "Error: Expression must include the variable 'x'."
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must include the variable 'x'**. For example, an expression like "y=5" is invalid and will result in an error: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format." 
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
-  - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound. If this condition is not met, an error is returned.
+  - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound. If this condition is not met, an error is returned. The error messages have been enhanced to include the provided invalid range. For example:
+    - For x-range: "Error: Invalid range for x (provided: x=5:1). Ensure the minimum value is less than the maximum value."
+    - For y-range: "Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value."
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and now includes dynamic axis labels. The x-axis label appears at the bottom center (format: "x-axis: {xMin} to {xMax}") and the y-axis label appears along the left side with rotation (format: "y-axis: {yInputMin} to {yInputMax}").
+  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and dynamic axis labels. The x-axis label appears at the bottom center (format: "x-axis: {xMin} to {xMax}") and the y-axis label appears along the left side with rotation (format: "y-axis: {yInputMin} to {yInputMax}").
   - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
-### Dynamic Axis Labels in SVG Plots
+### Improved Error Messages
 
-With the update, generated SVG plots now include dynamic axis labels:
+The tool now provides more detailed error messages to help diagnose input issues:
 
-- **X-Axis Label:** Displayed at the bottom center, the label shows the x-range in the format "x-axis: {xMin} to {xMax}".
-- **Y-Axis Label:** Displayed along the left side with a rotation transform, the label shows the y-range in the format "y-axis: {yInputMin} to {yInputMax}".
+- **x-range Error:** If the x-range values are in the wrong order, the error will indicate the provided range. Example: "Error: Invalid range for x (provided: x=5:1). Ensure the minimum value is less than the maximum value."
 
-These labels are automatically generated based on the numerical ranges provided, which improves the plot's readability and user guidance.
+- **y-range Error:** Similarly, if the y-range values are reversed, the error will read: "Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value."
 
-### Examples
-
-1. **Display Help Information:**
-
-   ```bash
-   node src/lib/main.js --help
-   ```
-
-2. **Display Version:**
-
-   ```bash
-   node src/lib/main.js --version
-   ```
-
-3. **Generate an SVG Plot via CLI:**
-
-   ```bash
-   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg [--verbose]
-   ```
-   This command produces an SVG file that includes dynamic axis labels indicating the x and y ranges used for plotting.
-
-4. **Generate a PNG Plot via CLI:**
-
-   ```bash
-   node src/lib/main.js --expression "y=cos(x)" --range "x=-2.0:3.5,y=-1.5:1.5" --file output.png
-   ```
-
-5. **Run in Server Mode:**
-
-   ```bash
-   node src/lib/main.js --serve
-   ```
+- **Expression Error:** If the expression does not include the variable 'x', the error will prompt: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format."
 
 ## HTTP API: Dynamic Plot Generation
 
@@ -86,7 +56,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
 
-- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message.
+- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (now including helpful hints).
 - If no query parameters are provided, the endpoint falls back to content negotiation based on the Accept header.
 
 ### Examples
@@ -106,7 +76,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 4. **Error Cases:**
 
    - Missing or empty parameters will result in a 400 Bad Request with an appropriate error message.
-   - A malformed `range` or invalid numeric order will also return a 400 Bad Request.
+   - A malformed `range` or invalid numeric order will also return a 400 Bad Request with a detailed message.
 
 ## Server Mode
 

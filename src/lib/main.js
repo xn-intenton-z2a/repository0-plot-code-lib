@@ -20,7 +20,7 @@ function createSvgPlot(expression, range) {
   const xMax = parseFloat(xMatch[3]);
   // Numeric Order Enforcement for x: Ensure xMin is less than xMax
   if (xMin >= xMax) {
-    throw new Error("Error: Invalid range - x-min must be less than x-max.");
+    throw new Error(`Error: Invalid range for x (provided: x=${xMatch[1]}:${xMatch[3]}). Ensure the minimum value is less than the maximum value.`);
   }
 
   // Extract y range from the range parameter
@@ -33,7 +33,7 @@ function createSvgPlot(expression, range) {
   const yInputMax = parseFloat(yMatch[3]);
   // Numeric Order Enforcement for y: Ensure yInputMin is less than yInputMax
   if (yInputMin >= yInputMax) {
-    throw new Error("Error: Invalid range - y-min must be less than y-max.");
+    throw new Error(`Error: Invalid range for y (provided: y=${yMatch[1]}:${yMatch[3]}). Ensure the minimum value is less than the maximum value.`);
   }
 
   const numPoints = 100;
@@ -45,7 +45,7 @@ function createSvgPlot(expression, range) {
   }
   // Enforce that the expression uses the variable 'x'
   if (!/\bx\b/.test(exprStr)) {
-    throw new Error("Error: Expression must include the variable 'x'.");
+    throw new Error("Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format.");
   }
 
   let compiled;
