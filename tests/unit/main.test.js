@@ -246,7 +246,24 @@ describe("CLI Plot Generation", () => {
     ];
     expect(() => main()).toThrow(/Error: Expression evaluation resulted in an invalid number at x=/);
   });
+
+  test("should error if custom label parameters are invalid via CLI", () => {
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      "output.svg",
+      "--xlabelPrecision",
+      "abc"
+    ];
+    expect(() => main()).toThrow("Error: Invalid numeric value for xlabelPrecision. Expected a number.");
+  });
 });
+
 
 describe("CLI Version Flag", () => {
   const originalExit = process.exit;

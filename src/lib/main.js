@@ -10,6 +10,23 @@ import { compile } from "mathjs";
 const app = express();
 
 function createSvgPlot(expression, range, customLabels = {}) {
+  // Validate numeric custom label parameters
+  const numericParams = ['xlabelPrecision', 'ylabelPrecision', 'xlabelX', 'xlabelY', 'ylabelX', 'ylabelY'];
+  let customLabelErrors = [];
+  numericParams.forEach(param => {
+    if (customLabels[param] != null) {
+      const parsed = parseFloat(customLabels[param]);
+      if (!Number.isFinite(parsed)) {
+        customLabelErrors.push(`Error: Invalid numeric value for ${param}. Expected a number.`);
+      } else {
+        customLabels[param] = parsed;
+      }
+    }
+  });
+  if (customLabelErrors.length > 0) {
+    throw new Error(customLabelErrors.join(" "));
+  }
+
   // Updated regex to allow extra whitespace in the range parameter
   const xPattern = /x\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const xMatch = xPattern.exec(range);

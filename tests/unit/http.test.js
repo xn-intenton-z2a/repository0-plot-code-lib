@@ -263,4 +263,21 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain('x="10"');
     expect(svgText).toContain('y="150"');
   });
+
+  test("should return 400 if custom label numeric parameters are invalid", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", xlabelPrecision: "abc" })
+      .expect(400);
+    expect(res.text).toContain("Error: Invalid numeric value for xlabelPrecision. Expected a number.");
+  });
+
+  test("should return 400 if multiple custom label numeric parameters are invalid", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", xlabelPrecision: "foo", ylabelX: "bar" })
+      .expect(400);
+    expect(res.text).toContain("Error: Invalid numeric value for xlabelPrecision. Expected a number.");
+    expect(res.text).toContain("Error: Invalid numeric value for ylabelX. Expected a number.");
+  });
 });

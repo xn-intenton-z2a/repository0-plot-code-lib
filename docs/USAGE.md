@@ -53,10 +53,9 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 - **xlabelX** and **xlabelY**: Specify custom x and y coordinates for positioning the x-axis label. If omitted, defaults to center bottom (x: width/2, y: height - 5).
 - **ylabelX** and **ylabelY**: Specify custom x and y coordinates for positioning the y-axis label. If omitted, defaults to the current behavior (rotated label with preset coordinates).
 
-**Accessibility Enhancements:**
-SVG plots include ARIA accessibility attributes on the axis label text elements to facilitate screen reader usage.
+**Note:** The custom numeric parameters (such as `xlabelPrecision`, `ylabelPrecision`, `xlabelX`, `xlabelY`, `ylabelX`, and `ylabelY`) must be valid numbers. Providing non-numeric values (e.g., "abc") will result in an error.
 
-## Examples
+### Examples
 
 1. **Dynamic SVG Generation with Default Axis Labels and Styling:**
 
