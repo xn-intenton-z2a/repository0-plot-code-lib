@@ -89,6 +89,7 @@ function createSvgPlot(expression, range) {
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
+  <!-- Dynamic Axis Labels -->
   <text x="${(width / 2).toFixed(2)}" y="${(height - 5).toFixed(2)}" text-anchor="middle" font-size="12" fill="black">x-axis: ${xMin} to ${xMax}</text>
   <text x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})" text-anchor="middle" font-size="12" fill="black">y-axis: ${yInputMin} to ${yInputMax}</text>
 </svg>
@@ -122,7 +123,7 @@ app.get("/plot", (req, res) => {
       return res.status(400).send("Error: Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
     }
 
-    const rangePattern = /^x=-?\d+(\.\d+)?\:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?\:-?\d+(\.\d+)?$/;
+    const rangePattern = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
     if (!rangePattern.test(range)) {
       return res.status(400).send("Error: 'range' query parameter is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
@@ -290,7 +291,7 @@ Examples:
     }
 
     // Validate the range flag format (supports integer and floating point numbers)
-    const rangePattern = /^x=-?\d+(\.\d+)?\:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?\:-?\d+(\.\d+)?$/;
+    const rangePattern = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
     if (!rangePattern.test(range)) {
       throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
