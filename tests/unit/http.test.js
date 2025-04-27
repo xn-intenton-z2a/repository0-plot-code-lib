@@ -175,4 +175,26 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect(400);
     expect(res.text).toContain("Error: Expression evaluation resulted in an invalid number at x=");
   });
+
+  test("should return SVG with custom styling for axis labels when additional query params are provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        xlabelFontSize: "16",
+        xlabelColor: "green",
+        ylabelFontSize: "18",
+        ylabelColor: "purple"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    // Check that the custom styling attributes are applied in the x-axis and y-axis text elements
+    expect(svgText).toContain('font-size="16"');
+    expect(svgText).toContain('fill="green"');
+    expect(svgText).toContain('font-size="18"');
+    expect(svgText).toContain('fill="purple"');
+  });
 });
