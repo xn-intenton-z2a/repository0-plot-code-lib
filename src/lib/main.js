@@ -13,7 +13,7 @@ import { compile } from "mathjs";
 
 const app = express();
 
-// New function to compute detailed plot data used for JSON export
+// New function to compute detailed plot data used for JSON export with adaptive resolution
 function computePlotData(expression, range, customLabels = {}) {
   // Advanced expression validation function
   function validateExpression(expr) {
@@ -61,6 +61,16 @@ function computePlotData(expression, range, customLabels = {}) {
     throw new Error(customLabelErrors.join(" "));
   }
 
+  // Parse resolution parameter, default is 100
+  let resolution = 100;
+  if (customLabels.resolution != null) {
+    const parsedRes = parseInt(customLabels.resolution, 10);
+    if (!Number.isFinite(parsedRes) || parsedRes <= 0) {
+      throw new Error("Error: Invalid resolution. Expected a positive integer.");
+    }
+    resolution = parsedRes;
+  }
+
   // Updated regex to allow extra whitespace in the range parameter
   const xPattern = /x\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const xMatch = xPattern.exec(range);
@@ -84,7 +94,7 @@ function computePlotData(expression, range, customLabels = {}) {
     throw new Error(`Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Expected format: y=0:10. Ensure that the minimum value is less than the maximum value.`);
   }
 
-  const numPoints = 100;
+  const numPoints = resolution;
   const step = (xMax - xMin) / (numPoints - 1);
   let exprStr = expression.trim();
   if (exprStr.toLowerCase().startsWith("y=")) {
@@ -163,11 +173,27 @@ function computePlotData(expression, range, customLabels = {}) {
   };
 }
 
-// Modified createSvgPlot now uses computePlotData
+// Helper function to build a smooth SVG path using quadratic Bezier curves
+function buildSmoothPath(points) {
+  if (points.length < 2) return "";
+  let d = `M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`;
+  for (let i = 1; i < points.length; i++) {
+    const prev = points[i - 1];
+    const curr = points[i];
+    const midX = (prev.x + curr.x) / 2;
+    const midY = (prev.y + curr.y) / 2;
+    d += ` Q ${prev.x.toFixed(2)} ${prev.y.toFixed(2)} ${midX.toFixed(2)} ${midY.toFixed(2)}`;
+  }
+  d += ` T ${points[points.length - 1].x.toFixed(2)} ${points[points.length - 1].y.toFixed(2)}`;
+  return d;
+}
+
+// Modified createSvgPlot now uses computePlotData and supports smoothing
 function createSvgPlot(expression, range, customLabels = {}) {
   const plotData = computePlotData(expression, range, customLabels);
   const width = 300;
   const height = 150;
+  // Map computed points to SVG coordinate system
   const mappedPoints = plotData.points.map(p => {
     const mappedX = ((p.x - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * width;
     let mappedY;
@@ -176,9 +202,18 @@ function createSvgPlot(expression, range, customLabels = {}) {
     } else {
       mappedY = height - ((p.y - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * height;
     }
-    return `${mappedX.toFixed(2)},${mappedY.toFixed(2)}`;
+    return { x: mappedX, y: mappedY };
   });
-  const polylinePoints = mappedPoints.join(" ");
+
+  let shapeElement = "";
+  // Check if smoothing is enabled
+  if (customLabels.smooth === "true") {
+    const pathData = buildSmoothPath(mappedPoints);
+    shapeElement = `<path d="${pathData}" stroke="blue" fill="none" />`;
+  } else {
+    const polylinePoints = mappedPoints.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
+    shapeElement = `<polyline points="${polylinePoints}" stroke="blue" fill="none" />`;
+  }
 
   // Determine x-axis label positioning and rotation
   const xLabelX = customLabels.xlabelOffsetX != null ? customLabels.xlabelOffsetX : (customLabels.xlabelX != null ? customLabels.xlabelX : (width / 2).toFixed(2));
@@ -223,7 +258,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
     <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${plotData.axisLabels.x}</text>
     <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${plotData.axisLabels.y}</text>
     <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>
-    <polyline points="${polylinePoints}" stroke="blue" fill="none" />
+    ${shapeElement}
   </svg>`;
   return svgContent;
 }

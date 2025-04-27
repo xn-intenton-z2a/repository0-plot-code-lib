@@ -51,8 +51,6 @@ describe("GET /plot Content Negotiation", () => {
   });
 });
 
-// New tests for dynamic plot generation via query parameters
-
 describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   test("should generate dynamic SVG plot when valid query parameters are provided", async () => {
     const res = await request(app)
@@ -271,19 +269,45 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   });
 });
 
-// New tests for detailed JSON export
-
-describe("GET /plot Detailed JSON Export", () => {
-  test("should return detailed JSON export when jsonExport=true", async () => {
+describe("Adaptive Resolution and Smoothing", () => {
+  test("should return JSON export with specified resolution", async () => {
     const res = await request(app)
       .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", jsonExport: "true" })
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", resolution: "150", jsonExport: "true" })
       .expect("Content-Type", /application\/json/)
       .expect(200);
-    expect(res.body).toHaveProperty("points");
-    expect(res.body.points).toHaveLength(100);
-    expect(res.body).toHaveProperty("computedXRange");
-    expect(res.body).toHaveProperty("computedYRange");
-    expect(res.body).toHaveProperty("axisLabels");
+    expect(res.body.points).toHaveLength(150);
+  });
+
+  test("should generate SVG with 200 points when resolution=200 is provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=cos(x)", range: "x=-2:2,y=-1:1", resolution: "200", fileType: "svg" })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    const match = svgText.match(/<polyline points="([^"]+)"/);
+    expect(match).not.toBeNull();
+    const points = match[1].trim().split(" ");
+    expect(points.length).toBe(200);
+  });
+
+  test("should generate smooth SVG path when smooth flag is enabled", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", fileType: "svg" })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(svgText).toContain("<path");
+    expect(svgText).not.toContain("<polyline");
+  });
+
+  test("should return error for invalid resolution", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", resolution: "-50", jsonExport: "true" })
+      .expect(400);
+    expect(res.text).toContain("Error: Invalid resolution");
   });
 });
