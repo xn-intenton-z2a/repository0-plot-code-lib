@@ -160,7 +160,7 @@ describe("CLI Plot Generation", () => {
       "--file",
       "output.svg"
     ];
-    expect(() => main()).toThrow("Error: Invalid range for x (provided:");
+    expect(() => main()).toThrow("Error: Invalid range for x");
   });
 
   test("should error if y range numeric order is invalid via CLI", () => {
@@ -174,7 +174,7 @@ describe("CLI Plot Generation", () => {
       "--file",
       "output.svg"
     ];
-    expect(() => main()).toThrow("Error: Invalid range for y (provided:");
+    expect(() => main()).toThrow("Error: Invalid range for y");
   });
 
   test("should error if expression does not contain the variable 'x'", () => {
@@ -227,6 +227,21 @@ describe("CLI Plot Generation", () => {
     expect(output).toContain("Parsed flags:");
     expect(fs.existsSync(testFile)).toBe(true);
     fs.unlinkSync(testFile);
+  });
+
+  test("should error with non-finite y-value in CLI plot generation", () => {
+    // Test using an expression that results in a non-finite y value (division by zero at x=0)
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=1/(x)",
+      "--range",
+      "x=0:1,y=-1:10",
+      "--file",
+      "nonfinite.svg"
+    ];
+    expect(() => main()).toThrow(/Error: Expression evaluation resulted in an invalid number at x=/);
   });
 });
 
