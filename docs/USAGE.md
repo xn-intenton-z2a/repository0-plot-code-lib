@@ -49,12 +49,9 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 The tool now provides more detailed error messages to help diagnose input issues:
 
 - **x-range Error:** If the x-range values are in the wrong order, the error will indicate the provided range. Example: "Error: Invalid range for x (provided: x=5:1). Ensure the minimum value is less than the maximum value."
-
 - **y-range Error:** Similarly, if the y-range values are reversed, the error will read: "Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value."
-
-- **Expression Error:** If the expression does not include the variable 'x', the error will prompt: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format." 
-
-- **Non-finite Evaluation Error:** If during the evaluation of the mathematical expression any y-value is not a finite number (i.e., it results in Infinity, -Infinity, or NaN), the tool will throw an error such as: "Error: Expression evaluation resulted in an invalid number at x=<value>".
+- **Expression Error:** If the expression does not include the variable 'x', the error will prompt: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format."
+- **Non-finite Evaluation Error:** If during the evaluation of the mathematical expression any y-value is not a finite number (for example, due to division by zero or taking the logarithm of a negative number), the tool will throw an error such as: "Error: Expression evaluation resulted in an invalid number at x=<value>".
 
 ## HTTP API: Dynamic Plot Generation
 
@@ -80,7 +77,6 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - **image/svg+xml**: Returns an SVG plot with the dynamic axis labels (or custom labels if provided) and other plot details, with the Content-Type set to `image/svg+xml; charset=utf-8`.
   - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
-
 - If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (now including helpful hints).
 - If the mathematical evaluation results in any non-finite number, the API responds with a 400 Bad Request and an error message indicating the problematic x value.
 - If no query parameters are provided, the endpoint falls back to content negotiation based on the Accept header.
@@ -107,7 +103,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
    - Missing or empty parameters will result in a 400 Bad Request with an appropriate error message.
    - A malformed `range` or invalid numeric order will also return a 400 Bad Request with a detailed message.
-   - If the evaluated expression produces a non-finite number, for example due to a division by zero, the response will be a 400 Bad Request with a message like: "Error: Expression evaluation resulted in an invalid number at x=<value>".
+   - If the evaluated expression produces a non-finite number, for example due to a division by zero or invalid operation, the response will be a 400 Bad Request with a message like: "Error: Expression evaluation resulted in an invalid number at x=<value>".
 
 ## Server Mode
 
