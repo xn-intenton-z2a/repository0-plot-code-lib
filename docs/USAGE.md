@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes a new feature: dynamic axis labels for SVG plots, which enhances the interpretability of the resulting plots by displaying the numerical ranges used. Additionally, users can now override the default axis labels using custom query parameters, including custom styling options, precision controls, locale-aware numeric formatting, custom positioning, and custom rotation options.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes a new feature: dynamic axis labels for SVG plots, which enhances the interpretability of the resulting plots by displaying the numerical ranges used. Additionally, users can now override the default axis labels using custom query parameters, including custom styling options, precision controls, locale-aware numeric formatting, custom positioning, rotation, and font family customization.
 
 ## CLI Plot Generation
 
@@ -37,7 +37,7 @@ If multiple input errors occur (for example, missing parameters and malformed va
 - **image/png**: Returns a PNG image with placeholder content.
 - **application/json**: Returns a JSON object with details about the plot generation request.
 
-### Custom Axis Labels, Precision, Styling, Locale, Positioning, and Rotation via Query Parameters
+### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, and Font Family via Query Parameters
 
 In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports additional optional query parameters for customizing the appearance and positioning of the axis labels:
 
@@ -54,6 +54,8 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 - **ylabelX** and **ylabelY**: Specify custom x and y coordinates for positioning the y-axis label. If omitted, defaults to preset values with a default rotation.
 - **xlabelRotation**: Specifies a custom rotation angle (in degrees) for the x-axis label. When provided, the x-axis label will be rotated by the specified degrees around its position.
 - **ylabelRotation**: Specifies a custom rotation angle (in degrees) for the y-axis label. When provided, it overrides the default -90° rotation and rotates the y-axis label accordingly.
+- **xlabelFontFamily**: Specifies a custom font family for the x-axis label.
+- **ylabelFontFamily**: Specifies a custom font family for the y-axis label.
 
 ### Examples
 
@@ -77,9 +79,9 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 
    GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&locale=de-DE&xlabelPrecision=2&ylabelPrecision=3`
 
-6. **Dynamic SVG Generation with Custom Label Positioning and Rotation:**
+6. **Dynamic SVG Generation with Custom Label Positioning, Rotation, and Font Family:**
 
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelX=50&xlabelY=100&xlabelRotation=15&ylabelX=10&ylabelY=150&ylabelRotation=45`
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelX=50&xlabelY=100&xlabelRotation=15&xlabelFontFamily=Arial&ylabelX=10&ylabelY=150&ylabelRotation=45&ylabelFontFamily=Courier`
 
 7. **Dynamic PNG Generation:**
 

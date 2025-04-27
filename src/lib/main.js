@@ -187,10 +187,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
   <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
   <!-- Dynamic Axis Labels with ARIA accessibility attributes -->
-  <text x="${xLabelX}" y="${xLabelY}" text-anchor="middle" aria-label="x-axis: ${xMin} to ${xMax}" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}"${xTransform}>
+  <text x="${xLabelX}" y="${xLabelY}" text-anchor="middle" aria-label="x-axis: ${xMin} to ${xMax}" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}"${xTransform}${customLabels.xlabelFontFamily ? ` font-family=\"${customLabels.xlabelFontFamily}\"` : ""}>
     ${xAxisLabelText}
   </text>
-  <text ${yLabelAttributes} text-anchor="middle" aria-label="y-axis: ${yInputMin} to ${yInputMax}" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}">
+  <text ${yLabelAttributes} text-anchor="middle" aria-label="y-axis: ${yInputMin} to ${yInputMax}" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}"${customLabels.ylabelFontFamily ? ` font-family=\"${customLabels.ylabelFontFamily}\"` : ""}>
     ${yAxisLabelText}
   </text>
 </svg>
@@ -199,7 +199,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 }
 
 app.get("/plot", (req, res) => {
-  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation } = req.query;
+  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily } = req.query;
 
   // If query parameters are provided, perform aggregated validation
   if (expression || range || fileType || format) {
@@ -235,7 +235,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation });
+        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily });
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =
