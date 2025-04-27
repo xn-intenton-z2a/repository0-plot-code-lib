@@ -14,7 +14,7 @@ function createSvgPlot(expression, range) {
   const xPattern = /x=(-?\d+(\.\d+)?):(-?\d+(\.\d+)?)/;
   const xMatch = xPattern.exec(range);
   if (!xMatch) {
-    throw new Error("Error: Invalid range format for x values.");
+    throw new Error("Error: Invalid x-range format. Expected format: x=<min>:<max> with numeric values.");
   }
   const xMin = parseFloat(xMatch[1]);
   const xMax = parseFloat(xMatch[3]);
@@ -27,7 +27,7 @@ function createSvgPlot(expression, range) {
   const yPattern = /y=(-?\d+(\.\d+)?):(-?\d+(\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
-    throw new Error("Error: Invalid range format for y values.");
+    throw new Error("Error: Invalid y-range format. Expected format: y=<min>:<max> with numeric values.");
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[3]);
@@ -97,13 +97,13 @@ app.get("/plot", (req, res) => {
 
   if (expression || range || fileType || format) {
     if (!expression || expression.trim() === "") {
-      return res.status(400).send("Missing or empty 'expression' query parameter.");
+      return res.status(400).send("Error: Missing or empty 'expression' query parameter.");
     }
     if (!range || range.trim() === "") {
-      return res.status(400).send("Missing or empty 'range' query parameter.");
+      return res.status(400).send("Error: Missing or empty 'range' query parameter.");
     }
     if (!fileType && !format) {
-      return res.status(400).send("Missing required query parameter: either 'fileType' or 'format' must be provided.");
+      return res.status(400).send("Error: Missing required query parameter: either 'fileType' or 'format' must be provided.");
     }
 
     let outputFormat = format || fileType;
@@ -115,7 +115,7 @@ app.get("/plot", (req, res) => {
       outputFormat !== "image/png" &&
       outputFormat !== "application/json"
     ) {
-      return res.status(400).send("Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
+      return res.status(400).send("Error: Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
     }
 
     const rangePattern = /^x=-?\d+(\.\d+)?\:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?\:-?\d+(\.\d+)?$/;
