@@ -52,3 +52,18 @@ Chart.js documentation provides comprehensive details on rendering various types
 ## https://github.com/tj/commander.js/blob/master/README.md
 The Commander.js documentation offers practical guidance for building robust CLI applications. Although our repository manually parses command-line arguments, the documentation provides best practices and design patterns that can inform improved user input handling and an enhanced CLI experience.
 ## MIT License
+
+# dotenv Documentation
+## https://github.com/motdotla/dotenv
+The official repository for the dotenv module, providing guidelines and examples on how to load environment variables from a .env file. This resource is essential for integrating default configuration setups in CLI environments, making it easier to manage application settings and automate deployments.
+## MIT License
+
+# HTTP API Design Best Practices
+## https://www.vinaysahni.com/best-practices-for-a-practical-restful-api
+A comprehensive guide on designing robust RESTful APIs with actionable insights on versioning, error handling, and content negotiation. This source is valuable for ensuring that our /plot endpoint adheres to industry standards and provides a seamless experience when switching between SVG, PNG, and JSON outputs.
+## Public Domain
+
+# ARIA Authoring Practices
+## https://www.w3.org/TR/wai-aria-practices/
+This W3C recommendation provides guidelines for creating accessible web applications. It offers detailed instructions on implementing ARIA attributes to improve accessibility, which is particularly relevant for enhancing our dynamic SVG plots with proper semantic annotations for users with disabilities.
+## W3C Recommendation
