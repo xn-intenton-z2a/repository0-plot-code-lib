@@ -97,3 +97,18 @@ This article provides practical examples of integrating Zod into Express applica
 ## https://github.com/goldbergyoni/nodebestpractices
 This comprehensive resource outlines best practices for Node.js development, including guidelines on error handling, middleware design, performance optimization, and security considerations. It offers actionable insights that can help refine our API server architecture and CLI operations, ensuring that our implementation adheres to robust and maintainable standards.
 ## MIT License
+
+# D3.js Data-Driven Documents
+## https://d3js.org/
+The D3.js documentation offers a deep dive into dynamic data visualizations through binding data to the DOM and applying data-driven transformations. It provides actionable insights on scales, axes, and animations that can inspire advanced interactive plotting features in our repository.
+## BSD-3-Clause License
+
+# Plotly.js Graphing Library
+## https://plotly.com/javascript/
+Plotly.js offers interactive, high-level charting capabilities with a rich set of examples and comprehensive API documentation. Its detailed guides offer technical specifications and inspiration for enhancing advanced chart features and interactive visualizations within our repository.
+## MIT License
+
+# RFC 7807: Problem Details for HTTP APIs
+## https://tools.ietf.org/html/rfc7807
+This RFC provides a standardized approach for conveying error details in a machine-readable format within HTTP APIs. The guidelines support the design of clear and consistent error responses, enhancing debugging and client-side error handling for our API endpoints.
+## IETF (Public Domain)
