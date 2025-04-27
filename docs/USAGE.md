@@ -11,7 +11,7 @@ You can generate plots directly from the command line by providing the following
 - **--help**: Displays this help message with usage information, flag details, and examples.
 - **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must include the variable 'x'**. For example, an expression like "y=5" is invalid and will result in an error: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format." 
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must include the variable 'x'**. For example, an expression like "y=5" is invalid and will result in an error: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format."
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5"). Extra whitespace around numbers and delimiters is allowed.
@@ -23,7 +23,7 @@ You can generate plots directly from the command line by providing the following
   - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
-## Custom Axis Labels and Styling via Query Parameters
+## Custom Axis Labels, Precision, and Styling via Query Parameters
 
 In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports additional optional query parameters for customizing the appearance of the axis labels:
 
@@ -33,6 +33,8 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 - **xlabelColor**: Sets the color (fill) for the x-axis label text. Default is `black` if not provided.
 - **ylabelFontSize**: Sets the font size for the y-axis label. Default is `12` if not provided.
 - **ylabelColor**: Sets the color (fill) for the y-axis label text. Default is `black` if not provided.
+- **xlabelPrecision**: *(New)* Specifies the number of decimal places to display for the numeric values in the x-axis label. For example, setting `xlabelPrecision=2` formats the numbers to two decimal places.
+- **ylabelPrecision**: *(New)* Specifies the number of decimal places to display for the numeric values in the y-axis label. For example, setting `ylabelPrecision=3` formats the numbers to three decimal places.
 
 ### Examples
 
@@ -48,11 +50,16 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple`
 
-4. **Dynamic PNG Generation:**
+4. **Dynamic SVG Generation with Numeric Precision Control:**
+
+   GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&xlabelPrecision=2&ylabelPrecision=3`
+   - This will display the x-axis as "x-axis: 0.12 to 10.57" and the y-axis as "y-axis: -1.235 to 5.679".
+
+5. **Dynamic PNG Generation:**
 
    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
 
-5. **Dynamic JSON Response:**
+6. **Dynamic JSON Response:**
 
    GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
 
@@ -76,8 +83,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - `image/svg+xml` (which produces an SVG plot with dynamic labels)
   - `image/png`
   - `application/json`
-- **xlabel** and **ylabel**: Custom text for the axis labels (optional).
-- **xlabelFontSize**, **xlabelColor**, **ylabelFontSize**, **ylabelColor**: Custom styling options for the axis labels (optional).
+- **xlabel**, **ylabel**, **xlabelFontSize**, **xlabelColor**, **ylabelFontSize**, **ylabelColor**, **xlabelPrecision**, **ylabelPrecision**: Custom options for axis labels text, styling, and numeric precision (the latter two determine the number of decimals for the axis range values).
 
 **Note:** When using dynamic query parameters, you must provide either `fileType` (with value `svg` or `png`) or `format` (with one of the allowed MIME types). If query parameters are provided, they take precedence over the Accept header used for content negotiation.
 

@@ -87,6 +87,44 @@ function createSvgPlot(expression, range, customLabels = {}) {
   });
   const polylinePoints = mappedPoints.join(" ");
 
+  // Helper function for rounding half away from zero with proper scaling
+  function roundHalfAwayFromZero(value, precision) {
+    const factor = Math.pow(10, precision);
+    let rounded;
+    if (value < 0) {
+      rounded = -Math.round(Math.abs(value) * factor);
+    } else {
+      rounded = Math.round(value * factor);
+    }
+    return (rounded / factor).toFixed(precision);
+  }
+
+  // Process precision for axis labels if provided
+  const xPrecision = customLabels.xlabelPrecision != null ? Number(customLabels.xlabelPrecision) : null;
+  const yPrecision = customLabels.ylabelPrecision != null ? Number(customLabels.ylabelPrecision) : null;
+
+  let xAxisLabelText;
+  if (customLabels.xlabel) {
+    xAxisLabelText = customLabels.xlabel;
+  } else if (xPrecision !== null) {
+    const formattedXMin = roundHalfAwayFromZero(xMin, xPrecision);
+    const formattedXMax = roundHalfAwayFromZero(xMax, xPrecision);
+    xAxisLabelText = `x-axis: ${formattedXMin} to ${formattedXMax}`;
+  } else {
+    xAxisLabelText = `x-axis: ${xMin} to ${xMax}`;
+  }
+
+  let yAxisLabelText;
+  if (customLabels.ylabel) {
+    yAxisLabelText = customLabels.ylabel;
+  } else if (yPrecision !== null) {
+    const formattedYMin = roundHalfAwayFromZero(yInputMin, yPrecision);
+    const formattedYMax = roundHalfAwayFromZero(yInputMax, yPrecision);
+    yAxisLabelText = `y-axis: ${formattedYMin} to ${formattedYMax}`;
+  } else {
+    yAxisLabelText = `y-axis: ${yInputMin} to ${yInputMax}`;
+  }
+
   // Create SVG content with dynamic labels for axes
   const svgContent = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
@@ -94,10 +132,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
   <!-- Dynamic Axis Labels -->
   <text x="${(width / 2).toFixed(2)}" y="${(height - 5).toFixed(2)}" text-anchor="middle" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}">
-    ${customLabels.xlabel ? customLabels.xlabel : `x-axis: ${xMin} to ${xMax}`}
+    ${xAxisLabelText}
   </text>
   <text x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})" text-anchor="middle" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}">
-    ${customLabels.ylabel ? customLabels.ylabel : `y-axis: ${yInputMin} to ${yInputMax}`}
+    ${yAxisLabelText}
   </text>
 </svg>
   `.trim();
@@ -105,7 +143,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 }
 
 app.get("/plot", (req, res) => {
-  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor } = req.query;
+  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision } = req.query;
 
   if (expression || range || fileType || format) {
     if (!expression || expression.trim() === "") {
@@ -138,7 +176,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor });
+        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision });
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =

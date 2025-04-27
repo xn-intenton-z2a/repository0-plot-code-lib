@@ -191,10 +191,26 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    // Check that the custom styling attributes are applied in the x-axis and y-axis text elements
     expect(svgText).toContain('font-size="16"');
     expect(svgText).toContain('fill="green"');
     expect(svgText).toContain('font-size="18"');
     expect(svgText).toContain('fill="purple"');
+  });
+
+  test("should format axis labels with given precision when provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0.1234:10.5678,y=-1.2345:5.6789",
+        fileType: "svg",
+        xlabelPrecision: "2",
+        ylabelPrecision: "3"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(svgText).toContain("x-axis: 0.12 to 10.57");
+    expect(svgText).toContain("y-axis: -1.235 to 5.679");
   });
 });
