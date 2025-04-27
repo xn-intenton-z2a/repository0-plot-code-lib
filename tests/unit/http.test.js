@@ -101,7 +101,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=tan(x)", range: "x=-1:1,y=abc", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Invalid y-range format");
+    expect(res.text).toContain("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   });
 
   test("should return 400 if expression is empty", async () => {
