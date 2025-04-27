@@ -120,7 +120,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=5:1,y=0:10", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: Invalid range for x (provided:");
+    expect(res.text).toContain("Error: Invalid range for x (provided: x=5:1). Ensure the minimum value is less than the maximum value.");
   });
 
   test("should return 400 if y range numeric order is invalid", async () => {
@@ -128,7 +128,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=-1:1,y=10:0", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: Invalid range for y (provided:");
+    expect(res.text).toContain("Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value.");
   });
 
   test("should return error if expression does not contain variable x", async () => {
@@ -136,7 +136,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=5", range: "x=-1:1,y=-1:1", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Please refer to the usage guide");
+    expect(res.text).toContain("Error: Expression must include the variable 'x'. Please refer to the usage guide");
   });
 
   test("should return SVG with custom axis labels when provided", async () => {
@@ -154,5 +154,16 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(svgText).toContain("MyCustomX");
     expect(svgText).toContain("MyCustomY");
+  });
+
+  test("should handle extra whitespace in range parameter", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: " x= 0 : 10 , y= -1 : 5 ", fileType: "svg" })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(svgText).toContain("x-axis: 0 to 10");
+    expect(svgText).toContain("y-axis: -1 to 5");
   });
 });
