@@ -1,20 +1,20 @@
-# PLOT RENDERING
+# Overview
+This updated feature continues to serve as the unified endpoint for plot rendering and data export. In addition to dynamic SVG axis labeling, customizable styling, adaptive resolution, and curve smoothing, the feature now enriches JSON exports with metadata. This metadata includes a timestamp for when the plot was generated and the current library version from the package configuration. This enhancement improves traceability, debugging, and integration with external systems.
 
-## Overview
-This updated feature continues to serve as the unified endpoint for plot rendering and data export while integrating enhanced metadata enrichment. In addition to dynamic SVG axis labeling, customizable styling, and error handling, the JSON export functionality now includes a metadata object. This object provides valuable context such as the plot generation timestamp and the current library version. This enhancement improves integration, traceability, and debugging for both CLI and HTTP API consumers.
+# Implementation
+- In the /plot endpoint in src/lib/main.js, if the query parameter jsonExport is set to "true", modify the JSON response to include a new key, "metadata".
+- The metadata object must include:
+  - a "timestamp" field with the current ISO timestamp (generated via new Date().toISOString()).
+  - a "version" field obtained by reading the version field from package.json (e.g., using fs.readFileSync and JSON.parse or an import).
+- Ensure that this metadata enrichment is only applied to JSON export responses and does not affect SVG or PNG outputs.
+- Retain the existing functionality for configuration management, adaptive resolution, and SVG/PNG generation. CLI mode should also output this metadata information in JSON export mode.
+- Update error handling to ensure that if fetching the library version fails, a default version string is provided without breaking plot generation.
 
-## Implementation
-- In the /plot endpoint in src/lib/main.js, when the query parameter jsonExport is set to "true", before returning the JSON response, append a new metadata key to the computed plot data. This metadata object should include:
-  - a "timestamp" field containing the current ISO timestamp of the plot generation.
-  - a "version" field obtained from the package.json file's version field.
-- Modify the computePlotData function, or wrap its output, to merge this metadata information when a detailed JSON export is requested.
-- Ensure that the CLI branch that exports JSON data also incorporates the metadata object in its output.
-- Update error handling to ensure that if fetching the library version fails, a default version string is returned without breaking plot generation.
+# Testing
+- Update or add tests in tests/unit/http.test.js and tests/unit/main.test.js to verify that when jsonExport is requested, the returned JSON contains a metadata object with valid timestamp and version string.
+- Verify that non-JSON outputs (SVG/PNG) remain unaffected by this change.
+- Add tests to check that if reading package.json fails, the metadata version defaults to a predefined string.
 
-## Testing
-- In tests/unit/http.test.js and tests/unit/main.test.js, add or update tests to verify that when jsonExport is requested, the JSON response includes a metadata key with valid timestamp and version string.
-- Validate that the metadata values do not affect other output formats (SVG and PNG) and remain exclusive to JSON export.
-
-## Impact
-- The enriched metadata enables consumers to track and verify plot generation recency and compatibility with the library version. This addition simplifies debugging and integration with external systems.
-- This change consolidates and enhances the plot rendering capabilities, reducing redundancy and further aligning plot export output across CLI and HTTP interfaces.
+# Impact
+- The enriched metadata streamlines integration with external systems and enhances debugging by providing context on when the plot was generated and the library version in use.
+- This change aligns with the mission to be a go-to plot library by increasing output reliability and traceability.
