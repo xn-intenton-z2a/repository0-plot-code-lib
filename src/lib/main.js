@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 // src/lib/main.js
 
+// Load environment variables from .env file using dotenv
+import dotenv from 'dotenv';
+dotenv.config();
+
 import { fileURLToPath, pathToFileURL } from "url";
 import express from "express";
 import fs from "fs";
@@ -296,12 +300,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
 
   // Create SVG content with dynamic labels for axes and ARIA accessibility attributes for screen readers
-  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${xAxisLabelText}</text>
-    <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${yAxisLabelText}</text>
-    <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>
-    <polyline points="${polylinePoints}" stroke="blue" fill="none" />
-  </svg>`;
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">\n    <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${xAxisLabelText}</text>\n    <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${yAxisLabelText}</text>\n    <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>\n    <polyline points="${polylinePoints}" stroke="blue" fill="none" />\n  </svg>`;
 
   return svgContent;
 }
