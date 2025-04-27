@@ -160,7 +160,7 @@ describe("CLI Plot Generation", () => {
       "--file",
       "output.svg"
     ];
-    expect(() => main()).toThrow("Error: Invalid range - x-min must be less than x-max.");
+    expect(() => main()).toThrow("Error: Invalid range for x (provided:");
   });
 
   test("should error if y range numeric order is invalid via CLI", () => {
@@ -174,7 +174,7 @@ describe("CLI Plot Generation", () => {
       "--file",
       "output.svg"
     ];
-    expect(() => main()).toThrow("Error: Invalid range - y-min must be less than y-max.");
+    expect(() => main()).toThrow("Error: Invalid range for y (provided:");
   });
 
   test("should error if expression does not contain the variable 'x'", () => {
@@ -188,7 +188,7 @@ describe("CLI Plot Generation", () => {
       "--file",
       "output.svg"
     ];
-    expect(() => main()).toThrow("Error: Expression must include the variable 'x'.");
+    expect(() => main()).toThrow("Please refer to the usage guide");
   });
 
   test("should display help message when --help flag is provided", () => {

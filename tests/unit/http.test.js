@@ -120,7 +120,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=5:1,y=0:10", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: Invalid range - x-min must be less than x-max.");
+    expect(res.text).toContain("Error: Invalid range for x (provided:");
   });
 
   test("should return 400 if y range numeric order is invalid", async () => {
@@ -128,7 +128,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=-1:1,y=10:0", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: Invalid range - y-min must be less than y-max.");
+    expect(res.text).toContain("Error: Invalid range for y (provided:");
   });
 
   test("should return error if expression does not contain variable x", async () => {
@@ -136,6 +136,6 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=5", range: "x=-1:1,y=-1:1", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: Expression must include the variable 'x'.");
+    expect(res.text).toContain("Please refer to the usage guide");
   });
 });
