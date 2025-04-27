@@ -65,23 +65,23 @@ function computePlotData(expression, range, customLabels = {}) {
   const xPattern = /x\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const xMatch = xPattern.exec(range);
   if (!xMatch) {
-    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    throw new Error("Error: Invalid range format. Expected format: x=0:10, y=0:10. Please check for extra whitespace or missing delimiters.");
   }
   const xMin = parseFloat(xMatch[1]);
   const xMax = parseFloat(xMatch[2]);
   if (xMin >= xMax) {
-    throw new Error(`Error: Invalid range for x (provided: x=${xMin}:${xMax}). Ensure the minimum value is less than the maximum value.`);
+    throw new Error(`Error: Invalid range for x (provided: x=${xMin}:${xMax}). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.`);
   }
 
   const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
-    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    throw new Error("Error: Invalid range format. Expected format: x=0:10, y=0:10. Please check for extra whitespace or missing delimiters.");
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[2]);
   if (yInputMin >= yInputMax) {
-    throw new Error(`Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Ensure the minimum value is less than the maximum value.`);
+    throw new Error(`Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Expected format: y=0:10. Ensure that the minimum value is less than the maximum value.`);
   }
 
   const numPoints = 100;
