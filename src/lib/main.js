@@ -102,10 +102,16 @@ function createSvgPlot(expression, range, customLabels = {}) {
   // Process precision for axis labels if provided
   const xPrecision = customLabels.xlabelPrecision != null ? Number(customLabels.xlabelPrecision) : null;
   const yPrecision = customLabels.ylabelPrecision != null ? Number(customLabels.ylabelPrecision) : null;
+  const locale = customLabels.locale; // new locale parameter
 
   let xAxisLabelText;
   if (customLabels.xlabel) {
     xAxisLabelText = customLabels.xlabel;
+  } else if (xPrecision !== null && locale) {
+    const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: xPrecision, maximumFractionDigits: xPrecision });
+    const formattedXMin = formatter.format(xMin);
+    const formattedXMax = formatter.format(xMax);
+    xAxisLabelText = `x-axis: ${formattedXMin} to ${formattedXMax}`;
   } else if (xPrecision !== null) {
     const formattedXMin = roundHalfAwayFromZero(xMin, xPrecision);
     const formattedXMax = roundHalfAwayFromZero(xMax, xPrecision);
@@ -117,6 +123,11 @@ function createSvgPlot(expression, range, customLabels = {}) {
   let yAxisLabelText;
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
+  } else if (yPrecision !== null && locale) {
+    const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: yPrecision, maximumFractionDigits: yPrecision });
+    const formattedYMin = formatter.format(yInputMin);
+    const formattedYMax = formatter.format(yInputMax);
+    yAxisLabelText = `y-axis: ${formattedYMin} to ${formattedYMax}`;
   } else if (yPrecision !== null) {
     const formattedYMin = roundHalfAwayFromZero(yInputMin, yPrecision);
     const formattedYMax = roundHalfAwayFromZero(yInputMax, yPrecision);
@@ -143,7 +154,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 }
 
 app.get("/plot", (req, res) => {
-  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision } = req.query;
+  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale } = req.query;
 
   // If query parameters are provided, perform aggregated validation
   if (expression || range || fileType || format) {
@@ -179,7 +190,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision });
+        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale });
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =

@@ -213,4 +213,23 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain("x-axis: 0.12 to 10.57");
     expect(svgText).toContain("y-axis: -1.235 to 5.679");
   });
+
+  test("should return SVG with locale-specific axis labels when locale parameter is provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0.1234:10.5678,y=-1.2345:5.6789",
+        fileType: "svg",
+        locale: "de-DE",
+        xlabelPrecision: "2",
+        ylabelPrecision: "3"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    // Check for German formatting (comma as decimal separator)
+    expect(svgText).toContain("x-axis: 0,12 to 10,57");
+    expect(svgText).toContain("y-axis: -1,235 to 5,679");
+  });
 });
