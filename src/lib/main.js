@@ -11,7 +11,7 @@ const app = express();
 
 function createSvgPlot(expression, range, customLabels = {}) {
   // Validate numeric custom label parameters
-  const numericParams = ["xlabelPrecision", "ylabelPrecision", "xlabelX", "xlabelY", "ylabelX", "ylabelY"];
+  const numericParams = ["xlabelPrecision", "ylabelPrecision", "xlabelX", "xlabelY", "ylabelX", "ylabelY"]; 
   let customLabelErrors = [];
   numericParams.forEach(param => {
     if (customLabels[param] != null) {
@@ -60,9 +60,9 @@ function createSvgPlot(expression, range, customLabels = {}) {
   if (exprStr.toLowerCase().startsWith("y=")) {
     exprStr = exprStr.slice(2);
   }
-  // Early enforcement that the expression uses the variable 'x'
+  // Enhanced enforcement that the expression uses the variable 'x' in a valid context
   if (!/\bx\b/.test(exprStr)) {
-    throw new Error("Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format.");
+    throw new Error("Error: Expression must include the variable 'x'. Please refer to the usage guide.");
   }
 
   let compiled;
@@ -336,6 +336,8 @@ Examples:
 
 Aggregated Error Reporting:
   When multiple input errors occur (e.g., missing flags or malformed parameters), the tool aggregates the error messages and displays them together, providing comprehensive feedback to the user.
+
+Note: The mathematical expression must include the variable 'x'. For example, a valid expression is 'y=sin(x)'.
     `;
     console.log(helpMessage);
     return;
