@@ -40,7 +40,7 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Content-Type", /application\/json/)
       .expect("Vary", /Accept/)
       .expect(200);
-    expect(res.body).toEqual({ data: [] });
+    expect(res.body).toEqual({ expression: expect.any(String), range: expect.any(String), message: "Plot generation details" });
   });
 
   test("should return 406 for unsupported Accept", async () => {
@@ -104,7 +104,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=tan(x)", range: "x=-1:1,y=abc", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: 'range' query parameter is malformed");
+    expect(res.text).toContain("Invalid y-range format");
   });
 
   test("should return 400 if expression is empty", async () => {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // src/lib/main.js
 
-import { fileURLToPath } from "url";
+import { fileURLToPath, pathToFileURL } from "url";
 import express from "express";
 import fs from "fs";
 import path from "path";
@@ -315,6 +315,6 @@ function main() {
 
 export { main, app };
 
-if (import.meta.url === fileURLToPath(process.argv[1])) {
+if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
 }
