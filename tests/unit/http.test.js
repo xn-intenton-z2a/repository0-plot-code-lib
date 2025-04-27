@@ -51,8 +51,6 @@ describe("GET /plot Content Negotiation", () => {
   });
 });
 
-// New tests for dynamic plot generation via query parameters
-
 describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   test("should generate dynamic SVG plot when valid query parameters are provided", async () => {
     const res = await request(app)
@@ -271,8 +269,6 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   });
 });
 
-// New tests for Adaptive Resolution and Curve Smoothing
-
 describe("Adaptive Resolution and Smoothing", () => {
   test("should return JSON export with specified resolution", async () => {
     const res = await request(app)
@@ -289,7 +285,7 @@ describe("Adaptive Resolution and Smoothing", () => {
       .query({ expression: "y=cos(x)", range: "x=-2:2,y=-1:1", resolution: "200", fileType: "svg" })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    const svgText = res.text;
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     const match = svgText.match(/<polyline points="([^"]+)"/);
     expect(match).not.toBeNull();
     const points = match[1].trim().split(" ");
@@ -302,7 +298,7 @@ describe("Adaptive Resolution and Smoothing", () => {
       .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", fileType: "svg" })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    const svgText = res.text;
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(svgText).toContain("<path");
     expect(svgText).not.toContain("<polyline");
   });
