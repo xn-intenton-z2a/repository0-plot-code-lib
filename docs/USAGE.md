@@ -35,13 +35,7 @@ You can generate plots directly from the command line by providing the following
   - `computedYRange`: The computed minimum and maximum y values based on evaluation.
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
 
-- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file and merges its values with the CLI flags, with CLI flags taking precedence. For example:
-
-  ```sh
-  node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
-  ```
-
-  If the configuration file cannot be read or parsed, an error will be displayed and the application will exit gracefully.
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file, validates its structure using a predefined schema, and merges its values with the CLI flags, with CLI flags taking precedence. If the configuration file does not conform to the expected schema, an error with a descriptive message will be thrown.
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root. For example:
 
@@ -84,16 +78,7 @@ This release introduces two new optional parameters to enhance plot rendering:
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
    ```
 
-   In this example, `config.json` might contain default values such as:
-   ```json
-   {
-     "range": "x=0:10,y=0:10",
-     "resolution": "200",
-     "xlabel": "Default X Axis",
-     "ylabel": "Default Y Axis"
-   }
-   ```
-   Any CLI flag provided (e.g., `--expression`) will override the corresponding value in the config file.
+   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. **Note:** The configuration file is now validated against a predefined schema. If it contains invalid fields (for example, a negative resolution or improperly formatted range), the application will exit with an error detailing the invalid field(s). CLI flags provided will always override corresponding values from the configuration file.
 
 ## Environment Variables and DOTENV Support
 
@@ -177,4 +162,4 @@ Advanced query parameters allow customization of the generated SVG plots, includ
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
    ```
 
-   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. Any CLI flag provided will override the configuration file values.
+   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. Any CLI flag provided will override the corresponding value in the config file.
