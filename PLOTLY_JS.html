@@ -24,270 +24,101 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="plotly_js" href="#plotly_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>PLOTLY_JS</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">Plotly.js provides a declarative JSON-based charting API where charts are instantiated using Plotly.newPlot with parameters: container (HTML element), data (array of trace objects), layout (object defining styling and axes), and config (optional settings). The library supports various chart types and performance modes (SVG, scattergl, WebGL) with detailed attributes for traces (e.g., contour settings, scatter options) and layout customizations (titles, axes, margins, annotations). The documentation includes comprehensive code examples and event handling configurations.</p>
+<p class="md-github">Plotly.js uses a declarative JSON structure to configure charts. Key API is Plotly.newPlot which takes an HTML DOM element, an array of data traces, a layout object, and a configuration object. Detailed examples include a contour plot with properties such as colorscale, reversescale, zmax, and zmin, and a scatter chart with error bars configured for CSV data. Performance is optimized using SVG for basic rendering, stack.gl for high performance, and WebGL for 3D charts.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">API Initialization
+<li class="md-github">API Initialization: Plotly.newPlot
 <ul class="md-github">
-<li class="md-github">Use Plotly.newPlot(container, data, layout, config) to render charts; returns a promise.</li>
+<li class="md-github">Usage: Plotly.newPlot(domElement, dataArray, layoutObject, configObject)</li>
+<li class="md-github">Returns a promise after rendering is complete.</li>
 </ul>
 </li>
-<li class="md-github">Trace Definitions
+<li class="md-github">Contour Plot Configuration
 <ul class="md-github">
-<li class="md-github">Contour trace: type='contour', autocolorscale=false, colorscale array with specified stops, reversescale boolean, zmin and zmax for data limits.</li>
-<li class="md-github">Scatter trace: type='scatter', mode defines line/markers, error_y with array of values, thickness and width for error bars.</li>
+<li class="md-github">Trace: x, y, z arrays; type set to 'contour'; autocolorscale false; colorscale array defined; reversescale true; zmax 2.5; zmin -2.5.</li>
+<li class="md-github">Layout: Title text, xaxis and yaxis with title, showline true, mirror 'allticks', ticks 'inside'; margin {l:40, b:40, t:60}; annotations for credit.</li>
 </ul>
 </li>
-<li class="md-github">Layout Configuration
+<li class="md-github">Scatter Chart Configuration
 <ul class="md-github">
-<li class="md-github">title: Object with text.</li>
-<li class="md-github">xaxis and yaxis: title text, showline flag, mirror set to 'allticks', ticks style, tickformat for dates.</li>
-<li class="md-github">margin: Object with left, bottom, top, right margins.</li>
-<li class="md-github">annotations: Array with properties showarrow (false), text, coordinates, and reference settings (xref, yref).</li>
+<li class="md-github">Trace: type 'scatter', mode 'lines'; x and y extracted from CSV rows; line object with width 1; error_y with array of errors, thickness 0.5, width 0.</li>
+<li class="md-github">Layout: yaxis title 'Wind Speed'; xaxis with no grid and tick format '%B, %Y'; margin {l:40, b:10, r:10, t:20}.</li>
 </ul>
 </li>
-<li class="md-github">Configuration Options
+<li class="md-github">Performance Optimizations
 <ul class="md-github">
-<li class="md-github">config: Commonly includes showLink (false) and responsive (true) to control UI elements and layout.</li>
+<li class="md-github">Render using SVG with fallback to stack.gl and scattergl for enhanced speed; use of WebGL for 3D charts.</li>
 </ul>
 </li>
-<li class="md-github">Performance and Rendering
+<li class="md-github">Configuration Options Summary
 <ul class="md-github">
-<li class="md-github">Default charts use SVG rendering; for high volume scatter charts, use scattergl for performance improvement.</li>
-<li class="md-github">3D charts utilize WebGL via stack.gl for GPU acceleration.</li>
-</ul>
-</li>
-<li class="md-github">Event Handling
-<ul class="md-github">
-<li class="md-github">Custom events for click, hover, zoom and controls can be added directly through Plotly methods.
-Technical Details:</li>
+<li class="md-github">Config object: {showLink:false} disables the default link display.
+Detailed technical steps include creation of data trace objects, defining layout configurations, and calling Plotly.newPlot with the DOM element obtained via document.getElementById.</li>
 </ul>
 </li>
 </ol>
-<ul class="md-github">
-<li class="md-github">API method signature: Plotly.newPlot(container: HTMLElement, data: Array<Object>, layout: Object, config?: Object)</li>
-<li class="md-github">Example JSON definition for a trace, layout and config provided in the code samples.</li>
-<li class="md-github">Ensure proper structure of attributes to avoid rendering and performance issues.</li>
-</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Specification Details:</p>
+<p class="md-github">Contour Plot Details:</p>
+<ul class="md-github">
+<li class="md-github">trace.x, trace.y, trace.z must be valid data arrays.</li>
+<li class="md-github">colorscale: Defined as [[0,'rgb(  0,  0,  0)'], [0.3,'rgb(230,  0,  0)'], [0.6,'rgb(255,210,  0)'], [1,'rgb(255,255,255)']].</li>
+<li class="md-github">Layout margin: l=40, b=40, t=60.</li>
+<li class="md-github">Annotation: {showarrow:false, text:'Credit: Daniel Carrera', x:0, y:0, xref:'paper', yref:'paper'}.
+Scatter Chart Details:</li>
+<li class="md-github">Data mapping: x from row['Time'], y from row['10 Min Sampled Avg'], error_y.array extracts row['10 Min Std Dev'].</li>
+<li class="md-github">xaxis tickformat: '%B, %Y'.</li>
+<li class="md-github">Margin for scatter chart: l=40, b=10, r=10, t=20.
+API Method:</li>
+<li class="md-github">Plotly.newPlot(domElement, data, layout, config) where config { showLink: false } disables link feature.
+Performance:</li>
+<li class="md-github">Use scattergl for high volume rendering; ensure 3D charts apply WebGL API for GPU acceleration.
+Implementation Steps:</li>
+</ul>
 <ol class="md-github">
-<li class="md-github">
-<p class="md-github">Plotly.newPlot Method:</p>
-<ul class="md-github">
-<li class="md-github">Parameters:
-container: An existing DOM element (HTMLElement)
-data: Array of trace objects. Each trace object must include a 'type' property and corresponding data arrays (e.g. x, y, z).
-layout: Object containing chart layout settings: title, xaxis, yaxis, margin, annotations.
-config (optional): Object for configuration flags; recommended: { showLink: false, responsive: true }.</li>
-<li class="md-github">Returns: A Promise which resolves when rendering completes.</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Trace Object Example (Contour):</p>
-<ul class="md-github">
-<li class="md-github">type: 'contour'</li>
-<li class="md-github">autocolorscale: false</li>
-<li class="md-github">colorscale: An array of color stops: [[0, 'rgb(0,0,0)'], [0.3, 'rgb(230,0,0)'], [0.6, 'rgb(255,210,0)'], [1, 'rgb(255,255,255)']]</li>
-<li class="md-github">reversescale: true</li>
-<li class="md-github">zmax: 2.5</li>
-<li class="md-github">zmin: -2.5</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Layout Object Example:</p>
-<ul class="md-github">
-<li class="md-github">title: { text: &quot;Chart Title&quot; }</li>
-<li class="md-github">xaxis: { title: { text: &quot;X-Axis Label&quot; }, showline: true, mirror: 'allticks', ticks: 'inside', tickformat: &quot;%B, %Y&quot; }</li>
-<li class="md-github">yaxis: Similar structure as xaxis.</li>
-<li class="md-github">margin: { l: 40, b: 40, t: 60, r: 10 }</li>
-<li class="md-github">annotations: [{ showarrow: false, text: &quot;Annotation Text&quot;, x: 0, y: 0, xref: 'paper', yref: 'paper' }]</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Configuration Options:</p>
-<ul class="md-github">
-<li class="md-github">showLink: false (disables the Plotly branding link)</li>
-<li class="md-github">responsive: true (enables dynamic resizing)</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Implementation Steps:</p>
-<ul class="md-github">
-<li class="md-github">Load data via d3.json or d3.csv as needed.</li>
-<li class="md-github">Construct trace and layout objects based on data requirements.</li>
-<li class="md-github">Call Plotly.newPlot with appropriate DOM container id.</li>
-<li class="md-github">Use event listeners to handle user interactions (click, hover, zoom).</li>
-</ul>
-</li>
-<li class="md-github">
-<p class="md-github">Troubleshooting Procedures:</p>
-<ul class="md-github">
-<li class="md-github">Ensure the HTML container element exists.</li>
-<li class="md-github">Validate that data arrays are non-empty and properly formatted.</li>
-<li class="md-github">Check console logs for errors on attribute misconfiguration.</li>
-<li class="md-github">Test responsiveness by toggling the responsive flag in config.</li>
-<li class="md-github">Use browser developer tools to inspect DOM rendering if SVG elements exceed expected counts.</li>
-</ul>
-</li>
+<li class="md-github">Retrieve data using d3.json or d3.csv.</li>
+<li class="md-github">Construct 'trace' objects with proper type and data arrays.</li>
+<li class="md-github">Define layout object with axes and margin configurations.</li>
+<li class="md-github">Call Plotly.newPlot with the target DOM element.</li>
+<li class="md-github">For improved performance, select chart types that utilize WebGL or stack.gl accordingly.</li>
 </ol>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">Complete API Specifications:
-Method: Plotly.newPlot(container: HTMLElement, data: Array<Object>, layout: Object, config?: Object) =&gt; Promise
+<p class="md-github">API Specification:
+Function: Plotly.newPlot(domElement: HTMLElement, data: Array<Object>, layout: Object, config: Object): Promise
 Parameters:</p>
 <ul class="md-github">
-<li class="md-github">container: Must be a valid HTML element, e.g. document.getElementById('chart')</li>
-<li class="md-github">data: Array of trace objects. Each trace object example for a scatter plot:
-{ type: 'scatter', mode: 'lines', x: Array&lt;number|string&gt;, y: Array<number>, line: { width: number }, error_y: { array: Array<number>, thickness: number, width: number } }</li>
-<li class="md-github">layout: Must include properties such as:
-{ title: { text: string }, xaxis: { title: { text: string }, showline: boolean, mirror: string, ticks: string, tickformat?: string }, yaxis: { title: { text: string }, showline: boolean, mirror: string, ticks: string }, margin: { l: number, b: number, t: number, r?: number }, annotations: Array&lt;{ showarrow: boolean, text: string, x: number, y: number, xref: string, yref: string }&gt; }</li>
-<li class="md-github">config: Optional configuration options object, e.g., { showLink: false, responsive: true }</li>
+<li class="md-github">domElement: Document element where chart is rendered; e.g., document.getElementById('chart-id')</li>
+<li class="md-github">data: Array of trace objects. Example trace for contour plot:
+{
+x: Array<number>,
+y: Array<number>,
+z: Array<number>,
+type: 'contour',
+autocolorscale: boolean,
+colorscale: Array&lt;[number, string]&gt;,
+reversescale: boolean,
+zmax: number,
+zmin: number
+}</li>
+<li class="md-github">layout: Object defining layout properties. Example layout:
+{
+title: { text: string },
+xaxis: { title: { text: string }, showline: boolean, mirror: string, ticks: string },
+yaxis: { title: { text: string }, showline: boolean, mirror: string, ticks: string },
+margin: { l: number, b: number, t: number, r?: number },
+annotations: Array&lt;{ showarrow: boolean, text: string, x: number, y: number, xref: string, yref: string }&gt;
+}</li>
+<li class="md-github">config: Object with configuration options. Example: { showLink: boolean }</li>
 </ul>
-<p class="md-github">SDK Method Signature in Code:
-// Contour Plot Implementation Example
-// Load JSON data and render contour plot</p>
-<p class="md-github">d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure) {
+<p class="md-github">Code Example for Contour Plot with Comments:
+d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure) {
 var trace = {
 x: figure.data[0].x,
 y: figure.data[0].y,
 z: figure.data[0].z,
 type: 'contour',
 autocolorscale: false,
-colorscale: [[0, 'rgb(0,0,0)'], [0.3, 'rgb(230,0,0)'], [0.6, 'rgb(255,210,0)'], [1, 'rgb(255,255,255)']],
-reversescale: true,
-zmax: 2.5,
-zmin: -2.5
-};
-var layout = {
-title: { text: 'turbulence simulation' },
-xaxis: { title: { text: 'radial direction' }, showline: true, mirror: 'allticks', ticks: 'inside' },
-yaxis: { title: { text: 'vertical direction' }, showline: true, mirror: 'allticks', ticks: 'inside' },
-margin: { l: 40, b: 40, t: 60 },
-annotations: [{ showarrow: false, text: 'Credit: Daniel Carrera', x: 0, y: 0, xref: 'paper', yref: 'paper' }]
-};
-Plotly.newPlot(document.getElementById('contour-plot'), [trace], layout, { showLink: false })
-.then(function() { console.log('Plot rendered successfully'); })
-.catch(function(err) { console.error('Plot rendering error:', err); });
-});</p>
-<p class="md-github">Best Practices:</p>
-<ul class="md-github">
-<li class="md-github">Always validate the structure of data and layout objects before rendering.</li>
-<li class="md-github">Use responsive configuration for fluid layouts.</li>
-<li class="md-github">For large datasets, prefer scattergl for performance improvement.</li>
-</ul>
-<p class="md-github">Troubleshooting Commands:</p>
-<ol class="md-github">
-<li class="md-github">Console command: document.getElementById('chart') to ensure the element exists.</li>
-<li class="md-github">Inspect data: console.log(JSON.stringify(data)) prior to rendering.</li>
-<li class="md-github">Check network tab for d3.json/d3.csv response integrity.</li>
-<li class="md-github">Re-run Plotly.newPlot with minimal configuration to isolate issues.
-Expected Output: Successful rendering of chart without DOM errors.</li>
-</ol>
-<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">Plotly.js: Use Plotly.newPlot(HTMLElement, Array<trace>, Object<layout>, optional Object<config>) returning Promise. Trace examples: contour {type:'contour', autocolorscale:false, colorscale:[[0,'rgb(0,0,0)'],[0.3,'rgb(230,0,0)'],[0.6,'rgb(255,210,0)'],[1,'rgb(255,255,255)']], reversescale:true, zmin:-2.5, zmax:2.5}; scatter {type:'scatter', mode:'lines', x:Array, y:Array, line:{width:number}, error_y:{array:Array, thickness:0.5, width:0}}. Layout: {title:{text:string}, xaxis:{title:{text:string}, showline:true, mirror:'allticks', ticks:'inside', tickformat optional}, yaxis similar, margin:{l:40,b:40,t:60}, annotations: [{showarrow:false, text:string, x:0, y:0, xref:'paper', yref:'paper'}]}. Config: {showLink:false, responsive:true}. Performance: Default SVG, use scattergl for higher speed, 3D via WebGL. API complete with method signatures, error handling via promise catch, full code examples provided for contour and scatter plots.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
-<p class="md-github">Table of Contents:</p>
-<ol class="md-github">
-<li class="md-github">API Initialization
-<ul class="md-github">
-<li class="md-github">Use Plotly.newPlot(container, data, layout, config) to render charts; returns a promise.</li>
-</ul>
-</li>
-<li class="md-github">Trace Definitions
-<ul class="md-github">
-<li class="md-github">Contour trace: type='contour', autocolorscale=false, colorscale array with specified stops, reversescale boolean, zmin and zmax for data limits.</li>
-<li class="md-github">Scatter trace: type='scatter', mode defines line/markers, error_y with array of values, thickness and width for error bars.</li>
-</ul>
-</li>
-<li class="md-github">Layout Configuration
-<ul class="md-github">
-<li class="md-github">title: Object with text.</li>
-<li class="md-github">xaxis and yaxis: title text, showline flag, mirror set to 'allticks', ticks style, tickformat for dates.</li>
-<li class="md-github">margin: Object with left, bottom, top, right margins.</li>
-<li class="md-github">annotations: Array with properties showarrow (false), text, coordinates, and reference settings (xref, yref).</li>
-</ul>
-</li>
-<li class="md-github">Configuration Options
-<ul class="md-github">
-<li class="md-github">config: Commonly includes showLink (false) and responsive (true) to control UI elements and layout.</li>
-</ul>
-</li>
-<li class="md-github">Performance and Rendering
-<ul class="md-github">
-<li class="md-github">Default charts use SVG rendering; for high volume scatter charts, use scattergl for performance improvement.</li>
-<li class="md-github">3D charts utilize WebGL via stack.gl for GPU acceleration.</li>
-</ul>
-</li>
-<li class="md-github">Event Handling
-<ul class="md-github">
-<li class="md-github">Custom events for click, hover, zoom and controls can be added directly through Plotly methods.
-Technical Details:</li>
-</ul>
-</li>
-</ol>
-<ul class="md-github">
-<li class="md-github">API method signature: Plotly.newPlot(container: HTMLElement, data: Array<Object>, layout: Object, config?: Object)</li>
-<li class="md-github">Example JSON definition for a trace, layout and config provided in the code samples.</li>
-<li class="md-github">Ensure proper structure of attributes to avoid rendering and performance issues.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">Plotly.js Graphing Library
-https://plotly.com/javascript/</p>
-<h2 class="md-github"><a class="md-github__anchor" name="digest-of-plotly_js" href="#digest-of-plotly_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of PLOTLY_JS</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="plotlyjs-api-specification" href="#plotlyjs-api-specification"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plotly.js API Specification</h1>
-<p class="md-github">Date Retrieved: 2025-10-18</p>
-<h1 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h1>
-<p class="md-github">Plotly.js is a high-level, declarative charting library built atop d3.js and stack.gl. It supports over 40 chart types including 3D charts, statistical graphs and SVG maps. It features declarative chart definitions using JSON structures.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="api-methods" href="#api-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Methods</h1>
-<h2 class="md-github"><a class="md-github__anchor" name="plotlynewplot" href="#plotlynewplot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plotly.newPlot</h2>
-<p class="md-github">Signature: Plotly.newPlot(container: HTMLElement, data: Array<Object>, layout: Object, config?: Object) =&gt; Promise</p>
-<ul class="md-github">
-<li class="md-github">container: HTML element where the chart is rendered</li>
-<li class="md-github">data: Array of trace objects (each containing x, y, z values and type definitions such as 'scatter', 'contour', 'scattergl')</li>
-<li class="md-github">layout: Object defining titles, axis definitions, margins, annotations, and styling options</li>
-<li class="md-github">config: Optional configuration (e.g. { showLink: false, responsive: true })</li>
-</ul>
-<h1 class="md-github"><a class="md-github__anchor" name="trace-object-specifications" href="#trace-object-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Trace Object Specifications</h1>
-<p class="md-github">Example trace for a contour plot:</p>
-<ul class="md-github">
-<li class="md-github">type: 'contour'</li>
-<li class="md-github">autocolorscale: boolean</li>
-<li class="md-github">colorscale: array of color stops with numerical positions and rgb values</li>
-<li class="md-github">reversescale: boolean</li>
-<li class="md-github">zmax/zmin: numerical limits for data scaling</li>
-</ul>
-<p class="md-github">Example trace for a scatter plot:</p>
-<ul class="md-github">
-<li class="md-github">type: 'scatter'</li>
-<li class="md-github">mode: 'lines' (or markers, or both)</li>
-<li class="md-github">line: { width: number }</li>
-<li class="md-github">error_y: { array: Array<number>, thickness: number, width: number }</li>
-</ul>
-<h1 class="md-github"><a class="md-github__anchor" name="layout-object-specifications" href="#layout-object-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Layout Object Specifications</h1>
-<p class="md-github">Properties include:</p>
-<ul class="md-github">
-<li class="md-github">title: Object { text: string }</li>
-<li class="md-github">xaxis/yaxis: Object { title: { text: string }, showline: boolean, mirror: string, ticks: string, tickformat: string (for dates) }</li>
-<li class="md-github">margin: Object { l: number, b: number, t: number, r: number }</li>
-<li class="md-github">annotations: Array of annotation object { showarrow: boolean, text: string, x: number, y: number, xref: string, yref: string }</li>
-</ul>
-<h1 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options</h1>
-<p class="md-github">Common config parameters:</p>
-<ul class="md-github">
-<li class="md-github">showLink: boolean (hides or displays the link to Plotly)</li>
-<li class="md-github">responsive: boolean (enables fluid layout and responsiveness)</li>
-</ul>
-<h1 class="md-github"><a class="md-github__anchor" name="code-example-contour-plot" href="#code-example-contour-plot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Example: Contour Plot</h1>
-<p class="md-github">Using d3.json to load data and Plotly.newPlot to render a contour plot:</p>
-<p class="md-github">d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure) {
-var trace = {
-x: figure.data[0].x,
-y: figure.data[0].y,
-z: figure.data[0].z,
-type: 'contour',
-autocolorscale: false,
-colorscale: [[0, 'rgb(0,0,0)'], [0.3, 'rgb(230,0,0)'], [0.6, 'rgb(255,210,0)'], [1, 'rgb(255,255,255)']],
+colorscale: [[0, 'rgb(  0,  0,  0)'], [0.3, 'rgb(230,  0,  0)'], [0.6, 'rgb(255,210,  0)'], [1, 'rgb(255,255,255)']],
 reversescale: true,
 zmax: 2.5,
 zmin: -2.5
@@ -301,35 +132,189 @@ annotations: [{ showarrow: false, text: 'Credit: Daniel Carrera', x: 0, y: 0, xr
 };
 Plotly.newPlot(document.getElementById('contour-plot'), [trace], layout, { showLink: false });
 });</p>
-<h1 class="md-github"><a class="md-github__anchor" name="performance-considerations" href="#performance-considerations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Performance Considerations</h1>
+<p class="md-github">Full SDK details include handling of promise returns, error callbacks, and integration with d3 data fetching. Best practices recommend validating data arrays for length consistency and using appropriate chart types for performance optimizations. Troubleshooting steps include checking browser console for errors, ensuring correct API usage, and verifying data integrity with sample datasets.</p>
+<p class="md-github">Troubleshooting Procedures:</p>
 <ul class="md-github">
-<li class="md-github">SVG rendering: Used by most Plotly charts, ideal for vector exports but limited by DOM element count.</li>
-<li class="md-github">WebGL rendering: All 3D charts leverage WebGL for GPU acceleration.</li>
-<li class="md-github">Option scattergl: For scatter plots with high data volumes rendering an order of magnitude faster.</li>
+<li class="md-github">Command: Open browser console and inspect for errors if chart fails to render.</li>
+<li class="md-github">Validate data: Confirm that data arrays for x, y, and z are non-empty and of matching lengths.</li>
+<li class="md-github">Test alternative configurations such as switching from SVG to scattergl for performance improvements.</li>
+<li class="md-github">Use network inspection to ensure that data endpoints return valid JSON or CSV data.</li>
 </ul>
-<h1 class="md-github"><a class="md-github__anchor" name="event-handling" href="#event-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Event Handling</h1>
-<p class="md-github">Plotly supports custom events such as click, hover and zoom, which developers can attach via addEventListener or using Plotly-specific event methods.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Plotly.js; API: Plotly.newPlot(domElement, data: Array<Object>, layout: Object, config: Object): Promise; Contour trace: {x: Array, y: Array, z: Array, type: 'contour', autocolorscale: false, colorscale: [[0,'rgb(0,0,0)'],[0.3,'rgb(230,0,0)'],[0.6,'rgb(255,210,0)'],[1,'rgb(255,255,255)']], reversescale: true, zmax: 2.5, zmin: -2.5}; Layout: {title:{text:'turbulence simulation'}, xaxis:{title:{text:'radial direction'}, showline:true, mirror:'allticks', ticks:'inside'}, yaxis:{title:{text:'vertical direction'}, showline:true, mirror:'allticks', ticks:'inside'}, margin:{l:40,b:40,t:60}, annotations:[{showarrow:false,text:'Credit: Daniel Carrera', x:0,y:0,xref:'paper',yref:'paper'}]}; Scatter trace: {type:'scatter', mode:'lines', x: from CSV Time, y: from CSV '10 Min Sampled Avg', line:{width:1}, error_y:{array: from CSV '10 Min Std Dev', thickness:0.5, width:0}}; Scatter Layout: {yaxis:{title:{text:'Wind Speed'}}, xaxis:{showgrid:false,tickformat:'%B, %Y'}, margin:{l:40,b:10,r:10,t:20}}; Performance: Use stack.gl and scattergl; 3D: WebGL acceleration.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">API Initialization: Plotly.newPlot
 <ul class="md-github">
-<li class="md-github">Verify container element exists in the DOM before calling Plotly.newPlot</li>
-<li class="md-github">Check data array structure for proper trace formatting</li>
-<li class="md-github">Inspect console for errors related to invalid attribute values or misconfigured layout objects</li>
+<li class="md-github">Usage: Plotly.newPlot(domElement, dataArray, layoutObject, configObject)</li>
+<li class="md-github">Returns a promise after rendering is complete.</li>
 </ul>
+</li>
+<li class="md-github">Contour Plot Configuration
+<ul class="md-github">
+<li class="md-github">Trace: x, y, z arrays; type set to 'contour'; autocolorscale false; colorscale array defined; reversescale true; zmax 2.5; zmin -2.5.</li>
+<li class="md-github">Layout: Title text, xaxis and yaxis with title, showline true, mirror 'allticks', ticks 'inside'; margin {l:40, b:40, t:60}; annotations for credit.</li>
+</ul>
+</li>
+<li class="md-github">Scatter Chart Configuration
+<ul class="md-github">
+<li class="md-github">Trace: type 'scatter', mode 'lines'; x and y extracted from CSV rows; line object with width 1; error_y with array of errors, thickness 0.5, width 0.</li>
+<li class="md-github">Layout: yaxis title 'Wind Speed'; xaxis with no grid and tick format '%B, %Y'; margin {l:40, b:10, r:10, t:20}.</li>
+</ul>
+</li>
+<li class="md-github">Performance Optimizations
+<ul class="md-github">
+<li class="md-github">Render using SVG with fallback to stack.gl and scattergl for enhanced speed; use of WebGL for 3D charts.</li>
+</ul>
+</li>
+<li class="md-github">Configuration Options Summary
+<ul class="md-github">
+<li class="md-github">Config object: {showLink:false} disables the default link display.
+Detailed technical steps include creation of data trace objects, defining layout configurations, and calling Plotly.newPlot with the DOM element obtained via document.getElementById.</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Plotly.js Documentation
+https://plotly.com/javascript/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-plotly_js" href="#digest-of-plotly_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of PLOTLY_JS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="plotlyjs-technical-digest" href="#plotlyjs-technical-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plotly.js Technical Digest</h1>
+<p class="md-github">Retrieved Date: 2023-10-05</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">Plotly.js is a high-level, declarative charting library built on d3.js and stack.gl. It supports over 40 chart types including contour, scatter, 3D charts, and SVG maps. This document contains detailed technical specifications, method signatures, configuration options, and complete code examples.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="contour-plot-example" href="#contour-plot-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Contour Plot Example</h2>
+<p class="md-github">Example usage for a contour plot with specific configuration properties:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Trace Object Properties:</p>
+<ul class="md-github">
+<li class="md-github">x, y, z: Data arrays.</li>
+<li class="md-github">type: 'contour'</li>
+<li class="md-github">autocolorscale: false</li>
+<li class="md-github">colorscale: An array of value-color pairs, e.g. [[0,&quot;rgb(  0,  0,  0)&quot;], [0.3,&quot;rgb(230,  0,  0)&quot;], [0.6,&quot;rgb(255,210,  0)&quot;], [1,&quot;rgb(255,255,255)&quot;]]</li>
+<li class="md-github">reversescale: true</li>
+<li class="md-github">zmax: 2.5</li>
+<li class="md-github">zmin: -2.5</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Layout Object Properties:</p>
+<ul class="md-github">
+<li class="md-github">title: text 'turbulence simulation'</li>
+<li class="md-github">xaxis and yaxis include title, showline, mirror set to 'allticks', ticks style 'inside'</li>
+<li class="md-github">margin: {l: 40, b: 40, t: 60}</li>
+<li class="md-github">annotations: including credit information</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Code Example:
+d3.json('https://plotly.com/~DanielCarrera/13.json', function(figure){
+var trace = {
+x: figure.data[0].x,
+y: figure.data[0].y,
+z: figure.data[0].z,
+type: 'contour',
+autocolorscale: false,
+colorscale: [[0,&quot;rgb(  0,  0,  0)&quot;],[0.3,&quot;rgb(230,  0,  0)&quot;],[0.6,&quot;rgb(255,210,  0)&quot;],[1,&quot;rgb(255,255,255)&quot;]],
+reversescale: true,
+zmax: 2.5,
+zmin: -2.5
+};
+var layout = {
+title: { text: 'turbulence simulation' },
+xaxis: { title: { text: 'radial direction' }, showline: true, mirror: 'allticks', ticks: 'inside' },
+yaxis: { title: { text: 'vertical direction' }, showline: true, mirror: 'allticks', ticks: 'inside' },
+margin: { l: 40, b: 40, t: 60 },
+annotations: [{ showarrow: false, text: 'Credit: Daniel Carrera', x: 0, y: 0, xref: 'paper', yref: 'paper' }]
+};
+Plotly.newPlot(document.getElementById('contour-plot'), [trace], layout, { showLink: false });
+});</p>
+<h2 class="md-github"><a class="md-github__anchor" name="scatter-chart-example" href="#scatter-chart-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scatter Chart Example</h2>
+<p class="md-github">Example usage for a scatter line chart with error bar customization:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Trace Object Properties:</p>
+<ul class="md-github">
+<li class="md-github">type: 'scatter'</li>
+<li class="md-github">mode: 'lines'</li>
+<li class="md-github">x and y: Data arrays extracted from CSV rows</li>
+<li class="md-github">line: with width configuration (1)</li>
+<li class="md-github">error_y: object containing:
+<ul class="md-github">
+<li class="md-github">array: error values from data</li>
+<li class="md-github">thickness: 0.5</li>
+<li class="md-github">width: 0</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Layout Object Properties:</p>
+<ul class="md-github">
+<li class="md-github">yaxis: title 'Wind Speed'</li>
+<li class="md-github">xaxis: non-grid and tick format '%B, %Y'</li>
+<li class="md-github">margin: { l: 40, b: 10, r: 10, t: 20 }</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Code Example:
+d3.csv('https://raw.githubusercontent.com/plotly/datasets/master/wind_speed_laurel_nebraska.csv', function(rows){
+var trace = {
+type: 'scatter',
+mode: 'lines',
+x: rows.map(function(row){ return row['Time']; }),
+y: rows.map(function(row){ return row['10 Min Sampled Avg']; }),
+line: { width: 1 },
+error_y: {
+array: rows.map(function(row){ return row['10 Min Std Dev']; }),
+thickness: 0.5,
+width: 0
+}
+};
+var layout = {
+yaxis: { title: { text: 'Wind Speed' } },
+xaxis: { showgrid: false, tickformat: '%B, %Y' },
+margin: { l: 40, b: 10, r: 10, t: 20 }
+};
+Plotly.newPlot(document.getElementById('wind-speed'), [trace], layout, { showLink: false });
+});</p>
+<h2 class="md-github"><a class="md-github__anchor" name="rendering-and-performance" href="#rendering-and-performance"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rendering and Performance</h2>
+<ul class="md-github">
+<li class="md-github">Default rendering utilizes SVG for compatibility and vector quality, but excessive elements can cause performance issues.</li>
+<li class="md-github">For high performance, Plotly.js uses stack.gl for 2D and 3D charting. The scattergl chart type renders significantly faster.</li>
+<li class="md-github">All 3D charts leverage WebGL for GPU acceleration.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="api-method-plotlynewplot" href="#api-method-plotlynewplot"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Method: Plotly.newPlot</h2>
+<p class="md-github">Signature:
+Plotly.newPlot(domElement, data, layout, config)</p>
+<p class="md-github">Parameters:
+domElement - HTML element where the chart is rendered
+data - Array of trace objects with required properties (e.g. type, x, y, etc.)
+layout - Object with layout definitions (titles, axes, margins, annotations)
+config - Configuration options like { showLink: false }</p>
+<p class="md-github">Return:
+A promise that resolves once the chart is rendered.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
-<li class="md-github">Source: Plotly.js Graphing Library</li>
+<li class="md-github">Data Size Obtained: 4289637 bytes</li>
+<li class="md-github">Source: https://plotly.com/javascript/</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Plotly.js Documentation</li>
 <li class="md-github">URL: https://plotly.com/javascript/</li>
 <li class="md-github">License: MIT License</li>
-<li class="md-github">Crawl Date: 2025-04-27T03:08:19.239Z</li>
-<li class="md-github">Data Size: 4877544 bytes</li>
-<li class="md-github">Links Found: 15266</li>
+<li class="md-github">Crawl Date: 2025-04-27T12:56:47.197Z</li>
+<li class="md-github">Data Size: 4289637 bytes</li>
+<li class="md-github">Links Found: 13417</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
 <p class="md-github">2025-04-27</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-27T12:25:10.625Z</p>
+    <p>Generated on 2025-04-27T13:23:56.815Z</p>
   </footer>
 </body>
 </html>
