@@ -152,3 +152,18 @@ The MDN documentation on Intl.NumberFormat delivers a comprehensive guide on loc
 ## https://developer.mozilla.org/en-US/docs/Web/SVG/Accessibility
 This MDN guide focuses on making SVG content accessible. It covers best practices for adding ARIA attributes, providing descriptive text, and ensuring that graphical content is usable by individuals relying on assistive technologies. This is critical for our dynamically generated SVG plots to be fully compliant with accessibility standards.
 ## MDN License
+
+# New Source: Node.js Streams Documentation
+## https://nodejs.org/api/stream.html
+This official Node.js documentation covers the Streams API, providing in-depth technical details on handling readable and writable streams, backpressure mechanisms, and stream piping. This resource is particularly valuable for understanding asynchronous data processing and efficient file handling in scenarios where large or continuous data outputs are managed, complementing our file generation and HTTP server implementations.
+## MIT License
+
+# New Source: Node.js Process API
+## https://nodejs.org/api/process.html
+The Node.js Process API documentation offers comprehensive insights into managing the Node.js process, including argument parsing, environment management, and process lifecycle events. This source is essential for CLI applications like ours, helping ensure robust handling of process exits, signal events, and debugging information, thereby enhancing the reliability of our CLI tool.
+## MIT License
+
+# New Source: MDN Async Functions
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+This MDN guide details the syntax, behavior, and best practices for asynchronous functions in JavaScript. It provides actionable insights into managing asynchronous operations, error handling, and promise resolution, all of which are critical for building responsive server endpoints and CLI operations in our Node.js-based application.
+## MDN License
