@@ -347,13 +347,25 @@ app.get("/plot", (req, res) => {
 
 function main() {
   const args = process.argv.slice(2);
-  const options = {};
+  let options = {};
   for (let i = 0; i < args.length; i++) {
     if (args[i].startsWith("--")) {
       const key = args[i].substring(2);
       const value = args[i + 1] || "";
       options[key] = value;
       i++;
+    }
+  }
+
+  // Process external config file if provided
+  if (options.config) {
+    try {
+      const configFileContent = fs.readFileSync(options.config, 'utf8');
+      const configOptions = JSON.parse(configFileContent);
+      // Merge configuration: CLI flags override config file options
+      options = Object.assign({}, configOptions, options);
+    } catch (e) {
+      throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
   }
 
