@@ -238,7 +238,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg" })
       .expect(200);
-    const svgText = res.text;
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(svgText).toContain('aria-label="x-axis: 0 to 10"');
     expect(svgText).toContain('aria-label="y-axis: 0 to 10"');
   });
