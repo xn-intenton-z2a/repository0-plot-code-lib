@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="error_handling" href="#error_handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ERROR_HANDLING</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Node.js error handling implementation includes process-level handlers (process.on('uncaughtException') and process.on('unhandledRejection')), Express error middleware with signature (err, req, res, next), custom error constructors for detailed error information, and configuration for logging (using Winston). Troubleshooting involves tracing warnings with node flags.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Process-level Error Handling
+<ul class="md-github">
+<li class="md-github">process.on('uncaughtException', callback) for synchronous error capture</li>
+<li class="md-github">process.on('unhandledRejection', callback) for promise rejections
+Implementation Details:</li>
+<li class="md-github">Callback receives error object or rejection reason and promise</li>
+<li class="md-github">Recommended to exit process on fatal errors using process.exit(1) for uncaught exceptions</li>
+</ul>
+</li>
+<li class="md-github">Express Error Middleware
+<ul class="md-github">
+<li class="md-github">Signature: errorHandler(err: Error, req: Express.Request, res: Express.Response, next: Express.NextFunction)
+Implementation Details:</li>
+<li class="md-github">Respond with status code 500 and JSON containing error message</li>
+<li class="md-github">Must be registered after all routes</li>
+</ul>
+</li>
+<li class="md-github">Custom Error Creation API
+<ul class="md-github">
+<li class="md-github">Constructor: class CustomError extends Error with additional property code</li>
+<li class="md-github">Signature: new CustomError(message: string, code: string)
+Implementation Details:</li>
+<li class="md-github">Use to tag errors like 'ERR_INVALID_INPUT'</li>
+</ul>
+</li>
+<li class="md-github">Configuration Options and Best Practices
+<ul class="md-github">
+<li class="md-github">Logging setup using Winston: level set to 'error', JSON format, Console transport</li>
+<li class="md-github">Use robust validation (e.g., Zod) to pre-check data</li>
+<li class="md-github">Run Node with --trace-warnings for detailed output</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Process-level Handlers:</p>
+<ul class="md-github">
+<li class="md-github">process.on('uncaughtException', (err: Error): void) { log error; process.exit(1); }</li>
+<li class="md-github">process.on('unhandledRejection', (reason: any, promise: Promise<any>): void) { log error details to console; }</li>
+</ul>
+<p class="md-github">Express Error Middleware:</p>
+<ul class="md-github">
+<li class="md-github">function errorHandler(err: Error, req: Express.Request, res: Express.Response, next: Express.NextFunction): void {
+res.status(500).json({ error: err.message });
+}</li>
+</ul>
+<p class="md-github">Custom Error API:</p>
+<ul class="md-github">
+<li class="md-github">class CustomError extends Error {
+public code: string;
+constructor(message: string, code: string) {
+super(message);
+this.code = code;
+}
+}</li>
+</ul>
+<p class="md-github">Configuration Options for Logging (Winston):</p>
+<ul class="md-github">
+<li class="md-github">level: 'error'</li>
+<li class="md-github">format: JSON</li>
+<li class="md-github">transports: [ Console transport ]</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Always validate inputs, register error middleware at the end, use process-level handlers for uncaught exceptions, and configure logging properly.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Execute with node --trace-warnings</li>
+<li class="md-github">Monitor console output for detailed stack traces and error messages</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Process Error Handlers:</p>
+<ul class="md-github">
+<li class="md-github">process.on('uncaughtException', (err: Error): void) -&gt; Logs error and calls process.exit(1)</li>
+<li class="md-github">process.on('unhandledRejection', (reason: any, promise: Promise<any>): void) -&gt; Logs rejection details</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Express Error Middleware:</p>
+<ul class="md-github">
+<li class="md-github">Function Signature: function errorHandler(err: Error, req: Express.Request, res: Express.Response, next: Express.NextFunction): void</li>
+<li class="md-github">Implementation: res.status(500).json({ error: err.message });</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Custom Error Constructor:</p>
+<ul class="md-github">
+<li class="md-github">Class Definition: class CustomError extends Error
+Constructor Parameters: message: string, code: string
+Returns instance with property code</li>
+<li class="md-github">Usage Example: new CustomError('Invalid input provided', 'ERR_INVALID_INPUT')</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Logger Configuration using Winston:</p>
+<ul class="md-github">
+<li class="md-github">Code: const logger = winston.createLogger({ level: 'error', format: winston.format.json(), transports: [ new winston.transports.Console() ] });</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Commands:</p>
+<ul class="md-github">
+<li class="md-github">Command: node --trace-warnings app.js</li>
+<li class="md-github">Expected Output: Detailed error stack traces and warning messages</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Validate all external inputs using schema validators</li>
+<li class="md-github">Register error middleware after all route definitions</li>
+<li class="md-github">Log errors with sufficient detail for debugging</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">process.on('uncaughtException')(err:Error)=&gt;{console.error(err);process.exit(1)}; process.on('unhandledRejection')(reason:any, promise:Promise<any>)=&gt;{console.error(reason,promise)}; Express middleware: errorHandler(err:Error, req, res, next):void =&gt; res.status(500).json({error: err.message}); CustomError: class CustomError extends Error { constructor(message:string, code:string){super(message); this.code=code}}; Logger: winston.createLogger({level:'error', format:winston.format.json(), transports:[new winston.transports.Console()]}); node --trace-warnings for debugging</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Process-level Error Handling
+<ul class="md-github">
+<li class="md-github">process.on('uncaughtException', callback) for synchronous error capture</li>
+<li class="md-github">process.on('unhandledRejection', callback) for promise rejections
+Implementation Details:</li>
+<li class="md-github">Callback receives error object or rejection reason and promise</li>
+<li class="md-github">Recommended to exit process on fatal errors using process.exit(1) for uncaught exceptions</li>
+</ul>
+</li>
+<li class="md-github">Express Error Middleware
+<ul class="md-github">
+<li class="md-github">Signature: errorHandler(err: Error, req: Express.Request, res: Express.Response, next: Express.NextFunction)
+Implementation Details:</li>
+<li class="md-github">Respond with status code 500 and JSON containing error message</li>
+<li class="md-github">Must be registered after all routes</li>
+</ul>
+</li>
+<li class="md-github">Custom Error Creation API
+<ul class="md-github">
+<li class="md-github">Constructor: class CustomError extends Error with additional property code</li>
+<li class="md-github">Signature: new CustomError(message: string, code: string)
+Implementation Details:</li>
+<li class="md-github">Use to tag errors like 'ERR_INVALID_INPUT'</li>
+</ul>
+</li>
+<li class="md-github">Configuration Options and Best Practices
+<ul class="md-github">
+<li class="md-github">Logging setup using Winston: level set to 'error', JSON format, Console transport</li>
+<li class="md-github">Use robust validation (e.g., Zod) to pre-check data</li>
+<li class="md-github">Run Node with --trace-warnings for detailed output</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Handling Errors in Node.js: A Comprehensive Guide
+https://blog.risingstack.com/node-js-error-handling-tutorial/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-error_handling" href="#digest-of-error_handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of ERROR_HANDLING</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="error_handling-1" href="#error_handling-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ERROR_HANDLING</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">This document details the technical implementation of error handling in Node.js. It covers both process-level and route-specific practices, including complete API specifications, SDK method signatures, and configuration options necessary for robust error management.</p>
+<p class="md-github">Date Retrieved: 2023-10-05
+Attribution: Crawled from https://blog.risingstack.com/node-js-error-handling-tutorial/ (Entry 28 in SOURCES.md). Data Size: 0 bytes</p>
+<h2 class="md-github"><a class="md-github__anchor" name="process-level-error-handling" href="#process-level-error-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Process-level Error Handling</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Use process.on('uncaughtException', callback) to handle synchronous exceptions that are not caught.</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-js">process.on('uncaughtException', (err) =&gt; {
+  console.error('Uncaught Exception:', err);
+  process.exit(1);
+});
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github">Use process.on('unhandledRejection', callback) to catch unhandled promise rejections.</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-js">process.on('unhandledRejection', (reason, promise) =&gt; {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
+</code></pre>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="express-error-middleware" href="#express-error-middleware"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Express Error Middleware</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Implement a centralized error handler middleware with the signature:</p>
+<p class="md-github">Signature: function errorHandler(err: Error, req: Express.Request, res: Express.Response, next: Express.NextFunction): void</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-js">function errorHandler(err, req, res, next) {
+  res.status(500).json({ error: err.message });
+}
+module.exports = errorHandler;
+</code></pre>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="custom-error-creation-api" href="#custom-error-creation-api"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Error Creation API</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Create custom errors using a dedicated constructor to include additional properties like error codes.</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-js">class CustomError extends Error {
+  constructor(message, code) {
+    super(message);
+    this.code = code; // e.g., 'ERR_INVALID_INPUT'
+  }
+}
+
+// Usage:
+const myError = new CustomError('Invalid input provided', 'ERR_INVALID_INPUT');
+</code></pre>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration-options-and-best-practices" href="#configuration-options-and-best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options and Best Practices</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Logging: Configure error logging using libraries such as Winston.</p>
+<p class="md-github">Example:</p>
+<pre class="md-github"><code class="md-github language-js">const winston = require('winston');
+const logger = winston.createLogger({
+  level: 'error',
+  format: winston.format.json(),
+  transports: [ new winston.transports.Console() ]
+});
+</code></pre>
+</li>
+<li class="md-github">
+<p class="md-github">Always validate input using robust validation (e.g., via Zod) prior to processing.</p>
+</li>
+<li class="md-github">
+<p class="md-github">In Express, place error middleware after all route declarations to ensure all errors are caught.</p>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting-procedures" href="#troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Procedures</h2>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Run Node.js with the --trace-warnings flag to get detailed stack traces:</p>
+<p class="md-github">Command: node --trace-warnings app.js</p>
+</li>
+<li class="md-github">
+<p class="md-github">Monitor logs for uncaught exceptions and unhandled rejections.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Verify middleware registration if errors are not being intercepted.</p>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Handling Errors in Node.js: A Comprehensive Guide</li>
+<li class="md-github">URL: https://blog.risingstack.com/node-js-error-handling-tutorial/</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-27T07:47:12.034Z</li>
+<li class="md-github">Data Size: 0 bytes</li>
+<li class="md-github">Links Found: 0</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-27</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-27T08:23:47.315Z</p>
+  </footer>
+</body>
+</html>
