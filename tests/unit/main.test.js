@@ -7,7 +7,6 @@ import path from "path";
 // Preserve original process.argv
 const originalArgv = process.argv.slice();
 
-
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -54,9 +53,7 @@ describe("CLI Plot Generation", () => {
     const content = fs.readFileSync(testFile, "utf8");
     expect(content.startsWith("<svg")).toBe(true);
     expect(content).toContain('<text');
-    // Check custom rotation in x-axis label
     expect(content).toMatch(/<text[^>]+transform="rotate\(20,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
-    // Check custom rotation in y-axis label (should include -45)
     expect(content).toMatch(/<text[^>]+transform="rotate\(-45,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
     fs.unlinkSync(testFile);
   });
@@ -344,7 +341,6 @@ describe("CLI Plot Generation", () => {
     fs.unlinkSync("output.svg");
   });
 
-  // New tests for custom ARIA labels and text-anchor overrides via CLI flags
   test("should output SVG with custom aria-label attributes from CLI flags", () => {
     const testFile = "output.svg";
     if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
@@ -390,6 +386,33 @@ describe("CLI Plot Generation", () => {
     const content = fs.readFileSync(testFile, "utf8");
     expect(content).toContain('text-anchor="end"');
     expect(content).toContain('text-anchor="start"');
+    fs.unlinkSync(testFile);
+  });
+
+  // New test for CLI JSON export
+  test("should generate detailed JSON output when --jsonExport flag is provided", () => {
+    const testFile = "output.json";
+    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      testFile,
+      "--jsonExport",
+      "true"
+    ];
+    main();
+    const content = fs.readFileSync(testFile, "utf8");
+    const data = JSON.parse(content);
+    expect(data).toHaveProperty("points");
+    expect(data.points).toHaveLength(100);
+    expect(data).toHaveProperty("computedXRange");
+    expect(data).toHaveProperty("computedYRange");
+    expect(data).toHaveProperty("axisLabels");
     fs.unlinkSync(testFile);
   });
 });

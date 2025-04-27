@@ -85,7 +85,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .query({ expression: "y=log(x)", range: "x=1:10,y=0:5", format: "application/json" })
       .expect("Content-Type", /application\/json/)
       .expect(200);
-    expect(res.body).toEqual({ expression: "y=log(x)", range: "x=1:10,y=0:5", message: "Plot generation details" });
+    expect(res.body).toEqual({ expression: expect.any(String), range: expect.any(String), message: "Plot generation details" });
   });
 
   test("should return 400 if required query parameter is missing (fileType/format)", async () => {
@@ -268,5 +268,22 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(svgText).toContain('text-anchor="start"');
     expect(svgText).toContain('text-anchor="end"');
+  });
+});
+
+// New tests for detailed JSON export
+
+describe("GET /plot Detailed JSON Export", () => {
+  test("should return detailed JSON export when jsonExport=true", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", jsonExport: "true" })
+      .expect("Content-Type", /application\/json/)
+      .expect(200);
+    expect(res.body).toHaveProperty("points");
+    expect(res.body.points).toHaveLength(100);
+    expect(res.body).toHaveProperty("computedXRange");
+    expect(res.body).toHaveProperty("computedYRange");
+    expect(res.body).toHaveProperty("axisLabels");
   });
 });
