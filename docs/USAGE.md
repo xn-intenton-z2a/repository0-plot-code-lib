@@ -14,7 +14,7 @@ You can generate plots directly from the command line by providing the following
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must include the variable 'x'**. For example, an expression like "y=5" is invalid and will result in an error: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format." 
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
-  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
+  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5"). Extra whitespace around numbers and delimiters is allowed.
   - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound. If this condition is not met, an error is returned. The error messages have been enhanced to include the provided invalid range. For example:
     - For x-range: "Error: Invalid range for x (provided: x=5:1). Ensure the minimum value is less than the maximum value."
     - For y-range: "Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value."
@@ -44,7 +44,7 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 
   This will produce an SVG where the x-axis label is "MyCustomX" and the y-axis label is "MyCustomY".
 
-### Improved Error Messages
+## Improved Error Messages
 
 The tool now provides more detailed error messages to help diagnose input issues:
 
@@ -52,14 +52,14 @@ The tool now provides more detailed error messages to help diagnose input issues
 
 - **y-range Error:** Similarly, if the y-range values are reversed, the error will read: "Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value."
 
-- **Expression Error:** If the expression does not include the variable 'x', the error will prompt: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format."
+- **Expression Error:** If the expression does not include the variable 'x', the error will prompt: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format." 
 
 ## HTTP API: Dynamic Plot Generation
 
 In addition to content negotiation via the Accept header, the `/plot` endpoint has been enhanced to support dynamic plot generation using URL query parameters. When making a GET request with the following query parameters, the API will dynamically generate and return the plot by mathematically evaluating the expression:
 
 - **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty. The expression **must include the variable 'x'**.
-- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. The tool validates that the lower numeric bound is less than the upper bound for both x and y ranges.
+- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. Extra whitespace is allowed. The tool validates that the lower numeric bound is less than the upper bound for both x and y ranges.
 - **fileType**: (Deprecated) Specifies the output type using shorthand values (`svg` or `png`).
 - **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
   - `image/svg+xml` (which produces an SVG plot with dynamic labels)

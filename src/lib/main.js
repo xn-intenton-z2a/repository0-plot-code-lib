@@ -10,30 +10,30 @@ import { compile } from "mathjs";
 const app = express();
 
 function createSvgPlot(expression, range, customLabels = {}) {
-  // Extract x range from the range parameter (format: x=<min>:<max>,y=<min>:<max>)
-  const xPattern = /x=(-?\d+(\.\d+)?):(-?\d+(\.\d+)?)/;
+  // Updated regex to allow extra whitespace in the range parameter
+  const xPattern = /x\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const xMatch = xPattern.exec(range);
   if (!xMatch) {
     throw new Error("Error: Invalid x-range format. Expected format: x=<min>:<max> with numeric values.");
   }
   const xMin = parseFloat(xMatch[1]);
-  const xMax = parseFloat(xMatch[3]);
+  const xMax = parseFloat(xMatch[2]);
   // Numeric Order Enforcement for x: Ensure xMin is less than xMax
   if (xMin >= xMax) {
-    throw new Error(`Error: Invalid range for x (provided: x=${xMatch[1]}:${xMatch[3]}). Ensure the minimum value is less than the maximum value.`);
+    throw new Error(`Error: Invalid range for x (provided: x=${xMin}:${xMax}). Ensure the minimum value is less than the maximum value.`);
   }
 
-  // Extract y range from the range parameter
-  const yPattern = /y=(-?\d+(\.\d+)?):(-?\d+(\.\d+)?)/;
+  // Extract y range from the range parameter with extra whitespace support
+  const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
     throw new Error("Error: Invalid y-range format. Expected format: y=<min>:<max> with numeric values.");
   }
   const yInputMin = parseFloat(yMatch[1]);
-  const yInputMax = parseFloat(yMatch[3]);
+  const yInputMax = parseFloat(yMatch[2]);
   // Numeric Order Enforcement for y: Ensure yInputMin is less than yInputMax
   if (yInputMin >= yInputMax) {
-    throw new Error(`Error: Invalid range for y (provided: y=${yMatch[1]}:${yMatch[3]}). Ensure the minimum value is less than the maximum value.`);
+    throw new Error(`Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Ensure the minimum value is less than the maximum value.`);
   }
 
   const numPoints = 100;
@@ -43,7 +43,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   if (exprStr.toLowerCase().startsWith("y=")) {
     exprStr = exprStr.slice(2);
   }
-  // Enforce that the expression uses the variable 'x'
+  // Early enforcement that the expression uses the variable 'x'
   if (!/\bx\b/.test(exprStr)) {
     throw new Error("Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format.");
   }
@@ -127,7 +127,8 @@ app.get("/plot", (req, res) => {
       return res.status(400).send("Error: Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
     }
 
-    const rangePattern = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
+    // Updated range pattern regex to allow extra whitespace
+    const rangePattern = /^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/;
     if (!rangePattern.test(range)) {
       return res.status(400).send("Error: 'range' query parameter is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
@@ -238,7 +239,7 @@ Options:
   --version             Display the current version and exit. (Takes precedence over other flags)
   --verbose             Enable verbose output for debugging.
   --expression <expr>   Specify the mathematical expression (e.g., "y=sin(x)").
-  --range <range>       Specify the plot range (format: x=<min>:<max>,y=<min>:<max>). Supports integers and floating point numbers. Note: lower bounds must be less than upper bounds.
+  --range <range>       Specify the plot range (format: x=<min>:<max>,y=<min>:<max>). Supports integers and floating point numbers. Note: lower bounds must be less than upper bounds. Extra whitespace is allowed.
   --file <path>         Specify the output file path. Supported extensions: .svg, .png.
   --serve               Run in server mode to listen for HTTP requests.
 
@@ -294,9 +295,9 @@ Examples:
       throw new Error("Error: --file flag must have a non-empty value.");
     }
 
-    // Validate the range flag format (supports integer and floating point numbers)
-    const rangePattern = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
-    if (!rangePattern.test(range)) {
+    // Updated range pattern regex to allow extra whitespace
+    const cliRangePattern = /^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/;
+    if (!cliRangePattern.test(range)) {
       throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
 
