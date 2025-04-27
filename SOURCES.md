@@ -132,3 +132,13 @@ Vega-Lite offers a declarative grammar for creating interactive data visualizati
 ## https://restfulapi.net/problem-details/
 This resource provides insights into implementing RFC7807 in REST APIs, detailing standardized error response formats. It covers essential fields such as type, title, status, detail, and instance, and offers practical examples for integrating these standards into Node.js applications. This is particularly valuable for enhancing our structured error handling and aligning our API responses with modern REST practices.
 ## CC BY-NC 4.0
+
+# Handling Errors in Node.js: A Comprehensive Guide
+## https://blog.risingstack.com/node-js-error-handling-tutorial/
+RisingStack offers an in-depth tutorial on error handling best practices in Node.js. The guide covers synchronous and asynchronous error management, integration with Express, and advanced debugging strategies. This resource provides practical insights that are directly applicable to refining our own error handling implementation, including structured error responses based on RFC7807.
+## MIT License
+
+# SVGO: SVG Optimizer
+## https://github.com/svg/svgo
+SVGO is a powerful tool designed to optimize and clean up SVG files by removing unnecessary data and reducing file size. The documentation provides technical details on various optimization strategies and configuration options, supporting our efforts to produce efficient and streamlined SVG plots for web delivery.
+## MIT License
