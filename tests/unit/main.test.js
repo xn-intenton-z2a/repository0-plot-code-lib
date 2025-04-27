@@ -264,7 +264,6 @@ describe("CLI Plot Generation", () => {
   });
 });
 
-
 describe("CLI Version Flag", () => {
   const originalExit = process.exit;
   let originalConsoleLog;
