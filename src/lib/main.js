@@ -1,9 +1,16 @@
 #!/usr/bin/env node
 // src/lib/main.js
 
-// Load environment variables from .env file using dotenv
+// Load environment variables using dotenv and support custom .env file via CLI flag
 import dotenv from 'dotenv';
-dotenv.config();
+
+const envFlagIndex = process.argv.findIndex(arg => arg === '--env');
+if (envFlagIndex !== -1 && process.argv.length > envFlagIndex + 1) {
+  const envPath = process.argv[envFlagIndex + 1];
+  dotenv.config({ path: envPath });
+} else {
+  dotenv.config();
+}
 
 import { fileURLToPath, pathToFileURL } from "url";
 import express from "express";
