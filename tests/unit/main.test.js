@@ -389,7 +389,6 @@ describe("CLI Plot Generation", () => {
     fs.unlinkSync(testFile);
   });
 
-  // New test for CLI JSON export
   test("should generate detailed JSON output when --jsonExport flag is provided", () => {
     const testFile = "output.json";
     if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
@@ -415,9 +414,76 @@ describe("CLI Plot Generation", () => {
     expect(data).toHaveProperty("axisLabels");
     fs.unlinkSync(testFile);
   });
+
+  describe("CLI Config flag", () => {
+    const configFile = "test_config.json";
+    afterEach(() => {
+      if (fs.existsSync(configFile)) fs.unlinkSync(configFile);
+      if (fs.existsSync("output_config.svg")) fs.unlinkSync("output_config.svg");
+    });
+
+    test("should merge configuration from a valid config file with CLI override", () => {
+      const configData = {
+        expression: "y=cos(x)",
+        range: "x=-2:2,y=-1:1",
+        xlabel: "ConfigX",
+        ylabel: "ConfigY"
+      };
+      fs.writeFileSync(configFile, JSON.stringify(configData), "utf8");
+      // CLI overrides expression and file
+      process.argv = [
+        "node",
+        "src/lib/main.js",
+        "--config",
+        configFile,
+        "--expression",
+        "y=sin(x)",
+        "--file",
+        "output_config.svg"
+      ];
+      main();
+      const content = fs.readFileSync("output_config.svg", "utf8");
+      // Check that the expression from CLI overrides config, but other values come from config
+      expect(content).toContain("Plot for: y=sin(x) in range x=-2:2,y=-1:1");
+      expect(content).toContain("ConfigX");
+      expect(content).toContain("ConfigY");
+    });
+
+    test("should error if config file does not exist", () => {
+      process.argv = [
+        "node",
+        "src/lib/main.js",
+        "--config",
+        "nonexistent.json",
+        "--expression",
+        "y=sin(x)",
+        "--range",
+        "x=-1:1,y=-1:1",
+        "--file",
+        "output.svg"
+      ];
+      expect(() => main()).toThrow(/Error: Unable to read or parse configuration file/);
+    });
+
+    test("should error if config file contains invalid JSON", () => {
+      fs.writeFileSync(configFile, "{ invalid json }", "utf8");
+      process.argv = [
+        "node",
+        "src/lib/main.js",
+        "--config",
+        configFile,
+        "--expression",
+        "y=sin(x)",
+        "--range",
+        "x=-1:1,y=-1:1",
+        "--file",
+        "output.svg"
+      ];
+      expect(() => main()).toThrow(/Error: Unable to read or parse configuration file/);
+    });
+  });
 });
 
-// Restore original argv after all tests
 afterAll(() => {
   process.argv = originalArgv;
 });

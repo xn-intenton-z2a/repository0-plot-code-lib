@@ -357,6 +357,18 @@ function main() {
     }
   }
 
+  // Process external config file if provided
+  if (options.config) {
+    try {
+      const configFileContent = fs.readFileSync(options.config, 'utf8');
+      const configOptions = JSON.parse(configFileContent);
+      // Merge config file options, CLI flags take precedence
+      Object.assign(options, configOptions, options);
+    } catch (e) {
+      throw new Error("Error: Unable to read or parse configuration file: " + e.message);
+    }
+  }
+
   // If no CLI options provided, do nothing
   if (Object.keys(options).length === 0) {
     return;

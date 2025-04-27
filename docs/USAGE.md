@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, and a detailed JSON export option for plot data.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, and a detailed JSON export option for plot data.
 
 ## CLI Plot Generation
 
@@ -24,14 +24,24 @@ You can generate plots directly from the command line by providing the following
 - **--file**: The output file path. The file extension determines the output type:
   - **.svg**: Generates an SVG plot with annotations and a blue polyline (or a smooth path if smoothing is enabled) representing the curve.
   - **.png**: Generates a PNG plot using dummy placeholder image data.
+
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
+
 - **--jsonExport**: When provided with the value `true` alongside `--expression` and `--range` (and optionally `--file`), the tool outputs a detailed JSON export of the plot data instead of an image. This JSON includes:
   - `expression`: The original mathematical expression.
   - `range`: The input range string.
   - `points`: An array of computed plot point objects (default 100 points, or as specified by the resolution parameter).
   - `computedXRange`: The x-range limits extracted from the input.
   - `computedYRange`: The computed minimum and maximum y values based on evaluation.
-  - `axisLabels`: Descriptive labels for the axes (e.g., "x-axis: 0 to 10").
+  - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
+
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file and merges its values with the CLI flags, with CLI flags taking precedence. For example:
+
+  ```sh
+  node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
+  ```
+
+  If the configuration file cannot be read or parsed, an error will be displayed and the application will exit gracefully.
 
 ## Adaptive Resolution and Curve Smoothing
 
@@ -62,6 +72,22 @@ This release introduces two new optional parameters to enhance plot rendering:
    ```sh
    GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&resolution=200&jsonExport=true
    ```
+
+5. **Using an External Configuration File:**
+   ```sh
+   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
+   ```
+
+   In this example, `config.json` might contain default values such as:
+   ```json
+   {
+     "range": "x=0:10,y=0:10",
+     "resolution": "200",
+     "xlabel": "Default X Axis",
+     "ylabel": "Default Y Axis"
+   }
+   ```
+   Any CLI flag provided (e.g., `--expression`) will override the corresponding value in the config file.
 
 ## Environment Variables and DOTENV Support
 
@@ -139,3 +165,9 @@ Advanced query parameters allow customization of the generated SVG plots, includ
    ```sh
    node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --resolution 200 --jsonExport true
    ```
+
+6. **Using an External Configuration File:**
+   ```sh
+   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
+   ```
+   The configuration file (e.g., `config.json`) can supply default parameters such as the range, resolution, smoothing options, and axis labels. Any CLI flag provided will override the configuration file values.
