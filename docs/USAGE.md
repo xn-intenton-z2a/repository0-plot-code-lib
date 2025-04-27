@@ -23,7 +23,23 @@ You can generate plots directly from the command line by providing the following
   - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
-## Custom Axis Labels, Precision, and Styling via Query Parameters
+## HTTP API: Dynamic Plot Generation and Aggregated Error Reporting
+
+The `/plot` endpoint supports dynamic plot generation using URL query parameters. When making a GET request with query parameters, the API will:
+
+- Validate that **expression** and **range** are provided and non-empty.
+- Ensure that **range** matches the required format and that numeric orders are valid.
+- Check that either the `fileType` (deprecated) or `format` parameter is provided. 
+
+If multiple input errors occur (for example, missing parameters and malformed values), the endpoint aggregates all the error messages and returns them together in a single 400 Bad Request response. This aggregated error message provides comprehensive feedback on all input issues, helping the user correct them in one go.
+
+### Supported Output Formats
+
+- **image/svg+xml**: Returns an SVG plot with dynamic axis labels (or custom labels if provided via query parameters).
+- **image/png**: Returns a PNG image with placeholder content.
+- **application/json**: Returns a JSON object with details about the plot generation request.
+
+### Custom Axis Labels, Precision, and Styling via Query Parameters
 
 In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports additional optional query parameters for customizing the appearance of the axis labels:
 
@@ -33,10 +49,22 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 - **xlabelColor**: Sets the color (fill) for the x-axis label text. Default is `black` if not provided.
 - **ylabelFontSize**: Sets the font size for the y-axis label. Default is `12` if not provided.
 - **ylabelColor**: Sets the color (fill) for the y-axis label text. Default is `black` if not provided.
-- **xlabelPrecision**: *(New)* Specifies the number of decimal places to display for the numeric values in the x-axis label. For example, setting `xlabelPrecision=2` formats the numbers to two decimal places.
-- **ylabelPrecision**: *(New)* Specifies the number of decimal places to display for the numeric values in the y-axis label. For example, setting `ylabelPrecision=3` formats the numbers to three decimal places.
+- **xlabelPrecision**: Specifies the number of decimal places to display for the numeric values in the x-axis label. For example, setting `xlabelPrecision=2` formats the numbers to two decimal places.
+- **ylabelPrecision**: Specifies the number of decimal places to display for the numeric values in the y-axis label. For example, setting `ylabelPrecision=3` formats the numbers to three decimal places.
 
-### Examples
+### Aggregated Error Reporting (CLI and HTTP)
+
+Both the CLI and HTTP API now aggregate multiple input errors and report them in a single response. For example:
+
+- In CLI mode, if both the `--expression` and `--range` flags are missing or empty, the tool will output a combined error message such as:
+
+  "Error: --expression flag must have a non-empty value. Error: --range flag must have a non-empty value."
+
+- In HTTP mode, if the query parameters are missing or malformed, the response might include:
+
+  "Missing or empty 'expression' query parameter. Malformed 'range' query parameter."
+
+## Examples
 
 1. **Dynamic SVG Generation with Default Axis Labels and Styling:**
 
@@ -53,7 +81,6 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 4. **Dynamic SVG Generation with Numeric Precision Control:**
 
    GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&xlabelPrecision=2&ylabelPrecision=3`
-   - This will display the x-axis as "x-axis: 0.12 to 10.57" and the y-axis as "y-axis: -1.235 to 5.679".
 
 5. **Dynamic PNG Generation:**
 
@@ -62,47 +89,3 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 6. **Dynamic JSON Response:**
 
    GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
-
-## Improved Error Messages
-
-The tool now provides more detailed error messages to help diagnose input issues:
-
-- **x-range Error:** If the x-range values are in the wrong order, the error will indicate the provided range. Example: "Error: Invalid range for x (provided: x=5:1). Ensure the minimum value is less than the maximum value."
-- **y-range Error:** Similarly, if the y-range values are reversed, the error will read: "Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value."
-- **Expression Error:** If the expression does not include the variable 'x', the error will prompt: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format."
-- **Non-finite Evaluation Error:** If during the evaluation of the mathematical expression any y-value is not a finite number, the tool will throw an error such as: "Error: Expression evaluation resulted in an invalid number at x=<value>".
-
-## HTTP API: Dynamic Plot Generation
-
-In addition to content negotiation via the Accept header, the `/plot` endpoint has been enhanced to support dynamic plot generation using URL query parameters. When making a GET request with the following query parameters, the API will dynamically generate and return the plot by mathematically evaluating the expression:
-
-- **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty. The expression **must include the variable 'x'**.
-- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. Extra whitespace is allowed.
-- **fileType**: (Deprecated) Specifies the output type using shorthand values (`svg` or `png`).
-- **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
-  - `image/svg+xml` (which produces an SVG plot with dynamic labels)
-  - `image/png`
-  - `application/json`
-- **xlabel**, **ylabel**, **xlabelFontSize**, **xlabelColor**, **ylabelFontSize**, **ylabelColor**, **xlabelPrecision**, **ylabelPrecision**: Custom options for axis labels text, styling, and numeric precision (the latter two determine the number of decimals for the axis range values).
-
-**Note:** When using dynamic query parameters, you must provide either `fileType` (with value `svg` or `png`) or `format` (with one of the allowed MIME types). If query parameters are provided, they take precedence over the Accept header used for content negotiation.
-
-### Behavior
-
-- If query parameters are provided:
-  - The endpoint validates that **expression** and **range** are non-empty and that **range** matches the required format. It also checks that the numeric order is correct for both x and y ranges.
-  - The output format is determined by the `format` parameter if provided; otherwise, by the legacy `fileType` parameter.
-  - **image/svg+xml**: Returns an SVG plot with the dynamic axis labels (or custom labels and styling if provided) and other plot details, with the Content-Type set to `image/svg+xml; charset=utf-8`.
-  - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
-  - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
-- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (now including helpful hints).
-- If the mathematical evaluation results in any non-finite number, the API responds with a 400 Bad Request and an error message indicating the problematic x value.
-- If no query parameters are provided, the endpoint falls back to content negotiation based on the Accept header.
-
-## Server Mode
-
-To run the HTTP server (which provides the `/plot` endpoint), use the following flag:
-
-   node src/lib/main.js --serve
-
-The `/plot` endpoint supports both content negotiation based on the Accept header and dynamic plot generation via query parameters.

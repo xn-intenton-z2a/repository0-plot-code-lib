@@ -145,15 +145,24 @@ function createSvgPlot(expression, range, customLabels = {}) {
 app.get("/plot", (req, res) => {
   const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision } = req.query;
 
+  // If query parameters are provided, perform aggregated validation
   if (expression || range || fileType || format) {
+    let errors = [];
     if (!expression || expression.trim() === "") {
-      return res.status(400).send("Error: Missing or empty 'expression' query parameter.");
+      errors.push("Missing or empty 'expression' query parameter.");
     }
     if (!range || range.trim() === "") {
-      return res.status(400).send("Error: Missing or empty 'range' query parameter.");
+      errors.push("Missing or empty 'range' query parameter.");
     }
     if (!fileType && !format) {
-      return res.status(400).send("Error: Missing required query parameter: either 'fileType' or 'format' must be provided.");
+      errors.push("Missing required query parameter: either 'fileType' or 'format' must be provided.");
+    }
+    const rangePattern = /^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/;
+    if (range && !rangePattern.test(range)) {
+      errors.push("Error: 'range' query parameter is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    }
+    if (errors.length > 0) {
+      return res.status(400).send(errors.join(" "));
     }
 
     let outputFormat = format || fileType;
@@ -166,12 +175,6 @@ app.get("/plot", (req, res) => {
       outputFormat !== "application/json"
     ) {
       return res.status(400).send("Error: Invalid 'format' query parameter. Must be one of 'image/svg+xml', 'image/png', or 'application/json'.");
-    }
-
-    // Updated range pattern regex to allow extra whitespace
-    const rangePattern = /^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/;
-    if (!rangePattern.test(range)) {
-      return res.status(400).send("Error: 'range' query parameter is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
 
     try {
@@ -290,6 +293,8 @@ Examples:
   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --verbose
   node src/lib/main.js --serve
 
+Aggregated Error Reporting:
+  When multiple input errors occur (e.g., missing flags or malformed parameters), the tool aggregates the error messages and displays them together, providing comprehensive feedback to the user.
     `;
     console.log(helpMessage);
     return;
@@ -308,12 +313,47 @@ Examples:
   const hasFile = args.includes("--file");
 
   if (hasExpression || hasRange || hasFile) {
-    if (!hasExpression || !hasRange || !hasFile) {
+    if (!(hasExpression && hasRange && hasFile)) {
       throw new Error("Error: --expression, --range, and --file flags are required together.");
     }
+    let cliErrors = [];
     const expressionIdx = args.indexOf("--expression");
     const rangeIdx = args.indexOf("--range");
     const fileIdx = args.indexOf("--file");
+
+    if (expressionIdx === -1) {
+      cliErrors.push("--expression flag is required.");
+    } else {
+      const expr = args[expressionIdx + 1];
+      if (!expr || expr.trim() === "") {
+        cliErrors.push("Error: --expression flag must have a non-empty value.");
+      }
+    }
+    if (rangeIdx === -1) {
+      cliErrors.push("--range flag is required.");
+    } else {
+      const rng = args[rangeIdx + 1];
+      if (!rng || rng.trim() === "") {
+        cliErrors.push("Error: --range flag must have a non-empty value.");
+      } else {
+        const cliRangePattern = /^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/;
+        if (!cliRangePattern.test(rng)) {
+          cliErrors.push("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+        }
+      }
+    }
+    if (fileIdx === -1) {
+      cliErrors.push("--file flag is required.");
+    } else {
+      const fileOutput = args[fileIdx + 1];
+      if (!fileOutput || fileOutput.trim() === "") {
+        cliErrors.push("Error: --file flag must have a non-empty value.");
+      }
+    }
+    if (cliErrors.length > 0) {
+      throw new Error(cliErrors.join(" "));
+    }
+
     const expression = args[expressionIdx + 1];
     const range = args[rangeIdx + 1];
     const fileOutput = args[fileIdx + 1];
@@ -323,28 +363,6 @@ Examples:
       console.log("Expression:", expression);
       console.log("Range:", range);
       console.log("File:", fileOutput);
-    }
-
-    // Validate that all required flags have non-empty values
-    if (!expression || expression.trim() === "") {
-      throw new Error("Error: --expression flag must have a non-empty value.");
-    }
-    if (!range || range.trim() === "") {
-      throw new Error("Error: --range flag must have a non-empty value.");
-    }
-    if (!fileOutput || fileOutput.trim() === "") {
-      throw new Error("Error: --file flag must have a non-empty value.");
-    }
-
-    // Updated range pattern regex to allow extra whitespace
-    const cliRangePattern = /^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/;
-    if (!cliRangePattern.test(range)) {
-      throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
-    }
-
-    if (verbose) {
-      console.log("Range format validated.");
-      console.log(`Generating plot with expression: ${expression}, range: ${range}, output file: ${fileOutput}`);
     }
 
     return generatePlot(expression, range, fileOutput);
