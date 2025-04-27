@@ -412,7 +412,7 @@ function main() {
       // Merge configuration: CLI flags override config file options
       options = Object.assign({}, validatedConfig, options);
     } catch (e) {
-      throw new Error("Error: Invalid configuration file: " + e.message);
+      throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
   }
 
