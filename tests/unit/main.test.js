@@ -51,6 +51,9 @@ describe("CLI Plot Generation", () => {
     expect(content).toContain('<text x="10" y="20"');
     expect(content).toContain('Plot for: y=sin(x) in range x=-1:1,y=-1:1');
     expect(content).toContain("<polyline");
+    // Verify ARIA attributes are present
+    expect(content).toContain('aria-label="x-axis: -1 to 1"');
+    expect(content).toContain('aria-label="y-axis: -1 to 1"');
     fs.unlinkSync(testFile);
   });
 

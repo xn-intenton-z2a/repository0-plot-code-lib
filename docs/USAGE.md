@@ -29,15 +29,15 @@ The `/plot` endpoint supports dynamic plot generation using URL query parameters
 - Ensure that **range** matches the required format and that numeric orders are valid.
 - Check that either the `fileType` (deprecated) or `format` parameter is provided. 
 
-If multiple input errors occur (for example, missing parameters and malformed values), the endpoint aggregates all the error messages and returns them together in a single 400 Bad Request response. This aggregated error message provides comprehensive feedback on all input issues, helping the user correct them in one go.
+If multiple input errors occur (for example, missing parameters and malformed values), the response aggregates all error messages and returns them together in a single 400 Bad Request response. This aggregated error message provides comprehensive feedback on all input issues, helping the user correct them in one go.
 
 ### Supported Output Formats
 
-- **image/svg+xml**: Returns an SVG plot with dynamic axis labels (or custom labels if provided via query parameters).
+- **image/svg+xml**: Returns an SVG plot with dynamic axis labels (or custom labels if provided via query parameters). The SVG axis `<text>` elements now include ARIA accessibility attributes (e.g., `aria-label="x-axis: <min> to <max>"`) to improve screen reader compatibility.
 - **image/png**: Returns a PNG image with placeholder content.
 - **application/json**: Returns a JSON object with details about the plot generation request.
 
-### Custom Axis Labels, Precision, Styling, and Locale via Query Parameters
+### Custom Axis Labels, Precision, Styling, Locale, and Accessibility via Query Parameters
 
 In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports additional optional query parameters for customizing the appearance of the axis labels:
 
@@ -51,12 +51,8 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 - **ylabelPrecision**: Specifies the number of decimal places to display for the numeric values in the y-axis label.
 - **locale**: (Optional) Specifies the locale to use for number formatting in the axis labels. For example, using `locale=de-DE` will format decimal numbers with commas as decimal separators (e.g., "10,57" instead of "10.57").
 
-### Aggregated Error Reporting (CLI and HTTP)
-
-Both the CLI and HTTP API now aggregate multiple input errors and report them in a single response. For example:
-
-- In CLI mode, if both the `--expression` and `--range` flags are missing or empty, the tool will output a combined error message.
-- In HTTP mode, if the query parameters are missing or malformed, the response might include a combined error message detailing all issues.
+**Accessibility Enhancements:**
+SVG plots now include ARIA accessibility attributes for the axis label text elements. The x-axis `<text>` element automatically includes an attribute `aria-label="x-axis: <min> to <max>"` based on the provided range, and similarly the y-axis `<text>` element includes `aria-label="y-axis: <min> to <max>"`. This enhancement improves the accessibility of the plots for screen reader users.
 
 ## Examples
 

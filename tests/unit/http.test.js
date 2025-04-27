@@ -232,4 +232,14 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain("x-axis: 0,12 to 10,57");
     expect(svgText).toContain("y-axis: -1,235 to 5,679");
   });
+
+  test("should include ARIA attributes in SVG axis labels", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg" })
+      .expect(200);
+    const svgText = res.text;
+    expect(svgText).toContain('aria-label="x-axis: 0 to 10"');
+    expect(svgText).toContain('aria-label="y-axis: 0 to 10"');
+  });
 });
