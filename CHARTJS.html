@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="chartjs" href="#chartjs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CHARTJS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Chart.js documentation provides comprehensive API details for constructing charts using an HTML5 canvas element. The library exposes a Chart constructor accepting a configuration object with keys type, data, and options. Detailed configuration options include animation specifications (delay, duration, easing, loop), scale settings (e.g., LinearScaleOptions with beginAtZero and tick configuration), and plugin integration. The migration guides for v4.x and v3.x detail breaking changes such as property renaming (e.g., grid.drawBorder to border.display) and the shift to ESM-only builds with manual registration of components for tree shaking.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Installation and Setup
+<ul class="md-github">
+<li class="md-github">CDN integration or npm module installation with ESM support</li>
+</ul>
+</li>
+<li class="md-github">Chart Initialization
+<ul class="md-github">
+<li class="md-github">new Chart(ctx, config) API using a configuration object</li>
+</ul>
+</li>
+<li class="md-github">Configuration Options
+<ul class="md-github">
+<li class="md-github">Data schema: labels array and datasets array</li>
+<li class="md-github">Options object containing scales, plugins, and animation settings</li>
+</ul>
+</li>
+<li class="md-github">Animation Specifications
+<ul class="md-github">
+<li class="md-github">AnimationSpec<T>: delay (default 0), duration (default 1000), easing (default 'easeOutQuart'), loop (default false), onComplete and onProgress callbacks</li>
+</ul>
+</li>
+<li class="md-github">Scale Configuration
+<ul class="md-github">
+<li class="md-github">LinearScaleOptions: beginAtZero, grace, suggestedMax, suggestedMin, ticks: count, format, precision, stepSize</li>
+</ul>
+</li>
+<li class="md-github">Migration Guidelines
+<ul class="md-github">
+<li class="md-github">v4.x: Renamed properties in scales (grid.drawBorder to border.display, etc.), ESM-only package, configuration changes</li>
+<li class="md-github">v3.x: Removal of xAxes/yAxes arrays, new tree-shakable registration using Chart.register(), updated tooltip and interaction settings</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Implementation:
+Installation via npm requires setting &quot;type&quot;: &quot;module&quot; in package.json. For browser integration, include Chart.js from CDN.
+Usage: Obtain canvas element, create config object with mandatory keys (type, data, options), then call new Chart(element, config).
+For animations, specify per-property animation parameters in AnimationSpec. Scale configuration must use direct mapping with scale identifier keys (e.g. x, y) where options such as beginAtZero are defined.
+Manual registration example in v3+:
+import { Chart, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title);</p>
+<p class="md-github">Troubleshooting: If encountering a configuration error, check renamed properties according to migration guides. For ESM errors with Jest, refer to Jest documentation or migrate to Vitest.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Installation: npm install chart.js or include via CDN (https://cdn.jsdelivr.net/npm/chart.js). Ensure package.json includes &quot;type&quot;: &quot;module&quot; for ESM compatibility.</p>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">Chart Type: 'bar', 'line', 'doughnut', etc.</li>
+<li class="md-github">Data: { labels: string[], datasets: [{ label: string, data: number[], borderWidth: number }] }</li>
+<li class="md-github">Options:
+scales: { x: { type: 'time'|'linear'|'category', display: true, title: { display: true, text: 'Label' }, ticks: { beginAtZero: boolean, stepSize: number } } }
+plugins: { tooltip: { callbacks: { label: function(context) { ... } } } }
+animation: { delay: 0, duration: 1000, easing: 'easeOutQuart', loop: false }</li>
+</ul>
+<p class="md-github">API Method Signatures:</p>
+<ul class="md-github">
+<li class="md-github">Chart Constructor: new Chart(ctx: HTMLCanvasElement | CanvasRenderingContext2D, config: ChartConfiguration): Chart</li>
+<li class="md-github">Chart.register(...components: ChartComponentLike[]): void</li>
+</ul>
+<p class="md-github">Migration Changes (v4.x examples):</p>
+<ul class="md-github">
+<li class="md-github">scales[id].grid.drawBorder -&gt; scales[id].border.display</li>
+<li class="md-github">scales[id].grid.borderWidth -&gt; scales[id].border.width</li>
+<li class="md-github">scales[id].grid.borderColor -&gt; scales[id].border.color</li>
+<li class="md-github">scales[id].grid.borderDash -&gt; scales[id].border.dash</li>
+<li class="md-github">scales[id].grid.borderDashOffset -&gt; scales[id].border.dashOffset</li>
+</ul>
+<p class="md-github">Implementation steps:</p>
+<ol class="md-github">
+<li class="md-github">Include Chart.js via CDN or npm</li>
+<li class="md-github">Create canvas element in HTML</li>
+<li class="md-github">Define configuration object with type, data, and options</li>
+<li class="md-github">Call new Chart(ctx, config)</li>
+<li class="md-github">For advanced scenarios, import module components and register them manually</li>
+</ol>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Use tree shaking by manually registering only required controllers, elements, and plugins</li>
+<li class="md-github">Migrate to ESM for consistent module support</li>
+<li class="md-github">Validate configuration changes when upgrading from v3 to v4 using detailed migration guides</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Verify canvas context availability</li>
+<li class="md-github">Check for typos in configuration property names (e.g., border.display vs grid.drawBorder)</li>
+<li class="md-github">For ESM issues, ensure package.json declares module type</li>
+<li class="md-github">Use console logging in animation callbacks to debug performance.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<p class="md-github">Chart Constructor:
+Signature: new Chart(ctx: HTMLCanvasElement | CanvasRenderingContext2D, config: ChartConfiguration) =&gt; Chart
+Config Object:
+{
+type: ChartType, // e.g., 'bar', 'line', 'pie'
+data: {
+labels: string[],
+datasets: Array&lt;{
+label: string,
+data: number[] | (number | [number, number] | Point | BubbleDataPoint)[],
+borderWidth: number
+}&gt;
+},
+options: {
+scales: {
+[scaleId: string]: {
+type?: 'linear' | 'logarithmic' | 'time' | 'category' | 'timeseries',
+display?: boolean,
+beginAtZero?: boolean,
+title?: { display: boolean, text: string },
+ticks?: { stepSize?: number, count?: number, precision?: number, format?: Intl.NumberFormatOptions }
+}
+},
+plugins: {
+tooltip?: {
+callbacks?: {
+label?: (context: TooltipItem) =&gt; string
+}
+}
+},
+animation?: {
+delay?: number,          // Default: 0
+duration?: number,       // Default: 1000
+easing?: string,         // Default: 'easeOutQuart'
+loop?: boolean,          // Default: false
+onComplete?: (this: Chart, event: AnimationEvent) =&gt; void,
+onProgress?: (this: Chart, event: AnimationEvent) =&gt; void
+}
+}
+}</p>
+<p class="md-github">SDK Method Signatures:
+Chart.register(...components: ChartComponentLike[]): void</p>
+<h2 class="md-github"><a class="md-github__anchor" name="example-code" href="#example-code"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Example Code:</h2>
+<p class="md-github">// HTML:</p>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+<p class="md-github">// JavaScript using CDN:
+const ctx = document.getElementById('myChart');
+const config = {
+type: 'bar',
+data: {
+labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+datasets: [{
+label: '# of Votes',
+data: [12, 19, 3, 5, 2, 3],
+borderWidth: 1
+}]
+},
+options: {
+scales: {
+y: { beginAtZero: true }
+}
+}
+};
+new Chart(ctx, config);</p>
+<h2 class="md-github"><a class="md-github__anchor" name="-example-using-esm-v3import--chart-linecontroller-lineelement-pointelement-linearscale-title--from-chartjschartregisterlinecontroller-lineelement-pointelement-linearscale-titleconst-chart--new-chartctx-type-linedata---options-plugins--title--display-true-text-chart-title--scales--x--type-linear--y--type-linear--" href="#-example-using-esm-v3import--chart-linecontroller-lineelement-pointelement-linearscale-title--from-chartjschartregisterlinecontroller-lineelement-pointelement-linearscale-titleconst-chart--new-chartctx-type-linedata---options-plugins--title--display-true-text-chart-title--scales--x--type-linear--y--type-linear--"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>// Example Using ESM (v3+):
+import { Chart, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title);
+const chart = new Chart(ctx, {
+type: 'line',
+data: { ... },
+options: {
+plugins: { title: { display: true, text: 'Chart Title' } },
+scales: { x: { type: 'linear' }, y: { type: 'linear' } }
+}
+});</h2>
+<p class="md-github">Configuration Options with Values:</p>
+<ul class="md-github">
+<li class="md-github">Animation: { delay: 0, duration: 1000, easing: 'easeOutQuart', loop: false }</li>
+<li class="md-github">Linear Scale: { beginAtZero: true, ticks: { stepSize: 1, count: 5, precision: 0 } }</li>
+<li class="md-github">Migration v4.x changes: scales[id].border.display (was grid.drawBorder), scales[id].border.width (was grid.borderWidth), etc.</li>
+</ul>
+<p class="md-github">Troubleshooting Commands:</p>
+<ul class="md-github">
+<li class="md-github">Verify installation: npm list chart.js</li>
+<li class="md-github">Run build: npm run build</li>
+<li class="md-github">For module errors, check package.json for &quot;type&quot;: &quot;module&quot;</li>
+<li class="md-github">Use console.log on config object to validate property names before instantiating Chart.</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Register only required components to optimize bundle size</li>
+<li class="md-github">Follow migration guides for breaking changes</li>
+<li class="md-github">Utilize scriptable options for dynamic configurations in animations and tooltips</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Chart.js v4.4.9; new Chart(ctx, {type: string, data: {labels: string[], datasets: [{label: string, data: number[], borderWidth: number}]}, options: {scales: {[id:string]: {type?: 'linear'|'time'|'category', display?: boolean, beginAtZero?: boolean, title?:{display: boolean, text: string}, ticks?: {stepSize?: number, count?: number, precision?: number}}}, plugins: {tooltip?: {callbacks?: {label?: function}}}, animation?: {delay?: number (default:0), duration?: number (default:1000), easing?: string (default:'easeOutQuart'), loop?: boolean (default:false), onComplete?: function, onProgress?: function}}}); Migration v4.x: scales[id].grid.drawBorder-&gt;border.display, borderWidth-&gt;border.width, borderColor-&gt;border.color, borderDash-&gt;border.dash, borderDashOffset-&gt;border.dashOffset; ESM-only package; Register components manually via Chart.register(...components); Code examples provided for CDN and ESM usage; Troubleshooting via npm list, package.json &quot;type&quot;: &quot;module&quot; verification; API interfaces and SDK method signatures explicitly defined.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Installation and Setup
+<ul class="md-github">
+<li class="md-github">CDN integration or npm module installation with ESM support</li>
+</ul>
+</li>
+<li class="md-github">Chart Initialization
+<ul class="md-github">
+<li class="md-github">new Chart(ctx, config) API using a configuration object</li>
+</ul>
+</li>
+<li class="md-github">Configuration Options
+<ul class="md-github">
+<li class="md-github">Data schema: labels array and datasets array</li>
+<li class="md-github">Options object containing scales, plugins, and animation settings</li>
+</ul>
+</li>
+<li class="md-github">Animation Specifications
+<ul class="md-github">
+<li class="md-github">AnimationSpec<T>: delay (default 0), duration (default 1000), easing (default 'easeOutQuart'), loop (default false), onComplete and onProgress callbacks</li>
+</ul>
+</li>
+<li class="md-github">Scale Configuration
+<ul class="md-github">
+<li class="md-github">LinearScaleOptions: beginAtZero, grace, suggestedMax, suggestedMin, ticks: count, format, precision, stepSize</li>
+</ul>
+</li>
+<li class="md-github">Migration Guidelines
+<ul class="md-github">
+<li class="md-github">v4.x: Renamed properties in scales (grid.drawBorder to border.display, etc.), ESM-only package, configuration changes</li>
+<li class="md-github">v3.x: Removal of xAxes/yAxes arrays, new tree-shakable registration using Chart.register(), updated tooltip and interaction settings</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Implementation:
+Installation via npm requires setting 'type': 'module' in package.json. For browser integration, include Chart.js from CDN.
+Usage: Obtain canvas element, create config object with mandatory keys (type, data, options), then call new Chart(element, config).
+For animations, specify per-property animation parameters in AnimationSpec. Scale configuration must use direct mapping with scale identifier keys (e.g. x, y) where options such as beginAtZero are defined.
+Manual registration example in v3+:
+import { Chart, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title);</p>
+<p class="md-github">Troubleshooting: If encountering a configuration error, check renamed properties according to migration guides. For ESM errors with Jest, refer to Jest documentation or migrate to Vitest.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Chart.js Documentation
+https://www.chartjs.org/docs/latest/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-chartjs" href="#digest-of-chartjs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of CHARTJS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="chartjs-documentation-digest" href="#chartjs-documentation-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chart.js Documentation Digest</h1>
+<p class="md-github">Retrieved on: 2025-04-15</p>
+<h1 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h1>
+<p class="md-github">Chart.js is a popular open-source charting library maintained under the MIT license. It renders charts on HTML5 canvas and provides configurable chart types, plugins, and defaults that help developers quickly create production-ready charts.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="core-api-and-usage" href="#core-api-and-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core API and Usage</h1>
+<ul class="md-github">
+<li class="md-github">API Entry: new Chart(ctx, config)</li>
+<li class="md-github">Config Object Structure:
+<ul class="md-github">
+<li class="md-github">type: string (e.g., 'bar', 'line', 'doughnut')</li>
+<li class="md-github">data: { labels: array, datasets: array }</li>
+<li class="md-github">options: object for scales, plugins, animations, etc.</li>
+</ul>
+</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="detailed-api-specifications" href="#detailed-api-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Detailed API Specifications</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="chart-constructor" href="#chart-constructor"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chart Constructor</h2>
+<p class="md-github">Signature: new Chart(ctx: (HTMLCanvasElement | CanvasRenderingContext2D), config: ChartConfiguration) =&gt; Chart</p>
+<h2 class="md-github"><a class="md-github__anchor" name="chartconfiguration-object" href="#chartconfiguration-object"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ChartConfiguration Object</h2>
+<p class="md-github">Properties:</p>
+<ul class="md-github">
+<li class="md-github">type: ChartType</li>
+<li class="md-github">data: { labels: string[] | any[], datasets: Array<ChartDatasetProperties> }</li>
+<li class="md-github">options: {
+scales: { [scaleId: string]: ScaleOptions },
+plugins: { [pluginId: string]: Object },
+animation: AnimationOptions
+}</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="animation-options" href="#animation-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Animation Options</h2>
+<p class="md-github">Type AnimationSpec<T>:
+{
+delay?: number;  // Default 0 ms
+duration?: number; // Default 1000 ms
+easing?: string; // Default 'easeOutQuart'
+loop?: boolean; // Default false
+onComplete?: (this: Chart, event: AnimationEvent) =&gt; void;
+onProgress?: (this: Chart, event: AnimationEvent) =&gt; void
+}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="scale-options" href="#scale-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scale Options</h2>
+<p class="md-github">Example for LinearScaleOptions:
+{
+beginAtZero: boolean,
+grace?: string | number,
+suggestedMax?: number,
+suggestedMin?: number,
+ticks: {
+count: number,
+format: Intl.NumberFormatOptions,
+precision: number,
+stepSize: number
+}
+}</p>
+<h1 class="md-github"><a class="md-github__anchor" name="migration-guides-and-breaking-changes" href="#migration-guides-and-breaking-changes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Migration Guides and Breaking Changes</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="chartjs-v4x" href="#chartjs-v4x"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chart.js v4.x</h2>
+<ul class="md-github">
+<li class="md-github">Defaults: Animations enabled by default. New property mappings:
+<ul class="md-github">
+<li class="md-github">scales[id].grid.drawBorder is now scales[id].border.display</li>
+<li class="md-github">scales[id].grid.borderWidth is now scales[id].border.width</li>
+<li class="md-github">scales[id].grid.borderColor is now scales[id].border.color</li>
+<li class="md-github">scales[id].grid.borderDash is now scales[id].border.dash</li>
+<li class="md-github">scales[id].grid.borderDashOffset is now scales[id].border.dashOffset</li>
+</ul>
+</li>
+<li class="md-github">API becomes ESM-only; ensure package.json contains &quot;type&quot;: &quot;module&quot;.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="chartjs-v3x" href="#chartjs-v3x"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Chart.js v3.x</h2>
+<ul class="md-github">
+<li class="md-github">Removal of xAxes/yAxes arrays: Scales are now defined directly under options.scales with the scale ID (e.g., x, y).</li>
+<li class="md-github">New tree-shakable module design. Import and register required components manually:
+Example:
+import { Chart, LineController, LineElement, PointElement, LinearScale, Title } from 'chart.js';
+Chart.register(LineController, LineElement, PointElement, LinearScale, Title);</li>
+<li class="md-github">Tooltip and interaction configurations have been updated. Use options.plugins.tooltip and options.interaction for shared defaults.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="code-example" href="#code-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code Example</h1>
+<p class="md-github">HTML:</p>
+<div>
+  <canvas id="myChart"></canvas>
+</div>
+<p class="md-github">JavaScript:</p>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  const ctx = document.getElementById('myChart');
+  const chartConfig = {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: { beginAtZero: true }
+      }
+    }
+  };
+  new Chart(ctx, chartConfig);
+</script>
+<h1 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h1>
+<p class="md-github">Data Size: 2582759 bytes; Crawled Links: 36406</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Chart.js Documentation</li>
+<li class="md-github">URL: https://www.chartjs.org/docs/latest/</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-27T16:49:44.693Z</li>
+<li class="md-github">Data Size: 2582759 bytes</li>
+<li class="md-github">Links Found: 36406</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-27</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-27T17:23:03.170Z</p>
+  </footer>
+</body>
+</html>
