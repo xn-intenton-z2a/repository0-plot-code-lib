@@ -347,7 +347,7 @@ app.get("/plot", (req, res) => {
 
 function main() {
   const args = process.argv.slice(2);
-  const options = {};
+  let options = {};
   for (let i = 0; i < args.length; i++) {
     if (args[i].startsWith("--")) {
       const key = args[i].substring(2);
