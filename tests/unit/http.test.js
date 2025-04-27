@@ -290,7 +290,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    const svgText = res.text;
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(svgText).toContain('x="100"');
     expect(svgText).toContain('y="120"');
     expect(svgText).toContain('x="15"');

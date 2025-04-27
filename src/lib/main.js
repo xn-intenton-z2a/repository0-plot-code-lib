@@ -205,7 +205,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 }
 
 app.get("/plot", (req, res) => {
-  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily } = req.query;
+  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily, xlabelOffsetX, xlabelOffsetY, ylabelOffsetX, ylabelOffsetY } = req.query;
 
   // If query parameters are provided, perform aggregated validation
   if (expression || range || fileType || format) {
@@ -241,7 +241,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily });
+        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily, xlabelOffsetX, xlabelOffsetY, ylabelOffsetX, ylabelOffsetY });
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =
