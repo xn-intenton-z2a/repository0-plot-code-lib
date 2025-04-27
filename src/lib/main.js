@@ -12,12 +12,28 @@ const app = express();
 function createSvgPlot(expression, range) {
   // Extract x range from the range parameter (format: x=<min>:<max>,y=<min>:<max>)
   const xPattern = /x=(-?\d+(\.\d+)?):(-?\d+(\.\d+)?)/;
-  const match = xPattern.exec(range);
-  if (!match) {
+  const xMatch = xPattern.exec(range);
+  if (!xMatch) {
     throw new Error("Error: Invalid range format for x values.");
   }
-  const xMin = parseFloat(match[1]);
-  const xMax = parseFloat(match[3]);
+  const xMin = parseFloat(xMatch[1]);
+  const xMax = parseFloat(xMatch[3]);
+  if (xMin >= xMax) {
+    throw new Error("Error: Invalid range - x-min must be less than x-max.");
+  }
+
+  // Extract y range from the range parameter
+  const yPattern = /y=(-?\d+(\.\d+)?):(-?\d+(\.\d+)?)/;
+  const yMatch = yPattern.exec(range);
+  if (!yMatch) {
+    throw new Error("Error: Invalid range format for y values.");
+  }
+  const yInputMin = parseFloat(yMatch[1]);
+  const yInputMax = parseFloat(yMatch[3]);
+  if (yInputMin >= yInputMax) {
+    throw new Error("Error: Invalid range - y-min must be less than y-max.");
+  }
+
   const numPoints = 100;
   const step = (xMax - xMin) / (numPoints - 1);
   // Prepare mathematical expression (remove "y=" prefix if exists)
@@ -44,17 +60,18 @@ function createSvgPlot(expression, range) {
     yValues.push(yVal);
     points.push({ x: xVal, y: yVal });
   }
-  const yMin = Math.min(...yValues);
-  const yMax = Math.max(...yValues);
+  // Determine plotting area based on computed y values
+  const computedYMin = Math.min(...yValues);
+  const computedYMax = Math.max(...yValues);
   const width = 300;
   const height = 150;
   const mappedPoints = points.map(p => {
     const mappedX = ((p.x - xMin) / (xMax - xMin)) * width;
     let mappedY;
-    if (yMax === yMin) {
+    if (computedYMax === computedYMin) {
       mappedY = height / 2;
     } else {
-      mappedY = height - ((p.y - yMin) / (yMax - yMin)) * height;
+      mappedY = height - ((p.y - computedYMin) / (computedYMax - computedYMin)) * height;
     }
     return `${mappedX.toFixed(2)},${mappedY.toFixed(2)}`;
   });
@@ -157,7 +174,7 @@ app.get("/plot", (req, res) => {
  * @param {string} range - The range for plotting (e.g., "x=-1:1,y=-1:1").
  * @param {string} fileOutput - The file path where the plot will be saved.
  * @returns {string} A success message indicating the plot generation details.
- * @throws Will throw an error if an unsupported file extension is provided.
+ * @throws Will throw an error if an unsupported file extension is provided or if numeric ranges are invalid.
  */
 export function generatePlot(expression, range, fileOutput) {
   const ext = path.extname(fileOutput).toLowerCase();
@@ -205,7 +222,7 @@ Options:
   --version             Display the current version and exit. (Takes precedence over other flags)
   --verbose             Enable verbose output for debugging.
   --expression <expr>   Specify the mathematical expression (e.g., "y=sin(x)").
-  --range <range>       Specify the plot range (format: x=<min>:<max>,y=<min>:<max>). Supports integers and floating point numbers.
+  --range <range>       Specify the plot range (format: x=<min>:<max>,y=<min>:<max>). Supports integers and floating point numbers. Note: lower bounds must be less than upper bounds.
   --file <path>         Specify the output file path. Supported extensions: .svg, .png.
   --serve               Run in server mode to listen for HTTP requests.
 

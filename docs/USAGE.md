@@ -15,6 +15,7 @@ You can generate plots directly from the command line by providing the following
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
+  - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound (e.g. for x, `x-min < x-max`; for y, `y-min < y-max`).
 - **--file**: The output file path. The file extension determines the output type:
   - **.svg**: Generates an SVG plot that now includes both a text annotation and a dynamically generated <polyline> element representing the evaluated curve over 100 sample points.
   - **.png**: Generates a PNG plot using dummy base64 encoded image data.
@@ -39,7 +40,7 @@ You can generate plots directly from the command line by providing the following
    ```bash
    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg [--verbose]
    ```
-   This command produces an SVG file that contains the annotation text and a blue polyline representing the mathematically evaluated curve over 100 sample points.
+   This command produces an SVG file that contains the annotation text and a blue polyline representing the mathematically evaluated curve over 100 sample points. Note that the numeric ranges are validated; for example, passing a range like "x=5:1,y=0:10" will result in an error.
 
 4. **Generate a PNG Plot via CLI:**
 
@@ -58,7 +59,7 @@ You can generate plots directly from the command line by providing the following
 In addition to content negotiation via the Accept header, the `/plot` endpoint has been enhanced to support dynamic plot generation using URL query parameters. When making a GET request with the following query parameters, the API will dynamically generate and return the plot by mathematically evaluating the expression:
 
 - **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty.
-- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers.
+- **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. **Important:** The lower bounds must be less than the upper bounds for both x and y ranges.
 - **fileType**: (Deprecated) Specifies the output type using shorthand values (`svg` or `png`).
 - **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
   - `image/svg+xml` (which now produces an SVG plot with a dynamically generated polyline)
@@ -70,7 +71,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 ### Behavior
 
 - If query parameters are provided:
-  - The endpoint validates that **expression** and **range** are non-empty and that **range** matches the required format.
+  - The endpoint validates that **expression** and **range** are non-empty and that **range** matches the required format. It also checks that the numeric order is correct for both x and y ranges.
   - The output format is determined by the `format` parameter if provided; otherwise, by the legacy `fileType` parameter.
   - **image/svg+xml**: Returns an SVG plot with a text annotation and a blue polyline representing the evaluated curve, with the Content-Type set to `image/svg+xml; charset=utf-8`.
   - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
@@ -96,7 +97,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 4. **Error Cases:**
 
    - Missing or empty parameters (e.g., missing `expression`, `range`, or the required `fileType`/`format`) will result in a 400 Bad Request with an appropriate error message.
-   - A malformed `range` (e.g., "x=-1:1,y=abc") will also return a 400 Bad Request.
+   - A malformed `range` (e.g., "x=-1:1,y=abc") or one with invalid numeric order (e.g., "x=5:1,y=0:10" or "x=-1:1,y=10:0") will also return a 400 Bad Request.
 
 ## Server Mode
 

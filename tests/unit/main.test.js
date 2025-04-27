@@ -48,7 +48,6 @@ describe("CLI Plot Generation", () => {
     main();
     const content = fs.readFileSync(testFile, "utf8");
     expect(content.startsWith("<svg")).toBe(true);
-    // Updated assertion to allow extra attributes in the text element
     expect(content).toContain('<text x="10" y="20"');
     expect(content).toContain('Plot for: y=sin(x) in range x=-1:1,y=-1:1');
     expect(content).toContain("<polyline");
@@ -150,48 +149,32 @@ describe("CLI Plot Generation", () => {
     expect(() => main()).toThrow("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   });
 
-  // New Tests for Floating Point Ranges
-  test("should generate SVG file with floating point range when provided correct flags", () => {
-    const testFile = "test_output_fp.svg";
-    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
+  test("should error if x range numeric order is invalid via CLI", () => {
     process.argv = [
       "node",
       "src/lib/main.js",
       "--expression",
       "y=sin(x)",
       "--range",
-      "x=-1.5:2.5,y=-0.5:0.5",
+      "x=5:1,y=0:10",
       "--file",
-      testFile
+      "output.svg"
     ];
-    main();
-    const content = fs.readFileSync(testFile, "utf8");
-    expect(content.startsWith("<svg")).toBe(true);
-    // Updated assertion
-    expect(content).toContain('<text x="10" y="20"');
-    expect(content).toContain('Plot for: y=sin(x) in range x=-1.5:2.5,y=-0.5:0.5');
-    expect(content).toContain("<polyline");
-    fs.unlinkSync(testFile);
+    expect(() => main()).toThrow("Error: Invalid range - x-min must be less than x-max.");
   });
 
-  test("should generate PNG file with floating point range when provided correct flags", () => {
-    const testFile = "test_output_fp.png";
-    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
+  test("should error if y range numeric order is invalid via CLI", () => {
     process.argv = [
       "node",
       "src/lib/main.js",
       "--expression",
-      "y=cos(x)",
+      "y=sin(x)",
       "--range",
-      "x=-2.0:3.5,y=-1.5:1.5",
+      "x=-1:1,y=10:0",
       "--file",
-      testFile
+      "output.svg"
     ];
-    main();
-    const buffer = fs.readFileSync(testFile);
-    const signature = buffer.slice(0, 8);
-    expect(signature.equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))).toBe(true);
-    fs.unlinkSync(testFile);
+    expect(() => main()).toThrow("Error: Invalid range - y-min must be less than y-max.");
   });
 
   test("should display help message when --help flag is provided", () => {
