@@ -1,23 +1,23 @@
 # Overview
-This update refines the input validation and error handling for all plot generation workflows. The improvements include replacing manual regex validations with zod schemas and integrating RFC7807 compliant error responses when the client explicitly requests structured errors via the Accept header.
+This update refines input validation, error handling, and extends plot generation by optionally exporting the computed time series data. The enhancements build on zod schema integration and RFC7807 compliant error responses. In addition to validating input parameters and formatting error messages, the endpoint now supports an optional query parameter to return the evaluated data points as JSON for further analysis.
 
 # ZOD SCHEMA INTEGRATION
-- Implement zod schemas to validate the mathematical expression and range parameters. The expression must be a non-empty string and must include the variable x (with a normalization step to remove any leading 'y=' if present).
-- Define a zod schema for the range that enforces the format: x=<min>:<max>,y=<min>:<max> with support for optional extra whitespace. The schema validates that min and max are numeric and that the minimum is less than the maximum for both x and y ranges.
+- Implement zod schemas to validate the mathematical expression and range parameters. The expression must be a non-empty string that includes the variable x (after removing any leading 'y=' prefix). 
+- Define a zod schema for ranges enforcing the format: x=<min>:<max>,y=<min>:<max> with optional extra whitespace. The schema checks that min and max are numeric and that the lower bound is strictly less than the upper bound for both axes.
 
 # RFC7807 ERROR HANDLING
-- Update error handling in both CLI and HTTP API endpoints. When an error occurs and the client sets Accept to application/problem+json, the system returns a structured JSON error object following RFC7807. The JSON object includes:
-  - type (default: about:blank)
-  - title (e.g. "Invalid Input")
-  - status (HTTP status code)
-  - detail (a message describing the issue)
-  - instance (the request URL or identifier)
-- If the Accept header does not request a problem detail response, errors continue to be returned as plain text.
+- Update error handling for both CLI and HTTP API endpoints. When a validation error occurs and the client requests a structured error (via Accept header: application/problem+json), return a JSON error conforming to RFC7807. The error object contains type, title, status, detail, and instance properties.
+- If the client does not request structured error responses, continue to return plain text errors.
+
+# TIME SERIES DATA EXPORT
+- Add an optional query parameter (exportData) to the HTTP /plot endpoint. When exportData is provided and truthy, after validating the expression and range, compute the time series data points as an array of objects with x and y values.
+- The endpoint will return an application/json response with the evaluated results (including the expression, range, and computed points) rather than an image. This feature enables clients to obtain raw data for further processing or analysis.
+- The input validations (via zod schemas) and error handling remain active, so any malformed requests or non-finite computations trigger appropriate error responses.
 
 # CLI AND HTTP ENDPOINT UPDATES
-- For CLI usage, integrate zod schema based validation. Input flags --expression and --range must be checked by the schema. In case of validation failure, if the environment is set for verbose or structured error mode, the error message should be formatted as an RFC7807 compliant JSON.
-- For the HTTP API (/plot endpoint), before processing, validate incoming query parameters with zod. Upon failure, check the Accept header: if application/problem+json is present, return the structured JSON error; otherwise, return the plain text error.
+- For CLI usage, maintain the current flags for expression, range, and file output. The exportData functionality is prioritized in HTTP mode when query parameters are provided.
+- For the HTTP /plot endpoint, check for the exportData parameter. If present, bypass the image generation and return the computed time series data in JSON format. Otherwise, use content negotiation to determine whether to generate an SVG, PNG, or default JSON response.
 
 # TESTING AND DOCUMENTATION
-- Update unit tests to include validations for both valid and invalid inputs. Add scenarios where the Accept header is application/problem+json and assert that the error response conforms to the RFC7807 specification.
-- Revise the README and usage documentation to explain the new validation mechanism and error response formats. Provide examples illustrating how to set the Accept header to get a structured error response.
+- Extend unit tests to include scenarios where exportData is truthy. Validate that the JSON response includes the computed array of data points along with the original expression and range.
+- Update README and usage documentation to describe the new exportData option with examples demonstrating how clients can request raw time series data.
