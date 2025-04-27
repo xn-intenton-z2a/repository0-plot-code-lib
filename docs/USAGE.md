@@ -2,108 +2,100 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation and dynamic axis labels for SVG plots. The new expression validation layer detects common syntax errors before evaluation, providing clearer feedback to users.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, and a detailed JSON export option for plot data.
 
 ## CLI Plot Generation
 
 You can generate plots directly from the command line by providing the following flags:
 
 - **--help**: Displays this help message with usage information, flag details, and examples.
-- **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
-- **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). **Note:** The expression must include the variable 'x'. Expressions like "y=5" or those with syntax errors will trigger an error.
-- **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
-  - The range value must not be empty.
-  - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5"). Extra whitespace is allowed.
+- **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence.
+- **--verbose**: Enables verbose mode, which outputs additional debugging information.
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). **Note:** The expression must include the variable 'x'.
+- **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). 
+  - Must follow the pattern: `x=<min>:<max>,y=<min>:<max>` with numeric values. Extra whitespace is allowed.
   - **Numeric Order Enforcement:** The lower bound must be less than the upper bound for both x and y ranges.
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot including a text annotation, a blue polyline representing the evaluated curve, and dynamic axis labels that can be customized.
+  - **.svg**: Generates an SVG plot with annotations and a blue polyline representing the curve.
   - **.png**: Generates a PNG plot using dummy placeholder image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
+- **--jsonExport**: When provided with the value `true` alongside `--expression` and `--range` (and optionally `--file`), the tool outputs a detailed JSON export of the plot data instead of an image. This JSON includes:
+  - `expression`: The original mathematical expression.
+  - `range`: The input range string.
+  - `points`: An array of 100 objects, each with numeric `x` and `y` properties representing computed plot points.
+  - `computedXRange`: An object with keys `{ min, max }` reflecting the x-range limits from the input.
+  - `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluated points.
+  - `axisLabels`: An object with keys `{ x, y }` containing descriptive strings for the x-axis and y-axis labels.
 
 ## Environment Variables and DOTENV Support
 
-This application automatically loads environment variables from a `.env` file located in the project root. It uses the [dotenv](https://www.npmjs.com/package/dotenv) package to enable DOTENV_SUPPORT. 
-
-For example, if you want to run the HTTP server on a custom port, you can create a `.env` file with the following content:
-
-```dotenv
-PORT=4000
-CUSTOM_SETTING=example_value
-```
-
-When you run the application (e.g., using `npm run start`), it will automatically pick up the environment variables from your `.env` file, so the server will listen on port 4000 instead of the default 3000. This makes it easy to configure runtime options without modifying the source code.
+The application automatically loads environment variables from a `.env` file in the project root using the [dotenv](https://www.npmjs.com/package/dotenv) package. This allows you to configure settings like the server port without modifying the source code.
 
 ## Enhanced Expression Validation
 
-The tool now performs advanced pre-compilation validation of mathematical expressions. This validation detects common errors such as:
+The tool now validates mathematical expressions before evaluation to catch common errors such as:
 
-- **Missing Operators:** For example, an expression like "y=2 3+x" will trigger an error: "Error: Detected missing operator between numeric tokens. Please verify your expression format.". The suggested correction is to explicitly include an operator (e.g., "y=2*3+x").
-- **Unbalanced Parentheses:** For example, an expression like "y=(x+2" will trigger an error: "Error: Unbalanced parentheses in expression. Please check your expression.". Ensure that all opening parentheses have matching closing parentheses.
-
-This additional validation provides immediate and descriptive feedback, allowing users to correct common mistakes before evaluation.
+- **Missing Operators:** e.g., "y=2 3+x" triggers an error recommending the use of an operator.
+- **Unbalanced Parentheses:** e.g., "y=(x+2" will indicate mismatched parentheses.
 
 ## HTTP API: Dynamic Plot Generation and Aggregated Error Reporting
 
-The `/plot` endpoint supports dynamic plot generation using URL query parameters. When making a GET request with query parameters, the API will:
+The `/plot` endpoint supports dynamic plot generation using URL query parameters. It performs the following validations:
 
-- Validate that **expression** and **range** are provided and non-empty.
-- Ensure that **range** matches the required format and that numeric orders are valid.
-- Check that either the `fileType` (deprecated) or `format` parameter is provided.
-
-If multiple input errors occur (for example, missing parameters and malformed values), the response aggregates all error messages and returns them together in a single 400 Bad Request response.
+- Ensures that **expression** and **range** are provided and non-empty.
+- Validates that **range** follows the required format with correct numeric order.
+- Checks for either the `fileType` (or `format`) parameter or, when detailed data is needed, the `jsonExport=true` flag.
 
 ### Supported Output Formats
 
 - **image/svg+xml**: Returns an SVG plot with dynamic axis labels and ARIA accessibility attributes.
 - **image/png**: Returns a PNG image with placeholder content.
-- **application/json**: Returns a JSON object with details about the plot generation request.
+- **application/json**: Returns a minimal JSON response with basic plot details (unless the detailed export is requested).
 
-### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, and Accessibility
+### Detailed JSON Export
 
-Advanced query parameters allow further customization of the generated SVG:
+When the query parameter `jsonExport=true` is provided (or the CLI flag `--jsonExport true` is used), the endpoint and CLI output a detailed JSON object containing:
 
-- **xlabel** and **ylabel**: Override default axis label texts.
-- **xlabelFontSize**, **xlabelColor**, **ylabelFontSize**, **ylabelColor**: Directly set inline attributes on the axis labels for styles such as font size and fill color.
-- **xlabelPrecision** and **ylabelPrecision**: Control the number of decimal places displayed in the axis labels.
-- **locale**: Applies locale-aware number formatting (e.g., "de-DE").
-- **xlabelX**, **xlabelY**, **ylabelX**, **ylabelY**: Custom positioning for the axis labels.
-- **xlabelRotation** and **ylabelRotation**: Specify custom rotation angles for the labels.
-- **xlabelOffsetX**, **xlabelOffsetY**, **ylabelOffsetX**, **ylabelOffsetY**: Precisely control label positioning with offsets.
-- **xlabelAriaLabel** and **ylabelAriaLabel**: Override the default `aria-label` attributes for the x-axis and y-axis labels, respectively, to provide custom accessible descriptions.
-- **xlabelAnchor** and **ylabelAnchor**: Override the default `text-anchor` attribute (default is "middle") for the x-axis and y-axis labels. Acceptable values include "start", "middle", and "end".
+- `expression`: The mathematical expression provided by the user.
+- `range`: The input range string.
+- `points`: An array of 100 computed plot point objects with numeric `x` and `y` values.
+- `computedXRange`: The x-range limits extracted from the input.
+- `computedYRange`: The computed minimum and maximum y values based on evaluation.
+- `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
+
+#### Examples:
+
+- **HTTP Detailed JSON Export:**
+
+  GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&jsonExport=true`
+
+- **CLI Detailed JSON Export:**
+
+  `node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --jsonExport true`
+
+## Customization Options for SVG Output
+
+Advanced query parameters allow customization of the generated SVG plots, including:
+
+- **Custom Axis Labels:** Set via `xlabel` and `ylabel`.
+- **Styling:** Directly set attributes like `xlabelFontSize`, `xlabelColor`, `ylabelFontSize`, and `ylabelColor`.
+- **Precision and Locale:** Control number formatting using `xlabelPrecision`, `ylabelPrecision`, and `locale`.
+- **Label Positioning and Rotation:** Customize positions with `xlabelX`, `xlabelY`, `ylabelX`, `ylabelY`, and rotations with `xlabelRotation`, `ylabelRotation`.
+- **ARIA Attributes and Text Anchoring:** Override default accessibility attributes using `xlabelAriaLabel`, `ylabelAriaLabel`, and adjust `xlabelAnchor` and `ylabelAnchor`.
 
 ## Examples
 
-1. **Dynamic SVG Generation with Default Axis Labels and Styling:**
+1. **Dynamic SVG Generation with Default Axis Labels:**
    GET `/plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg`
 
-2. **Dynamic SVG Generation with Custom Axis Labels:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY`
+2. **Dynamic SVG with Custom Axis Labels and Styling:**
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple`
 
-3. **Dynamic SVG Generation with Custom Axis Label Styling:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple`
-
-4. **Dynamic SVG with Numeric Precision Control:**
-   GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&xlabelPrecision=2&ylabelPrecision=3`
-
-5. **Dynamic SVG with Locale-Aware Formatting:**
+3. **Dynamic SVG with Numeric Precision and Locale Formatting:**
    GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&locale=de-DE&xlabelPrecision=2&ylabelPrecision=3`
 
-6. **Dynamic SVG with Custom Label Positioning, Rotation:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelX=50&xlabelY=100&xlabelRotation=15&ylabelX=10&ylabelY=150&ylabelRotation=45`
+4. **Detailed JSON Export via HTTP:**
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&jsonExport=true`
 
-7. **Dynamic SVG with Custom Axis Label Offsets:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelOffsetX=100&xlabelOffsetY=120&ylabelOffsetX=15&ylabelOffsetY=80`
-
-8. **Dynamic SVG with Custom ARIA Labels:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelAriaLabel=CustomXDescription&ylabelAriaLabel=CustomYDescription`
-
-9. **Dynamic SVG with Custom Text Anchoring:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelAnchor=start&ylabelAnchor=end`
-
-10. **Dynamic PNG Generation:**
-    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
-
-11. **Dynamic JSON Response:**
-    GET `/plot?expression=y=log(x)&range=x=1:10,y=0:5&format=application/json`
+5. **Detailed JSON Export via CLI:**
+   `node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --jsonExport true`
