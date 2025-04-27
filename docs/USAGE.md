@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It allows both command line interactions and HTTP API access to generate plots dynamically. The latest update enhances SVG plot generation by mathematically evaluating the provided expression using mathjs over 100 sample points, resulting in a real curve drawn with a <polyline> element on the plot.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It allows both command line interactions and HTTP API access to generate plots dynamically. The latest update ensures that any mathematical expression provided must include the variable 'x', preventing static expressions that do not adjust with x-values.
 
 ## CLI Plot Generation
 
@@ -11,7 +11,7 @@ You can generate plots directly from the command line by providing the following
 - **--help**: Displays this help message with usage information, flag details, and examples.
 - **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must contain the variable 'x'** for proper plot generation.
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must include the variable 'x'**. For example, an expression like "y=5" is invalid and will result in an error: "Error: Expression must include the variable 'x'."
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
@@ -58,7 +58,7 @@ You can generate plots directly from the command line by providing the following
 
 In addition to content negotiation via the Accept header, the `/plot` endpoint has been enhanced to support dynamic plot generation using URL query parameters. When making a GET request with the following query parameters, the API will dynamically generate and return the plot by mathematically evaluating the expression:
 
-- **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty. The expression **must contain the variable 'x'**.
+- **expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be provided and non-empty. The expression **must include the variable 'x'**.
 - **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. The tool validates that the lower numeric bound is less than the upper bound for both x and y ranges.
 - **fileType**: (Deprecated) Specifies the output type using shorthand values (`svg` or `png`).
 - **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
@@ -77,7 +77,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
 
-- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (e.g., "Error: Missing or empty 'expression' query parameter." or "Error: The expression must contain the variable 'x'.").
+- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (e.g., "Error: Missing or empty 'expression' query parameter." or "Error: Expression must include the variable 'x'.").
 - If no query parameters are provided, the endpoint falls back to content negotiation based on the Accept header.
 
 ### Examples

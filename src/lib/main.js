@@ -45,7 +45,7 @@ function createSvgPlot(expression, range) {
   }
   // Enforce that the expression uses the variable 'x'
   if (!/\bx\b/.test(exprStr)) {
-    throw new Error("Error: The expression must contain the variable 'x'.");
+    throw new Error("Error: Expression must include the variable 'x'.");
   }
 
   let compiled;
