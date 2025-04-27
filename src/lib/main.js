@@ -10,6 +10,23 @@ import { compile } from "mathjs";
 const app = express();
 
 function createSvgPlot(expression, range, customLabels = {}) {
+  // Validate numeric custom label parameters
+  const numericParams = ["xlabelPrecision", "ylabelPrecision", "xlabelX", "xlabelY", "ylabelX", "ylabelY"];
+  let customLabelErrors = [];
+  numericParams.forEach(param => {
+    if (customLabels[param] != null) {
+      const parsed = parseFloat(customLabels[param]);
+      if (!Number.isFinite(parsed)) {
+        customLabelErrors.push(`Error: Invalid numeric value for ${param}. Expected a number.`);
+      } else {
+        customLabels[param] = parsed;
+      }
+    }
+  });
+  if (customLabelErrors.length > 0) {
+    throw new Error(customLabelErrors.join(" "));
+  }
+
   // Updated regex to allow extra whitespace in the range parameter
   const xPattern = /x\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const xMatch = xPattern.exec(range);
@@ -257,14 +274,15 @@ app.get("/plot", (req, res) => {
  * @param {string} expression - The mathematical expression to plot.
  * @param {string} range - The range for plotting (e.g., "x=-1:1,y=-1:1").
  * @param {string} fileOutput - The file path where the plot will be saved.
+ * @param {object} customLabels - (Optional) Custom label parameters for axis labels.
  * @returns {string} A success message indicating the plot generation details.
  * @throws Will throw an error if an unsupported file extension is provided or if numeric ranges are invalid.
  */
-export function generatePlot(expression, range, fileOutput) {
+export function generatePlot(expression, range, fileOutput, customLabels = {}) {
   const ext = path.extname(fileOutput).toLowerCase();
   let successMessage;
   if (ext === ".svg") {
-    const svgContent = createSvgPlot(expression, range);
+    const svgContent = createSvgPlot(expression, range, customLabels);
     fs.writeFileSync(fileOutput, svgContent, "utf8");
     successMessage = `SVG plot generated at ${fileOutput} for expression: ${expression} in range: ${range}`;
   } else if (ext === ".png") {
@@ -388,7 +406,19 @@ Aggregated Error Reporting:
       console.log("File:", fileOutput);
     }
 
-    return generatePlot(expression, range, fileOutput);
+    // Parse additional custom label flags from CLI arguments
+    let customLabels = {};
+    const ignoreFlags = new Set(["--expression", "--range", "--file", "--verbose", "--help", "--serve", "--version"]);
+    for (let i = 0; i < args.length; i++) {
+      if (args[i].startsWith("--") && !ignoreFlags.has(args[i])) {
+        const key = args[i].substring(2);
+        const value = args[i + 1];
+        customLabels[key] = value;
+        i++;
+      }
+    }
+
+    return generatePlot(expression, range, fileOutput, customLabels);
   }
 
   if (args.includes("--serve")) {
