@@ -9,6 +9,45 @@ import { compile } from "mathjs";
 
 const app = express();
 
+// Register /plot endpoint unconditionally so that HTTP tests can access it
+app.get("/plot", (req, res) => {
+  try {
+    const expression = req.query.expression;
+    const range = req.query.range;
+    if (!expression || expression.trim() === "") {
+      res.status(400).send("Missing or empty 'expression'");
+      return;
+    }
+    if (!range || range.trim() === "") {
+      res.status(400).send("Missing or empty 'range'");
+      return;
+    }
+    const fileType = req.query.fileType || req.query.format;
+    if (!fileType) {
+      res.status(400).send("Missing required query parameter: fileType or format");
+      return;
+    }
+    const svg = createSvgPlot(expression, range, req.query);
+    const accept = req.headers.accept || "";
+    res.set("Vary", "Accept");
+    if (accept.includes("image/svg+xml")) {
+      res.set("Content-Type", "image/svg+xml");
+      res.send(svg);
+    } else if (accept.includes("image/png")) {
+      const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
+      res.set("Content-Type", "image/png");
+      res.send(dummyPng);
+    } else if (accept.includes("application/json")) {
+      res.set("Content-Type", "application/json");
+      res.send({ expression: expression, range: range, message: "Plot generation details" });
+    } else {
+      res.status(406).send("Not Acceptable");
+    }
+  } catch (e) {
+    res.status(400).send(e.message);
+  }
+});
+
 function createSvgPlot(expression, range, customLabels = {}) {
   // Advanced expression validation function
   function validateExpression(expr) {
@@ -26,7 +65,6 @@ function createSvgPlot(expression, range, customLabels = {}) {
     if (balance !== 0) {
       throw new Error("Error: Unbalanced parentheses in expression. Please check your expression.");
     }
-    // Additional ambiguous symbol checks can be added here if needed
   }
 
   // Validate numeric custom label parameters
@@ -239,45 +277,13 @@ function main() {
     }
   }
 
+  // If no CLI options provided, do nothing (useful when imported in tests)
+  if (Object.keys(options).length === 0) {
+    return;
+  }
+
   if (options.serve) {
     const port = process.env.PORT || 3000;
-    app.get("/plot", (req, res) => {
-      try {
-        const expression = req.query.expression;
-        const range = req.query.range;
-        if (!expression || expression.trim() === "") {
-          res.status(400).send("Missing or empty 'expression'");
-          return;
-        }
-        if (!range || range.trim() === "") {
-          res.status(400).send("Missing or empty 'range'");
-          return;
-        }
-        const fileType = req.query.fileType || req.query.format;
-        if (!fileType) {
-          res.status(400).send("Missing required query parameter: fileType or format");
-          return;
-        }
-        const svg = createSvgPlot(expression, range, req.query);
-        const accept = req.headers.accept || "";
-        res.set("Vary", "Accept");
-        if (accept.includes("image/svg+xml")) {
-          res.set("Content-Type", "image/svg+xml");
-          res.send(svg);
-        } else if (accept.includes("image/png")) {
-          const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-          res.set("Content-Type", "image/png");
-          res.send(dummyPng);
-        } else if (accept.includes("application/json")) {
-          res.set("Content-Type", "application/json");
-          res.send({ expression: expression, range: range, message: "Plot generation details" });
-        } else {
-          res.status(406).send("Not Acceptable");
-        }
-      } catch (e) {
-        res.status(400).send(e.message);
-      }
-    });
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
     });
