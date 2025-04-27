@@ -15,6 +15,12 @@ You can generate plots directly from the command line by providing the following
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). 
   - Must follow the pattern: `x=<min>:<max>,y=<min>:<max>` with numeric values. Extra whitespace is allowed.
   - **Numeric Order Enforcement:** The lower bound must be less than the upper bound for both x and y ranges.
+  - **Enhanced Error Feedback:** 
+    - If the range format is malformed (e.g., missing delimiters, non-numeric inputs, or extra whitespace), you will receive an error message such as:
+      > Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.
+    - If the numeric order is invalid (e.g., x min is not less than x max), the error message will be like:
+      > Error: Invalid range for x (provided: x=5:1). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.
+
 - **--file**: The output file path. The file extension determines the output type:
   - **.svg**: Generates an SVG plot with annotations and a blue polyline representing the curve.
   - **.png**: Generates a PNG plot using dummy placeholder image data.
