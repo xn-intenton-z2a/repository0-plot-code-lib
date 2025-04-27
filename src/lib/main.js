@@ -95,8 +95,8 @@ function createSvgPlot(expression, range, customLabels = {}) {
   if (customLabels.xlabel) {
     xAxisLabelText = customLabels.xlabel;
   } else if (xPrecision !== null) {
-    const formattedXMin = xMin.toFixed(xPrecision);
-    const formattedXMax = xMax.toFixed(xPrecision);
+    const formattedXMin = (Math.round(xMin * Math.pow(10, xPrecision)) / Math.pow(10, xPrecision)).toFixed(xPrecision);
+    const formattedXMax = (Math.round(xMax * Math.pow(10, xPrecision)) / Math.pow(10, xPrecision)).toFixed(xPrecision);
     xAxisLabelText = `x-axis: ${formattedXMin} to ${formattedXMax}`;
   } else {
     xAxisLabelText = `x-axis: ${xMin} to ${xMax}`;
@@ -106,8 +106,8 @@ function createSvgPlot(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null) {
-    const formattedYMin = yInputMin.toFixed(yPrecision);
-    const formattedYMax = yInputMax.toFixed(yPrecision);
+    const formattedYMin = (Math.round(yInputMin * Math.pow(10, yPrecision)) / Math.pow(10, yPrecision)).toFixed(yPrecision);
+    const formattedYMax = (Math.round(yInputMax * Math.pow(10, yPrecision)) / Math.pow(10, yPrecision)).toFixed(yPrecision);
     yAxisLabelText = `y-axis: ${formattedYMin} to ${formattedYMax}`;
   } else {
     yAxisLabelText = `y-axis: ${yInputMin} to ${yInputMax}`;
