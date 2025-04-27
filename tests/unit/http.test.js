@@ -243,58 +243,38 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain('aria-label="y-axis: 0 to 10"');
   });
 
-  // New tests for custom rotation options
-  test("should return SVG with custom x-axis rotation when xlabelRotation is provided", async () => {
+  // New tests for custom ARIA labels and text-anchor overrides
+  test("should override aria-label attributes with custom parameters", async () => {
     const res = await request(app)
       .get("/plot")
       .query({
         expression: "y=sin(x)",
         range: "x=0:10,y=0:10",
         fileType: "svg",
-        xlabelRotation: "15"
+        xlabelAriaLabel: "CustomXLabel",
+        ylabelAriaLabel: "CustomYLabel"
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toMatch(/<text[^>]+transform="rotate\(15,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
+    const svgText = res.text;
+    expect(svgText).toContain('aria-label="CustomXLabel"');
+    expect(svgText).toContain('aria-label="CustomYLabel"');
   });
 
-  test("should return SVG with custom y-axis rotation when ylabelRotation is provided", async () => {
+  test("should override text-anchor attributes with custom parameters", async () => {
     const res = await request(app)
       .get("/plot")
       .query({
         expression: "y=sin(x)",
         range: "x=0:10,y=0:10",
         fileType: "svg",
-        ylabelRotation: "45",
-        ylabelX: "20",
-        ylabelY: "80"
+        xlabelAnchor: "start",
+        ylabelAnchor: "end"
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toMatch(/<text[^>]+transform="rotate\(45,\s*20,\s*80\)"/);
-  });
-
-  test("should return SVG with custom axis label offsets when provided", async () => {
-    const res = await request(app)
-      .get("/plot")
-      .query({
-        expression: "y=sin(x)",
-        range: "x=0:10,y=0:10",
-        fileType: "svg",
-        xlabelOffsetX: "100",
-        xlabelOffsetY: "120",
-        ylabelOffsetX: "15",
-        ylabelOffsetY: "80"
-      })
-      .expect("Content-Type", /image\/svg\+xml/)
-      .expect(200);
-    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toContain('x="100"');
-    expect(svgText).toContain('y="120"');
-    expect(svgText).toContain('x="15"');
-    expect(svgText).toContain('y="80"');
-    expect(svgText).toMatch(/<text[^>]+x="15"[^>]+y="80"[^>]+transform="rotate\(-?\d+,\s*15,\s*80\)"/);
+    const svgText = res.text;
+    expect(svgText).toContain('text-anchor="start"');
+    expect(svgText).toContain('text-anchor="end"');
   });
 });

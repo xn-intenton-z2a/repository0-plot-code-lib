@@ -210,16 +210,22 @@ function createSvgPlot(expression, range, customLabels = {}) {
     yLabelAttributes = `x="5" y="${(height / 2).toFixed(2)}" transform="rotate(${ylabelRotation}, 10, ${(height / 2).toFixed(2)})"`;
   }
 
+  // Determine custom aria-label and text-anchor for axis labels
+  const xAriaLabel = customLabels.xlabelAriaLabel ? customLabels.xlabelAriaLabel : `x-axis: ${xMin} to ${xMax}`;
+  const yAriaLabel = customLabels.ylabelAriaLabel ? customLabels.ylabelAriaLabel : `y-axis: ${yInputMin} to ${yInputMax}`;
+  const xTextAnchor = customLabels.xlabelAnchor ? customLabels.xlabelAnchor : "middle";
+  const yTextAnchor = customLabels.ylabelAnchor ? customLabels.ylabelAnchor : "middle";
+
   // Create SVG content with dynamic labels for axes and ARIA accessibility attributes for screen readers
   const svgContent = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
   <!-- Dynamic Axis Labels with ARIA accessibility attributes -->
-  <text x="${xLabelX}" y="${xLabelY}" text-anchor="middle" aria-label="x-axis: ${xMin} to ${xMax}" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}"${xTransform}${customLabels.xlabelFontFamily ? ` font-family=\"${customLabels.xlabelFontFamily}\"` : ""}>
+  <text x="${xLabelX}" y="${xLabelY}" text-anchor="${xTextAnchor}" aria-label="${xAriaLabel}" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}"${xTransform}${customLabels.xlabelFontFamily ? ` font-family=\"${customLabels.xlabelFontFamily}\"` : ""}>
     ${xAxisLabelText}
   </text>
-  <text ${yLabelAttributes} text-anchor="middle" aria-label="y-axis: ${yInputMin} to ${yInputMax}" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}"${customLabels.ylabelFontFamily ? ` font-family=\"${customLabels.ylabelFontFamily}\"` : ""}>
+  <text ${yLabelAttributes} text-anchor="${yTextAnchor}" aria-label="${yAriaLabel}" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}"${customLabels.ylabelFontFamily ? ` font-family=\"${customLabels.ylabelFontFamily}\"` : ""}>
     ${yAxisLabelText}
   </text>
 </svg>
@@ -228,7 +234,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 }
 
 app.get("/plot", (req, res) => {
-  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily, xlabelOffsetX, xlabelOffsetY, ylabelOffsetX, ylabelOffsetY } = req.query;
+  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily, xlabelOffsetX, xlabelOffsetY, ylabelOffsetX, ylabelOffsetY, xlabelAriaLabel, ylabelAriaLabel, xlabelAnchor, ylabelAnchor } = req.query;
 
   // If query parameters are provided, perform aggregated validation
   if (expression || range || fileType || format) {
@@ -264,7 +270,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily, xlabelOffsetX, xlabelOffsetY, ylabelOffsetX, ylabelOffsetY });
+        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor, xlabelPrecision, ylabelPrecision, locale, xlabelX, xlabelY, ylabelX, ylabelY, xlabelRotation, ylabelRotation, xlabelFontFamily, ylabelFontFamily, xlabelOffsetX, xlabelOffsetY, ylabelOffsetX, ylabelOffsetY, xlabelAriaLabel, ylabelAriaLabel, xlabelAnchor, ylabelAnchor });
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
       } else if (outputFormat === "image/png") {
         const pngBase64 =
@@ -396,7 +402,7 @@ Usage Example of an Erroneous Expression:
       Suggested Correction: "y=2*3+x"
     • Expression: "y=(x+2"
       Suggested Correction: "y=(x+2)"
-    
+
 For more information, please refer to the usage documentation.
     `;
     console.log(helpMessage);

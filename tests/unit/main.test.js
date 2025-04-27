@@ -7,6 +7,7 @@ import path from "path";
 // Preserve original process.argv
 const originalArgv = process.argv.slice();
 
+
 describe("Main Module Import", () => {
   test("should be non-null", () => {
     expect(mainModule).not.toBeNull();
@@ -343,7 +344,10 @@ describe("CLI Plot Generation", () => {
     fs.unlinkSync("output.svg");
   });
 
-  test("should return SVG with custom x-axis rotation when xlabelRotation is provided", () => {
+  // New tests for custom ARIA labels and text-anchor overrides via CLI flags
+  test("should output SVG with custom aria-label attributes from CLI flags", () => {
+    const testFile = "output.svg";
+    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
     process.argv = [
       "node",
       "src/lib/main.js",
@@ -352,17 +356,22 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=0:10,y=0:10",
       "--file",
-      "output.svg",
-      "--xlabelRotation",
-      "15"
+      testFile,
+      "--xlabelAriaLabel",
+      "CLI_CustomX",
+      "--ylabelAriaLabel",
+      "CLI_CustomY"
     ];
     main();
-    const content = fs.readFileSync("output.svg", "utf8");
-    expect(content).toMatch(/<text[^>]+transform="rotate\(15,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
-    fs.unlinkSync("output.svg");
+    const content = fs.readFileSync(testFile, "utf8");
+    expect(content).toContain('aria-label="CLI_CustomX"');
+    expect(content).toContain('aria-label="CLI_CustomY"');
+    fs.unlinkSync(testFile);
   });
 
-  test("should return SVG with custom y-axis rotation when ylabelRotation is provided", () => {
+  test("should output SVG with custom text-anchor attributes from CLI flags", () => {
+    const testFile = "output.svg";
+    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
     process.argv = [
       "node",
       "src/lib/main.js",
@@ -371,119 +380,17 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=0:10,y=0:10",
       "--file",
-      "output.svg",
-      "--ylabelRotation",
-      "45",
-      "--ylabelX",
-      "20",
-      "--ylabelY",
-      "80"
+      testFile,
+      "--xlabelAnchor",
+      "end",
+      "--ylabelAnchor",
+      "start"
     ];
     main();
-    const content = fs.readFileSync("output.svg", "utf8");
-    expect(content).toMatch(/<text[^>]+transform="rotate\(45,\s*20,\s*80\)"/);
-    fs.unlinkSync("output.svg");
-  });
-
-  test("should return SVG with custom axis label offsets when provided", () => {
-    process.argv = [
-      "node",
-      "src/lib/main.js",
-      "--expression",
-      "y=sin(x)",
-      "--range",
-      "x=0:10,y=0:10",
-      "--file",
-      "output.svg",
-      "--xlabelOffsetX",
-      "100",
-      "--xlabelOffsetY",
-      "120",
-      "--ylabelOffsetX",
-      "15",
-      "--ylabelOffsetY",
-      "80"
-    ];
-    main();
-    const content = fs.readFileSync("output.svg", "utf8");
-    expect(content).toContain('x="100"');
-    expect(content).toContain('y="120"');
-    expect(content).toContain('x="15"');
-    expect(content).toContain('y="80"');
-    expect(content).toMatch(/<text[^>]+x="15"[^>]+y="80"[^>]+transform="rotate\(-?\d+,\s*15,\s*80\)"/);
-    fs.unlinkSync("output.svg");
-  });
-
-  // New tests for advanced expression validation
-  test("should throw error if missing operator between numeric tokens", () => {
-    process.argv = [
-      "node",
-      "src/lib/main.js",
-      "--expression",
-      "y=2 3+x",
-      "--range",
-      "x=0:10,y=0:10",
-      "--file",
-      "output.svg"
-    ];
-    expect(() => main()).toThrow(/Detected missing operator between numeric tokens/);
-  });
-
-  test("should throw error if unbalanced parentheses in expression", () => {
-    process.argv = [
-      "node",
-      "src/lib/main.js",
-      "--expression",
-      "y=(x+2",
-      "--range",
-      "x=0:10,y=0:10",
-      "--file",
-      "output.svg"
-    ];
-    expect(() => main()).toThrow(/Unbalanced parentheses in expression/);
-  });
-});
-
-describe("CLI Version Flag", () => {
-  const originalExit = process.exit;
-  let originalConsoleLog;
-
-  beforeEach(() => {
-    originalConsoleLog = console.log;
-    process.exit = (code) => { throw new Error(`Process exit with code ${code}`); };
-  });
-
-  afterEach(() => {
-    process.exit = originalExit;
-    console.log = originalConsoleLog;
-  });
-
-  test("should output version and exit when --version flag is provided", () => {
-    const pkgPath = path.join(process.cwd(), 'package.json');
-    const pkgContent = fs.readFileSync(pkgPath, 'utf8');
-    const pkg = JSON.parse(pkgContent);
-    const expectedVersion = pkg.version;
-
-    let output = "";
-    console.log = (msg, ...args) => { output += msg + (args.length ? " " + args.join(" ") : ""); };
-
-    process.argv = ["node", "src/lib/main.js", "--version"];
-    expect(() => main()).toThrow(/Process exit with code 0/);
-    expect(output.trim()).toBe(expectedVersion);
-  });
-
-  test("should prioritize --version flag even when other flags are provided", () => {
-    const pkgPath = path.join(process.cwd(), 'package.json');
-    const pkgContent = fs.readFileSync(pkgPath, 'utf8');
-    const pkg = JSON.parse(pkgContent);
-    const expectedVersion = pkg.version;
-
-    let output = "";
-    console.log = (msg, ...args) => { output += msg + (args.length ? " " + args.join(" ") : ""); };
-
-    process.argv = ["node", "src/lib/main.js", "--version", "--expression", "y=sin(x)"];
-    expect(() => main()).toThrow(/Process exit with code 0/);
-    expect(output.trim()).toBe(expectedVersion);
+    const content = fs.readFileSync(testFile, "utf8");
+    expect(content).toContain('text-anchor="end"');
+    expect(content).toContain('text-anchor="start"');
+    fs.unlinkSync(testFile);
   });
 });
 

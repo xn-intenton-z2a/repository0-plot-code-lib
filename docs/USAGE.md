@@ -46,7 +46,7 @@ If multiple input errors occur (for example, missing parameters and malformed va
 - **image/png**: Returns a PNG image with placeholder content.
 - **application/json**: Returns a JSON object with details about the plot generation request.
 
-### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, and Font Family
+### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, Font Family, and Accessibility
 
 Advanced query parameters allow further customization of the generated SVG:
 
@@ -58,6 +58,8 @@ Advanced query parameters allow further customization of the generated SVG:
 - **xlabelRotation** and **ylabelRotation**: Specify custom rotation angles for the labels.
 - **xlabelFontFamily** and **ylabelFontFamily**: Specify custom fonts for the labels.
 - **xlabelOffsetX**, **xlabelOffsetY**, **ylabelOffsetX**, **ylabelOffsetY**: Precisely control label positioning with offsets.
+- **xlabelAriaLabel** and **ylabelAriaLabel**: Override the default `aria-label` attributes for the x-axis and y-axis labels, respectively, to provide custom accessible descriptions.
+- **xlabelAnchor** and **ylabelAnchor**: Override the default `text-anchor` attribute (default is "middle") for the x-axis and y-axis labels. Acceptable values include "start", "middle", and "end".
 
 ## Examples
 
@@ -82,8 +84,14 @@ Advanced query parameters allow further customization of the generated SVG:
 7. **Dynamic SVG with Custom Axis Label Offsets:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelOffsetX=100&xlabelOffsetY=120&ylabelOffsetX=15&ylabelOffsetY=80`
 
-8. **Dynamic PNG Generation:**
-   GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
+8. **Dynamic SVG with Custom ARIA Labels:**
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelAriaLabel=CustomXDescription&ylabelAriaLabel=CustomYDescription`
 
-9. **Dynamic JSON Response:**
-   GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
+9. **Dynamic SVG with Custom Text Anchoring:**
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelAnchor=start&ylabelAnchor=end`
+
+10. **Dynamic PNG Generation:**
+    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
+
+11. **Dynamic JSON Response:**
+    GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
