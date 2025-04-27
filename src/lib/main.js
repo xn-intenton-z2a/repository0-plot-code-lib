@@ -10,6 +10,25 @@ import { compile } from "mathjs";
 const app = express();
 
 function createSvgPlot(expression, range, customLabels = {}) {
+  // Advanced expression validation function
+  function validateExpression(expr) {
+    // Detect missing operator between numeric tokens (e.g., "2 3" instead of "2*3")
+    if (/\d\s+\d/.test(expr)) {
+      throw new Error("Error: Detected missing operator between numeric tokens. Please verify your expression format.");
+    }
+    // Check for balanced parentheses
+    let balance = 0;
+    for (let char of expr) {
+      if (char === '(') balance++;
+      else if (char === ')') balance--;
+      if (balance < 0) break;
+    }
+    if (balance !== 0) {
+      throw new Error("Error: Unbalanced parentheses in expression. Please check your expression.");
+    }
+    // Additional ambiguous symbol checks can be added here if needed
+  }
+
   // Validate numeric custom label parameters
   const numericParams = [
     "xlabelPrecision",
@@ -73,6 +92,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
   if (exprStr.toLowerCase().startsWith("y=")) {
     exprStr = exprStr.slice(2);
   }
+  
+  // Validate expression syntax before further processing
+  validateExpression(exprStr);
+
   // Enhanced enforcement that the expression uses the variable 'x' in a valid context
   if (!/\bx\b/.test(exprStr)) {
     throw new Error("Error: Expression must include the variable 'x'. Please refer to the usage guide.");
@@ -360,6 +383,21 @@ Aggregated Error Reporting:
   When multiple input errors occur (e.g., missing flags or malformed parameters), the tool aggregates the error messages and displays them together, providing comprehensive feedback to the user.
 
 Note: The mathematical expression must include the variable 'x'. For example, a valid expression is 'y=sin(x)'.
+
+Enhanced Expression Validation:
+  The tool now performs advanced pre-compilation validation of the mathematical expression. It detects common errors such as missing operators between numeric tokens (e.g., "2 3" instead of "2*3") and unbalanced parentheses (e.g., "y=(x+2").
+  If such issues are detected, the following errors will be thrown:
+    - Missing operator error: "Error: Detected missing operator between numeric tokens. Please verify your expression format."
+    - Unbalanced parentheses error: "Error: Unbalanced parentheses in expression. Please check your expression."
+    This validation helps prevent ambiguous expressions and improves the feedback provided to the user.
+    
+Usage Example of an Erroneous Expression:
+    • Expression: "y=2 3+x"
+      Suggested Correction: "y=2*3+x"
+    • Expression: "y=(x+2"
+      Suggested Correction: "y=(x+2)"
+    
+For more information, please refer to the usage documentation.
     `;
     console.log(helpMessage);
     return;
