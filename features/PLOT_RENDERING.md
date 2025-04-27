@@ -1,26 +1,20 @@
 # PLOT RENDERING
 
 ## Overview
-This feature consolidates enhancements to plotting into a single, unified endpoint. It merges the improvements from dynamic SVG axis labeling with robust response handling that supports SVG, PNG, and JSON outputs. The unified endpoint delivers enhanced plot rendering with detailed validations, customizable styling through query parameters, and now enriched metadata in JSON export responses to facilitate traceability and integration with consuming applications.
+This updated feature continues to serve as the unified endpoint for plot rendering and data export while integrating enhanced metadata enrichment. In addition to dynamic SVG axis labeling, customizable styling, and error handling, the JSON export functionality now includes a metadata object. This object provides valuable context such as the plot generation timestamp and the current library version. This enhancement improves integration, traceability, and debugging for both CLI and HTTP API consumers.
 
 ## Implementation
-- Integrate dynamic SVG enhancements: add clearly labeled X and Y axes with customizable options (font size, color, rotation, offset, and locale-aware formatting).
-- Merge JSON export and SVG/PNG rendering by unifying the /plot endpoint. When a JSON response is requested, the endpoint will compute and return an array of plot data points along with the input expression, range details, and additional metadata.
-- Extend the JSON export and CLI JSON output to include a metadata object that contains details such as the plot generation timestamp and the library version (fetched from package.json). This metadata facilitates version tracking and recency verification of plot outputs.
-- Ensure that all input validations for mathematical expressions, numeric ranges, and custom label parameters are consolidated. Provide comprehensive aggregated error feedback when multiple validations fail.
-- Update documentation (README.md, docs/USAGE.md) with examples illustrating how plot rendering and detailed JSON export now include metadata alongside standard plot details.
-
-## Metadata Enrichment
-- When detailed JSON export is requested using the jsonExport flag, the response will now include a new "metadata" key.
-- The "metadata" key will include:
-  - A timestamp of when the plot was generated.
-  - The current library version as specified in package.json.
-- This enrichment aids consumers in verifying the recency and compatibility of the plot data, enhancing integration workflows and debugging.
+- In the /plot endpoint in src/lib/main.js, when the query parameter jsonExport is set to "true", before returning the JSON response, append a new metadata key to the computed plot data. This metadata object should include:
+  - a "timestamp" field containing the current ISO timestamp of the plot generation.
+  - a "version" field obtained from the package.json file's version field.
+- Modify the computePlotData function, or wrap its output, to merge this metadata information when a detailed JSON export is requested.
+- Ensure that the CLI branch that exports JSON data also incorporates the metadata object in its output.
+- Update error handling to ensure that if fetching the library version fails, a default version string is returned without breaking plot generation.
 
 ## Testing
-- Extend existing unit tests in tests/unit/http.test.js and tests/unit/main.test.js to verify that JSON export responses (both for HTTP API and CLI) include a metadata object with the expected keys.
-- Validate that the SVG and PNG outputs remain unchanged and that content negotiation is properly handled.
-- Confirm that dynamic axis labels and styling are still rendered correctly, and that error handling provides clear aggregated feedback when inputs are invalid.
+- In tests/unit/http.test.js and tests/unit/main.test.js, add or update tests to verify that when jsonExport is requested, the JSON response includes a metadata key with valid timestamp and version string.
+- Validate that the metadata values do not affect other output formats (SVG and PNG) and remain exclusive to JSON export.
 
 ## Impact
-This merged feature enhances the library's core capability by providing a single authoritative endpoint for plot rendering and data export. The addition of metadata enriches JSON responses with valuable contextual information, aiding in integration, traceability, and debugging. Overall, this update simplifies maintenance, reduces redundancy, and improves the user experience in both CLI and HTTP API modes.
+- The enriched metadata enables consumers to track and verify plot generation recency and compatibility with the library version. This addition simplifies debugging and integration with external systems.
+- This change consolidates and enhances the plot rendering capabilities, reducing redundancy and further aligning plot export output across CLI and HTTP interfaces.
