@@ -11,7 +11,7 @@ You can generate plots directly from the command line by providing the following
 - **--help**: Displays this help message with usage information, flag details, and examples.
 - **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string and **must include the variable 'x'**. For example, an expression like "y=5" is invalid and will result in an error.
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). **Note:** The expression must include the variable 'x'. For example, a valid expression is "y=sin(x)". Expressions like "y=5" are invalid and will result in an error.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5"). Extra whitespace around numbers and delimiters is allowed.
@@ -27,7 +27,7 @@ The `/plot` endpoint supports dynamic plot generation using URL query parameters
 
 - Validate that **expression** and **range** are provided and non-empty.
 - Ensure that **range** matches the required format and that numeric orders are valid.
-- Check that either the `fileType` (deprecated) or `format` parameter is provided. 
+- Check that either the `fileType` (deprecated) or `format` parameter is provided.
 
 If multiple input errors occur (for example, missing parameters and malformed values), the response aggregates all error messages and returns them together in a single 400 Bad Request response. This aggregated error message provides comprehensive feedback on all input issues, helping the user correct them in one go.
 
@@ -52,8 +52,6 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 - **locale**: Specifies the locale to use for number formatting in the axis labels (e.g., `de-DE`).
 - **xlabelX** and **xlabelY**: Specify custom x and y coordinates for positioning the x-axis label. If omitted, defaults to center bottom (x: width/2, y: height - 5).
 - **ylabelX** and **ylabelY**: Specify custom x and y coordinates for positioning the y-axis label. If omitted, defaults to the current behavior (rotated label with preset coordinates).
-
-**Note:** The custom numeric parameters (such as `xlabelPrecision`, `ylabelPrecision`, `xlabelX`, `xlabelY`, `ylabelX`, and `ylabelY`) must be valid numbers. Providing non-numeric values (e.g., "abc") will result in an error.
 
 ### Examples
 
