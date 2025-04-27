@@ -22,6 +22,23 @@ import { compile } from "mathjs";
 
 const app = express();
 
+// New helper function to recursively interpolate environment variables in configuration objects
+function interpolateEnv(input) {
+  if (typeof input === 'string') {
+    return input.replace(/\$\{([^}]+)\}/g, (_, varName) => process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`);
+  } else if (Array.isArray(input)) {
+    return input.map(interpolateEnv);
+  } else if (typeof input === 'object' && input !== null) {
+    const output = {};
+    for (const key in input) {
+      output[key] = interpolateEnv(input[key]);
+    }
+    return output;
+  } else {
+    return input;
+  }
+}
+
 // New function to compute detailed plot data used for JSON export with adaptive resolution
 function computePlotData(expression, range, customLabels = {}) {
   // Advanced expression validation function
@@ -379,7 +396,9 @@ function main() {
   if (options.config) {
     try {
       const configFileContent = fs.readFileSync(options.config, 'utf8');
-      const configOptions = JSON.parse(configFileContent);
+      let configOptions = JSON.parse(configFileContent);
+      // Interpolate environment variables in the config file values
+      configOptions = interpolateEnv(configOptions);
       // Define Zod schema for config file validation
       const configSchema = z.object({
         expression: z.string().min(1).optional(),
