@@ -91,8 +91,27 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const xPrecision = customLabels.xlabelPrecision != null ? Number(customLabels.xlabelPrecision) : null;
   const yPrecision = customLabels.ylabelPrecision != null ? Number(customLabels.ylabelPrecision) : null;
 
-  const xAxisLabelText = customLabels.xlabel ? customLabels.xlabel : `x-axis: ${xPrecision !== null ? xMin.toFixed(xPrecision) : xMin} to ${xPrecision !== null ? xMax.toFixed(xPrecision) : xMax}`;
-  const yAxisLabelText = customLabels.ylabel ? customLabels.ylabel : `y-axis: ${yPrecision !== null ? yInputMin.toFixed(yPrecision) : yInputMin} to ${yPrecision !== null ? yInputMax.toFixed(yPrecision) : yInputMax}`;
+  let xAxisLabelText;
+  if (customLabels.xlabel) {
+    xAxisLabelText = customLabels.xlabel;
+  } else if (xPrecision !== null) {
+    const formattedXMin = Math.round(xMin * Math.pow(10, xPrecision)) / Math.pow(10, xPrecision);
+    const formattedXMax = Math.round(xMax * Math.pow(10, xPrecision)) / Math.pow(10, xPrecision);
+    xAxisLabelText = `x-axis: ${formattedXMin.toFixed(xPrecision)} to ${formattedXMax.toFixed(xPrecision)}`;
+  } else {
+    xAxisLabelText = `x-axis: ${xMin} to ${xMax}`;
+  }
+
+  let yAxisLabelText;
+  if (customLabels.ylabel) {
+    yAxisLabelText = customLabels.ylabel;
+  } else if (yPrecision !== null) {
+    const formattedYMin = Math.round(yInputMin * Math.pow(10, yPrecision)) / Math.pow(10, yPrecision);
+    const formattedYMax = Math.round(yInputMax * Math.pow(10, yPrecision)) / Math.pow(10, yPrecision);
+    yAxisLabelText = `y-axis: ${formattedYMin.toFixed(yPrecision)} to ${formattedYMax.toFixed(yPrecision)}`;
+  } else {
+    yAxisLabelText = `y-axis: ${yInputMin} to ${yInputMax}`;
+  }
 
   // Create SVG content with dynamic labels for axes
   const svgContent = `
