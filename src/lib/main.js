@@ -87,14 +87,16 @@ function createSvgPlot(expression, range, customLabels = {}) {
   });
   const polylinePoints = mappedPoints.join(" ");
 
-  // Helper function for rounding half away from zero
+  // Helper function for rounding half away from zero with proper scaling
   function roundHalfAwayFromZero(value, precision) {
     const factor = Math.pow(10, precision);
+    let rounded;
     if (value < 0) {
-      return (-Math.round(Math.abs(value) * factor)).toFixed(precision);
+      rounded = -Math.round(Math.abs(value) * factor);
     } else {
-      return (Math.round(value * factor)).toFixed(precision);
+      rounded = Math.round(value * factor);
     }
+    return (rounded / factor).toFixed(precision);
   }
 
   // Process precision for axis labels if provided
