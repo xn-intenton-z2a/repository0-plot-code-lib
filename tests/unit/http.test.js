@@ -190,7 +190,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    const svgText = res.text;
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     // Check that the custom styling attributes are applied in the x-axis and y-axis text elements
     expect(svgText).toContain('font-size="16"');
     expect(svgText).toContain('fill="green"');
