@@ -242,4 +242,25 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain('aria-label="x-axis: 0 to 10"');
     expect(svgText).toContain('aria-label="y-axis: 0 to 10"');
   });
+
+  test("should return SVG with custom axis label positioning when provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        xlabelX: "50",
+        xlabelY: "100",
+        ylabelX: "10",
+        ylabelY: "150"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text;
+    expect(svgText).toContain('x="50"');
+    expect(svgText).toContain('y="100"');
+    expect(svgText).toContain('x="10"');
+    expect(svgText).toContain('y="150"');
+  });
 });

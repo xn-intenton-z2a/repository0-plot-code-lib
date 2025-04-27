@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes a new feature: dynamic axis labels for SVG plots, which enhances the interpretability of the resulting plots by displaying the numerical ranges used. Additionally, users can now override the default axis labels using custom query parameters, including custom styling options and locale-aware numeric formatting.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes a new feature: dynamic axis labels for SVG plots, which enhances the interpretability of the resulting plots by displaying the numerical ranges used. Additionally, users can now override the default axis labels using custom query parameters, including custom styling options, precision controls, locale-aware numeric formatting, and custom positioning.
 
 ## CLI Plot Generation
 
@@ -17,7 +17,7 @@ You can generate plots directly from the command line by providing the following
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5"). Extra whitespace around numbers and delimiters is allowed.
   - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound. If this condition is not met, an error is returned.
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and dynamic axis labels. The x-axis label appears at the bottom center and the y-axis label appears along the left side with rotation.
+  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and dynamic axis labels. The x-axis label and y-axis label can be customized via additional parameters.
   - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
@@ -33,26 +33,28 @@ If multiple input errors occur (for example, missing parameters and malformed va
 
 ### Supported Output Formats
 
-- **image/svg+xml**: Returns an SVG plot with dynamic axis labels (or custom labels if provided via query parameters). The SVG axis `<text>` elements now include ARIA accessibility attributes (e.g., `aria-label="x-axis: <min> to <max>"`) to improve screen reader compatibility.
+- **image/svg+xml**: Returns an SVG plot with dynamic axis labels. The SVG axis `<text>` elements include ARIA accessibility attributes (e.g., `aria-label="x-axis: <min> to <max>"`) to improve screen reader compatibility.
 - **image/png**: Returns a PNG image with placeholder content.
 - **application/json**: Returns a JSON object with details about the plot generation request.
 
-### Custom Axis Labels, Precision, Styling, Locale, and Accessibility via Query Parameters
+### Custom Axis Labels, Precision, Styling, Locale, Accessibility, and Positioning via Query Parameters
 
-In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports additional optional query parameters for customizing the appearance of the axis labels:
+In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports additional optional query parameters for customizing the appearance and positioning of the axis labels:
 
-- **xlabel**: Overrides the default x-axis label text. For example, if you provide `xlabel=MyCustomX`, the label will display "MyCustomX".
-- **ylabel**: Overrides the default y-axis label text. For example, if you provide `ylabel=MyCustomY`, the label will display "MyCustomY".
-- **xlabelFontSize**: Sets the font size for the x-axis label. Default is `12` if not provided.
-- **xlabelColor**: Sets the color (fill) for the x-axis label text. Default is `black` if not provided.
-- **ylabelFontSize**: Sets the font size for the y-axis label. Default is `12` if not provided.
-- **ylabelColor**: Sets the color (fill) for the y-axis label text. Default is `black` if not provided.
+- **xlabel**: Overrides the default x-axis label text.
+- **ylabel**: Overrides the default y-axis label text.
+- **xlabelFontSize**: Sets the font size for the x-axis label (default: 12).
+- **xlabelColor**: Sets the color (fill) for the x-axis label (default: black).
+- **ylabelFontSize**: Sets the font size for the y-axis label (default: 12).
+- **ylabelColor**: Sets the color (fill) for the y-axis label (default: black).
 - **xlabelPrecision**: Specifies the number of decimal places to display for the numeric values in the x-axis label.
 - **ylabelPrecision**: Specifies the number of decimal places to display for the numeric values in the y-axis label.
-- **locale**: (Optional) Specifies the locale to use for number formatting in the axis labels. For example, using `locale=de-DE` will format decimal numbers with commas as decimal separators (e.g., "10,57" instead of "10.57").
+- **locale**: Specifies the locale to use for number formatting in the axis labels (e.g., `de-DE`).
+- **xlabelX** and **xlabelY**: Specify custom x and y coordinates for positioning the x-axis label. If omitted, defaults to center bottom (x: width/2, y: height - 5).
+- **ylabelX** and **ylabelY**: Specify custom x and y coordinates for positioning the y-axis label. If omitted, defaults to the current behavior (rotated label with preset coordinates).
 
 **Accessibility Enhancements:**
-SVG plots now include ARIA accessibility attributes for the axis label text elements. The x-axis `<text>` element automatically includes an attribute `aria-label="x-axis: <min> to <max>"` based on the provided range, and similarly the y-axis `<text>` element includes `aria-label="y-axis: <min> to <max>"`. This enhancement improves the accessibility of the plots for screen reader users.
+SVG plots include ARIA accessibility attributes on the axis label text elements to facilitate screen reader usage.
 
 ## Examples
 
@@ -76,10 +78,14 @@ SVG plots now include ARIA accessibility attributes for the axis label text elem
 
    GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&locale=de-DE&xlabelPrecision=2&ylabelPrecision=3`
 
-6. **Dynamic PNG Generation:**
+6. **Dynamic SVG Generation with Custom Label Positioning:**
+
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelX=50&xlabelY=100&ylabelX=10&ylabelY=150`
+
+7. **Dynamic PNG Generation:**
 
    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
 
-7. **Dynamic JSON Response:**
+8. **Dynamic JSON Response:**
 
    GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
