@@ -362,8 +362,8 @@ function main() {
     try {
       const configFileContent = fs.readFileSync(options.config, 'utf8');
       const configOptions = JSON.parse(configFileContent);
-      // Merge config file options, CLI flags take precedence
-      Object.assign(options, configOptions, options);
+      // Merge configuration: CLI flags override config file options
+      options = Object.assign({}, configOptions, options);
     } catch (e) {
       throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
