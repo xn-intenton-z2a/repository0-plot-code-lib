@@ -127,3 +127,8 @@ This official Node.js documentation on Buffer provides detailed explanations of 
 ## https://vega.github.io/vega-lite/
 Vega-Lite offers a declarative grammar for creating interactive data visualizations. Its comprehensive documentation provides actionable insights into defining visual encoding, scales, and interactivity. While different in approach, the techniques and design principles presented can inspire enhancements in our plotting library, especially for future features involving interactive and responsive charts.
 ## Apache License 2.0
+
+# Implementing RFC7807 in REST APIs
+## https://restfulapi.net/problem-details/
+This resource provides insights into implementing RFC7807 in REST APIs, detailing standardized error response formats. It covers essential fields such as type, title, status, detail, and instance, and offers practical examples for integrating these standards into Node.js applications. This is particularly valuable for enhancing our structured error handling and aligning our API responses with modern REST practices.
+## CC BY-NC 4.0
