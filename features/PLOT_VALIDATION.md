@@ -1,25 +1,30 @@
 # Overview
-This update enhances the existing plot input validation feature by continuing to integrate zod for robust input checking and by extending error handling to format HTTP error responses in a standard RFC7807 compliant format (problem details). This ensures that, when errors occur, users receive informational and structured feedback via both CLI and HTTP endpoints.
+This update enhances the plot input validation function by integrating zod for robust input checking and by extending error handling to use RFC7807 compliant responses when appropriate. In particular, if the client indicates support for application/problem+json via the Accept header, error responses are returned as structured JSON containing fields such as type, title, status, detail, and instance.
 
 # ZOD SCHEMA INTEGRATION
-- Replace all manual regex validations for expression, range, and file type/format parameters with zod schemas.
-- Validate that the expression is a non-empty string and that it includes the variable x (with an optional stripping of a 'y=' prefix).
-- Validate the range parameter against the format x=<min>:<max>,y=<min>:<max> and ensure that numeric order is enforced for both x and y.
+- Replace manual regex validations for expression, range, and file type/format parameters with zod schemas for a cleaner and more maintainable validation layer.
+- Ensure the expression is non-empty and contains the variable x (stripping a leading 'y=' if present).
+- Validate the range parameter against the format x=<min>:<max>,y=<min>:<max> and enforce that the minimum is less than the maximum for both x and y.
 - Validate the fileType/format parameter against allowed MIME types (image/svg+xml, image/png, application/json).
 
 # RFC7807 ERROR HANDLING
-- Update HTTP GET /plot endpoint error responses so that when the client Accept header includes application/problem+json, errors are returned as a JSON object conforming to RFC7807. The JSON will include fields such as type, title, status, detail, and instance.
-- Modify the error catch blocks within parameter validation and plot generation to check for the requested content type. If application/problem+json is accepted, format the error accordingly; otherwise, continue sending plain text error messages.
-- Ensure that both invalid query parameters and unexpected exceptions produce clear and structured error messages.
+- Update error catch blocks across both the CLI and HTTP API endpoints. When an error occurs and the request’s Accept header includes application/problem+json, respond with a structured JSON error conforming to RFC7807.
+- The structured error response should include the following keys:
+   - type: Defaults to about:blank
+   - title: A short summary of the error (e.g., "Invalid Input")
+   - status: The HTTP status code
+   - detail: A detailed error message describing the issue
+   - instance: The request URL or identifier for troubleshooting
+- In cases where the Accept header does not include application/problem+json, continue providing plain text error responses.
 
 # CLI AND HTTP API ENDPOINT UPDATES
-- In the CLI workflow, maintain instant error output for missing or malformed flags and values with detailed messages.
-- In the HTTP API workflow, integrate the new error formatting. When query parameters are provided and validation fails, check if the request prefers application/problem+json, and if so, respond with a structured RFC7807 JSON error payload.
+- In the CLI workflow, maintain instantaneous error output and include structured details when the environment or a flag indicates verbose or problem-oriented error handling.
+- In the HTTP API workflow (/plot endpoint), enhance error processing so that when query parameters are provided, and validation fails, the server checks the Accept header. If application/problem+json is accepted, the error is returned as a JSON object structured per RFC7807. Otherwise, a plain text error message is sent.
 
 # TESTING AND DOCUMENTATION
-- Update unit and integration tests to verify that, when requested, error responses are returned using the RFC7807 problem details format.
-- Revise the usage guide and README to include documentation of the new error response behavior. This documentation should explain how clients can trigger the structured error output by using the relevant Accept header.
-- Confirm that valid requests still generate correct plot outputs (SVG, PNG, and JSON) and that errors now yield enhanced, structured responses as needed.
+- Update unit tests to include scenarios where the Accept header is set to application/problem+json and validate that error responses conform to the RFC7807 structure.
+- Revise the README and usage guide to document the new error response format. Include examples showing how clients can request structured error messages by setting the proper Accept header.
+- Ensure that legitimate plot generation (SVG, PNG, JSON) remains unchanged and that errors now yield enhanced, structured responses when appropriate.
 
 # Impact AND ALIGNMENT
-This feature update improves overall reliability and usability by not only ensuring input validation across all endpoints with zod but also by enhancing error diagnostics. Users will benefit from clearer, standardized error messages that facilitate troubleshooting and integration, aligning closely with the mission of making a robust and user-friendly plotting library.
+This update improves both reliability and developer experience by offering precise and structured error feedback. Standardizing error responses helps client applications to better interpret issues and align with modern REST API practices. It further reinforces the mission of providing a robust, user-friendly plotting library.
