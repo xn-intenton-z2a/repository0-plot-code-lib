@@ -18,6 +18,7 @@ function createSvgPlot(expression, range) {
   }
   const xMin = parseFloat(xMatch[1]);
   const xMax = parseFloat(xMatch[3]);
+  // Numeric Order Enforcement for x: Ensure xMin is less than xMax
   if (xMin >= xMax) {
     throw new Error("Error: Invalid range - x-min must be less than x-max.");
   }
@@ -30,6 +31,7 @@ function createSvgPlot(expression, range) {
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[3]);
+  // Numeric Order Enforcement for y: Ensure yInputMin is less than yInputMax
   if (yInputMin >= yInputMax) {
     throw new Error("Error: Invalid range - y-min must be less than y-max.");
   }
