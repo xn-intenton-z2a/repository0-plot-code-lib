@@ -136,16 +136,16 @@ function createSvgPlot(expression, range, customLabels = {}) {
     yAxisLabelText = `y-axis: ${yInputMin} to ${yInputMax}`;
   }
 
-  // Create SVG content with dynamic labels for axes
+  // Create SVG content with dynamic labels for axes and ARIA accessibility attributes for screen readers
   const svgContent = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
-  <!-- Dynamic Axis Labels -->
-  <text x="${(width / 2).toFixed(2)}" y="${(height - 5).toFixed(2)}" text-anchor="middle" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}">
+  <!-- Dynamic Axis Labels with ARIA accessibility attributes -->
+  <text x="${(width / 2).toFixed(2)}" y="${(height - 5).toFixed(2)}" text-anchor="middle" aria-label="x-axis: ${xMin} to ${xMax}" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}">
     ${xAxisLabelText}
   </text>
-  <text x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})" text-anchor="middle" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}">
+  <text x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})" text-anchor="middle" aria-label="y-axis: ${yInputMin} to ${yInputMax}" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}">
     ${yAxisLabelText}
   </text>
 </svg>
