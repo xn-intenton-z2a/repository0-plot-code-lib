@@ -373,7 +373,9 @@ function main() {
     }
   }
 
-  // Process external config file if provided
+  // If a configuration file is provided via --config, load and validate it using a Zod schema.
+  // This ensures configuration properties like expression, range, resolution, and axis customization options
+  // adhere to the expected types and formats. CLI flags always override configuration file values.
   if (options.config) {
     try {
       const configFileContent = fs.readFileSync(options.config, 'utf8');
