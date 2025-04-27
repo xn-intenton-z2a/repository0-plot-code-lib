@@ -112,3 +112,18 @@ Plotly.js offers interactive, high-level charting capabilities with a rich set o
 ## https://tools.ietf.org/html/rfc7807
 This RFC provides a standardized approach for conveying error details in a machine-readable format within HTTP APIs. The guidelines support the design of clear and consistent error responses, enhancing debugging and client-side error handling for our API endpoints.
 ## IETF (Public Domain)
+
+# SVG 2 Specification
+## https://www.w3.org/TR/SVG2/
+The SVG 2 Specification is the authoritative document detailing the latest standards and best practices for scalable vector graphics. This source provides in-depth guidance on creating responsive and accessible SVG content, including detailed updates on rendering, interactivity, and dynamic content integration. It serves as a technical resource to ensure our dynamically generated SVG plots are compliant with modern standards.
+## W3C License
+
+# Node.js Buffer Documentation
+## https://nodejs.org/api/buffer.html
+This official Node.js documentation on Buffer provides detailed explanations of binary data manipulation in Node.js, including methods for encoding, decoding, and handling file data. It is particularly useful for troubleshooting and optimizing our PNG image generation and binary data management in our CLI and HTTP endpoints.
+## MIT License
+
+# Vega-Lite: A High-level Grammar of Interactive Graphics
+## https://vega.github.io/vega-lite/
+Vega-Lite offers a declarative grammar for creating interactive data visualizations. Its comprehensive documentation provides actionable insights into defining visual encoding, scales, and interactivity. While different in approach, the techniques and design principles presented can inspire enhancements in our plotting library, especially for future features involving interactive and responsive charts.
+## Apache License 2.0
