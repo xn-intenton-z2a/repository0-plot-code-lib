@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes a new feature: dynamic axis labels for SVG plots, which enhances the interpretability of the resulting plots by displaying the numerical ranges used.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes a new feature: dynamic axis labels for SVG plots, which enhances the interpretability of the resulting plots by displaying the numerical ranges used. Additionally, users can now override the default axis labels using custom query parameters.
 
 ## CLI Plot Generation
 
@@ -19,9 +19,30 @@ You can generate plots directly from the command line by providing the following
     - For x-range: "Error: Invalid range for x (provided: x=5:1). Ensure the minimum value is less than the maximum value."
     - For y-range: "Error: Invalid range for y (provided: y=10:0). Ensure the minimum value is less than the maximum value."
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and dynamic axis labels. The x-axis label appears at the bottom center (format: "x-axis: {xMin} to {xMax}") and the y-axis label appears along the left side with rotation (format: "y-axis: {yInputMin} to {yInputMax}").
+  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and dynamic axis labels. The x-axis label appears at the bottom center and the y-axis label appears along the left side with rotation.
   - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
+
+### Custom Axis Labels via Query Parameters
+
+In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports two optional query parameters:
+
+- **xlabel**: Overrides the default x-axis label. For example, if you provide `xlabel=MyCustomX`, the x-axis label in the SVG will display "MyCustomX" instead of "x-axis: <min> to <max>".
+- **ylabel**: Overrides the default y-axis label. If you provide `ylabel=MyCustomY`, the y-axis label in the SVG will display "MyCustomY" instead of "y-axis: <min> to <max>".
+
+**Example:**
+
+- Default behavior (no custom labels):
+
+  GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg`
+
+  This will produce an SVG with axis labels such as "x-axis: 0 to 10" and "y-axis: 0 to 10".
+
+- Custom axis labels:
+
+  GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY`
+
+  This will produce an SVG where the x-axis label is "MyCustomX" and the y-axis label is "MyCustomY".
 
 ### Improved Error Messages
 
@@ -44,6 +65,8 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - `image/svg+xml` (which produces an SVG plot with dynamic labels)
   - `image/png`
   - `application/json`
+- **xlabel**: (Optional) Custom label for the x-axis.
+- **ylabel**: (Optional) Custom label for the y-axis.
 
 **Note:** When using dynamic query parameters, you must provide either `fileType` (with value `svg` or `png`) or `format` (with one of the allowed MIME types). If query parameters are provided, they take precedence over the Accept header used for content negotiation.
 
@@ -52,7 +75,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 - If query parameters are provided:
   - The endpoint validates that **expression** and **range** are non-empty and that **range** matches the required format. It also checks that the numeric order is correct for both x and y ranges.
   - The output format is determined by the `format` parameter if provided; otherwise, by the legacy `fileType` parameter.
-  - **image/svg+xml**: Returns an SVG plot with the dynamic axis labels and other plot details, with the Content-Type set to `image/svg+xml; charset=utf-8`.
+  - **image/svg+xml**: Returns an SVG plot with the dynamic axis labels (or custom labels if provided) and other plot details, with the Content-Type set to `image/svg+xml; charset=utf-8`.
   - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
 
@@ -61,19 +84,23 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
 ### Examples
 
-1. **Dynamic SVG Generation:**
+1. **Dynamic SVG Generation with Default Axis Labels:**
 
    GET `/plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg`
 
-2. **Dynamic PNG Generation:**
+2. **Dynamic SVG Generation with Custom Axis Labels:**
+
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY`
+
+3. **Dynamic PNG Generation:**
 
    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
 
-3. **Dynamic JSON Response:**
+4. **Dynamic JSON Response:**
 
    GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`
 
-4. **Error Cases:**
+5. **Error Cases:**
 
    - Missing or empty parameters will result in a 400 Bad Request with an appropriate error message.
    - A malformed `range` or invalid numeric order will also return a 400 Bad Request with a detailed message.

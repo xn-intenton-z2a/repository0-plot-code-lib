@@ -138,4 +138,21 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect(400);
     expect(res.text).toContain("Please refer to the usage guide");
   });
+
+  test("should return SVG with custom axis labels when provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        xlabel: "MyCustomX",
+        ylabel: "MyCustomY"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(svgText).toContain("MyCustomX");
+    expect(svgText).toContain("MyCustomY");
+  });
 });
