@@ -87,3 +87,13 @@ The OpenAPI Specification provides a standardized framework for designing and do
 ## https://ejs.co/
 EJS is a simple yet powerful templating engine that facilitates dynamic generation of HTML content with plain JavaScript. Its straightforward syntax and flexibility make it a useful reference for potential future extensions, such as generating dynamic documentation pages or HTML interfaces for our plotting library.
 ## MIT License
+
+# Using Zod for Request Validation in Express
+## https://dev.to/nuhcode/using-zod-for-request-validation-in-express-104m
+This article provides practical examples of integrating Zod into Express applications for robust request validation. It covers schema definition, middleware integration, and dynamic error handling which directly complement our repository’s recent enhancement of leveraging Zod for input validation in both CLI and HTTP endpoints.
+## MIT License
+
+# Node.js Best Practices
+## https://github.com/goldbergyoni/nodebestpractices
+This comprehensive resource outlines best practices for Node.js development, including guidelines on error handling, middleware design, performance optimization, and security considerations. It offers actionable insights that can help refine our API server architecture and CLI operations, ensuring that our implementation adheres to robust and maintainable standards.
+## MIT License
