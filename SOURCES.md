@@ -117,3 +117,13 @@ Vitest offers detailed guidance on setting up, writing, and running unit tests w
 ## https://github.com/colinhacks/zod
 Zod provides comprehensive schema validation for JavaScript and TypeScript. This documentation covers defining schemas, parsing input data, and refining data validation, making it a key resource for implementing and maintaining robust validation of configuration files and user inputs within our library.
 ## MIT License
+
+# The Twelve-Factor App
+## https://12factor.net/
+The Twelve-Factor App methodology offers a set of best practices for building modern, scalable, and maintainable software-as-a-service applications. It emphasizes aspects such as configuration management, environment binding, and declarative formats for setup, all of which are directly relevant to our approach in merging configuration from multiple sources in both CLI and HTTP environments.
+## Unknown License
+
+# Node.js Best Practices
+## https://github.com/goldbergyoni/nodebestpractices
+This repository aggregates a comprehensive set of best practices for Node.js development. It covers topics such as performance optimization, error handling, code maintainability, and security. The actionable insights provided can help enhance our application's robustness and guide improvements in both the CLI tool and the HTTP API implementations.
+## MIT License
