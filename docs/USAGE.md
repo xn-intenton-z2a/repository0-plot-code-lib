@@ -54,6 +54,8 @@ The tool now provides more detailed error messages to help diagnose input issues
 
 - **Expression Error:** If the expression does not include the variable 'x', the error will prompt: "Error: Expression must include the variable 'x'. Please refer to the usage guide for the correct format." 
 
+- **Non-finite Evaluation Error:** If during the evaluation of the mathematical expression any y-value is not a finite number (i.e., it results in Infinity, -Infinity, or NaN), the tool will throw an error such as: "Error: Expression evaluation resulted in an invalid number at x=<value>".
+
 ## HTTP API: Dynamic Plot Generation
 
 In addition to content negotiation via the Accept header, the `/plot` endpoint has been enhanced to support dynamic plot generation using URL query parameters. When making a GET request with the following query parameters, the API will dynamically generate and return the plot by mathematically evaluating the expression:
@@ -80,6 +82,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
 
 - If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (now including helpful hints).
+- If the mathematical evaluation results in any non-finite number, the API responds with a 400 Bad Request and an error message indicating the problematic x value.
 - If no query parameters are provided, the endpoint falls back to content negotiation based on the Accept header.
 
 ### Examples
@@ -104,6 +107,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
    - Missing or empty parameters will result in a 400 Bad Request with an appropriate error message.
    - A malformed `range` or invalid numeric order will also return a 400 Bad Request with a detailed message.
+   - If the evaluated expression produces a non-finite number, for example due to a division by zero, the response will be a 400 Bad Request with a message like: "Error: Expression evaluation resulted in an invalid number at x=<value>".
 
 ## Server Mode
 

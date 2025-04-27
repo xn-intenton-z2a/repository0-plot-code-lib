@@ -64,6 +64,9 @@ function createSvgPlot(expression, range, customLabels = {}) {
     } catch (e) {
       throw new Error(`Error evaluating expression at x=${xVal}: ${e.message}`);
     }
+    if (!Number.isFinite(yVal)) {
+      throw new Error(`Error: Expression evaluation resulted in an invalid number at x=${xVal}`);
+    }
     yValues.push(yVal);
     points.push({ x: xVal, y: yVal });
   }
