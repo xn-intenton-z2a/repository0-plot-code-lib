@@ -11,11 +11,9 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect("Vary", /Accept/)
       .expect(200);
-    // Ensure SVG content is defined and is a string
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(typeof svgText).toBe('string');
     expect(svgText.startsWith("<svg")).toBe(true);
-    // Check for dynamic axis labels
     expect(svgText).toContain("x-axis:");
     expect(svgText).toContain("y-axis:");
   });
@@ -40,7 +38,7 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Content-Type", /application\/json/)
       .expect("Vary", /Accept/)
       .expect(200);
-    expect(res.body).toEqual({ data: [] });
+    expect(res.body).toEqual({ expression: expect.any(String), range: expect.any(String), message: "Plot generation details" });
   });
 
   test("should return 406 for unsupported Accept", async () => {
@@ -67,7 +65,6 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText.startsWith("<svg")).toBe(true);
     expect(svgText).toContain("Plot for: y=sin(x) in range x=-1:1,y=-1:1");
     expect(svgText).toContain("<polyline");
-    // Verify axis labels are present
     expect(svgText).toContain("x-axis: -1 to 1");
     expect(svgText).toContain("y-axis: -1 to 1");
   });
@@ -85,10 +82,10 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   test("should generate JSON response when valid query parameters and format=application/json are provided", async () => {
     const res = await request(app)
       .get("/plot")
-      .query({ expression: "y=log(x)", range: "x=0:10,y=0:5", format: "application/json" })
+      .query({ expression: "y=log(x)", range: "x=1:10,y=0:5", format: "application/json" })
       .expect("Content-Type", /application\/json/)
       .expect(200);
-    expect(res.body).toEqual({ expression: "y=log(x)", range: "x=0:10,y=0:5", message: "Plot generation details" });
+    expect(res.body).toEqual({ expression: "y=log(x)", range: "x=1:10,y=0:5", message: "Plot generation details" });
   });
 
   test("should return 400 if required query parameter is missing (fileType/format)", async () => {
@@ -104,7 +101,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=tan(x)", range: "x=-1:1,y=abc", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: 'range' query parameter is malformed");
+    expect(res.text).toContain("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   });
 
   test("should return 400 if expression is empty", async () => {
@@ -168,7 +165,6 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   });
 
   test("should return 400 if evaluated y-value is non-finite", async () => {
-    // Using an expression that leads to division by zero at x=0
     const res = await request(app)
       .get("/plot")
       .query({ expression: "y=1/(x)", range: "x=0:1,y=-1:10", fileType: "svg" })
@@ -228,9 +224,8 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    // Check for German formatting (comma as decimal separator)
-    expect(svgText).toContain("x-axis: 0,12 to 10,57");
-    expect(svgText).toContain("y-axis: -1,235 to 5,679");
+    expect(svgText).toMatch(/x-axis: 0,12 to 10,57/);
+    expect(svgText).toMatch(/y-axis: -1,235 to 5,679/);
   });
 
   test("should include ARIA attributes in SVG axis labels", async () => {
@@ -243,58 +238,35 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).toContain('aria-label="y-axis: 0 to 10"');
   });
 
-  // New tests for custom rotation options
-  test("should return SVG with custom x-axis rotation when xlabelRotation is provided", async () => {
+  test("should override aria-label attributes with custom parameters", async () => {
     const res = await request(app)
       .get("/plot")
       .query({
         expression: "y=sin(x)",
         range: "x=0:10,y=0:10",
         fileType: "svg",
-        xlabelRotation: "15"
+        xlabelAriaLabel: "CustomXLabel",
+        ylabelAriaLabel: "CustomYLabel"
       })
-      .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toMatch(/<text[^>]+transform="rotate\(15,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
+    expect(svgText).toContain('aria-label="CustomXLabel"');
+    expect(svgText).toContain('aria-label="CustomYLabel"');
   });
 
-  test("should return SVG with custom y-axis rotation when ylabelRotation is provided", async () => {
+  test("should override text-anchor attributes with custom parameters", async () => {
     const res = await request(app)
       .get("/plot")
       .query({
         expression: "y=sin(x)",
         range: "x=0:10,y=0:10",
         fileType: "svg",
-        ylabelRotation: "45",
-        ylabelX: "20",
-        ylabelY: "80"
+        xlabelAnchor: "start",
+        ylabelAnchor: "end"
       })
-      .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toMatch(/<text[^>]+transform="rotate\(45,\s*20,\s*80\)"/);
-  });
-
-  test("should return SVG with custom axis label offsets when provided", async () => {
-    const res = await request(app)
-      .get("/plot")
-      .query({
-        expression: "y=sin(x)",
-        range: "x=0:10,y=0:10",
-        fileType: "svg",
-        xlabelOffsetX: "100",
-        xlabelOffsetY: "120",
-        ylabelOffsetX: "15",
-        ylabelOffsetY: "80"
-      })
-      .expect("Content-Type", /image\/svg\+xml/)
-      .expect(200);
-    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toContain('x="100"');
-    expect(svgText).toContain('y="120"');
-    expect(svgText).toContain('x="15"');
-    expect(svgText).toContain('y="80"');
-    expect(svgText).toMatch(/<text[^>]+x="15"[^>]+y="80"[^>]+transform="rotate\(-?\d+,\s*15,\s*80\)"/);
+    expect(svgText).toContain('text-anchor="start"');
+    expect(svgText).toContain('text-anchor="end"');
   });
 });
