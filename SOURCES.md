@@ -107,3 +107,13 @@ Matplotlib's documentation provides an in-depth look at plotting techniques, des
 ## https://nodejs.org/api/stream.html
 This guide dives into the Node.js Streams API, elucidating best practices for handling large data sets and stream-based operations. The insights provided here are instrumental in designing efficient data pipelines for processing the time series data used in dynamic plot generation, thereby boosting performance and reliability in both CLI and HTTP contexts.
 ## Public Domain / Node.js License
+
+# Vitest Documentation
+## https://vitest.dev/guide/
+Vitest offers detailed guidance on setting up, writing, and running unit tests with a focus on fast feedback and efficient testing practices. This resource is invaluable for ensuring our test suite effectively covers the diverse scenarios of configuration merging, dynamic plot generation, and error handling in our library.
+## MIT License
+
+# Zod Documentation
+## https://github.com/colinhacks/zod
+Zod provides comprehensive schema validation for JavaScript and TypeScript. This documentation covers defining schemas, parsing input data, and refining data validation, making it a key resource for implementing and maintaining robust validation of configuration files and user inputs within our library.
+## MIT License
