@@ -199,10 +199,21 @@ function createSvgPlot(expression, range, customLabels = {}) {
     yLabelAttributes = `x="5" y="${(height / 2).toFixed(2)}" transform="rotate(${ylabelRotation}, 10, ${(height / 2).toFixed(2)})"`;
   }
 
+  // ARIA and text anchor attributes with support for custom parameters
   const xAriaLabel = customLabels.xlabelAriaLabel ? customLabels.xlabelAriaLabel : plotData.axisLabels.x;
   const yAriaLabel = customLabels.ylabelAriaLabel ? customLabels.ylabelAriaLabel : plotData.axisLabels.y;
   const xTextAnchor = customLabels.xlabelAnchor ? customLabels.xlabelAnchor : "middle";
   const yTextAnchor = customLabels.ylabelAnchor ? customLabels.ylabelAnchor : "middle";
+  
+  // Validate text-anchor custom parameters against allowed values
+  const allowedAnchors = ["start", "middle", "end"];
+  if (customLabels.xlabelAnchor && !allowedAnchors.includes(customLabels.xlabelAnchor)) {
+    throw new Error("Error: Invalid value for xlabelAnchor. Allowed values are 'start', 'middle', or 'end'.");
+  }
+  if (customLabels.ylabelAnchor && !allowedAnchors.includes(customLabels.ylabelAnchor)) {
+    throw new Error("Error: Invalid value for ylabelAnchor. Allowed values are 'start', 'middle', or 'end'.");
+  }
+
   const xFontSizeAttr = customLabels.xlabelFontSize ? ` font-size="${customLabels.xlabelFontSize}"` : "";
   const xFillAttr = customLabels.xlabelColor ? ` fill="${customLabels.xlabelColor}"` : "";
   const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size="${customLabels.ylabelFontSize}"` : "";
