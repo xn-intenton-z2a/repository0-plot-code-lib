@@ -62,7 +62,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   }
   // Enhanced enforcement that the expression uses the variable 'x' in a valid context
   if (!/\bx\b/.test(exprStr)) {
-    throw new Error("Error: The expression must include the variable 'x'. Ensure you provided a valid expression such as 'y=sin(x)'.");
+    throw new Error("Error: Expression must include the variable 'x'. Please refer to the usage guide.");
   }
 
   let compiled;
