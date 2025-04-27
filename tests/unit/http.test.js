@@ -309,7 +309,6 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(res.text).toContain("Error: Invalid resolution");
   });
 
-  // New tests for dynamic color gradient support
   test("should render SVG with dynamic color gradient when flag is enabled", async () => {
     const res = await request(app)
       .get("/plot")
@@ -323,7 +322,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
-    const svgText = res.text;
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(svgText).toContain("<defs>");
     expect(svgText).toContain("id=\"dynamicGradient\"");
     expect(svgText).toContain("<stop offset=\"0%\" stop-color=\"purple\"");
