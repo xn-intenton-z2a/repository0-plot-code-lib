@@ -177,6 +177,20 @@ describe("CLI Plot Generation", () => {
     expect(() => main()).toThrow("Error: Invalid range - y-min must be less than y-max.");
   });
 
+  test("should error if expression does not contain the variable 'x'", () => {
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=5",
+      "--range",
+      "x=-1:1,y=-1:1",
+      "--file",
+      "output.svg"
+    ];
+    expect(() => main()).toThrow("Error: The expression must contain the variable 'x'.");
+  });
+
   test("should display help message when --help flag is provided", () => {
     let output = "";
     const originalConsoleLog = console.log;

@@ -11,7 +11,7 @@ You can generate plots directly from the command line by providing the following
 - **--help**: Displays this help message with usage information, flag details, and examples.
 - **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence and no other actions are performed.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information such as argument parsing details and execution steps.
-- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string. The expression should typically be prefixed with "y=" to denote the function.
+- **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). Must be a non-empty string. <br>**Note:** The expression must include the variable 'x' for proper plot generation.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
