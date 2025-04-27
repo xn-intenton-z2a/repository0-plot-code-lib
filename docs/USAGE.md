@@ -22,16 +22,46 @@ You can generate plots directly from the command line by providing the following
       > Error: Invalid range for x (provided: x=5:1). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.
 
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot with annotations and a blue polyline representing the curve.
+  - **.svg**: Generates an SVG plot with annotations and a blue polyline (or a smooth path if smoothing is enabled) representing the curve.
   - **.png**: Generates a PNG plot using dummy placeholder image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 - **--jsonExport**: When provided with the value `true` alongside `--expression` and `--range` (and optionally `--file`), the tool outputs a detailed JSON export of the plot data instead of an image. This JSON includes:
   - `expression`: The original mathematical expression.
   - `range`: The input range string.
-  - `points`: An array of 100 objects, each with numeric `x` and `y` properties representing computed plot points.
-  - `computedXRange`: An object with keys `{ min, max }` reflecting the x-range limits from the input.
-  - `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluated points.
-  - `axisLabels`: An object with keys `{ x, y }` containing descriptive strings for the x-axis and y-axis labels.
+  - `points`: An array of computed plot point objects (default 100 points, or as specified by the resolution parameter).
+  - `computedXRange`: The x-range limits extracted from the input.
+  - `computedYRange`: The computed minimum and maximum y values based on evaluation.
+  - `axisLabels`: Descriptive labels for the axes (e.g., "x-axis: 0 to 10").
+
+## Adaptive Resolution and Curve Smoothing
+
+This release introduces two new optional parameters to enhance plot rendering:
+
+- **--resolution / resolution query parameter**: Specifies the number of points to compute along the x-axis. By default, 100 points are used. Supplying a different positive integer (e.g., `--resolution 200`) will compute that number of points, thereby adapting the resolution of the plot. This affects both the JSON export and the rendered SVG or PNG output.
+
+- **--smooth / smooth query parameter**: Enabling this flag (`--smooth true`) activates curve smoothing using a cubic interpolation algorithm. When smoothing is enabled, the generated SVG output uses a `<path>` element with quadratic Bezier commands to create a smoother curve, instead of a raw `<polyline>`.
+
+### Examples:
+
+1. **Dynamic SVG Generation with Default Options:**
+   ```sh
+   GET /plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg
+   ```
+
+2. **Generate an SVG Plot with Adaptive Resolution (e.g., 150 points):**
+   ```sh
+   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --resolution 150
+   ```
+
+3. **Generate a Smooth SVG Plot with Curve Smoothing Enabled:**
+   ```sh
+   GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&smooth=true&fileType=svg
+   ```
+
+4. **Detailed JSON Export with Custom Resolution:**
+   ```sh
+   GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&resolution=200&jsonExport=true
+   ```
 
 ## Environment Variables and DOTENV Support
 
@@ -54,7 +84,7 @@ The `/plot` endpoint supports dynamic plot generation using URL query parameters
 
 ### Supported Output Formats
 
-- **image/svg+xml**: Returns an SVG plot with dynamic axis labels and ARIA accessibility attributes.
+- **image/svg+xml**: Returns an SVG plot with dynamic axis labels and ARIA accessibility attributes. When the smooth parameter is enabled, a smooth `<path>` element is rendered.
 - **image/png**: Returns a PNG image with placeholder content.
 - **application/json**: Returns a minimal JSON response with basic plot details (unless the detailed export is requested).
 
@@ -64,20 +94,22 @@ When the query parameter `jsonExport=true` is provided (or the CLI flag `--jsonE
 
 - `expression`: The mathematical expression provided by the user.
 - `range`: The input range string.
-- `points`: An array of 100 computed plot point objects with numeric `x` and `y` values.
-- `computedXRange`: The x-range limits extracted from the input.
-- `computedYRange`: The computed minimum and maximum y values based on evaluation.
+- `points`: An array of computed plot point objects with numeric `x` and `y` values (the number of points is determined by the resolution parameter).
+- `computedXRange`: An object with keys `{ min, max }` reflecting the x-range limits from the input.
+- `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluation.
 - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
 
 #### Examples:
 
-- **HTTP Detailed JSON Export:**
+- **HTTP Detailed JSON Export with Custom Resolution:**
 
-  GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&jsonExport=true`
+  GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&resolution=200&jsonExport=true`
 
-- **CLI Detailed JSON Export:**
+- **CLI Detailed JSON Export with Smoothing:**
 
-  `node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --jsonExport true`
+  ```sh
+  node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --resolution 200 --smooth true --jsonExport true
+  ```
 
 ## Customization Options for SVG Output
 
@@ -87,7 +119,7 @@ Advanced query parameters allow customization of the generated SVG plots, includ
 - **Styling:** Directly set attributes like `xlabelFontSize`, `xlabelColor`, `ylabelFontSize`, and `ylabelColor`.
 - **Precision and Locale:** Control number formatting using `xlabelPrecision`, `ylabelPrecision`, and `locale`.
 - **Label Positioning and Rotation:** Customize positions with `xlabelX`, `xlabelY`, `ylabelX`, `ylabelY`, and rotations with `xlabelRotation`, `ylabelRotation`.
-- **ARIA Attributes and Text Anchoring:** Override default accessibility attributes using `xlabelAriaLabel`, `ylabelAriaLabel` and specify text anchor alignment using `xlabelAnchor` and `ylabelAnchor` (allowed values: start, middle, end). 
+- **ARIA Attributes and Text Anchoring:** Override default accessibility attributes using `xlabelAriaLabel`, `ylabelAriaLabel` and specify text anchor alignment using `xlabelAnchor` and `ylabelAnchor` (allowed values: start, middle, end).
 
 ## Examples
 
@@ -97,11 +129,13 @@ Advanced query parameters allow customization of the generated SVG plots, includ
 2. **Dynamic SVG with Custom Axis Labels and Styling:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple`
 
-3. **Dynamic SVG with Numeric Precision, Locale Formatting, and Custom Text Anchor Alignment:**
-   GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&locale=de-DE&xlabelPrecision=2&ylabelPrecision=3&xlabelAnchor=start&ylabelAnchor=end`
+3. **Dynamic SVG with Adaptive Resolution and Smooth Curve Rendering:**
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&resolution=200&smooth=true&fileType=svg`
 
 4. **Detailed JSON Export via HTTP:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&jsonExport=true`
 
-5. **Detailed JSON Export via CLI:**
-   `node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --jsonExport true`
+5. **Detailed JSON Export via CLI with Custom Resolution:**
+   ```sh
+   node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --resolution 200 --jsonExport true
+   ```
