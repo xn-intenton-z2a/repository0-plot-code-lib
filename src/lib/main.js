@@ -135,7 +135,7 @@ app.get("/plot", (req, res) => {
     try {
       if (outputFormat === "image/svg+xml") {
         const svgContent = createSvgPlot(expression, range, { xlabel, ylabel });
-        return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
+        return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(String(svgContent));
       } else if (outputFormat === "image/png") {
         const pngBase64 =
           "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==";
@@ -163,7 +163,7 @@ app.get("/plot", (req, res) => {
       try {
         // Updated default expression from 'y=default' to 'y=x' for correct evaluation
         const svgContent = createSvgPlot("y=x", "x=0:10,y=0:10");
-        res.set("Content-Type", "image/svg+xml; charset=utf-8").send(svgContent);
+        res.set("Content-Type", "image/svg+xml; charset=utf-8").send(String(svgContent));
       } catch (error) {
         res.status(500).send(String(error.message));
       }
