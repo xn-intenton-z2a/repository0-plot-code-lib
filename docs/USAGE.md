@@ -37,7 +37,7 @@ If multiple input errors occur (for example, missing parameters and malformed va
 - **image/png**: Returns a PNG image with placeholder content.
 - **application/json**: Returns a JSON object with details about the plot generation request.
 
-### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, and Font Family via Query Parameters
+### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, Font Family, and Label Offsets via Query Parameters
 
 In addition to the default axis labeling which is based on the numeric ranges, the `/plot` endpoint now supports additional optional query parameters for customizing the appearance and positioning of the axis labels:
 
@@ -50,12 +50,21 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 - **xlabelPrecision**: Specifies the number of decimal places to display for the numeric values in the x-axis label.
 - **ylabelPrecision**: Specifies the number of decimal places to display for the numeric values in the y-axis label.
 - **locale**: Specifies the locale to use for number formatting in the axis labels (e.g., `de-DE`).
-- **xlabelX** and **xlabelY**: Specify custom x and y coordinates for positioning the x-axis label. If omitted, defaults to center bottom (x: width/2, y: height - 5).
-- **ylabelX** and **ylabelY**: Specify custom x and y coordinates for positioning the y-axis label. If omitted, defaults to preset values with a default rotation.
+- **xlabelX** and **xlabelY**: Specify custom x and y coordinates for positioning the x-axis label. 
+- **ylabelX** and **ylabelY**: Specify custom x and y coordinates for positioning the y-axis label.
 - **xlabelRotation**: Specifies a custom rotation angle (in degrees) for the x-axis label. When provided, the x-axis label will be rotated by the specified degrees around its position.
 - **ylabelRotation**: Specifies a custom rotation angle (in degrees) for the y-axis label. When provided, it overrides the default -90° rotation and rotates the y-axis label accordingly.
 - **xlabelFontFamily**: Specifies a custom font family for the x-axis label.
 - **ylabelFontFamily**: Specifies a custom font family for the y-axis label.
+
+Additionally, new parameters have been added to precisely control the positioning of the axis labels:
+
+- **xlabelOffsetX**: Overrides the default x-coordinate for the x-axis label (default: center of the plot, calculated as width/2).
+- **xlabelOffsetY**: Overrides the default y-coordinate for the x-axis label (default: near the bottom, calculated as height - 5).
+- **ylabelOffsetX**: Overrides the default x-coordinate for the y-axis label (default: 5).
+- **ylabelOffsetY**: Overrides the default y-coordinate for the y-axis label (default: center of the plot, calculated as height/2).
+
+When these offset parameters are provided, the SVG `<text>` elements for the axis labels will use these exact values to position the labels, and in the case of the y-axis label, the rotation transformation will be applied around the new specified coordinates.
 
 ### Examples
 
@@ -83,10 +92,14 @@ In addition to the default axis labeling which is based on the numeric ranges, t
 
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelX=50&xlabelY=100&xlabelRotation=15&xlabelFontFamily=Arial&ylabelX=10&ylabelY=150&ylabelRotation=45&ylabelFontFamily=Courier`
 
-7. **Dynamic PNG Generation:**
+7. **Dynamic SVG Generation with Custom Axis Label Offsets:**
+
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelOffsetX=100&xlabelOffsetY=120&ylabelOffsetX=15&ylabelOffsetY=80`
+
+8. **Dynamic PNG Generation:**
 
    GET `/plot?expression=y=cos(x)&range=x=-2.0:3.5,y=-1.5:1.5&fileType=png`
 
-8. **Dynamic JSON Response:**
+9. **Dynamic JSON Response:**
 
    GET `/plot?expression=y=log(x)&range=x=0:10,y=0:5&format=application/json`

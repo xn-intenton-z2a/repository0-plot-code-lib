@@ -19,8 +19,12 @@ function createSvgPlot(expression, range, customLabels = {}) {
     "ylabelX",
     "ylabelY",
     "xlabelRotation",
-    "ylabelRotation"
-  ]; 
+    "ylabelRotation",
+    "xlabelOffsetX",
+    "xlabelOffsetY",
+    "ylabelOffsetX",
+    "ylabelOffsetY"
+  ];
   let customLabelErrors = [];
   numericParams.forEach(param => {
     if (customLabels[param] != null) {
@@ -162,9 +166,9 @@ function createSvgPlot(expression, range, customLabels = {}) {
     yAxisLabelText = `y-axis: ${yInputMin} to ${yInputMax}`;
   }
 
-  // Determine x-axis label positions
-  const xLabelX = customLabels.xlabelX != null ? customLabels.xlabelX : (width / 2).toFixed(2);
-  const xLabelY = customLabels.xlabelY != null ? customLabels.xlabelY : (height - 5).toFixed(2);
+  // Determine x-axis label positions using new offset parameters if provided
+  const xLabelX = customLabels.xlabelOffsetX != null ? customLabels.xlabelOffsetX : (customLabels.xlabelX != null ? customLabels.xlabelX : (width / 2).toFixed(2));
+  const xLabelY = customLabels.xlabelOffsetY != null ? customLabels.xlabelOffsetY : (customLabels.xlabelY != null ? customLabels.xlabelY : (height - 5).toFixed(2));
 
   // Determine transform for x-axis label if rotation is provided
   let xTransform = "";
@@ -172,10 +176,12 @@ function createSvgPlot(expression, range, customLabels = {}) {
     xTransform = ` transform="rotate(${customLabels.xlabelRotation}, ${xLabelX}, ${xLabelY})"`;
   }
 
-  // Determine y-axis label positioning and rotation
+  // Determine y-axis label positioning and rotation using new offset parameters if provided
   let yLabelAttributes;
   let ylabelRotation = customLabels.ylabelRotation != null ? customLabels.ylabelRotation : -90;
-  if (customLabels.ylabelX != null && customLabels.ylabelY != null) {
+  if (customLabels.ylabelOffsetX != null && customLabels.ylabelOffsetY != null) {
+    yLabelAttributes = `x="${customLabels.ylabelOffsetX}" y="${customLabels.ylabelOffsetY}" transform="rotate(${ylabelRotation}, ${customLabels.ylabelOffsetX}, ${customLabels.ylabelOffsetY})"`;
+  } else if (customLabels.ylabelX != null && customLabels.ylabelY != null) {
     yLabelAttributes = `x="${customLabels.ylabelX}" y="${customLabels.ylabelY}" transform="rotate(${ylabelRotation}, ${customLabels.ylabelX}, ${customLabels.ylabelY})"`;
   } else {
     yLabelAttributes = `x="5" y="${(height / 2).toFixed(2)}" transform="rotate(${ylabelRotation}, 10, ${(height / 2).toFixed(2)})"`;

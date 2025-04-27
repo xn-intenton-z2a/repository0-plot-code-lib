@@ -275,4 +275,26 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(svgText).toMatch(/<text[^>]+transform="rotate\(45,\s*20,\s*80\)"/);
   });
+
+  test("should return SVG with custom axis label offsets when provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        xlabelOffsetX: "100",
+        xlabelOffsetY: "120",
+        ylabelOffsetX: "15",
+        ylabelOffsetY: "80"
+      })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text;
+    expect(svgText).toContain('x="100"');
+    expect(svgText).toContain('y="120"');
+    expect(svgText).toContain('x="15"');
+    expect(svgText).toContain('y="80"');
+    expect(svgText).toMatch(/<text[^>]+x="15"[^>]+y="80"[^>]+transform="rotate\(-?\d+,\s*15,\s*80\)"/);
+  });
 });
