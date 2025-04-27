@@ -18,7 +18,7 @@ You can generate plots directly from the command line by providing the following
   - **Numeric Order Enforcement:** The lower bound must be less than the upper bound for both x and y ranges.
 - **--file**: The output file path. The file extension determines the output type:
   - **.svg**: Generates an SVG plot including a text annotation, a blue polyline representing the evaluated curve, and dynamic axis labels that can be customized.
-  - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
+  - **.png**: Generates a PNG plot using dummy placeholder image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
 ## Enhanced Expression Validation
@@ -46,17 +46,16 @@ If multiple input errors occur (for example, missing parameters and malformed va
 - **image/png**: Returns a PNG image with placeholder content.
 - **application/json**: Returns a JSON object with details about the plot generation request.
 
-### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, Font Family, and Accessibility
+### Custom Axis Labels, Precision, Styling, Locale, Positioning, Rotation, and Accessibility
 
 Advanced query parameters allow further customization of the generated SVG:
 
 - **xlabel** and **ylabel**: Override default axis label texts.
-- **xlabelFontSize**, **xlabelColor**, **ylabelFontSize**, **ylabelColor**: Style the axis labels.
+- **xlabelFontSize**, **xlabelColor**, **ylabelFontSize**, **ylabelColor**: Directly set inline attributes on the axis labels for styles such as font size and fill color.
 - **xlabelPrecision** and **ylabelPrecision**: Control the number of decimal places displayed in the axis labels.
 - **locale**: Applies locale-aware number formatting (e.g., "de-DE").
 - **xlabelX**, **xlabelY**, **ylabelX**, **ylabelY**: Custom positioning for the axis labels.
 - **xlabelRotation** and **ylabelRotation**: Specify custom rotation angles for the labels.
-- **xlabelFontFamily** and **ylabelFontFamily**: Specify custom fonts for the labels.
 - **xlabelOffsetX**, **xlabelOffsetY**, **ylabelOffsetX**, **ylabelOffsetY**: Precisely control label positioning with offsets.
 - **xlabelAriaLabel** and **ylabelAriaLabel**: Override the default `aria-label` attributes for the x-axis and y-axis labels, respectively, to provide custom accessible descriptions.
 - **xlabelAnchor** and **ylabelAnchor**: Override the default `text-anchor` attribute (default is "middle") for the x-axis and y-axis labels. Acceptable values include "start", "middle", and "end".
@@ -78,8 +77,8 @@ Advanced query parameters allow further customization of the generated SVG:
 5. **Dynamic SVG with Locale-Aware Formatting:**
    GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&locale=de-DE&xlabelPrecision=2&ylabelPrecision=3`
 
-6. **Dynamic SVG with Custom Label Positioning, Rotation, and Font Family:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelX=50&xlabelY=100&xlabelRotation=15&xlabelFontFamily=Arial&ylabelX=10&ylabelY=150&ylabelRotation=45&ylabelFontFamily=Courier`
+6. **Dynamic SVG with Custom Label Positioning, Rotation:**
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelX=50&xlabelY=100&xlabelRotation=15&ylabelX=10&ylabelY=150&ylabelRotation=45`
 
 7. **Dynamic SVG with Custom Axis Label Offsets:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabelOffsetX=100&xlabelOffsetY=120&ylabelOffsetX=15&ylabelOffsetY=80`

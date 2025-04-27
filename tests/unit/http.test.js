@@ -187,10 +187,12 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    // Note: The current implementation does not add inline styling for font-size or fill.
-    // These tests might need to be updated if styling parameters are implemented in the future.
-    // For now, we check that the basic SVG structure is maintained.
-    expect(svgText).toContain("<svg");
+    // Basic check that the SVG structure is maintained and styling attributes are present
+    expect(svgText).toContain('<text');
+    expect(svgText).toContain('font-size="16"');
+    expect(svgText).toContain('fill="green"');
+    expect(svgText).toContain('font-size="18"');
+    expect(svgText).toContain('fill="purple"');
   });
 
   test("should format axis labels with given precision when provided", async () => {

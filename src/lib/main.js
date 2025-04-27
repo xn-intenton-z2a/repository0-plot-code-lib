@@ -47,20 +47,37 @@ app.get("/plot", (req, res) => {
     return;
   }
 
-  const accept = req.headers.accept || "";
   res.set("Vary", "Accept");
-  if (accept.includes("image/svg+xml")) {
-    res.set("Content-Type", "image/svg+xml");
-    res.send(svg);
-  } else if (accept.includes("image/png")) {
-    const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-    res.set("Content-Type", "image/png");
-    res.send(dummyPng);
-  } else if (accept.includes("application/json")) {
-    res.set("Content-Type", "application/json");
-    res.send({ expression: expression, range: range, message: "Plot generation details" });
+  const accept = req.headers.accept;
+  if (accept) {
+    if (accept.includes("image/svg+xml")) {
+      res.set("Content-Type", "image/svg+xml");
+      return res.send(svg);
+    } else if (accept.includes("image/png")) {
+      const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
+      res.set("Content-Type", "image/png");
+      return res.send(dummyPng);
+    } else if (accept.includes("application/json")) {
+      res.set("Content-Type", "application/json");
+      return res.send({ expression: expression, range: range, message: "Plot generation details" });
+    } else {
+      return res.status(406).send("Not Acceptable");
+    }
   } else {
-    res.status(406).send("Not Acceptable");
+    // Fallback if no Accept header is provided, use fileType parameter
+    if (fileType.toLowerCase() === "svg") {
+      res.set("Content-Type", "image/svg+xml");
+      return res.send(svg);
+    } else if (fileType.toLowerCase() === "png") {
+      const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
+      res.set("Content-Type", "image/png");
+      return res.send(dummyPng);
+    } else if (fileType.toLowerCase() === "json" || fileType.toLowerCase() === "application/json") {
+      res.set("Content-Type", "application/json");
+      return res.send({ expression: expression, range: range, message: "Plot generation details" });
+    } else {
+      return res.status(406).send("Not Acceptable");
+    }
   }
 });
 
@@ -130,7 +147,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
-    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    throw new Error("Error: Invalid y-range format. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[2]);
@@ -269,11 +286,19 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yAriaLabel = customLabels.ylabelAriaLabel ? customLabels.ylabelAriaLabel : `y-axis: ${yInputMin} to ${yInputMax}`;
   const xTextAnchor = customLabels.xlabelAnchor ? customLabels.xlabelAnchor : "middle";
   const yTextAnchor = customLabels.ylabelAnchor ? customLabels.ylabelAnchor : "middle";
+  
+  // Build inline styling attributes for x-axis label if provided (direct attributes for font-size and fill)
+  const xFontSizeAttr = customLabels.xlabelFontSize ? ` font-size="${customLabels.xlabelFontSize}"` : "";
+  const xFillAttr = customLabels.xlabelColor ? ` fill="${customLabels.xlabelColor}"` : "";
+  
+  // Build inline styling attributes for y-axis label if provided
+  const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size="${customLabels.ylabelFontSize}"` : "";
+  const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
 
   // Create SVG content with dynamic labels for axes and ARIA accessibility attributes for screen readers
   const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
-    <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}">${xAxisLabelText}</text>
-    <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}">${yAxisLabelText}</text>
+    <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${xAxisLabelText}</text>
+    <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${yAxisLabelText}</text>
     <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>
     <polyline points="${polylinePoints}" stroke="blue" fill="none" />
   </svg>`;
