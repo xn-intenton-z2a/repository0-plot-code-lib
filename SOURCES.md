@@ -92,3 +92,18 @@ Vega-Lite provides a high-level grammar for interactive graphics. Its documentat
 ## https://tc39.es/ecma402/
 The ECMAScript Internationalization API Specification details the standards for locale-aware number and date formatting in JavaScript. This authoritative resource is essential for implementing precise, culturally appropriate formatting in our dynamic axis label generation, ensuring that numerical displays conform to international standards. Published by TC39, it is considered a definitive guide on internationalization in ECMAScript.
 ## CC0
+
+# V8 JavaScript Engine Documentation
+## https://v8.dev/docs
+This resource offers comprehensive insights into the V8 JavaScript engine, detailing performance optimization, memory management, and internal workings. Developers can leverage this technical documentation to fine-tune critical sections of our CLI and HTTP API implementations, ensuring efficient execution of computational tasks in plot generation.
+## Unknown License
+
+# Matplotlib Documentation
+## https://matplotlib.org/stable/contents.html
+Matplotlib's documentation provides an in-depth look at plotting techniques, design principles, and algorithmic implementations for 2D and 3D visualizations. While a competitor in the plotting space, its detailed technical expositions and design patterns can serve as an inspiration for enhancing our library’s rendering strategies and error handling mechanisms.
+## BSD License
+
+# Node.js Streams Documentation
+## https://nodejs.org/api/stream.html
+This guide dives into the Node.js Streams API, elucidating best practices for handling large data sets and stream-based operations. The insights provided here are instrumental in designing efficient data pipelines for processing the time series data used in dynamic plot generation, thereby boosting performance and reliability in both CLI and HTTP contexts.
+## Public Domain / Node.js License
