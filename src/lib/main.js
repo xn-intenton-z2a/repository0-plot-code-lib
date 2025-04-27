@@ -93,10 +93,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
   <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
   <!-- Dynamic Axis Labels -->
-  <text x="${(width / 2).toFixed(2)}" y="${(height - 5).toFixed(2)}" text-anchor="middle" font-size="12" fill="black">
+  <text x="${(width / 2).toFixed(2)}" y="${(height - 5).toFixed(2)}" text-anchor="middle" font-size="${customLabels.xlabelFontSize ? customLabels.xlabelFontSize : '12'}" fill="${customLabels.xlabelColor ? customLabels.xlabelColor : 'black'}">
     ${customLabels.xlabel ? customLabels.xlabel : `x-axis: ${xMin} to ${xMax}`}
   </text>
-  <text x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})" text-anchor="middle" font-size="12" fill="black">
+  <text x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})" text-anchor="middle" font-size="${customLabels.ylabelFontSize ? customLabels.ylabelFontSize : '12'}" fill="${customLabels.ylabelColor ? customLabels.ylabelColor : 'black'}">
     ${customLabels.ylabel ? customLabels.ylabel : `y-axis: ${yInputMin} to ${yInputMax}`}
   </text>
 </svg>
@@ -105,7 +105,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 }
 
 app.get("/plot", (req, res) => {
-  const { expression, range, fileType, format, xlabel, ylabel } = req.query;
+  const { expression, range, fileType, format, xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor } = req.query;
 
   if (expression || range || fileType || format) {
     if (!expression || expression.trim() === "") {
@@ -138,7 +138,7 @@ app.get("/plot", (req, res) => {
 
     try {
       if (outputFormat === "image/svg+xml") {
-        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel });
+        const svgContent = createSvgPlot(expression, range, { xlabel, ylabel, xlabelFontSize, xlabelColor, ylabelFontSize, ylabelColor });
         return res.set("Content-Type", "image/svg+xml; charset=utf-8").send(String(svgContent));
       } else if (outputFormat === "image/png") {
         const pngBase64 =
