@@ -1,22 +1,16 @@
 # Overview
-This update to the PLOT_VALIDATION feature integrates a new capability to export computed time series data. In addition to its existing validation for mathematical expressions and range parameters as well as SVG/PNG plot generation, the tool now supports an exportData feature. When clients include a truthy exportData query parameter and request a JSON response, the system computes an array of data points representing the function evaluation over the specified range.
+This update extends the existing PLOT_VALIDATION feature. In addition to validating mathematical expressions and plotting in SVG/PNG, the feature now supports exporting computed time series data in JSON format. When clients specify the exportData query parameter alongside a JSON request, the endpoint computes an array of data points over the specified x-range and returns these points along with the original request details.
 
-# Input Validation and Error Handling
-- Validates that the provided mathematical expression is non-empty and must include the variable x, with any 'y=' prefix removed prior to processing.
-- Verifies that the range parameter adheres to the format: x=<min>:<max>,y=<min>:<max>, allowing extra whitespace. It enforces that for both x and y ranges, the lower bound is less than the upper bound.
-- When multiple input errors occur, the system aggregates them and returns a combined error message. Errors are output either as plain text or as an RFC7807 compliant JSON error response when requested.
+# Implementation
+- Update the /plot HTTP endpoint in the source file to check for the query parameter exportData when the requested output format is application/json.
+- When exportData is present and truthy, the system uses the existing logic (as in createSvgPlot) to evaluate the expression over 100 evenly spaced points within the x-range.
+- If the computation is successful, build an array of objects where each object has properties x and y, representing the computed value at that point.
+- Return a JSON response that includes the original expression, range, and the computed data points array.
+- Maintain the current SVG and PNG response behavior, ensuring no interference with the typical plot generation flow.
 
-# Time Series Data Export
-- A new branch in the implementation checks for the query parameter exportData. When present and if the output format is application/json, the endpoint bypasses image generation.
-- Instead, the system computes 100 evenly spaced sample points over the defined x-range using the supplied mathematical expression.
-- Each computed point is an object with corresponding x and y values. The JSON response includes the original expression, the specified range, and the computed array of data points. This enhancement enables clients to integrate the raw computed data into their own data processing pipelines.
+# Testing
+- Modify the unit tests for the /plot endpoint to include scenarios where a JSON response is requested with the exportData parameter. Verify that the returned JSON object includes a data array of 100 computed points with valid numeric values.
+- Update documentation in the usage guide and README to detail the new exportData functionality and provide example usage with the JSON output.
 
-# CLI and HTTP Endpoint Updates
-- For HTTP clients, if the exportData parameter is provided with a JSON request, instead of generating an SVG or PNG image, the endpoint returns a detailed JSON object with computed time series data.
-- CLI mode remains unchanged with respect to image file generation, ensuring that exportData functionality applies only to HTTP requests.
-- The behavior is integrated with content negotiation so that if the output format is application/json and exportData is true, the raw data is returned.
-
-# Testing and Documentation
-- Unit tests have been updated to include scenarios that verify the presence and correctness of the computed data array when exportData is provided. New test cases assert that a JSON response includes a data array with 100 computed points.
-- Documentation in the usage guide and README has been revised to detail this new exportData parameter. Examples demonstrate how to request raw time series data using URL query parameters.
-- This enhancement brings significant value by enabling downstream analysis without requiring an intermediary image generation step.
+# Impact
+This update provides additional value by enabling clients to directly retrieve the underlying computed time series data. This supports further analysis and integration into downstream processing pipelines without the need to reverse-engineer the SVG or PNG outputs.
