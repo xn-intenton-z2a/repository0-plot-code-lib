@@ -11,40 +11,56 @@ const app = express();
 
 // Register /plot endpoint unconditionally so that HTTP tests can access it
 app.get("/plot", (req, res) => {
-  try {
-    const expression = req.query.expression;
-    const range = req.query.range;
-    if (!expression || expression.trim() === "") {
-      res.status(400).send("Missing or empty 'expression'");
-      return;
-    }
-    if (!range || range.trim() === "") {
-      res.status(400).send("Missing or empty 'range'");
-      return;
-    }
-    const fileType = req.query.fileType || req.query.format;
-    if (!fileType) {
-      res.status(400).send("Missing required query parameter: fileType or format");
-      return;
-    }
-    const svg = createSvgPlot(expression, range, req.query);
-    const accept = req.headers.accept || "";
-    res.set("Vary", "Accept");
-    if (accept.includes("image/svg+xml")) {
-      res.set("Content-Type", "image/svg+xml");
-      res.send(svg);
-    } else if (accept.includes("image/png")) {
-      const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
-      res.set("Content-Type", "image/png");
-      res.send(dummyPng);
-    } else if (accept.includes("application/json")) {
-      res.set("Content-Type", "application/json");
-      res.send({ expression: expression, range: range, message: "Plot generation details" });
+  // If no query parameters are provided, supply default values for HTTP usage
+  if (Object.keys(req.query).length === 0) {
+    req.query.expression = "y=sin(x)";
+    req.query.range = "x=-1:1,y=-1:1";
+    // Default fileType based on Accept header
+    if (req.headers.accept && req.headers.accept.includes("image/png")) {
+      req.query.fileType = "png";
     } else {
-      res.status(406).send("Not Acceptable");
+      req.query.fileType = "svg";
     }
+  }
+
+  const expression = req.query.expression;
+  const range = req.query.range;
+  if (!expression || expression.trim() === "") {
+    res.status(400).send("Missing or empty 'expression'");
+    return;
+  }
+  if (!range || range.trim() === "") {
+    res.status(400).send("Missing or empty 'range'");
+    return;
+  }
+  const fileType = req.query.fileType || req.query.format;
+  if (!fileType) {
+    res.status(400).send("Missing required query parameter: fileType or format");
+    return;
+  }
+  
+  let svg;
+  try {
+    svg = createSvgPlot(expression, range, req.query);
   } catch (e) {
     res.status(400).send(e.message);
+    return;
+  }
+
+  const accept = req.headers.accept || "";
+  res.set("Vary", "Accept");
+  if (accept.includes("image/svg+xml")) {
+    res.set("Content-Type", "image/svg+xml");
+    res.send(svg);
+  } else if (accept.includes("image/png")) {
+    const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
+    res.set("Content-Type", "image/png");
+    res.send(dummyPng);
+  } else if (accept.includes("application/json")) {
+    res.set("Content-Type", "application/json");
+    res.send({ expression: expression, range: range, message: "Plot generation details" });
+  } else {
+    res.status(406).send("Not Acceptable");
   }
 });
 
@@ -101,7 +117,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const xPattern = /x\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const xMatch = xPattern.exec(range);
   if (!xMatch) {
-    throw new Error("Error: Invalid x-range format. Expected format: x=<min>:<max> with numeric values.");
+    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   }
   const xMin = parseFloat(xMatch[1]);
   const xMax = parseFloat(xMatch[2]);
@@ -114,7 +130,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
-    throw new Error("Error: Invalid y-range format. Expected format: y=<min>:<max> with numeric values.");
+    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[2]);
@@ -288,7 +304,8 @@ function main() {
       console.log(`Server running on port ${port}`);
     });
   } else {
-    if (!options.expression || !options.range || !options.file) {
+    // Check that flags are provided (they must be defined, even if empty strings) and then check for empty values individually.
+    if (options.expression === undefined || options.range === undefined || options.file === undefined) {
       throw new Error("Error: --expression, --range, and --file flags are required together.");
     }
     if (options.expression.trim() === "") {
