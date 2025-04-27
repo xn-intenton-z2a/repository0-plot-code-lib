@@ -83,10 +83,14 @@ function createSvgPlot(expression, range) {
     return `${mappedX.toFixed(2)},${mappedY.toFixed(2)}`;
   });
   const polylinePoints = mappedPoints.join(" ");
+
+  // Create SVG content with dynamic labels for axes
   const svgContent = `
 <svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
   <text x="10" y="20" font-size="12" fill="black">Plot for: ${expression} in range ${range}</text>
   <polyline fill="none" stroke="blue" stroke-width="2" points="${polylinePoints}" />
+  <text x="${(width / 2).toFixed(2)}" y="${(height - 5).toFixed(2)}" text-anchor="middle" font-size="12" fill="black">x-axis: ${xMin} to ${xMax}</text>
+  <text x="5" y="${(height / 2).toFixed(2)}" transform="rotate(-90, 10, ${(height / 2).toFixed(2)})" text-anchor="middle" font-size="12" fill="black">y-axis: ${yInputMin} to ${yInputMax}</text>
 </svg>
   `.trim();
   return svgContent;

@@ -15,6 +15,9 @@ describe("GET /plot Content Negotiation", () => {
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     expect(typeof svgText).toBe('string');
     expect(svgText.startsWith("<svg")).toBe(true);
+    // Check for dynamic axis labels
+    expect(svgText).toContain("x-axis:");
+    expect(svgText).toContain("y-axis:");
   });
 
   test("should return PNG when Accept: image/png", async () => {
@@ -64,6 +67,9 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText.startsWith("<svg")).toBe(true);
     expect(svgText).toContain("Plot for: y=sin(x) in range x=-1:1,y=-1:1");
     expect(svgText).toContain("<polyline");
+    // Verify axis labels are present
+    expect(svgText).toContain("x-axis: -1 to 1");
+    expect(svgText).toContain("y-axis: -1 to 1");
   });
 
   test("should generate dynamic PNG plot when valid query parameters are provided", async () => {

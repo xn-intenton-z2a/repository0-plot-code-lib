@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It allows both command line interactions and HTTP API access to generate plots dynamically. The latest update ensures that any mathematical expression provided must include the variable 'x', preventing static expressions that do not adjust with x-values.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It allows both command line interactions and HTTP API access to generate plots dynamically. The latest update introduces dynamic axis labels for SVG plots. These labels indicate the x and y ranges used in the plot, enhancing interpretability.
 
 ## CLI Plot Generation
 
@@ -15,11 +15,20 @@ You can generate plots directly from the command line by providing the following
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). **Validation Rules:**
   - The range value must not be empty.
   - It must match the pattern: `x=<min>:<max>,y=<min>:<max>` where `<min>` and `<max>` are numeric values. Both integers and floating point numbers are supported (e.g., "x=-1.5:2.5,y=-0.5:0.5").
-  - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound (e.g., for x, `x-min < x-max`; for y, `y-min < y-max`). If the numeric order is not maintained, an error will be returned (e.g., "Error: Invalid range - x-min must be less than x-max.").
+  - **Numeric Order Enforcement:** The tool enforces that for both x and y ranges, the lower bound must be less than the upper bound. If this condition is not met, an error is returned.
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot that includes a text annotation and a blue polyline representing the evaluated curve over 100 sample points.
+  - **.svg**: Generates an SVG plot that includes a text annotation, a blue polyline representing the evaluated curve over 100 sample points, and new dynamic axis labels for the x-axis and y-axis.
   - **.png**: Generates a PNG plot using dummy placeholder base64 encoded image data.
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
+
+### Dynamic Axis Labels in SVG Plots
+
+With the new update, generated SVG plots now include dynamic axis labels:
+
+- **X-Axis Label:** Displayed at the bottom center in the format "x-axis: {xMin} to {xMax}".
+- **Y-Axis Label:** Displayed along the left side (rotated) in the format "y-axis: {yInputMin} to {yInputMax}".
+
+These labels directly reflect the numerical ranges provided, making it easier to interpret the plot.
 
 ### Examples
 
@@ -40,7 +49,7 @@ You can generate plots directly from the command line by providing the following
    ```bash
    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg [--verbose]
    ```
-   This command produces an SVG file that contains an annotation text and a blue polyline representing the mathematically evaluated curve over 100 sample points. The tool validates that the numeric range values are in ascending order; providing an out-of-order range like "x=5:1,y=0:10" will result in an error.
+   This command produces an SVG file that includes dynamic axis labels indicating the x and y ranges used for plotting.
 
 4. **Generate a PNG Plot via CLI:**
 
@@ -62,7 +71,7 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 - **range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). Must be provided and match the required format: `x=<min>:<max>,y=<min>:<max>`, supporting both integers and floating point numbers. The tool validates that the lower numeric bound is less than the upper bound for both x and y ranges.
 - **fileType**: (Deprecated) Specifies the output type using shorthand values (`svg` or `png`).
 - **format**: (Optional) Overrides the default or legacy fileType parameter. Supported values are:
-  - `image/svg+xml` (which produces an SVG plot with a dynamically generated polyline)
+  - `image/svg+xml` (which produces an SVG plot with dynamic labels)
   - `image/png`
   - `application/json`
 
@@ -73,11 +82,11 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 - If query parameters are provided:
   - The endpoint validates that **expression** and **range** are non-empty and that **range** matches the required format. It also checks that the numeric order is correct for both x and y ranges.
   - The output format is determined by the `format` parameter if provided; otherwise, by the legacy `fileType` parameter.
-  - **image/svg+xml**: Returns an SVG plot with a text annotation and a blue polyline representing the evaluated curve, with the Content-Type set to `image/svg+xml; charset=utf-8`.
+  - **image/svg+xml**: Returns an SVG plot with the dynamic axis labels and other plot details, with the Content-Type set to `image/svg+xml; charset=utf-8`.
   - **image/png**: Returns a PNG image with dummy placeholder content and Content-Type set to `image/png`.
   - **application/json**: Returns a JSON payload with plot details such as the expression, range, and a message.
 
-- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message (e.g., "Error: Missing or empty 'expression' query parameter." or "Error: Expression must include the variable 'x'.").
+- If any required query parameter is missing or invalid, the API responds with a 400 Bad Request with a clear error message.
 - If no query parameters are provided, the endpoint falls back to content negotiation based on the Accept header.
 
 ### Examples
@@ -96,8 +105,8 @@ In addition to content negotiation via the Accept header, the `/plot` endpoint h
 
 4. **Error Cases:**
 
-   - Missing or empty parameters (e.g., missing `expression`, `range`, or the required `fileType`/`format`) will result in a 400 Bad Request with an appropriate error message.
-   - A malformed `range` (e.g., "x=-1:1,y=abc") or one with invalid numeric order (e.g., "x=5:1,y=0:10" or "x=-1:1,y=10:0") will also return a 400 Bad Request.
+   - Missing or empty parameters will result in a 400 Bad Request with an appropriate error message.
+   - A malformed `range` or invalid numeric order will also return a 400 Bad Request.
 
 ## Server Mode
 
