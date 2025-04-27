@@ -81,7 +81,7 @@ Advanced query parameters allow customization of the generated SVG plots, includ
 - **Styling:** Directly set attributes like `xlabelFontSize`, `xlabelColor`, `ylabelFontSize`, and `ylabelColor`.
 - **Precision and Locale:** Control number formatting using `xlabelPrecision`, `ylabelPrecision`, and `locale`.
 - **Label Positioning and Rotation:** Customize positions with `xlabelX`, `xlabelY`, `ylabelX`, `ylabelY`, and rotations with `xlabelRotation`, `ylabelRotation`.
-- **ARIA Attributes and Text Anchoring:** Override default accessibility attributes using `xlabelAriaLabel`, `ylabelAriaLabel`, and adjust `xlabelAnchor` and `ylabelAnchor`.
+- **ARIA Attributes and Text Anchoring:** Override default accessibility attributes using `xlabelAriaLabel`, `ylabelAriaLabel` and specify text anchor alignment using `xlabelAnchor` and `ylabelAnchor` (allowed values: start, middle, end). 
 
 ## Examples
 
@@ -91,8 +91,8 @@ Advanced query parameters allow customization of the generated SVG plots, includ
 2. **Dynamic SVG with Custom Axis Labels and Styling:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple`
 
-3. **Dynamic SVG with Numeric Precision and Locale Formatting:**
-   GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&locale=de-DE&xlabelPrecision=2&ylabelPrecision=3`
+3. **Dynamic SVG with Numeric Precision, Locale Formatting, and Custom Text Anchor Alignment:**
+   GET `/plot?expression=y=sin(x)&range=x=0.1234:10.5678,y=-1.2345:5.6789&fileType=svg&locale=de-DE&xlabelPrecision=2&ylabelPrecision=3&xlabelAnchor=start&ylabelAnchor=end`
 
 4. **Detailed JSON Export via HTTP:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&jsonExport=true`
