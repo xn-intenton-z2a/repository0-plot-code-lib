@@ -5,17 +5,17 @@ A detailed specification from the W3C that describes the SVG2 standard, includin
 
 # Node.js Event Loop Guide
 ## https://nodejs.org/en/docs/guides/event-loop-timers-and-nexttick/
-This official Node.js guide offers a deep dive into the event loop, timers, and nextTick mechanisms. It delivers practical, technical insights into asynchronous processing and performance optimization, ensuring our CLI and HTTP server can handle concurrent operations and deliver responsive error handling.
+This official Node.js guide offers a deep dive into the event loop, timers, and nextTick mechanisms. It delivers practical, technical insights into asynchronous processing and performance optimization, ensuring reliable concurrent operations for CLI and HTTP server operations.
 ## MIT License
 
 # Math.js Documentation
 ## https://mathjs.org/docs/index.html
-This comprehensive documentation for Math.js provides detailed guidance on evaluating and compiling mathematical expressions. It covers advanced configuration, error handling, and parsing techniques which are directly leveraged by our library to perform enhanced expression validation and dynamic computation for plotting.
+This comprehensive documentation for Math.js provides detailed guidance on evaluating and compiling mathematical expressions. It covers advanced configuration, error handling, and parsing techniques which are directly leveraged by our library for enhanced expression validation and dynamic computation for plotting.
 ## MIT License
 
 # Express API Documentation
 ## https://expressjs.com/en/4x/api.html
-The Express framework documentation offers practical insights into building robust HTTP servers and middleware. It includes detailed guides on routing, request handling, and content negotiation which are crucial for implementing our /plot endpoint that supports multiple output formats such as SVG, PNG, and JSON.
+The Express framework documentation offers practical insights into building robust HTTP servers and middleware. It includes detailed guides on routing, request handling, and content negotiation which are crucial for implementing the /plot endpoint supporting multiple output formats like SVG, PNG, and JSON.
 ## MIT License
 
 # Node.js Documentation
@@ -25,10 +25,30 @@ The official Node.js documentation provides in-depth technical details on core f
 
 # Plotly.js Documentation
 ## https://plotly.com/javascript/
-Plotly.js is a popular interactive plotting library. Its documentation offers insights into advanced visualization techniques, dynamic data rendering, and configuration of chart elements. Although our library focuses on static SVG/PNG outputs via CLI and API, reviewing these best practices can inspire improvements in how we handle axis labels, scaling, and user customizations.
+Plotly.js is a popular interactive plotting library. Its documentation offers insights into advanced visualization techniques, dynamic data rendering, and configuration of chart elements. Although our library focuses on static SVG/PNG outputs via CLI and API, reviewing these practices can inspire improvements in handling axis labels, scaling, and customization options.
 ## MIT License
 
 # D3.js Documentation
 ## https://d3js.org/
-D3.js provides comprehensive guides and API references for data-driven document manipulation using SVG. This source is valuable for understanding advanced data visualization, responsive design, and customization of graphical outputs. The insights gained can help enhance our dynamic plot generation and improve the rendering of axis elements.
+D3.js provides comprehensive guides and API references for data-driven document manipulation using SVG. This source is valuable for understanding advanced data visualization, responsive design, and dynamic customization of graphical outputs, enhancing our dynamic plot generation.
 ## BSD License
+
+# MDN SVG Tutorial
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial
+An in-depth tutorial provided by MDN on creating and manipulating SVG graphics. This resource covers practical aspects of SVG element structure, styling, and accessibility best practices, offering actionable insights for dynamically generating and enhancing SVG plots with detailed annotations and labels.
+## CC-BY-SA
+
+# MDN Intl.NumberFormat
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+A detailed guide on the Intl.NumberFormat API by MDN, which explains locale-aware number formatting. This documentation is invaluable for implementing custom axis label formatting in our plots, ensuring that numerical values are presented in a culturally appropriate and precise manner.
+## CC-BY-SA
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js documentation provides comprehensive details on rendering various types of charts, manipulating datasets, and customizing visual elements. Its insights can inspire enhancements in plot aesthetics and data visualization strategies, complementing our focus on dynamic SVG and PNG output generation.
+## MIT License
+
+# Commander.js Documentation
+## https://github.com/tj/commander.js/blob/master/README.md
+The Commander.js documentation offers practical guidance for building robust CLI applications. Although our repository manually parses command-line arguments, the documentation provides best practices and design patterns that can inform improved user input handling and an enhanced CLI experience.
+## MIT License
