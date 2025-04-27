@@ -1,21 +1,25 @@
 # Overview
-This update refines the plot input validation by fully integrating the zod library to replace all manual regex checks. Both the CLI and HTTP endpoints will use structured zod schemas to ensure consistency, clearer error messages, and easier future extensions.
+This update enhances the existing plot input validation feature by continuing to integrate zod for robust input checking and by extending error handling to format HTTP error responses in a standard RFC7807 compliant format (problem details). This ensures that, when errors occur, users receive informational and structured feedback via both CLI and HTTP endpoints.
 
 # ZOD SCHEMA INTEGRATION
-- Replace manual regex validations for expression and range parameters with zod schemas.
-- Define a schema for the expression that ensures a non-empty string, allowing optional stripping of a 'y=' prefix.
-- Define a schema for the range parameter to enforce the correct format (x=<min>:<max>,y=<min>:<max>) and to validate that the numeric order is maintained for x and y ranges.
-- Add a schema for validating the fileType/format parameter against allowed MIME types (image/svg+xml, image/png, application/json).
+- Replace all manual regex validations for expression, range, and file type/format parameters with zod schemas.
+- Validate that the expression is a non-empty string and that it includes the variable x (with an optional stripping of a 'y=' prefix).
+- Validate the range parameter against the format x=<min>:<max>,y=<min>:<max> and ensure that numeric order is enforced for both x and y.
+- Validate the fileType/format parameter against allowed MIME types (image/svg+xml, image/png, application/json).
+
+# RFC7807 ERROR HANDLING
+- Update HTTP GET /plot endpoint error responses so that when the client Accept header includes application/problem+json, errors are returned as a JSON object conforming to RFC7807. The JSON will include fields such as type, title, status, detail, and instance.
+- Modify the error catch blocks within parameter validation and plot generation to check for the requested content type. If application/problem+json is accepted, format the error accordingly; otherwise, continue sending plain text error messages.
+- Ensure that both invalid query parameters and unexpected exceptions produce clear and structured error messages.
 
 # CLI AND HTTP API ENDPOINT UPDATES
-- Update the CLI flag processing to parse arguments and immediately validate them using the zod schemas. When validation fails, the error messages provided by zod will be sent to the user.
-- Refactor the HTTP GET /plot endpoint so that if query parameters (expression, range, fileType/format) are provided, they are validated using the new zod schemas. This ensures descriptive errors and a consistent validation flow.
-- Maintain compatibility with content negotiation when no query parameters are supplied.
+- In the CLI workflow, maintain instant error output for missing or malformed flags and values with detailed messages.
+- In the HTTP API workflow, integrate the new error formatting. When query parameters are provided and validation fails, check if the request prefers application/problem+json, and if so, respond with a structured RFC7807 JSON error payload.
 
 # TESTING AND DOCUMENTATION
-- Update unit tests to trigger both valid and error cases through the new zod-based validations. Tests should confirm that error messages are more informative.
-- Revise the usage guide and README to document the new validation process, explaining that input errors now result in clear, schema-derived messages.
-- Ensure changes align with contributor guidelines and the mission of creating a reliable plotting library.
+- Update unit and integration tests to verify that, when requested, error responses are returned using the RFC7807 problem details format.
+- Revise the usage guide and README to include documentation of the new error response behavior. This documentation should explain how clients can trigger the structured error output by using the relevant Accept header.
+- Confirm that valid requests still generate correct plot outputs (SVG, PNG, and JSON) and that errors now yield enhanced, structured responses as needed.
 
 # Impact AND ALIGNMENT
-This feature update improves reliability by enforcing strong, centralized input validation using zod. With clearer error responses and consistent validation across CLI and HTTP endpoints, users will have a better experience generating plots, and future enhancements can build on a robust validation framework.
+This feature update improves overall reliability and usability by not only ensuring input validation across all endpoints with zod but also by enhancing error diagnostics. Users will benefit from clearer, standardized error messages that facilitate troubleshooting and integration, aligning closely with the mission of making a robust and user-friendly plotting library.
