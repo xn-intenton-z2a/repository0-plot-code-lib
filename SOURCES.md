@@ -113,21 +113,6 @@ Plotly.js offers interactive, high-level charting capabilities with a rich set o
 This RFC provides a standardized approach for conveying error details in a machine-readable format within HTTP APIs. The guidelines support the design of clear and consistent error responses, enhancing debugging and client-side error handling for our API endpoints.
 ## IETF (Public Domain)
 
-# SVG 2 Specification
-## https://www.w3.org/TR/SVG2/
-The SVG 2 Specification is the authoritative document detailing the latest standards and best practices for scalable vector graphics. This source provides in-depth guidance on creating responsive and accessible SVG content, including detailed updates on rendering, interactivity, and dynamic content integration. It serves as a technical resource to ensure our dynamically generated SVG plots are compliant with modern standards.
-## W3C License
-
-# Node.js Buffer Documentation
-## https://nodejs.org/api/buffer.html
-This official Node.js documentation on Buffer provides detailed explanations of binary data manipulation in Node.js, including methods for encoding, decoding, and handling file data. It is particularly useful for troubleshooting and optimizing our PNG image generation and binary data management in our CLI and HTTP endpoints.
-## MIT License
-
-# Vega-Lite: A High-level Grammar of Interactive Graphics
-## https://vega.github.io/vega-lite/
-Vega-Lite offers a declarative grammar for creating interactive data visualizations. Its comprehensive documentation provides actionable insights into defining visual encoding, scales, and interactivity. While different in approach, the techniques and design principles presented can inspire enhancements in our plotting library, especially for future features involving interactive and responsive charts.
-## Apache License 2.0
-
 # Implementing RFC7807 in REST APIs
 ## https://restfulapi.net/problem-details/
 This resource provides insights into implementing RFC7807 in REST APIs, detailing standardized error response formats. It covers essential fields such as type, title, status, detail, and instance, and offers practical examples for integrating these standards into Node.js applications. This is particularly valuable for enhancing our structured error handling and aligning our API responses with modern REST practices.
@@ -157,3 +142,13 @@ SVG.js is a lightweight library for creating, animating, and manipulating SVG el
 ## https://www.toptal.com/nodejs/node-js-error-handling
 This article provides a comprehensive guide to effective error handling in Express.js applications. It covers middleware error handling, best practices for structured error responses, and debugging techniques, delivering actionable insights that are directly applicable to improving our repository's error management strategies following RFC7807 standards.
 ## N/A
+
+# MDN Internationalization API
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+The MDN documentation on Intl.NumberFormat delivers a comprehensive guide on locale-aware number formatting in JavaScript. It provides practical examples and detailed explanations that are particularly beneficial for our dynamic axis label generation, where precise numeric formatting and locale-specific representations enhance the clarity and accessibility of the plotted data.
+## MDN License
+
+# MDN Web Accessibility for SVG
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Accessibility
+This MDN guide focuses on making SVG content accessible. It covers best practices for adding ARIA attributes, providing descriptive text, and ensuring that graphical content is usable by individuals relying on assistive technologies. This is critical for our dynamically generated SVG plots to be fully compliant with accessibility standards.
+## MDN License
