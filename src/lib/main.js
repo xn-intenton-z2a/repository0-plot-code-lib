@@ -159,7 +159,7 @@ app.get("/plot", (req, res) => {
     }
     const rangePattern = /^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/;
     if (range && !rangePattern.test(range)) {
-      errors.push("Malformed 'range' query parameter. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+      errors.push("Error: 'range' query parameter is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
     }
     if (errors.length > 0) {
       return res.status(400).send(errors.join(" "));
@@ -313,6 +313,9 @@ Aggregated Error Reporting:
   const hasFile = args.includes("--file");
 
   if (hasExpression || hasRange || hasFile) {
+    if (!(hasExpression && hasRange && hasFile)) {
+      throw new Error("Error: --expression, --range, and --file flags are required together.");
+    }
     let cliErrors = [];
     const expressionIdx = args.indexOf("--expression");
     const rangeIdx = args.indexOf("--range");
