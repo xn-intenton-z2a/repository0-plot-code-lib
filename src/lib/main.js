@@ -705,7 +705,7 @@ function main() {
   }
 }
 
-export { main, app };
+export { main, app, interpolateEnv };
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();

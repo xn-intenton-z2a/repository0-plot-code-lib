@@ -1,6 +1,6 @@
 import { describe, test, expect, beforeEach, afterEach } from "vitest";
 import fs from "fs";
-import { main } from "@src/lib/main.js";
+import { main, interpolateEnv } from "@src/lib/main.js";
 
 const tempConfigFile = "temp_config.json";
 const outputFile = "temp_output.json";
@@ -148,7 +148,6 @@ describe("Configuration File Management", () => {
     // Although display is not used in computePlotData, we can test that the interpolated config contains the nested object with converted values
     const mergedConfig = require('fs').readFileSync(tempConfigFile, 'utf8');
     const parsedConfig = JSON.parse(mergedConfig);
-    const interpolated = parsedConfig; // original file; interpolation happens in loadConfig internally.
     // To test recursive interpolation, we simulate calling interpolateEnv directly:
     const interpolatedConfig = (function recInterp(config){ return config; })(interpolateEnv(parsedConfig));
     expect(interpolatedConfig.display.width).toBe(500);
