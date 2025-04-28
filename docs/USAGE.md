@@ -37,7 +37,7 @@ You can generate plots directly from the command line by providing the following
   - `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluation.
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
 
-- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${VAR_NAME}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${TEST_RES}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root.
 
@@ -122,6 +122,10 @@ When both a configuration file and CLI flags are provided, the CLI flags take pr
 ```sh
 node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
 ```
+
+## Runtime Configuration Reloading
+
+When running in server mode (using the `--serve` flag) with a configuration file provided via `--config`, the application supports runtime reloading of its configuration. To trigger a reload, send a SIGHUP signal to the server process (for example, using `kill -SIGHUP <pid>`). The configuration file will be re-read and merged with any CLI flags, ensuring that CLI overrides remain in effect. Any errors during reload will be logged to the console.
 
 ## Examples
 
