@@ -255,16 +255,16 @@ function createSvgPlot(expression, range, customLabels = {}) {
   // Dynamic color gradient and marker support
   let strokeAttr = 'stroke="blue"';
   let defsElements = "";
-  if (customLabels.colorGradient === "true") {
+  if (String(customLabels.colorGradient) === "true") {
     const gradientStart = customLabels.gradientStartColor || "blue";
     const gradientEnd = customLabels.gradientEndColor || "red";
     defsElements += `<linearGradient id="dynamicGradient"><stop offset="0%" stop-color="${gradientStart}" /><stop offset="100%" stop-color="${gradientEnd}" /></linearGradient>`;
     strokeAttr = 'stroke="url(#dynamicGradient)"';
   }
-  if (customLabels.markerStart === "true") {
+  if (String(customLabels.markerStart) === "true") {
     defsElements += `<marker id="markerStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L6,3 z" fill="black" /></marker>`;
   }
-  if (customLabels.markerEnd === "true") {
+  if (String(customLabels.markerEnd) === "true") {
     defsElements += `<marker id="markerEnd" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,3 L6,0 L6,6 z" fill="black" /></marker>`;
   }
   let defs = "";
@@ -274,10 +274,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
 
   // Additional marker attributes for the plot element
   let markerAttributes = "";
-  if (customLabels.markerStart === "true") {
+  if (String(customLabels.markerStart) === "true") {
     markerAttributes += ' marker-start="url(#markerStart)"';
   }
-  if (customLabels.markerEnd === "true") {
+  if (String(customLabels.markerEnd) === "true") {
     markerAttributes += ' marker-end="url(#markerEnd)"';
   }
 
@@ -362,7 +362,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   // Accessibility: add role attribute if provided
   let roleAttr = "";
   if (customLabels.svgRole) {
-    roleAttr = ` role=\"${customLabels.svgRole}\"`;
+    roleAttr = ` role="${customLabels.svgRole}"`;
   }
 
   // Construct SVG content in one line to avoid unintended whitespace/newlines
