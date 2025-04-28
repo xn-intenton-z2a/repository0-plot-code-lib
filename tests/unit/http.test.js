@@ -49,7 +49,19 @@ describe("GET /plot Content Negotiation", () => {
       .expect(406);
     expect(res.text).toBe("Not Acceptable");
   });
+
+  test("should return SVG with custom dimensions when width and height query parameters are provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", width: "500", height: "400" })
+      .expect("Content-Type", /image\/svg\+xml/)
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    expect(svgText).toContain('width="500"');
+    expect(svgText).toContain('height="400"');
+  });
 });
+
 
 describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   test("should generate dynamic SVG plot when valid query parameters are provided", async () => {
