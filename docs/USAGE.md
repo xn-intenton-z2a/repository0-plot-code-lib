@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files (with support for default fallback values), dynamic color gradient support for SVG outputs, custom SVG dimensions, optional marker support with accessibility improvements, and new SVG styling options for stroke width and dash patterns.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files (with support for default fallback values), dynamic color gradient support for SVG outputs, custom SVG dimensions, optional marker support with accessibility improvements, and new SVG styling options for stroke width, dash patterns, and line cap styles.
 
 ## CLI Plot Generation
 
@@ -46,13 +46,15 @@ You can generate plots directly from the command line by providing the following
 
 - **--smoothingFactor**: When smoothing is enabled, this floating-point number between 0 and 1 (default 0.5) fine-tunes the curve by adjusting the control points for quadratic Bezier interpolation.
 
-- **--markerStart** and **--markerEnd**: When set to "true", these flags add arrowhead markers at the start and/or end of the plot curve. The SVG will include marker definitions and apply them to the curve via `marker-start` and/or `marker-end` attributes.
+- **--markerStart** and **--markerEnd**: When set to "true", these flags add arrowhead markers at the start and/or end of the plot curve. The SVG output will include `<marker>` definitions and apply them to the curve via `marker-start` and/or `marker-end` attributes.
 
 - **--svgRole**: Specifies a custom role (e.g., `img`) for the SVG root element to enhance accessibility.
 
-- **--strokeWidth**: *New.* Specifies the width of the stroke for the plot curve. Must be a positive number. This applies to both smooth paths and polylines.
+- **--strokeWidth**: Specifies the width of the stroke for the plot curve. Must be a positive number. This applies to both smooth paths and polylines.
 
-- **--strokeDashArray**: *New.* Specifies a dash pattern for the stroke (e.g., "5,5"). Must be a non-empty string. This defines the pattern of dashes and gaps in the stroke.
+- **--strokeDashArray**: Specifies a dash pattern for the stroke (e.g., "5,5"). Must be a non-empty string. This defines the pattern of dashes and gaps in the stroke.
+
+- **--strokeLinecap**: *New.* Specifies the style for the stroke end caps. Allowed values are `butt`, `round`, or `square`. This attribute is applied to the stroke of the plot curve, whether it is rendered as a `<polyline>` or a `<path>`.
 
 - **--colorGradient**, **--gradientStartColor**, and **--gradientEndColor**: Enable and configure a dynamic color gradient for the stroke of the plot. When `--colorGradient` is set to "true", the stroke uses a linear gradient defined by the start and end colors (default colors are blue and red respectively).
 
@@ -107,14 +109,12 @@ Configuration files can include nested objects. All environment variable placeho
    GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&colorGradient=true&gradientStartColor=green&gradientEndColor=yellow
    ```
 
-6. **Generate an SVG with Markers and Custom Stroke Styles:**
+6. **Generate an SVG with Markers, Custom Stroke Styles, and Stroke Line Cap:**
    ```sh
-   node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.svg --markerStart true --markerEnd true --svgRole img --strokeWidth 2 --strokeDashArray "5,5"
+   node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.svg --markerStart true --markerEnd true --svgRole img --strokeWidth 2 --strokeDashArray "5,5" --strokeLinecap round
    ```
 
 7. **Using an External Configuration File with CLI Overrides:**
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400 --ylabel "CLI_YAxis"
    ```
-
-**Note:** YAML configuration files (with .yaml or .yml extensions) are fully supported. Simply provide the path to a YAML file using the `--config` flag.
