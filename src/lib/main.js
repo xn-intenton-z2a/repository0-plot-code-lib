@@ -405,7 +405,7 @@ function loadConfig(cliOptions) {
         expression: z.string().min(1).optional(),
         range: z
           .string()
-          .regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*$/)
+          .regex(/^(\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*)$/)
           .optional(),
         resolution: z.preprocess((val) => Number(val), z.number().int().positive()).optional(),
         xlabel: z.string().optional(),
@@ -437,14 +437,14 @@ function loadConfig(cliOptions) {
         gradientEndColor: z.string().optional(),
         width: z.preprocess((val) => Number(val), z.number().positive()).optional(),
         height: z.preprocess((val) => Number(val), z.number().positive()).optional(),
-        smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional(),
+        smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       return Object.assign({}, validatedConfig, cliOptions);
     } catch (e) {
       if (e instanceof z.ZodError) {
-        const err = e.errors[0];
-        throw new Error(`Error: Invalid numeric value for ${err.path[0]}. Expected a positive integer.`);
+        const errorMessages = e.errors.map(err => `Error: Invalid value for "${err.path.join('.')}" with value "${err.received}". ${err.message}`).join("; ");
+        throw new Error(errorMessages);
       }
       throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
