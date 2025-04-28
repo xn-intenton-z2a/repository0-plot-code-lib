@@ -195,7 +195,8 @@ function computePlotData(expression, range, customLabels = {}) {
     points: points,
     computedXRange: { min: xMin, max: xMax },
     computedYRange: { min: computedYMin, max: computedYMax },
-    axisLabels: { x: xAxisLabelText, y: yAxisLabelText }
+    axisLabels: { x: xAxisLabelText, y: yAxisLabelText },
+    resolution: resolution
   };
 }
 
@@ -266,7 +267,6 @@ function createSvgPlot(expression, range, customLabels = {}) {
       smoothingFactor = parsed;
     }
     const pathData = buildSmoothPath(mappedPoints, smoothingFactor);
-    // Removed extra space before closing tag to ensure regex can capture the d attribute correctly
     shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none"/>`;
   } else {
     const polylinePoints = mappedPoints.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
@@ -312,8 +312,20 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size="${customLabels.ylabelFontSize}"` : "";
   const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
 
+  // Prepare SVG metadata to be embedded as a data attribute; only for SVG outputs
+  const svgMetadata = JSON.stringify({
+    expression: plotData.expression,
+    range: plotData.range,
+    computedXRange: plotData.computedXRange,
+    computedYRange: plotData.computedYRange,
+    axisLabels: plotData.axisLabels,
+    resolution: plotData.resolution,
+    customParameters: customLabels
+  });
+  const metadataEscaped = svgMetadata.replace(/"/g, '&quot;');
+
   // Construct SVG content in one line to avoid unintended whitespace/newlines
-  const svgContent = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + svgWidth + "\" height=\"" + svgHeight + "\" viewBox=\"0 0 " + svgWidth + " " + svgHeight + "\">" +
+  const svgContent = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + svgWidth + "\" height=\"" + svgHeight + "\" viewBox=\"0 0 " + svgWidth + " " + svgHeight + "\" data-metadata=\"" + metadataEscaped + "\">" +
     defs +
     "<text x=\"" + xLabelX + "\" y=\"" + xLabelY + "\"" + xTransform + " aria-label=\"" + xAriaLabel + "\" text-anchor=\"" + xTextAnchor + "\"" + xFontSizeAttr + xFillAttr + ">" + plotData.axisLabels.x + "</text>" +
     "<text " + yLabelAttributes + " aria-label=\"" + yAriaLabel + "\" text-anchor=\"" + yTextAnchor + "\"" + yFontSizeAttr + yFillAttr + ">" + plotData.axisLabels.y + "</text>" +
