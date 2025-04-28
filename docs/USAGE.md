@@ -25,7 +25,7 @@ You can generate plots directly from the command line by providing the following
   - **.svg**: Generates an SVG plot with annotations and a plot element representing the curve. The curve is rendered as a blue polyline or a smooth path when smoothing is enabled. With dynamic color gradient enabled, the stroke will reference a defined gradient. **New Feature:** The generated SVG includes a `data-metadata` attribute on its root element. This attribute contains a JSON string with detailed plot metadata such as the original expression, input range, computed x and y ranges, axis labels, resolution, and any custom parameters provided. This metadata allows downstream tools to easily extract plot details for further processing.
   - **.png**: Generates a PNG plot using dummy placeholder image data.
 
-- **--width** and **--height**: *(New)* Specify custom dimensions for the generated SVG plot. Both should be positive numbers. If omitted or invalid, the defaults of 300 (width) and 150 (height) are used.
+- **--width** and **--height**: *(New)* Specify custom dimensions for the generated SVG plot. Both should be positive numbers. If omitted or invalid, the defaults of 300 (width) and 150 (height) are used. In configuration management, if these keys are missing, fallback defaults are applied (width = 300, height = 150).
 
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
@@ -36,6 +36,7 @@ You can generate plots directly from the command line by providing the following
   - `computedXRange`: An object with keys `{ min, max }` reflecting the x-range limits from the input.
   - `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluation.
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
+  - `resolution`: The number of points computed. If not provided in config or CLI, a fallback default of 100 is used.
 
 - **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${TEST_RES}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
 
@@ -43,7 +44,7 @@ You can generate plots directly from the command line by providing the following
 
 - **--smooth**: Enable curve smoothing. When this flag is set to "true", the plot will be rendered as a smooth curve using quadratic Bezier interpolation. When smoothing is enabled, the generated SVG output uses a `<path>` element instead of a `<polyline>`.
 
-- **--smoothingFactor**: *New.* Optional floating-point number between 0 and 1 (default is 0.5). When used with the `--smooth` flag, it adjusts the tension of the quadratic Bezier interpolation by modifying the control points, allowing fine-tuning of the curve’s smoothness.
+- **--smoothingFactor**: *New.* This parameter allows additional customization of the smooth curve. It accepts a floating-point number between 0 and 1 (default 0.5) to fine-tune the curvature by adjusting the control points used in quadratic Bezier interpolation.
 
 ## Dynamic Color Gradient Support
 
@@ -96,6 +97,12 @@ Environment variable interpolation is performed on all string values. For exampl
 ```
 
 and you have set the environment variable `TEST_RES=150` (e.g. via a custom .env file specified by `--env`), then the placeholder will be replaced with the value "150".
+
+**Fallback Defaults:** If critical keys such as `resolution`, `width`, or `height` are missing from the config file (or are provided as empty values), fallback defaults are applied:
+
+- resolution defaults to **100**
+- width defaults to **300**
+- height defaults to **150**
 
 When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values. 
 

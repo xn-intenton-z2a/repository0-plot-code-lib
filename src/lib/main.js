@@ -405,9 +405,9 @@ function loadConfig(cliOptions) {
         expression: z.string().min(1).optional(),
         range: z
           .string()
-          .regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/)
+          .regex(/\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/)
           .optional(),
-        resolution: z.preprocess((val) => Number(val), z.number().int().positive()).optional(),
+        resolution: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().int().positive()).optional(),
         xlabel: z.string().optional(),
         ylabel: z.string().optional(),
         xlabelPrecision: z.preprocess((val) => Number(val), z.number().int().nonnegative()).optional(),
@@ -435,24 +435,45 @@ function loadConfig(cliOptions) {
         colorGradient: z.enum(["true", "false"]).optional(),
         gradientStartColor: z.string().optional(),
         gradientEndColor: z.string().optional(),
-        width: z.preprocess((val) => Number(val), z.number().positive()).optional(),
-        height: z.preprocess((val) => Number(val), z.number().positive()).optional(),
+        width: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().positive()).optional(),
+        height: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().positive()).optional(),
         smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
-      return Object.assign({}, validatedConfig, cliOptions);
+      const mergedOptions = Object.assign({}, validatedConfig, cliOptions);
+      // Apply fallback defaults if critical keys are missing
+      if (mergedOptions.resolution === undefined) {
+        mergedOptions.resolution = 100;
+      }
+      if (mergedOptions.width === undefined) {
+        mergedOptions.width = 300;
+      }
+      if (mergedOptions.height === undefined) {
+        mergedOptions.height = 150;
+      }
+      return mergedOptions;
     } catch (e) {
       if (e instanceof z.ZodError) {
         const numericKeys = ["resolution", "xlabelPrecision", "ylabelPrecision", "xlabelX", "xlabelY", "ylabelX", "ylabelY", "xlabelRotation", "ylabelRotation", "xlabelOffsetX", "xlabelOffsetY", "ylabelOffsetX", "ylabelOffsetY", "width", "height", "smoothingFactor"];
         const errorMessages = e.errors.map(err => {
           const key = err.path.join('.');
           const prefix = numericKeys.includes(key) ? "Error: Invalid numeric value for" : "Error: Invalid value for";
-          return `${prefix} "${key}" with value "${err.received}". ${err.message}`;
+          return `${prefix} ${key} with value "${err.received}". ${err.message}`;
         }).join("; ");
         throw new Error(errorMessages);
       }
       throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
+  }
+  // No config file provided 
+  if (cliOptions.resolution === undefined) {
+    cliOptions.resolution = 100;
+  }
+  if (cliOptions.width === undefined) {
+    cliOptions.width = 300;
+  }
+  if (cliOptions.height === undefined) {
+    cliOptions.height = 150;
   }
   return cliOptions;
 }
@@ -548,6 +569,11 @@ function main() {
   }
 
   const args = process.argv.slice(2);
+  // Return early if no CLI arguments provided
+  if (args.length === 0) {
+    return;
+  }
+
   let options = {};
   for (let i = 0; i < args.length; i++) {
     if (args[i].startsWith("--")) {
