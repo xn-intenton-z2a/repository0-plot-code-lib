@@ -317,8 +317,24 @@ function createSvgPlot(expression, range, customLabels = {}) {
     markerAttributes += ' marker-end="url(#markerEnd)"';
   }
 
-  let shapeElement = "";
+  // New: Support for strokeWidth and strokeDashArray customization
+  let additionalStrokeAttrs = "";
+  if (customLabels.strokeWidth != null) {
+    const strokeWidth = parseFloat(customLabels.strokeWidth);
+    if (!Number.isFinite(strokeWidth) || strokeWidth <= 0) {
+      throw new Error("Error: Invalid strokeWidth. Expected a positive number.");
+    }
+    additionalStrokeAttrs += ` stroke-width=\"${strokeWidth}\"`;
+  }
+  if (customLabels.strokeDashArray != null) {
+    if (typeof customLabels.strokeDashArray !== "string" || customLabels.strokeDashArray.trim() === "") {
+      throw new Error("Error: Invalid strokeDashArray. Expected a non-empty string.");
+    }
+    additionalStrokeAttrs += ` stroke-dasharray=\"${customLabels.strokeDashArray}\"`;
+  }
+
   // Check if smoothing is enabled
+  let shapeElement = "";
   if (String(customLabels.smooth).toLowerCase() === "true") {
     let smoothingFactor = 0.5;
     if (customLabels.smoothingFactor != null) {
@@ -329,10 +345,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
       smoothingFactor = parsed;
     }
     const pathData = buildSmoothPath(mappedPoints, smoothingFactor);
-    shapeElement = `<path d="${pathData}" ${strokeAttr}${markerAttributes} fill="none"/>`;
+    shapeElement = `<path d="${pathData}" ${strokeAttr}${markerAttributes}${additionalStrokeAttrs} fill="none"/>`;
   } else {
     const polylinePoints = mappedPoints.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
-    shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr}${markerAttributes} fill="none" />`;
+    shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr}${markerAttributes}${additionalStrokeAttrs} fill="none" />`;
   }
 
   // Determine x-axis label positioning and rotation
@@ -398,7 +414,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   // Accessibility: add role attribute if provided
   let roleAttr = "";
   if (customLabels.svgRole) {
-    roleAttr = ` role="${String(customLabels.svgRole)}"`;
+    roleAttr = ` role=\"${String(customLabels.svgRole)}\"`;
   }
 
   // Construct SVG content in one line to avoid unintended whitespace/newlines
@@ -500,7 +516,9 @@ function loadConfig(cliOptions) {
         smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional(),
         markerStart: z.string().optional(),
         markerEnd: z.string().optional(),
-        svgRole: z.string().optional()
+        svgRole: z.string().optional(),
+        strokeWidth: z.preprocess((val) => (val === "" ? undefined : val), z.any()).optional(),
+        strokeDashArray: z.string().optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       const mergedOptions = Object.assign({}, validatedConfig, cliOptions);
