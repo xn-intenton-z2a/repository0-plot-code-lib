@@ -971,7 +971,7 @@ MIT
               
                 
   
-    Used by 1.6m  
+    Used by 1.7m  
 
   
     
@@ -1001,7 +1001,7 @@ MIT
           
     
       
-        + 1,647,026
+        + 1,650,156
       
   
 
@@ -2085,7 +2085,7 @@ MIT
               
                 
   
-    Used by 1.6m  
+    Used by 1.7m  
 
   
     
@@ -2115,7 +2115,7 @@ MIT
           
     
       
-        + 1,647,026
+        + 1,650,156
       
   
 
@@ -5530,7 +5530,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
   
     
   
-    Read more about 3M's customer story
+    Read more about Decathlon's customer story
     
       
         
@@ -5541,8 +5541,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     3M
-    3M transforms its software toolchain to bring cutting-edge science to customers, faster.
+     Decathlon
+    The world’s largest sporting goods retail brand embraces open source to stay modern.
     
       Read story 
 
@@ -5579,7 +5579,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Bolt's customer story
+    Read more about Grupo Boticario's customer story
     
       
         
@@ -5590,8 +5590,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Bolt
-    Bolt leans on automation to stay ahead of the competition and better serve their customers.
+     Grupo Boticario
+    Grupo Boticário stays ahead of the curve with GitHub Copilot.
     
       Read story 
 
@@ -5601,7 +5601,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Caregility's customer story
+    Read more about Leap Motion's customer story
     
       
         
@@ -5612,8 +5612,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Caregility
-    GitHub Advanced Security helps Caregility safeguard its platform for patients and clinicians.
+     Leap Motion
+    Leap Motion removes the barriers between people and technology. Learn how Leap Motion’s engineering team relies on GitHub Enterprise to connect people and code in the office.
     
       Read story 
 
@@ -5623,7 +5623,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Decathlon's customer story
+    Read more about Procter & Gamble's customer story
     
       
         
@@ -5634,8 +5634,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Decathlon
-    The world’s largest sporting goods retail brand embraces open source to stay modern.
+     Procter & Gamble
+    GitHub brings DevOps to life at Procter & Gamble.
     
       Read story 
 
@@ -6697,7 +6697,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
   
     Want to use GitHub on your own?
     
-    Check out our plans for individuals\n\n\n\nSolutionsEnterprise ContentExecutive insights, curated just for youGitHub for Leaders: How CXOs limit risk without losing speedIn this episode of GitHub for Leaders, host Anjuan Simmons sits down with cybersecurity researcher Daniel Cuthbert to discuss the evolving challenges of enterprise security facing leaders right now – and why credential leaks remain one of the most costly, yet preventable, threats.Learn more Understanding your organization's exposure to secret leaksCredential leaks are expensive, damaging, and on the rise. This article helps you understand your organization’s specific risk—and how to reduce exposure before it turns into impact.Learn moreEvolving GitHub Advanced Security: Greater flexibility, easier to accessStarting April 1, 2025, GitHub Advanced Security (GHAS) will be unbundled and available as two standalone security products: GitHub Secret Protection and GitHub Code Security.Learn moreApril ‘25 enterprise roundupTo help you stay ahead, our Enterprise Advocacy team has curated this monthly roundup—bringing you a concise, enterprise-focused summary of the most important updates you might have missed.Learn moreEssential GitHub Copilot resources for enterprise teamsFrom initial setup to advanced features, this guide will walk you through the essential resources to make your Copilot implementation successful.Learn moreCreating space for developer creativity in high-scale organizationsHow do we ensure our developers can maintain the ability to innovate and experiment while operating within the constraints of a larger organization?Learn moreHow Thomson Reuters successfully adopted AIThomson Reuters began their AI journey in 2022. Engineering leaders realized that what started as industry buzz was an opportunity to foster engineering excellence within the company–and GitHub Copilot could be just the thing to accelerate their operations.Learn moreThe art of engineering team focus: less is moreGuiding engineering teams to prioritize fewer tasks, limit parallel work, and leave space for unforeseen needs not only boosts productivity, but also fosters more consistent, high-quality work.Learn moreWhy developer satisfaction is your best productivity metricLearn how prioritizing developer satisfaction can drive better code quality, foster innovation, and improve team retention, ultimately boosting engineering productivity.Learn moreRelated solutionsCarlsberg accelerates innovation with CopilotCarlsberg unified its development process and bolstered its security using GitHub Advanced Security, while the integration of Copilot enabled efficient coding practices and minimized the need for context-switching.
+    Check out our plans for individuals\n\n\n\nSolutionsEnterprise ContentExecutive insights, curated just for you3 keys for engineering improvement: listen, act, and learnToo often we see teams obsessing over metrics without clarity about why they're measuring, or whether they're genuinely improving. At GitHub, we believe there's a better way: shifting from measurement obsession to meaningful improvements through intentional listening, actionable investments, and a learning mindset.Learn moreGitHub for Leaders: How CXOs limit risk without losing speedIn this episode of GitHub for Leaders, host Anjuan Simmons sits down with cybersecurity researcher Daniel Cuthbert to discuss the evolving challenges of enterprise security facing leaders right now – and why credential leaks remain one of the most costly, yet preventable, threats.Learn more Understanding your organization's exposure to secret leaksCredential leaks are expensive, damaging, and on the rise. This article helps you understand your organization’s specific risk—and how to reduce exposure before it turns into impact.Learn moreEvolving GitHub Advanced Security: Greater flexibility, easier to accessStarting April 1, 2025, GitHub Advanced Security (GHAS) will be unbundled and available as two standalone security products: GitHub Secret Protection and GitHub Code Security.Learn moreApril ‘25 enterprise roundupTo help you stay ahead, our Enterprise Advocacy team has curated this monthly roundup—bringing you a concise, enterprise-focused summary of the most important updates you might have missed.Learn moreEssential GitHub Copilot resources for enterprise teamsFrom initial setup to advanced features, this guide will walk you through the essential resources to make your Copilot implementation successful.Learn moreCreating space for developer creativity in high-scale organizationsHow do we ensure our developers can maintain the ability to innovate and experiment while operating within the constraints of a larger organization?Learn moreHow Thomson Reuters successfully adopted AIThomson Reuters began their AI journey in 2022. Engineering leaders realized that what started as industry buzz was an opportunity to foster engineering excellence within the company–and GitHub Copilot could be just the thing to accelerate their operations.Learn moreThe art of engineering team focus: less is moreGuiding engineering teams to prioritize fewer tasks, limit parallel work, and leave space for unforeseen needs not only boosts productivity, but also fosters more consistent, high-quality work.Learn moreRelated solutionsCarlsberg accelerates innovation with CopilotCarlsberg unified its development process and bolstered its security using GitHub Advanced Security, while the integration of Copilot enabled efficient coding practices and minimized the need for context-switching.
 Learn moreAccenture cuts technical debt with GitHub Advanced Security and CopilotAccenture leverages GitHub Copilot and Advanced Security to reduce technical debt, driving faster project delivery and improved code quality.
 Learn moreEY Scales Developer Efficiency with GitHub Copilot and CodespacesEY built integrations between GitHub and Microsoft Azure DevOps, so it could tap into the power of GitHub's cohesive developer platform for security, automation, and AI.Learn more90%of Fortune 100 choose GitHub433%ROI with GitHub Enterprise77,000organizations use GitHub Copilot75%reduced time spent managing toolsMaximize your investment in AIOur recent study with Accenture shows that AI-driven tools like GitHub Copilot, when integrated into daily workflows, can significantly boost productivity, job satisfaction, and overall code quality without adding complexity.
 Discover how to seamlessly integrate AI into your development processes with GitHub Copilot and see measurable impact across your organization.
@@ -7904,9 +7904,9 @@ The ReadME Project
     
         
       
-        Maven
+        IPFS
       
-      Maven is a build automation tool used primarily for Java projects.
+      IPFS is a peer-to-peer protocol for content-addressed sharing of data via a distributed file system.
     
   
 
@@ -7920,9 +7920,9 @@ The ReadME Project
     
         
       
-        Markdown
+        ESLint
       
-      Markdown is a lightweight markup language.
+      The pluggable linting utility for JavaScript and JSX.
     
   
 
@@ -7936,9 +7936,9 @@ The ReadME Project
     
         
       
-        Ruby
+        Mastodon
       
-      Ruby is a scripting language designed for simplified object-oriented programming.
+      Mastodon is a free, decentralized, open source microblogging network.
     
   
 
@@ -8520,52 +8520,52 @@ The ReadME Project
       
           
             
+  react
+
+          
+          
+            
   config
 
           
           
             
-  devops
+  python
 
           
           
             
-  dotnet
+  java
 
           
           
             
-  rest-api
+  typescript
 
           
           
             
-  best-practices
+  html5
 
           
           
             
-  webapi
+  ai
 
           
           
             
-  alura
+  reactjs
 
           
           
             
-  relationships
+  tailwindcss
 
           
           
             
-  github-config
-
-          
-          
-            
-  minimal-api\n\n\n\nStar
+  github-config\n\n\n\nStar
 
 
   
@@ -8574,25 +8574,25 @@ The ReadME Project
     
 
       
-        kortix-ai /
+        hacksider /
 
-      suna  
+      Deep-Live-Cam  
 
     
-      Suna - Open Source Generalist AI Agent
+      real time face swap and one-click video deepfake with only a single image
     
 
   
       
   
-  TypeScript
+  Python
 
 
 
       
-        6,793
+        51,441
       
-        759
+        7,613
       
         Built by
 
@@ -8604,7 +8604,7 @@ The ReadME Project
 
       
         
-        1,304 stars today
+        501 stars today
   
 
   
@@ -8637,102 +8637,9 @@ The ReadME Project
 
 
       
-        35,366
+        35,716
       
-        1,088
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        45 stars today
-  
-
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        rowboatlabs /
-
-      rowboat  
-
-    
-      AI-powered multi-agent builder
-    
-
-  
-      
-  
-  TypeScript
-
-
-
-      
-        1,534
-      
-        124
-      
-        Built by
-
-          
-          
-          
-          
-
-      
-        
-        499 stars today
-  
-
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        ocrmypdf /
-
-      OCRmyPDF  
-
-    
-      OCRmyPDF adds an OCR text layer to scanned PDF files, allowing them to be searched
-    
-
-  
-      
-  
-  Python
-
-
-
-      
-        28,289
-      
-        1,906
+        1,106
       
         Built by
 
@@ -8744,350 +8651,7 @@ The ReadME Project
 
       
         
-        78 stars today
-  
-
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        aquasecurity /
-
-      trivy  
-
-    
-      Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more
-    
-
-  
-      
-  
-  Go
-
-
-
-      
-        25,842
-      
-        2,515
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        145 stars today
-  
-
-  
-        
-    
-    
-      Sponsor
-    
-  
-
-
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        bregman-arie /
-
-      devops-exercises  
-
-    
-      Linux, Jenkins, AWS, SRE, Prometheus, Docker, Python, Ansible, Git, Kubernetes, Terraform, OpenStack, SQL, NoSQL, Azure, GCP, DNS, Elastic, Network, Virtualization. DevOps Interview Questions
-    
-
-  
-      
-  
-  Python
-
-
-
-      
-        74,816
-      
-        16,683
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        255 stars today
-  
-
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        trimstray /
-
-      the-book-of-secret-knowledge  
-
-    
-      A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.
-    
-
-  
-
-      
-        166,108
-      
-        10,400
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        1,399 stars today
-  
-
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        jujumilk3 /
-
-      leaked-system-prompts  
-
-    
-      Collection of leaked system prompts
-    
-
-  
-
-      
-        3,958
-      
-        463
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        510 stars today
-  
-
-  
-        
-    
-    
-      Sponsor
-    
-  
-
-
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        AmruthPillai /
-
-      Reactive-Resume  
-
-    
-      A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!
-    
-
-  
-      
-  
-  TypeScript
-
-
-
-      
-        30,866
-      
-        3,191
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        62 stars today
-  
-
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        microsoft /
-
-      generative-ai-for-beginners  
-
-    
-      21 Lessons, Get Started Building with Generative AI 🔗 https://microsoft.github.io/generative-ai-for-beginners/
-    
-
-  
-      
-  
-  Jupyter Notebook
-
-
-
-      
-        80,099
-      
-        41,367
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        271 stars today
-  
-
-  
-        
-    
-    
-      Sponsor
-    
-  
-
-
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        fastrepl /
-
-      hyprnote  
-
-    
-      AI Notepad for back-to-back meetings. Local-first & Extensible.
-    
-
-  
-      
-  
-  TypeScript
-
-
-
-      
-        1,249
-      
-        55
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        305 stars today
+        188 stars today
   
 
   
@@ -9120,9 +8684,9 @@ The ReadME Project
 
 
       
-        5,459
+        7,189
       
-        400
+        466
       
         Built by
 
@@ -9134,18 +8698,10 @@ The ReadME Project
 
       
         
-        514 stars today
+        1,383 stars today
   
 
   
-        
-    
-    
-      Sponsor
-    
-  
-
-
 
       
             
@@ -9159,12 +8715,148 @@ The ReadME Project
     
 
       
-        khoj-ai /
+        jujumilk3 /
 
-      khoj  
+      leaked-system-prompts  
 
     
-      Your AI second brain. Self-hostable. Get answers from the web or your docs. Build custom agents, schedule automations, do deep research. Turn any online or local LLM into your personal, autonomous AI (gpt, claude, gemini, llama, qwen, mistral). Get started - free.
+      Collection of leaked system prompts
+    
+
+  
+
+      
+        4,574
+      
+        536
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        281 stars today
+  
+
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        drawdb-io /
+
+      drawdb  
+
+    
+      Free, simple, and intuitive online database diagram editor and SQL generator.
+    
+
+  
+      
+  
+  JavaScript
+
+
+
+      
+        29,006
+      
+        2,034
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        281 stars today
+  
+
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        microsoft /
+
+      generative-ai-for-beginners  
+
+    
+      21 Lessons, Get Started Building with Generative AI 🔗 https://microsoft.github.io/generative-ai-for-beginners/
+    
+
+  
+      
+  
+  Jupyter Notebook
+
+
+
+      
+        80,749
+      
+        41,578
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        427 stars today
+  
+
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        Tencent /
+
+      Hunyuan3D-2  
+
+    
+      High-Resolution 3D Assets Generation with Large Scale Hunyuan3D Diffusion Models.
     
 
   
@@ -9175,9 +8867,9 @@ The ReadME Project
 
 
       
-        29,515
+        8,922
       
-        1,643
+        755
       
         Built by
 
@@ -9189,7 +8881,7 @@ The ReadME Project
 
       
         
-        229 stars today
+        119 stars today
   
 
   
@@ -9206,20 +8898,25 @@ The ReadME Project
     
 
       
-        ruanyf /
+        kortix-ai /
 
-      weekly  
+      suna  
 
     
-      科技爱好者周刊，每周五发布
+      Suna - Open Source Generalist AI Agent
     
 
   
+      
+  
+  TypeScript
+
+
 
       
-        54,462
+        8,486
       
-        3,195
+        958
       
         Built by
 
@@ -9231,7 +8928,49 @@ The ReadME Project
 
       
         
-        36 stars today
+        769 stars today
+  
+
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        trimstray /
+
+      the-book-of-secret-knowledge  
+
+    
+      A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.
+    
+
+  
+
+      
+        167,245
+      
+        10,465
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        583 stars today
   
 
   
@@ -9264,9 +9003,267 @@ The ReadME Project
 
 
       
-        94,327
+        94,795
       
-        14,089
+        14,170
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        219 stars today
+  
+
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        codecrafters-io /
+
+      build-your-own-x  
+
+    
+      Master programming by recreating your favorite technologies from scratch.
+    
+
+  
+      
+  
+  Markdown
+
+
+
+      
+        376,030
+      
+        35,004
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        917 stars today
+  
+
+  
+        
+    
+    
+      Sponsor
+    
+  
+
+
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        patchy631 /
+
+      ai-engineering-hub  
+
+    
+      In-depth tutorials on LLMs, RAGs and real-world AI agent applications.
+    
+
+  
+      
+  
+  Jupyter Notebook
+
+
+
+      
+        8,324
+      
+        1,422
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        44 stars today
+  
+
+  
+        
+    
+    
+      Sponsor
+    
+  
+
+
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        lobehub /
+
+      lobe-chat  
+
+    
+      🤯 Lobe Chat - an open-source, modern-design AI chat framework. Supports Multi AI Providers( OpenAI / Claude 3 / Gemini / Ollama / DeepSeek / Qwen), Knowledge Base (file upload / knowledge management / RAG ), Multi-Modals (Plugins/Artifacts) and Thinking. One-click FREE deployment of your private ChatGPT/ Claude / DeepSeek application.
+    
+
+  
+      
+  
+  TypeScript
+
+
+
+      
+        59,495
+      
+        12,610
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        61 stars today
+  
+
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        rowboatlabs /
+
+      rowboat  
+
+    
+      AI-powered multi-agent builder
+    
+
+  
+      
+  
+  TypeScript
+
+
+
+      
+        2,102
+      
+        161
+      
+        Built by
+
+          
+          
+          
+          
+
+      
+        
+        342 stars today
+  
+
+  
+        
+    
+    
+      Sponsor
+    
+  
+
+
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        nikitabobko /
+
+      AeroSpace  
+
+    
+      AeroSpace is an i3-like tiling window manager for macOS
+    
+
+  
+      
+  
+  Swift
+
+
+
+      
+        11,964
+      
+        235
       
         Built by
 
@@ -9295,37 +9292,34 @@ The ReadME Project
     
 
       
-        RVC-Boss /
+        bgstaal /
 
-      GPT-SoVITS  
+      multipleWindow3dScene  
 
     
-      1 min voice data can also be used to train a good TTS model! (few shot voice cloning)
+      A quick example of how one can "synchronize" a 3d scene across multiple windows using three.js and localStorage
     
 
   
       
   
-  Python
+  JavaScript
 
 
 
       
-        45,441
+        17,704
       
-        5,019
+        2,723
       
         Built by
 
           
           
-          
-          
-          
 
       
         
-        53 stars today
+        253 stars today
   
 
   
@@ -9342,37 +9336,29 @@ The ReadME Project
     
 
       
-        skypilot-org /
+        0xk1h0 /
 
-      skypilot  
+      ChatGPT_DAN  
 
     
-      SkyPilot: Run AI and batch jobs on any infra (Kubernetes or 16+ clouds). Get unified execution, cost savings, and high GPU availability via a simple interface.
+      ChatGPT DAN, Jailbreaks prompt
     
 
   
-      
-  
-  Python
-
-
 
       
-        7,824
+        8,111
       
-        625
+        720
       
         Built by
 
           
           
-          
-          
-          
 
       
         
-        21 stars today\n\nExplore
+        541 stars today\n\nExplore
 
       Topics
 
@@ -11446,25 +11432,25 @@ The ReadME Project
     
 
       
-        kortix-ai /
+        hacksider /
 
-      suna  
+      Deep-Live-Cam  
 
     
-      Suna - Open Source Generalist AI Agent
+      real time face swap and one-click video deepfake with only a single image
     
 
   
       
   
-  TypeScript
+  Python
 
 
 
       
-        6,793
+        51,441
       
-        759
+        7,613
       
         Built by
 
@@ -11476,7 +11462,7 @@ The ReadME Project
 
       
         
-        1,304 stars today
+        501 stars today
   
 
 
@@ -11511,106 +11497,9 @@ The ReadME Project
 
 
       
-        35,366
+        35,716
       
-        1,088
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        45 stars today
-  
-
-
-          
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        rowboatlabs /
-
-      rowboat  
-
-    
-      AI-powered multi-agent builder
-    
-
-  
-      
-  
-  TypeScript
-
-
-
-      
-        1,534
-      
-        124
-      
-        Built by
-
-          
-          
-          
-          
-
-      
-        
-        499 stars today
-  
-
-
-          
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        ocrmypdf /
-
-      OCRmyPDF  
-
-    
-      OCRmyPDF adds an OCR text layer to scanned PDF files, allowing them to be searched
-    
-
-  
-      
-  
-  Python
-
-
-
-      
-        28,289
-      
-        1,906
+        1,106
       
         Built by
 
@@ -11622,364 +11511,7 @@ The ReadME Project
 
       
         
-        78 stars today
-  
-
-
-          
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        aquasecurity /
-
-      trivy  
-
-    
-      Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more
-    
-
-  
-      
-  
-  Go
-
-
-
-      
-        25,842
-      
-        2,515
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        145 stars today
-  
-
-
-          
-  
-        
-    
-    
-      Sponsor
-    
-  
-
-
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        bregman-arie /
-
-      devops-exercises  
-
-    
-      Linux, Jenkins, AWS, SRE, Prometheus, Docker, Python, Ansible, Git, Kubernetes, Terraform, OpenStack, SQL, NoSQL, Azure, GCP, DNS, Elastic, Network, Virtualization. DevOps Interview Questions
-    
-
-  
-      
-  
-  Python
-
-
-
-      
-        74,816
-      
-        16,683
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        255 stars today
-  
-
-
-          
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        trimstray /
-
-      the-book-of-secret-knowledge  
-
-    
-      A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.
-    
-
-  
-
-      
-        166,108
-      
-        10,400
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        1,399 stars today
-  
-
-
-          
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        jujumilk3 /
-
-      leaked-system-prompts  
-
-    
-      Collection of leaked system prompts
-    
-
-  
-
-      
-        3,958
-      
-        463
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        510 stars today
-  
-
-
-          
-  
-        
-    
-    
-      Sponsor
-    
-  
-
-
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        AmruthPillai /
-
-      Reactive-Resume  
-
-    
-      A one-of-a-kind resume builder that keeps your privacy in mind. Completely secure, customizable, portable, open-source and free forever. Try it out today!
-    
-
-  
-      
-  
-  TypeScript
-
-
-
-      
-        30,866
-      
-        3,191
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        62 stars today
-  
-
-
-          
-  
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        microsoft /
-
-      generative-ai-for-beginners  
-
-    
-      21 Lessons, Get Started Building with Generative AI 🔗 https://microsoft.github.io/generative-ai-for-beginners/
-    
-
-  
-      
-  
-  Jupyter Notebook
-
-
-
-      
-        80,099
-      
-        41,367
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        271 stars today
-  
-
-
-          
-  
-        
-    
-    
-      Sponsor
-    
-  
-
-
-
-      
-            
-        
-          Star
-
-
-  
-
-  
-    
-
-      
-        fastrepl /
-
-      hyprnote  
-
-    
-      AI Notepad for back-to-back meetings. Local-first & Extensible.
-    
-
-  
-      
-  
-  TypeScript
-
-
-
-      
-        1,249
-      
-        55
-      
-        Built by
-
-          
-          
-          
-          
-          
-
-      
-        
-        305 stars today
+        188 stars today
   
 
 
@@ -12014,9 +11546,9 @@ The ReadME Project
 
 
       
-        5,459
+        7,189
       
-        400
+        466
       
         Built by
 
@@ -12028,20 +11560,12 @@ The ReadME Project
 
       
         
-        514 stars today
+        1,383 stars today
   
 
 
           
   
-        
-    
-    
-      Sponsor
-    
-  
-
-
 
       
             
@@ -12055,12 +11579,154 @@ The ReadME Project
     
 
       
-        khoj-ai /
+        jujumilk3 /
 
-      khoj  
+      leaked-system-prompts  
 
     
-      Your AI second brain. Self-hostable. Get answers from the web or your docs. Build custom agents, schedule automations, do deep research. Turn any online or local LLM into your personal, autonomous AI (gpt, claude, gemini, llama, qwen, mistral). Get started - free.
+      Collection of leaked system prompts
+    
+
+  
+
+      
+        4,574
+      
+        536
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        281 stars today
+  
+
+
+          
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        drawdb-io /
+
+      drawdb  
+
+    
+      Free, simple, and intuitive online database diagram editor and SQL generator.
+    
+
+  
+      
+  
+  JavaScript
+
+
+
+      
+        29,006
+      
+        2,034
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        281 stars today
+  
+
+
+          
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        microsoft /
+
+      generative-ai-for-beginners  
+
+    
+      21 Lessons, Get Started Building with Generative AI 🔗 https://microsoft.github.io/generative-ai-for-beginners/
+    
+
+  
+      
+  
+  Jupyter Notebook
+
+
+
+      
+        80,749
+      
+        41,578
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        427 stars today
+  
+
+
+          
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        Tencent /
+
+      Hunyuan3D-2  
+
+    
+      High-Resolution 3D Assets Generation with Large Scale Hunyuan3D Diffusion Models.
     
 
   
@@ -12071,9 +11737,9 @@ The ReadME Project
 
 
       
-        29,515
+        8,922
       
-        1,643
+        755
       
         Built by
 
@@ -12085,7 +11751,7 @@ The ReadME Project
 
       
         
-        229 stars today
+        119 stars today
   
 
 
@@ -12104,20 +11770,25 @@ The ReadME Project
     
 
       
-        ruanyf /
+        kortix-ai /
 
-      weekly  
+      suna  
 
     
-      科技爱好者周刊，每周五发布
+      Suna - Open Source Generalist AI Agent
     
 
   
+      
+  
+  TypeScript
+
+
 
       
-        54,462
+        8,486
       
-        3,195
+        958
       
         Built by
 
@@ -12129,7 +11800,51 @@ The ReadME Project
 
       
         
-        36 stars today
+        769 stars today
+  
+
+
+          
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        trimstray /
+
+      the-book-of-secret-knowledge  
+
+    
+      A collection of inspiring lists, manuals, cheatsheets, blogs, hacks, one-liners, cli/web tools and more.
+    
+
+  
+
+      
+        167,245
+      
+        10,465
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        583 stars today
   
 
 
@@ -12164,9 +11879,277 @@ The ReadME Project
 
 
       
-        94,327
+        94,795
       
-        14,089
+        14,170
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        219 stars today
+  
+
+
+          
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        codecrafters-io /
+
+      build-your-own-x  
+
+    
+      Master programming by recreating your favorite technologies from scratch.
+    
+
+  
+      
+  
+  Markdown
+
+
+
+      
+        376,030
+      
+        35,004
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        917 stars today
+  
+
+
+          
+  
+        
+    
+    
+      Sponsor
+    
+  
+
+
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        patchy631 /
+
+      ai-engineering-hub  
+
+    
+      In-depth tutorials on LLMs, RAGs and real-world AI agent applications.
+    
+
+  
+      
+  
+  Jupyter Notebook
+
+
+
+      
+        8,324
+      
+        1,422
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        44 stars today
+  
+
+
+          
+  
+        
+    
+    
+      Sponsor
+    
+  
+
+
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        lobehub /
+
+      lobe-chat  
+
+    
+      🤯 Lobe Chat - an open-source, modern-design AI chat framework. Supports Multi AI Providers( OpenAI / Claude 3 / Gemini / Ollama / DeepSeek / Qwen), Knowledge Base (file upload / knowledge management / RAG ), Multi-Modals (Plugins/Artifacts) and Thinking. One-click FREE deployment of your private ChatGPT/ Claude / DeepSeek application.
+    
+
+  
+      
+  
+  TypeScript
+
+
+
+      
+        59,495
+      
+        12,610
+      
+        Built by
+
+          
+          
+          
+          
+          
+
+      
+        
+        61 stars today
+  
+
+
+          
+  
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        rowboatlabs /
+
+      rowboat  
+
+    
+      AI-powered multi-agent builder
+    
+
+  
+      
+  
+  TypeScript
+
+
+
+      
+        2,102
+      
+        161
+      
+        Built by
+
+          
+          
+          
+          
+
+      
+        
+        342 stars today
+  
+
+
+          
+  
+        
+    
+    
+      Sponsor
+    
+  
+
+
+
+      
+            
+        
+          Star
+
+
+  
+
+  
+    
+
+      
+        nikitabobko /
+
+      AeroSpace  
+
+    
+      AeroSpace is an i3-like tiling window manager for macOS
+    
+
+  
+      
+  
+  Swift
+
+
+
+      
+        11,964
+      
+        235
       
         Built by
 
@@ -12197,37 +12180,34 @@ The ReadME Project
     
 
       
-        RVC-Boss /
+        bgstaal /
 
-      GPT-SoVITS  
+      multipleWindow3dScene  
 
     
-      1 min voice data can also be used to train a good TTS model! (few shot voice cloning)
+      A quick example of how one can "synchronize" a 3d scene across multiple windows using three.js and localStorage
     
 
   
       
   
-  Python
+  JavaScript
 
 
 
       
-        45,441
+        17,704
       
-        5,019
+        2,723
       
         Built by
 
           
           
-          
-          
-          
 
       
         
-        53 stars today
+        253 stars today
   
 
 
@@ -12246,37 +12226,29 @@ The ReadME Project
     
 
       
-        skypilot-org /
+        0xk1h0 /
 
-      skypilot  
+      ChatGPT_DAN  
 
     
-      SkyPilot: Run AI and batch jobs on any infra (Kubernetes or 16+ clouds). Get unified execution, cost savings, and high GPU availability via a simple interface.
+      ChatGPT DAN, Jailbreaks prompt
     
 
   
-      
-  
-  Python
-
-
 
       
-        7,824
+        8,111
       
-        625
+        720
       
         Built by
 
           
           
-          
-          
-          
 
       
         
-        21 stars today\n\n\n\n#
+        541 stars today\n\n\n\n#
     
 
     
@@ -12479,8 +12451,8 @@ The ReadME Project
         
   
       
-    Learn to Code
-    Resources to help people learn to code
+    Made in Brazil
+    Open source projects built in or receiving significant contributions from Brazil :brazil:
   
 
 
@@ -12494,9 +12466,9 @@ The ReadME Project
 
         
   
-      
-    Made in Brazil
-    Open source projects built in or receiving significant contributions from Brazil :brazil:
+      #
+    Game Engines
+    Frameworks for building games across multiple platforms.
   
 
 
@@ -23908,7 +23880,7 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
                 
                   
                   
-                    86
+                    87
                     followers
                 
                 
@@ -24520,6 +24492,7 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
 
       
           
+  
   ladjs/lad.sh’s past year of commit activity
 
     
@@ -24569,7 +24542,7 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
 
 
         
-          14,003
+          14,005
         
           MIT
 
@@ -24598,6 +24571,7 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
 
       
           
+  
   ladjs/react-native-loading-spinner-overlay’s past year of commit activity
 
     
@@ -24649,7 +24623,7 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
 
 
         
-          16,617
+          16,619
         
           MIT
 
@@ -24759,6 +24733,7 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
 
       
           
+  
   ladjs/api’s past year of commit activity
 
     
@@ -24872,12 +24847,39 @@ We recommend limiting training sessions to a maximum of 16 participants to ensur
   
 
 
-  
     
-      Top languages
-      Loading…
-    
+      
+        Top languages
+          
+            
   
+  JavaScript
+
+
+          
+          
+            
+  
+  Python
+
+
+          
+          
+            
+  
+  CoffeeScript
+
+
+          
+          
+            
+  
+  HTML
+
+
+          
+      
+    
 
 
   
@@ -25856,7 +25858,7 @@ MIT
               
                 
   
-    Used by 1.6m  
+    Used by 1.7m  
 
   
     
@@ -25886,7 +25888,7 @@ MIT
           
     
       
-        + 1,647,026
+        + 1,650,156
       
   
 
@@ -26121,7 +26123,7 @@ MIT
                 
                   
                   
-                    459
+                    461
                     followers
                 
                 
@@ -26671,6 +26673,45 @@ MIT
   
     
       
+        forwardemail.net
+        
+          Public
+
+
+          
+            Privacy-focused encrypted email for everyone. All-in-one alternative to Gmail + Mailchimp + Sendgrid.
+
+      
+          
+  
+  forwardemail/forwardemail.net’s past year of commit activity
+
+    
+
+        
+  
+  JavaScript
+
+
+
+        
+          1,105
+
+        
+          145
+      
+        20
+
+      
+        3
+      
+          Updated Apr 28, 2025
+
+
+                  
+  
+    
+      
         status.forwardemail.net
         
           Public
@@ -26705,46 +26746,7 @@ MIT
       
         0
       
-          Updated Apr 27, 2025
-
-
-                  
-  
-    
-      
-        forwardemail.net
-        
-          Public
-
-
-          
-            Privacy-focused encrypted email for everyone. All-in-one alternative to Gmail + Mailchimp + Sendgrid.
-
-      
-          
-  
-  forwardemail/forwardemail.net’s past year of commit activity
-
-    
-
-        
-  
-  JavaScript
-
-
-
-        
-          1,103
-
-        
-          145
-      
-        20
-
-      
-        2
-      
-          Updated Apr 27, 2025
+          Updated Apr 28, 2025
 
 
                   
@@ -26866,7 +26868,7 @@ MIT
           MIT
 
         
-          161
+          162
       
         0
 
@@ -26890,7 +26892,6 @@ MIT
 
       
           
-  
   forwardemail/serverauditing.com’s past year of commit activity
 
     
@@ -26931,7 +26932,6 @@ MIT
 
       
           
-  
   forwardemail/sshmonitor.com’s past year of commit activity
 
     
@@ -27013,6 +27013,7 @@ MIT
 
       
           
+  
   forwardemail/timetoinbox.com’s past year of commit activity
 
     
@@ -27054,6 +27055,7 @@ MIT
 
       
           
+  
   forwardemail/caldav-adapter’s past year of commit activity
 
     
@@ -27222,7 +27224,7 @@ MIT
                 
                   
                   
-                    26
+                    27
                     followers
                 
                 
@@ -27694,6 +27696,7 @@ MIT
 
       
           
+  
   spamscanner/.github’s past year of commit activity
 
     
@@ -27729,6 +27732,7 @@ MIT
 
       
           
+  
   spamscanner/compound-file-js’s past year of commit activity
 
     
@@ -27792,18 +27796,47 @@ MIT
   
 
 
-  
     
-      Top languages
-      Loading…
-    
+      
+        Top languages
+          
+            
   
+  JavaScript
 
 
+          
+          
+            
   
+  TypeScript
+
+
+          
+      
     
-      Most used topics
-      Loading…\n\n\n\n👋\n\nBree - Node.js and JavaScript Job Task Scheduler (2023)
+
+
+    
+      
+        
+          Most used topics
+        
+        
+            
+  javascript
+
+            
+  node
+
+            
+  browser
+
+            
+  ddos
+
+            
+  js\n\n\n\n👋\n\nBree - Node.js and JavaScript Job Task Scheduler (2023)
         
 
           Bree is a Node.js and JavaScript job task scheduler with worker threads, cron, Date, and human syntax. Built for @ladjs, @forwardemail, @spamscanner, @cabinjs.
@@ -27844,7 +27877,7 @@ MIT
                 
                   
                   
-                    28
+                    29
                     followers
                 
                 
@@ -28267,6 +28300,7 @@ MIT
 
       
           
+  
   breejs/express-example’s past year of commit activity
 
     
@@ -28318,7 +28352,7 @@ MIT
 
 
         
-          3,151
+          3,153
         
           MIT
 
@@ -28387,6 +28421,7 @@ MIT
 
       
           
+  
   breejs/bree-desktop’s past year of commit activity
 
     
@@ -28466,6 +28501,7 @@ MIT
 
       
           
+  
   breejs/.github’s past year of commit activity
 
     
@@ -28583,7 +28619,7 @@ MIT
                 
                   
                   
-                    22
+                    23
                     followers
                 
                 
@@ -29224,6 +29260,7 @@ MIT
 
       
           
+  
   cabinjs/parse-request’s past year of commit activity
 
     
@@ -29386,6 +29423,7 @@ MIT
 
       
           
+  
   cabinjs/parse-logs’s past year of commit activity
 
     
@@ -29469,6 +29507,7 @@ MIT
 
       
           
+  
   cabinjs/lass’s past year of commit activity
 
     
@@ -30817,6 +30856,105 @@ Additional navigation options
       
         
           
+    adulbrich
+        
+        
+
+  Works for @OregonStateUniversity
+  
+  
+    @OregonStateUniversity
+  
+
+
+        
+          
+  
+    
+      Follow
+    
+  
+
+
+        
+      
+    
+  
+
+          
+  
+    
+      
+        
+      
+
+      
+        
+          
+    useQuackEffect
+        
+        
+ Joined on Feb 3, 2025
+
+        
+          
+  
+    
+      Follow
+    
+  
+
+
+        
+      
+    
+  
+
+          
+  
+    
+      
+        
+      
+
+      
+        
+          
+    stanrunge
+        
+        
+
+  Works for @VashSoftware
+  
+  
+    @VashSoftware
+  
+
+
+        
+          
+  
+    
+      Follow
+    
+  
+
+
+        
+      
+    
+  
+
+          
+  
+    
+      
+        
+      
+
+      
+        
+          
     aishamazing
         
         
@@ -31485,105 +31623,6 @@ Additional navigation options
         
         
  Joined on Nov 23, 2021
-
-        
-          
-  
-    
-      Follow
-    
-  
-
-
-        
-      
-    
-  
-
-          
-  
-    
-      
-        
-      
-
-      
-        
-          
-    dreamscached
-        
-        
-
-  Works for Technical University of Liberec, FM
-  
-  
-    Technical University of Liberec, FM
-  
-
-
-        
-          
-  
-    
-      Follow
-    
-  
-
-
-        
-      
-    
-  
-
-          
-  
-    
-      
-        
-      
-
-      
-        
-          
-    yagodaoud
-        
-        
-
-  Works for DeltaTec
-  
-  
-    DeltaTec
-  
-
-
-        
-          
-  
-    
-      Follow
-    
-  
-
-
-        
-      
-    
-  
-
-          
-  
-    
-      
-        
-      
-
-      
-        
-          
-    YushiTakeda
-        
-        
- Joined on Nov 20, 2023
 
         
           
@@ -32933,4 +32972,8657 @@ Additional navigation options
 
   
   
-    BranchesOverviewActiveStaleAllSearchDefaultBranchUpdatedCheck statusBehindAheadPull requestAction menumasterCopy branch name to clipboard Mar 20, 2025Delete branchBranch menu\n\n\n\n
+    BranchesOverviewActiveStaleAllSearchDefaultBranchUpdatedCheck statusBehindAheadPull requestAction menumasterCopy branch name to clipboard Mar 20, 2025Delete branchBranch menu\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+Tags: ladjs/supertest
+
+  
+  
+    
+  Releases
+  Tags
+
+
+  
+
+
+  
+      
+  
+  
+            
+          Tags
+
+
+              
+              
+                
+  
+    
+      v7.1.0
+        
+          
+Toggle v7.1.0's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      7.1.0
+
+
+    
+
+  
+      
+        
+        Mar 20, 2025
+      
+
+    
+      
+        
+        359bc52
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v7.0.0
+        
+          
+Toggle v7.0.0's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      7.0.0
+
+
+    
+
+  
+      
+        
+        Apr 24, 2024
+      
+
+    
+      
+        
+        2ae1c36
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.3.4
+        
+          
+Toggle v6.3.4's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      6.3.4
+
+
+    
+
+  
+      
+        
+        Jan 14, 2024
+      
+
+    
+      
+        
+        fd571c8
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.3.3
+        
+          
+Toggle v6.3.3's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      6.3.3
+
+
+    
+
+  
+      
+        
+        Dec 7, 2022
+      
+
+    
+      
+        
+        ffb96df
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.3.2
+        
+          
+Toggle v6.3.2's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      6.3.2
+
+
+    
+
+  
+      
+        
+        Dec 2, 2022
+      
+
+    
+      
+        
+        fb4f327
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.3.1
+        
+          
+Toggle v6.3.1's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      6.3.1
+
+
+    
+
+  
+      
+        
+        Oct 24, 2022
+      
+
+    
+      
+        
+        ca353dd
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.3.0
+        
+          
+Toggle v6.3.0's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      6.3.0
+
+
+    
+
+  
+      
+        
+        Oct 4, 2022
+      
+
+    
+      
+        
+        6a95043
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.2.4
+        
+          
+Toggle v6.2.4's commit message
+
+        
+    
+    
+      
+      
+    Verified
+  
+
+
+
+  
+    
+  
+    
+      
+        Verified
+      
+                
+          
+            
+          
+          
+                This tag was signed with the committer’s verified signature.
+          
+        
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            
+              
+            
+            
+              titanism
+              
+            
+          
+        
+            GPG key ID: AFBA2D3D8FBCF78F
+            
+            
+            Verified
+              
+            
+          Learn about vigilant mode
+        
+
+      
+      
+
+
+
+    
+  
+
+    
+      6.2.4
+
+
+    
+
+  
+      
+        
+        Jul 1, 2022
+      
+
+    
+      
+        
+        5543d67
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.2.3
+    
+    
+      
+        
+    Unverified
+  
+
+
+
+  
+    
+  
+    
+      
+        Unverified
+      
+                  
+            
+              
+            
+            
+                  This tag is not signed, but one or more authors requires that any tag attributed to them is signed.
+            
+          
+
+    
+    
+      
+    
+  
+  
+
+      
+                  
+            Learn about vigilant mode
+          
+
+      
+      
+
+
+
+    
+  
+
+
+  
+      
+        
+        Apr 26, 2022
+      
+
+    
+      
+        
+        43da071
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+            
+              
+                
+  
+    
+      v6.2.2
+    
+    
+      
+
+
+    
+  
+
+
+  
+      
+        
+        Jan 18, 2022
+      
+
+    
+      
+        
+        c2fd9ec
+      
+    
+
+    
+      
+        
+        zip
+      
+    
+
+    
+      
+        
+        tar.gz
+      
+    
+
+      
+        
+          
+          Notes
+        
+      
+
+  
+
+
+
+              
+            
+
+  
+      
+        PreviousNext\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+    
+      
+  
+
+
+  Issues: ladjs/supertest
+
+
+    
+            
+
+  
+      
+        
+
+          
+            Notice regarding the move from @visionmedia org to @ladjs org
+          
+        
+
+        
+          
+            #804
+              opened Dec 2, 2022 by
+              titanism
+              
+          
+        
+
+        
+            
+          Open
+
+        
+      
+  
+
+
+    
+
+  
+      Beta
+      
+    ⚡Try the new experience
+  
+
+
+    
+
+
+  
+
+    
+      
+      
+    
+      
+
+  
+    
+    Labels
+      15
+  
+    
+    Milestones
+      12
+
+
+    
+  
+  
+    
+      
+
+  
+    
+    Labels
+      15
+  
+    
+    Milestones
+      12
+
+
+    
+             
+
+
+  
+    
+    New issue
+  
+  
+            
+    
+              
+  
+
+
+
+  
+    Have a question about this project? Sign up for a free GitHub account to open an issue and contact its maintainers and the community.
+  
+
+  
+          Sign up for GitHub
+
+  
+
+  By clicking “Sign up for GitHub”, you agree to our terms of service and
+  privacy statement. We’ll occasionally send you account related emails.
+
+  
+    Already on GitHub?
+    Sign in
+    to your account
+  
+
+
+
+  
+
+  
+
+
+
+
+  
+    
+
+    
+      
+      168 Open
+    
+
+    
+      
+      435 Closed
+    
+
+
+  
+
+  
+        
+
+  
+    
+      
+
+    
+      
+      168 Open
+    
+
+    
+      
+      435 Closed
+    
+
+
+    
+
+      
+        
+  
+    
+      Author
+      
+    
+    
+      
+        
+          Filter by author
+          
+            
+          
+        
+        
+          
+        
+        
+          
+            
+              
+      Loading
+
+          
+          
+            
+            
+              author:
+              Filter by this user
+            
+        
+      
+    
+  
+
+          
+
+  
+    Label
+    
+  
+  
+    
+      
+        Filter by label
+        
+          
+        
+      
+      
+        
+      
+      
+        
+      Loading
+
+      
+        
+          Use alt + click/return to exclude labels
+        
+        
+          or ⇧ + click/return for logical OR
+        
+      
+    
+  
+
+
+        
+            
+
+        Projects
+    
+  
+    
+      
+        Filter by project
+        
+          
+        
+      
+      
+        
+      Loading
+
+     
+  
+
+
+            
+
+        Milestones
+    
+  
+    
+      
+        Filter by milestone
+        
+          
+        
+      
+      
+        
+      
+      
+        
+      Loading
+
+    
+  
+
+
+        
+        
+
+  
+    Assignee
+    
+  
+  
+    
+      
+        Filter by who’s assigned
+        
+          
+        
+      
+      
+        
+      
+      
+        
+          
+            
+            Assigned to nobody
+          
+          
+            
+      Loading
+
+        
+        
+          
+          
+            assignee:
+            Filter by this user
+          
+      
+    
+  
+
+
+        
+
+  
+    Sort
+    
+  
+  
+    
+      
+        Sort by
+        
+          
+        
+      
+
+      
+          
+            
+            Newest
+          
+          
+            
+            Oldest
+          
+          
+            
+            Most commented
+          
+          
+            
+            Least commented
+          
+          
+            
+            Recently updated
+          
+          
+            
+            Least recently updated
+          
+          
+            
+            Best match
+          
+
+        Most reactions
+        
+            
+              👍
+            
+            
+              👎
+            
+            
+              😄
+            
+            
+              🎉
+            
+            
+              😕
+            
+            
+              ❤️
+            
+            
+              🚀
+            
+            
+              👀
+            
+        
+      
+    
+  
+
+
+      
+  
+
+
+
+
+      Issues list
+      
+        
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      ERR_STREAM_WRITE_AFTER_END when piping request body
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #856
+            opened Apr 1, 2025 by
+            alxndrsn
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    2 of 3 tasks
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] Express unable to update past 6.x
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #851
+            opened Feb 13, 2025 by
+            wesleytodd
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      POST Request Hangs on multipart/form-data Response
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #850
+            opened Jan 18, 2025 by
+            blackjacques
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [feat] Upgrade to latest SuperAgent major version (10).
+
+
+        
+              
+
+                enhancement
+
+        
+      
+        
+          #849
+            opened Jan 3, 2025 by
+            mreishus
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    2 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      file upload testcase with graphql issue.
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #848
+            opened Dec 9, 2024 by
+            nishangTagline
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] SuperTest agents not sending cookies for Localhost domain cookies, you must set them to 127.0.0.1
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #847
+            opened Nov 10, 2024 by
+            yevon
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            2
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Adding complex object to request().field() method
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #842
+            opened Jul 9, 2024 by
+            swkang0513
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    2 of 3 tasks
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            3
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] bug based on node version
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #840
+            opened May 31, 2024 by
+            HongChaeMin
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            2
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [bug] supertest stops if I use more than 4~5 describe() functions in one test file
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #839
+            opened May 29, 2024 by
+            Yush1nk1m
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] Dependency superagent is deprecated
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #838
+            opened May 23, 2024 by
+            Niewdanka
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] Tests timeout no matter what if expect fails.
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #837
+            opened May 3, 2024 by
+            Jason-Terry
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] write EPIPE error when attaching a file. (small repro)
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #830
+            opened Jan 29, 2024 by
+            eddienubes
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            5
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] don't change the requrest url hash
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #827
+            opened Nov 14, 2023 by
+            hongxuWei
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] Next.js: Ubuntu 22.04.3 LTS
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #826
+            opened Nov 8, 2023 by
+            kbventures
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] Cannot send secure cookie over unencrypted connection
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #825
+            opened Sep 12, 2023 by
+            jgcmarins
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Error: write EPIPE on large files - Next.js + Jest + Supertest 
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #824
+            opened Jul 25, 2023 by
+            dasveloper
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            3
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Why I was getting "Jest has detected the following 1 open handle potentially keeping Jest from exiting: Timeout"
+
+
+      
+        
+          #823
+            opened May 25, 2023 by
+            isaacgr
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] Do no replace invalid body with an empty JSON object
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #820
+            opened Apr 6, 2023 by
+            katchengli
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] Module not found: Error: Can't resolve 'http' in '[...]/node_modules/supertest/lib'
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #819
+            opened Mar 20, 2023 by
+            mcoulont
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    1 of 3 tasks
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] timeout doesn't call end with error
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #817
+            opened Feb 17, 2023 by
+            pbatey
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Its is a good practice for Next.js?
+
+
+        
+              
+
+                enhancement
+
+        
+      
+        
+          #816
+            opened Feb 1, 2023 by
+            LksR-dev
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      _body key instead of body in response
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #815
+            opened Jan 27, 2023 by
+            mrtl-srn
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            2
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      cookiejar Regular Expression Denial of Service via Cookie.parse function
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #812
+            opened Jan 25, 2023 by
+            Jaykingamez
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            3
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [fix] TypeError: Cannot read properties of undefined (reading 'address')
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #808
+            opened Jan 3, 2023 by
+            salamisodikiolawale
+            
+        
+
+        
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    3 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      HTTP2 sample no working
+
+
+        
+              
+
+                bug
+
+        
+      
+        
+          #807
+            opened Dec 28, 2022 by
+            branaway
+            
+        
+
+        
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+        
+      
+  
+
+  
+      Previous 1 2 3 4 5 6 7 Next
+  
+
+  
+      Previous Next
+  
+
+  
+  
+  ProTip!
+  Adding no:label will show everything without a label.\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+    
+      
+  
+
+
+  Pull requests: ladjs/supertest
+
+
+
+
+    
+
+
+  
+
+    
+      
+      
+    
+      
+
+  
+    
+    Labels
+      15
+  
+    
+    Milestones
+      12
+
+
+    
+  
+  
+    
+      
+
+  
+    
+    Labels
+      15
+  
+    
+    Milestones
+      12
+
+
+    
+            
+    New pull request
+            New
+  
+
+  
+
+
+
+
+  
+    
+
+    
+      
+      14 Open
+    
+
+    
+      
+      239 Closed
+    
+
+
+  
+
+  
+        
+
+  
+    
+      
+
+    
+      
+      14 Open
+    
+
+    
+      
+      239 Closed
+    
+
+
+    
+
+      
+        
+  
+    
+      Author
+      
+    
+    
+      
+        
+          Filter by author
+          
+            
+          
+        
+        
+          
+        
+        
+          
+            
+              
+      Loading
+
+          
+          
+            
+            
+              author:
+              Filter by this user
+            
+        
+      
+    
+  
+
+          
+
+  
+    Label
+    
+  
+  
+    
+      
+        Filter by label
+        
+          
+        
+      
+      
+        
+      
+      
+        
+      Loading
+
+      
+        
+          Use alt + click/return to exclude labels
+        
+        
+          or ⇧ + click/return for logical OR
+        
+      
+    
+  
+
+
+        
+            
+
+        Projects
+    
+  
+    
+      
+        Filter by project
+        
+          
+        
+      
+      
+        
+      Loading
+
+     
+  
+
+
+            
+
+        Milestones
+    
+  
+    
+      
+        Filter by milestone
+        
+          
+        
+      
+      
+        
+      
+      
+        
+      Loading
+
+    
+  
+
+
+            
+        Reviews
+    
+  
+    
+      
+        Filter by reviews
+        
+          
+        
+      
+      
+          
+            
+            No reviews
+          
+          
+            
+            Review required
+          
+          
+            
+            Approved review
+          
+          
+            
+            Changes requested
+          
+      
+    
+  
+
+
+        
+        
+
+  
+    Assignee
+    
+  
+  
+    
+      
+        Filter by who’s assigned
+        
+          
+        
+      
+      
+        
+      
+      
+        
+          
+            
+            Assigned to nobody
+          
+          
+            
+      Loading
+
+        
+        
+          
+          
+            assignee:
+            Filter by this user
+          
+      
+    
+  
+
+
+        
+
+  
+    Sort
+    
+  
+  
+    
+      
+        Sort by
+        
+          
+        
+      
+
+      
+          
+            
+            Newest
+          
+          
+            
+            Oldest
+          
+          
+            
+            Most commented
+          
+          
+            
+            Least commented
+          
+          
+            
+            Recently updated
+          
+          
+            
+            Least recently updated
+          
+          
+            
+            Best match
+          
+
+        Most reactions
+        
+            
+              👍
+            
+            
+              👎
+            
+            
+              😄
+            
+            
+              🎉
+            
+            
+              😕
+            
+            
+              ❤️
+            
+            
+              🚀
+            
+            
+              👀
+            
+        
+      
+    
+  
+
+
+      
+  
+
+
+
+
+      Pull requests list
+      
+        
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      fix: Fail expectations that throw non-Errors
+
+
+      
+        
+          #843
+            opened Jul 20, 2024 by
+            AaronMoat
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    6 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      feat(bearer):bearer token method
+
+
+      
+        
+          #841
+            opened Jun 3, 2024 by
+            viniciusamc
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    6 tasks done
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      fix end function when piping on request
+
+
+      
+        
+          #832
+            opened Feb 27, 2024 by
+            aaharu
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+          
+  
+      
+        
+      
+      
+
+  
+
+
+    5 of 6 tasks
+  
+
+
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            4
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      fix end function when piping on request
+
+
+      
+        
+          #742
+            opened Oct 19, 2021 by
+            lafeuil
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            1
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Fix end() not called when app is started manually
+
+
+      
+        
+          #651
+            opened May 15, 2020 by
+            nunofgs
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+          
+              
+                
+                  
+                  1
+                
+              
+          
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      added proxy
+
+
+      
+        
+          #584
+            opened Jul 18, 2019 by
+            tauheedkhan
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            2
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Compose urls in Test.serverAddress using Node's url library
+
+
+      
+        
+          #580
+            opened Jun 20, 2019 by
+            tprobinson
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            2
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      changed inspect depth for testing deeply nested objects
+
+
+      
+        
+          #577
+            opened May 25, 2019 by
+            GeoFro
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            3
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      [lib/test.js] Support URLs without leading slash
+
+
+      
+        
+          #512
+            opened Sep 14, 2018 by
+            petermikitsh
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            2
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Added prefix option for agents
+
+
+        
+              
+
+                enhancement
+
+        
+      
+        
+          #465
+            opened Mar 7, 2018 by
+            Thann
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            7
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Support embedded regular expressions.
+
+
+        
+              
+
+                conflicts
+
+  Conflicts to resolve
+        
+      
+        
+          #441
+            opened Oct 21, 2017 by
+            Thann
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+
+              
+                
+          
+        
+      
+
+      
+          
+            
+            2
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Add support for promises / async functions in expect. Fixes #401.
+
+
+      
+        
+          #402
+            opened Feb 2, 2017 by
+            LegNeato
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            8
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Promised supertest
+
+
+      
+        
+          #380
+            opened Nov 17, 2016 by
+            robinvdvleuten
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            5
+          
+      
+    
+
+      
+  
+
+
+              
+
+  
+
+
+    
+      
+        
+      
+    
+
+    
+    
+
+      Clarify that .end(..) closes the server
+
+
+        
+              
+
+                conflicts
+
+  Conflicts to resolve
+        
+      
+        
+          #369
+            opened Aug 30, 2016 by
+            osher
+            
+        
+
+        
+          
+  
+    
+
+  
+    Loading…
+
+
+
+
+        
+
+        
+
+      
+    
+
+    
+
+      
+      
+
+      
+        
+          
+          
+        
+      
+
+      
+          
+            
+            8
+          
+      
+    
+
+      
+  
+
+
+        
+      
+  
+
+  
+      
+  
+
+  
+      
+  
+
+  
+  
+  ProTip!
+  Exclude everything labeled bug with -label:bug.\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+  Actions: ladjs/supertest
+  
+  
+    
+      
+                  
+
+  
+    Actions
+  
+
+  
+    
+      
+
+        
+  
+  
+    
+        
+          
+
+    
+    
+    
+      
+        
+                        All workflows
+
+      
+
+  
+
+
+          
+        
+          
+
+
+  
+      
+  
+    Workflows
+  
+
+    
+        
+
+    
+    
+    
+      
+        
+          
+  Node.js CI
+
+      
+
+  
+
+
+
+          
+
+    
+    
+    
+      
+        
+                        Show more workflows...
+
+      
+
+  
+
+
+
+
+
+
+          
+        
+          
+
+
+  
+      
+  
+    Management
+  
+
+    
+        
+
+    
+    
+    
+        
+          
+        
+      
+        
+                        Caches
+
+      
+
+  
+
+
+    
+
+
+
+  
+
+        
+          
+        
+
+        
+          
+        
+      
+    
+
+
+
+                
+      
+
+  
+  
+  
+    
+            
+          
+            
+              All workflows
+            
+          
+      
+      
+              All workflows
+      
+
+
+  
+      
+        
+          
+            Actions
+          
+          
+            
+          
+        
+      
+    
+      
+                
+        Loading...
+        
+      Loading
+
+      
+      
+        Sorry, something went wrong.
+      
+
+
+    
+
+
+      
+
+      
+
+                
+          
+  
+    
+    
+    
+      
+    
+
+    
+      
+        
+      
+      
+        
+        
+        will be ignored since log searching is not yet available
+      
+    
+
+
+        
+
+  
+            Showing runs from all workflows
+
+            
+  
+    
+    
+    
+      
+    
+
+    
+      
+        
+      
+      
+        
+        
+        will be ignored since log searching is not yet available
+      
+    
+
+
+
+
+      
+    
+
+
+
+
+  
+    
+      9 workflow runs
+    
+  
+
+
+  
+    
+        
+          9 workflow runs
+        
+    
+    
+      
+  
+      
+    Event
+  
+    
+      
+    
+
+
+    
+      
+  
+    
+      
+        Filter by Event
+      
+        
+    
+    
+      
+    
+  
+              
+              
+  
+      
+        
+      
+    
+      
+                  Sorry, something went wrong.
+
+            
+            
+                
+      
+        Filter
+    
+  
+      
+        
+          
+      Loading
+
+      
+    
+      
+
+      
+  
+  
+  
+
+    
+
+
+      
+        
+          
+          
+            
+                
+                  
+                    
+                      
+  
+                    
+                    
+                        
+                          
+                          Sorry, something went wrong.
+                        
+                    
+            
+            
+              No matching events.
+            
+        
+      
+  
+
+      
+  
+      
+    Status
+  
+    
+      
+    
+
+
+    
+      
+  
+    
+      
+        Filter by Status
+      
+        
+    
+    
+      
+    
+  
+              
+              
+  
+      
+        
+      
+    
+      
+                  Sorry, something went wrong.
+
+            
+            
+                
+      
+        Filter
+    
+  
+      
+        
+          
+      Loading
+
+      
+    
+      
+
+      
+  
+  
+  
+
+    
+
+
+      
+        
+          
+          
+            
+                
+                  
+                    
+                      
+  
+                    
+                    
+                        
+                          
+                          Sorry, something went wrong.
+                        
+                    
+            
+            
+              No matching statuses.
+            
+        
+      
+  
+
+      
+  
+      
+    Branch
+  
+    
+      
+    
+
+
+    
+      
+  
+    
+      
+        Filter by Branch
+      
+        
+    
+    
+      
+    
+  
+              
+              
+  
+      
+        
+      
+    
+      
+                  Sorry, something went wrong.
+
+            
+            
+                
+      
+        Filter
+    
+  
+      
+        
+          
+      Loading
+
+      
+    
+      
+
+      
+  
+  
+  
+
+    
+
+
+      
+        
+          
+          
+            
+                
+                  
+                    
+                      
+  
+                    
+                    
+                        
+                          
+                          Sorry, something went wrong.
+                        
+                    
+            
+            
+              No matching branches.
+            
+        
+      
+  
+
+      
+  
+      
+    Actor
+  
+    
+      
+    
+
+
+    
+      
+  
+    
+      
+        Filter by Actor
+      
+        
+    
+    
+      
+    
+  
+              
+              
+  
+      
+        
+      
+    
+      
+                  Sorry, something went wrong.
+
+            
+            
+                
+      
+        Filter
+    
+  
+      
+        
+          
+      Loading
+
+      
+    
+      
+
+      
+  
+  
+  
+
+    
+
+
+      
+        
+          
+          
+            
+                
+                  
+                    
+                      
+  
+                    
+                    
+                        
+                          
+                          Sorry, something went wrong.
+                        
+                    
+            
+            
+              No matching users.
+            
+        
+      
+  
+
+    
+  
+
+
+      
+
+
+    
+  
+    
+      
+          
+
+    
+
+
+          
+            7.1.0
+          
+        
+
+      
+        Node.js CI
+        #65:
+
+        
+            Commit 359bc52
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  March 20, 2025 15:48
+
+
+            
+      
+      
+        34s
+      
+    
+
+          master
+      
+    
+
+    
+        master
+    
+
+    
+      
+        
+          
+  
+  March 20, 2025 15:48
+
+
+              
+      
+      
+        34s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            7.1.0
+          
+        
+
+      
+        Node.js CI
+        #64:
+
+        
+            Commit 359bc52
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  March 20, 2025 15:48
+
+
+            
+      
+      
+        32s
+      
+    
+
+          v7.1.0
+      
+    
+
+    
+        v7.1.0
+    
+
+    
+      
+        
+          
+  
+  March 20, 2025 15:48
+
+
+              
+      
+      
+        32s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            Merge pull request #852 from alxndrsn/econnreset
+          
+        
+
+      
+        Node.js CI
+        #63:
+
+        
+            Commit de045d4
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  March 20, 2025 15:45
+
+
+            
+      
+      
+        34s
+      
+    
+
+          master
+      
+    
+
+    
+        master
+    
+
+    
+      
+        
+          
+  
+  March 20, 2025 15:45
+
+
+              
+      
+      
+        34s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            Merge pull request #845 from ikonst/master
+          
+        
+
+      
+        Node.js CI
+        #62:
+
+        
+            Commit be0d5c7
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  March 20, 2025 15:45
+
+
+            
+      
+      
+        35s
+      
+    
+
+          master
+      
+    
+
+    
+        master
+    
+
+    
+      
+        
+          
+  
+  March 20, 2025 15:45
+
+
+              
+      
+      
+        35s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            Merge pull request #854 from alxndrsn/commitlint
+          
+        
+
+      
+        Node.js CI
+        #61:
+
+        
+            Commit 35ac86f
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  March 20, 2025 15:43
+
+
+            
+      
+      
+        35s
+      
+    
+
+          master
+      
+    
+
+    
+        master
+    
+
+    
+      
+        
+          
+  
+  March 20, 2025 15:43
+
+
+              
+      
+      
+        35s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            7.0.0
+          
+        
+
+      
+        Node.js CI
+        #49:
+
+        
+            Commit 2ae1c36
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  April 24, 2024 15:19
+
+
+            
+      
+      
+        35s
+      
+    
+
+          master
+      
+    
+
+    
+        master
+    
+
+    
+      
+        
+          
+  
+  April 24, 2024 15:19
+
+
+              
+      
+      
+        35s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            7.0.0
+          
+        
+
+      
+        Node.js CI
+        #48:
+
+        
+            Commit 2ae1c36
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  April 24, 2024 15:19
+
+
+            
+      
+      
+        36s
+      
+    
+
+          v7.0.0
+      
+    
+
+    
+        v7.0.0
+    
+
+    
+      
+        
+          
+  
+  April 24, 2024 15:19
+
+
+              
+      
+      
+        36s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            Merge pull request #834 from Bruception/master
+          
+        
+
+      
+        Node.js CI
+        #47:
+
+        
+            Commit 225118c
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  April 24, 2024 15:14
+
+
+            
+      
+      
+        32s
+      
+    
+
+          master
+      
+    
+
+    
+        master
+    
+
+    
+      
+        
+          
+  
+  April 24, 2024 15:14
+
+
+              
+      
+      
+        32s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file
+                    
+                  
+
+
+              
+            
+        
+      
+    
+  
+
+
+  
+    
+      
+          
+
+    
+
+
+          
+            fix: bump deps, drop Node.js v<14.16.0
+          
+        
+
+      
+        Node.js CI
+        #41:
+
+        
+            Commit 1e18c20
+
+            pushed
+            by
+              titanism
+              
+        
+      
+
+      
+        
+  
+  April 23, 2024 19:45
+
+
+            
+      
+      
+        32s
+      
+    
+
+          master
+      
+    
+
+    
+        master
+    
+
+    
+      
+        
+          
+  
+  April 23, 2024 19:45
+
+
+              
+      
+      
+        32s
+      
+    
+
+        
+
+        
+            
+                    
+
+              
+
+
+                  
+                    
+                      View workflow file\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+    
+      
+  ladjs/supertest projects
+  
+    
+  
+      
+      
+        
+  
+          
+        
+          
+          
+            Projects
+          
+        
+        
+      
+
+    
+      
+        
+            
+              
+              
+              Projects
+            
+            
+              
+              
+              Templates
+            
+        
+      
+    
+  
+
+
+
+      
+          
+    
+  
+    
+        
+  
+      
+        
+      
+    
+                  Projects
+
+    
+
+        
+  
+      
+        
+      
+    
+                  Templates
+
+    
+
+  
+
+
+    
+        
+      
+      
+          
+            
+              
+  
+    
+      
+      
+        Search all projects
+    
+  
+      
+        
+      
+    
+      
+      
+        
+      
+
+      
+  
+  
+  
+
+    
+
+
+    
+    
+
+
+
+
+
+
+
+  Search results
+  
+    0 open and 0 closed projects found.
+  
+  
+  
+    
+                    
+  
+    
+      
+
+            No open projects\n\n\n\nSecurity
+Do not report vulnerabilities through public GitHub issues, discussions, pull requests, or any other public form of communication.
+Please directly email security@titanism.com to report vulnerabilities.  Depending on the severity of the vulnerability, and to our sole discretion, we may choose to award a bug bounty for the vulnerability disclosure.\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+Security: ladjs/supertest
+
+
+
+    
+    
+    
+  Security
+  
+  
+
+
+  
+  
+    
+      
+        SECURITY.md
+      
+    
+    
+      Security
+Do not report vulnerabilities through public GitHub issues, discussions, pull requests, or any other public form of communication.
+Please directly email security@titanism.com to report vulnerabilities.  Depending on the severity of the vulnerability, and to our sole discretion, we may choose to award a bug bounty for the vulnerability disclosure.
+
+    
+
+
+
+
+    
+  
+    
+      
+
+              There aren’t any published security advisories\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+Insights: ladjs/supertest
+
+  
+  
+        
+
+  
+    Pulse
+    Contributors
+      Community Standards
+    Commits
+    Code frequency
+      Dependency graph
+    Network
+    Forks
+  
+
+
+
+  
+      
+  
+  April 21, 2025 – April 28, 2025
+  
+        
+              Period:
+          1 week
+        
+          
+            Filter activity
+          
+          
+              
+                
+                24 hours
+              
+              
+                
+                3 days
+              
+              
+                
+                1 week
+              
+              
+                
+                1 month
+              
+          
+        
+      
+
+
+  
+    
+      Overview
+    
+
+    
+      
+        
+          
+          
+          
+            0
+            Active pull requests
+          
+        
+
+        
+          
+                
+          
+          
+            1
+            Active issue
+          
+        
+      
+
+      
+        
+          
+                
+                  
+                  0
+                
+                Merged pull requests
+          
+          
+              
+                
+                0
+              
+              Open pull requests
+          
+          
+              
+                
+                  
+                  1
+                
+                Closed issue
+              
+          
+          
+              
+                
+                0
+              
+              New issues
+          
+        
+      
+    
+  
+
+    
+  
+      There hasn’t been any commit activity on ladjs/supertest in the last  week.
+
+        Want to help out?
+          
+            
+                    
+                Fork this repository
+          
+
+
+  
+
+      
+    
+      
+        
+        1 Issue
+        closed by 1 person
+      
+    
+    
+      
+        
+        
+          [fix] npm build fails with Node.js versions that don't provide os.machine
+          
+            #857 closed Apr 23, 2025
+          
+        
+      
+    
+
+
+
+
+
+      
+  
+    
+      
+      1
+      Unresolved conversation
+    
+  
+  
+    Sometimes conversations happen on old items that aren’t yet closed.
+    Here is a list of all the Issues and Pull Requests with unresolved
+    conversations.
+  
+
+  
+    
+      
+      
+        fix: Fail expectations that throw non-Errors
+        
+          #843 commented on Apr 25, 2025 • 0 new comments\n\n\n\nladjs
+    
+    /
+    
+      supertest
+    
+
+    Public
+  
+
+
+        
+
+        
+            
+    
+      
+
+  
+                Notifications
+    You must be signed in to change notification settings
+
+  
+
+  
+              Fork
+    765
+
+  
+
+  
+        
+            
+          Star
+          14k
+
+  
+
+
+
+        
+      
+
+        
+
+
+
+          
+
+  
+      
+  
+    
+              
+        Code
+          
+
+
+    
+
+      
+  
+    
+              
+        Issues
+          168
+
+
+    
+
+      
+  
+    
+              
+        Pull requests
+          14
+
+
+    
+
+      
+  
+    
+              
+        Actions
+          
+
+
+    
+
+      
+  
+    
+              
+        Projects
+          0
+
+
+    
+
+      
+  
+    
+              
+        Security
+          
+
+    
+
+      
+  
+    
+              
+        Insights
+          
+
+
+    
+
+
+          
+  
+      
+Additional navigation options
+
+
+
+  
+    
+                
+  
+    
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Code
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Issues
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Pull requests
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Actions
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Projects
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Security
+      
+
+  
+
+        
+    
+    
+    
+        
+          
+        
+      
+        
+          Insights
+      
+
+  
+
+    
+
+
+
+
+      
+  
+
+
+
+  
+
+  
+
+
+
+
+    
+    
+
+
+
+    
+      
+    
+
+
+
+
+
+
+
+
+
+  
+  
+    CommitsBranch selector masterUser selectorAll usersDatepickerAll timeCommit HistoryCommits on Mar 20, 20257.1.0titanismcommitted359bc52Copy full SHA for 359bc52Merge pull request #852 from alxndrsn/econnresetShow description for de045d4titanismauthoredde045d4Copy full SHA for de045d4Merge pull request #845 from ikonst/masterShow description for be0d5c7titanismauthoredbe0d5c7Copy full SHA for be0d5c7Merge pull request #854 from alxndrsn/commitlintShow description for 35ac86ftitanismauthored35ac86fCopy full SHA for 35ac86fCommits on Mar 19, 2025fix(dev): commitlint dev dependency & configShow description for e67fcb2alxndrsncommittede67fcb2Copy full SHA for e67fcb2fix: avoid server re-use race conditionsShow description for 96c06e3alxndrsncommitted96c06e3Copy full SHA for 96c06e3Commits on Oct 28, 2024test: fix test failure due to localhost being also ipv6Show description for 92079a0ikonstcommitted92079a0Copy full SHA for 92079a0Commits on Apr 24, 20247.0.0titanismcommitted2ae1c36Copy full SHA for 2ae1c36Merge pull request #834 from Bruception/masterShow description for 225118ctitanismauthored225118cCopy full SHA for 225118cFix TestAgent not inheriting Agent propertiesBruceptioncommittedf290431Copy full SHA for f290431Commits on Apr 23, 2024fix: bump deps, drop Node.js v<14.16.0titanismcommitted1e18c20Copy full SHA for 1e18c20Commits on Jan 14, 20246.3.4titanismcommittedfd571c8Copy full SHA for fd571c8chore: bump deps, remove yarn.locktitanismcommittedbc4398aCopy full SHA for bc4398achore: bump depstitanismcommittedc823515Copy full SHA for c823515Merge pull request #811 from ladjs/dependabot/npm_and_yarn/cookiejar-2.1.4Show description for 37017b3titanismauthored37017b3Copy full SHA for 37017b3Merge pull request #814 from siddtheone/patch-1Show description for 6b41374titanismauthored6b41374Copy full SHA for 6b41374Merge pull request #828 from 9renpoto/9renpoto-patch-1Show description for 0ff9c02titanismauthored0ff9c02Copy full SHA for 0ff9c02si/visionmedia/ladjs/9renpotocommitted2cba6d4Copy full SHA for 2cba6d4Commits on Dec 6, 2023Update package.json9renpotoauthored79a69b6Copy full SHA for 79a69b6Commits on Apr 13, 2023Merge pull request #821 from yunnysunny/feature/ci-fixShow description for c1b8f9dtitanismauthoredc1b8f9dCopy full SHA for c1b8f9dci: fix broken github action cache savingyunnysunnycommitted5d48749Copy full SHA for 5d48749Commits on Feb 21, 2023Merge pull request #818 from lamweili/patch-1Show description for 25920e7titanismauthored25920e7Copy full SHA for 25920e7docs: fixed links (for #621)lamweiliauthored3767f9eCopy full SHA for 3767f9eCommits on Jan 25, 2023Update README.mdsiddtheoneauthoredb81d3a4Copy full SHA for b81d3a4Removing unused importsiddtheoneauthored4b372ebCopy full SHA for 4b372ebCommits on Jan 24, 2023chore(deps): bump cookiejar from 2.1.3 to 2.1.4Show description for ac9327fdependabot[bot]authoredac9327fCopy full SHA for ac9327fCommits on Jan 18, 2023Merge pull request #646 from dtom90/patch-1Show description for 44d5d72titanismauthored44d5d72Copy full SHA for 44d5d72Commits on Dec 22, 2022Merge pull request #621 from RichieRunner/patch-1Show description for d91ff37titanismauthoredd91ff37Copy full SHA for d91ff37Commits on Dec 7, 20226.3.3titanismcommittedffb96dfCopy full SHA for ffb96dfchore: bump depstitanismcommitted2910f73Copy full SHA for 2910f73Commits on Dec 2, 20226.3.2titanismcommittedfb4f327Copy full SHA for fb4f327docs: added maintainer notetitanismcommittede24875dCopy full SHA for e24875ddocs: fixed linkstitanismcommitted5b59ddcCopy full SHA for 5b59ddcCommits on Oct 24, 20226.3.1titanismcommittedca353ddCopy full SHA for ca353ddfix: bump superagent (closes #798)titanismcommitted25122e6Copy full SHA for 25122e6PaginationPreviousNext\n\n\n\n
