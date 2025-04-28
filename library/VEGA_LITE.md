@@ -1,202 +1,241 @@
 # VEGA_LITE
 
 ## Crawl Summary
-Vega-Lite is a high-level grammar enabling concise JSON-based visualization specifications. It provides API methods for defining visual marks, data sources, and encoding channels. The system supports data and visual transformations, layering, multi-view displays, and interactivity. Build instructions include cloning the repository, installing dependencies via yarn, building with 'yarn build', and testing with 'yarn test'. Key API usage involves methods such as vl.markBar(), vl.x(), and vl.y(), and the resulting JSON specification details marks, data URLs, encoding with binning and aggregation.
+Vega-Lite provides a high-level JSON grammar for interactive graphics. It defines exact specifications for view properties (title, dimensions), data sources formats, a rich set of transforms (aggregate, bin, calculate, etc.), mark definitions and configurations, detailed encoding channels, projection settings, view composition rules, parameter binding for interactivity, global configuration, and specific property types. The documentation includes complete API method signatures and configuration options for immediate implementation.
 
 ## Normalised Extract
-Table of Contents:
-1. Overview
-   - High-level interactive grammar, version 6.1.0, online at https://vega.github.io/vega-lite/
-2. API Usage
-   - Method: vl.markBar() returns a bar mark builder
-   - Method: .data(url: string) attaches a data source
-   - Method: .encode(...channels) configures encoding channels with methods like vl.x() and vl.y()
-3. JSON Specification
-   - Example: mark: bar, data: { url: 'data/movies.json' }, encoding: { x: { bin: true, field: 'IMDB_Rating', type: 'quantitative' }, y: { aggregate: 'count', type: 'quantitative' } }
-4. Build Instructions
-   - Clone repository from https://github.com/vega/vega-lite-api
-   - Run yarn to install dependencies
-   - Execute yarn build to generate source code
-   - Execute yarn test to run tests
-5. Configuration and Customization
-   - Default rules auto-configure axes, legends, scales
-   - User may override defaults for custom visualizations, interactive selections and layered displays
-6. Best Practices and Troubleshooting
-   - Ensure yarn and Node.js are properly installed
-   - Verify JSON schema against the latest Vega-Lite JSON schema specification available online
-   - Use provided Observable notebooks for introductory examples
+TABLE OF CONTENTS:
+1. Vega-Lite Overview
+2. View Specification
+   - Title Properties: text, align, anchor, font, fontSize
+   - Dimensions: width, height with responsive options
+3. Data / Datasets
+   - Data sources: inline, URL, generator; format options: json, csv, tsv
+4. Transform Operations
+   - Aggregate: fields, ops (sum, avg, count, min, max, median), groupby
+   - Bin: parameters (maxbins, anchor, base, extent)
+   - Calculate: expression and output field
+   - Additional: Density, Extent, Filter, Flatten, Fold, Impute, Join Aggregate, Loess, Lookup, Pivot, Quantile, Regression, Sample, Stack, Time Unit (with UTC & parameters), Window
+5. Mark Definitions
+   - Supported Marks: Arc, Area, Bar, Box Plot, Circle, Error Band, Error Bar, Geoshape, Image, Line, Point, Rect, Rule, Square, Text, Tick, Trail
+   - Mark Config: color, size, opacity, style
+6. Encoding
+   - Channels: positioning, aggregate, conditional, datum, header, legend, scale, stack, sort, time unit
+7. Projection
+   - Geographic projections with type, scale, center, rotation
+8. View Composition
+   - Facet, Layer, Concat, Repeat with configuration and resolution
+9. Parameter
+   - Definitions: value, expr, bind, select
+10. Global Config
+    - Options for Format, Guide, Mark, Style, Scale, Projection, Selection, Title, Locale
+11. Tooltip & Invalid Data
+    - Tooltip channel configuration, disable options, invalid data handling
+
+Detailed Items:
+- View Specification: Use JSON objects to define properties. Example Title object: { text: 'My Chart', align: 'center', anchor: 'start', font: 'Helvetica', fontSize: 16 }
+- Aggregate Transform: { "aggregate": [{ "op": "sum", "field": "value", "as": "total_value" }], "groupby": ["category"] }
+- Bin Transform: { "bin": { "maxbins": 10, "anchor": 0, "base": 10 }, "field": "amount", "as": "binned_amount" }
+- Vega-Embed API (used to render specs): Signature: vegaEmbed(container: string|HTMLElement, spec: object, opt?: object) => Promise<{view: object, spec: object}>.
+- Configuration Options: Global config objects allow setting default mark colors, fonts, axis styles, and locale settings.
+- Best Practices: Validate JSON schema, use pre-calculated aggregates for performance, and bind parameters for interactive charts.
+- Troubleshooting: Check compiler errors from Vega’s compiler output, use console logs to view spec conversion errors, and verify data parsing by inspecting network responses.
 
 ## Supplementary Details
-Technical Specifications:
-- Version: 6.1.0
-- API Methods:
-  * vl.markBar(): Returns a bar mark builder object
-  * .data(url: string): Accepts a URL string to specify data source
-  * .encode(...): Accepts encoding definitions including:
-    - vl.x(): Configures x-axis with methods: fieldQ(field: string) with optional bin(boolean), type (quantitative)
-    - vl.y(): Configures y-axis with methods: count() or aggregate function such as count
-- JSON Output exactly includes keys: mark, data (with URL), encoding with complete channel properties: bin, field, type, aggregate
-- Build commands:
-  * Clone command: git clone https://github.com/vega/vega-lite-api
-  * Installation: yarn
-  * Build: yarn build
-  * Test: yarn test
-- Configuration Options:
-  * Default components: Axes, legends, scales auto-generated following set rules
-  * Options to override defaults allowing detailed customizations
-- Implementation Steps:
-  1. Write the API code using vl.markBar() chain
-  2. Define data source via .data()
-  3. Configure encoding channels via .encode() with detailed channel methods
-  4. Generate Vega-Lite JSON specification automatically
-  5. Use Vega compiler for final rendering
-- Troubleshooting:
-  * If build fails, ensure yarn and Node.js versions are current
-  * Run yarn test to identify API discrepancies
-  * Verify JSON output against official JSON schema
+Exact Parameter Values & Configuration:
+- Title Object: { text: 'Chart Title', align: 'center', anchor: 'start', font: 'Arial', fontSize: 18, offset: 10 }
+- Data Source: For JSON data, specify { url: 'data.json', format: { type: 'json', property: 'values' } }.
+- Aggregate Transform: Parameters: op must be one of [sum, average, count, min, max, median]; groupby is an array of field names; example: { aggregate: [{ op: 'mean', field: 'score', as: 'mean_score' }], groupby: ['group'] }.
+- Bin Transform Defaults: maxbins = 10, anchor = 0, base = 10; can be overridden in the spec.
+- Vega-Embed Options: { actions: false, mode: 'vega-lite', renderer: 'svg' } with default renderer 'canvas'.
+- SDK Method Signature: vegaEmbed(container: string|HTMLElement, spec: object, opt?: { actions?: boolean, renderer?: 'canvas'|'svg', defaultStyle?: boolean, width?: number, height?: number }) returns Promise with view and spec objects.
+- Implementation Steps: 1. Create a valid Vega-Lite JSON spec. 2. Embed with vegaEmbed. 3. Validate rendered output in browser console.
+- Troubleshooting: Use command line tool: npm run build; inspect output. For API errors, run: console.error('Vega-Lite error:', error) to capture details from the promise rejection.
 
 ## Reference Details
-Complete API Specifications:
-- Method Signature: vl.markBar() : MarkBuilder
-    * Returns a builder object with methods: data(url: string): MarkBuilder, encode(...channels: EncodingChannel[]): MarkBuilder
-- Encoding Methods:
-  * vl.x(): ChannelBuilder
-      - Method fieldQ(field: string): ChannelBuilder
-      - Optional: .bin(boolean) to enable binning
-      - Returns: configuration object with properties { bin, field, type: 'quantitative' }
-  * vl.y(): ChannelBuilder
-      - Method count(): ChannelBuilder
-      - Alternatively, aggregate functions can be specified: aggregate: 'count'
-- SDK Usage Pattern:
-  Example:
-  vl.markBar()
-    .data('data/movies.json')
-    .encode(
-      vl.x().fieldQ('IMDB_Rating').bin(true),
-      vl.y().count()
-    )
-  This pattern compiles into a JSON object:
-  {
-    "mark": "bar",
-    "data": {"url": "data/movies.json"},
-    "encoding": {
-      "x": { "bin": true, "field": "IMDB_Rating", "type": "quantitative" },
-      "y": { "aggregate": "count", "type": "quantitative" }
-    }
-  }
-- Build Instructions Commands:
-  * git clone https://github.com/vega/vega-lite-api
-  * yarn (to install dependencies)
-  * yarn build (to build API and generate source code)
-  * yarn test (to run unit tests)
-- Configuration Options:
-  * Default visual components auto-configured based on internal rules
-  * Overrides available via explicit JSON configuration in encoding channels
-- Best Practices:
-  * Always validate JSON output against the Vega-Lite JSON schema
-  * Use Observable notebooks provided in documentation for learning and debugging
-  * For troubleshooting, verify environment with 'yarn test' and inspect error logs
-  * Ensure Node.js and yarn are updated to recommended versions
-- Troubleshooting Procedures:
-  * If installation fails, execute: npm install -g yarn
-  * For build errors, clean cache with: yarn cache clean
-  * Expected output of yarn test should list all tests as passed (e.g., 100% passing)
-  * Check console output for detailed error stack traces if tests fail
+API Specifications & Code Examples:
+1. Vega-Embed Function:
+   Signature: vegaEmbed(container: string|HTMLElement, spec: object, opt?: { actions?: boolean, renderer?: 'canvas'|'svg', defaultStyle?: boolean, width?: number, height?: number }) : Promise<{ view: any, spec: any }>
+   Example:
+   // Initialize chart
+   const container = '#vis';
+   const spec = {
+     width: 400,
+     height: 300,
+     mark: 'bar',
+     data: { url: 'data.json' },
+     encoding: {
+       x: { field: 'category', type: 'ordinal' },
+       y: { field: 'value', type: 'quantitative' }
+     }
+   };
+   vegaEmbed(container, spec, { actions: false, renderer: 'svg' }).then(result => {
+     // Chart rendered successfully
+   }).catch(error => {
+     console.error('Vega-Embed error:', error);
+   });
+
+2. Transform Operations:
+   Aggregate Transform:
+   {
+     aggregate: [{ op: 'sum', field: 'sales', as: 'total_sales' }],
+     groupby: ['region']
+   }
+   Bin Transform:
+   {
+     bin: { maxbins: 10, anchor: 0, base: 10 },
+     field: 'price',
+     as: 'binned_price'
+   }
+
+3. Mark Configuration:
+   Bar Mark Example:
+   {
+     mark: 'bar',
+     encoding: {
+       x: { field: 'category', type: 'ordinal' },
+       y: { field: 'amount', type: 'quantitative' }
+     },
+     config: {
+       mark: { color: 'steelblue', opacity: 0.8 }
+     }
+   }
+
+4. Configuration Options:
+   Global Config Example:
+   {
+     config: {
+       axis: { labelFont: 'Helvetica', labelFontSize: 12, titleFont: 'Helvetica-Bold', titleFontSize: 14 },
+       title: { font: 'Arial', fontSize: 16, anchor: 'middle' },
+       legend: { labelFont: 'Arial', labelFontSize: 12 }
+     }
+   }
+
+5. Troubleshooting Procedures:
+   - Command: npm run build
+     Expected Output: Successful compilation with no errors related to schema validation.
+   - Debug: Check the browser console for errors during vegaEmbed execution. Example error: 'Invalid specification: missing data property'.
+   - Verification: Use JSON schema validators to compare the spec with Vega-Lite schema at https://vega.github.io/schema/vega-lite/v5.json
+
+6. Best Practices:
+   - Always validate data types in encoding fields.
+   - Use pre-aggregated data for large datasets where possible.
+   - Bind parameters for interactive charts with clear defaults in the specification.
+
+Refer to official documentation examples for complete end-to-end implementation patterns.
 
 ## Information Dense Extract
-Version 6.1.0; API: vl.markBar() -> builder, methods: .data(string), .encode(vl.x().fieldQ(string).bin(true), vl.y().count()); JSON: { mark: 'bar', data: { url: 'data/movies.json' }, encoding: { x: { bin: true, field: 'IMDB_Rating', type: 'quantitative' }, y: { aggregate: 'count', type: 'quantitative' } } }; Build: git clone repo, yarn install, yarn build, yarn test; Config: auto-generated axes/legends/scales with override options; Troubleshooting: verify yarn, Node.js, clear cache, run yarn test; Best practices: validate JSON schema, use Observable notebooks.
+VEGA-LITE; JSON grammar for interactive graphics; View Spec: { title: { text, align, anchor, font, fontSize }, width, height }; Data: inline, URL with format:{ type, property }; Transforms: Aggregate (op: sum, avg, count, groupby), Bin (maxbins, anchor, base), Calculate (expression -> output), plus Density, Extent, Filter, Flatten, Fold, Impute, JoinAggregate, Loess, Lookup, Pivot, Quantile, Regression, Sample, Stack, TimeUnit (UTC), Window; Mark types: Arc, Area, Bar, BoxPlot, Circle, ErrorBand, ErrorBar, Geoshape, Image, Line, Point, Rect, Rule, Square, Text, Tick, Trail; Encoding: x, y, color, size, shape, opacity, tooltip; Projection: type, scale, center, rotation; Composition: Facet, Layer, Concat, Repeat; Parameter: value, expr, bind, select; Global Config: axis, title, legend fonts and sizes; API: vegaEmbed(container, spec, opt) => Promise<{view,spec}>; Code examples and troubleshooting via npm run build and JSON schema validation.
 
 ## Sanitised Extract
-Table of Contents:
-1. Overview
-   - High-level interactive grammar, version 6.1.0, online at https://vega.github.io/vega-lite/
-2. API Usage
-   - Method: vl.markBar() returns a bar mark builder
-   - Method: .data(url: string) attaches a data source
-   - Method: .encode(...channels) configures encoding channels with methods like vl.x() and vl.y()
-3. JSON Specification
-   - Example: mark: bar, data: { url: 'data/movies.json' }, encoding: { x: { bin: true, field: 'IMDB_Rating', type: 'quantitative' }, y: { aggregate: 'count', type: 'quantitative' } }
-4. Build Instructions
-   - Clone repository from https://github.com/vega/vega-lite-api
-   - Run yarn to install dependencies
-   - Execute yarn build to generate source code
-   - Execute yarn test to run tests
-5. Configuration and Customization
-   - Default rules auto-configure axes, legends, scales
-   - User may override defaults for custom visualizations, interactive selections and layered displays
-6. Best Practices and Troubleshooting
-   - Ensure yarn and Node.js are properly installed
-   - Verify JSON schema against the latest Vega-Lite JSON schema specification available online
-   - Use provided Observable notebooks for introductory examples
+TABLE OF CONTENTS:
+1. Vega-Lite Overview
+2. View Specification
+   - Title Properties: text, align, anchor, font, fontSize
+   - Dimensions: width, height with responsive options
+3. Data / Datasets
+   - Data sources: inline, URL, generator; format options: json, csv, tsv
+4. Transform Operations
+   - Aggregate: fields, ops (sum, avg, count, min, max, median), groupby
+   - Bin: parameters (maxbins, anchor, base, extent)
+   - Calculate: expression and output field
+   - Additional: Density, Extent, Filter, Flatten, Fold, Impute, Join Aggregate, Loess, Lookup, Pivot, Quantile, Regression, Sample, Stack, Time Unit (with UTC & parameters), Window
+5. Mark Definitions
+   - Supported Marks: Arc, Area, Bar, Box Plot, Circle, Error Band, Error Bar, Geoshape, Image, Line, Point, Rect, Rule, Square, Text, Tick, Trail
+   - Mark Config: color, size, opacity, style
+6. Encoding
+   - Channels: positioning, aggregate, conditional, datum, header, legend, scale, stack, sort, time unit
+7. Projection
+   - Geographic projections with type, scale, center, rotation
+8. View Composition
+   - Facet, Layer, Concat, Repeat with configuration and resolution
+9. Parameter
+   - Definitions: value, expr, bind, select
+10. Global Config
+    - Options for Format, Guide, Mark, Style, Scale, Projection, Selection, Title, Locale
+11. Tooltip & Invalid Data
+    - Tooltip channel configuration, disable options, invalid data handling
+
+Detailed Items:
+- View Specification: Use JSON objects to define properties. Example Title object: { text: 'My Chart', align: 'center', anchor: 'start', font: 'Helvetica', fontSize: 16 }
+- Aggregate Transform: { 'aggregate': [{ 'op': 'sum', 'field': 'value', 'as': 'total_value' }], 'groupby': ['category'] }
+- Bin Transform: { 'bin': { 'maxbins': 10, 'anchor': 0, 'base': 10 }, 'field': 'amount', 'as': 'binned_amount' }
+- Vega-Embed API (used to render specs): Signature: vegaEmbed(container: string|HTMLElement, spec: object, opt?: object) => Promise<{view: object, spec: object}>.
+- Configuration Options: Global config objects allow setting default mark colors, fonts, axis styles, and locale settings.
+- Best Practices: Validate JSON schema, use pre-calculated aggregates for performance, and bind parameters for interactive charts.
+- Troubleshooting: Check compiler errors from Vegas compiler output, use console logs to view spec conversion errors, and verify data parsing by inspecting network responses.
 
 ## Original Source
-Vega-Lite: A High-level Grammar of Interactive Graphics
-https://vega.github.io/vega-lite/
+Vega-Lite Documentation
+https://vega.github.io/vega-lite/docs/
 
 ## Digest of VEGA_LITE
 
-# Vega-Lite API Documentation
+# Overview
+Retrieved on: 2023-10-06
 
-Latest Version: 6.1.0
-URL: https://vega.github.io/vega-lite/
+Vega-Lite is a high-level declarative grammar for interactive graphics that uses a concise JSON syntax to specify multi-view visualizations. It compiles Vega-Lite specifications into lower-level Vega specifications for rendering.
 
-This document details the Vega-Lite high-level grammar for interactive graphics. Vega-Lite accepts JSON specifications that define visualizations by mapping data to graphical properties such as marks, scales, axes, and legends. The API allows a concise, declarative approach where specifications are automatically compiled into complete Vega specifications for rendering.
+# View Specification
+- Title: The specification supports a Title Properties Object with parameters such as text, align, anchor, font, fontSize.
+- Width/Height: Supports both fixed values and responsive sizing for single-view, layered, and multi-view displays.
 
-## API Usage Example
+# Data / Datasets
+- Supports various data sources including inline arrays, URLs, and data generators.
+- Data format definitions include type (json, csv, tsv) and parsing options.
 
-A typical usage example:
+# Transform
+Provides various transformation operations:
+- Aggregate: Parameters include fields, ops (sum, average, count, min, max, median), groupby arrays.
+- Bin: Parameters include maxbins (default 10), anchor, base, and extent for binning numeric data.
+- Calculate: Expression-based transformation with an output field.
+- Additional transforms: Density, Extent, Filter, Flatten, Fold, Impute, Join Aggregate, Loess, Lookup, Pivot, Quantile, Regression, Sample, Stack, Time Unit (with UTC option and specific parameters), and Window with operation references.
 
-vl.markBar().data('data/movies.json').encode(
-  vl.x().fieldQ('IMDB_Rating').bin(true),
-  vl.y().count()
-)
+# Mark
+Defines the graphical representation of data. Supported mark types include:
+- Arc, Area, Bar, Box Plot, Circle, Error Band, Error Bar, Geoshape, Image, Line, Point, Rect, Rule, Square, Text, Tick, Trail
 
-This produces a JSON specification:
+Each mark type supports a Mark Definition Object with properties such as color, size, opacity, and styling configuration using a dedicated Mark Config object.
 
-{
-  "mark": "bar",
-  "data": {"url": "data/movies.json"},
-  "encoding": {
-    "x": {
-      "bin": true,
-      "field": "IMDB_Rating",
-      "type": "quantitative"
-    },
-    "y": {
-      "aggregate": "count",
-      "type": "quantitative"
-    }
-  }
-}
+# Encoding
+Specifies how data fields are mapped to visual properties. Key elements:
+- Channels: Position (x, y), Color, Size, Shape, Opacity, Tooltip, and Text.
+- Detailed encoding definitions for aggregate fields, conditional encodings, datum, header configurations, legend formats, scales (with continuous/discrete options), stacking, sorting, and time unit transformations.
 
-## Build and Test Instructions
+# Projection
+Supports geographic projection configuration where properties like type, projection scale, center, and rotation can be specified for mapping geo-data.
 
-1. Clone the repository using: https://github.com/vega/vega-lite-api
-2. Install dependencies with yarn by running: yarn
-3. Build the API generator and source code using: yarn build
-4. Run the test suite using: yarn test
+# View Composition
+Provides layouts for Facet, Layer, Concat, and Repeat visualizations along with resolution strategies and configuration objects for consistent styling.
 
-## Technical Details
+# Parameter
+Defines interactive parameters with properties:
+- Value (default), Expr (expression-based), Bind (for interactive controls), and Select mechanisms for user inputs.
 
-- Specifications include properties: mark, data, encoding, and are composed of encoding channels (e.g., x, y) with further configuration (binning, aggregation, field type).
-- Data transformations supported include aggregation, binning, filtering, and sorting.
-- Visual transformation support includes stacking, layering, faceting, and interactive selections.
-- Vega-Lite compiles to Vega specifications, bridging high-level visualization definitions with lower-level rendering details.
+# Config
+Global configuration options to customize:
+- Format, Guide, Mark, Style, Scale, Projection, Selection, Title, and Locale configuration.
 
-## Attribution and Data Size
+# Property Types
+Includes specialized property types like DateTime, Gradient (linear and radial with stops) and Predicate compositions for complex filtering.
 
-Data Size: 2265385 bytes
-Crawled on: 2023-10-XX (current date as of retrieval)
-Attribution: Vega-Lite documentation and API examples provided on the official website.
+# Tooltip
+Configurable tooltip options that enable showing data information on hover. Includes options to disable tooltips or use specialized plugins.
+
+# Invalid Data
+Handling of invalid data with options such as mark invalid mode and scale output adjustments.
+
+# Attribution & Data Size
+Data Size obtained during crawling: 13752109 bytes
 
 
 ## Attribution
-- Source: Vega-Lite: A High-level Grammar of Interactive Graphics
-- URL: https://vega.github.io/vega-lite/
-- License: Apache License 2.0
-- Crawl Date: 2025-04-27T03:53:04.349Z
-- Data Size: 2265385 bytes
-- Links Found: 6590
+- Source: Vega-Lite Documentation
+- URL: https://vega.github.io/vega-lite/docs/
+- License: BSD License
+- Crawl Date: 2025-04-28T13:55:18.616Z
+- Data Size: 13752109 bytes
+- Links Found: 15027
 
 ## Retrieved
-2025-04-27
+2025-04-28
