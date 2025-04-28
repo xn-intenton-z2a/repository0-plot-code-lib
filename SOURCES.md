@@ -87,3 +87,13 @@ This detailed resource provides a comprehensive exploration of Bézier curves, c
 ## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
 This MDN documentation offers an in-depth guide to the Intl.NumberFormat API, providing essential information on locale-specific numeric formatting. The detailed examples and best practices ensure that numerical precision and display align with international standards, directly supporting the repository's dynamic axis labeling and precision formatting features.
 ## Creative Commons Attribution-ShareAlike License
+
+# MDN Web Docs: ARIA
+## https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA
+This MDN resource provides comprehensive guidance on implementing Accessible Rich Internet Applications (ARIA) in web projects. It offers technical details, best practices, and practical examples for adding ARIA roles, states, and properties to HTML and SVG elements. Leveraging these practices can enhance the repository's SVG accessibility features, ensuring that dynamic visualizations are both usable and inclusive.
+## Creative Commons Attribution-ShareAlike License
+
+# 12 Factor App: Config
+## https://12factor.net/config
+The 12 Factor App methodology outlines best practices for configuration management in modern web applications. This resource emphasizes the separation of configuration from code by leveraging environment variables, a concept directly aligned with the repository’s use of dotenv for environment configuration interpolation. It offers actionable recommendations to build scalable and maintainable applications.
+## Public Domain
