@@ -77,3 +77,13 @@ Chart.js is a popular JavaScript charting library known for its simplicity and v
 ## https://vega.github.io/vega-lite/docs/
 Vega-Lite offers a high-level grammar for creating, sharing, and exploring interactive visualizations. Its documentation delivers comprehensive guidelines on specifying visual encodings, managing data transformations, and designing interactive charts. These actionable insights can inspire innovative approaches for dynamic SVG generation and advanced data visualization techniques, complementing the repository's core plotting features.
 ## BSD License
+
+# A Primer on Bézier Curves
+## https://pomax.github.io/bezierinfo/
+This detailed resource provides a comprehensive exploration of Bézier curves, covering their mathematical foundations, control point manipulation, and practical applications. The actionable insights in this guide are directly applicable to the repository's smooth curve rendering feature, enabling enhanced smooth path generation and fine-tuning of quadratic Bézier interpolation.
+## Creative Commons Attribution (Educational Use)
+
+# MDN Web Docs: Intl.NumberFormat
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+This MDN documentation offers an in-depth guide to the Intl.NumberFormat API, providing essential information on locale-specific numeric formatting. The detailed examples and best practices ensure that numerical precision and display align with international standards, directly supporting the repository's dynamic axis labeling and precision formatting features.
+## Creative Commons Attribution-ShareAlike License
