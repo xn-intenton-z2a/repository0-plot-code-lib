@@ -405,9 +405,7 @@ function loadConfig(cliOptions) {
         expression: z.string().min(1).optional(),
         range: z
           .string()
-          .regex(/^(
-            \s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*
-          )$/)
+          .regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/)
           .optional(),
         resolution: z.preprocess((val) => Number(val), z.number().int().positive()).optional(),
         xlabel: z.string().optional(),
