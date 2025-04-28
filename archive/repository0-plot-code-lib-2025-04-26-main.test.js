@@ -44,7 +44,7 @@ describe("PNG Generation via CLI", () => {
     expect(fs.existsSync(TEST_PNG)).toBe(true);
     const fileData = fs.readFileSync(TEST_PNG);
     // PNG signature: 89 50 4E 47 0D 0A 1A 0A
-    const pngSignature = Buffer.from([0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]);
+    const pngSignature = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     expect(fileData.slice(0, 8)).toEqual(pngSignature);
   });
 
@@ -55,8 +55,8 @@ describe("PNG Generation via CLI", () => {
     }
     await main(["--file", testSVG]);
     expect(fs.existsSync(testSVG)).toBe(true);
-    const fileData = fs.readFileSync(testSVG, { encoding: 'utf8' });
-    expect(fileData).toContain('<svg');
+    const fileData = fs.readFileSync(testSVG, { encoding: "utf8" });
+    expect(fileData).toContain("<svg");
     // Clean up
     fs.unlinkSync(testSVG);
   });
@@ -70,7 +70,10 @@ describe("CLI Help Flag", () => {
 
     let exitCode = null;
     const originalExit = process.exit;
-    process.exit = (code) => { exitCode = code; throw new Error('process.exit called'); };
+    process.exit = (code) => {
+      exitCode = code;
+      throw new Error("process.exit called");
+    };
 
     try {
       await main(["--help"]);
@@ -78,7 +81,7 @@ describe("CLI Help Flag", () => {
       // Expected error due to process.exit being called
     }
 
-    const output = logSpy.join(' ');
+    const output = logSpy.join(" ");
     expect(output).toMatch("--file");
     expect(output).toMatch("--expression");
     expect(output).toMatch("--range");
@@ -100,7 +103,7 @@ describe("SVG Generation with expression and range", () => {
     const rangeStr = "x=-1:1,y=-1:1";
     await main(["--expression", expressionStr, "--range", rangeStr, "--file", testSVG]);
     expect(fs.existsSync(testSVG)).toBe(true);
-    const fileContent = fs.readFileSync(testSVG, { encoding: 'utf8' });
+    const fileContent = fs.readFileSync(testSVG, { encoding: "utf8" });
     expect(fileContent).toContain(`Expression: ${expressionStr}`);
     expect(fileContent).toContain(`Range: ${rangeStr}`);
     fs.unlinkSync(testSVG);
@@ -115,7 +118,10 @@ describe("Input Validation Errors", () => {
 
     let exitCalled = false;
     const originalExit = process.exit;
-    process.exit = (code) => { exitCalled = true; throw new Error('process.exit ' + code); };
+    process.exit = (code) => {
+      exitCalled = true;
+      throw new Error("process.exit " + code);
+    };
 
     try {
       await main(["--expression", "", "--file", "tests/tmp_test_output.svg"]);
@@ -124,7 +130,7 @@ describe("Input Validation Errors", () => {
     }
 
     expect(exitCalled).toBe(true);
-    expect(errorSpy.join(' ').toLowerCase()).toContain("error: --expression requires a non-empty value");
+    expect(errorSpy.join(" ").toLowerCase()).toContain("error: --expression requires a non-empty value");
 
     console.error = originalError;
     process.exit = originalExit;
@@ -137,7 +143,10 @@ describe("Input Validation Errors", () => {
 
     let exitCalled = false;
     const originalExit = process.exit;
-    process.exit = (code) => { exitCalled = true; throw new Error('process.exit ' + code); };
+    process.exit = (code) => {
+      exitCalled = true;
+      throw new Error("process.exit " + code);
+    };
 
     try {
       await main(["--range", "incorrect_format", "--file", "tests/tmp_test_output.svg"]);
@@ -146,7 +155,7 @@ describe("Input Validation Errors", () => {
     }
 
     expect(exitCalled).toBe(true);
-    expect(errorSpy.join(' ').toLowerCase()).toContain("error: --range flag invalid format");
+    expect(errorSpy.join(" ").toLowerCase()).toContain("error: --range flag invalid format");
 
     console.error = originalError;
     process.exit = originalExit;
@@ -186,7 +195,10 @@ describe("Custom Plot Styling", () => {
 
     let exitCalled = false;
     const originalExit = process.exit;
-    process.exit = (code) => { exitCalled = true; throw new Error('process.exit ' + code); };
+    process.exit = (code) => {
+      exitCalled = true;
+      throw new Error("process.exit " + code);
+    };
 
     try {
       await main(["--dimensions", "400300", "--file", "tests/tmp_invalid_dimensions.svg"]);
@@ -195,7 +207,7 @@ describe("Custom Plot Styling", () => {
     }
 
     expect(exitCalled).toBe(true);
-    expect(errorSpy.join(' ').toLowerCase()).toContain('--dimensions requires a value in the format');
+    expect(errorSpy.join(" ").toLowerCase()).toContain("--dimensions requires a value in the format");
 
     console.error = originalError;
     process.exit = originalExit;

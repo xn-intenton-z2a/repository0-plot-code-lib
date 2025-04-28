@@ -25,7 +25,9 @@ describe("CLI Plot Generation", () => {
 
   beforeEach(() => {
     // Override process.exit to throw an error that can be caught in tests
-    process.exit = (code) => { throw new Error(`Process exit with code ${code}`); };
+    process.exit = (code) => {
+      throw new Error(`Process exit with code ${code}`);
+    };
   });
 
   afterEach(() => {
@@ -47,12 +49,12 @@ describe("CLI Plot Generation", () => {
       "--xlabelRotation",
       "20",
       "--ylabelRotation",
-      "-45"
+      "-45",
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");
     expect(content.startsWith("<svg")).toBe(true);
-    expect(content).toContain('<text');
+    expect(content).toContain("<text");
     expect(content).toMatch(/<text[^>]+transform="rotate\(20,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
     expect(content).toMatch(/<text[^>]+transform="rotate\(-45,\s*\d+(?:\.\d+)?,\s*\d+(?:\.\d+)?\)"/);
     fs.unlinkSync(testFile);
@@ -69,7 +71,7 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=-1:1,y=-1:1",
       "--file",
-      testFile
+      testFile,
     ];
     main();
     const buffer = fs.readFileSync(testFile);
@@ -93,7 +95,7 @@ describe("CLI Plot Generation", () => {
       "--smooth",
       "true",
       "--smoothingFactor",
-      "0.8"
+      "0.8",
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");
@@ -118,50 +120,23 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=-1:1,y=-1:1",
       "--file",
-      "output.txt"
+      "output.txt",
     ];
     expect(() => main()).toThrow(/Error: Unsupported file extension/);
   });
 
   test("should error when --expression is empty", () => {
-    process.argv = [
-      "node",
-      "src/lib/main.js",
-      "--expression",
-      "",
-      "--range",
-      "x=-1:1,y=-1:1",
-      "--file",
-      "output.svg"
-    ];
+    process.argv = ["node", "src/lib/main.js", "--expression", "", "--range", "x=-1:1,y=-1:1", "--file", "output.svg"];
     expect(() => main()).toThrow("Error: --expression flag must have a non-empty value.");
   });
 
   test("should error when --range is empty", () => {
-    process.argv = [
-      "node",
-      "src/lib/main.js",
-      "--expression",
-      "y=sin(x)",
-      "--range",
-      "",
-      "--file",
-      "output.svg"
-    ];
+    process.argv = ["node", "src/lib/main.js", "--expression", "y=sin(x)", "--range", "", "--file", "output.svg"];
     expect(() => main()).toThrow("Error: --range flag must have a non-empty value.");
   });
 
   test("should error when --file is empty", () => {
-    process.argv = [
-      "node",
-      "src/lib/main.js",
-      "--expression",
-      "y=sin(x)",
-      "--range",
-      "x=-1:1,y=-1:1",
-      "--file",
-      ""
-    ];
+    process.argv = ["node", "src/lib/main.js", "--expression", "y=sin(x)", "--range", "x=-1:1,y=-1:1", "--file", ""];
     expect(() => main()).toThrow("Error: --file flag must have a non-empty value.");
   });
 
@@ -174,9 +149,11 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=-1:1,y=abc",
       "--file",
-      "output.svg"
+      "output.svg",
     ];
-    expect(() => main()).toThrow("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    expect(() => main()).toThrow(
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.",
+    );
   });
 
   test("should error if x range numeric order is invalid", () => {
@@ -188,7 +165,7 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=5:1,y=0:10",
       "--file",
-      "output.svg"
+      "output.svg",
     ];
     expect(() => main()).toThrow("Error: Invalid range for x");
   });
@@ -202,7 +179,7 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=-1:1,y=10:0",
       "--file",
-      "output.svg"
+      "output.svg",
     ];
     expect(() => main()).toThrow("Error: Invalid range for y");
   });
@@ -216,7 +193,7 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=-1:1,y=-1:1",
       "--file",
-      "output.svg"
+      "output.svg",
     ];
     expect(() => main()).toThrow("Error: Expression must include the variable 'x'");
   });
@@ -234,7 +211,7 @@ describe("CLI Plot Generation", () => {
       "--xlabel",
       "MyCustomX",
       "--ylabel",
-      "MyCustomY"
+      "MyCustomY",
     ];
     main();
     const content = fs.readFileSync("output.svg", "utf8");
@@ -252,7 +229,7 @@ describe("CLI Plot Generation", () => {
       "--range",
       " x= 0 : 10 , y= -1 : 5 ",
       "--file",
-      "output.svg"
+      "output.svg",
     ];
     main();
     const content = fs.readFileSync("output.svg", "utf8");
@@ -270,7 +247,7 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=0:1,y=-1:10",
       "--file",
-      "output.svg"
+      "output.svg",
     ];
     expect(() => main()).toThrow(/Error: Expression evaluation resulted in an invalid number at x=/);
   });
@@ -292,7 +269,7 @@ describe("CLI Plot Generation", () => {
       "--ylabelFontSize",
       "18",
       "--ylabelColor",
-      "purple"
+      "purple",
     ];
     main();
     const content = fs.readFileSync("output.svg", "utf8");
@@ -316,7 +293,7 @@ describe("CLI Plot Generation", () => {
       "--xlabelPrecision",
       "2",
       "--ylabelPrecision",
-      "3"
+      "3",
     ];
     main();
     const content = fs.readFileSync("output.svg", "utf8");
@@ -340,7 +317,7 @@ describe("CLI Plot Generation", () => {
       "--xlabelPrecision",
       "2",
       "--ylabelPrecision",
-      "3"
+      "3",
     ];
     main();
     const content = fs.readFileSync("output.svg", "utf8");
@@ -358,7 +335,7 @@ describe("CLI Plot Generation", () => {
       "--range",
       "x=0:10,y=0:10",
       "--file",
-      "output.svg"
+      "output.svg",
     ];
     main();
     const content = fs.readFileSync("output.svg", "utf8");
@@ -382,7 +359,7 @@ describe("CLI Plot Generation", () => {
       "--xlabelAriaLabel",
       "CLI_CustomX",
       "--ylabelAriaLabel",
-      "CLI_CustomY"
+      "CLI_CustomY",
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");
@@ -406,7 +383,7 @@ describe("CLI Plot Generation", () => {
       "--xlabelAnchor",
       "end",
       "--ylabelAnchor",
-      "start"
+      "start",
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");
@@ -428,7 +405,7 @@ describe("CLI Plot Generation", () => {
       "--file",
       testFile,
       "--jsonExport",
-      "true"
+      "true",
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");
@@ -458,11 +435,11 @@ describe("CLI Plot Generation", () => {
       "--gradientStartColor",
       "green",
       "--gradientEndColor",
-      "yellow"
+      "yellow",
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");
-    expect(content).toContain('<defs>');
+    expect(content).toContain("<defs>");
     expect(content).toContain('id="dynamicGradient"');
     expect(content).toContain('<stop offset="0%" stop-color="green"');
     expect(content).toContain('<stop offset="100%" stop-color="yellow"');
@@ -481,8 +458,10 @@ describe("CLI Plot Generation", () => {
       "x=0:10,y=0:10",
       "--file",
       "output.svg",
-      "--smooth", "true",
-      "--smoothingFactor", "abc"
+      "--smooth",
+      "true",
+      "--smoothingFactor",
+      "abc",
     ];
     expect(() => main()).toThrow("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
   });
@@ -500,7 +479,8 @@ describe("CLI Plot Generation", () => {
       "x=0:10,y=0:10",
       "--file",
       testFile,
-      "--smooth", "true"
+      "--smooth",
+      "true",
     ];
     main();
     const content = fs.readFileSync(testFile, "utf8");

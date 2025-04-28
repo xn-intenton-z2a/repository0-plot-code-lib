@@ -2,11 +2,11 @@
 // src/lib/main.js
 
 // Load environment variables using dotenv and support custom .env file via CLI flag
-import dotenv from 'dotenv';
-import { z } from 'zod';
+import dotenv from "dotenv";
+import { z } from "zod";
 
 // Initial load (this may use default .env if --env flag is not yet set in process.argv)
-const envFlagIndexGlobal = process.argv.findIndex(arg => arg === '--env');
+const envFlagIndexGlobal = process.argv.findIndex((arg) => arg === "--env");
 if (envFlagIndexGlobal !== -1 && process.argv.length > envFlagIndexGlobal + 1) {
   const envPath = process.argv[envFlagIndexGlobal + 1];
   dotenv.config({ path: envPath });
@@ -24,11 +24,13 @@ const app = express();
 
 // New helper function to recursively interpolate environment variables in configuration objects
 function interpolateEnv(input) {
-  if (typeof input === 'string') {
-    return input.replace(/\$\{([^}]+)\}/g, (_, varName) => process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`);
+  if (typeof input === "string") {
+    return input.replace(/\$\{([^}]+)\}/g, (_, varName) =>
+      process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`,
+    );
   } else if (Array.isArray(input)) {
     return input.map(interpolateEnv);
-  } else if (typeof input === 'object' && input !== null) {
+  } else if (typeof input === "object" && input !== null) {
     const output = {};
     for (const key in input) {
       output[key] = interpolateEnv(input[key]);
@@ -47,9 +49,9 @@ function computePlotData(expression, range, customLabels = {}) {
       throw new Error("Error: Detected missing operator between numeric tokens. Please verify your expression format.");
     }
     let balance = 0;
-    for (let char of expr) {
-      if (char === '(') balance++;
-      else if (char === ')') balance--;
+    for (const char of expr) {
+      if (char === "(") balance++;
+      else if (char === ")") balance--;
       if (balance < 0) break;
     }
     if (balance !== 0) {
@@ -70,10 +72,10 @@ function computePlotData(expression, range, customLabels = {}) {
     "xlabelOffsetX",
     "xlabelOffsetY",
     "ylabelOffsetX",
-    "ylabelOffsetY"
+    "ylabelOffsetY",
   ];
-  let customLabelErrors = [];
-  numericParams.forEach(param => {
+  const customLabelErrors = [];
+  numericParams.forEach((param) => {
     if (customLabels[param] != null) {
       const parsed = parseFloat(customLabels[param]);
       if (!Number.isFinite(parsed)) {
@@ -101,23 +103,31 @@ function computePlotData(expression, range, customLabels = {}) {
   const xPattern = /x\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const xMatch = xPattern.exec(range);
   if (!xMatch) {
-    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    throw new Error(
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.",
+    );
   }
   const xMin = parseFloat(xMatch[1]);
   const xMax = parseFloat(xMatch[2]);
   if (xMin >= xMax) {
-    throw new Error(`Error: Invalid range for x (provided: x=${xMin}:${xMax}). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.`);
+    throw new Error(
+      `Error: Invalid range for x (provided: x=${xMin}:${xMax}). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.`,
+    );
   }
 
   const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
-    throw new Error("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    throw new Error(
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.",
+    );
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[2]);
   if (yInputMin >= yInputMax) {
-    throw new Error(`Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Expected format: y=0:10. Ensure that the minimum value is less than the maximum value.`);
+    throw new Error(
+      `Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Expected format: y=0:10. Ensure that the minimum value is less than the maximum value.`,
+    );
   }
 
   const numPoints = resolution;
@@ -161,7 +171,7 @@ function computePlotData(expression, range, customLabels = {}) {
   const locale = customLabels.locale;
   function roundHalfAwayFromZero(value, precision) {
     const factor = Math.pow(10, precision);
-    let rounded = value < 0 ? -Math.round(Math.abs(value) * factor) : Math.round(value * factor);
+    const rounded = value < 0 ? -Math.round(Math.abs(value) * factor) : Math.round(value * factor);
     return (rounded / factor).toFixed(precision);
   }
 
@@ -169,7 +179,10 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.xlabel) {
     xAxisLabelText = customLabels.xlabel;
   } else if (xPrecision !== null && locale) {
-    const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: xPrecision, maximumFractionDigits: xPrecision });
+    const formatter = new Intl.NumberFormat(locale, {
+      minimumFractionDigits: xPrecision,
+      maximumFractionDigits: xPrecision,
+    });
     xAxisLabelText = `x-axis: ${formatter.format(xMin)} to ${formatter.format(xMax)}`;
   } else if (xPrecision !== null) {
     xAxisLabelText = `x-axis: ${roundHalfAwayFromZero(xMin, xPrecision)} to ${roundHalfAwayFromZero(xMax, xPrecision)}`;
@@ -181,7 +194,10 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale) {
-    const formatter = new Intl.NumberFormat(locale, { minimumFractionDigits: yPrecision, maximumFractionDigits: yPrecision });
+    const formatter = new Intl.NumberFormat(locale, {
+      minimumFractionDigits: yPrecision,
+      maximumFractionDigits: yPrecision,
+    });
     yAxisLabelText = `y-axis: ${formatter.format(yInputMin)} to ${formatter.format(yInputMax)}`;
   } else if (yPrecision !== null) {
     yAxisLabelText = `y-axis: ${roundHalfAwayFromZero(yInputMin, yPrecision)} to ${roundHalfAwayFromZero(yInputMax, yPrecision)}`;
@@ -196,7 +212,7 @@ function computePlotData(expression, range, customLabels = {}) {
     computedXRange: { min: xMin, max: xMax },
     computedYRange: { min: computedYMin, max: computedYMax },
     axisLabels: { x: xAxisLabelText, y: yAxisLabelText },
-    resolution: resolution
+    resolution: resolution,
   };
 }
 
@@ -234,13 +250,16 @@ function createSvgPlot(expression, range, customLabels = {}) {
   }
 
   // Map computed points to SVG coordinate system using dynamic dimensions
-  const mappedPoints = plotData.points.map(p => {
-    const mappedX = ((p.x - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * svgWidth;
+  const mappedPoints = plotData.points.map((p) => {
+    const mappedX =
+      ((p.x - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * svgWidth;
     let mappedY;
     if (plotData.computedYRange.max === plotData.computedYRange.min) {
       mappedY = svgHeight / 2;
     } else {
-      mappedY = svgHeight - ((p.y - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * svgHeight;
+      mappedY =
+        svgHeight -
+        ((p.y - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * svgHeight;
     }
     return { x: mappedX, y: mappedY };
   });
@@ -270,13 +289,23 @@ function createSvgPlot(expression, range, customLabels = {}) {
     const pathData = buildSmoothPath(mappedPoints, smoothingFactor);
     shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none"/>`;
   } else {
-    const polylinePoints = mappedPoints.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
+    const polylinePoints = mappedPoints.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
     shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr} fill="none" />`;
   }
 
   // Determine x-axis label positioning and rotation
-  const xLabelX = customLabels.xlabelOffsetX != null ? customLabels.xlabelOffsetX : (customLabels.xlabelX != null ? customLabels.xlabelX : (svgWidth / 2).toFixed(2));
-  const xLabelY = customLabels.xlabelOffsetY != null ? customLabels.xlabelOffsetY : (customLabels.xlabelY != null ? customLabels.xlabelY : (svgHeight - 5).toFixed(2));
+  const xLabelX =
+    customLabels.xlabelOffsetX != null
+      ? customLabels.xlabelOffsetX
+      : customLabels.xlabelX != null
+        ? customLabels.xlabelX
+        : (svgWidth / 2).toFixed(2);
+  const xLabelY =
+    customLabels.xlabelOffsetY != null
+      ? customLabels.xlabelOffsetY
+      : customLabels.xlabelY != null
+        ? customLabels.xlabelY
+        : (svgHeight - 5).toFixed(2);
   let xTransform = "";
   if (customLabels.xlabelRotation != null) {
     xTransform = ` transform="rotate(${customLabels.xlabelRotation}, ${xLabelX}, ${xLabelY})"`;
@@ -284,7 +313,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 
   // Determine y-axis label positioning and rotation
   let yLabelAttributes;
-  let ylabelRotation = customLabels.ylabelRotation != null ? customLabels.ylabelRotation : -90;
+  const ylabelRotation = customLabels.ylabelRotation != null ? customLabels.ylabelRotation : -90;
   if (customLabels.ylabelOffsetX != null && customLabels.ylabelOffsetY != null) {
     yLabelAttributes = `x="${customLabels.ylabelOffsetX}" y="${customLabels.ylabelOffsetY}" transform="rotate(${ylabelRotation}, ${customLabels.ylabelOffsetX}, ${customLabels.ylabelOffsetY})"`;
   } else if (customLabels.ylabelX != null && customLabels.ylabelY != null) {
@@ -298,7 +327,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yAriaLabel = customLabels.ylabelAriaLabel ? customLabels.ylabelAriaLabel : plotData.axisLabels.y;
   const xTextAnchor = customLabels.xlabelAnchor ? customLabels.xlabelAnchor : "middle";
   const yTextAnchor = customLabels.ylabelAnchor ? customLabels.ylabelAnchor : "middle";
-  
+
   // Validate text-anchor custom parameters against allowed values
   const allowedAnchors = ["start", "middle", "end"];
   if (customLabels.xlabelAnchor && !allowedAnchors.includes(customLabels.xlabelAnchor)) {
@@ -321,16 +350,57 @@ function createSvgPlot(expression, range, customLabels = {}) {
     computedYRange: plotData.computedYRange,
     axisLabels: plotData.axisLabels,
     resolution: plotData.resolution,
-    customParameters: customLabels
+    customParameters: customLabels,
   });
-  const metadataEscaped = svgMetadata.replace(/"/g, '&quot;');
+  const metadataEscaped = svgMetadata.replace(/"/g, "&quot;");
 
   // Construct SVG content in one line to avoid unintended whitespace/newlines
-  const svgContent = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + svgWidth + "\" height=\"" + svgHeight + "\" viewBox=\"0 0 " + svgWidth + " " + svgHeight + "\" data-metadata=\"" + metadataEscaped + "\">" +
+  const svgContent =
+    '<svg xmlns="http://www.w3.org/2000/svg" width="' +
+    svgWidth +
+    '" height="' +
+    svgHeight +
+    '" viewBox="0 0 ' +
+    svgWidth +
+    " " +
+    svgHeight +
+    '" data-metadata="' +
+    metadataEscaped +
+    '">' +
     defs +
-    "<text x=\"" + xLabelX + "\" y=\"" + xLabelY + "\"" + xTransform + " aria-label=\"" + xAriaLabel + "\" text-anchor=\"" + xTextAnchor + "\"" + xFontSizeAttr + xFillAttr + ">" + plotData.axisLabels.x + "</text>" +
-    "<text " + yLabelAttributes + " aria-label=\"" + yAriaLabel + "\" text-anchor=\"" + yTextAnchor + "\"" + yFontSizeAttr + yFillAttr + ">" + plotData.axisLabels.y + "</text>" +
-    "<text x=\"10\" y=\"20\">Plot for: " + expression.trim() + " in range " + range.trim() + "</text>" +
+    '<text x="' +
+    xLabelX +
+    '" y="' +
+    xLabelY +
+    '"' +
+    xTransform +
+    ' aria-label="' +
+    xAriaLabel +
+    '" text-anchor="' +
+    xTextAnchor +
+    '"' +
+    xFontSizeAttr +
+    xFillAttr +
+    ">" +
+    plotData.axisLabels.x +
+    "</text>" +
+    "<text " +
+    yLabelAttributes +
+    ' aria-label="' +
+    yAriaLabel +
+    '" text-anchor="' +
+    yTextAnchor +
+    '"' +
+    yFontSizeAttr +
+    yFillAttr +
+    ">" +
+    plotData.axisLabels.y +
+    "</text>" +
+    '<text x="10" y="20">Plot for: ' +
+    expression.trim() +
+    " in range " +
+    range.trim() +
+    "</text>" +
     shapeElement +
     "</svg>";
   return svgContent;
@@ -420,7 +490,7 @@ app.get("/plot", (req, res) => {
 
 function main() {
   // Re-load environment variables if --env flag is provided (use override to update existing vars)
-  const envFlagIndex = process.argv.findIndex(arg => arg === '--env');
+  const envFlagIndex = process.argv.findIndex((arg) => arg === "--env");
   if (envFlagIndex !== -1 && process.argv.length > envFlagIndex + 1) {
     const envPath = process.argv[envFlagIndex + 1];
     dotenv.config({ path: envPath, override: true });
@@ -442,30 +512,33 @@ function main() {
   // adhere to the expected types and formats. CLI flags always override configuration file values.
   if (options.config) {
     try {
-      const configFileContent = fs.readFileSync(options.config, 'utf8');
+      const configFileContent = fs.readFileSync(options.config, "utf8");
       let configOptions = JSON.parse(configFileContent);
       // Interpolate environment variables in the config file values
       configOptions = interpolateEnv(configOptions);
       // Define Zod schema for config file validation
       const configSchema = z.object({
         expression: z.string().min(1).optional(),
-        range: z.string().regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*$/).optional(),
-        resolution: z.preprocess(val => Number(val), z.number().int().positive()).optional(),
+        range: z
+          .string()
+          .regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*$/)
+          .optional(),
+        resolution: z.preprocess((val) => Number(val), z.number().int().positive()).optional(),
         xlabel: z.string().optional(),
         ylabel: z.string().optional(),
-        xlabelPrecision: z.preprocess(val => Number(val), z.number().int().nonnegative()).optional(),
-        ylabelPrecision: z.preprocess(val => Number(val), z.number().int().nonnegative()).optional(),
+        xlabelPrecision: z.preprocess((val) => Number(val), z.number().int().nonnegative()).optional(),
+        ylabelPrecision: z.preprocess((val) => Number(val), z.number().int().nonnegative()).optional(),
         smooth: z.enum(["true", "false"]).optional(),
-        xlabelX: z.preprocess(val => Number(val), z.number()).optional(),
-        xlabelY: z.preprocess(val => Number(val), z.number()).optional(),
-        ylabelX: z.preprocess(val => Number(val), z.number()).optional(),
-        ylabelY: z.preprocess(val => Number(val), z.number()).optional(),
-        xlabelRotation: z.preprocess(val => Number(val), z.number()).optional(),
-        ylabelRotation: z.preprocess(val => Number(val), z.number()).optional(),
-        xlabelOffsetX: z.preprocess(val => Number(val), z.number()).optional(),
-        xlabelOffsetY: z.preprocess(val => Number(val), z.number()).optional(),
-        ylabelOffsetX: z.preprocess(val => Number(val), z.number()).optional(),
-        ylabelOffsetY: z.preprocess(val => Number(val), z.number()).optional(),
+        xlabelX: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelY: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelX: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelY: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelRotation: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelRotation: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelOffsetX: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelOffsetY: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelOffsetX: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelOffsetY: z.preprocess((val) => Number(val), z.number()).optional(),
         locale: z.string().optional(),
         xlabelAriaLabel: z.string().optional(),
         ylabelAriaLabel: z.string().optional(),
@@ -480,10 +553,10 @@ function main() {
         gradientStartColor: z.string().optional(),
         gradientEndColor: z.string().optional(),
         // New custom dimension options
-        width: z.preprocess(val => Number(val), z.number().positive()).optional(),
-        height: z.preprocess(val => Number(val), z.number().positive()).optional(),
+        width: z.preprocess((val) => Number(val), z.number().positive()).optional(),
+        height: z.preprocess((val) => Number(val), z.number().positive()).optional(),
         // New smoothing factor option
-        smoothingFactor: z.preprocess(val => Number(val), z.number().min(0).max(1)).optional()
+        smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional(),
       });
       const validatedConfig = configSchema.parse(configOptions);
       // Merge configuration: CLI flags override config file options
@@ -521,7 +594,7 @@ function main() {
     if (options.file.trim() === "") {
       throw new Error("Error: --file flag must have a non-empty value.");
     }
-    
+
     // New branch for JSON export in CLI
     if (options.jsonExport === "true") {
       try {

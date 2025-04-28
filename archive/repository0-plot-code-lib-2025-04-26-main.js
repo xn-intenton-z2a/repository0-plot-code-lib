@@ -60,7 +60,7 @@ Examples:
       width = parseInt(match[1], 10);
       height = parseInt(match[2], 10);
       if (width <= 0 || height <= 0) {
-        console.error('Error: --dimensions values must be positive numbers.');
+        console.error("Error: --dimensions values must be positive numbers.");
         process.exit(1);
       }
     }
@@ -77,13 +77,13 @@ Examples:
   // Input Validation for --range flag
   if (args.includes("--range")) {
     if (!rangeVal || rangeVal.trim() === "") {
-      console.error("Error: --range requires a non-empty value in the format \"x=start:end,y=start:end\".");
+      console.error('Error: --range requires a non-empty value in the format "x=start:end,y=start:end".');
       process.exit(1);
     }
     // Validate range format: x=start:end,y=start:end
     const rangeRegex = /^x=-?\d+(\.\d+)?:-?\d+(\.\d+)?,y=-?\d+(\.\d+)?:-?\d+(\.\d+)?$/;
     if (!rangeRegex.test(rangeVal.trim())) {
-      console.error("Error: --range flag invalid format. Expected format: \"x=start:end,y=start:end\".");
+      console.error('Error: --range flag invalid format. Expected format: "x=start:end,y=start:end".');
       process.exit(1);
     }
   }
@@ -92,13 +92,11 @@ Examples:
   const expressionText = expressionVal
     ? `<text x="10" y="20" font-size="12" fill="black">Expression: ${expressionVal}</text>`
     : "";
-  const rangeText = rangeVal
-    ? `<text x="10" y="40" font-size="12" fill="black">Range: ${rangeVal}</text>`
-    : "";
+  const rangeText = rangeVal ? `<text x="10" y="40" font-size="12" fill="black">Range: ${rangeVal}</text>` : "";
 
   const svgData = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
   <rect width="100%" height="100%" fill="${colorVal}" />
-  <circle cx="${width/2}" cy="${height/2}" r="${Math.min(width, height) / 4}" fill="green" />
+  <circle cx="${width / 2}" cy="${height / 2}" r="${Math.min(width, height) / 4}" fill="green" />
   ${expressionText}
   ${rangeText}
 </svg>`;
