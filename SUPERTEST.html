@@ -24,269 +24,368 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="supertest" href="#supertest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SUPERTEST</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">SuperTest provides a fluent API built on superagent for making HTTP assertions. Key details include installation via npm, usage examples with express, support for HTTP2 via { http2:true } options, integration examples with mocha using callbacks, promises, and async/await, and built-in support for cookie persistence using request.agent. API methods include various forms of .expect() for status codes, headers, bodies, and custom assertions.</p>
+<p class="md-github">SuperTest is a Node.js library for HTTP assertions built on superagent. It allows testing of HTTP servers by wrapping an http.Server or function and binding to an ephemeral port if not listening. Key features include support for HTTP/2 via options, integration with testing frameworks like Mocha using callbacks, promises, or async/await, cookie persistence through request.agent, and custom assertion functions. API methods such as .expect(status[, fn]), .expect(body[, fn]), .auth(username, password), and .end(fn) provide versatile testing control. Detailed code examples are provided for basic usage, authentication, and multipart uploads.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
 <li class="md-github">
-<p class="md-github">Installation &amp; Setup</p>
+<p class="md-github">Introduction</p>
 </li>
 <li class="md-github">
-<p class="md-github">HTTP and HTTP2 Request Handling</p>
+<p class="md-github">Installation</p>
 </li>
 <li class="md-github">
-<p class="md-github">API Methods and Assertions</p>
+<p class="md-github">Basic Usage</p>
 </li>
 <li class="md-github">
-<p class="md-github">Mocha, Promise, and Async Testing Patterns</p>
+<p class="md-github">HTTP/2 Configuration</p>
 </li>
 <li class="md-github">
-<p class="md-github">Cookie Persistence with request.agent</p>
+<p class="md-github">Testing Patterns</p>
 </li>
 <li class="md-github">
-<p class="md-github">Custom Assertions and Response Modification</p>
+<p class="md-github">Authentication &amp; Cookie Handling</p>
 </li>
 <li class="md-github">
-<p class="md-github">Installation &amp; Setup:</p>
+<p class="md-github">API Method Specifications</p>
+</li>
+<li class="md-github">
+<p class="md-github">Introduction:</p>
 </li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Use npm install supertest --save-dev</li>
-<li class="md-github">Import with require('supertest') in Node.js projects.</li>
+<li class="md-github">Library: SuperTest for testing HTTP servers using superagent.</li>
+<li class="md-github">Supports ephemeral port binding if server not listening.</li>
 </ul>
 <ol start="2" class="md-github">
-<li class="md-github">HTTP and HTTP2 Request Handling:</li>
+<li class="md-github">Installation:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Basic usage: request(app).get('/user')</li>
-<li class="md-github">For HTTP2, pass options: request(app, { http2: true }) or request.agent(app, { http2: true })</li>
+<li class="md-github">Command: npm install supertest --save-dev</li>
 </ul>
 <ol start="3" class="md-github">
-<li class="md-github">API Methods and Assertions:</li>
+<li class="md-github">Basic Usage:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">.expect(status[, fn]) asserts the response status code.</li>
-<li class="md-github">.expect(status, body[, fn]) asserts both status and response body.</li>
-<li class="md-github">.expect(body[, fn]) asserts response body using string, regex or object.</li>
-<li class="md-github">.expect(field, value[, fn]) asserts header field values.</li>
-<li class="md-github">.expect(function(res){}) for custom assertions.</li>
-<li class="md-github">.end(fn) finalizes the test and returns errors in callback.</li>
+<li class="md-github">Require module: const request = require('supertest');</li>
+<li class="md-github">Example:
+const express = require('express');
+const app = express();
+app.get('/user', function(req, res) { res.status(200).json({ name: 'john' }); });
+request(app).get('/user').expect('Content-Type', /json/).expect('Content-Length', '15').expect(200).end(function(err, res) { if(err) throw err; });</li>
 </ul>
 <ol start="4" class="md-github">
-<li class="md-github">Mocha, Promise, and Async Testing Patterns:</li>
+<li class="md-github">HTTP/2 Configuration:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Callback style: pass done to .expect(200, done)</li>
-<li class="md-github">Promise style: return request(...).then(response =&gt; { ... })</li>
-<li class="md-github">Async/await: const response = await request(...); then validate headers and body.</li>
+<li class="md-github">Enable by passing { http2: true } to request or request.agent:
+request(app, { http2: true }).get('/user')...</li>
 </ul>
 <ol start="5" class="md-github">
-<li class="md-github">Cookie Persistence with request.agent:</li>
+<li class="md-github">Testing Patterns:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Use request.agent(app) to persist cookies through subsequent requests.</li>
-<li class="md-github">Example: agent.get('/').expect('set-cookie', 'cookie=hey; Path=/') then agent.get('/return') to validate cookie transmission.</li>
+<li class="md-github">Supports callbacks, promises, and async/await.</li>
+<li class="md-github">Mocha example with done callback and inline assertion via .expect(200, done).</li>
 </ul>
 <ol start="6" class="md-github">
-<li class="md-github">Custom Assertions and Response Modification:</li>
+<li class="md-github">Authentication &amp; Cookie Handling:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Modify response body within an .expect() function to set fixed IDs or adjust formats before final assertion.</li>
-<li class="md-github">Example: res.body.id = 'some fixed id'; res.body.name = res.body.name.toLowerCase(); followed by .expect(200, {id:'some fixed id', name:'john'}, done).</li>
+<li class="md-github">Use .auth(username, password) for basic auth.</li>
+<li class="md-github">Persist cookies via request.agent: agent(app) with cookie-parser middleware.</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">API Method Specifications:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">.expect(status[, fn]) - assert status code.</li>
+<li class="md-github">.expect(status, body[, fn]) - assert status and body.</li>
+<li class="md-github">.expect(body[, fn]) - assert response body with string, regex or object.</li>
+<li class="md-github">.expect(field, value[, fn]) - assert header field.</li>
+<li class="md-github">.expect(function(res){}) - custom assertion function; throw error if assertion fails.</li>
+<li class="md-github">.end(fn) - execute HTTP request and callback with error and response.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Technical Specifications:</p>
+<p class="md-github">Installation: npm install supertest --save-dev. Configuration Options:</p>
 <ul class="md-github">
-<li class="md-github">HTTP2 Enablement: Pass { http2: true } as second parameter to request() or agent().</li>
-<li class="md-github">Assertion Method Signatures:
-expect(status[, fn]) where status is a number and fn is a callback function.
-expect(status, body[, fn]) where body is an exact object or string for matching.
-expect(body[, fn]) where body can be a string/regex/object.
-expect(field, value[, fn]) to match header fields.</li>
-<li class="md-github">Error handling: In .end(fn) callback, if error present, call done(err) to fail tests.</li>
-<li class="md-github">Configuration Options:
-Default port binding: uses ephemeral port if server not listening.
-Cookie persistence via agent: maintains cookies across requests.
-Superagent methods available: .write(), .pipe(), etc, for lower-level HTTP operations.</li>
-<li class="md-github">Implementation Steps:
-<ol class="md-github">
-<li class="md-github">Install supertest using npm.</li>
-<li class="md-github">Create express application endpoints.</li>
-<li class="md-github">Use request(app) for testing endpoints.</li>
-<li class="md-github">Apply .expect() assertions in sequence.</li>
-<li class="md-github">Use .end(fn) to complete request and handle errors.</li>
-<li class="md-github">For asynchronous tests, use promise return or async/await.</li>
-<li class="md-github">For HTTP2 testing, include { http2:true } option.</li>
-</ol>
-</li>
-<li class="md-github">Best Practices:
-<ul class="md-github">
-<li class="md-github">Ensure correct Content-Type and Content-Length headers are asserted when testing JSON responses.</li>
-<li class="md-github">Use agent for stateful tests like cookie persistence.</li>
-<li class="md-github">Order .expect() calls to systematically modify the response if needed before final assertion.</li>
+<li class="md-github">http2: Boolean option to enable HTTP2 protocol when passed to request or request.agent. Example: { http2: true }.
+Testing Details:</li>
+<li class="md-github">Basic request example: require('supertest') is used with Express app to perform GET/POST requests.</li>
+<li class="md-github">Use .auth(username, password) to pass credentials similar to superagent.</li>
+<li class="md-github">Cookie persistence via request.agent with cookie-parser middleware requires setting cookies with res.cookie and retrieving via req.cookies.</li>
 </ul>
-</li>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Require and initialize SuperTest and Express.</li>
+<li class="md-github">Define routes with desired responses (JSON, headers, etc.).</li>
+<li class="md-github">Execute HTTP method call with desired assertions (.expect for headers, status, and custom functions).</li>
+<li class="md-github">End tests with .end(callback) managing error propagation.</li>
+</ol>
+<p class="md-github">Exact Parameter Values:</p>
+<ul class="md-github">
+<li class="md-github">Header Expectations: e.g., 'Content-Type', /json/; 'Content-Length', '15'.</li>
+<li class="md-github">Status Codes: e.g., 200 for success.</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">If .end() receives an error, rethrow or call done(err) to fail tests.</li>
+<li class="md-github">Check cookie availability when using agent for persistence.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
 <p class="md-github">API Specifications:</p>
-<p class="md-github">Method: request(app | url, [options]) -&gt; Returns a SuperTest instance.
-Options: { http2: boolean }</p>
-<p class="md-github">Method: .get(path: string) -&gt; SuperTest instance; path is the endpoint string.
-Method: .post(path: string) -&gt; SuperTest instance.
-Method: .send(data: object|string) -&gt; SuperTest instance; data type based on content-type.
-Method: .set(field: string, value: string|RegExp) -&gt; SuperTest instance.
-Method: .auth(username: string, password: string) -&gt; SuperTest instance.
-Method: .expect(status: number, [callback: (err: Error, res: Response) =&gt; void])
-Method: .expect(status: number, body: any, [callback])
-Method: .expect(body: string|RegExp|object, [callback])
-Method: .expect(field: string, value: string|RegExp, [callback])
-Method: .expect(fn: (res: Response) =&gt; void) -&gt; Custom assertion that throws error if fails.
-Method: .end(callback: (err: Error, res: Response) =&gt; void)</p>
-<p class="md-github">Full Code Example with Comments:
-// Basic usage of SuperTest with Express
-const request = require('supertest');
-const express = require('express');</p>
-<p class="md-github">// Create an Express app
-const app = express();
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Function: request(app[, options])</p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">app: HTTP server instance or function</li>
+<li class="md-github">options: Object { http2: Boolean } (optional)</li>
+</ul>
+</li>
+<li class="md-github">Returns: SuperTest instance</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Method: .get(url)</p>
+<ul class="md-github">
+<li class="md-github">Parameter: url (String)</li>
+<li class="md-github">Returns: Test instance</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Method: .expect(status[, fn])</p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">status: Number (HTTP status code expected)</li>
+<li class="md-github">fn: Optional callback function</li>
+</ul>
+</li>
+<li class="md-github">Behavior: Asserts response status code</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Method: .expect(status, body[, fn])</p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">status: Number</li>
+<li class="md-github">body: String, RegExp, or Object to match against response body</li>
+<li class="md-github">fn: Optional callback</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Method: .expect(body[, fn])</p>
+<ul class="md-github">
+<li class="md-github">Parameter: body (String, RegExp, or Object)</li>
+<li class="md-github">Behavior: Asserts response body</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Method: .expect(field, value[, fn])</p>
+<ul class="md-github">
+<li class="md-github">Parameters:
+<ul class="md-github">
+<li class="md-github">field: String (HTTP header field)</li>
+<li class="md-github">value: String or RegExp</li>
+<li class="md-github">fn: Optional callback</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Method: .expect(callback)</p>
+<ul class="md-github">
+<li class="md-github">Parameter: callback function(res) that performs custom assertions. Throw error if condition fails.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Method: .end(fn)</p>
+<ul class="md-github">
+<li class="md-github">Parameter: fn(err, res)</li>
+<li class="md-github">Behavior: Finalizes the request, handling errors if any</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="complete-code-example" href="#complete-code-example"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Complete Code Example:</h2>
+<p class="md-github">const request = require('supertest');
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const app = express();</p>
+<p class="md-github">// Middleware setup
+app.use(cookieParser());</p>
+<p class="md-github">// Route definition
 app.get('/user', function(req, res) {
-// Responds with JSON containing name 'john'
 res.status(200).json({ name: 'john' });
 });</p>
-<p class="md-github">// Test the /user endpoint
+<p class="md-github">// Basic test
 request(app)
-.get('/user') // HTTP GET request
-.set('Accept', 'application/json') // Set request header
-.expect('Content-Type', /json/) // Expect response Content-Type to match JSON pattern
-.expect('Content-Length', '15') // Expect Content-Length to be '15'
-.expect(200) // Assert HTTP status 200
+.get('/user')
+.expect('Content-Type', /json/)
+.expect('Content-Length', '15')
+.expect(200)
 .end(function(err, res) {
-// Error handling; if error exists, throw it to fail test
 if (err) throw err;
 });</p>
-<p class="md-github">// HTTP2 Enablement Example
+<p class="md-github">// HTTP/2 test
 request(app, { http2: true })
 .get('/user')
 .expect(200)
 .end(function(err, res) {
 if (err) throw err;
 });</p>
-<p class="md-github">// Troubleshooting Procedure:
-// 1. If an assertion fails using .end(fn), verify the response headers and body manually by logging res.
-// 2. Run the test using npm test and check console output for error details.
-// 3. For cookie issues, ensure using request.agent() to persist cookies.
-// 4. Check that the server is bound and listening on an ephemeral port if not pre-bound.</p>
+<p class="md-github">// Mocha test pattern
+describe('GET /user', function() {
+it('should respond with json', function(done) {
+request(app)
+.get('/user')
+.set('Accept', 'application/json')
+.expect('Content-Type', /json/)
+.expect(200, done);
+});
+});</p>
+<p class="md-github">// Cookie persistence test
+app.get('/', function(req, res) {
+res.cookie('cookie', 'hey');
+res.send();
+});</p>
+<p class="md-github">app.get('/return', function(req, res) {
+if (req.cookies.cookie) res.send(req.cookies.cookie);
+else res.send(':(');
+});</p>
+<p class="md-github">const agent = request.agent(app);</p>
+<p class="md-github">agent
+.get('/')
+.expect('set-cookie', 'cookie=hey; Path=/', function(err) {
+if (err) throw err;
+});</p>
+<h2 class="md-github"><a class="md-github__anchor" name="agentgetreturnexpecthey-functionerr-if-err-throw-err" href="#agentgetreturnexpecthey-functionerr-if-err-throw-err"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>agent
+.get('/return')
+.expect('hey', function(err) {
+if (err) throw err;
+});</h2>
 <p class="md-github">Configuration Options:</p>
 <ul class="md-github">
-<li class="md-github">npm install command: npm install supertest --save-dev</li>
-<li class="md-github">Options for HTTP2: { http2: true } enables HTTP2 protocol support.</li>
-<li class="md-github">Default callback error: Errors are passed as first argument in .end() method; handle with if(err) { done(err) }.</li>
-</ul>
-<p class="md-github">Return Types:</p>
-<ul class="md-github">
-<li class="md-github">All request methods return a SuperTest instance for chaining.</li>
-<li class="md-github">.end() returns a callback with (err: Error|null, res: Response object).</li>
-</ul>
-<p class="md-github">Exceptions:</p>
-<ul class="md-github">
-<li class="md-github">If non-2XX status returned without .expect() status, error passed to callback.</li>
-<li class="md-github">Custom assertion functions must throw an Error on failure.</li>
+<li class="md-github">{ http2: true } enables HTTP/2 support.</li>
 </ul>
 <p class="md-github">Best Practices:</p>
 <ul class="md-github">
-<li class="md-github">Chain .expect() calls in the desired order.</li>
-<li class="md-github">Use agent() for tests requiring cookie state.</li>
-<li class="md-github">Leverage async/await for clean asynchronous tests.</li>
+<li class="md-github">Chain assertions in the order of expected response alterations.</li>
+<li class="md-github">Utilize custom assertion functions for advanced validations.</li>
+<li class="md-github">Ensure error handling in the .end() callback to properly fail test cases.</li>
 </ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Run individual tests with verbose logging using console.log(err) in .end() to track assertion failures.</li>
+<li class="md-github">Verify that the Express app is correctly configured to handle cookies when using agent.</li>
+<li class="md-github">Ensure that HTTP header expectations match the exact output from the server.</li>
+</ul>
+<p class="md-github">Return Types: All callback functions follow Node.js error-first callback conventions.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">Install: npm install supertest --save-dev; Import: require('supertest'); API: request(app|url, {http2:boolean}); Methods: .get(path:string), .post(path:string), .set(field:string,value:string|RegExp), .send(data:object|string), .auth(username, password); Assertions: .expect(status[,fn]), .expect(status,body[,fn]), .expect(body[,fn]), .expect(field,value[,fn]), .expect(fn); End: .end(callback(err,res)); HTTP2: use {http2:true}; Mocha usage: callback style, promise chain, async/await; Cookie Persistence: request.agent(app); Custom assertion: function(res){ if(!cond) throw Error } ; Troubleshoot: Check .end() errors, validate response headers/body; Code pattern: chain .expect() then .end();</p>
+<p class="md-github">Library: SuperTest; Installation: npm install supertest --save-dev; Usage: require('supertest'), bind to Express app; HTTP/2: enable via { http2: true }; API: .get(url), .expect(status[, fn]), .expect(status, body[, fn]), .expect(body[, fn]), .expect(field, value[, fn]), .expect(function(res){}) and .end(fn); Patterns: supports callbacks, Promises, async/await; Authentication: .auth(username, password); Cookie Handling: request.agent with cookie-parser; Complete API details provided with parameters, return types, and error handling; Best practices include chaining assertions and robust error propagation.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
 <p class="md-github">Table of Contents:</p>
 <ol class="md-github">
 <li class="md-github">
-<p class="md-github">Installation &amp; Setup</p>
+<p class="md-github">Introduction</p>
 </li>
 <li class="md-github">
-<p class="md-github">HTTP and HTTP2 Request Handling</p>
+<p class="md-github">Installation</p>
 </li>
 <li class="md-github">
-<p class="md-github">API Methods and Assertions</p>
+<p class="md-github">Basic Usage</p>
 </li>
 <li class="md-github">
-<p class="md-github">Mocha, Promise, and Async Testing Patterns</p>
+<p class="md-github">HTTP/2 Configuration</p>
 </li>
 <li class="md-github">
-<p class="md-github">Cookie Persistence with request.agent</p>
+<p class="md-github">Testing Patterns</p>
 </li>
 <li class="md-github">
-<p class="md-github">Custom Assertions and Response Modification</p>
+<p class="md-github">Authentication &amp; Cookie Handling</p>
 </li>
 <li class="md-github">
-<p class="md-github">Installation &amp; Setup:</p>
+<p class="md-github">API Method Specifications</p>
+</li>
+<li class="md-github">
+<p class="md-github">Introduction:</p>
 </li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Use npm install supertest --save-dev</li>
-<li class="md-github">Import with require('supertest') in Node.js projects.</li>
+<li class="md-github">Library: SuperTest for testing HTTP servers using superagent.</li>
+<li class="md-github">Supports ephemeral port binding if server not listening.</li>
 </ul>
 <ol start="2" class="md-github">
-<li class="md-github">HTTP and HTTP2 Request Handling:</li>
+<li class="md-github">Installation:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Basic usage: request(app).get('/user')</li>
-<li class="md-github">For HTTP2, pass options: request(app, { http2: true }) or request.agent(app, { http2: true })</li>
+<li class="md-github">Command: npm install supertest --save-dev</li>
 </ul>
 <ol start="3" class="md-github">
-<li class="md-github">API Methods and Assertions:</li>
+<li class="md-github">Basic Usage:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">.expect(status[, fn]) asserts the response status code.</li>
-<li class="md-github">.expect(status, body[, fn]) asserts both status and response body.</li>
-<li class="md-github">.expect(body[, fn]) asserts response body using string, regex or object.</li>
-<li class="md-github">.expect(field, value[, fn]) asserts header field values.</li>
-<li class="md-github">.expect(function(res){}) for custom assertions.</li>
-<li class="md-github">.end(fn) finalizes the test and returns errors in callback.</li>
+<li class="md-github">Require module: const request = require('supertest');</li>
+<li class="md-github">Example:
+const express = require('express');
+const app = express();
+app.get('/user', function(req, res) { res.status(200).json({ name: 'john' }); });
+request(app).get('/user').expect('Content-Type', /json/).expect('Content-Length', '15').expect(200).end(function(err, res) { if(err) throw err; });</li>
 </ul>
 <ol start="4" class="md-github">
-<li class="md-github">Mocha, Promise, and Async Testing Patterns:</li>
+<li class="md-github">HTTP/2 Configuration:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Callback style: pass done to .expect(200, done)</li>
-<li class="md-github">Promise style: return request(...).then(response =&gt; { ... })</li>
-<li class="md-github">Async/await: const response = await request(...); then validate headers and body.</li>
+<li class="md-github">Enable by passing { http2: true } to request or request.agent:
+request(app, { http2: true }).get('/user')...</li>
 </ul>
 <ol start="5" class="md-github">
-<li class="md-github">Cookie Persistence with request.agent:</li>
+<li class="md-github">Testing Patterns:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Use request.agent(app) to persist cookies through subsequent requests.</li>
-<li class="md-github">Example: agent.get('/').expect('set-cookie', 'cookie=hey; Path=/') then agent.get('/return') to validate cookie transmission.</li>
+<li class="md-github">Supports callbacks, promises, and async/await.</li>
+<li class="md-github">Mocha example with done callback and inline assertion via .expect(200, done).</li>
 </ul>
 <ol start="6" class="md-github">
-<li class="md-github">Custom Assertions and Response Modification:</li>
+<li class="md-github">Authentication &amp; Cookie Handling:</li>
 </ol>
 <ul class="md-github">
-<li class="md-github">Modify response body within an .expect() function to set fixed IDs or adjust formats before final assertion.</li>
-<li class="md-github">Example: res.body.id = 'some fixed id'; res.body.name = res.body.name.toLowerCase(); followed by .expect(200, {id:'some fixed id', name:'john'}, done).</li>
+<li class="md-github">Use .auth(username, password) for basic auth.</li>
+<li class="md-github">Persist cookies via request.agent: agent(app) with cookie-parser middleware.</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">API Method Specifications:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">.expect(status[, fn]) - assert status code.</li>
+<li class="md-github">.expect(status, body[, fn]) - assert status and body.</li>
+<li class="md-github">.expect(body[, fn]) - assert response body with string, regex or object.</li>
+<li class="md-github">.expect(field, value[, fn]) - assert header field.</li>
+<li class="md-github">.expect(function(res){}) - custom assertion function; throw error if assertion fails.</li>
+<li class="md-github">.end(fn) - execute HTTP request and callback with error and response.</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
 <p class="md-github">Supertest Documentation
 https://github.com/visionmedia/supertest</p>
 <h2 class="md-github"><a class="md-github__anchor" name="digest-of-supertest" href="#digest-of-supertest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SUPERTEST</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="supertest-documentation-digest" href="#supertest-documentation-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SuperTest Documentation Digest</h1>
-<p class="md-github">Date Retrieved: 2023-10-11</p>
-<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
-<p class="md-github">SuperTest is a high-level abstraction for testing HTTP servers via the superagent library. It allows the user to test HTTP endpoints with various methods and assertions including custom checks, cookie handling, and HTTP2 protocol support.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
-<ul class="md-github">
-<li class="md-github">Command: npm install supertest --save-dev</li>
-<li class="md-github">Import: require('supertest')</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="usage-examples" href="#usage-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage Examples</h2>
-<h3 class="md-github"><a class="md-github__anchor" name="basic-http-test-setup" href="#basic-http-test-setup"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic HTTP Test Setup</h3>
+<h1 class="md-github"><a class="md-github__anchor" name="supertest-documentation" href="#supertest-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SuperTest Documentation</h1>
+<p class="md-github">Retrieved Date: 2023-10-30
+Data Size: 661880 bytes</p>
+<h1 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h1>
+<p class="md-github">SuperTest offers a high-level abstraction for HTTP testing built on top of superagent. It supports basic HTTP requests, HTTP/2 configuration, cookie handling, and multiple testing paradigms (callbacks, promises, async/await).</p>
+<h1 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h1>
+<p class="md-github">To install, add supertest as a development dependency:</p>
+<p class="md-github">npm install supertest --save-dev</p>
+<h1 class="md-github"><a class="md-github__anchor" name="basic-usage" href="#basic-usage"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basic Usage</h1>
+<p class="md-github">Include the module by requiring it:</p>
 <p class="md-github">const request = require('supertest');
-const express = require('express');</p>
-<p class="md-github">const app = express();
-app.get('/user', function(req, res) {
+const express = require('express');
+const app = express();</p>
+<p class="md-github">app.get('/user', function(req, res) {
 res.status(200).json({ name: 'john' });
 });</p>
 <p class="md-github">request(app)
@@ -297,13 +396,9 @@ res.status(200).json({ name: 'john' });
 .end(function(err, res) {
 if (err) throw err;
 });</p>
-<h3 class="md-github"><a class="md-github__anchor" name="enabling-http2" href="#enabling-http2"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enabling HTTP2</h3>
-<p class="md-github">const request = require('supertest');
-const express = require('express');</p>
-<p class="md-github">const app = express();
-app.get('/user', function(req, res) {
-res.status(200).json({ name: 'john' });
-});</p>
+<h1 class="md-github"><a class="md-github__anchor" name="http2-support" href="#http2-support"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP2 Support</h1>
+<p class="md-github">To enable HTTP2, pass an options object with { http2: true } to request or request.agent:</p>
+<p class="md-github">const request = require('supertest');</p>
 <p class="md-github">request(app, { http2: true })
 .get('/user')
 .expect('Content-Type', /json/)
@@ -312,8 +407,7 @@ res.status(200).json({ name: 'john' });
 .end(function(err, res) {
 if (err) throw err;
 });</p>
-<p class="md-github">// Using agent for HTTP2
-request.agent(app, { http2: true })
+<p class="md-github">request.agent(app, { http2: true })
 .get('/user')
 .expect('Content-Type', /json/)
 .expect('Content-Length', '15')
@@ -321,8 +415,10 @@ request.agent(app, { http2: true })
 .end(function(err, res) {
 if (err) throw err;
 });</p>
-<h3 class="md-github"><a class="md-github__anchor" name="mocha-integration-and-async-testing" href="#mocha-integration-and-async-testing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mocha Integration and Async Testing</h3>
-<p class="md-github">describe('GET /user', function() {
+<h1 class="md-github"><a class="md-github__anchor" name="mocha-integration--asynchronous-patterns" href="#mocha-integration--asynchronous-patterns"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mocha Integration &amp; Asynchronous Patterns</h1>
+<p class="md-github">Examples for Mocha with callback, promise and async/await patterns:</p>
+<p class="md-github">// Using callbacks:
+describe('GET /user', function() {
 it('responds with json', function(done) {
 request(app)
 .get('/user')
@@ -331,50 +427,44 @@ request(app)
 .expect(200, done);
 });
 });</p>
-<p class="md-github">describe('GET /users', function() {
-it('responds with json using promises', function() {
+<p class="md-github">// Using promises:
+describe('GET /users', function() {
+it('responds with json', function() {
 return request(app)
 .get('/users')
 .set('Accept', 'application/json')
 .expect('Content-Type', /json/)
 .expect(200)
 .then(response =&gt; {
-expect(response.body.email).toEqual('foo@bar.com');
+// Assertion: response.body.email equals expected email
 });
 });
 });</p>
-<p class="md-github">describe('GET /users', function() {
-it('responds with json using async/await', async function() {
+<p class="md-github">// Using async/await:
+describe('GET /users', function() {
+it('responds with json', async function() {
 const response = await request(app)
 .get('/users')
 .set('Accept', 'application/json');
-expect(response.headers[&quot;Content-Type&quot;]).toMatch(/json/);
-expect(response.status).toEqual(200);
-expect(response.body.email).toEqual('foo@bar.com');
+// Assertions
 });
 });</p>
-<h3 class="md-github"><a class="md-github__anchor" name="custom-assertions-and-response-modification" href="#custom-assertions-and-response-modification"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Custom Assertions and Response Modification</h3>
-<p class="md-github">describe('POST /user', function() {
-it('user.name should be case-insensitive match for &quot;john&quot;', function(done) {
+<h1 class="md-github"><a class="md-github__anchor" name="authentication" href="#authentication"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Authentication</h1>
+<p class="md-github">Pass HTTP credentials using the auth method as in superagent:</p>
+<p class="md-github">describe('GET /user', function() {
+it('responds with json', function(done) {
 request(app)
-.post('/user')
-.send('name=john')
+.get('/user')
+.auth('username', 'password')
 .set('Accept', 'application/json')
-.expect(function(res) {
-res.body.id = 'some fixed id';
-res.body.name = res.body.name.toLowerCase();
-})
-.expect(200, {
-id: 'some fixed id',
-name: 'john'
-}, done);
+.expect('Content-Type', /json/)
+.expect(200, done);
 });
 });</p>
-<h3 class="md-github"><a class="md-github__anchor" name="cookie-persistence-example-using-agent" href="#cookie-persistence-example-using-agent"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cookie Persistence Example using agent</h3>
-<p class="md-github">const request = require('supertest');
+<h1 class="md-github"><a class="md-github__anchor" name="cookie-handling" href="#cookie-handling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cookie Handling</h1>
+<p class="md-github">Persist cookies using request.agent:</p>
+<p class="md-github">const cookieParser = require('cookie-parser');
 const express = require('express');
-const cookieParser = require('cookie-parser');</p>
-<p class="md-github">describe('request.agent(app)', function() {
 const app = express();
 app.use(cookieParser());</p>
 <p class="md-github">app.get('/', function(req, res) {
@@ -386,47 +476,58 @@ if (req.cookies.cookie) res.send(req.cookies.cookie);
 else res.send(':(');
 });</p>
 <p class="md-github">const agent = request.agent(app);</p>
-<p class="md-github">it('should save cookies', function(done) {
+<p class="md-github">// Save cookies:
 agent
 .get('/')
-.expect('set-cookie', 'cookie=hey; Path=/', done);
+.expect('set-cookie', 'cookie=hey; Path=/', function(err) {
+if (err) throw err;
 });</p>
-<p class="md-github">it('should send cookies', function(done) {
+<p class="md-github">// Use cookies:
 agent
 .get('/return')
-.expect('hey', done);
-});
+.expect('hey', function(err) {
+if (err) throw err;
 });</p>
-<h2 class="md-github"><a class="md-github__anchor" name="api-methods-overview" href="#api-methods-overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Methods Overview</h2>
-<ul class="md-github">
-<li class="md-github">.expect(status[, fn])</li>
-<li class="md-github">.expect(status, body[, fn])</li>
-<li class="md-github">.expect(body[, fn])</li>
-<li class="md-github">.expect(field, value[, fn])</li>
-<li class="md-github">.expect(function(res) { ... })</li>
-<li class="md-github">.end(fn)</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h2>
-<ul class="md-github">
-<li class="md-github">When .end() is used, failed assertions provide an error as a callback parameter; use if (err) return done(err); to handle errors.</li>
-</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="api-details" href="#api-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Details</h1>
+<p class="md-github">SuperTest supports all superagent methods. Key API methods include:</p>
+<p class="md-github">.expect(status[, fn])
+.expect(status, body[, fn])
+.expect(body[, fn])
+.expect(field, value[, fn])
+.expect(function(res) {})
+.end(fn)</p>
+<p class="md-github">Custom assertion example:</p>
+<p class="md-github">function hasPreviousAndNextKeys(res) {
+if (!('next' in res.body)) throw new Error('missing next key');
+if (!('prev' in res.body)) throw new Error('missing prev key');
+}</p>
+<p class="md-github">request(app)
+.get('/')
+.expect(hasPreviousAndNextKeys)
+.end(function(err, res) {
+if (err) throw err;
+});</p>
+<h1 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h1>
+<p class="md-github">If .expect() fails in .end(), the error is provided as the first argument. To fail the test case, rethrow the error or pass it to the done callback:</p>
+<p class="md-github">if (err) return done(err);
+return done();</p>
+<p class="md-github">Attribution: Crawled from https://github.com/visionmedia/supertest
+License: MIT</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
-<p class="md-github">Crawled content data size: 589780 bytes, retrieved 4781 links.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: Supertest Documentation</li>
 <li class="md-github">URL: https://github.com/visionmedia/supertest</li>
 <li class="md-github">License: MIT License</li>
-<li class="md-github">Crawl Date: 2025-04-27T01:08:23.412Z</li>
-<li class="md-github">Data Size: 589780 bytes</li>
-<li class="md-github">Links Found: 4781</li>
+<li class="md-github">Crawl Date: 2025-04-28T16:51:30.456Z</li>
+<li class="md-github">Data Size: 661880 bytes</li>
+<li class="md-github">Links Found: 5442</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-04-27</p>
+<p class="md-github">2025-04-28</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-28T16:24:04.523Z</p>
+    <p>Generated on 2025-04-28T17:22:51.717Z</p>
   </footer>
 </body>
 </html>
