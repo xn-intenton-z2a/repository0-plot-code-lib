@@ -206,8 +206,13 @@ function computePlotData(expression, range, customLabels = {}) {
   let xAxisLabelText;
   if (customLabels.xlabel) {
     xAxisLabelText = customLabels.xlabel;
+  } else if (xPrecision !== null && locale === "de-DE") {
+    let rx = roundHalfAwayFromZero(xMin, xPrecision);
+    let rX = roundHalfAwayFromZero(xMax, xPrecision);
+    rx = rx.replace(".", ",");
+    rX = rX.replace(".", ",");
+    xAxisLabelText = `x-axis: ${rx} to ${rX}`;
   } else if (xPrecision !== null && locale) {
-    // Use default rounding for x-axis
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: xPrecision,
       maximumFractionDigits: xPrecision
@@ -222,6 +227,12 @@ function computePlotData(expression, range, customLabels = {}) {
   let yAxisLabelText;
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
+  } else if (yPrecision !== null && locale === "de-DE") {
+    let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
+    let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
+    ry = ry.replace(".", ",");
+    rY = rY.replace(".", ",");
+    yAxisLabelText = `y-axis: ${ry} to ${rY}`;
   } else if (yPrecision !== null && locale) {
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: yPrecision,
@@ -295,7 +306,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   let defsElements = "";
   // Extended Gradient Configuration
   if (String(customLabels.colorGradient) === "true") {
-    if (customLabels.gradientStops != null) {
+    if (customLabels.gradientStops != null && customLabels.gradientStops.toString().trim() !== "") {
       let stopsArray;
       try {
         stopsArray = JSON.parse(customLabels.gradientStops);

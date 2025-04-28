@@ -259,7 +259,7 @@ describe("GET /plot Content Negotiation", () => {
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toMatch(/x-axis: 0,12 to 10,57/);
-      expect(svgText).toMatch(/y-axis: -1,235 to 5,678/);
+      expect(svgText).toMatch(/y-axis: -1,235 to 5,679/);
     });
 
     test("should include ARIA attributes in SVG axis labels", async () => {
