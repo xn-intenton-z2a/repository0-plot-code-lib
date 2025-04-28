@@ -202,3 +202,13 @@ This tutorial explains SVG path syntax including quadratic Bézier curves with i
 ## https://www.digitalocean.com/community/tutorials/nodejs-async-await-error-handling
 This comprehensive guide illustrates effective error handling techniques using async/await in Node.js. It offers practical patterns and examples that are directly applicable to improving robustness in CLI and HTTP API operations, making it easier to diagnose and recover from runtime errors.
 ## Unknown License
+
+# Node.js Environment Variables Best Practices
+## https://www.twilio.com/blog/securing-node-js-env-variables
+This article by Twilio provides a comprehensive guide on securing and managing environment variables in Node.js applications. It covers best practices for using dotenv, discusses potential security pitfalls, and offers strategies for integrating environment variables into configuration management. The insights provided are beneficial for ensuring robust and secure configuration merging in our library.
+## Unknown License
+
+# Understanding Unix Signals for Runtime Configuration Reloading
+## https://www.baeldung.com/linux/sighup-signal
+Baeldung's article on Unix signals gives an in-depth exploration of the SIGHUP signal and its role in configuration reloading. It explains how processes can leverage Unix signals to re-read configuration files at runtime, thus enabling dynamic updates without downtime. This source is highly authoritative and provides actionable guidance for our server's runtime configuration reload feature. The recommendations have been widely adopted in backend systems.
+## Unknown License
