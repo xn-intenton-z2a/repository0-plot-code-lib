@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="svg_gradients" href="#svg_gradients"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG_GRADIENTS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">The crawled content from CSS-Tricks provided a reference to advanced SVG gradient implementations. Key technical points include the specification of <linearGradient> and <radialGradient> elements, usage of attributes like x1, y1, x2, y2 for linear gradients and cx, cy, r for radial gradients, as well as additional parameters such as gradientUnits and spreadMethod that directly control the gradient rendering behavior.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">TABLE OF CONTENTS:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">SVG Gradient Types</p>
+</li>
+<li class="md-github">
+<p class="md-github">Linear Gradient Implementation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Radial Gradient Implementation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options and Best Practices</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG Gradient Types:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Two main types: linear and radial gradients.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Linear Gradient Implementation:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Use element: linearGradient.</li>
+<li class="md-github">Required attributes: x1 (start x coordinate), y1 (start y coordinate), x2 (end x coordinate), y2 (end y coordinate).</li>
+<li class="md-github">Example values: x1=0%, y1=0%, x2=100%, y2=0%.</li>
+<li class="md-github">Child elements: stop elements with offset, stop-color, and stop-opacity.</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Radial Gradient Implementation:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Use element: radialGradient.</li>
+<li class="md-github">Required attributes: cx (center x coordinate), cy (center y coordinate), r (radius).</li>
+<li class="md-github">Example values: cx=50%, cy=50%, r=50%.</li>
+<li class="md-github">Optional attributes: fx, fy to shift the focal point.</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Configuration Options and Best Practices:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">gradientUnits: Can be set to objectBoundingBox (default) or userSpaceOnUse.</li>
+<li class="md-github">spreadMethod: Options include pad, reflect, repeat; determines color extension outside defined bounds.</li>
+<li class="md-github">Best Practice: Include multiple stop elements for smoother transitions and test across browsers using developer tools.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Linear Gradient:</p>
+<ul class="md-github">
+<li class="md-github">Element: <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="objectBoundingBox" spreadMethod="pad"></li>
+<li class="md-github">Stop Elements:
+<ul class="md-github">
+<li class="md-github">
+<stop offset="0%" stop-color="#FF0000" stop-opacity="1"/>
+</li>
+<li class="md-github">
+<stop offset="100%" stop-color="#0000FF" stop-opacity="1"/>
+</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Radial Gradient:</p>
+<ul class="md-github">
+<li class="md-github">Element: <radialGradient id="gradient2" cx="50%" cy="50%" r="50%" gradientUnits="objectBoundingBox" spreadMethod="pad"></li>
+<li class="md-github">Stop Elements:
+<ul class="md-github">
+<li class="md-github">
+<stop offset="0%" stop-color="#FFFF00" stop-opacity="1"/>
+</li>
+<li class="md-github">
+<stop offset="100%" stop-color="#008000" stop-opacity="1"/>
+</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">Define the gradient element within the SVG <defs> tag.</li>
+<li class="md-github">Specify all required attributes accurately.</li>
+<li class="md-github">Include stop elements with precise offset and color values.</li>
+<li class="md-github">Reference the gradient by its ID in SVG shape elements via fill attribute (e.g., fill=&quot;url(#gradient1)&quot;).</li>
+</ol>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">gradientUnits: 'objectBoundingBox' (default, relative to the bounding box) or 'userSpaceOnUse' (absolute coordinates).</li>
+<li class="md-github">spreadMethod: 'pad', 'reflect', or 'repeat'.</li>
+</ul>
+<p class="md-github">Testing and Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">Use browser developer tools to inspect the rendered SVG.</li>
+<li class="md-github">Validate attribute values if gradients appear incorrectly.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications for SVG Gradients:
+Element <linearGradient>:</p>
+<ul class="md-github">
+<li class="md-github">Syntax: <linearGradient id="gradientID" x1="value" y1="value" x2="value" y2="value" gradientUnits="value" spreadMethod="value"></li>
+<li class="md-github">Attributes:
+x1, y1, x2, y2: string (e.g., '0%', '100%')
+gradientUnits: string ('objectBoundingBox' or 'userSpaceOnUse')
+spreadMethod: string ('pad', 'reflect', 'repeat')</li>
+<li class="md-github">Child Element: <stop offset="value" stop-color="#HEX" stop-opacity="number" /></li>
+</ul>
+<p class="md-github">Element <radialGradient>:</p>
+<ul class="md-github">
+<li class="md-github">Syntax: &lt;radialGradient id=&quot;gradientID&quot; cx=&quot;value&quot; cy=&quot;value&quot; r=&quot;value&quot; [fx=&quot;value&quot; fy=&quot;value&quot;] gradientUnits=&quot;value&quot; spreadMethod=&quot;value&quot;&gt;</li>
+<li class="md-github">Attributes:
+cx, cy, r: string (typically percentages, e.g., '50%')
+fx, fy: string (optional, focal point adjustment)
+gradientUnits: string ('objectBoundingBox' or 'userSpaceOnUse')
+spreadMethod: string ('pad', 'reflect', 'repeat')</li>
+<li class="md-github">Child Element: <stop offset="value" stop-color="#HEX" stop-opacity="number" /></li>
+</ul>
+<p class="md-github">Complete SDK Method Signature Example (in context of rendering engine invocation):
+function createSVGGradient(type: 'linear' | 'radial', id: string, attributes: GradientAttributes, stops: StopElement[]): SVGGradient
+where GradientAttributes is an interface {
+x1?: string;
+y1?: string;
+x2?: string;
+y2?: string;
+cx?: string;
+cy?: string;
+r?: string;
+fx?: string;
+fy?: string;
+gradientUnits?: 'objectBoundingBox' | 'userSpaceOnUse';
+spreadMethod?: 'pad' | 'reflect' | 'repeat';
+}</p>
+<p class="md-github">and StopElement is defined as:
+interface StopElement {
+offset: string;
+stopColor: string;
+stopOpacity?: number;
+}</p>
+<p class="md-github">Example Implementation Pattern:
+// Define a linear gradient
+const linearGradient = createSVGGradient('linear', 'gradient1', {
+x1: '0%',
+y1: '0%',
+x2: '100%',
+y2: '0%',
+gradientUnits: 'objectBoundingBox',
+spreadMethod: 'pad'
+}, [
+{ offset: '0%', stopColor: '#FF0000', stopOpacity: 1 },
+{ offset: '100%', stopColor: '#0000FF', stopOpacity: 1 }
+]);</p>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">Command: Run validateSVG tool or use browser inspector to check for missing attributes.</li>
+<li class="md-github">Expected Output: Properly rendered gradient with smooth color transitions.</li>
+<li class="md-github">If gradient does not render, verify that the SVG tag includes the correct namespace (xmlns=&quot;http://www.w3.org/2000/svg&quot;).</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">SVG_GRADIENTS: linearGradient: id, x1=0%, y1=0%, x2=100%, y2=0%, gradientUnits=objectBoundingBox, spreadMethod=pad; stop elements: offset, stop-color, stop-opacity; radialGradient: id, cx=50%, cy=50%, r=50%, optional fx, fy; API: function createSVGGradient(type, id, attributes, stops) returns SVGGradient; troubleshooting: validateSVG, check xmlns attribute.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">TABLE OF CONTENTS:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">SVG Gradient Types</p>
+</li>
+<li class="md-github">
+<p class="md-github">Linear Gradient Implementation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Radial Gradient Implementation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options and Best Practices</p>
+</li>
+<li class="md-github">
+<p class="md-github">SVG Gradient Types:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Two main types: linear and radial gradients.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Linear Gradient Implementation:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Use element: linearGradient.</li>
+<li class="md-github">Required attributes: x1 (start x coordinate), y1 (start y coordinate), x2 (end x coordinate), y2 (end y coordinate).</li>
+<li class="md-github">Example values: x1=0%, y1=0%, x2=100%, y2=0%.</li>
+<li class="md-github">Child elements: stop elements with offset, stop-color, and stop-opacity.</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Radial Gradient Implementation:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Use element: radialGradient.</li>
+<li class="md-github">Required attributes: cx (center x coordinate), cy (center y coordinate), r (radius).</li>
+<li class="md-github">Example values: cx=50%, cy=50%, r=50%.</li>
+<li class="md-github">Optional attributes: fx, fy to shift the focal point.</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Configuration Options and Best Practices:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">gradientUnits: Can be set to objectBoundingBox (default) or userSpaceOnUse.</li>
+<li class="md-github">spreadMethod: Options include pad, reflect, repeat; determines color extension outside defined bounds.</li>
+<li class="md-github">Best Practice: Include multiple stop elements for smoother transitions and test across browsers using developer tools.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">CSS-Tricks: Advanced SVG Gradients
+https://css-tricks.com/svg-gradients/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-svg_gradients" href="#digest-of-svg_gradients"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of SVG_GRADIENTS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="svg-gradients-document" href="#svg-gradients-document"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>SVG GRADIENTS DOCUMENT</h1>
+<p class="md-github">Retrieved: 2023-10-05
+Attribution: CSS-Tricks (Advanced SVG Gradients)
+Data Size from Crawl: 0 bytes</p>
+<h1 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h1>
+<p class="md-github">This document contains detailed technical specifications for implementing SVG gradients, including both linear and radial gradients. It covers the syntax, usage, and configuration parameters that directly affect rendering and behavior.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="technical-specifications" href="#technical-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Technical Specifications</h1>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Linear Gradients:</p>
+<ul class="md-github">
+<li class="md-github">Element: <linearGradient></li>
+<li class="md-github">Essential Attributes: x1, y1, x2, y2 (e.g., x1=&quot;0%&quot;, y1=&quot;0%&quot;, x2=&quot;100%&quot;, y2=&quot;0%&quot;).</li>
+<li class="md-github">Additional Attributes: gradientUnits (objectBoundingBox, userSpaceOnUse), spreadMethod (pad, reflect, repeat).</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Radial Gradients:</p>
+<ul class="md-github">
+<li class="md-github">Element: <radialGradient></li>
+<li class="md-github">Essential Attributes: cx, cy, r (e.g., cx=&quot;50%&quot;, cy=&quot;50%&quot;, r=&quot;50%&quot;).</li>
+<li class="md-github">Additional Attributes: fx, fy for focal point control, gradientUnits, and spreadMethod.</li>
+</ul>
+</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="usage-examples" href="#usage-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Usage Examples</h1>
+<ul class="md-github">
+<li class="md-github">Define stops within gradient elements using <stop> with attributes offset, stop-color, and stop-opacity.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="configuration-details" href="#configuration-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Details</h1>
+<ul class="md-github">
+<li class="md-github">gradientUnits: Defines coordinate system, default is objectBoundingBox.</li>
+<li class="md-github">spreadMethod: Determines behavior of gradient outside the defined bounds.</li>
+<li class="md-github">Best Practice: Use multiple <stop> definitions for smooth color transitions.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="troubleshooting" href="#troubleshooting"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting</h1>
+<ul class="md-github">
+<li class="md-github">Validate SVG structure in browser developer tools.</li>
+<li class="md-github">Check namespace and attribute correctness if gradients are not rendering.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: CSS-Tricks: Advanced SVG Gradients</li>
+<li class="md-github">URL: https://css-tricks.com/svg-gradients/</li>
+<li class="md-github">License: Copyright CSS-Tricks</li>
+<li class="md-github">Crawl Date: 2025-04-28T09:09:16.766Z</li>
+<li class="md-github">Data Size: 0 bytes</li>
+<li class="md-github">Links Found: 0</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-28</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-28T09:55:57.375Z</p>
+  </footer>
+</body>
+</html>
