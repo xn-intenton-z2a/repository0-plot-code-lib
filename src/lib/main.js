@@ -199,18 +199,17 @@ function computePlotData(expression, range, customLabels = {}) {
   };
 }
 
-// Helper function to build a smooth SVG path using quadratic Bezier curves
-function buildSmoothPath(points) {
+// Helper function to build a smooth SVG path using quadratic Bezier curves with custom smoothing factor
+function buildSmoothPath(points, smoothingFactor = 0.5) {
   if (points.length < 2) return "";
   let d = `M ${points[0].x.toFixed(2)} ${points[0].y.toFixed(2)}`;
   for (let i = 1; i < points.length; i++) {
     const prev = points[i - 1];
     const curr = points[i];
-    const midX = (prev.x + curr.x) / 2;
-    const midY = (prev.y + curr.y) / 2;
-    d += ` Q ${prev.x.toFixed(2)} ${prev.y.toFixed(2)} ${midX.toFixed(2)} ${midY.toFixed(2)}`;
+    const controlX = prev.x + smoothingFactor * (curr.x - prev.x);
+    const controlY = prev.y + smoothingFactor * (curr.y - prev.y);
+    d += ` Q ${controlX.toFixed(2)} ${controlY.toFixed(2)} ${curr.x.toFixed(2)} ${curr.y.toFixed(2)}`;
   }
-  d += ` T ${points[points.length - 1].x.toFixed(2)} ${points[points.length - 1].y.toFixed(2)}`;
   return d;
 }
 
@@ -257,9 +256,18 @@ function createSvgPlot(expression, range, customLabels = {}) {
 
   let shapeElement = "";
   // Check if smoothing is enabled
-  if (customLabels.smooth === "true") {
-    const pathData = buildSmoothPath(mappedPoints);
-    shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none" />`;
+  if (String(customLabels.smooth).toLowerCase() === "true") {
+    let smoothingFactor = 0.5;
+    if (customLabels.smoothingFactor != null) {
+      const parsed = parseFloat(customLabels.smoothingFactor);
+      if (!Number.isFinite(parsed) || parsed < 0 || parsed > 1) {
+        throw new Error("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
+      }
+      smoothingFactor = parsed;
+    }
+    const pathData = buildSmoothPath(mappedPoints, smoothingFactor);
+    // Removed extra space before closing tag to ensure regex can capture the d attribute correctly
+    shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none"/>`;
   } else {
     const polylinePoints = mappedPoints.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
     shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr} fill="none" />`;
@@ -304,13 +312,14 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size="${customLabels.ylabelFontSize}"` : "";
   const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
 
-  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">
-    ${defs}
-    <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${plotData.axisLabels.x}</text>
-    <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${plotData.axisLabels.y}</text>
-    <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>
-    ${shapeElement}
-  </svg>`;
+  // Construct SVG content in one line to avoid unintended whitespace/newlines
+  const svgContent = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + svgWidth + "\" height=\"" + svgHeight + "\" viewBox=\"0 0 " + svgWidth + " " + svgHeight + "\">" +
+    defs +
+    "<text x=\"" + xLabelX + "\" y=\"" + xLabelY + "\"" + xTransform + " aria-label=\"" + xAriaLabel + "\" text-anchor=\"" + xTextAnchor + "\"" + xFontSizeAttr + xFillAttr + ">" + plotData.axisLabels.x + "</text>" +
+    "<text " + yLabelAttributes + " aria-label=\"" + yAriaLabel + "\" text-anchor=\"" + yTextAnchor + "\"" + yFontSizeAttr + yFillAttr + ">" + plotData.axisLabels.y + "</text>" +
+    "<text x=\"10\" y=\"20\">Plot for: " + expression.trim() + " in range " + range.trim() + "</text>" +
+    shapeElement +
+    "</svg>";
   return svgContent;
 }
 
@@ -459,7 +468,9 @@ function main() {
         gradientEndColor: z.string().optional(),
         // New custom dimension options
         width: z.preprocess(val => Number(val), z.number().positive()).optional(),
-        height: z.preprocess(val => Number(val), z.number().positive()).optional()
+        height: z.preprocess(val => Number(val), z.number().positive()).optional(),
+        // New smoothing factor option
+        smoothingFactor: z.preprocess(val => Number(val), z.number().min(0).max(1)).optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       // Merge configuration: CLI flags override config file options
