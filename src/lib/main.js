@@ -311,13 +311,14 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size="${customLabels.ylabelFontSize}"` : "";
   const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
 
-  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">
-    ${defs}
-    <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${plotData.axisLabels.x}</text>
-    <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${plotData.axisLabels.y}</text>
-    <text x="10" y="20">Plot for: ${expression.trim()} in range ${range.trim()}</text>
-    ${shapeElement}
-  </svg>`;
+  // Construct SVG content in one line to avoid unintended whitespace/newlines
+  const svgContent = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"" + svgWidth + "\" height=\"" + svgHeight + "\" viewBox=\"0 0 " + svgWidth + " " + svgHeight + "\">" +
+    defs +
+    "<text x=\"" + xLabelX + "\" y=\"" + xLabelY + "\"" + xTransform + " aria-label=\"" + xAriaLabel + "\" text-anchor=\"" + xTextAnchor + "\"" + xFontSizeAttr + xFillAttr + ">" + plotData.axisLabels.x + "</text>" +
+    "<text " + yLabelAttributes + " aria-label=\"" + yAriaLabel + "\" text-anchor=\"" + yTextAnchor + "\"" + yFontSizeAttr + yFillAttr + ">" + plotData.axisLabels.y + "</text>" +
+    "<text x=\"10\" y=\"20\">Plot for: " + expression.trim() + " in range " + range.trim() + "</text>" +
+    shapeElement +
+    "</svg>";
   return svgContent;
 }
 
