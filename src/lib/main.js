@@ -214,19 +214,33 @@ function buildSmoothPath(points) {
   return d;
 }
 
-// Modified createSvgPlot now uses computePlotData and supports smoothing and dynamic color gradients
+// Modified createSvgPlot now uses computePlotData and supports smoothing, dynamic color gradients, and custom dimensions
 function createSvgPlot(expression, range, customLabels = {}) {
   const plotData = computePlotData(expression, range, customLabels);
-  const width = 300;
-  const height = 150;
-  // Map computed points to SVG coordinate system
+  // Set default dimensions
+  let svgWidth = 300;
+  let svgHeight = 150;
+  if (customLabels.width != null) {
+    const customWidth = parseFloat(customLabels.width);
+    if (Number.isFinite(customWidth) && customWidth > 0) {
+      svgWidth = customWidth;
+    }
+  }
+  if (customLabels.height != null) {
+    const customHeight = parseFloat(customLabels.height);
+    if (Number.isFinite(customHeight) && customHeight > 0) {
+      svgHeight = customHeight;
+    }
+  }
+
+  // Map computed points to SVG coordinate system using dynamic dimensions
   const mappedPoints = plotData.points.map(p => {
-    const mappedX = ((p.x - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * width;
+    const mappedX = ((p.x - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * svgWidth;
     let mappedY;
     if (plotData.computedYRange.max === plotData.computedYRange.min) {
-      mappedY = height / 2;
+      mappedY = svgHeight / 2;
     } else {
-      mappedY = height - ((p.y - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * height;
+      mappedY = svgHeight - ((p.y - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * svgHeight;
     }
     return { x: mappedX, y: mappedY };
   });
@@ -252,8 +266,8 @@ function createSvgPlot(expression, range, customLabels = {}) {
   }
 
   // Determine x-axis label positioning and rotation
-  const xLabelX = customLabels.xlabelOffsetX != null ? customLabels.xlabelOffsetX : (customLabels.xlabelX != null ? customLabels.xlabelX : (width / 2).toFixed(2));
-  const xLabelY = customLabels.xlabelOffsetY != null ? customLabels.xlabelOffsetY : (customLabels.xlabelY != null ? customLabels.xlabelY : (height - 5).toFixed(2));
+  const xLabelX = customLabels.xlabelOffsetX != null ? customLabels.xlabelOffsetX : (customLabels.xlabelX != null ? customLabels.xlabelX : (svgWidth / 2).toFixed(2));
+  const xLabelY = customLabels.xlabelOffsetY != null ? customLabels.xlabelOffsetY : (customLabels.xlabelY != null ? customLabels.xlabelY : (svgHeight - 5).toFixed(2));
   let xTransform = "";
   if (customLabels.xlabelRotation != null) {
     xTransform = ` transform="rotate(${customLabels.xlabelRotation}, ${xLabelX}, ${xLabelY})"`;
@@ -267,7 +281,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   } else if (customLabels.ylabelX != null && customLabels.ylabelY != null) {
     yLabelAttributes = `x="${customLabels.ylabelX}" y="${customLabels.ylabelY}" transform="rotate(${ylabelRotation}, ${customLabels.ylabelX}, ${customLabels.ylabelY})"`;
   } else {
-    yLabelAttributes = `x="5" y="${(height / 2).toFixed(2)}" transform="rotate(${ylabelRotation}, 10, ${(height / 2).toFixed(2)})"`;
+    yLabelAttributes = `x="5" y="${(svgHeight / 2).toFixed(2)}" transform="rotate(${ylabelRotation}, 10, ${(svgHeight / 2).toFixed(2)})"`;
   }
 
   // ARIA and text anchor attributes with support for custom parameters
@@ -290,7 +304,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size="${customLabels.ylabelFontSize}"` : "";
   const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
 
-  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+  const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}">
     ${defs}
     <text x="${xLabelX}" y="${xLabelY}"${xTransform} aria-label="${xAriaLabel}" text-anchor="${xTextAnchor}"${xFontSizeAttr}${xFillAttr}>${plotData.axisLabels.x}</text>
     <text ${yLabelAttributes} aria-label="${yAriaLabel}" text-anchor="${yTextAnchor}"${yFontSizeAttr}${yFillAttr}>${plotData.axisLabels.y}</text>
@@ -413,7 +427,7 @@ function main() {
       // Define Zod schema for config file validation
       const configSchema = z.object({
         expression: z.string().min(1).optional(),
-        range: z.string().regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*$/).optional(),
+        range: z.string().regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*$/).optional(),
         resolution: z.preprocess(val => Number(val), z.number().int().positive()).optional(),
         xlabel: z.string().optional(),
         ylabel: z.string().optional(),
@@ -442,7 +456,10 @@ function main() {
         // New gradient options
         colorGradient: z.enum(["true", "false"]).optional(),
         gradientStartColor: z.string().optional(),
-        gradientEndColor: z.string().optional()
+        gradientEndColor: z.string().optional(),
+        // New custom dimension options
+        width: z.preprocess(val => Number(val), z.number().positive()).optional(),
+        height: z.preprocess(val => Number(val), z.number().positive()).optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       // Merge configuration: CLI flags override config file options

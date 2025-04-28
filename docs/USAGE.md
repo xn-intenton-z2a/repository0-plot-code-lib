@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files, and now dynamic color gradient support for SVG outputs.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files, dynamic color gradient support for SVG outputs, and custom SVG dimensions.
 
 ## CLI Plot Generation
 
@@ -25,17 +25,19 @@ You can generate plots directly from the command line by providing the following
   - **.svg**: Generates an SVG plot with annotations and a plot element representing the curve. The curve is rendered as a blue polyline or a smooth path when smoothing is enabled. With dynamic color gradient enabled, the stroke will reference a defined gradient.
   - **.png**: Generates a PNG plot using dummy placeholder image data.
 
+- **--width** and **--height**: *(New)* Specify custom dimensions for the generated SVG plot. Both should be positive numbers. If omitted or invalid, the defaults of 300 (width) and 150 (height) are used.
+
 - **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
 
 - **--jsonExport**: When provided with the value `true` alongside `--expression` and `--range` (and optionally `--file`), the tool outputs a detailed JSON export of the plot data instead of an image. This JSON includes:
   - `expression`: The original mathematical expression.
   - `range`: The input range string.
   - `points`: An array of computed plot point objects (default 100 points, or as specified by the resolution parameter).
-  - `computedXRange`: The x-range limits extracted from the input.
-  - `computedYRange`: The computed minimum and maximum y values based on evaluation.
+  - `computedXRange`: An object with keys `{ min, max }` reflecting the x-range limits from the input.
+  - `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluation.
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
 
-- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${PORT}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${PORT}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root. For example:
 
@@ -62,14 +64,14 @@ This release introduces two new optional parameters to enhance plot rendering:
 
 ## Examples
 
-1. **Dynamic SVG Generation with Default Axis Labels:**
+1. **Dynamic SVG Generation with Default Axis Labels and Dimensions:**
    ```sh
    GET /plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg
    ```
 
-2. **Generate an SVG Plot with Adaptive Resolution (e.g., 150 points):**
+2. **Generate an SVG Plot with Custom Dimensions and Adaptive Resolution (e.g., 150 points):**
    ```sh
-   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --resolution 150
+   node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --resolution 150 --width 500 --height 400
    ```
 
 3. **Generate a Smooth SVG Plot with Curve Smoothing Enabled:**
@@ -87,11 +89,10 @@ This release introduces two new optional parameters to enhance plot rendering:
    GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&colorGradient=true&gradientStartColor=green&gradientEndColor=yellow
    ```
 
-6. **Using an External Configuration File with Environment Variable Interpolation:**
+6. **Using an External Configuration File with Environment Variable Interpolation and Custom Dimensions:**
    ```sh
-   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
+   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
    ```
-   In the above example, if `config.json` contains a property like "port": "${PORT}", the placeholder will be replaced accordingly. CLI flags provided will always override corresponding values from the config file.
 
 ## Environment Variables and DOTENV Support
 
@@ -138,31 +139,23 @@ Advanced query parameters allow customization of the generated SVG plots, includ
 - **Precision and Locale:** Control number formatting using `xlabelPrecision`, `ylabelPrecision`, and `locale`.
 - **Label Positioning and Rotation:** Customize positions with `xlabelX`, `xlabelY`, `ylabelX`, `ylabelY`, and rotations with `xlabelRotation`, `ylabelRotation`.
 - **ARIA Attributes and Text Anchoring:** Override default accessibility attributes using `xlabelAriaLabel`, `ylabelAriaLabel` and specify text anchor alignment using `xlabelAnchor` and `ylabelAnchor` (allowed values: start, middle, end).
+- **SVG Dimensions:** Specify the width and height of the SVG output using the `--width` and `--height` parameters (or corresponding query parameters in the HTTP API).
 
 ## Examples
 
 1. **Dynamic SVG Generation with Default Axis Labels:**
    GET `/plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg`
 
-2. **Dynamic SVG with Custom Axis Labels and Styling:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple`
+2. **Dynamic SVG with Custom Axis Labels, Styling, and Custom Dimensions:**
+   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple&width=500&height=400`
 
 3. **Dynamic SVG with Adaptive Resolution and Smooth Curve Rendering:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&resolution=200&smooth=true&fileType=svg`
 
-4. **Generate an SVG with Dynamic Color Gradient:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&colorGradient=true&gradientStartColor=green&gradientEndColor=yellow`
-
-5. **Detailed JSON Export via HTTP:**
+4. **Detailed JSON Export via HTTP:**
    GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&jsonExport=true`
 
-6. **Detailed JSON Export via CLI with Custom Resolution:**
+5. **Using an External Configuration File with Custom Dimensions:**
    ```sh
-   node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.json --resolution 200 --jsonExport true
+   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
    ```
-
-7. **Using an External Configuration File:**
-   ```sh
-   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg
-   ```
-   In this example, `config.json` might contain default parameters such as the range, resolution, smoothing options, and axis labels. Any CLI flag provided will override the corresponding value in the config file.
