@@ -153,4 +153,28 @@ describe("Configuration File Management", () => {
     expect(interpolatedConfig.display.width).toBe(500);
     expect(interpolatedConfig.display.height).toBe(400);
   });
+
+  test("should use default value for undefined environment variable in placeholder with fallback", () => {
+    const configContent = {
+      resolution: "${UNDEFINED_VAR:123}"
+    };
+    fs.writeFileSync(tempConfigFile, JSON.stringify(configContent), "utf8");
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--config",
+      tempConfigFile,
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      outputFile,
+      "--jsonExport",
+      "true"
+    ];
+    main();
+    const jsonOutput = JSON.parse(fs.readFileSync(outputFile, "utf8"));
+    expect(jsonOutput.resolution).toBe(123);
+  });
 });
