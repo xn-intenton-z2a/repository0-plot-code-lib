@@ -41,9 +41,9 @@ You can generate plots directly from the command line by providing the following
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root.
 
-- **--smooth**: Enable curve smoothing. When this flag is set to "true", the plot will be rendered as a smooth curve using quadratic Bezier interpolation. When smoothing is enabled, the generated SVG output uses a `<path>` element computed with control points that can be fine-tuned with the **--smoothingFactor** parameter.
+- **--smooth**: Enable curve smoothing. When this flag is set to "true", the plot will be rendered as a smooth curve using quadratic Bezier interpolation. When smoothing is enabled, the generated SVG output uses a `<path>` element instead of a `<polyline>`.
 
-- **--smoothingFactor**: *New.* Optional floating-point number between 0 and 1 (default 0.5) that fine-tunes the control point calculation for smooth curves when the `--smooth` flag is enabled.
+- **--smoothingFactor**: *New.* Optional floating-point number between 0 and 1 (default is 0.5). When used with the `--smooth` flag, it adjusts the tension of the quadratic Bezier interpolation by modifying the control points, allowing fine-tuning of the curve’s smoothness.
 
 ## Dynamic Color Gradient Support
 
@@ -61,6 +61,8 @@ This release introduces two new optional parameters to enhance plot rendering:
 - **--resolution / resolution query parameter**: Specifies the number of points to compute along the x-axis. By default, 100 points are used. Supplying a different positive integer (e.g., `--resolution 200`) will compute that number of points, thereby adapting the resolution of the plot. This affects both the JSON export and the rendered SVG or PNG output.
 
 - **--smooth / smooth query parameter**: Enabling this flag (`--smooth true`) activates curve smoothing using quadratic Bezier interpolation. When smoothing is enabled, the generated SVG output uses a `<path>` element instead of a `<polyline>`.
+
+- **--smoothingFactor**: *New.* This parameter allows additional customization of the smooth curve. It accepts a floating-point number between 0 and 1 (default 0.5) to fine-tune the curvature by adjusting the control points used in quadratic Bezier interpolation.
 
 ## Examples
 
