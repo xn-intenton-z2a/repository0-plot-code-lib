@@ -39,11 +39,11 @@ You can generate plots directly from the command line by providing the following
 
 - **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${PORT}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
 
-- **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root. For example:
+- **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root.
 
-  ```sh
-  node src/lib/main.js --env ./config/.env --serve
-  ```
+- **--smooth**: Enable curve smoothing. When this flag is set to "true", the plot will be rendered as a smooth curve using quadratic Bezier commands instead of a polyline.
+
+- **--smoothingFactor**: *New.* Optional floating-point number between 0 and 1 (default 0.5) that fine-tunes the control point calculation for smooth curves when the `--smooth` flag is enabled.
 
 ## Dynamic Color Gradient Support
 
@@ -60,7 +60,7 @@ This release introduces two new optional parameters to enhance plot rendering:
 
 - **--resolution / resolution query parameter**: Specifies the number of points to compute along the x-axis. By default, 100 points are used. Supplying a different positive integer (e.g., `--resolution 200`) will compute that number of points, thereby adapting the resolution of the plot. This affects both the JSON export and the rendered SVG or PNG output.
 
-- **--smooth / smooth query parameter**: Enabling this flag (`--smooth true`) activates curve smoothing using a cubic interpolation algorithm. When smoothing is enabled, the generated SVG output uses a `<path>` element with quadratic Bezier commands to create a smoother curve, instead of a raw `<polyline>`.
+- **--smooth / smooth query parameter**: Enabling this flag (`--smooth true`) activates curve smoothing using quadratic Bezier interpolation. When smoothing is enabled, the generated SVG output uses a `<path>` element computed with control points that can be fine-tuned with the **--smoothingFactor** parameter.
 
 ## Examples
 
@@ -74,9 +74,9 @@ This release introduces two new optional parameters to enhance plot rendering:
    node src/lib/main.js --expression "y=sin(x)" --range "x=-1:1,y=-1:1" --file output.svg --resolution 150 --width 500 --height 400
    ```
 
-3. **Generate a Smooth SVG Plot with Curve Smoothing Enabled:**
+3. **Generate a Smooth SVG Plot with Curve Smoothing Enabled and Custom Smoothing Factor:**
    ```sh
-   GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&smooth=true&fileType=svg
+   GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&smooth=true&smoothingFactor=0.7&fileType=svg
    ```
 
 4. **Detailed JSON Export with Custom Resolution:**
@@ -90,72 +90,6 @@ This release introduces two new optional parameters to enhance plot rendering:
    ```
 
 6. **Using an External Configuration File with Environment Variable Interpolation and Custom Dimensions:**
-   ```sh
-   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
-   ```
-
-## Environment Variables and DOTENV Support
-
-The application automatically loads environment variables from a `.env` file in the project root using the [dotenv](https://www.npmjs.com/package/dotenv) package. With the new **--env** flag, you can now specify a custom .env file path. This allows you to configure settings like the server port without modifying the source code.
-
-## Enhanced Expression Validation
-
-The tool now validates mathematical expressions before evaluation to catch common errors such as:
-
-- **Missing Operators:** e.g., "y=2 3+x" triggers an error recommending the use of an operator.
-- **Unbalanced Parentheses:** e.g., "y=(x+2" will indicate mismatched parentheses.
-
-## HTTP API: Dynamic Plot Generation and Aggregated Error Reporting
-
-The `/plot` endpoint supports dynamic plot generation using URL query parameters. It performs the following validations:
-
-- Ensures that **expression** and **range** are provided and non-empty.
-- Validates that **range** follows the required format with correct numeric order.
-- Checks for either the `fileType` (or `format`) parameter or, when detailed data is needed, the `jsonExport=true` flag.
-
-### Supported Output Formats
-
-- **image/svg+xml**: Returns an SVG plot with dynamic axis labels and ARIA accessibility attributes. When the smooth or colorGradient parameter is enabled, the output will adjust accordingly.
-- **image/png**: Returns a PNG image with placeholder content.
-- **application/json**: Returns a minimal JSON response with basic plot details (unless the detailed export is requested).
-
-### Detailed JSON Export
-
-When the query parameter `jsonExport=true` is provided (or the CLI flag `--jsonExport true` is used), the endpoint and CLI output a detailed JSON object containing:
-
-- `expression`: The mathematical expression provided by the user.
-- `range`: The input range string.
-- `points`: An array of computed plot point objects with numeric `x` and `y` values (the number of points is determined by the resolution parameter).
-- `computedXRange`: An object with keys `{ min, max }` reflecting the x-range limits from the input.
-- `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluation.
-- `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
-
-## Customization Options for SVG Output
-
-Advanced query parameters allow customization of the generated SVG plots, including:
-
-- **Custom Axis Labels:** Set via `xlabel` and `ylabel`.
-- **Styling:** Directly set attributes like `xlabelFontSize`, `xlabelColor`, `ylabelFontSize`, and `ylabelColor`.
-- **Precision and Locale:** Control number formatting using `xlabelPrecision`, `ylabelPrecision`, and `locale`.
-- **Label Positioning and Rotation:** Customize positions with `xlabelX`, `xlabelY`, `ylabelX`, `ylabelY`, and rotations with `xlabelRotation`, `ylabelRotation`.
-- **ARIA Attributes and Text Anchoring:** Override default accessibility attributes using `xlabelAriaLabel`, `ylabelAriaLabel` and specify text anchor alignment using `xlabelAnchor` and `ylabelAnchor` (allowed values: start, middle, end).
-- **SVG Dimensions:** Specify the width and height of the SVG output using the `--width` and `--height` parameters (or corresponding query parameters in the HTTP API).
-
-## Examples
-
-1. **Dynamic SVG Generation with Default Axis Labels:**
-   GET `/plot?expression=y=sin(x)&range=x=-1:1,y=-1:1&fileType=svg`
-
-2. **Dynamic SVG with Custom Axis Labels, Styling, and Custom Dimensions:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&xlabel=MyCustomX&ylabel=MyCustomY&xlabelFontSize=16&xlabelColor=green&ylabelFontSize=18&ylabelColor=purple&width=500&height=400`
-
-3. **Dynamic SVG with Adaptive Resolution and Smooth Curve Rendering:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&resolution=200&smooth=true&fileType=svg`
-
-4. **Detailed JSON Export via HTTP:**
-   GET `/plot?expression=y=sin(x)&range=x=0:10,y=0:10&jsonExport=true`
-
-5. **Using an External Configuration File with Custom Dimensions:**
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
    ```
