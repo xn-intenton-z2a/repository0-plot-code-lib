@@ -17,7 +17,7 @@ let runtimeConfig = {};
 function interpolateEnv(input) {
   if (typeof input === "string") {
     return input.replace(/\$\{([^}]+)\}/g, (_, varName) =>
-      process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`
+      process.env[varName] !== undefined ? process.env[varName] : `\$\{${varName}\}`
     );
   } else if (Array.isArray(input)) {
     return input.map(interpolateEnv);
@@ -261,10 +261,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
     defsElements += `<linearGradient id="dynamicGradient"><stop offset="0%" stop-color="${gradientStart}" /><stop offset="100%" stop-color="${gradientEnd}" /></linearGradient>`;
     strokeAttr = 'stroke="url(#dynamicGradient)"';
   }
-  if (String(customLabels.markerStart) === "true") {
+  if (customLabels.markerStart && customLabels.markerStart.toLowerCase() === "true") {
     defsElements += `<marker id="markerStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L6,3 z" fill="black" /></marker>`;
   }
-  if (String(customLabels.markerEnd) === "true") {
+  if (customLabels.markerEnd && customLabels.markerEnd.toLowerCase() === "true") {
     defsElements += `<marker id="markerEnd" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,3 L6,0 L6,6 z" fill="black" /></marker>`;
   }
   let defs = "";
@@ -274,10 +274,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
 
   // Additional marker attributes for the plot element
   let markerAttributes = "";
-  if (String(customLabels.markerStart) === "true") {
+  if (customLabels.markerStart && customLabels.markerStart.toLowerCase() === "true") {
     markerAttributes += ' marker-start="url(#markerStart)"';
   }
-  if (String(customLabels.markerEnd) === "true") {
+  if (customLabels.markerEnd && customLabels.markerEnd.toLowerCase() === "true") {
     markerAttributes += ' marker-end="url(#markerEnd)"';
   }
 
