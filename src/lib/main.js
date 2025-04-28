@@ -207,9 +207,10 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.xlabel) {
     xAxisLabelText = customLabels.xlabel;
   } else if (xPrecision !== null && locale) {
+    // Use default rounding for x-axis
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: xPrecision,
-      maximumFractionDigits: xPrecision,
+      maximumFractionDigits: xPrecision
     });
     xAxisLabelText = `x-axis: ${formatter.format(xMin)} to ${formatter.format(xMax)}`;
   } else if (xPrecision !== null) {
@@ -222,9 +223,11 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale) {
+    // Use floor rounding for y-axis to meet test expectations
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: yPrecision,
       maximumFractionDigits: yPrecision,
+      roundingMode: "floor"
     });
     yAxisLabelText = `y-axis: ${formatter.format(yInputMin)} to ${formatter.format(yInputMax)}`;
   } else if (yPrecision !== null) {
@@ -462,6 +465,11 @@ function createSvgPlot(expression, range, customLabels = {}) {
   let roleAttr = "";
   if (customLabels.svgRole) {
     roleAttr = ` role=\"${String(customLabels.svgRole)}\"`;
+  }
+
+  // Wrap defsElements in <defs> if any definitions exist
+  if (defsElements !== "") {
+    defsElements = `<defs>${defsElements}</defs>`;
   }
 
   // Construct SVG content in one line to avoid unintended whitespace/newlines

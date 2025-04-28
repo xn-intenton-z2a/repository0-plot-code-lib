@@ -1,10 +1,8 @@
-# Usage Guide for repository0-plot-code-lib
-
-## Introduction
+## Usage Guide for repository0-plot-code-lib
 
 repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files (with support for default fallback values), dynamic color gradient support for SVG outputs, custom SVG dimensions, optional marker support with accessibility improvements, and new SVG styling options for stroke width, dash patterns, and line cap styles.
 
-## CLI Plot Generation
+### CLI Plot Generation
 
 You can generate plots directly from the command line by providing the following flags:
 
@@ -30,20 +28,20 @@ Other important flags include:
 - **--config**: Specifies a path to an external configuration file (JSON or YAML) with support for environment variable interpolation and CLI overrides.
 - **--env**: Specifies a custom path to a .env file from which environment variables are loaded.
 
-## Advanced Plot Customizations
+### Advanced Plot Customizations
 
-### Curve Smoothing
+#### Curve Smoothing
 
 - **--smooth**: When enabled with "true", renders the plot as a smooth curve using quadratic Bezier interpolation.
 - **--smoothingFactor**: A value between 0 and 1 (default 0.5) that fine-tunes the smoothness of the curve.
 
-### Stroke Styling
+#### Stroke Styling
 
 - **--strokeWidth**: Specifies the stroke width for the plot curve (must be a positive number).
 - **--strokeDashArray**: Specifies a dash pattern (e.g., "5,5") for the stroke.
 - **--strokeLinecap**: Specifies the style for stroke end caps. Allowed values are `butt`, `round`, or `square`.
 
-### Marker Customization
+#### Marker Customization
 
 You can customize marker appearance on the plot curve using the following parameters:
 
@@ -57,7 +55,7 @@ You can customize marker appearance on the plot curve using the following parame
 node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file plot.svg --markerStart true --markerEnd true --markerShape path --markerWidth 12 --markerHeight 12 --markerFill orange
 ```
 
-### Extended Gradient Configuration
+#### Extended Gradient Configuration
 
 The library supports dynamic color gradients for the plot stroke. Use the following parameters to customize the gradient:
 
@@ -71,13 +69,13 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file plot
   --gradientStops '[{"offset": "0%", "stopColor": "green"}, {"offset": "50%", "stopColor": "purple", "stopOpacity": "0.5"}, {"offset": "100%", "stopColor": "yellow"}]'
 ```
 
-## Marker and Accessibility Enhancements
+### Marker and Accessibility Enhancements
 
 - **--svgRole**: Sets a custom role attribute on the SVG element (e.g., `img`).
 - **--xlabelAriaLabel** and **--ylabelAriaLabel**: Customize ARIA labels for the axis texts.
 - **--xlabelAnchor** and **--ylabelAnchor**: Specify the text anchor alignment (`start`, `middle`, or `end`) for the axis labels.
 
-## Examples
+### Examples
 
 1. **Generate a Basic SVG Plot with Default Settings:**
    ```sh
