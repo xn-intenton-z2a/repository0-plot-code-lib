@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="bezier_curves" href="#bezier_curves"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BEZIER_CURVES</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Includes detailed basis function definitions for Bézier curves, binomial coefficient computation via LUT, optimized implementations for quadratic and cubic curves, weighted and rational formulations, de Casteljau's recursive algorithm for point evaluation, curve flattening and splitting methods, and matrix representations for converting and splitting curves. Data Size: 32562089 bytes.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Basis Functions and Lookup Table
+<ul class="md-github">
+<li class="md-github">Function Bezier(n, t) = Σ[k=0..n] binomial(n,k) * (1-t)^(n-k) * t^k</li>
+<li class="md-github">Dynamic LUT generation for Pascal's Triangle; binomial(n,k) returns LUT[n][k]</li>
+</ul>
+</li>
+<li class="md-github">Optimized Implementations
+<ul class="md-github">
+<li class="md-github">Quadratic: Compute t2, mt, mt2; return mt2 + 2<em class="md-github">mt</em>t + t2</li>
+<li class="md-github">Cubic: Compute t2, t3, mt, mt2, mt3; return mt3 + 3<em class="md-github">mt2</em>t + 3<em class="md-github">mt</em>t2 + t3</li>
+</ul>
+</li>
+<li class="md-github">Weighted and Rational Functions
+<ul class="md-github">
+<li class="md-github">Weighted: BezierWeighted(n, t, w[]) using w[k] factor</li>
+<li class="md-github">Rational: Compute f[k] = r[k] * binomial(n,k) * (1-t)^(n-k) * t^k, then output weighted sum divided by Σ f[k]</li>
+</ul>
+</li>
+<li class="md-github">de Casteljau's Algorithm
+<ul class="md-github">
+<li class="md-github">Recursive function drawCurvePoint(points[], t) that reduces points until one is left</li>
+<li class="md-github">Alternate version computes x and y separately forming new point(x,y)</li>
+</ul>
+</li>
+<li class="md-github">Curve Flattening
+<ul class="md-github">
+<li class="md-github">flattenCurve(curve, segmentCount): sample at t steps with step = 1/segmentCount; join points</li>
+</ul>
+</li>
+<li class="md-github">Splitting Curves
+<ul class="md-github">
+<li class="md-github">Enhanced de Casteljau algorithm records left and right arrays during recursion for splitting</li>
+</ul>
+</li>
+<li class="md-github">Matrix Representation
+<ul class="md-github">
+<li class="md-github">Represent curve as [T]<em class="md-github">[M]</em>[P] to allow sub-curve extraction via matrix manipulation</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Specifications:</p>
+<ul class="md-github">
+<li class="md-github">Basis Function: For order n, Bezier(n,t) = Σ[k=0..n] binomial(n,k)*(1-t)^(n-k)*t^k</li>
+<li class="md-github">LUT: Initialize with [1], [1,1], [1,2,1]…; expand using nextRow[i] = previous_row[i-1] + previous_row[i]</li>
+<li class="md-github">Quadratic Implementation: t2 = t<em class="md-github">t, mt = 1-t, mt2 = mt</em>mt; optionally with weights: result = w[0]<em class="md-github">mt2 + 2</em>w[1]<em class="md-github">mt</em>t + w[2]*t2</li>
+<li class="md-github">Cubic Implementation: t2, t3, mt, mt2, mt3 computed; result = w[0]<em class="md-github">mt3 + 3</em>w[1]<em class="md-github">mt2</em>t + 3*w[2]<em class="md-github">mt</em>t2 + w[3]*t3</li>
+<li class="md-github">Weighted Function: Accepts array w[]; Rational adds array r[] and computes terms f[k]; final value is (weighted sum) / (Σ f[k])</li>
+<li class="md-github">de Casteljau's: Recursive interpolation; base when points.length==1 returns final point</li>
+<li class="md-github">Flattening: Use curve.getXValue(t) and curve.getYValue(t) over evenly spaced t values; step = 1/segmentCount</li>
+<li class="md-github">Splitting: Use modified de Casteljau recording first and last elements of each newpoints array to form left/right control point arrays</li>
+<li class="md-github">Configuration: Parameter t normally in [0,1]; values outside produce extrapolation</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API and Code Examples:</p>
+<p class="md-github">Basis Function:
+Function: Bezier(n, t)
+Parameters: n (integer, order of curve), t (float, 0&lt;= t &lt;=1)
+Return: Sum of binomial(n,k) * (1-t)^(n-k) * t^k for k=0..n</p>
+<p class="md-github">Binomial Lookup:
+Function: binomial(n, k)
+Parameters: n (integer), k (integer)
+Algorithm: Expand LUT if n &gt;= current length using:
+nextRow[0] = 1
+for i=1 to s-1: nextRow[i] = lut[s-1][i-1] + lut[s-1][i]
+nextRow[s] = 1
+Return: lut[n][k]</p>
+<p class="md-github">Optimized Quadratic Bézier:
+Function: Bezier2(t)
+Parameters: t (float)
+Local Variables: t2 = t<em class="md-github">t, mt = 1-t, mt2 = mt</em>mt
+Return: mt2 + 2<em class="md-github">mt</em>t + t2</p>
+<p class="md-github">Optimized Cubic Bézier:
+Function: Bezier3(t)
+Parameters: t (float)
+Local Variables: t2 = t<em class="md-github">t, t3 = t2</em>t, mt = 1-t, mt2 = mt<em class="md-github">mt, mt3 = mt2</em>mt
+Return: mt3 + 3<em class="md-github">mt2</em>t + 3<em class="md-github">mt</em>t2 + t3</p>
+<p class="md-github">Weighted Implementation:
+Function: BezierWeighted(n, t, w[])
+Parameters: n (integer), t (float), w[] (array of weights, length = n+1)
+Operation: Sum over k=0 to n of w[k]<em class="md-github">binomial(n,k)</em>(1-t)^(n-k)*t^k</p>
+<p class="md-github">Rational Bézier Example (Quadratic):
+Function: RationalBezier2(t, w[], r[])
+Parameters: t (float), w[] (length 3), r[] (length 3)
+Local Variables: t2, mt, mt2; f0 = r[0]<em class="md-github">mt2, f1 = 2</em>r[1]<em class="md-github">mt</em>t, f2 = r[2]*t2; basis = f0+f1+f2
+Return: (w[0]*f0 + w[1]*f1 + w[2]*f2) / basis</p>
+<p class="md-github">De Casteljau's Algorithm:
+Function: drawCurvePoint(points[], t)
+Parameters: points[] (array of control points), t (float)
+Algorithm: If points.length==1 return points[0]; else compute newpoints with newpoints[i] = (1-t)<em class="md-github">points[i] + t</em>points[i+1] and recurse</p>
+<p class="md-github">Curve Splitting using de Casteljau:
+Global arrays: left, right
+Function: splitCurve(points[], t)
+Operation: Record first element to left and last element to right at each recursion level; then recursive call with newpoints</p>
+<p class="md-github">Curve Flattening:
+Function: flattenCurve(curve, segmentCount)
+Parameters: curve (object with methods getXValue(t), getYValue(t)), segmentCount (integer)
+Algorithm: step = 1/segmentCount; loop for i=1 to segmentCount collecting coordinates; return coordinate list</p>
+<p class="md-github">Troubleshooting Steps:</p>
+<ul class="md-github">
+<li class="md-github">Verify LUT array length and dynamic expansion in binomial(n,k) for high n values</li>
+<li class="md-github">Debug de Casteljau's algorithm by logging intermediate newpoints arrays</li>
+<li class="md-github">For flattening, adjust segmentCount to capture high curvature accurately; expected output is a smoother line when segmentCount is high</li>
+<li class="md-github">Confirm that t values are within [0,1] unless extrapolation is intended</li>
+</ul>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">Parameter t default range: [0,1]</li>
+<li class="md-github">Weight array w[]: Must have (order+1) elements; default weights if not modified are equivalent to standard Bézier</li>
+<li class="md-github">Ratio array r[] for rational curves: Alters the curve's pull; typical default: [1,1,...,1]</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Basis: Bezier(n,t)=Σ[k=0..n] binomial(n,k)<em class="md-github">(1-t)^(n-k)<em class="md-github">t^k; LUT via Pascal's triangle; Quadratic optimized: t2, mt, mt2, return mt2+2mt</em>t+t2; Cubic optimized: t2,t3,mt,mt2,mt3, return mt3+3mt2</em>t+3mt<em class="md-github">t2+t3; Weighted: include w[] multiplier per term; Rational: add r[] multiplier per term, divide by Σ(r[k]<em class="md-github">basis term); de Casteljau: recursive reduction until one point remains; Flattening: sample curve at t=i/segments; Splitting: record left/right arrays during recursion; Matrix form: curve=[T]</em>[M]</em>[P]; t in [0,1] controls interpolation; default weights and ratios = 1.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Basis Functions and Lookup Table
+<ul class="md-github">
+<li class="md-github">Function Bezier(n, t) = [k=0..n] binomial(n,k) * (1-t)^(n-k) * t^k</li>
+<li class="md-github">Dynamic LUT generation for Pascal's Triangle; binomial(n,k) returns LUT[n][k]</li>
+</ul>
+</li>
+<li class="md-github">Optimized Implementations
+<ul class="md-github">
+<li class="md-github">Quadratic: Compute t2, mt, mt2; return mt2 + 2<em class="md-github">mt</em>t + t2</li>
+<li class="md-github">Cubic: Compute t2, t3, mt, mt2, mt3; return mt3 + 3<em class="md-github">mt2</em>t + 3<em class="md-github">mt</em>t2 + t3</li>
+</ul>
+</li>
+<li class="md-github">Weighted and Rational Functions
+<ul class="md-github">
+<li class="md-github">Weighted: BezierWeighted(n, t, w[]) using w[k] factor</li>
+<li class="md-github">Rational: Compute f[k] = r[k] * binomial(n,k) * (1-t)^(n-k) * t^k, then output weighted sum divided by  f[k]</li>
+</ul>
+</li>
+<li class="md-github">de Casteljau's Algorithm
+<ul class="md-github">
+<li class="md-github">Recursive function drawCurvePoint(points[], t) that reduces points until one is left</li>
+<li class="md-github">Alternate version computes x and y separately forming new point(x,y)</li>
+</ul>
+</li>
+<li class="md-github">Curve Flattening
+<ul class="md-github">
+<li class="md-github">flattenCurve(curve, segmentCount): sample at t steps with step = 1/segmentCount; join points</li>
+</ul>
+</li>
+<li class="md-github">Splitting Curves
+<ul class="md-github">
+<li class="md-github">Enhanced de Casteljau algorithm records left and right arrays during recursion for splitting</li>
+</ul>
+</li>
+<li class="md-github">Matrix Representation
+<ul class="md-github">
+<li class="md-github">Represent curve as [T]<em class="md-github">[M]</em>[P] to allow sub-curve extraction via matrix manipulation</li>
+</ul>
+</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">A Primer on Bézier Curves
+https://pomax.github.io/bezierinfo/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-bezier_curves" href="#digest-of-bezier_curves"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of BEZIER_CURVES</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="basis-functions-and-lookup-table" href="#basis-functions-and-lookup-table"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Basis Functions and Lookup Table</h1>
+<p class="md-github">The core Bézier basis function is defined as:</p>
+<p class="md-github">Bezier(n, t) = sum from k = 0 to n of [ binomial(n, k) * (1 - t)^(n-k) * t^k ]</p>
+<p class="md-github">To compute binomial coefficients efficiently, a lookup table (LUT) is used. The LUT is initialized with:</p>
+<p class="md-github">[1]
+[1, 1]
+[1, 2, 1]
+[1, 3, 3, 1]
+[1, 4, 6, 4, 1]
+...</p>
+<p class="md-github">And expanded dynamically with the algorithm:</p>
+<p class="md-github">function binomial(n, k):
+while (n &gt;= lut.length):
+s = lut.length
+nextRow = new array of size (s + 1)
+nextRow[0] = 1
+for i from 1 to s - 1:
+nextRow[i] = lut[s-1][i-1] + lut[s-1][i]
+nextRow[s] = 1
+lut.push(nextRow)
+return lut[n][k]</p>
+<h1 class="md-github"><a class="md-github__anchor" name="optimized-implementations-for-quadratic-and-cubic-curves" href="#optimized-implementations-for-quadratic-and-cubic-curves"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Optimized Implementations for Quadratic and Cubic Curves</h1>
+<p class="md-github">For many graphics applications, quadratic and cubic curves are used.</p>
+<p class="md-github">Quadratic Bézier:</p>
+<p class="md-github">function Bezier2(t):
+t2 = t * t
+mt = 1 - t
+mt2 = mt * mt
+return mt2 + 2 * mt * t + t2</p>
+<p class="md-github">If weights are required:</p>
+<p class="md-github">function Bezier2Weighted(t, w[]):
+t2 = t * t
+mt = 1 - t
+mt2 = mt * mt
+return w[0] * mt2 + 2 * w[1] * mt * t + w[2] * t2</p>
+<p class="md-github">Cubic Bézier:</p>
+<p class="md-github">function Bezier3(t):
+t2 = t * t
+t3 = t2 * t
+mt = 1 - t
+mt2 = mt * mt
+mt3 = mt2 * mt
+return mt3 + 3 * mt2 * t + 3 * mt * t2 + t3</p>
+<p class="md-github">With weighting:</p>
+<p class="md-github">function Bezier3Weighted(t, w[]):
+t2 = t * t
+t3 = t2 * t
+mt = 1 - t
+mt2 = mt * mt
+mt3 = mt2 * mt
+return w[0] * mt3 + 3 * w[1] * mt2 * t + 3 * w[2] * mt * t2 + w[3] * t3</p>
+<h1 class="md-github"><a class="md-github__anchor" name="weighted-and-rational-bézier-functions" href="#weighted-and-rational-bézier-functions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Weighted and Rational Bézier Functions</h1>
+<p class="md-github">Weighted Bézier adds per-control-point multipliers:</p>
+<p class="md-github">function BezierWeighted(n, t, w[]):
+sum = 0
+for k = 0 to n:
+sum += w[k] * binomial(n, k) * (1 - t)^(n - k) * t^k
+return sum</p>
+<p class="md-github">For Rational Bézier curves, introduce ratio factors (r[]) to further adjust the influence:</p>
+<p class="md-github">Quadratic Rational Bézier:</p>
+<p class="md-github">function RationalBezier2(t, w[], r[]):
+t2 = t * t
+mt = 1 - t
+mt2 = mt * mt
+f0 = r[0] * mt2
+f1 = 2 * r[1] * mt * t
+f2 = r[2] * t2
+basis = f0 + f1 + f2
+return (w[0] * f0 + w[1] * f1 + w[2] * f2) / basis</p>
+<p class="md-github">Cubic Rational Bézier:</p>
+<p class="md-github">function RationalBezier3(t, w[], r[]):
+t2 = t * t
+t3 = t2 * t
+mt = 1 - t
+mt2 = mt * mt
+mt3 = mt2 * mt
+f0 = r[0] * mt3
+f1 = 3 * r[1] * mt2 * t
+f2 = 3 * r[2] * mt * t2
+f3 = r[3] * t3
+basis = f0 + f1 + f2 + f3
+return (w[0] * f0 + w[1] * f1 + w[2] * f2 + w[3] * f3) / basis</p>
+<h1 class="md-github"><a class="md-github__anchor" name="de-casteljaus-algorithm-for-curve-evaluation" href="#de-casteljaus-algorithm-for-curve-evaluation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>de Casteljau's Algorithm for Curve Evaluation</h1>
+<p class="md-github">de Casteljau's algorithm recursively computes the point on the curve for a given t without direct polynomial evaluation.</p>
+<p class="md-github">Simple version using operator overloading:</p>
+<p class="md-github">function drawCurvePoint(points[], t):
+if points.length == 1:
+return points[0]
+else:
+newpoints = []
+for i = 0 to points.length - 2:
+newpoints.push((1 - t) * points[i] + t * points[i+1])
+return drawCurvePoint(newpoints, t)</p>
+<p class="md-github">Alternate version handling x and y separately:</p>
+<p class="md-github">function drawCurvePoint(points[], t):
+if points.length == 1:
+return points[0]
+else:
+newpoints = []
+for i = 0 to points.length - 2:
+x = (1 - t) * points[i].x + t * points[i+1].x
+y = (1 - t) * points[i].y + t * points[i+1].y
+newpoints.push(new point(x, y))
+return drawCurvePoint(newpoints, t)</p>
+<h1 class="md-github"><a class="md-github__anchor" name="curve-flattening-and-drawing-algorithms" href="#curve-flattening-and-drawing-algorithms"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Curve Flattening and Drawing Algorithms</h1>
+<p class="md-github">Flattening reduces a Bézier curve to a series of line segments by sampling at intervals:</p>
+<p class="md-github">function flattenCurve(curve, segmentCount):
+step = 1 / segmentCount
+coordinates = [curve.getXValue(0), curve.getYValue(0)]
+for i = 1 to segmentCount:
+t = i * step
+coordinates.push(curve.getXValue(t), curve.getYValue(t))
+return coordinates</p>
+<p class="md-github">Drawing the flattened curve:</p>
+<p class="md-github">function drawFlattenedCurve(curve, segmentCount):
+coordinates = flattenCurve(curve, segmentCount)
+currentCoord = coordinates[0]
+for i = 1 to coordinates.length - 1:
+nextCoord = coordinates[i]
+line(currentCoord, nextCoord)
+currentCoord = nextCoord</p>
+<h1 class="md-github"><a class="md-github__anchor" name="splitting-curves-using-de-casteljaus-algorithm" href="#splitting-curves-using-de-casteljaus-algorithm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Splitting Curves Using de Casteljau's Algorithm</h1>
+<p class="md-github">By recording intermediate points, a curve can be split into two segments at a chosen t:</p>
+<p class="md-github">left = []
+right = []
+function splitCurve(points[], t):
+if points.length == 1:
+left.push(points[0])
+right.push(points[0])
+return
+else:
+newpoints = []
+for i = 0 to points.length - 2:
+if i == 0:
+left.push(points[i])
+if i == points.length - 2:
+right.push(points[i+1])
+newpoints.push((1 - t) * points[i] + t * points[i+1])
+splitCurve(newpoints, t)</p>
+<p class="md-github">After execution, left and right arrays contain the control points for the two new Bézier curves.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="bézier-curves-as-matrix-operations" href="#bézier-curves-as-matrix-operations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Bézier Curves as Matrix Operations</h1>
+<p class="md-github">Bézier curves can be expressed in matrix form where:</p>
+<p class="md-github">Curve = [T] * [M] * [P]</p>
+<p class="md-github">Where [T] is the vector of t powers, [M] is the basis (Bernstein) matrix, and [P] contains the control point coordinates. This representation
+can be rearranged to solve for sub-curves when splitting using linear algebra: compute new control points via operations like [M^-1 * Z * M].</p>
+<h1 class="md-github"><a class="md-github__anchor" name="metadata" href="#metadata"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Metadata</h1>
+<p class="md-github">Content retrieved on: 2023-10-04
+Attribution: Data crawled from https://pomax.github.io/bezierinfo/ (Data Size: 32562089 bytes)</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: A Primer on Bézier Curves</li>
+<li class="md-github">URL: https://pomax.github.io/bezierinfo/</li>
+<li class="md-github">License: Creative Commons Attribution (Educational Use)</li>
+<li class="md-github">Crawl Date: 2025-04-28T17:48:22.062Z</li>
+<li class="md-github">Data Size: 32562089 bytes</li>
+<li class="md-github">Links Found: 19384</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-28</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-28T18:24:36.741Z</p>
+  </footer>
+</body>
+</html>
