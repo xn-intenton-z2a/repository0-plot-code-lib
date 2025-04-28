@@ -17,7 +17,7 @@ let runtimeConfig = {};
 function interpolateEnv(input) {
   if (typeof input === "string") {
     return input.replace(/\$\{([^}]+)\}/g, (_, varName) =>
-      process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`
+      process.env[varName] !== undefined ? process.env[varName] : `\$\{${varName}\}`
     );
   } else if (Array.isArray(input)) {
     return input.map(interpolateEnv);
@@ -221,7 +221,7 @@ function buildSmoothPath(points, smoothingFactor = 0.5) {
   return d;
 }
 
-// Modified createSvgPlot now uses computePlotData and supports smoothing, dynamic color gradients, and custom dimensions
+// Modified createSvgPlot now uses computePlotData and supports smoothing, dynamic color gradients, custom dimensions, marker support, and accessibility attributes
 function createSvgPlot(expression, range, customLabels = {}) {
   const plotData = computePlotData(expression, range, customLabels);
   // Set default dimensions
@@ -252,20 +252,38 @@ function createSvgPlot(expression, range, customLabels = {}) {
     return { x: mappedX, y: mappedY };
   });
 
-  // Dynamic color gradient support
+  // Dynamic color gradient and marker support
   let strokeAttr = 'stroke="blue"';
-  let defs = "";
-  if (customLabels.colorGradient === "true") {
+  let defsElements = "";
+  if (String(customLabels.colorGradient) === "true") {
     const gradientStart = customLabels.gradientStartColor || "blue";
     const gradientEnd = customLabels.gradientEndColor || "red";
-    defs = `<defs><linearGradient id="dynamicGradient"><stop offset="0%" stop-color="${gradientStart}" /><stop offset="100%" stop-color="${gradientEnd}" /></linearGradient></defs>`;
+    defsElements += `<linearGradient id="dynamicGradient"><stop offset="0%" stop-color="${gradientStart}" /><stop offset="100%" stop-color="${gradientEnd}" /></linearGradient>`;
     strokeAttr = 'stroke="url(#dynamicGradient)"';
+  }
+  if (String(customLabels.markerStart).toLowerCase() === "true") {
+    defsElements += `<marker id="markerStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L6,3 z" fill="black" /></marker>`;
+  }
+  if (String(customLabels.markerEnd).toLowerCase() === "true") {
+    defsElements += `<marker id="markerEnd" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,3 L6,0 L6,6 z" fill="black" /></marker>`;
+  }
+  let defs = "";
+  if (defsElements !== "") {
+    defs = `<defs>${defsElements}</defs>`;
+  }
+
+  // Additional marker attributes for the plot element
+  let markerAttributes = "";
+  if (String(customLabels.markerStart).toLowerCase() === "true") {
+    markerAttributes += ' marker-start="url(#markerStart)"';
+  }
+  if (String(customLabels.markerEnd).toLowerCase() === "true") {
+    markerAttributes += ' marker-end="url(#markerEnd)"';
   }
 
   let shapeElement = "";
   // Check if smoothing is enabled
   if (String(customLabels.smooth).toLowerCase() === "true") {
-    // Use provided smoothingFactor for customizing curve smoothing; default is 0.5
     let smoothingFactor = 0.5;
     if (customLabels.smoothingFactor != null) {
       const parsed = parseFloat(customLabels.smoothingFactor);
@@ -275,10 +293,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
       smoothingFactor = parsed;
     }
     const pathData = buildSmoothPath(mappedPoints, smoothingFactor);
-    shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none"/>`;
+    shapeElement = `<path d="${pathData}" ${strokeAttr}${markerAttributes} fill="none"/>`;
   } else {
     const polylinePoints = mappedPoints.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
-    shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr} fill="none" />`;
+    shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr}${markerAttributes} fill="none" />`;
   }
 
   // Determine x-axis label positioning and rotation
@@ -316,7 +334,6 @@ function createSvgPlot(expression, range, customLabels = {}) {
   const xTextAnchor = customLabels.xlabelAnchor ? customLabels.xlabelAnchor : "middle";
   const yTextAnchor = customLabels.ylabelAnchor ? customLabels.ylabelAnchor : "middle";
 
-  // Validate text-anchor custom parameters against allowed values
   const allowedAnchors = ["start", "middle", "end"];
   if (customLabels.xlabelAnchor && !allowedAnchors.includes(customLabels.xlabelAnchor)) {
     throw new Error("Error: Invalid value for xlabelAnchor. Allowed values are 'start', 'middle', or 'end'.");
@@ -342,6 +359,12 @@ function createSvgPlot(expression, range, customLabels = {}) {
   });
   const metadataEscaped = svgMetadata.replace(/"/g, "&quot;");
 
+  // Accessibility: add role attribute if provided
+  let roleAttr = "";
+  if (customLabels.svgRole) {
+    roleAttr = ` role="${String(customLabels.svgRole)}"`;
+  }
+
   // Construct SVG content in one line to avoid unintended whitespace/newlines
   const svgContent =
     '<svg xmlns="http://www.w3.org/2000/svg" width="' +
@@ -352,7 +375,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
     svgWidth +
     ' ' +
     svgHeight +
-    '" data-metadata="' +
+    '"' + roleAttr + ' data-metadata="' +
     metadataEscaped +
     '">' +
     defs +
@@ -437,11 +460,13 @@ function loadConfig(cliOptions) {
         gradientEndColor: z.string().optional(),
         width: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().positive()).optional(),
         height: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().positive()).optional(),
-        smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional()
+        smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional(),
+        markerStart: z.string().optional(),
+        markerEnd: z.string().optional(),
+        svgRole: z.string().optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       const mergedOptions = Object.assign({}, validatedConfig, cliOptions);
-      // Apply fallback defaults if critical keys are missing
       if (mergedOptions.resolution === undefined) {
         mergedOptions.resolution = 100;
       }
@@ -465,7 +490,6 @@ function loadConfig(cliOptions) {
       throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
   }
-  // No config file provided 
   if (cliOptions.resolution === undefined) {
     cliOptions.resolution = 100;
   }
@@ -482,7 +506,6 @@ const app = express();
 
 // Register /plot endpoint unconditionally so that HTTP tests can access it
 app.get("/plot", (req, res) => {
-  // If no query parameters provided, use runtime configuration defaults if available
   if (Object.keys(req.query).length === 0) {
     req.query.expression = runtimeConfig.expression || "y=sin(x)";
     req.query.range = runtimeConfig.range || "x=-1:1,y=-1:1";
@@ -505,7 +528,6 @@ app.get("/plot", (req, res) => {
     return;
   }
 
-  // If detailed JSON export is requested via jsonExport flag, return detailed plot data
   if (req.query.jsonExport === "true") {
     try {
       const plotData = computePlotData(expression, range, req.query);
@@ -530,7 +552,7 @@ app.get("/plot", (req, res) => {
   if (accept) {
     if (accept.includes("image/svg+xml")) {
       res.type("svg");
-      return res.send(svg);
+      return res.send(String(svg));
     } else if (accept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
@@ -544,7 +566,7 @@ app.get("/plot", (req, res) => {
   } else {
     if (fileType.toLowerCase() === "svg") {
       res.type("svg");
-      return res.send(svg);
+      return res.send(String(svg));
     } else if (fileType.toLowerCase() === "png") {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
@@ -559,7 +581,6 @@ app.get("/plot", (req, res) => {
 });
 
 function main() {
-  // Initial load of environment variables
   const envFlagIndexGlobal = process.argv.findIndex((arg) => arg === "--env");
   if (envFlagIndexGlobal !== -1 && process.argv.length > envFlagIndexGlobal + 1) {
     const envPath = process.argv[envFlagIndexGlobal + 1];
@@ -569,7 +590,6 @@ function main() {
   }
 
   const args = process.argv.slice(2);
-  // Return early if no CLI arguments provided
   if (args.length === 0) {
     return;
   }
@@ -584,22 +604,18 @@ function main() {
     }
   }
 
-  // Load configuration from file if provided and merge with CLI flags
   options = loadConfig(options);
   runtimeConfig = options;
 
-  // If no CLI options provided, do nothing
   if (Object.keys(options).length === 0) {
     return;
   }
 
-  // Check required flags
   if (options.serve) {
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
     });
-    // Add listener for SIGHUP to reload configuration at runtime
     process.on('SIGHUP', () => {
       try {
         runtimeConfig = loadConfig(options);
@@ -622,7 +638,6 @@ function main() {
       throw new Error("Error: --file flag must have a non-empty value.");
     }
 
-    // New branch for JSON export in CLI
     if (options.jsonExport === "true") {
       try {
         const jsonData = computePlotData(options.expression, options.range, options);

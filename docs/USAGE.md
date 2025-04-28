@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files, dynamic color gradient support for SVG outputs, and custom SVG dimensions.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files, dynamic color gradient support for SVG outputs, custom SVG dimensions, and optional marker support with accessibility improvements.
 
 ## CLI Plot Generation
 
@@ -12,7 +12,7 @@ You can generate plots directly from the command line by providing the following
 - **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information.
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). **Note:** The expression must include the variable 'x'.
-- **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1"). 
+- **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1").
   - Must follow the pattern: `x=<min>:<max>,y=<min>:<max>` with numeric values. Extra whitespace is allowed.
   - **Numeric Order Enforcement:** The lower bound must be less than the upper bound for both x and y ranges.
   - **Enhanced Error Feedback:** 
@@ -45,6 +45,14 @@ You can generate plots directly from the command line by providing the following
 - **--smooth**: Enable curve smoothing. When this flag is set to "true", the plot will be rendered as a smooth curve using quadratic Bezier interpolation. When smoothing is enabled, the generated SVG output uses a `<path>` element instead of a `<polyline>`.
 
 - **--smoothingFactor**: *New.* This parameter allows additional customization of the smooth curve. It accepts a floating-point number between 0 and 1 (default 0.5) to fine-tune the curvature by adjusting the control points used in quadratic Bezier interpolation.
+
+## Marker and Accessibility Enhancements
+
+Optional enhancements allow you to improve the final SVG output:
+
+- **--markerStart** and **--markerEnd**: When provided (e.g., set to "true"), these flags add default arrowhead markers at the start and/or end of the plot curve. The generated SVG will include corresponding `<marker>` definitions in the `<defs>` section, and the plot element will include `marker-start` and/or `marker-end` attributes referencing these markers.
+
+- **--svgRole**: Specify a custom role (e.g., `img`) for the SVG root element by providing this flag. This improves accessibility by adding a `role` attribute to the `<svg>` element.
 
 ## Dynamic Color Gradient Support
 
@@ -96,7 +104,7 @@ Environment variable interpolation is performed on all string values. For exampl
 }
 ```
 
-and you have set the environment variable `TEST_RES=150` (e.g. via a custom .env file specified by `--env`), then the placeholder will be replaced with the value "150".
+and you have set the environment variable `TEST_RES=150`, then the placeholder will be replaced with the value "150".
 
 **Fallback Defaults:** If critical keys such as `resolution`, `width`, or `height` are missing from the config file (or are provided as empty values), fallback defaults are applied:
 
@@ -105,8 +113,6 @@ and you have set the environment variable `TEST_RES=150` (e.g. via a custom .env
 - height defaults to **150**
 
 When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values. 
-
-*Note:* For instance, if the configuration file sets "ylabel": "ConfigY" and the CLI is invoked with `--ylabel "CLI_YAxis"`, the final configuration will use "CLI_YAxis" for the y-axis label.
 
 ## Runtime Configuration Reloading
 
@@ -139,7 +145,12 @@ When running in server mode (using the `--serve` flag) with a configuration file
    GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&colorGradient=true&gradientStartColor=green&gradientEndColor=yellow
    ```
 
-6. **Using an External Configuration File with Environment Variable Interpolation and CLI Overrides:**
+6. **Generate an SVG with Markers and Accessibility Role:**
+   ```sh
+   node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.svg --markerStart true --markerEnd true --svgRole img
+   ```
+
+7. **Using an External Configuration File with Environment Variable Interpolation and CLI Overrides:**
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400 --ylabel "CLI_YAxis"
    ```
