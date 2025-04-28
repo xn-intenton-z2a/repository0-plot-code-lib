@@ -223,11 +223,9 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale) {
-    // Use floor rounding for y-axis to meet test expectations
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: yPrecision,
-      maximumFractionDigits: yPrecision,
-      roundingMode: "floor"
+      maximumFractionDigits: yPrecision
     });
     yAxisLabelText = `y-axis: ${formatter.format(yInputMin)} to ${formatter.format(yInputMax)}`;
   } else if (yPrecision !== null) {
@@ -694,16 +692,18 @@ app.get("/plot", (req, res) => {
   }
 
   res.set("Vary", "Accept");
-  const accept = req.headers.accept;
-  if (accept) {
-    if (accept.includes("image/svg+xml")) {
+  let accept = req.headers.accept;
+  // If the Accept header is a wildcard, treat it as not provided to use fileType fallback
+  const effectiveAccept = (accept && accept.includes("*/*")) ? "" : accept;
+  if (effectiveAccept) {
+    if (effectiveAccept.includes("image/svg+xml")) {
       res.type("svg");
       return res.send(String(svg));
-    } else if (accept.includes("image/png")) {
+    } else if (effectiveAccept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
       return res.send(dummyPng);
-    } else if (accept.includes("application/json")) {
+    } else if (effectiveAccept.includes("application/json")) {
       res.type("json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
