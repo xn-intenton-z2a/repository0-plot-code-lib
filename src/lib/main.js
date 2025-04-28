@@ -256,7 +256,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
 
   let shapeElement = "";
   // Check if smoothing is enabled
-  if (customLabels.smooth === "true") {
+  if (String(customLabels.smooth).toLowerCase() === "true") {
     let smoothingFactor = 0.5;
     if (customLabels.smoothingFactor != null) {
       const parsed = parseFloat(customLabels.smoothingFactor);
