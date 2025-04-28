@@ -97,3 +97,18 @@ This MDN resource provides comprehensive guidance on implementing Accessible Ric
 ## https://12factor.net/config
 The 12 Factor App methodology outlines best practices for configuration management in modern web applications. This resource emphasizes the separation of configuration from code by leveraging environment variables, a concept directly aligned with the repository’s use of dotenv for environment configuration interpolation. It offers actionable recommendations to build scalable and maintainable applications.
 ## Public Domain
+
+# Node.js Error Handling Best Practices
+## https://nodejs.dev/learn/error-handling-in-nodejs
+This resource provides a detailed guide on handling errors in Node.js applications. It covers both synchronous and asynchronous error handling, best practices for try/catch usage, and strategies for managing promise rejections. These insights support robust error reporting and are directly applicable to the repository's enhanced error feedback mechanisms and verbose logging capabilities.
+## Node.js Documentation
+
+# Building Command Line Tools with Node.js
+## https://www.sitepoint.com/command-line-interfaces-node-js/
+An in-depth resource focusing on designing and building command line interfaces with Node.js. It discusses argument parsing, user input validation, environment variable management, and overall best practices for creating intuitive CLI applications. The content is highly relevant to the repository’s CLI-centric approach, especially in terms of configuration management and runtime options.
+## Copyright SitePoint
+
+# Effective Logging in Node.js
+## https://blog.logrocket.com/node-js-logging-tutorial/
+A comprehensive tutorial on implementing effective logging in Node.js applications. It covers log levels, structured logging, and performance considerations, providing actionable advice for integrating verbose and diagnostic logging into applications. This source bolsters the repository's emphasis on detailed runtime debugging and status reporting.
+## MIT License
