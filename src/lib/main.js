@@ -53,7 +53,7 @@ function interpolateEnv(input) {
       } else if (defaultVal !== undefined) {
         return defaultVal;
       } else {
-        return `${"${""}"}${varName}}`;
+        return "${" + varName + "}";
       }
     });
   } else if (Array.isArray(input)) {
@@ -505,7 +505,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
     computedYRange: plotData.computedYRange,
     axisLabels: plotData.axisLabels,
     resolution: plotData.resolution,
-    customParameters: customLabels,
+    customParameters: customLabels
   });
   const metadataEscaped = svgMetadata.replace(/"/g, "&quot;");
 
