@@ -489,6 +489,10 @@ function main() {
       // Merge configuration: CLI flags override config file options
       options = Object.assign({}, validatedConfig, options);
     } catch (e) {
+      if (e instanceof z.ZodError) {
+        const err = e.errors[0];
+        throw new Error(`Error: Invalid numeric value for ${err.path[0]}. Expected a positive integer.`);
+      }
       throw new Error("Error: Unable to read or parse configuration file: " + e.message);
     }
   }
