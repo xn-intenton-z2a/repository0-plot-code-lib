@@ -67,3 +67,13 @@ RFC7807 outlines a standardized format for representing error responses in HTTP 
 ## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
 This MDN guide offers a comprehensive introduction to JavaScript modules, explaining both the legacy and modern ES Module systems. It covers how to import, export, and organize code in modular formats, which is crucial for maintaining scalable and performant codebases. Given that repository0-plot-code-lib uses ES Modules exclusively, this source provides essential insights into best practices and the underlying mechanics of module-based development.
 ## Creative Commons Attribution-ShareAlike License
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js is a popular JavaScript charting library known for its simplicity and versatility in creating responsive, interactive charts. The documentation provides detailed guides on setup, configuration, and customization of various chart types, including line, bar, and pie charts. Its insights on responsive design, animations, and plugin integration can serve as valuable references for enhancing plotting functionalities and improving user interactivity in the repository.
+## MIT License
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite offers a high-level grammar for creating, sharing, and exploring interactive visualizations. Its documentation delivers comprehensive guidelines on specifying visual encodings, managing data transformations, and designing interactive charts. These actionable insights can inspire innovative approaches for dynamic SVG generation and advanced data visualization techniques, complementing the repository's core plotting features.
+## BSD License
