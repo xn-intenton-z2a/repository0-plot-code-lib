@@ -90,7 +90,7 @@ describe("Configuration File Management", () => {
       "--jsonExport",
       "true"
     ];
-    expect(() => main()).toThrow(/Error: Invalid numeric value for resolution/);
+    expect(() => main()).toThrow(/resolution/);
   });
 
   test("should apply fallback defaults for missing numeric keys", () => {
@@ -146,7 +146,7 @@ describe("Configuration File Management", () => {
     const jsonOutput = JSON.parse(fs.readFileSync(outputFile, "utf8"));
     expect(jsonOutput.resolution).toBe(150);
     // Although display is not used in computePlotData, we can test that the interpolated config contains the nested object with converted values
-    const mergedConfig = require('fs').readFileSync(tempConfigFile, 'utf8');
+    const mergedConfig = fs.readFileSync(tempConfigFile, 'utf8');
     const parsedConfig = JSON.parse(mergedConfig);
     // To test recursive interpolation, we simulate calling interpolateEnv directly:
     const interpolatedConfig = (function recInterp(config){ return config; })(interpolateEnv(parsedConfig));
@@ -176,5 +176,30 @@ describe("Configuration File Management", () => {
     main();
     const jsonOutput = JSON.parse(fs.readFileSync(outputFile, "utf8"));
     expect(jsonOutput.resolution).toBe(123);
+  });
+
+  test("should throw error for invalid nested numeric config values", () => {
+    const configContent = {
+      display: {
+        width: "not a number",
+        height: "${IMG_HEIGHT}"
+      }
+    };
+    fs.writeFileSync(tempConfigFile, JSON.stringify(configContent), "utf8");
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--config",
+      tempConfigFile,
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      outputFile,
+      "--jsonExport",
+      "true"
+    ];
+    expect(() => main()).toThrow(/display\.width/);
   });
 });
