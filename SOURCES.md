@@ -147,3 +147,13 @@ Prettier's official documentation elaborates on best practices for code formatti
 ## https://eslint.org/docs/user-guide/getting-started
 The ESLint Documentation provides a comprehensive guide to setting up and configuring ESLint for JavaScript projects, covering rules, plugins, and best practices for maintaining high code quality. This source is critical for ensuring that repository0-plot-code-lib adheres to consistent coding standards and prevents common programming errors through effective linting and rule customization.
 ## MIT License
+
+# 12 Factor App - Config
+## https://12factor.net/config
+This source from the 12 Factor App website provides important guidelines for configuration management in modern applications. It emphasizes the separation of config from code by using environment variables and offers actionable insights for merging configurations. It is especially relevant for applications utilizing dotenv and external configuration files, ensuring that environment variables properly override defaults. The practices outlined here have influenced many modern development methodologies.
+## Unknown License
+
+# Using Zod for Configuration in Node.js
+## https://www.bennadel.com/blog/3925-using-zod-to-validate-configuration-in-node-js.htm
+This article provides a practical example of using Zod to validate and merge configuration in a Node.js application. It details how to enforce schema validation on configuration sources, including environment variables, CLI arguments, and configuration files. This resource complements our library's approach to configuration management by offering actionable insights on leveraging Zod for building robust systems.
+## Unknown License
