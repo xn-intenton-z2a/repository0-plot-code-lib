@@ -228,12 +228,9 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale === "de-DE") {
-    function floorWithPrecision(value, precision) {
-      const factor = Math.pow(10, precision);
-      return (Math.floor(value * factor) / factor).toFixed(precision);
-    }
-    let ry = floorWithPrecision(yInputMin, yPrecision);
-    let rY = floorWithPrecision(yInputMax, yPrecision);
+    // Use rounding instead of flooring for locale de-DE for y-axis as well
+    let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
+    let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
     ry = ry.replace(".", ",");
     rY = rY.replace(".", ",");
     yAxisLabelText = `y-axis: ${ry} to ${rY}`;
