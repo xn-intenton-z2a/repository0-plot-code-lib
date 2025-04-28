@@ -38,7 +38,7 @@ You can generate plots directly from the command line by providing the following
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
   - `resolution`: The number of points computed. If not provided in config or CLI, a fallback default of 100 is used.
 
-- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${TEST_RES}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (including those in nested objects), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root.
 
@@ -96,23 +96,41 @@ The tool supports external configuration files via the `--config` flag. This fil
 }
 ```
 
-Environment variable interpolation is performed on all string values. For example, if your config file contains:
+### Environment Variable Interpolation in Nested Objects
+
+External configuration files can include placeholders (e.g., `${VAR}`) within any string property, even in nested objects. For example:
 
 ```json
 {
-  "resolution": "${TEST_RES}"
+  "resolution": "${NUM_RES}",
+  "display": {
+    "width": "${IMG_WIDTH}",
+    "height": "${IMG_HEIGHT}"
+  }
 }
 ```
 
-and you have set the environment variable `TEST_RES=150`, then the placeholder will be replaced with the value "150".
+If you have the following environment variables set:
 
-**Fallback Defaults:** If critical keys such as `resolution`, `width`, or `height` are missing from the config file (or are provided as empty values), fallback defaults are applied:
+- NUM_RES=150
+- IMG_WIDTH=500
+- IMG_HEIGHT=400
 
-- resolution defaults to **100**
-- width defaults to **300**
-- height defaults to **150**
+Then the configuration will be automatically transformed to:
 
-When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values. 
+```json
+{
+  "resolution": 150,
+  "display": {
+    "width": 500,
+    "height": 400
+  }
+}
+```
+
+Fallback defaults are applied when critical keys (such as `resolution`, `width`, or `height`) are missing or empty after interpolation.
+
+When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values.
 
 ## Runtime Configuration Reloading
 
@@ -150,7 +168,7 @@ When running in server mode (using the `--serve` flag) with a configuration file
    node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.svg --markerStart true --markerEnd true --svgRole img
    ```
 
-7. **Using an External Configuration File with Environment Variable Interpolation and CLI Overrides:**
+7. **Using an External Configuration File with Nested Environment Variable Placeholders and CLI Overrides:**
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400 --ylabel "CLI_YAxis"
    ```

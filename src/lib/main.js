@@ -13,21 +13,22 @@ import { compile } from "mathjs";
 // Initialize runtime configuration global variable
 let runtimeConfig = {};
 
-// New helper function to recursively interpolate environment variables in configuration objects
+// Updated helper function to recursively interpolate environment variables in configuration objects
+// and automatically convert values to numbers or booleans if applicable.
 function interpolateEnv(input) {
   if (typeof input === "string") {
-    // If the entire string is a single placeholder, return a numeric value if appropriate
+    // Check if the entire string is a single placeholder
     const fullMatch = input.trim().match(/^\$\{([^}]+)\}$/);
     if (fullMatch) {
       const varName = fullMatch[1];
       if (process.env[varName] !== undefined) {
-        const envVal = process.env[varName];
-        // If the environment variable is a valid number, return as Number
-        if (envVal.trim() !== "" && !isNaN(envVal)) {
-          return Number(envVal);
-        } else {
-          return envVal;
-        }
+        const envVal = process.env[varName].trim();
+        // Convert to boolean if applicable
+        if (envVal.toLowerCase() === "true") return true;
+        if (envVal.toLowerCase() === "false") return false;
+        // Convert to number if valid
+        if (envVal !== "" && !isNaN(envVal)) return Number(envVal);
+        return envVal;
       } else {
         return input;
       }
@@ -704,7 +705,7 @@ function main() {
   }
 }
 
-export { main, app };
+export { main, app, interpolateEnv };
 
 if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   main();
