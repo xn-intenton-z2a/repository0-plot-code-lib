@@ -118,16 +118,6 @@ Vitest offers detailed guidance on setting up, writing, and running unit tests w
 Zod provides comprehensive schema validation for JavaScript and TypeScript. This documentation covers defining schemas, parsing input data, and refining data validation, making it a key resource for implementing and maintaining robust validation of configuration files and user inputs within our library.
 ## MIT License
 
-# The Twelve-Factor App
-## https://12factor.net/
-The Twelve-Factor App methodology offers a set of best practices for building modern, scalable, and maintainable software-as-a-service applications. It emphasizes aspects such as configuration management, environment binding, and declarative formats for setup, all of which are directly relevant to our approach in merging configuration from multiple sources in both CLI and HTTP environments.
-## Unknown License
-
-# Node.js Best Practices
-## https://github.com/goldbergyoni/nodebestpractices
-This repository aggregates a comprehensive set of best practices for Node.js development. It covers topics such as performance optimization, error handling, code maintainability, and security. The actionable insights provided can help enhance our application's robustness and guide improvements in both the CLI tool and the HTTP API implementations.
-## MIT License
-
 # Zod Official Documentation
 ## https://zod.dev/
 The official Zod website offers an updated and comprehensive guide to schema validation with Zod. It provides detailed API references, advanced usage examples, and best practices for integrating type-safe validation into modern JavaScript and TypeScript applications. This is crucial for maintaining robust configuration management and input validation in our library.
@@ -146,4 +136,14 @@ The OpenAPI Specification offers a standard, language-agnostic interface to REST
 # EJS Documentation
 ## https://ejs.co/
 EJS is a simple templating language that enables the generation of HTML markup with plain JavaScript. Its concise syntax and versatility make it a solid reference for generating dynamic content, and it can be especially useful in creating customizable output for web applications and CLI tools.
+## MIT License
+
+# Prettier Documentation
+## https://prettier.io/docs/en/index.html
+Prettier's official documentation elaborates on best practices for code formatting and maintaining a consistent style across a codebase. This resource is particularly useful for enforcing readability and high-quality code standards in repository0-plot-code-lib, facilitating collaboration and seamless integration with linters. The guide covers configuration options, integration strategies, and actionable insights for automating code formatting.
+## MIT License
+
+# ESLint Documentation
+## https://eslint.org/docs/user-guide/getting-started
+The ESLint Documentation provides a comprehensive guide to setting up and configuring ESLint for JavaScript projects, covering rules, plugins, and best practices for maintaining high code quality. This source is critical for ensuring that repository0-plot-code-lib adheres to consistent coding standards and prevents common programming errors through effective linting and rule customization.
 ## MIT License
