@@ -228,8 +228,12 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale === "de-DE") {
-    let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
-    let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
+    function floorWithPrecision(value, precision) {
+      const factor = Math.pow(10, precision);
+      return (Math.floor(value * factor) / factor).toFixed(precision);
+    }
+    let ry = floorWithPrecision(yInputMin, yPrecision);
+    let rY = floorWithPrecision(yInputMax, yPrecision);
     ry = ry.replace(".", ",");
     rY = rY.replace(".", ",");
     yAxisLabelText = `y-axis: ${ry} to ${rY}`;
@@ -252,7 +256,7 @@ function computePlotData(expression, range, customLabels = {}) {
     computedXRange: { min: xMin, max: xMax },
     computedYRange: { min: computedYMin, max: computedYMax },
     axisLabels: { x: xAxisLabelText, y: yAxisLabelText },
-    resolution: resolution,
+    resolution: resolution
   };
 }
 
@@ -429,8 +433,8 @@ function createSvgPlot(expression, range, customLabels = {}) {
       grid += `<line x1=\"${mappedX.toFixed(2)}\" y1=\"0\" x2=\"${mappedX.toFixed(2)}\" y2=\"${svgHeight}\" stroke=\"${gridColor}\" stroke-width=\"${gridWidthParam}\" />`;
     }
     for (let i = 0; i <= gridDivs; i++) {
-      const y_value = yInputMin + i * (yInputMax - yInputMin) / gridDivs;
-      const mappedY = svgHeight - ((y_value - yInputMin) / (yInputMax - yInputMin)) * svgHeight;
+      const y_value = plotData.computedYRange.min + i * (plotData.computedYRange.max - plotData.computedYRange.min) / gridDivs;
+      const mappedY = svgHeight - ((y_value - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * svgHeight;
       grid += `<line x1=\"0\" y1=\"${mappedY.toFixed(2)}\" x2=\"${svgWidth}\" y2=\"${mappedY.toFixed(2)}\" stroke=\"${gridColor}\" stroke-width=\"${gridWidthParam}\" />`;
     }
     return `<g class=\"grid\">${grid}</g>`;
