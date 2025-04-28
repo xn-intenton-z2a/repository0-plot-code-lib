@@ -172,3 +172,13 @@ This insightful article by Dr. Axel Rauschmayer dives deep into the mechanics of
 ## https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
 This MDN resource provides comprehensive details about the SVG "d" attribute used for defining path data. It covers the syntax and commands for constructing paths, offering practical guidance on creating smooth curves and complex shapes. These insights directly support our implementation of smooth curve rendering in SVG plots, making it a valuable technical reference.
 ## CC-BY-SA
+
+# Node.js Best Practices for Performance
+## https://blog.risingstack.com/node-js-best-practices-performance-security/
+This guide offers actionable insights into optimizing Node.js performance and security. It covers memory management, asynchronous processing, and various performance tuning strategies crucial for efficient CLI and server operations in our application. The resource is highly valuable for developers aiming to improve overall performance and ensure scalable, secure implementation.
+## Unknown License
+
+# Node.js Best Practices
+## https://github.com/goldbergyoni/nodebestpractices
+A comprehensive compilation of best practices for building robust Node.js applications. It includes guidelines on error handling, performance optimization, security, module structuring, and maintainable code design. This source is highly authoritative, maintained by the community with extensive contributions, and serves as an essential reference for enhancing core implementation strategies in our project.
+## MIT License
