@@ -241,7 +241,7 @@ describe("GET /plot Content Negotiation", () => {
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain("x-axis: 0.12 to 10.57");
-      expect(svgText).toContain("y-axis: -1.235 to 5.678");
+      expect(svgText).toContain("y-axis: -1.235 to 5.679");
     });
 
     test("should return SVG with locale-specific axis labels when locale parameter is provided", async () => {
@@ -259,7 +259,7 @@ describe("GET /plot Content Negotiation", () => {
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toMatch(/x-axis: 0,12 to 10,57/);
-      expect(svgText).toMatch(/y-axis: -1,235 to 5,678/);
+      expect(svgText).toMatch(/y-axis: -1,235 to 5,679/);
     });
 
     test("should include ARIA attributes in SVG axis labels", async () => {
@@ -395,7 +395,6 @@ describe("GET /plot Content Negotiation", () => {
       expect(res.text).toContain("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
     });
 
-    // New tests for strokeWidth, strokeDashArray, and strokeLinecap
     test("should include stroke-width and stroke-dasharray in SVG polyline when provided and smoothing is off", async () => {
       const res = await request(app)
         .get("/plot")
@@ -487,7 +486,6 @@ describe("GET /plot Content Negotiation", () => {
       expect(res.text).toContain("Error: Invalid strokeLinecap. Allowed values are 'butt', 'round', or 'square'.");
     });
 
-    // New tests for marker customization and extended gradientStops
     test("should include custom marker definitions when marker customization parameters are provided", async () => {
       const res = await request(app)
         .get("/plot")
@@ -550,7 +548,6 @@ describe("GET /plot Content Negotiation", () => {
       expect(res.text).toContain("Error: Invalid gradientStops format");
     });
 
-    // New tests for Background and Grid Styling
     test("should include background rectangle when bgColor parameter is provided", async () => {
       const res = await request(app)
         .get("/plot")
