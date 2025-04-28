@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="prettier" href="#prettier"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>PRETTIER</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">Prettier formats code by parsing it to an AST and printing it based on configured options such as printWidth, tabWidth, trailingComma, etc. It supports multiple languages (JavaScript, TypeScript, CSS, HTML, JSON, GraphQL, Markdown, YAML) and integrates with various editors. It offers both CLI and API usage with options like objectWrap, experimentalOperatorPosition, and experimentalTernaries. Prettier enforces a consistent style by reprinting code and can be configured through .prettierrc files and command-line flags.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Overview</li>
+<li class="md-github">Formatting Engine</li>
+<li class="md-github">Supported Options</li>
+<li class="md-github">API Method Signature</li>
+<li class="md-github">CLI and Configuration</li>
+<li class="md-github">Editor Integrations</li>
+<li class="md-github">Best Practices</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<p class="md-github">Overview:
+Prettier is an opinionated formatter that ignores original styling and formats code based on the AST and defined options.</p>
+<p class="md-github">Formatting Engine:
+Reprints code by parsing to an AST and formatting it with specific rules including line length and wrapping.</p>
+<p class="md-github">Supported Options:
+printWidth (default 80), tabWidth (default 2), useTabs (default false), semi (default true), singleQuote (default false), trailingComma (options: &quot;none&quot;, &quot;es5&quot;, &quot;all&quot;; default &quot;es5&quot;), bracketSpacing (default true), arrowParens (default &quot;always&quot;), parser (string identifier), experimental options: objectWrap (boolean), experimentalOperatorPosition (boolean), tsconfig (string), experimentalTernaries (boolean).</p>
+<p class="md-github">API Method Signature:
+format(source: string, options?: Options): string</p>
+<p class="md-github">CLI and Configuration:
+Command: npx prettier --write &quot;src/**/*.js&quot;
+Configuration File: .prettierrc with JSON/YAML format containing option keys with their default values and effects.</p>
+<p class="md-github">Editor Integrations:
+Support for VS Code, Sublime Text, Vim, Emacs with on-save formatting.</p>
+<p class="md-github">Best Practices:
+Integrate Prettier as a pre-commit hook, use in conjunction with linters for code quality, and run in batch mode for existing codebases.</p>
+<p class="md-github">Troubleshooting:
+Use --debug-check and --check flags to verify configuration and identify non-conforming files.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Technical Specifications:</p>
+<ul class="md-github">
+<li class="md-github">Options with defaults: printWidth: 80, tabWidth: 2, useTabs: false, semi: true, singleQuote: false, trailingComma: &quot;es5&quot;, bracketSpacing: true, arrowParens: &quot;always&quot;.</li>
+<li class="md-github">Experimental Options: objectWrap, experimentalOperatorPosition, experimentalTernaries, and support for TS config files.</li>
+<li class="md-github">API: format(source: string, options?: Options): string returns formatted string.</li>
+<li class="md-github">Configuration File (.prettierrc): JSON formatted file with keys matching options.</li>
+<li class="md-github">CLI: npx prettier --write <glob pattern></li>
+<li class="md-github">Implementation Steps: Parse code to AST, remove original styling, re-print code with configured options, wrap lines based on printWidth.</li>
+<li class="md-github">Example Code: require('prettier').format(source, options) and using CLI commands.</li>
+<li class="md-github">Configuration Effects: Changing trailingComma from &quot;es5&quot; to &quot;all&quot; inserts commas in all possible locations; modifying printWidth adjusts line wrapping.</li>
+<li class="md-github">Best practices include integrating with pre-commit hooks and editor on-save triggers.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:
+Method: format(source: string, options?: Options): string
+Options Interface:
+{
+printWidth?: number;    // Default: 80
+tabWidth?: number;      // Default: 2
+useTabs?: boolean;      // Default: false
+semi?: boolean;         // Default: true
+singleQuote?: boolean;  // Default: false
+trailingComma?: 'none' | 'es5' | 'all'; // Default: 'es5'
+bracketSpacing?: boolean; // Default: true
+arrowParens?: 'avoid' | 'always'; // Default: 'always'
+parser: string;         // Required, e.g., 'babel', 'typescript', etc.
+objectWrap?: boolean;        // Optional, new in 3.5
+experimentalOperatorPosition?: boolean; // Optional experimental flag
+tsconfig?: string;           // Optional, path to TS config file
+experimentalTernaries?: boolean; // Optional experimental ternary formatting flag
+}</p>
+<p class="md-github">Example Code Usage:
+// Import Prettier module
+const prettier = require('prettier');</p>
+<p class="md-github">// Define source code to format
+const sourceCode = &quot;foo(arg1, arg2, arg3, arg4);&quot;;</p>
+<p class="md-github">// Define formatting options
+const options = {
+printWidth: 80,
+tabWidth: 2,
+useTabs: false,
+semi: true,
+singleQuote: false,
+trailingComma: 'es5',
+bracketSpacing: true,
+arrowParens: 'always',
+parser: 'babel',
+objectWrap: false,
+experimentalOperatorPosition: false
+};</p>
+<p class="md-github">// Format the code
+const formattedCode = prettier.format(sourceCode, options);
+console.log(formattedCode);</p>
+<p class="md-github">CLI Command:
+Run: npx prettier --write &quot;src/**/*.js&quot;</p>
+<p class="md-github">Configuration File Example (.prettierrc):
+{
+&quot;printWidth&quot;: 80,
+&quot;tabWidth&quot;: 2,
+&quot;useTabs&quot;: false,
+&quot;semi&quot;: true,
+&quot;singleQuote&quot;: false,
+&quot;trailingComma&quot;: &quot;es5&quot;,
+&quot;bracketSpacing&quot;: true,
+&quot;arrowParens&quot;: &quot;always&quot;
+}</p>
+<p class="md-github">Troubleshooting Commands:</p>
+<ul class="md-github">
+<li class="md-github">To check formatting without writing changes: npx prettier --check &quot;src/**/*.js&quot;</li>
+<li class="md-github">To run in debug mode: npx prettier --debug-check &quot;src/file.js&quot;</li>
+</ul>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Integrate Prettier with pre-commit hooks using husky.</li>
+<li class="md-github">Combine with ESLint: configure ESLint to ignore formatting issues.</li>
+<li class="md-github">Regularly update Prettier configuration to include experimental options when needed for new language features.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">Prettier formats code by parsing into AST and reprinting. Options: printWidth=80, tabWidth=2, useTabs=false, semi=true, singleQuote=false, trailingComma='es5', bracketSpacing=true, arrowParens='always', parser required. API: format(source: string, options?: Options): string. CLI: npx prettier --write &quot;src/**/*.js&quot;. Config file: .prettierrc JSON with option keys. Experimental options: objectWrap, experimentalOperatorPosition, experimentalTernaries, tsconfig for TypeScript. Integration with editors available. Troubleshooting: use --check and --debug-check. Example code provided with require('prettier') and formatting invocation.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Overview</li>
+<li class="md-github">Formatting Engine</li>
+<li class="md-github">Supported Options</li>
+<li class="md-github">API Method Signature</li>
+<li class="md-github">CLI and Configuration</li>
+<li class="md-github">Editor Integrations</li>
+<li class="md-github">Best Practices</li>
+<li class="md-github">Troubleshooting</li>
+</ol>
+<p class="md-github">Overview:
+Prettier is an opinionated formatter that ignores original styling and formats code based on the AST and defined options.</p>
+<p class="md-github">Formatting Engine:
+Reprints code by parsing to an AST and formatting it with specific rules including line length and wrapping.</p>
+<p class="md-github">Supported Options:
+printWidth (default 80), tabWidth (default 2), useTabs (default false), semi (default true), singleQuote (default false), trailingComma (options: 'none', 'es5', 'all'; default 'es5'), bracketSpacing (default true), arrowParens (default 'always'), parser (string identifier), experimental options: objectWrap (boolean), experimentalOperatorPosition (boolean), tsconfig (string), experimentalTernaries (boolean).</p>
+<p class="md-github">API Method Signature:
+format(source: string, options?: Options): string</p>
+<p class="md-github">CLI and Configuration:
+Command: npx prettier --write 'src/**/*.js'
+Configuration File: .prettierrc with JSON/YAML format containing option keys with their default values and effects.</p>
+<p class="md-github">Editor Integrations:
+Support for VS Code, Sublime Text, Vim, Emacs with on-save formatting.</p>
+<p class="md-github">Best Practices:
+Integrate Prettier as a pre-commit hook, use in conjunction with linters for code quality, and run in batch mode for existing codebases.</p>
+<p class="md-github">Troubleshooting:
+Use --debug-check and --check flags to verify configuration and identify non-conforming files.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Prettier Documentation
+https://prettier.io/docs/en/index.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-prettier" href="#digest-of-prettier"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of PRETTIER</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="prettier-api-and-configuration" href="#prettier-api-and-configuration"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Prettier API and Configuration</h1>
+<p class="md-github">Date Retrieved: 2023-10-04</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">Prettier is an opinionated code formatter that formats code by parsing it into an AST and printing it according to its own set of rules. It supports multiple languages including JavaScript (and JSX), Angular, Vue, Flow, TypeScript, CSS, Less, SCSS, HTML, Ember/Handlebars, JSON, GraphQL, Markdown (including GFM and MDX v1), and YAML.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="formatting-engine" href="#formatting-engine"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Formatting Engine</h2>
+<ul class="md-github">
+<li class="md-github">Reprints code from scratch by ignoring original styling and formatting according to configured parameters.</li>
+<li class="md-github">Uses maximum line length and other options to determine line breaks and wrapping.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supported-options-and-defaults" href="#supported-options-and-defaults"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supported Options and Defaults</h2>
+<ul class="md-github">
+<li class="md-github">printWidth: number (default: 80) - Maximum line length before wrapping</li>
+<li class="md-github">tabWidth: number (default: 2) - Number of spaces per indentation level</li>
+<li class="md-github">useTabs: boolean (default: false) - Indent lines with tabs instead of spaces</li>
+<li class="md-github">semi: boolean (default: true) - Print semicolons at ends of statements</li>
+<li class="md-github">singleQuote: boolean (default: false) - Use single instead of double quotes</li>
+<li class="md-github">trailingComma: string (default: &quot;es5&quot;) - Print trailing commas where valid (&quot;none&quot;, &quot;es5&quot;, &quot;all&quot;)</li>
+<li class="md-github">bracketSpacing: boolean (default: true) - Print spaces between brackets in object literals</li>
+<li class="md-github">arrowParens: string (default: &quot;always&quot;) - Include parentheses around a sole arrow function parameter (&quot;avoid&quot; for omission)</li>
+<li class="md-github">parser: string - Specifies which parser to use (e.g., &quot;babel&quot;, &quot;flow&quot;, &quot;typescript&quot;, &quot;css&quot;, &quot;html&quot;, &quot;json&quot;, &quot;graphql&quot;, etc.)</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="api-method-signatures" href="#api-method-signatures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Method Signatures</h2>
+<ul class="md-github">
+<li class="md-github">format(source: string, options?: Options): string
+<ul class="md-github">
+<li class="md-github">Options interface includes all the supported options as listed above.</li>
+</ul>
+</li>
+</ul>
+<p class="md-github">Example Options Interface:</p>
+<p class="md-github">interface Options {
+printWidth?: number;
+tabWidth?: number;
+useTabs?: boolean;
+semi?: boolean;
+singleQuote?: boolean;
+trailingComma?: &quot;none&quot; | &quot;es5&quot; | &quot;all&quot;;
+bracketSpacing?: boolean;
+arrowParens?: &quot;avoid&quot; | &quot;always&quot;;
+parser: string;
+// Additional experimental options:
+objectWrap?: boolean; // New in version 3.5
+experimentalOperatorPosition?: boolean; // New experimental option
+tsconfig?: string; // Path to TypeScript config file
+experimentalTernaries?: boolean; // New flag for nested ternary formatting
+}</p>
+<p class="md-github">Example SDK Usage:</p>
+<p class="md-github">const prettier = require(&quot;prettier&quot;);
+const sourceCode = &quot;foo(arg1, arg2, arg3, arg4);&quot;;
+const formatted = prettier.format(sourceCode, {
+printWidth: 80,
+tabWidth: 2,
+useTabs: false,
+semi: true,
+singleQuote: false,
+trailingComma: &quot;es5&quot;,
+bracketSpacing: true,
+arrowParens: &quot;always&quot;,
+parser: &quot;babel&quot;
+});
+console.log(formatted);</p>
+<h2 class="md-github"><a class="md-github__anchor" name="cli-commands-and-configuration-files" href="#cli-commands-and-configuration-files"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CLI Commands and Configuration Files</h2>
+<ul class="md-github">
+<li class="md-github">Run Prettier via CLI: npx prettier --write &quot;src/**/*.js&quot;</li>
+<li class="md-github">Use .prettierrc file for configuration with JSON or YAML format listing the above options.</li>
+</ul>
+<p class="md-github">Example .prettierrc Content:</p>
+<p class="md-github">{
+&quot;printWidth&quot;: 80,
+&quot;tabWidth&quot;: 2,
+&quot;useTabs&quot;: false,
+&quot;semi&quot;: true,
+&quot;singleQuote&quot;: false,
+&quot;trailingComma&quot;: &quot;es5&quot;,
+&quot;bracketSpacing&quot;: true,
+&quot;arrowParens&quot;: &quot;always&quot;
+}</p>
+<h2 class="md-github"><a class="md-github__anchor" name="editor-integrations" href="#editor-integrations"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Editor Integrations</h2>
+<ul class="md-github">
+<li class="md-github">Plugins available for VS Code, Sublime Text, Vim, Emacs, and others. On save formatting is supported for seamless integration.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="best-practices" href="#best-practices"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Best Practices</h2>
+<ul class="md-github">
+<li class="md-github">Use Prettier in pre-commit hooks to enforce code style consistency.</li>
+<li class="md-github">Combine Prettier with linters (e.g., ESLint) where Prettier handles formatting and linters handle code quality.</li>
+<li class="md-github">For large codebases run Prettier in batch mode (e.g., through CLI) to format the entire project at once.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="troubleshooting-procedures" href="#troubleshooting-procedures"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Troubleshooting Procedures</h2>
+<ul class="md-github">
+<li class="md-github">Use the flag --debug-check to verify configuration settings.</li>
+<li class="md-github">If formatting issues occur, run: npx prettier --check &quot;src/**/*.js&quot; to identify files that do not conform.</li>
+<li class="md-github">For detailed performance issues, refer to the CLI: A Performance Deep Dive guide and run performance benchmarking commands as documented.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-and-data-size" href="#attribution-and-data-size"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution and Data Size</h2>
+<ul class="md-github">
+<li class="md-github">Data size obtained during crawling: 1033383 bytes</li>
+<li class="md-github">Source URL: https://prettier.io/docs/en/index.html</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Prettier Documentation</li>
+<li class="md-github">URL: https://prettier.io/docs/en/index.html</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-28T01:08:49.804Z</li>
+<li class="md-github">Data Size: 1033383 bytes</li>
+<li class="md-github">Links Found: 2569</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-28</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-28T01:53:30.942Z</p>
+  </footer>
+</body>
+</html>
