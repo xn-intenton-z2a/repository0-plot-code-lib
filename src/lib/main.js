@@ -266,7 +266,8 @@ function createSvgPlot(expression, range, customLabels = {}) {
       smoothingFactor = parsed;
     }
     const pathData = buildSmoothPath(mappedPoints, smoothingFactor);
-    shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none" />`;
+    // Removed extra space before closing tag to ensure regex can capture the d attribute correctly
+    shapeElement = `<path d="${pathData}" ${strokeAttr} fill="none"/>`;
   } else {
     const polylinePoints = mappedPoints.map(p => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
     shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr} fill="none" />`;
