@@ -458,7 +458,7 @@ function loadConfig(cliOptions) {
         const errorMessages = e.errors.map(err => {
           const key = err.path.join('.');
           const prefix = numericKeys.includes(key) ? "Error: Invalid numeric value for" : "Error: Invalid value for";
-          return `${prefix} "${key}" with value "${err.received}". ${err.message}`;
+          return `${prefix} ${key} with value "${err.received}". ${err.message}`;
         }).join("; ");
         throw new Error(errorMessages);
       }
@@ -569,6 +569,11 @@ function main() {
   }
 
   const args = process.argv.slice(2);
+  // Return early if no CLI arguments provided
+  if (args.length === 0) {
+    return;
+  }
+
   let options = {};
   for (let i = 0; i < args.length; i++) {
     if (args[i].startsWith("--")) {
