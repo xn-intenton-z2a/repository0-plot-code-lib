@@ -99,7 +99,7 @@ and you have set the environment variable `TEST_RES=150` (e.g. via a custom .env
 
 When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values. 
 
-*Note:* For instance, if the configuration file sets `"ylabel": "ConfigY"` and the CLI is invoked with `--ylabel "CLI_YAxis"`, the final configuration will use "CLI_YAxis" for the y-axis label.
+*Note:* For instance, if the configuration file sets "ylabel": "ConfigY" and the CLI is invoked with `--ylabel "CLI_YAxis"`, the final configuration will use "CLI_YAxis" for the y-axis label.
 
 ## Runtime Configuration Reloading
 
