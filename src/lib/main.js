@@ -13,9 +13,9 @@ import { compile } from "mathjs";
 // Initialize runtime configuration global variable
 let runtimeConfig = {};
 
-// Updated helper function to recursively interpolate environment variables in configuration objects
-// and automatically convert values to numbers or booleans if applicable.
-// Now supports default fallback values with syntax ${VAR:defaultValue}.
+// Updated helper function to recursively interpolate environment variables in configuration objects,
+// automatically convert values to numbers or booleans if applicable, and support default fallback values
+// using the syntax ${VAR:defaultValue}.
 function interpolateEnv(input) {
   if (typeof input === "string") {
     // Updated regex to capture optional default value with fallback syntax

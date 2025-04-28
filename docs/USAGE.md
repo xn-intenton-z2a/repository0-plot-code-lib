@@ -106,7 +106,7 @@ Configuration files can include placeholders using the syntax `${VAR}`. This rel
 }
 ```
 
-and the environment variable `TEST_RES` is not set, the value will default to `100`. If `TEST_RES` is set, its value will be used instead, with automatic type conversion applied (e.g., to a number, boolean, or string as appropriate).
+and the environment variable `TEST_RES` is not set, the value will default to `100`. If `TEST_RES` is set, its value (automatically converted to an appropriate type) will be used instead.
 
 ### Environment Variable Interpolation in Nested Objects
 
@@ -139,8 +139,6 @@ Then the configuration will be automatically transformed to:
   }
 }
 ```
-
-Fallback defaults are applied when critical keys (such as `resolution`, `width`, or `height`) are missing or empty after interpolation.
 
 When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values.
 
