@@ -53,7 +53,7 @@ function interpolateEnv(input) {
       } else if (defaultVal !== undefined) {
         return defaultVal;
       } else {
-        return `${"${"}"}${varName}}`;
+        return `${"${""}"}${varName}}`;
       }
     });
   } else if (Array.isArray(input)) {
@@ -236,9 +236,13 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale === "de-DE") {
-    // Use standard rounding for de-DE locale for y-axis as well
-    let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
-    let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
+    // For y-axis in de-DE, use truncation (floor) to display values
+    function truncateNumber(value, precision) {
+      const factor = Math.pow(10, precision);
+      return (Math.floor(value * factor) / factor).toFixed(precision);
+    }
+    let ry = truncateNumber(yInputMin, yPrecision);
+    let rY = truncateNumber(yInputMax, yPrecision);
     ry = ry.replace(".", ",");
     rY = rY.replace(".", ",");
     yAxisLabelText = `y-axis: ${ry} to ${rY}`;

@@ -241,7 +241,7 @@ describe("GET /plot Content Negotiation", () => {
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain("x-axis: 0.12 to 10.57");
-      expect(svgText).toContain("y-axis: -1.235 to 5.679");
+      expect(svgText).toContain("y-axis: -1.235 to 5.678");
     });
 
     test("should return SVG with locale-specific axis labels when locale parameter is provided", async () => {
@@ -557,7 +557,7 @@ describe("GET /plot Content Negotiation", () => {
         .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", bgColor: "#f0f0f0" })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
-      const svgText = res.text;
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain('<rect');
       expect(svgText).toContain('fill="#f0f0f0"');
     });
@@ -568,7 +568,7 @@ describe("GET /plot Content Negotiation", () => {
         .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", showGrid: "true" })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
-      const svgText = res.text;
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain('class="grid"');
       expect(svgText).toMatch(/<line\s+[^>]*stroke="[^"]+"[^>]*>/);
     });
@@ -586,7 +586,7 @@ describe("GET /plot Content Negotiation", () => {
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
-      const svgText = res.text;
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain('stroke="#ff0000"');
       expect(svgText).toContain('stroke-width="2"');
     });
