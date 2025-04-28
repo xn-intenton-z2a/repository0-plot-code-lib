@@ -57,3 +57,13 @@ Vitest is a fast and efficient unit testing framework tailored for modern JavaSc
 ## https://plotly.com/javascript/
 Plotly.js is a powerful and versatile graphing library for JavaScript, designed to create interactive, high-quality visualizations. The documentation provides detailed technical guidance on customizing plots, managing data, and leveraging advanced features such as animations and responsive design. These insights offer actionable strategies and technical specifications that can inspire further enhancements in the repository’s plotting capabilities, aligning with its mission to deliver robust visualizations.
 ## MIT License
+
+# RFC7807: Problem Details for HTTP APIs
+## https://tools.ietf.org/html/rfc7807
+RFC7807 outlines a standardized format for representing error responses in HTTP APIs. This document provides technical guidance on structuring problem details, including fields such as "type", "title", "status", "detail", and "instance". This standard is particularly useful for ensuring that API error responses are clear, consistent, and adhere to modern best practices in HTTP API design.
+## IETF Document (Public Domain)
+
+# MDN Web Docs: JavaScript Modules
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+This MDN guide offers a comprehensive introduction to JavaScript modules, explaining both the legacy and modern ES Module systems. It covers how to import, export, and organize code in modular formats, which is crucial for maintaining scalable and performant codebases. Given that repository0-plot-code-lib uses ES Modules exclusively, this source provides essential insights into best practices and the underlying mechanics of module-based development.
+## Creative Commons Attribution-ShareAlike License
