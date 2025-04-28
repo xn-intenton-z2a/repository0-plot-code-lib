@@ -16,8 +16,25 @@ let runtimeConfig = {};
 // New helper function to recursively interpolate environment variables in configuration objects
 function interpolateEnv(input) {
   if (typeof input === "string") {
+    // If the entire string is a single placeholder, return a numeric value if appropriate
+    const fullMatch = input.trim().match(/^\$\{([^}]+)\}$/);
+    if (fullMatch) {
+      const varName = fullMatch[1];
+      if (process.env[varName] !== undefined) {
+        const envVal = process.env[varName];
+        // If the environment variable is a valid number, return as Number
+        if (envVal.trim() !== "" && !isNaN(envVal)) {
+          return Number(envVal);
+        } else {
+          return envVal;
+        }
+      } else {
+        return input;
+      }
+    }
+    // For strings with embedded variables or partial matches, replace all occurrences
     return input.replace(/\$\{([^}]+)\}/g, (_, varName) =>
-      process.env[varName] !== undefined ? process.env[varName] : `\$\{${varName}\}`
+      process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`
     );
   } else if (Array.isArray(input)) {
     return input.map(interpolateEnv);
@@ -304,14 +321,14 @@ function createSvgPlot(expression, range, customLabels = {}) {
     customLabels.xlabelOffsetX != null
       ? customLabels.xlabelOffsetX
       : customLabels.xlabelX != null
-        ? customLabels.xlabelX
-        : (svgWidth / 2).toFixed(2);
+      ? customLabels.xlabelX
+      : (svgWidth / 2).toFixed(2);
   const xLabelY =
     customLabels.xlabelOffsetY != null
       ? customLabels.xlabelOffsetY
       : customLabels.xlabelY != null
-        ? customLabels.xlabelY
-        : (svgHeight - 5).toFixed(2);
+      ? customLabels.xlabelY
+      : (svgHeight - 5).toFixed(2);
   let xTransform = "";
   if (customLabels.xlabelRotation != null) {
     xTransform = ` transform="rotate(${customLabels.xlabelRotation}, ${xLabelX}, ${xLabelY})"`;
@@ -423,6 +440,7 @@ function loadConfig(cliOptions) {
     try {
       const configFileContent = fs.readFileSync(cliOptions.config, "utf8");
       let configOptions = JSON.parse(configFileContent);
+      // Recursively interpolate environment variables in the configuration
       configOptions = interpolateEnv(configOptions);
       const configSchema = z.object({
         expression: z.string().min(1).optional(),
@@ -479,7 +497,24 @@ function loadConfig(cliOptions) {
       return mergedOptions;
     } catch (e) {
       if (e instanceof z.ZodError) {
-        const numericKeys = ["resolution", "xlabelPrecision", "ylabelPrecision", "xlabelX", "xlabelY", "ylabelX", "ylabelY", "xlabelRotation", "ylabelRotation", "xlabelOffsetX", "xlabelOffsetY", "ylabelOffsetX", "ylabelOffsetY", "width", "height", "smoothingFactor"];
+        const numericKeys = [
+          "resolution",
+          "xlabelPrecision",
+          "ylabelPrecision",
+          "xlabelX",
+          "xlabelY",
+          "ylabelX",
+          "ylabelY",
+          "xlabelRotation",
+          "ylabelRotation",
+          "xlabelOffsetX",
+          "xlabelOffsetY",
+          "ylabelOffsetX",
+          "ylabelOffsetY",
+          "width",
+          "height",
+          "smoothingFactor"
+        ];
         const errorMessages = e.errors.map(err => {
           const key = err.path.join('.');
           const prefix = numericKeys.includes(key) ? "Error: Invalid numeric value for" : "Error: Invalid value for";
