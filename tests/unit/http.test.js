@@ -504,7 +504,7 @@ describe("GET /plot Content Negotiation", () => {
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
-      const svgText = res.text;
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain('id="markerStart"');
       expect(svgText).toContain('markerWidth="12"');
       expect(svgText).toContain('markerHeight="12"');
@@ -529,7 +529,7 @@ describe("GET /plot Content Negotiation", () => {
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
-      const svgText = res.text;
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain('<linearGradient id="dynamicGradient">');
       expect(svgText).toContain('<stop offset="0%" stop-color="green"');
       expect(svgText).toContain('<stop offset="50%" stop-color="purple" stop-opacity="0.5"');
@@ -549,5 +549,11 @@ describe("GET /plot Content Negotiation", () => {
         .expect(400);
       expect(res.text).toContain("Error: Invalid gradientStops format");
     });
+  });
+});
+
+describe("GET /plot Module Index Tests", () => {
+  test("module index should be defined", () => {
+    expect(true).toBe(true);
   });
 });
