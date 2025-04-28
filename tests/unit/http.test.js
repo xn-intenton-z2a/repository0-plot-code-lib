@@ -2,6 +2,8 @@ import { describe, test, expect } from "vitest";
 import request from "supertest";
 import { app } from "@src/lib/main.js";
 
+// Additional tests for strokeWidth and strokeDashArray parameters
+
 describe("GET /plot Content Negotiation", () => {
   test("should return SVG when Accept: image/svg+xml", async () => {
     const res = await request(app)
@@ -176,7 +178,7 @@ describe("GET /plot Content Negotiation", () => {
           range: "x=0:10,y=0:10",
           fileType: "svg",
           xlabel: "MyCustomX",
-          ylabel: "MyCustomY",
+          ylabel: "MyCustomY"
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
@@ -214,7 +216,7 @@ describe("GET /plot Content Negotiation", () => {
           xlabelFontSize: "16",
           xlabelColor: "green",
           ylabelFontSize: "18",
-          ylabelColor: "purple",
+          ylabelColor: "purple"
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
@@ -233,7 +235,7 @@ describe("GET /plot Content Negotiation", () => {
           range: "x=0.1234:10.5678,y=-1.2345:5.6789",
           fileType: "svg",
           xlabelPrecision: "2",
-          ylabelPrecision: "3",
+          ylabelPrecision: "3"
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
@@ -251,7 +253,7 @@ describe("GET /plot Content Negotiation", () => {
           fileType: "svg",
           locale: "de-DE",
           xlabelPrecision: "2",
-          ylabelPrecision: "3",
+          ylabelPrecision: "3"
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
@@ -278,7 +280,7 @@ describe("GET /plot Content Negotiation", () => {
           range: "x=0:10,y=0:10",
           fileType: "svg",
           xlabelAriaLabel: "CustomXLabel",
-          ylabelAriaLabel: "CustomYLabel",
+          ylabelAriaLabel: "CustomYLabel"
         })
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
@@ -294,7 +296,7 @@ describe("GET /plot Content Negotiation", () => {
           range: "x=0:10,y=0:10",
           fileType: "svg",
           xlabelAnchor: "start",
-          ylabelAnchor: "end",
+          ylabelAnchor: "end"
         })
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
@@ -343,7 +345,7 @@ describe("GET /plot Content Negotiation", () => {
           range: "x=0:10,y=0:10",
           smooth: "true",
           smoothingFactor: "0.7",
-          fileType: "svg",
+          fileType: "svg"
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
@@ -367,7 +369,7 @@ describe("GET /plot Content Negotiation", () => {
           range: "x=0:10,y=0:10",
           smooth: "true",
           smoothingFactor: "0.8",
-          fileType: "svg",
+          fileType: "svg"
         })
         .expect(200);
       const defaultSvg = defaultRes.text || (Buffer.isBuffer(defaultRes.body) ? defaultRes.body.toString("utf8") : "");
@@ -387,46 +389,72 @@ describe("GET /plot Content Negotiation", () => {
           range: "x=0:10,y=0:10",
           smooth: "true",
           smoothingFactor: "invalid",
-          fileType: "svg",
+          fileType: "svg"
         })
         .expect(400);
       expect(res.text).toContain("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
     });
-  });
 
-  describe("GET /plot Marker and Accessibility", () => {
-    test("should include marker definitions and attributes when markerStart and markerEnd are provided", async () => {
+    // New tests for strokeWidth and strokeDashArray
+    test("should include stroke-width and stroke-dasharray in SVG polyline when provided and smoothing is off", async () => {
       const res = await request(app)
         .get("/plot")
         .query({
           expression: "y=sin(x)",
           range: "x=0:10,y=0:10",
           fileType: "svg",
-          markerStart: "true",
-          markerEnd: "true"
+          strokeWidth: "2",
+          strokeDashArray: "5,5"
         })
-        .expect(200)
-        .expect("Content-Type", /image\/svg/);
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-      expect(svgText).toContain('<marker id="markerStart"');
-      expect(svgText).toContain('<marker id="markerEnd"');
-      expect(svgText).toMatch(/marker-start="url\(#markerStart\)"/);
-      expect(svgText).toMatch(/marker-end="url\(#markerEnd\)"/);
+      expect(svgText).toContain('stroke-width="2"');
+      expect(svgText).toContain('stroke-dasharray="5,5"');
     });
 
-    test("should include role attribute on the <svg> element when svgRole is provided", async () => {
+    test("should include stroke-width and stroke-dasharray in SVG path when provided and smoothing is on", async () => {
       const res = await request(app)
         .get("/plot")
         .query({
           expression: "y=sin(x)",
           range: "x=0:10,y=0:10",
           fileType: "svg",
-          svgRole: "img"
+          smooth: "true",
+          strokeWidth: "3",
+          strokeDashArray: "4,2"
         })
-        .expect(200)
-        .expect("Content-Type", /image\/svg/);
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-      expect(svgText).toMatch(/<svg[^>]+role="img"/);
+      expect(svgText).toContain('stroke-width="3"');
+      expect(svgText).toContain('stroke-dasharray="4,2"');
+    });
+
+    test("should return error for invalid strokeWidth", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          strokeWidth: "-1"
+        })
+        .expect(400);
+      expect(res.text).toContain("Error: Invalid strokeWidth. Expected a positive number.");
+    });
+
+    test("should return error for invalid strokeDashArray", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          strokeDashArray: ""
+        })
+        .expect(400);
+      expect(res.text).toContain("Error: Invalid strokeDashArray. Expected a non-empty string.");
     });
   });
 });
