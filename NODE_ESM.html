@@ -24,287 +24,357 @@
   <section>
     <h1 class="md-github"><a class="md-github__anchor" name="node_esm" href="#node_esm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>NODE_ESM</h1>
 <h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
-<p class="md-github">ECMAScript modules in Node.js: enable via .mjs extension, package.json &quot;type&quot;:&quot;module&quot;, or --input-type flag. Import specifiers include relative, bare, and absolute types. Mandatory file extensions required. URL resolution supports file:, node:, data: URLs. import.meta provides dirname, filename, url, and resolve(specifier) APIs. Resolution algorithms include ESM_RESOLVE and ESM_FILE_FORMAT which determine module format from file extensions. Built-in module support and CommonJS interoperability via module.createRequire() are specified.</p>
+<p class="md-github">Node.js ESM documentation provides precise instructions on module recognition via file extensions, package.json &quot;type&quot; field, and command-line inputs. It details resolution mechanisms for relative, bare, and absolute specifiers, handling of file:, data:, and node: URLs, and explicit import attributes for JSON modules. The resolution algorithm (ESM_RESOLVE) and file format determination (ESM_FILE_FORMAT) are fully specified with error conditions, version history, and interoperability with CommonJS. The documentation includes dynamic import support, import.meta properties, and clear examples for practical implementation.</p>
 <h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
-<p class="md-github">TABLE OF CONTENTS:</p>
+<p class="md-github">Table of Contents:</p>
 <ol class="md-github">
-<li class="md-github">INTRODUCTION &amp; OVERVIEW
+<li class="md-github">Introduction
 <ul class="md-github">
-<li class="md-github">Official standard for packaging JS; includes examples for export and import.</li>
+<li class="md-github">Overview of ECMAScript modules</li>
+<li class="md-github">Interoperability with CommonJS</li>
 </ul>
 </li>
-<li class="md-github">ENABLING ESM
+<li class="md-github">Enabling ESM
 <ul class="md-github">
-<li class="md-github">Use .mjs, package.json { type: module }, or --input-type=module flag; inverse for CommonJS with .cjs.</li>
+<li class="md-github">Use of .mjs, package.json &quot;type&quot;: &quot;module&quot;, or --input-type flag</li>
+<li class="md-github">Fallback to CommonJS if ESM syntax not detected</li>
 </ul>
 </li>
-<li class="md-github">IMPORT SPECIFIERS
+<li class="md-github">Import Specifiers
 <ul class="md-github">
-<li class="md-github">Relative: path requires file extension.</li>
-<li class="md-github">Bare: resolved via node_modules and exports.</li>
-<li class="md-github">Absolute: full URL resolution.</li>
+<li class="md-github">Relative: must include file extensions, e.g. ./file.mjs</li>
+<li class="md-github">Bare: resolved via package name and package.json exports</li>
+<li class="md-github">Absolute: full URL specification (file:///path/to/module.js)</li>
 </ul>
 </li>
-<li class="md-github">MANDATORY FILE EXTENSIONS
+<li class="md-github">Mandatory File Extensions and URL Encoding
 <ul class="md-github">
-<li class="md-github">File extension is required for all imports including directory indexes.</li>
+<li class="md-github">File extension is mandatory for import, percent encoding for special characters</li>
 </ul>
 </li>
-<li class="md-github">URL RESOLUTION
+<li class="md-github">URL Schemes
 <ul class="md-github">
-<li class="md-github">File URLs: use url.pathToFileURL; Data URLs support MIME types text/javascript, application/json, application/wasm; node: URLs for built-in modules.</li>
+<li class="md-github">file: URLs behavior and multiple loads with query differences</li>
+<li class="md-github">data: URLs for importing JavaScript, JSON, and Wasm with limitations on relative resolution</li>
 </ul>
 </li>
-<li class="md-github">IMPORT ATTRIBUTES
+<li class="md-github">Node: Imports
 <ul class="md-github">
-<li class="md-github">Syntax: import foo from './foo.json' with { type: 'json' }.</li>
-<li class="md-github">Only type attribute supported.</li>
+<li class="md-github">Usage of node: prefix to load builtin modules (e.g. node:fs)</li>
 </ul>
 </li>
-<li class="md-github">BUILT-IN MODULES &amp; DYNAMIC IMPORT
+<li class="md-github">Import Attributes
 <ul class="md-github">
-<li class="md-github">Built-in modules offer named exports and a default export. Dynamic import() allowed in both ESM and CommonJS.</li>
+<li class="md-github">Syntax: import fooData from './foo.json' with { type: 'json' }</li>
+<li class="md-github">Mandatory for JSON modules</li>
 </ul>
 </li>
-<li class="md-github">COMMONJS INTEROPERABILITY
+<li class="md-github">Built-In Modules and import.meta
 <ul class="md-github">
-<li class="md-github">Default and namespace imports; no __filename or __dirname, use import.meta.filename and import.meta.dirname. Use module.createRequire for require-like functionality.</li>
+<li class="md-github">Default and named exports from builtin modules</li>
+<li class="md-github">import.meta properties (url, filename, dirname, resolve)</li>
 </ul>
 </li>
-<li class="md-github">API SPECIFICATIONS
+<li class="md-github">Dynamic import() Expressions
 <ul class="md-github">
-<li class="md-github">import.meta.resolve(specifier): Returns absolute URL string; synchronous API without promise.</li>
-<li class="md-github">ESM_RESOLVE and ESM_FILE_FORMAT: Algorithms determining module resolution and format based on file extension and package configuration.</li>
+<li class="md-github">Support for both ESM and CommonJS dynamic loading</li>
+</ul>
+</li>
+<li class="md-github">Resolution and Loading Algorithm
+<ul class="md-github">
+<li class="md-github">ESM_RESOLVE: parsing, relative resolution, bare specifier handling</li>
+<li class="md-github">ESM_FILE_FORMAT: determines module format based on extensions and package.json &quot;type&quot;</li>
+<li class="md-github">Error handling: Module Not Found, Invalid Module Specifier, etc.
+Detailed Technical Points:</li>
 </ul>
 </li>
 </ol>
-<p class="md-github">DETAILED TOPICS:
-INTRODUCTION: Defines ESM and interoperability with CommonJS, with code examples.
-ENABLING: Details methods to signal module type.
-IMPORT SPECIFIERS: Specifies how to use relative, bare, and absolute paths with full examples.
-MANDATORY FILE EXTENSIONS: Emphasizes necessity of explicit file extensions.
-URL RESOLUTION: Instructions for using percent encoding and supported protocols.
-IMPORT ATTRIBUTES: Exact syntax for passing type information on JSON imports.
-BUILT-IN MODULES: Method to use console, fs, events etc with examples.
-COMMONJS INTEROPERABILITY: Guidelines and fallback mechanisms for using module.createRequire and handling namespace objects.
-API SPECIFICATIONS: Precise method signatures and error conditions for import.meta.resolve and resolution algorithms.</p>
+<ul class="md-github">
+<li class="md-github">Enabling: .mjs, --input-type, package.json field. Example: { &quot;type&quot;: &quot;module&quot; }.</li>
+<li class="md-github">import.meta.resolve(specifier): synchronous resolution, returns string; accepts optional parent URL when using experimental flag.</li>
+<li class="md-github">ESM Resolution Process: Validate URL, resolve relative paths, use PACKAGE_RESOLVE for bare specifiers, check exports in package.json.</li>
+<li class="md-github">ESM_FILE_FORMAT returns: &quot;module&quot; for .mjs; &quot;commonjs&quot; for .cjs or .js if not marked &quot;module&quot;; &quot;json&quot; for .json; &quot;wasm&quot; if --experimental-wasm-modules enabled; &quot;addon&quot; for .node if enabled.</li>
+<li class="md-github">Version and stability indicators provided for import attributes and top-level await.
+Usage patterns and pitfalls such as no __filename/__dirname in ESM and alternative use of import.meta are explicitly noted.</li>
+</ul>
 <h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
-<p class="md-github">Configurations and parameter details:</p>
+<p class="md-github">Configuration Options and Implementation Details:</p>
 <ul class="md-github">
-<li class="md-github">Enabling ESM: .mjs file extension or package.json { &quot;type&quot;: &quot;module&quot; } or --input-type=module flag. For CommonJS, use .cjs or { &quot;type&quot;: &quot;commonjs&quot; }.</li>
-<li class="md-github">import.meta API:
+<li class="md-github">Module recognition: Set file extension (.mjs vs .cjs), package.json &quot;type&quot;: &quot;module&quot;, or use --input-type flag.</li>
+<li class="md-github">import Attributes: Use with clause mandatory for JSON; supported attribute: type with value 'json'.</li>
+<li class="md-github">ESM_RESOLVE Algorithm Parameters:
 <ul class="md-github">
-<li class="md-github">import.meta.dirname: returns string directory name (only for file: URLs).</li>
-<li class="md-github">import.meta.filename: returns absolute file path.</li>
-<li class="md-github">import.meta.url: returns file URL of current module.</li>
-<li class="md-github">import.meta.resolve(specifier): takes a string specifier; returns absolute URL string synchronously. May throw errors on invalid specifiers.</li>
+<li class="md-github">specifier (string): the module specifier</li>
+<li class="md-github">parentURL (string): the URL of the parent module</li>
+<li class="md-github">Returns: Object with resolved URL and format (string)</li>
+<li class="md-github">Exceptions: Invalid Module Specifier, Module Not Found, Unsupported Directory Import</li>
 </ul>
 </li>
-<li class="md-github">URL Resolution: Use url.pathToFileURL for converting paths. Data URL imports require the MIME type, e.g., text/javascript for code, application/json for JSON (must use with { type: 'json' }).</li>
-<li class="md-github">ESM_RESOLVE algorithm returns two key values: resolved URL and module format (&quot;module&quot;, &quot;commonjs&quot;, &quot;json&quot;, &quot;wasm&quot;, &quot;addon&quot;). Errors thrown include: Invalid Module Specifier, Module Not Found, Unsupported Directory Import.</li>
-<li class="md-github">File extensions dictate format: .mjs -&gt; module, .cjs -&gt; commonjs, .json -&gt; json.</li>
-<li class="md-github">Best Practices: Avoid ambiguous specifiers; always include file extensions; use import.meta.resolve for require.resolve replacement.</li>
-<li class="md-github">Troubleshooting: If resolution fails, check file existence, correct file extensions, and proper package.json configuration. Use commands like 'node --input-type=module app.mjs' to test module resolution.</li>
+<li class="md-github">ESM_FILE_FORMAT:
+<ul class="md-github">
+<li class="md-github">Input: url (string) referencing existing file</li>
+<li class="md-github">Returns &quot;module&quot;, &quot;commonjs&quot;, &quot;json&quot;, &quot;wasm&quot;, or &quot;addon&quot;</li>
+</ul>
+</li>
+<li class="md-github">import.meta Properties:
+<ul class="md-github">
+<li class="md-github">import.meta.url: string (absolute file URL)</li>
+<li class="md-github">import.meta.filename: string (absolute file path, file: only)</li>
+<li class="md-github">import.meta.dirname: string (directory path)</li>
+<li class="md-github">import.meta.resolve(specifier): string; synchronous resolution</li>
+</ul>
+</li>
+<li class="md-github">Dynamic import(): Standard async loading and error handling via Promises.</li>
+<li class="md-github">Best Practices:
+<ul class="md-github">
+<li class="md-github">Always include file extensions in import statements.</li>
+<li class="md-github">Use import.meta to obtain file paths instead of __filename/__dirname.</li>
+<li class="md-github">Ensure JSON modules are imported with { type: 'json' } to enforce proper parsing.</li>
+</ul>
+</li>
+<li class="md-github">Troubleshooting Procedures:
+<ul class="md-github">
+<li class="md-github">Verify that the file exists at the resolved URL to avoid Module Not Found errors.</li>
+<li class="md-github">Check package.json &quot;exports&quot; field when using bare specifiers.</li>
+<li class="md-github">Use url.pathToFileURL() for converting local paths to file URLs for consistency.</li>
+<li class="md-github">Use explicit error messages from ESM_RESOLVE and ESM_FILE_FORMAT routines to diagnose misconfigurations.</li>
+</ul>
+</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
-<p class="md-github">API SPECIFICATIONS:</p>
+<p class="md-github">API Specifications and Method Signatures:</p>
 <ol class="md-github">
-<li class="md-github">import.meta.resolve(specifier: string, parent?: string | URL) -&gt; string
+<li class="md-github">
+<p class="md-github">import.meta.resolve(specifier: string, parent?: string | URL): string</p>
 <ul class="md-github">
-<li class="md-github">Resolves the given module specifier relative to the current module. Returns the absolute URL string. Throws on invalid specifier or if the file does not exist.</li>
-<li class="md-github">Example usage:
-const resolved = import.meta.resolve('./dep.js');
-// returns 'file:///absolute/path/dep.js'</li>
+<li class="md-github">Synchronously returns the absolute URL string for a given specifier relative to the current module.</li>
+<li class="md-github">Throws if the specifier is invalid or if resolution results in an unknown protocol.</li>
 </ul>
 </li>
-<li class="md-github">ESM_RESOLVE(specifier: string, parentURL: string) -&gt; { format: string, resolved: string }
+<li class="md-github">
+<p class="md-github">ESM_RESOLVE(specifier: string, parentURL: string): { format: string, resolved: string }</p>
 <ul class="md-github">
-<li class="md-github">Determines full module URL and format by checking file existence, extensions, and package.json configuration. Format values: 'module', 'commonjs', 'json', 'wasm', 'addon'.</li>
+<li class="md-github">Algorithm steps:
+a. If specifier is a valid URL, parse and reserialize.
+b. If specifier starts with '/', './', or '../', use URL resolution relative to parentURL.
+c. For bare specifiers, delegate to PACKAGE_RESOLVE which reads package.json and checks for &quot;exports&quot; or &quot;main&quot; fields.
+d. Validate existence and directory restrictions.</li>
+<li class="md-github">Exceptions: Invalid Module Specifier, Invalid Package Configuration, Module Not Found.</li>
 </ul>
 </li>
-<li class="md-github">ESM_FILE_FORMAT(url: string) -&gt; string
+<li class="md-github">
+<p class="md-github">ESM_FILE_FORMAT(url: string): string</p>
 <ul class="md-github">
-<li class="md-github">Returns module format based on file extension. If extension unrecognized, returns undefined leading to load phase error.</li>
+<li class="md-github">Returns one of: &quot;module&quot;, &quot;commonjs&quot;, &quot;json&quot;, &quot;wasm&quot;, &quot;addon&quot;</li>
+<li class="md-github">Logic based on file extension and package.json &quot;type&quot; field.</li>
 </ul>
 </li>
 </ol>
-<p class="md-github">SDK Method Signatures (conceptual):</p>
-<ul class="md-github">
-<li class="md-github">module.createRequire(filename: string) -&gt; NodeRequire
-<ul class="md-github">
-<li class="md-github">Returns a CommonJS require function. Use for importing CommonJS modules in ESM.</li>
-</ul>
-</li>
-</ul>
-<p class="md-github">Configuration Options:</p>
-<ul class="md-github">
-<li class="md-github">package.json 'type': 'module' or 'commonjs'. Default if not specified: inspected from file extension (.mjs for module, .cjs for commonjs).</li>
-<li class="md-github">Command-line flags: --input-type=module, --experimental-wasm-modules, --experimental-addon-modules.</li>
-</ul>
-<p class="md-github">Best Practices with Code:
-// Using dynamic import in CommonJS
-const require = module.createRequire(import.meta.url);
-(async () =&gt; {
-const moduleData = await import('./data.mjs');
-console.log(moduleData);
-})();</p>
-<p class="md-github">Troubleshooting Procedures:</p>
-<ol class="md-github">
-<li class="md-github">Verify file extensions and package.json configuration.</li>
-<li class="md-github">Use url.pathToFileURL to convert local paths.</li>
-<li class="md-github">Execute node with appropriate flags: e.g., node --input-type=module app.mjs</li>
-<li class="md-github">Check for synchronous file system access when using import.meta.resolve (may impact performance).</li>
-<li class="md-github">For JSON modules, ensure using import with { type: 'json' } and that the JSON is well-formed.</li>
-</ol>
-<p class="md-github">Detailed Instructional Material:</p>
-<ul class="md-github">
-<li class="md-github">Follow Node.js documentation for ESM; use provided algorithms (PACKAGE_RESOLVE, PACKAGE_EXPORTS_RESOLVE) for understanding resolution errors.</li>
-<li class="md-github">When encountering resolution issues, check error message for 'Invalid Module Specifier' and ensure specifier format matches one of relative, bare, or absolute patterns.</li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
-<p class="md-github">ESM enable: .mjs or package.json {type:&quot;module&quot;} or --input-type=module; Import specifiers: relative (./file.js), bare (package or package/path), absolute (file:///path/file.js); File extension mandatory; URL resolution supports file:, node:, data:; API: import.meta.dirname, .filename, .url, resolve(specifier):string; ESM_RESOLVE returns {format, resolved}; File formats: .mjs-&gt;module, .cjs-&gt;commonjs, .json-&gt;json; Dynamic import() supported; module.createRequire for CommonJS; Config options: --experimental-wasm-modules, --experimental-addon-modules; Troubleshooting: verify file existence, correct specifiers, proper flags.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
-<p class="md-github">TABLE OF CONTENTS:</p>
-<ol class="md-github">
-<li class="md-github">INTRODUCTION &amp; OVERVIEW
-<ul class="md-github">
-<li class="md-github">Official standard for packaging JS; includes examples for export and import.</li>
-</ul>
-</li>
-<li class="md-github">ENABLING ESM
-<ul class="md-github">
-<li class="md-github">Use .mjs, package.json { type: module }, or --input-type=module flag; inverse for CommonJS with .cjs.</li>
-</ul>
-</li>
-<li class="md-github">IMPORT SPECIFIERS
-<ul class="md-github">
-<li class="md-github">Relative: path requires file extension.</li>
-<li class="md-github">Bare: resolved via node_modules and exports.</li>
-<li class="md-github">Absolute: full URL resolution.</li>
-</ul>
-</li>
-<li class="md-github">MANDATORY FILE EXTENSIONS
-<ul class="md-github">
-<li class="md-github">File extension is required for all imports including directory indexes.</li>
-</ul>
-</li>
-<li class="md-github">URL RESOLUTION
-<ul class="md-github">
-<li class="md-github">File URLs: use url.pathToFileURL; Data URLs support MIME types text/javascript, application/json, application/wasm; node: URLs for built-in modules.</li>
-</ul>
-</li>
-<li class="md-github">IMPORT ATTRIBUTES
-<ul class="md-github">
-<li class="md-github">Syntax: import foo from './foo.json' with { type: 'json' }.</li>
-<li class="md-github">Only type attribute supported.</li>
-</ul>
-</li>
-<li class="md-github">BUILT-IN MODULES &amp; DYNAMIC IMPORT
-<ul class="md-github">
-<li class="md-github">Built-in modules offer named exports and a default export. Dynamic import() allowed in both ESM and CommonJS.</li>
-</ul>
-</li>
-<li class="md-github">COMMONJS INTEROPERABILITY
-<ul class="md-github">
-<li class="md-github">Default and namespace imports; no __filename or __dirname, use import.meta.filename and import.meta.dirname. Use module.createRequire for require-like functionality.</li>
-</ul>
-</li>
-<li class="md-github">API SPECIFICATIONS
-<ul class="md-github">
-<li class="md-github">import.meta.resolve(specifier): Returns absolute URL string; synchronous API without promise.</li>
-<li class="md-github">ESM_RESOLVE and ESM_FILE_FORMAT: Algorithms determining module resolution and format based on file extension and package configuration.</li>
-</ul>
-</li>
-</ol>
-<p class="md-github">DETAILED TOPICS:
-INTRODUCTION: Defines ESM and interoperability with CommonJS, with code examples.
-ENABLING: Details methods to signal module type.
-IMPORT SPECIFIERS: Specifies how to use relative, bare, and absolute paths with full examples.
-MANDATORY FILE EXTENSIONS: Emphasizes necessity of explicit file extensions.
-URL RESOLUTION: Instructions for using percent encoding and supported protocols.
-IMPORT ATTRIBUTES: Exact syntax for passing type information on JSON imports.
-BUILT-IN MODULES: Method to use console, fs, events etc with examples.
-COMMONJS INTEROPERABILITY: Guidelines and fallback mechanisms for using module.createRequire and handling namespace objects.
-API SPECIFICATIONS: Precise method signatures and error conditions for import.meta.resolve and resolution algorithms.</p>
-<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
-<p class="md-github">Node.js ESM Documentation
-https://nodejs.org/api/esm.html</p>
-<h2 class="md-github"><a class="md-github__anchor" name="digest-of-node_esm" href="#digest-of-node_esm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of NODE_ESM</h2>
-<h1 class="md-github"><a class="md-github__anchor" name="introduction" href="#introduction"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>INTRODUCTION</h1>
-<p class="md-github">ECMAScript modules (ESM) are the official standard for packaging JavaScript code. Node.js supports ESM as specified, providing interoperability with CommonJS.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="code-examples" href="#code-examples"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CODE EXAMPLES</h1>
-<p class="md-github">// addTwo.mjs
+<p class="md-github">Code Example (ESM Import and Resolution):</p>
+<p class="md-github">// Example of a simple ESM module exporting a function
 function addTwo(num) {
 return num + 2;
 }
 export { addTwo };</p>
-<p class="md-github">// app.mjs
+<p class="md-github">// Importing the module using file URL resolution
 import { addTwo } from './addTwo.mjs';
-console.log(addTwo(4)); // Prints: 6</p>
-<h1 class="md-github"><a class="md-github__anchor" name="enabling-esm" href="#enabling-esm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ENABLING ESM</h1>
-<p class="md-github">To enable ESM in Node.js you can use the .mjs file extension, set the package.json &quot;type&quot; field to &quot;module&quot;, or use the --input-type=module flag. Conversely, .cjs or &quot;commonjs&quot; value force CommonJS.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="import-specifiers" href="#import-specifiers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>IMPORT SPECIFIERS</h1>
-<p class="md-github">There are three types of import specifiers:</p>
-<ol class="md-github">
-<li class="md-github">Relative (e.g. ./startup.js) – file extension required</li>
-<li class="md-github">Bare (e.g. some-package) – resolved via node_modules and package &quot;exports&quot;</li>
-<li class="md-github">Absolute (e.g. file:///opt/nodejs/config.js) – full URL</li>
-</ol>
-<h1 class="md-github"><a class="md-github__anchor" name="mandatory-file-extensions" href="#mandatory-file-extensions"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>MANDATORY FILE EXTENSIONS</h1>
-<p class="md-github">File extensions must be provided even for directory indexes (e.g. ./startup/index.js).</p>
-<h1 class="md-github"><a class="md-github__anchor" name="url-resolution" href="#url-resolution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>URL RESOLUTION</h1>
-<p class="md-github">ES modules are resolved and cached as URLs. Special characters must be percent-encoded. Supported URL schemes include file:, node:, and data: URLs. For example:</p>
+console.log(addTwo(4)); // Expected output: 6</p>
+<p class="md-github">// Using dynamic import in CommonJS
+const dynamicImport = async () =&gt; {
+const module = await import('./addTwo.mjs');
+console.log(module.addTwo(5));
+};</p>
+<p class="md-github">dynamicImport();</p>
+<p class="md-github">// Using import.meta properties
+import { readFileSync } from 'node:fs';
+const dataPath = new URL('./data.proto', import.meta.url);
+const buffer = readFileSync(dataPath);</p>
+<p class="md-github">// Configuration Option Example in package.json:
+// {
+//   &quot;type&quot;: &quot;module&quot;,
+//   &quot;exports&quot;: {
+//     &quot;./feature&quot;: &quot;./src/feature.js&quot;
+//   }
+// }</p>
+<p class="md-github">Troubleshooting Commands:</p>
 <ul class="md-github">
-<li class="md-github">file: URLs: imported using url.pathToFileURL</li>
-<li class="md-github">data: URLs: support for text/javascript, application/json (with { type: 'json' }), and application/wasm</li>
-<li class="md-github">node: URLs: reference built-in modules (e.g. import fs from 'node:fs/promises')</li>
+<li class="md-github">Check module resolution: node --trace-resolve file.mjs</li>
+<li class="md-github">Validate package.json configuration using JSON linter</li>
+<li class="md-github">For dynamic import failures, use process.on('unhandledRejection', handler)</li>
 </ul>
-<h1 class="md-github"><a class="md-github__anchor" name="import-attributes" href="#import-attributes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>IMPORT ATTRIBUTES</h1>
-<p class="md-github">Import attributes provide inline syntax for providing additional information. Example:
-import fooData from './foo.json' with { type: 'json' };</p>
-<p class="md-github">The type attribute is mandatory when importing JSON modules.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="built-in-modules-and-dynamic-import" href="#built-in-modules-and-dynamic-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BUILT-IN MODULES AND DYNAMIC IMPORT</h1>
-<p class="md-github">Built-in modules export named properties and a default export that mirrors CommonJS exports. Dynamic import() is supported in both ESM and CommonJS contexts.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="commonjs-interoperability" href="#commonjs-interoperability"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>COMMONJS INTEROPERABILITY</h1>
-<p class="md-github">In ESM, CommonJS modules are imported using default imports or namespace imports. CommonJS variables like __filename or __dirname are not available. To replicate these, use import.meta.filename and import.meta.dirname. For require-like resolution, module.createRequire() is available.</p>
-<h1 class="md-github"><a class="md-github__anchor" name="api-specifications" href="#api-specifications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API SPECIFICATIONS</h1>
-<h2 class="md-github"><a class="md-github__anchor" name="importmeta" href="#importmeta"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>import.meta</h2>
+<p class="md-github">Best Practices:</p>
 <ul class="md-github">
-<li class="md-github">import.meta.dirname: string (directory name of the module, file: only)</li>
-<li class="md-github">import.meta.filename: string (absolute file path of the module, with symlinks resolved)</li>
-<li class="md-github">import.meta.url: string (absolute file URL of the module)</li>
-<li class="md-github">import.meta.resolve(specifier):
+<li class="md-github">Always use explicit file extensions in import statements.</li>
+<li class="md-github">Use import.meta.url combined with URL operations to safely reference local files.</li>
+<li class="md-github">Ensure consistency in module type declarations in package.json to prevent ambiguity between ESM and CommonJS.</li>
+<li class="md-github">Use synchronous API for resolution when immediate resolution is needed, but be aware of potential performance impacts.</li>
+<li class="md-github">Use error codes from thrown exceptions to debug compatibility issues between ESM and CommonJS.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">ESM enablement via .mjs, package.json &quot;type&quot;:&quot;module&quot;, or --input-type flag. Import specifiers: relative (./file.mjs), bare (package or package/subpath), absolute (file:///path). Mandatory file extension; percent encoding for special characters. URL schemes: file:, data: (text/javascript, application/json, application/wasm); node: prefix for built-ins. import.meta provides url, filename, dirname, resolve(specifier). ESM_RESOLVE(specifier, parentURL) returns { format, resolved } with error conditions (Invalid Module Specifier, Module Not Found). ESM_FILE_FORMAT(url) returns: &quot;module&quot; for .mjs, &quot;commonjs&quot; for .cjs or .js if not flagged, &quot;json&quot; for .json, &quot;wasm&quot; (with flag), &quot;addon&quot; (with experimental flag). API: import.meta.resolve(specifier[,parent]). Code examples provided for synchronous module import, dynamic import, and URL-based file resolution. Configuration options in package.json affecting module resolution, with troubleshooting commands: node --trace-resolve, JSON validation, unhandledRejection monitoring.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Introduction
 <ul class="md-github">
-<li class="md-github">Parameter: specifier (string) for the module to resolve</li>
-<li class="md-github">Returns: string – the absolute URL the specifier resolves to</li>
-<li class="md-github">Can throw errors if the file does not exist or resolution issues occur</li>
+<li class="md-github">Overview of ECMAScript modules</li>
+<li class="md-github">Interoperability with CommonJS</li>
 </ul>
 </li>
-</ul>
-<h2 class="md-github"><a class="md-github__anchor" name="module-resolution-algorithms" href="#module-resolution-algorithms"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Module Resolution Algorithms</h2>
+<li class="md-github">Enabling ESM
 <ul class="md-github">
-<li class="md-github">ESM_RESOLVE(specifier, parentURL): Determines the resolved URL and module format (&quot;module&quot;, &quot;commonjs&quot;, &quot;json&quot;, &quot;wasm&quot;, &quot;addon&quot;).</li>
-<li class="md-github">ESM_FILE_FORMAT(url): Returns the file format based on the file extension including .mjs, .cjs, .json, and experimental .wasm or .node support.</li>
-<li class="md-github">Additional helper algorithms: PACKAGE_RESOLVE, PACKAGE_SELF_RESOLVE, PACKAGE_EXPORTS_RESOLVE, and PACKAGE_IMPORTS_RESOLVE handle resolution of bare specifiers and package exports.</li>
+<li class="md-github">Use of .mjs, package.json 'type': 'module', or --input-type flag</li>
+<li class="md-github">Fallback to CommonJS if ESM syntax not detected</li>
 </ul>
-<p class="md-github">Retrieved on 2023-10-10
-Data Size: 3411087 bytes
-Attribution: Node.js v23.11.0 documentation crawl</p>
+</li>
+<li class="md-github">Import Specifiers
+<ul class="md-github">
+<li class="md-github">Relative: must include file extensions, e.g. ./file.mjs</li>
+<li class="md-github">Bare: resolved via package name and package.json exports</li>
+<li class="md-github">Absolute: full URL specification (file:///path/to/module.js)</li>
+</ul>
+</li>
+<li class="md-github">Mandatory File Extensions and URL Encoding
+<ul class="md-github">
+<li class="md-github">File extension is mandatory for import, percent encoding for special characters</li>
+</ul>
+</li>
+<li class="md-github">URL Schemes
+<ul class="md-github">
+<li class="md-github">file: URLs behavior and multiple loads with query differences</li>
+<li class="md-github">data: URLs for importing JavaScript, JSON, and Wasm with limitations on relative resolution</li>
+</ul>
+</li>
+<li class="md-github">Node: Imports
+<ul class="md-github">
+<li class="md-github">Usage of node: prefix to load builtin modules (e.g. node:fs)</li>
+</ul>
+</li>
+<li class="md-github">Import Attributes
+<ul class="md-github">
+<li class="md-github">Syntax: import fooData from './foo.json' with { type: 'json' }</li>
+<li class="md-github">Mandatory for JSON modules</li>
+</ul>
+</li>
+<li class="md-github">Built-In Modules and import.meta
+<ul class="md-github">
+<li class="md-github">Default and named exports from builtin modules</li>
+<li class="md-github">import.meta properties (url, filename, dirname, resolve)</li>
+</ul>
+</li>
+<li class="md-github">Dynamic import() Expressions
+<ul class="md-github">
+<li class="md-github">Support for both ESM and CommonJS dynamic loading</li>
+</ul>
+</li>
+<li class="md-github">Resolution and Loading Algorithm
+<ul class="md-github">
+<li class="md-github">ESM_RESOLVE: parsing, relative resolution, bare specifier handling</li>
+<li class="md-github">ESM_FILE_FORMAT: determines module format based on extensions and package.json 'type'</li>
+<li class="md-github">Error handling: Module Not Found, Invalid Module Specifier, etc.
+Detailed Technical Points:</li>
+</ul>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Enabling: .mjs, --input-type, package.json field. Example: { 'type': 'module' }.</li>
+<li class="md-github">import.meta.resolve(specifier): synchronous resolution, returns string; accepts optional parent URL when using experimental flag.</li>
+<li class="md-github">ESM Resolution Process: Validate URL, resolve relative paths, use PACKAGE_RESOLVE for bare specifiers, check exports in package.json.</li>
+<li class="md-github">ESM_FILE_FORMAT returns: 'module' for .mjs; 'commonjs' for .cjs or .js if not marked 'module'; 'json' for .json; 'wasm' if --experimental-wasm-modules enabled; 'addon' for .node if enabled.</li>
+<li class="md-github">Version and stability indicators provided for import attributes and top-level await.
+Usage patterns and pitfalls such as no __filename/__dirname in ESM and alternative use of import.meta are explicitly noted.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Node.js ESM Documentation
+https://nodejs.org/api/esm.html</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-node_esm" href="#digest-of-node_esm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of NODE_ESM</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="introduction" href="#introduction"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Introduction</h1>
+<p class="md-github">Node.js supports ECMAScript modules (ESM) as the official standard for packaging JavaScript code. It implements full inter-operability with CommonJS and defines a clear resolution and loading algorithm.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="enabling-esm" href="#enabling-esm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Enabling ESM</h1>
+<p class="md-github">Modules can be recognized by:</p>
+<ul class="md-github">
+<li class="md-github">The .mjs file extension</li>
+<li class="md-github">The package.json field with &quot;type&quot;: &quot;module&quot;</li>
+<li class="md-github">The --input-type flag set to &quot;module&quot;</li>
+</ul>
+<p class="md-github">Conversely, CommonJS modules are declared with .cjs or &quot;type&quot;: &quot;commonjs&quot;. When no explicit marker is present, Node.js introspects the source code for ESM syntax.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="import-specifiers" href="#import-specifiers"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Import Specifiers</h1>
+<p class="md-github">There are three types:</p>
+<ol class="md-github">
+<li class="md-github">Relative specifiers (e.g. ./startup.js, ../config.mjs). The file extension must be provided.</li>
+<li class="md-github">Bare specifiers (e.g. some-package or some-package/shuffle). They resolve via Node.js module resolution in node_modules unless the package.json &quot;exports&quot; field defines accessible paths.</li>
+<li class="md-github">Absolute specifiers (e.g. file:///opt/nodejs/config.js). They are treated as full URLs.</li>
+</ol>
+<h1 class="md-github"><a class="md-github__anchor" name="mandatory-file-extensions-and-urls" href="#mandatory-file-extensions-and-urls"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Mandatory File Extensions and URLs</h1>
+<p class="md-github">Every import must include the file extension. Directory indexes (e.g. './startup/index.js') must be fully specified.
+ESM are resolved as URLs. In these URL-based resolutions special characters must be percent-encoded (e.g. # becomes %23).</p>
+<h1 class="md-github"><a class="md-github__anchor" name="file-and-data-urls" href="#file-and-data-urls"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>file: and data: URLs</h1>
+<ul class="md-github">
+<li class="md-github">file: URLs load modules from the file system and may be loaded more than once if query parameters differ.</li>
+<li class="md-github">data: URLs are supported for text/javascript (ESM), application/json, and application/wasm. They do not support relative specifiers.</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="node-imports" href="#node-imports"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Node: Imports</h1>
+<p class="md-github">Node.js supports using the node: prefix to import built-in modules (e.g. import fs from 'node:fs/promises').</p>
+<h1 class="md-github"><a class="md-github__anchor" name="import-attributes" href="#import-attributes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Import Attributes</h1>
+<p class="md-github">Import attributes provide extra information during module import. Example:
+import fooData from './foo.json' with { type: 'json' };
+They are required for JSON modules, and Node.js currently supports the type attribute with values such as 'json'.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="built-in-modules-and-importmeta" href="#built-in-modules-and-importmeta"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Built-In Modules and import.meta</h1>
+<p class="md-github">Built-in modules export both named and default exports. The import.meta object provides:</p>
+<ul class="md-github">
+<li class="md-github">import.meta.url: the absolute URL of the module</li>
+<li class="md-github">import.meta.filename: the full resolved path (file: only)</li>
+<li class="md-github">import.meta.dirname: the directory name</li>
+<li class="md-github">import.meta.resolve(specifier): synchronously resolves a module specifier relative to the module</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="dynamic-import" href="#dynamic-import"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Dynamic import()</h1>
+<p class="md-github">Dynamic import() expressions are supported in both ESM and CommonJS. In CommonJS, dynamic import can load an ES module.</p>
+<h1 class="md-github"><a class="md-github__anchor" name="resolution-and-loading-algorithm" href="#resolution-and-loading-algorithm"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Resolution and Loading Algorithm</h1>
+<p class="md-github">The default Node.js loader:</p>
+<ul class="md-github">
+<li class="md-github">Uses file URL-based resolution, relative/absolute URL resolution</li>
+<li class="md-github">Resolves bare specifiers by searching node_modules and evaluating package.json &quot;exports&quot; field if present</li>
+<li class="md-github">Determines module format with ESM_FILE_FORMAT which returns: &quot;module&quot; for .mjs, &quot;commonjs&quot; for .cjs and .js (depending on package.json type), &quot;json&quot; for .json, &quot;wasm&quot; for .wasm (if enabled) and &quot;addon&quot; for .node if experimental addon modules are enabled</li>
+</ul>
+<h1 class="md-github"><a class="md-github__anchor" name="esm-module-resolution-steps" href="#esm-module-resolution-steps"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ESM Module Resolution Steps</h1>
+<p class="md-github">The algorithm (ESM_RESOLVE) takes a specifier and a parent URL and performs:</p>
+<ol class="md-github">
+<li class="md-github">URL parsing if the specifier is a valid URL</li>
+<li class="md-github">Relative resolution if the specifier starts with /, ./, or ../</li>
+<li class="md-github">For bare specifiers, it invokes PACKAGE_RESOLVE which:
+<ul class="md-github">
+<li class="md-github">Checks for Node.js builtin modules</li>
+<li class="md-github">Extracts the package name and subpath</li>
+<li class="md-github">Looks up package.json and uses PACKAGE_EXPORTS_RESOLVE if present</li>
+</ul>
+</li>
+<li class="md-github">Validates the file exists and determines the module format using ESM_FILE_FORMAT</li>
+</ol>
+<h1 class="md-github"><a class="md-github__anchor" name="version-history-highlights" href="#version-history-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Version History Highlights</h1>
+<ul class="md-github">
+<li class="md-github">v23.1.0: Import attributes are no longer experimental</li>
+<li class="md-github">v22.0.0: Dropped import assertions support</li>
+<li class="md-github">v17.1.0 &amp; v16.14.0: Introduced experimental import attributes</li>
+<li class="md-github">v14.8.0: Top-level await unflagged</li>
+<li class="md-github">v12.0.0: Support for .js extension for ES modules via package.json &quot;type&quot; field</li>
+</ul>
+<p class="md-github">Retrieved on: 2023-10-05
+Attribution: Data crawled from https://nodejs.org/api/esm.html, Data Size: 3345679 bytes</p>
 <h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
 <ul class="md-github">
 <li class="md-github">Source: Node.js ESM Documentation</li>
 <li class="md-github">URL: https://nodejs.org/api/esm.html</li>
-<li class="md-github">License: MIT License</li>
-<li class="md-github">Crawl Date: 2025-04-26T18:10:52.591Z</li>
-<li class="md-github">Data Size: 3411087 bytes</li>
-<li class="md-github">Links Found: 2013</li>
+<li class="md-github">License: Node.js License</li>
+<li class="md-github">Crawl Date: 2025-04-28T06:55:16.333Z</li>
+<li class="md-github">Data Size: 3345679 bytes</li>
+<li class="md-github">Links Found: 719</li>
 </ul>
 <h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
-<p class="md-github">2025-04-26</p>
+<p class="md-github">2025-04-28</p>
 
   </section>
   <footer>
-    <p>Generated on 2025-04-28T06:25:43.079Z</p>
+    <p>Generated on 2025-04-28T07:30:45.657Z</p>
   </footer>
 </body>
 </html>
