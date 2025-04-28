@@ -192,3 +192,13 @@ This comprehensive guide discusses best practices in configuration management in
 ## https://www.smashingmagazine.com/2018/11/accessible-svg-graphics/
 This detailed article explores best practices for creating accessible SVG graphics. It covers the proper use of ARIA attributes, keyboard interactions, and semantic structure to make SVG content more accessible. These insights directly support our dynamic SVG plot's inclusion of ARIA labels and improved accessibility for users with disabilities.
 ## Unknown License
+
+# SVG Quadratic Bézier Curves Tutorial
+## https://www.w3schools.com/graphics/svg_path.asp
+This tutorial explains SVG path syntax including quadratic Bézier curves with interactive examples and clear instructions on constructing smooth curves. It provides actionable insights for fine-tuning curve smoothing in our dynamic SVG plot generation feature, helping developers understand the underlying mechanics of SVG path interpolation.
+## Unknown License
+
+# Async/Await Error Handling in Node.js
+## https://www.digitalocean.com/community/tutorials/nodejs-async-await-error-handling
+This comprehensive guide illustrates effective error handling techniques using async/await in Node.js. It offers practical patterns and examples that are directly applicable to improving robustness in CLI and HTTP API operations, making it easier to diagnose and recover from runtime errors.
+## Unknown License
