@@ -3,6 +3,7 @@ import fs from "fs";
 import { main, interpolateEnv } from "@src/lib/main.js";
 
 const tempConfigFile = "temp_config.json";
+const tempYamlFile = "temp_config.yaml";
 const outputFile = "temp_output.json";
 
 describe("Configuration File Management", () => {
@@ -15,6 +16,7 @@ describe("Configuration File Management", () => {
 
   afterEach(() => {
     if (fs.existsSync(tempConfigFile)) fs.unlinkSync(tempConfigFile);
+    if (fs.existsSync(tempYamlFile)) fs.unlinkSync(tempYamlFile);
     if (fs.existsSync(outputFile)) fs.unlinkSync(outputFile);
   });
 
@@ -49,7 +51,7 @@ describe("Configuration File Management", () => {
     // resolution should be interpolated to number 150
     expect(jsonOutput.resolution).toBe(150);
     // xlabel should come from config file
-    // ylabel should be overridden by CLI flag
+    // ylabel should be overridden by CLI flag, though not directly visible in jsonOutput for curve styling
   });
 
   test("should throw error for malformed config file", () => {
@@ -201,5 +203,33 @@ describe("Configuration File Management", () => {
       "true"
     ];
     expect(() => main()).toThrow(/display\.width/);
+  });
+
+  test("should correctly process YAML configuration file with nested environment variables", () => {
+    const yamlConfig = `
+resolution: "\${NUM_RES}"
+display:
+  width: "\${IMG_WIDTH}"
+  height: "\${IMG_HEIGHT}"
+`;
+    fs.writeFileSync(tempYamlFile, yamlConfig, "utf8");
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--config",
+      tempYamlFile,
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      outputFile,
+      "--jsonExport",
+      "true"
+    ];
+    main();
+    const jsonOutput = JSON.parse(fs.readFileSync(outputFile, "utf8"));
+    expect(jsonOutput.resolution).toBe(150);
+    // Cleanup of tempYamlFile is done in afterEach
   });
 });

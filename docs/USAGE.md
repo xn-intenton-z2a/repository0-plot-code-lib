@@ -38,7 +38,7 @@ You can generate plots directly from the command line by providing the following
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
   - `resolution`: The number of points computed.
 
-- **--config**: Specifies a path to an external JSON configuration file containing default parameters for generating plots. Environment variable placeholders (e.g., `${VAR}` or `${VAR:default}`) are supported, even in nested objects. CLI flags take precedence over configuration file values.
+- **--config**: Specifies a path to an external configuration file containing default parameters for generating plots. **Note:** Both JSON and YAML configuration files (with extensions .json, .yaml, or .yml) are supported. Environment variable placeholders (e.g., `${VAR}` or `${VAR:default}`) are supported, even in nested objects. CLI flags take precedence over configuration file values.
 
 - **--env**: Specifies a custom path to a .env file. If provided, environment variables are loaded from the specified file instead of the default .env file.
 
@@ -116,3 +116,5 @@ Configuration files can include nested objects. All environment variable placeho
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400 --ylabel "CLI_YAxis"
    ```
+
+**Note:** YAML configuration files (with .yaml or .yml extensions) are fully supported. Simply provide the path to a YAML file using the `--config` flag.

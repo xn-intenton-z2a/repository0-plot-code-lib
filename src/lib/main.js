@@ -9,6 +9,7 @@ import path from "path";
 import { fileURLToPath, pathToFileURL } from "url";
 import express from "express";
 import { compile } from "mathjs";
+import yaml from "js-yaml";
 
 // Initialize runtime configuration global variable
 let runtimeConfig = {};
@@ -474,7 +475,13 @@ function loadConfig(cliOptions) {
   if (cliOptions.config) {
     try {
       const configFileContent = fs.readFileSync(cliOptions.config, "utf8");
-      let configOptions = JSON.parse(configFileContent);
+      let configOptions;
+      const ext = path.extname(cliOptions.config).toLowerCase();
+      if (ext === ".yaml" || ext === ".yml") {
+        configOptions = yaml.load(configFileContent);
+      } else {
+        configOptions = JSON.parse(configFileContent);
+      }
       // Recursively interpolate environment variables in the configuration
       configOptions = interpolateEnv(configOptions);
       const configSchema = z.object({
