@@ -112,3 +112,203 @@ An in-depth resource focusing on designing and building command line interfaces 
 ## https://blog.logrocket.com/node-js-logging-tutorial/
 A comprehensive tutorial on implementing effective logging in Node.js applications. It covers log levels, structured logging, and performance considerations, providing actionable advice for integrating verbose and diagnostic logging into applications. This source bolsters the repository's emphasis on detailed runtime debugging and status reporting.
 ## MIT License
+
+# Plotly.js Graphing Library Documentation
+## https://plotly.com/javascript/
+Plotly.js is a powerful and versatile graphing library for JavaScript, designed to create interactive, high-quality visualizations. The documentation provides detailed technical guidance on customizing plots, managing data, and leveraging advanced features such as animations and responsive design. These insights offer actionable strategies and technical specifications that can inspire further enhancements in the repository’s plotting capabilities, aligning with its mission to deliver robust visualizations.
+## MIT License
+
+# RFC7807: Problem Details for HTTP APIs
+## https://tools.ietf.org/html/rfc7807
+RFC7807 outlines a standardized format for representing error responses in HTTP APIs. This document provides technical guidance on structuring problem details, including fields such as "type", "title", "status", "detail", and "instance". This standard is particularly useful for ensuring that API error responses are clear, consistent, and adhere to modern best practices in HTTP API design.
+## IETF Document (Public Domain)
+
+# MDN Web Docs: JavaScript Modules
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+This MDN guide offers a comprehensive introduction to JavaScript modules, explaining both the legacy and modern ES Module systems. It covers how to import, export, and organize code in modular formats, which is crucial for maintaining scalable and performant codebases. Given that repository0-plot-code-lib uses ES Modules exclusively, this source provides essential insights into best practices and the underlying mechanics of module-based development.
+## Creative Commons Attribution-ShareAlike License
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js is a popular JavaScript charting library known for its simplicity and versatility in creating responsive, interactive charts. The documentation provides detailed guides on setup, configuration, and customization of various chart types, including line, bar, and pie charts. Its insights on responsive design, animations, and plugin integration can serve as valuable references for enhancing plotting functionalities and improving user interactivity in the repository.
+## MIT License
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite offers a high-level grammar for creating, sharing, and exploring interactive visualizations. Its documentation delivers comprehensive guidelines on specifying visual encodings, managing data transformations, and designing interactive charts. These actionable insights can inspire innovative approaches for dynamic SVG generation and advanced data visualization techniques, complementing the repository's core plotting features.
+## BSD License
+
+# A Primer on Bézier Curves
+## https://pomax.github.io/bezierinfo/
+This detailed resource provides a comprehensive exploration of Bézier curves, covering their mathematical foundations, control point manipulation, and practical applications. The actionable insights in this guide are directly applicable to the repository's smooth curve rendering feature, enabling enhanced smooth path generation and fine-tuning of quadratic Bézier interpolation.
+## Creative Commons Attribution (Educational Use)
+
+# MDN Web Docs: Intl.NumberFormat
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+This MDN documentation offers an in-depth guide to the Intl.NumberFormat API, providing essential information on locale-specific numeric formatting. The detailed examples and best practices ensure that numerical precision and display align with international standards, directly supporting the repository's dynamic axis labeling and precision formatting features.
+## Creative Commons Attribution-ShareAlike License
+
+# MDN Web Docs: ARIA
+## https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA
+This MDN resource provides comprehensive guidance on implementing Accessible Rich Internet Applications (ARIA) in web projects. It offers technical details, best practices, and practical examples for adding ARIA roles, states, and properties to HTML and SVG elements. Leveraging these practices can enhance the repository's SVG accessibility features, ensuring that dynamic visualizations are both usable and inclusive.
+## Creative Commons Attribution-ShareAlike License
+
+# 12 Factor App: Config
+## https://12factor.net/config
+The 12 Factor App methodology outlines best practices for configuration management in modern web applications. This resource emphasizes the separation of configuration from code by leveraging environment variables, a concept directly aligned with the repository’s use of dotenv for environment configuration interpolation. It offers actionable recommendations to build scalable and maintainable applications.
+## Public Domain
+
+# Node.js Error Handling Best Practices
+## https://nodejs.dev/learn/error-handling-in-nodejs
+This resource provides a detailed guide on handling errors in Node.js applications. It covers both synchronous and asynchronous error handling, best practices for try/catch usage, and strategies for managing promise rejections. These insights support robust error reporting and are directly applicable to the repository's enhanced error feedback mechanisms and verbose logging capabilities.
+## Node.js Documentation
+
+# Building Command Line Tools with Node.js
+## https://www.sitepoint.com/command-line-interfaces-node-js/
+An in-depth resource focusing on designing and building command line interfaces with Node.js. It discusses argument parsing, user input validation, environment variable management, and overall best practices for creating intuitive CLI applications. The content is highly relevant to the repository’s CLI-centric approach, especially in terms of configuration management and runtime options.
+## Copyright SitePoint
+
+# Effective Logging in Node.js
+## https://blog.logrocket.com/node-js-logging-tutorial/
+A comprehensive tutorial on implementing effective logging in Node.js applications. It covers log levels, structured logging, and performance considerations, providing actionable advice for integrating verbose and diagnostic logging into applications. This source bolsters the repository's emphasis on detailed runtime debugging and status reporting.
+## MIT License
+
+# Plotly.js Graphing Library Documentation
+## https://plotly.com/javascript/
+Plotly.js is a powerful and versatile graphing library for JavaScript, designed to create interactive, high-quality visualizations. The documentation provides detailed technical guidance on customizing plots, managing data, and leveraging advanced features such as animations and responsive design. These insights offer actionable strategies and technical specifications that can inspire further enhancements in the repository’s plotting capabilities, aligning with its mission to deliver robust visualizations.
+## MIT License
+
+# RFC7807: Problem Details for HTTP APIs
+## https://tools.ietf.org/html/rfc7807
+RFC7807 outlines a standardized format for representing error responses in HTTP APIs. This document provides technical guidance on structuring problem details, including fields such as "type", "title", "status", "detail", and "instance". This standard is particularly useful for ensuring that API error responses are clear, consistent, and adhere to modern best practices in HTTP API design.
+## IETF Document (Public Domain)
+
+# MDN Web Docs: JavaScript Modules
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+This MDN guide offers a comprehensive introduction to JavaScript modules, explaining both the legacy and modern ES Module systems. It covers how to import, export, and organize code in modular formats, which is crucial for maintaining scalable and performant codebases. Given that repository0-plot-code-lib uses ES Modules exclusively, this source provides essential insights into best practices and the underlying mechanics of module-based development.
+## Creative Commons Attribution-ShareAlike License
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js is a popular JavaScript charting library known for its simplicity and versatility in creating responsive, interactive charts. The documentation provides detailed guides on setup, configuration, and customization of various chart types, including line, bar, and pie charts. Its insights on responsive design, animations, and plugin integration can serve as valuable references for enhancing plotting functionalities and improving user interactivity in the repository.
+## MIT License
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite offers a high-level grammar for creating, sharing, and exploring interactive visualizations. Its documentation delivers comprehensive guidelines on specifying visual encodings, managing data transformations, and designing interactive charts. These actionable insights can inspire innovative approaches for dynamic SVG generation and advanced data visualization techniques, complementing the repository's core plotting features.
+## BSD License
+
+# A Primer on Bézier Curves
+## https://pomax.github.io/bezierinfo/
+This detailed resource provides a comprehensive exploration of Bézier curves, covering their mathematical foundations, control point manipulation, and practical applications. The actionable insights in this guide are directly applicable to the repository's smooth curve rendering feature, enabling enhanced smooth path generation and fine-tuning of quadratic Bézier interpolation.
+## Creative Commons Attribution (Educational Use)
+
+# MDN Web Docs: Intl.NumberFormat
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+This MDN documentation offers an in-depth guide to the Intl.NumberFormat API, providing essential information on locale-specific numeric formatting. The detailed examples and best practices ensure that numerical precision and display align with international standards, directly supporting the repository's dynamic axis labeling and precision formatting features.
+## Creative Commons Attribution-ShareAlike License
+
+# MDN Web Docs: ARIA
+## https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA
+This MDN resource provides comprehensive guidance on implementing Accessible Rich Internet Applications (ARIA) in web projects. It offers technical details, best practices, and practical examples for adding ARIA roles, states, and properties to HTML and SVG elements. Leveraging these practices can enhance the repository's SVG accessibility features, ensuring that dynamic visualizations are both usable and inclusive.
+## Creative Commons Attribution-ShareAlike License
+
+# 12 Factor App: Config
+## https://12factor.net/config
+The 12 Factor App methodology outlines best practices for configuration management in modern web applications. This resource emphasizes the separation of configuration from code by leveraging environment variables, a concept directly aligned with the repository’s use of dotenv for environment configuration interpolation. It offers actionable recommendations to build scalable and maintainable applications.
+## Public Domain
+
+# Node.js Error Handling Best Practices
+## https://nodejs.dev/learn/error-handling-in-nodejs
+This resource provides a detailed guide on handling errors in Node.js applications. It covers both synchronous and asynchronous error handling, best practices for try/catch usage, and strategies for managing promise rejections. These insights support robust error reporting and are directly applicable to the repository's enhanced error feedback mechanisms and verbose logging capabilities.
+## Node.js Documentation
+
+# Building Command Line Tools with Node.js
+## https://www.sitepoint.com/command-line-interfaces-node-js/
+An in-depth resource focusing on designing and building command line interfaces with Node.js. It discusses argument parsing, user input validation, environment variable management, and overall best practices for creating intuitive CLI applications. The content is highly relevant to the repository’s CLI-centric approach, especially in terms of configuration management and runtime options.
+## Copyright SitePoint
+
+# Effective Logging in Node.js
+## https://blog.logrocket.com/node-js-logging-tutorial/
+A comprehensive tutorial on implementing effective logging in Node.js applications. It covers log levels, structured logging, and performance considerations, providing actionable advice for integrating verbose and diagnostic logging into applications. This source bolsters the repository's emphasis on detailed runtime debugging and status reporting.
+## MIT License
+
+# Plotly.js Graphing Library Documentation
+## https://plotly.com/javascript/
+Plotly.js is a powerful and versatile graphing library for JavaScript, designed to create interactive, high-quality visualizations. The documentation provides detailed technical guidance on customizing plots, managing data, and leveraging advanced features such as animations and responsive design. These insights offer actionable strategies and technical specifications that can inspire further enhancements in the repository’s plotting capabilities, aligning with its mission to deliver robust visualizations.
+## MIT License
+
+# RFC7807: Problem Details for HTTP APIs
+## https://tools.ietf.org/html/rfc7807
+RFC7807 outlines a standardized format for representing error responses in HTTP APIs. This document provides technical guidance on structuring problem details, including fields such as "type", "title", "status", "detail", and "instance". This standard is particularly useful for ensuring that API error responses are clear, consistent, and adhere to modern best practices in HTTP API design.
+## IETF Document (Public Domain)
+
+# MDN Web Docs: JavaScript Modules
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules
+This MDN guide offers a comprehensive introduction to JavaScript modules, explaining both the legacy and modern ES Module systems. It covers how to import, export, and organize code in modular formats, which is crucial for maintaining scalable and performant codebases. Given that repository0-plot-code-lib uses ES Modules exclusively, this source provides essential insights into best practices and the underlying mechanics of module-based development.
+## Creative Commons Attribution-ShareAlike License
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js is a popular JavaScript charting library known for its simplicity and versatility in creating responsive, interactive charts. The documentation provides detailed guides on setup, configuration, and customization of various chart types, including line, bar, and pie charts. Its insights on responsive design, animations, and plugin integration can serve as valuable references for enhancing plotting functionalities and improving user interactivity in the repository.
+## MIT License
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite offers a high-level grammar for creating, sharing, and exploring interactive visualizations. Its documentation delivers comprehensive guidelines on specifying visual encodings, managing data transformations, and designing interactive charts. These actionable insights can inspire innovative approaches for dynamic SVG generation and advanced data visualization techniques, complementing the repository's core plotting features.
+## BSD License
+
+# A Primer on Bézier Curves
+## https://pomax.github.io/bezierinfo/
+This detailed resource provides a comprehensive exploration of Bézier curves, covering their mathematical foundations, control point manipulation, and practical applications. The actionable insights in this guide are directly applicable to the repository's smooth curve rendering feature, enabling enhanced smooth path generation and fine-tuning of quadratic Bézier interpolation.
+## Creative Commons Attribution (Educational Use)
+
+# MDN Web Docs: Intl.NumberFormat
+## https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
+This MDN documentation offers an in-depth guide to the Intl.NumberFormat API, providing essential information on locale-specific numeric formatting. The detailed examples and best practices ensure that numerical precision and display align with international standards, directly supporting the repository's dynamic axis labeling and precision formatting features.
+## Creative Commons Attribution-ShareAlike License
+
+# MDN Web Docs: ARIA
+## https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA
+This MDN resource provides comprehensive guidance on implementing Accessible Rich Internet Applications (ARIA) in web projects. It offers technical details, best practices, and practical examples for adding ARIA roles, states, and properties to HTML and SVG elements. Leveraging these practices can enhance the repository's SVG accessibility features, ensuring that dynamic visualizations are both usable and inclusive.
+## Creative Commons Attribution-ShareAlike License
+
+# 12 Factor App: Config
+## https://12factor.net/config
+The 12 Factor App methodology outlines best practices for configuration management in modern web applications. This resource emphasizes the separation of configuration from code by leveraging environment variables, a concept directly aligned with the repository’s use of dotenv for environment configuration interpolation. It offers actionable recommendations to build scalable and maintainable applications.
+## Public Domain
+
+# Node.js Error Handling Best Practices
+## https://nodejs.dev/learn/error-handling-in-nodejs
+This resource provides a detailed guide on handling errors in Node.js applications. It covers both synchronous and asynchronous error handling, best practices for try/catch usage, and strategies for managing promise rejections. These insights support robust error reporting and are directly applicable to the repository's enhanced error feedback mechanisms and verbose logging capabilities.
+## Node.js Documentation
+
+# Building Command Line Tools with Node.js
+## https://www.sitepoint.com/command-line-interfaces-node-js/
+An in-depth resource focusing on designing and building command line interfaces with Node.js. It discusses argument parsing, user input validation, environment variable management, and overall best practices for creating intuitive CLI applications. The content is highly relevant to the repository’s CLI-centric approach, especially in terms of configuration management and runtime options.
+## Copyright SitePoint
+
+# Effective Logging in Node.js
+## https://blog.logrocket.com/node-js-logging-tutorial/
+A comprehensive tutorial on implementing effective logging in Node.js applications. It covers log levels, structured logging, and performance considerations, providing actionable advice for integrating verbose and diagnostic logging into applications. This source bolsters the repository's emphasis on detailed runtime debugging and status reporting.
+## MIT License
+
+# Plotly.js Graphing Library Documentation
+## https://plotly.com/javascript/
+Plotly.js is a powerful and versatile graphing library for JavaScript, designed to create interactive, high-quality visualizations. The documentation provides detailed technical guidance on customizing plots, managing data, and leveraging advanced features such as animations and responsive design. These insights offer actionable strategies and technical specifications that can inspire further enhancements in the repository’s plotting capabilities, aligning with its mission to deliver robust visualizations.
+## MIT License
+
+# RFC7807: Problem Details for HTTP APIs
+## https://tools.ietf.org/html/rfc7807
+RFC7807 outlines a standardized format for representing error responses in HTTP APIs. This document provides technical guidance on structuring problem details, including fields such as "type", "title", "status", "detail", and "instance". This standard is particularly useful for ensuring that API error responses are clear, consistent, and adhere to modern best practices in HTTP API design.
+## IETF Document (Public Domain)
+
+# Smashing Magazine: Responsive SVG Design
+## https://www.smashingmagazine.com/2018/07/guide-responsive-svg/
+This article from Smashing Magazine provides an in-depth guide to creating responsive SVG graphics. It covers practical techniques and CSS strategies to ensure that SVG visuals adapt gracefully to various screen sizes and resolutions, which is essential for dynamic plot generation and flexible visualization layouts. The actionable insights provided help in optimizing SVG outputs for modern web applications.
+## Copyright Smashing Magazine
+
+# RFC7231: Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
+## https://tools.ietf.org/html/rfc7231
+This RFC defines the core semantics of HTTP/1.1, including methods, status codes, header fields, and content negotiation. It offers essential technical details for designing robust RESTful APIs and provides actionable guidelines for handling HTTP interactions. This document is a critical resource for ensuring that the repository's API endpoints adhere to established HTTP standards.
+## IETF Document (Public Domain)
