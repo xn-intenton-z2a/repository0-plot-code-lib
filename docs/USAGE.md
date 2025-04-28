@@ -97,31 +97,9 @@ Environment variable interpolation is performed on all string values. For exampl
 
 and you have set the environment variable `TEST_RES=150` (e.g. via a custom .env file specified by `--env`), then the placeholder will be replaced with the value "150".
 
-When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values.
+When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values. 
 
-### Example Configuration File
-
-```json
-{
-  "resolution": "${TEST_RES}",
-  "xlabel": "Default X Label",
-  "ylabel": "Default Y Label"
-}
-```
-
-### Common Error Scenarios
-
-- **Malformed JSON**: If the configuration file is not valid JSON, an error will be thrown:
-  > Error: Unable to read or parse configuration file: [specific error message]
-
-- **Invalid Numeric Values**: If numeric configuration items (e.g., `resolution`) are provided with non-numeric values, an error message will indicate the invalid parameter, such as:
-  > Error: Invalid numeric value for resolution. Expected a positive integer.
-
-### Usage with Configuration File
-
-```sh
-node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
-```
+*Note:* For instance, if the configuration file sets "ylabel": "ConfigY" and the CLI is invoked with `--ylabel "CLI_YAxis"`, the final configuration will use "CLI_YAxis" for the y-axis label.
 
 ## Runtime Configuration Reloading
 
@@ -154,7 +132,7 @@ When running in server mode (using the `--serve` flag) with a configuration file
    GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&colorGradient=true&gradientStartColor=green&gradientEndColor=yellow
    ```
 
-6. **Using an External Configuration File with Environment Variable Interpolation and Custom Dimensions:**
+6. **Using an External Configuration File with Environment Variable Interpolation and CLI Overrides:**
    ```sh
-   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
+   node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400 --ylabel "CLI_YAxis"
    ```
