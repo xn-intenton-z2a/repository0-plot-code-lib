@@ -60,6 +60,25 @@ describe("GET /plot Content Negotiation", () => {
     expect(svgText).toContain('width="500"');
     expect(svgText).toContain('height="400"');
   });
+
+  test("SVG output should contain data-metadata attribute with valid JSON", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1", fileType: "svg" })
+      .set("Accept", "image/svg+xml")
+      .expect(200);
+    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+    const match = svgText.match(/<svg[^>]+data-metadata="([^"]+)"/);
+    expect(match).not.toBeNull();
+    let metadataStr = match[1].replace(/&quot;/g, '"');
+    const metadataObj = JSON.parse(metadataStr);
+    expect(metadataObj).toHaveProperty("expression", "y=sin(x)");
+    expect(metadataObj).toHaveProperty("range", "x=-1:1,y=-1:1");
+    expect(metadataObj).toHaveProperty("computedXRange");
+    expect(metadataObj).toHaveProperty("computedYRange");
+    expect(metadataObj).toHaveProperty("axisLabels");
+    expect(metadataObj).toHaveProperty("resolution");
+  });
 });
 
 
@@ -321,7 +340,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(res.text).toContain("Error: Invalid resolution");
   });
 
-  test("should render SVG with dynamic color gradient when flag is enabled", async () => {
+  test("should generate SVG with dynamic color gradient when CLI flag is enabled", async () => {
     const res = await request(app)
       .get("/plot")
       .query({
