@@ -42,3 +42,18 @@ The dotenv repository documentation covers how to load environment variables fro
 ## https://platform.openai.com/docs/api-reference
 This source offers in-depth technical details on the OpenAI API endpoints, including authentication and parameter handling. It provides valuable insights for integrating AI-based functionalities or exploring advanced computational features within the library.
 ## MIT License
+
+# MDN SVG Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG
+The MDN SVG documentation is a comprehensive resource on Scalable Vector Graphics (SVG), covering everything from basic elements and attributes to advanced styling and interactivity. It offers actionable guidance for implementing complex vector graphics, ensuring accessibility, and leveraging dynamic SVG features in web applications and libraries.
+## CC BY-SA
+
+# Pomax Bezier Curve Tutorial
+## https://pomax.github.io/bezierinfo/
+This in-depth tutorial provides a thorough exploration of Bézier curves, including quadratic and cubic variants with interactive examples. It explains the mathematical foundations and practical techniques for smooth curve rendering, making it an essential reference for developers implementing smooth path generation in plotting libraries.
+## Public Domain
+
+# W3C SVG 2 Specification
+## https://www.w3.org/TR/SVG2/
+The W3C SVG 2 Specification is the authoritative standard for Scalable Vector Graphics. It details the technical specifications, element behaviors, and rendering models required for creating compliant and high-quality SVG images. This source is critical for developers aiming to implement custom SVG elements and ensure cross-browser compatibility.
+## W3C Document License
