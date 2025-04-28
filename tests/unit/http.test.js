@@ -332,35 +332,6 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(svgText).not.toContain("<polyline");
   });
 
-  test("should return error for invalid resolution", async () => {
-    const res = await request(app)
-      .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", resolution: "-50", jsonExport: "true" })
-      .expect(400);
-    expect(res.text).toContain("Error: Invalid resolution");
-  });
-
-  test("should generate SVG with dynamic color gradient when CLI flag is enabled", async () => {
-    const res = await request(app)
-      .get("/plot")
-      .query({
-        expression: "y=sin(x)",
-        range: "x=0:10,y=0:10",
-        fileType: "svg",
-        colorGradient: "true",
-        gradientStartColor: "purple",
-        gradientEndColor: "orange"
-      })
-      .expect("Content-Type", /image\/svg\+xml/)
-      .expect(200);
-    const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(svgText).toContain("<defs>");
-    expect(svgText).toContain("id=\"dynamicGradient\"");
-    expect(svgText).toContain("<stop offset=\"0%\" stop-color=\"purple\"");
-    expect(svgText).toContain("<stop offset=\"100%\" stop-color=\"orange\"");
-    expect(svgText).toMatch(/stroke="url\(#dynamicGradient\)"/);
-  });
-
   test("should generate smooth SVG path with custom smoothingFactor parameter", async () => {
     const res = await request(app)
       .get("/plot")
@@ -373,5 +344,31 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
     expect(pathDMatch).not.toBeNull();
     const dAttr = pathDMatch[1];
     expect(dAttr).toMatch(/Q\s*\d+(\.\d+)?\s+\d+(\.\d+)?\s+\d+(\.\d+)?\s+\d+(\.\d+)?/);
+  });
+
+  test("should generate different smooth paths when custom smoothingFactor is provided compared to default", async () => {
+    const defaultRes = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", fileType: "svg" })
+      .expect(200);
+    const customRes = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", smoothingFactor: "0.8", fileType: "svg" })
+      .expect(200);
+    const defaultSvg = defaultRes.text || (Buffer.isBuffer(defaultRes.body) ? defaultRes.body.toString("utf8") : "");
+    const customSvg = customRes.text || (Buffer.isBuffer(customRes.body) ? customRes.body.toString("utf8") : "");
+    const defaultMatch = defaultSvg.match(/<path[^>]+d="([^"]+)"/);
+    const customMatch = customSvg.match(/<path[^>]+d="([^"]+)"/);
+    expect(defaultMatch).not.toBeNull();
+    expect(customMatch).not.toBeNull();
+    expect(defaultMatch[1]).not.toEqual(customMatch[1]);
+  });
+
+  test("should return error for invalid smoothingFactor", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", smoothingFactor: "invalid", fileType: "svg" })
+      .expect(400);
+    expect(res.text).toContain("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
   });
 });

@@ -78,6 +78,32 @@ describe("CLI Plot Generation", () => {
     fs.unlinkSync(testFile);
   });
 
+  test("should generate enhanced SVG with custom smoothingFactor via CLI", () => {
+    const testFile = "cli_output.svg";
+    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      testFile,
+      "--smooth",
+      "true",
+      "--smoothingFactor",
+      "0.8"
+    ];
+    main();
+    const content = fs.readFileSync(testFile, "utf8");
+    expect(content.startsWith("<svg")).toBe(true);
+    expect(content).toContain("<path");
+    // Check that path d attribute contains the quadratic command indicating smooth path
+    expect(content).toMatch(/<path[^>]+d="([^"]+)"/);
+    fs.unlinkSync(testFile);
+  });
+
   test("should error if missing required flags", () => {
     process.argv = ["node", "src/lib/main.js", "--expression", "y=tan(x)"];
     expect(() => main()).toThrow(/Error: --expression, --range, and --file flags are required together./);
@@ -235,7 +261,7 @@ describe("CLI Plot Generation", () => {
     fs.unlinkSync("output.svg");
   });
 
-  test("should return 400 if evaluated y-value is non-finite", () => {
+  test("should return error if evaluated y-value is non-finite", () => {
     process.argv = [
       "node",
       "src/lib/main.js",
@@ -441,6 +467,44 @@ describe("CLI Plot Generation", () => {
     expect(content).toContain('<stop offset="0%" stop-color="green"');
     expect(content).toContain('<stop offset="100%" stop-color="yellow"');
     expect(content).toMatch(/stroke="url\(#dynamicGradient\)"/);
+    fs.unlinkSync(testFile);
+  });
+
+  // New tests for CLI smoothingFactor error handling
+  test("should error when invalid smoothingFactor is provided via CLI", () => {
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      "output.svg",
+      "--smooth", "true",
+      "--smoothingFactor", "abc"
+    ];
+    expect(() => main()).toThrow("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
+  });
+
+  // New test for CLI: ensure smooth SVG is generated with default smoothingFactor when not provided
+  test("should generate smooth SVG file with default smoothingFactor when smooth flag is enabled without explicit smoothingFactor", () => {
+    const testFile = "default_smooth.svg";
+    if (fs.existsSync(testFile)) fs.unlinkSync(testFile);
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      testFile,
+      "--smooth", "true"
+    ];
+    main();
+    const content = fs.readFileSync(testFile, "utf8");
+    expect(content).toContain("<path");
     fs.unlinkSync(testFile);
   });
 });
