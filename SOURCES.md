@@ -182,3 +182,13 @@ This guide offers actionable insights into optimizing Node.js performance and se
 ## https://github.com/goldbergyoni/nodebestpractices
 A comprehensive compilation of best practices for building robust Node.js applications. It includes guidelines on error handling, performance optimization, security, module structuring, and maintainable code design. This source is highly authoritative, maintained by the community with extensive contributions, and serves as an essential reference for enhancing core implementation strategies in our project.
 ## MIT License
+
+# Node.js Configuration Best Practices
+## https://blog.risingstack.com/node-js-best-practices-configuration-management/
+This comprehensive guide discusses best practices in configuration management in Node.js applications. It provides actionable insights into merging configurations from environment variables, configuration files, and CLI inputs using patterns and tools familiar to our repository's approach with dotenv and Zod. It emphasizes maintainability and security.
+## Unknown License
+
+# Accessible SVG Graphics Best Practices
+## https://www.smashingmagazine.com/2018/11/accessible-svg-graphics/
+This detailed article explores best practices for creating accessible SVG graphics. It covers the proper use of ARIA attributes, keyboard interactions, and semantic structure to make SVG content more accessible. These insights directly support our dynamic SVG plot's inclusion of ARIA labels and improved accessibility for users with disabilities.
+## Unknown License
