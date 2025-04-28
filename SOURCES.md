@@ -212,3 +212,18 @@ This article by Twilio provides a comprehensive guide on securing and managing e
 ## https://www.baeldung.com/linux/sighup-signal
 Baeldung's article on Unix signals gives an in-depth exploration of the SIGHUP signal and its role in configuration reloading. It explains how processes can leverage Unix signals to re-read configuration files at runtime, thus enabling dynamic updates without downtime. This source is highly authoritative and provides actionable guidance for our server's runtime configuration reload feature. The recommendations have been widely adopted in backend systems.
 ## Unknown License
+
+# Yargs Documentation
+## https://yargs.js.org/docs/
+Yargs is a mature and robust command-line argument parser for Node.js that offers advanced configuration, aliasing, command hierarchy, and comprehensive error handling. Its documentation provides actionable insights into designing effective CLI interfaces and validating user inputs. This resource can inspire improvements to our manual CLI parsing, enhancing overall reliability and usability.
+## MIT License
+
+# Globalize Documentation
+## https://github.com/globalizejs/globalize
+Globalize provides extensive resources for internationalization and localization in JavaScript, covering number formatting, date-time parsing, and locale-sensitive transformations. The documentation offers in-depth guidance on creating locale-aware applications, which could enhance our axis label formatting and internationalization strategies in repository0-plot-code-lib.
+## MIT License
+
+# dotenv-safe Documentation
+## https://github.com/rolodato/dotenv-safe
+dotenv-safe extends dotenv by ensuring that all required environment variables are defined before the application starts. Its documentation outlines best practices for loading and validating environment configurations, offering advanced techniques that complement our current configuration merging and environment variable interpolation approaches.
+## MIT License
