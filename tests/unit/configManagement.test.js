@@ -8,6 +8,9 @@ const outputFile = "temp_output.json";
 describe("Configuration File Management", () => {
   beforeEach(() => {
     process.env.TEST_RES = "150";
+    process.env.NUM_RES = "150";
+    process.env.IMG_WIDTH = "500";
+    process.env.IMG_HEIGHT = "400";
   });
 
   afterEach(() => {
@@ -114,7 +117,41 @@ describe("Configuration File Management", () => {
     const jsonOutput = JSON.parse(fs.readFileSync(outputFile, "utf8"));
     expect(jsonOutput.resolution).toBe(100);
     // width and height fallback defaults are applied in runtimeConfig
-    // Although not part of JSON export from computePlotData, they can be checked through runtimeConfig
-    // For testing purpose, we assume loadConfig properly applies defaults
+  });
+
+  test("should interpolate nested environment variables in config file", () => {
+    const configContent = {
+      resolution: "${NUM_RES}",
+      display: {
+        width: "${IMG_WIDTH}",
+        height: "${IMG_HEIGHT}"
+      }
+    };
+    fs.writeFileSync(tempConfigFile, JSON.stringify(configContent), "utf8");
+    process.argv = [
+      "node",
+      "src/lib/main.js",
+      "--config",
+      tempConfigFile,
+      "--expression",
+      "y=sin(x)",
+      "--range",
+      "x=0:10,y=0:10",
+      "--file",
+      outputFile,
+      "--jsonExport",
+      "true"
+    ];
+    main();
+    const jsonOutput = JSON.parse(fs.readFileSync(outputFile, "utf8"));
+    expect(jsonOutput.resolution).toBe(150);
+    // Although display is not used in computePlotData, we can test that the interpolated config contains the nested object with converted values
+    const mergedConfig = require('fs').readFileSync(tempConfigFile, 'utf8');
+    const parsedConfig = JSON.parse(mergedConfig);
+    const interpolated = parsedConfig; // original file; interpolation happens in loadConfig internally.
+    // To test recursive interpolation, we simulate calling interpolateEnv directly:
+    const interpolatedConfig = (function recInterp(config){ return config; })(interpolateEnv(parsedConfig));
+    expect(interpolatedConfig.display.width).toBe(500);
+    expect(interpolatedConfig.display.height).toBe(400);
   });
 });
