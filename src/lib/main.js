@@ -143,15 +143,23 @@ function computePlotData(expression, range, customLabels = {}) {
     );
   }
 
-  const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
+  const yPattern = /y\s*=\s*(-?\d+(?:\.\d+)?)/;
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
     throw new Error(
       "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values."
     );
   }
-  const yInputMin = parseFloat(yMatch[1]);
-  const yInputMax = parseFloat(yMatch[2]);
+  // To get both y min and max we need to also extract the second number for y
+  const yPatternFull = /y\s*=\s*(-?\d+(?:\.\d+)?)\s*:\s*(-?\d+(?:\.\d+)?)/;
+  const yMatchFull = yPatternFull.exec(range);
+  if (!yMatchFull) {
+    throw new Error(
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values."
+    );
+  }
+  const yInputMin = parseFloat(yMatchFull[1]);
+  const yInputMax = parseFloat(yMatchFull[2]);
   if (yInputMin >= yInputMax) {
     throw new Error(
       `Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Expected format: y=0:10. Ensure that the minimum value is less than the maximum value.`
@@ -228,9 +236,13 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale === "de-DE") {
-    // Use rounding instead of flooring for locale de-DE for y-axis as well
-    let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
-    let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
+    // For de-DE, use floor rounding for y-axis to avoid rounding up the maximum value
+    const floorValue = (value, precision) => {
+      const factor = Math.pow(10, precision);
+      return (Math.floor(value * factor) / factor).toFixed(precision);
+    };
+    let ry = floorValue(yInputMin, yPrecision);
+    let rY = floorValue(yInputMax, yPrecision);
     ry = ry.replace(".", ",");
     rY = rY.replace(".", ",");
     yAxisLabelText = `y-axis: ${ry} to ${rY}`;
