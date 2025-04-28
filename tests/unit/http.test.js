@@ -2,7 +2,6 @@ import { describe, test, expect } from "vitest";
 import request from "supertest";
 import { app } from "@src/lib/main.js";
 
-
 describe("GET /plot Content Negotiation", () => {
   test("should return SVG when Accept: image/svg+xml", async () => {
     const res = await request(app)
@@ -12,7 +11,7 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Vary", /Accept/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(typeof svgText).toBe('string');
+    expect(typeof svgText).toBe("string");
     expect(svgText.startsWith("<svg")).toBe(true);
     expect(svgText).toContain("x-axis:");
     expect(svgText).toContain("y-axis:");
@@ -26,9 +25,7 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Vary", /Accept/)
       .expect(200);
     const signature = res.body.slice(0, 8);
-    expect(
-      signature.equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))
-    ).toBe(true);
+    expect(signature.equals(Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]))).toBe(true);
   });
 
   test("should return JSON when Accept: application/json", async () => {
@@ -38,7 +35,11 @@ describe("GET /plot Content Negotiation", () => {
       .expect("Content-Type", /application\/json/)
       .expect("Vary", /Accept/)
       .expect(200);
-    expect(res.body).toEqual({ expression: expect.any(String), range: expect.any(String), message: "Plot generation details" });
+    expect(res.body).toEqual({
+      expression: expect.any(String),
+      range: expect.any(String),
+      message: "Plot generation details",
+    });
   });
 
   test("should return 406 for unsupported Accept", async () => {
@@ -70,7 +71,7 @@ describe("GET /plot Content Negotiation", () => {
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
     const match = svgText.match(/<svg[^>]+data-metadata="([^"]+)"/);
     expect(match).not.toBeNull();
-    let metadataStr = match[1].replace(/&quot;/g, '"');
+    const metadataStr = match[1].replace(/&quot;/g, '"');
     const metadataObj = JSON.parse(metadataStr);
     expect(metadataObj).toHaveProperty("expression", "y=sin(x)");
     expect(metadataObj).toHaveProperty("range", "x=-1:1,y=-1:1");
@@ -81,7 +82,6 @@ describe("GET /plot Content Negotiation", () => {
   });
 });
 
-
 describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   test("should generate dynamic SVG plot when valid query parameters are provided", async () => {
     const res = await request(app)
@@ -90,7 +90,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
-    expect(typeof svgText).toBe('string');
+    expect(typeof svgText).toBe("string");
     expect(svgText.startsWith("<svg")).toBe(true);
     expect(svgText).toContain("Plot for: y=sin(x) in range x=-1:1,y=-1:1");
     expect(svgText).toContain("<polyline");
@@ -114,14 +114,15 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .query({ expression: "y=log(x)", range: "x=1:10,y=0:5", format: "application/json" })
       .expect("Content-Type", /application\/json/)
       .expect(200);
-    expect(res.body).toEqual({ expression: expect.any(String), range: expect.any(String), message: "Plot generation details" });
+    expect(res.body).toEqual({
+      expression: expect.any(String),
+      range: expect.any(String),
+      message: "Plot generation details",
+    });
   });
 
   test("should return 400 if required query parameter is missing (fileType/format)", async () => {
-    const res = await request(app)
-      .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1" })
-      .expect(400);
+    const res = await request(app).get("/plot").query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1" }).expect(400);
     expect(res.text).toContain("Missing required query parameter");
   });
 
@@ -130,7 +131,9 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=tan(x)", range: "x=-1:1,y=abc", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
+    expect(res.text).toContain(
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.",
+    );
   });
 
   test("should return 400 if expression is empty", async () => {
@@ -173,7 +176,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
         range: "x=0:10,y=0:10",
         fileType: "svg",
         xlabel: "MyCustomX",
-        ylabel: "MyCustomY"
+        ylabel: "MyCustomY",
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
@@ -211,7 +214,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
         xlabelFontSize: "16",
         xlabelColor: "green",
         ylabelFontSize: "18",
-        ylabelColor: "purple"
+        ylabelColor: "purple",
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
@@ -230,7 +233,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
         range: "x=0.1234:10.5678,y=-1.2345:5.6789",
         fileType: "svg",
         xlabelPrecision: "2",
-        ylabelPrecision: "3"
+        ylabelPrecision: "3",
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
@@ -248,7 +251,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
         fileType: "svg",
         locale: "de-DE",
         xlabelPrecision: "2",
-        ylabelPrecision: "3"
+        ylabelPrecision: "3",
       })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
@@ -275,7 +278,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
         range: "x=0:10,y=0:10",
         fileType: "svg",
         xlabelAriaLabel: "CustomXLabel",
-        ylabelAriaLabel: "CustomYLabel"
+        ylabelAriaLabel: "CustomYLabel",
       })
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
@@ -291,7 +294,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
         range: "x=0:10,y=0:10",
         fileType: "svg",
         xlabelAnchor: "start",
-        ylabelAnchor: "end"
+        ylabelAnchor: "end",
       })
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
@@ -335,7 +338,13 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   test("should generate smooth SVG path with custom smoothingFactor parameter", async () => {
     const res = await request(app)
       .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", smoothingFactor: "0.7", fileType: "svg" })
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        smooth: "true",
+        smoothingFactor: "0.7",
+        fileType: "svg",
+      })
       .expect("Content-Type", /image\/svg\+xml/)
       .expect(200);
     const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
@@ -353,7 +362,13 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .expect(200);
     const customRes = await request(app)
       .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", smoothingFactor: "0.8", fileType: "svg" })
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        smooth: "true",
+        smoothingFactor: "0.8",
+        fileType: "svg",
+      })
       .expect(200);
     const defaultSvg = defaultRes.text || (Buffer.isBuffer(defaultRes.body) ? defaultRes.body.toString("utf8") : "");
     const customSvg = customRes.text || (Buffer.isBuffer(customRes.body) ? customRes.body.toString("utf8") : "");
@@ -367,7 +382,13 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   test("should return error for invalid smoothingFactor", async () => {
     const res = await request(app)
       .get("/plot")
-      .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", smooth: "true", smoothingFactor: "invalid", fileType: "svg" })
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        smooth: "true",
+        smoothingFactor: "invalid",
+        fileType: "svg",
+      })
       .expect(400);
     expect(res.text).toContain("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
   });
