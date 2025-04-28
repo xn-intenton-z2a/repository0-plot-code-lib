@@ -37,7 +37,7 @@ You can generate plots directly from the command line by providing the following
   - `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluation.
   - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
 
-- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${PORT}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
+- **--config**: **(New)** Specifies a path to an external JSON configuration file. The file should contain default configuration values for the plot (e.g., default resolution, smoothing, axis label customizations, and dimensions). When provided, the application reads this file, performs environment variable interpolation on all string properties (e.g., replacing placeholders like `${VAR_NAME}` with the corresponding environment variable values), validates its structure using a predefined Zod schema, and merges its values with the CLI flags, with CLI flags taking precedence.
 
 - **--env**: **(New)** Specifies a custom path to a .env file. If provided, the application loads environment variables from the specified file instead of the default .env in the project root.
 
@@ -63,6 +63,65 @@ This release introduces two new optional parameters to enhance plot rendering:
 - **--smooth / smooth query parameter**: Enabling this flag (`--smooth true`) activates curve smoothing using quadratic Bezier interpolation. When smoothing is enabled, the generated SVG output uses a `<path>` element instead of a `<polyline>`.
 
 - **--smoothingFactor**: *New.* This parameter allows additional customization of the smooth curve. It accepts a floating-point number between 0 and 1 (default 0.5) to fine-tune the curvature by adjusting the control points used in quadratic Bezier interpolation.
+
+## CONFIG MANAGEMENT
+
+The tool supports external configuration files via the `--config` flag. This file must be a well-formed JSON file containing default parameters for generating plots. The expected JSON format is:
+
+```json
+{
+  "expression": "y=sin(x)",
+  "range": "x=-1:1,y=-1:1",
+  "resolution": 100,
+  "xlabel": "x-axis label",
+  "ylabel": "y-axis label",
+  "xlabelPrecision": 2,
+  "ylabelPrecision": 2,
+  "smooth": "true",
+  "smoothingFactor": 0.5,
+  "width": 300,
+  "height": 150,
+  "colorGradient": "true",
+  "gradientStartColor": "blue",
+  "gradientEndColor": "red"
+}
+```
+
+Environment variable interpolation is performed on all string values. For example, if your config file contains:
+
+```json
+{
+  "resolution": "${TEST_RES}"
+}
+```
+
+and you have set the environment variable `TEST_RES=150` (e.g. via a custom .env file specified by `--env`), then the placeholder will be replaced with the value "150".
+
+When both a configuration file and CLI flags are provided, the CLI flags take precedence over the configuration file values.
+
+### Example Configuration File
+
+```json
+{
+  "resolution": "${TEST_RES}",
+  "xlabel": "Default X Label",
+  "ylabel": "Default Y Label"
+}
+```
+
+### Common Error Scenarios
+
+- **Malformed JSON**: If the configuration file is not valid JSON, an error will be thrown:
+  > Error: Unable to read or parse configuration file: [specific error message]
+
+- **Invalid Numeric Values**: If numeric configuration items (e.g., `resolution`) are provided with non-numeric values, an error message will indicate the invalid parameter, such as:
+  > Error: Invalid numeric value for resolution. Expected a positive integer.
+
+### Usage with Configuration File
+
+```sh
+node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
+```
 
 ## Examples
 
@@ -95,5 +154,3 @@ This release introduces two new optional parameters to enhance plot rendering:
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400
    ```
-
-*Note:* The generated SVG includes a `data-metadata` attribute embedding a JSON-formatted string with plot details. This attribute is only present in SVG outputs and not in PNG or JSON exports.
