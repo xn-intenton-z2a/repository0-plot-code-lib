@@ -362,7 +362,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   // Accessibility: add role attribute if provided
   let roleAttr = "";
   if (customLabels.svgRole) {
-    roleAttr = ` role=\"${customLabels.svgRole}\"`;
+    roleAttr = ` role="${customLabels.svgRole}"`;
   }
 
   // Construct SVG content in one line to avoid unintended whitespace/newlines
