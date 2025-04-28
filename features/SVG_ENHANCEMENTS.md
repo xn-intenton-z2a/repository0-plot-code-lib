@@ -1,17 +1,18 @@
-# Overview
-This feature enhances the SVG plotting functionality by unifying advanced visual improvements with robust HTTP API support. It now delivers adaptive resolution, custom dimensions, dynamic color gradients, and curve smoothing with an adjustable smoothing factor. In addition, the /plot endpoint has been enhanced with full content negotiation capabilities and improved error messaging to ensure a reliable experience both via CLI and HTTP.
+# SVG ENHANCEMENTS
 
-# Implementation
-- Extend the core rendering logic to support both polyline and smooth path (<path>) generation using quadratic Bezier interpolation with a configurable smoothingFactor.
-- Integrate dynamic color gradient support by conditionally generating a <defs> section containing a linearGradient definition. Custom gradient start and end colors are applied and referenced by the SVG stroke.
-- Implement adaptive plotting by mapping computed points to SVG coordinates based on customizable width and height, with defaults provided if not specified.
-- Embed detailed plot metadata as a JSON string (with escaped characters) in the SVG root element's data-metadata attribute to provide downstream integrations and debugging support.
-- Enhance accessibility by adding ARIA attributes and custom text-anchor options for axis labels, with additional support for locale-specific number formatting and precision.
-- Update the HTTP API /plot endpoint to perform content negotiation based on the Accept header. The endpoint now reliably returns SVG, PNG (dummy), or detailed JSON output, and provides clear error messages in cases of malformed input or evaluation errors.
-- Ensure that configuration values from CLI flags override those provided via external JSON configuration files after environment variable interpolation and schema validation.
+## Overview
+This feature not only improves the visual quality of SVG plots with dynamic color gradients, adaptive dimensions, and smooth curve rendering but also enhances the HTTP API experience. In addition to generating high-quality plots from mathematical expressions, the feature now introduces robust error handling using structured responses, ensuring that clients receive clear, RFC7807-compliant error details when issues arise.
 
-# Testing & Impact
-- Unit tests validate that the rendered SVG dynamically adapts to custom dimensions, smooth paths are correctly generated when the smooth flag is enabled, and that a custom smoothingFactor produces distinct curves compared to the default.
-- HTTP tests confirm that the /plot endpoint correctly negotiates between SVG, PNG, and JSON formats based on Accept headers and query parameters.
-- Integration tests verify the merging of configuration values from environment variables, JSON files, and CLI inputs, ensuring robust error handling across all branches.
-- Overall, this unified enhancement significantly improves both the visual quality of the plots and the reliability of the API, directly supporting the mission to be a go-to plotting library for formula visualisations.
+## Implementation
+- Extend the core rendering logic to support both polyline and smooth path generation using quadratic Bezier interpolation. The smoothing behavior can be customized via a smoothing factor supplied through CLI or query parameters.
+- Integrate dynamic color gradient support by conditionally generating a <defs> section with a linearGradient element. Users can specify start and end colors to be applied to the SVG stroke.
+- Map computed plot points to a dynamic SVG coordinate system based on customizable width and height. Fallback defaults (300x150) are applied if custom dimensions are not provided.
+- Embed detailed metadata in the SVG output by adding a data-metadata attribute on the root <svg> element. This metadata includes the original expression, input range, computed ranges, axis labels, resolution, and all custom parameters. The metadata is JSON-stringified and properly escaped for downstream integrations.
+- Enhance the HTTP API /plot endpoint with improved content negotiation. In cases of malformed requests or processing errors, the API now returns structured error responses conforming to RFC7807 (Problem Details for HTTP APIs). These responses include standard fields such as type, title, status, detail, and instance, ensuring clients receive comprehensive error information.
+- Maintain compatibility with the configuration management features, including merging of CLI flags, JSON config files, and environment variable interpolation, ensuring all overrides remain effective.
+
+## Testing & Impact
+- Unit tests validate that the SVG output reflects adaptive dimensions, correct dynamic gradient insertion, and smooth path generation when smoothing is enabled. Tests also confirm that detailed metadata is embedded and correctly formatted.
+- HTTP tests have been updated to verify the content negotiation behavior for SVG, PNG, and JSON outputs as well as to confirm that error responses follow the RFC7807 structure when query parameters are invalid or missing.
+- Integration tests ensure that configuration merging and runtime reloading continue to work correctly alongside the new HTTP error handling enhancements.
+- Overall, these enhancements dramatically improve both the visual and operational reliability of the plot library, directly supporting the mission to be the go-to plotting tool for formula visualisations by offering a robust and user-friendly HTTP API experience.
