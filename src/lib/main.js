@@ -15,12 +15,15 @@ let runtimeConfig = {};
 
 // Updated helper function to recursively interpolate environment variables in configuration objects
 // and automatically convert values to numbers or booleans if applicable.
+// Now supports default fallback values with syntax ${VAR:defaultValue}.
 function interpolateEnv(input) {
   if (typeof input === "string") {
-    // Check if the entire string is a single placeholder
-    const fullMatch = input.trim().match(/^\$\{([^}]+)\}$/);
+    // Updated regex to capture optional default value with fallback syntax
+    const regexFull = /^\$\{([^:}]+)(?::([^}]+))?\}$/;
+    const fullMatch = input.trim().match(regexFull);
     if (fullMatch) {
       const varName = fullMatch[1];
+      const defaultValue = fullMatch[2] !== undefined ? fullMatch[2] : undefined;
       if (process.env[varName] !== undefined) {
         const envVal = process.env[varName].trim();
         // Convert to boolean if applicable
@@ -30,13 +33,28 @@ function interpolateEnv(input) {
         if (envVal !== "" && !isNaN(envVal)) return Number(envVal);
         return envVal;
       } else {
-        return input;
+        // If default is provided, use it
+        if (defaultValue !== undefined) {
+          const trimmed = defaultValue.trim();
+          if (trimmed.toLowerCase() === "true") return true;
+          if (trimmed.toLowerCase() === "false") return false;
+          if (trimmed !== "" && !isNaN(trimmed)) return Number(trimmed);
+          return trimmed;
+        } else {
+          return input;
+        }
       }
     }
     // For strings with embedded variables or partial matches, replace all occurrences
-    return input.replace(/\$\{([^}]+)\}/g, (_, varName) =>
-      process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`
-    );
+    return input.replace(/\$\{([^:}]+)(?::([^}]+))?\}/g, (_, varName, defaultVal) => {
+      if (process.env[varName] !== undefined) {
+        return process.env[varName];
+      } else if (defaultVal !== undefined) {
+        return defaultVal;
+      } else {
+        return `\${${varName}}`;
+      }
+    });
   } else if (Array.isArray(input)) {
     return input.map(interpolateEnv);
   } else if (typeof input === "object" && input !== null) {

@@ -2,7 +2,7 @@
 
 ## Introduction
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files, dynamic color gradient support for SVG outputs, custom SVG dimensions, and optional marker support with accessibility improvements.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files (with support for default fallback values), dynamic color gradient support for SVG outputs, custom SVG dimensions, and optional marker support with accessibility improvements.
 
 ## CLI Plot Generation
 
@@ -96,9 +96,21 @@ The tool supports external configuration files via the `--config` flag. This fil
 }
 ```
 
+### Environment Variable Interpolation with Default Values
+
+Configuration files can include placeholders using the syntax `${VAR}`. This release adds support for default fallback values using the format `${VAR:defaultValue}`. For example, if you write:
+
+```json
+{
+  "resolution": "${TEST_RES:100}"
+}
+```
+
+and the environment variable `TEST_RES` is not set, the value will default to `100`. If `TEST_RES` is set, its value will be used instead, with automatic type conversion applied (e.g., to a number, boolean, or string as appropriate).
+
 ### Environment Variable Interpolation in Nested Objects
 
-External configuration files can include placeholders (e.g., `${VAR}`) within any string property, even in nested objects. For example:
+External configuration files can include placeholders (e.g., `${VAR}` or `${VAR:default}`) within any string property, even in nested objects. For example:
 
 ```json
 {
