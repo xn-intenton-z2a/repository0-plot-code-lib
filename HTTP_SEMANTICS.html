@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="http_semantics" href="#http_semantics"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP_SEMANTICS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">HTTP/1.1 semantics defined in RFC7231 includes explicit definitions for request methods, header fields, and content negotiation. ABNF grammars specify media types and parameters, such as media-type, type, subtype, and parameter formations. Detailed method definitions (GET, HEAD, POST, PUT, DELETE, etc.) and header fields like Content-Type, Content-Encoding, and Content-Language are provided. The spec describes proactive and reactive content negotiation strategies, payload structure layering (Content-Encoding over Content-Type), and guidelines for representation identification via Content-Location.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">HTTP Message Structure
+<ul class="md-github">
+<li class="md-github">Definition of request and response messages</li>
+<li class="md-github">Conformance definitions using MUST, SHOULD and related keywords per RFC2119</li>
+</ul>
+</li>
+<li class="md-github">Request Methods
+<ul class="md-github">
+<li class="md-github">GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE</li>
+<li class="md-github">Properties: safe, idempotent, and cacheable</li>
+</ul>
+</li>
+<li class="md-github">Representation Metadata
+<ul class="md-github">
+<li class="md-github">Content-Type: media-type (ABNF: media-type = type &quot;/&quot; subtype *( OWS &quot;;&quot; OWS parameter ), where type and subtype are tokens, parameter = token &quot;=&quot; ( token / quoted-string ))</li>
+<li class="md-github">Charset: token as defined in RFC6365</li>
+<li class="md-github">Content-Encoding: header listing one or more codings (e.g., gzip, deflate, compress), defined as 1#content-coding</li>
+<li class="md-github">Content-Language: 1#language-tag (RFC5646 identifiers)</li>
+<li class="md-github">Content-Location: absolute-URI or partial-URI identifying the representation</li>
+</ul>
+</li>
+<li class="md-github">Content Negotiation
+<ul class="md-github">
+<li class="md-github">Proactive negotiation: server selects representation based on Accept and other headers</li>
+<li class="md-github">Reactive negotiation: client picks an alternative from provided list</li>
+</ul>
+</li>
+<li class="md-github">Payload Semantics &amp; Representation Data
+<ul class="md-github">
+<li class="md-github">Representation-data constructed as: Content-Encoding( Content-Type( bits ) )</li>
+<li class="md-github">Guidelines for handling partial content (e.g., 206 Partial Content) and error responses</li>
+</ul>
+</li>
+<li class="md-github">Multipart Types
+<ul class="md-github">
+<li class="md-github">Syntax and use of boundary parameters for multipart/form-data and multipart/byteranges
+Detailed Information:</li>
+</ul>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">ABNF for media types, parameter syntax, and coding values are explicitly defined.</li>
+<li class="md-github">Exact header field examples include: 'Content-Type: text/html; charset=ISO-8859-4' and 'Content-Encoding: gzip'.</li>
+<li class="md-github">Negotiation involves both proactive (server-driven) and reactive (client-driven) mechanisms with use of Vary header.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Technical specifications include:</p>
+<ul class="md-github">
+<li class="md-github">ABNF Definition: media-type = type &quot;/&quot; subtype *( OWS &quot;;&quot; OWS parameter )
+where: type = token, subtype = token, parameter = token &quot;=&quot; ( token / quoted-string )</li>
+<li class="md-github">Content-Encoding header: syntax is 1#content-coding; valid codings include 'gzip', 'compress', 'deflate'.</li>
+<li class="md-github">Content-Type header: if absent, default is assumed as 'application/octet-stream'.</li>
+<li class="md-github">Charset handling is defined per RFC6365, and language tags follow RFC5646.</li>
+<li class="md-github">Request Methods: GET is safe and cacheable, POST is used for processing data, PUT for state modification, DELETE for removal.</li>
+<li class="md-github">Content Negotiation: Uses Accept, Accept-Language, Accept-Encoding headers with quality value semantics; includes both server-driven and client-driven selection tactics.</li>
+<li class="md-github">Multipart types require the use of a boundary parameter.
+Exact parameter values, such as case insensitivity for type/subtype, are essential.
+Implementation Steps:</li>
+</ul>
+<ol class="md-github">
+<li class="md-github">Parse the message to separate headers from payload.</li>
+<li class="md-github">Validate the media type using ABNF rules.</li>
+<li class="md-github">Decode using the specified Content-Encoding in the order provided.</li>
+<li class="md-github">Process representations according to Content-Type and negotiated language.</li>
+<li class="md-github">Apply appropriate error handling per status codes (e.g., 400, 404, 500) with payload representation detailed error messages.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">Full API Specifications / SDK Method Signatures (as per protocol definitions):</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">HTTP Request Parsing Function:
+function parseHTTPRequest(rawData: string): { method: string, uri: string, headers: Record&lt;string, string&gt;, body: string };
+// Parses raw HTTP data into method, URI, headers, and body. Throws Error if parsing fails.</p>
+</li>
+<li class="md-github">
+<p class="md-github">HTTP Response Construction Function:
+function buildHTTPResponse(statusCode: number, headers: Record&lt;string,string&gt;, body: string): string;
+// Constructs an HTTP response string given a status code, headers, and body. Returns a complete response message.</p>
+</li>
+<li class="md-github">
+<p class="md-github">ABNF Grammar for media-type:
+media-type = type &quot;/&quot; subtype *( OWS &quot;;&quot; OWS parameter )
+type       = token
+subtype    = token
+parameter  = token &quot;=&quot; ( token / quoted-string )</p>
+</li>
+<li class="md-github">
+<p class="md-github">Example Header Field Implementations:
+// Content-Type example
+Header: &quot;Content-Type: text/html; charset=ISO-8859-4&quot;</p>
+<p class="md-github">// Content-Encoding example
+Header: &quot;Content-Encoding: gzip&quot;</p>
+</li>
+<li class="md-github">
+<p class="md-github">Configuration Options:
+Option: EnableContentSniffing (default: false) - When false, disables client-side content type overriding.
+Option: MaxPayloadSize (default: 1048576 bytes) - Maximum allowed size for payload, rejects messages exceeding limit.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Best Practices &amp; Implementation Code Pattern:</p>
+<ol class="md-github">
+<li class="md-github">Always check for the presence of Content-Type header. If missing, default to application/octet-stream.</li>
+<li class="md-github">Validate content-coding order; process each listed encoding in sequence.</li>
+<li class="md-github">Use Vary header in responses when utilizing proactive negotiation.</li>
+</ol>
+</li>
+<li class="md-github">
+<p class="md-github">Troubleshooting Procedures:
+Command: curl -I http://yourserver/resource
+Expected Output: HTTP/1.1 200 OK with correct Content-Type and Content-Encoding headers.
+Command: Check server logs for parsing errors if response payload does not match declared media type.
+Debug Step: Use a network proxy (e.g., Wireshark) to inspect raw HTTP messages to verify header field integrity and message structure.</p>
+</li>
+<li class="md-github">
+<p class="md-github">Detailed SDK Example:
+// Example in a Node.js-like pseudocode:
+/*
+function handleRequest(request) {
+try {
+let parsed = parseHTTPRequest(request);
+if (!parsed.headers['Content-Type']) {
+parsed.headers['Content-Type'] = 'application/octet-stream';
+}
+// Decode body based on Content-Encoding
+let decodedBody = decodeContent(parsed.body, parsed.headers['Content-Encoding']);
+// Process based on request method
+switch(parsed.method) {
+case 'GET':
+return buildHTTPResponse(200, {'Content-Type': parsed.headers['Content-Type']}, decodedBody);
+// Add handling for POST, PUT, DELETE
+default:
+throw new Error('Unsupported Method');
+}
+} catch (err) {
+return buildHTTPResponse(500, {'Content-Type': 'text/plain'}, err.message);
+}
+}
+*/</p>
+</li>
+</ul>
+<p class="md-github">This specification provides developers with concrete definitions and patterns to implement HTTP/1.1 compliant services, ensuring proper parsing, response construction, content negotiation, and error handling.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">RFC7231 defines HTTP/1.1 semantics: Request/Response structure, methods (GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE); header fields: Content-Type (media-type= token/token *( OWS &quot;;&quot; OWS token &quot;=&quot; (token/quoted-string) )), Content-Encoding (1#content-coding; valid: gzip, deflate, compress), Content-Language (1#language-tag per RFC5646), Content-Location (absolute-URI/partial-URI); ABNF grammar provided; content negotiation: proactive vs reactive; payload layering: representation-data = Content-Encoding( Content-Type( bits ) ); SDK endpoints: parseHTTPRequest(rawData:string) returns {method, uri, headers, body}; buildHTTPResponse(statusCode:number, headers:Record&lt;string,string&gt;, body:string) returns string; configuration options include EnableContentSniffing (false), MaxPayloadSize (1048576); troubleshooting via curl -I and network inspection.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">HTTP Message Structure
+<ul class="md-github">
+<li class="md-github">Definition of request and response messages</li>
+<li class="md-github">Conformance definitions using MUST, SHOULD and related keywords per RFC2119</li>
+</ul>
+</li>
+<li class="md-github">Request Methods
+<ul class="md-github">
+<li class="md-github">GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE</li>
+<li class="md-github">Properties: safe, idempotent, and cacheable</li>
+</ul>
+</li>
+<li class="md-github">Representation Metadata
+<ul class="md-github">
+<li class="md-github">Content-Type: media-type (ABNF: media-type = type '/' subtype *( OWS ';' OWS parameter ), where type and subtype are tokens, parameter = token '=' ( token / quoted-string ))</li>
+<li class="md-github">Charset: token as defined in RFC6365</li>
+<li class="md-github">Content-Encoding: header listing one or more codings (e.g., gzip, deflate, compress), defined as 1#content-coding</li>
+<li class="md-github">Content-Language: 1#language-tag (RFC5646 identifiers)</li>
+<li class="md-github">Content-Location: absolute-URI or partial-URI identifying the representation</li>
+</ul>
+</li>
+<li class="md-github">Content Negotiation
+<ul class="md-github">
+<li class="md-github">Proactive negotiation: server selects representation based on Accept and other headers</li>
+<li class="md-github">Reactive negotiation: client picks an alternative from provided list</li>
+</ul>
+</li>
+<li class="md-github">Payload Semantics &amp; Representation Data
+<ul class="md-github">
+<li class="md-github">Representation-data constructed as: Content-Encoding( Content-Type( bits ) )</li>
+<li class="md-github">Guidelines for handling partial content (e.g., 206 Partial Content) and error responses</li>
+</ul>
+</li>
+<li class="md-github">Multipart Types
+<ul class="md-github">
+<li class="md-github">Syntax and use of boundary parameters for multipart/form-data and multipart/byteranges
+Detailed Information:</li>
+</ul>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">ABNF for media types, parameter syntax, and coding values are explicitly defined.</li>
+<li class="md-github">Exact header field examples include: 'Content-Type: text/html; charset=ISO-8859-4' and 'Content-Encoding: gzip'.</li>
+<li class="md-github">Negotiation involves both proactive (server-driven) and reactive (client-driven) mechanisms with use of Vary header.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">RFC7231: Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
+https://tools.ietf.org/html/rfc7231</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-http_semantics" href="#digest-of-http_semantics"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of HTTP_SEMANTICS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="rfc-7231---http11-semantics-and-content" href="#rfc-7231---http11-semantics-and-content"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>RFC 7231 - HTTP/1.1 Semantics and Content</h1>
+<p class="md-github">Date Retrieved: 2023-10-XX</p>
+<p class="md-github">This document contains the official IETF specifications for HTTP/1.1 message semantics. It covers request/response message structure, header field definitions, content negotiation, representation metadata, and payload processing. It includes ABNF definitions for media types and outlines the semantics of methods, header fields (e.g., Content-Type, Content-Encoding, Content-Language), and status code categorizations (1xx, 2xx, 3xx, 4xx, 5xx).</p>
+<h2 class="md-github"><a class="md-github__anchor" name="key-sections-extracted" href="#key-sections-extracted"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Key Sections Extracted</h2>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Introduction</p>
+<ul class="md-github">
+<li class="md-github">HTTP message types: requests and responses</li>
+<li class="md-github">Conformance directives (MUST, SHOULD, etc.), per RFC2119</li>
+<li class="md-github">Use of Augmented Backus-Naur Form (ABNF) for syntax definitions</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Request Methods</p>
+<ul class="md-github">
+<li class="md-github">Detailed definitions for GET, HEAD, POST, PUT, DELETE, CONNECT, OPTIONS, TRACE</li>
+<li class="md-github">Method properties: safe, idempotent, cacheable</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Representation and Metadata</p>
+<ul class="md-github">
+<li class="md-github">Representation metadata: Content-Type, Content-Encoding, Content-Language, Content-Location</li>
+<li class="md-github">ABNF definitions for media-type:
+media-type = type &quot;/&quot; subtype *( OWS &quot;;&quot; OWS parameter )
+type = token
+subtype = token
+parameter = token &quot;=&quot; ( token / quoted-string )</li>
+<li class="md-github">Charset handling per RFC6365</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Content Negotiation</p>
+<ul class="md-github">
+<li class="md-github">Proactive (server-driven) and reactive (agent-driven) negotiation</li>
+<li class="md-github">Use of Accept headers with quality values</li>
+<li class="md-github">Vary header field implications</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Payload Semantics and Representation Data</p>
+<ul class="md-github">
+<li class="md-github">How payload bodies are defined, including use in error and success responses</li>
+<li class="md-github">Dual layer encoding: Content-Encoding (applied coding) over Content-Type (media-type)</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Other Key Technical Areas</p>
+<ul class="md-github">
+<li class="md-github">Multipart types with boundary parameters</li>
+<li class="md-github">Content codings definitions: compress, deflate, gzip</li>
+<li class="md-github">Identification of representations via Content-Location header</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Attribution: IETF Trust; Data Size: 25347882 bytes; Links Found: 82849</p>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: RFC7231: Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</li>
+<li class="md-github">URL: https://tools.ietf.org/html/rfc7231</li>
+<li class="md-github">License: IETF Document (Public Domain)</li>
+<li class="md-github">Crawl Date: 2025-04-28T19:47:54.579Z</li>
+<li class="md-github">Data Size: 25347882 bytes</li>
+<li class="md-github">Links Found: 82849</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-28</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-28T20:23:32.677Z</p>
+  </footer>
+</body>
+</html>
