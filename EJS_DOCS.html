@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="ejs_docs" href="#ejs_docs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EJS_DOCS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">EJS is a templating engine built for JavaScript that features simple scriptlet tags for embedding code. It compiles templates into intermediate JavaScript functions, caching them for speed, and outputs clear JavaScript exceptions with template line numbers for debugging.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Simple Syntax:
+<ul class="md-github">
+<li class="md-github">EJS uses &lt;% and %&gt; for embedding plain JavaScript in templates. Developers can directly integrate JS logic for dynamic HTML output.</li>
+</ul>
+</li>
+<li class="md-github">Fast Execution:
+<ul class="md-github">
+<li class="md-github">EJS compiles templates to intermediate JavaScript functions. These functions are cached if the 'cache' option is enabled, resulting in high-performance rendering.</li>
+</ul>
+</li>
+<li class="md-github">Debugging and Error Handling:
+<ul class="md-github">
+<li class="md-github">Errors are thrown as standard JavaScript exceptions including detailed template line numbers, allowing for quick identification and resolution of issues.</li>
+</ul>
+</li>
+<li class="md-github">API Methods:
+<ul class="md-github">
+<li class="md-github">ejs.render: Takes a template string, data object, and optional configuration options; returns a rendered HTML string.</li>
+<li class="md-github">ejs.renderFile: Accepts a filename, data object, optional options, and a callback function that provides error handling and the final HTML string.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Information for Each Topic:</p>
+<ol class="md-github">
+<li class="md-github">Simple Syntax: Use plain JS in &lt;% ... %&gt; tags to output HTML; no additional preprocessing required.</li>
+<li class="md-github">Fast Execution: Leverage caching by setting cache: true; intermediate JS functions reduce render time.</li>
+<li class="md-github">Debugging: Errors are output with corresponding line numbers in the template file for quick debugging.</li>
+<li class="md-github">API Methods: Direct use of ejs.render and ejs.renderFile with explicit parameters as described.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">EJS configuration can be tailored through options. Key parameters include:</p>
+<ul class="md-github">
+<li class="md-github">cache: boolean (default false) - When true, caches compiled templates.</li>
+<li class="md-github">delimiter: string (default '%') - Defines the boundary for scriptlet tags.</li>
+<li class="md-github">compileDebug: boolean (default true) - Enables inclusion of debug information during compilation.</li>
+<li class="md-github">debug: boolean (default false) - Provides additional debug output during rendering.</li>
+</ul>
+<p class="md-github">Implementation Steps:</p>
+<ol class="md-github">
+<li class="md-github">For synchronous rendering, call ejs.render(templateString, data, options) to get the HTML output.</li>
+<li class="md-github">For file-based asynchronous rendering, use ejs.renderFile(filePath, data, options, callback), where the callback handles error checking and output display.</li>
+</ol>
+<p class="md-github">Best Practices:</p>
+<ul class="md-github">
+<li class="md-github">Enable caching in production environments to boost performance.</li>
+<li class="md-github">Utilize the compileDebug option in development for enhanced error reporting.</li>
+<li class="md-github">Customize the delimiter if your template conflicts with other templating languages.</li>
+</ul>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">If rendering issues occur, check for mismatched scriptlet tags in the template.</li>
+<li class="md-github">Verify that the file path is correct when using renderFile to avoid ENOENT errors.</li>
+<li class="md-github">Use verbose logging by setting debug: true to trace execution flow and error details.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">ejs.render</p>
+<ul class="md-github">
+<li class="md-github">Signature: ejs.render(template: string, data: object, options?: {cache?: boolean, filename?: string, delimiter?: string, compileDebug?: boolean, debug?: boolean}): string</li>
+<li class="md-github">Returns: Rendered HTML string</li>
+<li class="md-github">Exceptions: Throws standard JavaScript exceptions if syntax errors occur in the template.</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">ejs.renderFile</p>
+<ul class="md-github">
+<li class="md-github">Signature: ejs.renderFile(filename: string, data: object, options?: {cache?: boolean, delimiter?: string, compileDebug?: boolean, debug?: boolean}, callback: (err: Error, str: string) =&gt; void): void</li>
+<li class="md-github">Behavior: Asynchronously reads and renders a template file, passing errors and the final string to the callback.</li>
+<li class="md-github">Exceptions: Passes encountered errors (e.g., file not found, syntax errors) to the callback.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Full Code Examples:
+// Example 1: Synchronous Rendering
+var htmlOutput = ejs.render('<h1>Hello, &lt;%= user %&gt;!</h1>', { user: 'Alice' }, {cache: true, delimiter: '%'});
+// htmlOutput now contains the rendered HTML string</p>
+<p class="md-github">// Example 2: Asynchronous File Rendering
+// Assuming template.ejs exists in the filesystem
+ejs.renderFile('template.ejs', { user: 'Bob' }, {cache: true, compileDebug: true}, function(err, str) {
+if (err) {
+// Handle error, e.g., log or throw
+console.error('Render error:', err);
+return;
+}
+// Output the rendered HTML string
+console.log('Rendered HTML:', str);
+});</p>
+<p class="md-github">Implementation Patterns:</p>
+<ul class="md-github">
+<li class="md-github">Always validate data objects before passing to render methods.</li>
+<li class="md-github">Use caching in production to reduce compilation overhead.</li>
+<li class="md-github">In case of errors, inspect the template's exact line number provided in the exception message.</li>
+</ul>
+<p class="md-github">Configuration Options Summary:</p>
+<ul class="md-github">
+<li class="md-github">cache: Boolean, default false, enables caching of compiled templates.</li>
+<li class="md-github">delimiter: String, default '%', defines the tags used for scriptlets.</li>
+<li class="md-github">compileDebug: Boolean, default true, includes line number information for debugging.</li>
+<li class="md-github">debug: Boolean, default false, activates verbose mode for error tracing.</li>
+</ul>
+<p class="md-github">Troubleshooting Commands:</p>
+<ul class="md-github">
+<li class="md-github">To test template rendering independently, use a simple Node.js script invoking ejs.render with known good data.</li>
+<li class="md-github">Check file existence with system commands (e.g., ls or dir) if renderFile reports ENOENT.</li>
+<li class="md-github">For detailed error outputs, set debug to true and examine console logs for line number indications.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">EJS templating engine; plain JS scriptlets (&lt;% %&gt;), caching via 'cache' option (default false); API: render(string, data, {cache, filename, delimiter, compileDebug, debug}) returns HTML string, renderFile(filename, data, options, callback) handles async file rendering; configuration: delimiter default '%', compileDebug true, debug false; debugging via standard JS exceptions with template line numbers; code samples include synchronous and async usage; best practices involve enabling caching in production, validating inputs, and using compileDebug in development; troubleshooting involves checking scriptlet syntax and file existence.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">Simple Syntax:
+<ul class="md-github">
+<li class="md-github">EJS uses &lt;% and %&gt; for embedding plain JavaScript in templates. Developers can directly integrate JS logic for dynamic HTML output.</li>
+</ul>
+</li>
+<li class="md-github">Fast Execution:
+<ul class="md-github">
+<li class="md-github">EJS compiles templates to intermediate JavaScript functions. These functions are cached if the 'cache' option is enabled, resulting in high-performance rendering.</li>
+</ul>
+</li>
+<li class="md-github">Debugging and Error Handling:
+<ul class="md-github">
+<li class="md-github">Errors are thrown as standard JavaScript exceptions including detailed template line numbers, allowing for quick identification and resolution of issues.</li>
+</ul>
+</li>
+<li class="md-github">API Methods:
+<ul class="md-github">
+<li class="md-github">ejs.render: Takes a template string, data object, and optional configuration options; returns a rendered HTML string.</li>
+<li class="md-github">ejs.renderFile: Accepts a filename, data object, optional options, and a callback function that provides error handling and the final HTML string.</li>
+</ul>
+</li>
+</ol>
+<p class="md-github">Detailed Information for Each Topic:</p>
+<ol class="md-github">
+<li class="md-github">Simple Syntax: Use plain JS in &lt;% ... %&gt; tags to output HTML; no additional preprocessing required.</li>
+<li class="md-github">Fast Execution: Leverage caching by setting cache: true; intermediate JS functions reduce render time.</li>
+<li class="md-github">Debugging: Errors are output with corresponding line numbers in the template file for quick debugging.</li>
+<li class="md-github">API Methods: Direct use of ejs.render and ejs.renderFile with explicit parameters as described.</li>
+</ol>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">EJS Documentation
+https://ejs.co/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-ejs_docs" href="#digest-of-ejs_docs"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of EJS_DOCS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="ejs-documentation" href="#ejs-documentation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>EJS Documentation</h1>
+<p class="md-github">This document was generated on 2023-10-12. It contains precise technical details extracted from the EJS documentation page.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">EJS is a templating engine that leverages plain JavaScript for creating HTML content. It employs simple scriptlet tags to embed JavaScript code directly within templates, enabling fast development, speedy execution, and straightforward debugging.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="key-features" href="#key-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Key Features</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="simple-syntax" href="#simple-syntax"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Simple Syntax</h3>
+<ul class="md-github">
+<li class="md-github">Embeds JavaScript code using scriptlet tags such as &lt;% and %&gt;.</li>
+<li class="md-github">No complex or arcane syntax required.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="fast-development-and-execution" href="#fast-development-and-execution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fast Development and Execution</h3>
+<ul class="md-github">
+<li class="md-github">Utilizes the native V8 JavaScript engine for rapid execution.</li>
+<li class="md-github">Caches intermediate JavaScript functions to improve performance.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="debugging" href="#debugging"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debugging</h3>
+<ul class="md-github">
+<li class="md-github">Errors are thrown as plain JavaScript exceptions including template line-numbers.</li>
+<li class="md-github">Simplified error tracing for immediate troubleshooting.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="api-methods" href="#api-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Methods</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="ejsrender" href="#ejsrender"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ejs.render</h3>
+<ul class="md-github">
+<li class="md-github">Signature: ejs.render(template: string, data: object, options?: object): string</li>
+<li class="md-github">Description: Renders the provided template string with data, returning the resulting HTML as a string.</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="ejsrenderfile" href="#ejsrenderfile"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ejs.renderFile</h3>
+<ul class="md-github">
+<li class="md-github">Signature: ejs.renderFile(filename: string, data: object, options?: object, callback: (err: Error, str: string) =&gt; void): void</li>
+<li class="md-github">Description: Asynchronously renders the template file using the provided data and options. Returns the rendered content through a callback function.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="configuration-options" href="#configuration-options"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Configuration Options</h2>
+<ul class="md-github">
+<li class="md-github">cache (boolean): Enables/disables caching of compiled templates. Default is false.</li>
+<li class="md-github">delimiter (string): Customizes the delimiter to use for scriptlet tags. Default is '%'.</li>
+<li class="md-github">compileDebug (boolean): When true, includes compile-time debugging info. Default is true.</li>
+<li class="md-github">debug (boolean): Enables extra debugging output. Default is false.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Data Size: 9176 bytes</li>
+<li class="md-github">Links Found: 33</li>
+<li class="md-github">Retrieved from https://ejs.co/</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution-1" href="#attribution-1"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: EJS Documentation</li>
+<li class="md-github">URL: https://ejs.co/</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-28T02:22:17.753Z</li>
+<li class="md-github">Data Size: 9176 bytes</li>
+<li class="md-github">Links Found: 33</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-28</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-28T02:48:45.471Z</p>
+  </footer>
+</body>
+</html>
