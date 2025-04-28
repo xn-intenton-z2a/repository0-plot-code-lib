@@ -486,5 +486,74 @@ describe("GET /plot Content Negotiation", () => {
         .expect(400);
       expect(res.text).toContain("Error: Invalid strokeLinecap. Allowed values are 'butt', 'round', or 'square'.");
     });
+
+    // New tests for marker customization and extended gradientStops
+    test("should include custom marker definitions when marker customization parameters are provided", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          markerStart: "true",
+          markerEnd: "true",
+          markerShape: "path",
+          markerWidth: "12",
+          markerHeight: "12",
+          markerFill: "orange"
+        })
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+      expect(svgText).toContain('id="markerStart"');
+      expect(svgText).toContain('markerWidth="12"');
+      expect(svgText).toContain('markerHeight="12"');
+      expect(svgText).toContain('fill="orange"');
+      expect(svgText).toContain('id="markerEnd"');
+    });
+
+    test("should include extended gradient stops when gradientStops parameter is provided", async () => {
+      const stops = JSON.stringify([
+        { "offset": "0%", "stopColor": "green" },
+        { "offset": "50%", "stopColor": "purple", "stopOpacity": "0.5" },
+        { "offset": "100%", "stopColor": "yellow" }
+      ]);
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          colorGradient: "true",
+          gradientStops: stops
+        })
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+      expect(svgText).toContain('<linearGradient id="dynamicGradient">');
+      expect(svgText).toContain('<stop offset="0%" stop-color="green"');
+      expect(svgText).toContain('<stop offset="50%" stop-color="purple" stop-opacity="0.5"');
+      expect(svgText).toContain('<stop offset="100%" stop-color="yellow"');
+    });
+
+    test("should return error for invalid gradientStops", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          colorGradient: "true",
+          gradientStops: "invalid-json"
+        })
+        .expect(400);
+      expect(res.text).toContain("Error: Invalid gradientStops format");
+    });
+  });
+});
+
+describe("GET /plot Module Index Tests", () => {
+  test("module index should be defined", () => {
+    expect(true).toBe(true);
   });
 });

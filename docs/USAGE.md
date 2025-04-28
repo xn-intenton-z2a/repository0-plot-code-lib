@@ -1,88 +1,81 @@
-# Usage Guide for repository0-plot-code-lib
-
-## Introduction
+## Usage Guide for repository0-plot-code-lib
 
 repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files (with support for default fallback values), dynamic color gradient support for SVG outputs, custom SVG dimensions, optional marker support with accessibility improvements, and new SVG styling options for stroke width, dash patterns, and line cap styles.
 
-## CLI Plot Generation
+### CLI Plot Generation
 
 You can generate plots directly from the command line by providing the following flags:
 
 - **--help**: Displays this help message with usage information, flag details, and examples.
-- **--version**: Displays the current version (read from package.json) and exits immediately without processing any other flags. Note that if --version is provided alongside other flags, it takes precedence.
+- **--version**: Displays the current version and exits immediately without processing any other flags.
 - **--verbose**: Enables verbose mode, which outputs additional debugging information.
 - **--expression**: The mathematical expression to plot (e.g., "y=sin(x)"). **Note:** The expression must include the variable 'x'.
 - **--range**: The range for plotting (e.g., "x=-1:1,y=-1:1").
   - Must follow the pattern: `x=<min>:<max>,y=<min>:<max>` with numeric values. Extra whitespace is allowed.
   - **Numeric Order Enforcement:** The lower bound must be less than the upper bound for both x and y ranges.
   - **Enhanced Error Feedback:** 
-    - If the range format is malformed (e.g., missing delimiters, non-numeric inputs, or extra whitespace), you will receive an error message such as:
-      > Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.
-    - If the numeric order is invalid (e.g., x min is not less than x max), the error message will be like:
-      > Error: Invalid range for x (provided: x=5:1). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.
-
+    - If the range format is malformed, an error message is provided.
+    - If the numeric order is invalid, a specific error message is shown.
 - **--file**: The output file path. The file extension determines the output type:
-  - **.svg**: Generates an SVG plot with annotations and a plot element representing the curve. The curve is rendered as a blue polyline or a smooth path when smoothing is enabled. With dynamic color gradient enabled, the stroke will reference a defined gradient. **New Feature:** The generated SVG includes a `data-metadata` attribute on its root element. This attribute contains a JSON string with detailed plot metadata such as the original expression, input range, computed x and y ranges, axis labels, resolution, and any custom parameters provided. This metadata allows downstream tools to easily extract plot details for further processing.
+  - **.svg**: Generates an SVG plot with annotations and a plot element.
   - **.png**: Generates a PNG plot using dummy placeholder image data.
 
-- **--width** and **--height**: Specify custom dimensions for the generated SVG plot. Both should be positive numbers. Defaults are 300 (width) and 150 (height).
+Other important flags include:
 
-- **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for `image/svg+xml`, `image/png`, and `application/json`.
+- **--width** and **--height**: Specify custom dimensions for the generated SVG plot. Defaults are 300 (width) and 150 (height).
+- **--serve**: Runs the HTTP server mode with a `/plot` endpoint that supports content negotiation for SVG, PNG, and JSON.
+- **--jsonExport**: Outputs a detailed JSON export of the plot data instead of an image when set to true.
+- **--config**: Specifies a path to an external configuration file (JSON or YAML) with support for environment variable interpolation and CLI overrides.
+- **--env**: Specifies a custom path to a .env file from which environment variables are loaded.
 
-- **--jsonExport**: When provided with the value `true` alongside `--expression` and `--range` (and optionally `--file`), the tool outputs a detailed JSON export of the plot data instead of an image. This JSON includes:
-  - `expression`: The original mathematical expression.
-  - `range`: The input range string.
-  - `points`: An array of computed plot point objects (default 100 points, or as specified by the resolution parameter).
-  - `computedXRange`: An object with keys `{ min, max }` reflecting the x-range limits from the input.
-  - `computedYRange`: An object with keys `{ min, max }` representing the computed y-range based on evaluation.
-  - `axisLabels`: Descriptive labels for the axes, e.g., "x-axis: 0 to 10".
-  - `resolution`: The number of points computed.
+### Advanced Plot Customizations
 
-- **--config**: Specifies a path to an external configuration file containing default parameters for generating plots. **Note:** Both JSON and YAML configuration files (with extensions .json, .yaml, or .yml) are supported. Environment variable placeholders (e.g., `${VAR}` or `${VAR:default}`) are supported, even in nested objects. CLI flags take precedence over configuration file values.
+#### Curve Smoothing
 
-- **--env**: Specifies a custom path to a .env file. If provided, environment variables are loaded from the specified file instead of the default .env file.
+- **--smooth**: When enabled with "true", renders the plot as a smooth curve using quadratic Bezier interpolation.
+- **--smoothingFactor**: A value between 0 and 1 (default 0.5) that fine-tunes the smoothness of the curve.
 
-- **--smooth**: Enable curve smoothing. When set to "true", the plot is rendered as a smooth curve using quadratic Bezier interpolation (using a `<path>` element instead of a `<polyline>`).
+#### Stroke Styling
 
-- **--smoothingFactor**: When smoothing is enabled, this floating-point number between 0 and 1 (default 0.5) fine-tunes the curve by adjusting the control points for quadratic Bezier interpolation.
+- **--strokeWidth**: Specifies the stroke width for the plot curve (must be a positive number).
+- **--strokeDashArray**: Specifies a dash pattern (e.g., "5,5") for the stroke.
+- **--strokeLinecap**: Specifies the style for stroke end caps. Allowed values are `butt`, `round`, or `square`.
 
-- **--markerStart** and **--markerEnd**: When set to "true", these flags add arrowhead markers at the start and/or end of the plot curve. The SVG output will include `<marker>` definitions and apply them to the curve via `marker-start` and/or `marker-end` attributes.
+#### Marker Customization
 
-- **--svgRole**: Specifies a custom role (e.g., `img`) for the SVG root element to enhance accessibility.
+You can customize marker appearance on the plot curve using the following parameters:
 
-- **--strokeWidth**: Specifies the width of the stroke for the plot curve. Must be a positive number. This applies to both smooth paths and polylines.
+- **--markerStart** and **--markerEnd**: When set to "true", adds marker arrowheads at the start and/or end of the curve.
+- **--markerShape**: Specifies the SVG element to use for the marker (default is `path`).
+- **--markerWidth** and **--markerHeight**: Specify the dimensions of the marker. Defaults are 10 if not provided.
+- **--markerFill**: Specifies the fill color for the marker. Defaults to "black".
 
-- **--strokeDashArray**: Specifies a dash pattern for the stroke (e.g., "5,5"). Must be a non-empty string. This defines the pattern of dashes and gaps in the stroke.
+*Example:*
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file plot.svg --markerStart true --markerEnd true --markerShape path --markerWidth 12 --markerHeight 12 --markerFill orange
+```
 
-- **--strokeLinecap**: *New.* Specifies the style for the stroke end caps. Allowed values are `butt`, `round`, or `square`. This attribute is applied to the stroke of the plot curve, whether it is rendered as a `<polyline>` or a `<path>`.
+#### Extended Gradient Configuration
 
-- **--colorGradient**, **--gradientStartColor**, and **--gradientEndColor**: Enable and configure a dynamic color gradient for the stroke of the plot. When `--colorGradient` is set to "true", the stroke uses a linear gradient defined by the start and end colors (default colors are blue and red respectively).
+The library supports dynamic color gradients for the plot stroke. Use the following parameters to customize the gradient:
 
-## Marker and Accessibility Enhancements
+- **--colorGradient**: When set to "true", enables gradient coloring.
+- **--gradientStartColor** and **--gradientEndColor**: Define a simple two-stop gradient if no extended configuration is provided.
+- **--gradientStops**: Provide a JSON array string to define multiple gradient stops. Each stop should be an object with at least `offset` and `stopColor`, and optionally `stopOpacity`.
 
-Optional enhancements:
+*Example:*
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file plot.svg --colorGradient true \
+  --gradientStops '[{"offset": "0%", "stopColor": "green"}, {"offset": "50%", "stopColor": "purple", "stopOpacity": "0.5"}, {"offset": "100%", "stopColor": "yellow"}]'
+```
 
-- **Markers:** Use `--markerStart` and `--markerEnd` to add arrowheads. The SVG output will include `<marker>` definitions and apply them to the curve via `marker-start` and/or `marker-end` attributes.
+### Marker and Accessibility Enhancements
 
-- **Accessibility:** Use `--svgRole` to set a role attribute (e.g., `img`) on the SVG element, and customize ARIA labels with `--xlabelAriaLabel` and `--ylabelAriaLabel`.
+- **--svgRole**: Sets a custom role attribute on the SVG element (e.g., `img`).
+- **--xlabelAriaLabel** and **--ylabelAriaLabel**: Customize ARIA labels for the axis texts.
+- **--xlabelAnchor** and **--ylabelAnchor**: Specify the text anchor alignment (`start`, `middle`, or `end`) for the axis labels.
 
-## Dynamic Color Gradient Support
-
-When `--colorGradient` is set to "true", the generated SVG includes a linear gradient for the stroke. You can further customize the gradient with `--gradientStartColor` and `--gradientEndColor`.
-
-## Adaptive Resolution and Curve Smoothing
-
-- **--resolution:** Specifies the number of points computed along the x-axis (default is 100).
-
-- **--smooth:** When set to "true", renders the plot as a smooth curve using quadratic Bezier interpolation.
-
-- **--smoothingFactor:** Adjusts the control points used in curve smoothing (accepts a value between 0 and 1, default 0.5).
-
-## Nested Configuration Support
-
-Configuration files can include nested objects. All environment variable placeholders in nested properties (e.g., `display.width`) are recursively interpolated. In case of invalid values for numeric fields in nested objects, error messages will include the full property path (for example, "display.width") to help you quickly identify and correct configuration issues.
-
-## Examples
+### Examples
 
 1. **Generate a Basic SVG Plot with Default Settings:**
    ```sh
@@ -106,15 +99,21 @@ Configuration files can include nested objects. All environment variable placeho
 
 5. **Generate an SVG with a Dynamic Color Gradient:**
    ```sh
-   GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&colorGradient=true&gradientStartColor=green&gradientEndColor=yellow
+   GET /plot?expression=y=sin(x)&range=x=0:10,y=0:10&fileType=svg&colorGradient=true&gradientStartColor=blue&gradientEndColor=red
    ```
 
-6. **Generate an SVG with Markers, Custom Stroke Styles, and Stroke Line Cap:**
+6. **Generate an SVG with Extended Gradient Stops:**
+   ```sh
+   node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.svg --colorGradient true \
+     --gradientStops '[{"offset": "0%", "stopColor": "green"}, {"offset": "50%", "stopColor": "purple", "stopOpacity": "0.5"}, {"offset": "100%", "stopColor": "yellow"}]'
+   ```
+
+7. **Generate an SVG with Markers, Custom Stroke Styles, and Stroke Line Cap:**
    ```sh
    node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file output.svg --markerStart true --markerEnd true --svgRole img --strokeWidth 2 --strokeDashArray "5,5" --strokeLinecap round
    ```
 
-7. **Using an External Configuration File with CLI Overrides:**
+8. **Using an External Configuration File with CLI Overrides:**
    ```sh
    node src/lib/main.js --config config.json --expression "y=sin(x)" --file output.svg --width 600 --height 400 --ylabel "CLI_YAxis"
    ```

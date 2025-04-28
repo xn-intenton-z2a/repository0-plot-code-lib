@@ -206,10 +206,16 @@ function computePlotData(expression, range, customLabels = {}) {
   let xAxisLabelText;
   if (customLabels.xlabel) {
     xAxisLabelText = customLabels.xlabel;
+  } else if (xPrecision !== null && locale === "de-DE") {
+    let rx = roundHalfAwayFromZero(xMin, xPrecision);
+    let rX = roundHalfAwayFromZero(xMax, xPrecision);
+    rx = rx.replace(".", ",");
+    rX = rX.replace(".", ",");
+    xAxisLabelText = `x-axis: ${rx} to ${rX}`;
   } else if (xPrecision !== null && locale) {
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: xPrecision,
-      maximumFractionDigits: xPrecision,
+      maximumFractionDigits: xPrecision
     });
     xAxisLabelText = `x-axis: ${formatter.format(xMin)} to ${formatter.format(xMax)}`;
   } else if (xPrecision !== null) {
@@ -221,10 +227,16 @@ function computePlotData(expression, range, customLabels = {}) {
   let yAxisLabelText;
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
+  } else if (yPrecision !== null && locale === "de-DE") {
+    let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
+    let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
+    ry = ry.replace(".", ",");
+    rY = rY.replace(".", ",");
+    yAxisLabelText = `y-axis: ${ry} to ${rY}`;
   } else if (yPrecision !== null && locale) {
     const formatter = new Intl.NumberFormat(locale, {
       minimumFractionDigits: yPrecision,
-      maximumFractionDigits: yPrecision,
+      maximumFractionDigits: yPrecision
     });
     yAxisLabelText = `y-axis: ${formatter.format(yInputMin)} to ${formatter.format(yInputMax)}`;
   } else if (yPrecision !== null) {
@@ -292,21 +304,60 @@ function createSvgPlot(expression, range, customLabels = {}) {
   // Dynamic color gradient and marker support
   let strokeAttr = 'stroke="blue"';
   let defsElements = "";
+  // Extended Gradient Configuration
   if (String(customLabels.colorGradient) === "true") {
-    const gradientStart = customLabels.gradientStartColor || "blue";
-    const gradientEnd = customLabels.gradientEndColor || "red";
-    defsElements += `<linearGradient id="dynamicGradient"><stop offset="0%" stop-color="${gradientStart}" /><stop offset="100%" stop-color="${gradientEnd}" /></linearGradient>`;
+    if (customLabels.gradientStops != null && customLabels.gradientStops.toString().trim() !== "") {
+      let stopsArray;
+      try {
+        stopsArray = JSON.parse(customLabels.gradientStops);
+        if (!Array.isArray(stopsArray) || stopsArray.length === 0) {
+          throw new Error();
+        }
+      } catch (e) {
+        throw new Error("Error: Invalid gradientStops format. Expected a JSON array string with at least one stop.");
+      }
+      let stopsElements = "";
+      stopsArray.forEach((stop) => {
+        if (stop.offset == null || stop.stopColor == null) {
+          throw new Error("Error: Each gradient stop must include offset and stopColor.");
+        }
+        stopsElements += `<stop offset=\"${stop.offset}\" stop-color=\"${stop.stopColor}\"${stop.stopOpacity != null ? ` stop-opacity=\"${stop.stopOpacity}\"` : ""} />`;
+      });
+      defsElements += `<linearGradient id=\"dynamicGradient\">${stopsElements}</linearGradient>`;
+    } else {
+      const gradientStart = customLabels.gradientStartColor || "blue";
+      const gradientEnd = customLabels.gradientEndColor || "red";
+      defsElements += `<linearGradient id=\"dynamicGradient\"><stop offset=\"0%\" stop-color=\"${gradientStart}\" /><stop offset=\"100%\" stop-color=\"${gradientEnd}\" /></linearGradient>`;
+    }
     strokeAttr = 'stroke="url(#dynamicGradient)"';
   }
+
+  // Marker customization support with new parameters
   if (String(customLabels.markerStart).toLowerCase() === "true") {
-    defsElements += `<marker id="markerStart" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,0 L0,6 L6,3 z" fill="black" /></marker>`;
+    const mShape = customLabels.markerShape || "path";
+    const mWidth = customLabels.markerWidth != null ? customLabels.markerWidth : "10";
+    const mHeight = customLabels.markerHeight != null ? customLabels.markerHeight : "10";
+    const mFill = customLabels.markerFill || "black";
+    let markerPath = "";
+    if (mShape === "path") {
+      markerPath = "M0,0 L0,6 L6,3 z";
+    } else {
+      markerPath = "M0,0 L0,6 L6,3 z"; // default fallback
+    }
+    defsElements += `<marker id=\"markerStart\" markerWidth=\"${mWidth}\" markerHeight=\"${mHeight}\" refX=\"0\" refY=\"3\" orient=\"auto\" markerUnits=\"strokeWidth\"><${mShape} d=\"${markerPath}\" fill=\"${mFill}\" /></marker>`;
   }
   if (String(customLabels.markerEnd).toLowerCase() === "true") {
-    defsElements += `<marker id="markerEnd" markerWidth="10" markerHeight="10" refX="10" refY="3" orient="auto" markerUnits="strokeWidth"><path d="M0,3 L6,0 L6,6 z" fill="black" /></marker>`;
-  }
-  let defs = "";
-  if (defsElements !== "") {
-    defs = `<defs>${defsElements}</defs>`;
+    const mShape = customLabels.markerShape || "path";
+    const mWidth = customLabels.markerWidth != null ? customLabels.markerWidth : "10";
+    const mHeight = customLabels.markerHeight != null ? customLabels.markerHeight : "10";
+    const mFill = customLabels.markerFill || "black";
+    let markerPath = "";
+    if (mShape === "path") {
+      markerPath = "M0,3 L6,0 L6,6 z";
+    } else {
+      markerPath = "M0,3 L6,0 L6,6 z";
+    }
+    defsElements += `<marker id=\"markerEnd\" markerWidth=\"${mWidth}\" markerHeight=\"${mHeight}\" refX=\"10\" refY=\"3\" orient=\"auto\" markerUnits=\"strokeWidth\"><${mShape} d=\"${markerPath}\" fill=\"${mFill}\" /></marker>`;
   }
 
   // Additional marker attributes for the plot element
@@ -353,10 +404,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
       smoothingFactor = parsed;
     }
     const pathData = buildSmoothPath(mappedPoints, smoothingFactor);
-    shapeElement = `<path d="${pathData}" ${strokeAttr}${markerAttributes}${additionalStrokeAttrs} fill="none"/>`;
+    shapeElement = `<path d=\"${pathData}\" ${strokeAttr}${markerAttributes}${additionalStrokeAttrs} fill=\"none\"/>`;
   } else {
     const polylinePoints = mappedPoints.map((p) => `${p.x.toFixed(2)},${p.y.toFixed(2)}`).join(" ");
-    shapeElement = `<polyline points="${polylinePoints}" ${strokeAttr}${markerAttributes}${additionalStrokeAttrs} fill="none" />`;
+    shapeElement = `<polyline points=\"${polylinePoints}\" ${strokeAttr}${markerAttributes}${additionalStrokeAttrs} fill=\"none\" />`;
   }
 
   // Determine x-axis label positioning and rotation
@@ -374,18 +425,18 @@ function createSvgPlot(expression, range, customLabels = {}) {
       : (svgHeight - 5).toFixed(2);
   let xTransform = "";
   if (customLabels.xlabelRotation != null) {
-    xTransform = ` transform="rotate(${customLabels.xlabelRotation}, ${xLabelX}, ${xLabelY})"`;
+    xTransform = ` transform=\"rotate(${customLabels.xlabelRotation}, ${xLabelX}, ${xLabelY})\"`;
   }
 
   // Determine y-axis label positioning and rotation
   let yLabelAttributes;
   const ylabelRotation = customLabels.ylabelRotation != null ? customLabels.ylabelRotation : -90;
   if (customLabels.ylabelOffsetX != null && customLabels.ylabelOffsetY != null) {
-    yLabelAttributes = `x="${customLabels.ylabelOffsetX}" y="${customLabels.ylabelOffsetY}" transform="rotate(${ylabelRotation}, ${customLabels.ylabelOffsetX}, ${customLabels.ylabelOffsetY})"`;
+    yLabelAttributes = `x=\"${customLabels.ylabelOffsetX}\" y=\"${customLabels.ylabelOffsetY}\" transform=\"rotate(${ylabelRotation}, ${customLabels.ylabelOffsetX}, ${customLabels.ylabelOffsetY})\"`;
   } else if (customLabels.ylabelX != null && customLabels.ylabelY != null) {
-    yLabelAttributes = `x="${customLabels.ylabelX}" y="${customLabels.ylabelY}" transform="rotate(${ylabelRotation}, ${customLabels.ylabelX}, ${customLabels.ylabelY})"`;
+    yLabelAttributes = `x=\"${customLabels.ylabelX}\" y=\"${customLabels.ylabelY}\" transform=\"rotate(${ylabelRotation}, ${customLabels.ylabelX}, ${customLabels.ylabelY})\"`;
   } else {
-    yLabelAttributes = `x="5" y="${(svgHeight / 2).toFixed(2)}" transform="rotate(${ylabelRotation}, 10, ${(svgHeight / 2).toFixed(2)})"`;
+    yLabelAttributes = `x=\"5\" y=\"${(svgHeight / 2).toFixed(2)}\" transform=\"rotate(${ylabelRotation}, 10, ${(svgHeight / 2).toFixed(2)})\"`;
   }
 
   // ARIA and text anchor attributes with support for custom parameters
@@ -402,10 +453,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
     throw new Error("Error: Invalid value for ylabelAnchor. Allowed values are 'start', 'middle', or 'end'.");
   }
 
-  const xFontSizeAttr = customLabels.xlabelFontSize ? ` font-size="${customLabels.xlabelFontSize}"` : "";
-  const xFillAttr = customLabels.xlabelColor ? ` fill="${customLabels.xlabelColor}"` : "";
-  const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size="${customLabels.ylabelFontSize}"` : "";
-  const yFillAttr = customLabels.ylabelColor ? ` fill="${customLabels.ylabelColor}"` : "";
+  const xFontSizeAttr = customLabels.xlabelFontSize ? ` font-size=\"${customLabels.xlabelFontSize}\"` : "";
+  const xFillAttr = customLabels.xlabelColor ? ` fill=\"${customLabels.xlabelColor}\"` : "";
+  const yFontSizeAttr = customLabels.ylabelFontSize ? ` font-size=\"${customLabels.ylabelFontSize}\"` : "";
+  const yFillAttr = customLabels.ylabelColor ? ` fill=\"${customLabels.ylabelColor}\"` : "";
 
   // Prepare SVG metadata to be embedded as a data attribute; only for SVG outputs
   const svgMetadata = JSON.stringify({
@@ -425,31 +476,36 @@ function createSvgPlot(expression, range, customLabels = {}) {
     roleAttr = ` role=\"${String(customLabels.svgRole)}\"`;
   }
 
+  // Wrap defsElements in <defs> if any definitions exist
+  if (defsElements !== "") {
+    defsElements = `<defs>${defsElements}</defs>`;
+  }
+
   // Construct SVG content in one line to avoid unintended whitespace/newlines
   const svgContent =
-    '<svg xmlns="http://www.w3.org/2000/svg" width="' +
+    '<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"' +
     svgWidth +
-    '" height="' +
+    '\" height=\"' +
     svgHeight +
-    '" viewBox="0 0 ' +
+    '\" viewBox=\"0 0 ' +
     svgWidth +
     ' ' +
     svgHeight +
-    '"' + roleAttr + ' data-metadata="' +
+    '\"' + roleAttr + ' data-metadata=\"' +
     metadataEscaped +
-    '">' +
-    defs +
-    '<text x="' +
+    '\">' +
+    defsElements +
+    '<text x=\"' +
     xLabelX +
-    '" y="' +
+    '\" y=\"' +
     xLabelY +
-    '"' +
+    '\"' +
     xTransform +
-    ' aria-label="' +
+    ' aria-label=\"' +
     xAriaLabel +
-    '" text-anchor="' +
+    '\" text-anchor=\"' +
     xTextAnchor +
-    '"' +
+    '\"' +
     xFontSizeAttr +
     xFillAttr +
     '>' +
@@ -457,17 +513,17 @@ function createSvgPlot(expression, range, customLabels = {}) {
     '</text>' +
     '<text ' +
     yLabelAttributes +
-    ' aria-label="' +
+    ' aria-label=\"' +
     yAriaLabel +
-    '" text-anchor="' +
+    '\" text-anchor=\"' +
     yTextAnchor +
-    '"' +
+    '\"' +
     yFontSizeAttr +
     yFillAttr +
     '>' +
     plotData.axisLabels.y +
     '</text>' +
-    '<text x="10" y="20">Plot for: ' +
+    '<text x=\"10\" y=\"20\">Plot for: ' +
     expression.trim() +
     ' in range ' +
     range.trim() +
@@ -525,11 +581,16 @@ function loadConfig(cliOptions) {
         colorGradient: z.enum(["true", "false"]).optional(),
         gradientStartColor: z.string().optional(),
         gradientEndColor: z.string().optional(),
+        gradientStops: z.string().optional(),
         width: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().positive()).optional(),
         height: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().positive()).optional(),
         smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional(),
         markerStart: z.string().optional(),
         markerEnd: z.string().optional(),
+        markerShape: z.string().optional(),
+        markerWidth: z.any().optional(),
+        markerHeight: z.any().optional(),
+        markerFill: z.string().optional(),
         svgRole: z.string().optional(),
         strokeWidth: z.preprocess((val) => (val === "" ? undefined : val), z.any()).optional(),
         strokeDashArray: z.string().optional(),
@@ -642,16 +703,18 @@ app.get("/plot", (req, res) => {
   }
 
   res.set("Vary", "Accept");
-  const accept = req.headers.accept;
-  if (accept) {
-    if (accept.includes("image/svg+xml")) {
+  let accept = req.headers.accept;
+  // If the Accept header is a wildcard, treat it as not provided to use fileType fallback
+  const effectiveAccept = (accept && accept.includes("*/*")) ? "" : accept;
+  if (effectiveAccept) {
+    if (effectiveAccept.includes("image/svg+xml")) {
       res.type("svg");
       return res.send(String(svg));
-    } else if (accept.includes("image/png")) {
+    } else if (effectiveAccept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
       return res.send(dummyPng);
-    } else if (accept.includes("application/json")) {
+    } else if (effectiveAccept.includes("application/json")) {
       res.type("json");
       return res.json({ expression: expression, range: range, message: "Plot generation details" });
     } else {
