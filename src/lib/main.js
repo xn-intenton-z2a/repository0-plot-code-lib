@@ -236,7 +236,6 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale === "de-DE") {
-    // For y-axis in de-DE, use rounding for consistency
     let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
     let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
     ry = ry.replace(".", ",");
@@ -249,14 +248,7 @@ function computePlotData(expression, range, customLabels = {}) {
     });
     yAxisLabelText = `y-axis: ${formatter.format(yInputMin)} to ${formatter.format(yInputMax)}`;
   } else if (yPrecision !== null) {
-    // Without locale, use truncation (floor) for y-axis
-    function truncateNumber(value, precision) {
-      const factor = Math.pow(10, precision);
-      return (Math.floor(value * factor) / factor).toFixed(precision);
-    }
-    let ry = truncateNumber(yInputMin, yPrecision);
-    let rY = truncateNumber(yInputMax, yPrecision);
-    yAxisLabelText = `y-axis: ${ry} to ${rY}`;
+    yAxisLabelText = `y-axis: ${roundHalfAwayFromZero(yInputMin, yPrecision)} to ${roundHalfAwayFromZero(yInputMax, yPrecision)}`;
   } else {
     yAxisLabelText = `y-axis: ${yInputMin} to ${yInputMax}`;
   }
