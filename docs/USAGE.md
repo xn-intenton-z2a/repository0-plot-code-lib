@@ -46,7 +46,7 @@ You can generate plots directly from the command line by providing the following
 
 - **--smoothingFactor**: When smoothing is enabled, this floating-point number between 0 and 1 (default 0.5) fine-tunes the curve by adjusting the control points for quadratic Bezier interpolation.
 
-- **--markerStart** and **--markerEnd**: When set to "true", these flags add arrowhead markers at the start and/or end of the plot curve. The SVG will include marker definitions and corresponding attributes (`marker-start` and `marker-end`).
+- **--markerStart** and **--markerEnd**: When set to "true", these flags add arrowhead markers at the start and/or end of the plot curve. The SVG will include marker definitions and apply them to the curve via `marker-start` and/or `marker-end` attributes.
 
 - **--svgRole**: Specifies a custom role (e.g., `img`) for the SVG root element to enhance accessibility.
 
@@ -75,6 +75,10 @@ When `--colorGradient` is set to "true", the generated SVG includes a linear gra
 - **--smooth:** When set to "true", renders the plot as a smooth curve using quadratic Bezier interpolation.
 
 - **--smoothingFactor:** Adjusts the control points used in curve smoothing (accepts a value between 0 and 1, default 0.5).
+
+## Nested Configuration Support
+
+Configuration files can include nested objects. All environment variable placeholders in nested properties (e.g., `display.width`) are recursively interpolated. In case of invalid values for numeric fields in nested objects, error messages will include the full property path (for example, "display.width") to help you quickly identify and correct configuration issues.
 
 ## Examples
 

@@ -518,7 +518,11 @@ function loadConfig(cliOptions) {
         markerEnd: z.string().optional(),
         svgRole: z.string().optional(),
         strokeWidth: z.preprocess((val) => (val === "" ? undefined : val), z.any()).optional(),
-        strokeDashArray: z.string().optional()
+        strokeDashArray: z.string().optional(),
+        display: z.object({
+          width: z.preprocess((val) => Number(val), z.number().positive()),
+          height: z.preprocess((val) => Number(val), z.number().positive())
+        }).optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       const mergedOptions = Object.assign({}, validatedConfig, cliOptions);
@@ -554,8 +558,11 @@ function loadConfig(cliOptions) {
         ];
         const errorMessages = e.errors.map(err => {
           const key = err.path.join('.');
-          const prefix = numericKeys.includes(key) ? "Error: Invalid numeric value for" : "Error: Invalid value for";
-          return `${prefix} ${key} with value "${err.received}". ${err.message}`;
+          if (numericKeys.includes(key)) {
+            return `Error: Invalid numeric value for ${key}. ${err.message}`;
+          } else {
+            return `Error at '${key}': ${err.message}`;
+          }
         }).join("; ");
         throw new Error(errorMessages);
       }
