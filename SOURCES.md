@@ -157,3 +157,18 @@ This source from the 12 Factor App website provides important guidelines for con
 ## https://www.bennadel.com/blog/3925-using-zod-to-validate-configuration-in-node-js.htm
 This article provides a practical example of using Zod to validate and merge configuration in a Node.js application. It details how to enforce schema validation on configuration sources, including environment variables, CLI arguments, and configuration files. This resource complements our library's approach to configuration management by offering actionable insights on leveraging Zod for building robust systems.
 ## Unknown License
+
+# MDN SVG Gradients
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/SVG_gradients
+This MDN documentation explains how to design and implement gradients within SVG documents, including both linear and radial gradients. It provides actionable insights on gradient stops, color transitions, and styling techniques. Its practical examples are particularly useful for implementing dynamic color gradients in our SVG plot outputs.
+## CC-BY-SA
+
+# Understanding ECMAScript Modules
+## https://2ality.com/2014/09/es6-modules-final.html
+This insightful article by Dr. Axel Rauschmayer dives deep into the mechanics of ECMAScript Modules, covering import/export behaviors, live bindings, and module resolution strategies. The detailed explanations and examples help developers effectively structure and optimize ESM-based projects, which is essential for maintaining the modular architecture of our library.
+## Unknown License
+
+# MDN SVG Path Data
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/d
+This MDN resource provides comprehensive details about the SVG "d" attribute used for defining path data. It covers the syntax and commands for constructing paths, offering practical guidance on creating smooth curves and complex shapes. These insights directly support our implementation of smooth curve rendering in SVG plots, making it a valuable technical reference.
+## CC-BY-SA
