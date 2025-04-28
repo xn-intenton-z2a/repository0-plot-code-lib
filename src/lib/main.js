@@ -236,13 +236,9 @@ function computePlotData(expression, range, customLabels = {}) {
   if (customLabels.ylabel) {
     yAxisLabelText = customLabels.ylabel;
   } else if (yPrecision !== null && locale === "de-DE") {
-    // For de-DE, use floor rounding for y-axis to avoid rounding up the maximum value
-    const floorValue = (value, precision) => {
-      const factor = Math.pow(10, precision);
-      return (Math.floor(value * factor) / factor).toFixed(precision);
-    };
-    let ry = floorValue(yInputMin, yPrecision);
-    let rY = floorValue(yInputMax, yPrecision);
+    // Use standard rounding for de-DE locale for y-axis as well
+    let ry = roundHalfAwayFromZero(yInputMin, yPrecision);
+    let rY = roundHalfAwayFromZero(yInputMax, yPrecision);
     ry = ry.replace(".", ",");
     rY = rY.replace(".", ",");
     yAxisLabelText = `y-axis: ${ry} to ${rY}`;
@@ -755,7 +751,7 @@ app.get("/plot", (req, res) => {
   if (effectiveAccept) {
     if (effectiveAccept.includes("image/svg+xml")) {
       res.type("svg");
-      return res.send(String(svg));
+      return res.send(svg);
     } else if (effectiveAccept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
@@ -769,7 +765,7 @@ app.get("/plot", (req, res) => {
   } else {
     if (fileType.toLowerCase() === "svg") {
       res.type("svg");
-      return res.send(String(svg));
+      return res.send(svg);
     } else if (fileType.toLowerCase() === "png") {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
