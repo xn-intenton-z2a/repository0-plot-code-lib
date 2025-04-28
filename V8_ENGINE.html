@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="v8_engine" href="#v8_engine"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>V8_ENGINE</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">V8 engine is a high-performance JavaScript and WebAssembly engine implemented in C++ with a generational, stop-the-world garbage collector. It supports ECMAScript and is used in Chrome and Node.js. The documentation details building from source using GN and Ninja, cross-compiling for ARM/iOS, embedding V8 in C++ applications through APIs like v8::Isolate::New and v8::Context::New, debugging via GDB and the Inspector Protocol, profiling with D8 and Linux perf, and specific port handling instructions for various architectures.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">V8 Overview</p>
+</li>
+<li class="md-github">
+<p class="md-github">Supported Platforms</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Components</p>
+</li>
+<li class="md-github">
+<p class="md-github">Embedding V8</p>
+</li>
+<li class="md-github">
+<p class="md-github">Building V8</p>
+</li>
+<li class="md-github">
+<p class="md-github">Debugging &amp; Profiling</p>
+</li>
+<li class="md-github">
+<p class="md-github">JavaScript &amp; WebAssembly Features</p>
+</li>
+<li class="md-github">
+<p class="md-github">Handling Ports</p>
+</li>
+<li class="md-github">
+<p class="md-github">V8 Overview:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">High-performance C++ engine for JavaScript and WebAssembly.</li>
+<li class="md-github">Implements full ECMAScript standard.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Supported Platforms:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Native support on Windows, macOS, Linux (x64, IA-32, ARM).</li>
+<li class="md-github">Additional ports for IBM i, AIX, MIPS, ppc64, s390x, RISC-V, Loong64 via external teams.</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Core Components:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Compiler: Translates JS to machine code with optimizations.</li>
+<li class="md-github">Garbage Collector: Stop-the-world, generational, accurate.</li>
+<li class="md-github">Memory Manager: Allocates and recycles JS objects.</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Embedding V8:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Use v8::Isolate::New(CreateParams) to create an instance.</li>
+<li class="md-github">Create a context with v8::Context::New(isolate).</li>
+<li class="md-github">Expose C++ functions and objects to JS by linking via V8 API.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Building V8:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Checkout source repository using depot_tools.</li>
+<li class="md-github">Generate build files with GN (gn gen out/Default).</li>
+<li class="md-github">Build with Ninja (ninja -C out/Default).</li>
+<li class="md-github">Options for cross-compiling on ARM/Android and iOS available.</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Debugging &amp; Profiling:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Debug shell: D8.</li>
+<li class="md-github">Use GDB to debug builtins, integrated with V8 Inspector Protocol.</li>
+<li class="md-github">Profiling using Linux perf, sample-based profiling, and runtime call statistics.</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">JavaScript &amp; WebAssembly Features:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Supports all ECMAScript data types, operators, and functions.</li>
+<li class="md-github">Integration with WebAssembly features, including BigInt and SIMD.</li>
+</ul>
+<ol start="8" class="md-github">
+<li class="md-github">Handling Ports:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">ARM: Direct porting instructions, contact v8-arm-ports@googlegroups.com if issues.</li>
+<li class="md-github">MIPS, PPC, s390, RISC-V, Loong64: Follow team-specific guidelines available in source documentation.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Building Configuration:</p>
+<ul class="md-github">
+<li class="md-github">Build System: GN + Ninja</li>
+<li class="md-github">Example Commands:
+gn gen out/Default
+ninja -C out/Default</li>
+<li class="md-github">Cross-compiling: Specify target architecture in GN args (e.g., target_cpu=&quot;arm&quot;, is_debug=false, use_lto=true)</li>
+</ul>
+<p class="md-github">API Specifics:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">v8::Isolate::New(const v8::Isolate::CreateParams&amp; params): Creates a new isolate instance
+Returns: v8::Isolate*
+Parameters: CreateParams structure with allocation callbacks and snapshot data</p>
+</li>
+<li class="md-github">
+<p class="md-github">v8::Context::New(v8::Isolate* isolate): Creates a new execution context
+Returns: v8::Local<a href="v8::Context" class="md-github">v8::Context</a>
+Usage: Allows embedding application to register native functions</p>
+</li>
+</ul>
+<p class="md-github">Debugging Steps:</p>
+<ul class="md-github">
+<li class="md-github">Compile V8 with debug symbols</li>
+<li class="md-github">Use command: gdb --args d8</li>
+<li class="md-github">Set breakpoints in important engine components (e.g., in garbage collector routines)</li>
+<li class="md-github">Example output: Confirmation of isolate initialization and context creation</li>
+</ul>
+<p class="md-github">Troubleshooting:</p>
+<ul class="md-github">
+<li class="md-github">Memory leaks: Use V8's built-in profiling tools and inspect heap layout with Heap Stats</li>
+<li class="md-github">Performance: Run sample-based profiler and examine runtime call stats</li>
+<li class="md-github">Port-specific issues: Follow mailing list instructions to contact respective teams</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Method Signatures:</p>
+<p class="md-github">int v8::Initialize();
+// Initializes V8 engine. Returns 0 on success. Throws exception on initialization failure.</p>
+<p class="md-github">v8::Isolate* v8::Isolate::New(const v8::Isolate::CreateParams&amp; params);
+// Creates and returns a new V8 isolate. Throws std::bad_alloc if memory allocation fails.</p>
+<p class="md-github">v8::Local<a href="v8::Context" class="md-github">v8::Context</a> v8::Context::New(v8::Isolate* isolate);
+// Creates a new execution context within the provided isolate. Returns a local handle to a v8::Context.</p>
+<p class="md-github">// Example SDK usage pattern in C++:</p>
+<p class="md-github">// Setup create parameters for isolate
+v8::Isolate::CreateParams create_params;
+create_params.array_buffer_allocator = v8::ArrayBuffer::Allocator::NewDefaultAllocator();</p>
+<p class="md-github">// Create a new isolate
+v8::Isolate* isolate = v8::Isolate::New(create_params);
+{
+// Enter isolate scope
+v8::Isolate::Scope isolate_scope(isolate);
+v8::HandleScope handle_scope(isolate);</p>
+<p class="md-github">// Create a new context
+v8::Local<a href="v8::Context" class="md-github">v8::Context</a> context = v8::Context::New(isolate);
+v8::Context::Scope context_scope(context);</p>
+<p class="md-github">// Embedding custom function example
+// Register a C++ function with the context
+// Function signature: void MyFunc(const v8::FunctionCallbackInfo<a href="v8::Value" class="md-github">v8::Value</a>&amp; args)
+}</p>
+<p class="md-github">// Build Configuration Options (GN args):
+// target_cpu = &quot;x64&quot; or &quot;arm&quot;
+// is_debug = false
+// use_lto = true
+// Additional flags: v8_enable_i18n_support = true</p>
+<p class="md-github">// Build Commands:
+// gn gen out/Default --args='target_cpu=&quot;x64&quot; is_debug=false use_lto=true v8_enable_i18n_support=true'
+// ninja -C out/Default</p>
+<p class="md-github">// Debugging Commands:
+// Run V8 shell with gdb:
+// gdb --args out/Default/d8
+// In gdb: break v8::Isolate::New
+// run
+// Expected output: Confirmation of isolate creation and proper execution flow.</p>
+<p class="md-github">Best Practices:
+// Always use v8::HandleScope in every scope where local handles are created to prevent memory leaks.
+// Check for exceptions after executing scripts in the context via v8::TryCatch.
+// For embedding, carefully manage isolate lifetimes and deallocate allocated memory using v8::ArrayBuffer::Allocator::Delete.</p>
+<p class="md-github">Troubleshooting Procedures:
+// If encountering crashes during garbage collection:
+// 1. Enable verbose GC logging by setting environment variable V8_GC_TRACE=1
+// 2. Analyze heap stats via built-in tools (Heap Stats, Heap Layout)
+// 3. Use Linux perf: 'perf record -g -- out/Default/d8' then 'perf report'</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">V8 engine; C++ high-performance JS and Wasm engine; Platforms: x64, IA-32, ARM, others via external ports; Core APIs: v8::Initialize(), v8::Isolate::New(CreateParams), v8::Context::New(isolate); Build: GN+Ninja, args target_cpu, is_debug, use_lto; Debug: gdb with breakpoints in Isolate::New; Embedding: use HandleScope, Context::Scope; Configuration: GN args v8_enable_i18n_support=true; Troubleshooting: GC verbose logging V8_GC_TRACE=1, heap profiling via Heap Stats; Best practices: proper isolate management and exception handling via TryCatch.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">Table of Contents:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">V8 Overview</p>
+</li>
+<li class="md-github">
+<p class="md-github">Supported Platforms</p>
+</li>
+<li class="md-github">
+<p class="md-github">Core Components</p>
+</li>
+<li class="md-github">
+<p class="md-github">Embedding V8</p>
+</li>
+<li class="md-github">
+<p class="md-github">Building V8</p>
+</li>
+<li class="md-github">
+<p class="md-github">Debugging &amp; Profiling</p>
+</li>
+<li class="md-github">
+<p class="md-github">JavaScript &amp; WebAssembly Features</p>
+</li>
+<li class="md-github">
+<p class="md-github">Handling Ports</p>
+</li>
+<li class="md-github">
+<p class="md-github">V8 Overview:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">High-performance C++ engine for JavaScript and WebAssembly.</li>
+<li class="md-github">Implements full ECMAScript standard.</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Supported Platforms:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Native support on Windows, macOS, Linux (x64, IA-32, ARM).</li>
+<li class="md-github">Additional ports for IBM i, AIX, MIPS, ppc64, s390x, RISC-V, Loong64 via external teams.</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Core Components:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Compiler: Translates JS to machine code with optimizations.</li>
+<li class="md-github">Garbage Collector: Stop-the-world, generational, accurate.</li>
+<li class="md-github">Memory Manager: Allocates and recycles JS objects.</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Embedding V8:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Use v8::Isolate::New(CreateParams) to create an instance.</li>
+<li class="md-github">Create a context with v8::Context::New(isolate).</li>
+<li class="md-github">Expose C++ functions and objects to JS by linking via V8 API.</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Building V8:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Checkout source repository using depot_tools.</li>
+<li class="md-github">Generate build files with GN (gn gen out/Default).</li>
+<li class="md-github">Build with Ninja (ninja -C out/Default).</li>
+<li class="md-github">Options for cross-compiling on ARM/Android and iOS available.</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Debugging &amp; Profiling:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Debug shell: D8.</li>
+<li class="md-github">Use GDB to debug builtins, integrated with V8 Inspector Protocol.</li>
+<li class="md-github">Profiling using Linux perf, sample-based profiling, and runtime call statistics.</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">JavaScript &amp; WebAssembly Features:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">Supports all ECMAScript data types, operators, and functions.</li>
+<li class="md-github">Integration with WebAssembly features, including BigInt and SIMD.</li>
+</ul>
+<ol start="8" class="md-github">
+<li class="md-github">Handling Ports:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">ARM: Direct porting instructions, contact v8-arm-ports@googlegroups.com if issues.</li>
+<li class="md-github">MIPS, PPC, s390, RISC-V, Loong64: Follow team-specific guidelines available in source documentation.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">V8 JavaScript Engine Documentation
+https://v8.dev/docs</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-v8_engine" href="#digest-of-v8_engine"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of V8_ENGINE</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="v8-engine" href="#v8-engine"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>V8 ENGINE</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">V8 is Google’s high-performance JavaScript and WebAssembly engine written in C++. It is integrated with Chrome, Node.js, and can be embedded into any C++ application. It fully implements ECMAScript and supports WebAssembly execution.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="supported-platforms" href="#supported-platforms"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supported Platforms</h2>
+<ul class="md-github">
+<li class="md-github">x64, IA-32, ARM processors on Windows, macOS, Linux</li>
+<li class="md-github">Externally maintained ports for IBM i, AIX, MIPS, ppc64, s390x, RISC-V, Loong64</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="core-components" href="#core-components"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Core Components</h2>
+<ul class="md-github">
+<li class="md-github">JavaScript Compiler: Converts JavaScript source into optimized machine code.</li>
+<li class="md-github">Memory Management: Uses a stop-the-world, generational garbage collector with accurate collection.</li>
+<li class="md-github">Execution Environment: Handles memory allocation, deallocation, and object lifetime.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="embedding-v8-in-c-applications" href="#embedding-v8-in-c-applications"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Embedding V8 in C++ Applications</h2>
+<ul class="md-github">
+<li class="md-github">Exposes C++ objects and functions to JavaScript.</li>
+<li class="md-github">API calls include creation of isolates and contexts.
+Example functions include:
+v8::Isolate* v8::Isolate::New(const v8::Isolate::CreateParams&amp; params);
+v8::Local<a href="v8::Context" class="md-github">v8::Context</a> v8::Context::New(v8::Isolate* isolate);</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="building-v8-from-source" href="#building-v8-from-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Building V8 from Source</h2>
+<ul class="md-github">
+<li class="md-github">Source checkout via depot_tools and GN build system.</li>
+<li class="md-github">Commands:
+gn gen out/Default
+ninja -C out/Default</li>
+<li class="md-github">Cross-compiling examples for ARM/Android and iOS included.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="debugging-and-profiling" href="#debugging-and-profiling"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Debugging and Profiling</h2>
+<ul class="md-github">
+<li class="md-github">Debugging uses GDB for builtins and V8 Inspector Protocol for interactive sessions.</li>
+<li class="md-github">Profiling tools include D8 shell, Linux perf integration, and V8 sample-based profiler.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="javascript-and-webassembly-features" href="#javascript-and-webassembly-features"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>JavaScript and WebAssembly Features</h2>
+<ul class="md-github">
+<li class="md-github">Full ECMAScript support including new syntax and asynchronous features.</li>
+<li class="md-github">WebAssembly integration with JavaScript including BigInt support and memory alignment.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="handling-ports" href="#handling-ports"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Handling Ports</h2>
+<ul class="md-github">
+<li class="md-github">Specific instructions per architecture:
+ARM: Self-port with support via v8-arm-ports@googlegroups.com
+MIPS, PPC, s390, RISC-V, Loong64: Handled by respective teams via email distribution lists.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: V8 JavaScript Engine Documentation</li>
+<li class="md-github">URL: https://v8.dev/docs</li>
+<li class="md-github">License: Unknown License</li>
+<li class="md-github">Crawl Date: 2025-04-28T03:10:08.714Z</li>
+<li class="md-github">Data Size: 12459057 bytes</li>
+<li class="md-github">Links Found: 6123</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-28</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-28T03:31:50.119Z</p>
+  </footer>
+</body>
+</html>
