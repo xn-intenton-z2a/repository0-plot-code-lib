@@ -4,29 +4,20 @@
 // Load environment variables using dotenv and support custom .env file via CLI flag
 import dotenv from "dotenv";
 import { z } from "zod";
-
-// Initial load (this may use default .env if --env flag is not yet set in process.argv)
-const envFlagIndexGlobal = process.argv.findIndex((arg) => arg === "--env");
-if (envFlagIndexGlobal !== -1 && process.argv.length > envFlagIndexGlobal + 1) {
-  const envPath = process.argv[envFlagIndexGlobal + 1];
-  dotenv.config({ path: envPath });
-} else {
-  dotenv.config();
-}
-
-import { fileURLToPath, pathToFileURL } from "url";
-import express from "express";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath, pathToFileURL } from "url";
+import express from "express";
 import { compile } from "mathjs";
 
-const app = express();
+// Initialize runtime configuration global variable
+let runtimeConfig = {};
 
 // New helper function to recursively interpolate environment variables in configuration objects
 function interpolateEnv(input) {
   if (typeof input === "string") {
     return input.replace(/\$\{([^}]+)\}/g, (_, varName) =>
-      process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`,
+      process.env[varName] !== undefined ? process.env[varName] : `\${${varName}}`
     );
   } else if (Array.isArray(input)) {
     return input.map(interpolateEnv);
@@ -104,14 +95,14 @@ function computePlotData(expression, range, customLabels = {}) {
   const xMatch = xPattern.exec(range);
   if (!xMatch) {
     throw new Error(
-      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.",
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values."
     );
   }
   const xMin = parseFloat(xMatch[1]);
   const xMax = parseFloat(xMatch[2]);
   if (xMin >= xMax) {
     throw new Error(
-      `Error: Invalid range for x (provided: x=${xMin}:${xMax}). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.`,
+      `Error: Invalid range for x (provided: x=${xMin}:${xMax}). Expected format: x=0:10. Ensure that the minimum value is less than the maximum value.`
     );
   }
 
@@ -119,14 +110,14 @@ function computePlotData(expression, range, customLabels = {}) {
   const yMatch = yPattern.exec(range);
   if (!yMatch) {
     throw new Error(
-      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.",
+      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values."
     );
   }
   const yInputMin = parseFloat(yMatch[1]);
   const yInputMax = parseFloat(yMatch[2]);
   if (yInputMin >= yInputMax) {
     throw new Error(
-      `Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Expected format: y=0:10. Ensure that the minimum value is less than the maximum value.`,
+      `Error: Invalid range for y (provided: y=${yInputMin}:${yInputMax}). Expected format: y=0:10. Ensure that the minimum value is less than the maximum value.`
     );
   }
 
@@ -251,15 +242,12 @@ function createSvgPlot(expression, range, customLabels = {}) {
 
   // Map computed points to SVG coordinate system using dynamic dimensions
   const mappedPoints = plotData.points.map((p) => {
-    const mappedX =
-      ((p.x - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * svgWidth;
+    const mappedX = ((p.x - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * svgWidth;
     let mappedY;
     if (plotData.computedYRange.max === plotData.computedYRange.min) {
       mappedY = svgHeight / 2;
     } else {
-      mappedY =
-        svgHeight -
-        ((p.y - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * svgHeight;
+      mappedY = svgHeight - ((p.y - plotData.computedYRange.min) / (plotData.computedYRange.max - plotData.computedYRange.min)) * svgHeight;
     }
     return { x: mappedX, y: mappedY };
   });
@@ -362,7 +350,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
     svgHeight +
     '" viewBox="0 0 ' +
     svgWidth +
-    " " +
+    ' ' +
     svgHeight +
     '" data-metadata="' +
     metadataEscaped +
@@ -381,10 +369,10 @@ function createSvgPlot(expression, range, customLabels = {}) {
     '"' +
     xFontSizeAttr +
     xFillAttr +
-    ">" +
+    '>' +
     plotData.axisLabels.x +
-    "</text>" +
-    "<text " +
+    '</text>' +
+    '<text ' +
     yLabelAttributes +
     ' aria-label="' +
     yAriaLabel +
@@ -393,30 +381,86 @@ function createSvgPlot(expression, range, customLabels = {}) {
     '"' +
     yFontSizeAttr +
     yFillAttr +
-    ">" +
+    '>' +
     plotData.axisLabels.y +
-    "</text>" +
+    '</text>' +
     '<text x="10" y="20">Plot for: ' +
     expression.trim() +
-    " in range " +
+    ' in range ' +
     range.trim() +
-    "</text>" +
+    '</text>' +
     shapeElement +
-    "</svg>";
+    '</svg>';
   return svgContent;
 }
 
+// Define a helper function to load and merge configuration from a file and CLI options
+function loadConfig(cliOptions) {
+  if (cliOptions.config) {
+    try {
+      const configFileContent = fs.readFileSync(cliOptions.config, "utf8");
+      let configOptions = JSON.parse(configFileContent);
+      configOptions = interpolateEnv(configOptions);
+      const configSchema = z.object({
+        expression: z.string().min(1).optional(),
+        range: z
+          .string()
+          .regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*$/)
+          .optional(),
+        resolution: z.preprocess((val) => Number(val), z.number().int().positive()).optional(),
+        xlabel: z.string().optional(),
+        ylabel: z.string().optional(),
+        xlabelPrecision: z.preprocess((val) => Number(val), z.number().int().nonnegative()).optional(),
+        ylabelPrecision: z.preprocess((val) => Number(val), z.number().int().nonnegative()).optional(),
+        smooth: z.enum(["true", "false"]).optional(),
+        xlabelX: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelY: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelX: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelY: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelRotation: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelRotation: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelOffsetX: z.preprocess((val) => Number(val), z.number()).optional(),
+        xlabelOffsetY: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelOffsetX: z.preprocess((val) => Number(val), z.number()).optional(),
+        ylabelOffsetY: z.preprocess((val) => Number(val), z.number()).optional(),
+        locale: z.string().optional(),
+        xlabelAriaLabel: z.string().optional(),
+        ylabelAriaLabel: z.string().optional(),
+        xlabelAnchor: z.enum(["start", "middle", "end"]).optional(),
+        ylabelAnchor: z.enum(["start", "middle", "end"]).optional(),
+        xlabelFontSize: z.string().optional(),
+        xlabelColor: z.string().optional(),
+        ylabelFontSize: z.string().optional(),
+        ylabelColor: z.string().optional(),
+        colorGradient: z.enum(["true", "false"]).optional(),
+        gradientStartColor: z.string().optional(),
+        gradientEndColor: z.string().optional(),
+        width: z.preprocess((val) => Number(val), z.number().positive()).optional(),
+        height: z.preprocess((val) => Number(val), z.number().positive()).optional(),
+        smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional(),
+      });
+      const validatedConfig = configSchema.parse(configOptions);
+      return Object.assign({}, validatedConfig, cliOptions);
+    } catch (e) {
+      if (e instanceof z.ZodError) {
+        const err = e.errors[0];
+        throw new Error(`Error: Invalid numeric value for ${err.path[0]}. Expected a positive integer.`);
+      }
+      throw new Error("Error: Unable to read or parse configuration file: " + e.message);
+    }
+  }
+  return cliOptions;
+}
+
+const app = express();
+
 // Register /plot endpoint unconditionally so that HTTP tests can access it
 app.get("/plot", (req, res) => {
-  // Provide default query parameters if none provided
+  // If no query parameters provided, use runtime configuration defaults if available
   if (Object.keys(req.query).length === 0) {
-    req.query.expression = "y=sin(x)";
-    req.query.range = "x=-1:1,y=-1:1";
-    if (req.headers.accept && req.headers.accept.includes("image/png")) {
-      req.query.fileType = "png";
-    } else {
-      req.query.fileType = "svg";
-    }
+    req.query.expression = runtimeConfig.expression || "y=sin(x)";
+    req.query.range = runtimeConfig.range || "x=-1:1,y=-1:1";
+    req.query.fileType = (req.headers.accept && req.headers.accept.includes("image/png")) ? "png" : "svg";
   }
 
   const expression = req.query.expression;
@@ -489,11 +533,13 @@ app.get("/plot", (req, res) => {
 });
 
 function main() {
-  // Re-load environment variables if --env flag is provided (use override to update existing vars)
-  const envFlagIndex = process.argv.findIndex((arg) => arg === "--env");
-  if (envFlagIndex !== -1 && process.argv.length > envFlagIndex + 1) {
-    const envPath = process.argv[envFlagIndex + 1];
-    dotenv.config({ path: envPath, override: true });
+  // Initial load of environment variables
+  const envFlagIndexGlobal = process.argv.findIndex((arg) => arg === "--env");
+  if (envFlagIndexGlobal !== -1 && process.argv.length > envFlagIndexGlobal + 1) {
+    const envPath = process.argv[envFlagIndexGlobal + 1];
+    dotenv.config({ path: envPath });
+  } else {
+    dotenv.config();
   }
 
   const args = process.argv.slice(2);
@@ -507,68 +553,9 @@ function main() {
     }
   }
 
-  // If a configuration file is provided via --config, load and validate it using a Zod schema.
-  // This ensures configuration properties like expression, range, resolution, and axis customization options
-  // adhere to the expected types and formats. CLI flags always override configuration file values.
-  if (options.config) {
-    try {
-      const configFileContent = fs.readFileSync(options.config, "utf8");
-      let configOptions = JSON.parse(configFileContent);
-      // Interpolate environment variables in the config file values
-      configOptions = interpolateEnv(configOptions);
-      // Define Zod schema for config file validation
-      const configSchema = z.object({
-        expression: z.string().min(1).optional(),
-        range: z
-          .string()
-          .regex(/^\s*x\s*=\s*-?\d+(?:\.\d+)?\s*:\s*-?\d+(?:\.\d+)?\s*,\s*y\s*=\s*-?\d+(?:\.\d+)?\s*$/)
-          .optional(),
-        resolution: z.preprocess((val) => Number(val), z.number().int().positive()).optional(),
-        xlabel: z.string().optional(),
-        ylabel: z.string().optional(),
-        xlabelPrecision: z.preprocess((val) => Number(val), z.number().int().nonnegative()).optional(),
-        ylabelPrecision: z.preprocess((val) => Number(val), z.number().int().nonnegative()).optional(),
-        smooth: z.enum(["true", "false"]).optional(),
-        xlabelX: z.preprocess((val) => Number(val), z.number()).optional(),
-        xlabelY: z.preprocess((val) => Number(val), z.number()).optional(),
-        ylabelX: z.preprocess((val) => Number(val), z.number()).optional(),
-        ylabelY: z.preprocess((val) => Number(val), z.number()).optional(),
-        xlabelRotation: z.preprocess((val) => Number(val), z.number()).optional(),
-        ylabelRotation: z.preprocess((val) => Number(val), z.number()).optional(),
-        xlabelOffsetX: z.preprocess((val) => Number(val), z.number()).optional(),
-        xlabelOffsetY: z.preprocess((val) => Number(val), z.number()).optional(),
-        ylabelOffsetX: z.preprocess((val) => Number(val), z.number()).optional(),
-        ylabelOffsetY: z.preprocess((val) => Number(val), z.number()).optional(),
-        locale: z.string().optional(),
-        xlabelAriaLabel: z.string().optional(),
-        ylabelAriaLabel: z.string().optional(),
-        xlabelAnchor: z.enum(["start", "middle", "end"]).optional(),
-        ylabelAnchor: z.enum(["start", "middle", "end"]).optional(),
-        xlabelFontSize: z.string().optional(),
-        xlabelColor: z.string().optional(),
-        ylabelFontSize: z.string().optional(),
-        ylabelColor: z.string().optional(),
-        // New gradient options
-        colorGradient: z.enum(["true", "false"]).optional(),
-        gradientStartColor: z.string().optional(),
-        gradientEndColor: z.string().optional(),
-        // New custom dimension options
-        width: z.preprocess((val) => Number(val), z.number().positive()).optional(),
-        height: z.preprocess((val) => Number(val), z.number().positive()).optional(),
-        // New smoothing factor option
-        smoothingFactor: z.preprocess((val) => Number(val), z.number().min(0).max(1)).optional(),
-      });
-      const validatedConfig = configSchema.parse(configOptions);
-      // Merge configuration: CLI flags override config file options
-      options = Object.assign({}, validatedConfig, options);
-    } catch (e) {
-      if (e instanceof z.ZodError) {
-        const err = e.errors[0];
-        throw new Error(`Error: Invalid numeric value for ${err.path[0]}. Expected a positive integer.`);
-      }
-      throw new Error("Error: Unable to read or parse configuration file: " + e.message);
-    }
-  }
+  // Load configuration from file if provided and merge with CLI flags
+  options = loadConfig(options);
+  runtimeConfig = options;
 
   // If no CLI options provided, do nothing
   if (Object.keys(options).length === 0) {
@@ -580,6 +567,15 @@ function main() {
     const port = process.env.PORT || 3000;
     app.listen(port, () => {
       console.log(`Server running on port ${port}`);
+    });
+    // Add listener for SIGHUP to reload configuration at runtime
+    process.on('SIGHUP', () => {
+      try {
+        runtimeConfig = loadConfig(options);
+        console.log("Configuration reloaded successfully.");
+      } catch (e) {
+        console.error("Configuration reload failed: " + e.message);
+      }
     });
   } else {
     if (options.expression === undefined || options.range === undefined || options.file === undefined) {
