@@ -122,7 +122,10 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
   });
 
   test("should return 400 if required query parameter is missing (fileType/format)", async () => {
-    const res = await request(app).get("/plot").query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1" }).expect(400);
+    const res = await request(app)
+      .get("/plot")
+      .query({ expression: "y=sin(x)", range: "x=-1:1,y=-1:1" })
+      .expect(400);
     expect(res.text).toContain("Missing required query parameter");
   });
 
@@ -131,9 +134,7 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       .get("/plot")
       .query({ expression: "y=tan(x)", range: "x=-1:1,y=abc", fileType: "svg" })
       .expect(400);
-    expect(res.text).toContain(
-      "Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values."
-    );
+    expect(res.text).toContain("Error: --range flag value is malformed. Expected format: x=<min>:<max>,y=<min>:<max> with numeric values.");
   });
 
   test("should return 400 if expression is empty", async () => {
@@ -391,5 +392,43 @@ describe("GET /plot Dynamic Query Parameter Plot Generation", () => {
       })
       .expect(400);
     expect(res.text).toContain("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
+  });
+});
+
+// New tests for marker support and accessibility attributes
+
+describe("GET /plot Marker and Accessibility", () => {
+  test("should include marker definitions and attributes when markerStart and markerEnd are provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        markerStart: "true",
+        markerEnd: "true"
+      })
+      .expect(200)
+      .expect("Content-Type", /image\/svg/);
+    const svgText = res.text;
+    expect(svgText).toContain('<marker id="markerStart"');
+    expect(svgText).toContain('<marker id="markerEnd"');
+    expect(svgText).toMatch(/marker-start="url\(#markerStart\)"/);
+    expect(svgText).toMatch(/marker-end="url\(#markerEnd\)"/);
+  });
+
+  test("should include role attribute on the <svg> element when svgRole is provided", async () => {
+    const res = await request(app)
+      .get("/plot")
+      .query({
+        expression: "y=sin(x)",
+        range: "x=0:10,y=0:10",
+        fileType: "svg",
+        svgRole: "img"
+      })
+      .expect(200)
+      .expect("Content-Type", /image\/svg/);
+    const svgText = res.text;
+    expect(svgText).toMatch(/<svg[^>]+role="img"/);
   });
 });
