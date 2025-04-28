@@ -53,7 +53,7 @@ function interpolateEnv(input) {
       } else if (defaultVal !== undefined) {
         return defaultVal;
       } else {
-        return `\${${varName}}`;
+        return `${"${"}"}${varName}}`;
       }
     });
   } else if (Array.isArray(input)) {
@@ -333,6 +333,13 @@ function createSvgPlot(expression, range, customLabels = {}) {
     }
     additionalStrokeAttrs += ` stroke-dasharray=\"${customLabels.strokeDashArray}\"`;
   }
+  if (customLabels.strokeLinecap != null) {
+    const validLineCaps = ['butt', 'round', 'square'];
+    if (!validLineCaps.includes(customLabels.strokeLinecap)) {
+      throw new Error("Error: Invalid strokeLinecap. Allowed values are 'butt', 'round', or 'square'.");
+    }
+    additionalStrokeAttrs += ` stroke-linecap=\"${customLabels.strokeLinecap}\"`;
+  }
 
   // Check if smoothing is enabled
   let shapeElement = "";
@@ -526,6 +533,7 @@ function loadConfig(cliOptions) {
         svgRole: z.string().optional(),
         strokeWidth: z.preprocess((val) => (val === "" ? undefined : val), z.any()).optional(),
         strokeDashArray: z.string().optional(),
+        strokeLinecap: z.string().optional(),
         display: z.object({
           width: z.preprocess((val) => Number(val), z.number().positive()),
           height: z.preprocess((val) => Number(val), z.number().positive())

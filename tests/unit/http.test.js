@@ -2,7 +2,7 @@ import { describe, test, expect } from "vitest";
 import request from "supertest";
 import { app } from "@src/lib/main.js";
 
-// Additional tests for strokeWidth and strokeDashArray parameters
+// Additional tests for strokeWidth, strokeDashArray, and strokeLinecap parameters
 
 describe("GET /plot Content Negotiation", () => {
   test("should return SVG when Accept: image/svg+xml", async () => {
@@ -395,7 +395,7 @@ describe("GET /plot Content Negotiation", () => {
       expect(res.text).toContain("Error: Invalid smoothingFactor. Expected a number between 0 and 1.");
     });
 
-    // New tests for strokeWidth and strokeDashArray
+    // New tests for strokeWidth, strokeDashArray, and strokeLinecap
     test("should include stroke-width and stroke-dasharray in SVG polyline when provided and smoothing is off", async () => {
       const res = await request(app)
         .get("/plot")
@@ -413,7 +413,22 @@ describe("GET /plot Content Negotiation", () => {
       expect(svgText).toContain('stroke-dasharray="5,5"');
     });
 
-    test("should include stroke-width and stroke-dasharray in SVG path when provided and smoothing is on", async () => {
+    test("should include stroke-linecap in SVG output when provided and smoothing is off", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          strokeLinecap: "round"
+        })
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
+      const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
+      expect(svgText).toContain('stroke-linecap="round"');
+    });
+
+    test("should include stroke-width, stroke-dasharray, and stroke-linecap in SVG path when provided and smoothing is on", async () => {
       const res = await request(app)
         .get("/plot")
         .query({
@@ -422,13 +437,15 @@ describe("GET /plot Content Negotiation", () => {
           fileType: "svg",
           smooth: "true",
           strokeWidth: "3",
-          strokeDashArray: "4,2"
+          strokeDashArray: "4,2",
+          strokeLinecap: "square"
         })
         .expect("Content-Type", /image\/svg\+xml/)
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toContain('stroke-width="3"');
       expect(svgText).toContain('stroke-dasharray="4,2"');
+      expect(svgText).toContain('stroke-linecap="square"');
     });
 
     test("should return error for invalid strokeWidth", async () => {
@@ -455,6 +472,19 @@ describe("GET /plot Content Negotiation", () => {
         })
         .expect(400);
       expect(res.text).toContain("Error: Invalid strokeDashArray. Expected a non-empty string.");
+    });
+
+    test("should return error for invalid strokeLinecap value", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          strokeLinecap: "invalid"
+        })
+        .expect(400);
+      expect(res.text).toContain("Error: Invalid strokeLinecap. Allowed values are 'butt', 'round', or 'square'.");
     });
   });
 });
