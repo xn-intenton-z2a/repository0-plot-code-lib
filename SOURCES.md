@@ -42,3 +42,18 @@ The W3C SVG 2 Specification is the authoritative reference for the latest standa
 ## https://github.com/d3/d3/blob/main/API.md
 The D3.js API Reference offers extensive documentation on data-driven visualizations in JavaScript, with valuable insights on DOM manipulation, scales, transitions, and more. Although primarily focused on dynamic visualizations, the actionable examples and detailed API breakdown can inspire advanced customization and animation techniques in SVG plot generation, complementing the repository’s core functionality.
 ## BSD License (varies)
+
+# Supertest Documentation
+## https://github.com/visionmedia/supertest
+Supertest is a high-level abstraction for testing HTTP endpoints, offering a streamlined interface to validate API responses in Node.js applications. The documentation provides practical examples and usage patterns ideal for integration testing, which is critical for verifying the repository's Express.js endpoints and ensuring robust, error-free communication between components.
+## MIT License
+
+# Vitest Documentation
+## https://vitest.dev/
+Vitest is a fast and efficient unit testing framework tailored for modern JavaScript projects. Its documentation covers everything from basic test setup to advanced features like snapshot testing and coverage analysis, offering actionable insights for developing a comprehensive test suite that guarantees the reliability of dynamic configurations and plot generation.
+## MIT License
+
+# Plotly.js Graphing Library Documentation
+## https://plotly.com/javascript/
+Plotly.js is a powerful and versatile graphing library for JavaScript, designed to create interactive, high-quality visualizations. The documentation provides detailed technical guidance on customizing plots, managing data, and leveraging advanced features such as animations and responsive design. These insights offer actionable strategies and technical specifications that can inspire further enhancements in the repository’s plotting capabilities, aligning with its mission to deliver robust visualizations.
+## MIT License
