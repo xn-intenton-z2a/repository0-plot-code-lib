@@ -1,6 +1,6 @@
 ## Usage Guide for repository0-plot-code-lib
 
-repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files (with support for default fallback values), dynamic color gradient support for SVG outputs, custom SVG dimensions, optional marker support with accessibility improvements, and new SVG styling options for stroke width, dash patterns, and line cap styles.
+repository0-plot-code-lib is a CLI tool and library for generating plots from mathematical expressions and specified ranges. It supports both command line interactions and HTTP API access to generate plots dynamically. This version includes enhanced expression validation, dynamic axis labels for SVG plots, adaptive resolution, curve smoothing, detailed JSON export for plot data, environment variable interpolation for configuration files (with support for default fallback values), dynamic color gradient support for SVG outputs, custom SVG dimensions, optional marker support with accessibility improvements, and new SVG styling options for stroke width, dash patterns, line cap styles, as well as customizable background and grid line styling.
 
 ### CLI Plot Generation
 
@@ -69,7 +69,21 @@ node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file plot
   --gradientStops '[{"offset": "0%", "stopColor": "green"}, {"offset": "50%", "stopColor": "purple", "stopOpacity": "0.5"}, {"offset": "100%", "stopColor": "yellow"}]'
 ```
 
-### Marker and Accessibility Enhancements
+#### Background and Grid Styling
+
+You can customize the SVG plot background and overlay grid lines to enhance readability:
+
+- **--bgColor**: Specifies the background color of the SVG canvas. When provided, a `<rect>` element is rendered covering the entire canvas.
+- **--showGrid**: When set to "true", grid lines will be displayed. The grid lines are evenly spaced both vertically and horizontally.
+- **--gridColor**: Specifies the color of the grid lines. If not provided, defaults to light gray (`#d3d3d3`).
+- **--gridWidth**: Specifies the stroke width for the grid lines. Defaults to `1` if not provided.
+
+*Example:*
+```sh
+node src/lib/main.js --expression "y=sin(x)" --range "x=0:10,y=0:10" --file plot.svg --bgColor "#f0f0f0" --showGrid true --gridColor "#ff0000" --gridWidth 2
+```
+
+#### Marker and Accessibility Enhancements
 
 - **--svgRole**: Sets a custom role attribute on the SVG element (e.g., `img`).
 - **--xlabelAriaLabel** and **--ylabelAriaLabel**: Customize ARIA labels for the axis texts.

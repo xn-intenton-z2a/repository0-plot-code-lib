@@ -410,6 +410,32 @@ function createSvgPlot(expression, range, customLabels = {}) {
     shapeElement = `<polyline points=\"${polylinePoints}\" ${strokeAttr}${markerAttributes}${additionalStrokeAttrs} fill=\"none\" />`;
   }
 
+  // New: Support for Background and Grid styling
+  const bgColor = customLabels.bgColor;
+  const showGrid = String(customLabels.showGrid || "false").toLowerCase() === "true";
+  const gridColor = customLabels.gridColor || "#d3d3d3";
+  const gridWidthParam = customLabels.gridWidth != null ? parseFloat(customLabels.gridWidth) : 1;
+  if (customLabels.gridWidth != null && (!Number.isFinite(gridWidthParam) || gridWidthParam <= 0)) {
+    throw new Error("Error: Invalid gridWidth. Expected a positive number.");
+  }
+
+  const bgRect = bgColor ? `<rect x=\"0\" y=\"0\" width=\"${svgWidth}\" height=\"${svgHeight}\" fill=\"${bgColor}\" />` : "";
+  const gridElements = showGrid ? (() => {
+    let grid = "";
+    const gridDivs = 10;
+    for (let i = 0; i <= gridDivs; i++) {
+      const x_value = plotData.computedXRange.min + i * (plotData.computedXRange.max - plotData.computedXRange.min) / gridDivs;
+      const mappedX = ((x_value - plotData.computedXRange.min) / (plotData.computedXRange.max - plotData.computedXRange.min)) * svgWidth;
+      grid += `<line x1=\"${mappedX.toFixed(2)}\" y1=\"0\" x2=\"${mappedX.toFixed(2)}\" y2=\"${svgHeight}\" stroke=\"${gridColor}\" stroke-width=\"${gridWidthParam}\" />`;
+    }
+    for (let i = 0; i <= gridDivs; i++) {
+      const y_value = yInputMin + i * (yInputMax - yInputMin) / gridDivs;
+      const mappedY = svgHeight - ((y_value - yInputMin) / (yInputMax - yInputMin)) * svgHeight;
+      grid += `<line x1=\"0\" y1=\"${mappedY.toFixed(2)}\" x2=\"${svgWidth}\" y2=\"${mappedY.toFixed(2)}\" stroke=\"${gridColor}\" stroke-width=\"${gridWidthParam}\" />`;
+    }
+    return `<g class=\"grid\">${grid}</g>`;
+  })() : "";
+
   // Determine x-axis label positioning and rotation
   const xLabelX =
     customLabels.xlabelOffsetX != null
@@ -494,6 +520,8 @@ function createSvgPlot(expression, range, customLabels = {}) {
     '\"' + roleAttr + ' data-metadata=\"' +
     metadataEscaped +
     '\">' +
+    bgRect +
+    gridElements +
     defsElements +
     '<text x=\"' +
     xLabelX +
@@ -598,7 +626,12 @@ function loadConfig(cliOptions) {
         display: z.object({
           width: z.preprocess((val) => Number(val), z.number().positive()),
           height: z.preprocess((val) => Number(val), z.number().positive())
-        }).optional()
+        }).optional(),
+        // New parameters for background and grid styling
+        bgColor: z.string().optional(),
+        showGrid: z.string().optional(),
+        gridColor: z.string().optional(),
+        gridWidth: z.preprocess((val) => (val === "" ? undefined : Number(val)), z.number().positive()).optional()
       });
       const validatedConfig = configSchema.parse(configOptions);
       const mergedOptions = Object.assign({}, validatedConfig, cliOptions);

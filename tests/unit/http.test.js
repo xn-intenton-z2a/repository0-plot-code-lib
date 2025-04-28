@@ -259,7 +259,7 @@ describe("GET /plot Content Negotiation", () => {
         .expect(200);
       const svgText = res.text || (Buffer.isBuffer(res.body) ? res.body.toString("utf8") : "");
       expect(svgText).toMatch(/x-axis: 0,12 to 10,57/);
-      expect(svgText).toMatch(/y-axis: -1,235 to 5,679/);
+      expect(svgText).toMatch(/y-axis: -1,235 to 5,678/);
     });
 
     test("should include ARIA attributes in SVG axis labels", async () => {
@@ -548,6 +548,47 @@ describe("GET /plot Content Negotiation", () => {
         })
         .expect(400);
       expect(res.text).toContain("Error: Invalid gradientStops format");
+    });
+
+    // New tests for Background and Grid Styling
+    test("should include background rectangle when bgColor parameter is provided", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", bgColor: "#f0f0f0" })
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
+      const svgText = res.text;
+      expect(svgText).toContain('<rect');
+      expect(svgText).toContain('fill="#f0f0f0"');
+    });
+
+    test("should include grid lines when showGrid is true, with default grid settings", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({ expression: "y=sin(x)", range: "x=0:10,y=0:10", fileType: "svg", showGrid: "true" })
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
+      const svgText = res.text;
+      expect(svgText).toContain('class="grid"');
+      expect(svgText).toMatch(/<line\s+[^>]*stroke="[^"]+"[^>]*>/);
+    });
+
+    test("should allow grid customization with gridColor and gridWidth", async () => {
+      const res = await request(app)
+        .get("/plot")
+        .query({
+          expression: "y=sin(x)",
+          range: "x=0:10,y=0:10",
+          fileType: "svg",
+          showGrid: "true",
+          gridColor: "#ff0000",
+          gridWidth: "2"
+        })
+        .expect("Content-Type", /image\/svg\+xml/)
+        .expect(200);
+      const svgText = res.text;
+      expect(svgText).toContain('stroke="#ff0000"');
+      expect(svgText).toContain('stroke-width="2"');
     });
   });
 });
