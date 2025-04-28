@@ -362,7 +362,7 @@ function createSvgPlot(expression, range, customLabels = {}) {
   // Accessibility: add role attribute if provided
   let roleAttr = "";
   if (customLabels.svgRole) {
-    roleAttr = ` role="${customLabels.svgRole}"`;
+    roleAttr = ` role=\"${customLabels.svgRole}\"`;
   }
 
   // Construct SVG content in one line to avoid unintended whitespace/newlines
@@ -552,7 +552,7 @@ app.get("/plot", (req, res) => {
   if (accept) {
     if (accept.includes("image/svg+xml")) {
       res.type("svg");
-      return res.send(svg);
+      return res.send(String(svg));
     } else if (accept.includes("image/png")) {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
@@ -566,7 +566,7 @@ app.get("/plot", (req, res) => {
   } else {
     if (fileType.toLowerCase() === "svg") {
       res.type("svg");
-      return res.send(svg);
+      return res.send(String(svg));
     } else if (fileType.toLowerCase() === "png") {
       const dummyPng = Buffer.from("89504e470d0a1a0a", "hex");
       res.type("png");
