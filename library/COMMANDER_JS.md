@@ -1,241 +1,188 @@
 # COMMANDER_JS
 
 ## Crawl Summary
-Commander.js offers a complete API for building Node.js CLI apps with explicit methods for option parsing, subcommand handling, custom processing, error management, and help generation. Key functions include .option(), .command(), .argument(), .parse(), with support for default values, variadic, negatable and optional parameters, and lifecycle hooks. Configuration for output and exit behavior is also provided.
+Installation via npm; Usage of program and Command for CLI definitions; Methods include .option(), .argument(), .command(), .parse(), .opts(); Option types include boolean, value, negatable, optional; Custom processing using callbacks (e.g., myParseInt); Support for subcommands with action handlers; Variadic and required options; Auto-generated help and customizable help text; Error and exit handling with exitOverride; Lifecycle hooks using .hook() for preAction and postAction; Methods to combine local and global options with .optsWithGlobals().
 
 ## Normalised Extract
 Table of Contents:
-1. Installation
+1. Installation and Setup
    - npm install commander
-2. Quick Start
-   - Use require/import to get program or Command
-   - Example: program.option('--first').option('-s, --separator <char>').argument('<string>')
-3. Options
-   - Defining options with .option(flags, description, [defaultValue], [customProcessor])
-   - Boolean, value, negatable (--no-option), and optional argument (using square brackets)
-   - Access with program.opts(); camelCase conversion for multi-word names
-4. Commands and Arguments
-   - Creating commands with .command(name, [description], [options])
-   - Defining arguments with .argument(placeholder, description, [defaultValue])
-   - Variadic arguments with '...'
-5. Action Handlers
-   - Attaching actions with .action(handler)
-   - Parameters: command arguments, options, command object
-6. Parsing and Lifecycle Hooks
-   - Use .parse(args) or .parseAsync(args) for async actions
-   - Lifecycle hooks: .hook(event, callback) for preAction, postAction
-7. Error and Output Handling
-   - program.error(message, { exitCode, code }) for errors
-   - Override exit behavior with program.exitOverride()
-   - Configure output with .configureOutput({ writeOut, writeErr, outputError })
-8. TypeScript and Node Options
-   - Usage with TypeScript via import { Command } from 'commander'
-   - Node flags (--harmony) support in subcommands
+   - Import using require or import
+2. Options Implementation
+   - Method: .option(flags: string, description: string, defaultValue?: any, customParser?: function)
+   - Examples include boolean option (--first), value option (-s, --separator <char>), default value specification for cheese option
+3. Command Definitions
+   - Using .command(name) with action handlers
+   - Example: program.command('split').description('...').argument('<string>', 'string to split').option('--first', '...').option('-s, --separator <char>', '...', ',').action((str, options) => { ... })
+4. Custom Option and Argument Processing
+   - Use of custom parsing callbacks such as myParseInt
+5. Parsing and Execution
+   - Methods: .parse(), .parseAsync(), with support for process.argv and custom array inputs
+6. Help and Error Handling
+   - Auto-help with -h, --help; custom help with .addHelpText(), .helpOption(), .helpCommand()
+   - Exit override using program.exitOverride() in try/catch
+7. Advanced Features and Lifecycle Hooks
+   - Variadic options (.option('-n, --number <numbers...>'))
+   - Required options (.requiredOption())
+   - Lifecycle hooks using .hook('preAction', callback)
 
-Each section includes direct code examples and precise method signatures:
-.option(flags: string, description: string, [defaultValue: any], [customProcessor: function]) returns Command instance.
-.command(name: string, [description: string], [options: object]) returns Command instance.
-.argument(name: string, description: string, [defaultValue: any]) adds command line argument specification.
-.parse([args: Array<string>], [options: { from: 'node'|'electron'|'user' }]) initiates parsing.
+Detailed Technical Information:
+Installation and setup is straightforward. .option() is used to define CLI options with flags (short and long), description and optional default values. In multi-command programs, use .command() to define subcommands with separate action handlers. Custom argument processing can be added by passing a callback function that modifies the input value.
 
-Example Code:
-  const { program } = require('commander');
-  program
-    .option('-d, --debug', 'output extra debugging')
-    .option('-s, --small', 'small pizza size')
-    .option('-p, --pizza-type <type>', 'flavour of pizza');
-  program.parse(process.argv);
-  const opts = program.opts();
-  console.log(opts);
+Configuration: Default values can be provided, environment variables linked using .env(), and conflicts handled via .conflicts().
 
-Critical Implementation Patterns:
-- Always validate required options using .requiredOption()
-- Use custom processors to enforce type checking (e.g. myParseInt for integers)
-- Combine positional and named options by enabling positional options if needed
-- Deploy lifecycle hooks for logging or pre-processing before actions are executed.
+Error Handling: program.exitOverride() throws a CommanderError which includes exitCode, code, and message. Custom error messages can be displayed using program.error(message, { exitCode, code }).
+
+Usage Options: .opts() returns options; .getOptionValue() retrieves a single option; .optsWithGlobals() merges local and global options.
+
+For executable subcommands, provide a file name and ensure the executable file has proper mode (e.g., 755) for global installation.
 
 ## Supplementary Details
-Technical Specifications and Implementation Details:
-- .option(flag: string, description: string, [defaultValue], [customProcessor]):
-    Flags must include short and long forms, value placeholder if applicable.
-    Example: '-c, --cheese <type>' with default 'blue'.
-- .requiredOption(flag, description, [defaultValue]) enforces presence of a value.
-- Variadic option: append '...' to placeholder (e.g., '<numbers...>') leading to array value.
-- .command(name, description?, [options]) supports stand-alone executables and inline action handlers.
-- .argument(name, description, [defaultValue]) enforces argument requirements; variadic if '...' is appended.
-- Lifecycle hooks: .hook('preAction', (thisCommand, actionCommand) => { ... }) to inject behavior before command action.
-- Parsing: .parse(args?) and .parseAsync(args?) process supplied arguments; use { from: 'user' } for user-only arrays.
-- Error Handling: program.error(message, { exitCode, code }) and program.exitOverride() to handle error flow without process exit.
-- Output Handling: .configureOutput with keys: writeOut (string) function, writeErr (string) function, outputError to format error messages (e.g. using ANSI codes for color).
-
-Configuration Options:
-- Default Values: provided as third parameter in .option() and .argument() methods.
-- Environment Variables: Use .env('PORT') on an Option object.
-- Choice Validation: Using .choices([ ... ]) on an Option instance.
+Technical Specifications:
+- .option(flag: string, description: string, [defaultValue: any], [customParser: Function]) returns Command instance.
+- .argument(name: string, description: string, [defaultValue: any]) adds command arguments; supports notation: <required>, [optional], <...variadic>.
+- .command(name: string, [description: string], [options: Object]) creates subcommands. Options can include { executableFile: string, isDefault: boolean, hidden: boolean }.
+- .parse(args?: string[], options?: Object) supports parsing process.argv or custom arrays.
+- Lifecycle hooks: .hook(eventName: string, callback: Function) supports events 'preAction', 'postAction', 'preSubcommand'.
+- Error handling: program.exitOverride() must be used to override process.exit and catch errors. CommanderError includes: { exitCode: number, code: string, message: string }.
 
 Implementation Steps:
-1. Import Commander and declare program instance.
-2. Define options and command arguments using .option() and .argument().
-3. Add custom processing functions if type conversion is needed.
-4. Attach action handlers to commands via .action().
-5. Parse process.argv with .parse() or .parseAsync() depending on async requirements.
-6. Use lifecycle hooks to monitor command execution.
-7. Override default error and output behavior if necessary.
+1. Import Commander: const { Command } = require('commander');
+2. Create a new command: const program = new Command();
+3. Define options using .option() with parameter definitions.
+4. Define arguments using .argument(); support variadic by appending '...'.
+5. Define subcommands with .command() and attach .action() handlers.
+6. Call program.parse(process.argv) to execute.
+7. Handle errors with try/catch when using exitOverride().
+
+Configuration Options and Defaults:
+- Default cheese option: default is 'blue'.
+- Separator option: default is ',' for string splitting.
+- Verbose option: can be increased with repeated flags; using a callback (e.g., previous+1).
+
+Best Practices:
+- Create isolated Command objects for unit testing.
+- Use custom parsers to ensure type safety (e.g., parseFloat, myParseInt).
+- Leverage .configureOutput() to redirect stdout/stderr for enhanced logging.
 
 Troubleshooting Procedures:
-- Unknown Options: Error message 'unknown option' is thrown; verify the flag syntax.
-- Missing Required Options: Error 'required option not specified' triggers; use .requiredOption to enforce presence.
-- Invalid Argument Processing: Custom processors like myParseInt must throw an error if conversion fails; check error output.
-- If using stand-alone executable subcommands, ensure file permissions (e.g. mode 755) and correct interpreter directives (#!/usr/bin/env node --harmony).
-- For debugging subcommands: in VSCode set "autoAttachChildProcesses": true and use node --inspect.
+- If an unknown option error occurs, check .allowUnknownOption() usage.
+- Use process.exitOverride() to capture errors in try/catch and log CommanderError details.
+- Ensure subcommand files are executable with mode 755 when using stand-alone executables.
 
-Exact Command-Line Examples:
-  $ node split.js -s / --fits a/b/c
-  error: unknown option '--fits'
-  $ node string-util.js split --separator=/ a/b/c
-  [ 'a', 'b', 'c' ]
-
-SDK Method Signatures:
-  program.option(flag: string, description: string, [defaultValue: any], [customProcessor: function]) => Command
-  program.requiredOption(flag: string, description: string, [defaultValue: any]) => Command
-  program.argument(name: string, description: string, [defaultValue: any]) => Command
-  program.command(name: string, [description: string], [options: object]) => Command
-  program.parse(args?: Array<string>, options?: { from: 'node'|'electron'|'user' }) => Command
-  program.parseAsync(args?: Array<string>, options?: { from: 'node'|'electron'|'user' }) => Promise<Command>
-
+Exact Commands:
+- node split.js -s / --first a/b/c (expected output: [ 'a' ])
+- node string-util.js split --separator=/ a/b/c (expected output: [ 'a', 'b', 'c' ])
 
 ## Reference Details
 API Specifications:
-1. program.option(flag: string, description: string, [defaultValue: any], [customProcessor: (value: string, previous: any) => any]) -> Command
-   - flag: e.g. '-c, --cheese <type>'
-   - description: text for help output
-   - defaultValue: default value if not provided
-   - customProcessor: function to transform the string input
+1. program.option(flag: string, description: string, [defaultValue: any], [customParser: Function])
+   - Returns: Command
+   - Example: program.option('-p, --port <number>', 'server port number');
 
-2. program.requiredOption(flag: string, description: string, [defaultValue: any]) -> Command
-   - Throws error if value is not provided
+2. program.requiredOption(flag: string, description: string, [defaultValue: any], [customParser: Function])
+   - Throws error if not provided. Example: program.requiredOption('-c, --cheese <type>', 'pizza must have cheese');
 
-3. program.argument(name: string, description: string, [defaultValue: any]) -> Command
-   - name: e.g. '<username>' or '[password]'
+3. program.argument(name: string, description: string, [defaultValue: any])
+   - Supports: <required>, [optional], <...variadic>
+   - Example: program.argument('<username>', 'user to login');
 
-4. program.command(name: string, description?: string, options?: { executableFile?: string, isDefault?: boolean, hidden?: boolean }) -> Command
-   - Supports stand-alone executable subcommands
-   - description: used as help text
-   - options: custom properties for subcommand behavior
+4. program.command(name: string, [description: string], [options: Object])
+   - Options: { executableFile?: string, isDefault?: boolean, hidden?: boolean }
+   - Example: program.command('clone <source> [destination]').description('clone a repository').action((source, destination) => { /* implementation */ });
 
-5. program.parse(args?: string[], options?: { from: 'node' | 'electron' | 'user' }) -> Command
-   - Processes command-line arguments, returns the Command instance
+5. program.parse(args?: string[], options?: { from?: string })
+   - Handles process.argv by default. Use program.parse(process.argv) or program.parseAsync(process.argv) for async actions.
 
-6. program.parseAsync(args?: string[], options?: { from: 'node' | 'electron' | 'user' }) -> Promise<Command>
-   - Supports asynchronous action handlers
+6. program.opts() returns an object containing parsed options.
 
-Example Code with Comments:
-----------------------------------
-// Import Commander and set up program
+7. program.hook(event: string, callback: Function)
+   - Supported events: 'preAction', 'postAction', 'preSubcommand'
+   - Callback receives (thisCommand, actionCommand) or (thisCommand, subcommand) as appropriate.
+
+8. program.exitOverride([callback])
+   - Overrides default exit. Callback receives a CommanderError with properties exitCode (number), code (string), message (string).
+
+Complete Code Example:
+
+// file: string-util.js
 const { Command } = require('commander');
 const program = new Command();
 
-// Define options with default values and custom processing
-program
-  .option('-c, --cheese <type>', 'add the specified type of cheese', 'blue')
-  .option('-d, --debug', 'output extra debugging')
-  .option('-i, --integer <number>', 'integer argument', (value, previous) => {
-    const parsed = parseInt(value, 10);
-    if (isNaN(parsed)) {
-      throw new Error('Invalid number provided');
-    }
-    return parsed;
+program.name('string-util')
+  .description('CLI to some JavaScript string utilities')
+  .version('0.8.0');
+
+program.command('split')
+  .description('Split a string into substrings and display as an array')
+  .argument('<string>', 'string to split')
+  .option('--first', 'display just the first substring')
+  .option('-s, --separator <char>', 'separator character', ',')
+  .action((str, options) => {
+    const limit = options.first ? 1 : undefined;
+    console.log(str.split(options.separator, limit));
   });
 
-// Define a required option
-program.requiredOption('-r, --required <value>', 'this option is required');
-
-// Define a command with arguments and an action handler
-program.command('clone <source> [destination]')
-  .description('clone a repository into a directory')
-  .action((source, destination) => {
-    console.log(`Cloning from ${source} to ${destination || 'default directory'}`);
-  });
-
-// Add a lifecycle hook to log before action execution
-program.hook('preAction', (thisCommand, actionCommand) => {
-  if (thisCommand.opts().debug) {
-    console.log(`Executing command: ${actionCommand.name()}`);
-  }
-});
-
-// Parse the arguments; process.exit is overridden if needed
 try {
   program.parse(process.argv);
 } catch (err) {
-  console.error('Error:', err.message);
-  process.exit(1);
+  console.error('Error encountered:', err.message);
+  process.exit(err.exitCode || 1);
 }
-----------------------------------
+
+// Troubleshooting: Use node string-util.js split --separator=/ a/b/c to see expected output.
 
 Configuration Options:
-- Custom Output: program.configureOutput({ writeOut: fn, writeErr: fn, outputError: fn })
-- Exit Override: program.exitOverride();
+- Default for cheese option: 'blue'
+- Default separator: ','
+- Verbose option increases count: callback (previous + 1) with default 0
 
-Troubleshooting Commands:
-- To test option parsing: node yourScript.js -c cheddar -r test
-- For unknown option error, check flag names in .option()
-- For debugging subcommands in VSCode, ensure launch.json contains: "autoAttachChildProcesses": true
+Best Practices:
+- Use isolated Command instances for testing
+- Validate inputs with custom parsers
+- Override exit to manage errors gracefully
 
+Detailed Troubleshooting:
+- If unknown option error occurs, check option definitions and use .allowUnknownOption() if needed.
+- For subcommand errors, verify executable file naming and permissions (chmod 755).
+- Test using: node yourProgram.js --help to verify help text generation.
 
 ## Information Dense Extract
-npm install commander; global require: { program } or new Command(); methods: .option('-flag, --long <value>', 'desc', default, processor), .requiredOption(), .command('name <args>', 'desc', options), .argument('<arg>', 'desc', default), .parse(args) and .parseAsync(args); supports boolean, negatable, variadic options; lifecycle hooks: .hook('preAction', callback); error handling: program.error(msg, { exitCode, code }); output customization: .configureOutput({ writeOut, writeErr, outputError }); examples include cloning, pizza options, custom processors; API signatures provided; debugging via node --inspect and VSCode autoAttachChildProcesses; configuration settings include environment variable binding and explicit default values.
+npm install commander; import { Command } from 'commander'; program.option('-p, --port <number>', 'server port number'); program.requiredOption('-c, --cheese <type>', 'must have cheese'); program.argument('<username>', 'user to login'); program.command('split').description('split a string').argument('<string>', 'string to split').option('--first', 'first substring').option('-s, --separator <char>', 'separator', ',').action((str, opts) => { const limit = opts.first ? 1 : undefined; console.log(str.split(opts.separator, limit)); }); program.parse(process.argv); use .exitOverride() for error management; lifecycle hooks: .hook('preAction', (cmd, sub) => {}); custom parsing with callbacks (e.g., parseInt); help via -h,--help; troubleshoot by checking unknown option errors and file permissions.
 
 ## Sanitised Extract
 Table of Contents:
-1. Installation
+1. Installation and Setup
    - npm install commander
-2. Quick Start
-   - Use require/import to get program or Command
-   - Example: program.option('--first').option('-s, --separator <char>').argument('<string>')
-3. Options
-   - Defining options with .option(flags, description, [defaultValue], [customProcessor])
-   - Boolean, value, negatable (--no-option), and optional argument (using square brackets)
-   - Access with program.opts(); camelCase conversion for multi-word names
-4. Commands and Arguments
-   - Creating commands with .command(name, [description], [options])
-   - Defining arguments with .argument(placeholder, description, [defaultValue])
-   - Variadic arguments with '...'
-5. Action Handlers
-   - Attaching actions with .action(handler)
-   - Parameters: command arguments, options, command object
-6. Parsing and Lifecycle Hooks
-   - Use .parse(args) or .parseAsync(args) for async actions
-   - Lifecycle hooks: .hook(event, callback) for preAction, postAction
-7. Error and Output Handling
-   - program.error(message, { exitCode, code }) for errors
-   - Override exit behavior with program.exitOverride()
-   - Configure output with .configureOutput({ writeOut, writeErr, outputError })
-8. TypeScript and Node Options
-   - Usage with TypeScript via import { Command } from 'commander'
-   - Node flags (--harmony) support in subcommands
+   - Import using require or import
+2. Options Implementation
+   - Method: .option(flags: string, description: string, defaultValue?: any, customParser?: function)
+   - Examples include boolean option (--first), value option (-s, --separator <char>), default value specification for cheese option
+3. Command Definitions
+   - Using .command(name) with action handlers
+   - Example: program.command('split').description('...').argument('<string>', 'string to split').option('--first', '...').option('-s, --separator <char>', '...', ',').action((str, options) => { ... })
+4. Custom Option and Argument Processing
+   - Use of custom parsing callbacks such as myParseInt
+5. Parsing and Execution
+   - Methods: .parse(), .parseAsync(), with support for process.argv and custom array inputs
+6. Help and Error Handling
+   - Auto-help with -h, --help; custom help with .addHelpText(), .helpOption(), .helpCommand()
+   - Exit override using program.exitOverride() in try/catch
+7. Advanced Features and Lifecycle Hooks
+   - Variadic options (.option('-n, --number <numbers...>'))
+   - Required options (.requiredOption())
+   - Lifecycle hooks using .hook('preAction', callback)
 
-Each section includes direct code examples and precise method signatures:
-.option(flags: string, description: string, [defaultValue: any], [customProcessor: function]) returns Command instance.
-.command(name: string, [description: string], [options: object]) returns Command instance.
-.argument(name: string, description: string, [defaultValue: any]) adds command line argument specification.
-.parse([args: Array<string>], [options: { from: 'node'|'electron'|'user' }]) initiates parsing.
+Detailed Technical Information:
+Installation and setup is straightforward. .option() is used to define CLI options with flags (short and long), description and optional default values. In multi-command programs, use .command() to define subcommands with separate action handlers. Custom argument processing can be added by passing a callback function that modifies the input value.
 
-Example Code:
-  const { program } = require('commander');
-  program
-    .option('-d, --debug', 'output extra debugging')
-    .option('-s, --small', 'small pizza size')
-    .option('-p, --pizza-type <type>', 'flavour of pizza');
-  program.parse(process.argv);
-  const opts = program.opts();
-  console.log(opts);
+Configuration: Default values can be provided, environment variables linked using .env(), and conflicts handled via .conflicts().
 
-Critical Implementation Patterns:
-- Always validate required options using .requiredOption()
-- Use custom processors to enforce type checking (e.g. myParseInt for integers)
-- Combine positional and named options by enabling positional options if needed
-- Deploy lifecycle hooks for logging or pre-processing before actions are executed.
+Error Handling: program.exitOverride() throws a CommanderError which includes exitCode, code, and message. Custom error messages can be displayed using program.error(message, { exitCode, code }).
+
+Usage Options: .opts() returns options; .getOptionValue() retrieves a single option; .optsWithGlobals() merges local and global options.
+
+For executable subcommands, provide a file name and ensure the executable file has proper mode (e.g., 755) for global installation.
 
 ## Original Source
 Commander.js Documentation
@@ -245,233 +192,126 @@ https://github.com/tj/commander.js/#readme
 
 # Commander.js Documentation
 
-# Installation
+Date Retrieved: 2023-10-27
 
-npm install commander
+## Installation
+Install using npm: npm install commander
 
-# Quick Start
+## Quick Start Example
 
-Use the Commander.js API to build Node.js command-line interfaces. Example code:
+Use require/import to get the Command object:
 
-  const { program } = require('commander');
-  program
-    .option('--first')
-    .option('-s, --separator <char>')
-    .argument('<string>');
-  program.parse();
-  const options = program.opts();
-  const limit = options.first ? 1 : undefined;
-  console.log(program.args[0].split(options.separator, limit));
+CommonJS (.cjs):
 
-# Declaring Program Variable
+const { program } = require('commander');
 
-For small scripts, use the global object:
+program
+  .option('--first')
+  .option('-s, --separator <char>')
+  .argument('<string>');
 
-  const { program } = require('commander');
+program.parse();
 
-For larger apps, instantiate a new Command:
+const options = program.opts();
+const limit = options.first ? 1 : undefined;
+console.log(program.args[0].split(options.separator, limit));
 
+## Options Handling
+
+- Define options using .option() with short flag, long flag and value placeholders.
+  Example:
+  program.option('-p, --port <number>', 'server port number');
+
+- Boolean options and default values:
+  program.option('-c, --cheese <type>', 'add the specified type of cheese', 'blue');
+
+- Negatable options:
+  program.option('--no-sauce', 'Remove sauce');
+
+- Option for both boolean and value (optional):
+  program.option('-c, --cheese [type]', 'Add cheese with optional type');
+
+## Command Definitions
+
+- Create commands with action handler:
   const { Command } = require('commander');
   const program = new Command();
 
-# Options
+  program.command('split')
+    .description('Split a string into substrings')
+    .argument('<string>', 'string to split')
+    .option('--first', 'display just the first substring')
+    .option('-s, --separator <char>', 'separator character', ',')
+    .action((str, options) => {
+      const limit = options.first ? 1 : undefined;
+      console.log(str.split(options.separator, limit));
+    });
 
-Define options using .option() with short and long flags. Several examples include:
+## Custom Option Processing
 
-  program
-    .option('-p, --port <number>', 'server port number')
-    .option('--trace', 'add extra debugging output')
-    .option('--ws, --workspace <name>', 'use a custom workspace');
+- Use callbacks to process option-arguments:
 
-Access options using program.opts(); multi-word options are camel-cased (e.g. templateEngine).
-
-An option can be given in forms such as:
-  serve -p 80
-  serve -p80
-  serve --port 80
-  serve --port=80
-
-# Common Option Types
-
-- Boolean options: "--first" returns true if specified.
-- Value options: e.g. "--separator <char>" expects a value.
-
-Example usage for a pizza ordering CLI:
-
-  program
-    .option('-d, --debug', 'output extra debugging')
-    .option('-s, --small', 'small pizza size')
-    .option('-p, --pizza-type <type>', 'flavour of pizza');
-
-# Default Option Value
-
-Specify a default value directly:
-
-  program
-    .option('-c, --cheese <type>', 'add the specified type of cheese', 'blue');
-
-# Negatable and Optional Options
-
-- Negatable boolean using --no-sauce
-- Boolean or value option: Use square brackets to allow an optional value e.g. "--cheese [type]".
-
-Example:
-
-  program
-    .option('--no-sauce', 'Remove sauce')
-    .option('--cheese <flavour>', 'cheese flavour', 'mozzarella')
-    .option('--no-cheese', 'plain with no cheese')
-    .parse();
-
-# Required and Variadic Options
-
-- Use .requiredOption() for required options.
-- Append ... to the value placeholder for variadic options.
-
-Example:
-
-  program
-    .option('-n, --number <numbers...>', 'specify numbers')
-    .option('-l, --letter [letters...]', 'specify letters')
-    .parse();
-
-# Version Option
-
-Specify version with:
-
-  program.version('0.0.1');
-
-or customize flags:
-
-  program.version('0.0.1', '-v, --vers', 'output the current version');
-
-# Custom Option Processing
-
-Provide a callback function to process option arguments. Example:
-
-  function myParseInt(value, dummyPrevious) {
-    const parsedValue = parseInt(value, 10);
-    if (isNaN(parsedValue)) {
-      throw new commander.InvalidArgumentError('Not a number.');
-    }
-    return parsedValue;
+function myParseInt(value, previous) {
+  const parsedValue = parseInt(value, 10);
+  if (isNaN(parsedValue)) {
+    throw new Error('Not a number.');
   }
+  return parsedValue;
+}
 
-  program
-    .option('-i, --integer <number>', 'integer argument', myParseInt);
+program
+  .option('-i, --integer <number>', 'integer argument', myParseInt);
 
-# Commands and Subcommands
+## Parsing and Configuration
 
-Create subcommands using .command(). Examples:
+- Parse arguments using program.parse(process.argv) or program.parseAsync(process.argv).
+- Use .opts(), .optsWithGlobals(), .getOptionValue(), etc.
 
-  program.command('clone <source> [destination]')
-    .description('clone a repository into a newly created directory')
-    .action((source, destination) => {
-      console.log('clone command called');
-    });
+## Help System
 
-For stand-alone executable subcommands, pass a description as the second parameter:
+- Auto-generated help is available with -h, --help.
+- Customize using .addHelpText(), .helpOption(), and .helpCommand().
 
-  program.command('start <service>', 'start named service');
+## Advanced Features
 
-# Command Arguments
+- Variadic options:
+  program.option('-n, --number <numbers...>', 'specify numbers');
 
-Define command arguments using .argument(). Example:
+- Required options:
+  program.requiredOption('-c, --cheese <type>', 'pizza must have cheese');
 
-  program
-    .argument('<username>', 'user to login')
-    .argument('[password]', 'password for user, if required', 'no password given')
-    .action((username, password) => {
-      console.log('username:', username);
-      console.log('password:', password);
-    });
-
-# Action Handlers
-
-The action handler receives parameters for each argument and a final options object. Example:
-
-  program
-    .argument('<name>')
-    .option('-t, --title <honorific>', 'title to use before name')
-    .option('-d, --debug', 'display some debugging')
-    .action((name, options, command) => {
-      if (options.debug) {
-        console.error('Called %s with options %o', command.name(), options);
-      }
-      const title = options.title ? `${options.title} ` : '';
-      console.log(`Thank-you ${title}${name}`);
-    });
-
-# Parsing and Execution
-
-- Use .parse() for synchronous parsing or .parseAsync() for async action handlers.
-- Access remaining arguments via program.args.
-
-# Configuration and Hooks
-
-Customize parsing by enabling positional options or pass through options:
-
-  program.enablePositionalOptions();
-  program.passThroughOptions();
-
-Add lifecycle hooks:
-
+- Command life cycle hooks:
   program.hook('preAction', (thisCommand, actionCommand) => {
     if (thisCommand.opts().trace) {
       console.log(`About to call action handler for subcommand: ${actionCommand.name()}`);
-      console.log('arguments: %O', actionCommand.args);
-      console.log('options: %o', actionCommand.opts());
     }
   });
 
-# Automated Help and Customization
+## Error Handling and Exit Overrides
 
-Automatic help generation is built-in. Customize using:
-
-  program.addHelpText('after', '\nExample call:\n  $ custom-help --help');
-
-Override help option, help command, and customize usage text with .helpOption(), .helpCommand(), .usage(), .description() and .summary().
-
-# Error Handling
-
-Use program.error() to display errors. Override exit behavior with program.exitOverride(). Example:
-
+- Override exit using program.exitOverride();
   try {
     program.parse(process.argv);
   } catch (err) {
-    // custom error processing
+    // Custom error processing can be done here
   }
 
-# Output Configuration
+## Configuration Options and Best Practices
 
-Configure output handling with .configureOutput():
+- Use .storeOptionsAsProperties() for legacy support (not recommended for new development).
+- Set environment variables with .env() and use .default() to provide defaults along with description.
+- For debugging, adjust output using .configureOutput() with custom functions for writeOut, writeErr, and outputError.
 
-  program.configureOutput({
-    writeOut: (str) => process.stdout.write(`[OUT] ${str}`),
-    writeErr: (str) => process.stdout.write(`[ERR] ${str}`),
-    outputError: (str, write) => write(`\x1b[31m${str}\x1b[0m`)
-  });
-
-# TypeScript and Other Integrations
-
-For TypeScript, the usage is similar with strong typing provided by extra-typings or direct import. Example:
-
-  import { Command } from 'commander';
-  const program = new Command();
-
-# Additional Features
-
-Support for custom events, legacy options (via .storeOptionsAsProperties()), and node-specific options is available.
-
-*Content retrieved on 2023-10-05. Data Size: 805381 bytes. Attribution: tj/commander.js repository.
+Attribution: Commander.js documentation from https://github.com/tj/commander.js/#readme
+Data Size: 787287 bytes
 
 ## Attribution
 - Source: Commander.js Documentation
 - URL: https://github.com/tj/commander.js/#readme
 - License: MIT License
-- Crawl Date: 2025-04-29T05:49:10.055Z
-- Data Size: 805381 bytes
-- Links Found: 5806
+- Crawl Date: 2025-04-29T07:48:19.754Z
+- Data Size: 787287 bytes
+- Links Found: 5473
 
 ## Retrieved
 2025-04-29

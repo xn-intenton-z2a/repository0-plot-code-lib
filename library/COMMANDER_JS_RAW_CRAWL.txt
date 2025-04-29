@@ -2137,50 +2137,80 @@ Sponsor this project
 
 
     
+  
+    
       
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
+        
       
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+
+
+
 
 
   
@@ -4349,50 +4379,80 @@ Sponsor this project
 
 
     
+  
+    
       
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
+        
       
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+
+
+
 
 
   
@@ -7726,50 +7786,6 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
   
     
   
-    Read more about ZibaSec's customer story
-    
-      
-        
-  
-  
-  
-  
-
-      
-    
-     ZibaSec
-    ZibaSec achieves great feats with a small team to protect federal organizations from phishing attacks.
-    
-      Read story 
-
-    
-  
-
-
-    
-  
-    Read more about Zendesk's customer story
-    
-      
-        
-  
-  
-  
-  
-
-      
-    
-     Zendesk
-    Zendesk and GitHub: Building best-in-class tools for a decade—and counting.
-    
-      Read story 
-
-    
-  
-
-
-    
-  
     Read more about Zalando's customer story
     
       
@@ -7783,28 +7799,6 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
     
      Zalando
     Zalando uses GitHub to facilitate collaboration and prioritize open source contributions.
-    
-      Read story 
-
-    
-  
-
-
-    
-  
-    Read more about XING's customer story
-    
-      
-        
-  
-  
-  
-  
-
-      
-    
-     XING
-    XING integrates open and closed source code to build collaborative workflows everyone can use—from project planning to QA.
     
       Read story 
 
@@ -7849,6 +7843,72 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
     
      Wayfair
     By balancing cloud and on-premises management, Wayfair creates a customer experience that edges out the competition.
+    
+      Read story 
+
+    
+  
+
+
+    
+  
+    Read more about Via's customer story
+    
+      
+        
+  
+  
+  
+  
+
+      
+    
+     Via
+    Via empowers its developers to focus on code, rather than tools.
+    
+      Read story 
+
+    
+  
+
+
+    
+  
+    Read more about Trainline's customer story
+    
+      
+        
+  
+  
+  
+  
+
+      
+    
+     Trainline
+    Trainline started as a call center for booking train tickets. Fifteen years later, they’re on a mission to help their customers make smarter rail journeys.
+    
+      Read story 
+
+    
+  
+
+
+    
+  
+    Read more about Tokopedia's customer story
+    
+      
+        
+  
+  
+  
+  
+
+      
+    
+     Tokopedia
+    Tokopedia goes from monolith to microservices to support 7+ million entrepreneurs and 90+ million monthly active users.
     
       Read story 
 
@@ -8525,6 +8585,28 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
   
     
   
+    Read more about Trustpilot's customer story
+    
+      
+        
+  
+  
+  
+  
+
+      
+    
+     Trustpilot
+    Global review platform Trustpilot uses GitHub Team to build a better product, faster, with 300 releases per week.
+    
+      Read story 
+
+    
+  
+
+
+    
+  
     Read more about Buffer's customer story
     
       
@@ -8569,28 +8651,6 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Front's customer story
-    
-      
-        
-  
-  
-  
-  
-
-      
-    
-     Front
-    Front takes the work out of their workflows with GitHub Team.
-    
-      Read story 
-
-    
-  
-
-
-    
-  
     Read more about Knock's customer story
     
       
@@ -8613,7 +8673,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Modsy's customer story
+    Read more about Tray.io's customer story
     
       
         
@@ -8624,8 +8684,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Modsy
-    Modsy leverages GitHub Team to make interior design easy and accessible for all.
+     Tray.io
+    GitHub Team helps the general automation platform build, package, and deploy code faster than ever.
     
       Read story 
 
@@ -8635,7 +8695,7 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
     
   
-    Read more about Netdata's customer story
+    Read more about Sketch's customer story
     
       
         
@@ -8646,8 +8706,8 @@ Learn moreModernizing COBOL with GitHub CopilotEbookExplore how GitHub Copilot c
 
       
     
-     Netdata
-    Netdata accelerates their developer workflow with built-in security and open source.
+     Sketch
+    Sketch streamlines their workflows to provide teams with a comprehensive digital design editor.
     
       Read story 
 
@@ -10095,9 +10155,9 @@ The ReadME Project
     
         
       
-        Angular
+        Telegram
       
-      Angular is an open source web application platform.
+      Telegram is a non-profit, cloud-based instant messaging service.
     
   
 
@@ -10111,9 +10171,9 @@ The ReadME Project
     
         
       
-        Terminal
+        Markdown
       
-      The terminal is an interface in which you can type and execute text-based commands.
+      Markdown is a lightweight markup language.
     
   
 
@@ -10127,9 +10187,9 @@ The ReadME Project
     
         
       
-        Redux
+        Kubernetes
       
-      Redux is a predictable state container for JavaScript apps.
+      Kubernetes is an open source system for automating deployment, scaling, and management of containerized applications.
     
   
 
@@ -10711,7 +10771,7 @@ The ReadME Project
       
           
             
-  nodejs
+  react
 
           
           
@@ -10741,22 +10801,22 @@ The ReadME Project
           
           
             
-  php
+  ai
 
           
           
             
-  wordpress-plugin
+  aws-lambda
 
           
           
             
-  typescript
+  github-config
 
           
           
             
-  github-config\n\n\n\nStar
+  managed-by-gh-as-code\n\n\n\nStar
 
 
   
@@ -10781,9 +10841,9 @@ The ReadME Project
 
 
       
-        52,003
+        52,180
       
-        7,667
+        7,683
       
         Built by
 
@@ -10828,9 +10888,9 @@ The ReadME Project
 
 
       
-        35,824
+        35,843
       
-        1,110
+        1,112
       
         Built by
 
@@ -10875,9 +10935,9 @@ The ReadME Project
 
 
       
-        7,269
+        7,311
       
-        484
+        488
       
         Built by
 
@@ -10917,9 +10977,9 @@ The ReadME Project
   
 
       
-        4,818
+        4,881
       
-        558
+        561
       
         Built by
 
@@ -10964,9 +11024,9 @@ The ReadME Project
 
 
       
-        29,141
+        29,165
       
-        2,038
+        2,041
       
         Built by
 
@@ -11011,9 +11071,9 @@ The ReadME Project
 
 
       
-        80,906
+        80,944
       
-        41,655
+        41,675
       
         Built by
 
@@ -11058,7 +11118,7 @@ The ReadME Project
 
 
       
-        9,081
+        9,102
       
         765
       
@@ -11105,9 +11165,9 @@ The ReadME Project
 
 
       
-        8,631
+        8,690
       
-        992
+        999
       
         Built by
 
@@ -11147,9 +11207,9 @@ The ReadME Project
   
 
       
-        167,453
+        167,497
       
-        10,481
+        10,486
       
         Built by
 
@@ -11194,9 +11254,9 @@ The ReadME Project
 
 
       
-        94,956
+        94,992
       
-        14,184
+        14,194
       
         Built by
 
@@ -11241,9 +11301,9 @@ The ReadME Project
 
 
       
-        376,306
+        376,340
       
-        35,031
+        35,036
       
         Built by
 
@@ -11296,9 +11356,9 @@ The ReadME Project
 
 
       
-        8,424
+        8,446
       
-        1,437
+        1,443
       
         Built by
 
@@ -11351,9 +11411,9 @@ The ReadME Project
 
 
       
-        59,626
+        59,655
       
-        12,615
+        12,622
       
         Built by
 
@@ -11398,9 +11458,9 @@ The ReadME Project
 
 
       
-        2,207
+        2,234
       
-        165
+        170
       
         Built by
 
@@ -11452,9 +11512,9 @@ The ReadME Project
 
 
       
-        12,005
+        12,021
       
-        236
+        238
       
         Built by
 
@@ -11499,9 +11559,9 @@ The ReadME Project
 
 
       
-        17,763
+        17,778
       
-        2,736
+        2,738
       
         Built by
 
@@ -11538,9 +11598,9 @@ The ReadME Project
   
 
       
-        8,280
+        8,304
       
-        736
+        737
       
         Built by
 
@@ -13639,9 +13699,9 @@ The ReadME Project
 
 
       
-        52,003
+        52,180
       
-        7,667
+        7,683
       
         Built by
 
@@ -13688,9 +13748,9 @@ The ReadME Project
 
 
       
-        35,824
+        35,843
       
-        1,110
+        1,112
       
         Built by
 
@@ -13737,9 +13797,9 @@ The ReadME Project
 
 
       
-        7,269
+        7,311
       
-        484
+        488
       
         Built by
 
@@ -13781,9 +13841,9 @@ The ReadME Project
   
 
       
-        4,818
+        4,881
       
-        558
+        561
       
         Built by
 
@@ -13830,9 +13890,9 @@ The ReadME Project
 
 
       
-        29,141
+        29,165
       
-        2,038
+        2,041
       
         Built by
 
@@ -13879,9 +13939,9 @@ The ReadME Project
 
 
       
-        80,906
+        80,944
       
-        41,655
+        41,675
       
         Built by
 
@@ -13928,7 +13988,7 @@ The ReadME Project
 
 
       
-        9,081
+        9,102
       
         765
       
@@ -13977,9 +14037,9 @@ The ReadME Project
 
 
       
-        8,631
+        8,690
       
-        992
+        999
       
         Built by
 
@@ -14021,9 +14081,9 @@ The ReadME Project
   
 
       
-        167,453
+        167,497
       
-        10,481
+        10,486
       
         Built by
 
@@ -14070,9 +14130,9 @@ The ReadME Project
 
 
       
-        94,956
+        94,992
       
-        14,184
+        14,194
       
         Built by
 
@@ -14119,9 +14179,9 @@ The ReadME Project
 
 
       
-        376,306
+        376,340
       
-        35,031
+        35,036
       
         Built by
 
@@ -14176,9 +14236,9 @@ The ReadME Project
 
 
       
-        8,424
+        8,446
       
-        1,437
+        1,443
       
         Built by
 
@@ -14233,9 +14293,9 @@ The ReadME Project
 
 
       
-        59,626
+        59,655
       
-        12,615
+        12,622
       
         Built by
 
@@ -14282,9 +14342,9 @@ The ReadME Project
 
 
       
-        2,207
+        2,234
       
-        165
+        170
       
         Built by
 
@@ -14338,9 +14398,9 @@ The ReadME Project
 
 
       
-        12,005
+        12,021
       
-        236
+        238
       
         Built by
 
@@ -14387,9 +14447,9 @@ The ReadME Project
 
 
       
-        17,763
+        17,778
       
-        2,736
+        2,738
       
         Built by
 
@@ -14428,9 +14488,9 @@ The ReadME Project
   
 
       
-        8,280
+        8,304
       
-        736
+        737
       
         Built by
 
@@ -14649,17 +14709,17 @@ The ReadME Project
 
         
   
-      
-    Made in Brazil
-    Open source projects built in or receiving significant contributions from Brazil :brazil:
+      #
+    Game Engines
+    Frameworks for building games across multiple platforms.
   
 
 
         
   
-      #
-    Game Engines
-    Frameworks for building games across multiple platforms.
+      
+    Pixel Art Tools
+    Creating pixel art for fun or animated sprites for a game? The digital artist in you will love these apps and tools!
   
 
 
@@ -28895,50 +28955,80 @@ Sponsor this project
 
 
     
+  
+    
       
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
-          
-            
-          
+        
       
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+    
+      
+        
+      
+    
+
+
+
 
 
   
@@ -29657,6 +29747,64 @@ Additional navigation options
       
         
           
+    Radian-File
+        
+        
+ Joined on Jul 4, 2024
+
+        
+          
+  
+    
+      Follow
+    
+  
+
+
+        
+      
+    
+  
+
+          
+  
+    
+      
+        
+      
+
+      
+        
+          
+    Laybring
+        
+        
+ Joined on Apr 16, 2023
+
+        
+          
+  
+    
+      Follow
+    
+  
+
+
+        
+      
+    
+  
+
+          
+  
+    
+      
+        
+      
+
+      
+        
+          
     lgmendesDynamics
         
         
@@ -30360,64 +30508,6 @@ Additional navigation options
     https://blog.naver.com/mym0404
   
   
-
-        
-          
-  
-    
-      Follow
-    
-  
-
-
-        
-      
-    
-  
-
-          
-  
-    
-      
-        
-      
-
-      
-        
-          
-    oberemor
-        
-        
- Joined on Jun 19, 2020
-
-        
-          
-  
-    
-      Follow
-    
-  
-
-
-        
-      
-    
-  
-
-          
-  
-    
-      
-        
-      
-
-      
-        
-          
-    ssahillppatell
-        
-        
- Joined on Sep 29, 2018
 
         
           
@@ -34845,7 +34935,7 @@ Additional navigation options
   
   
   ProTip!
-  Adding no:label will show everything without a label.\n\n\n\ntj
+  Type g p on any issue or pull request to go back to the pull request listing page.\n\n\n\ntj
     
     /
     
@@ -40083,7 +40173,7 @@ Insights: tj/commander.js
   
       
   
-  April 21, 2025 – April 28, 2025
+  April 22, 2025 – April 29, 2025
   
         
               Period:
@@ -40820,1474 +40910,4 @@ Additional navigation options
 
   
   
-     Files masterBreadcrumbscommander.js/.github/Copy pathDirectory actionsMore optionsDirectory actionsMore optionsLatest commit HistoryHistory masterBreadcrumbscommander.js/.github/TopFolders and filesNameNameLast commit messageLast commit dateparent directory..workflowsworkflows  FUNDING.ymlFUNDING.yml  PULL_REQUEST_TEMPLATE.mdPULL_REQUEST_TEMPLATE.md  dependabot.ymldependabot.yml  View all files\n\n\n\ntj
-    
-    /
-    
-      commander.js
-    
-
-    Public
-  
-
-
-        
-
-        
-            
-    
-        
-          
-        
-
-      
-
-  
-                Notifications
-    You must be signed in to change notification settings
-
-  
-
-  
-              Fork
-    1.7k
-
-  
-
-  
-        
-            
-          Star
-          27.3k
-
-  
-
-
-
-        
-      
-
-        
-
-
-
-          
-
-  
-      
-  
-    
-              
-        Code
-          
-
-
-    
-
-      
-  
-    
-              
-        Issues
-          11
-
-
-    
-
-      
-  
-    
-              
-        Pull requests
-          1
-
-
-    
-
-      
-  
-    
-              
-        Actions
-          
-
-
-    
-
-      
-  
-    
-              
-        Projects
-          0
-
-
-    
-
-      
-  
-    
-              
-        Wiki
-          
-
-
-    
-
-      
-  
-    
-              
-        Security
-          
-
-    
-
-      
-  
-    
-              
-        Insights
-          
-
-
-    
-
-
-          
-  
-      
-Additional navigation options
-
-
-
-  
-    
-                
-  
-    
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Code
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Issues
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Pull requests
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Actions
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Projects
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Wiki
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Security
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Insights
-      
-
-  
-
-    
-
-
-
-
-      
-  
-
-
-
-  
-
-  
-
-
-
-
-    
-    
-
-
-
-    
-      
-    
-
-
-
-
-
-
-
-
-
-  
-  
-     Files masterBreadcrumbscommander.js/docs/Copy pathDirectory actionsMore optionsDirectory actionsMore optionsLatest commit HistoryHistory masterBreadcrumbscommander.js/docs/TopFolders and filesNameNameLast commit messageLast commit dateparent directory..zh-CNzh-CN  deprecated.mddeprecated.md  help-in-depth.mdhelp-in-depth.md  options-in-depth.mdoptions-in-depth.md  parsing-and-hooks.mdparsing-and-hooks.md  terminology.mdterminology.md  View all files\n\n\n\ntj
-    
-    /
-    
-      commander.js
-    
-
-    Public
-  
-
-
-        
-
-        
-            
-    
-        
-          
-        
-
-      
-
-  
-                Notifications
-    You must be signed in to change notification settings
-
-  
-
-  
-              Fork
-    1.7k
-
-  
-
-  
-        
-            
-          Star
-          27.3k
-
-  
-
-
-
-        
-      
-
-        
-
-
-
-          
-
-  
-      
-  
-    
-              
-        Code
-          
-
-
-    
-
-      
-  
-    
-              
-        Issues
-          11
-
-
-    
-
-      
-  
-    
-              
-        Pull requests
-          1
-
-
-    
-
-      
-  
-    
-              
-        Actions
-          
-
-
-    
-
-      
-  
-    
-              
-        Projects
-          0
-
-
-    
-
-      
-  
-    
-              
-        Wiki
-          
-
-
-    
-
-      
-  
-    
-              
-        Security
-          
-
-    
-
-      
-  
-    
-              
-        Insights
-          
-
-
-    
-
-
-          
-  
-      
-Additional navigation options
-
-
-
-  
-    
-                
-  
-    
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Code
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Issues
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Pull requests
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Actions
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Projects
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Wiki
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Security
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Insights
-      
-
-  
-
-    
-
-
-
-
-      
-  
-
-
-
-  
-
-  
-
-
-
-
-    
-    
-
-
-
-    
-      
-    
-
-
-
-
-
-
-
-
-
-  
-  
-     Files masterBreadcrumbscommander.js/examples/Copy pathDirectory actionsMore optionsDirectory actionsMore optionsLatest commit HistoryHistory masterBreadcrumbscommander.js/examples/TopFolders and filesNameNameLast commit messageLast commit dateparent directory..action-this.jsaction-this.js  alias.jsalias.js  argument.jsargument.js  arguments-custom-processing.jsarguments-custom-processing.js  arguments-extra.jsarguments-extra.js  color-help-replacement.mjscolor-help-replacement.mjs  color-help.mjscolor-help.mjs  configure-help.jsconfigure-help.js  configure-output.jsconfigure-output.js  custom-command-class.jscustom-command-class.js  custom-helpcustom-help  custom-help-descriptioncustom-help-description  custom-help-text.jscustom-help-text.js  custom-versioncustom-version  defaultCommand.jsdefaultCommand.js  deploydeploy  descriptiondescription  global-options-added.jsglobal-options-added.js  global-options-nested.jsglobal-options-nested.js  help-centered.mjshelp-centered.mjs  help-subcommands-usage.jshelp-subcommands-usage.js  hook.jshook.js  man-style-help.mjsman-style-help.mjs  nestedCommands.jsnestedCommands.js  options-boolean-or-value.jsoptions-boolean-or-value.js  options-common.jsoptions-common.js  options-conflicts.jsoptions-conflicts.js  options-custom-processing.jsoptions-custom-processing.js  options-defaults.jsoptions-defaults.js  options-env.jsoptions-env.js  options-extra.jsoptions-extra.js  options-implies.jsoptions-implies.js  options-negatable.jsoptions-negatable.js  options-required.jsoptions-required.js  options-variadic.jsoptions-variadic.js  pass-through-options.jspass-through-options.js  pizzapizza  pmpm  pm-installpm-install  pm-list.jspm-list.js  positional-options.jspositional-options.js  split.jssplit.js  string-util.jsstring-util.js  thank.jsthank.js  View all files\n\n\n\ntj
-    
-    /
-    
-      commander.js
-    
-
-    Public
-  
-
-
-        
-
-        
-            
-    
-        
-          
-        
-
-      
-
-  
-                Notifications
-    You must be signed in to change notification settings
-
-  
-
-  
-              Fork
-    1.7k
-
-  
-
-  
-        
-            
-          Star
-          27.3k
-
-  
-
-
-
-        
-      
-
-        
-
-
-
-          
-
-  
-      
-  
-    
-              
-        Code
-          
-
-
-    
-
-      
-  
-    
-              
-        Issues
-          11
-
-
-    
-
-      
-  
-    
-              
-        Pull requests
-          1
-
-
-    
-
-      
-  
-    
-              
-        Actions
-          
-
-
-    
-
-      
-  
-    
-              
-        Projects
-          0
-
-
-    
-
-      
-  
-    
-              
-        Wiki
-          
-
-
-    
-
-      
-  
-    
-              
-        Security
-          
-
-    
-
-      
-  
-    
-              
-        Insights
-          
-
-
-    
-
-
-          
-  
-      
-Additional navigation options
-
-
-
-  
-    
-                
-  
-    
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Code
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Issues
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Pull requests
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Actions
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Projects
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Wiki
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Security
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Insights
-      
-
-  
-
-    
-
-
-
-
-      
-  
-
-
-
-  
-
-  
-
-
-
-
-    
-    
-
-
-
-    
-      
-    
-
-
-
-
-
-
-
-
-
-  
-  
-     Files masterBreadcrumbscommander.js/lib/Copy pathDirectory actionsMore optionsDirectory actionsMore optionsLatest commit HistoryHistory masterBreadcrumbscommander.js/lib/TopFolders and filesNameNameLast commit messageLast commit dateparent directory..argument.jsargument.js  command.jscommand.js  error.jserror.js  help.jshelp.js  option.jsoption.js  suggestSimilar.jssuggestSimilar.js  View all files\n\n\n\ntj
-    
-    /
-    
-      commander.js
-    
-
-    Public
-  
-
-
-        
-
-        
-            
-    
-        
-          
-        
-
-      
-
-  
-                Notifications
-    You must be signed in to change notification settings
-
-  
-
-  
-              Fork
-    1.7k
-
-  
-
-  
-        
-            
-          Star
-          27.3k
-
-  
-
-
-
-        
-      
-
-        
-
-
-
-          
-
-  
-      
-  
-    
-              
-        Code
-          
-
-
-    
-
-      
-  
-    
-              
-        Issues
-          11
-
-
-    
-
-      
-  
-    
-              
-        Pull requests
-          1
-
-
-    
-
-      
-  
-    
-              
-        Actions
-          
-
-
-    
-
-      
-  
-    
-              
-        Projects
-          0
-
-
-    
-
-      
-  
-    
-              
-        Wiki
-          
-
-
-    
-
-      
-  
-    
-              
-        Security
-          
-
-    
-
-      
-  
-    
-              
-        Insights
-          
-
-
-    
-
-
-          
-  
-      
-Additional navigation options
-
-
-
-  
-    
-                
-  
-    
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Code
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Issues
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Pull requests
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Actions
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Projects
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Wiki
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Security
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Insights
-      
-
-  
-
-    
-
-
-
-
-      
-  
-
-
-
-  
-
-  
-
-
-
-
-    
-    
-
-
-
-    
-      
-    
-
-
-
-
-
-
-
-
-
-  
-  
-     Files masterBreadcrumbscommander.js/tests/Copy pathDirectory actionsMore optionsDirectory actionsMore optionsLatest commit HistoryHistory masterBreadcrumbscommander.js/tests/TopFolders and filesNameNameLast commit messageLast commit dateparent directory..fixtures-extensionsfixtures-extensions  fixturesfixtures  args.literal.test.jsargs.literal.test.js  args.variadic.test.jsargs.variadic.test.js  argument.chain.test.jsargument.chain.test.js  argument.choices.test.jsargument.choices.test.js  argument.custom-processing.test.jsargument.custom-processing.test.js  argument.required.test.jsargument.required.test.js  argument.variadic.test.jsargument.variadic.test.js  command.action.test.jscommand.action.test.js  command.addCommand.test.jscommand.addCommand.test.js  command.addHelpOption.test.jscommand.addHelpOption.test.js  command.addHelpText.test.jscommand.addHelpText.test.js  command.alias.test.jscommand.alias.test.js  command.allowExcessArguments.test.jscommand.allowExcessArguments.test.js  command.allowUnknownOption.test.jscommand.allowUnknownOption.test.js  command.argumentVariations.test.jscommand.argumentVariations.test.js  command.asterisk.test.jscommand.asterisk.test.js  command.chain.test.jscommand.chain.test.js  command.commandHelp.test.jscommand.commandHelp.test.js  command.configureHelp.test.jscommand.configureHelp.test.js  command.configureOutput.test.jscommand.configureOutput.test.js  command.copySettings.test.jscommand.copySettings.test.js  command.createArgument.test.jscommand.createArgument.test.js  command.createHelp.test.jscommand.createHelp.test.js  command.createOption.test.jscommand.createOption.test.js  command.default.test.jscommand.default.test.js  command.description.test.jscommand.description.test.js  command.error.test.jscommand.error.test.js  command.executableSubcommand.inspect.test.jscommand.executableSubcommand.inspect.test.js  command.executableSubcommand.lookup.test.jscommand.executableSubcommand.lookup.test.js  command.executableSubcommand.mock.test.jscommand.executableSubcommand.mock.test.js  command.executableSubcommand.search.test.jscommand.executableSubcommand.search.test.js  command.executableSubcommand.signals.test.jscommand.executableSubcommand.signals.test.js  command.executableSubcommand.test.jscommand.executableSubcommand.test.js  command.exitOverride.test.jscommand.exitOverride.test.js  command.help.test.jscommand.help.test.js  command.helpCommand.test.jscommand.helpCommand.test.js  command.helpOption.test.jscommand.helpOption.test.js  command.hook.test.jscommand.hook.test.js  command.name.test.jscommand.name.test.js  command.nested.test.jscommand.nested.test.js  command.onCommand.test.jscommand.onCommand.test.js  command.option-misuse.test.jscommand.option-misuse.test.js  command.parse.test.jscommand.parse.test.js  command.parseOptions.test.jscommand.parseOptions.test.js  command.positionalOptions.test.jscommand.positionalOptions.test.js  command.registerClash.test.jscommand.registerClash.test.js  command.showHelpAfterError.test.jscommand.showHelpAfterError.test.js  command.showSuggestionAfterError.test.jscommand.showSuggestionAfterError.test.js  command.summary.test.jscommand.summary.test.js  command.unknownCommand.test.jscommand.unknownCommand.test.js  command.unknownOption.test.jscommand.unknownOption.test.js  command.usage.test.jscommand.usage.test.js  commander.configureCommand.test.jscommander.configureCommand.test.js  createCommand.test.jscreateCommand.test.js  deprecated.test.jsdeprecated.test.js  esm-imports-test.mjsesm-imports-test.mjs  help.argumentDescription.test.jshelp.argumentDescription.test.js  help.boxWrap.test.jshelp.boxWrap.test.js  help.commandTerm.test.jshelp.commandTerm.test.js  help.commandUsage.test.jshelp.commandUsage.test.js  help.longestArgumentTermLength.test.jshelp.longestArgumentTermLength.test.js  help.longestCommandTermLength.test.jshelp.longestCommandTermLength.test.js  help.longestOptionTermLength.test.jshelp.longestOptionTermLength.test.js  help.minWidthToWrap.test.jshelp.minWidthToWrap.test.js  help.optionDescription.test.jshelp.optionDescription.test.js  help.optionTerm.test.jshelp.optionTerm.test.js  help.padWidth.test.jshelp.padWidth.test.js  help.preformatted.test.jshelp.preformatted.test.js  help.showGlobalOptions.test.jshelp.showGlobalOptions.test.js  help.sortCommands.test.jshelp.sortCommands.test.js  help.sortOptions.test.jshelp.sortOptions.test.js  help.stripAnsi.test.jshelp.stripAnsi.test.js  help.style.test.jshelp.style.test.js  help.subcommandDescription.test.jshelp.subcommandDescription.test.js  help.suggestion.test.jshelp.suggestion.test.js  help.visibleArguments.test.jshelp.visibleArguments.test.js  help.visibleCommands.test.jshelp.visibleCommands.test.js  help.visibleGlobalOptions.test.jshelp.visibleGlobalOptions.test.js  help.visibleOptions.test.jshelp.visibleOptions.test.js  incrementNodeInspectorPort.test.jsincrementNodeInspectorPort.test.js  option.bad-flags.test.jsoption.bad-flags.test.js  option.chain.test.jsoption.chain.test.js  options.bool.combo.test.jsoptions.bool.combo.test.js  options.bool.small.combined.test.jsoptions.bool.small.combined.test.js  options.bool.test.jsoptions.bool.test.js  options.camelcase.test.jsoptions.camelcase.test.js  options.choices.test.jsoptions.choices.test.js  options.conflicts.test.jsoptions.conflicts.test.js  options.custom-processing.test.jsoptions.custom-processing.test.js  options.default.test.jsoptions.default.test.js  options.dual-options.test.jsoptions.dual-options.test.js  options.env.test.jsoptions.env.test.js  options.flags.test.jsoptions.flags.test.js  options.getset.test.jsoptions.getset.test.js  options.implies.test.jsoptions.implies.test.js  options.mandatory.test.jsoptions.mandatory.test.js  options.optional.test.jsoptions.optional.test.js  options.opts.test.jsoptions.opts.test.js  View all files\n\n\n\ntj
-    
-    /
-    
-      commander.js
-    
-
-    Public
-  
-
-
-        
-
-        
-            
-    
-        
-          
-        
-
-      
-
-  
-                Notifications
-    You must be signed in to change notification settings
-
-  
-
-  
-              Fork
-    1.7k
-
-  
-
-  
-        
-            
-          Star
-          27.3k
-
-  
-
-
-
-        
-      
-
-        
-
-
-
-          
-
-  
-      
-  
-    
-              
-        Code
-          
-
-
-    
-
-      
-  
-    
-              
-        Issues
-          11
-
-
-    
-
-      
-  
-    
-              
-        Pull requests
-          1
-
-
-    
-
-      
-  
-    
-              
-        Actions
-          
-
-
-    
-
-      
-  
-    
-              
-        Projects
-          0
-
-
-    
-
-      
-  
-    
-              
-        Wiki
-          
-
-
-    
-
-      
-  
-    
-              
-        Security
-          
-
-    
-
-      
-  
-    
-              
-        Insights
-          
-
-
-    
-
-
-          
-  
-      
-Additional navigation options
-
-
-
-  
-    
-                
-  
-    
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Code
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Issues
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Pull requests
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Actions
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Projects
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Wiki
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Security
-      
-
-  
-
-        
-    
-    
-    
-        
-          
-        
-      
-        
-          Insights
-      
-
-  
-
-    
-
-
-
-
-      
-  
-
-
-
-  
-
-  
-
-
-
-
-    
-    
-
-
-
-    
-      
-    
-
-
-
-
-
-
-
-
-
-  
-  
-     Files masterBreadcrumbscommander.js/typings/Copy pathDirectory actionsMore optionsDirectory actionsMore optionsLatest commit HistoryHistory masterBreadcrumbscommander.js/typings/TopFolders and filesNameNameLast commit messageLast commit dateparent directory..esm.d.mtsesm.d.mts  index.d.tsindex.d.ts  index.test-d.tsindex.test-d.ts  View all files\n\n\n\n
+     Files masterBreadcrumbscommander.js/.github/Copy pathDirectory actionsMore optionsDirectory actionsMore optionsLatest commit HistoryHistory masterBreadcrumbscommander.js/.github/TopFolders and filesNameNameLast commit messageLast commit dateparent directory..workflowsworkflows  FUNDING.ymlFUNDING.yml  PULL_REQUEST_TEMPLATE.mdPULL_REQUEST_TEMPLATE.md  dependabot.ymldependabot.yml  View all files\n\n\n\n
