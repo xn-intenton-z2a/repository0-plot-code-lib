@@ -1,18 +1,18 @@
 # Overview
-This feature consolidates and enhances the existing SVG plotting and animation functionalities into a unified SVG_RENDERING module. By merging static plotting and dynamic animation logic, it provides a single, cohesive interface for all SVG-based visualizations. In addition, the feature introduces an in-memory caching mechanism to store computed plot data, thereby reducing redundant computations and significantly improving performance for repeated plot requests.
+This update enhances the existing SVG_RENDERING feature by integrating comprehensive accessibility improvements. In addition to consolidating static and animated SVG plot generation with performance enhancements, the feature now embeds an accessible title within each generated SVG. This <title> element improves readability for screen readers and aligns with SVG best practices for accessibility.
+
+# Accessibility Enhancements
+- A new CLI/HTTP parameter (--svgTitle) is supported to allow the user to specify a custom title text for the SVG output. If provided, the SVG output will include a <title> element as the first child. If not provided, a default title based on the expression (for example, "Plot for: {expression} in range {range}") is used.
+- The inclusion of a <title> element ensures improved accessibility and better compliance with SVG 1.1 standards, making graphical content more descriptive.
 
 # Implementation
-- Merge the functionalities of the current SVG_PLOTTING and SVG_ANIMATION features into one unified rendering engine. This will support both static plots (using polyline elements) and animated plots (using SMIL <animate> elements) within the same code path.
-- Introduce an in-memory cache (for example, a simple JavaScript object) in the source code that is keyed by a hash computed from the expression, range, and customization parameters. Before computing plot data (via computePlotData), check the cache for a valid result. If present, return the cached SVG output; otherwise, compute and store the result in the cache.
-- Update the createSvgPlot function to incorporate both static and smooth path generation (controlled by the smooth flag and smoothingFactor) and embed gradient, marker, and styling options as already implemented.
-- Update the CLI and HTTP endpoint logic in the main source file so that both modes benefit from the caching mechanism. Ensure that when a configuration reload (via SIGHUP) occurs, the cache is either cleared or updated accordingly.
-- Enhance error handling to properly report cache retrieval or key generation issues, ensuring that any fallback to standard computation is smooth.
+- Update the createSvgPlot function to check for a new parameter (svgTitle) in the customLabels object. If the parameter exists and is non-empty, embed a <title>{provided text}</title> element immediately after the opening <svg> tag.
+- If no custom title is provided, automatically generate a default title using the expression and range values. This guarantees every SVG has an accessible description.
+- Ensure that the <title> element is inserted before any other child elements (such as <defs> or <text>) to satisfy best practices for SVG accessibility.
+- Update CLI and HTTP endpoint logic so that the new parameter is properly recognized and passed to the SVG generation routine. This is integrated as part of parameter merging in the configuration management.
+- Extend error handling and unit tests to validate that when a title is provided or generated, it adheres to the accessibility requirements.
 
 # Impact
-- Significantly reduces computation time for repeated plots by avoiding re-evaluation of the same expression and range parameters.
-- Simplifies user experience by providing a single, robust interface for both static and animated SVG plot rendering.
-- Improves overall performance and responsiveness, in line with the mission to be the go-to plot library for formula visualisations.
-
-# Notes
-- The cache is maintained in memory during the process lifetime and can be reset on receipt of the SIGHUP signal or via explicit CLI commands if necessary.
-- This merged feature will replace the individual SVG_PLOTTING and SVG_ANIMATION features, reducing code duplication and easing future maintenance.
+- Enhances usability by providing meaningful descriptions for SVG plots, which benefits users relying on assistive technologies.
+- Aligns sharply with the mission of being the go-to plot library, ensuring that produced graphics are not only visually effective but also accessible.
+- Consolidates accessible attributes within the unified SVG rendering process, reducing additional overhead and ensuring consistency across both CLI and HTTP interfaces.
