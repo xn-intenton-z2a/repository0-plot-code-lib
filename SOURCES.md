@@ -312,3 +312,23 @@ This interactive tool offers a user-friendly interface to optimize and minify SV
 ## https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Accept
 This MDN documentation provides comprehensive information on the HTTP Accept header, outlining how content negotiation works in HTTP. It offers actionable insights into handling various media types, which is especially useful for implementing robust content negotiation in the repository’s HTTP endpoint that serves SVG, PNG, or JSON responses.
 ## CC BY-SA
+
+# Node Convict Documentation
+## https://github.com/mozilla/node-convict
+This documentation provides comprehensive guidance on using Convict for configuration management in Node.js. It details defining schemas, validating configurations, and managing environment variables, offering actionable strategies that complement the use of Zod and dynamic configuration interpolation in repository0-plot-code-lib.
+## MIT License
+
+# SVG Accessibility Best Practices
+## https://www.a11yproject.com/posts/accessible-svg/
+This guide by The A11Y Project offers actionable strategies for implementing accessibility features in SVG graphics. It covers best practices for ARIA roles, descriptive metadata, and ensuring SVG content is accessible to assistive technologies, directly supporting the repository’s recent accessibility enhancements.
+## Unknown
+
+# Advanced Node.js Logging and Debugging
+## https://nodejs.dev/learn/debugging-nodejs
+This resource offers detailed insights and best practices for logging, error reporting, and debugging in Node.js applications. Its actionable guidelines help in troubleshooting dynamic configuration issues and runtime errors, enhancing the overall robustness of CLI and server functionalities in repository0-plot-code-lib.
+## Node.js Documentation License
+
+# CSS-Tricks: Optimizing SVGs
+## https://css-tricks.com/optimizing-svgs-for-production/
+This guide from CSS-Tricks provides practical techniques for optimizing SVG assets for production use. It covers strategies for SVG minification, performance enhancements, and reducing file sizes without compromising visual quality, aligning with the repository's efforts in efficient SVG output generation.
+## Unknown
