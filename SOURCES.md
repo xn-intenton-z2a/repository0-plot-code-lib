@@ -187,3 +187,18 @@ This MDN documentation provides a comprehensive guide on SVG Filters. It covers 
 ## https://css-tricks.com/guide-svg-gradients/
 This guide from CSS-Tricks delivers practical insights into creating and customizing SVG gradients. It covers both linear and radial gradients, explaining how to manage color transitions, define multiple stops, and apply blending modes. The resource provides actionable techniques that are especially valuable for implementing dynamic gradient effects in SVG-based plots, thereby enhancing visual aesthetics and user engagement. (Publication date: Updated regularly)
 ## Unknown (CSS-Tricks)
+
+# CSS-Tricks: A Complete Guide to SVG
+## https://css-tricks.com/mega-list-svg-information/
+This comprehensive guide from CSS-Tricks offers an extensive dive into the world of SVG. Covering topics from basic SVG syntax to advanced techniques in gradients, filters, and marker usage, it provides actionable insights that support detailed customization and accessibility improvements in SVG graphics—a perfect complement to dynamic plotting libraries.
+## License: Unknown
+
+# Effective CLI Design Patterns for Node.js
+## https://medium.com/bencodezen/cli-apps-in-nodejs-a-guide-for-innovative-design-7dd60d012b93
+This article offers in-depth perspectives on designing efficient and user-friendly CLI applications in Node.js. Covering command parsing, configuration management, error handling, and user experience design, it provides practical examples and design patterns that can be directly applied to enhance the CLI functionality of repository0-plot-code-lib.
+## License: Unknown
+
+# Node.js Performance Best Practices
+## https://nodejs.dev/learn/nodejs-performance-optimisation
+This resource provides actionable insights into optimizing Node.js applications. It covers performance tuning, effective memory management, asynchronous programming patterns, and profiling techniques. These best practices are essential for ensuring that both CLI tools and HTTP server components perform robustly in production environments.
+## License: Node.js Documentation License
