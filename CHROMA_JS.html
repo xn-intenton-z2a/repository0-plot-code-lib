@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>agentic-lib</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2em; background-color: #f9f9f9; color: #333; }
+    header { padding-bottom: 1em; border-bottom: 2px solid #ccc; margin-bottom: 1em; }
+    h1 { font-size: 2em; }
+    section { margin-bottom: 1.5em; }
+    ul { list-style: none; padding: 0; }
+    li { margin: 0.5em 0; }
+    .label { font-weight: bold; }
+    footer { margin-top: 2em; font-size: 0.9em; color: #777; }
+    a { color: #0366d6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>agentic-lib</h1>
+    <p><a href="https://github.com/xn-intenton-z2a/agentic-lib">repository</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/latest.html">latest stats</a> - <a href="https://xn-intenton-z2a.github.io/agentic-lib/all.html">all stats</a></p>
+  </header>
+  <section>
+    <h1 class="md-github"><a class="md-github__anchor" name="chroma_js" href="#chroma_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>CHROMA_JS</h1>
+<h2 class="md-github"><a class="md-github__anchor" name="crawl-summary" href="#crawl-summary"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Crawl Summary</h2>
+<p class="md-github">chroma.js supports comprehensive color manipulations including parsing from multiple formats (named, hex, numeric, RGB, object), conversion to various color spaces (HSL, HSV, Lab, Lch, HCL, OKLab, OKLch, CMYK, GL), and output in hex, CSS, and array formats. It provides methods for blending (mix, average, blend), computing contrast ratios (WCAG, APCA), and generating color scales with options for domain, gamma, lightness correction, padding, and discrete classes. Cubehelix support is included with adjustable start, rotations, hue, gamma, and lightness parameters.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="normalised-extract" href="#normalised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Normalised Extract</h2>
+<p class="md-github">TABLE OF CONTENTS:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Installation and Setup</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Constructors and Input Formats</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Space Conversions and Constructors</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Manipulation Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Output Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Statistical and Comparison Functions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Scale and Palette Generation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Cubehelix Configuration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Installation and Setup:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">npm install chroma-js</li>
+<li class="md-github">Import: import chroma from 'chroma-js'</li>
+<li class="md-github">For browser use: download chroma.min.js or use unpkg.com link</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Color Constructors and Input Formats:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma(color): Auto-detects input such as 'hotpink', '#f39', 0xff3399, [255,51,153]</li>
+<li class="md-github">Object input: chroma({ h:120, s:1, l:0.75 })</li>
+<li class="md-github">Format validation: chroma.valid(color)</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Color Space Conversions and Constructors:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma.hsl(h, s, l): h in [0,360], s,l in [0,1]</li>
+<li class="md-github">chroma.hsv, chroma.lab, chroma.lch, chroma.hcl, chroma.oklab, chroma.oklch</li>
+<li class="md-github">chroma.cmyk(c, m, y, k): values in [0,1]</li>
+<li class="md-github">chroma.gl(r, g, b, [alpha]): normalized 0..1</li>
+<li class="md-github">chroma.temperature(K): Converts Kelvin to color</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Color Manipulation Methods:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">alpha(a): Set/get opacity</li>
+<li class="md-github">darken(value=1)/brighten(value=1): Adjust lightness</li>
+<li class="md-github">saturate(value=1)/desaturate(value=1): Adjust saturation in Lch space</li>
+<li class="md-github">set(channel, value): Change a channel (supports relative changes with '*')</li>
+<li class="md-github">get(channel): Retrieve channel value</li>
+<li class="md-github">luminance([lum, mode]): Get/set brightness (default mode 'rgb')</li>
+<li class="md-github">mix(target, ratio=0.5, mode): Mix with another color</li>
+<li class="md-github">shade(ratio, mode): Mix with black; tint(ratio, mode): Mix with white</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Color Output Methods:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">hex(mode='auto|rgb|rgba|argb'): Returns hex string; 'auto' includes alpha if &lt;1</li>
+<li class="md-github">name(): Returns color name or hex if not available</li>
+<li class="md-github">css(optionalSpace): Returns CSS representation in specified color space</li>
+<li class="md-github">rgb(round=true)/rgba(round=true): Returns r, g, b[,a] array</li>
+<li class="md-github">hsl(), hsv(), hsi(), lab(), lch(), hcl(), oklab(), oklch(): Returns arrays in respective spaces</li>
+<li class="md-github">num(): Numeric representation of hex color</li>
+<li class="md-github">gl(): Normalized RGB components</li>
+<li class="md-github">clipped: Flag if value outside [0,255]</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Statistical and Comparison Functions:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">contrast(color1, color2): WCAG contrast ratio</li>
+<li class="md-github">contrastAPCA(text, background): APCA contrast ratio</li>
+<li class="md-github">distance(color1, color2, mode='lab'): Euclidean distance in a given space</li>
+<li class="md-github">deltaE(color1, color2, Kl=1, Kc=1, Kh=1): CIE2000 color difference</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">Scale and Palette Generation:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma.scale(colors): Creates a color scale function
+<ul class="md-github">
+<li class="md-github">domain([min, max] or custom array): Specifies input values</li>
+<li class="md-github">mode('rgb'|'lab'|'lrgb'|'hsl'|'lch'): Sets interpolation method</li>
+<li class="md-github">gamma(factor): Adjusts midpoint brightness (default 1)</li>
+<li class="md-github">correctLightness(): Distributes lightness evenly</li>
+<li class="md-github">cache(true/false): Enable/disable caching</li>
+<li class="md-github">padding(value or [padStart, padEnd]): Crops gradient ends</li>
+<li class="md-github">colors(n, format): Retrieves n colors as hex or chroma objects</li>
+<li class="md-github">classes(number or array): Returns discrete color classes</li>
+<li class="md-github">nodata(color): Sets fallback for null inputs</li>
+</ul>
+</li>
+<li class="md-github">chroma.brewer: Predefined ColorBrewer palettes (e.g., OrRd, RdBu)</li>
+<li class="md-github">chroma.bezier(colors): Bezier interpolation in Lab space; can be converted with .scale()</li>
+</ul>
+<ol start="8" class="md-github">
+<li class="md-github">Cubehelix Configuration:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma.cubehelix([start=300, rotations=-1.5, hue=1, gamma=1, lightness=[0,1]]): Generates a cubehelix scale
+<ul class="md-github">
+<li class="md-github">start(value): Starting hue angle</li>
+<li class="md-github">rotations(value): Number and direction (e.g., -1.5 for -540°)</li>
+<li class="md-github">hue(value): Fixed value or range</li>
+<li class="md-github">gamma(value): Gamma correction factor</li>
+<li class="md-github">lightness(range): Specifies lightness bounds (e.g., [0.3,0.8])</li>
+<li class="md-github">Use .scale() for conversion to chroma.scale design</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="supplementary-details" href="#supplementary-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Supplementary Details</h2>
+<p class="md-github">Installation:</p>
+<ul class="md-github">
+<li class="md-github">npm install chroma-js</li>
+<li class="md-github">Import using ES6: import chroma from 'chroma-js'</li>
+</ul>
+<p class="md-github">Color Constructor Parameters:</p>
+<ul class="md-github">
+<li class="md-github">chroma(input) where input may be string (e.g., 'hotpink', '#ff3399', 'F39'), number (e.g., 0xff3399 or between 0 and 16777215), array ([255,51,153]), object with keys (e.g., { h: 120, s: 1, l: 0.75 })</li>
+</ul>
+<p class="md-github">Method Defaults and Parameter Values:</p>
+<ul class="md-github">
+<li class="md-github">darken/brighten/saturate/desaturate: default value = 1 if not provided</li>
+<li class="md-github">mix: default ratio = 0.5, mode = 'lrgb'</li>
+<li class="md-github">hex: default mode = 'auto'; to force exclusion of alpha use hex('rgb')</li>
+<li class="md-github">scale functions: default domain is [0,1]; gamma default is 1, caching enabled by default</li>
+</ul>
+<p class="md-github">Cubehelix Defaults:</p>
+<ul class="md-github">
+<li class="md-github">start = 300, rotations = -1.5, hue = 1, gamma = 1, lightness = [0,1]</li>
+</ul>
+<p class="md-github">Example Implementation Patterns:</p>
+<ul class="md-github">
+<li class="md-github">
+<p class="md-github">Reading and Manipulating Colors:
+color = chroma('pink')
+modified = color.darken(2).saturate(2)
+hexValue = modified.hex()</p>
+</li>
+<li class="md-github">
+<p class="md-github">Generating a Color Scale:
+scale = chroma.scale(['yellow', 'navy']).domain([0,100]).mode('lab').gamma(1.2)
+colorsArray = scale.colors(5)</p>
+</li>
+<li class="md-github">
+<p class="md-github">Using Cubehelix:
+chCube = chroma.cubehelix().start(200).rotations(-0.5).gamma(0.8).lightness([0.3,0.8]).scale()
+palette = chCube.colors(5)</p>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="reference-details" href="#reference-details"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reference Details</h2>
+<p class="md-github">API Specifications:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">chroma(input: string | number | number[] | object): Color</p>
+<ul class="md-github">
+<li class="md-github">Auto-detects input format; throws Error if parsing fails
+Examples:
+chroma('hotpink')
+chroma('#ff3399')
+chroma(0xff3399)
+chroma([255,51,153])
+chroma({ h: 120, s: 1, l: 0.75 })</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">chroma.hsl(h: number, s: number, l: number): Color</p>
+<ul class="md-github">
+<li class="md-github">h in [0,360], s and l in [0,1]</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">chroma.mix(color1: Color|string, color2: Color|string, ratio?: number, mode?: string): Color</p>
+<ul class="md-github">
+<li class="md-github">ratio default 0.5; mode options: 'lrgb', 'rgb', 'hsl', 'lab', 'lch'</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Color Methods:</p>
+<ul class="md-github">
+<li class="md-github">alpha(a?: number): number | Color (setter returns new Color)</li>
+<li class="md-github">darken(value?: number = 1): Color</li>
+<li class="md-github">brighten(value?: number = 1): Color</li>
+<li class="md-github">saturate(value?: number = 1): Color</li>
+<li class="md-github">desaturate(value?: number = 1): Color</li>
+<li class="md-github">set(channel: string, value: number | string): Color
+Example: set('hsl.h', 0) to set hue to 0</li>
+<li class="md-github">get(channel: string): number</li>
+<li class="md-github">luminance(lum?: number, mode?: string = 'rgb'): number | Color</li>
+<li class="md-github">hex(mode?: 'auto' | 'rgb' | 'rgba' | 'argb'): string</li>
+<li class="md-github">css(colorSpace?: string): string</li>
+<li class="md-github">rgb(round?: boolean = true): number[]</li>
+<li class="md-github">rgba(round?: boolean = true): number[]</li>
+<li class="md-github">lab(): number[]</li>
+<li class="md-github">lch(): number[]</li>
+<li class="md-github">hcl(): number[]</li>
+<li class="md-github">oklab(): number[]</li>
+<li class="md-github">oklch(): number[]</li>
+<li class="md-github">num(): number</li>
+<li class="md-github">gl(): number[]</li>
+<li class="md-github">clipped: boolean</li>
+</ul>
+</li>
+<li class="md-github">
+<p class="md-github">Scale API:
+let scale = chroma.scale(colors: string[] | Color[])
+scale.domain(domain: number[]): Scale
+scale.mode(mode: string): Scale
+scale.gamma(factor: number): Scale
+scale.correctLightness(): Scale
+scale.cache(flag: boolean): Scale
+scale.padding(pad: number | [number, number]): Scale
+scale.colors(n: number, format?: string): string[] | Color[]
+scale.classes(classes: number | number[]): Scale
+scale.nodata(color: string): Scale</p>
+</li>
+<li class="md-github">
+<p class="md-github">Cubehelix API:
+let cubehelix = chroma.cubehelix(start?: number, rotations?: number, hue?: number, gamma?: number, lightness?: [number, number])
+cubehelix.start(value: number): Cubehelix
+cubehelix.rotations(value: number): Cubehelix
+cubehelix.hue(value: number | [number, number]): Cubehelix
+cubehelix.gamma(value: number): Cubehelix
+cubehelix.lightness(range: [number, number]): Cubehelix
+cubehelix.scale(): Scale</p>
+</li>
+</ol>
+<p class="md-github">Code Examples:
+// Example: Read, manipulate and output a color
+var color = chroma('pink');
+var darkened = color.darken(2).saturate(2);
+var hexCode = darkened.hex(); // e.g. &quot;#d81b60&quot;</p>
+<p class="md-github">// Example: Generate a 5-color palette using a chroma scale
+var palette = chroma.scale(['yellow', 'navy']).domain([0,100]).mode('lab').gamma(1.2).colors(5);</p>
+<p class="md-github">// Example: Cubehelix scale generation
+var cubeScale = chroma.cubehelix().start(200).rotations(-0.5).gamma(0.8).lightness([0.3, 0.8]).scale();
+var cubePalette = cubeScale.colors(5);</p>
+<p class="md-github">Troubleshooting Procedures:</p>
+<ul class="md-github">
+<li class="md-github">If a color fails to parse, use chroma.valid(color) to validate inputs.</li>
+<li class="md-github">For incorrect interpolation results, adjust scale.mode() to 'lab' or 'lrgb'.</li>
+<li class="md-github">Verify alpha handling using hex('rgb') if undesired alpha in output.</li>
+<li class="md-github">Check white point settings with chroma.setLabWhitePoint(whitePoint) when using Lab/Lch conversions.</li>
+</ul>
+<p class="md-github">Configuration Options:</p>
+<ul class="md-github">
+<li class="md-github">Scale default domain: [0,1]</li>
+<li class="md-github">Gamma default: 1</li>
+<li class="md-github">Cubehelix defaults: start=300, rotations=-1.5, hue=1, gamma=1, lightness=[0,1]</li>
+</ul>
+<p class="md-github">Return Types:
+All color transformation methods return a new Color instance; scale methods return Scale instance; cubehelix methods return Cubehelix instance, convertible to Scale.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="information-dense-extract" href="#information-dense-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Information Dense Extract</h2>
+<p class="md-github">chroma(input): accepts string ('hotpink', '#f39'), number (0xff3399), array ([255,51,153]), object ({h:120,s:1,l:0.75}); chroma.valid(input): boolean; Constructors: chroma.hsl(h,s,l), chroma.hsv, lab, lch, hcl, oklab, oklch, cmyk, gl, temperature(K); Methods: alpha(a), darken(1), brighten(1), saturate(1), desaturate(1), set('channel', value), get('channel'), luminance(lum, 'rgb'), mix(target,0.5,'lrgb'), shade(ratio), tint(ratio), hex('auto'|'rgb'|'rgba'|'argb'), name(), css(cs), rgb(true), rgba(true), hsl(), hsv(), hsi(), lab(), lch(), hcl(), oklab(), oklch(), num(), gl(), clipped; Scale: chroma.scale(colors), domain([min,max]), mode('rgb'|'lab'|'lrgb'|'hsl'|'lch'), gamma(1), correctLightness(), cache(true), padding(pad), colors(n,'hex'|null), classes(n or array), nodata(color); Cubehelix: chroma.cubehelix(start=300,rotations=-1.5,hue=1,gamma=1,lightness=[0,1]), methods: start(val), rotations(val), hue(val), gamma(val), lightness(range), scale(); API returns new Color; scale functions return Scale objects; troubleshooting: use chroma.valid, adjust scale.mode, use hex('rgb') for alpha control.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="sanitised-extract" href="#sanitised-extract"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Sanitised Extract</h2>
+<p class="md-github">TABLE OF CONTENTS:</p>
+<ol class="md-github">
+<li class="md-github">
+<p class="md-github">Installation and Setup</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Constructors and Input Formats</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Space Conversions and Constructors</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Manipulation Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Color Output Methods</p>
+</li>
+<li class="md-github">
+<p class="md-github">Statistical and Comparison Functions</p>
+</li>
+<li class="md-github">
+<p class="md-github">Scale and Palette Generation</p>
+</li>
+<li class="md-github">
+<p class="md-github">Cubehelix Configuration</p>
+</li>
+<li class="md-github">
+<p class="md-github">Installation and Setup:</p>
+</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">npm install chroma-js</li>
+<li class="md-github">Import: import chroma from 'chroma-js'</li>
+<li class="md-github">For browser use: download chroma.min.js or use unpkg.com link</li>
+</ul>
+<ol start="2" class="md-github">
+<li class="md-github">Color Constructors and Input Formats:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma(color): Auto-detects input such as 'hotpink', '#f39', 0xff3399, [255,51,153]</li>
+<li class="md-github">Object input: chroma({ h:120, s:1, l:0.75 })</li>
+<li class="md-github">Format validation: chroma.valid(color)</li>
+</ul>
+<ol start="3" class="md-github">
+<li class="md-github">Color Space Conversions and Constructors:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma.hsl(h, s, l): h in [0,360], s,l in [0,1]</li>
+<li class="md-github">chroma.hsv, chroma.lab, chroma.lch, chroma.hcl, chroma.oklab, chroma.oklch</li>
+<li class="md-github">chroma.cmyk(c, m, y, k): values in [0,1]</li>
+<li class="md-github">chroma.gl(r, g, b, [alpha]): normalized 0..1</li>
+<li class="md-github">chroma.temperature(K): Converts Kelvin to color</li>
+</ul>
+<ol start="4" class="md-github">
+<li class="md-github">Color Manipulation Methods:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">alpha(a): Set/get opacity</li>
+<li class="md-github">darken(value=1)/brighten(value=1): Adjust lightness</li>
+<li class="md-github">saturate(value=1)/desaturate(value=1): Adjust saturation in Lch space</li>
+<li class="md-github">set(channel, value): Change a channel (supports relative changes with '*')</li>
+<li class="md-github">get(channel): Retrieve channel value</li>
+<li class="md-github">luminance([lum, mode]): Get/set brightness (default mode 'rgb')</li>
+<li class="md-github">mix(target, ratio=0.5, mode): Mix with another color</li>
+<li class="md-github">shade(ratio, mode): Mix with black; tint(ratio, mode): Mix with white</li>
+</ul>
+<ol start="5" class="md-github">
+<li class="md-github">Color Output Methods:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">hex(mode='auto|rgb|rgba|argb'): Returns hex string; 'auto' includes alpha if &lt;1</li>
+<li class="md-github">name(): Returns color name or hex if not available</li>
+<li class="md-github">css(optionalSpace): Returns CSS representation in specified color space</li>
+<li class="md-github">rgb(round=true)/rgba(round=true): Returns r, g, b[,a] array</li>
+<li class="md-github">hsl(), hsv(), hsi(), lab(), lch(), hcl(), oklab(), oklch(): Returns arrays in respective spaces</li>
+<li class="md-github">num(): Numeric representation of hex color</li>
+<li class="md-github">gl(): Normalized RGB components</li>
+<li class="md-github">clipped: Flag if value outside [0,255]</li>
+</ul>
+<ol start="6" class="md-github">
+<li class="md-github">Statistical and Comparison Functions:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">contrast(color1, color2): WCAG contrast ratio</li>
+<li class="md-github">contrastAPCA(text, background): APCA contrast ratio</li>
+<li class="md-github">distance(color1, color2, mode='lab'): Euclidean distance in a given space</li>
+<li class="md-github">deltaE(color1, color2, Kl=1, Kc=1, Kh=1): CIE2000 color difference</li>
+</ul>
+<ol start="7" class="md-github">
+<li class="md-github">Scale and Palette Generation:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma.scale(colors): Creates a color scale function
+<ul class="md-github">
+<li class="md-github">domain([min, max] or custom array): Specifies input values</li>
+<li class="md-github">mode('rgb'|'lab'|'lrgb'|'hsl'|'lch'): Sets interpolation method</li>
+<li class="md-github">gamma(factor): Adjusts midpoint brightness (default 1)</li>
+<li class="md-github">correctLightness(): Distributes lightness evenly</li>
+<li class="md-github">cache(true/false): Enable/disable caching</li>
+<li class="md-github">padding(value or [padStart, padEnd]): Crops gradient ends</li>
+<li class="md-github">colors(n, format): Retrieves n colors as hex or chroma objects</li>
+<li class="md-github">classes(number or array): Returns discrete color classes</li>
+<li class="md-github">nodata(color): Sets fallback for null inputs</li>
+</ul>
+</li>
+<li class="md-github">chroma.brewer: Predefined ColorBrewer palettes (e.g., OrRd, RdBu)</li>
+<li class="md-github">chroma.bezier(colors): Bezier interpolation in Lab space; can be converted with .scale()</li>
+</ul>
+<ol start="8" class="md-github">
+<li class="md-github">Cubehelix Configuration:</li>
+</ol>
+<ul class="md-github">
+<li class="md-github">chroma.cubehelix([start=300, rotations=-1.5, hue=1, gamma=1, lightness=[0,1]]): Generates a cubehelix scale
+<ul class="md-github">
+<li class="md-github">start(value): Starting hue angle</li>
+<li class="md-github">rotations(value): Number and direction (e.g., -1.5 for -540)</li>
+<li class="md-github">hue(value): Fixed value or range</li>
+<li class="md-github">gamma(value): Gamma correction factor</li>
+<li class="md-github">lightness(range): Specifies lightness bounds (e.g., [0.3,0.8])</li>
+<li class="md-github">Use .scale() for conversion to chroma.scale design</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="original-source" href="#original-source"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Original Source</h2>
+<p class="md-github">Chroma.js Documentation
+https://gka.github.io/chroma.js/</p>
+<h2 class="md-github"><a class="md-github__anchor" name="digest-of-chroma_js" href="#digest-of-chroma_js"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Digest of CHROMA_JS</h2>
+<h1 class="md-github"><a class="md-github__anchor" name="chromajs-documentation-digest" href="#chromajs-documentation-digest"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>chroma.js Documentation Digest</h1>
+<p class="md-github">Retrieved Date: 2023-10-xx</p>
+<h2 class="md-github"><a class="md-github__anchor" name="overview" href="#overview"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Overview</h2>
+<p class="md-github">chroma.js is a zero-dependency JavaScript library (13.5kB) providing extensive functionality for color conversion, manipulation, interpolation, and scale generation. It supports multiple color input formats (named colors, hex strings, numbers, RGB arrays, and objects) and output formats (hex, CSS strings, rgb arrays) across various color spaces.</p>
+<h2 class="md-github"><a class="md-github__anchor" name="installation" href="#installation"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Installation</h2>
+<ul class="md-github">
+<li class="md-github">Node.js: npm install chroma-js</li>
+<li class="md-github">Import using: import chroma from 'chroma-js';</li>
+<li class="md-github">For tree shaking: import specific modules e.g., import deltaE from 'chroma-js/src/utils/deltaE.js'</li>
+<li class="md-github">Browser: use chroma.min.js or hosted version on unpkg.com</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="api-functions-and-methods" href="#api-functions-and-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>API Functions and Methods</h2>
+<h3 class="md-github"><a class="md-github__anchor" name="color-constructors-and-parsing" href="#color-constructors-and-parsing"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Color Constructors and Parsing</h3>
+<ul class="md-github">
+<li class="md-github">chroma(color): Automatically detects input formats (e.g. 'hotpink', '#f39', 0xff3399, [255,51,153])</li>
+<li class="md-github">chroma(h, s, l, 'hsl') for HSL creation</li>
+<li class="md-github">chroma({h:120, s:1, l:0.75}) and other color space objects</li>
+<li class="md-github">chroma.valid(color): Returns boolean if color is parsed</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="color-space-constructors" href="#color-space-constructors"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Color Space Constructors</h3>
+<ul class="md-github">
+<li class="md-github">chroma.hsl(h, s, l): h in [0,360], s, l in [0,1]</li>
+<li class="md-github">chroma.hsv(h, s, v)</li>
+<li class="md-github">chroma.lab(l, a, b)</li>
+<li class="md-github">chroma.lch(l, c, h): l roughly 0..100-150, hue in 0..360</li>
+<li class="md-github">chroma.hcl(h, c, l): same as lch with order reversed</li>
+<li class="md-github">chroma.oklab(l, a, b)</li>
+<li class="md-github">chroma.oklch(l, c, h)</li>
+<li class="md-github">chroma.cmyk(c, m, y, k): values between 0 and 1</li>
+<li class="md-github">chroma.gl(r, g, b, [alpha]): channels normalized to 0..1</li>
+<li class="md-github">chroma.temperature(K): Returns color from temperature in Kelvin</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="color-manipulation-methods" href="#color-manipulation-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Color Manipulation Methods</h3>
+<ul class="md-github">
+<li class="md-github">alpha(a): Get/set the opacity</li>
+<li class="md-github">darken(value=1) and brighten(value=1)</li>
+<li class="md-github">saturate(value=1) and desaturate(value=1)</li>
+<li class="md-github">set(channel, value): Change individual channel (supports relative changes with * operator)</li>
+<li class="md-github">get(channel): Retrieve specific channel value</li>
+<li class="md-github">luminance([lum, mode='rgb']): Get or set WCAG relative brightness</li>
+<li class="md-github">mix(targetColor, ratio=0.5, mode='lrgb'): Mixes two colors</li>
+<li class="md-github">shade(ratio, mode): Mixes with black</li>
+<li class="md-github">tint(ratio, mode): Mixes with white</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="color-output-methods" href="#color-output-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Color Output Methods</h3>
+<ul class="md-github">
+<li class="md-github">hex(mode='auto|rgb|rgba|argb'): Returns hexadecimal string representation; alpha included if &lt; 1 in 'auto' mode</li>
+<li class="md-github">name(): Returns named color if available, otherwise hex string</li>
+<li class="md-github">css([colorSpace]): Returns CSS string in formats such as rgb, hsl, lab, etc.</li>
+<li class="md-github">rgb(round=true) and rgba(round=true): Returns array of channel values</li>
+<li class="md-github">hsl(), hsv(), hsi(), lab(), lch(), hcl(), oklab(), oklch(): Returns respective color space arrays</li>
+<li class="md-github">num(): Returns numeric representation of hex RGB color</li>
+<li class="md-github">gl(): Returns normalized RGB</li>
+<li class="md-github">clipped: Indicates if RGB value is clipped and _rgb._unclipped for unclipped values</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="color-comparison-and-statistical-methods" href="#color-comparison-and-statistical-methods"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Color Comparison and Statistical Methods</h3>
+<ul class="md-github">
+<li class="md-github">contrast(color1, color2): WCAG contrast ratio</li>
+<li class="md-github">contrastAPCA(text, background): APCA contrast ratio</li>
+<li class="md-github">distance(color1, color2, mode='lab'): Euclidean distance in a color space</li>
+<li class="md-github">deltaE(color1, color2, Kl=1, Kc=1, Kh=1): CIE 2000 color difference metric</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="scales-and-palettes" href="#scales-and-palettes"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Scales and Palettes</h3>
+<ul class="md-github">
+<li class="md-github">chroma.scale(colors): Returns a scale function mapping 0..1 to a color gradient
+<ul class="md-github">
+<li class="md-github">domain(domainArray): Set the input domain</li>
+<li class="md-github">mode(mode): Set interpolation method (e.g., rgb, lab, lrgb, hsl, lch)</li>
+<li class="md-github">gamma(factor): Gamma correction with default 1</li>
+<li class="md-github">correctLightness(): Adjust gradient for even lightness</li>
+<li class="md-github">cache(true/false): Cache computed colors</li>
+<li class="md-github">padding(number or [start, end]): Adjust gradient endpoints</li>
+<li class="md-github">colors(n, format='hex' or null): Returns array of n colors; if format is null, returns chroma objects</li>
+<li class="md-github">classes(n or array): Return discrete classes from scale</li>
+<li class="md-github">nodata(color): Set fallback color for null inputs</li>
+</ul>
+</li>
+<li class="md-github">chroma.brewer: Collection of ColorBrewer palettes (e.g., OrRd, RdBu, etc.)</li>
+<li class="md-github">chroma.bezier(colors): Returns function for bezier color interpolation in Lab space</li>
+</ul>
+<h3 class="md-github"><a class="md-github__anchor" name="cubehelix" href="#cubehelix"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cubehelix</h3>
+<ul class="md-github">
+<li class="md-github">chroma.cubehelix([start=300, rotations=-1.5, hue=1, gamma=1, lightness=[0,1]]): Configures a cubehelix color scale
+<ul class="md-github">
+<li class="md-github">start(value): Starting hue angle</li>
+<li class="md-github">rotations(value): Number and direction of rotations</li>
+<li class="md-github">hue(value): Controls saturation (can be a range)</li>
+<li class="md-github">gamma(value): Gamma correction factor</li>
+<li class="md-github">lightness(range): Lightness range; can be reversed</li>
+<li class="md-github">scale(): Converts cubehelix function into chroma scale instance</li>
+</ul>
+</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="changelog-highlights" href="#changelog-highlights"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Changelog Highlights</h2>
+<ul class="md-github">
+<li class="md-github">Version changes include API adjustments such as addition of color.shade, color.tint, and support for modern CSS color spaces.</li>
+<li class="md-github">Use of setLabWhitePoint and getLabWhitePoint to manage the D65, D50, etc. white reference points for Lab conversions.</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="attribution" href="#attribution"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Attribution</h2>
+<ul class="md-github">
+<li class="md-github">Source: Chroma.js Documentation</li>
+<li class="md-github">URL: https://gka.github.io/chroma.js/</li>
+<li class="md-github">License: MIT License</li>
+<li class="md-github">Crawl Date: 2025-04-29T09:50:23.226Z</li>
+<li class="md-github">Data Size: 803296 bytes</li>
+<li class="md-github">Links Found: 80</li>
+</ul>
+<h2 class="md-github"><a class="md-github__anchor" name="retrieved" href="#retrieved"><svg class="md-github__octicon md-github__octicon-link" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Retrieved</h2>
+<p class="md-github">2025-04-29</p>
+
+  </section>
+  <footer>
+    <p>Generated on 2025-04-29T10:23:53.225Z</p>
+  </footer>
+</body>
+</html>
