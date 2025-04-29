@@ -122,3 +122,23 @@ This resource outlines best practices for application configuration management i
 ## https://www.npmjs.com/package/dotenv-safe
 The dotenv-safe package documentation provides insights into enhancing configuration management by ensuring that all required environment variables are defined. While the repository currently uses dotenv, this source offers valuable best practices for safer environment variable handling and can inform further improvements in configuration validation and interpolation.
 ## MIT License
+
+# Vega-Lite Documentation
+## https://vega.github.io/vega-lite/docs/
+Vega-Lite provides a high-level grammar of interactive graphics that enables rapid prototyping and deployment of complex visualizations. This documentation offers detailed technical insights into data encoding, transformation, and the specification of interactive features, addressing core implementation needs for creating declarative and dynamic visualizations.
+## BSD-3-Clause
+
+# SVG.js Documentation
+## https://svgjs.dev/docs/3.0/
+SVG.js is a lightweight library for manipulating and animating SVG elements. Its documentation provides comprehensive guides, API references, and practical examples for creating, updating, and animating SVGs. This resource is particularly actionable for enhancing dynamic SVG plot generation and interactive visual effects.
+## MIT License
+
+# Chroma.js Documentation
+## https://gka.github.io/chroma.js/
+Chroma.js is a powerful library for color manipulation and interpolation in JavaScript. The documentation details methods for creating, scaling, and blending colors, making it highly valuable for implementing dynamic color gradients in plots. Its technical insights support precise color control and custom gradient configurations.
+## MIT License
+
+# Chart.js Documentation
+## https://www.chartjs.org/docs/latest/
+Chart.js is a widely-used library for generating responsive, animated charts with rich interaction capabilities. The documentation provides in-depth details on chart configuration, dataset management, and responsive design, offering actionable insights that can inspire enhancements in plotting mechanisms and performance improvements for similar visualization tools.
+## MIT License
