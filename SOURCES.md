@@ -142,3 +142,13 @@ Chroma.js is a powerful library for color manipulation and interpolation in Java
 ## https://www.chartjs.org/docs/latest/
 Chart.js is a widely-used library for generating responsive, animated charts with rich interaction capabilities. The documentation provides in-depth details on chart configuration, dataset management, and responsive design, offering actionable insights that can inspire enhancements in plotting mechanisms and performance improvements for similar visualization tools.
 ## MIT License
+
+# MDN SVG <title> and <desc> Documentation
+## https://developer.mozilla.org/en-US/docs/Web/SVG/Element/title
+This official MDN documentation explains the use of the <title> element in SVG, which provides succinct, accessible descriptions of graphical content. In conjunction with the <desc> element (detailed at https://developer.mozilla.org/en-US/docs/Web/SVG/Element/desc), it offers best practices for embedding descriptive metadata in SVGs to improve accessibility for assistive technologies. This is particularly pertinent for the repository's enhanced accessibility features in SVG plot generation.
+## CC BY-SA
+
+# Node.js Command Line Arguments
+## https://nodejs.dev/en/learn/command-line-process-argv
+This guide offers a comprehensive overview of handling command line arguments in Node.js. It explains the usage of the process.argv array, parsing techniques, and best practices for building robust CLI applications. The insights provided are especially valuable for projects like repository0-plot-code-lib that rely on precise and effective CLI argument parsing and configuration management.
+## Node.js Documentation License
