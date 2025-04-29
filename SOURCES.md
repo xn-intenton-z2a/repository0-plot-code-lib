@@ -287,3 +287,18 @@ This comprehensive guide offers deep insights into best practices for structurin
 ## https://v8.dev/blog
 This official V8 blog provides a wealth of technical articles on JavaScript engine internals, performance optimizations, and advanced runtime behaviors. Its in-depth posts offer actionable insights for optimizing Node.js applications and understanding the underpinnings of JavaScript execution, directly benefiting performance-critical applications.
 ## V8 Blog (Publicly Accessible)
+
+# Understanding ES Modules in Node.js
+## https://nodejs.dev/learn/understanding-es-modules
+This comprehensive guide explains the usage of ECMAScript Modules in Node.js, covering module resolution, import/export syntax, and best practices for building modular applications. It is essential for developers adapting to the modern ESM paradigm in Node.js environments.
+## Unknown
+
+# Understanding SVG Gradients
+## https://css-tricks.com/understanding-svg-gradients/
+This article provides an in-depth exploration of SVG gradients, explaining the mechanics behind linear and radial gradient definitions, color stop usage, and techniques for creating dynamic, visually appealing gradients. It offers actionable insights for developers enhancing plot aesthetics with dynamic color transitions.
+## Unknown
+
+# Heroku Config Vars
+## https://devcenter.heroku.com/articles/config-vars
+This guide demonstrates best practices for managing configuration variables in Node.js applications deployed on Heroku. It covers secure storage, dynamic environment configuration, and practical tips for externalizing sensitive settings, aligning with modern configuration management strategies.
+## Unknown
